@@ -1,0 +1,66 @@
+﻿@model Arasan.Models.LoginViewModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Admin-UI</title>
+	<!-- Bootstrap -->
+	<link href="assets/css/bootstrap.min.css" rel="stylesheet">
+	<!-- slimscroll -->
+	<link href="assets/css/jquery.slimscroll.css" rel="stylesheet">
+	<!-- Fontes -->
+	<link href="assets/css/font-awesome.min.css" rel="stylesheet">
+	<link href="assets/css/simple-line-icons.css" rel="stylesheet">
+	<!-- all buttons css -->
+	<link href="assets/css/buttons.css" rel="stylesheet">
+	<!-- animate css -->
+<link href="assets/css/animate.css" rel="stylesheet">
+<!-- top nev css -->
+<link href="assets/css/page-header.css" rel="stylesheet">
+<!-- adminui main css -->
+	<link href="assets/css/main.css" rel="stylesheet">
+	<!-- red green theme css -->
+	<link href="assets/css/red-green.css" rel="stylesheet">
+	<!-- media css for responsive  -->
+	<link href="assets/css/main.media.css" rel="stylesheet">
+	<!--[if lt IE 9]> <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script> <![endif]-->
+	<!--[if lt IE 9]> <script src="dist/html5shiv.js"></script> <![endif]-->
+</head>
+
+<body class="red-bg login">
+	<div class="middle-box text-center loginscreen ">
+		<div class="widgets-container">
+			<div>
+				<h1 class="logo-name"><img class="logo-default" alt="logo" src="assets/images/Arasan_Logo.png"></h1>
+			</div>
+			<h3>Welcome to Arasan</h3>
+			    @using (Html.BeginForm("Login", "Account", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+			<form  class="top15">
+				<div class="form-group">
+					 @Html.TextBoxFor(m => m.Username, new { @class = "form-control", @placeholder = "User Name", @TabIndex = 2, @id = "UserName" })
+					
+				</div>
+				<div class="form-group">
+					@Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password", @TabIndex = 3, @id = "Password" })
+					@*<input type="password" required="" placeholder="Password" class="form-control">*@
+				</div>
+				<button class="btn green block full-width  bottom15" type="submit">Login</button>
+			@*	<a href="forgot_password.html"><small>Forgot password?</small></a>
+				<p class="text-muted text-center"><small>Do not have an account?</small></p>
+				<a href="register.html" class="btn btn-sm btn-white btn-block">Create an account</a>*@
+			</form>
+			}
+		</div>
+	</div>
+</body>
+
+</html>

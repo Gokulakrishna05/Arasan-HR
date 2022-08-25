@@ -1,0 +1,273 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewData["Title"] - Arasan</title>
+    <!-- Bootstrap -->
+    <link href="~/assets/css/bootstrap.min.css" rel="stylesheet">
+    <!-- slimscroll -->
+    <link href="~/assets/css/jquery.slimscroll.css" rel="stylesheet">
+    <!-- project -->
+    <link href="~/assets/css/project.css" rel="stylesheet">
+    <!-- flotCart css -->
+    <link href="~/assets/css/flotCart.css" rel="stylesheet">
+    <!-- jvectormap -->
+	<link href="~/assets/css/jqvmap.css" rel="stylesheet">
+
+    
+
+	<!-- dataTables -->
+	<link href="~/assets/css/buttons.dataTables.min.css" rel="stylesheet">
+	<link href="~/assets/css/dataTables.bootstrap.min.css" rel="stylesheet">
+	<link href="~/assets/css/responsive.dataTables.min.css" rel="stylesheet">
+	<link href="~/assets/css/fixedHeader.dataTables.min.css" rel="stylesheet">
+
+
+    <!-- Fontes -->
+    <link href="~/assets/css/font-awesome.min.css" rel="stylesheet">
+    <link href="~/assets/css/simple-line-icons.css" rel="stylesheet">
+    <link href="~/assets/css/ameffectsanimation.css" rel="stylesheet">
+    <link href="~/assets/css/buttons.css" rel="stylesheet">
+    <!-- animate css -->
+    <link href="~/assets/css/animate.css" rel="stylesheet">
+    <!-- top nev css -->
+    <link href="~/assets/css/page-header.css" rel="stylesheet">
+    <!-- adminui main css -->
+    <link href="~/assets/css/main.css" rel="stylesheet">
+   
+    <!-- morris -->
+	<link href="~/assets/css/morris.css" rel="stylesheet">
+
+    <!-- red theme css -->
+    <link href="~/assets/css/red.css" rel="stylesheet">
+    <!-- media css for responsive  -->
+    <link href="~/assets/css/main.media.css" rel="stylesheet">
+    <!-- AdminUI demo css-->
+    <link href="~/assets/css/adminUIdemo.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body class="page-header-fixed ">
+<div class="page-header navbar navbar-fixed-top">
+  <!-- BEGIN HEADER INNER -->
+  <div class="page-header-inner ">
+    <!-- BEGIN LOGO -->
+    <div class="page-logo"> <a href="index.html"> <img class="logo-default" alt="logo" src="~/assets/images/Arasan_Logo.png"> </a> </div>
+    <!-- END LOGO -->
+    <div class="library-menu"> <span class="one">-</span> <span class="two">-</span> <span class="three">-</span> </div><div class="top-nev-mobile-togal"><i class="glyphicon glyphicon-cog"></i></div>
+    <!-- BEGIN TOP NAVIGATION MENU -->
+    <div class="top-menu">
+<!--  TOP NAVIGATION MENU -->
+               
+                <!--  TOP NAVIGATION MENU -->
+       <ul class="nav navbar-nav pull-right">
+                  
+                    <!-- START USER LOGIN DROPDOWN -->
+                    <li class="dropdown dropdown-user">
+                        <a data-close-others="true" data-hover="dropdown" data-toggle="dropdown" class="dropdown-toggle" href="javascript:;"> <img src="assets/images/teem/placeholders.jpg" class="img-circle" alt=""> <span class="username username-hide-on-mobile"> Admin </span> <i class="fa fa-angle-down"></i> </a>
+                        <ul class="dropdown-menu dropdown-menu-default">
+                            <li>
+                                <a href="profile.html"> <i class="icon-user"></i> My Profile </a>
+
+                            </li>
+                           
+                          
+                            <li class="divider"> </li>
+                            <li>
+                                <a href="lockscreen.html"> <i class="icon-lock"></i> Lock Screen </a>
+                            </li>
+                            <li>
+                                <a href="@Url.ActionLink("Logout","Account")"> <i class="icon-key"></i> Log Out </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- END USER LOGIN DROPDOWN -->
+                </ul>
+    </div>
+    <!-- END TOP NAVIGATION MENU -->
+  </div>
+  <!-- END HEADER INNER -->
+</div>
+<div class="clearfix"> </div>
+<div class="page-container">
+  <!-- Start page sidebar wrapper -->
+  <div class="page-sidebar-wrapper">
+    <div class="page-sidebar">
+	<ul class="page-sidebar-menu  page-header-fixed ">
+                    <li class="sidebar-search-wrapper">
+                        <!-- START RESPONSIVE SEARCH FORM -->
+                        <form class="sidebar-search  " action="search_results.html" method="POST">
+                            <a href="javascript:;" class="remove"> <i class="icon-close"></i> </a>
+                            
+                        </form>
+                        <!-- END RESPONSIVE SEARCH FORM -->
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-th-large"></i> <span class="title">Dashboard</span> <span class="arrow"></span> </a>
+                        <ul class="sub-menu">
+                            <li class="nav-item ">
+                                <a class="nav-link" href="@Url.Action("Index", "Home")"> <span class="title">Dashboard</span> </a>
+                            </li>
+                          
+                        </ul>
+                    </li>
+                   <!--    <li class="nav-item">
+                        <a class="nav-link" href="widgets.html"> <i class="fa fa-flash"></i> <span class="title">Widget</span> </a>
+                    </li> -->
+                  
+                   
+                    <li class="nav-item active open">
+                        <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-diamond"></i> <span class="title">Purchase</span> <span class="arrow"></span> </a>
+                           <ul class="sub-menu">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="Direct_Purchase.html"> <span class="title">Direct Purchase</span> </a>
+                            </li>
+                 
+							<li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("PurchaseEnquiry", "PurchaseEnq")"> <span class="title">Purchase Enquiry</span> </a>
+                            </li>
+							 <li class="nav-item">
+                                <a class="nav-link" href="GRN_CUM_BILL.html"> <span class="title">GRN Cum Bill</span> </a>
+                            </li>
+							<li class="nav-item">
+                                <a class="nav-link" href="Purchase_Order.html"> <span class="title">Purchase Order</span> </a>
+                            </li>
+							<li class="nav-item">
+                                <a class="nav-link" href="Purchase_Quotations.html"> <span class="title">Purchase Qutations</span> </a>
+                            </li>
+							<li class="nav-item">
+                                <a class="nav-link" href="Purchse_Order_close.html"> <span class="title">Purchase Order Short close</span> </a>
+                            </li>
+							<li class="nav-item">
+                                <a class="nav-link" href="Purchse_Indent.html"> <span class="title">Purchase indent short close</span> </a>
+                            </li>
+							<li class="nav-item">
+                                <a class="nav-link" href="Purchase_Order_ament.html"> <span class="title">Purchase Order Amendment</span> </a>
+                            </li>
+                        </ul>
+                    </li>
+                  <li class="nav-item"> <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-shopping-cart"></i> <span class="title">Sales</span> <span class="arrow"></span> </a>
+          <ul class="sub-menu">
+             <li class="nav-item"><a class="nav-link" href="Sales_Enquiry.html">Sales Enquiry</a></li>
+            <li class="nav-item"><a class="nav-link" href="Sales_Quotation.html">Sales Quotation</a></li>
+            <li class="nav-item"><a class="nav-link" href="Proforma_Invoice.html">Proforma Invoice</a></li>
+            <li class="nav-item active"><a class="nav-link" href="Excise_Invoice.html">Excise Invoice</a></li>
+            <li class="nav-item"><a class="nav-link" href="Supplimantry_Invoice.html">Supplimantry Invoice</a></li>
+			
+			<li class="nav-item"><a class="nav-link" href="Depot_Invoice.html">Depot Invoice</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Sale forecasting</a></li>
+            <li class="nav-item"><a class="nav-link" href="Work_Order.html">Work Order</a></li>
+            <li class="nav-item active"><a class="nav-link" href="#">Work order Amendment</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Work order Amendment</a></li>
+			
+			
+			<li class="nav-item"><a class="nav-link" href="#">Credit Note Bill</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Debit note bill</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Credit Note Approval</a></li>
+            
+          </ul>
+        </li>
+		<li class="nav-item"> <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-industry"></i> <span class="title">Production</span> <span class="arrow"></span> </a>
+          <ul class="sub-menu">
+             <li class="nav-item"><a class="nav-link" href="Sales_Enquiry.html">Sales Enquiry</a></li>
+            <li class="nav-item"><a class="nav-link" href="Sales_Quotation.html">Sales Quotation</a></li>
+            <li class="nav-item"><a class="nav-link" href="Proforma_Invoice.html">Proforma Invoice</a></li>
+            <li class="nav-item active"><a class="nav-link" href="Excise_Invoice.html">Excise Invoice</a></li>
+            <li class="nav-item"><a class="nav-link" href="Supplimantry_Invoice.html">Supplimantry Invoice</a></li>
+			
+			<li class="nav-item"><a class="nav-link" href="Depot_Invoice.html">Depot Invoice</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Sale forecasting</a></li>
+            <li class="nav-item"><a class="nav-link" href="Work_Order.html">Work Order</a></li>
+            <li class="nav-item active"><a class="nav-link" href="#">Work order Amendment</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Work order Amendment</a></li>
+			
+			
+			<li class="nav-item"><a class="nav-link" href="#">Credit Note Bill</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Debit note bill</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Credit Note Approval</a></li>
+            
+          </ul>
+        </li>
+		
+		
+                  <li class="nav-item"> <a class="nav-link nav-toggle" href="javascript:;"><i class="fa fa-envelope"></i> <span class="title">Mailbox </span><span class="label label-warning pull-right">16/70</span></a>
+          <ul class="sub-menu" >
+            <li class="nav-item"><a class="nav-link" href="mailbox.html">Inbox</a></li>
+            <li class="nav-item"><a class="nav-link" href="mail_detail.html">Email view</a></li>
+            <li class="nav-item"><a class="nav-link" href="mail_compose.html">Compose email</a></li>
+           
+          </ul>
+        </li>
+                        </ul> 
+                 
+     </div>
+  </div>
+  <!-- End page sidebar wrapper -->
+  <!-- Start page content wrapper -->
+  <div class="page-content-wrapper animated fadeInRight">
+    <div class="page-content">
+    @RenderBody()
+    
+      
+<!-- start footer -->
+ <div class="footer">
+                    
+                    <div> <strong>Copyright</strong> iCanD </div>
+                </div>
+    </div>
+  </div>
+</div>
+<!-- Go top -->
+<a href="#" class="scrollup"><i class="fa fa-chevron-up"></i></a>
+<!-- Go top -->
+ 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="~/assets/js/vendor/jquery.min.js"></script>
+	<!-- bootstrap js -->
+	<script src="~/assets/js/vendor/bootstrap.min.js"></script>
+	<!--  morris Charts  -->
+	
+    
+
+
+	<script type="text/javascript" src="~/assets/js/vendor/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+		<script type="text/javascript" src="~/assets/js/vendor/locales/bootstrap-datetimepicker.fr.js" charset="UTF-8"></script>
+
+    
+	<script src="~/assets/js/vendor/chartJs/Chart.bundle.js"></script>
+	<script src="~/assets/js/dashboard1.js"></script>
+	<!-- dataTables-->
+<script type="text/javascript" src="~/assets/js/vendor/jquery.dataTables.js"></script>
+<script type="text/javascript" src="~/assets/js/vendor/dataTables.bootstrap.min.js"></script>
+	<!-- slimscroll js -->
+	<script type="text/javascript" src="~/assets/js/vendor/jquery.slimscroll.js"></script>
+	<!-- pace js -->
+	<script src="~/assets/js/vendor/pace/pace.min.js"></script>
+	<!-- Sparkline -->
+<script src="~/assets/js/vendor/jquery.sparkline.min.js"></script>
+<!-- main js -->
+	<script src="~/assets/js/main.js"></script>
+<!-- AdminUI demo js-->
+<script src="~/assets/js/adminUIdemo.js"></script>
+<script type="text/javascript">
+  $('.form_date').datetimepicker({
+        //language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 2,
+    forceParse: 0,
+        showMeridian: 1
+    });
+  
+ 
+</script>
+ @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
