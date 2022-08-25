@@ -14,6 +14,7 @@ builder.Host.ConfigureServices(services =>
 builder.Services.TryAddSingleton<IPurchaseEnqService, PurchaseEnqService>();
 builder.Services.TryAddSingleton<IBranchService, BranchService>();
 builder.Services.TryAddSingleton<ILoginService, LoginService>();
+builder.Services.TryAddSingleton<ISalesEnq, SalesEnqService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

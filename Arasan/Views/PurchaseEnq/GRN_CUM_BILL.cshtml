@@ -1,20 +1,19 @@
-﻿@model Arasan.Models.PurchaseEnquiry
-   <div class="row wrapper border-bottom page-heading">
+﻿   <div class="row wrapper border-bottom page-heading">
       <div class="col-lg-12">
 
         <ol class="breadcrumb">
           <li> <a href="#">Home</a> </li>
           <li> <a>Purchase</a> </li>
-          <li class="active"> <strong> Purchase Enquiry </strong> </li>
+          <li class="active"> <strong> GRN Cum Bill </strong> </li>
         </ol>
       </div>
     </div>
-      <div class="wrapper-content ">
+     <div class="wrapper-content ">
         <div class="row">
          <div class="col-lg-12">
           <div class="ibox float-e-margins">
             <div class="widgets-container">
-              <h5 style="font-size:14px">Purchase Enquiry</h5>
+              <h5 style="font-size:14px">GRN Cum Bill</h5>
               <hr>
               <form>
 			  <div class="row">
@@ -32,17 +31,11 @@
                                                 </div>
                                             </div>
                                         </div>
-                                         <div class="col-md-6">
+                                        <div class="col-md-6">
                                             <div class="form-group">
-                                            
-                                                <label for="inputName3" class="col-sm-4 control-label">Supplier Name<label class="Mandatory"></label></label>
+                                                <label for="inputName3" class="col-sm-4 control-label">Trans Type<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                   <select class=" _select js-states form-control">
-                       
-                       
-                        <option value="TAAI">Supplier Name </option>
-                        
-                      </select>
+                                                     <input class="form-control" id="inputEmail3" placeholder="Trans Type" type="text">
                                                 </div>
                                             </div>
                                         </div>
@@ -53,15 +46,15 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                             
-                                                <label for="inputName3" class="col-sm-4 control-label">Enquiry No.<label class="Mandatory"></label></label>
+                                                <label for="inputName3" class="col-sm-4 control-label">Bill No.<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                    <input class="form-control" id="inputEmail3" placeholder="PENQ100002" type="text" readonly>
+                                                    <input class="form-control" id="inputEmail3" placeholder="Bill No." type="text" >
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="inputName3" class="col-sm-4 control-label">Enquiry Date<label class="Mandatory"></label></label>
+                                                <label for="inputName3" class="col-sm-4 control-label">Bill Date<label class="Mandatory"></label></label>
                                               
                                                    
 													<div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2"
@@ -93,10 +86,10 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="inputName3" class="col-sm-4 control-label">Exchange Rate<label class="Mandatory"></label></label>
+                                                <label for="inputName3" class="col-sm-4 control-label">GRN Type<label class="Mandatory"></label></label>
                                               
                                                       <div class="col-sm-8">
-												  <input class="form-control" id="inputEmail3" placeholder="1.00" type="text">
+												  <input class="form-control" id="inputEmail3" placeholder="Agianst Purchase Order" type="text">
 												</div>
                                                
                                             </div>
@@ -107,24 +100,45 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                             
-                                                <label for="inputName3" class="col-sm-4 control-label">Enquiry Ref<label class="Mandatory"></label></label>
+                                                <label for="inputName3" class="col-sm-4 control-label">Rec. Location<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                    <input class="form-control" id="inputEmail3" placeholder="Enquiry Ref" type="text">
+                                                    <input class="form-control" id="inputEmail3" placeholder="STORES" type="text">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="inputName3" class="col-sm-4 control-label">Party Ref. No.<label class="Mandatory"></label></label>
+                                                <label for="inputName3" class="col-sm-4 control-label">Party Name<label class="Mandatory"></label></label>
                                               
                                                       <div class="col-sm-8">
-												  <input class="form-control" id="inputEmail3" placeholder="Party Ref. No." type="text">
+												  <input class="form-control" id="inputEmail3" placeholder="Party Name" type="text">
 												</div>
                                                
                                             </div>
                                         </div>
                                     </div>
-									
+									<div style="height:30px;"></div>
+									 <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                            
+                                                <label for="inputName3" class="col-sm-4 control-label">Supplier Inv. No<label class="Mandatory"></label></label>
+                                                <div class="col-sm-8">
+                                                    <input class="form-control" id="inputEmail3" placeholder="Supplier Inv. No" type="text">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputName3" class="col-sm-4 control-label">Supplier Inv. Date<label class="Mandatory"></label></label>
+                                              
+                                                      <div class="col-sm-8">
+												  <input class="form-control" id="inputEmail3" placeholder="Supplier Inv. Date" type="text">
+												</div>
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
 									 <div style="height:30px;"></div>
 			 <div class="row">
 			 <div class="col-md-12">
@@ -144,54 +158,69 @@
                       <thead>
                         <tr>
                           <th> S. No. </th>
-                          <th>Item Id </th>
-                          <th>Description</th>
+                          <th>PO No. </th>
+                          <th>PO Date</th>
+                          <th> Item </th>
                           <th> Unit </th>
-                          <th> Conv. Factor </th>
-						  <th> Quantity </th>
-                           <th> Rate </th>
-                          <th> Amount </th>
+                          <th>Conv. Factor</th>
+						   <th>Dept Code</th>
+                          <th>Ord. Qty</th>
+						  <th> Pend. Qty </th>
+                          <th> Bill Qty </th>
+						   <th> Qty </th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr>
                           <td> 1 </td>
+                          <td>  <input class="form-control" id="inputEmail3" placeholder="PO No." type="text"> </td>
+                          <td>  <input class="form-control" id="inputEmail3" placeholder="PO Date" type="text"> </td>
                           <td>  <select class=" _select js-states form-control">
                         <option value="RS">Empty Old Drums Renaatus </option>
 
                       </select></td>
-                          <td><input class="form-control" id="inputEmail3" placeholder="Description" type="text"> </td>
-						   <td><input class="form-control" id="inputEmail3" placeholder="Unit" type="text"> </td>
+                          <td><input class="form-control" id="inputEmail3" placeholder="Unit" type="text"> </td>
+						   
 						    <td><input class="form-control" id="inputEmail3" placeholder="Conv. Factor" type="text"> </td>
-							  <td><input class="form-control" id="inputEmail3" placeholder="0" type="text"> </td>
-                               <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							<td><input class="form-control" id="inputEmail3" placeholder="Dept Code" type="text"> </td>
+							 <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							  <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							   <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
 							   <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
                         </tr>
                          <tr>
-                          <td> 2 </td>
+                          <td> 2</td>
+                          <td>  <input class="form-control" id="inputEmail3" placeholder="PO No." type="text"> </td>
+                          <td>  <input class="form-control" id="inputEmail3" placeholder="PO Date" type="text"> </td>
                           <td>  <select class=" _select js-states form-control">
                         <option value="RS">Empty Old Drums Renaatus </option>
 
                       </select></td>
-                          <td><input class="form-control" id="inputEmail3" placeholder="Description" type="text"> </td>
-						   <td><input class="form-control" id="inputEmail3" placeholder="Unit" type="text"> </td>
+                          <td><input class="form-control" id="inputEmail3" placeholder="Unit" type="text"> </td>
+						   
 						    <td><input class="form-control" id="inputEmail3" placeholder="Conv. Factor" type="text"> </td>
-							  <td><input class="form-control" id="inputEmail3" placeholder="0" type="text"> </td>
+							<td><input class="form-control" id="inputEmail3" placeholder="Dept Code" type="text"> </td>
+							 <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							  <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
 							   <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
-                               <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							   <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
                         </tr>
 						 <tr>
-                          <td> 3 </td>
+                          <td>3 </td>
+                          <td>  <input class="form-control" id="inputEmail3" placeholder="PO No." type="text"> </td>
+                          <td>  <input class="form-control" id="inputEmail3" placeholder="PO Date" type="text"> </td>
                           <td>  <select class=" _select js-states form-control">
                         <option value="RS">Empty Old Drums Renaatus </option>
 
                       </select></td>
-                          <td><input class="form-control" id="inputEmail3" placeholder="Description" type="text"> </td>
-						   <td><input class="form-control" id="inputEmail3" placeholder="Unit" type="text"> </td>
+                          <td><input class="form-control" id="inputEmail3" placeholder="Unit" type="text"> </td>
+						   
 						    <td><input class="form-control" id="inputEmail3" placeholder="Conv. Factor" type="text"> </td>
-							  <td><input class="form-control" id="inputEmail3" placeholder="0" type="text"> </td>
+							<td><input class="form-control" id="inputEmail3" placeholder="Dept Code" type="text"> </td>
+							 <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							  <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
 							   <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
-                               <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							   <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
                         </tr>
                       </tbody>
                     </table>
@@ -201,7 +230,30 @@
             </div>
           </div>
         </div>
-		<div style="height:30px;"></div>
+		
+									 <div style="height:30px;"></div>
+									 <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                            
+                                                <label for="inputName3" class="col-sm-4 control-label">Other Charges<label class="Mandatory"></label></label>
+                                                <div class="col-sm-8">
+                                                    <input class="form-control" id="inputEmail3" placeholder="0.00" type="text">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputName3" class="col-sm-4 control-label">Round Off (-)<label class="Mandatory"></label></label>
+                                              
+                                                      <div class="col-sm-8">
+												  <input class="form-control" id="inputEmail3" placeholder="0.00" type="text">
+												</div>
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+									<div style="height:30px;"></div>
 									 <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -223,8 +275,6 @@
                                             </div>
                                         </div>
                                     </div>
-									
-									
 									<div style="height:30px;"></div>
 									 <div class="row">
                                         <div class="col-md-12">
@@ -237,67 +287,6 @@
                                             </div>
                                         </div>
                                        
-                                    </div>
-									 <div style="height:30px;"></div>
-									 <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                            
-                                                <label for="inputName3" class="col-sm-4 control-label">Enquiry Recieved By<label class="Mandatory"></label></label>
-                                                <div class="col-sm-8">
-                                                     <select class=" _select js-states form-control">
-                       
-                       
-                        <option value="Anitha">Anitha </option>
-                        <option value="Ramesh">Ramesh </option>
-                      </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="inputName3" class="col-sm-4 control-label">Assign To<label class="Mandatory"></label></label>
-                                              
-                                                      <div class="col-sm-8">
-												 <select class=" _select js-states form-control">
-                       
-                       
-                        <option value="Anitha">Anitha </option>
-                        <option value="Ramesh">Ramesh </option>
-                      </select>
-												</div>
-                                               
-                                            </div>
-                                        </div>
-                                    </div>
-									 <div style="height:30px;"></div>
-									 <div class="row">
-                                        <div class="col-md-6">
-                                             <div class="form-group">
-                                                <label for="inputName3" class="col-sm-4 control-label">Followup Date<label class="Mandatory"></label></label>
-                                              
-                                                   
-													<div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2"
-														data-link-format="yyyy-mm-dd">
-														<input class="form-control" size="32" type="text" value="" readonly>
-														<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-													</div>
-													<input type="hidden" id="dtp_input2" value="" />
-													<br/>
-												
-                                               
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="inputName3" class="col-sm-4 control-label">Time<label class="Mandatory"></label></label>
-                                              
-                                                      <div class="col-sm-8">
-												  <input class="form-control" id="inputEmail3" placeholder="" type="text">
-												</div>
-                                               
-                                            </div>
-                                        </div>
                                     </div>
 									<div style="height:30px;"></div>
 									 <div class="row">
@@ -322,4 +311,3 @@
          
         </div>
       </div>
-      
