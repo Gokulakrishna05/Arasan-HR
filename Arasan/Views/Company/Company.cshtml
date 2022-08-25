@@ -1,0 +1,58 @@
+﻿@model Arasan.Models.Company
+
+@{
+    ViewData["Title"] = "Index";
+}
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a>Master</a> </li>
+            <li class="active"> <strong>Company Master</strong> </li>
+        </ol>
+    </div>
+</div>
+
+
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    <h5 style="font-size:14px">Company Master</h5>
+                    <hr>
+                    <form>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label"> CompanyName<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(C => C.CompanyName , new { @id = "txtCompanyName", @class = "form-control", @TabIndex = 2 })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label"> Desc <label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.TextAreaFor(C => C.Desc , new { @id = "txtDesc ", @class = "form-control", @TabIndex = 2 , @Row =3 })
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div style="height:30px;"></div>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs">Submit</button>
+                            <button class="btn btn-danger" type="submit">Cancel</button>
+
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

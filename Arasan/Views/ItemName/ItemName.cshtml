@@ -1,0 +1,147 @@
+﻿@model Arasan.Models.ItemName
+
+@{
+    ViewData["Title"] = "Index";
+}
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a>Master</a> </li>
+            <li class="active"> <strong>ItemName</strong> </li>
+        </ol>
+    </div>
+</div>
+
+
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    <h5 style="font-size:14px">ItemName</h5>
+                    <hr>
+                    <form>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">ItemCategory<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(C => C.ItemCategory, new { @id = "txtItemCategory", @class = "form-control", @TabIndex = 2 })<br />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">ItemGroup<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(C => C.ItemGroup, new { @id = "txtItemGroup", @class = "form-control", @TabIndex = 2 })<br />
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">ItemCode<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(C => C.ItemCode, new { @id = "txtItemCode", @class = "form-control", @TabIndex = 2 })<br />
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">IItemNames<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(C => C.ItemNames, new { @id = "txtItemNames", @class = "form-control", @TabIndex = 2 })<br />
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">ReorderQuantity<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(C => C.ReorderQuantity, new { @id = "txtReorderQuantity", @class = "form-control", @TabIndex = 2 })<br />
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">ReorderLevel<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(C => C.ReorderLevel, new { @id = "txtReorderLevel", @class = "form-control", @TabIndex = 2 })<br />
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">MaximumStockLevel <label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(C => C.MaximumStockLevel , new { @id = "txtMaximumStockLevel ", @class = "form-control", @TabIndex = 2 })<br />
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">MinimumStockLevel<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(C => C.MinimumStockLevel, new { @id = "txtMinimumStockLevel", @class = "form-control", @TabIndex = 2 })<br />
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">ConversionFactor<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(C => C.ConversionFactor, new { @id = "txtConversionFactor", @class = "form-control", @TabIndex = 2 })<br />
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">UOM <label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(C => C.UOM, new { @id = "txtUOM", @class = "form-control", @TabIndex = 2 })<br />
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div style="height:30px;"></div>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs">Submit</button>
+                            <button class="btn btn-danger" type="submit">Cancel</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
