@@ -6,6 +6,7 @@ using Arasan.Interface.Master;
 using Arasan.Services.Master;
 using Arasan.Controllers.Master;
 
+
 internal class Program
 {
     private static void Main(string[] args)

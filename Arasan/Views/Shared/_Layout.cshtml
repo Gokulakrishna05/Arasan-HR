@@ -125,36 +125,39 @@
                     <li class="nav-item active open">
                         <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-diamond"></i> <span class="title">Purchase</span> <span class="arrow"></span> </a>
                            <ul class="sub-menu">
-                            <li class="nav-item active">
-                                <a class="nav-link" href="Direct_Purchase.html"> <span class="title">Direct Purchase</span> </a>
-                            </li>
-                 
-							<li class="nav-item">
+<li class="nav-item">
                                 <a class="nav-link" href="@Url.Action("PurchaseEnquiry", "PurchaseEnq")"> <span class="title">Purchase Enquiry</span> </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Purchase_Quotations", "PurchaseEnq")"> <span class="title">Purchase Qutations</span> </a>
+                            </li>
+
+
+                            <li class="nav-item active">
+                                <a class="nav-link" href="@Url.Action("Direct_Purchase", "PurchaseEnq")"> <span class="title">Direct Purchase</span> </a>
+                            </li>
+							
 							 <li class="nav-item">
-                                <a class="nav-link" href="GRN_CUM_BILL.html"> <span class="title">GRN Cum Bill</span> </a>
+                                <a class="nav-link" href="@Url.Action("GRN_CUM_BILL", "PurchaseEnq")"> <span class="title">GRN Cum Bill</span> </a>
                             </li>
 							<li class="nav-item">
-                                <a class="nav-link" href="Purchase_Order.html"> <span class="title">Purchase Order</span> </a>
+                                <a class="nav-link" href="@Url.Action("Purchase_Order", "PurchaseEnq")"> <span class="title">Purchase Order</span> </a>
+                            </li>
+							
+							<li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Purchse_Order_close", "PurchaseEnq")"> <span class="title">Purchase Order Short close</span> </a>
                             </li>
 							<li class="nav-item">
-                                <a class="nav-link" href="Purchase_Quotations.html"> <span class="title">Purchase Qutations</span> </a>
+                                <a class="nav-link" href="@Url.Action("Purchse_Indent", "PurchaseEnq")"> <span class="title">Purchase indent short close</span> </a>
                             </li>
 							<li class="nav-item">
-                                <a class="nav-link" href="Purchse_Order_close.html"> <span class="title">Purchase Order Short close</span> </a>
-                            </li>
-							<li class="nav-item">
-                                <a class="nav-link" href="Purchse_Indent.html"> <span class="title">Purchase indent short close</span> </a>
-                            </li>
-							<li class="nav-item">
-                                <a class="nav-link" href="Purchase_Order_ament.html"> <span class="title">Purchase Order Amendment</span> </a>
+                                <a class="nav-link" href="@Url.Action("Purchase_Order_ament", "PurchaseEnq")"> <span class="title">Purchase Order Amendment</span> </a>
                             </li>
                         </ul>
                     </li>
                   <li class="nav-item"> <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-shopping-cart"></i> <span class="title">Sales</span> <span class="arrow"></span> </a>
           <ul class="sub-menu">
-             <li class="nav-item"><a class="nav-link" href="Sales_Enquiry.html">Sales Enquiry</a></li>
+             <li class="nav-item"><a class="nav-link" href="@Url.Action("Sales_Enquiry", "SalesEnquiry")">Sales Enquiry</a></li>
             <li class="nav-item"><a class="nav-link" href="Sales_Quotation.html">Sales Quotation</a></li>
             <li class="nav-item"><a class="nav-link" href="Proforma_Invoice.html">Proforma Invoice</a></li>
             <li class="nav-item active"><a class="nav-link" href="Excise_Invoice.html">Excise Invoice</a></li>
