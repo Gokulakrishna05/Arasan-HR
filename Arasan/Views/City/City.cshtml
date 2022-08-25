@@ -1,0 +1,65 @@
+﻿@model Arasan.Models.City
+
+@{
+    ViewData["Title"] = "City";
+}
+
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a>Master</a> </li>
+            <li class="active"> <strong> City Master </strong> </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    <h5 style="font-size:14px">City Master</h5>
+                    <hr>
+              <form>
+                
+			  <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                            
+                                                <label for="inputName3" class="col-sm-4 control-label">Country<label class="Mandatory"></label></label>
+                                                <div class="col-sm-8">
+                                        @Html.TextBoxFor(C => C.Country, new { @id = "txtCountry", @class = "form-control", @TabIndex = 2 })<br />
+                                    </div>
+                                            </div>
+                                        </div>
+                                         <div class="col-md-6">
+                                            <div class="form-group">
+                                            
+                                                <label for="inputName3" class="col-sm-4 control-label">State<label class="Mandatory"></label></label>
+                                                <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.State, new { @id = "txtState", @class = "form-control", @TabIndex = 2 })<br />
+												   </div>
+												   
+												   </div>
+												   </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">City<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(C => C.CityName, new { @id = "txtCityName", @class = "form-control", @TabIndex = 2  })<br />
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div style="height:30px;"></div>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs">Submit</button>
+                            <button class="btn btn-danger" type="submit">Cancel</button>
+                      
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
