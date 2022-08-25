@@ -2,6 +2,8 @@ using Oracle.ManagedDataAccess.Client;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Arasan.Interface;
 using Arasan.Services;
+using Arasan.Interface.Master;
+using Arasan.Services.Master;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +16,6 @@ builder.Host.ConfigureServices(services =>
 builder.Services.TryAddSingleton<IPurchaseEnqService, PurchaseEnqService>();
 builder.Services.TryAddSingleton<IBranchService, BranchService>();
 builder.Services.TryAddSingleton<ILoginService, LoginService>();
-builder.Services.TryAddSingleton<ISalesEnq, SalesEnqService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
