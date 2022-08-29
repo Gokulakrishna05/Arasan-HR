@@ -1,6 +1,8 @@
 ﻿  <div class="row wrapper border-bottom page-heading">
       <div class="col-lg-12">
-
+  <style>
+        .newwidth{ width:90px; }
+    </style>
         <ol class="breadcrumb">
           <li> <a href="#">Home</a> </li>
           <li> <a>Purchase</a> </li>
@@ -144,7 +146,12 @@
                                             
                                                 <label for="inputName3" class="col-sm-4 control-label">Party Id<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                    <input class="form-control" id="inputEmail3" placeholder="Party Id" type="text">
+                                                       <select class=" _select js-states form-control">
+                       
+                       
+                        <option value="TAAI">Supplier Name </option>
+                        
+                      </select>
                                                 </div>
                                             </div>
                                         </div>
@@ -154,6 +161,28 @@
                                                 <label for="inputName3" class="col-sm-4 control-label">Address<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
                                                     <textarea class="form-control" id="inputEmail3" type="text" rows="3"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="height:30px;"></div>
+									 <div class="row">
+                                       
+                                       <div class="col-md-6">
+                                            <div class="form-group">
+                                            
+                                                <label for="inputName3" class="col-sm-4 control-label">Prepared by<label class="Mandatory"></label></label>
+                                                <div class="col-sm-8">
+                                                    <input class="form-control" id="inputEmail3" placeholder="Prepared by" type="text">
+                                                </div>
+                                            </div>
+                                        </div>
+										<div class="col-md-6">
+                                            <div class="form-group">
+                                            
+                                                <label for="inputName3" class="col-sm-4 control-label">Conatct No.<label class="Mandatory"></label></label>
+                                                <div class="col-sm-8">
+                                                    <input class="form-control" id="inputEmail3" placeholder="Conatct No." type="text">
                                                 </div>
                                             </div>
                                         </div>
@@ -206,25 +235,71 @@
                           <th> Description </th>
 						  <th>Indent Qty</th>
                           <th>Unit</th>
-                        <th> Quantity </th>
-                          <th> Amount </th>
+                        <th> Order Qty </th>
+                       <th> Conversion. Factor </th>
+                               <th>Unit [Primary] </th>
+                                <th> Qty [Primary]</th>
+                                 <th>Rate </th>
+                                <th> Amount</th>
+                                 <th> Disc %</th>
+                         <th> Disc amount</th>
+                         <th> Frieght charges</th>
+                          <th> Cost Rate</th>
+                           <th>Assessable Value</th>
+                            <th>Tariff Id</th>
+                             <th> Cost Rate</th>
+                              <th>CGSTP</th>
+                               <th>SGSTP</th>
+                                <th>IGSTP</th>
+                                 <th>CGST</th>
+                                  <th>SGST</th>
+                                   <th>IGST</th>
+                                    <th>Total Amount</th>
+                                    <th>Due date</th>
+                                      <th>Purchase Type</th>
                         </tr>
                       </thead>
                       <tbody>
                        <tr>
                           <td> 1 </td>
-                          <td>  <input class="form-control" id="inputEmail3" placeholder="Indent No." type="text"> </td>
-                          <td>  <input class="form-control" id="inputEmail3" placeholder="Indent Date" type="text"> </td>
+                          <td>  <input class="form-control newwidth" id="inputEmail3" placeholder="Indent No." type="text"> </td>
+                          <td>  <input class="form-control newwidth" id="inputEmail3" placeholder="Indent Date" type="text"> </td>
                           <td>  <select class=" _select js-states form-control">
                         <option value="RS">Empty Old Drums Renaatus </option>
 
                       </select></td>
-                          <td><input class="form-control" id="inputEmail3" placeholder="Description" type="text"> </td>
-						   <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
-						    <td><input class="form-control" id="inputEmail3" placeholder="Unit" type="text"> </td>
-							 <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
-							  <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
-							   
+                          <td><input class="form-control newwidth" id="inputEmail3" placeholder="Description" type="text"> </td>
+						   <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+						    <td><input class="form-control newwidth" id="inputEmail3" placeholder="Unit" type="text"> </td>
+							 <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							  <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+              
+
+
+
+                               	 <td><input class="form-control newwidth" id="inputEmail3" placeholder="Unit" type="text"> </td>
+							  <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							   <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+                               <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							   <td><input class="form-control newwidth" id="inputEmail3" placeholder="%" type="text"> </td>
+
+                               	 <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							  <td><input class="form-control newwidth"  id="inputEmail3" placeholder="0.00" type="text"> </td>
+							   <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+                               <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							   <td><input class="form-control newwidth" id="inputEmail3" placeholder="Tariff Id" type="text"> </td>
+
+                               	 <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							  <td><input class="form-control newwidth" id="inputEmail3" placeholder="%" type="text"> </td>
+							   <td><input class="form-control newwidth" id="inputEmail3" placeholder="%" type="text"> </td>
+                               <td><input class="form-control newwidth" id="inputEmail3" placeholder="%" type="text"> </td>
+							   <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+
+                               	 <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							  <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							   <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							    <td><input class="form-control newwidth" id="inputEmail3" placeholder="Due date" type="text"> </td>
+                                 <td><input class="form-control newwidth" id="inputEmail3" placeholder="Purchase Type" type="text"> </td>
                         </tr>
                            <tr>
                           <td> 2 </td>
@@ -234,11 +309,38 @@
                         <option value="RS">Empty Old Drums Renaatus </option>
 
                       </select></td>
-                          <td><input class="form-control" id="inputEmail3" placeholder="Description" type="text"> </td>
-						   <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
-						    <td><input class="form-control" id="inputEmail3" placeholder="Unit" type="text"> </td>
-							 <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
-							  <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
+                            <td><input class="form-control newwidth" id="inputEmail3" placeholder="Description" type="text"> </td>
+						   <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+						    <td><input class="form-control newwidth" id="inputEmail3" placeholder="Unit" type="text"> </td>
+							 <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							  <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+              
+
+
+
+                               	 <td><input class="form-control newwidth" id="inputEmail3" placeholder="Unit" type="text"> </td>
+							  <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							   <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+                               <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							   <td><input class="form-control newwidth" id="inputEmail3" placeholder="%" type="text"> </td>
+
+                               	 <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							  <td><input class="form-control newwidth"  id="inputEmail3" placeholder="0.00" type="text"> </td>
+							   <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+                               <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							   <td><input class="form-control newwidth" id="inputEmail3" placeholder="Tariff Id" type="text"> </td>
+
+                               	 <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							  <td><input class="form-control newwidth" id="inputEmail3" placeholder="%" type="text"> </td>
+							   <td><input class="form-control newwidth" id="inputEmail3" placeholder="%" type="text"> </td>
+                               <td><input class="form-control newwidth" id="inputEmail3" placeholder="%" type="text"> </td>
+							   <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+
+                               	 <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							  <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							   <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							    <td><input class="form-control newwidth" id="inputEmail3" placeholder="Due date" type="text"> </td>
+                                 <td><input class="form-control newwidth" id="inputEmail3" placeholder="Purchase Type" type="text"> </td>
 							   
                         </tr>
 						  <tr>
@@ -249,11 +351,38 @@
                         <option value="RS">Empty Old Drums Renaatus </option>
 
                       </select></td>
-                          <td><input class="form-control" id="inputEmail3" placeholder="Description" type="text"> </td>
-						   <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
-						    <td><input class="form-control" id="inputEmail3" placeholder="Unit" type="text"> </td>
-							 <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
-							  <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
+                           <td><input class="form-control newwidth" id="inputEmail3" placeholder="Description" type="text"> </td>
+						   <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+						    <td><input class="form-control newwidth" id="inputEmail3" placeholder="Unit" type="text"> </td>
+							 <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							  <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+              
+
+
+
+                               	 <td><input class="form-control newwidth" id="inputEmail3" placeholder="Unit" type="text"> </td>
+							  <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							   <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+                               <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							   <td><input class="form-control newwidth" id="inputEmail3" placeholder="%" type="text"> </td>
+
+                               	 <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							  <td><input class="form-control newwidth"  id="inputEmail3" placeholder="0.00" type="text"> </td>
+							   <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+                               <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							   <td><input class="form-control newwidth" id="inputEmail3" placeholder="Tariff Id" type="text"> </td>
+
+                               	 <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							  <td><input class="form-control newwidth" id="inputEmail3" placeholder="%" type="text"> </td>
+							   <td><input class="form-control newwidth" id="inputEmail3" placeholder="%" type="text"> </td>
+                               <td><input class="form-control newwidth" id="inputEmail3" placeholder="%" type="text"> </td>
+							   <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+
+                               	 <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							  <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							   <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							    <td><input class="form-control newwidth" id="inputEmail3" placeholder="Due date" type="text"> </td>
+                                 <td><input class="form-control newwidth" id="inputEmail3" placeholder="Purchase Type" type="text"> </td>
 							   
                         </tr>
                       </tbody>
@@ -264,50 +393,7 @@
             </div>
           </div>
         </div>
-		<div style="height:30px;"></div>
-									 <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                            
-                                                <label for="inputName3" class="col-sm-4 control-label">Packing & Forw<label class="Mandatory"></label></label>
-                                                <div class="col-sm-8">
-                                                    <input class="form-control" id="inputEmail3" placeholder="0.00" type="text">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="inputName3" class="col-sm-4 control-label">CGST<label class="Mandatory"></label></label>
-                                              
-                                                      <div class="col-sm-8">
-												  <input class="form-control" id="inputEmail3" placeholder="0.00" type="text">
-												</div>
-                                               
-                                            </div>
-                                        </div>
-                                    </div>
-									<div style="height:30px;"></div>
-									 <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                            
-                                                <label for="inputName3" class="col-sm-4 control-label">SGST<label class="Mandatory"></label></label>
-                                                <div class="col-sm-8">
-                                                    <input class="form-control" id="inputEmail3" placeholder="0.00" type="text">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="inputName3" class="col-sm-4 control-label">Round Off<label class="Mandatory"></label></label>
-                                              
-                                                      <div class="col-sm-8">
-												  <input class="form-control" id="inputEmail3" placeholder="0.00" type="text">
-												</div>
-                                               
-                                            </div>
-                                        </div>
-                                    </div>
+		
 									<div style="height:30px;"></div>
 									 <div class="row">
                                         <div class="col-md-6">
@@ -379,16 +465,163 @@
 									
 									<div style="height:30px;"></div>
 									 <div class="row">
+                                         <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputName3" class="col-sm-4 control-label">Despatch<label class="Mandatory"></label></label>
+                                              
+                                                      <div class="col-sm-8">
+												 <select class=" _select js-states form-control">
+                       
+                       
+                        <option value="Anitha">ALAGAR SAMY PARCEL SERVICE</option>
+                        <option value="Ramesh">By Lorry </option>
+                         <option value="Ramesh">R.G. Road Lines </option>
+                      </select>
+												</div>
+                                               
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputName3" class="col-sm-4 control-label">Warrenty terms<label class="Mandatory"></label></label>
+                                              
+                                                      <div class="col-sm-8">
+												 <select class=" _select js-states form-control">
+                       
+                       
+                        <option value="Anitha">3 Years On Site Warrenty</option>
+                        <option value="Ramesh">One Year Free service </option>
+                      </select>
+												</div>
+                                               
+                                            </div>
+                                        </div>
+										</div>
+                                        <div style="height:30px;"></div>
+									 <div class="row">
+                                         <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputName3" class="col-sm-4 control-label">Insurance Terms<label class="Mandatory"></label></label>
+                                              
+                                                      <div class="col-sm-8">
+												 <select class=" _select js-states form-control">
+                       
+                       
+                        <option value="Anitha">--</option>
+                       
+                      </select>
+												</div>
+                                               
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputName3" class="col-sm-4 control-label">Po Sent By<label class="Mandatory"></label></label>
+                                              
+                                                      <div class="col-sm-8">
+												 <select class=" _select js-states form-control">
+                       
+                       
+                        <option value="Anitha">Anitha</option>
+                     
+                      </select>
+												</div>
+                                               
+                                            </div>
+                                        </div>
+										</div>
+                                        <div style="height:30px;"></div>
+									 <div class="row">
+                                         <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputName3" class="col-sm-4 control-label">Area Id<label class="Mandatory"></label></label>
+                                              
+                                                      <div class="col-sm-8">
+												 <select class=" _select js-states form-control">
+                       
+                       
+                        <option value="Anitha">--</option>
+                       
+                      </select>
+												</div>
+                                               
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputName3" class="col-sm-4 control-label">Despatch Address<label class="Mandatory"></label></label>
+                                              
+                                                      <div class="col-sm-8">
+												 <textarea class="form-control" id="inputEmail3" type="text" rows="3"></textarea>
+												</div>
+                                               
+                                            </div>
+                                        </div>
+										</div>
+                                        <div style="height:30px;"></div>
+									 <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                            
+                                                <label for="inputName3" class="col-sm-4 control-label">Phone No.<label class="Mandatory"></label></label>
+                                                <div class="col-sm-8">
+                                                    <input class="form-control" id="inputEmail3" placeholder="Phone No." type="text">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputName3" class="col-sm-4 control-label">Fax<label class="Mandatory"></label></label>
+                                              
+                                                      <div class="col-sm-8">
+												  <input class="form-control" id="inputEmail3" placeholder="Fax" type="text">
+												</div>
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+                                         <div style="height:30px;"></div>
+									 <div class="row">
+                                        <div class="col-md-6">
+                                             <div class="form-group">
+                                                <label for="inputName3" class="col-sm-4 control-label">Followup Date<label class="Mandatory"></label></label>
+                                              
+                                                   
+													<div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2"
+														data-link-format="yyyy-mm-dd">
+														<input class="form-control" size="32" type="text" value="" readonly>
+														<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+													</div>
+													<input type="hidden" id="dtp_input2" value="" />
+													<br/>
+												
+                                               
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputName3" class="col-sm-4 control-label">Time<label class="Mandatory"></label></label>
+                                              
+                                                      <div class="col-sm-8">
+												  <input class="form-control" id="inputEmail3" placeholder="" type="text">
+												</div>
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+									
+									<div style="height:30px;"></div>
+									 <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
                                             
-                                                <label for="inputName3" class="col-sm-2 control-label">Despatch address<label class="Mandatory"></label></label>
+                                                <label for="inputName3" class="col-sm-2 control-label">Followup Details<label class="Mandatory"></label></label>
                                                 <div class="col-sm-10">
                                                     <textarea class="form-control" id="inputEmail3" type="text" rows="3"></textarea>
                                                 </div>
                                             </div>
                                         </div>
-										</div>
+                                        </div>
 									<div style="height:30px;"></div>
 									 <div class="row">
                                         <div class="col-md-12">

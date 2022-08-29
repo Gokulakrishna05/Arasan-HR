@@ -1,6 +1,8 @@
 ﻿  <div class="row wrapper border-bottom page-heading">
       <div class="col-lg-12">
-
+<style>
+        .newwidth{ width:90px; }
+    </style>
         <ol class="breadcrumb">
           <li> <a href="#">Home</a> </li>
           <li> <a>Sales</a> </li>
@@ -36,7 +38,14 @@
                                             
                                                 <label for="inputName3" class="col-sm-4 control-label">Type<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                  <input class="form-control" id="inputEmail3" placeholder="" type="text">
+                                                  <select class=" _select js-states form-control">
+                       
+                       
+                        <option value="TAAI">Government Offer</option>
+                        <option value="TAAI">Standard</option>
+                        
+                        
+                      </select>
                                                 </div>
                                             </div>
                                         </div>
@@ -104,7 +113,12 @@
                                             
                                                 <label for="inputName3" class="col-sm-4 control-label">Customer Name<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                    <input class="form-control" id="inputEmail3" placeholder="Customer Name" type="text">
+                                                    <select class=" _select js-states form-control">
+                       
+                       
+                        <option value="TAAI">Customer Name </option>
+                        
+                      </select>
                                                 </div>
                                             </div>
                                         </div>
@@ -149,9 +163,16 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                             
-                                                <label for="inputName3" class="col-sm-4 control-label">Enquiry No.<label class="Mandatory"></label></label>
+                                                <label for="inputName3" class="col-sm-4 control-label">Enquiry Ref.<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                    <input class="form-control" id="inputEmail3" placeholder="Enquiry Ref" type="text">
+                                                 <select class=" _select js-states form-control">
+                       
+                       
+                        <option value="TAAI">Email</option>
+                        <option value="TAAI">Phone</option>
+                        <option value="TAAI">Market Visit</option>
+                        
+                      </select>
                                                 </div>
                                             </div>
                                         </div>
@@ -178,15 +199,19 @@
                         <tr>
                           <th> S. No. </th>
                           <th>Item Id </th>
-                          <th>Description</th>
+                          <th>Unit</th>
 						  <th> Quantity </th>
 						   <th> Rate </th>
                           <th> Amount </th>
 						   <th> Cash Discount </th>
 						    <th> Qty Discount </th>
 							 <th> Special Discount </th>
-							  <th> Excise Duty </th>
-							  <th> Total </th>
+							  <th> Excise Duty %</th>
+                               <th> VAT %</th>
+                                <th> CST %</th>
+							  <th> Packing Material </th>
+                              <th> C Form </th>
+                              <th> Frieght </th>
                         </tr>
                       </thead>
                       <tbody>
@@ -196,16 +221,20 @@
                         <option value="RS">Empty Old Drums Renaatus </option>
 
                       </select></td>
-                          <td><input class="form-control" id="inputEmail3" placeholder="Description" type="text"> </td>
+                          <td><input class="form-control" id="inputEmail3" placeholder="Unit" type="text"> </td>
 					
-							  <td><input class="form-control" id="inputEmail3" placeholder="0" type="text"> </td>
-							   <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
-							    <td><input class="form-control" id="inputEmail3" placeholder="0" type="text"> </td>
-							   <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
-							    <td><input class="form-control" id="inputEmail3" placeholder="0" type="text"> </td>
-							   <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
-							    <td><input class="form-control" id="inputEmail3" placeholder="0" type="text"> </td>
-							   <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							  <td><input class="form-control newwidth" id="inputEmail3" placeholder="0" type="text"> </td>
+							   <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							    <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							   <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							    <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							   <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							    <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							   <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+                                <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+                                <td><input class="form-control newwidth" id="inputEmail3" placeholder="Packing Material" type="text"> </td>
+							   <td><input class="form-control newwidth" id="inputEmail3" placeholder="C Form" type="text"> </td>
+                                <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
                         </tr>
                          <tr>
                           <td> 2 </td>
@@ -213,16 +242,20 @@
                         <option value="RS">Empty Old Drums Renaatus </option>
 
                       </select></td>
-                          <td><input class="form-control" id="inputEmail3" placeholder="Description" type="text"> </td>
+                          <td><input class="form-control" id="inputEmail3" placeholder="Unit" type="text"> </td>
 					
-							  <td><input class="form-control" id="inputEmail3" placeholder="0" type="text"> </td>
-							   <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
-							    <td><input class="form-control" id="inputEmail3" placeholder="0" type="text"> </td>
-							   <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
-							    <td><input class="form-control" id="inputEmail3" placeholder="0" type="text"> </td>
-							   <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
-							    <td><input class="form-control" id="inputEmail3" placeholder="0" type="text"> </td>
-							   <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							    <td><input class="form-control newwidth" id="inputEmail3" placeholder="0" type="text"> </td>
+							   <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							    <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							   <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							    <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							   <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							    <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							   <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+                                <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+                                <td><input class="form-control newwidth" id="inputEmail3" placeholder="Packing Material" type="text"> </td>
+							   <td><input class="form-control newwidth" id="inputEmail3" placeholder="C Form" type="text"> </td>
+                                <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
                         </tr>
 						 <tr>
                           <td> 3 </td>
@@ -230,16 +263,20 @@
                         <option value="RS">Empty Old Drums Renaatus </option>
 
                       </select></td>
-                          <td><input class="form-control" id="inputEmail3" placeholder="Description" type="text"> </td>
-					
-							  <td><input class="form-control" id="inputEmail3" placeholder="0" type="text"> </td>
-							   <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
-							    <td><input class="form-control" id="inputEmail3" placeholder="0" type="text"> </td>
-							   <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
-							    <td><input class="form-control" id="inputEmail3" placeholder="0" type="text"> </td>
-							   <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
-							    <td><input class="form-control" id="inputEmail3" placeholder="0" type="text"> </td>
-							   <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
+                       <td><input class="form-control" id="inputEmail3" placeholder="Unit" type="text"> </td>
+
+                           <td><input class="form-control newwidth" id="inputEmail3" placeholder="0" type="text"> </td>
+							   <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							    <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							   <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							    <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							   <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							    <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+							   <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+                                <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+                                <td><input class="form-control newwidth" id="inputEmail3" placeholder="Packing Material" type="text"> </td>
+							   <td><input class="form-control newwidth" id="inputEmail3" placeholder="C Form" type="text"> </td>
+                                <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
                         </tr>
                       </tbody>
                     </table>
@@ -258,7 +295,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                             
-                                                <label for="inputName3" class="col-sm-4 control-label">Recieved By<label class="Mandatory"></label></label>
+                                                <label for="inputName3" class="col-sm-4 control-label">Quote Sent By<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
                                                      <select class=" _select js-states form-control">
                        
@@ -313,6 +350,36 @@
                                                
                                             </div>
                                         </div>
+                                    </div>
+                                    <div style="height:30px;"></div>
+									 <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                            
+                                                <label for="inputName3" class="col-sm-2 control-label">Followup Details<label class="Mandatory"></label></label>
+                                                <div class="col-sm-10">
+                                                    <textarea class="form-control" id="inputEmail3" type="text" rows="3"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                         <div style="height:30px;"></div>
+									 <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                            
+                                                <label for="inputName3" class="col-sm-4 control-label">Desp. Through<label class="Mandatory"></label></label>
+                                                <div class="col-sm-8">
+                                                     <select class=" _select js-states form-control">
+                       
+                       
+                        <option value="Anitha">Email</option>
+                        <option value="Ramesh">Courier </option>
+                      </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                       
                                     </div>
 									<div style="height:30px;"></div>
 									 <div class="row">
