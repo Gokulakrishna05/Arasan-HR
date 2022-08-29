@@ -24,8 +24,12 @@ internal class Program
         builder.Services.TryAddSingleton<ICityService, CityService>();
         builder.Services.TryAddSingleton<IExchangeRateService, ExchangeRateService>();
         builder.Services.TryAddSingleton<IItemGroupService, ItemGroupService>();
-
-
+        builder.Services.TryAddSingleton<IPurchaseEnqService,PurchaseEnqService>();
+        builder.Services.TryAddSingleton<ISalesEnq, SalesEnqService>();
+        builder.Services.TryAddSingleton<ICompanyService, CompanyService>();
+        builder.Services.TryAddSingleton<ICompanyService, CompanyService>();
+        builder.Services.TryAddSingleton<IItemNameService, ItemNameService>();
+        builder.Services.TryAddSingleton<IItemCategoryService,ItemCategoryService>();
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
