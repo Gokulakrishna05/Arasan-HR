@@ -23,6 +23,12 @@ builder.Services.TryAddSingleton<ICurrencyService, CurrencyService>();
 builder.Services.TryAddSingleton<IUnitService, UnitService>();
 builder.Services.TryAddSingleton<IItemCategoryService, ItemCategoryService>();
 builder.Services.TryAddSingleton<IItemNameService, ItemNameService>();
+builder.Services.TryAddSingleton<IQCTestingService,  QCTestingService > (); 
+
+
+
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
