@@ -11,7 +11,32 @@ namespace Arasan.Controllers
         {
             SalesenqService = _SalesenqService;
         }
-        public IActionResult Index()
+        public IActionResult Sales_Enquiry()
+        {
+            return View();
+        }
+        public IActionResult Sales_Quotation()
+        {
+            return View();
+        }
+        public IActionResult Proforma_Invoice()
+        {
+            return View();
+        }
+        public IActionResult Excise_Invoice()
+        {
+            return View();
+        }
+        public IActionResult Supplimantry_Invoice()
+        {
+            return View();
+        }
+        public IActionResult Depot_Invoice()
+        {
+            return View();
+        }
+
+        public IActionResult Work_Order()
         {
             return View();
         }

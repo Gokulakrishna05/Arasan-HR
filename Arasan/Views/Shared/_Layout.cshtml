@@ -5,6 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@ViewData["Title"] - Arasan</title>
+     <link rel="shortcut icon" href="~/assets/images/Arasan_Logo.ico" type="image/x-icon" />
+    <link rel="icon" href="~/assets/images/Arasan_Logo.ico" type="image/x-icon" />
     <!-- Bootstrap -->
     <link href="~/assets/css/bootstrap.min.css" rel="stylesheet">
     <!-- slimscroll -->
@@ -70,7 +72,7 @@
                   
                     <!-- START USER LOGIN DROPDOWN -->
                     <li class="dropdown dropdown-user">
-                        <a data-close-others="true" data-hover="dropdown" data-toggle="dropdown" class="dropdown-toggle" href="javascript:;"> <img src="assets/images/teem/placeholders.jpg" class="img-circle" alt=""> <span class="username username-hide-on-mobile"> Admin </span> <i class="fa fa-angle-down"></i> </a>
+                        <a data-close-others="true" data-hover="dropdown" data-toggle="dropdown" class="dropdown-toggle" href="javascript:;"> <img src="~/assets/images/teem/placeholders.jpg" class="img-circle" alt=""> <span class="username username-hide-on-mobile"> Admin </span> <i class="fa fa-angle-down"></i> </a>
                         <ul class="dropdown-menu dropdown-menu-default">
                             <li>
                                 <a href="profile.html"> <i class="icon-user"></i> My Profile </a>
@@ -83,7 +85,7 @@
                                 <a href="lockscreen.html"> <i class="icon-lock"></i> Lock Screen </a>
                             </li>
                             <li>
-                                <a href="@Url.ActionLink("Logout","Account")"> <i class="icon-key"></i> Log Out </a>
+                                <a href="@Url.ActionLink("Login","Account")"> <i class="icon-key"></i> Log Out </a>
                             </li>
                         </ul>
                     </li>
@@ -117,10 +119,41 @@
                           
                         </ul>
                     </li>
-                   <!--    <li class="nav-item">
-                        <a class="nav-link" href="widgets.html"> <i class="fa fa-flash"></i> <span class="title">Widget</span> </a>
-                    </li> -->
-                  
+               
+                   @*<li class="nav-item active open">
+                        <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-database"></i> <span class="title">Masters</span> <span class="arrow"></span> </a>
+                           <ul class="sub-menu">
+<li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Company", "Company")"> <span class="title">Company Master</span> </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Branch", "Branch")"> <span class="title">Branch Master</span> </a>
+                            </li>
+
+
+                            <li class="nav-item active">
+                                <a class="nav-link" href="@Url.Action("ItemCategory", "ItemCategory")"> <span class="title">Item Category</span> </a>
+                            </li>
+							
+							 <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("ItemGroup", "ItemGroup")"> <span class="title">Item group</span> </a>
+                            </li>
+							<li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("ItemName", "ItemName")"> <span class="title">Item Master</span> </a>
+                            </li>
+							
+							<li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Currency", "Currency")"> <span class="title">Currency</span> </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Unit", "Unit")"> <span class="title">Unit Master</span> </a>
+                            </li>
+							<li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("ExchangeRate", "ExchangeRate")"> <span class="title">Excahange Rate</span> </a>
+                            </li>
+							
+                        </ul>
+                    </li>*@
                    
                     <li class="nav-item active open">
                         <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-diamond"></i> <span class="title">Purchase</span> <span class="arrow"></span> </a>
@@ -158,14 +191,14 @@
                   <li class="nav-item"> <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-shopping-cart"></i> <span class="title">Sales</span> <span class="arrow"></span> </a>
           <ul class="sub-menu">
              <li class="nav-item"><a class="nav-link" href="@Url.Action("Sales_Enquiry", "SalesEnquiry")">Sales Enquiry</a></li>
-            <li class="nav-item"><a class="nav-link" href="Sales_Quotation.html">Sales Quotation</a></li>
-            <li class="nav-item"><a class="nav-link" href="Proforma_Invoice.html">Proforma Invoice</a></li>
-            <li class="nav-item active"><a class="nav-link" href="Excise_Invoice.html">Excise Invoice</a></li>
-            <li class="nav-item"><a class="nav-link" href="Supplimantry_Invoice.html">Supplimantry Invoice</a></li>
+            <li class="nav-item"><a class="nav-link" href="@Url.Action("Sales_Quotation", "SalesEnquiry")">Sales Quotation</a></li>
+            <li class="nav-item"><a class="nav-link" href="@Url.Action("Proforma_Invoice", "SalesEnquiry")">Proforma Invoice</a></li>
+            <li class="nav-item active"><a class="nav-link" href="@Url.Action("Excise_Invoice", "SalesEnquiry")">Excise Invoice</a></li>
+            <li class="nav-item"><a class="nav-link" href="@Url.Action("Supplimantry_Invoice", "SalesEnquiry")">Supplimantry Invoice</a></li>
 			
-			<li class="nav-item"><a class="nav-link" href="Depot_Invoice.html">Depot Invoice</a></li>
+			<li class="nav-item"><a class="nav-link" href="@Url.Action("Depot_Invoice", "SalesEnquiry")">Depot Invoice</a></li>
             <li class="nav-item"><a class="nav-link" href="#">Sale forecasting</a></li>
-            <li class="nav-item"><a class="nav-link" href="Work_Order.html">Work Order</a></li>
+            <li class="nav-item"><a class="nav-link" href="@Url.Action("Work_Order", "SalesEnquiry")">Work Order</a></li>
             <li class="nav-item active"><a class="nav-link" href="#">Work order Amendment</a></li>
             <li class="nav-item"><a class="nav-link" href="#">Work order Amendment</a></li>
 			
