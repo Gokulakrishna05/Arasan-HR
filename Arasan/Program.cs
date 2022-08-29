@@ -4,7 +4,12 @@ using Arasan.Interface;
 using Arasan.Services;
 using Arasan.Interface.Master;
 using Arasan.Services.Master;
+using Arasan.Interface.Production;
+using Arasan.Services.Production;
+
+
 using Arasan.Controllers.Master;
+
 
 
 internal class Program
@@ -24,7 +29,7 @@ internal class Program
         builder.Services.TryAddSingleton<ICityService, CityService>();
         builder.Services.TryAddSingleton<IExchangeRateService, ExchangeRateService>();
         builder.Services.TryAddSingleton<IItemGroupService, ItemGroupService>();
-
+        builder.Services.TryAddSingleton<IProcessCostEntryService, ProcessCostEntryService>();
 
         var app = builder.Build();
 
