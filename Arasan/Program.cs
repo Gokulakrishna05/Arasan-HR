@@ -8,6 +8,33 @@ using Arasan.Interface.Production;
 using Arasan.Services.Production;
 
 
+
+// Add services to the container.
+builder.Services.AddControllersWithViews();
+builder.Host.ConfigureServices(services =>
+{
+    services.TryAddSingleton<IBranchService, BranchService>();
+});
+builder.Services.TryAddSingleton<IPurchaseEnqService, PurchaseEnqService>();
+builder.Services.TryAddSingleton<IBranchService, BranchService>();
+builder.Services.TryAddSingleton<ILoginService, LoginService>();
+builder.Services.TryAddSingleton<ICompanyService, CompanyService>();
+builder.Services.TryAddSingleton<ICountryService, CountryService>();
+builder.Services.TryAddSingleton<IStateService, StateService>();
+builder.Services.TryAddSingleton<ICurrencyService, CurrencyService>();
+builder.Services.TryAddSingleton<IUnitService, UnitService>();
+builder.Services.TryAddSingleton<IItemCategoryService, ItemCategoryService>();
+builder.Services.TryAddSingleton<IItemNameService, ItemNameService>();
+builder.Services.TryAddSingleton<IQCTestingService,  QCTestingService > (); 
+
+
+
+
+
+var app = builder.Build();
+
+
+if (!app.Environment.IsDevelopment())
 using Arasan.Controllers.Master;
 
 
