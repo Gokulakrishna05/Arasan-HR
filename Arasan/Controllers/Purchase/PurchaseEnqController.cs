@@ -16,5 +16,37 @@ namespace Arasan.Controllers
         {
             return View();
         }
+
+        public IActionResult Direct_Purchase()
+        {
+            return View();
+        }
+
+        public IActionResult Purchase_Quotations()
+        {
+            return View();
+        }
+
+        public IActionResult GRN_CUM_BILL()
+        {
+            return View();
+        }
+        public IActionResult Purchase_Order()
+        {
+            return View();
+        }
+        public IActionResult Purchse_Order_close()
+        {
+            return View();
+        }
+        public IActionResult Purchse_Indent()
+        {
+            return View();
+        }
+
+        public IActionResult Purchase_Order_ament()
+        {
+            return View();
+        }
     }
 }

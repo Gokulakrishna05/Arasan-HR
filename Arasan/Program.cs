@@ -4,8 +4,10 @@ using Arasan.Interface;
 using Arasan.Services;
 using Arasan.Interface.Master;
 using Arasan.Services.Master;
+using Arasan.Interface.Production;
+using Arasan.Services.Production;
 
-var builder = WebApplication.CreateBuilder(args);
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -31,25 +33,61 @@ builder.Services.TryAddSingleton<IQCTestingService,  QCTestingService > ();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+
 if (!app.Environment.IsDevelopment())
+using Arasan.Controllers.Master;
+
+
+
+internal class Program
 {
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    private static void Main(string[] args)
+    {
+        var builder = WebApplication.CreateBuilder(args);
+
+        // Add services to the container.
+        builder.Services.AddControllersWithViews();
+        builder.Host.ConfigureServices(services =>
+        {
+            services.TryAddSingleton<IBranchService, BranchService>();
+        });
+        builder.Services.TryAddSingleton<IBranchService, BranchService>();
+        builder.Services.TryAddSingleton<ILoginService, LoginService>();
+        builder.Services.TryAddSingleton<ICityService, CityService>();
+        builder.Services.TryAddSingleton<IExchangeRateService, ExchangeRateService>();
+        builder.Services.TryAddSingleton<IItemGroupService, ItemGroupService>();
+
+        builder.Services.TryAddSingleton<IProcessCostEntryService, ProcessCostEntryService>();
+
+
+        builder.Services.TryAddSingleton<IPurchaseEnqService,PurchaseEnqService>();
+        builder.Services.TryAddSingleton<ISalesEnq, SalesEnqService>();
+        builder.Services.TryAddSingleton<ICompanyService, CompanyService>();
+        builder.Services.TryAddSingleton<ICompanyService, CompanyService>();
+        builder.Services.TryAddSingleton<IItemNameService, ItemNameService>();
+        builder.Services.TryAddSingleton<IItemCategoryService,ItemCategoryService>();
+
+        var app = builder.Build();
+
+        // Configure the HTTP request pipeline.
+        if (!app.Environment.IsDevelopment())
+        {
+            app.UseExceptionHandler("/Home/Error");
+            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            app.UseHsts();
+        }
+
+        app.UseHttpsRedirection();
+        app.UseStaticFiles();
+
+        app.UseRouting();
+
+        app.UseAuthorization();
+
+
+        app.MapControllerRoute(
+            name: "default",
+            pattern: "{controller=Account}/{action=Login}/{id?}");
+        app.Run();
+    }
 }
-
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-
-app.UseRouting();
-
-app.UseAuthorization();
-
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Account}/{action=Login}/{id?}");
-app.Run();
-
-
