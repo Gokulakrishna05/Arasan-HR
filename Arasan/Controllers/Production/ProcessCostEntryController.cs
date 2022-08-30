@@ -19,5 +19,37 @@ namespace Arasan.Controllers.Production
         {
             return View();
         }
+        public IActionResult ProcessLostEntry()
+        {
+            return View();
+        }
+        public IActionResult ReasonCode()
+        {
+            return View();
+        }
+        public IActionResult CuringInward()
+        {
+            return View();
+        }
+        public IActionResult CuringOutward()
+        {
+            return View();
+        }
+        public IActionResult CuringEStatus()
+        {
+            return View();
+        }
+        public IActionResult PackingDrumAllocation()
+        {
+            return View();
+        }
+        public IActionResult DrumChange()
+        {
+            return View();
+        }
+        public IActionResult MTOOutputCalculator()
+        {
+            return View();
+        }
     }
 }
