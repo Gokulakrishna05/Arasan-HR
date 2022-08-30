@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Curing E-Status";
+    ViewData["Title"] = "Material Splitting Entry";
 }
 <style>
     .newwidth {
@@ -13,7 +13,7 @@
             <ol class="breadcrumb">
                 <li> <a href="#">Production</a> </li>
                 <li> <a>Transaction</a> </li>
-                <li class="active"> <strong> Curing E-Status</strong> </li>
+                <li class="active"> <strong> Material Splitting Entry </strong> </li>
             </ol>
         </div>
     </div>
@@ -22,7 +22,7 @@
             <div class="col-lg-12">
                 <div class="ibox float-e-margins">
                     <div class="widgets-container">
-                        <h5 style="font-size:14px">Curing E-Status </h5>
+                        <h5 style="font-size:14px">Material Splitting Entry</h5>
                         <hr>
                         <form>
                             <div class="row">
@@ -42,12 +42,11 @@
                                         </div>
                                     </div>
                                 </div>
-
-
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">DocDate<label class="Mandatory"></label></label>
+
+                                        <label for="inputName3" class="col-sm-4 control-label">DOC Date<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
                                             <input class="form-control" id="inputEmail3" type="date"><br />
 
@@ -57,76 +56,32 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">DocID<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">D.C No<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
 
-                                            <input class="form-control" id="inputEmail3" placeholder="CUES301909" type="text" readonly><br />
+                                            <input class="form-control" id="inputEmail3" placeholder="MS20300039" type="text" readonly><br />
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Work Center<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label"> Location<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
                                             <select class=" _select js-states form-control">
 
                                                 <option> </option>
-                                                <option value="CH">CURING</option>
-                                                <option value="KA">RVD SHED </option>
-
-
-                                            </select><br />
-                                        </div>
-
-                                        <br />
-
-
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="inputName3" class="col-sm-4 control-label">Shift<label class="Mandatory"></label></label>
-
-                                        <div class="col-sm-8">
-                                            <select class=" _select js-states form-control">
-
-                                                <option> </option>
-                                                <option value="CH">A </option>
-                                                <option value="KA">B </option>
-                                                <option value="TAAI">C</option>
-                                                <option value="TAAI">D</option>
-                                                <option value="TAAI">E</option>
-                                                <option value="TAAI">GENERAL-1</option>
-
-                                            </select><br />
-
-
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-
-                                        <label for="inputName3" class="col-sm-4 control-label">Item ID<label class="Mandatory"></label></label>
-                                        <div class="col-sm-8">
-                                            <select class=" _select js-states form-control">
-
-                                                <option> </option>
-                                                <option value="CH">+10 COARSE </option>
-                                                <option value="KA">+10 DROSS </option>
-                                                <option value="TAAI">+100 Dust(PRIMARY)</option>
-                                                <option value="TAAI">+100 FINE</option>
-                                                <option value="TAAI">+120 FINE</option>
-                                                <option value="TAAI">+150 COARSE</option>
-
+                                                <option value="KA"> DRUM PLANET</option>
+                                               
                                             </select><br />
 
                                         </div>
                                     </div>
                                 </div>
+                              
+                               
+
+
                             </div>
                             <div class="row">
                                 <div class="col-lg-12">
@@ -140,59 +95,66 @@
                                                         <thead>
                                                             <tr>
                                                                 <th> S. No. </th>
-                                                                <th>Durm No </th>
-                                                                <th>Batch No</th>
-                                                                <th> Batch Qty</th>
-                                                                <th> Status </th>
-                                                                <th>Stone Removing Date </th>
-                                                                <th> Stone Removed By</th>
-                                                                <th> Top Cover Loosed Date </th>
-                                                                <th> Top Cover Loosed By </th>
-                                                                <th> Top Cover Revert Date </th>
-                                                                <th> Top Cover Revert By </th>
-                                                                <th> Details Of Non Confirmity </th>
-                                                                <th> CBinId </th>
+                                                                <th>Item Id </th>
+                                                                <th>Unit</th>
+                                                                <th> Cl Stock</th>
+                                                                <th>Qty</th>
+                                                                <th>Weight/Piece</th>
+                                                                <th>Rate</th>
+                                                                <th>Amount</th>
+                                                                <th>Item Coverd as</th>
+                                                                <th>UnitID</th>
+                                                                <th>Qty</th>
+                                                                <th>Rate</th>
+                                                                <th>Amount</th>
+                                                                <th>MSELCtrl</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             <tr>
                                                                 <td> 1 </td>
                                                                 <td>
-                                                                    <input class="form-control newwidth" id="inputEmail3" type="text">
+                                                                    <input class="form-control  newwidth" id="inputEmail3" type="text">
+                                                                </td>
+                                                                <td>  <input class="form-control  newwidth" id="inputEmail3" type="text"> </td>
+                                                                <td>
+                                                                    <input class="form-control  newwidth" id="inputEmail3" type="text">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="form-control  newwidth" id="inputEmail3" type="text">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="form-control  newwidth" id="inputEmail3" type="text">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="form-control  newwidth" id="inputEmail3" type="text">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="form-control  newwidth" id="inputEmail3" type="text">
+                                                                </td>
+                                                                <td>
+                                                                    <select class=" _select js-states form-control  newwidth">
 
-                                                                </td>
+                                                                        <option> </option>
+                                                                        <option value="CH">+10 COARSE </option>
+                                                                        <option value="KA">+10 DROSS </option>
+                                                                        <option value="TAAI">+100 Dust(PRIMARY)</option>
+                                                                        <option value="TAAI">+100 FINE</option>
+                                                                        <option value="TAAI">+120 FINE</option>
+                                                                        <option value="TAAI">+150 COARSE</option>
 
+                                                                    </select>
+                                                                </td>
                                                                 <td>
-                                                                    <input class="form-control newwidth" id="inputEmail3" type="text">
+                                                                    <input class="form-control  newwidth" id="inputEmail3" type="text">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="form-control  newwidth" id="inputEmail3" type="text">
                                                                 </td>
                                                                 <td>
                                                                     <input class="form-control newwidth" id="inputEmail3" type="text">
                                                                 </td>
                                                                 <td>
-                                                                    <input class="form-control newwidth" id="inputEmail3" type="text">
-                                                                </td>
-                                                                <td>
-                                                                    <input class="form-control newwidth" id="inputEmail3" type="date">
-
-                                                                </td>
-                                                                <td>
-                                                                    <input class="form-control newwidth" id="inputEmail3" type="text">
-                                                                </td>
-                                                                <td>
-                                                                    <input class="form-control newwidth" id="inputEmail3" type="date">
-
-                                                                </td>
-                                                                <td>
-                                                                    <input class="form-control newwidth" id="inputEmail3" type="text">
-                                                                </td>
-                                                                <td>
-                                                                    <input class="form-control newwidth" id="inputEmail3" type="date">
-
-                                                                </td>
-                                                                <td>
-                                                                    <input class="form-control newwidth" id="inputEmail3" type="text">
-                                                                </td>
-                                                                  <td>
                                                                     <input class="form-control newwidth" id="inputEmail3" type="text">
                                                                 </td>
                                                                 <td>
@@ -204,32 +166,41 @@
                                                                 <td>
                                                                     <input class="form-control newwidth" id="inputEmail3" type="text">
                                                                 </td>
+                                                                <td>  <input class="form-control newwidth" id="inputEmail3" type="text"> </td>
                                                                 <td>
                                                                     <input class="form-control newwidth" id="inputEmail3" type="text">
                                                                 </td>
                                                                 <td>
                                                                     <input class="form-control newwidth" id="inputEmail3" type="text">
                                                                 </td>
-                                                                <td>
-                                                                    <input class="form-control newwidth" id="inputEmail3" type="text">
-                                                                </td>
-                                                                <td>
-                                                                    <input class="form-control newwidth" id="inputEmail3" type="date">
 
+                                                                <td>
+                                                                    <input class="form-control newwidth" id="inputEmail3" type="text">
                                                                 </td>
                                                                 <td>
                                                                     <input class="form-control newwidth" id="inputEmail3" type="text">
                                                                 </td>
                                                                 <td>
-                                                                    <input class="form-control newwidth" id="inputEmail3" type="date">
+                                                                    <input class="form-control newwidth" id="inputEmail3" type="text">
+                                                                </td>
+                                                                <td>
+                                                                    <select class=" _select js-states form-control newwidth">
 
+                                                                        <option> </option>
+                                                                        <option value="CH">+10 COARSE </option>
+                                                                        <option value="KA">+10 DROSS </option>
+                                                                        <option value="TAAI">+100 Dust(PRIMARY)</option>
+                                                                        <option value="TAAI">+100 FINE</option>
+                                                                        <option value="TAAI">+120 FINE</option>
+                                                                        <option value="TAAI">+150 COARSE</option>
+
+                                                                    </select>
                                                                 </td>
                                                                 <td>
                                                                     <input class="form-control newwidth" id="inputEmail3" type="text">
                                                                 </td>
                                                                 <td>
-                                                                    <input class="form-control newwidth" id="inputEmail3" type="date">
-
+                                                                    <input class="form-control newwidth" id="inputEmail3" type="text">
                                                                 </td>
                                                                 <td>
                                                                     <input class="form-control newwidth" id="inputEmail3" type="text">
@@ -246,6 +217,7 @@
                                                                 <td>
                                                                     <input class="form-control newwidth" id="inputEmail3" type="text">
                                                                 </td>
+                                                                <td>  <input class="form-control newwidth" id="inputEmail3" type="text"> </td>
                                                                 <td>
                                                                     <input class="form-control newwidth" id="inputEmail3" type="text">
                                                                 </td>
@@ -255,24 +227,24 @@
                                                                 <td>
                                                                     <input class="form-control newwidth" id="inputEmail3" type="text">
                                                                 </td>
+                                                                <td>
+                                                                    <input class="form-control newwidth" id="inputEmail3" type="text">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="form-control newwidth" id="inputEmail3" type="text">
+                                                                </td>
+                                                                <td>
+                                                                    <select class=" _select js-states form-control newwidth">
 
-                                                                <td>
-                                                                    <input class="form-control newwidth" id="inputEmail3" type="date">
+                                                                        <option> </option>
+                                                                        <option value="CH">+10 COARSE </option>
+                                                                        <option value="KA">+10 DROSS </option>
+                                                                        <option value="TAAI">+100 Dust(PRIMARY)</option>
+                                                                        <option value="TAAI">+100 FINE</option>
+                                                                        <option value="TAAI">+120 FINE</option>
+                                                                        <option value="TAAI">+150 COARSE</option>
 
-                                                                </td>
-                                                                <td>
-                                                                    <input class="form-control newwidth" id="inputEmail3" type="text">
-                                                                </td>
-                                                                <td>
-                                                                    <input class="form-control newwidth" id="inputEmail3" type="date">
-
-                                                                </td>
-                                                                <td>
-                                                                    <input class="form-control newwidth" id="inputEmail3" type="text">
-                                                                </td>
-                                                                <td>
-                                                                    <input class="form-control newwidth" id="inputEmail3" type="date">
-
+                                                                    </select>
                                                                 </td>
                                                                 <td>
                                                                     <input class="form-control newwidth" id="inputEmail3" type="text">
@@ -282,6 +254,14 @@
                                                                 </td>
                                                                 <td>
                                                                     <input class="form-control newwidth" id="inputEmail3" type="text">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="form-control newwidth" id="inputEmail3" type="text">
+                                                                </td>
+                                                                <td>
+                                                                    
+                                                                    <input class="form-control newwidth" id="inputEmail3" type="text">
+                                                                   
                                                                 </td>
                                                             </tr>
                                                         </tbody>
@@ -294,7 +274,33 @@
 
                                 <div class="col-md-7">
                                     <div class="form-group">
-                                        <br /><br /> <label for="inputName3" class="col-sm-4 control-label">Entered By<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Enterd By<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                             <select class=" _select js-states form-control">
+
+                                                                        <option> </option>
+                                                                        <option value="CH">A ADAIKKALLAM/FS-2673 </option>
+                                                                        <option value="KA">A Malarvizhi/OF-1248 </option>
+                                                                        <option value="TAAI">A RAGUPATHI/GW-4460</option>
+                                                                        <option value="TAAI">A ALAGURAJA/FS-2602</option>
+                                                                        <option value="TAAI">A Abdul Kadhar/OF-1190</option>
+                                                                       
+
+                                                                    </select><br />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Total Qty<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" id="inputEmail3" type="text"><br />
+                                        </div>
+                                    </div>
+                                </div>
+                                  <div class="col-md-7">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">To be Received<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
                                             <input class="form-control" id="inputEmail3" type="text"><br />
                                         </div>
@@ -302,7 +308,7 @@
                                 </div>
                                 <div class="col-md-7">
                                     <div class="form-group">
-                                        <label for="inputName3" class="col-sm-4 control-label">Remarks<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">SaveCtrl<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
                                             <input class="form-control" id="inputEmail3" type="text"><br />
                                         </div>
@@ -315,8 +321,13 @@
 
                         </form>
                     </div>
+
                 </div>
+
             </div>
+
         </div>
+
     </div>
+
 </div>
