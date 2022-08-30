@@ -40,5 +40,33 @@ namespace Arasan.Controllers
         {
             return View();
         }
+        public IActionResult Work_Order_Amedment()
+        {
+            return View();
+        }
+        public IActionResult Work_Orde_ShortClose()
+        {
+            return View();
+        }
+        public IActionResult Sales_Return()
+        {
+            return View();
+        }
+        public IActionResult Debit_Note_Bill()
+        {
+            return View();
+        }
+        public IActionResult Credit_Note_Bill()
+        {
+            return View();
+        }
+        public IActionResult Credit_Note_Approval()
+        {
+            return View();
+        }
+        public IActionResult Sales_Forecasting()
+        {
+            return View();
+        }
     }
 }
