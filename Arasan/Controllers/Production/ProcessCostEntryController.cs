@@ -51,5 +51,37 @@ namespace Arasan.Controllers.Production
         {
             return View();
         }
+        public IActionResult PackingNote()
+        {
+            return View();
+        }
+        public IActionResult DrumIssueEntry()
+        {
+            return View();
+        }
+        public IActionResult DrumStockReconcilation()
+        {
+            return View();
+        }
+        public IActionResult MaterialSplittingEntry()
+        {
+            return View();
+        }
+        public IActionResult FiredDrums()
+        {
+            return View();
+        }
+        public IActionResult FiredDrumsRelease()
+        {
+            return View();
+        }
+        public IActionResult ProductionForecasting()
+        {
+            return View();
+        }
+        public IActionResult PackingIssueEntry()
+        {
+            return View();
+        }
     }
 }
