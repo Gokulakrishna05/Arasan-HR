@@ -250,8 +250,21 @@
                   
                         </ul>
                     </li>
- 
-		
+                     <li class="nav-item"> <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-check"></i> <span class="title">StoresManagement</span> <span class="arrow"></span> </a>
+                        <ul class="sub-menu">
+
+                            <li class="nav-item"><a class="nav-link" href="@Url.Action("StoresReturn", "StoresReturn")">StoresReturn</a></li>
+                            <li class="nav-item"><a class="nav-link" href="@Url.Action("Returnable_NonReturnable_Dc", "StoresReturn")">Returnable_NonReturnable_Dc</a></li>
+                            <li class="nav-item"><a class="nav-link" href="@Url.Action("Stores_Acceptance", "StoresReturn")">Stores_Acceptance</a></li>
+                            <li class="nav-item"><a class="nav-link" href="@Url.Action("Receipt_Against_Returnable_DC", "StoresReturn")">Receipt_Against_Returnable_DC</a></li>
+                            <li class="nav-item"><a class="nav-link" href="@Url.Action("Stores_Issuse_Consumbables", "StoresReturn")">Stores_Issuse_Consumbables</a></li>
+                            <li class="nav-item"><a class="nav-link" href="@Url.Action("Purchase_Indent", "StoresReturn")">Purchase_Indent</a></li>
+                            <li class="nav-item"><a class="nav-link" href="@Url.Action("Stores_Issuse_Production", "StoresReturn")">Stores_Issuse_Production</a></li>
+
+
+
+                        </ul>
+                    </li>
 		
               @*    <li class="nav-item"> <a class="nav-link nav-toggle" href="javascript:;"><i class="fa fa-envelope"></i> <span class="title">Mailbox </span><span class="label label-warning pull-right">16/70</span></a>
           <ul class="sub-menu" >
