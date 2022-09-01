@@ -62,15 +62,17 @@ RESET & DOC
 -------------------------------------------------*/
 
 body {
-    color:#1a1a1a;
+    color: #1a1a1a;
     margin: 0;
-    padding:0;
-    font-size:13px;
-    font-family:  "oxygen", "Roboto Condensed", sans-serif, Arial;
+    padding: 0;
+    font-size: 13px;
+    /*font-family: "oxygen", "Roboto Condensed", sans-serif, Arial;*/
+    font-family: "ebrima", sans-serif, Arial;
 }
 
 .label, body, h1, h2, h3, h4, h5, h6 {
-    font-family:  "oxygen", "Roboto Condensed", sans-serif, Arial;
+    /*font-family:  "oxygen", "Roboto Condensed", sans-serif, Arial;*/
+    font-family: "ebrima", sans-serif, Arial;
 }
 
 .border-bottom {

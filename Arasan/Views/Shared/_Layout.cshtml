@@ -43,7 +43,7 @@
 	<link href="~/assets/css/morris.css" rel="stylesheet">
 
     <!-- red theme css -->
-    <link href="~/assets/css/red.css" rel="stylesheet">
+    <link href="~/assets/css/aqua-black.css" rel="stylesheet">
     <!-- media css for responsive  -->
     <link href="~/assets/css/main.media.css" rel="stylesheet">
     <!-- AdminUI demo css-->
@@ -60,7 +60,7 @@
   <!-- BEGIN HEADER INNER -->
   <div class="page-header-inner ">
     <!-- BEGIN LOGO -->
-    <div class="page-logo"> <a href="index.html"> <img class="logo-default" alt="logo" src="~/assets/images/Arasan_Logo.png"> </a> </div>
+    <div class="page-logo"> <a href="@Url.Action("Index", "Home")"> <img class="logo-default" alt="logo" src="~/assets/images/Arasan_Logo.png"> </a> </div>
     <!-- END LOGO -->
     <div class="library-menu"> <span class="one">-</span> <span class="two">-</span> <span class="three">-</span> </div><div class="top-nev-mobile-togal"><i class="glyphicon glyphicon-cog"></i></div>
     <!-- BEGIN TOP NAVIGATION MENU -->
@@ -191,23 +191,22 @@
                   <li class="nav-item"> <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-shopping-cart"></i> <span class="title">Sales</span> <span class="arrow"></span> </a>
           <ul class="sub-menu">
 
-             <li class="nav-item"><a class="nav-link" href="#">Sale forecasting</a></li>
+              <li class="nav-item"><a class="nav-link" href="@Url.Action("Sales_Forecasting", "SalesEnquiry")">Sales Forecasting</a></li>
              <li class="nav-item"><a class="nav-link" href="@Url.Action("Sales_Enquiry", "SalesEnquiry")">Sales Enquiry</a></li>
              <li class="nav-item"><a class="nav-link" href="@Url.Action("Sales_Quotation", "SalesEnquiry")">Sales Quotation</a></li>
              <li class="nav-item"><a class="nav-link" href="@Url.Action("Proforma_Invoice", "SalesEnquiry")">Proforma Invoice</a></li>
              <li class="nav-item"><a class="nav-link" href="@Url.Action("Work_Order", "SalesEnquiry")">Work Order</a></li>
-             <li class="nav-item"><a class="nav-link" href="@Url.Action("Work_Order_Amedment", "SalesEnquiry")">Work_Order_Amedment</a></li>
-             <li class="nav-item"><a class="nav-link" href="@Url.Action("Work_Orde_ShortClose", "SalesEnquiry")">Work_Orde_ShortClose</a></li>
+             <li class="nav-item"><a class="nav-link" href="@Url.Action("Work_Order_Amedment", "SalesEnquiry")">Work order Amendment</a></li>
+             <li class="nav-item"><a class="nav-link" href="@Url.Action("Work_Orde_ShortClose", "SalesEnquiry")">Work order Short Close</a></li>
              <li class="nav-item"><a class="nav-link" href="@Url.Action("Sales_Return", "SalesEnquiry")">Sales_Return</a></li>
+               <li class="nav-item active"><a class="nav-link" href="@Url.Action("Excise_Invoice", "SalesEnquiry")">Excise Invoice</a></li>
+             <li class="nav-item"><a class="nav-link" href="@Url.Action("Depot_Invoice", "SalesEnquiry")">Depot Invoice</a></li>            
+             <li class="nav-item"><a class="nav-link" href="@Url.Action("Supplimantry_Invoice", "SalesEnquiry")">Supplimentary Invoice</a></li>    
              <li class="nav-item"><a class="nav-link" href="@Url.Action("Debit_Note_Bill", "SalesEnquiry")">Debit_Note_Bill</a></li> 
              <li class="nav-item"><a class="nav-link" href="@Url.Action("Credit_Note_Bill", "SalesEnquiry")">Credit_Note_Bill</a></li>
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("Credit_Note_Approval", "SalesEnquiry")">Credit_Note_Approval</a></li>
-                            <li class="nav-item"><a class="nav-link" href="@Url.Action("Sales_Forecasting", "SalesEnquiry")">Sales_Forecasting</a></li>
-             <li class="nav-item active"><a class="nav-link" href="#">Work order Amendment</a></li>
-             <li class="nav-item"><a class="nav-link" href="#">Work order Short Close</a></li>
-             <li class="nav-item active"><a class="nav-link" href="@Url.Action("Excise_Invoice", "SalesEnquiry")">Excise Invoice</a></li>
-             <li class="nav-item"><a class="nav-link" href="@Url.Action("Depot_Invoice", "SalesEnquiry")">Depot Invoice</a></li>            
-             <li class="nav-item"><a class="nav-link" href="@Url.Action("Supplimantry_Invoice", "SalesEnquiry")">Supplimentary Invoice</a></li>            
+       
+                   
           </ul>
         </li>
 		<li class="nav-item"> <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-industry"></i> <span class="title">Production</span> <span class="arrow"></span> </a>
@@ -234,10 +233,7 @@
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("FiredDrumsRelease", "ProcessCostEntry")">Fired Drums - Release</a></li>
                         
 
-                            <li class="nav-item"><a class="nav-link" href="#">Credit Note Bill</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Debit note bill</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Credit Note Approval</a></li>
-
+                          
             
           </ul>
         </li>
@@ -257,14 +253,14 @@
  
 		
 		
-                  <li class="nav-item"> <a class="nav-link nav-toggle" href="javascript:;"><i class="fa fa-envelope"></i> <span class="title">Mailbox </span><span class="label label-warning pull-right">16/70</span></a>
+              @*    <li class="nav-item"> <a class="nav-link nav-toggle" href="javascript:;"><i class="fa fa-envelope"></i> <span class="title">Mailbox </span><span class="label label-warning pull-right">16/70</span></a>
           <ul class="sub-menu" >
             <li class="nav-item"><a class="nav-link" href="mailbox.html">Inbox</a></li>
             <li class="nav-item"><a class="nav-link" href="mail_detail.html">Email view</a></li>
             <li class="nav-item"><a class="nav-link" href="mail_compose.html">Compose email</a></li>
            
           </ul>
-        </li>
+        </li>*@
                         </ul> 
                  
      </div>
@@ -273,21 +269,7 @@
   <!-- Start page content wrapper -->
   <div class="page-content-wrapper animated fadeInRight">
     <div class="page-content">
-    @RenderBody()
-    
-      
-<!-- start footer -->
- <div class="footer">
-                    
-                    <div> <strong>Copyright</strong> iCanD </div>
-                </div>
-    </div>
-  </div>
-</div>
-<!-- Go top -->
-<a href="#" class="scrollup"><i class="fa fa-chevron-up"></i></a>
-<!-- Go top -->
- 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	<script src="~/assets/js/vendor/jquery.min.js"></script>
 	<!-- bootstrap js -->
 	<script src="~/assets/js/vendor/bootstrap.min.js"></script>
@@ -309,6 +291,7 @@
 	<script type="text/javascript" src="~/assets/js/vendor/jquery.slimscroll.js"></script>
 	<!-- pace js -->
 	<script src="~/assets/js/vendor/pace/pace.min.js"></script>
+    <script src="~/assets/js/vendor/select2.min.js"></script>
 	<!-- Sparkline -->
 <script src="~/assets/js/vendor/jquery.sparkline.min.js"></script>
 <!-- main js -->
@@ -330,5 +313,20 @@
  
 </script>
  @await RenderSectionAsync("Scripts", required: false)
+    @RenderBody()
+    
+      
+<!-- start footer -->
+ <div class="footer">
+                    
+                    <div> <strong>Copyright</strong> iCanD </div>
+                </div>
+    </div>
+  </div>
+</div>
+<!-- Go top -->
+<a href="#" class="scrollup"><i class="fa fa-chevron-up"></i></a>
+<!-- Go top -->
+ 	
 </body>
 </html>
