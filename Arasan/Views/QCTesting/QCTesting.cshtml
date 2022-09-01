@@ -4,8 +4,8 @@
 
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
-            <li> <a>Purchase</a> </li>
-            <li class="active"> <strong>  QCTesting </strong> </li>
+            <li> <a>Quality Control</a> </li>
+            <li class="active"> <strong>  QC Testing </strong> </li>
         </ol>
     </div>
 </div>
@@ -14,7 +14,7 @@
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="widgets-container">
-                    <h5 style="font-size:14px"> QCTesting</h5>
+                    <h5 style="font-size:14px"> QC Testing</h5>
                     <hr>
                     <form>
                         <div class="row">
@@ -43,14 +43,14 @@
                                             <input class="form-control" size="30" type="text" value="">
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                         </div>
-                                        <input type="hidden" id="dtp_input2" value="" />
+                                        <input type="hidden" id="dtp_input2" value="" readonly/>
 
                                    
                                 </div>
                             </div>
                         </div>
 
-                        <div style="height:30px;"></div>
+                       @* <div style="height:30px;"></div>*@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -64,9 +64,14 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-4 control-label">GRN Date<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
-                                    </div>
+                                    
+                                         <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2"
+                                             data-link-format="yyyy-mm-dd">
+                                            <input class="form-control" size="30" type="text" value="">
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
+                                        <input type="hidden" id="dtp_input2" value="" readonly/>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -77,7 +82,7 @@
 
                                     <label for="inputName3" class="col-sm-2 control-label">Item ID<label class="Mandatory"></label></label>
                                                 <div class="col-sm-10">
-                                                    <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
+                                                    <input class="form-control" id="inputEmail3" placeholder="" type="text">
                                                 </div>
                                             </div>
                                         </div>
@@ -99,7 +104,7 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Class Code<label class="Mandatory"></label></label>
 
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
+                                        <input class="form-control" id="inputEmail3" placeholder="" type="text">
                                     </div>
 
                                 </div>
@@ -112,23 +117,31 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Lot No<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
+                                        <input class="form-control" id="inputEmail3" placeholder="" type="text">
                                     </div>
                                 </div>
                             </div>
-
-                        </div>
-                        <div style="height:30px;"></div>
-                        <div class="row">
-                            <div class="col-md-6">
+                              <div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">GRN/Prod.Qty<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
+                                        <input class="form-control" id="inputEmail3" placeholder="" type="text">
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div style="height:30px;"></div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                            <div class="form-group">
+                                            
+                                                <label for="inputName3" class="col-sm-2 control-label">Test Procedure<label class="Mandatory"></label></label>
+                                                <div class="col-sm-10">
+                                                    <textarea class="form-control" id="inputEmail3" type="text" rows="3"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
 
                         </div>
                         <div style="height:30px;"></div>
@@ -138,7 +151,12 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Party ID<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
+                                         <select class=" _select js-states form-control">
+                       
+                       
+                        <option value="TAAI">Party ID </option>
+                        
+                      </select>
                                     </div>
                                 </div>
                             </div>
@@ -164,17 +182,16 @@
                                                     <thead>
                                                         <tr>
                                                             <th> S. No. </th>
-                                                            <th>Description</th>
-                                                            <th>Value</th>
-                                                            <th>TestDescription</th>
+                                                           
+                                                            <th>Test Description</th>
                                                             <th> Unit </th>
-                                                            <th>Acc Value</th>
+                                                            <th>Acc. Value</th>
                                                             <th>Start Value</th>
                                                             <th>End Value</th>
                                                             <th>Test Value</th>
                                                             <th>Manual Value</th>
-                                                            <th> Quantity </th>
-                                                            <th> Amount </th>
+                                                            <th> Actual Test Value </th>
+                                                            <th> Result </th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -183,49 +200,43 @@
                                                             
                                                             <td><input class="form-control" id="inputEmail3" placeholder="Description" type="text"> </td>
 
-                                                            <td><input class="form-control" id="inputEmail3" placeholder="0" type="text"> </td>
-                                                            <td><input class="form-control" id="inputEmail3" placeholder="Description" type="text"> </td>
-                                                            <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
+                                                            <td><input class="form-control" id="inputEmail3" placeholder="Unit" type="text"> </td>
                                                             <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
                                                             <td><input class="form-control" id="inputEmail3" placeholder="0" type="text"> </td>
-                                                            <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
                                                             <td><input class="form-control" id="inputEmail3" placeholder="0" type="text"> </td>
-                                                            <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
-                                                            <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
-                                                            <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
+                                                            <td><input class="form-control" id="inputEmail3" placeholder="0" type="text"> </td>
+                                                            <td><input class="form-control" id="inputEmail3" placeholder="0" type="text"> </td>
+                                                            <td><input class="form-control" id="inputEmail3" placeholder="0" type="text"> </td>
+                                                            <td><input class="form-control" id="inputEmail3" placeholder="OK" type="text"> </td>
+                                                          
                                                         </tr>
                                                         <tr>
                                                             <td> 2 </td>
                                                            
-                                                            <td><input class="form-control" id="inputEmail3" placeholder="Description" type="text"> </td>
+                                                           <td><input class="form-control" id="inputEmail3" placeholder="Description" type="text"> </td>
 
-                                                            <td><input class="form-control" id="inputEmail3" placeholder="0" type="text"> </td>
-                                                            <td><input class="form-control" id="inputEmail3" placeholder="Description" type="text"> </td>
-                                                            <td><input class="form-control" id="inputEmail3" placeholder="0" type="text"> </td>
+                                                            <td><input class="form-control" id="inputEmail3" placeholder="Unit" type="text"> </td>
                                                             <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
                                                             <td><input class="form-control" id="inputEmail3" placeholder="0" type="text"> </td>
-                                                            <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
                                                             <td><input class="form-control" id="inputEmail3" placeholder="0" type="text"> </td>
-                                                            <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
-                                                            <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
-                                                            <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
+                                                            <td><input class="form-control" id="inputEmail3" placeholder="0" type="text"> </td>
+                                                            <td><input class="form-control" id="inputEmail3" placeholder="0" type="text"> </td>
+                                                            <td><input class="form-control" id="inputEmail3" placeholder="0" type="text"> </td>
+                                                            <td><input class="form-control" id="inputEmail3" placeholder="OK" type="text"> </td>
                                                         </tr>
                                                         <tr>
                                                            
-                                                            <td> 2 </td>
-
+                                                            <td> 3 </td>
                                                             <td><input class="form-control" id="inputEmail3" placeholder="Description" type="text"> </td>
 
-                                                            <td><input class="form-control" id="inputEmail3" placeholder="0" type="text"> </td>
-                                                            <td><input class="form-control" id="inputEmail3" placeholder="Description" type="text"> </td>
-                                                            <td><input class="form-control" id="inputEmail3" placeholder="0" type="text"> </td>
+                                                            <td><input class="form-control" id="inputEmail3" placeholder="Unit" type="text"> </td>
                                                             <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
                                                             <td><input class="form-control" id="inputEmail3" placeholder="0" type="text"> </td>
-                                                            <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
                                                             <td><input class="form-control" id="inputEmail3" placeholder="0" type="text"> </td>
-                                                            <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
-                                                            <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
-                                                             <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
+                                                            <td><input class="form-control" id="inputEmail3" placeholder="0" type="text"> </td>
+                                                            <td><input class="form-control" id="inputEmail3" placeholder="0" type="text"> </td>
+                                                            <td><input class="form-control" id="inputEmail3" placeholder="0" type="text"> </td>
+                                                            <td><input class="form-control" id="inputEmail3" placeholder="OK" type="text"> </td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -249,7 +260,7 @@
                           
                              <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="inputName3" class="col-sm-4 control-label">Teasted Byabel<label class="Mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Teasted By<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
                                         <input class="form-control" id="inputEmail3" placeholder="" type="text">
                                     </div>
