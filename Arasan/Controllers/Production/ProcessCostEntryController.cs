@@ -83,5 +83,21 @@ namespace Arasan.Controllers.Production
         {
             return View();
         }
+        public IActionResult DrumLoadEntry()
+        {
+            return View();
+        }
+        public IActionResult ProductionEntry()
+        {
+            return View();
+        }
+        public IActionResult BatchProductionEntry()
+        {
+            return View();
+        }
+        public IActionResult MonthlyProductionEntry()
+        {
+            return View();
+        }
     }
 }
