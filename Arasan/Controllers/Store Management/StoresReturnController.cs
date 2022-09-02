@@ -36,5 +36,25 @@ namespace Arasan.Controllers.Stores_Management
         {
             return View();
         }
+        public IActionResult Material_Requisition_Short_Close()
+        {
+            return View();
+        }
+        public IActionResult Purchase_Return()
+        {
+            return View();
+        }
+        public IActionResult Receipt_for_SubContract()
+        {
+            return View();
+        }
+        public IActionResult Direct_Deducation()
+        {
+            return View();
+        }
+        public IActionResult Direct_Addition()
+        {
+            return View();
+        }       
     }
 }
