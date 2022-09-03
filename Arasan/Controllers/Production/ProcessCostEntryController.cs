@@ -99,5 +99,17 @@ namespace Arasan.Controllers.Production
         {
             return View();
         }
+        public IActionResult ProductionLog()
+        {
+            return View();
+        }
+        public IActionResult DrumChangeUnPackingEntry()
+        {
+            return View();
+        }
+        public IActionResult ProductionSchedule()
+        {
+            return View();
+        }
     }
 }
