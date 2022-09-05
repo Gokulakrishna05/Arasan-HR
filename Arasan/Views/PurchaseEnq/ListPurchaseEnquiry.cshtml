@@ -1,0 +1,161 @@
+﻿@model Arasan.Models.State
+
+@{
+    ViewData["Title"] = "Index";
+}
+  <partial name="JqxGridPartial" />
+@* @Html.Partial("~/Views/JqxGridPartial.cshtml")  *@
+    
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a>Purchase</a> </li>
+            <li class="active"> <strong>Purchase Enquiry</strong> </li>
+        </ol>
+    </div>
+</div>
+
+ <script type="text/javascript">
+        $(document).ready(function () {
+            var url = "../../sampledata/Purchase.xml";
+            var source =
+            {
+                datafields: [
+                    { name: 'SuppName' },
+                    { name: 'EnqNo' },
+                    { name: 'EnqDate' },
+                    { name: 'Currency' },
+                    { name: 'Branch' }
+                ],
+                root: "Purchases",
+                record: "Purchase",
+                id: 'PRID',
+                datatype: "xml",
+                async: false,
+                url: url
+            };
+            var employeesAdapter = new $.jqx.dataAdapter(source);
+            var orderdetailsurl = "../../sampledata/orderdetails.xml";
+            var ordersSource =
+            {
+                datafields: [
+                    { name: 'PRID', type: 'string' },
+                    { name: 'ProName', type: 'string' },
+                    { name: 'Unit', type: 'string' },
+                    { name: 'Quantity', type: 'int' },
+                    { name: 'Rate', type: 'float' },
+                    { name: 'Amount', type: 'float' }
+                ],
+                root: "Orders",
+                record: "Order",
+                datatype: "xml",
+                url: orderdetailsurl,
+                async: false
+            };
+            var ordersDataAdapter = new $.jqx.dataAdapter(ordersSource, { autoBind: true });
+            orders = ordersDataAdapter.records;
+            var nestedGrids = new Array();
+            // create nested grid.
+            var initrowdetails = function (index, parentElement, gridElement, record) {
+                var id = record.uid.toString();
+                var grid = $($(parentElement).children()[0]);
+                nestedGrids[index] = grid;
+                var filtergroup = new $.jqx.filter();
+                var filter_or_operator = 1;
+                var filtervalue = id;
+                var filtercondition = 'equal';
+                var filter = filtergroup.createfilter('stringfilter', filtervalue, filtercondition);
+                // fill the orders depending on the id.
+                var ordersbyid = [];
+                for (var m = 0; m < orders.length; m++) {
+                    var result = filter.evaluate(orders[m]["PRID"]);
+                    if (result)
+                        ordersbyid.push(orders[m]);
+                }
+                var orderssource = { datafields: [
+                    { name: 'PRID', type: 'string' },
+                    { name: 'ProName', type: 'string' },
+                    { name: 'Unit', type: 'string' },
+                    { name: 'Quantity', type: 'int' },
+                    { name: 'Rate', type: 'float' },
+                    { name: 'Amount', type: 'float' }
+                ],
+                    id: 'OrderID',
+                    localdata: ordersbyid
+                }
+                var nestedGridAdapter = new $.jqx.dataAdapter(orderssource);
+                if (grid != null) {
+                    grid.jqxGrid({
+                        source: nestedGridAdapter, width: 780, height: 200,
+                        columns: [
+                          { text: 'Product Name', datafield: 'ProName', width: 200 },
+                          { text: 'Unit', datafield: 'Unit', width: 80 },
+                          { text: 'Quantity', datafield: 'Quantity', width: 150 },
+                          { text: 'Rate', datafield: 'Rate', width: 150 },
+                          { text: 'Amount', datafield: 'Amount', width: 200 }
+                       ]
+                    });
+                }
+            }
+           
+            // creage grid
+            $("#grid").jqxGrid(
+            {
+                width: getWidth('Grid'),
+                height: 365,
+                source: source,
+                rowdetails: true,
+                rowsheight: 35,
+                initrowdetails: initrowdetails,
+                rowdetailstemplate: { rowdetails: "<div id='grid' style='margin: 10px;'></div>", rowdetailsheight: 220, rowdetailshidden: true },
+                ready: function () {
+                    $("#grid").jqxGrid('showrowdetails', 1);
+                },
+                columns: [
+                    
+                    { text: 'Branch', datafield: 'Branch', width: 200 },
+                      { text: 'Supplier Name', datafield: 'SuppName', width: 200 },
+                      { text: 'Enquiry No.', datafield: 'EnqNo', width: 150 },
+                      { text: 'Enquiry Date', datafield: 'EnqDate', width: 150 },
+                      { text: 'Currency', datafield: 'Currency', width: 100}
+                  ]
+            });
+        });
+    </script>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    <h5 style="font-size:14px">Purchase Enquiry</h5>
+                    <hr>
+                    <form>
+                         <div class="row">
+                             <div class="col-md-12 "> 
+                                   <div class=" textalignright">
+                                    <a href="@Url.Action("PurchaseEnquiry", "PurchaseEnq")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Purchase Enquiry</a>
+                                     <br>
+                                </div>
+                       
+                       
+                        </div>
+                        </div>
+                        <div class="row">
+
+                             <div class="col-md-2 "> </div>
+                            <div class="col-md-10 "> 
+                                <div id="grid">
+    </div>
+
+                            </div>
+                           
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
