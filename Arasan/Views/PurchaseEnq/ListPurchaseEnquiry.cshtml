@@ -106,6 +106,10 @@
                 width: getWidth('Grid'),
                 height: 365,
                 source: source,
+                pageable: true,
+                filterable: true,
+                autoheight: true,
+                sortable: true,
                 rowdetails: true,
                 rowsheight: 35,
                 initrowdetails: initrowdetails,
@@ -119,7 +123,7 @@
                       { text: 'Supplier Name', datafield: 'SuppName', width: 200 },
                       { text: 'Enquiry No.', datafield: 'EnqNo', width: 150 },
                       { text: 'Enquiry Date', datafield: 'EnqDate', width: 150 },
-                      { text: 'Currency', datafield: 'Currency', width: 100}
+                      { text: 'Currency', datafield: 'Currency', width: 110}
                   ]
             });
         });
