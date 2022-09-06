@@ -99,7 +99,7 @@ namespace Arasan.Controllers.Production
         {
             return View();
         }
-        public IActionResult ProductionLog()
+         public IActionResult ProductionLog()
         {
             return View();
         }
@@ -108,6 +108,10 @@ namespace Arasan.Controllers.Production
             return View();
         }
         public IActionResult ProductionSchedule()
+        {
+            return View();
+        }
+        public IActionResult PackingEntry()
         {
             return View();
         }

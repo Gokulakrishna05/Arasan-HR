@@ -159,7 +159,7 @@
                         <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-diamond"></i> <span class="title">Purchase</span> <span class="arrow"></span> </a>
                            <ul class="sub-menu">
 <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("PurchaseEnquiry", "PurchaseEnq")"> <span class="title">Purchase Enquiry</span> </a>
+                                <a class="nav-link" href="@Url.Action("ListPurchaseEnquiry", "PurchaseEnq")"> <span class="title">Purchase Enquiry</span> </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="@Url.Action("Purchase_Quotations", "PurchaseEnq")"> <span class="title">Purchase Quotations</span> </a>
@@ -226,6 +226,7 @@
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("BatchProductionEntry", "ProcessCostEntry")">Batch Production Entry</a></li>
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("PackingIssueEntry", "ProcessCostEntry")">Packing Issue Entry</a></li>
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("PackingDrumAllocation", "ProcessCostEntry")">Packing Drum Allocation</a></li>
+                             <li class="nav-item"><a class="nav-link" href="@Url.Action("PackingEntry", "ProcessCostEntry")">Packing Entry</a></li>
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("DrumChange", "ProcessCostEntry")"> Drum Change</a></li>
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("MonthlyProductionEntry", "ProcessCostEntry")">Monthly Production Entry</a></li>
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("MTOOutputCalculator", "ProcessCostEntry")">MTO Output Calculator</a></li>
@@ -279,8 +280,15 @@
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("Receipt_for_SubContract", "StoresReturn")">Receipt_for_SubContract</a></li>
                              <li class="nav-item"><a class="nav-link" href="@Url.Action("Direct_Deducation", "StoresReturn")">Direct_Deducation</a></li>
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("Direct_Addition", "StoresReturn")">Direct_Addition</a></li>
+
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("ScarpYard", "StoresReturn")">ScarpYard</a></li>
+
+                            <li class="nav-item"><a class="nav-link" href="@Url.Action("Sub_Contracting_DC", "StoresReturn")">Sub_Contracting_DC</a></li>
+                            <li class="nav-item"><a class="nav-link" href="@Url.Action("Item_Transfer", "StoresReturn")">Item_Transfer</a></li>
+                             <li class="nav-item"><a class="nav-link" href="@Url.Action("Sub_Contracting_Material_Receipt", "StoresReturn")">Sub_Contracting_Material_Receipt</a></li>
+
                         </ul>
+
                     </li>
 		
               @*    <li class="nav-item"> <a class="nav-link nav-toggle" href="javascript:;"><i class="fa fa-envelope"></i> <span class="title">Mailbox </span><span class="label label-warning pull-right">16/70</span></a>

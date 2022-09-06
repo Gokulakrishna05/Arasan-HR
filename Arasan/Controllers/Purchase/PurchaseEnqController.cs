@@ -17,6 +17,11 @@ namespace Arasan.Controllers
             return View();
         }
 
+        public IActionResult ListPurchaseEnquiry()
+        {
+            return View();
+        }
+
         public IActionResult Direct_Purchase()
         {
             return View();

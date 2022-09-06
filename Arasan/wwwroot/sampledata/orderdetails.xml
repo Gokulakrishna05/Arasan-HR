@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Orders>
+  <Order OrderID="10248">
+    <PRID>1</PRID>
+    <ProName>Empty Old Drums Renaatus</ProName>
+    <Unit>No's</unit>
+    <Quantity>300</ShippedDate>
+    <Rate>32.3800</Rate>
+    <Amount>9840</Amount>
+  </Order>
+  <Order OrderID="10249">
+    <PRID>2</PRID>
+    <ProName>Empty Old Drums Renaatus</ProName><Unit>No's</unit>
+    <Quantity>300</ShippedDate>
+    <Rate>32.3800</Rate>
+    <Amount>9840</Amount>
+  </Order>
+  
+  
+</Orders>
+

@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<Purchases>
+  <Purchase PRID="1">
+	<Branch>(TAAI)SVK - FACTORY</Branch>
+    <SuppName>Supplier 1</SuppName>
+    <EnqNo>PENQ100001</EnqNo>
+    <EnqDate>25-Aug-2022</EnqDate>
+    <Currency>Rs</Currency>
+    
+  </Purchase>
+<Purchase PRID="2">
+<Branch>(TAAI)SVK - FACTORY</Branch>
+    <SuppName>Supplier 2</SuppName>
+    <EnqNo>PENQ100002</EnqNo>
+    <EnqDate>26-Aug-2022</EnqDate>
+    <Currency>Rs</Currency>
+    
+  </Purchase>
+<Purchase PRID="3">
+<Branch>(TAAI)SVK - FACTORY</Branch>
+    <SuppName>Supplier 1</SuppName>
+    <EnqNo>PENQ100003</EnqNo>
+    <EnqDate>26-Aug-2022</EnqDate>
+    <Currency>Rs</Currency>
+    
+  </Purchase>
+<Purchase PRID="4">
+<Branch>(TAAI)SVK - FACTORY</Branch>
+    <SuppName>Supplier 3</SuppName>
+    <EnqNo>PENQ100004</EnqNo>
+    <EnqDate>26-Aug-2022</EnqDate>
+    <Currency>Rs</Currency>
+    
+  </Purchase>
+<Purchase PRID="5">
+<Branch>(TAAI)SVK - FACTORY</Branch>
+    <SuppName>Supplier 2</SuppName>
+    <EnqNo>PENQ100005</EnqNo>
+    <EnqDate>26-Aug-2022</EnqDate>
+    <Currency>Rs</Currency>
+    
+  </Purchase>
+
+</Purchases>
