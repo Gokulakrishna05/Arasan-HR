@@ -55,6 +55,18 @@ namespace Arasan.Controllers.Stores_Management
         public IActionResult Direct_Addition()
         {
             return View();
-        }       
+        }
+        public IActionResult Sub_Contracting_DC()
+        {
+            return View();
+        }
+        public IActionResult Item_Transfer()
+        {
+            return View();
+        }
+        public IActionResult Sub_Contracting_Material_Receipt()
+        {
+            return View();
+        }
     }
 }
