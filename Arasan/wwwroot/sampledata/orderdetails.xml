@@ -3,19 +3,27 @@
   <Order OrderID="10248">
     <PRID>1</PRID>
     <ProName>Empty Old Drums Renaatus</ProName>
-    <Unit>No's</unit>
-    <Quantity>300</ShippedDate>
-    <Rate>32.3800</Rate>
-    <Amount>9840</Amount>
+    <Unit>No's</Unit>
+    <Quantity>100</Quantity>
+    <Rate>22.3800</Rate>
+    <Amount>2238</Amount>
   </Order>
   <Order OrderID="10249">
     <PRID>2</PRID>
-    <ProName>Empty Old Drums Renaatus</ProName><Unit>No's</unit>
-    <Quantity>300</ShippedDate>
+    <ProName>Empty Old Drums Renaatus</ProName>
+	  <Unit>No's</Unit>
+    <Quantity>300</Quantity>
     <Rate>32.3800</Rate>
     <Amount>9840</Amount>
   </Order>
-  
+	<Order OrderID="10249">
+		<PRID>2</PRID>
+		<ProName>+100 Fine</ProName>
+		<Unit>Bag</Unit>
+		<Quantity>5</Quantity>
+		<Rate>500</Rate>
+		<Amount>2500</Amount>
+	</Order>
   
 </Orders>
 
