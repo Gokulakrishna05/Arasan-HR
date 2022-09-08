@@ -1,4 +1,8 @@
-﻿<div class="row wrapper border-bottom page-heading">
+﻿@{
+    ViewData["Title"] = " Purchase Return";
+}
+
+<div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
 
         <ol class="breadcrumb">
@@ -9,24 +13,12 @@
     </div>
 </div>
 <div class="wrapper-content ">
-        <div class="row">
-      <div class="col-lg-12 top20">
-            <div class="tabs-container">
-              <ul class="nav nav-tabs">
-                <li class="active"><a href="#tab-1" data-toggle="tab" > Purchase Return</a></li>
-                <li ><a href="#tab-2" data-toggle="tab" >Addition Deduction </a></li>
-
-              </ul>
-              <div class="tab-content">
-                <div class="tab-pane active" id="tab-1">
-                    <!-- 1st tab  -->
-
-
     <div class="row">
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="widgets-container">
-
+                    <h5 style="font-size:14px">Purchase Return</h5>
+                    <hr>
                     <form>
                         <div class="row">
                             <div class="col-md-6">
@@ -218,6 +210,17 @@
                                 </div>
                             </div>
                         </div>
+                          <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                 <br /><br />   <label for="inputName3" class="col-sm-4 control-label">Transit LocID<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        <input class="form-control" id="inputEmail3" placeholder="" type="text">
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
                         <div style="height:30px;"></div>
                         <div class="row">
                             <div class="col-md-12">
@@ -370,58 +373,22 @@
                             </div>
                         </div>
 
-                       <div style="height:30px;"></div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                    <label for="inputName3" class="col-sm-4 control-label">Gross<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
-                                    </div>
-                                </div>
-                            </div>
-                        
-                       
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                    <label for="inputName3" class="col-sm-4 control-label">Net<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="" type="text">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                    <label for="inputName3" class="col-sm-4 control-label">Gross<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
-                                    </div>
-                                </div>
-                            </div>
-                          </div>
-                        <div style="height:30px;"></div>
-                        <button type="submit" class="btn aqua m-t-xs bottom15-xs">Submit</button>
-                        <button class="btn btn-danger" type="submit">Cancel</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-    </div>
+                      
 
 
-                  <!-- 1st tab -->
+   
+                      
+              <div class="row">
+                            <div class="col-md-12">
 
-
-                </div>
-                <div class="tab-pane" id="tab-2">
-                    <!-- 2nd tab -->
+                                <div class="tabs-container">
+                                    <ul class="nav nav-tabs">
+                                        <li class="active"><a href="#tab-1" data-toggle="tab">Addition Deduction</a></li>
+                                        
+                                        
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div class="tab-pane active" id="tab-1">
                    <div class="row">
 
 
@@ -482,14 +449,226 @@
                             </div>
                         </div>
 
-                  <!-- 2nd tab -->
+                  <!-- 1st tab -->
+               </div>
+               </div>
+               </div></div>
+               </div>
+               
+                        <div style="height:30px;"></div>
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <div class="tabs-container">
+                                    <ul class="nav nav-tabs">
+                                        <li class="active"><a href="#tab-1" data-toggle="tab">Narration</a></li>
+                                        <li><a href="#tab-2" data-toggle="tab">Reason of Rejection </a></li>
+                                        <li><a href="#tab-3" data-toggle="tab">Despatch Address </a></li>
+                                        
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div class="tab-pane active" id="tab-1">
+                                            <!-- 1st tab  -->
+                                            <div style="height:30px;"></div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+
+                                                        <label for="inputName3" class="col-sm-4 control-label">Gross<label class="Mandatory"></label></label>
+                                                        <div class="col-sm-8">
+                                                            <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+
+                                                        <label for="inputName3" class="col-sm-4 control-label">Net<label class="Mandatory"></label></label>
+                                                        <div class="col-sm-8">
+                                                            <input class="form-control" id="inputEmail3" placeholder="" type="text">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+
+                                                        <label for="inputName3" class="col-sm-4 control-label">Amount in Words<label class="Mandatory"></label></label>
+                                                        <div class="col-sm-8">
+                                                            <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+
+                                                            <label for="inputName3" class="col-sm-4 control-label">Narration<label class="Mandatory"></label></label>
+                                                            <div class="col-sm-8">
+                                                                <textarea class="form-control" id="inputEmail3" placeholder="" type="text"></textarea><br />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                              </div>
+                                                <!-- 1st tab  -->
+                                        </div>
+                                        <div class="tab-pane" id="tab-2">
+                                            <!-- 2nd tab  -->
+                                            <div class="row">
+                                                <div class="col-lg-5">
+                                                    <div class="ibox float-e-margins">
+
+                                                        <!-- / ibox-title -->
+                                                        <div id="demo3" class="ibox-content collapse in">
+                                                            <div class="borderedTable">
+                                                                <div class="table-scrollable">
+                                                                    <table class="table table-striped table-hover">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th> S. No. </th>
+                                                                                <th>SNo</th>
+                                                                                <th> Reasion </th>
+
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td> 1 </td>
+
+                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
+
+                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
+
+
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td> 2 </td>
+                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
+
+                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
+
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td> 3 </td>
+
+
+                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
+
+                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
+
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                             
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            </div>
+                                            <!-- 2nd tab  -->
+                                        </div>
+                                        <div class="tab-pane" id="tab-3">
+                                            <!-- 3rd tab  -->
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+
+                                                      <br /><br />  <label for="inputName3" class="col-sm-4 control-label">Area ID<label class="Mandatory"></label></label>
+                                                        <div class="col-sm-8">
+                                                            <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+
+                                                     <br /><br /> <label for="inputName3" class="col-sm-4 control-label">Address<label class="Mandatory"></label></label>
+                                                        <div class="col-sm-8">
+                                                            <textarea class="form-control" id="inputEmail3" placeholder="" type="text"></textarea><br />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+
+                                                        <label for="inputName3" class="col-sm-4 control-label">City<label class="Mandatory"></label></label>
+                                                        <div class="col-sm-8">
+                                                            <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+
+                                                            <label for="inputName3" class="col-sm-4 control-label">State<label class="Mandatory"></label></label>
+                                                            <div class="col-sm-8">
+                                                                <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+
+                                                            <label for="inputName3" class="col-sm-4 control-label">Pincode<label class="Mandatory"></label></label>
+                                                            <div class="col-sm-8">
+                                                                <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+
+                                                            <label for="inputName3" class="col-sm-4 control-label">Phone<label class="Mandatory"></label></label>
+                                                            <div class="col-sm-8">
+                                                                <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                              </div>
+                                              <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+
+                                                            <label for="inputName3" class="col-sm-4 control-label">Fax<label class="Mandatory"></label></label>
+                                                            <div class="col-sm-8">
+                                                                <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                              
+                                                
+                                            <!-- 3rd tab  -->
+                                        </div>
+                              
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+              
+
+                                    <div style="height:30px;"></div>
+                                    <button type="submit" class="btn aqua m-t-xs bottom15-xs">Submit</button>
+                                    <button class="btn btn-danger" type="submit">Cancel</button>
+                    </form>
                 </div>
-
-
-              </div>
             </div>
-          </div>
+        </div>
 
-</div>
-
-</div>
+    </div>
+    </div>

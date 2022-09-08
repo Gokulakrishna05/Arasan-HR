@@ -1,4 +1,7 @@
-﻿<div class="row wrapper border-bottom page-heading">
+﻿@{
+    ViewData["Title"] = "Returnable NonReturnable Dc";
+}
+<div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
 
         <ol class="breadcrumb">
@@ -302,20 +305,18 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Narration<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
+                                        <textarea class="form-control" id="inputEmail3" placeholder="" type="text"></textarea><br />
                                     </div>
                                 </div>
                             </div>
 
-                        </div>
-
-                        <div class="row">
+                     
                             <div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">Purchase Date<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
+                                        <input class="form-control" id="inputEmail3" placeholder="" type="date"><br />
                                     </div>
                                 </div>
                             </div>
@@ -333,9 +334,7 @@
                                 </div>
                             </div>
 
-                        </div>
-
-                        <div class="row">
+                        
                             <div class="col-md-6">
                                 <div class="form-group">
 
@@ -347,9 +346,18 @@
                             </div>
 
                         </div>
+                         <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
 
+                                    <label for="inputName3" class="col-sm-4 control-label">Approval2 <label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
+                                    </div>
+                                </div>
+                            </div>
 
-
+                            </div>
 
 
                         <div style="height:30px;"></div>
