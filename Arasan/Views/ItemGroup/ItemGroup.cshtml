@@ -24,21 +24,12 @@
               <hr>
               <form>
 			  <div class="row">
-                                        <div class="col-md-7">
-                                            <div class="form-group">
-                                            
-                                                <label for="inputName3" class="col-sm-4 control-label">Item Category<label class="Mandatory"></label></label>
-                                                <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.ItemCategory, new { @id = "txtItemCategory", @class = "form-control", @TabIndex = 2 })<br />
-
-                                    </div>
-                                            </div>
-                                        </div>
+                                        
                                         <div class="col-md-7">
                                             <div class="form-group">
                                                 <label for="inputName3" class="col-sm-4 control-label">Item Group<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.ItemGroups, new { @id = "txtItemGroups", @class = "form-control", @TabIndex = 2 })<br />
+                                        <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
                                     </div>
                                             </div>
                                         </div>
@@ -48,17 +39,17 @@
                                         <div class="col-md-7">
                                             <div class="form-group">
                                             
-                                                <label for="inputName3" class="col-sm-4 control-label">Descreption<label class="Mandatory"></label></label>
+                                                <label for="inputName3" class="col-sm-4 control-label">Item Group Descreption<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                        @Html.TextAreaFor(C => C.Desc, new { @id = "txtDesc", @class = "form-control", @TabIndex = 2,@Row=3 })<br />
+                                        <input class="form-control" id="inputEmail3" placeholder="" type="text">
                                     </div>
                                             </div>
                                         </div>
                                         </div>
 
                             <div style="height:30px;"></div>
-                            <button type="submit" class="btn aqua m-t-xs bottom15-xs">Submit</button>
-                            <button class="btn btn-danger" type="submit">Cancel</button>
+                        <a button type="submit" class="btn aqua m-t-xs bottom15-xs" href="@Url.Action("ListItemGroup", "ItemGroup")">Submit</a>
+                        <a button class="btn btn-danger" type="submit" href="@Url.Action("ListItemGroup", "ItemGroup")">Cancel</a>
                                         </form>
 </div>
 </div>
