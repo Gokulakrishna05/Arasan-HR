@@ -18,5 +18,10 @@ namespace Arasan.Controllers.Master
         {
             return View();
         }
+        public IActionResult ItemList()
+        {
+            return View();
+        }
+
     }
 }
