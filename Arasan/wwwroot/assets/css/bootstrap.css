@@ -4076,6 +4076,10 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .nav-tabs.nav-justified > .active > a:focus {
   border: 1px solid #ddd;
 }
+.tab-content > .tab-pane {
+    display: none;
+    padding: 15px 5px 5px 10px;
+}
 @media (min-width: 768px) {
   .nav-tabs.nav-justified > li > a {
     border-bottom: 1px solid #ddd;
@@ -4157,6 +4161,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .tab-content > .tab-pane {
   display: none;
+  padding: 15px 5px 5px 10px;
 }
 .tab-content > .active {
   display: block;
