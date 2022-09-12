@@ -22,5 +22,6 @@ namespace Arasan.Controllers.Master
         {
             return View();
         }
+
     }
 }
