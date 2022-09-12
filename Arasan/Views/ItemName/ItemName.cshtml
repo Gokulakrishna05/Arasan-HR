@@ -1,7 +1,7 @@
 ﻿@model Arasan.Models.ItemName
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Item Master";
 }
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
@@ -9,7 +9,7 @@
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Master</a> </li>
-            <li class="active"> <strong>ItemName</strong> </li>
+            <li class="active"> <strong>Item Master</strong> </li>
         </ol>
     </div>
 </div>
@@ -20,7 +20,7 @@
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="widgets-container">
-                    <h5 style="font-size:14px">ItemName</h5>
+                    <h5 style="font-size:14px">Item Master</h5>
                     <hr>
                     <form>
                         <div class="row">
@@ -29,7 +29,10 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Item Category<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.ItemCategory, new { @id = "txtItemCategory", @class = "form-control", @TabIndex = 2 })<br />
+                                       <select class=" _select js-states form-control">
+                                        
+
+                                            </select><br />
                                     </div>
                                 </div>
                             </div>
@@ -38,18 +41,21 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Item Group<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.ItemGroup, new { @id = "txtItemGroup", @class = "form-control", @TabIndex = 2 })<br />
+                                        <select class=" _select js-states form-control">
+
+                                        </select><br />
                                     </div>
 
                                 </div>
                             </div>
-
+                        </div>
+                        <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">Item Code<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.ItemCode, new { @id = "txtItemCode", @class = "form-control", @TabIndex = 2 })<br />
+                                        <input class="form-control" id="inputEmail3" type="text"><br />
                                     </div>
 
                                 </div>
@@ -60,18 +66,31 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Item<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.ItemNames, new { @id = "txtItemNames", @class = "form-control", @TabIndex = 2 })<br />
+                                        <input class="form-control" id="inputEmail3" type="text"><br />
                                     </div>
 
                                 </div>
                             </div>
+                            </div>
+                            <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
 
+                                    <label for="inputName3" class="col-sm-4 control-label">Item Description<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        <textarea class="form-control" id="inputEmail3" type="text"></textarea><br />
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">Reorder Quantity<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.ReorderQuantity, new { @id = "txtReorderQuantity", @class = "form-control", @TabIndex = 2 })<br />
+                                        <input class="form-control" id="inputEmail3" type="text"><br />
                                     </div>
 
                                 </div>
@@ -82,18 +101,19 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Reorder Level<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.ReorderLevel, new { @id = "txtReorderLevel", @class = "form-control", @TabIndex = 2 })<br />
+                                        <input class="form-control" id="inputEmail3" type="text"><br />
                                     </div>
 
                                 </div>
                             </div>
-
+                            </div>
+                        <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">Maximum Stock Level <label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.MaximumStockLevel , new { @id = "txtMaximumStockLevel ", @class = "form-control", @TabIndex = 2 })<br />
+                                        <input class="form-control" id="inputEmail3" type="text"><br />
                                     </div>
 
                                 </div>
@@ -104,19 +124,20 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Minimum Stock Level<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.MinimumStockLevel, new { @id = "txtMinimumStockLevel", @class = "form-control", @TabIndex = 2 })<br />
+                                        <input class="form-control" id="inputEmail3" type="text"><br />
                                     </div>
 
                                 </div>
                             </div>
-
+                            </div>
+                        <div class="row">
 
                             <div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">Conversion Factor<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.ConversionFactor, new { @id = "txtConversionFactor", @class = "form-control", @TabIndex = 2 })<br />
+                                        <input class="form-control" id="inputEmail3" type="text"><br />
                                     </div>
 
                                 </div>
@@ -128,18 +149,349 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">UOM <label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.UOM, new { @id = "txtUOM", @class = "form-control", @TabIndex = 2 })<br />
+                                        <input class="form-control" id="inputEmail3" type="text"><br />
                                     </div>
 
                                 </div>
                             </div>
+                       </div>
+                       <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
 
+                                    <label for="inputName3" class="col-sm-4 control-label">Stack Account <label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        <input class="form-control" id="inputEmail3" type="text"><br />
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Expiry Control? <label class="Mandatory"></label></label>
+                                    <div class="col-sm-6">
+                                       <label class="mt-radio">
+                                            <input type="radio" class="iCheck" checked="" value="Yes" id="optionsRadios9" name="optionsRadios">
+                                            Yes
+                                        </label>
+                                        <label class="mt-radio">
+                                            <input type="radio" class="iCheck" checked="" value="No" id="optionsRadios10" name="optionsRadios">
+                                         No
+                                        </label>
+                                    </div>
+
+                                </div>
+                            </div>
+                            </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Valuation Method <label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        <input class="form-control" id="inputEmail3" type="text"><br />
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Serial Control? <label class="Mandatory"></label></label>
+                                    <div class="col-sm-6">
+                                        <label class="mt-radio">
+                                            <input type="radio" class="iCheck" checked="" value="Yes" id="optionsRadios7" name="optionsRadios1">
+                                            Yes
+                                        </label>
+                                        <label class="mt-radio">
+                                            <input type="radio" class="iCheck" checked="" value="No" id="optionsRadios8" name="optionsRadios1">
+                                            No
+                                        </label>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Bin Y/N <label class="Mandatory"></label></label>
+                                    <div class="col-sm-6">
+                                      <label class="mt-radio">
+                                            <input type="radio" class="iCheck" checked="" value="Yes" id="optionsRadios6" name="optionsRadios2">
+                                            Yes
+                                        </label>
+                                        <label class="mt-radio">
+                                            <input type="radio" class="iCheck" checked="" value="No" id="optionsRadios5" name="optionsRadios2">
+                                         No
+                                        </label>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Bin ID <label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        <input class="form-control" id="inputEmail3" type="text" ><br />
+                                        
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                         <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Batch Control? <label class="Mandatory"></label></label>
+                                    <div class="col-sm-6">
+                                        <label class="mt-radio">
+                                            <input type="radio" class="iCheck" checked="" value="Yes" id="optionsRadios1" name="optionsRadios3">
+                                            Yes
+                                        </label>
+                                        <label class="mt-radio">
+                                            <input type="radio" class="iCheck" checked="" value="No" id="optionsRadios2" name="optionsRadios3">
+                                         No
+                                        </label>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">O.C Template for Prod<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        <input class="form-control" id="inputEmail3" type="text" ><br />
+                                        
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">O.C Required? <label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        <label class="mt-radio">
+                                            <input type="radio" class="iCheck" checked="" value="Yes" id="optionsRadios3" name="optionsRadios4">
+                                            Yes
+                                        </label>
+                                        <label class="mt-radio">
+                                            <input type="radio" class="iCheck" checked="" value="No" id="optionsRadios4" name="optionsRadios4">
+                                            No
+                                        </label>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">QC Template for Pack<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        <input class="form-control" id="inputEmail3" type="text"><br />
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">HSN Code <label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        <input class="form-control" id="inputEmail3" type="text"><br />
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Sub Heading No<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        <input class="form-control" id="inputEmail3" type="text"><br />
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Selling Price<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        <input class="form-control" id="inputEmail3" type="text"><br />
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Purchase Catecory<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        <select class=" _select js-states form-control">
+
+
+
+                                        </select><br />
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Latast Purchase Price/Date<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        <input class="form-control" id="inputEmail3" type="text"><br />
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">SubCatecory<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        <select class=" _select js-states form-control">
+                                        </select><br />
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Item From<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        <input class="form-control" id="inputEmail3" type="text"><br />
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Percentage(RM)<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                       <input class="form-control" id="inputEmail3" type="text"><br />
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Raw Material Category<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        <select class=" _select js-states form-control">
+                                        </select><br />
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Rejection Input %<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        <input class="form-control" id="inputEmail3" type="text"><br />
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Additive 1<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        <input class="form-control" id="inputEmail3" type="text"><br />
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Percentage(Additive)<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        <input class="form-control" id="inputEmail3" type="text"><br />
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Primery Unit<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                          <input class="form-control" id="inputEmail3" type="text"><br />
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            </div>
+                              <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Unit<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        <input class="form-control" id="inputEmail3" type="text"><br />
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Conversion Factor<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        <input class="form-control" id="inputEmail3" type="text"><br />
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
                             <div style="height:30px;"></div>
                             <button type="submit" class="btn aqua m-t-xs bottom15-xs">Submit</button>
                             <button class="btn btn-danger" type="submit">Cancel</button>
-                        </div>
-
+                    
+                        
                     </form>
+
                 </div>
             </div>
         </div>
