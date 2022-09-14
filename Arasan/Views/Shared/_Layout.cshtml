@@ -161,6 +161,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="@Url.Action("ListState", "State")"> <span class="title">State </span> </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("ListHSNcode", "HSNcode")"> <span class="title">HSNcode Master</span> </a>
+                            </li>
 							<li class="nav-item">
                                 <a class="nav-link" href="@Url.Action("ListExchangeRate", "ExchangeRate")"> <span class="title">Excahange Rate</span> </a>
                             </li>
@@ -282,8 +285,9 @@
 
                      <li class="nav-item"> <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-address-card"></i> <span class="title">Stores Management</span> <span class="arrow"></span> </a>
 
-                        <ul class="sub-menu">
+                        <ul class="sub-menu"> Material Requisition
 
+                            <li class="nav-item"><a class="nav-link" href="@Url.Action("Material_Requisition", "StoresReturn")">Material Requisition</a></li>
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("StoresReturn", "StoresReturn")">Stores Return</a></li>
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("Returnable_NonReturnable_Dc", "StoresReturn")">Returnable NonReturnable Dc</a></li>
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("Stores_Acceptance", "StoresReturn")">Stores Acceptance</a></li>
