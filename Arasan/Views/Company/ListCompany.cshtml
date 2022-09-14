@@ -1,4 +1,4 @@
-﻿@model Arasan.Models.ItemGroup
+﻿@model Arasan.Models.Company
 
 @{
     ViewData["Title"] = "Item Group Master";
@@ -9,7 +9,7 @@
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Master</a> </li>
-            <li class="active"> <strong>Item Group Master</strong> </li>
+            <li class="active"> <strong>Company Master</strong> </li>
         </ol>
     </div>
 </div>
@@ -19,12 +19,12 @@
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="widgets-container">
-                  
+
                     <form>
                         <div class="row">
                             <div class="col-md-12 ">
                                 <div class=" textalignright">
-                                    <a href="@Url.Action("ItemGroup", "ItemGroup")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Item</a>
+                                    <a href="@Url.Action("Company", "Company")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Item</a>
                                     <br>
                                 </div>
 
@@ -43,38 +43,38 @@
                                                     <thead>
                                                         <tr>
                                                             <td>S.No</td>
-                                                            <th>Item Group</th>
-                                                            <th>Item Group Description</th>
-                                                            
+                                                            <th>Company ID</th>
+                                                            <th>Description</th>
+
                                                             <th>Edit</th>
                                                             <th>Delete</th>
                                                         </tr>
                                                     </thead>
-                                                   
+
                                                     <tbody>
                                                         <tr>
                                                             <td>1</td>
-                                                            <td>Mechanical</td>
-                                                            <td>OTHERS</td>
-                                                            
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("ItemGroup", "ItemGroup")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("ItemGroup", "ItemGroup")"></a></div></td>
+                                                            <td></td>
+                                                            <td></td>
+
+                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Company", "Company")"></a></div></td>
+                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("Company", "Company")"></a></div></td>
                                                         </tr>
                                                         <tr>
                                                             <td>2</td>
-                                                            <td>Mechanical</td>
-                                                            <td>Hose ( Metalic, Hydralic)</td>
-                                                            
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("ItemGroup", "ItemGroup")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("ItemGroup", "ItemGroup")"></a></div></td>
+                                                            <td></td>
+                                                            <td></td>
+
+                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Company", "Company")"></a></div></td>
+                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("Company", "Company")"></a></div></td>
                                                         </tr>
                                                         <tr>
                                                             <td>3</td>
-                                                            <td>Mechanical</td>
-                                                            <td>Oilseal</td>
-                                                           
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("ItemGroup", "ItemGroup")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("ItemGroup", "ItemGroup")"></a></div></td>
+                                                            <td></td>
+                                                            <td></td>
+
+                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Company", "Company")"></a></div></td>
+                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("Company", "Company")"></a></div></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>

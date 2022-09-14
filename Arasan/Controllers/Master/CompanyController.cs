@@ -17,5 +17,9 @@ namespace Arasan.Controllers
         {
             return View();
         }
+        public IActionResult ListCompany()
+        {
+            return View();
+        }
     }
 }
