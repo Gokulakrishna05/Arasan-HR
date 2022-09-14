@@ -68,5 +68,9 @@ namespace Arasan.Controllers.Stores_Management
         {
             return View();
         }
+        public IActionResult Material_Requisition()
+        {
+            return View();
+        }
     }
 }

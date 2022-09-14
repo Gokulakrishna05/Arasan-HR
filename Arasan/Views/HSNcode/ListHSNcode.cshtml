@@ -1,7 +1,7 @@
-﻿@model Arasan.Models.Unit
+﻿@model Arasan.Models.HSNcode
 
 @{
-    ViewData["Title"] = "Unit Master";
+    ViewData["Title"] = "HSNcode Master";
 }
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
@@ -9,7 +9,7 @@
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Master</a> </li>
-            <li class="active"> <strong>Unit Master</strong> </li>
+            <li class="active"> <strong>HSNcode Master</strong> </li>
         </ol>
     </div>
 </div>
@@ -19,13 +19,13 @@
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="widgets-container">
-                    <h5 style="font-size:14px">Unit Master</h5>
+                    <h5 style="font-size:14px">HSNcode Master</h5>
                     <hr>
                     <form>
                         <div class="row">
                             <div class="col-md-12 ">
                                 <div class=" textalignright">
-                                    <a href="@Url.Action("Unit", "Unit")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Unit</a>
+                                    <a href="@Url.Action("HSNcode", "HSNcode")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add HSNcode</a>
                                     <br>
                                 </div>
 
@@ -43,32 +43,35 @@
                                                 <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
                                                     <thead>
                                                         <tr>
-                                                            
-                                                            <th>Unit Id</th>
-                                                            <th>Unit Code</th>
+
+                                                            <th>HSN Code</th>
+                                                            <th>Decryption</th>
+
+                                                            <th>GST%</th>
                                                             <th>Edit</th>
                                                             <th>Delete</th>
                                                         </tr>
                                                     </thead>
-                                                    
+
                                                     <tbody>
                                                         <tr>
-                                                            <td>Length-meter(m)</td>
-                                                            <td>123FT</td>
-                                                          
+                                                            <td>234FT</td>
+                                                            <td>Code</td>
+                                                            <td>12%</td>
+
                                                             <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Unit", "Unit")"></a></div></td>
                                                             <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("Unit", "Unit")"></a></div></td>
                                                         </tr>
                                                         <tr>
-                                                            <td>Mass - kilogram(kg)</td>
-                                                            <td>167HK</td>
-                                                            
-                                                           
-                                                            
+                                                            <td>560TY</td>
+                                                            <td>Code</td>
+                                                            <td>14%</td>
+
+
                                                             <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Unit", "Unit")"></a></div></td>
                                                             <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("Unit", "Unit")"></a></div></td>
                                                         </tr>
-                                                       
+
                                                     </tbody>
                                                 </table>
                                             </div>

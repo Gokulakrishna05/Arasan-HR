@@ -43,6 +43,7 @@ internal class Program
         builder.Services.TryAddSingleton<ICurrencyService, CurrencyService>();
         builder.Services.TryAddSingleton<IUnitService, UnitService>();
         builder.Services.TryAddSingleton<IQCTestingService, QCTestingService>();
+        builder.Services.TryAddSingleton<IHSNcodeService, HSNcodeService>();
 
         var app = builder.Build();
 
