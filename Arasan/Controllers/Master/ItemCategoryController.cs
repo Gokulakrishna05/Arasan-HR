@@ -18,5 +18,9 @@ namespace Arasan.Controllers.Master
         {
             return View();
         }
+        public IActionResult ListItemCategory()
+        {
+            return View();
+        }
     }
 }

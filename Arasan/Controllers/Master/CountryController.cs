@@ -19,5 +19,9 @@ namespace Arasan.Controllers.Master
         {
             return View();
         }
+        public IActionResult ListCountry()
+        {
+            return View();
+        }
     }
 }
