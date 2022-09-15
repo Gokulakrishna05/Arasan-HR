@@ -9,7 +9,7 @@
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Master</a> </li>
-            <li class="active"> <strong>Company Master</strong> </li>
+            <li class="active"> <strong>Company</strong> </li>
         </ol>
     </div>
 </div>
@@ -24,7 +24,11 @@
                         <div class="row">
                             <div class="col-md-12 ">
                                 <div class=" textalignright">
+
                                     <a href="@Url.Action("Company", "Company")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Company</a>
+
+                                    <a href="@Url.Action("Company", "Company")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Country</a>
+
                                     <br>
                                 </div>
 
@@ -43,7 +47,7 @@
                                                     <thead>
                                                         <tr>
                                                             <td>S.No</td>
-                                                            <th>Company ID</th>
+                                                            <th>Company Name</th>
                                                             <th>Description</th>
 
                                                             <th>Edit</th>
@@ -54,28 +58,28 @@
                                                     <tbody>
                                                         <tr>
                                                             <td>1</td>
-                                                            <td></td>
-                                                            <td></td>
+                                                            <td>TAAI</td>
+                                                            <td>TAAI</td>
 
                                                             <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Company", "Company")"></a></div></td>
                                                             <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("Company", "Company")"></a></div></td>
                                                         </tr>
-                                                        <tr>
+                                                     @*   <tr>
                                                             <td>2</td>
-                                                            <td></td>
-                                                            <td></td>
+                                                            <td>002</td>
+                                                            <td>USA</td>
 
                                                             <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Company", "Company")"></a></div></td>
                                                             <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("Company", "Company")"></a></div></td>
                                                         </tr>
                                                         <tr>
                                                             <td>3</td>
-                                                            <td></td>
-                                                            <td></td>
+                                                            <td>003</td>
+                                                            <td>Singapore</td>
 
                                                             <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Company", "Company")"></a></div></td>
                                                             <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("Company", "Company")"></a></div></td>
-                                                        </tr>
+                                                        </tr>*@
                                                     </tbody>
                                                 </table>
                                             </div>
