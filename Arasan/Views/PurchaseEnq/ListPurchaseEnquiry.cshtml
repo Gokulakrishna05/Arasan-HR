@@ -19,27 +19,34 @@
 
  <script type="text/javascript">
         $(document).ready(function () {
-            var url = "../../sampledata/Purchase.xml";
             var source =
             {
+                url: "/PurchaseEnq/MyListEnquirygrid",
+               datatype: "json",
+                updaterow: function (rowid, rowdata) {
+                  // synchronize with the server - send update command
+              },
                 datafields: [
-                    { name: 'SuppName' },
-                    { name: 'EnqNo' },
-                    { name: 'EnqDate' },
-                    { name: 'Currency' },
-                    { name: 'Branch' }
+                    { name: 'SuppName' , type: 'string'},
+                    { name: 'EnqNo', type: 'string' },
+                    { name: 'EnqDate', type: 'string' },
+                    { name: 'Currency', type: 'string' },
+                    { name: 'Branch', type: 'string' }
                 ],
-                root: "Purchases",
-                record: "Purchase",
                 id: 'PRID',
-                datatype: "xml",
-                async: false,
-                url: url
             };
-            var employeesAdapter = new $.jqx.dataAdapter(source);
-            var orderdetailsurl = "../../sampledata/orderdetails.xml";
+              var employeesAdapter = new $.jqx.dataAdapter(source,
+                { contentType: 'application/json; charset=utf-8' }, {
+                    loadComplete: function () {
+
+                    }
+                }
+            );
+            
+                        
             var ordersSource =
             {
+                 url: "/PurchaseEnq/ListEnquiryItemgrid",
                 datafields: [
                     { name: 'PRID', type: 'string' },
                     { name: 'ProName', type: 'string' },
@@ -48,14 +55,20 @@
                     { name: 'Rate', type: 'float' },
                     { name: 'Amount', type: 'float' }
                 ],
-                root: "Orders",
-                record: "Order",
-                datatype: "xml",
-                url: orderdetailsurl,
+               
+                datatype: "json",
+               
                 async: false
             };
-            var ordersDataAdapter = new $.jqx.dataAdapter(ordersSource, { autoBind: true });
-            orders = ordersDataAdapter.records;
+              var ordersDataAdapter = new $.jqx.dataAdapter(ordersSource,
+                { contentType: 'application/json; charset=utf-8' }, { autoBind: true }
+                );
+              ordersDataAdapter.dataBind();
+            //var ordersDataAdapter = new $.jqx.dataAdapter(ordersSource, { autoBind: true });
+            var orders = ordersDataAdapter.records;
+
+            console.log(orders);
+            
             var nestedGrids = new Array();
             // create nested grid.
             var initrowdetails = function (index, parentElement, gridElement, record) {
@@ -70,6 +83,7 @@
                 // fill the orders depending on the id.
                 var ordersbyid = [];
                 for (var m = 0; m < orders.length; m++) {
+                    alert(m);
                     var result = filter.evaluate(orders[m]["PRID"]);
                     if (result)
                         ordersbyid.push(orders[m]);
@@ -99,25 +113,29 @@
                     });
                 }
             }
-           
+             var renderer = function (row, column, value) {
+                 
+                return '<span style="margin-left: 4px; margin-top: 9px; float: left; ">' + value + '</span>';
+            }
+            
             // creage grid
             $("#grid").jqxGrid(
-            {
-                width: getWidth('Grid'),
-                height: 365,
-                source: source,
-                pageable: true,
-                filterable: true,
-                autoheight: true,
-                sortable: true,
-                rowdetails: true,
-                rowsheight: 35,
-                initrowdetails: initrowdetails,
-                rowdetailstemplate: { rowdetails: "<div id='grid' style='margin: 10px;'></div>", rowdetailsheight: 220, rowdetailshidden: true },
-                ready: function () {
-                    $("#grid").jqxGrid('showrowdetails', 1);
-                },
-                columns: [
+                {
+                    width: getWidth('Grid'),
+                    height: 365,
+                    source: source,
+                    pageable: true,
+                    filterable: true,
+                    autoheight: true,
+                    sortable: true,
+                    rowdetails: true,
+                    rowsheight: 35,
+                    initrowdetails: initrowdetails,
+                    rowdetailstemplate: { rowdetails: "<div id='grid' style='margin: 10px;'></div>", rowdetailsheight: 220, rowdetailshidden: true },
+                    ready: function() {
+                        $("#grid").jqxGrid('showrowdetails', 1);
+                    },
+                    columns: [
                     
                     { text: 'Branch', datafield: 'Branch', width: 200 },
                       { text: 'Supplier Name', datafield: 'SuppName', width: 200 },

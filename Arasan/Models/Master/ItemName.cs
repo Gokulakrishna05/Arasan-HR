@@ -1,7 +1,10 @@
-﻿namespace Arasan.Models
+﻿
+
+namespace Arasan.Models
 {
     public class ItemName
     {
        
     }
+    
 }
