@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using Arasan.Interface;
 using Arasan.Interface.Master;
 using Arasan.Models;
@@ -22,6 +23,6 @@ namespace Arasan.Controllers.Master
         {
             return View();
         }
-
+       
     }
 }

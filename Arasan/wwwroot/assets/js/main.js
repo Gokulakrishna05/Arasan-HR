@@ -94,13 +94,13 @@
 
 // window resize
 $(window).resize(function() {
-    var scrollH = $(window).height();
+    //var scrollH = $(window).height();
 
-    $('#right-sidebar .tab-content').slimScroll({
-        height: scrollH - 45
-    });
-    $('.page-sidebar-fixed .page-sidebar-menu').slimScroll({
-        height: scrollH - 45
-    });
+    //$('#right-sidebar .tab-content').slimScroll({
+    //    height: scrollH - 45
+    //});
+    //$('.page-sidebar-fixed .page-sidebar-menu').slimScroll({
+    //    height: scrollH - 45
+    //});
 
 });

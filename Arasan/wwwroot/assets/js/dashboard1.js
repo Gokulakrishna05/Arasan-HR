@@ -36,34 +36,34 @@
     }
 
 
-    var ctx = document.getElementById("barChart").getContext("2d");
-    var myNewChart = new Chart(ctx).Bar(barData, barOptions);
+    //var ctx = document.getElementById("barChart").getContext("2d");
+    //var myNewChart = new Chart(ctx).Bar(barData, barOptions);
 
 
- $('#SalaryTable').DataTable({
-        dom: 'Bfrtip',
-        buttons: [{
-            text: 'copy',
-            extend: "copy",
-            className: 'btn dark btn-outline'
-        }, {
-            text: 'csv',
-            extend: "csv",
-            className: 'btn aqua btn-outline'
-        }, {
-            text: 'excel',
-            extend: "excel",
-            className: 'btn aqua btn-outline'
-        }, {
-            text: 'pdf',
-            extend: "pdf",
-            className: 'btn yellow  btn-outline'
-        }, {
-            text: 'print',
-            extend: "print",
-            className: 'btn purple  btn-outline'
-        }]
-    });
+ //$('#SalaryTable').DataTable({
+ //       dom: 'Bfrtip',
+ //       buttons: [{
+ //           text: 'copy',
+ //           extend: "copy",
+ //           className: 'btn dark btn-outline'
+ //       }, {
+ //           text: 'csv',
+ //           extend: "csv",
+ //           className: 'btn aqua btn-outline'
+ //       }, {
+ //           text: 'excel',
+ //           extend: "excel",
+ //           className: 'btn aqua btn-outline'
+ //       }, {
+ //           text: 'pdf',
+ //           extend: "pdf",
+ //           className: 'btn yellow  btn-outline'
+ //       }, {
+ //           text: 'print',
+ //           extend: "print",
+ //           className: 'btn purple  btn-outline'
+ //       }]
+ //   });
  
     
 })(jQuery);
