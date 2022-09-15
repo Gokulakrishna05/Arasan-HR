@@ -16,5 +16,9 @@ namespace Arasan.Controllers.Master
         {
             return View();
         }
+        public IActionResult ListBranch()
+        {
+            return View();
+        }
     }
 }

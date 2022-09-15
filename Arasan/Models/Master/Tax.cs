@@ -2,10 +2,7 @@
 
 namespace Arasan.Models
 {
-    public class Branch
+    public class Tax
     {
-        
-
     }
-    }
-
+}

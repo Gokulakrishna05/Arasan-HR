@@ -44,7 +44,7 @@ internal class Program
         builder.Services.TryAddSingleton<IUnitService, UnitService>();
         builder.Services.TryAddSingleton<IQCTestingService, QCTestingService>();
         builder.Services.TryAddSingleton<IHSNcodeService, HSNcodeService>();
-
+        builder.Services.TryAddSingleton<ITaxService, TaxService>();
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
