@@ -17,5 +17,9 @@ namespace Arasan.Controllers.Master
         {
             return View();
         }
+        public IActionResult ListExchangeRate()
+        {
+            return View();
+        }
     }
 }

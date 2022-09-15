@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Arasan.Models.Master
+namespace Arasan.Models
 {
     public class ItemSubGroup
     {

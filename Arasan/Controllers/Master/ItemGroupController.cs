@@ -19,10 +19,7 @@ namespace Arasan.Controllers.Master
             return View();
         }
 
-        public IActionResult ItemSubGroup()
-        {
-            return View();
-        }
+       
 
         public IActionResult ListItemGroup()
         {
