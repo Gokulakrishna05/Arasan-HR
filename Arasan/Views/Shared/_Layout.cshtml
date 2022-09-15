@@ -110,7 +110,7 @@
                         </form>
                         <!-- END RESPONSIVE SEARCH FORM -->
                     </li>
-                    <li class="nav-item ">
+                  @*  <li class="nav-item ">
                         <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-th-large"></i> <span class="title">Dashboard</span> <span class="arrow"></span> </a>
                         <ul class="sub-menu">
                             <li class="nav-item ">
@@ -118,9 +118,18 @@
                             </li>
                           
                         </ul>
-                    </li>
+                    </li>*@
                
+
                    <li class="nav-item">
+
+                            <li class="nav-item ">
+                                <a class="nav-link" href="@Url.Action("Index", "Home")">  <i class="fa fa-th-large"></i><span class="title">Dashboard</span> </a>
+                            </li>
+                          
+                     
+                   <li class="nav-item active open">
+
                         <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-database"></i> <span class="title">Masters</span> <span class="arrow"></span> </a>
                            <ul class="sub-menu">
                              
@@ -181,10 +190,22 @@
                         <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-money"></i> <span class="title">Purchase</span> <span class="arrow"></span> </a>
                            <ul class="sub-menu">
 <li class="nav-item">
+
                                 <a class="nav-link" href="@Url.Action("ListPurchaseEnquiry", "PurchaseEnq")"> <span class="title"> Enquiry</span> </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="@Url.Action("Purchase_Quotations", "PurchaseEnq")"> <span class="title">Quotation</span> </a>
+
+                                <a class="nav-link" href="@Url.Action("ListEnquiry", "PurchaseEnq")"> <span class="title">Purchase Enquiry</span> </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("ListPurchaseQuotation", "PurchaseEnq")"> <span class="title">Purchase Quotations</span> </a>
+                            </li>
+
+
+                            <li class="nav-item active">
+                                <a class="nav-link" href="@Url.Action("Direct_Purchase", "PurchaseEnq")"> <span class="title">Direct Purchase</span> </a>
+
                             </li>
                              <li class="nav-item">
                                 <a class="nav-link" href="@Url.Action("Purchase_Order", "PurchaseEnq")"> <span class="title">Purchase Order</span> </a>
