@@ -17,7 +17,14 @@ namespace Arasan.Controllers
         {
             return View();
         }
-
+        public IActionResult PurchaseFollowup()
+        {
+            return View();
+        }
+        public IActionResult PurchaseQuotationFollowup()
+        {
+            return View();
+        }
         public IActionResult ListPurchaseEnquiry()
         {
             return View();
@@ -54,7 +61,14 @@ namespace Arasan.Controllers
         {
             return View();
         }
-
+        public IActionResult ListEnquiry()
+        {
+            return View();
+        }
+        public IActionResult ListPurchaseQuotation()
+        {
+            return View();
+        }
         public ActionResult MyListEnquirygrid(EnquiryList CL)
         {
             EnquiryList objProductsData = new EnquiryList();
