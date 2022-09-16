@@ -45,6 +45,8 @@ internal class Program
         builder.Services.TryAddSingleton<IQCTestingService, QCTestingService>();
         builder.Services.TryAddSingleton<IHSNcodeService, HSNcodeService>();
         builder.Services.TryAddSingleton<ITaxService, TaxService>();
+        builder.Services.TryAddSingleton<IPartyMasterService, PartyMasterService>();
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
