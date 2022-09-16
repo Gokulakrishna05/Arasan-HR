@@ -197,6 +197,9 @@
 							<li class="nav-item">
                                 <a class="nav-link" href="@Url.Action("ListTax", "Tax")"> <span class="title">Tax</span> </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("PartyMaster", "PartyMaster")"> <span class="title">Party Master</span> </a>
+                            </li>
                         </ul>
                     </li>
                    
@@ -226,6 +229,7 @@
 							 <li class="nav-item">
                                 <a class="nav-link" href="@Url.Action("GRN_CUM_BILL", "PurchaseEnq")"> <span class="title">GRN</span> </a>
                             </li>
+
 							
 
                                  <li class="nav-item">
@@ -326,13 +330,13 @@
 
                         <ul class="sub-menu"> Material Requisition
 
-                            <li class="nav-item"><a class="nav-link" href="@Url.Action("Material_Requisition", "StoresReturn")">Material Requisition</a></li>
+                            <li class="nav-item"><a class="nav-link" href="@Url.Action("List_Material_Requisition", "StoresReturn")">Material Requisition</a></li>
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("StoresReturn", "StoresReturn")">Stores Return</a></li>
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("Returnable_NonReturnable_Dc", "StoresReturn")">Returnable NonReturnable Dc</a></li>
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("Stores_Acceptance", "StoresReturn")">Stores Acceptance</a></li>
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("Receipt_Against_Returnable_DC", "StoresReturn")">Receipt Against Returnable DC</a></li>
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("Stores_Issuse_Consumbables", "StoresReturn")">Stores Issuse Consumbables</a></li>
-                            <li class="nav-item"><a class="nav-link" href="@Url.Action("Purchase_Indent", "StoresReturn")">Purchase Indent</a></li>
+                            <li class="nav-item"><a class="nav-link" href="@Url.Action("List_Purchase_Indent", "StoresReturn")">Purchase Indent</a></li>
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("Stores_Issuse_Production", "StoresReturn")">Stores Issuse Production</a></li>
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("Material_Requisition_Short_Close", "StoresReturn")">Material Requisition Short Close</a></li>
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("Purchase_Return", "StoresReturn")">Purchase Return</a></li>
