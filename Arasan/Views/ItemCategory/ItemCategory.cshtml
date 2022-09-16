@@ -1,7 +1,7 @@
 ﻿@model Arasan.Models.ItemCategory
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Category";
 }
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
@@ -19,10 +19,12 @@
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="widgets-container">
-                    <h5 style="font-size:14px">Item Category</h5>
+                  
                     <hr>
                     <form>
                         <div class="row">
+
+                            <div class="col-lg-3"></div>
                             <div class="col-md-6">
                                 <div class="form-group">
 
@@ -34,9 +36,10 @@
                             </div>
                              </div>
                             <div style="height:30px;"></div>
+                        <div class="col-lg-8"></div>
                             <a button type="submit" class="btn aqua m-t-xs bottom15-xs" href="@Url.Action("ListItemCategory", "ItemCategory")">Submit</a>
                             <a button class="btn btn-danger" type="submit" href="@Url.Action("ListItemCategory", "ItemCategory")">Cancel</a>
-                       
+                      
                     </form>
                 </div>
             </div>
