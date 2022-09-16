@@ -11,7 +11,7 @@
         <ol class="breadcrumb">
           <li> <a href="#">Home</a> </li>
           <li> <a>Transaction</a> </li>
-           <li> <a href="/PurchaseEnq/ListPurchaseQuotation">Purchase Quotations</a> </li>
+           <li> <a href="/PurchaseEnq/ListPO">Purchase Order</a> </li>
           <li class="active"> <strong>Followup </strong> </li>
         </ol>
       </div>
@@ -27,10 +27,10 @@
 			 <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="inputName3" class="col-sm-4 control-label">Quotation ID <label class="Mandatory"></label></label>
+                                                <label for="inputName3" class="col-sm-4 control-label">PO ID <label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
                                                    
-                                                   QUOT-000001/22-23
+                                                   PO-000001/22-23
                                                 </div>
                                             </div>
                                         </div>
@@ -60,7 +60,7 @@
                                         </div>
                                          <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="inputName3" class="col-sm-4 control-label">Quotation Status<label class="Mandatory"></label></label>
+                                                <label for="inputName3" class="col-sm-4 control-label">PO Status<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
                                                  <select class=" _select js-states form-control">
                        
@@ -113,8 +113,8 @@
                                         </div>
                                     </div>
 
-                        <a button type="submit" class="btn aqua m-t-xs bottom15-xs" href="@Url.Action("ListPurchaseQuotation", "PurchaseEnq")">Submit</a>
-                        <a button class="btn btn-danger" type="submit" href="@Url.Action("ListPurchaseQuotation", "PurchaseEnq")">Cancel</a>
+                        <a button type="submit" class="btn aqua m-t-xs bottom15-xs" href="@Url.Action("ListPO", "PurchaseEnq")">Submit</a>
+                        <a button class="btn btn-danger" type="submit" href="@Url.Action("ListPO", "PurchaseEnq")">Cancel</a>
 
 
 
@@ -146,8 +146,8 @@
                                                             <td>09-Sep-2022</td>
                                                              <td>22-Sep-2022</td>
                                                              <td>Remarks</td>
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("PurchaseQuotationFollowup", "PurchaseEnq")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("PurchaseQuotationFollowup", "PurchaseEnq")"></a></div></td>
+                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("PurchaseFollowup", "PurchaseEnq")"></a></div></td>
+                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("PurchaseFollowup", "PurchaseEnq")"></a></div></td>
                                                         </tr>
                                                         <tr>
                                                             <td>2</td>
@@ -155,8 +155,8 @@
                                                             <td>09-Sep-2022</td>
                                                              <td>22-Sep-2022</td>
                                                              <td>Remarks</td>
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("PurchaseQuotationFollowup", "PurchaseEnq")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("PurchaseQuotationFollowup", "PurchaseEnq")"></a></div></td>
+                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("PurchaseFollowup", "PurchaseEnq")"></a></div></td>
+                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("PurchaseFollowup", "PurchaseEnq")"></a></div></td>
                                                         </tr>
                                                         <tr>
                                                             <td>3</td>
@@ -164,8 +164,8 @@
                                                             <td>09-Sep-2022</td>
                                                              <td>22-Sep-2022</td>
                                                              <td>Remarks</td>
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("PurchaseQuotationFollowup", "PurchaseEnq")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("PurchaseQuotationFollowup", "PurchaseEnq")"></a></div></td>
+                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("PurchaseFollowup", "PurchaseEnq")"></a></div></td>
+                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("PurchaseFollowup", "PurchaseEnq")"></a></div></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>

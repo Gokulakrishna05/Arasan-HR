@@ -21,6 +21,10 @@ namespace Arasan.Controllers
         {
             return View();
         }
+        public IActionResult POFollowup()
+        {
+            return View();
+        }
         public IActionResult PurchaseQuotationFollowup()
         {
             return View();
@@ -66,6 +70,14 @@ namespace Arasan.Controllers
             return View();
         }
         public IActionResult ListPurchaseQuotation()
+        {
+            return View();
+        }
+        public IActionResult ListPO()
+        {
+            return View();
+        }
+        public IActionResult ListGRN()
         {
             return View();
         }
