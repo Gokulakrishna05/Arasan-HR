@@ -32,6 +32,10 @@ namespace Arasan.Controllers.Stores_Management
         {
             return View();
         }
+        public IActionResult List_Purchase_Indent()
+        {
+            return View();
+        }
         public IActionResult Stores_Issuse_Production()
         {
             return View();
@@ -69,6 +73,10 @@ namespace Arasan.Controllers.Stores_Management
             return View();
         }
         public IActionResult Material_Requisition()
+        {
+            return View();
+        }
+        public IActionResult List_Material_Requisition()
         {
             return View();
         }
