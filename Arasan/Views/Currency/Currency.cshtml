@@ -27,28 +27,42 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">CurrencyCode<label class="Mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Currency Code<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.CurrencyCode, new { @id = "txtCurrencyCode", @class = "form-control", @TabIndex = 2 })
+                                        <select class=" _select js-states form-control">
+
+                                            <option> </option>
+                                            <option value="CH">	INR </option>
+                                            <option value="KA">	EUR </option>
+                                            <option value="TAAI">AUD </option>
+
+                                        </select><br />
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">CurrencyName<label class="Mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Currency Name<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.CurrencyName, new { @id = "txtCurrencyName", @class = "form-control", @TabIndex = 2 })
+                                        <select class=" _select js-states form-control">
+
+                                            <option> </option>
+                                            <option value="CH">	rupee </option>
+                                            <option value="KA">	euro </option>
+                                            <option value="TAAI">dollar </option>
+
+                                        </select><br />
                                     </div>
 
                                 </div>
                             </div>
-
-                            <div style="height:30px;"></div>
-                            <button type="submit" class="btn aqua m-t-xs bottom15-xs">Submit</button>
-                            <button class="btn btn-danger" type="submit">Cancel</button>
-
                         </div>
+                            <div style="height:30px;"></div>
+                        <a button type="submit" class="btn aqua m-t-xs bottom15-xs" href="@Url.Action("ListCurrency", "Currency")">Submit</a>
+                        <a button class="btn btn-danger" type="submit" href="@Url.Action("ListCurrency", "Currency")">Cancel</a>
+
+                       
 
                     </form>
                 </div>

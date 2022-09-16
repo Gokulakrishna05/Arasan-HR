@@ -1,15 +1,14 @@
-﻿@model Arasan.Models.ExchangeRate
+﻿@model Arasan.Models.Tax
 
 @{
-    ViewData["Title"] = "Exchange Rate";
+    ViewData["Title"] = "Tax";
 }
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
-
-        <ol class="breadcrumb">
+    <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Master</a> </li>
-            <li class="active"> <strong>Exchange Rate</strong> </li>
+            <li class="active"> <strong>Tax</strong> </li>
         </ol>
     </div>
 </div>
@@ -24,10 +23,9 @@
                         <div class="row">
                             <div class="col-md-12 ">
                                 <div class=" textalignright">
-                                    <a href="@Url.Action("ExchangeRate", "ExchangeRate")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Item</a>
+                                    <a href="@Url.Action("Tax","Tax")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Tax</a>
                                     <br>
                                 </div>
-
 
                             </div>
                         </div>
@@ -35,7 +33,6 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="ibox float-e-margins">
-
                                     <div class="ibox-content collapse in">
                                         <div class="widgets-container">
                                             <div>
@@ -43,9 +40,9 @@
                                                     <thead>
                                                         <tr>
                                                             <td>S.No</td>
-                                                            <th>Currency Name </th>
-                                                            <th>Exchange Rate</th>
-                                                            <th>Exchange Date</th>
+                                                            <th>Tax Type </th>
+                                                            <th>Percentage [%]</th>
+                                                           
                                                             <th>Edit</th>
                                                             <th>Delete</th>
                                                         </tr>
@@ -54,27 +51,25 @@
                                                     <tbody>
                                                         <tr>
                                                             <td>1</td>
-                                                            <td>Dollar</td>
-                                                            <td>79.58</td>
-                                                            <td>15/09/2022</td>
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("ExchangeRate", "ExchangeRate")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("ExchangeRate", "ExchangeRate")"></a></div></td>
+                                                            <td>GST</td>
+                                                            <td>5%</td>
+                                                        
+                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("tax", "tax")"></a></div></td>
+                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href ="@Url.Action("tax", "tax")"></a></div></td>
                                                         </tr>
                                                         <tr>
                                                             <td>2</td>
-                                                            <td>Pound</td>
-                                                            <td>91.63</td>
-                                                            <td>15/09/2022</td>
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("ExchangeRate", "ExchangeRate")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("ExchangeRate", "ExchangeRate")"></a></div></td>
+                                                            <td>CST</td>
+                                                            <td>2%</td>
+                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("tax", "tax")"></a></div></td>
+                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("tax", "tax")"></a></div></td>
                                                         </tr>
                                                         <tr>
                                                             <td>3</td>
-                                                            <td>Yen</td>
-                                                            <td>0.55</td>
-                                                            <td>15/09/2022</td>
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("ExchangeRate", "ExchangeRate")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("ExchangeRate", "ExchangeRate")"></a></div></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("tax", "tax")"></a></div></td>
+                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("tax", "tax")"></a></div></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -84,9 +79,6 @@
                                 </div>
                             </div>
                         </div>
-
-
-
                     </form>
                 </div>
             </div>

@@ -29,36 +29,28 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Company Name<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.CompanyName, new { @id = "txtCompanyName", @class = "form-control", @TabIndex = 2 })
+                                        <input class="form-control" id="inputEmail3" placeholder="" type="text">
                                     </div>
                                 </div>
-                            </div><br />
+                            </div>
                             <div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">Branch Name<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.BranchName, new { @id = "txtBranchName", @class = "form-control", @TabIndex = 2 })<br />
+                                        <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
                                     </div>
 
                                 </div>
                             </div>
+                            </div>
+                            <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">Address<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.TextAreaFor(C => C.Addr, new { @id = "txtAddr", @class = "form-control", @TabIndex = 2 ,Row=3 })
-                                    </div>
-
-                                </div>
-                            </div><br />
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                    <label for="inputName3" class="col-sm-4 control-label">Country<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.Country, new { @id = "txtCountry", @class = "form-control", @TabIndex = 2 })<br />
+                                        <input class="form-control" id="inputEmail3" placeholder="" type="text">
                                     </div>
 
                                 </div>
@@ -66,9 +58,21 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
+                                    <label for="inputName3" class="col-sm-4 control-label">Country<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
+                                    </div>
+
+                                </div>
+                            </div>
+                            </div>
+                            <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
                                     <label for="inputName3" class="col-sm-4 control-label">State<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.State, new { @id = "txtState", @class = "form-control", @TabIndex = 2 })<br />
+                                        <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
                                     </div>
 
                                 </div>
@@ -78,17 +82,19 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">City<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.City, new { @id = "txtCity", @class = "form-control", @TabIndex = 2 })<br />
+                                        <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
                                     </div>
 
                                 </div>
                             </div>
+                            </div>
+                            <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">Pin Code<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.PinCode, new { @id = "txtPinCode", @class = "form-control", @TabIndex = 2 })<br />
+                                        <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
                                     </div>
 
                                 </div>
@@ -98,25 +104,27 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">GST No<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.GSTNo, new { @id = "txtGSTNo", @class = "form-control", @TabIndex = 2 })<br />
+                                        <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
                                     </div>
 
                                 </div>
                             </div>
+                            </div>
+                            <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">GST Date<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.GSTDate, new { @id = "txtGSTDate", @class = "form-control", @TabIndex = 2 }) <br />
+                                        <input class="form-control" id="inputEmail3" placeholder="" type="date">
                                     </div>
 
                                 </div>
                             </div>
                             </div>
                             <div style="height:30px;"></div>
-                            <button type="submit" class="btn aqua m-t-xs bottom15-xs">Submit</button>
-                            <button class="btn btn-danger" type="submit">Cancel</button>
+                        <a button type="submit" class="btn aqua m-t-xs bottom15-xs" href="@Url.Action("ListBranch", "Branch")">Submit</a>
+                        <a button class="btn btn-danger" type="submit" href="@Url.Action("ListBranch", "Branch")">Cancel</a>
 
                     </form>
                 </div>
