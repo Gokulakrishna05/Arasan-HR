@@ -141,36 +141,36 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="@Url.Action("ListBranch", "Branch")"> <span class="title">Branch </span> </a>
                             </li>
-                            
-                            
                            
-                             <li class="nav-item active">
-                                <a class="nav-link" href="@Url.Action("List ItemCategory", "ItemCategory")"> <span class="title">Item Category</span> </a>
+                            </ul> </li>
 
-
+                          	<li class="nav-item">
+                                <a class="nav-link" href="javascript:;"> <span class="arrow nav-toggle">Item </span> </a>
+                                        <ul class="sub-menu">
+                           
+                             <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("ListItemCategory", "ItemCategory")"> <span class="title">Item Category</span> </a>
                             </li>
-							
 
 							 <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("ListItemGroup", "ItemGroup")"> <span class="title">Item Group</span> </a>
+                                <a class="nav-link" href="@Url.Action("ListItemGroup", "ItemGroup")"> <span class="title">Item Group</span> </a></li>
 
                             <li class="nav-item active">
                                 <a class="nav-link" href="@Url.Action("ListItemSubGroup", "ItemSubGroup")"> <span class="title">Item SubGroup</span> </a>
                             </li>
-							
-							<li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("ItemList", "ItemName")"> <span class="title">Item </span> </a>
+							 <li class="nav-item active">
+                                <a class="nav-link" href="@Url.Action("ItemList", "ItemName")"> <span class="title">Item</span> </a>
                             </li>
-
+						
+                           
+                            </ul>
+							 </li>
 							
 							
-							</ul>
 							<li class="nav-item">
                                 <a class="nav-link" href="@Url.Action("ListCurrency", "Currency")"> <span class="title">Currency</span> </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("ListUnit", "Unit")"> <span class="title">Unit </span> </a>
-                            </li>
+                          
                             <li class="nav-item">
                                 <a class="nav-link" href="@Url.Action("ListCountry", "Country")"> <span class="title">Country</span> </a>
                             </li>
@@ -182,9 +182,6 @@
 
                              <li class="nav-item">
                                 <a class="nav-link" href="@Url.Action("ListUnit", "Unit")"> <span class="title">Unit </span> </a>
-                            </li>
-                             <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("ListHSNcode", "HSNcode")"> <span class="title">HSNCode</span> </a>
                             </li>
                            
                            
@@ -208,28 +205,19 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="@Url.Action("ListPurchaseQuotation", "PurchaseEnq")"> <span class="title">Quotation</span> </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("ListPurchaseQuotation", "PurchaseEnq")"> <span class="title">Purchase Quotations</span> </a>
-                            </li>
-
-
+                           
                             <li class="nav-item active">
                                 <a class="nav-link" href="@Url.Action("Direct_Purchase", "PurchaseEnq")"> <span class="title">Direct Purchase</span> </a>
 
                             </li>
                              <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("Purchase_Order", "PurchaseEnq")"> <span class="title">Purchase Order</span> </a>
+                                <a class="nav-link" href="@Url.Action("ListPO", "PurchaseEnq")"> <span class="title">Purchase Order</span> </a>
                             </li>                                          
 							
 							 <li class="nav-item">
                                 <a class="nav-link" href="@Url.Action("GRN_CUM_BILL", "PurchaseEnq")"> <span class="title">GRN</span> </a>
                             </li>
-							
-
-                                 <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("Direct_Purchase", "PurchaseEnq")"> <span class="title">Direct Purchase</span> </a>
-                            </li>
-							
+														
 						@*	<li class="nav-item">
                                 <a class="nav-link" href="@Url.Action("Purchse_Order_close", "PurchaseEnq")"> <span class="title">Purchase Order Short close</span> </a>
                             </li>
