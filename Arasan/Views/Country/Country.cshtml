@@ -1,7 +1,7 @@
 ﻿@model Arasan.Models.Country
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Country";
 }
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
@@ -9,7 +9,7 @@
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Master</a> </li>
-            <li class="active"> <strong>Country Master</strong> </li>
+            <li class="active"> <strong>Country </strong> </li>
         </ol>
     </div>
 </div>
@@ -20,7 +20,7 @@
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="widgets-container">
-                    <h5 style="font-size:14px">Country Master</h5>
+                  
                     <hr>
                     <form>
                         <div class="row">
@@ -63,7 +63,7 @@
                             </div>
                         </div>
                             <div style="height:30px;"></div>
-                        <div class="col-lg-3"></div>
+                        <div class="col-lg-8"></div>
                            <a button type="submit" class="btn aqua m-t-xs bottom15-xs" href="@Url.Action("ListCountry", "Country")">Submit</a>
                             <a button class="btn btn-danger" type="submit" href="@Url.Action("ListCountry", "Country")">Cancel</a>
 
