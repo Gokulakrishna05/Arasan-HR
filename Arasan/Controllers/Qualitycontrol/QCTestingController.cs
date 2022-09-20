@@ -8,7 +8,6 @@ namespace Arasan.Controllers
 {
     public class QCTestingController : Controller
     {
-
         IQCTestingService QCTestingService;
         public QCTestingController(IQCTestingService _QCTestingService)
         {
@@ -46,6 +45,5 @@ namespace Arasan.Controllers
         {
             return View();
         }
-
     }
 }
