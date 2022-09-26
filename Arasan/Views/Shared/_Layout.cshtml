@@ -18,13 +18,10 @@
     <!-- jvectormap -->
 	<link href="~/assets/css/jqvmap.css" rel="stylesheet">
 
-    
-
 	<!-- dataTables -->
 	<link href="~/assets/css/buttons.dataTables.min.css" rel="stylesheet">
 	<link href="~/assets/css/dataTables.bootstrap.min.css" rel="stylesheet">
 	<link href="~/assets/css/responsive.dataTables.min.css" rel="stylesheet">
-	<link href="~/assets/css/fixedHeader.dataTables.min.css" rel="stylesheet">
 
 
     <!-- Fontes -->
@@ -154,19 +151,16 @@
                             </li>
 
 
-                              <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("ListCountry", "Country")"> <span class="title">Country</span> </a>
+                             	 <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("ListItemGroup", "ItemGroup")"> <span class="title">Item Group</span> </a></li>
+
+                            <li class="nav-item active">
+                                <a class="nav-link" href="@Url.Action("ListItemSubGroup", "ItemSubGroup")"> <span class="title">Item SubGroup</span> </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("ListState", "State")"> <span class="title">State </span> </a>
+							 <li class="nav-item active">
+                                <a class="nav-link" href="@Url.Action("ItemList", "ItemName")"> <span class="title">Item</span> </a>
                             </li>
-                        
-                            
-
-
-
-
-                            	</ul>
+                           </ul></li>
                                  <li class="nav-item"> <a class="nav-link" href="javascript:;"> Common <span class="arrow nav-toggle"></span> </a>  
                                       <ul class="sub-menu">
                                           <li class="nav-item">
@@ -187,9 +181,17 @@
 							<li class="nav-item">
                                 <a class="nav-link" href="@Url.Action("ListTax", "Tax")"> <span class="title">Tax</span> </a>
                             </li>
+
+                             <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("ListCountry", "Country")"> <span class="title">Country</span> </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("ListState", "State")"> <span class="title">State </span> </a>
+                            </li>
+                        
                                           	</ul>
                                             </li>
-                              <li class="nav-item"> <a class="nav-link" href="javascript:;"> Item <span class="arrow nav-toggle"></span> </a>  
+                              @*<li class="nav-item"> <a class="nav-link" href="javascript:;"> Item <span class="arrow nav-toggle"></span> </a>  
                                     <ul class="sub-menu">
                              <li class="nav-item">
                                 <a class="nav-link" href="@Url.Action("ListItemCategory", "ItemCategory")"> <span class="title">Item Category</span> </a>
@@ -208,23 +210,11 @@
 						
                            
                             </ul>
-							 </li>
+							 </li>*@
                             <li class="nav-item">
                                 <a class="nav-link" href="@Url.Action("PartyMaster", "PartyMaster")"> <span class="title">Party Master</span> </a>
                             </li>
 
-
-							
-
-                           
-                           
-                           
-							
-                            <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("PartyMaster", "PartyMaster")"> <span class="title">Party Master</span> </a>
-                            
-
-                    </li>
                         </ul>
                     <li class="nav-item">
                 

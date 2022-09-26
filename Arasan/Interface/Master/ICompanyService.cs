@@ -5,6 +5,6 @@ namespace Arasan.Interface.Master
 {
     public interface ICompanyService
     {
-
+        IEnumerable<Company> GetAllCompany();
     }
 }

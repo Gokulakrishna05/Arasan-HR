@@ -1,4 +1,4 @@
-﻿@model Arasan.Models.Company
+﻿@model IEnumerable<Arasan.Models.Company>
 
 @{
     ViewData["Title"] = "Company";
@@ -59,14 +59,17 @@
                                                     </thead>
 
                                                     <tbody>
+                                                       
+                                                        @foreach (var item in Model) {
                                                         <tr>
                                                             <td>1</td>
-                                                            <td>TAAI</td>
-                                                            <td>TAAI</td>
+                                                            <td>@Html.DisplayFor(modelItem => item.CompanyId)</td>
+                                                            <td>@Html.DisplayFor(modelItem => item.CompanyName)</td>
 
                                                             <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Company", "Company")"></a></div></td>
                                                             <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("Company", "Company")"></a></div></td>
                                                         </tr>
+                                                       }
                                                      @*   <tr>
                                                             <td>2</td>
                                                             <td>002</td>
