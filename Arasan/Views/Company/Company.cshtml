@@ -22,6 +22,9 @@
                 <div class="widgets-container">
                   
                     <hr>
+                      @using (Html.BeginForm("Company", "Company", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
                     <form>
                         <div class="row">
                             <div class="col-lg-3"></div>
@@ -30,7 +33,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label"> Company ID<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
+                                        @Html.TextBoxFor(C => C.CompanyId, new { @id = "txtCompanyId", @class = "form-control", @TabIndex = 1 })<br />
                                     </div>
                                 </div>
                             </div>
@@ -42,7 +45,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label"> Description <label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
+                                        @Html.TextBoxFor(C => C.CompanyName, new { @id = "txtCompanyName", @class = "form-control", @TabIndex = 1 })<br />
                                     </div>
 
                                 </div>
@@ -52,12 +55,13 @@
                           
                             <div style="height:30px;"></div>
                         <div class="col-lg-8"></div>
-                            <a button type="submit" class="btn aqua m-t-xs bottom15-xs" href="@Url.Action("ListCompany", "Company")">Submit</a>
+                        <button type="submit" name="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" value="Save" tabindex="18">Save</button>
                             <a button class="btn btn-danger" type="submit" href="@Url.Action("ListCompany", "Company")">Cancel</a>
 
                
 
                     </form>
+                   }
                 </div>
             </div>
         </div>
