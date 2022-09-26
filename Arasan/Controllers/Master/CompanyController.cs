@@ -13,14 +13,61 @@ namespace Arasan.Controllers
         {
             CompanyService = _CompanyService;
         }
-        public IActionResult Company()
+        public IActionResult Company(string id)
         {
-            return View();
+            Company ca = new Company();
+            if (id == null)
+            {
+               
+            }
+            else {
+                ca = CompanyService.GetCompanyById(id);
+              
+            }
+            return View(ca);
+        }
+        [HttpPost]
+        public ActionResult Company(Company Cy, string id)
+        {
+
+            try
+            {
+                Cy.ID =id;
+                string Strout = CompanyService.CompanyCRUD(Cy);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Cy.ID == null)
+                    {
+                        TempData["notice"] = "Company Inserted Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "Company Updated Successfully...!";
+                    }
+                    return RedirectToAction("ListCompany");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit Company";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(Cy);
         }
         public IActionResult ListCompany()
         {
             IEnumerable<Company> cmp = CompanyService.GetAllCompany();
             return View(cmp);
         }
+
     }
 }
