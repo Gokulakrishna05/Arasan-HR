@@ -21,6 +21,7 @@ namespace Arasan.Services.Master
             List<Company> cmpList = new List<Company>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
+
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
