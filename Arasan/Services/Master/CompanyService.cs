@@ -19,10 +19,11 @@ namespace Arasan.Services.Master
             List<Company> cmpList = new List<Company>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
+
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select COMPANYID,COMPANYDESC,COMPANYMAST from COMPANYMAST";
+                    cmd.CommandText = "Select COMPANYID,COMPANYDESC,COMPANYMASTID from COMPANYMAST";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
