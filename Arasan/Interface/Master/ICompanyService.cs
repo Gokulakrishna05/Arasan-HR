@@ -5,8 +5,8 @@ namespace Arasan.Interface.Master
 {
     public interface ICompanyService
     {
+        string CompanyCRUD(Company cy);
         IEnumerable<Company> GetAllCompany();
         Company GetCompanyById(string id);
-        string CompanyCRUD(Company cy);
     }
 }
