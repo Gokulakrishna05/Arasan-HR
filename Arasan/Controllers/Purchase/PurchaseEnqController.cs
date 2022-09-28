@@ -50,6 +50,10 @@ namespace Arasan.Controllers
         }
         public IActionResult Purchase_Order()
         {
+                                                                                                                                                                                                                                                                                        
+
+
+
             return View();
         }
         public IActionResult Purchse_Order_close()

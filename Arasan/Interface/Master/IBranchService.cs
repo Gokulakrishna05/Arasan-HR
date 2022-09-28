@@ -4,6 +4,10 @@ using System.Collections;
 namespace Arasan.Interface.Master
 {
     public interface IBranchService
+
+
     {
     }
 }
+
+
