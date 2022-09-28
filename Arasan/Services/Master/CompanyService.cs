@@ -59,7 +59,7 @@ namespace Arasan.Services.Master
                             ID = rdr["COMPANYMASTID"].ToString(),
                             CompanyId = rdr["COMPANYID"].ToString(),
                             CompanyName = rdr["COMPANYDESC"].ToString()
-                        };
+                        }
                         company = cmp;
                     }
                 }
