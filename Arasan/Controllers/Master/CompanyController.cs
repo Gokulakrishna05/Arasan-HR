@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Arasan.Controllers
 {
     public class CompanyController : Controller
+       
     {
         ICompanyService CompanyService;
         public CompanyController (ICompanyService _CompanyService)
@@ -16,7 +17,7 @@ namespace Arasan.Controllers
         public IActionResult Company(string id)
         {
             Company ca = new Company();
-            if (id == null)
+            if (id == null) 
             {
                
             }
@@ -32,7 +33,7 @@ namespace Arasan.Controllers
 
             try
             {
-                Cy.ID =id;
+                Cy.ID = id;
                 string Strout = CompanyService.CompanyCRUD(Cy);
                 if (string.IsNullOrEmpty(Strout))
                 {
