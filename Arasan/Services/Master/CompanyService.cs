@@ -74,24 +74,28 @@ namespace Arasan.Services.Master
             try
             {
                 string StatementType = string.Empty; string svSQL = "";
-                if (cy.ID == null)
-                {
-                    StatementType = "Insert";
-                }
-                else
-                {
-                    StatementType = "Update";
-                }
+                
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
-                    OracleCommand objCmd = new OracleCommand();
-                    objCmd.Connection = objConn;
-                    objCmd.CommandText = "COMPANYPROC";
+                    OracleCommand objCmd = new OracleCommand("COMPANYPROC", objConn);
+                    /*objCmd.Connection = objConn;
+                    objCmd.CommandText = "COMPANYPROC";*/
+                    
                     objCmd.CommandType = CommandType.StoredProcedure;
-                    objCmd.Parameters.Add("ID", OracleDbType.Long).Value = cy.ID;
-                    objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
-                    objCmd.Parameters.Add("CompanyId", OracleDbType.NVarchar2).Value = cy.CompanyId;
+                    if (cy.ID == null)
+                    {
+                        StatementType = "Insert";
+                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                    }
+                    else
+                    {
+                        StatementType = "Update";
+                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                    }
+                    
+                    objCmd.Parameters.Add("Company", OracleDbType.NVarchar2).Value = cy.CompanyId;
                     objCmd.Parameters.Add("CompanyName", OracleDbType.NVarchar2).Value = cy.CompanyName;
+                    objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     try
                     {
                         objConn.Open();

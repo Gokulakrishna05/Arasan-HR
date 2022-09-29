@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
 using Arasan.Interface;
+using Arasan.Services;
 using Arasan.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Arasan.Interface.Master;
 
 namespace Arasan.Controllers
 {
@@ -15,7 +18,98 @@ namespace Arasan.Controllers
         }
         public IActionResult PurchaseEnquiry()
         {
-            return View();
+            PurchaseEnquiry ca = new PurchaseEnquiry();
+            ca.Brlst = BindBranch();
+            ca.Suplst = BindSupplier();
+            ca.Curlst = BindCurrency();
+            List<EnqItem> TData = new List<EnqItem>();
+            EnqItem tda = new EnqItem();
+            for (int i = 0; i < 3; i++)
+            {
+                tda = new EnqItem();
+                tda.Itemlst = BindItemlst();
+              TData.Add(tda);
+            }
+            ca.EnqLst = TData;
+          return View(ca);
+        }
+
+        public List<SelectListItem> BindBranch()
+        {
+            try
+            {
+                DataTable dtDesg = PurenqService.GetBranch();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["BRANCHID"].ToString(), Value = dtDesg.Rows[i]["BRANCHMASTID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<SelectListItem> BindSupplier()
+        {
+            try
+            {
+                DataTable dtDesg = PurenqService.GetSupplier();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTY"].ToString(), Value = dtDesg.Rows[i]["PARTYMASTID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindCurrency()
+        {
+            try
+            {
+                DataTable dtDesg = PurenqService.GetCurency();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["Cur"].ToString(), Value = dtDesg.Rows[i]["CURRENCYID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<SelectListItem> BindItemlst()
+        {
+            try
+            {
+                DataTable dtDesg = PurenqService.GetItem();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEMMASTERID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpPost]
+        public JsonResult GetItemJSON()
+        {
+            return Json(BindItemlst());
+
         }
         public IActionResult PurchaseFollowup()
         {

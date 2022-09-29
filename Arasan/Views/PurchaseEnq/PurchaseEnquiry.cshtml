@@ -26,13 +26,10 @@
                                             
                                                 <label for="inputName3" class="col-sm-4 control-label">Branch<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                   <select class=" _select js-states form-control">
+                                                
+                        @Html.DropDownListFor(C => C.Branch, Model.Brlst, new { @id = "ddlBranch", @Class = "form-control chosen-select", @TabIndex = 1 })
                        
-                       
-                        <option value="TAAI">(TAAI)SVK - FACTORY </option>
-                        
-                      </select>
-                                                </div>
+                              </div>
                                             </div>
                                         </div>
                                          <div class="col-md-6">
@@ -40,12 +37,9 @@
                                             
                                                 <label for="inputName3" class="col-sm-4 control-label">Supplier Name<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                   <select class=" _select js-states form-control">
-                       
-                       
-                        <option value="TAAI">Supplier Name </option>
-                        
-                      </select>
+                                                   @Html.DropDownListFor(C => C.Supplier, Model.Suplst, new { @id = "ddlSupplier", @Class = "form-control chosen-select", @TabIndex = 1 })
+                                                    
+                                                 
                                                 </div>
                                             </div>
                                         </div>
@@ -85,12 +79,7 @@
                                             
                                                 <label for="inputName3" class="col-sm-4 control-label">Currency<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                    <select class=" _select js-states form-control">
-                       
-                       
-                        <option value="RS">Rupees </option>
-                        <option value="DO">Dollar </option>
-                      </select>
+                                                   @Html.DropDownListFor(C => C.Currency, Model.Curlst, new { @id = "ddlCurrency", @Class = "form-control chosen-select", @TabIndex = 1 })
                                                 </div>
                                             </div>
                                         </div>
@@ -132,7 +121,7 @@
 			 <div class="row">
 			 <div class="col-md-12">
                         <div class="btn-group">
-                          <button class="btn sbold green" id="addRow"> Add New <i class="fa fa-plus"></i> </button>
+                          <button class="btn sbold green" onclick="AddRow()" id="addRow"> Add New <i class="fa fa-plus"></i> </button>
                         </div>
                       </div>
 			 
@@ -158,52 +147,52 @@
                           <th> Amount </th>
                         </tr>
                       </thead>
-                      <tbody>
-                        <tr>
-                          <td> 1 </td>
-                          <td>  <select class=" _select js-states form-control">
-                        <option value="RS">Empty Old Drums Renaatus </option>
+                      <tbody id="tbBooks">
+                                                        @{
 
-                      </select></td>
-                          <td><input class="form-control" id="inputEmail3" placeholder="Description" type="text"> </td>
-						   <td><input class="form-control" id="inputEmail3" placeholder="Unit" type="text"> </td>
-						    <td><input class="form-control" id="inputEmail3" placeholder="Conv. Factor" type="text"> </td>
-							  <td><input class="form-control" id="inputEmail3" placeholder="0" type="text"> </td>
-                               <td><input class="form-control" id="inputEmail3" placeholder="Unit" type="text"> </td>
-                               <td><input class="form-control" id="inputEmail3" placeholder="0" type="text"> </td>
-                               <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
-							   <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
-                        </tr>
-                         <tr>
-                          <td> 2 </td>
-                          <td>  <select class=" _select js-states form-control">
-                        <option value="RS">Empty Old Drums Renaatus </option>
+                                                            int i = 0;
+                                                            int j = 1;
+                                                            foreach (var item in Model.EnqLst.ToList())
+                                                            {
+                                                                <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                <td> @j </td>
+                                                            <td>
+                                                                @Html.DropDownListFor(o => o.EnqLst[i].ItemId, Model.EnqLst[i].Itemlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItem" + i, style = "width: 170px;" })
+                                                            </td>
+                                                             <td>
+                                                                @Html.TextBoxFor(o => o.EnqLst[i].Desc, new { @id = "txtDesc" + i, @class = "form-control", style = "width: 100px;" })
+                                                            </td>
+                                                             <td>
+                                                                @Html.TextBoxFor(o => o.EnqLst[i].Unit, new { @id = "txtUnit" + i, @class = "form-control", style = "width: 100px;" })
+                                                            </td>
+                                                             <td>
+                                                                @Html.TextBoxFor(o => o.EnqLst[i].Conversionfactor, new { @id = "txtConversionfactor" + i, @class = "form-control", style = "width: 100px;" })
+                                                            </td>
+                                                             <td>
+                                                                @Html.TextBoxFor(o => o.EnqLst[i].Quantity, new { @id = "txtQuantity" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right"})
+                                                            </td>
+                                                             <td>
+                                                                @Html.TextBoxFor(o => o.EnqLst[i].unitprim, new { @id = "txtunitprim" + i, @class = "form-control", style = "width: 100px;" })
+                                                            </td>
+                                                             <td>
+                                                                @Html.TextBoxFor(o => o.EnqLst[i].QtyPrim, new { @id = "txtQtyPrim" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right"})
+                                                            </td>
+                                                             <td>
+                                                                @Html.TextBoxFor(o => o.EnqLst[i].rate, new { @id = "txtrate" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right"})
+                                                            </td>
+                                                             <td>
+                                                                @Html.TextBoxFor(o => o.EnqLst[i].Amount, new { @id = "txtAmount" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right"})
+                                                            </td>
+                                                            </tr>
+                                                             i = i + 1;
+                                                             j = j + 1;
+                                                            }
+                                                        }
 
-                      </select></td>
-                          <td><input class="form-control" id="inputEmail3" placeholder="Description" type="text"> </td>
-						   <td><input class="form-control" id="inputEmail3" placeholder="Unit" type="text"> </td>
-						    <td><input class="form-control" id="inputEmail3" placeholder="Conv. Factor" type="text"> </td>
-							  <td><input class="form-control" id="inputEmail3" placeholder="0" type="text"> </td>
-                              <td><input class="form-control" id="inputEmail3" placeholder="Unit" type="text"> </td>
-                               <td><input class="form-control" id="inputEmail3" placeholder="0" type="text"> </td>
-							   <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
-                               <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
-                        </tr>
-						 <tr>
-                          <td> 3 </td>
-                          <td>  <select class=" _select js-states form-control">
-                        <option value="RS">Empty Old Drums Renaatus </option>
 
-                      </select></td>
-                          <td><input class="form-control" id="inputEmail3" placeholder="Description" type="text"> </td>
-						   <td><input class="form-control" id="inputEmail3" placeholder="Unit" type="text"> </td>
-						    <td><input class="form-control" id="inputEmail3" placeholder="Conv. Factor" type="text"> </td>
-							  <td><input class="form-control" id="inputEmail3" placeholder="0" type="text"> </td>
-                              <td><input class="form-control" id="inputEmail3" placeholder="Unit" type="text"> </td>
-                               <td><input class="form-control" id="inputEmail3" placeholder="0" type="text"> </td>
-							   <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
-                               <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
-                        </tr>
+
+
+                   
                       </tbody>
                     </table>
                   </div>
@@ -293,4 +282,47 @@
          
         </div>
       </div>
-      
+     <script>
+         function AddRow() {
+        var opt = "";
+        $.ajax({
+            type: "POST",
+            url: 'GetItemJSON',
+            success: function (data) {
+                $.each(data, function () {
+                    opt += "<option value=" + this.Value + ">" + this.Text + "</option>";
+                });
+                AppendRow(opt);
+            }
+        })
+
+
+
+    }
+         function AppendRow(opt) {
+        var index = $("#tbBooks").children("tr").length;
+
+        var Item = "<td><select style = 'width: 170px;' class='form-control chosen-select newcss' id='ddlItem" + index + "' name='EnqLst[" + index + "].ItemId' ><option value=''>Please select</option>" + opt + "</select></td>";
+
+        var Desc = "<td><input class='form-control' id='txtDesc" + index + "' name='EnqLst[" + index + "].Desc'  style='width: 100px;' type='text'  /></td>";
+
+        var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='EnqLst[" + index + "].Unit'  style='width: 100px;' type='text'  /></td>";
+
+        var Conversionfactor = "<td><input class='form-control' id='txtConversionfactor" + index + "' name='EnqLst[" + index + "].Conversionfactor'  style='width: 100px;' type='text'  /></td>";
+
+        var Quantity = "<td><input class='form-control' id='txtQuantity" + index + "' name='EnqLst[" + index + "].Quantity'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 100px;text-align:right' type='text' value='0'  /></td>";
+
+       var unitprim = "<td><input class='form-control' id='txtunitprim" + index + "' name='EnqLst[" + index + "].unitprim'  style='width: 100px;' type='text'  /></td>";
+
+        var QtyPrim = "<td><input class='form-control' id='txtQtyPrim" + index + "' name='EnqLst[" + index + "].QtyPrim'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 100px;text-align:right' type='text' value='0'  /></td>";
+
+        var removeCell = "<td><input id='Isvalid" + index + "' name='EnqLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='EnqLst.Index' type='hidden' value='" + index + "'  /></td>";
+       
+
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Item + Desc +  Unit + Conversionfactor + Quantity + unitprim + QtyPrim + TotalPrice + Disc  + Hsn + remarks + removeCell + "</tr>";
+        //alert(Packing);
+        $("#tbBooks").append(newRow);
+
+        $(".chosen-select").chosen();
+    }
+     </script> 
