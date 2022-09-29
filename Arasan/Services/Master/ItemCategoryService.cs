@@ -45,15 +45,15 @@ namespace Arasan.Services.Master
         }
 
 
-        public ItemCategory GetCategoryById(string eid)
+        public ItemCategory GetCategoryById(string cid)
         {
-            ItemCategory category = new ItemCategory();
+            ItemCategory ItemCategory = new ItemCategory();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select CATEGORY,ITEMCATEGORYID from ITEMCATEGORY where ITEMCATEGORYID=" + eid + "";
+                    cmd.CommandText = "Select CATEGORY,ITEMCATEGORYID from ITEMCATEGORY where ITEMCATEGORYID=" + cid + "";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -63,11 +63,11 @@ namespace Arasan.Services.Master
                           
                             Category = rdr["CATEGORY"].ToString()
                         };
-                        category = ict;
+                        ItemCategory = ict;
                     }
                 }
             }
-            return category;
+            return ItemCategory;
         }
 
         public string CategoryCRUD(ItemCategory iy)
@@ -76,24 +76,25 @@ namespace Arasan.Services.Master
             try
             {
                 string StatementType = string.Empty; string svSQL = "";
-                if (iy.ID == null)
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    OracleCommand objCmd = new OracleCommand("CATEGORYPROC", objConn);
+                    /*objCmd.Connection = objConn;
+                    objCmd.CommandText = "CATEGORYPROC";*/
+
+                    objCmd.CommandType = CommandType.StoredProcedure;
+                    if (iy.ID == null)
                 {
                     StatementType = "Insert";
-                }
+                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                    }
                 else
                 {
                     StatementType = "Update";
-                }
-                using (OracleConnection objConn = new OracleConnection(_connectionString))
-                {
-                    OracleCommand objCmd = new OracleCommand();
-                    objCmd.Connection = objConn;
-                    objCmd.CommandText = "CATEGORYPROC";
-                    objCmd.CommandType = CommandType.StoredProcedure;
-                    objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = iy.ID;
+                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = iy.ID;
+                    }
+                    objCmd.Parameters.Add("ItemCategory", OracleDbType.NVarchar2).Value = iy.Category;
                    
-                   
-                    objCmd.Parameters.Add("Category", OracleDbType.NVarchar2).Value = iy.Category;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     try
                     {
