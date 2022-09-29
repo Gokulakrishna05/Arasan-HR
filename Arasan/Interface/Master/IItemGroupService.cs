@@ -5,5 +5,9 @@ namespace Arasan.Interface.Master
 {
     public interface IItemGroupService
     {
+        string ItemGroupCRUD(ItemGroup by);
+        IEnumerable<ItemGroup> GetAllItemGroup();
+        ItemGroup GetItemGroupById(string id);
+
     }
 }

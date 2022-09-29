@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Arasan.Interface.Master;
 using Arasan.Models;
+using Arasan.Services.Master;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -11,19 +12,65 @@ namespace Arasan.Controllers.Master
         IItemGroupService itemGroupService;
         public ItemGroupController(IItemGroupService _itemGroupService)
         {
-           itemGroupService = _itemGroupService;
+            itemGroupService = _itemGroupService;
         }
-
-        public IActionResult ItemGroup()
+        public IActionResult ItemGroup(string id)
         {
-            return View();
+            ItemGroup ig = new ItemGroup();
+            if (id == null)
+            {
+
+            }
+            else
+            {
+                ig = itemGroupService.GetItemGroupById(id);
+
+            }
+           // return View();
+            return View(ig);
         }
+        [HttpPost]
+        public ActionResult ItemGroup(ItemGroup by, string id)
+        {
 
-       
+            try
+            {
+                by.ID = id;
+                string Strout = itemGroupService.ItemGroupCRUD(by);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (by.ID == null)
+                    {
+                        TempData["notice"] = "ItemGroupInserted Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "ItemGroup Updated Successfully...!";
+                    }
+                    return RedirectToAction("ListItemGroup");
+                }
 
+                else
+                {
+                    ViewBag.PageTitle = "Edit ItemGroup";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(by);
+        }
         public IActionResult ListItemGroup()
         {
-            return View();
+            IEnumerable<ItemGroup> itg = itemGroupService.GetAllItemGroup();
+            return View(itg);
         }
+
     }
 }

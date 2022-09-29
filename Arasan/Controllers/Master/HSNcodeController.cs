@@ -1,6 +1,6 @@
 ﻿using Arasan.Models;
 using System.Collections.Generic;
-using System.Collections;
+using System.Collections; 
 using Arasan.Interface.Master;
 
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +14,7 @@ namespace Arasan.Controllers.Master
         {
             HSNcodeService = _HSNcodeService;
         }
-        public IActionResult HSNcode()
+        public IActionResult HSNcode() 
         {
             return View();
         }
@@ -24,3 +24,4 @@ namespace Arasan.Controllers.Master
         }
     }
 }
+        
