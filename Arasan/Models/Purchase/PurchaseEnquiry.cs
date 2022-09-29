@@ -1,11 +1,52 @@
-﻿using System.Data;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Data;
 namespace Arasan.Models
 {
     public class PurchaseEnquiry
     {
+        public PurchaseEnquiry()
+        {
+            this.Brlst = new List<SelectListItem>();
+            this.Suplst = new List<SelectListItem>();
+            this.Curlst = new List<SelectListItem>();
+            this.EnqLst = new List<EnqItem>();
+        }
+        public List<SelectListItem> Brlst;
+
+        public string Branch { get; set; }
+
+        public string Supplier { get; set; }
+
+        public List<SelectListItem> Suplst;
+
+        public string Currency { get; set; }
+
+        public List<SelectListItem> Curlst;
+
+        public List<EnqItem> EnqLst;
+
+    }
+
+    public class EnqItem
+    {
+        public string ItemId { get;set;}
+
+        public List<SelectListItem> Itemlst { get; set; }
+
+        public string Desc { get; set; }
+        public string Unit { get; set; }
+        public string Conversionfactor { get; set; }
+        public double Quantity { get; set; }
+        public string unitprim { get; set; }
+        public double QtyPrim { get; set; }
+        public double rate { get; set; }
+        public double Amount { get; set; }
+        public string Isvalid { get; set; }
+
     }
     public class EnquiryList
     {
+       
         public DataTable GetEnquiry()
         {
             DataTable dt = new DataTable();
