@@ -1,4 +1,4 @@
-﻿@model Arasan.Models.ItemCategory
+﻿@model IEnumerable<Arasan.Models.ItemCategory>
 
 @{
     ViewData["Title"] = "Item Category";
@@ -42,7 +42,8 @@
                                                     <thead>
                                                         <tr>
                                                             <td>S.No</td>
-                                                            <th>Item Category</th>
+                                                            <th> Category ID</th>
+                                                            <th>Category</th>
                                                            
 
                                                             <th>Edit</th>
@@ -51,28 +52,32 @@
                                                     </thead>
 
                                                     <tbody>
+                                                           @foreach (var item in Model) {
                                                         <tr>
                                                             <td>1</td>
-                                                            <td>Mechanical</td>
-                                                           
+                                                          <td> @Html.DisplayFor(modelItem => item.ID)</td>
+                                                            <td>@Html.DisplayFor(modelItem => item.Category)</td>
 
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("ItemCategory", "ItemCategory")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("ItemCategory", "ItemCategory")"></a></div></td>
+                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("ItemCategory", "ItemCategory",new { id=item.ID })"></a></div></td>
+                                                                <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("ItemCategory", "ItemCategory",new { id=item.ID })"></a></div></td>
                                                         </tr>
-                                                        <tr>
+                                                        }
+                                                   @*@ <tr>
                                                             <td>2</td>
-                                                            <td>Mechanical</td>
+                                                                <td> @Html.DisplayFor(modelItem => item.CategoryId)</td>
+                                                                <td>@Html.DisplayFor(modelItem => item.Category)
 
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("ItemCategory", "ItemCategory")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("ItemCategory", "ItemCategory")"></a></div></td> </tr>
-                                                        <tr>
+                                                                <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("ItemCategory", "ItemCategory",new { id=item.ID })"></a></div></td>
+                                                                <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("ItemCategory", "ItemCategory",new { id=item.ID })"></a></div></td>
+                                                            <tr>
                                                             <td>3</td>
-                                                            <td>Mechanical</td>
+                                                                <td> @Html.DisplayFor(modelItem => item.CategoryId)</td>
+                                                                <td>@Html.DisplayFor(modelItem => item.Category)
 
-
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("ItemCategory", "ItemCategory")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("ItemCategory", "ItemCategory")"></a></div></td>
-                                                        </tr>
+                                                                <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("ItemCategory", "ItemCategory",new { id=item.ID })"></a></div></td>
+                                                                <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("ItemCategory", "ItemCategory",new { id=item.ID })"></a></div></td>
+                                                            </tr>*@
+                                                          
                                                     </tbody>
                                                 </table>
                                             </div>

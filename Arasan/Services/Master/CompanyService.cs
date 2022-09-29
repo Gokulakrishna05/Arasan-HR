@@ -60,7 +60,7 @@ namespace Arasan.Services.Master
                             ID = rdr["COMPANYMASTID"].ToString(),
                             CompanyId = rdr["COMPANYID"].ToString(),
                             CompanyName = rdr["COMPANYDESC"].ToString()
-                        }
+                        };
                         company = cmp;
                     }
                 }
@@ -99,7 +99,7 @@ namespace Arasan.Services.Master
                         //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
                     }
                     catch (Exception ex)
-                    {
+                    { 
                         //System.Console.WriteLine("Exception: {0}", ex.ToString());
                     }
                     objConn.Close();
