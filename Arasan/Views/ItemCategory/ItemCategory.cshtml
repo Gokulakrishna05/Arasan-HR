@@ -21,26 +21,32 @@
                 <div class="widgets-container">
                   
                     <hr>
+                       @using (Html.BeginForm("ItemCategory", "ItemCategory", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
                     <form>
-                        <div class="row">
+                        
+                            <div class="row">
 
-                            <div class="col-lg-3"></div>
-                            <div class="col-md-6">
-                                <div class="form-group">
+                                <div class="col-lg-3"></div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Item Category<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="" type="text">
+                                        <label for="inputName3" class="col-sm-4 control-label">Category<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.Category, new { @id = "txtCategory", @class = "form-control", @TabIndex = 1 })<br />
+
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                             </div>
                             <div style="height:30px;"></div>
                         <div class="col-lg-8"></div>
                             <a button type="submit" class="btn aqua m-t-xs bottom15-xs" href="@Url.Action("ListItemCategory", "ItemCategory")">Submit</a>
                             <a button class="btn btn-danger" type="submit" href="@Url.Action("ListItemCategory", "ItemCategory")">Cancel</a>
                       
                     </form>
+                    }
                 </div>
             </div>
         </div>

@@ -2,7 +2,7 @@
 using Arasan.Interface;
 using Arasan.Interface.Master;
 using Arasan.Models;
-using Arasan.Services.Master;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace Arasan.Controllers.Master
@@ -14,13 +14,62 @@ namespace Arasan.Controllers.Master
         {
             ItemCategoryService = _ItemCategoryService;
         }
-        public IActionResult ItemCategory()
+        public IActionResult ItemCategory(string id)
         {
-            return View();
+            ItemCategory ic = new ItemCategory();
+            if (id == null)
+            {
+
+            }
+            else
+            {
+                ic = ItemCategoryService.GetCategoryById(id);
+
+            }
+            return View(ic);
         }
+        [HttpPost]
+        public ActionResult ItemCategory(ItemCategory Ic, string id)
+        {
+
+            try
+            {
+                Ic.ID = id;
+                string Strout = ItemCategoryService.CategoryCRUD(Ic);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Ic.ID == null)
+                    {
+                        TempData["notice"] = "Category Inserted Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "Category Updated Successfully...!";
+                    }
+                    return RedirectToAction("ListItemCategory");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit Category";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(Ic);
+        }
+      
         public IActionResult ListItemCategory()
         {
-            return View();
+            IEnumerable<ItemCategory> ic = ItemCategoryService.GetAllItemCategory();
+            return View(ic);
         }
     }
 }
