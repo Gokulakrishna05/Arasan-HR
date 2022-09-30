@@ -51,7 +51,7 @@ namespace Arasan.Controllers.Master
 
                 else
                 {
-                    ViewBag.PageTitle = "Edit Category";
+                    ViewBag.PageTitle = "Edit ItemCategory";
                     TempData["notice"] = Strout;
                     //return View();
                 }
