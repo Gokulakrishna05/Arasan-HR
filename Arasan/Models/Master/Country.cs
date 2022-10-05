@@ -2,9 +2,10 @@
 {
     public class Country
     {
-        public int Id { get; set; }
-        public string Countrycode { get; set; }
-        public string CountryName { get; set; }
+        public string ID{ get; set; }
+        public string ConName { get; set; }
+        public string ConCode { get; set; }
+    
 
 
     }

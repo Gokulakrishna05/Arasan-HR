@@ -1,7 +1,7 @@
 ﻿using Arasan.Interface;
 using Arasan.Interface.Master;
 using Arasan.Models;
-using Arasan.Services.Master;
+
 using Microsoft.Extensions.Configuration;
 using Oracle.ManagedDataAccess.Client;
 using System;
@@ -93,8 +93,9 @@ namespace Arasan.Services.Master
                     StatementType = "Update";
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = iy.ID;
                     }
+
+
                     objCmd.Parameters.Add("ItemCategory", OracleDbType.NVarchar2).Value = iy.Category;
-                   
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     try
                     {
@@ -102,17 +103,17 @@ namespace Arasan.Services.Master
                         objCmd.ExecuteNonQuery();
                         //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
                     }
-                    catch (Exception ex)
+                    catch (Exception exs)
                     {
                         //System.Console.WriteLine("Exception: {0}", ex.ToString());
                     }
                     objConn.Close();
                 }
             }
-            catch (Exception ex)
+            catch (Exception exs)
             {
                 msg = "Error Occurs, While inserting / updating Data";
-                throw ex;
+                throw exs;
             }
 
             return msg;

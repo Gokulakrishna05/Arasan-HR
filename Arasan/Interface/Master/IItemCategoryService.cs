@@ -6,7 +6,7 @@ namespace Arasan.Interface.Master
 {
     public interface IItemCategoryService
     {
-        string CategoryCRUD(ItemCategory Ic);
+        string CategoryCRUD(ItemCategory iy);
         IEnumerable<ItemCategory> GetAllItemCategory();
         ItemCategory GetCategoryById(string id);
     }
