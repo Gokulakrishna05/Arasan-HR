@@ -21,27 +21,13 @@
             <div class="ibox float-e-margins">
                 <div class="widgets-container">
                   
+                   
                     <hr>
+                      @using (Html.BeginForm("Country", "Country", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
                     <form>
-                        <div class="row">
-                            <div class="col-lg-3"></div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                    <label for="inputName3" class="col-sm-4 control-label">Country code<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                    <select class=" _select js-states form-control">
-
-                                        <option> </option>
-                                        <option value="CH">	IN </option>
-                                        <option value="KA">	JO </option>
-                                        <option value="TAAI">USA </option>
-
-                                    </select><br />
-                                    </div>
-                                </div>
-                            </div>
-                            </div>
+                        
                             <div class="row">
                             <div class="col-lg-3"></div>
                             <div class="col-md-6">
@@ -49,27 +35,35 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Country Name<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <select class=" _select js-states form-control">
+                                            @Html.TextBoxFor(C => C.ConName, new { @id = "txtConName", @class = "form-control", @TabIndex = 1 })<br />
 
-                                            <option> </option>
-                                            <option value="CH">	India </option>
-                                            <option value="KA">	Japan </option>
-                                            <option value="TAAI">United States </option>
-
-                                        </select><br />
                                     </div>
 
                                 </div>
                             </div>
                         </div>
+                            <div class="row">
+                                <div class="col-lg-3"></div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Country code<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.ConCode, new { @id = "txtConCode", @class = "form-control", @TabIndex = 1 })<br />
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div style="height:30px;"></div>
                         <div class="col-lg-8"></div>
-                           <a button type="submit" class="btn aqua m-t-xs bottom15-xs" href="@Url.Action("ListCountry", "Country")">Submit</a>
+                            <button type="submit" name="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" value="Save" tabindex="18">Save</button>
                             <a button class="btn btn-danger" type="submit" href="@Url.Action("ListCountry", "Country")">Cancel</a>
 
                        
 
                     </form>
+                    }
                 </div>
             </div>
         </div>

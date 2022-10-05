@@ -5,9 +5,119 @@ using Microsoft.Extensions.Configuration;
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
+using System.Data;
+
 namespace Arasan.Services.Master
 {
     public class CountryService : ICountryService
     {
+        private readonly string _connectionString;
+        public CountryService(IConfiguration _configuratio)
+        {
+            _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
+        }
+        public IEnumerable<Country> GetAllCountry()
+        {
+            List<Country> cmpList = new List<Country>();
+            using (OracleConnection con = new OracleConnection(_connectionString))
+            {
+
+                using (OracleCommand cmd = con.CreateCommand())
+                {
+                    con.Open();
+                    cmd.CommandText = "Select COUNTRYNAME,COUNTRYCODE,COUNTRYMASTID from CONMAST";
+                    OracleDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        Country cmp = new Country
+                        {
+                            ID = rdr["COUNTRYMASTID"].ToString(),
+                            ConName = rdr["COUNTRYNAME"].ToString(),
+                            ConCode = rdr["COUNTRYCODE"].ToString()
+                        };
+                        cmpList.Add(cmp);
+                    }
+                }
+            }
+            return cmpList;
+        }
+
+
+        public Country GetCountryById(string eid)
+        {
+            Country country = new Country();
+            using (OracleConnection con = new OracleConnection(_connectionString))
+            {
+                using (OracleCommand cmd = con.CreateCommand())
+                {
+                    con.Open();
+                    cmd.CommandText = "Select COUNTRYNAME,COUNTRYCODE,COUNTRYMASTID from CONMAST where COUNTRYMASTID=" + eid + "";
+                    OracleDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        Country cmp = new Country
+                        {
+                            ID = rdr["COUNTRYMASTID"].ToString(),
+                            ConName = rdr["COUNTRYNAME"].ToString(),
+                            ConCode = rdr["COUNTRYCODE"].ToString()
+                        };
+                        country = cmp;
+                    }
+                }
+            }
+            return country;
+        }
+
+        public string CountryCRUD(Country cy)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
+
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    OracleCommand objCmd = new OracleCommand("COUNTRYPROC", objConn);
+                    /*objCmd.Connection = objConn;
+                    objCmd.CommandText = "COUNTRYPROC";*/
+
+                    objCmd.CommandType = CommandType.StoredProcedure;
+                    if (cy.ID == null)
+                    {
+                        StatementType = "Insert";
+                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                    }
+                    else
+                    {
+                        StatementType = "Update";
+                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                    }
+
+                    objCmd.Parameters.Add("ConName", OracleDbType.NVarchar2).Value = cy.ConName;
+                    objCmd.Parameters.Add("ConCode", OracleDbType.NVarchar2).Value = cy.ConCode;
+                    objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                    try
+                    {
+                        objConn.Open();
+                        objCmd.ExecuteNonQuery();
+                        //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
+                    }
+                    catch (Exception ex)
+                    {
+                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
+                    }
+                    objConn.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
+        }
+
+
     }
 }
