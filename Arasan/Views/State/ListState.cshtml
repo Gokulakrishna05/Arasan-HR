@@ -1,4 +1,4 @@
-﻿@model Arasan.Models.State
+﻿@model IEnumerable<Arasan.Models.State>
 
 @{
     ViewData["Title"] = "State Master";
@@ -39,24 +39,31 @@
                                                     <thead>
                                                         <tr>
                                                             <td>S.No</td>
-                                                            <th>Country </th>
-                                                            <th>State Code</th>
+                                                           
                                                             <th>State Name</th>
+                                                            <th>State Code</th>
                                                             <th>Edit</th>
                                                             <th>Delete</th>
                                                         </tr>
                                                     </thead>
 
                                                     <tbody>
+                                                         @{
+                                                            int i = 1;
+
+                                                            foreach (var item in Model) {
                                                         <tr>
-                                                            <td>1</td>
-                                                            <td>India</td>
-                                                            <td>TN</td>
-                                                            <td>Tamil Nadu</td>
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("State", "State")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href ="@Url.Action("State", "State")"></a></div></td>
+                                                                    <td>@i</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.StateName)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.StateCode)</td>
+                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("State", "State",new { id=item.ID })"></a></div></td>
+                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("State", "State",new { id=item.ID })"></a></div></td>
                                                         </tr>
-                                                        <tr>
+                                                           i++;
+                                                        }
+                                                        }
+                                                       
+                                                       @*<tr>
                                                             <td>2</td>
                                                             <td>India</td>
                                                             <td>KA</td>
@@ -71,7 +78,7 @@
                                                             <td>Kerala</td>
                                                             <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("State", "State")"></a></div></td>
                                                             <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("State", "State")"></a></div></td>
-                                                        </tr>
+                                                        </tr>>*@
                                                     </tbody>
                                                 </table>
                                             </div>

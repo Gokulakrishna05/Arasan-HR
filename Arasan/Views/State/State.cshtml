@@ -1,12 +1,12 @@
 ﻿@model Arasan.Models.State
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "State";
 }
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
 
-        <ol class="breadcrumb">
+        <ol class="breadcrumb"> 
             <li> <a href="#">Home</a> </li>
             <li> <a>Master</a> </li>
             <li class="active"> <strong>State </strong> </li>
@@ -22,27 +22,21 @@
                 <div class="widgets-container">
                    
                     <hr>
+
+                    @using (Html.BeginForm("State", "State", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+
                     <form>
-                        <div class="row">
-                            <div class="col-lg-3"></div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                    <label for="inputName3" class="col-sm-4 control-label">Country<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
-                                    </div>
-                                </div>
-                            </div>
-                            </div>
+                        
                             <div class="row">
                             <div class="col-lg-3"></div>
                             <div class="col-md-6">
-                                <div class="form-group">
+                                <div class="form-group"> 
                                  
-                                    <label for="inputName3" class="col-sm-4 control-label">State Code<label class="Mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">StateName<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                         <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
+                                            @Html.TextBoxFor(C => C.StateName, new { @id = "txtStateName", @class = "form-control", @TabIndex = 1 })<br />
                                     </div>
 
                                 </div>
@@ -53,9 +47,9 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">State Name<label class="Mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">StateCode<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
+                                            @Html.TextBoxFor(C => C.StateCode, new { @id = "txtStateCode", @class = "form-control", @TabIndex = 1 })<br />
                                     </div>
 
                                 </div>
@@ -63,10 +57,11 @@
                         </div>
                             <div style="height:30px;"></div>
                         <div class="col-lg-8"></div>
-                            <a button type="submit" class="btn aqua m-t-xs bottom15-xs" href="@Url.Action("ListState", "State")">Submit</a>
+                              <button type="submit" name="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" value="Save" tabindex="18">Save</button>
                             <a button class="btn btn-danger" type="submit" href="@Url.Action("ListState", "State")">Cancel</a>
                            
                     </form>
+                    }
                 </div>
             </div>
         </div>

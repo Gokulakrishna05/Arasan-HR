@@ -59,9 +59,9 @@ namespace Arasan.Controllers.Master
 
                 // }
             }
-            catch (Exception ex)
+            catch (Exception it)
             {
-                throw ex;
+                throw it;
             }
 
             return View(by);

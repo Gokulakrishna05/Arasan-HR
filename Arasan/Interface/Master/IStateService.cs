@@ -5,5 +5,9 @@ namespace Arasan.Interface.Master
 {
     public interface IStateService
     {
+        string StateCRUD(State by);
+        IEnumerable<State> GetAllState();
+        State GetStateById(string id);
+
     }
 }
