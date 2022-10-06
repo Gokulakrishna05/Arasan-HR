@@ -396,8 +396,23 @@
 	<script src="~/assets/js/vendor/bootstrap.min.js"></script>
 	<!--  morris Charts  -->
 	
-    
+    <script src="@Url.Content("~/js/chosen.jquery.js")"></script>
+        
+    <link href="@Url.Content("~/css/chosen.css")" rel="stylesheet" />
+     <script type="text/javascript">
+        jQuery.browser = {};
+        (function () {
+            jQuery.browser.msie = false;
+            jQuery.browser.version = 0;
+            if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+                jQuery.browser.msie = true;
+                jQuery.browser.version = RegExp.$1;
+            }
+        })();
 
+
+        $(".chosen-select").chosen();
+    </script>
 
 	<script type="text/javascript" src="~/assets/js/vendor/bootstrap-datetimepicker.js" charset="UTF-8"></script>
 		<script type="text/javascript" src="~/assets/js/vendor/locales/bootstrap-datetimepicker.fr.js" charset="UTF-8"></script>
