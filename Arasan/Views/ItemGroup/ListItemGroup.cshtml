@@ -47,7 +47,6 @@
                                                     <thead>
                                                         <tr>
                                                             <td>S.No</td>
-                                                           
                                                             <th>Item Group</th>
                                                             <th>Item Group Description</th>
                                                             <th>Edit</th>
@@ -56,16 +55,20 @@
                                                     </thead>
                                                    
                                                     <tbody>
-                                                        @foreach (var item in Model) {
-                                                        <tr>
-                                                            <td>1</td>
-                                                                
-                                                                <td>@Html.DisplayFor(modelItem => item.ItemGroups)</td>
-                                                                <td>@Html.DisplayFor(modelItem => item.ItemGroupDescription)</td>
-                                                            
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("ItemGroup", "ItemGroup")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("ItemGroup", "ItemGroup")"></a></div></td>
-                                                        </tr>
+                                                        @{
+                                                            int i = 1;
+
+                                                            foreach (var item in Model) {
+                                                            <tr>
+                                                                    <td>@i</td>                                                              
+                                                                    <td>@Html.DisplayFor(modelItem => item.itemGroup)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.ItemGroupDescription)</td>
+
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("ItemGroup", "ItemGroup",new { id=item.ID })"></a></div></td>
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("ItemGroup", "ItemGroup", new { id=item.ID })"></a></div></td>
+                                                            </tr>
+                                                                i++;
+                                                        }
                                                         }
                                                         @* <tr>
                                                             <td>2</td>
