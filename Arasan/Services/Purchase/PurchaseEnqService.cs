@@ -48,10 +48,32 @@ namespace Arasan.Services
             return dtt;
         }
 
-        public DataTable GetItem()
+        public DataTable GetItem(string value)
         {
             string SvSql = string.Empty;
-            SvSql = "select ITEMID,ITEMMASTERID from ITEMMASTER";
+            SvSql = "select ITEMID,ITEMMASTERID from ITEMMASTER WHERE ITEMGROUP='" + value  + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetItemGrp()
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select ITEMGROUPID,GROUPCODE from itemgroup";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetItemDetails(string ItemId)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select ITEMID,ITEMDESC from ITEMMASTER Where ITEMMASTERID='"+ ItemId + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

@@ -33,6 +33,10 @@ namespace Arasan.Models
 
         public List<SelectListItem> Itemlst { get; set; }
 
+        public List<SelectListItem> ItemGrouplst { get; set; }
+
+        public string ItemGroupId { get; set; }
+
         public string Desc { get; set; }
         public string Unit { get; set; }
         public string Conversionfactor { get; set; }

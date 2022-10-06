@@ -7,6 +7,10 @@ namespace Arasan.Interface
         DataTable GetBranch();
         DataTable GetSupplier();
         DataTable GetCurency();
-        DataTable GetItem();
+        DataTable GetItem(string value);
+
+        DataTable GetItemGrp();
+
+        DataTable GetItemDetails(string ItemId);
     }
 }

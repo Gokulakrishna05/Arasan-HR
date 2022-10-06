@@ -27,7 +27,9 @@ namespace Arasan.Controllers
             for (int i = 0; i < 3; i++)
             {
                 tda = new EnqItem();
-                tda.Itemlst = BindItemlst();
+                tda.ItemGrouplst = BindItemGrplst();
+                tda.Itemlst = BindItemlst("");
+                tda.Isvalid = "Y";
               TData.Add(tda);
             }
             ca.EnqLst = TData;
@@ -87,11 +89,11 @@ namespace Arasan.Controllers
             }
         }
 
-        public List<SelectListItem> BindItemlst()
+        public List<SelectListItem> BindItemlst(string value)
         {
             try
             {
-                DataTable dtDesg = PurenqService.GetItem();
+                DataTable dtDesg = PurenqService.GetItem(value);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -105,12 +107,66 @@ namespace Arasan.Controllers
             }
         }
 
-        [HttpPost]
-        public JsonResult GetItemJSON()
+        public List<SelectListItem> BindItemGrplst()
         {
-            return Json(BindItemlst());
+            try
+            {
+                DataTable dtDesg = PurenqService.GetItemGrp();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["GROUPCODE"].ToString(), Value = dtDesg.Rows[i]["ITEMGROUPID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public JsonResult GetItemJSON(string itemid)
+        {
+            EnqItem model = new EnqItem();
+            model.Itemlst = BindItemlst(itemid);
+            return Json(BindItemlst(itemid));
 
         }
+
+
+        public ActionResult GetItemDetail(string ItemId)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                //dt = Ca.GetProductDetail(ProId);
+                string Desc = "";
+                            
+                dt = new DataTable();
+                dt = PurenqService.GetItemDetails(ItemId);
+
+                if (dt.Rows.Count > 0)
+                {
+                    Desc = dt.Rows[0]["ITEMDESC"].ToString();
+                }
+
+                var result = new { Desc = Desc };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+        public JsonResult GetItemGrpJSON()
+        {
+            //EnqItem model = new EnqItem();
+            //model.ItemGrouplst = BindItemGrplst(value);
+            return Json(BindItemGrplst());
+        }
+
         public IActionResult PurchaseFollowup()
         {
             return View();
