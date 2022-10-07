@@ -11,6 +11,7 @@ namespace Arasan.Services
     public class PurchaseEnqService : IPurchaseEnqService
     {
         private readonly string _connectionString;
+
         public PurchaseEnqService(IConfiguration _configuratio)
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
