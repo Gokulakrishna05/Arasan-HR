@@ -47,29 +47,18 @@
 									
 									<div style="height:30px;"></div>
 									 <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                            
-                                                <label for="inputName3" class="col-sm-4 control-label">Enquiry No.<label class="Mandatory"></label></label>
-                                                <div class="col-sm-8">
-                                                    <input class="form-control" id="inputEmail3" placeholder="PENQ100002" type="text" readonly>
-                                                </div>
-                                            </div>
-                                        </div>
+                                      
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="inputName3" class="col-sm-4 control-label">Enquiry Date<label class="Mandatory"></label></label>
                                               
-                                                   
-													<div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2"
-														data-link-format="yyyy-mm-dd">
-														<input class="form-control" size="32" type="text" value="" readonly>
+													<div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy" >
+                                                         @Html.TextBoxFor(C => C.EnqDate, new { @id = "EnqDate", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })
 														<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 													</div>
-													<input type="hidden" id="dtp_input2" value="" />
+													
 													<br/>
 												
-                                               
                                             </div>
                                         </div>
                                     </div>
@@ -88,7 +77,7 @@
                                                 <label for="inputName3" class="col-sm-4 control-label">Exchange Rate<label class="Mandatory"></label></label>
                                               
                                                       <div class="col-sm-8">
-												  <input class="form-control" id="inputEmail3" placeholder="1.00" type="text">
+												 @Html.TextBoxFor(C => C.ExchangeRate, new { @id = "ExchangeRate", @class = "form-control", @TabIndex = 2 })
 												</div>
                                                
                                             </div>
@@ -101,7 +90,7 @@
                                             
                                                 <label for="inputName3" class="col-sm-4 control-label">Enquiry Ref<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                    <input class="form-control" id="inputEmail3" placeholder="Enquiry Ref" type="text">
+                                                     @Html.TextBoxFor(C => C.EnqNo, new { @id = "EnqNo", @class = "form-control", @TabIndex = 2 })
                                                 </div>
                                             </div>
                                         </div>
@@ -110,7 +99,7 @@
                                                 <label for="inputName3" class="col-sm-4 control-label">Party Ref. No.<label class="Mandatory"></label></label>
                                               
                                                       <div class="col-sm-8">
-												  <input class="form-control" id="inputEmail3" placeholder="Party Ref. No." type="text">
+												 @Html.TextBoxFor(C => C.PartyrefNo, new { @id = "PartyrefNo", @class = "form-control", @TabIndex = 2 })
 												</div>
                                                
                                             </div>
@@ -157,42 +146,42 @@
                                                             int j = 1;
                                                             foreach (var item in Model.EnqLst.ToList())
                                                             {
-                                                                                        <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
-                                                                                        <td>
-                                                                                        @Html.DropDownListFor(o => o.EnqLst[i].ItemGroupId, Model.EnqLst[i].ItemGrouplst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItemGrp" + i, style = "width: 170px;", onchange = "Grup_Change(this.value," + i + ")"})
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        @Html.DropDownListFor(o => o.EnqLst[i].ItemId, Model.EnqLst[i].Itemlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItem" + i, style = "width: 170px;", onchange = "changeItem(this.value," + i + ")" })
-                                                                                    </td>
-                                                                                     <td>
-                                                                                        @Html.TextBoxFor(o => o.EnqLst[i].Desc, new { @id = "txtDesc" + i, @class = "form-control", style = "width: 100px;" })
-                                                                                    </td>
-                                                                                     <td>
-                                                                                        @Html.TextBoxFor(o => o.EnqLst[i].Unit, new { @id = "txtUnit" + i, @class = "form-control", style = "width: 100px;" })
-                                                                                    </td>
-                                                                                     <td>
-                                                                                        @Html.TextBoxFor(o => o.EnqLst[i].Conversionfactor, new { @id = "txtConversionfactor" + i, @class = "form-control", style = "width: 100px;" })
-                                                                                    </td>
-                                                                                     <td>
-                                                                                        @Html.TextBoxFor(o => o.EnqLst[i].Quantity, new { @id = "txtQuantity" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right"})
-                                                                                    </td>
-                                                                                     <td>
-                                                                                        @Html.TextBoxFor(o => o.EnqLst[i].unitprim, new { @id = "txtunitprim" + i, @class = "form-control", style = "width: 100px;" })
-                                                                                    </td>
-                                                                                     <td>
-                                                                                        @Html.TextBoxFor(o => o.EnqLst[i].QtyPrim, new { @id = "txtQtyPrim" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")" })
-                                                                                    </td>
-                                                                                     <td>
-                                                                                        @Html.TextBoxFor(o => o.EnqLst[i].rate, new { @id = "txtrate" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")" })
-                                                                                    </td>
-                                                                                     <td>
-                                                                                        @Html.TextBoxFor(o => o.EnqLst[i].Amount, new { @id = "txtAmount" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right",@readonly="readonly"})
-                                                                                    </td>
-                                                                                     <td>
-                                                                                        @Html.HiddenFor(o => o.EnqLst[i].Isvalid, new { @id = "Isvalid" + i })
-                                                                                        <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(i)" />
-                                                                                    </td>
-                                                                                    </tr>
+                                                                                                        <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                                                        <td>
+                                                                                                        @Html.DropDownListFor(o => o.EnqLst[i].ItemGroupId, Model.EnqLst[i].ItemGrouplst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItemGrp" + i, style = "width: 170px;", onchange = "Grup_Change(this.value," + i + ")"})
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        @Html.DropDownListFor(o => o.EnqLst[i].ItemId, Model.EnqLst[i].Itemlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItem" + i, style = "width: 170px;", onchange = "changeItem(this.value," + i + ")" })
+                                                                                                    </td>
+                                                                                                     <td>
+                                                                                                        @Html.TextBoxFor(o => o.EnqLst[i].Desc, new { @id = "txtDesc" + i, @class = "form-control", style = "width: 100px;", @readonly = "readonly"})
+                                                                                                    </td>
+                                                                                                     <td>
+                                                                                                        @Html.TextBoxFor(o => o.EnqLst[i].Unit, new { @id = "txtUnit" + i, @class = "form-control", style = "width: 100px;" , @readonly = "readonly"})
+                                                                                                    </td>
+                                                                                                     <td>
+                                                                                                        @Html.TextBoxFor(o => o.EnqLst[i].Conversionfactor, new { @id = "txtConversionfactor" + i, @class = "form-control", style = "width: 100px;", @readonly = "readonly" })
+                                                                                                    </td>
+                                                                                                     <td>
+                                                                                                        @Html.TextBoxFor(o => o.EnqLst[i].Quantity, new { @id = "txtQuantity" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")"})
+                                                                                                    </td>
+                                                                                                     <td>
+                                                                                                        @Html.TextBoxFor(o => o.EnqLst[i].unitprim, new { @id = "txtunitprim" + i, @class = "form-control", style = "width: 100px;" , @readonly = "readonly"})
+                                                                                                    </td>
+                                                                                                     <td>
+                                                                                                        @Html.TextBoxFor(o => o.EnqLst[i].QtyPrim, new { @id = "txtQtyPrim" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right" })
+                                                                                                    </td>
+                                                                                                     <td>
+                                                                                                        @Html.TextBoxFor(o => o.EnqLst[i].rate, new { @id = "txtrate" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")" })
+                                                                                                    </td>
+                                                                                                     <td>
+                                                                                                        @Html.TextBoxFor(o => o.EnqLst[i].Amount, new { @id = "txtAmount" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right",@readonly="readonly"})
+                                                                                                    </td>
+                                                                                                     <td>
+                                                                                                        @Html.HiddenFor(o => o.EnqLst[i].Isvalid, new { @id = "Isvalid" + i })
+                                                                                                        <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(i)" />
+                                                                                                    </td>
+                                                                                                    </tr>
                                                              i = i + 1;
                                                              j = j + 1;
                                                             }
@@ -217,7 +206,7 @@
                                             
                                                 <label for="inputName3" class="col-sm-4 control-label">Gross<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                    <input class="form-control" id="gross" placeholder="0.00" type="text">
+                                                     @Html.TextBoxFor(C => C.Gross, new { @id = "gross", @class = "form-control", @TabIndex = 2 })
                                                 </div>
                                             </div>
                                         </div>
@@ -226,7 +215,7 @@
                                                 <label for="inputName3" class="col-sm-4 control-label">Net<label class="Mandatory"></label></label>
                                               
                                                       <div class="col-sm-8">
-												  <input class="form-control" id="net" placeholder="0.00" type="text">
+                                                       @Html.TextBoxFor(C => C.Net, new { @id = "net", @class = "form-control", @TabIndex = 2 })     
 												</div>
                                                
                                             </div>
@@ -234,7 +223,7 @@
                                     </div>
 									
 									
-									<div style="height:30px;"></div>
+									@*<div style="height:30px;"></div>
 									 <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
@@ -246,7 +235,7 @@
                                             </div>
                                         </div>
                                        
-                                    </div>
+                                    </div>*@
 									 <div style="height:30px;"></div>
 									 <div class="row">
                                         <div class="col-md-6">
@@ -254,12 +243,7 @@
                                             
                                                 <label for="inputName3" class="col-sm-4 control-label">Enquiry Recieved By<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                     <select class=" _select js-states form-control">
-                       
-                       
-                        <option value="Anitha">Anitha </option>
-                        <option value="Ramesh">Ramesh </option>
-                      </select>
+                                                    @Html.DropDownListFor(C => C.EnqRecid, Model.EnqRecList, new { @id = "ddlEnqRec", @Class = "form-control chosen-select", @TabIndex = 1 })
                                                 </div>
                                             </div>
                                         </div>
@@ -268,12 +252,7 @@
                                                 <label for="inputName3" class="col-sm-4 control-label">Assign To<label class="Mandatory"></label></label>
                                               
                                                       <div class="col-sm-8">
-												 <select class=" _select js-states form-control">
-                       
-                       
-                        <option value="Anitha">Anitha </option>
-                        <option value="Ramesh">Ramesh </option>
-                      </select>
+												 @Html.DropDownListFor(C => C.Enqassignid, Model.EnqassignList, new { @id = "ddlEnqassign", @Class = "form-control chosen-select", @TabIndex = 1 })
 												</div>
                                                
                                             </div>
@@ -303,9 +282,9 @@
                     cache: false,
                     success: function (response) {
                         var newlist;
-                        alert(response);
+                        //alert(JSON.stringify(response));
                         newlist = response.Itemlst;
-                        PopulateDropDown("#ddlItem" + i, newlist);
+                        PopulateDropDown("#ddlItem" + i, response);
                     },
                     error: function () {
                         debugger;
@@ -314,12 +293,12 @@
                 });
             }
              function PopulateDropDown(dropDownId, list) {
-                 alert(list);
+                 //alert(list);
                 $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
                 if (list != null && list.length > 0) {
                     $(dropDownId).removeAttr("disabled");
                     $.each(list, function () {
-                        $(dropDownId).append($("<option></option>").val(this['Value']).html(this['Text']));
+                        $(dropDownId).append($("<option></option>").val(this['value']).html(this['text']));
                     });
                 }
                 $(dropDownId).trigger("liszt:updated");
@@ -347,6 +326,8 @@
 var b = ['', '', 'twenty','thirty','forty','fifty', 'sixty','seventy','eighty','ninety'];
 
 function inWords (num) {
+    alert("dfnjdh");
+    alert(num);
     if ((num = num.toString()).length > 9) return 'overflow';
     n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
     if (!n) return; var str = '';
@@ -355,6 +336,7 @@ function inWords (num) {
     str += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'thousand ' : '';
     str += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'hundred ' : '';
     str += (n[5] != 0) ? ((str != '') ? 'and ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) + 'only ' : '';
+    alert(str);
     return str;
 }
 function changeItem(ItemId, i) {
@@ -364,6 +346,10 @@ function changeItem(ItemId, i) {
                     type: "GET",
                     success: function (result) {
                         document.getElementById("txtDesc" + i).value = result.desc;
+                        document.getElementById("txtUnit" + i).value = result.unit;
+                        document.getElementById("txtunitprim" + i).value = result.unit;
+                        document.getElementById("txtConversionfactor" + i).value = result.cf;
+                        document.getElementById("txtrate" + i).value = result.price;
                     },
                     error: function () {
                         alert("Data Not Found");
@@ -372,17 +358,20 @@ function changeItem(ItemId, i) {
             }
     function changeQty(_this, i) {
                 try {
-                    var qty = document.getElementById("txtQtyPrim" + i).value;
+                    var qty = document.getElementById("txtQuantity" + i).value;
                     var up = document.getElementById("txtrate" + i).value;
-
+                    var CF = document.getElementById("txtConversionfactor" + i).value;
                     if (qty == "")
                         qty = 0;
 
                     if (up == "")
                         up = 0;
 
+                   if (CF == "")
+                        CF = 0;
+
                     if (up > 0) {
-                        var tot = eval(qty) * eval(up);
+                        var tot = eval(qty) * eval(up) * eval(CF);
                         document.getElementById("txtAmount" + i).value = tot.toFixed(2);
                     } else {
                         document.getElementById("txtAmount" + i).value = 0;
@@ -394,9 +383,13 @@ function changeItem(ItemId, i) {
                     var j = 0;
                    $('tr.chkitemlst').each(function () {
                        if ($(this).css('display') !== 'none') {
-                           var unit = $(this).find('#txtQtyPrim' + j.toString()).val();
+                           var unit = $(this).find('#txtQuantity' + j.toString()).val();
                            var qtys = $(this).find('#txtrate' + j.toString()).val();
-                           var tots = eval(qtys) * eval(unit);
+                           var CFs = $(this).find('#txtConversionfactor' + j.toString()).val();
+                            if (CFs == "")
+                        CFs = 0;
+
+                           var tots = eval(qtys) * eval(unit) * eval(CFs);
                            GTot = eval(tots) + eval(GTot);
                        }
                        j += 1;
@@ -404,7 +397,7 @@ function changeItem(ItemId, i) {
                   
                    document.getElementById("gross").value = GTot;
                    document.getElementById("net").value = GTot;
-                   document.getElementById('words').value = inWords(document.getElementById('net').value);
+                  // document.getElementById('words').value = inWords(GTot);
 
 
                 }
@@ -425,10 +418,17 @@ function changeItem(ItemId, i) {
                 AppendRow(opt);
             }
         })
-
-
-
     }
+     $('.form_date').datetimepicker({
+     //   language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 2,
+    minView: 2,
+    forceParse: 0
+    });
          function AppendRow(opt) {
         var index = $("#tbBooks").children("tr").length;
 
@@ -438,19 +438,19 @@ function changeItem(ItemId, i) {
 
         var Desc = "<td><input class='form-control' id='txtDesc" + index + "' name='EnqLst[" + index + "].Desc'  style='width: 100px;' type='text'  /></td>";
 
-        var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='EnqLst[" + index + "].Unit'  style='width: 100px;' type='text'  /></td>";
+        var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='EnqLst[" + index + "].Unit'  style='width: 100px;' type='text'  readonly='True' /></td>";
 
-        var Conversionfactor = "<td><input class='form-control' id='txtConversionfactor" + index + "' name='EnqLst[" + index + "].Conversionfactor'  style='width: 100px;' type='text'  /></td>";
+        var Conversionfactor = "<td><input class='form-control' id='txtConversionfactor" + index + "' name='EnqLst[" + index + "].Conversionfactor'  style='width: 100px;' type='text' readonly='True' /></td>";
 
-        var Quantity = "<td><input class='form-control' id='txtQuantity" + index + "' name='EnqLst[" + index + "].Quantity'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 100px;text-align:right' type='text' value='0'  /></td>";
+        var Quantity = "<td><input class='form-control' id='txtQuantity" + index + "' name='EnqLst[" + index + "].Quantity'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 100px;text-align:right' type='text' value='0' onchange = 'changeQty(this.value," + index + ")' /></td>";
 
-       var unitprim = "<td><input class='form-control' id='txtunitprim" + index + "' name='EnqLst[" + index + "].unitprim'  style='width: 100px;' type='text'  /></td>";
+       var unitprim = "<td><input class='form-control' id='txtunitprim" + index + "' name='EnqLst[" + index + "].unitprim'  style='width: 100px;' type='text' readonly='True' /></td>";
 
         var QtyPrim = "<td><input class='form-control' id='txtQtyPrim" + index + "' name='EnqLst[" + index + "].QtyPrim'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 100px;text-align:right' type='text' value='0'  /></td>";
 
         var Rate = "<td><input class='form-control' id='txtrate" + index + "' name='EnqLst[" + index + "].rate'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 100px;text-align:right' type='text' value='0'  /></td>";
 
-        var Amount = "<td><input class='form-control' id='txtAmount" + index + "' name='EnqLst[" + index + "].Amount'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 100px;text-align:right' type='text' value='0'  /></td>";
+        var Amount = "<td><input class='form-control' id='txtAmount" + index + "' name='EnqLst[" + index + "].Amount'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 100px;text-align:right' type='text' value='0' readonly='True' /></td>";
 
         var removeCell = "<td><input id='Isvalid" + index + "' name='EnqLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='EnqLst.Index' type='hidden' value='" + index + "'  /></td>";
        

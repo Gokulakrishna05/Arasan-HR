@@ -22,6 +22,8 @@ namespace Arasan.Controllers
             ca.Brlst = BindBranch();
             ca.Suplst = BindSupplier();
             ca.Curlst = BindCurrency();
+            ca.EnqassignList = BindEmp();
+            ca.EnqRecList= BindEmp();
             List<EnqItem> TData = new List<EnqItem>();
             EnqItem tda = new EnqItem();
             for (int i = 0; i < 3; i++)
@@ -125,6 +127,24 @@ namespace Arasan.Controllers
             }
         }
 
+        public List<SelectListItem> BindEmp()
+        {
+            try
+            {
+                DataTable dtDesg = PurenqService.GetEmp();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["EMPNAME"].ToString(), Value = dtDesg.Rows[i]["EMPMASTID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public JsonResult GetItemJSON(string itemid)
         {
             EnqItem model = new EnqItem();
@@ -139,18 +159,26 @@ namespace Arasan.Controllers
             try
             {
                 DataTable dt = new DataTable();
-                //dt = Ca.GetProductDetail(ProId);
+                DataTable dt1 = new DataTable();
                 string Desc = "";
-                            
-                dt = new DataTable();
+                string unit = "";
+                string CF = "";
+                string price = "";
                 dt = PurenqService.GetItemDetails(ItemId);
-
+                
                 if (dt.Rows.Count > 0)
                 {
                     Desc = dt.Rows[0]["ITEMDESC"].ToString();
+                    unit = dt.Rows[0]["UNITID"].ToString();
+                    price= dt.Rows[0]["LATPURPRICE"].ToString();
+                    dt1 = PurenqService.GetItemCF(ItemId, dt.Rows[0]["UNITMASTID"].ToString());
+                    if(dt1.Rows.Count > 0)
+                    {
+                        CF= dt1.Rows[0]["CF"].ToString();
+                    }
                 }
 
-                var result = new { Desc = Desc };
+                var result = new { Desc = Desc, unit= unit ,CF=CF, price = price };
                 return Json(result);
             }
             catch (Exception ex)
