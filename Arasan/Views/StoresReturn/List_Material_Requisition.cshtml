@@ -1,0 +1,127 @@
+﻿
+
+@{
+    ViewData["Title"] = "List_Material_Requisition";
+}
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a>Stores Management</a> </li>
+            <li class="active"> <strong>List Material Requisition</strong> </li>
+        </ol>
+    </div>
+</div>
+
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                   
+                    <hr>
+                    <form>
+                        <div class="row">
+                            <div class="col-md-12 ">
+                                <div class=" textalignright">
+                                    <a href="@Url.Action("Material_Requisition", "StoresReturn")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Material Requisition</a>
+                                    <br>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="ibox float-e-margins">
+
+                                    <div class="ibox-content collapse in">
+                                        <div class="widgets-container">
+                                            <div>
+                                                <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>S.No</th>
+                                                            <th>Branch</th>
+                                                            <th>Location</th>
+                                                            <th>Process</th>
+                                                           
+                                                            <th>Reg Type</th>
+                                                            <th>Edit</th>
+                                                            <th>Delete</th>
+                                                        </tr>
+                                                    </thead>
+
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>1</td>
+                                                            <td>(TAAI)SVK-FACTORY </td>
+                                                            <td>FACTORY</td>
+                                                            <td>Yes</td>
+                                                            <td>Prod Issuse</td>
+
+                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Unit", "Unit")"></a></div></td>
+                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("Unit", "Unit")"></a></div></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>2</td>
+                                                            <td>(TAAI)SVK-FACTORY </td>
+                                                            <td>FACTORY</td>
+                                                            <td>No</td>
+                                                            <td>Cons Issuse</td>
+
+                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Unit", "Unit")"></a></div></td>
+                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("Unit", "Unit")"></a></div></td>
+                                                        </tr>
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#example7').DataTable({
+            dom: 'Bfrtip',
+            buttons: [{
+                text: 'copy',
+                extend: "copy",
+                className: 'btn dark btn-outline'
+            }, {
+                text: 'csv',
+                extend: "csv",
+                className: 'btn aqua btn-outline'
+            }, {
+                text: 'excel',
+                extend: "excel",
+                className: 'btn aqua btn-outline'
+            }, {
+                text: 'pdf',
+                extend: "pdf",
+                className: 'btn yellow  btn-outline'
+            }, {
+                text: 'print',
+                extend: "print",
+                className: 'btn purple  btn-outline'
+            }]
+        });
+
+
+
+    });
+</script>
