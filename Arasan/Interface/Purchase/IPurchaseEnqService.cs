@@ -10,7 +10,8 @@ namespace Arasan.Interface
         DataTable GetItem(string value);
 
         DataTable GetItemGrp();
-
+        DataTable GetEmp();
         DataTable GetItemDetails(string ItemId);
+        DataTable GetItemCF(string ItemId,string unitid);
     }
 }

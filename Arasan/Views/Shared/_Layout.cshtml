@@ -9,6 +9,8 @@
     <link rel="icon" href="~/assets/images/Arasan_Logo.ico" type="image/x-icon" />
     <!-- Bootstrap -->
     <link href="~/assets/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="~/assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
     <!-- slimscroll -->
     <link href="~/assets/css/jquery.slimscroll.css" rel="stylesheet">
     <!-- project -->
@@ -412,6 +414,20 @@
 
 
         $(".chosen-select").chosen();
+        function isNumeric(keyCode) {
+                return ((keyCode >= 48 && keyCode <= 57) || keyCode == 37 || keyCode == 39 || keyCode == 46 || keyCode == 8 || keyCode == 9 || (keyCode >= 96 && keyCode <= 105));
+            }
+
+            function isNumeric2(keyCode, e) {
+                //alert(keyCode);
+                return ((keyCode >= 48 && keyCode <= 57) || keyCode == 37 || keyCode == 39 || keyCode == 46 || keyCode == 8 || keyCode == 9 || keyCode == 190 || keyCode == 110 || (keyCode >= 96 && keyCode <= 105));
+            }
+
+            function checkLength(el) {
+                if (el.value.length != 10) {
+                    alert("Length must be exactly 10 characters")
+                }
+            }
     </script>
 
 	<script type="text/javascript" src="~/assets/js/vendor/bootstrap-datetimepicker.js" charset="UTF-8"></script>
