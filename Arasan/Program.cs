@@ -46,6 +46,7 @@ internal class Program
         builder.Services.TryAddSingleton<IHSNcodeService, HSNcodeService>();
         builder.Services.TryAddSingleton<ITaxService, TaxService>();
         builder.Services.TryAddSingleton<IPartyMasterService, PartyMasterService>();
+        builder.Services.TryAddSingleton<ILocationService, LocationService>();
 
         var app = builder.Build();
 

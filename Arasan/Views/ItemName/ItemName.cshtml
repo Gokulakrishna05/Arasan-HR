@@ -45,7 +45,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Item Group<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                                    @Html.DropDownListFor(C => C.ItemGroup, Model.IgLst, new { @id = "ddlItemGroup", @Class = "form-control chosen-select", @TabIndex = 1 })<br />
+                                                    @Html.DropDownListFor(C => C.ItemGroup, Model.IgLst, new { @id = "ddlItemGroup", @Class = "form-control chosen-select", @TabIndex = 1 })<br /><br />
 
                                                 </div>
                                 </div>
@@ -55,7 +55,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Sub Group<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                                    @Html.DropDownListFor(C => C.ItemSubGroup, Model.Isglst, new { @id = "ddlItemSubGroup", @Class = "form-control chosen-select", @TabIndex = 1 })<br />
+                                                    @Html.DropDownListFor(C => C.ItemSubGroup, Model.Isglst, new { @id = "ddlItemSubGroup", @Class = "form-control chosen-select", @TabIndex = 1 })<br /><br />
 
                                                 </div>
 
@@ -69,7 +69,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Item Category<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                                    @Html.DropDownListFor(C => C.ItemCategory, Model.Iclst, new { @id = "ddlItemCategory", @Class = "form-control chosen-select", @TabIndex = 1 })<br />
+                                                    @Html.DropDownListFor(C => C.ItemCategory, Model.Iclst, new { @id = "ddlItemCategory", @Class = "form-control chosen-select", @TabIndex = 1 })<br /><br />
 
                                     </div>
                                 </div>
@@ -600,25 +600,7 @@
               </div>
             </div>
 
-            <script>
-                            $(".chosen-select").chosen();
-            </script>
-
-
-                      
-                           
-                       
-                       
-                        
-                      
-                        
-                       
-                        
-                        
-                       
-                        
-                       
-                            
+        
                             <div style="height:30px;"></div>
                             <a button type="submit" class="btn aqua m-t-xs bottom15-xs" href="@Url.Action("ItemList", "ItemName")">Submit</a>
                             <a button class="btn btn-danger" type="submit" href="@Url.Action("ItemList", "ItemName")">Cancel</a>
@@ -631,3 +613,6 @@
         </div>
     </div>
 </div>
+<script>
+    $(".chosen-select").chosen();
+</script>
