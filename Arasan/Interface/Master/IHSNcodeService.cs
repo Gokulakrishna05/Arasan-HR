@@ -7,5 +7,8 @@ namespace Arasan.Interface.Master
 {
     public interface IHSNcodeService
     {
+        string HSNcodeCRUD(HSNcode by);
+        IEnumerable<HSNcode> GetAllHSNcode();
+        HSNcode GetHSNcodeById(string id);
     }
 }

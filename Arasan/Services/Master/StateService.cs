@@ -25,7 +25,7 @@ namespace Arasan.Services.Master
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select STATE,STATE_CODE,STATEMASTID from STATEMAST";
+                    cmd.CommandText = "Select STATE,STATE_CODE,COUNTRYMASTID,STATEMASTID from STATEMAST";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -33,7 +33,8 @@ namespace Arasan.Services.Master
                         {
                             ID = rdr["STATEMASTID"].ToString(),
                             StateName = rdr["STATE"].ToString(),
-                            StateCode = rdr["STATE_CODE"].ToString()
+                            StateCode = rdr["STATE_CODE"].ToString(),
+                            countryid = rdr["COUNTRYMASTID"].ToString()
                         };
                         staList.Add(sta);
                     }
@@ -41,7 +42,16 @@ namespace Arasan.Services.Master
             }
             return staList;
         }
-
+        public DataTable Getcountry()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select COUNTRYNAME,COUNTRYMASTID from CONMAST order by COUNTRYMASTID asc";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
 
         public State GetStateById(string eid)
         {
@@ -51,7 +61,7 @@ namespace Arasan.Services.Master
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select STATE,STATE_CODE,STATEMASTID from STATEMAST where STATEMASTID=" + eid + "";
+                    cmd.CommandText = "Select STATE,STATE_CODE,COUNTRYMASTID,STATEMASTID from STATEMAST where STATEMASTID=" + eid + "";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -59,7 +69,8 @@ namespace Arasan.Services.Master
                         {
                             ID = rdr["STATEMASTID"].ToString(),
                             StateName = rdr["STATE"].ToString(),
-                            StateCode = rdr["STATE_CODE"].ToString()
+                            StateCode = rdr["STATE_CODE"].ToString(),
+                            countryid = rdr["COUNTRYMASTID"].ToString()
                         };
                         State = sta;
                     }
@@ -95,6 +106,7 @@ namespace Arasan.Services.Master
 
                     objCmd.Parameters.Add("STATE", OracleDbType.NVarchar2).Value = ss.StateName;
                     objCmd.Parameters.Add("STATE_CODE", OracleDbType.NVarchar2).Value = ss.StateCode;
+                    objCmd.Parameters.Add("COUNTRYMASTID", OracleDbType.NVarchar2).Value = ss.countryid;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     try
                     {

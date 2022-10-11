@@ -22,6 +22,9 @@
                 <div class="widgets-container">
                    
                     <hr>
+                    @using (Html.BeginForm("HSNcode", "HSNcode", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
                     <form>
                         <div class="row">
                             <div class="col-lg-3"></div>
@@ -30,7 +33,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">HSN Code<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" type="text"><br />
+                                            @Html.TextBoxFor(C => C.HCode, new { @id = "txtHCode", @class = "form-control", @TabIndex = 1 })<br />
                                     </div>
                                 </div>
                             </div>
@@ -42,7 +45,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Description<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" type="text"><br />
+                                            @Html.TextBoxFor(C => C.Dec, new { @id = "txtDec", @class = "form-control", @TabIndex = 1 })<br />
                                     </div>
                                 </div>
                             </div>
@@ -54,7 +57,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">GST%<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" type="text"><br />
+                                            @Html.TextBoxFor(C => C.Gt, new { @id = "txtGt", @class = "form-control", @TabIndex = 1 })<br />
                                     </div>
                                 </div>
                             </div>
@@ -63,13 +66,15 @@
                             <div class="col-lg-3"></div>
                             <div class="form-group">
                                 <div class="col-sm-4 col-sm-offset-2">
-                                    <a button class="btn aqua" type="submit"  href="@Url.Action("ListHSNcode", "HSNcode")">Save</a>
-                                    <a button class="btn btn-white" type="submit"  href="@Url.Action("ListHSNcode", "HSNcode")"> Cancel </a>
+                                        <button type="submit" name="submit" class="btn btn-success" id="btnSave" value="Save" tabindex="18">Insert</button>
+                                        <input type="reset" class="btn btn-primary" value="Reset">
+                                    <a button class="btn btn-danger" type="submit"  href="@Url.Action("ListHSNcode", "HSNcode")"> Cancel </a>
                                 </div>
                             </div>
                         </div>
 
                     </form>
+                    }
                 </div>
             </div>
         </div>

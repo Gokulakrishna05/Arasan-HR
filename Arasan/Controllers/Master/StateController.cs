@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using Arasan.Interface;
 using Arasan.Interface.Master;
 using Arasan.Models;
 using Arasan.Services.Master;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Arasan.Controllers.Master
 {
@@ -17,6 +19,7 @@ namespace Arasan.Controllers.Master
         public IActionResult State(string id)
         {
             State st = new State();
+            st.cuntylst = BindCountry();
             if (id == null)
             {
 
@@ -71,7 +74,23 @@ namespace Arasan.Controllers.Master
             return View(sta);
         }
 
-
+        public List<SelectListItem> BindCountry()
+        {
+            try
+            {
+                DataTable dtDesg = StateService.Getcountry();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COUNTRYNAME"].ToString(), Value = dtDesg.Rows[i]["COUNTRYMASTID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
     }
 }
