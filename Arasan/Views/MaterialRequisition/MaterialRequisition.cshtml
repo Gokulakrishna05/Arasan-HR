@@ -1,4 +1,7 @@
-﻿
+﻿@model Arasan.Models.Store_Management.MaterialRequisition
+@{
+    ViewData["Title"] = "Material Requisition";
+}
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
 
@@ -21,12 +24,10 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Branch<label class="Mandatory"></label></label>
-                                   <div class="col-sm-8">
-                                                
-                        @Html.DropDownListFor(C => C.Branch, Model.Brlst, new { @id = "ddlBranch", @Class = "form-control chosen-select", @TabIndex = 1 })
-                       
-                              </div>
+                                    <label for="inputName3" class="col-sm-4 control-label">Branch <label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.Branch, Model.Brlst, new { @id = "ddlBranch", @Class = "form-control chosen-select", @TabIndex = 1 })
+                                    </div>
                                 </div>
                             </div>
 
@@ -36,19 +37,19 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Document ID<label class="Mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">DocumentNo<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="SRT-300017" type="text">
-                                    </div>
+                                         @Html.TextBoxFor(C => C.MaterialReqId, new { @id = "MaterialReqno", @class = "form-control", @TabIndex = 2 })
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">Document Date<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="" type="date"><br />
-                                    </div>
+                                   <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy" >
+                                                         @Html.TextBoxFor(C => C.MaterialReqDate, new { @id = "MaterialReqDate", @class = "form-control", @TabIndex = 3,@size="32",@readonly=true })
+														<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+													</div>
                                 </div>
                             </div>
                         </div>
@@ -60,11 +61,11 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Location<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="" type="text">
+                                         @Html.DropDownListFor(C => C.Location, Model.Locltr, new { @id = "ddllocation", @Class = "form-control chosen-select", @TabIndex = 4 })
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                          @*  <div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">Location Consumed<label class="Mandatory"></label></label>
@@ -72,7 +73,7 @@
                                         <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
                         </div>
 
 
