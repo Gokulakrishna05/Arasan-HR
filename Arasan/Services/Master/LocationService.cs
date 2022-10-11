@@ -16,6 +16,16 @@ namespace Arasan.Services
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
         }
+        public DataTable GetBranch()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select BRANCHMASTID,BRANCHID from BRANCHMAST order by BRANCHMASTID asc";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public IEnumerable<Location> GetAllLocations()
         {
             List<Location> cmpList = new List<Location>();
@@ -25,7 +35,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select LOCID,LOCATIONTYPE,CPNAME,PHNO,FAXNO,EMAIL,ADD1,BRANCHID,BINYN,TRADEYN,FLWORD,LOCDETAILSID from LOCDETAILS";
+                    cmd.CommandText = "Select LOCID,LOCATIONTYPE,CPNAME,PHNO,EMAIL,ADD1,BRANCHID,LOCDETAILSID from LOCDETAILS";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -33,16 +43,13 @@ namespace Arasan.Services
                         {
                             ID = rdr["LOCDETAILSID"].ToString(),
                             LocationId = rdr["LOCID"].ToString(),
-                            LocationType = rdr["LOCATIONTYPE"].ToString(),
+                            LocType = rdr["LOCATIONTYPE"].ToString(),
                             ContactPer = rdr["CPNAME"].ToString(),
                             PhoneNo = rdr["PHNO"].ToString(),
-                            FaxNo = rdr["FAXNO"].ToString(),
                             EmailId = rdr["EMAIL"].ToString(),
                             Address = rdr["ADD1"].ToString(),
-                            Branch = rdr["BRANCHID"].ToString(),
-                            Bin = rdr["BINYN"].ToString(),
-                            Trade = rdr["TRADEYN"].ToString(),
-                            FlowOrd = rdr["FLWORD"].ToString()
+                            Branch = rdr["BRANCHID"].ToString()
+                          
                         };
                         cmpList.Add(cmp);
                     }
@@ -60,7 +67,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select LOCID,LOCATIONTYPE,CPNAME,PHNO,FAXNO,EMAIL,ADD1,BRANCHID,BINYN,TRADEYN,FLWORD,LOCDETAILSID from LOCDETAILS where LOCDETAILSID=" + eid + "";
+                    cmd.CommandText = "Select LOCID,LOCATIONTYPE,CPNAME,PHNO,EMAIL,ADD1,BRANCHID,LOCDETAILSID from LOCDETAILS where LOCDETAILSID=" + eid + "";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -68,16 +75,14 @@ namespace Arasan.Services
                         {
                             ID = rdr["LOCDETAILSID"].ToString(),
                             LocationId = rdr["LOCID"].ToString(),
-                            LocationType = rdr["LOCATIONTYPE"].ToString(),
+                            LocType = rdr["LOCATIONTYPE"].ToString(),
                             ContactPer = rdr["CPNAME"].ToString(),
                             PhoneNo = rdr["PHNO"].ToString(),
-                            FaxNo = rdr["FAXNO"].ToString(),
+                           
                             EmailId = rdr["EMAIL"].ToString(),
                             Address = rdr["ADD1"].ToString(),
-                            Branch = rdr["BRANCHID"].ToString(),
-                            Bin = rdr["BINYN"].ToString(),
-                            Trade = rdr["TRADEYN"].ToString(),
-                            FlowOrd = rdr["FLWORD"].ToString()
+                            Branch = rdr["BRANCHID"].ToString()
+                           
                         };
                     
                         location = cmp;
@@ -112,17 +117,17 @@ namespace Arasan.Services
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                     }
 
-                    objCmd.Parameters.Add("LocationId", OracleDbType.NVarchar2).Value = cy.LocationId;
-                    objCmd.Parameters.Add("LocationType", OracleDbType.NVarchar2).Value = cy.LocationType;
-                    objCmd.Parameters.Add("ContactPer", OracleDbType.NVarchar2).Value = cy.ContactPer;
-                    objCmd.Parameters.Add("PhoneNo", OracleDbType.NVarchar2).Value = cy.PhoneNo;
-                    objCmd.Parameters.Add("FaxNo", OracleDbType.NVarchar2).Value = cy.FaxNo;
-                    objCmd.Parameters.Add("EmailId", OracleDbType.NVarchar2).Value = cy.EmailId;
-                    objCmd.Parameters.Add("Address", OracleDbType.NVarchar2).Value = cy.Address;
-                    objCmd.Parameters.Add("Branch", OracleDbType.Int64).Value = cy.Branch;
-                    objCmd.Parameters.Add("Bin", OracleDbType.NVarchar2).Value = cy.Bin;
-                    objCmd.Parameters.Add("Trade", OracleDbType.NVarchar2).Value = cy.Trade;
-                    objCmd.Parameters.Add("FlowOrd", OracleDbType.Int64).Value = cy.FlowOrd;
+                    objCmd.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = cy.LocationId;
+                    objCmd.Parameters.Add("LOCATIONTYPE", OracleDbType.NVarchar2).Value = cy.LocType;
+                    objCmd.Parameters.Add("CPNAME", OracleDbType.NVarchar2).Value = cy.ContactPer;
+                    objCmd.Parameters.Add("PHNO", OracleDbType.NVarchar2).Value = cy.PhoneNo;
+                  //  objCmd.Parameters.Add("FaxNo", OracleDbType.NVarchar2).Value = cy.FaxNo;
+                    objCmd.Parameters.Add("EMAIL", OracleDbType.NVarchar2).Value = cy.EmailId;
+                    objCmd.Parameters.Add("ADD1", OracleDbType.NVarchar2).Value = cy.Address;
+                    objCmd.Parameters.Add("BRANCHID", OracleDbType.Int64).Value = cy.Branch;
+                   // objCmd.Parameters.Add("Bin", OracleDbType.NVarchar2).Value = cy.Bin;
+                   // objCmd.Parameters.Add("Trade", OracleDbType.NVarchar2).Value = cy.Trade;
+                   // objCmd.Parameters.Add("FlowOrd", OracleDbType.Int64).Value = cy.FlowOrd;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     try
                     {

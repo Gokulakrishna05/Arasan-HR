@@ -1,0 +1,156 @@
+﻿@model IEnumerable<Arasan.Models.Location>
+
+@{
+    ViewData["Title"] = "Location";
+}
+
+
+
+
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a>Master</a> </li>
+            <li class="active"> <strong>Location</strong> </li>
+        </ol>
+    </div>
+</div>
+
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+
+                <div class="widgets-container">
+
+
+
+                    <from>
+                        <div class="row">
+                            <div class="col-md-12 ">
+                                <div class=" textalignright">
+                                    <a href="@Url.Action("Location", "Location")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Location</a>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-32">
+                                <div class="ibox float-e-margins">
+
+                                    <div class="ibox-content collapse in">
+                                        <div class="widgets-container">
+                                            <div>
+                                                <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <td>S.No</td>
+                                                            <th>Location ID</th>
+                                                            <th>Location Type</th>
+                                                            <th>Contact Person</th>
+                                                            <th>Phone No</th>
+                                                            <th>E-Mail</th>
+                                                            <th>Edit</th>
+                                                            <th>Delete</th>
+                                                        </tr>
+                                                    </thead>
+
+                                                    <tbody>
+                                                        @{
+                                                            int i = 1;
+
+                                                            foreach (var item in Model)
+                                                            {
+                                                                <tr>
+                                                                    <td>@i</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.LocationId)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.LocType)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.ContactPer)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.PhoneNo)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.EmailId)</td>
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Location", "Location",new { id=item.ID })"></a></div></td>
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("Location", "Location", new { id=item.ID })"></a></div></td>
+                                                                </tr>
+                                                                i++;
+                                                            }
+                                                        }
+                                                        @* <tr>
+                                                        <td>2</td>
+                                                        <td>Mechanical</td>
+                                                        <td>Hose ( Metalic, Hydralic)</td>
+
+                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("ItemGroup", "ItemGroup")"></a></div></td>
+                                                        <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("ItemGroup", "ItemGroup")"></a></div></td>
+                                                        </tr>
+                                                        <tr>
+                                                        <td>3</td>
+                                                        <td>Mechanical</td>
+                                                        <td>Oilseal</td>
+
+                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("ItemGroup", "ItemGroup")"></a></div></td>
+                                                        <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("ItemGroup", "ItemGroup")"></a></div></td>
+                                                        </tr>*@
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+
+
+                            </div>
+
+                        </div>
+                    </from>
+
+
+
+
+
+
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#example7').DataTable({
+            dom: 'Bfrtip',
+            buttons: [{
+                text: 'copy',
+                extend: "copy",
+                className: 'btn dark btn-outline'
+            }, {
+                text: 'csv',
+                extend: "csv",
+                className: 'btn aqua btn-outline'
+            }, {
+                text: 'excel',
+                extend: "excel",
+                className: 'btn aqua btn-outline'
+            }, {
+                text: 'pdf',
+                extend: "pdf",
+                className: 'btn yellow  btn-outline'
+            }, {
+                text: 'print',
+                extend: "print",
+                className: 'btn purple  btn-outline'
+            }]
+        });
+
+
+
+    });
+</script>
+

@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using Arasan.Interface;
 
 using Arasan.Models;
 using Arasan.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Arasan.Controllers
 {
@@ -18,6 +20,7 @@ namespace Arasan.Controllers
         public IActionResult Location(string id)
         {
             Location ca = new Location();
+            ca.Brlst = BindBranch();
             if (id == null)
             {
 
@@ -70,6 +73,23 @@ namespace Arasan.Controllers
         {
             IEnumerable<Location> cmp = LocationService.GetAllLocations();
             return View(cmp);
+        }
+        public List<SelectListItem> BindBranch()
+        {
+            try
+            {
+                DataTable dtDesg = LocationService.GetBranch();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["BRANCHID"].ToString(), Value = dtDesg.Rows[i]["BRANCHMASTID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
     }
