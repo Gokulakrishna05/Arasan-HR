@@ -23,15 +23,16 @@
                         <div class="row">
                             <div class="col-md-12 ">
                                 <div class=" textalignright">
-                                    <a href="@Url.Action("State", "State")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Item</a>
+                                    <a href="@Url.Action("State", "State")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add State</a>
                                     <br>
                                 </div>
-                             </div>
+                            </div>
                         </div>
-                         <div class="row">
+                        <div class="row">
                             <div class="col-lg-12">
                                 <div class="ibox float-e-margins">
 
+                                    .
                                     <div class="ibox-content collapse in">
                                         <div class="widgets-container">
                                             <div>
@@ -39,7 +40,7 @@
                                                     <thead>
                                                         <tr>
                                                             <td>S.No</td>
-                                                           
+                                                            <th>Country</th>
                                                             <th>State Name</th>
                                                             <th>State Code</th>
                                                             <th>Edit</th>
@@ -48,36 +49,39 @@
                                                     </thead>
 
                                                     <tbody>
-                                                         @{
+                                                        @{
                                                             int i = 1;
 
-                                                            foreach (var item in Model) {
-                                                        <tr>
+                                                            foreach (var item in Model)
+                                                            {
+                                                                <tr>
                                                                     <td>@i</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.countryid)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.StateName)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.StateCode)</td>
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("State", "State",new { id=item.ID })"></a></div></td>
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("State", "State",new { id=item.ID })"></a></div></td>
-                                                        </tr>
-                                                           i++;
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("State", "State",new { id=item.ID })"></a></div></td>
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("State", "State",new { id=item.ID })"></a></div></td>
+
+                                                                </tr>
+                                                                i++;
+                                                            }
                                                         }
-                                                        }
-                                                       
-                                                       @*<tr>
-                                                            <td>2</td>
-                                                            <td>India</td>
-                                                            <td>KA</td>
-                                                            <td>Karnataka</td>
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("State", "State")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("State", "State")"></a></div></td>
+
+                                                        @*<tr>
+                                                        <td>2</td>
+                                                        <td>India</td>
+                                                        <td>KA</td>
+                                                        <td>Karnataka</td>
+                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("State", "State")"></a></div></td>
+                                                        <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("State", "State")"></a></div></td>
                                                         </tr>
                                                         <tr>
-                                                            <td>3</td>
-                                                            <td>India</td>
-                                                            <td>KL</td>
-                                                            <td>Kerala</td>
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("State", "State")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("State", "State")"></a></div></td>
+                                                        <td>3</td>
+                                                        <td>India</td>
+                                                        <td>KL</td>
+                                                        <td>Kerala</td>
+                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("State", "State")"></a></div></td>
+                                                        <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("State", "State")"></a></div></td>
                                                         </tr>>*@
                                                     </tbody>
                                                 </table>
@@ -119,5 +123,5 @@
                 className: 'btn purple  btn-outline'
             }]
         });
-   });
+    });
 </script>
