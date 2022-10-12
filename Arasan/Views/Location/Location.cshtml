@@ -46,7 +46,7 @@
 
                                         <label for="inputName3" class="col-sm-4 control-label">Branch<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.Branch, new { @id = "txtBranch", @class = "form-control", @TabIndex = 1 })<br />
+                                            @Html.DropDownListFor(C => C.Branch, Model.Brlst, new { @id = "ddlBranch", @Class = "form-control chosen-select", @TabIndex = 1 })<br /><br />
                                         </div>
 
                                     </div>
@@ -59,12 +59,13 @@
 
                                         <label for="inputName3" class="col-sm-4 control-label">Location Type<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.LocationType, new { @id = "txtLocationType", @class = "form-control", @TabIndex = 1 })<br />
+                                        @Html.TextBoxFor(C => C.LocType, new { @id = "txtLocationType", @class = "form-control", @TabIndex = 1 })<br />
                                         </div>
 
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                </div>
+                              @*  <div class="col-md-6">
                                     <div class="form-group">
 
                                         <label for="inputName3" class="col-sm-4 control-label">Trade Y/N <label class="Mandatory"></label></label>
@@ -74,10 +75,10 @@
 
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
+                            </div>*@
+                            @*  <div class="row">
 
-                                <div class="col-md-6">
+                              <div class="col-md-6">
                                     <div class="form-group">
 
                                         <label for="inputName3" class="col-sm-4 control-label">Bin Required Y/N <label class="Mandatory"></label></label>
@@ -87,7 +88,7 @@
 
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
                             <div class="row">
 
                                 <div class="col-md-6">
@@ -118,7 +119,7 @@
 
                                         <label for="inputName3" class="col-sm-4 control-label">Address<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.Address, new { @id = "txtAddress", @class = "form-control", @TabIndex = 1 })<br />
+                                        @Html.TextAreaFor(C => C.Address, new { @id = "txtAddress", @class = "form-control", @TabIndex = 1 })<br />
                                         </div>
 
                                     </div>
@@ -134,7 +135,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            @* <div class="row">
 
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -145,7 +146,7 @@
                                         </div>
 
                                     </div>
-                                </div>
+                           
                                 <div class="col-md-6">
                                     <div class="form-group">
 
@@ -156,7 +157,7 @@
 
                                     </div>
                                 </div>
-                            </div>
+                            </div>    *@
                             <div style="height:30px;"></div>
                             <div class="col-lg-8"></div>
                             <button type="submit" name="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" value="Save" tabindex="18">Save</button>
