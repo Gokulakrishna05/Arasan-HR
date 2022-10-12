@@ -1,4 +1,4 @@
-﻿@model Arasan.Models.ItemSubGroup
+﻿@model IEnumerable<Arasan.Models.ItemSubGroup>
 @{
     ViewData["Title"] = "Item Sub Group ";
 }
@@ -18,7 +18,7 @@
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="widgets-container">
-                   
+
                     <form>
                         <div class="row">
                             <div class="col-md-12 ">
@@ -41,7 +41,7 @@
                                                 <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
                                                     <thead>
                                                         <tr>
-                                                              <th>S.No</th>
+                                                            <th>S.No</th>
                                                             <th>Item Sub Group</th>
                                                             <th> Description</th>
 
@@ -49,32 +49,40 @@
                                                             <th>Delete</th>
                                                         </tr>
                                                     </thead>
-                                                   
+
                                                     <tbody>
-                                                        <tr>
-                                                            <td>1</td>
-                                                            <td>Mechanical</td>
-                                                            <td>OTHERS</td>
+                                                        @{
+                                                            int i = 1;
 
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("ItemSubGroup", "ItemSubGroup")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("ItemSubGroup", "ItemSubGroup")"></a></div></td>
+                                                            foreach (var item in Model)
+                                                            {
+                                                                <tr>
+                                                                    <td>@i</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.itemSubGroup )</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Descreption)</td>
+
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("ItemSubGroup", "ItemSubGroup",new { id=item.ID })"></a></div></td>
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("ItemSubGroup", "ItemSubGroup",new { id=item.ID })"></a></div></td>
+                                                                </tr>
+                                                                i++;
+                                                            }
+                                                        }
+                                                        @*<tr>
+                                                        <td>2</td>
+                                                        <td>Mechanical</td>
+                                                        <td>Hose ( Metalic, Hydralic)</td>
+
+                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("ItemSubGroup", "ItemSubGroup")"></a></div></td>
+                                                        <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("ItemSubGroup", "ItemSubGroup")"></a></div></td>
                                                         </tr>
                                                         <tr>
-                                                            <td>2</td>
-                                                            <td>Mechanical</td>
-                                                            <td>Hose ( Metalic, Hydralic)</td>
+                                                        <td>3</td>
+                                                        <td>Mechanical</td>
+                                                        <td>Oilseal</td>
 
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("ItemSubGroup", "ItemSubGroup")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("ItemSubGroup", "ItemSubGroup")"></a></div></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>3</td>
-                                                            <td>Mechanical</td>
-                                                            <td>Oilseal</td>
-
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("ItemSubGroup", "ItemSubGroup")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("ItemSubGroup", "ItemSubGroup")"></a></div></td>
-                                                        </tr>
+                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("ItemSubGroup", "ItemSubGroup")"></a></div></td>
+                                                        <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("ItemSubGroup", "ItemSubGroup")"></a></div></td>
+                                                        </tr>*@
                                                     </tbody>
                                                 </table>
                                             </div>
