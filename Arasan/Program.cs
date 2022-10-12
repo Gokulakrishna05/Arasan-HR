@@ -6,7 +6,10 @@ using Arasan.Interface.Master;
 using Arasan.Services.Master;
 using Arasan.Interface.Production;
 using Arasan.Services.Production;
+using Arasan.Interface.Store_Management;
+using Arasan.Services.Store_Management;
 using Arasan.Controllers.Master;
+using Arasan.Controllers.Store_Management;
 
 
 
@@ -47,6 +50,7 @@ internal class Program
         builder.Services.TryAddSingleton<ITaxService, TaxService>();
         builder.Services.TryAddSingleton<IPartyMasterService, PartyMasterService>();
         builder.Services.TryAddSingleton<ILocationService, LocationService>();
+        builder.Services.TryAddSingleton<IMaterialRequisition, MaterialRequisitionService>();
 
         var app = builder.Build();
 
