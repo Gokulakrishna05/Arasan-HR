@@ -73,7 +73,8 @@ namespace Arasan.Services.Master
             string msg = "";
             try
             {
-                string StatementType = string.Empty; string svSQL = "";
+                string StatementType = string.Empty; 
+                //string svSQL = "";
                 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
@@ -104,7 +105,7 @@ namespace Arasan.Services.Master
                     }
                     catch (Exception ex)
                     { 
-                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
+                        System.Console.WriteLine("Exception: {0}", ex.ToString());
                     }
                     objConn.Close();
                 }
