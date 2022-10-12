@@ -16,10 +16,30 @@ namespace Arasan.Services.Master
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
         }
-        public DataTable GetBranch()
+        public DataTable GetCompany()
         {
             string SvSql = string.Empty;
-            SvSql = "select BRANCHMASTID,BRANCHID from BRANCHMAST where order by BRANCHMASTID asc";
+            SvSql = "select COMPANYID,COMPANYMASTID from  COMPANYMAST order by COMPANYMASTID asc";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable Getcountry()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select COUNTRYNAME,COUNTRYMASTID from CONMAST order by COUNTRYMASTID asc";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetState()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select STATE,STATEMASTID from  STATEMAST order by STATEMASTID asc";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

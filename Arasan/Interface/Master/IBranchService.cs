@@ -9,7 +9,9 @@ namespace Arasan.Interface.Master
 
 
     {
-        DataTable GetBranch();
+        DataTable GetCompany();
+        DataTable Getcountry();
+        DataTable GetState();
     }
 }
 
