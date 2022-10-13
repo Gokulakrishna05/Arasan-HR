@@ -19,6 +19,9 @@
                 <div class="widgets-container">
                     <h5 style="font-size:14px"> Material Requisition </h5>
                     <hr>
+                          @using (Html.BeginForm("MaterialRequisition", "MaterialRequisition", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
                     <form>
                         <div class="row">
                             <div class="col-md-6">
@@ -32,6 +35,7 @@
                             </div>
 
                         </div>
+                        <div style="height:20px;"></div>
 
                         <div class="row">
                             <div class="col-md-6">
@@ -41,6 +45,7 @@
                                     <div class="col-sm-8">
                                          @Html.TextBoxFor(C => C.MaterialReqId, new { @id = "MaterialReqno", @class = "form-control", @TabIndex = 2 })
                                 </div>
+                            </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -54,6 +59,7 @@
                             </div>
                         </div>
 
+                    
 
                         <div class="row">
                             <div class="col-md-6">
@@ -61,7 +67,16 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Location<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                         @Html.DropDownListFor(C => C.Location, Model.Locltr, new { @id = "ddllocation", @Class = "form-control chosen-select", @TabIndex = 4 })
+                                         @Html.DropDownListFor(C => C.Location, Model.Loclst, new { @id = "ddllocation", @Class = "form-control chosen-select", @TabIndex = 4 })
+                                    </div>
+                                </div>
+                            </div>
+
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Work Center<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                          @Html.DropDownListFor(C => C.WorkCenter, Model.Worklst, new { @id = "ddlworkcenter", @Class = "form-control chosen-select", @TabIndex = 5 })
                                     </div>
                                 </div>
                             </div>
@@ -75,18 +90,10 @@
                                 </div>
                             </div>*@
                         </div>
-
+                          <div style="height:20px;"></div>
 
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="inputName3" class="col-sm-4 control-label">Work Center<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="" type="text">
-                                    </div>
-                                </div>
-                            </div>
-                   
+                                             
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-4 control-label">Process<label class="Mandatory"></label></label>
@@ -95,10 +102,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
+                             <div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">Reg Type <label class="Mandatory"></label></label>
@@ -116,7 +120,9 @@
                             </div>
 
                         </div>
-                        <div class="row">
+
+                      
+                      @*  <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <br /><br />    <label for="inputName3" class="col-sm-4 control-label">Pro.sch.No<label class="Mandatory"></label></label>
@@ -125,7 +131,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>*@
                         <div style="height:30px;"></div>
                         <div class="row">
                             <div class="col-md-12">
@@ -135,21 +141,17 @@
                             </div>
 
                                         
-                            <div class="col-lg-12">
-                                <div class="ibox float-e-margins">
-
-                                    <!-- / ibox-title -->
-                                    <div id="demo3" class="ibox-content collapse in">
-                                        <div class="borderedTable">
-                                            <div class="table-scrollable">
-                                                <table class="table table-striped table-hover">
+                           <div class="row">
+           <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
+                           
+                                                <table class="table table-striped table-hover" id="dataTable">
                                                     <thead>
                                                         <tr>
 
 
                                                             <th> S. No. </th>
                                                             <th>Sub Group</th>
-                                                            <th> Item ID </th>
+                                                            <th> Item </th>
                                                             <th>Val Method</th>
                                                             <th> Unit </th>
                                                             <th> Closing Stock </th>
@@ -164,53 +166,38 @@
                                                         </tr>
 
                                                     </thead>
-                                                    <tbody>
+                                                    <tbody id="tbBooks">
+                                                        
+                                                        @{
 
-                                                        <tr>
-                                                            <td> 1 </td>
-
-                                                            <td><input class="form-control" id="inputEmail3" placeholder="Sub Group" type="text"> </td>
-                                                            <td><input class="form-control" id="inputEmail3" placeholder="Item ID" type="text"> </td>
-                                                            <td><input class="form-control" id="inputEmail3" placeholder="Val Method" type="text"> </td>
-                                                            <td><input class="form-control" id="inputEmail3" placeholder="Unit" type="text"> </td>
-                                                            <td><input class="form-control" id="inputEmail3" placeholder="Closing Stock" type="text"> </td>
-                                                            <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
-                                                            <td><input class="form-control" id="inputEmail3" placeholder="Type" type="text"> </td>
-                                                            <td><input class="form-control" id="inputEmail3" placeholder="Narration" type="text"> </td>
-                                                           
-
-
-                                                        </tr>
-                                                        <tr>
-                                                            <td> 2 </td>
-
-                                                            <td><input class="form-control" id="inputEmail3" placeholder="Sub Group" type="text"> </td>
-                                                            <td><input class="form-control" id="inputEmail3" placeholder="Item ID" type="text"> </td>
-                                                            <td><input class="form-control" id="inputEmail3" placeholder="Val Method" type="text"> </td>
-                                                            <td><input class="form-control" id="inputEmail3" placeholder="Unit" type="text"> </td>
-                                                            <td><input class="form-control" id="inputEmail3" placeholder="Closing Stock" type="text"> </td>
-                                                            <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
-                                                            <td><input class="form-control" id="inputEmail3" placeholder="Type" type="text"> </td>
-                                                            <td><input class="form-control" id="inputEmail3" placeholder="Narration" type="text"> </td>
-                                                           
-
-
-                                                        </tr>
-
-                                                        <tr>
-                                                            <td>3</td>
-
-                                                            <td><input class="form-control" id="inputEmail3" placeholder="Sub Group" type="text"> </td>
-                                                            <td><input class="form-control" id="inputEmail3" placeholder="Item ID" type="text"> </td>
-                                                            <td><input class="form-control" id="inputEmail3" placeholder="Val Method" type="text"> </td>
-                                                            <td><input class="form-control" id="inputEmail3" placeholder="Unit" type="text"> </td>
-                                                            <td><input class="form-control" id="inputEmail3" placeholder="Closing Stock" type="text"> </td>
-                                                            <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
-                                                            <td><input class="form-control" id="inputEmail3" placeholder="Type" type="text"> </td>
-                                                            <td><input class="form-control" id="inputEmail3" placeholder="Narration" type="text"> </td>
+                                                            int i = 0;
+                                                            foreach (var item in Model.MRlst.ToList())
+                                                            {
+                                                          <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
                                                             
 
-                                                        <tr></tr>
+                                                                <td>
+                                                                                                            @Html.DropDownListFor(o => o.MRlst[i].ItemGroupId, Model.MRlst[i].ItemGrouplst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItemGrp" + i, style = "width: 170px;", onchange = "Grup_Change(this.value," + i + ")"})
+                                                                                                        </td>
+                                                                                                        <td>
+                                                                                                            @Html.DropDownListFor(o => o.MRlst[i].ItemId, Model.MRlst[i].Itemlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItem" + i, style = "width: 170px;", onchange = "changeItem(this.value," + i + ")" })
+                                                                                                        </td>
+                                                              
+                                                                <td>@Html.TextBoxFor(o => o.MRlst[i].Unit, new { @id = "txtUnit" + i, @class = "form-control", style = "width: 100px;", @readonly = "readonly"}) </td>
+                                                                <td> @Html.TextBoxFor(o => o.MRlst[i].ClosingStock, new { @id = "txtStock" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right" ,@readonly="readonly"})</td>
+                                                               
+                                                                <td>@Html.TextBoxFor(o => o.MRlst[i].ReqQty, new { @id = "txtQuantity" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right"})</td>
+                                                               
+                                                                                                            @Html.HiddenFor(o => o.MRlst[i].Isvalid, new { @id = "Isvalid" + i })
+                                                                                                            <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="PILst.Index" type="hidden" value="@(i)" />
+                                                                                                        
+
+
+                                                            </tr>
+                                                      
+                                                          i = i + 1;
+                                                            }
+                                                        }
 
                                                     </tbody>
 
@@ -221,9 +208,10 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
+                              
+                         @*   </div>
                         </div>
+                       *@
 
                         <div class="row">
                             <div class="col-md-6">
@@ -272,6 +260,7 @@
                         <button type="submit" class="btn aqua m-t-xs bottom15-xs">Submit</button>
                         <button class="btn btn-danger" type="submit">Cancel</button>
                     </form>
+                    }
                 </div>
             </div>
         </div>

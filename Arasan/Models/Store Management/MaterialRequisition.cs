@@ -8,7 +8,9 @@ namespace Arasan.Models.Store_Management
         public MaterialRequisition()
             {
             this.Brlst = new List<SelectListItem>();
-            this.Locltr = new List<SelectListItem>();
+            this.Loclst = new List<SelectListItem>();
+            this.Worklst = new List<SelectListItem>();
+            this.MRlst = new List<MaterialRequistionItem>();
 
         }
         public int Id { get; set; }
@@ -35,6 +37,27 @@ namespace Arasan.Models.Store_Management
         public int ReqQty { get; set; }
 
         public List<SelectListItem> Brlst;
-        public List<SelectListItem> Locltr;
+        public List<SelectListItem> Loclst;
+        public List<SelectListItem> Worklst;
+        public List<MaterialRequistionItem> MRlst;
+    }
+
+
+    public class MaterialRequistionItem
+    {
+        public int ItemGroupId { get; set; }
+        public string ItemGroup { get; set; }
+        public int ItemId { get; set; }
+        public string Item { get; set; }
+
+        public int Unit { get; set; }
+        public int ClosingStock { get; set; }
+        public int ReqQty { get; set; }
+
+        public string Isvalid { get; set; }
+
+        public List<SelectListItem> Itemlst { get; set; }
+
+        public List<SelectListItem> ItemGrouplst { get; set; }
     }
 }
