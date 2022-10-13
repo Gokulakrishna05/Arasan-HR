@@ -6,6 +6,12 @@
     .newwidth {
         width: 120px;
     }
+    .mandatory{
+	color: red;
+	position:relative;
+	top:2px;
+	left:5px;
+}
 </style>
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
@@ -32,7 +38,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Branch <label class="Mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Branch <label class="mandatory"></label></label>
                                     <div class="col-sm-8">
                                         @Html.DropDownListFor(C => C.Branch, Model.Brlst, new { @id = "ddlBranch", @Class = "form-control chosen-select", @TabIndex = 1 })<br/>
                                     </div>
@@ -41,7 +47,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Location<label class="Mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Location<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
 
                                        @Html.DropDownListFor(C => C.SLocation, Model.SLoclst, new { @id = "ddlStLoc", @Class = "form-control chosen-select", @TabIndex = 1 })<br/>
@@ -54,7 +60,7 @@
                         <div class="row">
                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="inputName3" class="col-sm-4 control-label">Indent Date<label class="Mandatory"></label></label>
+                                                <label for="inputName3" class="col-sm-4 control-label">Indent Date <label class="mandatory">*</label></label>
                                               
 													<div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy" >
                                                          @Html.TextBoxFor(C => C.IndentDate, new { @id = "IndentDate", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })
@@ -68,7 +74,7 @@
 
                              <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="inputName3" class="col-sm-4 control-label">Ref Date<label class="Mandatory"></label></label>
+                                                <label for="inputName3" class="col-sm-4 control-label">Ref Date <label class="mandatory">*</label></label>
                                               
 													<div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy" >
                                                          @Html.TextBoxFor(C => C.RefDate, new { @id = "RefDate", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })
@@ -146,36 +152,36 @@
                                                             int i = 0;
                                                             foreach (var item in Model.PILst.ToList())
                                                             {
-                                                          <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
-                                                            
+                                                              <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                
 
-                                                                <td>
-                                                                                                            @Html.DropDownListFor(o => o.PILst[i].ItemGroupId, Model.PILst[i].ItemGrouplst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItemGrp" + i, style = "width: 170px;", onchange = "Grup_Change(this.value," + i + ")"})
-                                                                                                        </td>
-                                                                                                        <td>
-                                                                                                            @Html.DropDownListFor(o => o.PILst[i].ItemId, Model.PILst[i].Itemlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItem" + i, style = "width: 170px;", onchange = "changeItem(this.value," + i + ")" })
-                                                                                                        </td>
-                                                                <td>@Html.TextBoxFor(o => o.PILst[i].QC, new { @id = "txtQC" + i, @class = "form-control", style = "width: 100px;", @readonly = "readonly"})</td>
-                                                                <td>@Html.TextBoxFor(o => o.PILst[i].Unit, new { @id = "txtUnit" + i, @class = "form-control", style = "width: 100px;", @readonly = "readonly"}) </td>
-                                                                <td> @Html.TextBoxFor(o => o.PILst[i].Stock, new { @id = "txtStock" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right" ,@readonly="readonly"})</td>
-                                                                <td>@Html.TextBoxFor(o => o.PILst[i].WholeStock, new { @id = "txtWholeStock" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right",@readonly="readonly" })</td>
-                                                                <td>@Html.TextBoxFor(o => o.PILst[i].IndentPlaced, new { @id = "txtIndentPlaced" + i, @class = "form-control", style = "width: 100px;"})</td>
-                                                                <td>@Html.TextBoxFor(o => o.PILst[i].Quantity, new { @id = "txtQuantity" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right"})</td>
-                                                                <td> @Html.DropDownListFor(o => o.PILst[i].LocId, Model.PILst[i].loclst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlLoc" + i, style = "width: 170px;" }) </td>
-                                                                 <td>
-                                                                 <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy" >
-                                                                   @Html.TextBoxFor(o => o.PILst[i].Duedate, new { @id = "txtDuedate" + i, @class = "form-control", style = "width: 100px;",@readonly=true}) 
-                                                           <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                                        </div> </td>
-                                                                <td>@Html.TextBoxFor(o => o.PILst[i].Narration, new { @id = "txtNarration" + i, @class = "form-control", style = "width: 100px;"})</td>
+                                                                    <td>
+                                                                                                                @Html.DropDownListFor(o => o.PILst[i].ItemGroupId, Model.PILst[i].ItemGrouplst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItemGrp" + i, style = "width: 170px;", onchange = "Grup_Change(this.value," + i + ")"})
+                                                                                                            </td>
+                                                                                                            <td>
+                                                                                                                @Html.DropDownListFor(o => o.PILst[i].ItemId, Model.PILst[i].Itemlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItem" + i, style = "width: 170px;", onchange = "changeItem(this.value," + i + ")" })
+                                                                                                            </td>
+                                                                    <td>@Html.TextBoxFor(o => o.PILst[i].QC, new { @id = "txtQC" + i, @class = "form-control", style = "width: 100px;", @readonly = "readonly"})</td>
+                                                                    <td>@Html.TextBoxFor(o => o.PILst[i].Unit, new { @id = "txtUnit" + i, @class = "form-control", style = "width: 100px;", @readonly = "readonly"}) </td>
+                                                                    <td> @Html.TextBoxFor(o => o.PILst[i].Stock, new { @id = "txtStock" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right" ,@readonly="readonly"})</td>
+                                                                    <td>@Html.TextBoxFor(o => o.PILst[i].WholeStock, new { @id = "txtWholeStock" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right",@readonly="readonly" })</td>
+                                                                    <td>@Html.TextBoxFor(o => o.PILst[i].IndentPlaced, new { @id = "txtIndentPlaced" + i, @class = "form-control", style = "width: 100px;"})</td>
+                                                                    <td>@Html.TextBoxFor(o => o.PILst[i].Quantity, new { @id = "txtQuantity" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right"})</td>
+                                                                    <td> @Html.DropDownListFor(o => o.PILst[i].LocId, Model.PILst[i].loclst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlLoc" + i, style = "width: 170px;" }) </td>
+                                                                     <td>
+                                                                     <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy" >
+                                                                       @Html.TextBoxFor(o => o.PILst[i].Duedate, new { @id = "txtDuedate" + i, @class = "form-control", style = "width: 100px;",@readonly=true}) 
+                                                               <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                            </div> </td>
+                                                                    <td>@Html.TextBoxFor(o => o.PILst[i].Narration, new { @id = "txtNarration" + i, @class = "form-control", style = "width: 100px;"})</td>
 
-                                                                   <td>
-                                                                                                            @Html.HiddenFor(o => o.PILst[i].Isvalid, new { @id = "Isvalid" + i })
-                                                                                                            <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="PILst.Index" type="hidden" value="@(i)" />
-                                                                                                        </td>
+                                                                       <td>
+                                                                                                                @Html.HiddenFor(o => o.PILst[i].Isvalid, new { @id = "Isvalid" + i })
+                                                                                                                <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> 
+                                                                                                            </td>
 
 
-                                                            </tr>
+                                                                </tr>
                                                       
                                                           i = i + 1;
                                                             }
@@ -232,16 +238,16 @@
                                                             int j = 0;
                                                             foreach (var item in Model.TANDClst.ToList())
                                                             {
-                                                          <tr id="trBooks@(j)" class="chkitemlsts" style="height: 30px;border-bottom: 1px dashed #ddd;">
-                                                            
+                                                              <tr id="trBooks@(j)" class="chkitemlsts" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                
 
-                                                               <td>@Html.TextBoxFor(o => o.TANDClst[j].TANDC, new { @id = "txtTANDC" + j, @class = "form-control", style = "width: 500px;"})</td>
-                                                               
-                                                                   <td>
-                                                                                                            @Html.HiddenFor(o => o.TANDClst[j].Isvalid, new { @id = "IsvalidT" + j })
-                                                                                                            <img onclick="removeRowT(@(j));" src="../Images/delete.png" style="cursor:pointer" /> <input name="TANDClst.Index" type="hidden" value="@(j)" />
-                                                                                                        </td>
-                                                               </tr>
+                                                                   <td>@Html.TextBoxFor(o => o.TANDClst[j].TANDC, new { @id = "txtTANDC" + j, @class = "form-control", style = "width: 500px;"})</td>
+                                                                   
+                                                                       <td>
+                                                                                                                @Html.HiddenFor(o => o.TANDClst[j].Isvalid, new { @id = "IsvalidT" + j })
+                                                                                                                <img onclick="removeRowT(@(j));" src="../Images/delete.png" style="cursor:pointer" /> <input name="TANDClst.Index" type="hidden" value="@(j)" />
+                                                                                                            </td>
+                                                                   </tr>
                                                               j = j + 1;
                                                             }
                                                         }
@@ -252,7 +258,7 @@
                                                         </div>
 
                         <div style="height:30px;"></div>
-                        <button type="submit" class="btn aqua m-t-xs bottom15-xs">Submit</button>
+                        <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
                         <button class="btn btn-danger" type="submit">Cancel</button>
                     </form>
                     }
@@ -263,6 +269,145 @@
     </div>
 </div>
  <script>
+       $(document).ready(function () {
+                $('#btnSave').click(function (e) {
+                    var isValid = true;
+                    if (document.getElementById("ddlBranch").value == "" || document.getElementById("ddlBranch").value == 0) {
+                        isValid = false;
+                        $(ddlBranch_chzn).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Select Branch");
+                        return false;
+                    }
+                    else {
+                        $(ddlBranch_chzn).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+                     if (document.getElementById("IndentDate").value == "") {
+                        isValid = false;
+                        $(IndentDate).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Select Indent Date");
+                        return false;
+                    }
+                    else {
+                        $(IndentDate).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+
+                     if (document.getElementById("RefDate").value == "") {
+                        isValid = false;
+                        $(RefDate).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Select Ref. Date");
+                        return false;
+                    }
+                    else {
+                        $(RefDate).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+
+                     //Grid validation
+                    var j = 0;
+                    $('tr.chkitemlst').each(function () {
+                        if ($(this).css('display') !== 'none') {
+                           
+                             if ($(this).find('#ddlItemGrp' + j.toString()).val() == "" || $(this).find('#ddlItemGrp' + j.toString()).val() == 0) {
+                                isValid = false;
+                                alert("Please Select Sub Group");
+                                return false;
+                            }
+                            if ($(this).find('#ddlItemGrp' + j.toString()).val() != "" || $(this).find('#ddlItemGrp' + j.toString()).val() != "0") {
+
+                                if ($(this).find('#ddlItem' + j.toString()).val() == "" || $(this).find('#ddlItem' + j.toString()).val() == 0) {
+                                    isValid = false;
+                                    $(this).find('#ddlItem' + j.toString()).css({
+                                        "border": "1px solid red",
+                                        "background": "#FFCECE"
+                                    });
+                                    alert("Please Select Item");
+                                    $(this).find('#ddlItem' + j.toString()).focus();
+                                    return false;
+                                }
+                                else {
+                                    $(this).find('#ddlItem' + j.toString()).css({
+                                        "border": "",
+                                        "background": ""
+                                    });
+                                }
+                            }
+                                if ($(this).find('#txtQuantity' + j.toString()).val() == "" || $(this).find('#txtQuantity' + j.toString()).val() == "0") {
+                                    isValid = false;
+                                    $(this).find('#txtQuantity' + j.toString()).css({
+                                        "border": "1px solid red",
+                                        "background": "#FFCECE"
+                                    });
+
+                                    alert("Please Enter Quantity");
+                                    $(this).find('#txtQuantity' + j.toString()).focus();
+                                    return false;
+
+                                }
+                                else {
+                                    $(this).find('#txtQuantity' + j.toString()).css({
+                                        "border": "",
+                                        "background": ""
+                                    });
+                                }
+                         
+                                 if ($(this).find('#ddlLoc' + j.toString()).val() == "" || $(this).find('#ddlLoc' + j.toString()).val() == 0) {
+                                isValid = false;
+                                alert("Please Select Department");
+                                return false;
+                            }
+
+
+                             if ($(this).find('#txtDuedate' + j.toString()).val() == "" || $(this).find('#txtDuedate' + j.toString()).val() == "0") {
+                                    isValid = false;
+                                    $(this).find('#txtDuedate' + j.toString()).css({
+                                        "border": "1px solid red",
+                                        "background": "#FFCECE"
+                                    });
+
+                                    alert("Please Select Due Date");
+                                    $(this).find('#txtDuedate' + j.toString()).focus();
+                                    return false;
+
+                                }
+                                else {
+                                    $(this).find('#txtDuedate' + j.toString()).css({
+                                        "border": "",
+                                        "background": ""
+                                    });
+                                }
+
+
+                        }
+                        j += 1;
+                    });
+
+
+ if (isValid == false)
+                        e.preventDefault();
+
+                });
+
+            });
      $(".chosen-select").chosen();
      function AddRow() {
         var opt = "";

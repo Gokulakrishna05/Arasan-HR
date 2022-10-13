@@ -43,6 +43,8 @@ namespace Arasan.Models
 
         public string PreparedBy { get; set; }
 
+        public string IndentId { get; set; }
+
     }
     public class PIndentItem
     {
