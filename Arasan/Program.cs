@@ -52,6 +52,8 @@ internal class Program
         builder.Services.TryAddSingleton<ILocationService, LocationService>();
         builder.Services.TryAddSingleton<IMaterialRequisition, MaterialRequisitionService>();
 
+        builder.Services.TryAddSingleton<IPurchaseIndent, PurchaseIndentService>();
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
