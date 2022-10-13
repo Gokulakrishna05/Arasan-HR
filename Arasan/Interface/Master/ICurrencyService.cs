@@ -5,5 +5,8 @@ namespace Arasan.Interface.Master
 {
     public interface ICurrencyService
     {
+        string CurrencyCRUD(Currency cy);
+        IEnumerable<Currency> GetAllCurrency();
+        Currency GetCurrencyById(string id);
     }
 }
