@@ -47,6 +47,8 @@ internal class Program
         builder.Services.TryAddSingleton<ITaxService, TaxService>();
         builder.Services.TryAddSingleton<IPartyMasterService, PartyMasterService>();
 
+        builder.Services.TryAddSingleton<IPurchaseIndent, PurchaseIndentService>();
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.

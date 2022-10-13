@@ -28,14 +28,14 @@ namespace Arasan.Controllers.Stores_Management
         {
             return View();
         }
-        public IActionResult Purchase_Indent()
-        {
-            return View();
-        }
-        public IActionResult List_Purchase_Indent()
-        {
-            return View();
-        }
+        //public IActionResult Purchase_Indent()
+        //{
+        //    return View();
+        //}
+        //public IActionResult List_Purchase_Indent()
+        //{
+        //    return View();
+        //}
         public IActionResult Stores_Issuse_Production()
         {
             return View();
