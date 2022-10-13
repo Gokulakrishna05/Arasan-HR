@@ -3,13 +3,22 @@ namespace Arasan.Models
 {
     public class City
     {
-        public int Id { get; set; }
-        public int Country { get; set; }
-        public int State { get; set; }
-        public string CityName { get; set; }
-
-
-
+        public City()
+        {
+            this.sta = new List<SelectListItem>();
+            this.cuntylst = new List<SelectListItem>();
+        }
+        public string ID { get; set; }
        
+        public string Cit { get; set; }
+
+
+        public List<SelectListItem> sta;
+        public String State { get; set; }
+
+        public List<SelectListItem> cuntylst;
+        public String countryid { get; set; }
+
+
     }
 }
