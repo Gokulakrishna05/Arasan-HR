@@ -1,12 +1,11 @@
 ﻿using Arasan.Interface;
-using Arasan.Interface.Store_Management;
 using Arasan.Models;
 using Microsoft.Extensions.Configuration;
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Data;
-namespace Arasan.Services.Store_Management
+namespace Arasan.Services
 {
     public class MaterialRequisitionService :IMaterialRequisition
     {
@@ -17,10 +16,7 @@ namespace Arasan.Services.Store_Management
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
         }
 
-        public DataTable GetItem(string value)
-        {
-            throw new NotImplementedException();
-        }
+       
 
         public DataTable GetItemGrp()
         {

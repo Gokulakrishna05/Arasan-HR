@@ -88,7 +88,36 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-
+        public DataTable GetIndent()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select DOCID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE,PINDBASICID,BRANCHMAST.BRANCHID from PINDBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PINDBASIC.BRANCHID Order by PINDBASICID DESC ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetIndentItem(string PRID)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select ITEMMASTER.ITEMID,UNITMAST.UNITID,PINDDETAIL.QTY,PINDDETAIL.PINDBASICID,LOCDETAILS.LOCID,PINDDETAIL.PINDDETAILID ,to_char(PINDDETAIL.DUEDATE,'dd-MON-yyyy') DUEDATE from PINDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PINDDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=PINDDETAIL.UNIT LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PINDDETAIL.DEPARTMENT ";/*where PINDDETAIL.PINDBASICID='"+ PRID  + "'*/
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetIndentItemApprove()
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select ITEMMASTER.ITEMID,UNITMAST.UNITID,PINDDETAIL.QTY,PINDDETAIL.PINDBASICID,LOCDETAILS.LOCID,PINDDETAIL.PINDDETAILID ,to_char(PINDDETAIL.DUEDATE,'dd-MON-yyyy') DUEDATE,DOCID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE from PINDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PINDDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=PINDDETAIL.UNIT LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PINDDETAIL.DEPARTMENT LEFT OUTER JOIN PINDBASIC ON PINDBASIC.PINDBASICID=PINDDETAIL.PINDBASICID WHERE PINDDETAIL.APPROVED1 IS NULL ";/*where PINDDETAIL.PINDBASICID='"+ PRID  + "'*/
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetLocation()
         {
             string SvSql = string.Empty;
@@ -124,7 +153,7 @@ namespace Arasan.Services
         public DataTable GetItemDetails(string ItemId)
         {
             string SvSql = string.Empty;
-            SvSql = "select UNITMAST.UNITID,ITEMID,ITEMDESC,UNITMAST.UNITMASTID,LATPURPRICE,QCYNTEMP from ITEMMASTER LEFT OUTER JOIN UNITMAST  on ITEMMASTER.PRIUNIT=UNITMAST.UNITMASTID Where ITEMMASTER.ITEMMASTERID='" + ItemId + "'";
+            SvSql = "select UNITMAST.UNITID,UNITMAST.UNITMASTID,ITEMID,ITEMDESC,UNITMAST.UNITMASTID,LATPURPRICE,QCYNTEMP from ITEMMASTER LEFT OUTER JOIN UNITMAST  on ITEMMASTER.PRIUNIT=UNITMAST.UNITMASTID Where ITEMMASTER.ITEMMASTERID='" + ItemId + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -219,9 +248,9 @@ namespace Arasan.Services
                     try
                     {
                         objConn.Open();
-                        //objCmd.ExecuteNonQuery();
-                        //Object Pid = objCmd.Parameters["OUTID"].Value;
-                        string Pid = "0";
+                        objCmd.ExecuteNonQuery();
+                        Object Pid = objCmd.Parameters["OUTID"].Value;
+                        //string Pid = "0";
                          if (cy.ID != null)
                         {
                             Pid = cy.ID;
@@ -234,15 +263,20 @@ namespace Arasan.Services
                                 using (OracleConnection objConns = new OracleConnection(_connectionString))
                                 {
                                     OracleCommand objCmds = new OracleCommand("PIDETAILPROC", objConns);
-
+                                    if (cy.ID == null)
+                                    {
+                                        StatementType = "Insert";
+                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                    }
+                                   
                                     objCmds.CommandType = CommandType.StoredProcedure;
                                     objCmds.Parameters.Add("PIID", OracleDbType.NVarchar2).Value = Pid;
                                     objCmds.Parameters.Add("ITEMIDS", OracleDbType.NVarchar2).Value = cp.ItemId;
                                     objCmds.Parameters.Add("QUANTITY", OracleDbType.NVarchar2).Value = cp.Quantity;
-                                    objCmds.Parameters.Add("UNITP", OracleDbType.NVarchar2).Value = cp.Unit;
+                                    objCmds.Parameters.Add("UNITP", OracleDbType.NVarchar2).Value = cp.UnitID;
                                     objCmds.Parameters.Add("QC", OracleDbType.NVarchar2).Value = cp.QC;
                                     objCmds.Parameters.Add("NARRATION", OracleDbType.NVarchar2).Value = cp.Narration;
-                                    objCmds.Parameters.Add("DUE_DATE", OracleDbType.NVarchar2).Value = DateTime.Parse(cp.Duedate);
+                                    objCmds.Parameters.Add("DUE_DATE", OracleDbType.Date).Value = DateTime.Parse(cp.Duedate);
                                     objCmds.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = cp.LocId;
                                     objCmds.Parameters.Add("ITEMGROUPID", OracleDbType.NVarchar2).Value = cp.ItemGroupId;
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;

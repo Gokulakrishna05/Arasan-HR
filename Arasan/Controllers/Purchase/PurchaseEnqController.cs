@@ -247,22 +247,26 @@ namespace Arasan.Controllers
         {
             return View();
         }
+
         public IActionResult PurchaseQuotationFollowup()
         {
             return View();
         }
         
 
+      
+        public IActionResult ListPurchaseEnquiry()
+        {
+            return View();
+        }
+
+
         public IActionResult Direct_Purchase()
         {
             return View();
         }
 
-        public IActionResult Purchase_Quotations()
-        {
-            return View();
-        }
-
+       
         public IActionResult GRN_CUM_BILL()
         {
             return View();
@@ -289,11 +293,7 @@ namespace Arasan.Controllers
         {
             return View();
         }
-       
-        public IActionResult ListPurchaseQuotation()
-        {
-            return View();
-        }
+
         public IActionResult ListPO()
         {
             return View();
