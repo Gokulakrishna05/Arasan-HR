@@ -40,6 +40,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Branch <label class="mandatory"></label></label>
                                     <div class="col-sm-8">
+                                        @Html.HiddenFor(C => C.ID)
                                         @Html.DropDownListFor(C => C.Branch, Model.Brlst, new { @id = "ddlBranch", @Class = "form-control chosen-select", @TabIndex = 1 })<br/>
                                     </div>
                                 </div>
@@ -162,7 +163,9 @@
                                                                                                                 @Html.DropDownListFor(o => o.PILst[i].ItemId, Model.PILst[i].Itemlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItem" + i, style = "width: 170px;", onchange = "changeItem(this.value," + i + ")" })
                                                                                                             </td>
                                                                     <td>@Html.TextBoxFor(o => o.PILst[i].QC, new { @id = "txtQC" + i, @class = "form-control", style = "width: 100px;", @readonly = "readonly"})</td>
-                                                                    <td>@Html.TextBoxFor(o => o.PILst[i].Unit, new { @id = "txtUnit" + i, @class = "form-control", style = "width: 100px;", @readonly = "readonly"}) </td>
+                                                                    <td>@Html.TextBoxFor(o => o.PILst[i].Unit, new { @id = "txtUnit" + i, @class = "form-control", style = "width: 100px;", @readonly = "readonly"}) 
+                                                                     @Html.HiddenFor(o=>o.PILst[i].UnitID , new { @id = "txtUnitID" + i})
+                                                                    </td>
                                                                     <td> @Html.TextBoxFor(o => o.PILst[i].Stock, new { @id = "txtStock" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right" ,@readonly="readonly"})</td>
                                                                     <td>@Html.TextBoxFor(o => o.PILst[i].WholeStock, new { @id = "txtWholeStock" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right",@readonly="readonly" })</td>
                                                                     <td>@Html.TextBoxFor(o => o.PILst[i].IndentPlaced, new { @id = "txtIndentPlaced" + i, @class = "form-control", style = "width: 100px;"})</td>
@@ -241,10 +244,10 @@
                                                               <tr id="trBooks@(j)" class="chkitemlsts" style="height: 30px;border-bottom: 1px dashed #ddd;">
                                                                 
 
-                                                                   <td>@Html.TextBoxFor(o => o.TANDClst[j].TANDC, new { @id = "txtTANDC" + j, @class = "form-control", style = "width: 500px;"})</td>
+                                                                   <td>@Html.TextBoxFor(C => C.TANDClst[j].TANDC, new { @id = "txtTANDC" + j, @class = "form-control", style = "width: 500px;"})</td>
                                                                    
                                                                        <td>
-                                                                                                                @Html.HiddenFor(o => o.TANDClst[j].Isvalid, new { @id = "IsvalidT" + j })
+                                                                                                                @Html.HiddenFor(C => C.TANDClst[j].Isvalid, new { @id = "IsvalidT" + j })
                                                                                                                 <img onclick="removeRowT(@(j));" src="../Images/delete.png" style="cursor:pointer" /> <input name="TANDClst.Index" type="hidden" value="@(j)" />
                                                                                                             </td>
                                                                    </tr>
@@ -259,7 +262,7 @@
 
                         <div style="height:30px;"></div>
                         <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
-                        <button class="btn btn-danger" type="submit">Cancel</button>
+                        <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("List_Purchase_Indent", "PurchaseIndent")'">Cancel</button>
                     </form>
                     }
                 </div>
@@ -501,9 +504,9 @@ function AddRowT() {
 
         var Item = "<td><select style = 'width: 170px;' class='form-control chosen-select newcss' id='ddlItem" + index + "' name='PILst[" + index + "].ItemId' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option></select></td>";
 
-        var QC = "<td><input class='form-control' id='txtQC" + index + "' name='PILst[" + index + "].QC'  style='width: 100px;' type='text'  /></td>";
+        var QC = "<td><input class='form-control' id='txtQC" + index + "' name='PILst[" + index + "].QC'  style='width: 100px;' type='text'  readonly='True'/></td>";
 
-        var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='PILst[" + index + "].Unit'  style='width: 100px;' type='text'  readonly='True' /></td>";
+        var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='PILst[" + index + "].Unit'  style='width: 100px;' type='text'  readonly='True' /><input type='hidden' name='PILst[" + index + "].UnitID' id='txtUnitID" + index + "'></td>";
 
         var Stock = "<td><input class='form-control' id='txtStock" + index + "' name='PILst[" + index + "].Stock'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 100px;text-align:right' type='text' value='0' readonly='True' /></td>";
 
@@ -515,7 +518,7 @@ function AddRowT() {
         
         var Loc = "<td><select style = 'width: 170px;' class='form-control chosen-select newcss' id='ddlILoc" + index + "' name='PILst[" + index + "].LocId' ><option value=''>Please select</option>" + remopt + "</select></td>";
 
-        var Duedate = "<td><div class='input-group date form_date col-sm-8' data-date='' data-date-format='dd-M-yyyy'><input class='form-control' id='txtDuedate" + index + "' name='PILst[" + index + "].Duedate'  style='width: 100px;' type='text'  /> <span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div> </td>";
+        var Duedate = "<td><div class='input-group date form_date col-sm-8' data-date='' data-date-format='dd-M-yyyy'><input class='form-control' id='txtDuedate" + index + "' name='PILst[" + index + "].Duedate'  style='width: 100px;' type='text'  readonly='True'/> <span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div> </td>";
 
         var Narration = "<td><input class='form-control' id='txtNarration" + index + "' name='PILst[" + index + "].Narration'  style='width: 100px;' type='text'  /></td>";
 
@@ -527,6 +530,16 @@ function AddRowT() {
         $("#tbBooks").append(newRow);
 
         $(".chosen-select").chosen();
+          $('.form_date').datetimepicker({
+     //   language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 2,
+    minView: 2,
+    forceParse: 0
+    });
     }
      function Grup_Change(itemid, i) {
                //alert(itemid);
@@ -567,6 +580,7 @@ function AddRowT() {
                     success: function (result) {
                         document.getElementById("txtQC" + i).value = result.qc;
                         document.getElementById("txtUnit" + i).value = result.unit;
+                        document.getElementById("txtUnitID" + i).value = result.unitid;
                    
                     },
                     error: function () {

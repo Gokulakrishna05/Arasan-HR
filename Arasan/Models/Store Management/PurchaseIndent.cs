@@ -8,11 +8,11 @@ namespace Arasan.Models
         {
             this.Brlst = new List<SelectListItem>();
             this.SLoclst = new List<SelectListItem>();
-            this.PILst= new List<PIndentItem>();
+            //this.PILst= new List<PIndentItem>();
             this.ELst = new List<SelectListItem>();
             this.PURLst = new List<SelectListItem>();
             this.EmpLst = new List<SelectListItem>();
-            this.TANDClst = new List<PIndentTANDC>();
+            //this.TANDClst = new List<PIndentTANDC>();
         }
 
         public List<SelectListItem> Brlst;
@@ -21,9 +21,9 @@ namespace Arasan.Models
 
         public List<SelectListItem> SLoclst;
 
-        public List<PIndentItem> PILst;
+        public List<PIndentItem> PILst { get; set; }
 
-        public List<PIndentTANDC> TANDClst;
+        public List<PIndentTANDC> TANDClst { get; set; }
 
         public List<SelectListItem> ELst;
 
@@ -62,6 +62,8 @@ namespace Arasan.Models
 
         public string QC { get; set; }
         public string Unit { get; set; }
+
+        public string UnitID { get; set; }
         public string IndentPlaced { get; set; }
         public double Quantity { get; set; }
         public string Narration { get; set; }
@@ -76,4 +78,31 @@ namespace Arasan.Models
         public string TANDC { get; set; }
         public string Isvalid { get; set; }
     }
+    public class IndentBindList
+    {
+        public long piid { get; set; }
+        public string SuppName { get; set; }
+        public string EditRow { get; set; }
+        public string DelRow { get; set; }
+        public string indentno { get; set; }
+        public string indentdate { get; set; }
+        public string branch { get; set; }
+
     }
+    public class IndentItemBindList
+    {
+        public long indentid { get; set; }
+        public long piid { get; set; }
+        public string itemname { get; set; }
+        public string unit { get; set; }
+        public string quantity { get; set; }
+        public string location { get; set; }
+
+        public string duedate { get; set; }
+
+        public string indentno { get; set; }
+        public string indentdate { get; set; }
+        public string branch { get; set; }
+
+    }
+}

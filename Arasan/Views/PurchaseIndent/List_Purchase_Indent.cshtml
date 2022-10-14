@@ -1,90 +1,175 @@
-﻿
+﻿@model Arasan.Models.PurchaseIndent
+
 @{
-    ViewData["Title"] = "List_Purchase_Indent";
+    ViewData["Title"] = "Index";
 }
+  <partial name="JqxGridPartial" />
+@* @Html.Partial("~/Views/JqxGridPartial.cshtml")  *@
+    
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
 
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
-            <li> <a>Stores Management</a> </li>
-            <li class="active"> <strong>List Purchase Indent</strong> </li>
+            <li> <a>Purchase</a> </li>
+            <li class="active"> <strong>Purchase Indent</strong> </li>
         </ol>
     </div>
 </div>
 
+ <script type="text/javascript">
+        $(document).ready(function () {
+            var source =
+            {
+                url: "/PurchaseIndent/MyListIndentgrid",
+               datatype: "json",
+                updaterow: function (rowid, rowdata) {
+                  // synchronize with the server - send update command
+              },
+                datafields: [
+                     { name: 'piid', type: 'string' },
+                    { name: 'indentno', type: 'string' },
+                    { name: 'indentdate', type: 'string' },
+                      { name: 'branch', type: 'string' }
+                ],
+                id: 'piid',
+            };
+              var employeesAdapter = new $.jqx.dataAdapter(source,
+                { contentType: 'application/json; charset=utf-8' }, {
+                    loadComplete: function () {
+
+                    }
+                }
+            );
+            //alert(JSON.stringify(employeesAdapter));
+                        
+            var ordersSource =
+            {
+                 url: "/PurchaseIndent/ListIndentItemgrid",
+                datafields: [
+                    { name: 'indentid', type: 'string' },
+                    { name: 'piid', type: 'string' },
+                    { name: 'itemname', type: 'string' },
+                    { name: 'unit', type: 'string' },
+                    { name: 'quantity', type: 'float' },
+                    { name: 'location', type: 'string' },
+                    { name: 'duedate', type: 'string' }
+                ],
+               
+                datatype: "json",
+               
+                async: false
+            };
+              var ordersDataAdapter = new $.jqx.dataAdapter(ordersSource,
+                { contentType: 'application/json; charset=utf-8' }, { autoBind: true }
+                );
+              ordersDataAdapter.dataBind();
+            //var ordersDataAdapter2 = new $.jqx.dataAdapter(ordersSource, { autoBind: true });
+            var orders = ordersDataAdapter.records;
+
+            console.log(ordersDataAdapter);
+            
+            var nestedGrids = new Array();
+            // create nested grid.
+            var initrowdetails = function (index, parentElement, gridElement, record) {
+                var id = record.uid.toString();
+                var grid = $($(parentElement).children()[0]);
+                nestedGrids[index] = grid;
+                var filtergroup = new $.jqx.filter();
+                var filter_or_operator = 1;
+                var filtervalue = id;
+                var filtercondition = 'equal';
+                var filter = filtergroup.createfilter('stringfilter', filtervalue, filtercondition);
+                // fill the orders depending on the id.
+                var ordersbyid = [];
+                for (var m = 0; m < orders.length; m++) {
+                    var result = filter.evaluate(orders[m]["piid"]);
+                    if (result)
+                        ordersbyid.push(orders[m]);
+                }
+                var orderssource = { datafields: [
+                    { name: 'piid', type: 'string' },
+                    { name: 'itemname', type: 'string' },
+                    { name: 'unit', type: 'string' },
+                    { name: 'quantity', type: 'int' },
+                    { name: 'location', type: 'string' },
+                    { name: 'duedate', type: 'string' }
+                ],
+                    id: 'indentid',
+                    localdata: ordersbyid
+                }
+                var nestedGridAdapter = new $.jqx.dataAdapter(orderssource);
+                if (grid != null) {
+                    grid.jqxGrid({
+                        source: nestedGridAdapter, width: 780, height: 200,
+                        columns: [
+                          { text: 'Product Name', datafield: 'itemname', width: 200 },
+                          { text: 'Unit', datafield: 'unit', width: 80 },
+                          { text: 'Quantity', datafield: 'quantity', width: 150 },
+                          { text: 'Location', datafield: 'location', width: 150 },
+                          { text: 'Due Date', datafield: 'duedate', width: 200 }
+                       ]
+                    });
+                }
+            }
+             var renderer = function (row, column, value) {
+                 
+                return '<span style="margin-left: 4px; margin-top: 9px; float: left; ">' + value + '</span>';
+            }
+            //alert(initrowdetails);
+            // creage grid
+            $("#grid").jqxGrid(
+                {
+                    width: getWidth('Grid'),
+                    height: 365,
+                    source: source,
+                    pageable: true,
+                    filterable: true,
+                    autoheight: true,
+                    sortable: true,
+                    rowdetails: true,
+                    rowsheight: 35,
+                    initrowdetails: initrowdetails,
+                    rowdetailstemplate: { rowdetails: "<div id='grid' style='margin: 10px;'></div>", rowdetailsheight: 220, rowdetailshidden: true },
+                    ready: function() {
+                        $("#grid").jqxGrid('showrowdetails', 1);
+                    },
+                    columns: [
+                    
+                    { text: 'Branch', datafield: 'branch', width: 200 },
+                      { text: 'Indent No.', datafield: 'indentno', width: 150 },
+                      { text: 'Indent Date', datafield: 'indentdate', width: 150 },
+                  ]
+            });
+        });
+    </script>
 <div class="wrapper-content ">
     <div class="row">
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="widgets-container">
-                    
-                    <hr>
+                  
                     <form>
-                        <div class="row">
-                            <div class="col-md-12 ">
-                                <div class=" textalignright">
+                         <div class="row">
+                             <div class="col-md-12 "> 
+                                   <div class=" textalignright">
                                     <a href="@Url.Action("Purchase_Indent", "PurchaseIndent")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Purchase Indent</a>
-                                    <br>
+                                     <br>
                                 </div>
-
-
-                            </div>
+                       
+                       
                         </div>
-
+                        </div>
                         <div class="row">
-                            <div class="col-lg-12">
-                                <div class="ibox float-e-margins">
 
-                                    <div class="ibox-content collapse in">
-                                        <div class="widgets-container">
-                                            <div>
-                                                <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>S.No</th>
-                                                            <th>Branch</th>
-                                                            <th>Indent No</th>
-                                                            <th>Purchase Type</th>
+                             <div class="col-md-2 "> </div>
+                            <div class="col-md-10 "> 
+                                <div id="grid">
+    </div>
 
-                                                            <th>Internal Email ID</th>
-                                                            <th>Edit</th>
-                                                            <th>Delete</th>
-                                                        </tr>
-                                                    </thead>
-
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>1</td>
-                                                            <td>(TAAI)SVK - FACTORY</td>
-                                                            <td>126TRF</td>
-                                                            <td>Cons</td>
-                                                            <td>Kasicha@gmail.com</td>
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Unit", "Unit")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("Unit", "Unit")"></a></div></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>2</td>
-                                                            <td>(TAAI)SVK - FACTORY</td>
-                                                            <td>HGR457</td>
-                                                            <td>Pron</td>
-                                                            <td>Vijay@gmail.om</td>
-
-
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Unit", "Unit")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("Unit", "Unit")"></a></div></td>
-                                                        </tr>
-
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
+                           
                         </div>
-
-
 
                     </form>
                 </div>
@@ -92,35 +177,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    $(document).ready(function () {
-        $('#example7').DataTable({
-            dom: 'Bfrtip',
-            buttons: [{
-                text: 'copy',
-                extend: "copy",
-                className: 'btn dark btn-outline'
-            }, {
-                text: 'csv',
-                extend: "csv",
-                className: 'btn aqua btn-outline'
-            }, {
-                text: 'excel',
-                extend: "excel",
-                className: 'btn aqua btn-outline'
-            }, {
-                text: 'pdf',
-                extend: "pdf",
-                className: 'btn yellow  btn-outline'
-            }, {
-                text: 'print',
-                extend: "print",
-                className: 'btn purple  btn-outline'
-            }]
-        });
-
-
-
-    });
-</script>
