@@ -1,7 +1,7 @@
 ﻿
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Data;
-namespace Arasan.Models.Store_Management
+namespace Arasan.Models
 {
     public class MaterialRequisition
     {
