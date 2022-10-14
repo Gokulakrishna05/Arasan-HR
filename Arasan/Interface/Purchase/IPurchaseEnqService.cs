@@ -1,9 +1,13 @@
-﻿using System.Data;
+﻿using Arasan.Models;
+using System.Data;
 
 namespace Arasan.Interface
 {
     public interface IPurchaseEnqService
     {
+        string PurchaseEnquiryCRUD(PurchaseEnquiry by);
+        IEnumerable<PurchaseEnquiry> GetAllPurchaseEnquiry();
+        PurchaseEnquiry GetPurchaseEnquiryById(string id);
         DataTable GetBranch();
         DataTable GetSupplier();
         DataTable GetCurency();

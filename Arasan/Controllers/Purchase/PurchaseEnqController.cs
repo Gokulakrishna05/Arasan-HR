@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Arasan.Interface.Master;
+using Arasan.Services.Master;
 
 namespace Arasan.Controllers
 {
@@ -34,8 +35,51 @@ namespace Arasan.Controllers
                 tda.Isvalid = "Y";
               TData.Add(tda);
             }
+            
             ca.EnqLst = TData;
           return View(ca);
+
+        }
+        public ActionResult PurchaseEnquiry(PurchaseEnquiry ss, string id)
+        {
+
+            try
+            {
+                ss.ID = id;
+                string Strout = PurenqService.PurchaseEnquiryCRUD(ss);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (ss.ID == null)
+                    {
+                        TempData["notice"] = "  PurchaseEnquiry Inserted Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "  PurchaseEnquiry Updated Successfully...!";
+                    }
+                    return RedirectToAction("ListPurchaseEnquiry");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit  PurchaseEnquiry";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(ss);
+        }
+        public IActionResult ListPurchaseEnquiry()
+        {
+            IEnumerable<PurchaseEnquiry> sta = PurenqService.GetAllPurchaseEnquiry();
+            return View(sta);
         }
 
         public List<SelectListItem> BindBranch()
@@ -203,11 +247,19 @@ namespace Arasan.Controllers
         {
             return View();
         }
+
+        public IActionResult PurchaseQuotationFollowup()
+        {
+            return View();
+        }
+        
+
       
         public IActionResult ListPurchaseEnquiry()
         {
             return View();
         }
+
 
         public IActionResult Direct_Purchase()
         {
@@ -221,10 +273,7 @@ namespace Arasan.Controllers
         }
         public IActionResult Purchase_Order()
         {
-                                                                                                                                                                                                                                                                                        
-
-
-
+            
             return View();
         }
         public IActionResult Purchse_Order_close()
@@ -244,7 +293,7 @@ namespace Arasan.Controllers
         {
             return View();
         }
-      
+
         public IActionResult ListPO()
         {
             return View();

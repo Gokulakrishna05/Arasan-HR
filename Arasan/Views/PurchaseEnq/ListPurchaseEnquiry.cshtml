@@ -1,4 +1,4 @@
-﻿@model Arasan.Models.PurchaseEnquiry
+﻿@model IEnumerable<Arasan.Models.PurchaseEnquiry>
 
 @{
     ViewData["Title"] = "Index";
@@ -25,7 +25,7 @@
                datatype: "json",
                 updaterow: function (rowid, rowdata) {
                   // synchronize with the server - send update command
-              },
+              },-
                 datafields: [
                     { name: 'SuppName' , type: 'string'},
                     { name: 'EnqNo', type: 'string' },
@@ -163,6 +163,71 @@
                        
                        
                         </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="ibox float-e-margins">
+
+                                    .
+                                    <div class="ibox-content collapse in">
+                                        <div class="widgets-container">
+                                            <div>
+                                                <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <td>S.No</td>
+                                                            <th>Branch</th>
+                                                            <th>Enq No</th>
+                                                            <th>Enq Date</th>
+                                                            <th>Enq Recived</th>
+                                                            <th>Enq Assign</th>
+                                                        </tr>
+                                                    </thead>
+
+                                                    <tbody>
+                                                        @{
+                                                            int i = 1;
+
+                                                            foreach (var item in Model)
+                                                            {
+                                                                <tr>
+                                                                    <td>@i</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Branch)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.EnqNo)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.EnqDate)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.EnqRecid)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Enqassignid)</td>
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("State", "State",new { id=item.ID })"></a></div></td>
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("State", "State",new { id=item.ID })"></a></div></td>
+
+                                                                </tr>
+                                                                i++;
+                                                            }
+                                                        }
+
+                                                        @*<tr>
+                                                        <td>2</td>
+                                                        <td>India</td>
+                                                        <td>KA</td>
+                                                        <td>Karnataka</td>
+                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("State", "State")"></a></div></td>
+                                                        <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("State", "State")"></a></div></td>
+                                                        </tr>
+                                                        <tr>
+                                                        <td>3</td>
+                                                        <td>India</td>
+                                                        <td>KL</td>
+                                                        <td>Kerala</td>
+                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("State", "State")"></a></div></td>
+                                                        <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("State", "State")"></a></div></td>
+                                                        </tr>>*@
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
 
