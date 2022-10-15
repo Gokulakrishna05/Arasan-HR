@@ -53,6 +53,7 @@ internal class Program
         builder.Services.TryAddSingleton<IMaterialRequisition, MaterialRequisitionService>();
 
         builder.Services.TryAddSingleton<IPurchaseIndent, PurchaseIndentService>();
+        builder.Services.TryAddSingleton<IPurchaseQuo, PurchaseQuoService>();
 
         var app = builder.Build();
 
