@@ -40,47 +40,47 @@ namespace Arasan.Controllers
           return View(ca);
 
         }
-        public ActionResult PurchaseEnquiry(PurchaseEnquiry ss, string id)
-        {
+        //public ActionResult PurchaseEnquiry(PurchaseEnquiry ss, string id)
+        //{
 
-            try
-            {
-                ss.ID = id;
-                string Strout = PurenqService.PurchaseEnquiryCRUD(ss);
-                if (string.IsNullOrEmpty(Strout))
-                {
-                    if (ss.ID == null)
-                    {
-                        TempData["notice"] = "  PurchaseEnquiry Inserted Successfully...!";
-                    }
-                    else
-                    {
-                        TempData["notice"] = "  PurchaseEnquiry Updated Successfully...!";
-                    }
-                    return RedirectToAction("ListPurchaseEnquiry");
-                }
+        //    try
+        //    {
+        //        ss.ID = id;
+        //         string Strout = PurenqService.PurchaseEnquiryCRUD(ss);
+        //        if (string.IsNullOrEmpty(Strout))
+        //        {
+        //            if (ss.ID == null)
+        //            {
+        //                TempData["notice"] = "  PurchaseEnquiry Inserted Successfully...!";
+        //            }
+        //            else
+        //            {
+        //                TempData["notice"] = "  PurchaseEnquiry Updated Successfully...!";
+        //            }
+        //            return RedirectToAction("ListPurchaseEnquiry");
+        //        }
 
-                else
-                {
-                    ViewBag.PageTitle = "Edit  PurchaseEnquiry";
-                    TempData["notice"] = Strout;
-                    //return View();
-                }
+        //        else
+        //        {
+        //            ViewBag.PageTitle = "Edit  PurchaseEnquiry";
+        //            TempData["notice"] = Strout;
+        //            //return View();
+        //        }
 
-                // }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+        //        // }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
 
-            return View(ss);
-        }
-        public IActionResult ListPurchaseEnquiry()
-        {
-            IEnumerable<PurchaseEnquiry> sta = PurenqService.GetAllPurchaseEnquiry();
-            return View(sta);
-        }
+        //    return View(ss);
+        //}
+        //public IActionResult ListPurchaseEnquiry()
+        //{
+        // //   IEnumerable<PurchaseEnquiry> sta = PurenqService.GetAllPurchaseEnquiry();
+        //  //  return View(sta);
+        //}
 
         public List<SelectListItem> BindBranch()
         {
@@ -255,10 +255,10 @@ namespace Arasan.Controllers
         
 
       
-        public IActionResult ListPurchaseEnquiry()
-        {
-            return View();
-        }
+        //public IActionResult ListPurchaseEnquiry()
+        //{
+        //    return View();
+        //}
 
 
         public IActionResult Direct_Purchase()

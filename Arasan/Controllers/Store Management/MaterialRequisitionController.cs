@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Arasan.Interface.Master;
-using Arasan.Interface.Store_Management;
+
 using Arasan.Models.Store_Management;
 
 namespace Arasan.Controllers.Store_Management
