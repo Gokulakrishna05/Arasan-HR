@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Data;
 namespace Arasan.Services
 {
-    public class MaterialRequisitionService :IMaterialRequisition
+    public class MaterialRequisitionService : IMaterialRequisition
     {
         private readonly string _connectionString;
 
@@ -18,19 +18,6 @@ namespace Arasan.Services
 
        
 
-        public DataTable GetItemGrp()
-        {
-            throw new NotImplementedException();
-        }
-
-        public DataTable GetLocation()
-        {
-            throw new NotImplementedException();
-        }
-
-        public DataTable GetWorkCenter()
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 }

@@ -1,4 +1,3 @@
-using Oracle.ManagedDataAccess.Client;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Arasan.Interface;
 using Arasan.Services;
@@ -6,10 +5,7 @@ using Arasan.Interface.Master;
 using Arasan.Services.Master;
 using Arasan.Interface.Production;
 using Arasan.Services.Production;
-using Arasan.Interface.Store_Management;
-using Arasan.Services.Store_Management;
-using Arasan.Controllers.Master;
-using Arasan.Controllers.Store_Management;
+//using Arasan.Services.Store_Management;
 
 
 
