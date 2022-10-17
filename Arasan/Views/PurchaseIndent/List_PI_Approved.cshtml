@@ -37,7 +37,7 @@
                     { name: 'quantity', type: 'float' },
                     { name: 'location', type: 'string' },
                     { name: 'duedate', type: 'string' },
-                    { name: 'approval', type: 'string' }
+
                 ],
                 id: 'indentid',
             };
@@ -48,31 +48,36 @@
                     }
                 }
             );
-            var linkrenderer = function (row, column, value) {
-                return '<a href="' + value + '" onclick="return Approve()"><img  src="../Images/edit.png"  style="text-align: center; margin-top: 5px;padding-left:25px;"/></a>';
-    //return "<a href='" + value + "' target='_blank'>"+'< img src ="../Images/edit.png" alt ="Edit" />'+"</a>";
-}
             // initialize jqxGrid
             $("#grid").jqxGrid(
             {
                 width: getWidth('Grid'),
                 source: dataAdapter,
-                 height: 365,
-                filterable: true,
-                     pageable: true,
-                    filterable: true,
-                    autoheight: true,
-                    sortable: true,
-                    rowdetails: true,
+                groupable: true,
+                selectionmode: 'singlecell',
+                showgroupaggregates: true,
+                showstatusbar: true,
+                showaggregates: true,
+                statusbarheight: 25,
+                groups: ['itemname'],
                 columns: [
-                  { text: 'Indent No.', datafield: 'indentno', width: 100 },
-                  { text: 'Indent Date', datafield: 'indentdate', width: 100 },
-                  { text: 'Item Name', columntype: 'dropdownlist', datafield: 'itemname', width: 200 },
+                  { text: 'Indent No.', groupable: true, aggregates: ["count"], datafield: 'indentno', width: 100 },
+                  { text: 'Indent Date', groupable: true, datafield: 'indentdate', width: 100 },
+                  { text: 'Item Name', groupable: true, columntype: 'dropdownlist', datafield: 'itemname', width: 200 },
                   { text: 'duedate', datafield: 'duedate', width: 70, cellsalign: 'right' },
                   { text: 'Location', datafield: 'location', cellsalign: 'right', width: 200 },
-                  { text: 'Quantity', datafield: 'quantity', cellsalign: 'center', width: 100 },
-                  { text: 'Approval', datafield: 'approval', cellsalign: 'center', width: 100, cellsrenderer: linkrenderer, align: 'center'},
-                  
+                  {
+                      text: 'Quantity', datafield: 'quantity', aggregates: ["sum"], cellsalign: 'right',
+                      cellsrenderer: function (row, column, value, defaultRender, column, rowData) {
+                          if (value.toString().indexOf("Sum") >= 0) {
+                              return defaultRender.replace("Sum", "Total");
+                          }
+                      },
+                      aggregatesrenderer: function (aggregates, column, element) {
+                          var renderstring = '<div style="position: relative; margin-top: 4px; margin-right:5px; text-align: right; overflow: hidden;">' + "Total" + ': ' + aggregates.sum + '</div>';
+                          return renderstring;
+                      }
+                  }
                 ]
             });
         });
@@ -102,8 +107,3 @@
         </div>
     </div>
 </div>
-<script>
-    function Approve() {
-        return confirm('Are you sure want to Approve this Indent?');
-    }
-</script>
