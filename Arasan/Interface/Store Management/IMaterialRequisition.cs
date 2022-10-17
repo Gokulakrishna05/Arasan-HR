@@ -6,8 +6,8 @@ namespace Arasan.Interface
     public interface IMaterialRequisition
     {
       //  DataTable GetLocation();
-      //  DataTable GetBranch();
-      //  DataTable GetWorkCenter();
+       // DataTable GetBranch();
+       DataTable GetWorkCenter(string LocationId);
      //   DataTable GetItem(string value);
       //  DataTable GetItemGrp();
 
