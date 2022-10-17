@@ -17,10 +17,10 @@ namespace Arasan.Models
         public int Branch { get; set; }
   
 
-        public int LocationConsumedId { get; set; }
+        public string  LocationId { get; set; }
 
         public string Location { get; set; }
-        public int WorkCenterId { get; set; }
+        public string WorkCenterId { get; set; }
         public string WorkCenter { get; set; }
 
         public int MaterialReqId { get; set; }

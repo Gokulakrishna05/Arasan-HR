@@ -5,9 +5,10 @@ namespace Arasan.Models
     public class DataTransactions
     {
         private readonly string _connectionString;
-        public DataTransactions(IConfiguration _configuratio)
+        public DataTransactions(string connectionString)
         {
-            _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
+            //_connectionString = _configuratio.GetConnectionString("OracleDBConnection");
+            _connectionString = connectionString;// _configuratio.GetConnectionString("OracleDBConnection");
         }
         public DataTable GetData(string sql)
         {
@@ -41,6 +42,27 @@ namespace Arasan.Models
                 throw ex;
             }
             return Id;
+        }
+        public DataTable GetBranch()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select BRANCHMASTID,BRANCHID from BRANCHMAST order by BRANCHMASTID asc";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetLocation()
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select LOCID,LOCDETAILSID from LOCDETAILS ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
         }
 
         public string GetDataString(String sql)
