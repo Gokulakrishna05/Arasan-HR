@@ -20,7 +20,7 @@
                 <div class="widgets-container">
                     @* <h5 style="font-size:14px">Purchase Quotations </h5>*@
                     <hr>
-                    @using (Html.BeginForm("PurchaseQuo", "PurchaseQuo", FormMethod.Post))
+                    @using (Html.BeginForm("PurchaseQuotation", "PurchaseQuo", FormMethod.Post))
                         {
                             @Html.AntiForgeryToken()
 
@@ -113,7 +113,7 @@
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-4 control-label">Enquiry Date<label class="Mandatory"></label></label>
                                     <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                        @Html.TextBoxFor(C => C.EnqDate, new { @id = "EnqDate", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })
+                                        @Html.TextBoxFor(C => C.EnqDate, new { @id = "EnqDate", @class = "form-control", @TabIndex = 2,@size="32"})
                                         <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                     </div>
 
