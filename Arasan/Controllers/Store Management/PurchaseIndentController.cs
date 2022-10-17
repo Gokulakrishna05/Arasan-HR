@@ -152,6 +152,36 @@ namespace Arasan.Controllers.Store_Management
             dtEnq = PurIndent.GetIndentItemApprove();
             for (int i = 0; i < dtEnq.Rows.Count; i++)
             {
+                string Approval = string.Empty;
+               Approval = "IndentApproved?id="+ dtEnq.Rows[i]["PINDDETAILID"].ToString()+"";
+                EnqChkItem.Add(new IndentItemBindList
+                {
+                    indentid = Convert.ToInt64(dtEnq.Rows[i]["PINDDETAILID"].ToString()),
+                    piid = Convert.ToInt64(dtEnq.Rows[i]["PINDBASICID"].ToString()),
+                    itemname = dtEnq.Rows[i]["ITEMID"].ToString(),
+                    unit = dtEnq.Rows[i]["UNITID"].ToString(),
+                    quantity = dtEnq.Rows[i]["QTY"].ToString(),
+                    location = dtEnq.Rows[i]["LOCID"].ToString(),
+                    duedate = dtEnq.Rows[i]["DUEDATE"].ToString(),
+                    indentno = dtEnq.Rows[i]["DOCID"].ToString(),
+                    indentdate = dtEnq.Rows[i]["DOCDATE"].ToString(),
+                    approval= Approval
+                });
+            }
+
+            return Json(new
+            {
+                EnqChkItem
+            });
+        }
+
+        public ActionResult ListIndentItemgridApproved(string PRID)
+        {
+            List<IndentItemBindList> EnqChkItem = new List<IndentItemBindList>();
+            DataTable dtEnq = new DataTable();
+            dtEnq = PurIndent.GetIndentItemApprove();
+            for (int i = 0; i < dtEnq.Rows.Count; i++)
+            {
                 EnqChkItem.Add(new IndentItemBindList
                 {
                     indentid = Convert.ToInt64(dtEnq.Rows[i]["PINDDETAILID"].ToString()),
@@ -308,8 +338,11 @@ namespace Arasan.Controllers.Store_Management
                 throw ex;
             }
         }
-
-        public List<SelectListItem> BindItemGrplst()
+        public ActionResult IndentApproved(string id)
+        {
+            return RedirectToAction("List_PI_Approval");
+        }
+            public List<SelectListItem> BindItemGrplst()
         {
             try
             {
@@ -368,6 +401,11 @@ namespace Arasan.Controllers.Store_Management
         {
             return View();
         }
-        
+
+        public IActionResult List_PI_Approved()
+        {
+            return View();
+        }
+
     }
 }
