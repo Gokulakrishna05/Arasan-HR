@@ -45,11 +45,11 @@ namespace Arasan.Controllers
                 {
                     if (Cy.ID == null)
                     {
-                        TempData["notice"] = "PurchaseQuotation Inserted Successfully...!";
+                        TempData["notice"] = "PurchaseQuo Inserted Successfully...!";
                     }
                     else
                     {
-                        TempData["notice"] = "PurchaseQuotation Updated Successfully...!";
+                        TempData["notice"] = "PurchaseQuo Updated Successfully...!";
                     }
                     return RedirectToAction("ListPurchaseQuo");
                 }
@@ -69,6 +69,15 @@ namespace Arasan.Controllers
             }
 
             return View(Cy);
+        }
+        public IActionResult ListPurchaseQuo()
+        {
+            IEnumerable<PurchaseQuo> cmp = PurquoService.GetAllPurQuotation();
+            return View(cmp);
+        }
+        public IActionResult PurchaseQuotationFollowup()
+        {
+            return View();
         }
         public List<SelectListItem> BindBranch()
         {
@@ -123,18 +132,6 @@ namespace Arasan.Controllers
             }
         }
 
-      
 
-       
-       
-        public IActionResult ListPurchaseQuo()
-        {
-            IEnumerable<PurchaseQuo> cmp = PurquoService.GetAllPurQuotation();
-            return View(cmp);
-        }
-        public IActionResult PurchaseQuotationFollowup()
-        {
-            return View();
-        }
     }
 }

@@ -26,7 +26,7 @@ namespace Arasan.Models
 
         public string DocDate { get; set; }
 
-        public double ExchangeRate { get; set; }
+   
         
 
         public string EnqNo { get; set; }
