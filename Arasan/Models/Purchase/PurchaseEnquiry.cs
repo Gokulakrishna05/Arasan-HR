@@ -18,11 +18,22 @@ namespace Arasan.Models
         public string ID { get; set; }
         public string Branch { get; set; }
 
+        public string RefNo { get; set; }
+
+        public string Enqdate { get; set; }
+        
+        public string ExRate { get; set; }
+        public string ParNo { get; set; }
+
+        public string EnqRecid { get; set; }
+
+        public string Enqassignid { get; set; }
+
         public string Supplier { get; set; }
 
         public List<SelectListItem> Suplst;
 
-        public string Currency { get; set; }
+        public string Cur { get; set; }
 
         public List<SelectListItem> Curlst;
 
@@ -32,17 +43,16 @@ namespace Arasan.Models
 
         public List<SelectListItem> EnqassignList;
 
-        public string EnqRecid { get; set; }
+        
 
-        public string Enqassignid { get; set; }
+        
 
         public double Gross { get; set; }
         public double Net { get; set; }
 
-        public string EnqNo { get; set; }
-        public string PartyrefNo { get; set; }
-        public string ExchangeRate { get; set; }
-        public string EnqDate { get; set; }
+        
+       
+       
 
     }
 

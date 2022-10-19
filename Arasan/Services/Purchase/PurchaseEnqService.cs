@@ -16,34 +16,7 @@ namespace Arasan.Services
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
         }
-        public IEnumerable<PurchaseEnquiry> GetAllPurchaseEnquiry()
-        {
-            List<PurchaseEnquiry> staList = new List<PurchaseEnquiry>();
-            using (OracleConnection con = new OracleConnection(_connectionString))
-            {
-
-                using (OracleCommand cmd = con.CreateCommand())
-                {
-                    con.Open();
-                    cmd.CommandText = "Select BRANCHID,ENQNO,ENQDATE,ENQRECDBY,ASSIGNTO,PURENQID from PURENQ";
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
-                    {
-                        PurchaseEnquiry sta = new PurchaseEnquiry
-                        {
-                            ID = rdr["PURENQID"].ToString(),
-                            Branch = rdr["BRANCHID"].ToString(),
-                            EnqNo = rdr["ENQNO"].ToString(),
-                            EnqDate = rdr["ENQDATE"].ToString(),
-                            EnqRecid = rdr["ENQRECDBY"].ToString(),
-                            Enqassignid = rdr["ASSIGNTO"].ToString()
-                        };
-                        staList.Add(sta);
-                    }
-                }
-            }
-            return staList;
-        }
+       
         public DataTable GetBranch()
         {
             string SvSql = string.Empty;
@@ -131,7 +104,42 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        public PurchaseEnquiry GetPurchaseEnquiryById(string eid)
+        public IEnumerable<PurchaseEnquiry> GetAllPurenquriy()
+        {
+            List<PurchaseEnquiry> cmpList = new List<PurchaseEnquiry>();
+            using (OracleConnection con = new OracleConnection(_connectionString))
+            {
+
+                using (OracleCommand cmd = con.CreateCommand())
+                {
+                    con.Open();
+                    cmd.CommandText = "Select BRANCHID,ENQNO,ENQDATE,EXCRATERATE,PARTYREFNO,CURRENCYID,PARTYMASTID,PURENQID from PURENQ";
+                    OracleDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        PurchaseEnquiry cmp = new PurchaseEnquiry
+                        {
+                            ID = rdr["PURENQID"].ToString(),
+                            Branch = rdr["BRANCHID"].ToString(),
+                            RefNo = rdr["ENQNO"].ToString(),
+                            Enqdate = rdr["ENQDATE"].ToString(),
+                            ExRate = rdr["EXCRATERATE"].ToString(),
+                            ParNo = rdr["PARTYREFNO"].ToString(),
+                            Cur = rdr["CURRENCYID"].ToString(),
+                            Supplier = rdr["PARTYMASTID"].ToString()
+
+
+
+                        };
+                        cmpList.Add(cmp);
+                    }
+                }
+            }
+            return cmpList;
+        }
+
+
+        public PurchaseEnquiry GetPurenqServiceById(string eid)
         {
             PurchaseEnquiry PurchaseEnquiry = new PurchaseEnquiry();
             using (OracleConnection con = new OracleConnection(_connectionString))
@@ -139,27 +147,31 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select BRANCHID,ENQNO,ENQDATE,ENQRECDBY,ASSIGNTO,PURENQID from PURENQ where PURENQID=" + eid + "";
+                    cmd.CommandText = "Select BRANCHID,ENQNO,ENQDATE,EXCRATERATE,PARTYREFNO,CURRENCYID,PARTYMASTID,PURENQID  from PURENQ where PURENQID=" + eid + "";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
-                        PurchaseEnquiry sta = new PurchaseEnquiry
+                        PurchaseEnquiry cmp = new PurchaseEnquiry
                         {
                             ID = rdr["PURENQID"].ToString(),
                             Branch = rdr["BRANCHID"].ToString(),
-                            EnqNo = rdr["ENQNO"].ToString(),
-                            EnqDate = rdr["ENQDATE"].ToString(),
-                            EnqRecid = rdr["ENQRECDBY"].ToString(),
-                            Enqassignid = rdr["ASSIGNTO"].ToString()
+                            RefNo = rdr["ENQNO"].ToString(),
+                            Enqdate = rdr["ENQDATE"].ToString(),
+                            ExRate = rdr["EXCRATERATE"].ToString(),
+                            ParNo = rdr["PARTYREFNO"].ToString(),
+                            Cur = rdr["CURRENCYID"].ToString(),
+                            Supplier = rdr["PARTYMASTID"].ToString()
 
                         };
-                        PurchaseEnquiry = sta;
+
+                        PurchaseEnquiry = cmp;
                     }
                 }
             }
             return PurchaseEnquiry;
         }
-        public string PurchaseEnquiryCRUD(PurchaseEnquiry ss)
+
+        public string PurenquriyCRUD(PurchaseEnquiry cy)
         {
             string msg = "";
             try
@@ -173,7 +185,7 @@ namespace Arasan.Services
                     objCmd.CommandText = "PURCHASEENQPROC";*/
 
                     objCmd.CommandType = CommandType.StoredProcedure;
-                    if (ss.ID == null)
+                    if (cy.ID == null)
                     {
                         StatementType = "Insert";
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
@@ -181,14 +193,16 @@ namespace Arasan.Services
                     else
                     {
                         StatementType = "Update";
-                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = ss.ID;
+                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                     }
 
-                    objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = ss.Branch;
-                    objCmd.Parameters.Add("ENQNO", OracleDbType.NVarchar2).Value = ss.EnqNo;
-                    objCmd.Parameters.Add("ENQDATE", OracleDbType.NVarchar2).Value = ss.EnqDate;
-                    objCmd.Parameters.Add("ENQRECDBY", OracleDbType.NVarchar2).Value = ss.EnqRecid;
-                    objCmd.Parameters.Add("ASSIGNTO", OracleDbType.NVarchar2).Value = ss.Enqassignid;
+                    objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
+                    objCmd.Parameters.Add("ENQNO", OracleDbType.NVarchar2).Value = cy.RefNo;
+                    objCmd.Parameters.Add("ENQDATE", OracleDbType.NVarchar2).Value = cy.Enqdate;
+                    objCmd.Parameters.Add("EXCRATERATE", OracleDbType.NVarchar2).Value = cy.ExRate;
+                    objCmd.Parameters.Add("PARTYREFNO", OracleDbType.NVarchar2).Value = cy.ParNo;
+                    objCmd.Parameters.Add("CURRENCYID", OracleDbType.NVarchar2).Value = cy.Cur;
+                    objCmd.Parameters.Add("PARTYMASTID", OracleDbType.NVarchar2).Value = cy.Supplier;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     try
                     {
@@ -200,6 +214,7 @@ namespace Arasan.Services
                     {
                         //System.Console.WriteLine("Exception: {0}", ex.ToString());
                     }
+                    
                     objConn.Close();
                 }
             }
