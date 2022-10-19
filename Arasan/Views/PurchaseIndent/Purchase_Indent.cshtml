@@ -124,16 +124,16 @@
                             </div>
 
                              <div class="row">
-           <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
+           <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:200px;">
                            
                                                 <table class="table table-striped table-hover" id="dataTable">
                                                     <thead>
                                                         <tr>
-                                                            <th>Sub Group</th>
-                                                            <th> Item ID </th>
+                                                            <th>ItemGroup</th>
+                                                            <th> Item</th>
                                                             <th>QC Y/N</th>
-                                                            <th> Unit[Primary] </th>
-                                                            <th> Stock Avalible </th>
+                                                            <th> Unit</th>
+                                                            <th> Avalible Stock </th>
                                                             <th> Whole Stock </th>
                                                             <th> Indent Placed </th>
                                                             <th>Qty</th>
@@ -162,14 +162,14 @@
                                                                                                             <td>
                                                                                                                 @Html.DropDownListFor(o => o.PILst[i].ItemId, Model.PILst[i].Itemlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItem" + i, style = "width: 170px;", onchange = "changeItem(this.value," + i + ")" })
                                                                                                             </td>
-                                                                    <td>@Html.TextBoxFor(o => o.PILst[i].QC, new { @id = "txtQC" + i, @class = "form-control", style = "width: 100px;", @readonly = "readonly"})</td>
-                                                                    <td>@Html.TextBoxFor(o => o.PILst[i].Unit, new { @id = "txtUnit" + i, @class = "form-control", style = "width: 100px;", @readonly = "readonly"}) 
+                                                                    <td>@Html.TextBoxFor(o => o.PILst[i].QC, new { @id = "txtQC" + i, @class = "form-control", style = "width: 50px;", @readonly = "readonly"})</td> 
+                                                                    <td>@Html.TextBoxFor(o => o.PILst[i].Unit, new { @id = "txtUnit" + i, @class = "form-control", style = "width: 50px;", @readonly = "readonly"}) 
                                                                      @Html.HiddenFor(o=>o.PILst[i].UnitID , new { @id = "txtUnitID" + i})
                                                                     </td>
-                                                                    <td> @Html.TextBoxFor(o => o.PILst[i].Stock, new { @id = "txtStock" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right" ,@readonly="readonly"})</td>
-                                                                    <td>@Html.TextBoxFor(o => o.PILst[i].WholeStock, new { @id = "txtWholeStock" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right",@readonly="readonly" })</td>
-                                                                    <td>@Html.TextBoxFor(o => o.PILst[i].IndentPlaced, new { @id = "txtIndentPlaced" + i, @class = "form-control", style = "width: 100px;"})</td>
-                                                                    <td>@Html.TextBoxFor(o => o.PILst[i].Quantity, new { @id = "txtQuantity" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right"})</td>
+                                                                    <td> @Html.TextBoxFor(o => o.PILst[i].Stock, new { @id = "txtStock" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 50px;text-align:right" ,@readonly="readonly"})</td>
+                                                                    <td>@Html.TextBoxFor(o => o.PILst[i].WholeStock, new { @id = "txtWholeStock" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 50px;text-align:right",@readonly="readonly" })</td>
+                                                                    <td>@Html.TextBoxFor(o => o.PILst[i].IndentPlaced, new { @id = "txtIndentPlaced" + i, @class = "form-control", style = "width: 50px;", @readonly="readonly"})</td>
+                                                                    <td>@Html.TextBoxFor(o => o.PILst[i].Quantity, new { @id = "txtQuantity" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 75px;text-align:right"})</td>
                                                                     <td> @Html.DropDownListFor(o => o.PILst[i].LocId, Model.PILst[i].loclst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlLoc" + i, style = "width: 170px;" }) </td>
                                                                      <td>
                                                                      <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy" >
@@ -198,11 +198,11 @@
                             </div>
                         
 
-                        <div style="height:30px;"></div>
+                      
 
 
                          <div style="height:30px;"></div>
-									 <div class="row">
+									@* <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
                                             
@@ -212,9 +212,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        </div>
+                                        </div>*@
 
- <div style="height:30px;"></div>
+ 
                 <div class="row">
                             <div class="col-md-12">
                                 <div class="btn-group">
@@ -257,8 +257,13 @@
                                                         </div>
 
                         <div style="height:30px;"></div>
+                        <div class="row">
+                <div class="col-sm-4 col-sm-offset-2">
+
                         <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
                         <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("List_Purchase_Indent", "PurchaseIndent")'">Cancel</button>
+                        </div>
+                        </div>
                     </form>
                     }
                 </div>
@@ -500,17 +505,17 @@ function AddRowT() {
 
         var Item = "<td><select style = 'width: 170px;' class='form-control chosen-select newcss' id='ddlItem" + index + "' name='PILst[" + index + "].ItemId' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option></select></td>";
 
-        var QC = "<td><input class='form-control' id='txtQC" + index + "' name='PILst[" + index + "].QC'  style='width: 100px;' type='text'  readonly='True'/></td>";
+        var QC = "<td><input class='form-control' id='txtQC" + index + "' name='PILst[" + index + "].QC'  style='width: 50px;' type='text'  readonly='True'/></td>";
 
-        var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='PILst[" + index + "].Unit'  style='width: 100px;' type='text'  readonly='True' /><input type='hidden' name='PILst[" + index + "].UnitID' id='txtUnitID" + index + "'></td>";
+        var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='PILst[" + index + "].Unit'  style='width: 50px;' type='text'  readonly='True' /><input type='hidden' name='PILst[" + index + "].UnitID' id='txtUnitID" + index + "'></td>";
 
-        var Stock = "<td><input class='form-control' id='txtStock" + index + "' name='PILst[" + index + "].Stock'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 100px;text-align:right' type='text' value='0' readonly='True' /></td>";
+        var Stock = "<td><input class='form-control' id='txtStock" + index + "' name='PILst[" + index + "].Stock'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 50px;text-align:right' type='text' value='0' readonly='True' /></td>";
 
-        var WholeStock = "<td><input class='form-control' id='txtWholeStock" + index + "' name='PILst[" + index + "].WholeStock'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 100px;text-align:right' type='text' value='0' readonly='True' /></td>";
+        var WholeStock = "<td><input class='form-control' id='txtWholeStock" + index + "' name='PILst[" + index + "].WholeStock'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 50px;text-align:right' type='text' value='0' readonly='True' /></td>";
         
-        var IndentPlaced = "<td><input class='form-control' id='txtIndentPlaced" + index + "' name='PILst[" + index + "].IndentPlaced'  style='width: 100px;' type='text'  /></td>";
+        var IndentPlaced = "<td><input class='form-control' id='txtIndentPlaced" + index + "' name='PILst[" + index + "].IndentPlaced'  style='width: 50px;' type='text' readonly='True' /></td>";
 
-        var Quantity = "<td><input class='form-control' id='txtQuantity" + index + "' name='PILst[" + index + "].Quantity'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 100px;text-align:right' type='text' value='0' /></td>";
+        var Quantity = "<td><input class='form-control' id='txtQuantity" + index + "' name='PILst[" + index + "].Quantity'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 75px;text-align:right' type='text' value='0' /></td>";
         
         var Loc = "<td><select style = 'width: 170px;' class='form-control chosen-select newcss' id='ddlILoc" + index + "' name='PILst[" + index + "].LocId' ><option value=''>Please select</option>" + remopt + "</select></td>";
 
