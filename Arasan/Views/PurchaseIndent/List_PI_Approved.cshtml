@@ -23,7 +23,7 @@
             // prepare the data
            var source =
             {
-                url: "/PurchaseIndent/ListIndentItemgridApproval",
+                url: "/PurchaseIndent/ListIndentItemgridApproved",
                datatype: "json",
                 updaterow: function (rowid, rowdata) {
                   // synchronize with the server - send update command
@@ -56,25 +56,25 @@
                 groupable: true,
                 selectionmode: 'singlecell',
                 showgroupaggregates: true,
-                showstatusbar: true,
+                //showstatusbar: true,
                 showaggregates: true,
                 statusbarheight: 25,
                 groups: ['itemname'],
                 columns: [
-                  { text: 'Indent No.', groupable: true, aggregates: ["count"], datafield: 'indentno', width: 100 },
-                  { text: 'Indent Date', groupable: true, datafield: 'indentdate', width: 100 },
+                  { text: 'Indent No.', aggregates: ["count"], datafield: 'indentno', width: 100 },
+                  { text: 'Indent Date', datafield: 'indentdate', width: 100 },
                   { text: 'Item Name', groupable: true, columntype: 'dropdownlist', datafield: 'itemname', width: 200 },
-                  { text: 'duedate', datafield: 'duedate', width: 70, cellsalign: 'right' },
+                  { text: 'Due date', datafield: 'duedate', width: 100, cellsalign: 'right' },
                   { text: 'Location', datafield: 'location', cellsalign: 'right', width: 200 },
                   {
                       text: 'Quantity', datafield: 'quantity', aggregates: ["sum"], cellsalign: 'right',
                       cellsrenderer: function (row, column, value, defaultRender, column, rowData) {
                           if (value.toString().indexOf("Sum") >= 0) {
-                              return defaultRender.replace("Sum", "Total");
+                              return defaultRender.replace("Sum", "Total Qty");
                           }
                       },
                       aggregatesrenderer: function (aggregates, column, element) {
-                          var renderstring = '<div style="position: relative; margin-top: 4px; margin-right:5px; text-align: right; overflow: hidden;">' + "Total" + ': ' + aggregates.sum + '</div>';
+                          var renderstring = '<div style="position: relative; margin-top: 4px; margin-right:5px; text-align: right; overflow: hidden;">' + "Total Qty" + ': ' + aggregates.sum + '</div>';
                           return renderstring;
                       }
                   }
