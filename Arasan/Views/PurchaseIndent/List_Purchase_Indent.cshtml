@@ -101,7 +101,7 @@
                 var nestedGridAdapter = new $.jqx.dataAdapter(orderssource);
                 if (grid != null) {
                     grid.jqxGrid({
-                        source: nestedGridAdapter, width: 780, height: 200,
+                        source: nestedGridAdapter, width: 780, height:100,
                         columns: [
                           { text: 'Product Name', datafield: 'itemname', width: 200 },
                           { text: 'Unit', datafield: 'unit', width: 80 },
@@ -136,9 +136,9 @@
                     },
                     columns: [
                     
-                    { text: 'Branch', datafield: 'branch', width: 200 },
-                      { text: 'Indent No.', datafield: 'indentno', width: 150 },
-                      { text: 'Indent Date', datafield: 'indentdate', width: 150 },
+                    { text: 'Branch', datafield: 'branch', width: 300 },
+                      { text: 'IndentNo', datafield: 'indentno', width: 300 },
+                      { text: 'IndentDate', datafield: 'indentdate', width: 230 },
                   ]
             });
         });
