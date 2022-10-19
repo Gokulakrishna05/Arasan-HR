@@ -15,6 +15,15 @@ namespace Arasan.Interface
         DataTable GetIndent();
         DataTable GetIndentItem(string PRID);
         DataTable GetIndentItemApprove();
+        DataTable GetIndentItemApproved();
+        DataTable GetIndentItemSupp();
+        DataTable GetIndentItemSuppDetail();
+        DataTable GetHistory(string id);
+        DataTable GetIndentItemSuppEnq(string id);
+        DataTable GetLasttwoSupp(string id);
+
+        DataTable GetSuppPurchaseDetails(string Partyid, string itemid);
+        DataTable GetSupplier();
 
     }
 }

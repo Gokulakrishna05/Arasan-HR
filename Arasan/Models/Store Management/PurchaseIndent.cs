@@ -93,17 +93,50 @@ namespace Arasan.Models
     {
         public long indentid { get; set; }
         public long piid { get; set; }
-        public string itemname { get; set; }
+        public string itemname { get; set; } 
         public string unit { get; set; }
         public string quantity { get; set; }
         public string location { get; set; }
-
+        public string itemid { get; set; }
         public string duedate { get; set; }
-
+        public string assign { get; set; }
         public string indentno { get; set; }
         public string indentdate { get; set; }
         public string branch { get; set; }
         public string approval { get; set; }
+
+    }
+    public class IndentSupAllocation
+    {
+        public string ItemName { get; set; }
+        public string TotalQty { get; set; }
+        public string UnitP { get; set; }
+        public string ItemId { get; set; }
+        public List<IndentSupAllocationList> HSupLst { get; set; }
+        public List<IndentSuppAllocate> indentSuppAllocates { get; set; }
+    }
+    public class IndentSupAllocationList
+    {
+        public string PartyName { get; set; }
+        public string Rate { get; set; }
+        public string Unit { get; set; }
+        public string LastPurchsePrice { get; set; }
+        public string LastPurchaseDate { get; set; }
+        public string Qty { get; set; }
+
+    }
+    public class IndentSuppAllocate
+    {
+        public string Partytype { get; set; }
+        public string PartyName { get; set; }
+        public List<SelectListItem> Partylst { get; set; }
+        public string Rate { get; set; }
+        public string Unit { get; set; }
+        public string LastPurchsePrice { get; set; }
+        public string LastPurchaseDate { get; set; }
+        public string Qty { get; set; }
+        public string Isvalid { get; set; }
+        public string EnquiryQty { get; set; }
 
     }
 }

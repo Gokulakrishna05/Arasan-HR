@@ -98,6 +98,47 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetHistory(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select GRNBLDETAIL.RATE,PARTYRCODE.PARTY,GRNBLDETAIL.PUNIT,to_char(GRNBLBASIC.DOCDATE,'dd-MON-yyyy') as DOCDATE,GRNBLDETAIL.TOTAMT,GRNBLDETAIL.QTY from GRNBLDETAIL LEFT OUTER JOIN GRNBLBASIC on GRNBLBASIC.GRNBLBASICID=GRNBLDETAIL.GRNBLBASICID LEFT OUTER JOIN PARTYMAST on GRNBLBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH')    order by GRNBLDETAIL.GRNBLDETAILID DESC fetch  first 5 rows only";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetLasttwoSupp(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select  PARTYRCODE.PARTY,GRNBLBASIC.PARTYID from GRNBLDETAIL LEFT OUTER JOIN GRNBLBASIC on GRNBLBASIC.GRNBLBASICID=GRNBLDETAIL.GRNBLBASICID LEFT OUTER JOIN PARTYMAST on GRNBLBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH')   group by PARTYRCODE.PARTY,GRNBLBASIC.PARTYID fetch first 2 rows only";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetSuppPurchaseDetails(string Partyid,string itemid)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select GRNBLDETAIL.RATE,PARTYRCODE.PARTY,GRNBLDETAIL.PUNIT,to_char(GRNBLBASIC.DOCDATE,'dd-MON-yyyy') as DOCDATE,GRNBLDETAIL.TOTAMT,GRNBLDETAIL.QTY from GRNBLDETAIL LEFT OUTER JOIN GRNBLBASIC on GRNBLBASIC.GRNBLBASICID=GRNBLDETAIL.GRNBLBASICID LEFT OUTER JOIN PARTYMAST on GRNBLBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND  PARTYMAST.PARTYMASTID='"+ Partyid  + "'  order by GRNBLDETAIL.GRNBLDETAILID DESC fetch  first 1 rows only";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetSupplier()
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select PARTYMAST.PARTYMASTID,PARTYRCODE.PARTY from PARTYMAST LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND PARTYRCODE.PARTY IS NOT NULL";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetIndentItem(string PRID)
         {
             string SvSql = string.Empty;
@@ -118,6 +159,47 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetIndentItemApproved()
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select ITEMMASTER.ITEMID,UNITMAST.UNITID,PINDDETAIL.QTY,PINDDETAIL.PINDBASICID,LOCDETAILS.LOCID,PINDDETAIL.PINDDETAILID ,to_char(PINDDETAIL.DUEDATE,'dd-MON-yyyy') DUEDATE,DOCID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE from PINDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PINDDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=PINDDETAIL.UNIT LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PINDDETAIL.DEPARTMENT LEFT OUTER JOIN PINDBASIC ON PINDBASIC.PINDBASICID=PINDDETAIL.PINDBASICID WHERE PINDDETAIL.APPROVED2 IS NULL AND PINDDETAIL.APPROVED1 IS NOT NULL ";/*where PINDDETAIL.PINDBASICID='"+ PRID  + "'*/
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetIndentItemSuppDetail()
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select ITEMMASTER.ITEMID,ITEMMASTER.ITEMMASTERID,UNITMAST.UNITID,PINDDETAIL.QTY,PINDDETAIL.PINDBASICID,LOCDETAILS.LOCID,PINDDETAIL.PINDDETAILID ,to_char(PINDDETAIL.DUEDATE,'dd-MON-yyyy') DUEDATE,DOCID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE from PINDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PINDDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=PINDDETAIL.UNIT LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PINDDETAIL.DEPARTMENT LEFT OUTER JOIN PINDBASIC ON PINDBASIC.PINDBASICID=PINDDETAIL.PINDBASICID WHERE PINDDETAIL.APPROVED2 IS NULL AND PINDDETAIL.APPROVED1 IS NOT NULL ";/*where PINDDETAIL.PINDBASICID='"+ PRID  + "'*/
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetIndentItemSupp()
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select ITEMMASTER.ITEMID,SUM(PINDDETAIL.QTY) as QTY,ITEMMASTER.ITEMMASTERID from PINDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PINDDETAIL.ITEMID  WHERE PINDDETAIL.APPROVED2 IS NULL AND PINDDETAIL.APPROVED1 IS NOT NULL GROUP BY ITEMMASTER.ITEMID,ITEMMASTER.ITEMMASTERID  ";/*where PINDDETAIL.PINDBASICID='"+ PRID  + "'*/
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetIndentItemSuppEnq(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select ITEMMASTER.ITEMID,SUM(PINDDETAIL.QTY) as QTY,ITEMMASTER.ITEMMASTERID from PINDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PINDDETAIL.ITEMID  WHERE PINDDETAIL.APPROVED2 IS NULL AND PINDDETAIL.APPROVED1 IS NOT NULL AND PINDDETAIL.ITEMID='"+ id  + "'  GROUP BY ITEMMASTER.ITEMID,ITEMMASTER.ITEMMASTERID";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
         public DataTable GetLocation()
         {
             string SvSql = string.Empty;
