@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Arasan.Models.PurchaseEnquiry>
+﻿@model Arasan.Models.PurchaseEnquiry
 
 @{
     ViewData["Title"] = "Index";
@@ -185,27 +185,13 @@
                                                     </thead>
 
                                                     <tbody>
-                                                        @{
-                                                            int i = 1;
+                                                        
+                                                           
+                                                              
+                                                               
+                                                               
 
-                                                            foreach (var item in Model)
-                                                            {
-                                                                <tr>
-                                                                    <td>@i</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.Branch)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.EnqNo)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.EnqDate)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.EnqRecid)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.Enqassignid)</td>
-                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("State", "State",new { id=item.ID })"></a></div></td>
-                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("State", "State",new { id=item.ID })"></a></div></td>
-
-                                                                </tr>
-                                                                i++;
-                                                            }
-                                                        }
-
-                                                        @*<tr>
+                                                        <tr>
                                                         <td>2</td>
                                                         <td>India</td>
                                                         <td>KA</td>
@@ -220,7 +206,7 @@
                                                         <td>Kerala</td>
                                                         <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("State", "State")"></a></div></td>
                                                         <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("State", "State")"></a></div></td>
-                                                        </tr>>*@
+                                                        </tr>>
                                                     </tbody>
                                                 </table>
                                             </div>

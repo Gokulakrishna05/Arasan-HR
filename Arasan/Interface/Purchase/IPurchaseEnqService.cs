@@ -5,9 +5,7 @@ namespace Arasan.Interface
 {
     public interface IPurchaseEnqService
     {
-        string PurchaseEnquiryCRUD(PurchaseEnquiry by);
-        IEnumerable<PurchaseEnquiry> GetAllPurchaseEnquiry();
-        PurchaseEnquiry GetPurchaseEnquiryById(string id);
+       
         DataTable GetBranch();
         DataTable GetSupplier();
         DataTable GetCurency();
@@ -17,5 +15,8 @@ namespace Arasan.Interface
         DataTable GetEmp();
         DataTable GetItemDetails(string ItemId);
         DataTable GetItemCF(string ItemId,string unitid);
+        string PurenquriyCRUD(PurchaseEnquiry cy);
+        IEnumerable<PurchaseEnquiry> GetAllPurenquriy();
+        PurchaseEnquiry GetPurenqServiceById(string id);
     }
 }
