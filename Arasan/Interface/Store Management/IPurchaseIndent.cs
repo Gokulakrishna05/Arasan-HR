@@ -24,6 +24,8 @@ namespace Arasan.Interface
 
         DataTable GetSuppPurchaseDetails(string Partyid, string itemid);
         DataTable GetSupplier();
+        string GenerateEnquiry(string[] selectedRecord, string supid);
+        DataTable GetIndentItembyItemd(string ItemId);
 
     }
 }
