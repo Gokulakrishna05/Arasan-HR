@@ -539,6 +539,12 @@ namespace Arasan.Controllers.Store_Management
         {
             return View();
         }
+        public IActionResult List_PI_MSupp_Allocation()
+        {
+            IndentSuppMultipleAllocate PI = new IndentSuppMultipleAllocate();
+            PI.Partylst = BindSupplier();
+            return View(PI);
+        }
         public ActionResult IndentSupAllocation(string id)
         {
             IndentSupAllocation ca = new IndentSupAllocation();
@@ -596,7 +602,47 @@ namespace Arasan.Controllers.Store_Management
                 ca.indentSuppAllocates = TDataa;
             return View(ca);
         }
+        public JsonResult GridRecordsSave(string[] selectedRecord, string supid)
+        {
+            string Strout = PurIndent.GenerateEnquiry(selectedRecord, supid);
 
+            return Json(Strout);
+        }
+        public ActionResult MultipleSupAllocation(string selectedRecord)
+        {
+            string se = selectedRecord.Replace('[', ' ');
+            string ses= se.Replace(']', ' ');
+            string sed = ses.Replace('"', ' ').Trim();
+            foreach (string number in sed.Split(','))
+            {
+                string nu = number;
+            }
+            IndentSupAllocation ca = new IndentSupAllocation();
+            List<IndentSuppAllocate> TDataa = new List<IndentSuppAllocate>();
+            IndentSuppAllocate tdaa = new IndentSuppAllocate();
+            DataTable dt1 = new DataTable();
+            //dt1 = PurIndent.GetLasttwoSupp(id);
+            foreach (string number in sed.Split(','))
+            {
+                string nu = number.Trim();
+                tdaa = new IndentSuppAllocate();
+                tdaa.Partylst = BindSupplier();
+                //tdaa.ItemName=
+                DataTable dr = new DataTable();
+                dr = PurIndent.GetIndentItemSuppEnq(nu);
+                if(dr.Rows.Count > 0)
+                {
+                    tdaa.EnquiryQty = dr.Rows[0]["QTY"].ToString();
+                    tdaa.ItemName = dr.Rows[0]["ITEMID"].ToString();
+                    tdaa.ItemId= dr.Rows[0]["ITEMMASTERID"].ToString();
+                    tdaa.Unit= dr.Rows[0]["UNITID"].ToString(); 
+                }
+                tdaa.Isvalid = "Y";
+                TDataa.Add(tdaa);
+            }
+            ca.indentSuppAllocates = TDataa;
+            return View(ca);
+        }
         public List<SelectListItem> BindOldSupp(string id)
         {
             try

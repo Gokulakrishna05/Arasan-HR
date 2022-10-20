@@ -32,6 +32,10 @@ namespace Arasan.Controllers
             else
             {
                 //ca = PurenqService.GetPurenqServiceById(id);
+
+
+
+
             }
          
         List<EnqItem> TData = new List<EnqItem>();
