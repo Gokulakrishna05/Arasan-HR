@@ -31,8 +31,7 @@ namespace Arasan.Controllers
             }
             else
             {
-                ca = PurenqService.GetPurenqServiceById(id);
-
+                //ca = PurenqService.GetPurenqServiceById(id);
             }
          
         List<EnqItem> TData = new List<EnqItem>();
@@ -46,7 +45,7 @@ namespace Arasan.Controllers
                 tda.Isvalid = "Y";
               TData.Add(tda);
             }
-            
+                                                     
             ca.EnqLst = TData;
           return View(ca);
 
