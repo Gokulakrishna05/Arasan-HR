@@ -137,6 +137,15 @@ namespace Arasan.Models
         public string Qty { get; set; }
         public string Isvalid { get; set; }
         public string EnquiryQty { get; set; }
-
+        public string ItemName { get; set; }
+        public string TotalQty { get; set; }
+        public string UnitP { get; set; }
+        public string ItemId { get; set; }
     }
+    public class IndentSuppMultipleAllocate
+    {
+        public string PartyName { get; set; }
+        public List<SelectListItem> Partylst { get; set; }
+    }
+    
 }

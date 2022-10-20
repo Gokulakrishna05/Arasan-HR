@@ -9,9 +9,10 @@ namespace Arasan.Services
 {
     public class PurchaseIndentService : IPurchaseIndent
     {
-        DataTransactions _dtransactions;
-        private readonly string _connectionString;
-        
+        private string? _connectionString;
+        IConfiguration? _configuratio;
+        DataTransactions datatrans;
+
         public PurchaseIndentService(IConfiguration _configuratio)
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
@@ -179,6 +180,16 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetIndentItembyItemd(string ItemId)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select PINDDETAIL.ITEMID,PINDDETAIL.PINDBASICID,PINDDETAIL.PINDDETAILID  from PINDDETAIL  WHERE PINDDETAIL.APPROVED2 IS NULL AND PINDDETAIL.APPROVED1 IS NOT NULL AND PINDDETAIL.ITEMID='"+ ItemId  + "'";/*where PINDDETAIL.PINDBASICID='"+ PRID  + "'*/
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetIndentItemSupp()
         {
             string SvSql = string.Empty;
@@ -192,13 +203,24 @@ namespace Arasan.Services
         public DataTable GetIndentItemSuppEnq(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select ITEMMASTER.ITEMID,SUM(PINDDETAIL.QTY) as QTY,ITEMMASTER.ITEMMASTERID from PINDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PINDDETAIL.ITEMID  WHERE PINDDETAIL.APPROVED2 IS NULL AND PINDDETAIL.APPROVED1 IS NOT NULL AND PINDDETAIL.ITEMID='"+ id  + "'  GROUP BY ITEMMASTER.ITEMID,ITEMMASTER.ITEMMASTERID";
+            SvSql = "Select ITEMMASTER.ITEMID,SUM(PINDDETAIL.QTY) as QTY,ITEMMASTER.ITEMMASTERID,UNITMAST.UNITID,UNITMAST.UNITMASTID from PINDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PINDDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  WHERE PINDDETAIL.APPROVED2 IS NULL AND PINDDETAIL.APPROVED1 IS NOT NULL AND PINDDETAIL.ITEMID='" + id + "' GROUP BY ITEMMASTER.ITEMID,ITEMMASTER.ITEMMASTERID,UNITMAST.UNITID,UNITMAST.UNITMASTID";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
         }
+        //DataTable GetItemQty(string Itemid)
+        //{
+        //    string SvSql = string.Empty;
+        //    SvSql = "Select ITEMMASTER.ITEMID,SUM(PINDDETAIL.QTY) as QTY,ITEMMASTER.ITEMMASTERID from PINDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PINDDETAIL.ITEMID  WHERE PINDDETAIL.APPROVED2 IS NULL AND PINDDETAIL.APPROVED1 IS NOT NULL AND PINDDETAIL.ITEMID='" + id + "'  GROUP BY ITEMMASTER.ITEMID,ITEMMASTER.ITEMMASTERID";
+        //    DataTable dtt = new DataTable();
+        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
+        //}
+    
 
         public DataTable GetLocation()
         {
@@ -252,6 +274,137 @@ namespace Arasan.Services
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
+        }
+
+        public string GenerateEnquiry(string[] selectedRecord, string supid)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
+
+                
+                    DateTime theDate = DateTime.Now;
+                    DateTime todate; DateTime fromdate;
+                    string t; string f;
+                    if (DateTime.Now.Month >= 4)
+                    {
+                        todate = theDate.AddYears(1);
+                    }
+                    else
+                    {
+                        todate = theDate;
+                    }
+                    if (DateTime.Now.Month >= 4)
+                    {
+                        fromdate = theDate;
+                    }
+                    else
+                    {
+                        fromdate = theDate.AddYears(-1);
+                    }
+                    t = todate.ToString("yy");
+                    f = fromdate.ToString("yy");
+                    string disp = string.Format("{0}-{1}", f, t);
+
+                    int idc = GetDataId(" SELECT COMMON_TEXT FROM COMMON_MASTER WHERE COMMON_TYPE = 'ENQ' AND IS_ACTIVE = 'Y'");
+                    string EnqNo = string.Format("{0} - {1} / {2}", "ENQ", (idc + 1).ToString(), disp);
+
+                    string updateCMd = " UPDATE COMMON_MASTER SET COMMON_TEXT ='" + (idc + 1).ToString() + "' WHERE COMMON_TYPE ='ENQ' AND IS_ACTIVE ='Y'";
+                    try
+                    {
+                        UpdateStatus(updateCMd);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+               
+
+
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    OracleCommand objCmd = new OracleCommand("PURCHASEENQPROC", objConn);
+
+                    objCmd.CommandType = CommandType.StoredProcedure;
+                    StatementType = "Insert";
+                    objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                    objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = "10061000000002";
+                    objCmd.Parameters.Add("ENQNO", OracleDbType.NVarchar2).Value = EnqNo;
+                    objCmd.Parameters.Add("ENQDATE", OracleDbType.Date).Value = DateTime.Now;
+                    objCmd.Parameters.Add("EXCRATERATE", OracleDbType.NVarchar2).Value = "";
+                    objCmd.Parameters.Add("PARTYREFNO", OracleDbType.NVarchar2).Value = "";
+                    objCmd.Parameters.Add("CURRENCYID", OracleDbType.NVarchar2).Value = "";
+                    objCmd.Parameters.Add("PARTYMASTID", OracleDbType.NVarchar2).Value = supid;
+                    objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                    objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
+                    try
+                    {
+                        objConn.Open();
+                        objCmd.ExecuteNonQuery();
+                        Object Pid = objCmd.Parameters["OUTID"].Value;
+                        datatrans = new DataTransactions(_connectionString);
+                        foreach (string itemid in selectedRecord)
+                        {
+                            string EnquiryQty = "";
+                            string Unit = "";
+                           
+                            DataTable dr = new DataTable();
+                            dr = GetIndentItemSuppEnq(itemid);
+                            if (dr.Rows.Count > 0)
+                            {
+                                EnquiryQty = dr.Rows[0]["QTY"].ToString();
+                                Unit = dr.Rows[0]["UNITMASTID"].ToString();
+                            }
+                            using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                                {
+                                    string Sql = string.Empty;
+                                    if (StatementType == "Insert")
+                                    {
+                                        Sql = "Insert into PURENQDETAIL (PURENQBASICID,ITEMID,QTY,UNIT) Values ('" + Pid + "','" + itemid + "','" + EnquiryQty + "','" + Unit + "') ";
+                                    }
+                                    else
+                                    {
+                                        Sql = "";
+                                    }
+                                    OracleCommand objCmds = new OracleCommand(Sql, objConnT);
+                                    objConnT.Open();
+                                    objCmds.ExecuteNonQuery();
+                                    objConnT.Close();
+                                }
+                            DataTable dt = new DataTable();
+                            dt = GetIndentItembyItemd(itemid);
+                            if (dt.Rows.Count > 0)
+                            {
+                                for (int i = 0; i < dt.Rows.Count; i++)
+                                {
+                                    bool result = datatrans.UpdateStatus("UPDATE PINDDETAIL SET APPROVED2='YES',APPROVAL2U='SRRAJAN',APP2DT='" + DateTime.Now.ToString("dd-MMM-yyyy") + "' Where PINDDETAILID='" + dt.Rows[i]["PINDDETAILID"].ToString() + "'");
+                                }
+                            }
+
+
+                        }
+
+
+
+                        //datatrans = new DataTransactions(_connectionString);
+                        //bool result = datatrans.UpdateStatus("UPDATE PINDDETAIL SET APPROVED1='YES',APPROVAL1U='SRRAJAN',APP1DT='" + DateTime.Now.ToString("dd-MMM-yyyy") + "' Where PINDDETAILID='" + id + "'");
+
+                    }
+                    catch (Exception ex)
+                    {
+                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
+                    }
+                    objConn.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
         }
         public string IndentCRUD(PurchaseIndent cy)
         {

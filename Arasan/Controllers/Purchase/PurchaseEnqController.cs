@@ -31,7 +31,7 @@ namespace Arasan.Controllers
             }
             else
             {
-                ca = PurenqService.GetPurenqServiceById(id);
+                //ca = PurenqService.GetPurenqServiceById(id);
 
             }
          
