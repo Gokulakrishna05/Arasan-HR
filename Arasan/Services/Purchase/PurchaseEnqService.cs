@@ -113,7 +113,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select BRANCHID,ENQNO,ENQDATE,EXCRATERATE,PARTYREFNO,CURRENCYID,PARTYMASTID,PURENQID from PURENQ";
+                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,ENQNO,to_char(ENQDATE,'dd-MON-yyyy') ENQDATE,EXCRATERATE,PARTYREFNO,CURRENCYID,PARTYRCODE.PARTY,PURENQID from PURENQ LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PURENQ.BRANCHID LEFT OUTER JOIN  PARTYMAST on PURENQ.PARTYMASTID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH')";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -126,7 +126,7 @@ namespace Arasan.Services
                             ExRate = rdr["EXCRATERATE"].ToString(),
                             ParNo = rdr["PARTYREFNO"].ToString(),
                             Cur = rdr["CURRENCYID"].ToString(),
-                            Supplier = rdr["PARTYMASTID"].ToString()
+                            Supplier = rdr["PARTY"].ToString()
 
 
 
@@ -138,6 +138,31 @@ namespace Arasan.Services
             return cmpList;
         }
 
+        public IEnumerable<EnqItem> GetAllPurenquriyItem(string id)
+        {
+            List<EnqItem> cmpList = new List<EnqItem>();
+            using (OracleConnection con = new OracleConnection(_connectionString))
+            {
+
+                using (OracleCommand cmd = con.CreateCommand())
+                {
+                    con.Open();
+                    cmd.CommandText = "Select PURENQDETAIL.QTY,PURENQDETAIL.PURENQDETAILID,ITEMMASTER.ITEMID,UNITMAST.UNITID from PURENQDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PURENQDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  where PURENQDETAIL.PURENQBASICID='"+ id + "'";
+                    OracleDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        EnqItem cmp = new EnqItem
+                        {
+                            ItemId = rdr["ITEMID"].ToString(),
+                            Unit = rdr["UNITID"].ToString(),
+                            Quantity = Convert.ToDouble(rdr["QTY"].ToString())
+                        };
+                        cmpList.Add(cmp);
+                    }
+                }
+            }
+            return cmpList;
+        }
 
         public PurchaseEnquiry GetPurenqServiceById(string eid)
         {

@@ -264,6 +264,16 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetIndetnPlacedDetails(string ItemId)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select SUM(PINDDETAIL.QTY) as QTY,PINDDETAIL.ITEMID from PINDDETAIL WHERE PINDDETAIL.APPROVED1 IS NULL AND PINDDETAIL.ITEMID='" + ItemId + "' GROUP BY PINDDETAIL.ITEMID ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
 
         public DataTable GetEmp()
         {
