@@ -26,6 +26,7 @@ namespace Arasan.Interface
         DataTable GetSupplier();
         string GenerateEnquiry(string[] selectedRecord, string supid);
         DataTable GetIndentItembyItemd(string ItemId);
+        DataTable GetIndetnPlacedDetails(string ItemId);
 
     }
 }

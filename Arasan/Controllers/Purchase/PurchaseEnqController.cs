@@ -54,7 +54,12 @@ namespace Arasan.Controllers
           return View(ca);
 
         }
-        [HttpPost]
+        public IActionResult PurchaseEnquiryDetails(string id)
+        {
+            IEnumerable<EnqItem> cmp = PurenqService.GetAllPurenquriyItem(id);
+            return View(cmp);
+        }
+      [HttpPost]
         public ActionResult PurchaseEnq(PurchaseEnquiry Cy, string id)
         {
 

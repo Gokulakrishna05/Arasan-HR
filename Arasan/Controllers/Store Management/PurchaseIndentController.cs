@@ -28,7 +28,7 @@ namespace Arasan.Controllers.Store_Management
             ca.PURLst = BindPurType();
             ca.ELst = BindErection();
             ca.EmpLst = BindEmp();
-
+            ca.IndentDate = DateTime.Now.ToString("dd-MMM-yyyy");
             List<PIndentItem> TData = new List<PIndentItem>();
             PIndentItem tda = new PIndentItem();
             for (int i = 0; i < 3; i++)
@@ -460,8 +460,9 @@ namespace Arasan.Controllers.Store_Management
                 string QC = "";
                 string unit = "";
                 string unitid = "";
+                string indentqty = "0";
                 dt = PurIndent.GetItemDetails(ItemId);
-
+                dt1= PurIndent.GetIndetnPlacedDetails(ItemId);
                 if (dt.Rows.Count > 0)
                 {
                     if (dt.Rows[0]["QCYNTEMP"].ToString() == "" || string.IsNullOrEmpty(dt.Rows[0]["QCYNTEMP"].ToString()))
@@ -476,8 +477,11 @@ namespace Arasan.Controllers.Store_Management
                     unit = dt.Rows[0]["UNITID"].ToString();
                     unitid = dt.Rows[0]["UNITMASTID"].ToString(); 
                 }
-
-                var result = new { QC = QC, unit = unit, unitid = unitid };
+                if(dt1.Rows.Count > 0)
+                {
+                    indentqty= dt1.Rows[0]["QTY"].ToString();
+                }
+                var result = new { QC = QC, unit = unit, unitid = unitid , indentqty = indentqty };
                 return Json(result);
             }
             catch (Exception ex)

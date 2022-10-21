@@ -17,6 +17,8 @@ namespace Arasan.Interface
         DataTable GetItemCF(string ItemId,string unitid);
         string PurenquriyCRUD(PurchaseEnquiry cy);
         IEnumerable<PurchaseEnquiry> GetAllPurenquriy();
+
+        IEnumerable<EnqItem> GetAllPurenquriyItem(string id);
         PurchaseEnquiry GetPurenqServiceById(string id);
     }
 }
