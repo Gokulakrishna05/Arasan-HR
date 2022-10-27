@@ -12,7 +12,7 @@ using Arasan.Models.Store_Management;
 
 namespace Arasan.Controllers.Store_Management
 {
-    public class MaterialRequisitionController : Controller
+    public class MaterialRequisitionController:Controller
     {
         IMaterialRequisition materialReq;
        // IPurchaseIndent PurIndent;
