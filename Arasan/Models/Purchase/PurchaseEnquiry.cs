@@ -21,7 +21,7 @@ namespace Arasan.Models
         public string RefNo { get; set; }
 
         public string Enqdate { get; set; }
-        
+        public string EnqNo { get; set; }
         public string ExRate { get; set; }
         public string ParNo { get; set; }
 
@@ -42,10 +42,6 @@ namespace Arasan.Models
         public List<SelectListItem> EnqRecList;
 
         public List<SelectListItem> EnqassignList;
-
-        
-
-        
 
         public double Gross { get; set; }
         public double Net { get; set; }
