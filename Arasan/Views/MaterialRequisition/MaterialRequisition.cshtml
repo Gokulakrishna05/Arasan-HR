@@ -44,7 +44,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">DocumentNo<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                         @Html.TextBoxFor(C => C.MaterialReqId, new { @id = "MaterialReqno", @class = "form-control", @TabIndex = 2 })
+                                            @Html.TextBoxFor(C => C.DocId, new { @id = "DocId", @class = "form-control", @TabIndex = 2 })
                                 </div>
                             </div>
                             </div>
@@ -53,7 +53,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Document Date<label class="Mandatory"></label></label>
                                    <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy" >
-                                                         @Html.TextBoxFor(C => C.MaterialReqDate, new { @id = "MaterialReqDate", @class = "form-control", @TabIndex = 3,@size="32",@readonly=true })
+                                            @Html.TextBoxFor(C => C.DocDa, new { @id = "DocDa", @class = "form-control", @TabIndex = 3,@size="32",@readonly=true })
 														<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 													</div>
                                 </div>
@@ -93,7 +93,8 @@
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-4 control-label">Process<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
+                                            @Html.TextBoxFor(C => C.Process, new { @id = "Process", @class = "form-control", @TabIndex = 2 })
+
                                     </div>
                                 </div>
                             </div>
@@ -102,14 +103,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Reg Type <label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <select class=" _select js-states form-control">
-
-
-                                            <option value=>Prod Issuse</option>
-                                            <option value=>Cons Issuse</option>
-                                            <option value=>Other Issuse</option>
-
-                                        </select><br />
+                                            @Html.TextBoxFor(C => C.RequestType, new { @id = "RequestType", @class = "form-control", @TabIndex = 2 })<br />
                                     </div>
                                 </div>
                             </div>
@@ -227,10 +221,10 @@
                         </div>
 
 
-                        <div style="height:20px;"></div>
-
-                        <button type="submit" class="btn aqua m-t-xs bottom15-xs">Submit</button>
-                        <button class="btn btn-danger" type="submit">Cancel</button>
+                            <div style="height:30px;"></div>
+                            <div class="col-lg-8"></div>
+                            <button type="submit" name="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" value="Save" tabindex="18">Save</button>
+                            <a button class="btn btn-danger" type="submit" href="@Url.Action("ListMaterialRequisition", "MaterialRequisition")">Cancel</a>
                     </form>
                     }
                 </div>
