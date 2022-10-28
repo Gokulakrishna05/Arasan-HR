@@ -20,5 +20,10 @@ namespace Arasan.Interface
 
         IEnumerable<EnqItem> GetAllPurenquriyItem(string id);
         PurchaseEnquiry GetPurenqServiceById(string id);
+
+        DataTable GetPurchaseEnqDetails(string id);
+        DataTable GetPurchaseEnqItemDetails(string id);
+        DataTable GetItemSubGrp();
+        DataTable GetItemSubGroup(string id);
     }
 }

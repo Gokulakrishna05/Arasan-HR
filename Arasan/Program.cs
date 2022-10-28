@@ -71,7 +71,7 @@ internal class Program
 
         app.MapControllerRoute(
             name: "default",
-            pattern: "{controller=Account}/{action=Login}/{id?}");
+            pattern: "{controller=Account}/{action=Login}/{fid?}");
         app.Run();
     }
 }
