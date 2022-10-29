@@ -1,5 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Data;
 namespace Arasan.Models
 {
@@ -13,14 +12,14 @@ namespace Arasan.Models
             this.MRlst = new List<MaterialRequistionItem>();
 
         }
-        public int Id { get; set; }
-        public int Branch { get; set; }
-  
+        public string ID { get; set; }
+        public string Branch { get; set; }
 
-        public string  LocationId { get; set; }
+        public string DocDa { get; set; }
+        public string  DocId { get; set; }
 
         public string Location { get; set; }
-        public string WorkCenterId { get; set; }
+        public string Process { get; set; }
         public string WorkCenter { get; set; }
 
         public int MaterialReqId { get; set; }

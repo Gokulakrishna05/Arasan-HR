@@ -26,14 +26,59 @@ namespace Arasan.Controllers.Store_Management
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
         }
 
-        public IActionResult MaterialRequisition()
+        public IActionResult MaterialRequisition(string id)
         {
             MaterialRequisition MR = new MaterialRequisition();
              MR.Brlst = BindBranch();
             MR.Loclst = GetLoc();
+            if (id == null)
+            {
+
+            }
+            else
+            {
+                MR = materialReq.GetMaterialById(id);
+
+            }
             return View(MR);
         }
+        [HttpPost]
+        public ActionResult MaterialRequisition(MaterialRequisition Cy, string id)
+        {
 
+            try
+            {
+                Cy.ID = id;
+                string Strout = materialReq.MaterialCRUD(Cy);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Cy.ID == null)
+                    {
+                        TempData["notice"] = "MaterialRequisition Inserted Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "MaterialRequisition Updated Successfully...!";
+                    }
+                    return RedirectToAction("ListMaterialRequisition");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit ListMaterialRequisition";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(Cy);
+        }
         public List<SelectListItem> BindBranch()
         {
             try
@@ -106,5 +151,10 @@ namespace Arasan.Controllers.Store_Management
         //    return items;
 
         //}
+        public IActionResult ListMaterialRequisition()
+        {
+            IEnumerable<MaterialRequisition> cmp = materialReq.GetAllMaterial();
+            return View();
+        }
     }
 }

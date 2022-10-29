@@ -16,6 +16,8 @@ namespace Arasan.Services
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
         }
 
+       
+
         public DataTable GetWorkCenter(string LocationId)
         {
             string SvSql = string.Empty;
@@ -27,6 +29,136 @@ namespace Arasan.Services
             return dtt;
         }
 
+        public IEnumerable<MaterialRequisition> GetAllMaterial()
+        {
+            List<MaterialRequisition> cmpList = new List<MaterialRequisition>();
+            using (OracleConnection con = new OracleConnection(_connectionString))
+            {
+
+                using (OracleCommand cmd = con.CreateCommand())
+                {
+                    con.Open();
+                    cmd.CommandText = "Select BRANCHID,DOCID,DOCDATE,FROMLOCID,PROCESSID,REQTYPE,STORESREQBASICID from STORESREQBASIC";
+                    OracleDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        MaterialRequisition cmp = new MaterialRequisition
+                        {
+                            ID = rdr["STORESREQBASICID"].ToString(),
+
+                            Branch = rdr["BRANCHID"].ToString(),
+                            Location = rdr["FROMLOCID"].ToString(),
+                            Process = rdr["PROCESSID"].ToString(),
+                            RequestType = rdr["REQTYPE"].ToString(),
+                            DocId = rdr["DOCID"].ToString(),
+                           
+                            DocDa = rdr["DOCDATE"].ToString()
+                           
+                      
+
+                        };
+                        cmpList.Add(cmp);
+                    }
+                }
+            }
+            return cmpList;
+        }
+
+
+        public MaterialRequisition GetMaterialById(string eid)
+        {
+            MaterialRequisition Material = new MaterialRequisition();
+            using (OracleConnection con = new OracleConnection(_connectionString))
+            {
+                using (OracleCommand cmd = con.CreateCommand())
+                {
+                    con.Open();
+                    cmd.CommandText = "Select BRANCHID,DOCID,DOCDATE,FROMLOCID,PROCESSID,REQTYPE,STORESREQBASICID from STORESREQBASIC where STORESREQBASICID=" + eid + "";
+                    OracleDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        MaterialRequisition cmp = new MaterialRequisition
+                        {
+                            ID = rdr["STORESREQBASICID"].ToString(),
+
+                            Branch = rdr["BRANCHID"].ToString(),
+                            Location = rdr["FROMLOCID"].ToString(),
+                            Process = rdr["PROCESSID"].ToString(),
+                            RequestType = rdr["REQTYPE"].ToString(),
+                            DocId = rdr["DOCID"].ToString(),
+
+                            DocDa = rdr["DOCDATE"].ToString()
+
+
+                        };
+
+                        Material = cmp;
+                    }
+                }
+            }
+            return Material;
+        }
+
+        public string MaterialCRUD(MaterialRequisition cy)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
+
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    OracleCommand objCmd = new OracleCommand("LOCATIONPROC", objConn);
+                    /*objCmd.Connection = objConn;
+                    objCmd.CommandText = "LOCATIONPROC";*/
+
+                    objCmd.CommandType = CommandType.StoredProcedure;
+                    if (cy.ID == null)
+                    {
+                        StatementType = "Insert";
+                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                    }
+                    else
+                    {
+                        StatementType = "Update";
+                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                    }
+                    objCmd.Parameters.Add("BRANCHID", OracleDbType.Int64).Value = cy.Branch;
+                    objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.DocId;
+                    objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = cy.DocDa;
+                    objCmd.Parameters.Add("FROMLOCID", OracleDbType.NVarchar2).Value = cy.Location;
+                    objCmd.Parameters.Add("PROCESSID", OracleDbType.NVarchar2).Value = cy.Process;
+                    objCmd.Parameters.Add("REQTYPE", OracleDbType.NVarchar2).Value = cy.RequestType;
+
+                    //  objCmd.Parameters.Add("FaxNo", OracleDbType.NVarchar2).Value = cy.FaxNo;
+                    //objCmd.Parameters.Add("EMAIL", OracleDbType.NVarchar2).Value = cy.EmailId;
+                    //objCmd.Parameters.Add("ADD1", OracleDbType.NVarchar2).Value = cy.Address;
+                    
+                    // objCmd.Parameters.Add("Bin", OracleDbType.NVarchar2).Value = cy.Bin;
+                    // objCmd.Parameters.Add("Trade", OracleDbType.NVarchar2).Value = cy.Trade;
+                    // objCmd.Parameters.Add("FlowOrd", OracleDbType.Int64).Value = cy.FlowOrd;
+                    objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                    try
+                    {
+                        objConn.Open();
+                        objCmd.ExecuteNonQuery();
+                        //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
+                    }
+                    catch (Exception ex)
+                    {
+                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
+                    }
+                    objConn.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
+        }
 
     }
 }
