@@ -57,6 +57,6 @@ namespace Arasan.Models
 
         public List<SelectListItem> Itemlst { get; set; }
 
-        public List<SelectListItem> ItemGrouplst { get; set; }
+       
     }
 }

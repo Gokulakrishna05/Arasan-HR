@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Arasan.Interface.Master;
 
 using Arasan.Models.Store_Management;
+using Newtonsoft.Json.Linq;
 
 namespace Arasan.Controllers.Store_Management
 {
@@ -31,50 +32,108 @@ namespace Arasan.Controllers.Store_Management
             MaterialRequisition MR = new MaterialRequisition();
              MR.Brlst = BindBranch();
             MR.Loclst = GetLoc();
+
+            List<MaterialRequistionItem> Data = new List<MaterialRequistionItem>();
+            MaterialRequistionItem tda = new MaterialRequistionItem();
+            for (int i = 0; i < 3; i++)
+            {
+                tda = new MaterialRequistionItem();
+               
+                tda.Itemlst = BindItemlst("");
+                tda.Isvalid = "Y";
+                Data.Add(tda);
+            }
+
+            MR.MRlst = Data;
             if (id == null)
             {
 
             }
             else
             {
-                MR = materialReq.GetMaterialById(id);
+               MR = materialReq.GetMaterialById(id);
 
             }
             return View(MR);
         }
-        [HttpPost]
+
+        public List<SelectListItem> BindItemlst(string value)
+        {
+            try
+            {
+                DataTable dtDesg = materialReq.GetItem(value);
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEMMASTERID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult GetItemDetail(string ItemId)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                DataTable dt1 = new DataTable();
+                string Desc = "";
+                string unit = "";
+
+                dt = materialReq.GetItemDetails(ItemId);
+
+                if (dt.Rows.Count > 0)
+                {
+                    Desc = dt.Rows[0]["ITEMDESC"].ToString();
+                    unit = dt.Rows[0]["UNITID"].ToString();
+
+
+                }
+
+                var result = new { Desc = Desc, unit = unit };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+       [HttpPost]
         public ActionResult MaterialRequisition(MaterialRequisition Cy, string id)
         {
 
             try
-            {
+           {
                 Cy.ID = id;
-                string Strout = materialReq.MaterialCRUD(Cy);
+               string Strout = materialReq.MaterialCRUD(Cy);
                 if (string.IsNullOrEmpty(Strout))
-                {
-                    if (Cy.ID == null)
-                    {
-                        TempData["notice"] = "MaterialRequisition Inserted Successfully...!";
-                    }
+               {
+                   if (Cy.ID == null)
+                   {
+                    TempData["notice"] = "MaterialRequisition Inserted Successfully...!";
+                   }
                     else
                     {
                         TempData["notice"] = "MaterialRequisition Updated Successfully...!";
                     }
-                    return RedirectToAction("ListMaterialRequisition");
-                }
+                   return RedirectToAction("ListMaterialRequisition");
+               }
 
                 else
                 {
                     ViewBag.PageTitle = "Edit ListMaterialRequisition";
                     TempData["notice"] = Strout;
-                    //return View();
-                }
+                   //return View();
+              }
 
-                // }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
+                 
+           }
+           catch (Exception ex)
+           {
+               throw ex;
             }
 
             return View(Cy);
@@ -154,7 +213,15 @@ namespace Arasan.Controllers.Store_Management
         public IActionResult ListMaterialRequisition()
         {
             IEnumerable<MaterialRequisition> cmp = materialReq.GetAllMaterial();
-            return View();
+            return View(cmp);
         }
+    
+
+    public JsonResult GetItemJSON(string itemid)
+    {
+        EnqItem model = new EnqItem();
+        model.Itemlst = BindItemlst(itemid);
+        return Json(BindItemlst(itemid));
+    }
     }
 }
