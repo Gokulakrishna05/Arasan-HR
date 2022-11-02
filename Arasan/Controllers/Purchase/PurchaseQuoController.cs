@@ -39,7 +39,7 @@ namespace Arasan.Controllers
             }
             else
             {
-                //ca = PurquoService.GetPurQuotationById(id);
+                ca = PurquoService.GetPurQuotationById(id);
 
             }
           

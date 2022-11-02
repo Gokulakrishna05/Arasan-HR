@@ -86,7 +86,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select BRANCHID, DOCID,DOCDATE,PARTYID,ENQNO,ENQDATE,PURQUOTBASICID from PURQUOTBASIC";
+                    cmd.CommandText = "Select  BRANCHMAST.BRANCHID, DOCID,DOCDATE,PARTYRCODE.PARTY,ENQNO,ENQDATE,PURQUOTBASICID from PURQUOTBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PURQUOTBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on PURQUOTBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH') ORDER BY PURQUOTBASICID DESC";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -96,7 +96,7 @@ namespace Arasan.Services
                             Branch = rdr["BRANCHID"].ToString(),
                             QuoId = rdr["DOCID"].ToString(),
                             DocDate = rdr["DOCDATE"].ToString(),
-                            Supplier = rdr["PARTYID"].ToString(),
+                            Supplier = rdr["PARTY"].ToString(),
 
                             EnqNo = rdr["ENQNO"].ToString(),
                             EnqDate = rdr["ENQDATE"].ToString()
