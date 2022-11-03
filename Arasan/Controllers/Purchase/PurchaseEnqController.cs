@@ -48,9 +48,7 @@ namespace Arasan.Controllers
 
             }
          
-        List<EnqItem> TData = new List<EnqItem>();
-            EnqItem tda = new EnqItem();
-
+        
             for (int i = 0; i < 3; i++)
             {
                 tda = new EnqItem();
@@ -73,7 +71,7 @@ namespace Arasan.Controllers
                 dt2 = PurenqService.GetPurchaseEnqItemDetails(id);
                 if (dt2.Rows.Count > 0)
                 {
-                    for (int i = 0; i < dt2.Rows.Count; i++)
+                    for ( i = 0; i < dt2.Rows.Count; i++)
                     {
                         tda = new EnqItem();
                         double toaamt = 0;
