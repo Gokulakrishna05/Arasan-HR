@@ -31,7 +31,7 @@ namespace Arasan.Controllers
             }
             else
             {
-                //ca = PurenqService.GetPurenqServiceById(id);
+                ca = PurenqService.GetPurenqServiceById(id);
 
 
 
@@ -96,6 +96,8 @@ namespace Arasan.Controllers
 
             return View(Cy);
         }
+
+      
         public IActionResult ListEnquiry()
         {
             IEnumerable<PurchaseEnquiry> cmp = PurenqService.GetAllPurenquriy();
@@ -258,9 +260,64 @@ namespace Arasan.Controllers
             return Json(BindItemGrplst());
         }
 
-        public IActionResult PurchaseFollowup()
+        public IActionResult PurchaseFollowup(String id)
         {
-            return View();
+            PurchaseFollowup P = new PurchaseFollowup();
+            if (id == null)
+            {
+
+            }
+            else
+            {
+                P = PurenqService.GetPurchaseFollowupById(id);
+
+
+            }
+
+            return View(P);
+        }
+       
+        [HttpPost]
+        public ActionResult PurchaseFollowup(PurchaseFollowup Pf, string id)
+        {
+
+            try
+            {
+                Pf.ID = id;
+                string Strout = PurenqService.PurchaseFollowupCRUD(Pf);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Pf.ID == null)
+                    {
+                        TempData["notice"] = "PurchaseFollowup Inserted Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "PurchaseFollowup Updated Successfully...!";
+                    }
+                    return RedirectToAction("PurchaseFollowup");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit PurchaseFollowup";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(Pf);
+        }
+        public IActionResult Followup()
+        {
+            IEnumerable<PurchaseFollowup> cmp = PurenqService.GetAllPurchaseFollowup();
+            return View(cmp);
         }
         public IActionResult POFollowup()
         {

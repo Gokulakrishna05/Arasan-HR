@@ -1,4 +1,4 @@
-﻿@model Arasan.Models.PurchaseEnquiry
+﻿@model IEnumerable<Arasan.Models.PurchaseFollowup>
 
 @{
     ViewData["Title"] = "Followup";
@@ -23,13 +23,16 @@
             <div class="widgets-container">
               <h5 style="font-size:14px">Followup</h5>
               <hr>
+                    @using (Html.BeginForm("PurchaseFollowup", "PurchaseFollowup", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
               <form>
 			 <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="inputName3" class="col-sm-4 control-label">Enquiry ID <label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                   
+                                                  
                                                    ENQ-000001/22-23
                                                 </div>
                                             </div>
@@ -65,8 +68,8 @@
                                                  <select class=" _select js-states form-control">
                        
                        
-                        <option value=""> </option>
-                        <option value=""> </option>
+                        <option value="">Approved</option>
+                       
                       </select>
                                                 </div>
                                             </div>
@@ -79,7 +82,7 @@
                                                 <label for="inputName3" class="col-sm-4 control-label">Follow Date<label class="Mandatory"></label></label>
                                                	<div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2"
 														data-link-format="yyyy-mm-dd">
-														<input class="form-control" size="32" type="text" value="" readonly>
+														<input class="form-control" size="32" type="text" value="">
 														<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 													</div>
 													<input type="hidden" id="dtp_input2" value="" />
@@ -91,7 +94,7 @@
                                                 <label for="inputName3" class="col-sm-4 control-label">Next Follow Date<label class="Mandatory"></label></label>
                                              	<div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2"
 														data-link-format="yyyy-mm-dd">
-														<input class="form-control" size="32" type="text" value="" readonly>
+														<input class="form-control" size="32" type="text" value="" >
 														<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 													</div>
 													<input type="hidden" id="dtp_input2" value="" />
@@ -113,79 +116,94 @@
                                         </div>
                                     </div>
 
-                        <a button type="submit" class="btn aqua m-t-xs bottom15-xs" href="@Url.Action("ListEnquiry", "PurchaseEnq")">Submit</a>
-                        <a button class="btn btn-danger" type="submit" href="@Url.Action("ListEnquiry", "PurchaseEnq")">Cancel</a>
+                            <a button type="submit" class="btn aqua m-t-xs bottom15-xs" href="@Url.Action("Followup", "PurchaseEnq")">Save</a>
+                            <a button class="btn btn-danger" type="submit" href="@Url.Action("Followup", "PurchaseEnq")">Cancel</a>
 
 
 
 
-                          <div class="row">
-                            <div class="col-lg-12">
-                                <div class="ibox float-e-margins">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="ibox float-e-margins">
 
-                                    <div class="ibox-content collapse in">
-                                        <div class="widgets-container">
-                                            <div>
-                                                <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
-                                                    <thead>
+                                        <div class="ibox-content collapse in">
+                                            <div class="widgets-container">
+                                                <div>
+                                                    <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
+                                                        <thead>
+                                                            <tr>
+
+                                                                <th>Followed By</th>
+                                                                <th>Follow Date</th>
+                                                                <th>Enquiry Status</th>
+                                                                <th>Next Follow Date</th>
+                                                                <th>Remarks</th>
+
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tbody>
+                                                            @{
+                                                                int i = 1;
+
+                                                                foreach (var item in Model)
+                                                                {
+                                                                    <tr>
+
+                                                                        <td>@Html.DisplayFor(modelItem => item.Followby)</td>
+                                                                        <td>@Html.DisplayFor(modelItem => item.Enquiryst)</td>
+                                                                        <td>@Html.DisplayFor(modelItem => item.Followdate)</td>
+                                                                        <td>@Html.DisplayFor(modelItem => item.Nfdate)</td>
+                                                                        <td>@Html.DisplayFor(modelItem => item.Rmarks)</td>
+
+                                                                    </tr>
+                                                                    i++;
+                                                                }
+                                                            }
+
+                                                            @*
                                                         <tr>
-                                                            <td>S.No</td>
-                                                            <th>Followed By</th>
-                                                            <th>Follow Date</th>
-                                                            <th>Next Follow Date</th>
-                                                            <th>Remarks</th>
-                                                            <th>Edit</th>
-                                                            <th>Delete</th>
-                                                        </tr>
-                                                    </thead>
-                                                   
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>1</td>
-                                                            <td>Anitha</td>
-                                                            <td>09-Sep-2022</td>
-                                                             <td>22-Sep-2022</td>
-                                                             <td>Remarks</td>
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("PurchaseFollowup", "PurchaseEnq")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("PurchaseFollowup", "PurchaseEnq")"></a></div></td>
+                                                        <td>2</td>
+                                                        <td>Anitha</td>
+                                                        <td>09-Sep-2022</td>
+                                                        <td>22-Sep-2022</td>
+                                                        <td>Remarks</td>s
+                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("PurchaseFollowup", "PurchaseEnq")"></a></div></td>
+                                                        <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("PurchaseFollowup", "PurchaseEnq")"></a></div></td>
                                                         </tr>
                                                         <tr>
-                                                            <td>2</td>
-                                                          <td>Anitha</td>
-                                                            <td>09-Sep-2022</td>
-                                                             <td>22-Sep-2022</td>
-                                                             <td>Remarks</td>
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("PurchaseFollowup", "PurchaseEnq")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("PurchaseFollowup", "PurchaseEnq")"></a></div></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>3</td>
-                                                            <td>Anitha</td>
-                                                            <td>09-Sep-2022</td>
-                                                             <td>22-Sep-2022</td>
-                                                             <td>Remarks</td>
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("PurchaseFollowup", "PurchaseEnq")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("PurchaseFollowup", "PurchaseEnq")"></a></div></td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
+                                                        <td>3</td>
+                                                        <td>Anitha</td>
+                                                        <td>09-Sep-2022</td>
+                                                        <td>22-Sep-2022</td>
+                                                        <td>Remarks</td>
+                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("PurchaseFollowup", "PurchaseEnq")"></a></div></td>
+                                                        <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("PurchaseFollowup", "PurchaseEnq")"></a></div></td>
+                                                        </tr>*@
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
                                         </div>
+
                                     </div>
+
+
+
 
                                 </div>
 
-                   
-
-
-                        </div>
-
-                    </div>
+                            </div>
 
 
                                         </form>
+
+                                        }
 </div>
 </div>
 </div>
 </div>
 </div>
+<script>
+    $(".chosen-select").chosen();
+</script>

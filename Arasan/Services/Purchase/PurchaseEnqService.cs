@@ -5,7 +5,6 @@ using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Data;
-
 namespace Arasan.Services
 {
     public class PurchaseEnqService : IPurchaseEnqService
@@ -251,6 +250,121 @@ namespace Arasan.Services
 
             return msg;
         }
+        public IEnumerable<PurchaseFollowup> GetAllPurchaseFollowup()
+        {
+            List<PurchaseFollowup> cmpList = new List<PurchaseFollowup>();
+            using (OracleConnection con = new OracleConnection(_connectionString))
+            {
 
+                using (OracleCommand cmd = con.CreateCommand())
+                {
+                    con.Open();
+                    cmd.CommandText = "Select ENQ_ID,FOLLOWED_BY,FOLLOW_DATE,NEXT_FOLLOW_DATE,REMARKS,FOLLOW_STATUS,ENQ_FOLLOW_ID from ENQUIRY_FOLLOW_UP";
+                    OracleDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        PurchaseFollowup cmp = new PurchaseFollowup
+                        {
+                            ID = rdr["ENQ_FOLLOW_ID"].ToString(),
+                            Enqid = rdr["ENQ_ID"].ToString(),
+                            Followby = rdr["FOLLOWED_BY"].ToString(),
+                            Followdate = rdr["FOLLOW_DATE"].ToString(),
+                            Nfdate = rdr["NEXT_FOLLOW_DATE"].ToString(),
+                            Rmarks = rdr["REMARKS"].ToString(),
+                            Enquiryst = rdr["FOLLOW_STATUS"].ToString(),
+                        };
+                        cmpList.Add(cmp);
+                    }
+                }
+            }
+            return cmpList;
+        }
+        public PurchaseFollowup GetPurchaseFollowupById(string eid)
+        {
+            PurchaseFollowup PurchaseFollowup = new PurchaseFollowup();
+            using (OracleConnection con = new OracleConnection(_connectionString))
+            {
+                using (OracleCommand cmd = con.CreateCommand())
+                {
+                    con.Open();
+                    cmd.CommandText = "Select ENQ_ID,FOLLOWED_BY,FOLLOW_STATUS,FOLLOW_DATE,NEXT_FOLLOW_DATE,REMARKS,FOLLOW_STATUS,ENQ_FOLLOW_ID  from ENQUIRY_FOLLOW_UP where ENQ_FOLLOW_ID=" + eid + "";
+                    OracleDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        PurchaseFollowup cmp = new PurchaseFollowup
+                        {
+                            ID = rdr["ENQ_FOLLOW_ID"].ToString(),
+                            Enqid = rdr["ENQ_ID"].ToString(),
+                            Followby = rdr["FOLLOWED_BY"].ToString(),
+                            Followdate = rdr["FOLLOW_DATE"].ToString(),
+                            Nfdate = rdr["NEXT_FOLLOW_DATE"].ToString(),
+                            Rmarks = rdr["REMARKS"].ToString(),
+                            Enquiryst = rdr["FOLLOW_STATUS"].ToString(),
+
+
+                        };
+
+                        PurchaseFollowup = cmp;
+                    }
+                }
+            }
+            return PurchaseFollowup;
+        }
+        public string PurchaseFollowupCRUD(PurchaseFollowup cy)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
+
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    OracleCommand objCmd = new OracleCommand("PURCHASEFOLLOWPROC", objConn);
+                    /*objCmd.Connection = objConn;
+                    objCmd.CommandText = "PURCHASEFOLLOWPROC";*/
+
+                    objCmd.CommandType = CommandType.StoredProcedure;
+                    if (cy.ID == null)
+                    {
+                        StatementType = "Insert";
+                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                    }
+                    else
+                    {
+                        StatementType = "Update";
+                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                    }
+
+                    objCmd.Parameters.Add("ENQ_ID", OracleDbType.NVarchar2).Value = cy.Enqid;
+                    objCmd.Parameters.Add("FOLLOWED_BY", OracleDbType.NVarchar2).Value = cy.Followby;
+                    objCmd.Parameters.Add("FOLLOW_DATE", OracleDbType.NVarchar2).Value = cy.Followdate;
+                    objCmd.Parameters.Add("NEXT_FOLLOW_DATE", OracleDbType.NVarchar2).Value = cy.Nfdate;
+                    objCmd.Parameters.Add("REMARKS", OracleDbType.NVarchar2).Value = cy.Rmarks;
+                    objCmd.Parameters.Add("FOLLOW_STATUS", OracleDbType.NVarchar2).Value = cy.Enquiryst;
+
+                    try
+                    {
+                        objConn.Open();
+                        objCmd.ExecuteNonQuery();
+                        //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
+                    }
+                    catch (Exception ex)
+                    {
+                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
+                    }
+
+                    objConn.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg; 
+        }
+
+        
     }
 }
