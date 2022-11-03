@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Arasan.Interface;
 using Arasan.Services;
 using Arasan.Models;
@@ -40,6 +40,25 @@ namespace Arasan.Controllers
             }
             else
             {
+
+                ca = PurenqService.GetPurenqServiceById(id);
+
+
+
+
+            }
+         
+        List<EnqItem> TData = new List<EnqItem>();
+            EnqItem tda = new EnqItem();
+
+            for (int i = 0; i < 3; i++)
+            {
+                tda = new EnqItem();
+                tda.ItemGrouplst = BindItemGrplst();
+                tda.Itemlst = BindItemlst("");
+                tda.Isvalid = "Y";
+              TData.Add(tda);
+
                 DataTable dt = new DataTable();
                 double total = 0;
                 dt = PurenqService.GetPurchaseEnqDetails(id);
@@ -87,6 +106,7 @@ namespace Arasan.Controllers
                     }
                 }
                 ca.Net = Math.Round(total, 2);
+
             }
           
           ca.EnqLst = TData;
@@ -147,6 +167,8 @@ namespace Arasan.Controllers
 
             return View(Cy);
         }
+
+      
         public IActionResult ListEnquiry()
         {
             IEnumerable<PurchaseEnquiry> cmp = PurenqService.GetAllPurenquriy();
@@ -309,9 +331,64 @@ namespace Arasan.Controllers
             return Json(BindItemGrplst());
         }
 
-        public IActionResult PurchaseFollowup()
+        public IActionResult PurchaseFollowup(String id)
         {
-            return View();
+            PurchaseFollowup P = new PurchaseFollowup();
+            if (id == null)
+            {
+
+            }
+            else
+            {
+                P = PurenqService.GetPurchaseFollowupById(id);
+
+
+            }
+
+            return View(P);
+        }
+       
+        [HttpPost]
+        public ActionResult PurchaseFollowup(PurchaseFollowup Pf, string id)
+        {
+
+            try
+            {
+                Pf.ID = id;
+                string Strout = PurenqService.PurchaseFollowupCRUD(Pf);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Pf.ID == null)
+                    {
+                        TempData["notice"] = "PurchaseFollowup Inserted Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "PurchaseFollowup Updated Successfully...!";
+                    }
+                    return RedirectToAction("PurchaseFollowup");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit PurchaseFollowup";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(Pf);
+        }
+        public IActionResult Followup()
+        {
+            IEnumerable<PurchaseFollowup> cmp = PurenqService.GetAllPurchaseFollowup();
+            return View(cmp);
         }
         public IActionResult POFollowup()
         {
