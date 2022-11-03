@@ -11,6 +11,7 @@ public interface IPurchaseEnqService
     DataTable GetCurency();
     DataTable GetItem(string value);
 
+
     DataTable GetItemGrp();
     DataTable GetEmp();
     DataTable GetItemDetails(string ItemId);
@@ -23,4 +24,14 @@ public interface IPurchaseEnqService
     IEnumerable<PurchaseFollowup> GetAllPurchaseFollowup();
     PurchaseFollowup GetPurchaseFollowupById(string id);
    
+
+        IEnumerable<EnqItem> GetAllPurenquriyItem(string id);
+        PurchaseEnquiry GetPurenqServiceById(string id);
+
+        DataTable GetPurchaseEnqDetails(string id);
+        DataTable GetPurchaseEnqItemDetails(string id);
+        DataTable GetItemSubGrp();
+        DataTable GetItemSubGroup(string id);
+    }
+
 }

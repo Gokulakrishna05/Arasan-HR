@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Arasan.Interface;
 using Arasan.Services;
 using Arasan.Models;
@@ -25,12 +25,22 @@ namespace Arasan.Controllers
             ca.Curlst = BindCurrency();
             ca.EnqassignList = BindEmp();
             ca.EnqRecList= BindEmp();
+            List<EnqItem> TData = new List<EnqItem>();
+            EnqItem tda = new EnqItem();
             if (id == null)
             {
-
+                for (int i = 0; i < 3; i++)
+                {
+                    tda = new EnqItem();
+                    tda.ItemGrouplst = BindItemGrplst();
+                    tda.Itemlst = BindItemlst("");
+                    tda.Isvalid = "Y";
+                    TData.Add(tda);
+                }
             }
             else
             {
+
                 ca = PurenqService.GetPurenqServiceById(id);
 
 
@@ -48,9 +58,58 @@ namespace Arasan.Controllers
                 tda.Itemlst = BindItemlst("");
                 tda.Isvalid = "Y";
               TData.Add(tda);
+
+                DataTable dt = new DataTable();
+                double total = 0;
+                dt = PurenqService.GetPurchaseEnqDetails(id);
+                if(dt.Rows.Count > 0)
+                {
+                    ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                    ca.Enqdate= dt.Rows[0]["ENQDATE"].ToString();
+                    ca.Supplier= dt.Rows[0]["PARTYMASTID"].ToString();
+                    ca.EnqNo= dt.Rows[0]["ENQNO"].ToString(); 
+                }
+                DataTable dt2 = new DataTable();
+                dt2 = PurenqService.GetPurchaseEnqItemDetails(id);
+                if (dt2.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt2.Rows.Count; i++)
+                    {
+                        tda = new EnqItem();
+                        double toaamt = 0;
+                        tda.ItemGrouplst = BindItemGrplst();
+                        DataTable dt3 = new DataTable();
+                        dt3 = PurenqService.GetItemSubGroup(dt2.Rows[i]["ITEMID"].ToString());
+                        if(dt3.Rows.Count > 0)
+                        {
+                            tda.ItemGroupId = dt3.Rows[0]["SUBGROUPCODE"].ToString();
+                        }
+                        tda.Itemlst = BindItemlst(tda.ItemGroupId);
+                        tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
+                        DataTable dt4 = new DataTable();
+                        dt4 = PurenqService.GetItemDetails(tda.ItemId);
+                        if(dt4.Rows.Count > 0)
+                        {
+                            tda.Desc = dt4.Rows[0]["ITEMDESC"].ToString();
+                            tda.Conversionfactor= dt4.Rows[0]["CF"].ToString();
+                            tda.rate= Convert.ToDouble(dt4.Rows[0]["LATPURPRICE"].ToString());
+                        }
+                        tda.Quantity = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
+                        toaamt = tda.rate * tda.Quantity;
+                        total += toaamt;
+                        //tda.QtyPrim= Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
+                        tda.Amount = toaamt;
+                        tda.Unit = dt2.Rows[i]["UNITID"].ToString();
+                        //tda.unitprim= dt2.Rows[i]["UNITID"].ToString();
+                        tda.Isvalid = "Y";
+                        TData.Add(tda);
+                    }
+                }
+                ca.Net = Math.Round(total, 2);
+
             }
-                                                     
-            ca.EnqLst = TData;
+          
+          ca.EnqLst = TData;
           return View(ca);
 
         }
@@ -59,7 +118,19 @@ namespace Arasan.Controllers
             IEnumerable<EnqItem> cmp = PurenqService.GetAllPurenquriyItem(id);
             return View(cmp);
         }
-      [HttpPost]
+
+       // [HttpPost]
+       // public ActionResult SendMail(PurchaseEnquiry Cy)
+       // {
+       //     try
+       //     {
+       //     }
+
+       //}
+
+
+
+                [HttpPost]
         public ActionResult PurchaseEnq(PurchaseEnquiry Cy, string id)
         {
 
@@ -178,11 +249,11 @@ namespace Arasan.Controllers
         {
             try
             {
-                DataTable dtDesg = PurenqService.GetItemGrp();
+                DataTable dtDesg = PurenqService.GetItemSubGrp();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["GROUPCODE"].ToString(), Value = dtDesg.Rows[i]["ITEMGROUPID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["SGCODE"].ToString(), Value = dtDesg.Rows[i]["ITEMSUBGROUPID"].ToString() });
                 }
                 return lstdesg;
             }
