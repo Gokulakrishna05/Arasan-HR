@@ -322,7 +322,7 @@ namespace Arasan.Services
                         PurchaseFollowup cmp = new PurchaseFollowup
                         {
                             ID = rdr["ENQ_FOLLOW_ID"].ToString(),
-                            Enqid = rdr["ENQ_ID"].ToString(),
+                            Enqno = rdr["ENQ_ID"].ToString(),
                             Followby = rdr["FOLLOWED_BY"].ToString(),
                             Followdate = rdr["FOLLOW_DATE"].ToString(),
                             Nfdate = rdr["NEXT_FOLLOW_DATE"].ToString(),
@@ -334,6 +334,17 @@ namespace Arasan.Services
                 }
             }
             return cmpList;
+        }
+        public DataTable GetFolowup(string enqid)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select ENQ_ID,FOLLOWED_BY,FOLLOW_DATE,NEXT_FOLLOW_DATE,REMARKS,FOLLOW_STATUS,ENQ_FOLLOW_ID from ENQUIRY_FOLLOW_UP WHERE ENQ_ID='" + enqid + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        
         }
         public PurchaseFollowup GetPurchaseFollowupById(string eid)
         {
@@ -350,7 +361,7 @@ namespace Arasan.Services
                         PurchaseFollowup cmp = new PurchaseFollowup
                         {
                             ID = rdr["ENQ_FOLLOW_ID"].ToString(),
-                            Enqid = rdr["ENQ_ID"].ToString(),
+                            Enqno = rdr["ENQ_ID"].ToString(),
                             Followby = rdr["FOLLOWED_BY"].ToString(),
                             Followdate = rdr["FOLLOW_DATE"].ToString(),
                             Nfdate = rdr["NEXT_FOLLOW_DATE"].ToString(),
@@ -391,7 +402,7 @@ namespace Arasan.Services
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                     }
 
-                    objCmd.Parameters.Add("ENQ_ID", OracleDbType.NVarchar2).Value = cy.Enqid;
+                    objCmd.Parameters.Add("ENQ_ID", OracleDbType.NVarchar2).Value = cy.Enqno;
                     objCmd.Parameters.Add("FOLLOWED_BY", OracleDbType.NVarchar2).Value = cy.Followby;
                     objCmd.Parameters.Add("FOLLOW_DATE", OracleDbType.NVarchar2).Value = cy.Followdate;
                     objCmd.Parameters.Add("NEXT_FOLLOW_DATE", OracleDbType.NVarchar2).Value = cy.Nfdate;
