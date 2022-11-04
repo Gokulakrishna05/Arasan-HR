@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Arasan.Models.PurchaseFollowup>
+﻿@model Arasan.Models.PurchaseFollowup
 
 @{
     ViewData["Title"] = "Followup";
@@ -23,7 +23,7 @@
             <div class="widgets-container">
               <h5 style="font-size:14px">Followup</h5>
               <hr>
-                    @using (Html.BeginForm("PurchaseFollowup", "PurchaseFollowup", FormMethod.Post))
+                    @using (Html.BeginForm("Followup", "PurchaseEnq", FormMethod.Post))
                         {
                             @Html.AntiForgeryToken()
               <form>
@@ -33,7 +33,7 @@
                                                 <label for="inputName3" class="col-sm-4 control-label">Enquiry ID <label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
                                                   
-                                                   ENQ-000001/22-23
+                                                  @Html.DisplayFor(C=>C.Enqno)
                                                 </div>
                                             </div>
                                         </div>
@@ -41,7 +41,7 @@
                                             <div class="form-group">
                                                 <label for="inputName3" class="col-sm-4 control-label">Supplier Name<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8 bootstrap-timepicker">
-                                                  Supplier 1
+                                                 @Html.DisplayFor(C=>C.Supname)
                                                 </div>
                                             </div>
                                         </div>
@@ -52,12 +52,7 @@
                                             <div class="form-group">
                                                 <label for="inputName3" class="col-sm-4 control-label">Followed By<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                   <select class=" _select js-states form-control">
-                       
-                       
-                        <option value="Anitha">Anitha </option>
-                        <option value="Ramesh">Ramesh </option>
-                      </select>
+                                            @Html.TextBoxFor(C => C.Followby, new { @id = "Followby", @class = "form-control", @TabIndex = 2 })
                                                 </div>
                                             </div>
                                         </div>
@@ -65,13 +60,8 @@
                                             <div class="form-group">
                                                 <label for="inputName3" class="col-sm-4 control-label">Enquiry Status<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                 <select class=" _select js-states form-control">
-                       
-                       
-                        <option value="">Approved</option>
-                       
-                      </select>
-                                                </div>
+                                            @Html.TextBoxFor(C => C.Enquiryst, new { @id = "Enquiryst", @class = "form-control", @TabIndex = 2 })
+                                        </div>
                                             </div>
                                         </div>
                                     </div>
@@ -80,24 +70,21 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="inputName3" class="col-sm-4 control-label">Follow Date<label class="Mandatory"></label></label>
-                                               	<div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2"
-														data-link-format="yyyy-mm-dd">
-														<input class="form-control" size="32" type="text" value="">
+                                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy" >
+                                            @Html.TextBoxFor(C => C.Followdate, new { @id = "Followdate", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })
 														<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 													</div>
-													<input type="hidden" id="dtp_input2" value="" />
+													
 													<br/>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="inputName3" class="col-sm-4 control-label">Next Follow Date<label class="Mandatory"></label></label>
-                                             	<div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2"
-														data-link-format="yyyy-mm-dd">
-														<input class="form-control" size="32" type="text" value="" >
-														<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-													</div>
-													<input type="hidden" id="dtp_input2" value="" />
+                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                            @Html.TextBoxFor(C => C.Nfdate, new { @id = "Nfdate", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
 													<br/>
                                             </div>
                                         </div>
@@ -110,13 +97,14 @@
                                             <div class="form-group">
                                                 <label for="inputName3" class="col-sm-2 control-label">Remarks<label class="Mandatory"></label></label>
                                                 <div class="col-sm-12">
-                                                      <textarea class="form-control" id="inputEmail3" type="text" rows="3"></textarea><br/>
+                                            @Html.TextBoxFor(C => C.Rmarks, new { @id = "Rmarks", @class = "form-control", @TabIndex = 2 })
+                                            <br />
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
-                            <a button type="submit" class="btn aqua m-t-xs bottom15-xs" href="@Url.Action("Followup", "PurchaseEnq")">Save</a>
+                            <button type="submit" name="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" value="Save" tabindex="18">Save</button>
                             <a button class="btn btn-danger" type="submit" href="@Url.Action("Followup", "PurchaseEnq")">Cancel</a>
 
 
@@ -146,16 +134,15 @@
                                                             @{
                                                                 int i = 1;
 
-                                                                foreach (var item in Model)
+                                                                foreach (var item in Model.pflst)
                                                                 {
                                                                     <tr>
 
                                                                         <td>@Html.DisplayFor(modelItem => item.Followby)</td>
-                                                                        <td>@Html.DisplayFor(modelItem => item.Enquiryst)</td>
                                                                         <td>@Html.DisplayFor(modelItem => item.Followdate)</td>
                                                                         <td>@Html.DisplayFor(modelItem => item.Nfdate)</td>
                                                                         <td>@Html.DisplayFor(modelItem => item.Rmarks)</td>
-
+                                                                        <td>@Html.DisplayFor(modelItem => item.Enquiryst)</td>
                                                                     </tr>
                                                                     i++;
                                                                 }
@@ -206,4 +193,14 @@
 </div>
 <script>
     $(".chosen-select").chosen();
+    $('.form_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
 </script>

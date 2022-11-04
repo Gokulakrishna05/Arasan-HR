@@ -23,9 +23,10 @@ public interface IPurchaseEnqService
     string PurchaseFollowupCRUD(PurchaseFollowup pf);
     IEnumerable<PurchaseFollowup> GetAllPurchaseFollowup();
     PurchaseFollowup GetPurchaseFollowupById(string id);
-   
+    DataTable GetFolowup(string enqid);
 
-        
+
+
         DataTable GetPurchaseEnqDetails(string id);
         DataTable GetPurchaseEnqItemDetails(string id);
         DataTable GetItemSubGrp();
