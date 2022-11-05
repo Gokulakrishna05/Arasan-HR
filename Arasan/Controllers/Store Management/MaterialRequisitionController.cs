@@ -39,7 +39,7 @@ namespace Arasan.Controllers.Store_Management
             {
                 tda = new MaterialRequistionItem();
                
-                tda.Itemlst = BindItemlst("");
+                tda.Itemlst = BindItemlst();
                 tda.Isvalid = "Y";
                 Data.Add(tda);
             }
@@ -57,11 +57,11 @@ namespace Arasan.Controllers.Store_Management
             return View(MR);
         }
 
-        public List<SelectListItem> BindItemlst(string value)
+        public List<SelectListItem> BindItemlst()
         {
             try
             {
-                DataTable dtDesg = materialReq.GetItem(value);
+                DataTable dtDesg = materialReq.GetItem();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -80,20 +80,20 @@ namespace Arasan.Controllers.Store_Management
             {
                 DataTable dt = new DataTable();
                 DataTable dt1 = new DataTable();
-                string Desc = "";
+               
                 string unit = "";
 
                 dt = materialReq.GetItemDetails(ItemId);
 
                 if (dt.Rows.Count > 0)
                 {
-                    Desc = dt.Rows[0]["ITEMDESC"].ToString();
+                  
                     unit = dt.Rows[0]["UNITID"].ToString();
 
 
                 }
 
-                var result = new { Desc = Desc, unit = unit };
+                var result = new {unit = unit };
                 return Json(result);
             }
             catch (Exception ex)
@@ -219,9 +219,9 @@ namespace Arasan.Controllers.Store_Management
 
     public JsonResult GetItemJSON(string itemid)
     {
-        EnqItem model = new EnqItem();
-        model.Itemlst = BindItemlst(itemid);
-        return Json(BindItemlst(itemid));
+            MaterialRequistionItem model = new MaterialRequistionItem();
+        model.Itemlst = BindItemlst();
+        return Json(BindItemlst());
     }
     }
 }

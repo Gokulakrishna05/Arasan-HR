@@ -367,8 +367,38 @@
   
      </script>
 <script>
-    $(".chosen-select").chosen();
-    function AddRow() {
+    function PopulateDropDown(dropDownId, list) {
+        //alert(list);
+        $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
+        if (list != null && list.length > 0) {
+            $(dropDownId).removeAttr("disabled");
+            $.each(list, function () {
+                $(dropDownId).append($("<option></option>").val(this['value']).html(this['text']));
+            });
+        }
+        $(dropDownId).trigger("liszt:updated");
+    }
+   
+    
+   
+    $('.form_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+  
+   
+
+
+  
+</script>
+<script>
+      function AddRow() {
         var opt = "";
         $.ajax({
             type: "POST",
@@ -382,19 +412,8 @@
             }
         })
     }
-
-   
-    $('.form_date').datetimepicker({
-        //   language:  'fr',
-        weekStart: 1,
-        todayBtn: 1,
-        autoclose: 1,
-        todayHighlight: 1,
-        startView: 2,
-        minView: 2,
-        forceParse: 0
-    });
-    function removeRow(id) {
+    $(".chosen-select").chosen();
+     function removeRow(id) {
         var table = document.getElementById("dataTable");
         var rowCount = table.rows.length;
         var row = document.getElementById('trBook' + id);
@@ -412,58 +431,18 @@
             alert("Cannot delete all the rows.")
         }
     }
-    function AddRow() {
-        var opt = "";
-       var remopt = "";
-
-       
-
-                        $.ajax({
-                            type: "POST",
-                            url: 'GetItemJSON',
-                            success: function (data) {
-                                $.each(data, function () {
-                                    remopt += "<option value=" + this.value + ">" + this.text + "</option>";
-                                });
-                                AppendRow(opt, remopt);
-                            }
-                        })
-                     
-                    }
-                })
-
-
-
-    }
-    var a = ['', 'one ', 'two ', 'three ', 'four ', 'five ', 'six ', 'seven ', 'eight ', 'nine ', 'ten ', 'eleven ', 'twelve ', 'thirteen ', 'fourteen ', 'fifteen ', 'sixteen ', 'seventeen ', 'eighteen ', 'nineteen '];
-    var b = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
-
-    function inWords(num) {
-        alert("dfnjdh");
-        alert(num);
-        if ((num = num.toString()).length > 9) return 'overflow';
-        n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
-        if (!n) return; var str = '';
-        str += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'crore ' : '';
-        str += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'lakh ' : '';
-        str += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'thousand ' : '';
-        str += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'hundred ' : '';
-        str += (n[5] != 0) ? ((str != '') ? 'and ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) + 'only ' : '';
-        alert(str);
-        return str;
-    }
-      function AppendRow(opt) {
+    function AppendRow(opt) {
         var index = $("#tbBooks").children("tr").length;
 
 
-        var Item = "<td><select style = 'width: 200px;' class='form-control chosen-select newcss' id='ddlItem" + index + "' name='Itemlst[" + index + "].ItemId' </td>";
+        var Item = "<td><select style = 'width: 200px;' class='form-control chosen-select newcss' id='ddlItem" + index + "' name='Itemlst[" + index + "].ItemId' style='width:150px;' </td>";
 
 
-        var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='Itemlst[" + index + "].Unit'  style='width: 80px;' type='text'  readonly='True' /></td>";
+        var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='Itemlst[" + index + "].Unit'  style='width: 100px;' type='text'  readonly='True' /></td>";
 
-        var Stock = "<td><input class='form-control' id='txtStock" + index + "' name='Itemlst[" + index + "].ClosingStock'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 90px;text-align:right' type='text' value='0'  /></td>";
+        var Stock = "<td><input class='form-control' id='txtStock" + index + "' name='Itemlst[" + index + "].ClosingStock'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 100px;text-align:right' type='text' value='0'  /></td>";
 
-        var Quantity = "<td><input class='form-control' id='txtQuantity" + index + "' name='Itemlst[" + index + "].ReqQty'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;text-align:right' type='text' value='0' onchange = 'changeQty(this.value," + index + ")' /></td>";
+        var Quantity = "<td><input class='form-control' id='txtQuantity" + index + "' name='Itemlst[" + index + "].ReqQty'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 100px;text-align:right' type='text' value='0' onchange = 'changeQty(this.value," + index + ")' /></td>";
 
 
 
