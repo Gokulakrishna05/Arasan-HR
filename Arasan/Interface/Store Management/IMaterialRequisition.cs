@@ -12,8 +12,9 @@ namespace Arasan.Interface
        DataTable GetWorkCenter(string LocationId);
         //   DataTable GetItem(string value);
         //  DataTable GetItemGrp();
-
-        // string MaterialRequestCRUD(MaterialRequisition mr);
+        DataTable GetItem();
+        DataTable GetItemDetails(string ItemId);
+       //  string MaterialRequestCRUD(MaterialRequisition mr);
         string MaterialCRUD(MaterialRequisition cy);
         IEnumerable<MaterialRequisition> GetAllMaterial();
         MaterialRequisition GetMaterialById(string id);

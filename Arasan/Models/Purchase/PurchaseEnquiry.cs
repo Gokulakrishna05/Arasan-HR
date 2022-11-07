@@ -52,7 +52,30 @@ namespace Arasan.Models
        
 
     }
+    public class PurchaseFollowup
+    {
+        public string ID { get; set; }
+        public string Enqno { get; set; }
+        public string Supname { get; set; }
+        public string Enqdate { get; set; }
+        public string Followby { get; set; }
+        public string Enquiryst { get; set; }
+        public string Followdate { get; set; }
+        public string Nfdate { get; set; }
+        public string Rmarks { get; set; }
+        
 
+        public List<PurchaseFollowupDetails> pflst  { get; set; }
+
+    }
+    public class PurchaseFollowupDetails
+    {
+        public string Followby { get; set; }
+        public string Enquiryst { get; set; }
+        public string Followdate { get; set; }
+        public string Nfdate { get; set; }
+        public string Rmarks { get; set; }
+     }
     public class EnqItem
     {
         public string ItemId { get;set;}

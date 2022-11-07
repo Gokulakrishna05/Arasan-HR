@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Arasan.Interface;
 using Arasan.Services;
 using Arasan.Models;
@@ -40,6 +40,23 @@ namespace Arasan.Controllers
             }
             else
             {
+
+                ca = PurenqService.GetPurenqServiceById(id);
+
+
+
+
+            }
+         
+        
+            for (int i = 0; i < 3; i++)
+            {
+                tda = new EnqItem();
+                tda.ItemGrouplst = BindItemGrplst();
+                tda.Itemlst = BindItemlst("");
+                tda.Isvalid = "Y";
+              TData.Add(tda);
+
                 DataTable dt = new DataTable();
                 double total = 0;
                 dt = PurenqService.GetPurchaseEnqDetails(id);
@@ -59,7 +76,7 @@ namespace Arasan.Controllers
                 dt2 = PurenqService.GetPurchaseEnqItemDetails(id);
                 if (dt2.Rows.Count > 0)
                 {
-                    for (int i = 0; i < dt2.Rows.Count; i++)
+                    for ( i = 0; i < dt2.Rows.Count; i++)
                     {
                         tda = new EnqItem();
                         double toaamt = 0;
@@ -93,6 +110,7 @@ namespace Arasan.Controllers
                     }
                 }
                 ca.Net = Math.Round(total, 2);
+
             }
           
           ca.EnqLst = TData;
@@ -153,6 +171,8 @@ namespace Arasan.Controllers
 
             return View(Cy);
         }
+
+      
         public IActionResult ListEnquiry()
         {
             IEnumerable<PurchaseEnquiry> cmp = PurenqService.GetAllPurenquriy();
@@ -320,10 +340,97 @@ namespace Arasan.Controllers
             return Json(BindItemGrplst());
         }
 
-        public IActionResult PurchaseFollowup()
+        public IActionResult PurchaseFollowup(String id)
         {
-            return View();
+            PurchaseFollowup P = new PurchaseFollowup();
+            if (id == null)
+            {
+
+            }
+            else
+            {
+                P = PurenqService.GetPurchaseFollowupById(id);
+
+
+            }
+
+            return View(P);
         }
+       
+        
+        public IActionResult Followup(string id)
+        {
+            PurchaseFollowup cmp = new PurchaseFollowup();
+            if (!string.IsNullOrEmpty(id))
+            {
+                DataTable dt = new DataTable();
+                dt = PurenqService.GetPurchaseEnqDetails(id);
+                if(dt.Rows.Count >0)
+                {
+                    cmp.Enqno = dt.Rows[0]["ENQNO"].ToString();
+                    cmp.Supname = dt.Rows[0]["PARTYMASTID"].ToString();
+                }
+                DataTable dtt = new DataTable();
+                dtt = PurenqService.GetFolowup(id);
+                PurchaseFollowupDetails tda = new PurchaseFollowupDetails();
+                List<PurchaseFollowupDetails> TData = new List<PurchaseFollowupDetails>();
+                if (dtt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dtt.Rows.Count; i++)
+                    {
+                        tda = new PurchaseFollowupDetails();
+                        tda.Followby = dtt.Rows[i]["FOLLOWED_BY"].ToString();
+                        tda.Followdate = dtt.Rows[i]["FOLLOW_DATE"].ToString();
+                        tda.Nfdate = dtt.Rows[i]["NEXT_FOLLOW_DATE"].ToString();
+                        tda.Rmarks = dtt.Rows[i]["REMARKS"].ToString();
+                        tda.Enquiryst = dtt.Rows[i]["FOLLOW_STATUS"].ToString();
+                        TData.Add(tda);
+                    }
+                }
+                cmp.pflst = TData; 
+
+            }
+            //IEnumerable<PurchaseFollowup> cmp = PurenqService.GetAllPurchaseFollowup();
+            return View(cmp);
+        }
+        [HttpPost]
+        public ActionResult Followup(PurchaseFollowup Pf, string id)
+        {
+
+            try
+            {
+                Pf.ID = id;
+                string Strout = PurenqService.PurchaseFollowupCRUD(Pf);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Pf.ID == null)
+                    {
+                        TempData["notice"] = "PurchaseFollowup Inserted Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "PurchaseFollowup Updated Successfully...!";
+                    }
+                    return RedirectToAction("PurchaseFollowup");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit PurchaseFollowup";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(Pf);
+        }
+
         public IActionResult POFollowup()
         {
             return View();

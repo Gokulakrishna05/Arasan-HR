@@ -358,7 +358,6 @@
                     var unit = $(this).find('#txtQuantity' + j.toString()).val();
                     var qtys = $(this).find('#txtrate' + j.toString()).val();
                    
-
                     var tots = eval(qtys) * eval(unit) ;
                     GTot = eval(tots) + eval(GTot);
                 }
@@ -412,9 +411,6 @@
 
 
         var Quantity = "<td><input class='form-control' id='txtQuantity" + index + "' name='ILst[" + index + "].Quantity'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;text-align:right' type='text' value='0' onchange = 'changeQty(this.value," + index + ")' /></td>";
-
-
-
         var Rate = "<td><input class='form-control' id='txtrate" + index + "' name='ILst[" + index + "].rate'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 90px;text-align:right' type='text' value='0'  /></td>";
 
 

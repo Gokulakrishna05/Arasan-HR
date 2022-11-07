@@ -1,6 +1,8 @@
 ﻿@model IEnumerable<Arasan.Models.MaterialRequisition>
 
-
+@{
+    ViewData["Title"] = "MaterialRequisition";
+}
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
 
@@ -51,7 +53,7 @@
                                                     </thead>
 
                                                     <tbody>
-                                                        @{
+                                                       @{
                                                             int i = 1;
 
                                                             foreach (var item in Model)
