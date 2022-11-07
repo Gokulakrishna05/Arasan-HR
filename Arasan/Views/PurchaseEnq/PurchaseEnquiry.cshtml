@@ -63,6 +63,7 @@
                                                 <label for="inputName3" class="col-sm-4 control-label">Enquiry No.<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.EnqNo, new { @id = "EnqNo", @class = "form-control", @TabIndex = 2 ,@readonly=true})
+                                            @Html.HiddenFor(C => C.ID)
                                                 </div>
 													
 													<br/>
@@ -168,7 +169,8 @@
                                                                                                             <td>
 
                                                                                                                 @Html.DropDownListFor(o => o.EnqLst[i].ItemId, Model.EnqLst[i].Itemlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItem" + i, style = "width: 170px;", onchange = "changeItem(this.value," + i + ")",disabled="disabled" })
-                                                                                                            </td>
+                                                                                                            @Html.HiddenFor(o => o.EnqLst[i].saveItemId)
+                                                                                                                </td>
                                                                                                              <td>
                                                                                                                 @Html.TextBoxFor(o => o.EnqLst[i].Desc, new { @id = "txtDesc" + i, @class = "form-control", style = "width: 200px;", @readonly = "readonly"})
                                                                                                             </td>
@@ -186,10 +188,11 @@
                                                                                                                 @Html.TextBoxFor(o => o.EnqLst[i].rate, new { @id = "txtrate" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")" })
                                                                                                             </td>
                                                                                                              <td>
+                                                                                                              @Html.HiddenFor(o => o.EnqLst[i].Isvalid, new { @id = "Isvalid" + i })
                                                                                                                 @Html.TextBoxFor(o => o.EnqLst[i].Amount, new { @id = "txtAmount" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right",@readonly="readonly"})
                                                                                                             </td>
                                                                                                            @*   <td>
-                                                                                                                @Html.HiddenFor(o => o.EnqLst[i].Isvalid, new { @id = "Isvalid" + i })
+                                                                                                               
                                                                                                                 <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(i)" />
                                                                                                             </td>*@
                                                                                                             </tr>

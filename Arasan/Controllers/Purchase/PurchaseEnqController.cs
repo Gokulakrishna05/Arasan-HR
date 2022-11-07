@@ -48,7 +48,12 @@ namespace Arasan.Controllers
                     ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
                     ca.Enqdate= dt.Rows[0]["ENQDATE"].ToString();
                     ca.Supplier= dt.Rows[0]["PARTYMASTID"].ToString();
-                    ca.EnqNo= dt.Rows[0]["ENQNO"].ToString(); 
+                    ca.EnqNo= dt.Rows[0]["ENQNO"].ToString();
+                    ca.ID = id;
+                    ca.ParNo= dt.Rows[0]["PARTYREFNO"].ToString();
+                    ca.Cur= dt.Rows[0]["CURRENCYID"].ToString();
+                    ca.ExRate= dt.Rows[0]["EXCRATERATE"].ToString();
+                    ca.RefNo= dt.Rows[0]["ENQREF"].ToString();
                 }
                 DataTable dt2 = new DataTable();
                 dt2 = PurenqService.GetPurchaseEnqItemDetails(id);
@@ -67,6 +72,7 @@ namespace Arasan.Controllers
                         }
                         tda.Itemlst = BindItemlst(tda.ItemGroupId);
                         tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
+                        tda.saveItemId= dt2.Rows[i]["ITEMID"].ToString();
                         DataTable dt4 = new DataTable();
                         dt4 = PurenqService.GetItemDetails(tda.ItemId);
                         if(dt4.Rows.Count > 0)
@@ -169,8 +175,13 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-
-        public List<SelectListItem> BindSupplier()
+        public ActionResult MovetoQuote(string id)
+        {
+            EnquiryList el = new EnquiryList();
+            string Strout = PurenqService.EnquirytoQuote(id); 
+            return RedirectToAction("ListEnquiry");
+        }
+            public List<SelectListItem> BindSupplier()
         {
             try
             {
