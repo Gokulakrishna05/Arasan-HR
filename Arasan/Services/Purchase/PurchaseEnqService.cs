@@ -467,10 +467,10 @@ namespace Arasan.Services
                 int idc = datatrans.GetDataId(" SELECT COMMON_TEXT FROM COMMON_MASTER WHERE COMMON_TYPE = 'QUO' AND IS_ACTIVE = 'Y'");
                 string QuoNo = string.Format("{0} - {1} / {2}", "QUO", (idc + 1).ToString(), disp);
 
-                //string updateCMd = " UPDATE COMMON_MASTER SET COMMON_TEXT ='" + (idc + 1).ToString() + "' WHERE COMMON_TYPE ='QUO' AND IS_ACTIVE ='Y'";
+                string updateCMd = " UPDATE COMMON_MASTER SET COMMON_TEXT ='" + (idc + 1).ToString() + "' WHERE COMMON_TYPE ='QUO' AND IS_ACTIVE ='Y'";
                 try
                 {
-                    //datatrans.UpdateStatus(updateCMd);
+                    datatrans.UpdateStatus(updateCMd);
                 }
                 catch (Exception ex)
                 {
@@ -479,13 +479,12 @@ namespace Arasan.Services
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
-                    svSQL = "Insert into PURQUOTBASIC (ENQNO,BRANCHID,EXRATE,MAINCURRENCY,PARTYID,DOCID,DOCDATE) (Select PURENQID,BRANCHID,EXCRATERATE,CURRENCYID,PARTYMASTID,'"+ QuoNo + "','"+ DateTime.Now.ToString("dd-MMM-yyyy") + "'  from PURENQ where PURENQID='" + enqid + "') ; select PURQUOTBASIC_seq.currval from dual ;";
+                    svSQL = "Insert into PURQUOTBASIC (ENQID,BRANCHID,EXRATE,MAINCURRENCY,PARTYID,DOCID,DOCDATE) (Select PURENQID,BRANCHID,EXCRATERATE,CURRENCYID,PARTYMASTID,'" + QuoNo + "','"+ DateTime.Now.ToString("dd-MMM-yyyy") + "'  from PURENQ where PURENQID='" + enqid + "')";
                     OracleCommand objCmd = new OracleCommand(svSQL, objConn);
                     try
                     {
                         objConn.Open();
-                        Object Pid = objCmd.ExecuteScalar();
-                        //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
+                        objCmd.ExecuteNonQuery();
                     }
                     catch (Exception ex)
                     {
@@ -494,14 +493,14 @@ namespace Arasan.Services
                     objConn.Close();
                 }
 
-
+                string quotid = datatrans.GetDataString("Select PURQUOTBASICID from PURQUOTBASIC Where ENQID="+ enqid + "");
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    //string Sql = "Update PURENQ SET  STATUS= '2'  where PURENQID='" + enqid + "' ";
-                    //OracleCommand objCmds = new OracleCommand(Sql, objConnT);
-                    //objConnT.Open();
-                    //objCmds.ExecuteNonQuery();
-                    //objConnT.Close();
+                    string Sql = "Insert into PURQUOTDETAIL (PURQUOTBASICID,ITEMID,RATE,QTY,UNIT,CF) (Select '"+ quotid  + "',ITEMID,RATE,QTY,UNIT,CF from PURENQDETAIL WHERE PURENQBASICID=" + enqid + ")";
+                    OracleCommand objCmds = new OracleCommand(Sql, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
                 }
 
 

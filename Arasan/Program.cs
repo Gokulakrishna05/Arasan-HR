@@ -50,7 +50,8 @@ internal class Program
 
         builder.Services.TryAddSingleton<IPurchaseIndent, PurchaseIndentService>();
         builder.Services.TryAddSingleton<IPurchaseQuo, PurchaseQuoService>();
-
+        builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+        builder.Services.AddSession();
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
@@ -67,8 +68,8 @@ internal class Program
         app.UseRouting();
 
         app.UseAuthorization();
-
-
+        app.UseSession();
+        
         app.MapControllerRoute(
             name: "default",
             pattern: "{controller=Account}/{action=Login}/{fid?}");
