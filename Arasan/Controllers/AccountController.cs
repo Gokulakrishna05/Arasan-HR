@@ -48,7 +48,7 @@ namespace Arasan.Controllers
             LoginViewModel L = new LoginViewModel();
             if (ModelState.IsValid)
             {
-                string strout = model.
+                //string strout = model.
             }
                 return View(L);
         }
