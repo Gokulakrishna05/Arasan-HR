@@ -2,6 +2,6 @@
 {
     public interface ILoginService
     {
-        int LoginCheck(string username, string password);
+        bool LoginCheck(string username, string password);
     }
 }
