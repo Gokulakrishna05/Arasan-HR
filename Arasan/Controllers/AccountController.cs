@@ -34,6 +34,10 @@ namespace Arasan.Controllers
 
         public IActionResult Login([Bind] LoginViewModel model)
         {
+
+            int res = loginService.LoginCheck(model.Username, model.Password);
+            if (res == 1)
+
             _dtransactions = new DataTransactions(_connectionString);
             bool isValidUser = false;//loginService.LoginCheck(model.Username, model.Password);
             try
@@ -57,6 +61,7 @@ namespace Arasan.Controllers
             }
             
             if (isValidUser == true)
+
             {
                 TempData["msg"] = "You are welcome to Admin Section";
                 return RedirectToAction(actionName: "Index", controllerName: "Home");
@@ -66,17 +71,28 @@ namespace Arasan.Controllers
                 TempData["msg"] = "Admin id or Password is wrong.!";
             }
             return View(model);
+
+            }
+
+        //    [HttpPost]
+        //public IActionResult Login(LoginViewModel model )
+
         }
 
         //[HttpPost]
         //public IActionResult Login(LoginViewModel model)
+
         //{
         //    LoginViewModel L = new LoginViewModel();
         //    if (ModelState.IsValid)
         //    {
         //        //string strout = model.
         //    }
+
+        //        return View(L);
+
         //    return View(L);
+
         //}
 
         //public async Task<IActionResult> Login(LoginViewModel model)
