@@ -2,17 +2,22 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Arasan.Models;
+using System.Data;
 
 namespace Arasan.Controllers
 {
     public class AccountController : Controller
     {
-
+        DataTransactions _dtransactions;
+        IConfiguration? _configuratio;
         ILoginService loginService;
-        public AccountController(ILoginService _loginService)
+        private string? _connectionString;
+        public AccountController(ILoginService _loginService, IConfiguration _configuratio)
         {
             loginService = _loginService;
+            _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
         }
+        
         public IActionResult Index()
         {
             return View();
@@ -29,8 +34,34 @@ namespace Arasan.Controllers
 
         public IActionResult Login([Bind] LoginViewModel model)
         {
+
             int res = loginService.LoginCheck(model.Username, model.Password);
             if (res == 1)
+
+            _dtransactions = new DataTransactions(_connectionString);
+            bool isValidUser = false;//loginService.LoginCheck(model.Username, model.Password);
+            try
+            {
+                string _selUser = @"Select Username,password,eactive,empdept,EMPMASTID from empmast where  eactive='Yes' and  username='" + model.Username + "' and password   ='" + model.Password + "'";
+                DataTable _dtUser = new DataTable();
+                _dtUser = _dtransactions.GetData(_selUser);
+                if (_dtUser.Rows.Count > 0)
+                {
+                    HttpContext.Session.SetString("UserId", _dtUser.Rows[0]["EMPMASTID"].ToString());
+                    HttpContext.Session.SetString("UserName", _dtUser.Rows[0]["Username"].ToString());
+                    HttpContext.Session.SetString("Department", _dtUser.Rows[0]["empdept"].ToString());
+                   
+                    isValidUser = true;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            
+            if (isValidUser == true)
+
             {
                 TempData["msg"] = "You are welcome to Admin Section";
                 return RedirectToAction(actionName: "Index", controllerName: "Home");
@@ -40,17 +71,28 @@ namespace Arasan.Controllers
                 TempData["msg"] = "Admin id or Password is wrong.!";
             }
             return View(model);
+
             }
 
         //    [HttpPost]
         //public IActionResult Login(LoginViewModel model )
+
+        }
+
+        //[HttpPost]
+        //public IActionResult Login(LoginViewModel model)
+
         //{
         //    LoginViewModel L = new LoginViewModel();
         //    if (ModelState.IsValid)
         //    {
         //        //string strout = model.
         //    }
+
         //        return View(L);
+
+        //    return View(L);
+
         //}
 
         //public async Task<IActionResult> Login(LoginViewModel model)
