@@ -5,6 +5,10 @@ namespace Arasan.Interface;
 
 public interface IPurchaseEnqService
 {
+
+    public interface IPurchaseEnqService
+    {
+       
    
     DataTable GetBranch();
     DataTable GetSupplier();
@@ -24,7 +28,8 @@ public interface IPurchaseEnqService
     IEnumerable<PurchaseFollowup> GetAllPurchaseFollowup();
     PurchaseFollowup GetPurchaseFollowupById(string id);
     DataTable GetFolowup(string enqid);
-
+ string EnquirytoQuote(string id);
+ PurchaseEnquiry GetPurenqServiceById(string id);
 
 
         DataTable GetPurchaseEnqDetails(string id);

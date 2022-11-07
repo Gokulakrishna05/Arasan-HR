@@ -10,7 +10,7 @@ namespace Arasan.Services
     public class PurchaseEnqService : IPurchaseEnqService
     {
         private readonly string _connectionString;
-
+        DataTransactions datatrans;
         public PurchaseEnqService(IConfiguration _configuratio)
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
@@ -112,7 +112,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,ENQNO,to_char(ENQDATE,'dd-MON-yyyy') ENQDATE,EXCRATERATE,PARTYREFNO,CURRENCYID,PARTYRCODE.PARTY,PURENQID from PURENQ LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PURENQ.BRANCHID LEFT OUTER JOIN  PARTYMAST on PURENQ.PARTYMASTID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH') ORDER BY PURENQID DESC";
+                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,ENQNO,to_char(ENQDATE,'dd-MON-yyyy') ENQDATE,EXCRATERATE,PARTYREFNO,CURRENCYID,PARTYRCODE.PARTY,PURENQID,PURENQ.STATUS from PURENQ LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PURENQ.BRANCHID LEFT OUTER JOIN  PARTYMAST on PURENQ.PARTYMASTID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH') ORDER BY PURENQID DESC";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -125,8 +125,8 @@ namespace Arasan.Services
                             ExRate = rdr["EXCRATERATE"].ToString(),
                             ParNo = rdr["PARTYREFNO"].ToString(),
                             Cur = rdr["CURRENCYID"].ToString(),
-                            Supplier = rdr["PARTY"].ToString()
-
+                            Supplier = rdr["PARTY"].ToString(),
+                            Status= rdr["STATUS"].ToString()
 
 
                         };
@@ -195,7 +195,7 @@ namespace Arasan.Services
         public DataTable GetPurchaseEnqDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select BRANCHID,ENQNO,to_char(ENQDATE,'dd-MON-yyyy') ENQDATE,EXCRATERATE,PARTYREFNO,CURRENCYID,PARTYMASTID,PURENQID  from PURENQ where PURENQID=" + id + "";
+            SvSql = "Select BRANCHID,ENQNO,to_char(ENQDATE,'dd-MON-yyyy') ENQDATE,EXCRATERATE,PARTYREFNO,CURRENCYID,PARTYMASTID,PURENQID,ENQREF  from PURENQ where PURENQID=" + id + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -250,7 +250,8 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                     objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
                     objCmd.Parameters.Add("ENQNO", OracleDbType.NVarchar2).Value = cy.EnqNo;
-                    objCmd.Parameters.Add("ENQDATE", OracleDbType.Date).Value = cy.Enqdate;
+                    objCmd.Parameters.Add("RefNo", OracleDbType.NVarchar2).Value = cy.RefNo; 
+                    objCmd.Parameters.Add("ENQDATE", OracleDbType.Date).Value = DateTime.Parse(cy.Enqdate);
                     objCmd.Parameters.Add("EXCRATERATE", OracleDbType.NVarchar2).Value = cy.ExRate;
                     objCmd.Parameters.Add("PARTYREFNO", OracleDbType.NVarchar2).Value = cy.ParNo;
                     objCmd.Parameters.Add("CURRENCYID", OracleDbType.NVarchar2).Value = cy.Cur;
@@ -264,14 +265,14 @@ namespace Arasan.Services
                         //Object Pid = objCmd.Parameters["OUTID"].Value;
                         foreach (EnqItem cp in cy.EnqLst)
                         {
-                            if (cp.Isvalid == "Y" && cp.ItemId != "0")
+                            if (cp.Isvalid == "Y" && cp.saveItemId != "0")
                             {
                                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                                 {
                                     string Sql = string.Empty;
                                     if (StatementType == "Update")
                                     {
-                                        Sql = "Update PURENQDETAIL SET  QTY= '" + cp.Quantity + "',RATE= '" + cp.rate + "',CF='" + cp.Conversionfactor + "'  where PURENQBASICID='" + cy.ID + "'  AND ITEMID='" + cp.ItemId + "' ";
+                                        Sql = "Update PURENQDETAIL SET  QTY= '" + cp.Quantity + "',RATE= '" + cp.rate + "',CF='" + cp.Conversionfactor + "'  where PURENQBASICID='" + cy.ID + "'  AND ITEMID='" + cp.saveItemId + "' ";
                                     }
                                     else
                                     {
@@ -432,6 +433,87 @@ namespace Arasan.Services
             return msg; 
         }
 
-        
+
+        public string EnquirytoQuote(string enqid)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
+                datatrans = new DataTransactions(_connectionString);
+                DateTime theDate = DateTime.Now;
+                DateTime todate; DateTime fromdate;
+                string t; string f;
+                if (DateTime.Now.Month >= 4)
+                {
+                    todate = theDate.AddYears(1);
+                }
+                else
+                {
+                    todate = theDate;
+                }
+                if (DateTime.Now.Month >= 4)
+                {
+                    fromdate = theDate;
+                }
+                else
+                {
+                    fromdate = theDate.AddYears(-1);
+                }
+                t = todate.ToString("yy");
+                f = fromdate.ToString("yy");
+                string disp = string.Format("{0}-{1}", f, t);
+
+                int idc = datatrans.GetDataId(" SELECT COMMON_TEXT FROM COMMON_MASTER WHERE COMMON_TYPE = 'QUO' AND IS_ACTIVE = 'Y'");
+                string QuoNo = string.Format("{0} - {1} / {2}", "QUO", (idc + 1).ToString(), disp);
+
+                //string updateCMd = " UPDATE COMMON_MASTER SET COMMON_TEXT ='" + (idc + 1).ToString() + "' WHERE COMMON_TYPE ='QUO' AND IS_ACTIVE ='Y'";
+                try
+                {
+                    //datatrans.UpdateStatus(updateCMd);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    svSQL = "Insert into PURQUOTBASIC (ENQNO,BRANCHID,EXRATE,MAINCURRENCY,PARTYID,DOCID,DOCDATE) (Select PURENQID,BRANCHID,EXCRATERATE,CURRENCYID,PARTYMASTID,'"+ QuoNo + "','"+ DateTime.Now.ToString("dd-MMM-yyyy") + "'  from PURENQ where PURENQID='" + enqid + "') ; select PURQUOTBASIC_seq.currval from dual ;";
+                    OracleCommand objCmd = new OracleCommand(svSQL, objConn);
+                    try
+                    {
+                        objConn.Open();
+                        Object Pid = objCmd.ExecuteScalar();
+                        //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
+                    }
+                    catch (Exception ex)
+                    {
+                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
+                    }
+                    objConn.Close();
+                }
+
+
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    //string Sql = "Update PURENQ SET  STATUS= '2'  where PURENQID='" + enqid + "' ";
+                    //OracleCommand objCmds = new OracleCommand(Sql, objConnT);
+                    //objConnT.Open();
+                    //objCmds.ExecuteNonQuery();
+                    //objConnT.Close();
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
+        }
+
     }
 }

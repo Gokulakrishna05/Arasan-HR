@@ -351,6 +351,7 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
                     objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = "10061000000002";
                     objCmd.Parameters.Add("ENQNO", OracleDbType.NVarchar2).Value = EnqNo;
+                    objCmd.Parameters.Add("RefNo", OracleDbType.NVarchar2).Value = "";
                     objCmd.Parameters.Add("ENQDATE", OracleDbType.Date).Value = DateTime.Now;
                     objCmd.Parameters.Add("EXCRATERATE", OracleDbType.NVarchar2).Value = "";
                     objCmd.Parameters.Add("PARTYREFNO", OracleDbType.NVarchar2).Value = "";

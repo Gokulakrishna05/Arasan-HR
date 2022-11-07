@@ -9,7 +9,7 @@ namespace Arasan.Models
             this.Brlst = new List<SelectListItem>();
             this.Suplst = new List<SelectListItem>();
             this.Curlst = new List<SelectListItem>();
-            this.EnqLst = new List<EnqItem>();
+            //this.EnqLst = new List<EnqItem>();
             this.EnqRecList = new List<SelectListItem>();
             this.EnqassignList = new List<SelectListItem>();
         }
@@ -30,6 +30,7 @@ namespace Arasan.Models
         public string Enqassignid { get; set; }
 
         public string Supplier { get; set; }
+        public string Status { get; set; }
 
         public List<SelectListItem> Suplst;
 
@@ -37,7 +38,7 @@ namespace Arasan.Models
 
         public List<SelectListItem> Curlst;
 
-        public List<EnqItem> EnqLst;
+        public List<EnqItem> EnqLst { get; set; }
 
         public List<SelectListItem> EnqRecList;
 
@@ -78,7 +79,7 @@ namespace Arasan.Models
     public class EnqItem
     {
         public string ItemId { get;set;}
-
+        public string saveItemId { get; set; }
         public List<SelectListItem> Itemlst { get; set; }
 
         public List<SelectListItem> ItemGrouplst { get; set; }
