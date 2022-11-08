@@ -117,11 +117,11 @@ namespace Arasan.Controllers
         //    ModelState.AddModelError("", "Invalid login attempt");
         //    return View(model);
         //}
-        [HttpPost]
-        public IActionResult Logout()
-        {
-            //await _signInManager.SignOutAsync();
-            return RedirectToAction("Login", "Account");
-        }
-    }
+        //[HttpPost]
+        //public IActionResult Logout()
+        //{
+        //    //await _signInManager.SignOutAsync();
+        //    return RedirectToAction("Login", "Account");
+        //}
+    //}
 }
