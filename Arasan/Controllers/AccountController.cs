@@ -35,8 +35,8 @@ namespace Arasan.Controllers
         public IActionResult Login([Bind] LoginViewModel model)
         {
 
-            int res = loginService.LoginCheck(model.Username, model.Password);
-            if (res == 1)
+            //bool res = loginService.LoginCheck(model.Username, model.Password);
+            //if (res == true)
 
             _dtransactions = new DataTransactions(_connectionString);
             bool isValidUser = false;//loginService.LoginCheck(model.Username, model.Password);
@@ -63,7 +63,7 @@ namespace Arasan.Controllers
             if (isValidUser == true)
 
             {
-                TempData["msg"] = "You are welcome to Admin Section";
+                //TempData["msg"] = "You are welcome to Admin Section";
                 return RedirectToAction(actionName: "Index", controllerName: "Home");
             }
             else
@@ -72,12 +72,12 @@ namespace Arasan.Controllers
             }
             return View(model);
 
-            }
+        }
 
         //    [HttpPost]
         //public IActionResult Login(LoginViewModel model )
 
-        }
+        //}
 
         //[HttpPost]
         //public IActionResult Login(LoginViewModel model)
@@ -123,5 +123,5 @@ namespace Arasan.Controllers
         //    //await _signInManager.SignOutAsync();
         //    return RedirectToAction("Login", "Account");
         //}
-    //}
+    }
 }

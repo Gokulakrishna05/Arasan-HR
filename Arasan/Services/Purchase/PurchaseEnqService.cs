@@ -503,6 +503,14 @@ namespace Arasan.Services
                     objConnT.Close();
                 }
 
+                //using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                //{
+                //    string Sql = "Insert into PURQUOTDETAIL (PURQUOTBASICID,ITEMID,RATE,QTY,UNIT,CF) (Select '" + quotid + "',ITEMID,RATE,QTY,UNIT,CF from PURENQDETAIL WHERE PURENQBASICID=" + enqid + ")";
+                //    OracleCommand objCmds = new OracleCommand(Sql, objConnT);
+                //    objConnT.Open();
+                //    objCmds.ExecuteNonQuery();
+                //    objConnT.Close();
+                //}
 
             }
             catch (Exception ex)
