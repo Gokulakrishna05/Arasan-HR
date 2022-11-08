@@ -50,7 +50,7 @@ internal class Program
 
         builder.Services.TryAddSingleton<IPurchaseIndent, PurchaseIndentService>();
         builder.Services.TryAddSingleton<IPurchaseQuo, PurchaseQuoService>();
-
+        builder.Services.TryAddSingleton<IDirectPurchase, DirectPurchaseService>();
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.

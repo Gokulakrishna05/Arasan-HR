@@ -6,8 +6,7 @@ namespace Arasan.Interface;
 public interface IPurchaseEnqService
 {
 
-    public interface IPurchaseEnqService
-    {
+   
 
 
         DataTable GetBranch();
@@ -37,4 +36,3 @@ public interface IPurchaseEnqService
         DataTable GetItemSubGroup(string id);
     }
 
-}
