@@ -94,7 +94,8 @@ namespace Arasan.Services.Master
             string msg = "";
             try
             {
-                string StatementType = string.Empty; string svSQL = "";
+                string StatementType = string.Empty; 
+                //string svSQL = "";
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {

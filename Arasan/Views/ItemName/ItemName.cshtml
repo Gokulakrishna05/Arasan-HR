@@ -27,7 +27,11 @@
                 <div class="widgets-container">
                     <h5 style="font-size:14px">Item Master</h5>
                     <hr>
-                    <form>
+                    @using (Html.BeginForm("ItemName", "ItemName", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+
+                     <form>
                         <div class="tabs-container">
               <ul class="nav nav-tabs">
                 <li class="active"><a href="#tab-1" data-toggle="tab" >Item Master Details</a></li>
@@ -40,12 +44,12 @@
                  @*1st atb*@
 
                   <div class="row">
-                            <div class="col-md-6">
+                           <div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">Item Group<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                                    @Html.DropDownListFor(C => C.ItemGroup, Model.IgLst, new { @id = "ddlItemGroup", @Class = "form-control chosen-select", @TabIndex = 1 })<br /><br />
+                                                        @Html.DropDownListFor(C => C.ItemG, Model.IgLst, new { @id = "ddlItemG", @Class = "form-control chosen-select", @TabIndex = 1 })<br /><br />
 
                                                 </div>
                                 </div>
@@ -55,7 +59,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Sub Group<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                                    @Html.DropDownListFor(C => C.ItemSubGroup, Model.Isglst, new { @id = "ddlItemSubGroup", @Class = "form-control chosen-select", @TabIndex = 1 })<br /><br />
+                                                        @Html.DropDownListFor(C => C.ItemSub, Model.Isglst, new { @id = "ddlItemSub", @Class = "form-control chosen-select", @TabIndex = 1 })<br /><br />
 
                                                 </div>
 
@@ -69,17 +73,18 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Item Category<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                                    @Html.DropDownListFor(C => C.ItemCategory, Model.Iclst, new { @id = "ddlItemCategory", @Class = "form-control chosen-select", @TabIndex = 1 })<br /><br />
+                                                        @Html.DropDownListFor(C => C.SubCat, Model.Iclst, new { @id = "ddlSubCat", @Class = "form-control chosen-select", @TabIndex = 1 })<br /><br />
 
                                     </div>
                                 </div>
                             </div>
-                             <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">Item Code<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" type="text"><br />
+                                                        @Html.TextBoxFor(C => C.ItemCode, new { @id = "txtItemCode", @class = "form-control", @TabIndex = 1 })<br />
                                     </div>
 
                                 </div>
@@ -93,7 +98,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Item<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" type="text"><br />
+                                                        @Html.TextBoxFor(C => C.Item, new { @id = "txtItem", @class = "form-control", @TabIndex = 1 })<br />
                                     </div>
 
                                 </div>
@@ -103,7 +108,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Item Description<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <textarea class="form-control" id="inputEmail3" type="text"></textarea><br />
+                                       @Html.TextBoxFor(C => C.ItemDes, new { @id = "txtItemDes", @class = "form-control", @TabIndex = 1 })<br />
                                     </div>
 
                                 </div>
@@ -117,7 +122,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Reorder Quantity<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" type="text"><br />
+                                         @Html.TextBoxFor(C => C.Reorderqu, new { @id = "txtReorderqu", @class = "form-control", @TabIndex = 1 })<br />
                                     </div>
 
                                 </div>
@@ -128,7 +133,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Reorder Level<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" type="text"><br />
+                                                        @Html.TextBoxFor(C => C.Reorderlvl, new { @id = "txtReorderlvl", @class = "form-control", @TabIndex = 1 })<br />
                                     </div>
 
                                 </div>
@@ -141,7 +146,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Maximum Stock Level <label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" type="text"><br />
+                                                        @Html.TextBoxFor(C => C.Maxlvl, new { @id = "txtMaxlvl", @class = "form-control", @TabIndex = 1 })<br />
                                     </div>
 
                                 </div>
@@ -152,7 +157,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Minimum Stock Level<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" type="text"><br />
+                                                        @Html.TextBoxFor(C => C.Minlvl, new { @id = "txtMinlvl", @class = "form-control", @TabIndex = 1 })<br />
                                     </div>
 
                                 </div>
@@ -166,7 +171,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Conversion Factor<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" type="text"><br />
+                                       @Html.TextBoxFor(C => C.Con, new { @id = "txtCon", @class = "form-control", @TabIndex = 1 })<br />
                                     </div>
 
                                 </div>
@@ -178,7 +183,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">UOM <label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" type="text"><br />
+                                                        @Html.TextBoxFor(C => C.Uom, new { @id = "txtuom", @class = "form-control", @TabIndex = 1 })<br />
                                     </div>
 
                                 </div>
@@ -190,7 +195,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">HSN Code <label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" type="text"><br />
+                                         @Html.DropDownListFor(C => C.Hcode, Model.Hsn, new { @id = "ddlHcode", @Class = "form-control chosen-select", @TabIndex = 1 })<br />
                                     </div>
 
                                 </div>
@@ -200,7 +205,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Selling Price<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" type="text"><br />
+                                                        @Html.TextBoxFor(C => C.Selling, new { @id = "txtSelling", @class = "form-control", @TabIndex = 1 })<br />
                                     </div>
 
                                 </div>
@@ -599,7 +604,7 @@
                 
               </div>
             </div>
-
+            </div>
         
                             <div style="height:30px;"></div>
                             <a button type="submit" class="btn aqua m-t-xs bottom15-xs" href="@Url.Action("ItemList", "ItemName")">Submit</a>
@@ -607,7 +612,7 @@
                     
                         
                     </form>
-
+                    }
                 </div>
             </div>
         </div>

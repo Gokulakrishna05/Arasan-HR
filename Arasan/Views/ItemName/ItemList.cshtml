@@ -1,5 +1,4 @@
-﻿ 
-@model Arasan.Models.ItemName
+﻿@model IEnumerable<Arasan.Models.ItemName>
 
 @{
     ViewData["Title"] = "Item Master";
@@ -43,27 +42,32 @@
                     <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
                       <thead>
                         <tr>
-                          <th>Item Group</th>
-                          <th>Item Sub Group</th>
-                          <th>Item Category</th>
-                          <th>Item Name</th>
-                          <th>Unit</th>
+                          <th> Item Group</th>
+                          <th>Sub Group</th>
                           <th>Edit</th>
                           <th>Delete</th>
                         </tr>
                       </thead>
                    
                       <tbody>
+                            @{
+                                                 int i = 1;
+
+                                                 foreach (var item in Model)
+                                                 {
                         <tr>
-                          <td>Mechanical</td>
-                          <td>OTHERS</td>
-                          <td>OTHERS</td>
-                          <td>Pressure Gauge 7" Dia 0-300</td>
-                          <td>Nos</td>
-                          <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("ItemName", "ItemName")"></a></div></td>
-                           <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("ItemName", "ItemName")"></a></div></td>
+
+                                                                    <td>@Html.DisplayFor(modelItem => item.ItemG)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.ItemSub)</td>
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("ItemName", "ItemName",new { id=item.ID })"></a></div></td>
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("ItemName", "ItemName",new { id=item.ID })"></a></div></td>
                         </tr>
-                        <tr>
+                                                                i++;
+                                                            }
+                                                 }
+
+                                                        
+                        @*<tr>
                           <td>Mechanical</td>
                           <td>Hose ( Metalic, Hydralic)</td>
                           <td>OTHERS</td>
@@ -80,7 +84,7 @@
                           <td>Nos</td>
                           <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("ItemName", "ItemName")"></a></div></td>
                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("ItemName", "ItemName")"></a></div></td>
-                        </tr>
+                        </tr>*@
                       </tbody>
                     </table>
                   </div>
