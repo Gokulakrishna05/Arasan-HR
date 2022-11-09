@@ -5,17 +5,16 @@ using Arasan.Models;
 
 namespace Arasan.Interface
 {
-    public interface IPurchaseQuo
+    public interface IDirectPurchase
     {
         DataTable GetBranch();
         DataTable GetSupplier();
         DataTable GetCurency();
+        DataTable GetLocation();
         DataTable GetItem(string value);
+       //DataTable GetItemSubGrp();
+       // DataTable GetItemSubGroup(string id);
+
         DataTable GetItemGrp();
-        DataTable GetItemDetails(string ItemId);
-        string PurQuotationCRUD(PurchaseQuo cy);
-        IEnumerable<PurchaseQuo> GetAllPurQuotation();
-        PurchaseQuo GetPurQuotationById(string id);
-        DataTable GetPurQuotationByName(string name);
     }
 }

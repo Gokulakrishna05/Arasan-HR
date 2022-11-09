@@ -39,7 +39,21 @@ namespace Arasan.Controllers
             }
             else
             {
-                ca = PurquoService.GetPurQuotationById(id);
+                DataTable dt = new DataTable();
+                dt = PurquoService.GetPurQuotationByName(id);
+                if(dt.Rows.Count > 0)
+                {
+                    //ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                    //ca.Enqdate = dt.Rows[0]["ENQDATE"].ToString();
+                    //ca.Supplier = dt.Rows[0]["PARTYMASTID"].ToString();
+                    //ca.EnqNo = dt.Rows[0]["ENQNO"].ToString();
+                    //ca.ID = id;
+                    //ca.ParNo = dt.Rows[0]["PARTYREFNO"].ToString();
+                    //ca.Cur = dt.Rows[0]["CURRENCYID"].ToString();
+                    //ca.ExRate = dt.Rows[0]["EXCRATERATE"].ToString();
+                    //ca.RefNo = dt.Rows[0]["ENQREF"].ToString();
+                }
+                //ca = PurquoService.GetPurQuotationById(id);
 
             }
           

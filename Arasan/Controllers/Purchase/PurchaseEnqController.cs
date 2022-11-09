@@ -7,15 +7,22 @@ using System.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Arasan.Interface.Master;
 using Arasan.Services.Master;
+using MailKit.Net.Smtp;
+using MailKit.Security;
 
 namespace Arasan.Controllers
 {
     public class PurchaseEnqController : Controller
     {
         IPurchaseEnqService PurenqService;
-        public PurchaseEnqController(IPurchaseEnqService _PurenqService)
+        private string? _connectionString;
+        IConfiguration? _configuratio;
+        DataTransactions datatrans;
+
+        public PurchaseEnqController(IPurchaseEnqService _PurenqService, IConfiguration _configuratio)
         {
             PurenqService = _PurenqService;
+            _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
         }
         public IActionResult PurchaseEnquiry(String id)
         {
@@ -40,22 +47,17 @@ namespace Arasan.Controllers
             }
             else
             {
-
-                ca = PurenqService.GetPurenqServiceById(id);
-
-
-
-
-            }
+                //ca = PurenqService.GetPurenqServiceById(id);
+            
          
         
-            for (int i = 0; i < 3; i++)
-            {
-                tda = new EnqItem();
-                tda.ItemGrouplst = BindItemGrplst();
-                tda.Itemlst = BindItemlst("");
-                tda.Isvalid = "Y";
-              TData.Add(tda);
+            //for (int i = 0; i < 3; i++)
+            //{
+              //  tda = new EnqItem();
+              //  tda.ItemGrouplst = BindItemGrplst();
+              //  tda.Itemlst = BindItemlst("");
+              //  tda.Isvalid = "Y";
+              //TData.Add(tda);
 
                 DataTable dt = new DataTable();
                 double total = 0;
@@ -76,7 +78,7 @@ namespace Arasan.Controllers
                 dt2 = PurenqService.GetPurchaseEnqItemDetails(id);
                 if (dt2.Rows.Count > 0)
                 {
-                    for ( i = 0; i < dt2.Rows.Count; i++)
+                    for (int  i = 0; i < dt2.Rows.Count; i++)
                     {
                         tda = new EnqItem();
                         double toaamt = 0;
@@ -111,10 +113,11 @@ namespace Arasan.Controllers
                 }
                 ca.Net = Math.Round(total, 2);
 
-            }
+            //}
           
-          ca.EnqLst = TData;
-          return View(ca);
+                ca.EnqLst = TData;
+            }
+            return View(ca);
 
         }
         public IActionResult PurchaseEnquiryDetails(string id)
@@ -123,18 +126,80 @@ namespace Arasan.Controllers
             return View(cmp);
         }
 
-       // [HttpPost]
-       // public ActionResult SendMail(PurchaseEnquiry Cy)
-       // {
-       //     try
-       //     {
-       //     }
-
-       //}
+        // [HttpPost]
+        // public ActionResult SendMail(PurchaseEnquiry Cy)
+        // {
+        //     try
+        //     {
+        //     }
 
 
 
-                [HttpPost]
+        //}
+        //[HttpPost]
+
+        //public async Task<IActionResult> Send([FromForm] MailRequest request)
+        public ActionResult SendMail(string id)
+        {
+            try
+            {
+                datatrans = new DataTransactions(_connectionString);
+                MailRequest requestwer = new MailRequest();
+                requestwer.ToEmail = "deepa@icand.in";
+                requestwer.Subject = "Enquiry";
+                string Content = "";
+                IEnumerable<EnqItem> cmp = PurenqService.GetAllPurenquriyItem(id);
+                Content = @"<html> 
+                < head >
+    < style >
+        table, th, td {
+                border: 1px solid black;
+                    border - collapse: collapse;
+                }
+    </ style >
+</ head >
+< body >
+<p>Dear Sir,</p>
+</br>
+<p>           Kindly arrange to send your lowest price offer for the following items through our email immediately.</p>
+</br>
+< table style = 'border: 1px solid black;border-collapse: collapse;' > ";
+
+                
+
+                foreach (EnqItem item in cmp)
+                {
+                    Content += " <tr><td>" + item.Desc + "</td>";
+                    Content += " <td>" + item.Quantity + "</td>";
+                    Content += " <td>" + item.Unit + "</td></tr>";
+                }
+                Content += "</table>";
+
+                Content += @" </br> 
+<p style='padding-left:30px;font-style:italic;'>With Regards,
+</br><img src='../assets/images/Arasan_Logo.png' alt='Arasan Logo'/>
+</br>N Balaji Purchase Manager
+</br>The Arasan Aluminium Industries (P) Ltd.
+<br/102-A
+
+</br>
+</p> ";
+                Content += @" </body> 
+</html> ";
+                requestwer.Body = Content;
+                //request.Attachments = "No";
+                datatrans.SendEmailAsync(requestwer);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        
+
+            [HttpPost]
         public ActionResult PurchaseEnq(PurchaseEnquiry Cy, string id)
         {
 
@@ -503,7 +568,7 @@ namespace Arasan.Controllers
                 string MoveQuote = string.Empty;
                 string SendMail = string.Empty;
 
-                SendMail = "<a href=SendMailPdf?id=" + dtUsers.Rows[i]["ID"].ToString() + "><img src='../Images/mail_icon.png' alt='Send Email' /></a>";
+                SendMail = "<a href=SendMail?id=" + dtUsers.Rows[i]["ID"].ToString() + "><img src='../Images/mail_icon.png' alt='Send Email' /></a>";
                 EditRow = "<a href=Enquiry?id=" + dtUsers.Rows[i]["ID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
                 FollowUp = "<a href=EnquiryFollowup?Fid=" + dtUsers.Rows[i]["ID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/followup.png' alt='FollowUp' /> - (" + 1 + ")</a>";
                 DeleteRow = "<a href=DeleteEnquiry?tag=Del&id=" + dtUsers.Rows[i]["ID"].ToString() + " onclick='return confirm(" + "\"Are you sure you want to Disable this record...?\"" + ")'><img src='../Images/Inactive.png' alt='Deactivate' /></a>";

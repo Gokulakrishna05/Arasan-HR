@@ -35,7 +35,15 @@
 	<!--[if lt IE 9]> <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script> <![endif]-->
 	<!--[if lt IE 9]> <script src="dist/html5shiv.js"></script> <![endif]-->
 </head>
+  @{
+        <script type="text/javascript">
+    @if (TempData["msg"] != null)
+    {
+        @:alert('@TempData["msg"]');
+    }
 
+        </script>
+    }
 <body class="aqua-bg login">
 	<div class="middle-box text-center loginscreen ">
 		<div class="widgets-container">
