@@ -27,31 +27,31 @@ namespace Arasan.Controllers
         }
 
 
-        //public IActionResult Login([Bind] LoginViewModel model)
-        //{
-        //    int res = loginService.LoginCheck(model.Username,model.Password);
-        //    if (res == 1)
-        //    {
-        //        TempData["msg"] = "You are welcome to Admin Section";
-        //        return RedirectToAction(actionName: "Index", controllerName: "Home");
-        //    }
-        //    else
-        //    {
-        //        TempData["msg"] = "Admin id or Password is wrong.!";
-        //    }
-        //    return View(model);
-        //}
+        public IActionResult Login([Bind] LoginViewModel model)
+        {
+            int res = loginService.LoginCheck(model.Username, model.Password);
+            if (res == 1)
+            {
+                TempData["msg"] = "You are welcome to Admin Section";
+                return RedirectToAction(actionName: "Index", controllerName: "Home");
+            }
+            else
+            {
+                TempData["msg"] = "Admin id or Password is wrong.!";
+            }
+            return View(model);
+        }
 
         [HttpPost]
-        public IActionResult Login(LoginViewModel model )
-        {
-            LoginViewModel L = new LoginViewModel();
-            if (ModelState.IsValid)
-            {
-                //string strout = model.
-            }
-                return View(L);
-        }
+        //public IActionResult Login(LoginViewModel model )
+        //{
+        //    LoginViewModel L = new LoginViewModel();
+        //    if (ModelState.IsValid)
+        //    {
+        //        //string strout = model.
+        //    }
+        //        return View(L);
+        //}
 
         //public async Task<IActionResult> Login(LoginViewModel model)
         //{
