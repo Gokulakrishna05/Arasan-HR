@@ -17,7 +17,7 @@ namespace Arasan.Controllers
         {
             directPurchase = _directPurchase;
         }
-        public IActionResult DirectPurchase()
+        public IActionResult DirectPurchase(string id)
         {
             DirectPurchase ca = new DirectPurchase();
             ca.Brlst = BindBranch();
@@ -26,7 +26,8 @@ namespace Arasan.Controllers
             ca.Loclst = GetLoc();
             List<DirItem> TData = new List<DirItem>();
             DirItem tda = new DirItem();
-            
+            if (id == null)
+            {
                 for (int i = 0; i < 3; i++)
                 {
                     tda = new DirItem();
@@ -35,8 +36,62 @@ namespace Arasan.Controllers
                     tda.Isvalid = "Y";
                     TData.Add(tda);
                 }
+            }
+            else
+            {
+
+                ca = directPurchase.GetDirectPurById(id);
+
+
+
+
+            }
             ca.DirLst = TData;
             return View(ca);
+
+        }
+
+        [HttpPost]
+        public ActionResult DirectPurchase(DirectPurchase Cy, string id)
+        {
+
+            try
+            {
+                Cy.DPId = id;
+                string Strout = directPurchase.DirectPurCRUD(Cy);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Cy.DPId == null)
+                    {
+                        TempData["notice"] = "DirectPurchase Inserted Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "DirectPurchase Updated Successfully...!";
+                    }
+                    return RedirectToAction("ListDirectPurchase");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit DirectPurchase";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(Cy);
+        }
+        public IActionResult ListDirectPurchase()
+        {
+            IEnumerable<DirectPurchase> cmp = directPurchase.GetAllDirectPur();
+            return View(cmp);
         }
         public List<SelectListItem> BindBranch()
         {
@@ -138,6 +193,39 @@ namespace Arasan.Controllers
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["GROUPCODE"].ToString(), Value = dtDesg.Rows[i]["ITEMGROUPID"].ToString() });
                 }
                 return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public ActionResult GetItemDetail(string ItemId)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                DataTable dt1 = new DataTable();
+                
+                string unit = "";
+                string CF = "";
+                string price = "";
+                dt = directPurchase.GetItemDetails(ItemId);
+
+                if (dt.Rows.Count > 0)
+                {
+                 
+                    unit = dt.Rows[0]["UNITID"].ToString();
+                    price = dt.Rows[0]["LATPURPRICE"].ToString();
+                    dt1 = directPurchase.GetItemCF(ItemId, dt.Rows[0]["UNITMASTID"].ToString());
+                    if (dt1.Rows.Count > 0)
+                    {
+                        CF = dt1.Rows[0]["CF"].ToString();
+                    }
+                }
+
+                var result = new { unit = unit, CF = CF, price = price };
+                return Json(result);
             }
             catch (Exception ex)
             {
