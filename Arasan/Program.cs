@@ -5,6 +5,7 @@ using Arasan.Interface.Master;
 using Arasan.Services.Master;
 using Arasan.Interface.Production;
 using Arasan.Services.Production;
+using Arasan.Models;
 //using Arasan.Services.Store_Management;
 
 
@@ -50,12 +51,15 @@ internal class Program
 
         builder.Services.TryAddSingleton<IPurchaseIndent, PurchaseIndentService>();
         builder.Services.TryAddSingleton<IPurchaseQuo, PurchaseQuoService>();
-
+        builder.Services.TryAddSingleton<IMailService,MailService>();
         builder.Services.TryAddSingleton<IDirectPurchase, DirectPurchaseService>();
 
         builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         builder.Services.AddSession();
+        var emailConfig = builder.Configuration.GetSection("MailSettings").Get<MailSettings>();
+        builder.Services.TryAddSingleton(emailConfig);
 
+        builder.Services.AddControllers();
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.

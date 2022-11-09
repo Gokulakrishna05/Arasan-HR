@@ -16,5 +16,6 @@ namespace Arasan.Interface
         string PurQuotationCRUD(PurchaseQuo cy);
         IEnumerable<PurchaseQuo> GetAllPurQuotation();
         PurchaseQuo GetPurQuotationById(string id);
+        DataTable GetPurQuotationByName(string name);
     }
 }

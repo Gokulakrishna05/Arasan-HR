@@ -262,4 +262,5 @@ namespace Arasan.Models
         public string Branch { get; set; }
 
     }
+   
 }

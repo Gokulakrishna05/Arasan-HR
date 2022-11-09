@@ -5,6 +5,7 @@ using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Data;
+
 namespace Arasan.Services
 {
     public class PurchaseEnqService : IPurchaseEnqService
@@ -503,14 +504,14 @@ namespace Arasan.Services
                     objConnT.Close();
                 }
 
-                //using (OracleConnection objConnT = new OracleConnection(_connectionString))
-                //{
-                //    string Sql = "Insert into PURQUOTDETAIL (PURQUOTBASICID,ITEMID,RATE,QTY,UNIT,CF) (Select '" + quotid + "',ITEMID,RATE,QTY,UNIT,CF from PURENQDETAIL WHERE PURENQBASICID=" + enqid + ")";
-                //    OracleCommand objCmds = new OracleCommand(Sql, objConnT);
-                //    objConnT.Open();
-                //    objCmds.ExecuteNonQuery();
-                //    objConnT.Close();
-                //}
+                using (OracleConnection objConnE = new OracleConnection(_connectionString))
+                {
+                    string Sql = "UPDATE PURENQ SET STATUS=2 where PURENQID='" + enqid + "'";
+                    OracleCommand objCmds = new OracleCommand(Sql, objConnE);
+                    objConnE.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnE.Close();
+                }
 
             }
             catch (Exception ex)
