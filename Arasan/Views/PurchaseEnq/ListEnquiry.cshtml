@@ -71,7 +71,7 @@
                                                                             <td><a href="@Url.Action("PurchaseEnquiryDetails", "PurchaseEnq",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'>@Html.DisplayFor(modelItem => item.RefNo)</a></td>
                                                                             <td>@Html.DisplayFor(modelItem => item.Enqdate)</td>
                                                                             <td>@Html.DisplayFor(modelItem => item.Supplier)</td>
-                                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a href="#"><img src='../Images/mail_icon.png' alt='Send Email' /></a></div></td>
+                                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("SendMail", "PurchaseEnq",new { id=item.ID })"><img src='../Images/mail_icon.png' alt='Send Email' /></a></div></td>
                                                                             <td> <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("PurchaseFollowup", "PurchaseEnq")"><img src='../Images/followup.png' alt='FollowUp' /> - (1)</a></div></td>
                                                                             @if(item.Status == "1"){
                                                                                  <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("MoveToQuote", "PurchaseEnq",new { id=item.ID })"><img src='../Images/move_quote.png' alt='View Details' width='20'/></a></div></td>
