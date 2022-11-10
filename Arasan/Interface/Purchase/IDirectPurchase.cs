@@ -16,5 +16,12 @@ namespace Arasan.Interface
        // DataTable GetItemSubGroup(string id);
 
         DataTable GetItemGrp();
+        DataTable GetItemDetails(string ItemId);
+        DataTable GetItemCF(string ItemId, string unitid);
+        string DirectPurCRUD(DirectPurchase cy);
+        DirectPurchase GetDirectPurById(string id);
+      
+        IEnumerable<DirectPurchase> GetAllDirectPur();
+
     }
 }
