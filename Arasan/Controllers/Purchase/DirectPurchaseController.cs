@@ -40,7 +40,7 @@ namespace Arasan.Controllers
             else
             {
 
-                ca = directPurchase.GetDirectPurById(id);
+               // ca = directPurchase.GetDirectPurById(id);
 
 
 

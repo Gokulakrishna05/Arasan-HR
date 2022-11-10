@@ -104,7 +104,7 @@ namespace Arasan.Services
                     else
                     {
                         StatementType = "Update";
-                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.DPId;
+                        objCmd.Parameters.Add("DPBASICID", OracleDbType.NVarchar2).Value = cy.DPId;
                     }
                     objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
                     objCmd.Parameters.Add("PARTYID", OracleDbType.NVarchar2).Value = cy.Supplier;
@@ -115,6 +115,7 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = cy.Location;
                     objCmd.Parameters.Add("MAINCURRENCY", OracleDbType.NVarchar2).Value = cy.Currency;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                    objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
                     {
                          objConn.Open();
