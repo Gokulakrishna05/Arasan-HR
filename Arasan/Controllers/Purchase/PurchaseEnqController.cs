@@ -514,11 +514,7 @@ namespace Arasan.Controllers
         }
 
 
-        public IActionResult Direct_Purchase()
-        {
-            return View();
-        }
-
+     
        
         public IActionResult GRN_CUM_BILL()
         {

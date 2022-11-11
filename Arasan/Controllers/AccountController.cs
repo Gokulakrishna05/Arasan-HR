@@ -49,7 +49,12 @@ namespace Arasan.Controllers
         //}
 
         [HttpPost]
+
         public IActionResult Login(LoginViewModel model )
+
+        public IActionResult Login(LoginViewModel model)
+        { 
+
 
         { 
             //bool res = loginService.LoginCheck(model.Username, model.Password);
