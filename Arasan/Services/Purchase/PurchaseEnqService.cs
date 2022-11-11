@@ -129,7 +129,6 @@ namespace Arasan.Services
                             Supplier = rdr["PARTY"].ToString(),
                             Status= rdr["STATUS"].ToString()
 
-
                         };
                         cmpList.Add(cmp);
                     }

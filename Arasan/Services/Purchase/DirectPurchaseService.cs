@@ -51,7 +51,7 @@ namespace Arasan.Services
         }
         public DirectPurchase GetDirectPurById(string eid)
         {
-            DirectPurchase PurchaseEnquiry = new DirectPurchase();
+            DirectPurchase DirectPurchase = new DirectPurchase();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
                 using (OracleCommand cmd = con.CreateCommand())
@@ -75,11 +75,11 @@ namespace Arasan.Services
 
                         };
 
-                        PurchaseEnquiry = cmp;
+                        DirectPurchase = cmp;
                     }
                 }
             }
-            return PurchaseEnquiry;
+            return DirectPurchase;
         }
 
         public string DirectPurCRUD(DirectPurchase cy)
@@ -104,7 +104,8 @@ namespace Arasan.Services
                     else
                     {
                         StatementType = "Update";
-                        objCmd.Parameters.Add("DPBASICID", OracleDbType.NVarchar2).Value = cy.DPId;
+                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.DPId;
+
                     }
                     objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
                     objCmd.Parameters.Add("PARTYID", OracleDbType.NVarchar2).Value = cy.Supplier;
