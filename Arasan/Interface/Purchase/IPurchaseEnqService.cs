@@ -5,11 +5,6 @@ namespace Arasan.Interface;
 
 public interface IPurchaseEnqService
 {
-
-
-   
-
-
         DataTable GetBranch();
         DataTable GetSupplier();
         DataTable GetCurency();
@@ -35,6 +30,11 @@ public interface IPurchaseEnqService
         DataTable GetPurchaseEnqItemDetails(string id);
         DataTable GetItemSubGrp();
         DataTable GetItemSubGroup(string id);
+
+    
+    
+}
+
     }
 
 
@@ -64,6 +64,7 @@ public interface IPurchaseEnqService
 //    DataTable GetItemSubGrp();
 //    DataTable GetItemSubGroup(string id);
 //}
+
    
 
 

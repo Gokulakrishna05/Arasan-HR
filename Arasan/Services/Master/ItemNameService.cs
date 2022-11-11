@@ -64,7 +64,7 @@ namespace Arasan.Services.Master
                     con.Open();
                     cmd.CommandText = "Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMCODE,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MAXSTOCKLVL,MINSTOCKLVL,CONVERAT,UOM,HSN,SELLINGPRI,ITEMMASTERID from ITEMMASTER where ITEMMASTERID=" + eid + "";
                     OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
+                    while (rdr.Read()) 
                     {                                                
                         ItemName sta = new ItemName
                         {
@@ -101,7 +101,7 @@ namespace Arasan.Services.Master
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("ITEMMASTERPROC", objConn);
-                    /*objCmd.Connection = objConn;
+                    /*objCmd.Connection = objConn; 
                     objCmd.CommandText = "ITEMMASTERPROC";*/
 
                     objCmd.CommandType = CommandType.StoredProcedure;
