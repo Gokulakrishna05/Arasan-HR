@@ -49,6 +49,7 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Doc No<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
                                         @Html.TextBoxFor(C => C.DocNo, new { @id = "txtDocNo", @class = "form-control", @TabIndex = 2 })
+                                            
                                     </div>
                                 </div>
                             </div>
@@ -103,7 +104,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="inputName3" class="col-sm-4 control-label">Suppliar Name<label class="Mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Suppliar <label class="Mandatory"></label></label>
 
                                     <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.Supplier, Model.Suplst, new { @id = "ddlSupplier", @Class = "form-control chosen-select", @TabIndex = 1 })
@@ -114,7 +115,7 @@
                         </div>
                         <div style="height:30px;"></div>
                         <div class="row">
-                            <div class="col-md-6">
+                         @*   <div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">Ref. No<label class="Mandatory"></label></label>
@@ -122,18 +123,17 @@
                                         @Html.TextBoxFor(C => C.RefNo, new { @id = "txtRefNo", @class = "form-control", @TabIndex = 2 })
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-4 control-label">Ref. Date<label class="Mandatory"></label></label>
 
-                                    <div class="col-sm-8">
- <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                              <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                             @Html.TextBoxFor(C => C.RefDate, new { @id = "DocDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
                                         <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                     </div>                                    </div>
 
-                                </div>
+                              
                             </div>
                         </div>
 
@@ -211,42 +211,41 @@
                                                         <td>
                                                             @Html.TextBoxFor(o => o.DirLst[i].Unit, new { @id = "txtUnit" + i, @class = "form-control", style = "width: 80px;" , @readonly = "readonly"})
                                                         </td>
-    <td>
-                                                            @Html.TextBoxFor(o => o.DirLst[i].ConFac, new { @id = "txtConFac" + i, @class = "form-control", style = "width: 80px;" })
+                                                        <td>
+                                                            @Html.TextBoxFor(o => o.DirLst[i].ConFac, new { @id = "txtConFac" + i, @class = "form-control", style = "width: 80px;" , @readonly = "readonly"})
                                                         </td>
                                                         <td>
                                                             @Html.TextBoxFor(o => o.DirLst[i].PurType, new { @id = "txtPurType" + i, @class = "form-control", style = "width: 80px;"})
                                                         </td>
-    <td>
-                                                            @Html.TextBoxFor(o => o.DirLst[i].Quantity, new { @id = "txtQuantity" + i, @class = "form-control", style = "width: 80px;" })
+                                                        <td>
+                                                            @Html.TextBoxFor(o => o.DirLst[i].Quantity, new { @id = "txtQuantity" + i, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")" })
                                                         </td>
                                                         <td>
-                                                            @Html.TextBoxFor(o => o.DirLst[i].rate, new { @id = "txtrate" + i, @class = "form-control", style = "width: 80px;" })
+                                                            @Html.TextBoxFor(o => o.DirLst[i].rate, new { @id = "txtrate" + i, @class = "form-control", style = "width: 80px;",@readonly="readonly",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")" })
                                                         </td>
-    <td>
-                                                            @Html.TextBoxFor(o => o.DirLst[i].Amount, new { @id = "txtAmount" + i, @class = "form-control", style = "width: 80px;" })
+                                                        <td>
+                                                            @Html.TextBoxFor(o => o.DirLst[i].Amount, new { @id = "txtAmount" + i, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                                         </td>                                                             
-    <td>
-                                                            @Html.TextBoxFor(o => o.DirLst[i].Disc, new { @id = "txtDisc" + i, @class = "form-control", style = "width: 80px;" })
+                                                        <td>
+                                                            @Html.TextBoxFor(o => o.DirLst[i].Disc, new { @id = "txtDisc" + i, @class = "form-control", style = "width: 80px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
                                                         </td>                                                    
-    <td>
+                                                        <td>
                                                             @Html.TextBoxFor(o => o.DirLst[i].DiscAmount, new { @id = "txtDiscAmount" + i, @class = "form-control", style = "width: 80px;" })
                                                         </td>                                                             
-    <td>
+                                                        <td>
                                                             @Html.TextBoxFor(o => o.DirLst[i].CostRate, new { @id = "txtCostRate" + i, @class = "form-control", style = "width: 80px;" })
                                                         </td>                                                             
-    <td>
+                                                        <td>
                                                             @Html.TextBoxFor(o => o.DirLst[i].Assessable, new { @id = "txtAssessable" + i, @class = "form-control", style = "width: 80px;" })
                                                         </td>                                                          
-    <td>
+                                                         <td>
                                                             @Html.TextBoxFor(o => o.DirLst[i].TariffId, new { @id = "txtTariffId" + i, @class = "form-control", style = "width: 80px;"} )
                                                         </td>     
 
-
-    <td>
+                                                        <td>
                                                             @Html.TextBoxFor(o => o.DirLst[i].CGSTP, new { @id = "txtCGSTP" + i, @class = "form-control", style = "width: 80px;" , @readonly = "readonly"})
                                                         </td>   
-    <td>
+                                                        <td>
                                                             @Html.TextBoxFor(o => o.DirLst[i].SGSTP, new { @id = "txtSGSTP" + i, @class = "form-control", style = "width: 80px;" , @readonly = "readonly"})
                                                         </td>
                                                         <td>
@@ -255,7 +254,7 @@
                                                         <td>
                                                             @Html.TextBoxFor(o => o.DirLst[i].CGST, new { @id = "txtCGST" + i, @class = "form-control", style = "width: 80px;" , @readonly = "readonly"})
                                                         </td>                                                              
-    <td>
+                                                        <td>
                                                             @Html.TextBoxFor(o => o.DirLst[i].SGST, new { @id = "txtSGST" + i, @class = "form-control", style = "width: 80px;" , @readonly = "readonly"})
                                                         </td>
                                                         <td>
@@ -284,10 +283,6 @@
                                             </div>
                                         </div>
                                    
-                     
-                        
-                 
-
                         <div style="height:30px;"></div>
                         <div class="row">
                             <div class="col-md-6">
@@ -557,21 +552,37 @@
         var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='DirLst[" + index + "].Unit'  style='width: 80px;' type='text'  readonly='True' /></td>";
 
         var ConFac = "<td><input class='form-control' id='txtConFac" + index + "' name='DirLst[" + index + "].ConFac'  style='width: 80px;' type='text'  /></td>";
+       
         var PurType = "<td><input class='form-control' id='txtPurType" + index + "' name='DirLst[" + index + "].PurType'  style='width: 80px;' type='text'   /></td>";
-        var Quantity = "<td><input class='form-control' id='txtQuantity" + index + "' name='DirLst[" + index + "].Quantity'  style='width: 80px;' type='text'    /></td>";
-        var rate = "<td><input class='form-control' id='txtrate" + index + "' name='DirLst[" + index + "].rate'  style='width: 80px;' type='text'    /></td>";
-        var Amount = "<td><input class='form-control' id='txtAmount" + index + "' name='DirLst[" + index + "].Amount'  style='width: 80px;' type='text'    /></td>";
+       
+        var Quantity = "<td><input class='form-control' id='txtQuantity" + index + "' name='DirLst[" + index + "].Quantity'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;text-align:right' type='text' value='0' onchange = 'changeQty(this.value," + index + ")' /></td>";
+       
+        var rate = "<td><input class='form-control' id='txtrate" + index + "' name='DirLst[" + index + "].rate'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;text-align:right' type='text' value='0' readonly='True' /></td>";
+       
+        var Amount = "<td><input class='form-control' id='txtAmount" + index + "' name='DirLst[" + index + "].Amount'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;text-align:right' type='text' value='0' readonly='True' /></td>";
+       
         var Disc = "<td><input class='form-control' id='txtDisc" + index + "' name='DirLst[" + index + "].Disc'  style='width: 80px;' type='text'    /></td>";
+        
         var DiscAmount = "<td><input class='form-control' id='txtDiscAmount" + index + "' name='DirLst[" + index + "].DiscAmount'  style='width: 80px;' type='text'   /></td>";
+        
         var CostRate = "<td><input class='form-control' id='txtCostRate" + index + "' name='DirLst[" + index + "].CostRate'  style='width: 80px;' type='text'    /></td>";
+        
         var Assessable = "<td><input class='form-control' id='txtAssessable" + index + "' name='DirLst[" + index + "].Assessable'  style='width: 80px;' type='text'    /></td>";
+        
         var TariffId = "<td><input class='form-control' id='txtTariffId" + index + "' name='DirLst[" + index + "].TariffId'  style='width: 80px;' type='text'  /></td>";
+        
         var CGSTP = "<td><input class='form-control' id='txtCGSTP" + index + "' name='DirLst[" + index + "].CGSTP'  style='width: 80px;' type='text'  /></td>";
+        
         var SGSTP = "<td><input class='form-control' id='txtSGSTP" + index + "' name='DirLst[" + index + "].SGSTP'  style='width: 80px;' type='text'    /></td>";
+        
         var IGSTP = "<td><input class='form-control' id='txtIGSTP" + index + "' name='DirLst[" + index + "].IGSTP'  style='width: 80px;' type='text'    /></td>";
+        
         var CGST = "<td><input class='form-control' id='txtCGST" + index + "' name='DirLst[" + index + "].CGST'  style='width: 80px;' type='text'    /></td>";
+        
         var SGST = "<td><input class='form-control' id='txtSGST" + index + "' name='DirLst[" + index + "].SGST'  style='width: 80px;' type='text'    /></td>";
+        
         var IGST = "<td><input class='form-control' id='txtIGST" + index + "' name='DirLst[" + index + "].IGST'  style='width: 80px;' type='text'    /></td>";
+        
         var TotalAmount = "<td><input class='form-control' id='txtTotalAmount" + index + "' name='DirLst[" + index + "].TotalAmount'  style='width: 80px;' type='text'    /></td>";
 
 
