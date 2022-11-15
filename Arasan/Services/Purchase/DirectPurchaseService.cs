@@ -5,6 +5,8 @@ using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Security.Cryptography;
+
 namespace Arasan.Services
 {
     public class DirectPurchaseService: IDirectPurchase
@@ -23,7 +25,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select  BRANCHMAST.BRANCHID,PARTYRCODE.PARTY, DOCID,  DOCDATE,VOUCHER, REFDT,LOCID,MAINCURRENCY,DPBASICID from DPBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=DPBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on DPBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH') ORDER BY DPBASICID DESC";
+                    cmd.CommandText = "Select  BRANCHMAST.BRANCHID,PARTYRCODE.PARTY, DOCID,  DOCDATE,VOUCHER, REFDT,LOCID,MAINCURRENCY,GROSS,NET,FREIGHT,OTHERCH,RNDOFF,OTHERDISC,LRCH,DELCH,DPBASICID from DPBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=DPBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on DPBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH') ORDER BY DPBASICID DESC";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -38,8 +40,16 @@ namespace Arasan.Services
                             Voucher = rdr["VOUCHER"].ToString(),
                             RefDate = rdr["REFDT"].ToString(),
                             Location = rdr["LOCID"].ToString(),
-                            Currency = rdr["MAINCURRENCY"].ToString()
-                           
+                            Currency = rdr["MAINCURRENCY"].ToString(),
+                            Gross = rdr["GROSS"].ToString(),
+                            net = rdr["NET"].ToString(),
+                            Frig = rdr["FREIGHT"].ToString(),
+                            Other = rdr["OTHERCH"].ToString(),
+                            Round = rdr["RNDOFF"].ToString(),
+                            SpDisc = rdr["OTHERDISC"].ToString(),
+                            LRCha = rdr["LRCH"].ToString(),
+                            DelCh = rdr["DELCH"].ToString()
+
 
 
                         };
@@ -57,7 +67,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select BRANCHID,PARTYID,DOCID,DOCDATE,VOUCHER,REFDT,LOCID,MAINCURRENCY,DPBASICID  from DPBASIC where DPBASICID=" + eid + "";
+                    cmd.CommandText = "Select BRANCHID,PARTYID,DOCID,DOCDATE,VOUCHER,REFDT,LOCID,MAINCURRENCY,GROSS,NET,FREIGHT,OTHERCH,RNDOFF,OTHERDISC,LRCH,DELCH,DPBASICID  from DPBASIC where DPBASICID=" + eid + "";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -71,7 +81,16 @@ namespace Arasan.Services
                             Voucher = rdr["VOUCHER"].ToString(),
                             RefDate = rdr["REFDT"].ToString(),
                             Location = rdr["LOCID"].ToString(),
-                            Currency = rdr["MAINCURRENCY"].ToString()
+                            Currency = rdr["MAINCURRENCY"].ToString(),
+                            Gross = rdr["GROSS"].ToString(),
+                            net = rdr["NET"].ToString(),
+                            Frig = rdr["FREIGHT"].ToString(),
+                            Other = rdr["OTHERCH"].ToString(),
+                            Round = rdr["RNDOFF"].ToString(),
+                            SpDisc = rdr["OTHERDISC"].ToString(),
+                            LRCha = rdr["LRCH"].ToString(),
+                            DelCh = rdr["DELCH"].ToString()
+
 
                         };
 
@@ -115,13 +134,67 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("REFDT", OracleDbType.NVarchar2).Value = cy.RefDate;
                     objCmd.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = cy.Location;
                     objCmd.Parameters.Add("MAINCURRENCY", OracleDbType.NVarchar2).Value = cy.Currency;
+                    objCmd.Parameters.Add("GROSS", OracleDbType.NVarchar2).Value = cy.Gross;
+                    objCmd.Parameters.Add("NET", OracleDbType.NVarchar2).Value = cy.net;
+                    objCmd.Parameters.Add("FREIGHT", OracleDbType.NVarchar2).Value = cy.Frig;
+                    objCmd.Parameters.Add("OTHERCH", OracleDbType.NVarchar2).Value = cy.Other;
+                    objCmd.Parameters.Add("RNDOFF", OracleDbType.NVarchar2).Value = cy.Round;
+                    objCmd.Parameters.Add("OTHERDISC", OracleDbType.NVarchar2).Value = cy.SpDisc;
+                    objCmd.Parameters.Add("LRCH", OracleDbType.NVarchar2).Value = cy.LRCha;
+                    objCmd.Parameters.Add("DELCH", OracleDbType.NVarchar2).Value = cy.DelCh;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
                     {
-                         objConn.Open();
+                        objConn.Open();
                         objCmd.ExecuteNonQuery();
-                        //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
+                        Object Pid = objCmd.Parameters["OUTID"].Value;
+                        //string Pid = "0";
+                        if (cy.DPId != null)
+                        {
+                            Pid = cy.DPId;
+                        }
+
+
+
+                        foreach (DirItem cp in cy.DirLst)
+                        {
+                            if (cp.Isvalid == "Y" && cp.ItemId != "0")
+                            {
+                                using (OracleConnection objConns = new OracleConnection(_connectionString))
+                                {
+                                    OracleCommand objCmds = new OracleCommand("DPDETAILPROC", objConns);
+                                    if (cy.DPId == null)
+                                    {
+                                        StatementType = "Insert";
+                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                    }
+
+                                    objCmds.CommandType = CommandType.StoredProcedure;
+                                    objCmds.Parameters.Add("DPID", OracleDbType.NVarchar2).Value = Pid;
+                                    objCmds.Parameters.Add("ITEMIDS", OracleDbType.NVarchar2).Value = cp.ItemId;
+                                    objCmds.Parameters.Add("QUANTITY", OracleDbType.NVarchar2).Value = cp.Quantity;
+                                    objCmds.Parameters.Add("UNITP", OracleDbType.NVarchar2).Value = cp.Unit;
+                                    objCmds.Parameters.Add("Rat", OracleDbType.NVarchar2).Value = cp.rate;
+                                    objCmds.Parameters.Add("Amou", OracleDbType.NVarchar2).Value = cp.Amount;
+                                    objCmds.Parameters.Add("TotAmo", OracleDbType.NVarchar2).Value = cp.TotalAmount;
+                                    objCmds.Parameters.Add("Tariff", OracleDbType.NVarchar2).Value = cp.TariffId;
+                                    objCmds.Parameters.Add("Cons", OracleDbType.NVarchar2).Value = cp.ConFac;
+                                    objCmds.Parameters.Add("CostRa", OracleDbType.NVarchar2).Value = cp.CostRate;
+                                    objCmds.Parameters.Add("Discount", OracleDbType.NVarchar2).Value = cp.Disc;
+                                    objCmds.Parameters.Add("DiscountAmo", OracleDbType.NVarchar2).Value = cp.DiscAmount;
+                                    objCmds.Parameters.Add("Assess", OracleDbType.NVarchar2).Value = cp.Assessable;
+                                    objCmds.Parameters.Add("PType", OracleDbType.NVarchar2).Value = cp.PurType;
+                                    objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                                    objConns.Open();
+                                    objCmds.ExecuteNonQuery();
+                                    objConns.Close();
+                                }
+
+
+
+                            }
+                        }
                     }
                     catch (Exception ex)
                     {

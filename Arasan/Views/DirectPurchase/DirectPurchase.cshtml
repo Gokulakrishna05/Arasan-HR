@@ -224,7 +224,7 @@
                                                             @Html.TextBoxFor(o => o.DirLst[i].rate, new { @id = "txtrate" + i, @class = "form-control", style = "width: 80px;",@readonly="readonly",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")" })
                                                         </td>
                                                         <td>
-                                                            @Html.TextBoxFor(o => o.DirLst[i].Amount, new { @id = "txtAmount" + i, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)" })
+                                                            @Html.TextBoxFor(o => o.DirLst[i].Amount, new { @id = "txtAmount" + i, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @readonly = "readonly" })
                                                         </td>                                                             
                                                         <td>
                                                             @Html.TextBoxFor(o => o.DirLst[i].Disc, new { @id = "txtDisc" + i, @class = "form-control", style = "width: 80px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
@@ -290,7 +290,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Special Discount (F)<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="0.00" type="text">
+                                            @Html.TextBoxFor(C => C.SpDisc, new { @id = "txtSpDisc", @class = "form-control", @TabIndex = 2 })
                                     </div>
                                 </div>
                             </div>
@@ -299,7 +299,7 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Frieght<label class="Mandatory"></label></label>
 
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="0.00" type="text">
+                                            @Html.TextBoxFor(C => C.Frig, new { @id = "txtFrig", @class = "form-control", @TabIndex = 2 })
                                     </div>
 
                                 </div>
@@ -312,7 +312,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Delivery Ch.<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="0.00" type="text">
+                                            @Html.TextBoxFor(C => C.DelCh, new { @id = "txtDelCh", @class = "form-control", @TabIndex = 2 })
                                     </div>
                                 </div>
                             </div>
@@ -321,7 +321,7 @@
                                     <label for="inputName3" class="col-sm-4 control-label">3rd Party L.R. Charges<label class="Mandatory"></label></label>
 
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="0.00" type="text">
+                                            @Html.TextBoxFor(C => C.LRCha, new { @id = "txtLRCha", @class = "form-control", @TabIndex = 2 })
                                     </div>
 
                                 </div>
@@ -334,7 +334,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Other Charges<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="0.00" type="text">
+                                            @Html.TextBoxFor(C => C.Other, new { @id = "txtOther", @class = "form-control", @TabIndex = 2 })
                                     </div>
                                 </div>
                             </div>
@@ -343,7 +343,7 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Round Off<label class="Mandatory"></label></label>
 
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="0.00" type="text">
+                                            @Html.TextBoxFor(C => C.Round, new { @id = "txtRound", @class = "form-control", @TabIndex = 2 })
                                     </div>
 
                                 </div>
