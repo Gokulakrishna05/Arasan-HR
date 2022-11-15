@@ -212,6 +212,7 @@
 
                   @*1st atb*@
                 </div>
+                  </div>
                 <div class="tab-pane" id="tab-2">
                  
                     @*2nd tab*@
@@ -221,7 +222,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Stack Account <label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" type="text"><br />
+                                                        @Html.TextBoxFor(C => C.Stock, new { @id = "txtStock", @class = "form-control", @TabIndex = 1 })<br />
                                     </div>
 
                                 </div>
@@ -600,7 +601,7 @@
                    @* 4th tab*@
                 </div>
                 
-              </div>
+            
             </div>
             </div>
         

@@ -34,7 +34,6 @@ namespace Arasan.Controllers
 
         //public IActionResult Login([Bind] LoginViewModel model)
         //{
-
         //    int res = loginService.LoginCheck(model.Username, model.Password);
         //    if (res == 1)
         //    {
@@ -51,11 +50,6 @@ namespace Arasan.Controllers
         [HttpPost]
 
         public IActionResult Login(LoginViewModel model )
-
-        public IActionResult Login(LoginViewModel model)
-        { 
-
-
         { 
             //bool res = loginService.LoginCheck(model.Username, model.Password);
             //if (res == true)
