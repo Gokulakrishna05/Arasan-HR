@@ -24,15 +24,24 @@ namespace Arasan.Controllers.Master
             ca.Iclst = BindItemCategory();
             ca.Isglst = BindItemSubGroup ();
             ca.Hsn = BindHSNcode();
-            if(id == null)
+            List<SupItem> TData = new List<SupItem>();
+            SupItem tda = new SupItem();
+            if (id == null)
+           
             {
-                
+                for (int i = 0; i < 3; i++)
+                {
+                    tda = new SupItem();
+                    tda.Suplst = BindSupplier();
+                    tda.Isvalid = "Y";
+                    TData.Add(tda);
+                }
             }
             else
             {
                 ca = ItemNameService.GetItemNameById(id);
             }
-
+            ca.Suplst = TData;
             return View(ca);
         }
         public List<SelectListItem> BindItemGroup()
@@ -44,6 +53,23 @@ namespace Arasan.Controllers.Master
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["GROUPCODE"].ToString(), Value = dtDesg.Rows[i]["ITEMGROUPID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindSupplier()
+        {
+            try
+            {
+                DataTable dtDesg = ItemNameService.GetSupplier();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTY"].ToString(), Value = dtDesg.Rows[i]["PARTYMASTID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -140,12 +166,18 @@ namespace Arasan.Controllers.Master
                 throw ex;
             }
         }
+        
         public IActionResult ItemList()
         {
 
             IEnumerable<ItemName> sta = ItemNameService.GetAllItemName();
             return View(sta);
         }
-       
+        public JsonResult GetItemGrpJSON()
+        {
+            //EnqItem model = new EnqItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(BindSupplier());
+        }
     }
 }

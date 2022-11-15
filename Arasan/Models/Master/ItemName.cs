@@ -12,6 +12,7 @@ namespace Arasan.Models
             this.Iclst = new List<SelectListItem>();
             this.Isglst = new List<SelectListItem>();
             this.Hsn =  new List<SelectListItem>();
+           
         }
         public List<SelectListItem> IgLst;
         public string ItemGroup { get; set; }
@@ -21,11 +22,13 @@ namespace Arasan.Models
         public string ItemSubGroup { get; set; }
 
         public List<SelectListItem> Isglst;
+        public List<SupItem> Suplst { get; set; }
 
         public string HSNcode { get; set; }
 
         public List<SelectListItem> Hsn;
 
+       
         public string ID { get; set; }
         public string ItemG { get; set; }
         public string ItemSub { get; set; }
@@ -45,5 +48,15 @@ namespace Arasan.Models
         public string Control { get; set; }
 
     }
+    public class SupItem
+    {
 
+        public List<SelectListItem> Suplst { get; set; }
+        public string SupplierPart { get; set; }
+        public string PurchasePrice { get; set; }
+        public string Preforder { get; set; }
+        public string Delivery { get; set; }
+        public string Isvalid { get; set; }
+
+    }
 }

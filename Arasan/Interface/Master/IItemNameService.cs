@@ -15,6 +15,8 @@ namespace Arasan.Interface.Master
         DataTable GetItemCategory();
         DataTable GetItemSubGroup();
         DataTable GetHSNcode();
-        
+        DataTable GetSupplier();
+
+
     }
 }
