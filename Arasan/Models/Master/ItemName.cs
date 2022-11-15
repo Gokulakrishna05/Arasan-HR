@@ -41,8 +41,8 @@ namespace Arasan.Models
         public string Uom { get; set; }
         public string Hcode { get; set; }
         public string Selling { get; set; }
-
-
+        public string Stock { get; set; }
+        public string Control { get; set; }
 
     }
 

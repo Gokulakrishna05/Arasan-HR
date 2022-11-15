@@ -42,8 +42,11 @@
                     <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
                       <thead>
                         <tr>
-                          <th> Item Group</th>
+                          <th>Item Group</th>
                           <th>Sub Group</th>
+                          <th>Item</th>
+                          <th>Item Description</th>
+                          <th>Reorder Qty</th>
                           <th>Edit</th>
                           <th>Delete</th>
                         </tr>
@@ -59,6 +62,9 @@
 
                                                                     <td>@Html.DisplayFor(modelItem => item.ItemG)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.ItemSub)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Item)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.ItemDes)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Reorderqu)</td>
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("ItemName", "ItemName",new { id=item.ID })"></a></div></td>
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("ItemName", "ItemName",new { id=item.ID })"></a></div></td>
                         </tr>

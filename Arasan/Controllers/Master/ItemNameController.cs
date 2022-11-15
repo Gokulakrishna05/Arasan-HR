@@ -26,7 +26,7 @@ namespace Arasan.Controllers.Master
             ca.Hsn = BindHSNcode();
             if(id == null)
             {
-               
+                
             }
             else
             {
