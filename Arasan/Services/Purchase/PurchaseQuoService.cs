@@ -10,7 +10,7 @@ namespace Arasan.Services
     public class PurchaseQuoService : IPurchaseQuo
     {
         private readonly string _connectionString;
-
+        DataTransactions datatrans;
         public PurchaseQuoService(IConfiguration _configuratio)
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
@@ -77,6 +77,16 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetPurQuoteItem(string name)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select PURQUOTDETAIL.QTY,PURQUOTDETAIL.PURQUOTDETAILID,ITEMMASTER.ITEMID,PURQUOTDETAIL.UNIT,UNITMAST.UNITID,PURQUOTDETAIL.Rate from PURQUOTDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PURQUOTDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=PURQUOTDETAIL.UNIT  where PURQUOTDETAIL.PURQUOTBASICID='" + name + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public IEnumerable<PurchaseQuo> GetAllPurQuotation()
         {
             List<PurchaseQuo> cmpList = new List<PurchaseQuo>();
@@ -86,7 +96,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select  BRANCHMAST.BRANCHID, DOCID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE ,PARTYRCODE.PARTY,PURENQ.ENQNO,PURENQ.ENQDATE,PURQUOTBASICID from PURQUOTBASIC LEFT OUTER JOIN PURENQ on PURQUOTBASIC.ENQID=PURENQ.PURENQID LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PURQUOTBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on PURQUOTBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH') ORDER BY PURQUOTBASICID DESC";
+                    cmd.CommandText = "Select  BRANCHMAST.BRANCHID, DOCID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE ,PARTYRCODE.PARTY,PURENQ.ENQNO,PURENQ.ENQDATE,PURQUOTBASICID,PURQUOTBASIC.STATUS from PURQUOTBASIC LEFT OUTER JOIN PURENQ on PURQUOTBASIC.ENQID=PURENQ.PURENQID LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PURQUOTBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on PURQUOTBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH') ORDER BY PURQUOTBASICID DESC";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -97,7 +107,7 @@ namespace Arasan.Services
                             QuoId = rdr["DOCID"].ToString(),
                             DocDate = rdr["DOCDATE"].ToString(),
                             Supplier = rdr["PARTY"].ToString(),
-
+                            status= rdr["STATUS"].ToString(),
                             EnqNo = rdr["ENQNO"].ToString(),
                             EnqDate = rdr["ENQDATE"].ToString()
 
@@ -144,7 +154,7 @@ namespace Arasan.Services
         public DataTable GetPurQuotationByName(string name)
         {
             string SvSql = string.Empty;
-            SvSql = "Select BRANCHID, DOCID,DOCDATE,PARTYID,ENQNO,ENQDATE,PURQUOTBASICID from PURQUOTBASIC where PURQUOTBASICID='" + name + "'";
+            SvSql = "Select  BRANCHMAST.BRANCHID, DOCID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE ,PARTYRCODE.PARTY,PURENQ.ENQNO,to_char(PURENQ.ENQDATE,'dd-MON-yyyy') ENQDATE,PURQUOTBASICID,PURQUOTBASIC.STATUS from PURQUOTBASIC LEFT OUTER JOIN PURENQ on PURQUOTBASIC.ENQID=PURENQ.PURENQID LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PURQUOTBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on PURQUOTBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND PURQUOTBASICID='" + name + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -197,6 +207,93 @@ namespace Arasan.Services
                     }
                     objConn.Close();
                 }
+            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
+        }
+        public string QuotetoPO(string QuoteId)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
+                datatrans = new DataTransactions(_connectionString);
+                DateTime theDate = DateTime.Now;
+                DateTime todate; DateTime fromdate;
+                string t; string f;
+                if (DateTime.Now.Month >= 4)
+                {
+                    todate = theDate.AddYears(1);
+                }
+                else
+                {
+                    todate = theDate;
+                }
+                if (DateTime.Now.Month >= 4)
+                {
+                    fromdate = theDate;
+                }
+                else
+                {
+                    fromdate = theDate.AddYears(-1);
+                }
+                t = todate.ToString("yy");
+                f = fromdate.ToString("yy");
+                string disp = string.Format("{0}-{1}", f, t);
+
+                int idc = datatrans.GetDataId(" SELECT COMMON_TEXT FROM COMMON_MASTER WHERE COMMON_TYPE = 'PO' AND IS_ACTIVE = 'Y'");
+                string PONo = string.Format("{0} - {1} / {2}", "PO", (idc + 1).ToString(), disp);
+
+                string updateCMd = " UPDATE COMMON_MASTER SET COMMON_TEXT ='" + (idc + 1).ToString() + "' WHERE COMMON_TYPE ='PO' AND IS_ACTIVE ='Y'";
+                try
+                {
+                    datatrans.UpdateStatus(updateCMd);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    svSQL = "Insert into POBASIC (PARTYID,BRANCHID,QUOTNO,EXRATE,MAINCURRENCY,DOCID,DOCDATE) (Select PARTYID,BRANCHID,'" + QuoteId + "',EXRATE,MAINCURRENCY,'" + PONo + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "'  from PURQUOTBASIC where PURQUOTBASICID='" + QuoteId + "')";
+                    OracleCommand objCmd = new OracleCommand(svSQL, objConn);
+                    try
+                    {
+                        objConn.Open();
+                        objCmd.ExecuteNonQuery();
+                    }
+                    catch (Exception ex)
+                    {
+                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
+                    }
+                    objConn.Close();
+                }
+
+                string quotid = datatrans.GetDataString("Select POBASICID from POBASIC Where QUOTNO=" + QuoteId + "");
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    string Sql = "Insert into PODETAIL (POBASICID,ITEMID,RATE,QTY,UNIT,CF) (Select '" + quotid + "',ITEMID,RATE,QTY,UNIT,CF FROM PURQUOTDETAIL WHERE PURQUOTBASICID=" + QuoteId + ")";
+                    OracleCommand objCmds = new OracleCommand(Sql, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+                using (OracleConnection objConnE = new OracleConnection(_connectionString))
+                {
+                    string Sql = "UPDATE PURQUOTBASIC SET STATUS='Generated' where PURQUOTBASICID='" + QuoteId + "'";
+                    OracleCommand objCmds = new OracleCommand(Sql, objConnE);
+                    objConnE.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnE.Close();
+                }
+
             }
             catch (Exception ex)
             {

@@ -17,5 +17,7 @@ namespace Arasan.Interface
         IEnumerable<PurchaseQuo> GetAllPurQuotation();
         PurchaseQuo GetPurQuotationById(string id);
         DataTable GetPurQuotationByName(string name);
+        DataTable GetPurQuoteItem(string name);
+        string QuotetoPO(string QuoteId);
     }
 }

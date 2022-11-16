@@ -106,6 +106,79 @@ namespace Arasan.Controllers
         {
             return View();
         }
+        public IActionResult ViewQuote(string id)
+        {
+            PurchaseQuo ca = new PurchaseQuo();
+            DataTable dt = new DataTable();
+            DataTable dtt = new DataTable();
+            dt = PurquoService.GetPurQuotationByName(id);
+            if(dt.Rows.Count > 0)
+            {
+                ca.Supplier = dt.Rows[0]["PARTY"].ToString();
+                ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                ca.QuoId = dt.Rows[0]["DOCID"].ToString();
+                ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
+                ca.EnqNo = dt.Rows[0]["ENQNO"].ToString();
+                ca.EnqDate = dt.Rows[0]["ENQDATE"].ToString();
+                ca.ID= id;
+            }
+            List<QoItem> Data = new List<QoItem>();
+            QoItem tda = new QoItem();
+            double tot = 0;
+            dtt = PurquoService.GetPurQuoteItem(id);
+            if(dtt.Rows.Count > 0)
+            {
+                for (int i = 0; i < dtt.Rows.Count; i++)
+                {
+                    tda = new QoItem();
+                    tda.ItemId= dtt.Rows[i]["ITEMID"].ToString();
+                    tda.Unit = dtt.Rows[i]["UNITID"].ToString();
+                    tda.Quantity = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString());
+                    tda.rate = Convert.ToDouble(dtt.Rows[i]["Rate"].ToString());
+                    tda.TotalAmount = tda.Quantity * tda.rate;
+                    tot += tda.TotalAmount;
+                    Data.Add(tda);
+                }
+            }
+            ca.TotalAmount=tot;
+            ca.QoLst = Data;
+            return View(ca);
+        }
+        [HttpPost]
+        public ActionResult ViewQuote(PurchaseQuo Cy, string id)
+        {
+            try
+            {
+                Cy.ID = id;
+                string Strout = PurquoService.QuotetoPO(Cy.ID);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Cy.ID == null)
+                    {
+                        TempData["notice"] = "PO Generated Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "PO Generated Successfully...!";
+                    }
+                    return RedirectToAction("ListPurchaseQuo");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit PurchaseQuotation";
+                    TempData["notice"] = Strout;
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return RedirectToAction("ListPurchaseQuo");
+        }
         public List<SelectListItem> BindBranch()
         {
             try
