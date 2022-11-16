@@ -51,6 +51,7 @@
                                                             @* <th>Currency</th>*@
                                                             <th>Send Mail</th>
                                                             <th>Followup</th>
+                                                            <th>Generate PO</th>
                                                             <th>Edit</th>
                                                             <th>Delete</th>
                                                         </tr>
@@ -73,8 +74,14 @@
                                                                    
                                                             @* <td>₹</td>*@
                                                             <td><div class="fa-hover col-md-2 col-sm-4"> <a href="#"><img src='../Images/mail_icon.png' alt='Send Email' /></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("PurchaseQuotationFollowup", "PurchaseQuo")"><img src='../Images/followup.png' alt='FollowUp' /> - (1)</a></div></td>
-                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("PurchaseQuotation", "PurchaseQuo",new { id=item.ID })"></a></div></td>
+                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("PurchaseQuotationFollowup", "PurchaseQuo")" ><img src='../Images/followup.png' alt='FollowUp' /> - (1)</a></div></td>
+                                                            @if(item.status == "Generated"){
+                                                                <td><div class="fa-hover col-md-2 col-sm-4"> <img src='../Images/tick.png' alt='Moved to Quote' width='20' /></div></td>
+                                                                 }
+                                                                    else{
+                                                                         <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewQuote", "PurchaseQuo",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20'/></a></div></td>   
+                                                                      }
+                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("PurchaseQuotation", "PurchaseQuo",new { id=item.ID })"></a></div></td>
                                                                     <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("PurchaseQuotation", "PurchaseQuo",new { id=item.ID })"></a></div></td>
                                                         </tr>
                                                                 i++;
@@ -165,3 +172,32 @@
 
     });
 </script>
+<a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+                        <a class="fancyboxe1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+                        <link rel="stylesheet" href="@Url.Content("~/css/jquery.fancybox.css?v=2.1.5")" type="text/css" media="screen" />
+                        <script type="text/javascript" src="@Url.Content("~/css/jquery.fancybox.pack.js?v=2.1.5")"></script>
+                        <script type="text/javascript">
+                            var fancybox123;
+                            jQuery(document).ready(function ($) {
+                                $(".fancybox").fancybox({
+                                    width: '80%',
+                                    height: '10%',
+                                    arrows: false,
+afterClose : function() {
+        location.reload();
+        return;
+    }
+                                });
+                                fancybox123 = $.fancybox;
+                            });
+                           
+                            function close_popup() {
+                                fancybox123.close();
+                                $(".fancybox1").fancybox({
+                                    width: '100%',
+                                    height: '100%',
+                                    arrows: false,
+                                });
+                                $(".fancybox1").eq(0).trigger('click');
+                            }
+                        </script>

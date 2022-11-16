@@ -29,12 +29,13 @@ namespace Arasan.Models
 
         public string DocDate { get; set; }
 
-
+        public string status { get; set; }
 
 
         public string EnqNo { get; set; }
 
         public string EnqDate { get; set; }
+        public double TotalAmount { get; set; }
     }
         public class QoItem
         {
@@ -52,7 +53,8 @@ namespace Arasan.Models
             public double Quantity { get; set; }
 
             public double rate { get; set; }
-            public string Isvalid { get; set; }
+        public double TotalAmount { get; set; }
+        public string Isvalid { get; set; }
 
 
         }
