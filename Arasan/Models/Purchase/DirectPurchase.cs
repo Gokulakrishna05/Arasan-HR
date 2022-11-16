@@ -32,13 +32,14 @@ namespace Arasan.Models
         public string RefNo { get; set; }
         public string RefDate { get; set; }
         public string DocDate { get; set; }
-        public string net { get; set; }
+        public double net { get; set; }
         public string Frig { get; set; }
         public string Other { get; set; }
         public string Round { get; set; }
         public string SpDisc { get; set; }
         public string LRCha { get; set; }
         public string DelCh { get; set; }
+        public string Status { get; set; }
 
 
 
@@ -46,14 +47,14 @@ namespace Arasan.Models
     public class DirItem
     {
         public string ItemId { get; set; }
-      
+        public string saveItemId { get; set; }
         public List<SelectListItem> Itemlst { get; set; }
 
         public List<SelectListItem> ItemGrouplst { get; set; }
 
         public string ItemGroupId { get; set; }
 
-        public double ConFac { get; set; }
+        public string ConFac { get; set; }
         public string Unit { get; set; }
         public string PurType { get; set; }
         public double Quantity { get; set; }
