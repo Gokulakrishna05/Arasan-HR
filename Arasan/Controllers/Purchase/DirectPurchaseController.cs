@@ -40,17 +40,74 @@ namespace Arasan.Controllers
             else
             {
 
-                ca = directPurchase.GetDirectPurById(id);
+                // ca = directPurchase.GetDirectPurById(id);
 
 
+                DataTable dt = new DataTable();
+                double total = 0;
+                dt = directPurchase.GetDirectPurchaseDetails(id);
+                if (dt.Rows.Count > 0)
+                {
+                    ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                    ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
+                    ca.Supplier = dt.Rows[0]["PARTYID"].ToString();
+                    ca.DocNo = dt.Rows[0]["DOCID"].ToString();
+                    ca.DPId = id;
+                    ca.Currency = dt.Rows[0]["MAINCURRENCY"].ToString();
+                    ca.RefDate = dt.Rows[0]["REFDT"].ToString();
+                    ca.Voucher = dt.Rows[0]["VOUCHER"].ToString();
+                    ca.Location = dt.Rows[0]["LOCID"].ToString();
 
-
+                }
+                DataTable dt2 = new DataTable();
+                dt2 = directPurchase.GetDirectPurchaseItemDetails(id);
+                if (dt2.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt2.Rows.Count; i++)
+                    {
+                        tda = new DirItem();
+                        double toaamt = 0;
+                        tda.ItemGrouplst = BindItemGrplst();
+                        DataTable dt3 = new DataTable();
+                        dt3 = directPurchase.GetItemSubGroup(dt2.Rows[i]["ITEMID"].ToString());
+                        if (dt3.Rows.Count > 0)
+                        {
+                            tda.ItemGroupId = dt3.Rows[0]["SUBGROUPCODE"].ToString();
+                        }
+                        tda.Itemlst = BindItemlst(tda.ItemGroupId);
+                        tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
+                        tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
+                        DataTable dt4 = new DataTable();
+                        dt4 = directPurchase.GetItemDetails(tda.ItemId);
+                        if (dt4.Rows.Count > 0)
+                        {
+                            
+                            tda.ConFac = dt4.Rows[0]["CF"].ToString();
+                            tda.rate = Convert.ToDouble(dt4.Rows[0]["RATE"].ToString());
+                        }
+                        tda.Quantity = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
+                        toaamt = tda.rate * tda.Quantity;
+                        total += toaamt;
+                        //tda.QtyPrim= Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
+                        tda.Amount = toaamt;
+                        tda.Unit = dt2.Rows[i]["UNITID"].ToString();
+                        //tda.unitprim= dt2.Rows[i]["UNITID"].ToString();
+                        tda.Isvalid = "Y";
+                        TData.Add(tda);
+                    }
+                }
+                ca.net = Math.Round(total, 2);
+                ca.DirLst = TData;
             }
-            ca.DirLst = TData;
+            
             return View(ca);
 
         }
-
+        public IActionResult DirectPurchaseDetails(string id)
+        {
+            IEnumerable<DirItem> cmp = directPurchase.GetAllDirectPurItem(id);
+            return View(cmp);
+        }
         [HttpPost]
         public ActionResult DirectPurchase(DirectPurchase Cy, string id)
         {

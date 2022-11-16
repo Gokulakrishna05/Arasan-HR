@@ -12,6 +12,7 @@ namespace Arasan.Services
     public class DirectPurchaseService: IDirectPurchase
     {
         private readonly string _connectionString;
+        DataTransactions datatrans;
         public DirectPurchaseService(IConfiguration _configuratio)
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
@@ -42,7 +43,7 @@ namespace Arasan.Services
                             Location = rdr["LOCID"].ToString(),
                             Currency = rdr["MAINCURRENCY"].ToString(),
                             Gross = rdr["GROSS"].ToString(),
-                            net = rdr["NET"].ToString(),
+                           // net = rdr["NET"].ToString(),
                             Frig = rdr["FREIGHT"].ToString(),
                             Other = rdr["OTHERCH"].ToString(),
                             Round = rdr["RNDOFF"].ToString(),
@@ -58,6 +59,71 @@ namespace Arasan.Services
                 }
             }
             return cmpList;
+        }
+        public IEnumerable<DirItem> GetAllDirectPurItem(string id)
+        {
+            List<DirItem> cmpList = new List<DirItem>();
+            using (OracleConnection con = new OracleConnection(_connectionString))
+            {
+
+                using (OracleCommand cmd = con.CreateCommand())
+                {
+                    con.Open();
+                    cmd.CommandText = "Select DPDETAIL.QTY,DPDETAIL.DPDETAILID,ITEMMASTER.ITEMID,UNITMAST.UNITID from DPDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=DPDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  where DPDETAIL.DPBASICID='" + id + "'";
+                    OracleDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        DirItem cmp = new DirItem
+                        {
+                            ItemId = rdr["ITEMID"].ToString(),
+                            Unit = rdr["UNITID"].ToString(),
+                            Quantity = Convert.ToDouble(rdr["QTY"].ToString())
+                        };
+                        cmpList.Add(cmp);
+                    }
+                }
+            }
+            return cmpList;
+        }
+        public DataTable GetDirectPurchaseItemDetails(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select DPDETAIL.QTY,DPDETAIL.DPDETAILID,ITEMMASTER.ITEMID,UNITMAST.UNITID from DPDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=DPDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  where DPDETAIL.DPBASICID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetDirectPurchaseDetails(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select BRANCHID,PARTYID,DOCID,DOCDATE,VOUCHER,REFDT,LOCID,MAINCURRENCY,GROSS,NET,FREIGHT,OTHERCH,RNDOFF,OTHERDISC,LRCH,DELCH,DPBASICID  from DPBASIC where DPBASICID=" + id + "";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetItemSubGrp()
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select SGCODE,ITEMSUBGROUPID FROM ITEMSUBGROUP";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetItemSubGroup(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select ITEMID,SUBGROUPCODE from ITEMMASTER WHERE ITEMMASTERID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
         }
         public DirectPurchase GetDirectPurById(string eid)
         {
@@ -83,13 +149,13 @@ namespace Arasan.Services
                             Location = rdr["LOCID"].ToString(),
                             Currency = rdr["MAINCURRENCY"].ToString(),
                             Gross = rdr["GROSS"].ToString(),
-                            net = rdr["NET"].ToString(),
+                          //  net = rdr["NET"].ToString(),
                             Frig = rdr["FREIGHT"].ToString(),
                             Other = rdr["OTHERCH"].ToString(),
                             Round = rdr["RNDOFF"].ToString(),
                             SpDisc = rdr["OTHERDISC"].ToString(),
                             LRCha = rdr["LRCH"].ToString(),
-                            DelCh = rdr["DELCH"].ToString()
+                            DelCh = rdr["DELCH"].ToString(),
 
 
                         };
@@ -194,6 +260,30 @@ namespace Arasan.Services
 
 
                             }
+                        }
+                        foreach (DirItem cp in cy.DirLst)
+                        {
+                            if (cp.Isvalid == "Y" && cp.saveItemId != "0")
+                            {
+                                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                                {
+                                    string Sql = string.Empty;
+                                    if (StatementType == "Update")
+                                    {
+                                        Sql = "Update DPDETAIL SET  QTY= '" + cp.Quantity + "',RATE= '" + cp.rate + "',CF='" + cp.ConFac + "'  where DPBASICID='" + cy.DPId + "'  AND ITEMID='" + cp.saveItemId + "' ";
+                                    }
+                                    else
+                                    {
+                                        Sql = "";
+                                    }
+                                    OracleCommand objCmds = new OracleCommand(Sql, objConnT);
+                                    objConnT.Open();
+                                    objCmds.ExecuteNonQuery();
+                                    objConnT.Close();
+                                }
+                            }
+
+
                         }
                     }
                     catch (Exception ex)

@@ -52,7 +52,7 @@ namespace Arasan.Controllers
 
        // public IActionResult Login(LoginViewModel model )
 
-        public IActionResult Login(LoginViewModel model)
+        //public IActionResult Login(LoginViewModel model)
        // { 
 
 
