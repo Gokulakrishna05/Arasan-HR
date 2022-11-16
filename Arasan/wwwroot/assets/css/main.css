@@ -1120,8 +1120,9 @@ Tab class
 .tabs-container .nav-tabs > li.active > a, .tabs-container .nav-tabs > li.active > a:hover, .tabs-container .nav-tabs > li.active > a:focus {
     border: 1px solid #e7eaec;
     border-bottom-color: transparent;
-    background-color: #fff;
+    background-color: #49b6d6;
 }
+
 
 .tabs-container .nav-tabs > li {
     float: left;

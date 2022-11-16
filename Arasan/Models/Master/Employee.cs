@@ -24,14 +24,16 @@ namespace Arasan.Models
         public string MotherName { get;set; }
         public string UserName { get; set; }
         public string Password { get; set; }
-
-        public string EducationId { get; set; }
+          
+         //Education Details
+       
         public string Education { get; set; }
         public string College { get; set; }
-
         public string EcPlace { get; set; }
         public string YearPassing { get; set; }
         public int MPercentage { get; set; }
+
+        public string SkillSet { get; set; }
 
 
         public string MaterialStatus { get; set; }
