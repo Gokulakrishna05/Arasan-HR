@@ -165,17 +165,9 @@ namespace Arasan.Services
                     objCmd.CommandText = "PURQUOPROC";*/
 
                     objCmd.CommandType = CommandType.StoredProcedure;
-                    if (cy.ID == null)
-                    {
-                        StatementType = "Insert";
-                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-                    }
-                    else
-                    {
-                        StatementType = "Update";
-                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
-                    }
-
+                   
+                    StatementType = "Update";
+                    objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                     objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
                     objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.QuoId;
                     objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value =cy.DocDate;

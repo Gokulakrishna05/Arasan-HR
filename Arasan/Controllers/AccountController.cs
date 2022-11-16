@@ -50,10 +50,10 @@ namespace Arasan.Controllers
 
         [HttpPost]
 
-        public IActionResult Login(LoginViewModel model )
+       // public IActionResult Login(LoginViewModel model )
 
         public IActionResult Login(LoginViewModel model)
-        { 
+       // { 
 
 
         { 

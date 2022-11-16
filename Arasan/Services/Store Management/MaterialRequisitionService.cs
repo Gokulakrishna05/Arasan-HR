@@ -154,8 +154,10 @@ namespace Arasan.Services
                  // objCmd.Parameters.Add("Trade", OracleDbType.NVarchar2).Value = cy.Trade;
                  // objCmd.Parameters.Add("FlowOrd", OracleDbType.Int64).Value = cy.FlowOrd;
                    objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
-                   try
-                   {
+                    objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
+
+                    try
+                    {
                        objConn.Open();
                        objCmd.ExecuteNonQuery();
                         //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
