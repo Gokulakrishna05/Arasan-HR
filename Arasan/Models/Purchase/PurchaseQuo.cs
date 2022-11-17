@@ -35,7 +35,7 @@ namespace Arasan.Models
         public string EnqNo { get; set; }
 
         public string EnqDate { get; set; }
-        public double TotalAmount { get; set; }
+        public double Net { get; set; }
     }
         public class QoItem
         {
@@ -45,15 +45,16 @@ namespace Arasan.Models
 
         public List<SelectListItem> ItemGrouplst { get; set; }
 
-
+        public string saveItemId { get; set; }
         public string ItemGroupId { get; set; }
         public string Desc { get; set; }
             public string Unit { get; set; }
-
-            public double Quantity { get; set; }
+        public string ConsFa { get; set; }
+        public double Quantity { get; set; }
 
             public double rate { get; set; }
         public double TotalAmount { get; set; }
+    
         public string Isvalid { get; set; }
 
 

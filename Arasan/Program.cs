@@ -53,6 +53,8 @@ internal class Program
         builder.Services.TryAddSingleton<IPurchaseQuo, PurchaseQuoService>();
         builder.Services.TryAddSingleton<IMailService,MailService>();
         builder.Services.TryAddSingleton<IDirectPurchase, DirectPurchaseService>();
+        builder.Services.TryAddSingleton<IStoreIssueConsumables, StoreIssueConsumablesService>();
+        builder.Services.TryAddSingleton<IStoreIssueProduction, StoreIssueProductionService>();
 
         builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         builder.Services.AddSession();
