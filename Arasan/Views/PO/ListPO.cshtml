@@ -1,4 +1,4 @@
-﻿ @model Arasan.Models.PurchaseEnquiry
+﻿ @model IEnumerable<Arasan.Models.PO>
 
 @{
     ViewData["Title"] = "Purchase Order";
@@ -21,16 +21,7 @@
                 <div class="widgets-container">
                   
                     <form>
-  <div class="row">
-                             <div class="col-md-12 "> 
-                                   <div class=" textalignright">
-                                       <a href="@Url.Action("Purchase_Order", "PurchaseEnq")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Purchase Order</a>
-                                     <br>
-                                </div>
-                       
-                       
-                        </div>
-                        </div>
+
 
 <div class="row">
           <div class="col-lg-12">
@@ -44,66 +35,53 @@
                         <tr>
                           <th>Branch</th>
                           <th>Supplier Name</th>
-                          <th>Quotation No.</th>
                           <th>PO No.</th>
                           <th>PO Date</th>
+                          <th>Quotation No.</th>
                           <th>Currency</th>
-                          <th>Send Mail</th>
-                          <th>Followup</th>
+                          <th>Generate PO</th>
+                         <th>Move To GRN</th>
                           <th>Edit</th>
                           <th>Delete</th>
                         </tr>
                       </thead>
                    
                       <tbody>
-                        <tr>
-                          <td>(TAAI)SVK - FACTORY</td>
-                          <td>Supplier 1</td>
-                           <td>QUOT-000001/22-23</td>
-                            <td>PO-000001/22-23</td>
-                          <td>25-Aug-2022</td>
-                          <td>₹</td>
-                           <td><div class="fa-hover col-md-2 col-sm-4"> <a href="#"><img src='../Images/mail_icon.png' alt='Send Email' /></a></div></td>
-                           <td> <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("POFollowup", "PurchaseEnq")"><img src='../Images/followup.png' alt='FollowUp' /> - (1)</a></div></td>
-                          <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Purchase_Order", "PurchaseEnq")"></a></div></td>
-                           <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("Purchase_Order", "PurchaseEnq")"></a></div></td>
-                        </tr>
-                        <tr>
-                          <td>(TAAI)SVK - FACTORY</td>
-                          <td>Supplier 2</td>
-                          <td>QUOT-000002/22-23</td>
-                           <td>PO-000002/22-23</td>
-                          <td>26-Aug-2022</td>
-                          <td>₹</td>
-                          <td><div class="fa-hover col-md-2 col-sm-4"> <a href="#"><img src='../Images/mail2.png' alt='Email Sent' /></a></div></td>
-                           <td> <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("POFollowup", "PurchaseEnq")"><img src='../Images/followup.png' alt='FollowUp' /> - (1)</a></div></td>
-                          <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Purchase_Order", "PurchaseEnq")"></a></div></td>
-                           <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("Purchase_Order", "PurchaseEnq")"></a></div></td>
-                        </tr>
-                         <tr>
-                         <td>(TAAI)SVK - FACTORY</td>
-                          <td>Supplier 1</td>
-                          <td>QUOT-000003/22-23</td>
-                           <td>PO-000003/22-23</td>
-                          <td>09-Sep-2022</td>
-                          <td>₹</td>
-                          <td><div class="fa-hover col-md-2 col-sm-4"> <a href="#"><img src='../Images/mail_icon.png' alt='Send Email' /></a></div></td>
-                           <td> <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("POFollowup", "PurchaseEnq")"><img src='../Images/followup.png' alt='FollowUp' /> - (1)</a></div></td>
-                          <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Purchase_Order", "PurchaseEnq")"></a></div></td>
-                           <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("Purchase_Order", "PurchaseEnq")"></a></div></td>
-                        </tr>
-                          <tr>
-                         <td>(TAAI)SVK - FACTORY</td>
-                          <td>Supplier 3</td>
-                          <td>QUOT-000004/22-23</td>
-                           <td>PO-000004/22-23</td>
-                          <td>12-Sep-2022</td>
-                          <td>₹</td>
-                          <td><div class="fa-hover col-md-2 col-sm-4"> <a href="#"><img src='../Images/mail_icon.png' alt='Send Email' /></a></div></td>
-                           <td> <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("POFollowup", "PurchaseEnq")"><img src='../Images/followup.png' alt='FollowUp' /> - (1)</a></div></td>
-                          <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Purchase_Order", "PurchaseEnq")"></a></div></td>
-                           <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("Purchase_Order", "PurchaseEnq")"></a></div></td>
-                        </tr>
+                            @{
+                                                            int i = 1;
+
+
+                                                            foreach (var item in Model)
+                                                            {
+                                                                
+
+                                <tr>
+                                                                            <td>@Html.DisplayFor(modelItem => item.Branch)</td>
+                                                                            <td>@Html.DisplayFor(modelItem => item.Supplier)</td>
+                                                                            <td><a href="@Url.Action("PODetails", "PO",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'>@Html.DisplayFor(modelItem => item.PONo)</a></td>
+                                                                            <td>@Html.DisplayFor(modelItem => item.POdate)</td>
+                                                                            <td>@Html.DisplayFor(modelItem => item.QuoteNo)</td>
+                                                                            <td>@Html.DisplayFor(modelItem => item.Cur)</td>
+                                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a href="#"><img src='../Images/pdf.png' alt='Generate PO' width='20'/></a></div></td>   
+                                                                               @if(item.Status == "Generated"){
+                                                                <td><div class="fa-hover col-md-2 col-sm-4"> <img src='../Images/tick.png' alt='Moved to Quote' width='20' /></div></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                 }
+                                                                    else{
+                                                                         <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewPO", "PO",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20'/></a></div></td>   
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("PurchaseOrder", "PO",new { id=item.ID })"></a></div></td>
+                                                                    <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("PurchaseOrder", "PO",new { id=item.ID })"></a></div></td>
+                                                                    }
+
+                                                                        
+                                 </tr>
+
+                                                                i++;
+                                                            }
+                                                        }
+                     
+                        
                       </tbody>
                     </table>
                   </div>
@@ -153,3 +131,29 @@
 
         });
                           </script>
+
+                      <a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+                        <a class="fancyboxe1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+                        <link rel="stylesheet" href="@Url.Content("~/css/jquery.fancybox.css?v=2.1.5")" type="text/css" media="screen" />
+                        <script type="text/javascript" src="@Url.Content("~/css/jquery.fancybox.pack.js?v=2.1.5")"></script>
+                        <script type="text/javascript">
+                            var fancybox123;
+                            jQuery(document).ready(function ($) {
+                                $(".fancybox").fancybox({
+                                    width: '80%',
+                                    height: '10%',
+                                    arrows: false,
+
+                                });
+                                fancybox123 = $.fancybox;
+                            });
+                            function close_popup() {
+                                fancybox123.close();
+                                $(".fancybox1").fancybox({
+                                    width: '100%',
+                                    height: '100%',
+                                    arrows: false,
+                                });
+                                $(".fancybox1").eq(0).trigger('click');
+                            }
+                        </script>
