@@ -48,7 +48,7 @@ internal class Program
         builder.Services.TryAddSingleton<IPartyMasterService, PartyMasterService>();
         builder.Services.TryAddSingleton<ILocationService, LocationService>();
         builder.Services.TryAddSingleton<IMaterialRequisition, MaterialRequisitionService>();
-
+        builder.Services.TryAddSingleton<IStoreAccService, StoreAccService>();
         builder.Services.TryAddSingleton<IPurchaseIndent, PurchaseIndentService>();
         builder.Services.TryAddSingleton<IPurchaseQuo, PurchaseQuoService>();
         builder.Services.TryAddSingleton<IMailService,MailService>();
