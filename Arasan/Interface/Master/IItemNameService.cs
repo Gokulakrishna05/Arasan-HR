@@ -9,14 +9,16 @@ namespace Arasan.Interface.Master
     {
         string ItemNameCRUD(ItemName by);
         IEnumerable<ItemName> GetAllItemName();
-        ItemName GetItemNameById(string id);
+        ItemName GetSupplierDetailById(string id);
 
         DataTable GetItemGroup();
         DataTable GetItemCategory();
         DataTable GetItemSubGroup();
         DataTable GetHSNcode();
         DataTable GetSupplier();
-
-
+       
+        string SupplierCRUD(ItemName pf);
+        ItemName GetSupplierById(string id);
+        DataTable GetAllSupplier(string id);
     }
 }

@@ -54,7 +54,7 @@ namespace Arasan.Services.Master
             }
             return staList;
         }
-        public ItemName GetItemNameById(string eid)
+        public ItemName GetSupplierDetailById(string eid)
         {
             ItemName ItemName = new ItemName();
             using (OracleConnection con = new OracleConnection(_connectionString))
@@ -64,8 +64,8 @@ namespace Arasan.Services.Master
                     con.Open();
                     cmd.CommandText = "Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMCODE,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MAXSTOCKLVL,MINSTOCKLVL,CONVERAT,UOM,HSN,SELLINGPRI,ITEMMASTERID from ITEMMASTER where ITEMMASTERID=" + eid + "";
                     OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read()) 
-                    {                                                
+                    while (rdr.Read())
+                    {
                         ItemName sta = new ItemName
                         {
                             ID = rdr["ITEMMASTERID"].ToString(),
@@ -202,7 +202,120 @@ namespace Arasan.Services.Master
             adapter.Fill(dtt);
             return dtt;
         }
+        public IEnumerable<ItemName> GetAllSupplier(string id)
+        {
+            List<ItemName> cmpList = new List<ItemName>();
+            using (OracleConnection con = new OracleConnection(_connectionString))
+            {
 
+                using (OracleCommand cmd = con.CreateCommand())
+                {
+                    con.Open();
+                    cmd.CommandText = "Select SUPPLIERID,SUPPLIERPARTNO,SPURPRICE,DELDAYS,REMARKS,SUPPLIERPARTNOID from SUPPLIERPARTNO";
+                    OracleDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        ItemName cmp = new ItemName
+                        {
+                            ID = rdr["SUPPLIERPARTNOID"].ToString(),
+                            SupName = rdr["SUPPLIERID"].ToString(),
+                            SupPartNo = rdr["SUPPLIERPARTNO"].ToString(),
+                            Price = rdr["SPURPRICE"].ToString(),
+                            Dy = rdr["DELDAYS"].ToString(),
+
+                        };
+                        cmpList.Add(cmp);
+                    }
+                }
+            }
+            return cmpList;
+        }
+        public ItemName GetSupplierById(string eid)
+        {
+            ItemName ItemName = new ItemName();
+            using (OracleConnection con = new OracleConnection(_connectionString))
+            {
+                using (OracleCommand cmd = con.CreateCommand())
+                {
+                    con.Open();
+                    cmd.CommandText = "Select SUPPLIERID,SUPPLIERPARTNO,SPURPRICE,DELDAYS,REMARKS,SUPPLIERPARTNOID  from SUPPLIERPARTNO where SUPPLIERPARTNOID=" + eid + "";
+                    OracleDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        ItemName cmp = new ItemName
+                        {
+                            ID = rdr["SUPPLIERPARTNOID"].ToString(),
+                            SupName = rdr["SUPPLIERID"].ToString(),
+                            SupPartNo = rdr["SUPPLIERPARTNO"].ToString(),
+                            Price = rdr["SPURPRICE"].ToString(),
+                            Dy = rdr["DELDAYS"].ToString(),
+
+
+                        };
+
+                        ItemName = cmp;
+                    }
+                }
+            }
+            return ItemName;
+        }
+        public string SupplierCRUD(ItemName cy)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
+
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    OracleCommand objCmd = new OracleCommand("SUPPLIERPROC", objConn);
+                    /*objCmd.Connection = objConn;
+                    objCmd.CommandText = "SUPPLIERPROC";*/
+
+                    objCmd.CommandType = CommandType.StoredProcedure;
+                    if (cy.ID == null)
+                    {
+                        StatementType = "Insert";
+                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                    }
+                    else
+                    {
+                        StatementType = "Update";
+                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                    }
+
+                    objCmd.Parameters.Add("SUPPLIERID", OracleDbType.NVarchar2).Value = cy.SupName;
+                    objCmd.Parameters.Add("SUPPLIERPARTNO", OracleDbType.NVarchar2).Value = cy.SupPartNo;
+                    objCmd.Parameters.Add("SPURPRICE", OracleDbType.NVarchar2).Value = cy.Price;
+                    objCmd.Parameters.Add("DELDAYS", OracleDbType.NVarchar2).Value = cy.Dy;
+                    objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                    try
+                    {
+                        objConn.Open();
+                        objCmd.ExecuteNonQuery();
+                        //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
+                    }
+                    catch (Exception ex)
+                    {
+                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
+                    }
+
+                    objConn.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
+        }
+
+        DataTable IItemNameService.GetAllSupplier(string id)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }

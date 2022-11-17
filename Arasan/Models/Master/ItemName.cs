@@ -46,8 +46,14 @@ namespace Arasan.Models
         public string Selling { get; set; }
         public string Stock { get; set; }
         public string Control { get; set; }
+        public string SupName { get; set; }
+        public string SupPartNo { get; set; }
+        public string Price { get; set; }
+        public string Dy { get; set; }
 
+        public List<ItemName> pflst { get; set; }
     }
+
     public class SupItem
     {
 

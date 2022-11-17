@@ -39,7 +39,7 @@ namespace Arasan.Controllers.Master
             }
             else
             {
-                ca = ItemNameService.GetItemNameById(id);
+                ca = ItemNameService.GetSupplierDetailById(id);
             }
             ca.Suplst = TData;
             return View(ca);
@@ -179,5 +179,85 @@ namespace Arasan.Controllers.Master
             //  model.ItemGrouplst = BindItemGrplst(value);
             return Json(BindSupplier());
         }
+        public IActionResult SupplierDetail(String id)
+        {
+            ItemName ca = new ItemName();
+            if (id == null)
+            {
+
+            }
+            else
+            {
+                ca = ItemNameService.GetSupplierById(id);
+
+
+            }
+
+            return View(ca);
+        }
+        public IActionResult Supplier(string id)
+        {
+            ItemName cmp = new ItemName();
+            if (!string.IsNullOrEmpty(id))
+            {
+                DataTable dtt = new DataTable();
+                dtt = ItemNameService.GetAllSupplier(id);
+                ItemName tda = new ItemName();
+                List<ItemName> TData = new List<ItemName>();
+                if (dtt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dtt.Rows.Count; i++)
+                    {
+                        tda = new ItemName();
+                        tda.SupName = dtt.Rows[i]["SUPPLIERID"].ToString();
+                        tda.SupPartNo = dtt.Rows[i]["SUPPLIERPARTNO"].ToString();
+                        tda.Price = dtt.Rows[i]["SPURPRICE"].ToString();
+                        tda.Dy = dtt.Rows[i]["DELDAYS"].ToString();
+                        TData.Add(tda);
+                    }
+                }
+                cmp.pflst = TData;
+
+            }
+            //IEnumerable<PurchaseFollowup> cmp = PurenqService.GetAllPurchaseFollowup();
+            return View(cmp);
+        }
+        public ActionResult Supplier(ItemName Pf, string id)
+        {
+
+            try
+            {
+                Pf.ID = id;
+                string Strout = ItemNameService.SupplierCRUD(Pf);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Pf.ID == null)
+                    {
+                        TempData["notice"] = "ItemName Inserted Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "ItemName Updated Successfully...!";
+                    }
+                    return RedirectToAction("ItemName");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit ItemName";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(Pf);
+        }
+
     }
 }
