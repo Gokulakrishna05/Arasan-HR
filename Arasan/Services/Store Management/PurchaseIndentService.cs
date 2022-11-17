@@ -369,7 +369,7 @@ namespace Arasan.Services
                         {
                             string EnquiryQty = "";
                             string Unit = "";
-                           
+
                             DataTable dr = new DataTable();
                             dr = GetIndentItemSuppEnq(itemid);
                             if (dr.Rows.Count > 0)
@@ -382,7 +382,7 @@ namespace Arasan.Services
                                     string Sql = string.Empty;
                                     if (StatementType == "Insert")
                                     {
-                                        Sql = "Insert into PURENQDETAIL (PURENQBASICID,ITEMID,QTY,UNIT) Values ('" + Pid + "','" + itemid + "','" + EnquiryQty + "','" + Unit + "') ";
+                                        Sql = "Insert into PURENQDETAIL (PURENQBASICID,ITEMID,QTY,UNIT) Values ('" + Pid + "','" + itemid + "','" + EnquiryQty + "','" + Unit + "')";
                                     }
                                     else
                                     {
@@ -393,18 +393,20 @@ namespace Arasan.Services
                                     objCmds.ExecuteNonQuery();
                                     objConnT.Close();
                                 }
+                            string EnqId = datatrans.GetDataString("SELECT PURENQDETAIL_seq.currval FROM dual");
                             DataTable dt = new DataTable();
                             dt = GetIndentItembyItemd(itemid);
                             if (dt.Rows.Count > 0)
                             {
                                 for (int i = 0; i < dt.Rows.Count; i++)
                                 {
-                                    bool result = datatrans.UpdateStatus("UPDATE PINDDETAIL SET APPROVED2='YES',APPROVAL2U='SRRAJAN',APP2DT='" + DateTime.Now.ToString("dd-MMM-yyyy") + "' Where PINDDETAILID='" + dt.Rows[i]["PINDDETAILID"].ToString() + "'");
+                                    bool result = datatrans.UpdateStatus("UPDATE PINDDETAIL SET APPROVED2='YES',APPROVAL2U='SRRAJAN',APP2DT='" + DateTime.Now.ToString("dd-MMM-yyyy") + "',PURENQDETAILID='"+ EnqId + "' Where PINDDETAILID='" + dt.Rows[i]["PINDDETAILID"].ToString() + "'");
                                 }
                             }
 
+                           
 
-                        }
+                         }
 
 
 
