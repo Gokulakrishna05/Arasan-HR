@@ -12,6 +12,8 @@ namespace Arasan.Interface
         DataTable GetCurency();
         DataTable GetItem(string value);
         DataTable GetItemGrp();
+        DataTable GetItemCF(string ItemId, string unitid);
+
         DataTable GetItemDetails(string ItemId);
         string PurQuotationCRUD(PurchaseQuo cy);
         IEnumerable<PurchaseQuo> GetAllPurQuotation();
@@ -19,5 +21,10 @@ namespace Arasan.Interface
         DataTable GetPurQuotationByName(string name);
         DataTable GetPurQuoteItem(string name);
         string QuotetoPO(string QuoteId);
+        DataTable GetItemSubGrp();
+        DataTable GetPurchaseQuoDetails(string id);
+        DataTable GetItemSubGroup(string id);
+        DataTable GetPurchaseQuoItemDetails(string id);
+
     }
 }
