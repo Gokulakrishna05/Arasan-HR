@@ -13,8 +13,8 @@ namespace Arasan.Interface.Master
 
         DataTable GetLocation();
         DataTable GetBranch();
-
-
+        DataTable GetItem();
+        DataTable GetStoreAccDetails(string id);
     }
 
 }
