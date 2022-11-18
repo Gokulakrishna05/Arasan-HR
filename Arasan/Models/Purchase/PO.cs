@@ -11,9 +11,20 @@ namespace Arasan.Models
             this.Curlst = new List<SelectListItem>();
             this.RecList = new List<SelectListItem>();
             this.assignList = new List<SelectListItem>();
+            this.desplst = new List<SelectListItem>();
+            this.Paymenttermslst = new List<SelectListItem>();
+            this.deltermlst = new List<SelectListItem>();
+            this.warrantytermslst = new List<SelectListItem>();
         }
         public List<SelectListItem> Brlst;
-
+        public List<SelectListItem> desplst;
+        public List<SelectListItem> Paymenttermslst;
+        public List<SelectListItem> deltermlst;
+        public List<SelectListItem> warrantytermslst;
+        public string desp { get; set; }
+        public string Paymentterms { get; set; }
+        public string delterms { get; set; }
+        public string warrantyterms { get; set; }
         public string ID { get; set; }
         public string Branch { get; set; }
 
@@ -48,6 +59,20 @@ namespace Arasan.Models
         public double Gross { get; set; }
         public double Net { get; set; }
 
+        public double Frieghtcharge { get; set; }
+        public double Packingcharges { get; set; }
+        public double Othercharges { get; set; }
+        public double Round { get; set; }
+        public string  Narration { get; set; }
+        public string Fax { get; set; }
+
+        public string PhoneNo { get; set; }
+        public string DespatchAddr { get; set; }
+        public double Roundminus { get; set; }
+        public double otherdeduction { get; set; }
+        public string POID { get; set; }
+        public string RefNo { get; set; }
+        public string RefDate { get; set; }
     }
 
     public class POItemlst
