@@ -1,4 +1,4 @@
-﻿@model Arasan.Models.StoreIssueConsumables
+﻿@model IEnumerable<Arasan.Models.StoreIssueConsumables>
 
 @{
     ViewData["Title"] = "Stores Issuse Consumbables";
@@ -41,6 +41,7 @@
                                             <div>
                                                 <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
                                                     <thead>
+
                                                         <tr>
                                                             <th>Branch</th>
           
@@ -56,18 +57,28 @@
                                                     </thead>
 
                                                     <tbody>
+                                                         @{
+                                                            int i = 1;
+
+
+                                                            foreach (var item in Model)
+                                                            {
                                                         <tr>
-                                                            <td>(TAAI)SVK - FACTORY</td>
-                                                            <td>Supplier 1</td>
-                                                            <td>QUOT-000001/22-23</td>
-                                                            <td>PO-000001/22-23</td>
-                                                            <td>25-Aug-2022</td>
-                                                           
-@*                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a href="#"><img src='../Images/mail_icon.png' alt='Send Email' /></a></div></td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Branch)</td>
+                                                                            <td>@Html.DisplayFor(modelItem => item.DocNo)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.ReqNo)</td>
+                                                                            <td>@Html.DisplayFor(modelItem => item.DocDate)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Process)</td>
+
+                                                                    @* <td><div class="fa-hover col-md-2 col-sm-4"> <a href="#"><img src='../Images/mail_icon.png' alt='Send Email' /></a></div></td>
                                                             <td> <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("POFollowup", "PurchaseEnq")"><img src='../Images/followup.png' alt='FollowUp' /> - (1)</a></div></td>
-                                                            *@<td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Purchase_Order", "PurchaseEnq")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("Purchase_Order", "PurchaseEnq")"></a></div></td>
+                                                            *@
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("StoreIssueCons", "StoreIssueConsumables",new { id=item.SIId })"></a></div></td>
+                                                                    <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("StoreIssueCons", "StoreIssueConsumables",new { id=item.SIId })"></a></div></td>
                                                         </tr>
+                                                                i++;
+                                                            }
+                                                        }
                                                        @* <tr>
                                                             <td>(TAAI)SVK - FACTORY</td>
                                                             <td>Supplier 2</td>
