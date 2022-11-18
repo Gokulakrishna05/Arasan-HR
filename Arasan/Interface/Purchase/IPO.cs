@@ -11,5 +11,6 @@ namespace Arasan.Interface
         DataTable GetPOItembyID(string Poid);
         DataTable EditPObyID(string Poid);
         DataTable GetPOItemDetails(string Poid);
+        string PurOrderCRUD(PO Cy);
     }
 }
