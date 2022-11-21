@@ -51,7 +51,7 @@ namespace Arasan.Controllers.Store_Management
                     st.Retno = dt.Rows[0]["RETNO"].ToString();
                     st.Retdate = dt.Rows[0]["RETDATE"].ToString();
                     st.Narr = dt.Rows[0]["NARRATION"].ToString();
-                    
+
 
                 }
 
@@ -155,7 +155,7 @@ namespace Arasan.Controllers.Store_Management
         public JsonResult GetItemJSON(string itemid)
         {
             StoreAcc model = new StoreAcc();
-           // model.Itlst = BindItem();
+            // model.Itlst = BindItem();
             return Json(BindItem());
         }
     }

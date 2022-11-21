@@ -18,4 +18,3 @@ namespace Arasan.Interface.Master
     }
 
 }
-
