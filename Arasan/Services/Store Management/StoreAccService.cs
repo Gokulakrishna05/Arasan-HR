@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections;
 using Oracle.ManagedDataAccess.Client;
 using System.Data;
+using System.Security.Cryptography;
 
 namespace Arasan.Interface.Master
 {
@@ -22,13 +23,15 @@ namespace Arasan.Interface.Master
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select DOCID,DOCDATE,REFNO,REFDATE,RETNO,RETDATE,NARRATION,STORESACCBASICID from STORESACCBASIC";
+                    cmd.CommandText = "Select BRANCHID,LOCATIONID,DOCID,DOCDATE,REFNO,REFDATE,RETNO,RETDATE,NARRATION,STORESACCBASICID from STORESACCBASIC";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
                         StoreAcc sta = new StoreAcc
                         {
                             ID = rdr["STORESACCBASICID"].ToString(),
+                            Branch = rdr["BRANCHID"].ToString(),
+                            Location = rdr["LOCATIONID"].ToString(),
                             Docid = rdr["DOCID"].ToString(),
                             Docdate = rdr["DOCDATE"].ToString(),
                             Refno = rdr["REFNO"].ToString(),
@@ -53,7 +56,7 @@ namespace Arasan.Interface.Master
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select DOCID,DOCDATE,REFNO,REFDATE,RETNO,RETDATE,NARRATION,STORESACCBASICID  from STORESACCBASIC where STORESACCBASICID=" + eid + "";
+                    cmd.CommandText = "Select BRANCHID,LOCATIONID,DOCID,DOCDATE,REFNO,REFDATE,RETNO,RETDATE,NARRATION,STORESACCBASICID  from STORESACCBASIC where STORESACCBASICID=" + eid + "";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -61,6 +64,8 @@ namespace Arasan.Interface.Master
                         {
 
                             ID = rdr["STORESACCBASICID"].ToString(),
+                            Branch = rdr["BRANCHID"].ToString(),
+                            Location = rdr["LOCATIONID"].ToString(),
                             Docid = rdr["DOCID"].ToString(),
                             Docdate = rdr["DOCDATE"].ToString(),
                             Refno = rdr["REFNO"].ToString(),
@@ -101,7 +106,8 @@ namespace Arasan.Interface.Master
                         StatementType = "Update";
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = ss.ID;
                     }
-
+                    objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = ss.Branch;
+                    objCmd.Parameters.Add("LOCATIONID", OracleDbType.NVarchar2).Value = ss.Location;
                     objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = ss.Docid;
                     objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = ss.Docdate;
                     objCmd.Parameters.Add("REFNO", OracleDbType.NVarchar2).Value = ss.Refno;
@@ -132,7 +138,16 @@ namespace Arasan.Interface.Master
             return msg;
         }
 
-
+        public DataTable GetStoreAccDetails(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select BRANCHID,LOCATIONID,DOCID,DOCDATE,REFNO,REFDATE,RETNO,RETDATE,NARRATION,STORESACCBASICID  from STORESACCBASIC where STORESACCBASICID=" + id + "";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetBranch()
         {
             string SvSql = string.Empty;
@@ -153,7 +168,17 @@ namespace Arasan.Interface.Master
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetItem()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select ITEMID,ITEMMASTERID from ITEMMASTER WHERE  ACTIVE='Y'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
 
-       
+
     }
 }

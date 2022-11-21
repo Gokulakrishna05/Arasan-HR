@@ -23,7 +23,22 @@ namespace Arasan.Models
 
         public List<SelectListItem> Loc;
         public string Location { get; set; }
-       
+        public List<StoItem> Itlst { get; set; }
+    }
+    public class StoItem
+    {
+        public List<SelectListItem> Itlst { get; set; }
+        public string Isvalid { get; set; }
+        public string Unit { get; set; }
+        public string FromBinID { get; set; }
+        public string ToBinID { get; set; }
+        public string Batch { get; set; }
+        public string Serial { get; set; }
+        public string PendQty { get; set; }
+        public string RetQty { get; set; }
+        public string RejQty { get; set; }
+        public string AccQty { get; set; }
+        public string Rate { get; set; }
     }
 
 }

@@ -1,4 +1,5 @@
-﻿using Arasan.Interface.Master;
+﻿using Arasan.Interface;
+using Arasan.Interface.Master;
 using Arasan.Models;
 using Arasan.Services;
 using Arasan.Services.Master;
@@ -20,15 +21,42 @@ namespace Arasan.Controllers.Store_Management
             StoreAcc st = new StoreAcc();
             st.Loc = BindLocation();
             st.Brlst = BindBranch();
+            List<StoItem> TData = new List<StoItem>();
+            StoItem tda = new StoItem();
             if (id == null)
             {
-
+                for (int i = 0; i < 3; i++)
+                {
+                    tda = new StoItem();
+                    tda.Itlst = BindItem();
+                    tda.Isvalid = "Y";
+                    TData.Add(tda);
+                }
             }
             else
             {
-                st = StoreAccService.GetStoreAccById(id);
+                //st = StoreAccService.GetStoreAccById(id);
+
+                DataTable dt = new DataTable();
+                dt = StoreAccService.GetStoreAccDetails(id);
+                if (dt.Rows.Count > 0)
+                {
+                    st.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                    st.Location = dt.Rows[0]["LOCATIONID"].ToString();
+                    st.Docid = dt.Rows[0]["DOCID"].ToString();
+                    st.Docdate = dt.Rows[0]["DOCDATE"].ToString();
+                    st.Refno = dt.Rows[0]["REFNO"].ToString();
+                    st.Refdate = dt.Rows[0]["REFDATE"].ToString();
+                    st.ID = id;
+                    st.Retno = dt.Rows[0]["RETNO"].ToString();
+                    st.Retdate = dt.Rows[0]["RETDATE"].ToString();
+                    st.Narr = dt.Rows[0]["NARRATION"].ToString();
+
+
+                }
 
             }
+            st.Itlst = TData;
             return View(st);
         }
         [HttpPost]
@@ -90,6 +118,23 @@ namespace Arasan.Controllers.Store_Management
                 throw ex;
             }
         }
+        public List<SelectListItem> BindItem()
+        {
+            try
+            {
+                DataTable dtDesg = StoreAccService.GetItem();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEMMASTERID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<SelectListItem> BindBranch()
         {
             try
@@ -106,6 +151,12 @@ namespace Arasan.Controllers.Store_Management
             {
                 throw ex;
             }
+        }
+        public JsonResult GetItemJSON(string itemid)
+        {
+            StoreAcc model = new StoreAcc();
+            // model.Itlst = BindItem();
+            return Json(BindItem());
         }
     }
 }

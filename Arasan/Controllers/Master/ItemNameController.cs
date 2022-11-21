@@ -40,6 +40,8 @@ namespace Arasan.Controllers.Master
             else
             {
                 ca = ItemNameService.GetSupplierDetailById(id);
+
+
             }
             ca.Suplst = TData;
             return View(ca);
@@ -190,7 +192,7 @@ namespace Arasan.Controllers.Master
             {
                 ca = ItemNameService.GetSupplierById(id);
 
-
+               
             }
 
             return View(ca);
