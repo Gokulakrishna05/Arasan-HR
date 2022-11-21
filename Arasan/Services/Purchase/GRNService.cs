@@ -5,37 +5,37 @@ using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Data;
-
 namespace Arasan.Services
 {
-    public class POService : IPO
+    public class GRNService : IGRN
     {
         private readonly string _connectionString;
         DataTransactions datatrans;
-        public POService(IConfiguration _configuratio)
+        public GRNService(IConfiguration _configuratio)
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
         }
-        public IEnumerable<PO> GetAllPO()
+
+        public IEnumerable<GRN> GetAllGRN()
         {
-            List<PO> cmpList = new List<PO>();
+            List<GRN> cmpList = new List<GRN>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
 
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,POBASIC.DOCID,to_char(POBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,POBASIC.EXRATE,CURRENCY.MAINCURR,PARTYRCODE.PARTY,POBASICID,POBASIC.STATUS,PURQUOTBASIC.DOCID as Quotno from POBASIC LEFT OUTER JOIN PURQUOTBASIC ON PURQUOTBASIC.PURQUOTBASICID=POBASIC.QUOTNO LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=POBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on POBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=POBASIC.MAINCURRENCY LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH') ORDER BY POBASIC.POBASICID DESC";
+                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,GRNBLBASIC.DOCID,to_char(GRNBLBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,GRNBLBASIC.EXRATE,CURRENCY.MAINCURR,PARTYRCODE.PARTY,GRNBLBASIC.GRNBLBASICID,GRNBLBASIC.STATUS,POBASIC.DOCID as PONO from GRNBLBASIC LEFT OUTER JOIN POBASIC ON POBASIC.POBASICID=GRNBLBASIC.POBASICID LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=GRNBLBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on POBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=GRNBLBASIC.MAINCURRENCY LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH') ORDER BY GRNBLBASIC.GRNBLBASICID DESC";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
-                        PO cmp = new PO
+                        GRN cmp = new GRN
                         {
-                            ID = rdr["POBASICID"].ToString(),
+                            ID = rdr["GRNBLBASICID"].ToString(),
                             Branch = rdr["BRANCHID"].ToString(),
-                            QuoteNo = rdr["Quotno"].ToString(),
-                            PONo = rdr["DOCID"].ToString(),
-                            POdate = rdr["DOCDATE"].ToString(),
+                            PONo = rdr["PONO"].ToString(),
+                            GRNNo = rdr["DOCID"].ToString(),
+                            GRNdate = rdr["DOCDATE"].ToString(),
                             ExRate = rdr["EXRATE"].ToString(),
                             Cur = rdr["MAINCURR"].ToString(),
                             Supplier = rdr["PARTY"].ToString(),
@@ -48,7 +48,7 @@ namespace Arasan.Services
             }
             return cmpList;
         }
-        public IEnumerable<POItem> GetAllPOItem(string id)
+        public IEnumerable<POItem> GetAllGRNItem(string id)
         {
             List<POItem> cmpList = new List<POItem>();
             using (OracleConnection con = new OracleConnection(_connectionString))
@@ -74,7 +74,7 @@ namespace Arasan.Services
             return cmpList;
         }
 
-        public DataTable GetPObyID(string name)
+        public DataTable GetGRNbyID(string name)
         {
             string SvSql = string.Empty;
             SvSql = "Select BRANCHMAST.BRANCHID,POBASIC.DOCID,to_char(POBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,POBASIC.EXRATE,CURRENCY.MAINCURR,PARTYRCODE.PARTY,POBASICID,POBASIC.STATUS,PURQUOTBASIC.DOCID as Quotno,to_char(PURQUOTBASIC.DOCDATE,'dd-MON-yyyy') Quotedate,PACKING_CHRAGES,OTHER_CHARGES,OTHER_DEDUCTION,ROUND_OFF_PLUS,ROUND_OFF_MINUS,POBASIC.FREIGHT,POBASIC.GROSS,POBASIC.NET from POBASIC LEFT OUTER JOIN PURQUOTBASIC ON PURQUOTBASIC.PURQUOTBASICID=POBASIC.QUOTNO LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=POBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on POBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=POBASIC.MAINCURRENCY LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND POBASIC.POBASICID='" + name + "'";
@@ -84,126 +84,28 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-
-        public DataTable EditPObyID(string name)
+        public DataTable EditGRNbyID(string name)
         {
             string SvSql = string.Empty;
-            SvSql = "Select POBASIC.BRANCHID,POBASIC.DOCID,to_char(POBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,POBASIC.EXRATE,POBASIC.MAINCURRENCY,POBASIC.PARTYID,POBASICID,POBASIC.STATUS,PURQUOTBASIC.DOCID as Quotno,to_char(PURQUOTBASIC.DOCDATE,'dd-MON-yyyy') Quotedate,PACKING_CHRAGES,OTHER_CHARGES,OTHER_DEDUCTION,ROUND_OFF_PLUS,ROUND_OFF_MINUS,NARRATION,PAYTERMS,DELTERMS,DESP,WARRTERMS,POBASIC.REFNO,to_char(POBASIC.REFDT,'dd-MON-yyyy') REFDT,POBASIC.FREIGHT,POBASIC.GROSS,POBASIC.NET from POBASIC LEFT OUTER JOIN PURQUOTBASIC ON PURQUOTBASIC.PURQUOTBASICID=POBASIC.QUOTNO  Where  POBASIC.POBASICID='" + name + "'";
+            SvSql = "Select GRNBLBASIC.BRANCHID,GRNBLBASIC.DOCID,to_char(GRNBLBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,GRNBLBASIC.EXRATE,GRNBLBASIC.MAINCURRENCY,GRNBLBASIC.PARTYID,GRNBLBASICID,GRNBLBASIC.STATUS,POBASIC.DOCID as PONO,to_char(POBASIC.DOCDATE,'dd-MON-yyyy') PODate,GRNBLBASIC.PACKING_CHRAGES,GRNBLBASIC.OTHER_CHARGES,GRNBLBASIC.OTHER_DEDUCTION,GRNBLBASIC.ROUND_OFF_PLUS,GRNBLBASIC.ROUND_OFF_MINUS,GRNBLBASIC.NARRATION,GRNBLBASIC.REFNO,to_char(GRNBLBASIC.REFDT,'dd-MON-yyyy') REFDT,GRNBLBASIC.FREIGHT,GRNBLBASIC.GROSS,GRNBLBASIC.NET from GRNBLBASIC LEFT OUTER JOIN POBASIC ON POBASIC.POBASICID=GRNBLBASIC.POBASICID  Where  GRNBLBASIC.GRNBLBASICID='" + name + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetPOItembyID(string name)
+        public DataTable GetGRNItembyID(string name)
         {
             string SvSql = string.Empty;
-            SvSql = "Select PODETAIL.QTY,PODETAIL.PODETAILID,ITEMMASTER.ITEMID,UNITMAST.UNITID,PODETAIL.RATE,CGSTPER,CGSTAMT,SGSTPER,SGSTAMT,IGSTPER,IGSTAMT,TOTALAMT,DISCPER,DISCAMT,FREIGHTCHGS,PURTYPE,to_char(DUEDATE,'dd-MON-yyyy') DUEDATE from PODETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PODETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  where PODETAIL.POBASICID='" + name + "'";
+            SvSql = "Select GRNBLDETAIL.QTY,GRNBLDETAIL.GRNBLBASICID,GRNBLDETAIL.ITEMID,UNITMAST.UNITID,GRNBLDETAIL.RATE,CGSTPER,CGSTAMT,SGSTPER,SGSTAMT,IGSTPER,IGSTAMT,TOTAMT,DISCPER,DISC,PURTYPE from GRNBLDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=GRNBLDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  where GRNBLDETAIL.GRNBLBASICID='" + name + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetPOItemDetails(string name)
-        {
-            string SvSql = string.Empty;
-            SvSql = "Select PODETAIL.QTY,PODETAIL.PODETAILID,PODETAIL.ITEMID,UNITMAST.UNITID,PODETAIL.RATE,CGSTPER,CGSTAMT,SGSTPER,SGSTAMT,IGSTPER,IGSTAMT,TOTALAMT,DISCPER,DISCAMT,FREIGHTCHGS,PURTYPE,to_char(DUEDATE,'dd-MON-yyyy') DUEDATE from PODETAIL LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=PODETAIL.UNIT  where PODETAIL.POBASICID='" + name + "'";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
-        public string POtoGRN(string POID)
-        {
-            string msg = "";
-            try
-            {
-                string StatementType = string.Empty; string svSQL = "";
-                datatrans = new DataTransactions(_connectionString);
-                DateTime theDate = DateTime.Now;
-                DateTime todate; DateTime fromdate;
-                string t; string f;
-                if (DateTime.Now.Month >= 4)
-                {
-                    todate = theDate.AddYears(1);
-                }
-                else
-                {
-                    todate = theDate;
-                }
-                if (DateTime.Now.Month >= 4)
-                {
-                    fromdate = theDate;
-                }
-                else
-                {
-                    fromdate = theDate.AddYears(-1);
-                }
-                t = todate.ToString("yy");
-                f = fromdate.ToString("yy");
-                string disp = string.Format("{0}-{1}", f, t);
 
-                int idc = datatrans.GetDataId(" SELECT COMMON_TEXT FROM COMMON_MASTER WHERE COMMON_TYPE = 'GRN' AND IS_ACTIVE = 'Y'");
-                string PONo = string.Format("{0} - {1} / {2}", "GRN", (idc + 1).ToString(), disp);
-
-                string updateCMd = " UPDATE COMMON_MASTER SET COMMON_TEXT ='" + (idc + 1).ToString() + "' WHERE COMMON_TYPE ='GRN' AND IS_ACTIVE ='Y'";
-                try
-                {
-                    datatrans.UpdateStatus(updateCMd);
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-
-                using (OracleConnection objConn = new OracleConnection(_connectionString))
-                {
-                    svSQL = "Insert into GRNBLBASIC (PARTYID,BRANCHID,POBASICID,EXRATE,MAINCURRENCY,DOCID,DOCDATE,PACKING_CHRAGES,OTHER_CHARGES,OTHER_DEDUCTION,ROUND_OFF_PLUS,ROUND_OFF_MINUS,FREIGHT,GROSS,NET) (Select PARTYID,BRANCHID,'" + POID + "',EXRATE,MAINCURRENCY,'" + PONo + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "',PACKING_CHRAGES,OTHER_CHARGES,OTHER_DEDUCTION,ROUND_OFF_PLUS,ROUND_OFF_MINUS,FREIGHT,GROSS,NET  from POBASIC where POBASICID='" + POID + "')";
-                    OracleCommand objCmd = new OracleCommand(svSQL, objConn);
-                    try
-                    {
-                        objConn.Open();
-                        objCmd.ExecuteNonQuery();
-                    }
-                    catch (Exception ex)
-                    {
-                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
-                    }
-                    objConn.Close();
-                }
-
-                string quotid = datatrans.GetDataString("Select GRNBLBASICID from GRNBLBASIC Where POBASICID=" + POID + "");
-                using (OracleConnection objConnT = new OracleConnection(_connectionString))
-                {
-                    string Sql = "Insert into GRNBLDETAIL (GRNBLBASICID,ITEMID,RATE,QTY,UNIT,AMOUNT,CF,CGSTPER,CGSTAMT,SGSTPER,SGSTAMT,IGSTPER,IGSTAMT,TOTAMT,DISCPER,DISC,PURTYPE) (Select '" + quotid + "',ITEMID,RATE,QTY,UNIT,AMOUNT,CF,CGSTPER,CGSTAMT,SGSTPER,SGSTAMT,IGSTPER,IGSTAMT,TOTALAMT,DISCPER,DISCAMT,PURTYPE FROM PODETAIL WHERE POBASICID=" + POID + ")";
-                    OracleCommand objCmds = new OracleCommand(Sql, objConnT);
-                    objConnT.Open();
-                    objCmds.ExecuteNonQuery();
-                    objConnT.Close();
-                }
-
-                using (OracleConnection objConnE = new OracleConnection(_connectionString))
-                {
-                    string Sql = "UPDATE POBASIC SET STATUS='Generated' where POBASICID='" + POID + "'";
-                    OracleCommand objCmds = new OracleCommand(Sql, objConnE);
-                    objConnE.Open();
-                    objCmds.ExecuteNonQuery();
-                    objConnE.Close();
-                }
-
-            }
-            catch (Exception ex)
-            {
-                msg = "Error Occurs, While inserting / updating Data";
-                throw ex;
-            }
-
-            return msg;
-        }
-
-        public string PurOrderCRUD(PO cy)
+        public string GRNCRUD(GRN cy)
         {
             string msg = "";
             try
@@ -213,7 +115,7 @@ namespace Arasan.Services
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("POPROC", objConn);
-                   
+
                     objCmd.CommandType = CommandType.StoredProcedure;
                     if (cy.POID == null)
                     {
@@ -289,7 +191,6 @@ namespace Arasan.Services
 
             return msg;
         }
-
 
     }
 }
