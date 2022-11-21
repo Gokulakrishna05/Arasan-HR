@@ -18,6 +18,8 @@ namespace Arasan.Controllers
         {
             PurquoService = _PurquoService;
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
+            datatrans = new DataTransactions(_connectionString);
+
         }
         public IActionResult PurchaseQuotation(string id)
         {
