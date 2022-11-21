@@ -6,6 +6,9 @@ using Arasan.Services.Master;
 using Arasan.Interface.Production;
 using Arasan.Services.Production;
 using Arasan.Models;
+using Arasan.Models.Store_Management;
+using Arasan.Interface.Store_Management;
+using Arasan.Services.Store_Management;
 //using Arasan.Services.Store_Management;
 
 
@@ -56,8 +59,8 @@ internal class Program
         builder.Services.TryAddSingleton<IDirectPurchase, DirectPurchaseService>();
         builder.Services.TryAddSingleton<IStoreIssueConsumables, StoreIssueConsumablesService>();
         builder.Services.TryAddSingleton<IStoreIssueProduction, StoreIssueProductionService>();
-
-        builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+        builder.Services.TryAddSingleton<IStoreIssueProduction, StoreIssueProductionService>();
+        builder.Services.TryAddSingleton<IDirectAddition, DirectAdditionService>();
         builder.Services.AddSession();
         var emailConfig = builder.Configuration.GetSection("MailSettings").Get<MailSettings>();
         builder.Services.TryAddSingleton(emailConfig);
