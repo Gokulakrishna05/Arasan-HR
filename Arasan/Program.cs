@@ -38,6 +38,7 @@ internal class Program
         builder.Services.TryAddSingleton<IItemNameService, ItemNameService>();
         builder.Services.TryAddSingleton<IItemCategoryService,ItemCategoryService>();
         builder.Services.TryAddSingleton<IPO, POService>();
+        builder.Services.TryAddSingleton<IGRN, GRNService>();
         builder.Services.TryAddSingleton<ICountryService, CountryService>();
         builder.Services.TryAddSingleton<IStateService, StateService>();
         builder.Services.TryAddSingleton<ICurrencyService, CurrencyService>();

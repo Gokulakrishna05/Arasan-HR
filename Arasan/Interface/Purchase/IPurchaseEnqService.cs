@@ -9,8 +9,7 @@ public interface IPurchaseEnqService
         DataTable GetSupplier();
         DataTable GetCurency();
         DataTable GetItem(string value);
-
-
+        DataTable GetPurchaseEnqByID(string id);
         DataTable GetItemGrp();
         DataTable GetEmp();
         DataTable GetItemDetails(string ItemId);

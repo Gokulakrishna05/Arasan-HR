@@ -120,6 +120,44 @@ namespace Arasan.Controllers
             return View(ca);
 
         }
+        public IActionResult ViewEnq(string id)
+        {
+            PurchaseQuo ca = new PurchaseQuo();
+            DataTable dt = new DataTable();
+            DataTable dtt = new DataTable();
+            dt = PurenqService.GetPurchaseEnqByID(id);
+            if (dt.Rows.Count > 0)
+            {
+                ca.Supplier = dt.Rows[0]["PARTY"].ToString();
+                ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                //ca.QuoId = dt.Rows[0]["DOCID"].ToString();
+                //ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
+                ca.EnqNo = dt.Rows[0]["ENQNO"].ToString();
+                ca.EnqDate = dt.Rows[0]["ENQDATE"].ToString();
+                ca.ID = id;
+            }
+            List<QoItem> Data = new List<QoItem>();
+            QoItem tda = new QoItem();
+            double tot = 0;
+            dtt = PurenqService.GetPurchaseEnqItemDetails(id);
+            if (dtt.Rows.Count > 0)
+            {
+                for (int i = 0; i < dtt.Rows.Count; i++)
+                {
+                    tda = new QoItem();
+                    tda.ItemId = dtt.Rows[i]["ITEMNAME"].ToString();
+                    tda.Unit = dtt.Rows[i]["UNITID"].ToString();
+                    tda.Quantity = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString());
+                    tda.rate = Convert.ToDouble(dtt.Rows[i]["Rate"].ToString() == "" ? "0" : dtt.Rows[i]["Rate"].ToString());
+                    tda.TotalAmount = tda.Quantity * tda.rate;
+                    tot += tda.TotalAmount;
+                    Data.Add(tda);
+                }
+            }
+            ca.Net = tot;
+            ca.QoLst = Data;
+            return View(ca);
+        }
         public IActionResult PurchaseEnquiryDetails(string id)
         {
             IEnumerable<EnqItem> cmp = PurenqService.GetAllPurenquriyItem(id);
@@ -237,7 +275,41 @@ namespace Arasan.Controllers
             return View(Cy);
         }
 
-      
+        [HttpPost]
+        public ActionResult ViewQuote(PurchaseQuo Cy, string id)
+        {
+            try
+            {
+                Cy.ID = id;
+                string Strout = PurenqService.EnquirytoQuote(Cy.ID);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Cy.ID == null)
+                    {
+                        TempData["notice"] = "Quote Generated Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "Quote Generated Successfully...!";
+                    }
+                    return RedirectToAction("ListEnquiry");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit PurchaseEnquiry";
+                    TempData["notice"] = Strout;
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return RedirectToAction("ListPurchaseQuo");
+        }
         public IActionResult ListEnquiry()
         {
             IEnumerable<PurchaseEnquiry> cmp = PurenqService.GetAllPurenquriy();

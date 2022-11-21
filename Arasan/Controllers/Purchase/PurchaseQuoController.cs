@@ -176,7 +176,7 @@ namespace Arasan.Controllers
                     tda.ItemId= dtt.Rows[i]["ITEMID"].ToString();
                     tda.Unit = dtt.Rows[i]["UNITID"].ToString();
                     tda.Quantity = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString());
-                    tda.rate = Convert.ToDouble(dtt.Rows[i]["Rate"].ToString());
+                    tda.rate = Convert.ToDouble(dtt.Rows[i]["Rate"].ToString() == "" ? "0" : dtt.Rows[i]["Rate"].ToString());
                     tda.TotalAmount = tda.Quantity * tda.rate;
                     tot += tda.TotalAmount;
                     Data.Add(tda);
