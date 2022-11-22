@@ -10,6 +10,8 @@ namespace Arasan.Models
             this.Suplst = new List<SelectListItem>();
             this.Curlst = new List<SelectListItem>();
             this.QoLst = new List<QoItem>();
+            this.RecList = new List<SelectListItem>();
+            this.assignList = new List<SelectListItem>();
         }
         public List<SelectListItem> Brlst;
 
@@ -18,8 +20,14 @@ namespace Arasan.Models
         public string Supplier { get; set; }
 
         public List<SelectListItem> Suplst;
+        public List<SelectListItem> RecList;
 
+        public List<SelectListItem> assignList;
+        public string Recid { get; set; }
+
+        public string assignid { get; set; }
         public string Currency { get; set; }
+        public string ExRate { get; set; }
 
         public List<SelectListItem> Curlst;
         public List<QoItem> QoLst;

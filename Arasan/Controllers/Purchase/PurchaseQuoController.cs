@@ -27,31 +27,26 @@ namespace Arasan.Controllers
             ca.Brlst = BindBranch();
             ca.Suplst = BindSupplier();
             ca.Curlst = BindCurrency();
-
+            ca.RecList = BindEmp();
+            ca.assignList = BindEmp();
             List<QoItem> Data = new List<QoItem>();
             QoItem tda = new QoItem();
             if (id == null)
             {
-                for (int i = 0; i < 3; i++)
-                {
-                    tda = new QoItem();
-                    tda.ItemGrouplst = BindItemGrplst();
-                    tda.Ilst = BindItemlst("");
-                    tda.Isvalid = "Y";
-                    Data.Add(tda);
-                }
+               
             }
             else
             {
                 DataTable dt = new DataTable();
                 double total = 0;
-                dt = PurquoService.GetPurchaseQuoDetails(id);
+                dt = PurquoService.GetPurchaseQuo(id);
                 if (dt.Rows.Count > 0)
                 {
                     ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
                     ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
                     ca.Supplier = dt.Rows[0]["PARTYID"].ToString();
                     ca.EnqNo = dt.Rows[0]["ENQNO"].ToString();
+                    ca.ExRate = dt.Rows[0]["EXRATE"].ToString();
                     ca.ID = id;
                     //ca.ParNo = dt.Rows[0]["PARTYREFNO"].ToString();
                     ca.Currency = dt.Rows[0]["MAINCURRENCY"].ToString();
@@ -69,7 +64,7 @@ namespace Arasan.Controllers
                         double toaamt = 0;
                         tda.ItemGrouplst = BindItemGrplst();
                         DataTable dt3 = new DataTable();
-                        dt3 = PurquoService.GetItemSubGroup(dt2.Rows[i]["ITEMID"].ToString());
+                        dt3 = datatrans.GetItemSubGroup(dt2.Rows[i]["ITEMID"].ToString());
                         if (dt3.Rows.Count > 0)
                         {
                             tda.ItemGroupId = dt3.Rows[0]["SUBGROUPCODE"].ToString();
@@ -78,7 +73,7 @@ namespace Arasan.Controllers
                         tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
                         tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
                         DataTable dt4 = new DataTable();
-                        dt4 = PurquoService.GetItemDetails(tda.ItemId);
+                        dt4 = datatrans.GetItemDetails(tda.ItemId);
                         if (dt4.Rows.Count > 0)
                         {
                             tda.Desc = dt4.Rows[0]["ITEMDESC"].ToString();
@@ -178,13 +173,13 @@ namespace Arasan.Controllers
                     tda.ItemId= dtt.Rows[i]["ITEMID"].ToString();
                     tda.Unit = dtt.Rows[i]["UNITID"].ToString();
                     tda.Quantity = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString());
-                    tda.rate = Convert.ToDouble(dtt.Rows[i]["Rate"].ToString() == "" ? "0" : dtt.Rows[i]["Rate"].ToString());
+                    tda.rate = Convert.ToDouble(dtt.Rows[i]["RATE"].ToString() == "" ? "0" : dtt.Rows[i]["RATE"].ToString());
                     tda.TotalAmount = tda.Quantity * tda.rate;
                     tot += tda.TotalAmount;
                     Data.Add(tda);
                 }
             }
-            ca.Net=tot;
+           // ca.Net=tot;
             ca.QoLst = Data;
             return View(ca);
         }
@@ -227,7 +222,7 @@ namespace Arasan.Controllers
         {
             try
             {
-                DataTable dtDesg = PurquoService.GetBranch();
+                DataTable dtDesg = datatrans.GetBranch();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -240,12 +235,28 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-
+        public List<SelectListItem> BindEmp()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetEmp();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["EMPNAME"].ToString(), Value = dtDesg.Rows[i]["EMPMASTID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<SelectListItem> BindSupplier()
         {
             try
             {
-                DataTable dtDesg = PurquoService.GetSupplier();
+                DataTable dtDesg = datatrans.GetSupplier();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -262,7 +273,7 @@ namespace Arasan.Controllers
         {
             try
             {
-                DataTable dtDesg = PurquoService.GetCurency();
+                DataTable dtDesg = datatrans.GetCurency();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -279,7 +290,7 @@ namespace Arasan.Controllers
         {
             try
             {
-                DataTable dtDesg = PurquoService.GetItem(value);
+                DataTable dtDesg = datatrans.GetItem(value);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -296,11 +307,11 @@ namespace Arasan.Controllers
         {
             try
             {
-                DataTable dtDesg = PurquoService.GetItemGrp();
+                DataTable dtDesg = datatrans.GetItemSubGrp();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["GROUPCODE"].ToString(), Value = dtDesg.Rows[i]["ITEMGROUPID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["SGCODE"].ToString(), Value = dtDesg.Rows[i]["ITEMSUBGROUPID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -309,52 +320,52 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public JsonResult GetItemJSON(string itemid)
-        {
-            QoItem model = new QoItem();
-            model.Ilst = BindItemlst(itemid);
-            return Json(BindItemlst(itemid));
+        //public JsonResult GetItemJSON(string itemid)
+        //{
+        //    QoItem model = new QoItem();
+        //    model.Ilst = BindItemlst(itemid);
+        //    return Json(BindItemlst(itemid));
 
-        }
-        public ActionResult GetItemDetail(string ItemId)
-        {
-            try
-            {
-                DataTable dt = new DataTable();
-                DataTable dt1 = new DataTable();
-                string Desc = "";
-                string unit = "";
-                string CF = "";
-                string price = "";
-                dt = PurquoService.GetItemDetails(ItemId);
+        //}
+        //public ActionResult GetItemDetail(string ItemId)
+        //{
+        //    try
+        //    {
+        //        DataTable dt = new DataTable();
+        //        DataTable dt1 = new DataTable();
+        //        string Desc = "";
+        //        string unit = "";
+        //        string CF = "";
+        //        string price = "";
+        //        dt = PurquoService.GetItemDetails(ItemId);
 
-                if (dt.Rows.Count > 0)
-                {
-                    Desc = dt.Rows[0]["ITEMDESC"].ToString();
-                    unit = dt.Rows[0]["UNITID"].ToString();
-                    price = dt.Rows[0]["LATPURPRICE"].ToString();
-                    dt1 = PurquoService.GetItemCF(ItemId, dt.Rows[0]["UNITMASTID"].ToString());
-                    if (dt1.Rows.Count > 0)
-                    {
-                        CF = dt1.Rows[0]["CF"].ToString();
-                    }
-                }
+        //        if (dt.Rows.Count > 0)
+        //        {
+        //            Desc = dt.Rows[0]["ITEMDESC"].ToString();
+        //            unit = dt.Rows[0]["UNITID"].ToString();
+        //            price = dt.Rows[0]["LATPURPRICE"].ToString();
+        //            dt1 = PurquoService.GetItemCF(ItemId, dt.Rows[0]["UNITMASTID"].ToString());
+        //            if (dt1.Rows.Count > 0)
+        //            {
+        //                CF = dt1.Rows[0]["CF"].ToString();
+        //            }
+        //        }
 
-                var result = new { Desc = Desc, unit = unit, CF = CF, price = price };
-                return Json(result);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        //        var result = new { Desc = Desc, unit = unit, CF = CF, price = price };
+        //        return Json(result);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
 
 
-        public JsonResult GetItemGrpJSON()
-        {
-            //EnqItem model = new EnqItem();
-            //model.ItemGrouplst = BindItemGrplst(value);
-            return Json(BindItemGrplst());
-        }
+        //public JsonResult GetItemGrpJSON()
+        //{
+        //    //EnqItem model = new EnqItem();
+        //    //model.ItemGrouplst = BindItemGrplst(value);
+        //    return Json(BindItemGrplst());
+        //}
     }
 }
