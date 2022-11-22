@@ -1,0 +1,137 @@
+﻿@model IEnumerable<Arasan.Models.DirectDeduction>
+@{
+    ViewData["Title"] = "DirectDeduction";
+}
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a>Master</a> </li>
+            <li class="active"> <strong>Direct Deduction</strong> </li>
+        </ol>
+    </div>
+</div>
+
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+
+                    <form>
+                        <div class="row">
+                            <div class="col-md-12 ">
+                                <div class=" textalignright">
+                                    <a href="@Url.Action("DirectDeduction","DirectDeduction")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add DirectDeduction</a>
+                                    <br>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="ibox float-e-margins">
+                                    <div class="ibox-content collapse in">
+                                        <div class="widgets-container">
+                                            <div>
+                                                <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            
+                                                            <th>Branch </th>
+                                                            <th>Location</th>
+                                                            <th>DOC ID</th>
+                                                            <th>DOC Date</th>
+                                                            <th>D.C.Num</th>
+                                                            <th>Gross</th>
+                                                            <th>Reason</th>
+                                                            <th>Edit</th>
+                                                            <th>Delete</th>
+                                                        </tr>
+                                                    </thead>
+
+                                                    <tbody>
+                                                        @{
+                                                            int i = 1;
+
+                                                            foreach (var item in Model)
+                                                            {
+                                                        <tr>
+
+                                                                    <td>@Html.DisplayFor(modelItem => item.Branch)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Location)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.DocId)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Docdate)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Dcno)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Gro)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Reason)</td>
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("DirectDeduction", "DirectDeduction",new { id=item.ID })"></a></div></td>
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("DirectDeduction", "DirectDeduction",new { id=item.ID })"></a></div></td>
+                                                         
+                                                        </tr>
+
+                                                                i++;
+                                                            }
+                                                        }
+
+                                                       @* <tr>
+                                                            <td>2</td>
+                                                            <td>SGST</td>
+                                                            <td>2%</td>
+                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("tax", "tax")"></a></div></td>
+                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("tax", "tax")"></a></div></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>3</td>
+                                                            <td>IGST</td>
+                                                            <td>10%</td>
+                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("tax", "tax")"></a></div></td>
+                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("tax", "tax")"></a></div></td>
+                                                        </tr>*@
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#example7').DataTable({
+            dom: 'Bfrtip',
+            buttons: [{
+                text: 'copy',
+                extend: "copy",
+                className: 'btn dark btn-outline'
+            }, {
+                text: 'csv',
+                extend: "csv",
+                className: 'btn aqua btn-outline'
+            }, {
+                text: 'excel',
+                extend: "excel",
+                className: 'btn aqua btn-outline'
+            }, {
+                text: 'pdf',
+                extend: "pdf",
+                className: 'btn yellow  btn-outline'
+            }, {
+                text: 'print',
+                extend: "print",
+                className: 'btn purple  btn-outline'
+            }]
+        });
+
+
+
+    });
+</script>
