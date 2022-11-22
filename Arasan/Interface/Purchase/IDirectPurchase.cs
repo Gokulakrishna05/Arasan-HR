@@ -24,7 +24,7 @@ namespace Arasan.Interface
         DirectPurchase GetDirectPurById(string id);
       
         IEnumerable<DirectPurchase> GetAllDirectPur();
-        DataTable GetDirectPurchaseDetails(string id);
+        DataTable GetDirectPurchase(string id);
         DataTable GetDirectPurchaseItemDetails(string id);
         IEnumerable<DirItem> GetAllDirectPurItem(string id);
 

@@ -74,7 +74,20 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                            <div class="row">
+                        <div style="height:30px;"></div>
+                    
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Exchange Rate<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.ExRate, new { @id = "txtExRate", @class = "form-control", @TabIndex = 1,@readonly=true })<br />
+                                         
+                                        </div>
+                                </div>
+                            </div>
+                       
                             <div class="col-md-6">
                                 <div class="form-group">
 
@@ -85,6 +98,7 @@
                                     </div>
                                 </div>
                             </div>
+                                </div>
                            @* <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-4 control-label">Exchange Rate<label class="Mandatory"></label></label>
@@ -95,7 +109,7 @@
 
                                 </div>
                             </div>*@
-                        </div>
+                        
                         <div style="height:30px;"></div>
                         <div class="row">
                             <div class="col-md-6">
@@ -104,6 +118,7 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Enquiry No<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.EnqNo, new { @id = "txtEnqNo", @class = "form-control", @TabIndex = 1,@readonly=true })<br />
+                                            @Html.HiddenFor(C => C.ID)
                                         </div>
                                 </div>
                             </div>
@@ -162,10 +177,10 @@
                                                             {
                                                             <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
                                                                 <td>
-                                                                    @Html.DropDownListFor(o => o.QoLst[i].ItemGroupId, Model.QoLst[i].ItemGrouplst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItemGrp" + i, style = "width: 200px;", onchange = "Grup_Change(this.value," + i + ")"})
+                                                                    @Html.DropDownListFor(o => o.QoLst[i].ItemGroupId, Model.QoLst[i].ItemGrouplst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItemGrp" + i, style = "width: 200px;", onchange = "Grup_Change(this.value," + i + ")",disabled="disabled"})
                                                                 </td>
                                                                     <td>
-                                                                    @Html.DropDownListFor(o => o.QoLst[i].ItemId, Model.QoLst[i].Ilst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItem" + i, style = "width: 200px;", onchange = "changeItem(this.value," + i + ")"})
+                                                                    @Html.DropDownListFor(o => o.QoLst[i].ItemId, Model.QoLst[i].Ilst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItem" + i, style = "width: 200px;", onchange = "changeItem(this.value," + i + ")",disabled="disabled"})
                                                             @Html.HiddenFor(o => o.QoLst[i].saveItemId)
                                                                 </td>
                                                                 <td>
@@ -223,12 +238,8 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Quot. Sent By<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <select class=" _select js-states form-control">
+                                       		 @Html.DropDownListFor(C => C.assignid, Model.assignList, new { @id = "ddlPosent", @Class = "form-control chosen-select", @TabIndex = 1 })
 
-
-                                            <option value="Anitha">Anitha </option>
-                                            <option value="Ramesh">Ramesh </option>
-                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -237,12 +248,8 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Quot. Recd By<label class="Mandatory"></label></label>
 
                                     <div class="col-sm-8">
-                                        <select class=" _select js-states form-control">
+                                            @Html.DropDownListFor(C => C.Recid, Model.RecList, new { @id = "ddlEnqRec", @Class = "form-control chosen-select", @TabIndex = 1 })
 
-
-                                            <option value="Anitha">Anitha </option>
-                                            <option value="Ramesh">Ramesh </option>
-                                        </select>
                                     </div>
 
                                 </div>
@@ -264,91 +271,8 @@
     </div>
 </div>
 <script>
-
-    function Grup_Change(itemid, i) {
-        //alert(itemid);
-        //debugger;
-        $.ajax({
-            url: "GetItemJSON",
-            type: "post",
-            data: { 'itemid': itemid },
-            cache: false,
-            success: function (response) {
-                var newlist;
-                //alert(JSON.stringify(response));
-                newlist = response.Ilst;
-                PopulateDropDown("#ddlItem" + i, response);
-            },
-            error: function () {
-                debugger;
-                alert("Please Select Item Group");
-            }
-        });
-    }
-    function PopulateDropDown(dropDownId, list) {
-        //alert(list);
-        $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
-        if (list != null && list.length > 0) {
-            $(dropDownId).removeAttr("disabled");
-            $.each(list, function () {
-                $(dropDownId).append($("<option></option>").val(this['value']).html(this['text']));
-            });
-        }
-        $(dropDownId).trigger("liszt:updated");
-    }
     $(".chosen-select").chosen();
-    function removeRow(id) {
-        var table = document.getElementById("dataTable");
-        var rowCount = table.rows.length;
-        var row = document.getElementById('trBook' + id);
-        var j = 0;
-        $('tr.chkitemlst').each(function () {
-            if ($(this).css('display') !== 'none') {
-                j += 1;
-            }
-        });
-        if (j > 1) {
-            row.style.display = "none";
-            document.getElementById('Isvalid' + id).value = "N";
-        }
-        else {
-            alert("Cannot delete all the rows.")
-        }
-    }
-    var a = ['', 'one ', 'two ', 'three ', 'four ', 'five ', 'six ', 'seven ', 'eight ', 'nine ', 'ten ', 'eleven ', 'twelve ', 'thirteen ', 'fourteen ', 'fifteen ', 'sixteen ', 'seventeen ', 'eighteen ', 'nineteen '];
-    var b = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
-
-    function inWords(num) {
-        alert("dfnjdh");
-        alert(num);
-        if ((num = num.toString()).length > 9) return 'overflow';
-        n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
-        if (!n) return; var str = '';
-        str += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'crore ' : '';
-        str += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'lakh ' : '';
-        str += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'thousand ' : '';
-        str += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'hundred ' : '';
-        str += (n[5] != 0) ? ((str != '') ? 'and ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) + 'only ' : '';
-        alert(str);
-        return str;
-    }
-    function changeItem(ItemId, i) {
-        $.ajax({
-            url: 'GetItemDetail',
-            data: { "ItemId": ItemId },
-            type: "GET",
-            success: function (result) {
-                document.getElementById("txtDesc" + i).value = result.desc;
-                document.getElementById("txtUnit" + i).value = result.unit;
-               
-                document.getElementById("ConsFa" + i).value = result.cf;
-                document.getElementById("txtrate" + i).value = result.price;
-            },
-            error: function () {
-                alert("Data Not Found");
-            }
-        });
-    }
+  
     function changeQty(_this, i) {
         try {
             var qty = document.getElementById("txtQuantity" + i).value;
@@ -378,7 +302,7 @@
                 if ($(this).css('display') !== 'none') {
                     var unit = $(this).find('#txtQuantity' + j.toString()).val();
                     var qtys = $(this).find('#txtrate' + j.toString()).val();
-                    var CFs = $(this).find('#txtConversionfactor' + j.toString()).val();
+                    var CFs = $(this).find('#txtConsFa' + j.toString()).val();
                     if (CFs == "")
                         CFs = 0;
 
@@ -398,20 +322,7 @@
             alert(ex.message);
         }
     }
-    function AddRow() {
-        var opt = "";
-        $.ajax({
-            type: "POST",
-            url: 'GetItemGrpJSON',
-            success: function (data) {
-
-                $.each(data, function () {
-                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
-                });
-                AppendRow(opt);
-            }
-        })
-    }
+   
     $('.form_date').datetimepicker({
         //   language:  'fr',
         weekStart: 1,
@@ -422,32 +333,6 @@
         minView: 2,
         forceParse: 0
     });
-    function AppendRow(opt) {
-        var index = $("#tbBooks").children("tr").length;
-
-        var ItemGrp = "<td><select style = 'width: 200px;' class='form-control chosen-select newcss' id='ddlItemGrp" + index + "' name='QoLst[" + index + "].ItemGroupId' onchange = 'Grup_Change(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
-
-        var Item = "<td><select style = 'width: 200px;' class='form-control chosen-select newcss' id='ddlItem" + index + "' name='ILst[" + index + "].ItemId' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option></select></td>";
-
-        var Desc = "<td><input class='form-control' id='txtDesc" + index + "' name='ILst[" + index + "].Desc'  style='width: 150px;' type='text'  readonly='True' /></td>";
-
-        var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='ILst[" + index + "].Unit'  style='width: 80px;' type='text'  readonly='True' /></td>";
-        var ConsFa = "<td><input class='form-control' id='txtConsFa" + index + "' name='ILst[" + index + "].ConsFa'  style='width: 100px;' type='text' readonly='True' /></td>";
-
-
-        var Quantity = "<td><input class='form-control' id='txtQuantity" + index + "' name='ILst[" + index + "].Quantity'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;text-align:right' type='text' value='0' onchange = 'changeQty(this.value," + index + ")' /></td>";
-        var Rate = "<td><input class='form-control' id='txtrate" + index + "' name='ILst[" + index + "].rate'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 90px;text-align:right' type='text' value='0'  /></td>";
-        var Amount = "<td><input class='form-control' id='txtAmount" + index + "' name='ILst[" + index + "].Amount'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 100px;text-align:right' type='text' value='0' readonly='True' /></td>";
-
-
-        var removeCell = "<td><input id='Isvalid" + index + "' name='ILst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='EnqLst.Index' type='hidden' value='" + index + "'  /></td>";
-
-
-        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + ItemGrp + Item + Desc + Unit + Quantity + Rate + removeCell + "</tr>";
-        //alert(Packing);
-        $("#tbBooks").append(newRow);
-
-        $(".chosen-select").chosen();
-    }
+  
 
 </script> 

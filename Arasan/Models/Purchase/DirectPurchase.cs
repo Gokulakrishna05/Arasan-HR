@@ -26,20 +26,21 @@ namespace Arasan.Models
         public List<SelectListItem> Loclst;
         public string Location { get; set; }
         public List<DirItem> DirLst { get; set; }
-        public string Gross { get; set; }
+        public double Gross { get; set; }
         public string Voucher { get; set; }
         public string DocNo { get; set; }
         public string RefNo { get; set; }
         public string RefDate { get; set; }
         public string DocDate { get; set; }
         public double net { get; set; }
-        public string Frig { get; set; }
-        public string Other { get; set; }
-        public string Round { get; set; }
-        public string SpDisc { get; set; }
+        public double Frig { get; set; }
+        public double Other { get; set; }
+        public double Round { get; set; }
+        public double SpDisc { get; set; }
         public string LRCha { get; set; }
         public string DelCh { get; set; }
         public string Status { get; set; }
+        public string Narration { get; set; }
 
 
 

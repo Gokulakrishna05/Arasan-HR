@@ -12,10 +12,15 @@ namespace Arasan.Controllers
     public class DirectPurchaseController : Controller
     {
         IDirectPurchase directPurchase;
+        IConfiguration? _configuratio;
+        private string? _connectionString;
+
         DataTransactions datatrans;
-        public DirectPurchaseController(IDirectPurchase _directPurchase)
+        public DirectPurchaseController(IDirectPurchase _directPurchase ,IConfiguration _configuratio)
         {
             directPurchase = _directPurchase;
+            _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
+            datatrans = new DataTransactions(_connectionString);
         }
         public IActionResult DirectPurchase(string id)
         {
@@ -45,7 +50,7 @@ namespace Arasan.Controllers
 
                 DataTable dt = new DataTable();
                 double total = 0;
-                dt = directPurchase.GetDirectPurchaseDetails(id);
+                dt = directPurchase.GetDirectPurchase(id);
                 if (dt.Rows.Count > 0)
                 {
                     ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
@@ -57,6 +62,14 @@ namespace Arasan.Controllers
                     ca.RefDate = dt.Rows[0]["REFDT"].ToString();
                     ca.Voucher = dt.Rows[0]["VOUCHER"].ToString();
                     ca.Location = dt.Rows[0]["LOCID"].ToString();
+                    ca.Narration = dt.Rows[0]["NARR"].ToString();
+                    ca.Round = Convert.ToDouble(dt.Rows[0]["RNDOFF"].ToString() == "" ? "0" : dt.Rows[0]["RNDOFF"].ToString());
+                    ca.Other = Convert.ToDouble(dt.Rows[0]["OTHERCH"].ToString() == "" ? "0" : dt.Rows[0]["OTHERCH"].ToString());
+                    ca.Frig = Convert.ToDouble(dt.Rows[0]["FREIGHT"].ToString() == "" ? "0" : dt.Rows[0]["FREIGHT"].ToString());
+                    ca.SpDisc = Convert.ToDouble(dt.Rows[0]["OTHERDISC"].ToString() == "" ? "0" : dt.Rows[0]["OTHERDISC"].ToString());
+
+                    ca.Gross = Convert.ToDouble(dt.Rows[0]["GROSS"].ToString() == "" ? "0" : dt.Rows[0]["GROSS"].ToString());
+                    ca.net = Convert.ToDouble(dt.Rows[0]["NET"].ToString() == "" ? "0" : dt.Rows[0]["NET"].ToString());
 
                 }
                 DataTable dt2 = new DataTable();
@@ -154,7 +167,7 @@ namespace Arasan.Controllers
         {
             try
             {
-                DataTable dtDesg = directPurchase.GetBranch();
+                DataTable dtDesg = datatrans.GetBranch();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -171,7 +184,7 @@ namespace Arasan.Controllers
         {
             try
             {
-                DataTable dtDesg = directPurchase.GetSupplier();
+                DataTable dtDesg = datatrans.GetSupplier();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -188,7 +201,7 @@ namespace Arasan.Controllers
         {
             try
             {
-                DataTable dtDesg = directPurchase.GetCurency();
+                DataTable dtDesg = datatrans.GetCurency();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -205,7 +218,7 @@ namespace Arasan.Controllers
         {
             try
             {
-                DataTable dtDesg = directPurchase.GetLocation();
+                DataTable dtDesg = datatrans.GetLocation();
 
                
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
@@ -225,7 +238,7 @@ namespace Arasan.Controllers
         {
             try
             {
-                DataTable dtDesg = directPurchase.GetItem(value);
+                DataTable dtDesg = datatrans.GetItem(value);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {

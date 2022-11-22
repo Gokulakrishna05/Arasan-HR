@@ -26,7 +26,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select  BRANCHMAST.BRANCHID,PARTYRCODE.PARTY, DOCID,  DOCDATE,VOUCHER, REFDT,LOCID,MAINCURRENCY,GROSS,NET,FREIGHT,OTHERCH,RNDOFF,OTHERDISC,LRCH,DELCH,DPBASICID from DPBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=DPBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on DPBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH') ORDER BY DPBASICID DESC";
+                    cmd.CommandText = "Select  BRANCHMAST.BRANCHID,PARTYRCODE.PARTY, DOCID,  DOCDATE,VOUCHER, REFDT,LOCID,MAINCURRENCY,GROSS,NET,FREIGHT,OTHERCH,RNDOFF,OTHERDISC,LRCH,DELCH,NARR,DPBASICID from DPBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=DPBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on DPBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH') ORDER BY DPBASICID DESC";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -42,14 +42,15 @@ namespace Arasan.Services
                             RefDate = rdr["REFDT"].ToString(),
                             Location = rdr["LOCID"].ToString(),
                             Currency = rdr["MAINCURRENCY"].ToString(),
-                            Gross = rdr["GROSS"].ToString(),
-                           // net = rdr["NET"].ToString(),
-                            Frig = rdr["FREIGHT"].ToString(),
-                            Other = rdr["OTHERCH"].ToString(),
-                            Round = rdr["RNDOFF"].ToString(),
-                            SpDisc = rdr["OTHERDISC"].ToString(),
-                            LRCha = rdr["LRCH"].ToString(),
-                            DelCh = rdr["DELCH"].ToString()
+                            Narration = rdr["NARR"].ToString()
+                            // Gross = rdr["GROSS"].ToString(),
+                            //// net = rdr["NET"].ToString(),
+                            // Frig = rdr["FREIGHT"].ToString(),
+                            // Other = rdr["OTHERCH"].ToString(),
+                            // Round = rdr["RNDOFF"].ToString(),
+                            // SpDisc = rdr["OTHERDISC"].ToString(),
+                            // LRCha = rdr["LRCH"].ToString(),
+                            // DelCh = rdr["DELCH"].ToString()
 
 
 
@@ -95,10 +96,10 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetDirectPurchaseDetails(string id)
+        public DataTable GetDirectPurchase(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select BRANCHID,PARTYID,DOCID,DOCDATE,VOUCHER,REFDT,LOCID,MAINCURRENCY,GROSS,NET,FREIGHT,OTHERCH,RNDOFF,OTHERDISC,LRCH,DELCH,DPBASICID  from DPBASIC where DPBASICID=" + id + "";
+            SvSql = "Select BRANCHID,PARTYID,DOCID,DOCDATE,VOUCHER,REFDT,LOCID,MAINCURRENCY,GROSS,NET,FREIGHT,OTHERCH,RNDOFF,OTHERDISC,LRCH,DELCH,NARR,DPBASICID  from DPBASIC where DPBASICID=" + id + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -133,7 +134,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select BRANCHID,PARTYID,DOCID,DOCDATE,VOUCHER,REFDT,LOCID,MAINCURRENCY,GROSS,NET,FREIGHT,OTHERCH,RNDOFF,OTHERDISC,LRCH,DELCH,DPBASICID  from DPBASIC where DPBASICID=" + eid + "";
+                    cmd.CommandText = "Select BRANCHID,PARTYID,DOCID,DOCDATE,VOUCHER,REFDT,LOCID,MAINCURRENCY,GROSS,NET,FREIGHT,OTHERCH,RNDOFF,OTHERDISC,LRCH,DELCH,NARR,DPBASICID  from DPBASIC where DPBASICID=" + eid + "";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -148,14 +149,15 @@ namespace Arasan.Services
                             RefDate = rdr["REFDT"].ToString(),
                             Location = rdr["LOCID"].ToString(),
                             Currency = rdr["MAINCURRENCY"].ToString(),
-                            Gross = rdr["GROSS"].ToString(),
-                          //  net = rdr["NET"].ToString(),
-                            Frig = rdr["FREIGHT"].ToString(),
-                            Other = rdr["OTHERCH"].ToString(),
-                            Round = rdr["RNDOFF"].ToString(),
-                            SpDisc = rdr["OTHERDISC"].ToString(),
-                            LRCha = rdr["LRCH"].ToString(),
-                            DelCh = rdr["DELCH"].ToString(),
+                            Narration = rdr["NARR"].ToString()
+                            //  Gross = rdr["GROSS"].ToString(),
+                            ////  net = rdr["NET"].ToString(),
+                            //  Frig = rdr["FREIGHT"].ToString(),
+                            //  Other = rdr["OTHERCH"].ToString(),
+                            //  Round = rdr["RNDOFF"].ToString(),
+                            //  SpDisc = rdr["OTHERDISC"].ToString(),
+                            //  LRCha = rdr["LRCH"].ToString(),
+                            //  DelCh = rdr["DELCH"].ToString(),
 
 
                         };
@@ -208,6 +210,7 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("OTHERDISC", OracleDbType.NVarchar2).Value = cy.SpDisc;
                     objCmd.Parameters.Add("LRCH", OracleDbType.NVarchar2).Value = cy.LRCha;
                     objCmd.Parameters.Add("DELCH", OracleDbType.NVarchar2).Value = cy.DelCh;
+                    objCmd.Parameters.Add("NARR", OracleDbType.NVarchar2).Value = cy.Narration;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
