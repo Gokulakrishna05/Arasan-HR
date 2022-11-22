@@ -32,7 +32,7 @@ internal class Program
         builder.Services.TryAddSingleton<IItemGroupService, ItemGroupService>();
         builder.Services.TryAddSingleton<IItemSubGroupService, ItemSubGroupService>();
         builder.Services.TryAddSingleton<IProcessCostEntryService, ProcessCostEntryService>();
-
+        builder.Services.TryAddSingleton<IDirectDeductionService, DirectDeductionService>();
 
         builder.Services.TryAddSingleton<IPurchaseEnqService,PurchaseEnqService>();
         builder.Services.TryAddSingleton<ISalesEnq, SalesEnqService>();
