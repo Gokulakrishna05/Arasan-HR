@@ -158,6 +158,7 @@ namespace Arasan.Controllers
             ca.QoLst = Data;
             return View(ca);
         }
+
         public IActionResult PurchaseEnquiryDetails(string id)
         {
             IEnumerable<EnqItem> cmp = PurenqService.GetAllPurenquriyItem(id);
@@ -276,7 +277,7 @@ namespace Arasan.Controllers
         }
 
         [HttpPost]
-        public ActionResult ViewQuote(PurchaseQuo Cy, string id)
+        public ActionResult ViewEnq(PurchaseQuo Cy, string id)
         {
             try
             {
