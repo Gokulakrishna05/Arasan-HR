@@ -94,6 +94,7 @@ namespace Arasan.Controllers
                         }
                         tda.rate = Convert.ToDouble(dt2.Rows[i]["RATE"].ToString());
                         tda.Quantity = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
+                        tda.BillQty = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
                         toaamt = tda.rate * tda.Quantity;
                         total += toaamt;
                         //tda.QtyPrim= Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());

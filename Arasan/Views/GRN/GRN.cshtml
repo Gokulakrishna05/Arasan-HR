@@ -148,15 +148,15 @@
                           <th>Unit</th>
                           <th> Conversion. Factor </th>
                         <th> Order Qty </th>
-                       
+                       <th> Pend. Qty </th>
+                       <th> Bill Qty </th>
                                  <th>Rate </th>
                                 <th> Amount</th>
                                  <th> Disc %</th>
                          <th> Disc amount</th>
-                      
-                        @*  <th> Cost Rate</th>
+                  <th> Cost Rate</th>
                            <th>Assessable Value</th>
-                            <th>Tariff Id</th>*@
+                                 @*   <th>Tariff Id</th>*@
                               <th>CGSTP</th>
                                <th>SGSTP</th>
                                 <th>IGSTP</th>
@@ -175,74 +175,84 @@
                                                             int j = 1;
                                                             foreach (var item in Model.PoItem.ToList())
                                                             {
-                                                                                                                                            <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
-                                                                                                                                            <td>
-                                                                                                                                            @Html.DropDownListFor(o => o.PoItem[i].ItemGroupId, Model.PoItem[i].ItemGrouplst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItemGrp" + i, style = "width: 170px;", onchange = "Grup_Change(this.value," + i + ")",disabled="disabled" })
-                                                                                                                                        </td>
-                                                                                                                                        <td>
+                                                                                                                                                            <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                                                                                                            <td>
+                                                                                                                                                            @Html.DropDownListFor(o => o.PoItem[i].ItemGroupId, Model.PoItem[i].ItemGrouplst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItemGrp" + i, style = "width: 170px;", onchange = "Grup_Change(this.value," + i + ")",disabled="disabled" })
+                                                                                                                                                        </td>
+                                                                                                                                                        <td>
 
-                                                                                                                                            @Html.DropDownListFor(o => o.PoItem[i].ItemId, Model.PoItem[i].Itemlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItem" + i, style = "width: 170px;", onchange = "changeItem(this.value," + i + ")",disabled="disabled" })
-                                                                                                                                        @Html.HiddenFor(o => o.PoItem[i].saveItemId)
-                                                                                                                                            </td>
-                                                                                                                                         <td>
-                                                                                                                                            @Html.TextBoxFor(o => o.PoItem[i].Desc, new { @id = "txtDesc" + i, @class = "form-control", style = "width: 200px;", @readonly = "readonly"})
-                                                                                                                                        </td>
-                                                                                                                                         <td>
-                                                                                                                                            @Html.TextBoxFor(o => o.PoItem[i].Unit, new { @id = "txtUnit" + i, @class = "form-control", style = "width: 100px;" , @readonly = "readonly"})
-                                                                                                                                        </td>
-                                                                                                                                         <td>
-                                                                                                                                            @Html.TextBoxFor(o => o.PoItem[i].Conversionfactor, new { @id = "txtConversionfactor" + i, @class = "form-control", style = "width: 100px;", @readonly = "readonly" })
-                                                                                                                                        </td>
-                                                                                                                                         <td>
-                                                                                                                                            @Html.TextBoxFor(o => o.PoItem[i].Quantity, new { @id = "txtQuantity" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")"})
-                                                                                                                                        </td>
-                                                                                                                                        
-                                                                                                                                         <td>
-                                                                                                                                            @Html.TextBoxFor(o => o.PoItem[i].rate, new { @id = "txtrate" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")" })
-                                                                                                                                        </td>
-                                                                                                                                         <td>
-                                                                                                                                          @Html.HiddenFor(o => o.PoItem[i].Isvalid, new { @id = "Isvalid" + i })
-                                                                                                                                            @Html.TextBoxFor(o => o.PoItem[i].Amount, new { @id = "txtAmount" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right",@readonly="readonly"})
-                                                                                                                                        </td>
-                                                                                                                                         <td>
-                                                                                                                                            @Html.TextBoxFor(o => o.PoItem[i].DiscPer, new { @id = "txtDiscPer" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")" })
-                                                                                                                                        </td>
-                                                                                                                                         <td>
-                                                                                                                                            @Html.TextBoxFor(o => o.PoItem[i].DiscAmt, new { @id = "txtDiscAmt" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")" })
-                                                                                                                                        </td>
-                                                                                                                                       
-                                                                                                                                         <td>
-                                                                                                                                            @Html.TextBoxFor(o => o.PoItem[i].CGSTPer, new { @id = "txtCGSTPer" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")" })
-                                                                                                                                        </td>
-                                                                                                                                          <td>
-                                                                                                                                            @Html.TextBoxFor(o => o.PoItem[i].SGSTPer, new { @id = "txtSGSTPer" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")" })
-                                                                                                                                        </td>
-                                                                                                                                          <td>
-                                                                                                                                            @Html.TextBoxFor(o => o.PoItem[i].IGSTPer, new { @id = "txtIGSTPer" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")" })
-                                                                                                                                        </td>
-                                                                                                                                          <td>
-                                                                                                                                            @Html.TextBoxFor(o => o.PoItem[i].CGSTAmt, new { @id = "txtCGSTAmt" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")" })
-                                                                                                                                        </td>
-                                                                                                                                        
-                                                                                                                                          <td>
-                                                                                                                                            @Html.TextBoxFor(o => o.PoItem[i].SGSTAmt, new { @id = "txtSGSTAmt" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")" })
-                                                                                                                                        </td>
-                                                                                                                                        
-                                                                                                                                          <td>
-                                                                                                                                            @Html.TextBoxFor(o => o.PoItem[i].IGSTAmt, new { @id = "txtIGSTAmt" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")" })
-                                                                                                                                        </td>
-                                                                                                                                         <td>
-                                                                                                                                            @Html.TextBoxFor(o => o.PoItem[i].TotalAmount, new { @id = "txtTotalAmount" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")" })
-                                                                                                                                        </td>
-                                                                                                                                       
-                                                                                                         <td>
-                                                                                                                                            @Html.DropDownListFor(o => o.PoItem[i].Purtype, Model.PoItem[i].PURLst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlPurtype" + i, style = "width: 170px;"})
-                                                                                                                                        </td>
-                                                                                                                                       @*   <td>
+                                                                                                                                                            @Html.DropDownListFor(o => o.PoItem[i].ItemId, Model.PoItem[i].Itemlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItem" + i, style = "width: 170px;", onchange = "changeItem(this.value," + i + ")",disabled="disabled" })
+                                                                                                                                                        @Html.HiddenFor(o => o.PoItem[i].saveItemId)
+                                                                                                                                                            </td>
+                                                                                                                                                         <td>
+                                                                                                                                                            @Html.TextBoxFor(o => o.PoItem[i].Desc, new { @id = "txtDesc" + i, @class = "form-control", style = "width: 200px;", @readonly = "readonly"})
+                                                                                                                                                        </td>
+                                                                                                                                                         <td>
+                                                                                                                                                            @Html.TextBoxFor(o => o.PoItem[i].Unit, new { @id = "txtUnit" + i, @class = "form-control", style = "width: 100px;" , @readonly = "readonly"})
+                                                                                                                                                        </td>
+                                                                                                                                                         <td>
+                                                                                                                                                            @Html.TextBoxFor(o => o.PoItem[i].Conversionfactor, new { @id = "txtConversionfactor" + i, @class = "form-control", style = "width: 100px;", @readonly = "readonly" })
+                                                                                                                                                        </td>
+                                                                                                                                                         <td>
+                                                                                                                                                            @Html.TextBoxFor(o => o.PoItem[i].Quantity, new { @id = "txtQuantity" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")", @readonly = "readonly"})
+                                                                                                                                                        </td>
+                                                                                                                                                         <td>
+                                                                                                                                                            @Html.TextBoxFor(o => o.PoItem[i].PendingQty, new { @id = "txtPendingQty" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")", @readonly = "readonly"})
+                                                                                                                                                        </td>
+                                                                                                                                                         <td>
+                                                                                                                                                            @Html.TextBoxFor(o => o.PoItem[i].BillQty, new { @id = "txtBillQty" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")"})
+                                                                                                                                                        </td>
+                                                                                                                                                         <td>
+                                                                                                                                                            @Html.TextBoxFor(o => o.PoItem[i].rate, new { @id = "txtrate" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")" })
+                                                                                                                                                        </td>
+                                                                                                                                                         <td>
+                                                                                                                                                          @Html.HiddenFor(o => o.PoItem[i].Isvalid, new { @id = "Isvalid" + i })
+                                                                                                                                                            @Html.TextBoxFor(o => o.PoItem[i].Amount, new { @id = "txtAmount" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right",@readonly="readonly"})
+                                                                                                                                                        </td>
+                                                                                                                                                         <td>
+                                                                                                                                                            @Html.TextBoxFor(o => o.PoItem[i].DiscPer, new { @id = "txtDiscPer" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")" })
+                                                                                                                                                        </td>
+                                                                                                                                                         <td>
+                                                                                                                                                            @Html.TextBoxFor(o => o.PoItem[i].DiscAmt, new { @id = "txtDiscAmt" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")" })
+                                                                                                                                                        </td>
+                                                                                                                                                       <td>
+                                                                                                                                                            @Html.TextBoxFor(o => o.PoItem[i].CostRate, new { @id = "txtCostRate" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right" })
+                                                                                                                                                        </td>
+                                                                                                                                                        <td>
+                                                                                                                                                            @Html.TextBoxFor(o => o.PoItem[i].AcessValue, new { @id = "txtAcessValue" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right" })
+                                                                                                                                                        </td>
+                                                                                                                                                         <td>
+                                                                                                                                                            @Html.TextBoxFor(o => o.PoItem[i].CGSTPer, new { @id = "txtCGSTPer" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")" })
+                                                                                                                                                        </td>
+                                                                                                                                                          <td>
+                                                                                                                                                            @Html.TextBoxFor(o => o.PoItem[i].SGSTPer, new { @id = "txtSGSTPer" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")" })
+                                                                                                                                                        </td>
+                                                                                                                                                          <td>
+                                                                                                                                                            @Html.TextBoxFor(o => o.PoItem[i].IGSTPer, new { @id = "txtIGSTPer" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")" })
+                                                                                                                                                        </td>
+                                                                                                                                                          <td>
+                                                                                                                                                            @Html.TextBoxFor(o => o.PoItem[i].CGSTAmt, new { @id = "txtCGSTAmt" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")" })
+                                                                                                                                                        </td>
+                                                                                                                                                        
+                                                                                                                                                          <td>
+                                                                                                                                                            @Html.TextBoxFor(o => o.PoItem[i].SGSTAmt, new { @id = "txtSGSTAmt" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")" })
+                                                                                                                                                        </td>
+                                                                                                                                                        
+                                                                                                                                                          <td>
+                                                                                                                                                            @Html.TextBoxFor(o => o.PoItem[i].IGSTAmt, new { @id = "txtIGSTAmt" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")" })
+                                                                                                                                                        </td>
+                                                                                                                                                         <td>
+                                                                                                                                                            @Html.TextBoxFor(o => o.PoItem[i].TotalAmount, new { @id = "txtTotalAmount" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")" })
+                                                                                                                                                        </td>
+                                                                                                                                                       
+                                                                                                                         <td>
+                                                                                                                                                            @Html.DropDownListFor(o => o.PoItem[i].Purtype, Model.PoItem[i].PURLst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlPurtype" + i, style = "width: 170px;"})
+                                                                                                                                                        </td>
+                                                                                                                                                       @*   <td>
                                                                                                                
                                                                                                                 <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(i)" />
                                                                                                             </td>*@
-                                                                                                                                        </tr>
+                                                                                                                                                        </tr>
 
 
                                                              i = i + 1;
@@ -464,10 +474,11 @@
                     var totfrieght = 0;
                     var totamt = 0;
                     var totamount = 0;
-                    var qty = document.getElementById("txtQuantity" + i).value;
+                    var qty = document.getElementById("txtBillQty" + i).value;
+                    var orderqty = document.getElementById("txtQuantity" + i).value;
                     var up = document.getElementById("txtrate" + i).value;
                     var cf = document.getElementById("txtConversionfactor" + i).value;
-                    var frieght = document.getElementById("txtFrieghtAmt" + i).value;
+                    //var frieght = document.getElementById("txtFrieghtAmt" + i).value;
                  
                     var IGST = document.getElementById("txtIGSTPer" + i).value;
 
@@ -479,6 +490,9 @@
 
                     if (qty == "")
                         qty = 0;
+
+                     if (orderqty == "")
+                        orderqty = 0;
 
                     if (up == "")
                         up = 0;
@@ -498,8 +512,8 @@
                     if (Disc == "")
                         Disc = 0;
 
-                    if (frieght == "")
-                        frieght = 0;
+                    //if (frieght == "")
+                    //    frieght = 0;
 
                     var tot = eval(qty) * eval(up) * eval(cf);
                     document.getElementById("txtAmount" + i).value = tot.toFixed(2);
@@ -514,23 +528,24 @@
                        document.getElementById("txtIGSTAmt" + i).value = igstperc.toFixed(2);
                         document.getElementById("txtDiscAmt" + i).value = Discperc.toFixed(2);
 
-                    var tottax = eval(tot) + eval(igstperc) + eval(cgstperc) + eval(sgstperc) + eval(frieght);
+                    var tottax = eval(tot) + eval(igstperc) + eval(cgstperc) + eval(sgstperc); /*+ eval(frieght);*/
                     var totdisc = eval(tottax) - eval(Discperc);
+                    //alert(totdisc);
                     document.getElementById("txtTotalAmount" + i).value = totdisc.toFixed(2);
 
-
+                    document.getElementById("txtPendingQty" + i).value = eval(orderqty) - eval(qty);
                     $('tr.chkitemlst').each(function () {
                         if ($(this).css('display') !== 'none') {
-                            frieght = $(this).find('#txtFrieghtAmt' + j.toString()).val();
-                            if (frieght == "")
-                        frieght = 0;
+                        //    frieght = $(this).find('#txtFrieghtAmt' + j.toString()).val();
+                        //    if (frieght == "")
+                        //frieght = 0;
 
                          var amt = $(this).find('#txtAmount' + j.toString()).val();
                             if (amt == "")
                         amt = 0;
 
                          totamt += eval(amt);
-                         totfrieght += eval(frieght);
+                         //totfrieght += eval(frieght);
 
                           var tamt = $(this).find('#txtTotalAmount' + j.toString()).val();
                             if (tamt == "")
@@ -541,10 +556,48 @@
                               }
                         j += 1;
                     });
-                  document.getElementById("txtFrieghtcharge").value = totfrieght.toFixed(2);
+                  //document.getElementById("txtFrieghtcharge").value = totfrieght.toFixed(2);
                    document.getElementById("txtGross").value = totamt.toFixed(2);
-                   document.getElementById("txtNet").value = totamount.toFixed(2);
+                   //document.getElementById("txtNet").value = totamount.toFixed(2);
                  document.getElementById("hidnet").value = totamount.toFixed(2);  
+
+                 //////////total net amount
+
+                 var netamt = document.getElementById("hidnet").value;
+                var frieght =document.getElementById("txtFrieghtcharge").value;
+                 var packing =document.getElementById("txtPackingcharges").value;
+                  var other =document.getElementById("txtOthercharges").value;
+                  var roundoff =document.getElementById("txtRound").value;
+                   var otherdeduct =document.getElementById("txtotherdeduction").value;
+                    var roundoffminus =document.getElementById("txtRoundminus").value;
+                //alert(netamt);
+                var totamounts = 0;
+                var rotamt = 0;
+                  if (frieght == "")
+                        frieght = 0;
+
+                         if (packing == "")
+                        packing = 0;
+
+                         if (other == "")
+                        other = 0;
+
+                         if (roundoff == "")
+                        roundoff = 0;
+
+                        if (otherdeduct == "")
+                        otherdeduct = 0;
+
+                         if (roundoffminus == "")
+                        roundoffminus = 0;
+
+                totamounts = eval(frieght) + eval(packing) + eval(other) + eval(roundoff) + eval(netamt) ;
+                rotamt = eval(totamounts) - (eval(roundoffminus) + eval(otherdeduct));
+                 document.getElementById("txtNet").value = rotamt.toFixed(2); 
+
+
+
+
                 }
                 catch (ex) {
                     alert(ex.message);
@@ -558,7 +611,7 @@
                   var roundoff =document.getElementById("txtRound").value;
                    var otherdeduct =document.getElementById("txtotherdeduction").value;
                     var roundoffminus =document.getElementById("txtRoundminus").value;
-
+                //alert(netamt);
                 var totamount = 0;
                 var rotamt = 0;
                   if (frieght == "")
