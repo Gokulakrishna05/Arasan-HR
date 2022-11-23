@@ -7,21 +7,21 @@ namespace Arasan.Interface
 {
     public interface IDirectPurchase
     {
-        DataTable GetBranch();
-        DataTable GetSupplier();
-        DataTable GetCurency();
-        DataTable GetLocation();
-        DataTable GetItem(string value);
+        //DataTable GetBranch();
+        //DataTable GetSupplier();
+        //DataTable GetCurency();
+        //DataTable GetLocation();
+        //DataTable GetItem(string value);
        //DataTable GetItemSubGrp();
        // DataTable GetItemSubGroup(string id);
 
-        DataTable GetItemGrp();
-        DataTable GetItemSubGrp();
-        DataTable GetItemSubGroup(string id);
-        DataTable GetItemDetails(string ItemId);
+        //DataTable GetItemGrp();
+        //DataTable GetItemSubGrp();
+        //DataTable GetItemSubGroup(string id);
+        //DataTable GetItemDetails(string ItemId);
         DataTable GetItemCF(string ItemId, string unitid);
         string DirectPurCRUD(DirectPurchase cy);
-        DirectPurchase GetDirectPurById(string id);
+       
       
         IEnumerable<DirectPurchase> GetAllDirectPur();
         DataTable GetDirectPurchase(string id);

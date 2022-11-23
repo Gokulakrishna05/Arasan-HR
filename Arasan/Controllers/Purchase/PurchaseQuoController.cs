@@ -93,7 +93,7 @@ namespace Arasan.Controllers
                 }
                 ca.Net = Math.Round(total, 2);
 
-                //}
+                
 
                 ca.QoLst = Data;
             }
@@ -327,38 +327,38 @@ namespace Arasan.Controllers
         //    return Json(BindItemlst(itemid));
 
         //}
-        //public ActionResult GetItemDetail(string ItemId)
-        //{
-        //    try
-        //    {
-        //        DataTable dt = new DataTable();
-        //        DataTable dt1 = new DataTable();
-        //        string Desc = "";
-        //        string unit = "";
-        //        string CF = "";
-        //        string price = "";
-        //        dt = PurquoService.GetItemDetails(ItemId);
+        public ActionResult GetItemDetail(string ItemId)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                DataTable dt1 = new DataTable();
+                string Desc = "";
+                string unit = "";
+                string CF = "";
+                string price = "";
+                dt = datatrans.GetItemDetails(ItemId);
 
-        //        if (dt.Rows.Count > 0)
-        //        {
-        //            Desc = dt.Rows[0]["ITEMDESC"].ToString();
-        //            unit = dt.Rows[0]["UNITID"].ToString();
-        //            price = dt.Rows[0]["LATPURPRICE"].ToString();
-        //            dt1 = PurquoService.GetItemCF(ItemId, dt.Rows[0]["UNITMASTID"].ToString());
-        //            if (dt1.Rows.Count > 0)
-        //            {
-        //                CF = dt1.Rows[0]["CF"].ToString();
-        //            }
-        //        }
+                if (dt.Rows.Count > 0)
+                {
+                    Desc = dt.Rows[0]["ITEMDESC"].ToString();
+                    unit = dt.Rows[0]["UNITID"].ToString();
+                    price = dt.Rows[0]["LATPURPRICE"].ToString();
+                    dt1 = PurquoService.GetItemCF(ItemId, dt.Rows[0]["UNITMASTID"].ToString());
+                    if (dt1.Rows.Count > 0)
+                    {
+                        CF = dt1.Rows[0]["CF"].ToString();
+                    }
+                }
 
-        //        var result = new { Desc = Desc, unit = unit, CF = CF, price = price };
-        //        return Json(result);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
+                var result = new { Desc = Desc, unit = unit, CF = CF, price = price };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
 
         //public JsonResult GetItemGrpJSON()

@@ -12,7 +12,7 @@ namespace Arasan.Interface
         //DataTable GetCurency();
         //DataTable GetItem(string value);
         //DataTable GetItemGrp();
-        //DataTable GetItemCF(string ItemId, string unitid);
+        DataTable GetItemCF(string ItemId, string unitid);
 
         //DataTable GetItemDetails(string ItemId);
         string PurQuotationCRUD(PurchaseQuo cy);

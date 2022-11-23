@@ -49,6 +49,8 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Doc No<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
                                         @Html.TextBoxFor(C => C.DocNo, new { @id = "txtDocNo", @class = "form-control", @TabIndex = 2 })
+                                            @Html.HiddenFor(C => C.DPId)
+
                                             
                                     </div>
                                 </div>
@@ -178,11 +180,11 @@
                                                             <th> Amount</th>
                                                             <th> Disc %</th>
                                                             <th> Disc amount</th>
-                                                           @* <th> Frieght charges</th>*@
-                                                            <th> Cost Rate</th>
+                                                            <th> Frieght charges</th>
+                                                           @* <th> Cost Rate</th>
                                                             <th>Assessable Value</th>
-                                                            <th>Tariff Id</th>
-                                                            @*<th> Cost Rate</th>*@
+                                                            <th>Tariff Id</th>*@
+                                                          
                                                             <th>CGSTP</th>
                                                             <th>SGSTP</th>
                                                             <th>IGSTP</th>
@@ -196,7 +198,8 @@
                                                           @{
 
                                                             int i = 0;
-                                                           
+                                                            int j = 1;
+
                                                              foreach (var item in Model.DirLst.ToList())
                                                             {
                                                                 <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
@@ -206,7 +209,7 @@
                                                                 </td>
                                                              <td>
                                                             @Html.DropDownListFor(o => o.DirLst[i].ItemId, Model.DirLst[i].Itemlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItem" + i, style = "width: 200px;", onchange = "changeItem(this.value," + i + ")" })
-
+                                                            @Html.HiddenFor(o => o.DirLst[i].saveItemId)
                                                                 </td>
                                                         <td>
                                                             @Html.TextBoxFor(o => o.DirLst[i].Unit, new { @id = "txtUnit" + i, @class = "form-control", style = "width: 80px;" , @readonly = "readonly"})
@@ -215,7 +218,7 @@
                                                             @Html.TextBoxFor(o => o.DirLst[i].ConFac, new { @id = "txtConFac" + i, @class = "form-control", style = "width: 80px;" , @readonly = "readonly"})
                                                         </td>
                                                         <td>
-                                                            @Html.TextBoxFor(o => o.DirLst[i].PurType, new { @id = "txtPurType" + i, @class = "form-control", style = "width: 80px;"})
+                                                            @Html.DropDownListFor(o => o.DirLst[i].PurType, Model.DirLst[i].PURLst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlPurtype" + i, style = "width: 170px;"})                                                        
                                                         </td>
                                                         <td>
                                                             @Html.TextBoxFor(o => o.DirLst[i].Quantity, new { @id = "txtQuantity" + i, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")" })
@@ -224,6 +227,8 @@
                                                             @Html.TextBoxFor(o => o.DirLst[i].rate, new { @id = "txtrate" + i, @class = "form-control", style = "width: 80px;",@readonly="readonly",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")" })
                                                         </td>
                                                         <td>
+                                                            @Html.HiddenFor(o => o.DirLst[i].Isvalid, new { @id = "Isvalid" + i })
+
                                                             @Html.TextBoxFor(o => o.DirLst[i].Amount, new { @id = "txtAmount" + i, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @readonly = "readonly" })
                                                         </td>                                                             
                                                         <td>
@@ -231,17 +236,11 @@
                                                         </td>                                                    
                                                         <td>
                                                             @Html.TextBoxFor(o => o.DirLst[i].DiscAmount, new { @id = "txtDiscAmount" + i, @class = "form-control", style = "width: 80px;" })
-                                                        </td>                                                             
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.DirLst[i].CostRate, new { @id = "txtCostRate" + i, @class = "form-control", style = "width: 80px;" })
-                                                        </td>                                                             
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.DirLst[i].Assessable, new { @id = "txtAssessable" + i, @class = "form-control", style = "width: 80px;" })
-                                                        </td>                                                          
-                                                         <td>
-                                                            @Html.TextBoxFor(o => o.DirLst[i].TariffId, new { @id = "txtTariffId" + i, @class = "form-control", style = "width: 80px;"} )
+                                                        </td>    
+                                                          <td>
+                                                            @Html.TextBoxFor(o => o.DirLst[i].FrigCharge, new { @id = "txtFrigCharge" + i, @class = "form-control", style = "width: 80px;" })
                                                         </td>     
-
+                                                      
                                                         <td>
                                                             @Html.TextBoxFor(o => o.DirLst[i].CGSTP, new { @id = "txtCGSTP" + i, @class = "form-control", style = "width: 80px;" , @readonly = "readonly"})
                                                         </td>   
@@ -274,6 +273,7 @@
                                                                     </td>
                                                             </tr>
                                                             i = i + 1;
+                                                    j = j + 1;
                                                    
                                                 }
                                             }
@@ -565,12 +565,9 @@
         
         var DiscAmount = "<td><input class='form-control' id='txtDiscAmount" + index + "' name='DirLst[" + index + "].DiscAmount'  style='width: 80px;' type='text'   /></td>";
         
-        var CostRate = "<td><input class='form-control' id='txtCostRate" + index + "' name='DirLst[" + index + "].CostRate'  style='width: 80px;' type='text'    /></td>";
+        var FrigCharge = "<td><input class='form-control' id='txtFrigCharge" + index + "' name='DirLst[" + index + "].CostRate'  style='width: 80px;' type='text'    /></td>";
         
-        var Assessable = "<td><input class='form-control' id='txtAssessable" + index + "' name='DirLst[" + index + "].Assessable'  style='width: 80px;' type='text'    /></td>";
-        
-        var TariffId = "<td><input class='form-control' id='txtTariffId" + index + "' name='DirLst[" + index + "].TariffId'  style='width: 80px;' type='text'  /></td>";
-        
+      
         var CGSTP = "<td><input class='form-control' id='txtCGSTP" + index + "' name='DirLst[" + index + "].CGSTP'  style='width: 80px;' type='text'  /></td>";
         
         var SGSTP = "<td><input class='form-control' id='txtSGSTP" + index + "' name='DirLst[" + index + "].SGSTP'  style='width: 80px;' type='text'    /></td>";
@@ -590,7 +587,7 @@
         var removeCell = "<td><input id='Isvalid" + index + "' name='Itemlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='DirLst.Index' type='hidden' value='" + index + "'  /></td>";
 
 
-        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + ItemGrp + Item + Unit + ConFac + PurType + Quantity + rate + Amount + Disc + DiscAmount + CostRate + Assessable + TariffId + CGSTP + SGSTP + IGSTP + CGST + SGST + IGST +TotalAmount + removeCell + "</tr>";
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + ItemGrp + Item + Unit + ConFac + PurType + Quantity + rate + Amount + Disc + DiscAmount + FrigCharge  + CGSTP + SGSTP + IGSTP + CGST + SGST + IGST +TotalAmount + removeCell + "</tr>";
         //alert(Packing);
         $("#tbBooks").append(newRow);
 

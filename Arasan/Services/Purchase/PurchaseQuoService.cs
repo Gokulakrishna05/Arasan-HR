@@ -69,16 +69,16 @@ namespace Arasan.Services
         //    adapter.Fill(dtt);
         //    return dtt;
         //}
-        //public DataTable GetItemCF(string ItemId, string unitid)
-        //{
-        //    string SvSql = string.Empty;
-        //    SvSql = "Select CF from itemmasterpunit where ITEMMASTERID='" + ItemId + "' AND UNIT='" + unitid + "'";
-        //    DataTable dtt = new DataTable();
-        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-        //    adapter.Fill(dtt);
-        //    return dtt;
-        //}
+        public DataTable GetItemCF(string ItemId, string unitid)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select CF from itemmasterpunit where ITEMMASTERID='" + ItemId + "' AND UNIT='" + unitid + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         //public DataTable GetItemDetails(string ItemId)
         //{
         //    string SvSql = string.Empty;
@@ -119,7 +119,7 @@ namespace Arasan.Services
         public DataTable GetPurchaseQuoItemDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select PURQUOTDETAIL.QTY,PURQUOTDETAIL.PURQUOTDETAILID,PURQUOTDETAIL.ITEMID,UNITMAST.UNITID,PURQUOTDETAIL.RATE from PURQUOTDETAIL LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=PURQUOTDETAIL.UNIT  where PURQUOTDETAIL.PURQUOTBASICID='" + id + "'";
+            SvSql = "Select PURQUOTDETAIL.QTY,PURQUOTDETAIL.PURQUOTDETAILID,PURQUOTDETAIL.ITEMID,UNITMAST.UNITID,PURQUOTDETAIL.RATE  from PURQUOTDETAIL LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=PURQUOTDETAIL.UNIT  where PURQUOTDETAIL.PURQUOTBASICID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
