@@ -17,57 +17,44 @@ namespace Arasan.Services
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
         }
-        public DataTable GetBranch()
+      
+   
+        public DataTable GetItemCF(string ItemId, string unitid)
         {
             string SvSql = string.Empty;
-            SvSql = "select BRANCHMASTID,BRANCHID from BRANCHMAST order by BRANCHMASTID asc";
+            SvSql = "Select CF from itemmasterpunit where ITEMMASTERID='" + ItemId + "' AND UNIT='" + unitid + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetLocation()
+        public IEnumerable<SICItem> GetAllStoreIssueItem(string id)
         {
-            string SvSql = string.Empty;
-            SvSql = "Select LOCID,LOCDETAILSID from LOCDETAILS ";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
-        public DataTable GetEmp()
-        {
-            string SvSql = string.Empty;
-            SvSql = "Select EMPID,EMPNAME,EMPMASTID from EMPMAST";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
-        public DataTable GetItem(string value)
-        {
-            string SvSql = string.Empty;
-            SvSql = "select ITEMID,ITEMMASTERID from ITEMMASTER WHERE ITEMGROUP='" + value + "'";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
+            List<SICItem> cmpList = new List<SICItem>();
+            using (OracleConnection con = new OracleConnection(_connectionString))
+            {
+
+                using (OracleCommand cmd = con.CreateCommand())
+                {
+                    con.Open();
+                    cmd.CommandText = "Select SCISSDETAIL.QTY,SCISSDETAIL.SCISSDETAILID,ITEMMASTER.ITEMID,UNITMAST.UNITID from SCISSDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=SCISSDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  where SCISSDETAIL.SCISSBASICID='" + id + "'";
+                    OracleDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        SICItem cmp = new SICItem
+                        {
+                            ItemId = rdr["ITEMID"].ToString(),
+                            Unit = rdr["UNITID"].ToString(),
+                            Quantity = Convert.ToDouble(rdr["QTY"].ToString())
+                        };
+                        cmpList.Add(cmp);
+                    }
+                }
+            }
+            return cmpList;
         }
 
-        public DataTable GetItemGrp()
-        {
-            string SvSql = string.Empty;
-            SvSql = "Select ITEMGROUPID,GROUPCODE from itemgroup";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
         public IEnumerable<StoreIssueConsumables> GetAllStoreIssue()
         {
             List<StoreIssueConsumables> cmpList = new List<StoreIssueConsumables>();
@@ -113,6 +100,16 @@ namespace Arasan.Services
         {
             string SvSql = string.Empty;
             SvSql = "Select  SCISSBASIC.BRANCHID,SCISSBASIC.DOCID,to_char(DOCDATE,'dd-MON-yyyy')DOCDATE,SCISSBASIC.REQNO,to_char(REQDATE,'dd-MON-yyyy')REQDATE,SCISSBASIC.TOLOCID,SCISSBASIC.LOCIDCONS,SCISSBASIC.PROCESSID,SCISSBASIC.MCID,SCISSBASIC.MCNAME,SCISSBASIC.NARRATION,SCISSBASIC.USERID,SCISSBASIC.WCID,SCISSBASICID from SCISSBASIC Where  SCISSBASIC.SCISSBASICID='" + name + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetSICItemDetails(string name)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select SCISSDETAIL.QTY,SCISSDETAIL.SCISSDETAILID,SCISSDETAIL.ITEMID,UNITMAST.UNITID,SCISSDETAIL.RATE,CONVFACTOR,DRUMYN,SERIALYN,PENDQTY,REQQTY,AMOUNT,INDP from SCISSDETAIL LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=SCISSDETAIL.UNIT  where SCISSDETAIL.SCISSBASICID='" + name + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

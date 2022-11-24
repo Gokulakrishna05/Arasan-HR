@@ -60,6 +60,7 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Document ID<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.DocNo, new { @id = "txtDocNo", @class = "form-control", @TabIndex = 2 })<br />
+                                            @Html.HiddenFor(C => C.SIId)
                                         </div>
                                 </div>
                             </div>
@@ -173,19 +174,19 @@
                                                         <tr>
 
                                                 <th> Item Group </th>
-                                                            <th> Item ID </th>
+                                                            <th> Item  </th>
                                                             <th>Unit</th>
                                                             <th> Req Qty </th>
-                                                            <th> From Bin</th>
+                                                          @*  <th> From Bin</th>*@
                                                              <th> Quantity </th>
-                                                            <th> To Bin ID </th>
+                                                            <th> Drum</th>
                                                            @* <th> Batch </th>*@
                                                             <th> Serial </th>
                                                             <th> Pend.sch.Qty </th>
                                                             <th> Pend Qty </th>
                                                             <th> Current Stock </th>
                                                            @* <th> Iss Qty </th>*@
-                                                            <th>IndCtrl</th>
+                                                          @*  <th>IndCtrl</th>*@
 
 
 
@@ -220,17 +221,19 @@
                                                             @Html.TextBoxFor(o => o.SIPLst[i].ReqQty, new { @id = "txtReqQty" + i, @class = "form-control", style = "width: 80px;" })
                                                         </td>
                                                         <td>
-                                                            @Html.TextBoxFor(o => o.SIPLst[i].FromBin, new { @id = "txtFromBin" + i, @class = "form-control", style = "width: 80px;" })
-                                                        </td>
-                                                        <td>
                                                             @Html.TextBoxFor(o => o.SIPLst[i].Quantity, new { @id = "txtQuantity" + i, @class = "form-control", style = "width: 80px;" })
                                                         </td>
-                                                       
                                                         <td>
-                                                            @Html.TextBoxFor(o => o.SIPLst[i].ToBin, new { @id = "txtToBin" + i, @class = "form-control", style = "width: 80px;" })
+                                                            @Html.DropDownListFor(o => o.SIPLst[i].Drum, Model.SIPLst[i].DRLst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlDrum" + i, style = "width: 170px;"})
                                                         </td>
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.SIPLst[i].Serial, new { @id = "txtSerial" + i, @class = "form-control", style = "width: 80px;" })
+
+
+
+                                                        @*<td>
+                                                            @Html.TextBoxFor(o => o.SIPLst[i].ToBin, new { @id = "txtToBin" + i, @class = "form-control", style = "width: 80px;" })
+                                                        </td>*@
+                                                                                                                   <td>
+                                                            @Html.DropDownListFor(o => o.SIPLst[i].Serial, Model.SIPLst[i].SRLst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlSerial" + i, style = "width: 170px;"})
                                                         </td>
                                                          <td>
                                                             @Html.TextBoxFor(o => o.SIPLst[i].SchQty, new { @id = "txtSchQty" + i, @class = "form-control", style = "width: 80px;" })
@@ -242,9 +245,9 @@
                                                             @Html.TextBoxFor(o => o.SIPLst[i].ClStock, new { @id = "txtClStock" + i, @class = "form-control", style = "width: 80px;" })
                                                         </td>
                                                         
-                                                        <td>
+                                                      @*  <td>
                                                             @Html.TextBoxFor(o => o.SIPLst[i].IndCtr, new { @id = "txtIndCtr" + i, @class = "form-control", style = "width: 80px;" })
-                                                        </td>
+                                                        </td>*@
                                                        
                                                         <td>
                                                             @Html.HiddenFor(o => o.SIPLst[i].Isvalid, new { @id = "Isvalid" + i })

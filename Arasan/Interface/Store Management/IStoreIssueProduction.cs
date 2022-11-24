@@ -14,9 +14,13 @@ namespace Arasan.Interface
         //DataTable GetEmp();
         DataTable EditSIPbyID(string Poid);
         DataTable GetItem(string value);
-        //DataTable GetItemSubGrp();
-        // DataTable GetItemSubGroup(string id);
+        DataTable GetItemSubGrp();
+         DataTable GetItemSubGroup(string id);
+        DataTable GetItemCF(string ItemId, string unitid);
+        DataTable GetSICItemDetails(string id);
+        IEnumerable<SIPItem> GetAllStoreIssueItem(string id);
 
+        DataTable GetItemDetails(string ItemId);
         DataTable GetItemGrp();
     }
 }
