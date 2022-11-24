@@ -66,6 +66,31 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
+        public IEnumerable<SIPItem> GetAllStoreIssueItem(string id)
+        {
+            List<SIPItem> cmpList = new List<SIPItem>();
+            using (OracleConnection con = new OracleConnection(_connectionString))
+            {
+
+                using (OracleCommand cmd = con.CreateCommand())
+                {
+                    con.Open();
+                    cmd.CommandText = "Select STORESISSDETAIL.QTY,STORESISSDETAIL.STORESISSDETAILID,ITEMMASTER.ITEMID,UNITMAST.UNITID from STORESISSDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=STORESISSDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  where STORESISSDETAIL.STORESISSBASICID='" + id + "'";
+                    OracleDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        SIPItem cmp = new SIPItem
+                        {
+                            ItemId = rdr["ITEMID"].ToString(),
+                            Unit = rdr["UNITID"].ToString(),
+                            Quantity = Convert.ToDouble(rdr["QTY"].ToString())
+                        };
+                        cmpList.Add(cmp);
+                    }
+                }
+            }
+            return cmpList;
+        }
         public IEnumerable<StoreIssueProduction> GetAllStoreIssuePro()
         {
             List<StoreIssueProduction> cmpList = new List<StoreIssueProduction>();
@@ -94,8 +119,7 @@ namespace Arasan.Services
                             LocCon = rdr["LOCIDCONS"].ToString(),
                             // net = rdr["NET"].ToString(),
                             Process = rdr["PROCESSID"].ToString(),
-                            //MCNo = rdr["MCID"].ToString(),
-                            //MCNa = rdr["MCNAME"].ToString(),
+                            
                             Narr = rdr["NARRATION"].ToString(),
                             SchNo = rdr["PSCHNO"].ToString(),
                             Work = rdr["WCID"].ToString()
@@ -116,7 +140,17 @@ namespace Arasan.Services
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
-        } 
+        }
+        public DataTable GetSICItemDetails(string name)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select STORESISSDETAIL.QTY,STORESISSDETAIL.STORESISSDETAILID,STORESISSDETAIL.ITEMID,UNITMAST.UNITID,STORESISSDETAIL.RATE,CONVFACTOR,DRUMYN,SERIALYN,PENDQTY,REQQTY,SCHQTY,AMOUNT,CLSTOCK from STORESISSDETAIL LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=STORESISSDETAIL.UNIT  where STORESISSDETAIL.STORESISSBASICID='" + name + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public string StoreIssueProCRUD(StoreIssueProduction cy)
         {
             string msg = "";
@@ -139,8 +173,8 @@ namespace Arasan.Services
                     {
                         StatementType = "Update";
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.SIId;
-
                     }
+                                      
                     objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
                     objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.DocNo;
                     objCmd.Parameters.Add("DOCDATE", OracleDbType.Date).Value = DateTime.Parse(cy.DocDate);
@@ -178,5 +212,46 @@ namespace Arasan.Services
 
             return msg;
         }
+        public DataTable GetItemCF(string ItemId, string unitid)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select CF from itemmasterpunit where ITEMMASTERID='" + ItemId + "' AND UNIT='" + unitid + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetItemSubGrp()
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select SGCODE,ITEMSUBGROUPID FROM ITEMSUBGROUP";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetItemSubGroup(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select ITEMID,SUBGROUPCODE from ITEMMASTER WHERE ITEMMASTERID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetItemDetails(string ItemId)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select UNITMAST.UNITID,ITEMID,ITEMDESC,UNITMAST.UNITMASTID,LATPURPRICE,ITEMMASTERPUNIT.CF,ITEMMASTER.LATPURPRICE from ITEMMASTER LEFT OUTER JOIN UNITMAST  on ITEMMASTER.PRIUNIT=UNITMAST.UNITMASTID LEFT OUTER JOIN ITEMMASTERPUNIT ON  ITEMMASTER.ITEMMASTERID=ITEMMASTERPUNIT.ITEMMASTERID Where ITEMMASTER.ITEMMASTERID='" + ItemId + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
     }
 }

@@ -196,7 +196,7 @@
                                                                <th> Item Group </th>
                                                             <th> Item </th>
                                                             <th>Unit</th>
-                                                            <th> From Bin</th>
+                                                           @* <th> From Bin</th>*@
                                                          @*   <th> Batch?</th>*@
                                                 <th> Iss Qty </th>
                                                             <th> Drum?</th>
@@ -208,7 +208,7 @@
                                                           @*  <th> Current Stock </th>*@
                                                            
                                                             <th> Indp </th>
-                                                            <th>IndCtr</th>
+                                                           @* <th>IndCtr</th>*@
                                                             <th>Amount</th>
 
 
@@ -234,23 +234,23 @@
                                                             </td>
                                                             <td>
                                                                 @Html.DropDownListFor(o => o.SICLst[i].ItemId, Model.SICLst[i].Itemlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItem" + i, style = "width: 200px;", onchange = "changeItem(this.value," + i + ")" })
-
+                                                            @Html.HiddenFor(o => o.SICLst[i].saveItemId)
                                                             </td>
                                                             <td>
                                                                 @Html.TextBoxFor(o => o.SICLst[i].Unit, new { @id = "txtUnit" + i, @class = "form-control", style = "width: 80px;" , @readonly = "readonly"})
                                                             </td>
-                                                            <td>
+                                                          @*  <td>
                                                                 @Html.TextBoxFor(o => o.SICLst[i].FromBin, new { @id = "txtFromBin" + i, @class = "form-control", style = "width: 80px;" })
-                                                            </td>
+                                                            </td>*@
                                                             <td>
                                                                 @Html.TextBoxFor(o => o.SICLst[i].Quantity, new { @id = "txtQuantity" + i, @class = "form-control", style = "width: 80px;" })
                                                             </td>
                                                             <td>
-                                                                @Html.TextBoxFor(o => o.SICLst[i].Drum, new { @id = "txtDrum" + i, @class = "form-control", style = "width: 80px;" })
-                                                            </td>
+                                                            @Html.DropDownListFor(o => o.SICLst[i].Drum, Model.SICLst[i].DRLst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlDrum" + i, style = "width: 170px;"})
+                                                                                                                                                                                                 </td>
                                                             <td>
-                                                                @Html.TextBoxFor(o => o.SICLst[i].Serial, new { @id = "txtSerial" + i, @class = "form-control", style = "width: 80px;" })
-                                                            </td>
+                                                            @Html.DropDownListFor(o => o.SICLst[i].Serial, Model.SICLst[i].SRLst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlSerial" + i, style = "width: 170px;"})
+                                                        </td>
                                                             <td>
                                                                 @Html.TextBoxFor(o => o.SICLst[i].PendQty, new { @id = "txtPendQty" + i, @class = "form-control", style = "width: 80px;" })
                                                             </td>
@@ -260,10 +260,11 @@
                                                             <td>
                                                                 @Html.TextBoxFor(o => o.SICLst[i].Indp, new { @id = "txtIndp" + i, @class = "form-control", style = "width: 80px;" })
                                                             </td>
-      <td>
+                                                              @*  <td>
                                                                 @Html.TextBoxFor(o => o.SICLst[i].IndCtr, new { @id = "txtIndCtr" + i, @class = "form-control", style = "width: 80px;" })
-                                                            </td>                                                               
+                                                            </td>  *@                                                             
                                                             <td>
+                                                            @Html.HiddenFor(o => o.SICLst[i].Isvalid, new { @id = "Isvalid" + i })
                                                                 @Html.TextBoxFor(o => o.SICLst[i].Amount, new { @id = "txtAmount" + i, @class = "form-control", style = "width: 80px;" })
                                                             </td>
                                                             <td>
@@ -405,10 +406,10 @@
 
         var Quantity = "<td><input class='form-control' id='txtQuantity" + index + "' name='SICLst[" + index + "].Quantity'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;text-align:right' type='text' value='0' onchange = 'changeQty(this.value," + index + ")' /></td>";
 
-        var Drum = "<td><input class='form-control' id='txtDrum" + index + "' name='SICLst[" + index + "].Drum'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;text-align:right' type='text' value='0' readonly='True' /></td>";
+        var Drum = "<td><input class='form-control' id='txtDrum" + index + "' name='SICLst[" + index + "].Drum'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 170px;text-align:right' type='text' value='0' readonly='True' /></td>";
 
 
-        var Serial = "<td><input class='form-control' id='txtSerial" + index + "' name='SICLst[" + index + "].Serial'  style='width: 80px;' type='text'    /></td>";
+        var Serial = "<td><input class='form-control' id='txtSerial" + index + "' name='SICLst[" + index + "].Serial'  style='width: 170px;' type='text'    /></td>";
 
         var PendQty = "<td><input class='form-control' id='txtPendQty" + index + "' name='SICLst[" + index + "].PendQty'  style='width: 80px;' type='text'   /></td>";
 

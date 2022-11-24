@@ -326,7 +326,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select ENQ_ID,FOLLOWED_BY,FOLLOW_DATE,NEXT_FOLLOW_DATE,REMARKS,FOLLOW_STATUS,ENQ_FOLLOW_ID from ENQUIRY_FOLLOW_UP";
+                    cmd.CommandText = "Select ENQ_ID,FOLLOWED_BY,to_char(FOLLOW_DATE,'dd-MON-yyyy')FOLLOW_DATE,to_char(NEXT_FOLLOW_DATE,'dd-MON-yyyy')NEXT_FOLLOW_DATE,REMARKS,FOLLOW_STATUS,ENQ_FOLLOW_ID from ENQUIRY_FOLLOW_UP";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -338,7 +338,7 @@ namespace Arasan.Services
                             Followdate = rdr["FOLLOW_DATE"].ToString(),
                             Nfdate = rdr["NEXT_FOLLOW_DATE"].ToString(),
                             Rmarks = rdr["REMARKS"].ToString(),
-                            Enquiryst = rdr["FOLLOW_STATUS"].ToString(),
+                            Enquiryst = rdr["FOLLOW_STATUS"].ToString()
                         };
                         cmpList.Add(cmp);
                     }
@@ -349,7 +349,7 @@ namespace Arasan.Services
         public DataTable GetFolowup(string enqid)
         {
             string SvSql = string.Empty;
-            SvSql = "Select ENQ_ID,FOLLOWED_BY,FOLLOW_DATE,NEXT_FOLLOW_DATE,REMARKS,FOLLOW_STATUS,ENQ_FOLLOW_ID from ENQUIRY_FOLLOW_UP WHERE ENQ_ID='" + enqid + "'";
+            SvSql = "Select ENQUIRY_FOLLOW_UP.ENQ_ID,ENQUIRY_FOLLOW_UP.FOLLOWED_BY,to_char(ENQUIRY_FOLLOW_UP.FOLLOW_DATE,'dd-MON-yyyy')FOLLOW_DATE,to_char(ENQUIRY_FOLLOW_UP.NEXT_FOLLOW_DATE,'dd-MON-yyyy')NEXT_FOLLOW_DATE,ENQUIRY_FOLLOW_UP.REMARKS,ENQUIRY_FOLLOW_UP.FOLLOW_STATUS,ENQ_FOLLOW_ID from ENQUIRY_FOLLOW_UP WHERE ENQ_ID='" + enqid + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -357,37 +357,37 @@ namespace Arasan.Services
             return dtt;
         
         }
-        public PurchaseFollowup GetPurchaseFollowupById(string eid)
-        {
-            PurchaseFollowup PurchaseFollowup = new PurchaseFollowup();
-            using (OracleConnection con = new OracleConnection(_connectionString))
-            {
-                using (OracleCommand cmd = con.CreateCommand())
-                {
-                    con.Open();
-                    cmd.CommandText = "Select ENQ_ID,FOLLOWED_BY,FOLLOW_STATUS,FOLLOW_DATE,NEXT_FOLLOW_DATE,REMARKS,FOLLOW_STATUS,ENQ_FOLLOW_ID  from ENQUIRY_FOLLOW_UP where ENQ_FOLLOW_ID=" + eid + "";
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
-                    {
-                        PurchaseFollowup cmp = new PurchaseFollowup
-                        {
-                            ID = rdr["ENQ_FOLLOW_ID"].ToString(),
-                            Enqno = rdr["ENQ_ID"].ToString(),
-                            Followby = rdr["FOLLOWED_BY"].ToString(),
-                            Followdate = rdr["FOLLOW_DATE"].ToString(),
-                            Nfdate = rdr["NEXT_FOLLOW_DATE"].ToString(),
-                            Rmarks = rdr["REMARKS"].ToString(),
-                            Enquiryst = rdr["FOLLOW_STATUS"].ToString(),
+        //public PurchaseFollowup GetPurchaseFollowupById(string eid)
+        //{
+        //    PurchaseFollowup PurchaseFollowup = new PurchaseFollowup();
+        //    using (OracleConnection con = new OracleConnection(_connectionString))
+        //    {
+        //        using (OracleCommand cmd = con.CreateCommand())
+        //        {
+        //            con.Open();
+        //            cmd.CommandText = "Select ENQ_ID,FOLLOWED_BY,FOLLOW_STATUS,FOLLOW_DATE,NEXT_FOLLOW_DATE,REMARKS,FOLLOW_STATUS,ENQ_FOLLOW_ID  from ENQUIRY_FOLLOW_UP where ENQ_FOLLOW_ID=" + eid + "";
+        //            OracleDataReader rdr = cmd.ExecuteReader();
+        //            while (rdr.Read())
+        //            {
+        //                PurchaseFollowup cmp = new PurchaseFollowup
+        //                {
+        //                    ID = rdr["ENQ_FOLLOW_ID"].ToString(),
+        //                    Enqno = rdr["ENQ_ID"].ToString(),
+        //                    Followby = rdr["FOLLOWED_BY"].ToString(),
+        //                    Followdate = rdr["FOLLOW_DATE"].ToString(),
+        //                    Nfdate = rdr["NEXT_FOLLOW_DATE"].ToString(),
+        //                    Rmarks = rdr["REMARKS"].ToString(),
+        //                    Enquiryst = rdr["FOLLOW_STATUS"].ToString(),
 
 
-                        };
+        //                };
 
-                        PurchaseFollowup = cmp;
-                    }
-                }
-            }
-            return PurchaseFollowup;
-        }
+        //                PurchaseFollowup = cmp;
+        //            }
+        //        }
+        //    }
+        //    return PurchaseFollowup;
+        //}
         public string PurchaseFollowupCRUD(PurchaseFollowup cy)
         {
             string msg = "";

@@ -61,6 +61,7 @@ namespace Arasan.Services
             }
             return cmpList;
         }
+
         public IEnumerable<DirItem> GetAllDirectPurItem(string id)
         {
             List<DirItem> cmpList = new List<DirItem>();

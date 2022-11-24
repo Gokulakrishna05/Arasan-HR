@@ -535,18 +535,18 @@ namespace Arasan.Controllers
                 {
                     if (Pf.ID == null)
                     {
-                        TempData["notice"] = "PurchaseFollowup Inserted Successfully...!";
+                        TempData["notice"] = "Followup Inserted Successfully...!";
                     }
                     else
                     {
-                        TempData["notice"] = "PurchaseFollowup Updated Successfully...!";
+                        TempData["notice"] = "Followup Updated Successfully...!";
                     }
-                    return RedirectToAction("PurchaseFollowup");
+                    return RedirectToAction("Followup");
                 }
 
                 else
                 {
-                    ViewBag.PageTitle = "Edit PurchaseFollowup";
+                    ViewBag.PageTitle = "Edit Followup";
                     TempData["notice"] = Strout;
                     //return View();
                 }
