@@ -27,7 +27,7 @@ namespace Arasan.Services.Store_Management
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select BRANCHID,FROMLOC,DESTLOC,DOCID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE,REASONCODE,GROSS,NET,NARRATION,ITEMTRANLOCID from ITEMTRANLOC";
+                    cmd.CommandText = "Select BRANCHID,FROMLOC,DESTLOC,DOCID,DOCDATE,REASONCODE,GROSS,NET,NARRATION,ITEMTRANLOCID from ITEMTRANLOC";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -60,7 +60,7 @@ namespace Arasan.Services.Store_Management
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select BRANCHID,FROMLOC,DESTLOC,DOCID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE,REASONCODE,GROSS,NET,NARRATION,ITEMTRANLOCID  from ITEMTRANLOC where ITEMTRANLOCID=" + eid + "";
+                    cmd.CommandText = "Select BRANCHID,FROMLOC,DESTLOC,DOCID,DOCDATE,REASONCODE,GROSS,NET,NARRATION,ITEMTRANLOCID  from ITEMTRANLOC where ITEMTRANLOCID=" + eid + "";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -96,9 +96,9 @@ namespace Arasan.Services.Store_Management
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
-                    OracleCommand objCmd = new OracleCommand("STORESACCBASICPROC", objConn);
+                    OracleCommand objCmd = new OracleCommand("ADDBASICPROC", objConn);
                     /*objCmd.Connection = objConn;
-                    objCmd.CommandText = "STORESACCBASICPROC";*/
+                    objCmd.CommandText = "ADDBASICPROC";*/
 
                     objCmd.CommandType = CommandType.StoredProcedure;
                     if (ss.ID == null)
@@ -115,7 +115,7 @@ namespace Arasan.Services.Store_Management
                     objCmd.Parameters.Add("FROMLOC", OracleDbType.NVarchar2).Value = ss.Location;
                     objCmd.Parameters.Add("DESTLOC", OracleDbType.NVarchar2).Value = ss.Toloc;
                     objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = ss.Docid;
-                    objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = DateTime.Parse(ss.Docdate);
+                    objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = ss.Docdate;
                     objCmd.Parameters.Add("REASONCODE", OracleDbType.NVarchar2).Value = ss.Reason;
                     objCmd.Parameters.Add("GROSS", OracleDbType.NVarchar2).Value = ss.Gro;
                     objCmd.Parameters.Add("NET", OracleDbType.NVarchar2).Value = ss.Net;
@@ -129,7 +129,7 @@ namespace Arasan.Services.Store_Management
                     }
                     catch (Exception ex)
                     {
-                        System.Console.WriteLine("Exception: {0}", ex.ToString());
+                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
                     }
                     objConn.Close();
                 }
@@ -146,7 +146,7 @@ namespace Arasan.Services.Store_Management
         public DataTable GetItemTransferDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select BRANCHID,FROMLOC,DESTLOC,DOCID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE,REASONCODE,GROSS,NET,NARRATION,ITEMTRANLOCID  from ITEMTRANLOC where ITEMTRANLOCID=" + id + "";
+            SvSql = "Select BRANCHID,FROMLOC,DESTLOC,DOCID,DOCDATE,REASONCODE,GROSS,NET,NARRATION,ITEMTRANLOCID  from ITEMTRANLOC where ITEMTRANLOCID=" + id + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

@@ -15,5 +15,6 @@ namespace Arasan.Interface.Store_Management
         DataTable GetBranch();
         DataTable GetItem();
         DataTable GetDirectAdditionDetails(string id);
+       
     }
 }
