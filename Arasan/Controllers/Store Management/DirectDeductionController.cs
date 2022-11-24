@@ -96,7 +96,7 @@ namespace Arasan.Controllers.Store_Management
             }
 
             return View(ss);
-        }
+        } 
         public IActionResult ListDirectDeduction()
         {
             IEnumerable<DirectDeduction> sta = DirectDeductionService.GetAllDirectDeduction();
