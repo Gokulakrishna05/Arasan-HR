@@ -9,6 +9,7 @@ using Arasan.Interface.Master;
 using Arasan.Services.Master;
 using MailKit.Net.Smtp;
 using MailKit.Security;
+using System.Xml.Linq;
 
 namespace Arasan.Controllers
 {
@@ -484,6 +485,7 @@ namespace Arasan.Controllers
         public IActionResult Followup(string id)
         {
             PurchaseFollowup cmp = new PurchaseFollowup();
+            List<PurchaseFollowupDetails> TData = new List<PurchaseFollowupDetails>();
             if (id == null)
             {
 
@@ -502,7 +504,7 @@ namespace Arasan.Controllers
                     DataTable dtt = new DataTable();
                     dtt = PurenqService.GetFolowup(id);
                     PurchaseFollowupDetails tda = new PurchaseFollowupDetails();
-                    List<PurchaseFollowupDetails> TData = new List<PurchaseFollowupDetails>();
+
                     if (dtt.Rows.Count > 0)
                     {
                         for (int i = 0; i < dtt.Rows.Count; i++)
@@ -516,13 +518,18 @@ namespace Arasan.Controllers
                             TData.Add(tda);
                         }
                     }
-              
-                cmp.pflst = TData;
                 }
             }
-            //IEnumerable<PurchaseFollowup> cmp = PurenqService.GetAllPurchaseFollowup();
-            return View(cmp);
-        }
+                    cmp.pflst = TData;
+                    return View(cmp);
+                }
+              
+
+            
+                //IEnumerable<PurchaseFollowup> cmp = PurenqService.GetAllPurchaseFollowup();
+            
+            
+        
         [HttpPost]
         public ActionResult Followup(PurchaseFollowup Pf, string id)
         {

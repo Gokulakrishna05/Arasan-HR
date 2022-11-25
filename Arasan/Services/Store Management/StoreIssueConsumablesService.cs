@@ -71,7 +71,7 @@ namespace Arasan.Services
                         StoreIssueConsumables cmp = new StoreIssueConsumables
                         {
 
-                            SIId = rdr["SCISSBASICID"].ToString(),
+                            ID = rdr["SCISSBASICID"].ToString(),
                             Branch = rdr["BRANCHID"].ToString(),
                            
                             DocNo = rdr["DOCID"].ToString(),
@@ -109,7 +109,7 @@ namespace Arasan.Services
         public DataTable GetSICItemDetails(string name)
         {
             string SvSql = string.Empty;
-            SvSql = "Select SCISSDETAIL.QTY,SCISSDETAIL.SCISSDETAILID,SCISSDETAIL.ITEMID,UNITMAST.UNITID,SCISSDETAIL.RATE,CONVFACTOR,DRUMYN,SERIALYN,PENDQTY,REQQTY,AMOUNT,INDP from SCISSDETAIL LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=SCISSDETAIL.UNIT  where SCISSDETAIL.SCISSBASICID='" + name + "'";
+            SvSql = "Select SCISSDETAIL.QTY,SCISSDETAIL.SCISSDETAILID,SCISSDETAIL.ITEMID,UNITMAST.UNITID,RATE,CONVFACTOR,DRUMYN,SERIALYN,PENDQTY,REQQTY,AMOUNT,INDP from SCISSDETAIL LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=SCISSDETAIL.UNIT  where SCISSDETAIL.SCISSBASICID='" + name + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -129,7 +129,7 @@ namespace Arasan.Services
                     
 
                     objCmd.CommandType = CommandType.StoredProcedure;
-                    if (cy.SIId == null)
+                    if (cy.ID == null)
                     {
                         StatementType = "Insert";
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
@@ -137,7 +137,7 @@ namespace Arasan.Services
                     else
                     {
                         StatementType = "Update";
-                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.SIId;
+                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
 
                     }
                     objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
@@ -159,9 +159,55 @@ namespace Arasan.Services
                
                 try
                 {
-                    objConn.Open();
-                    objCmd.ExecuteNonQuery();
-                    //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
+                        objConn.Open();
+                        objCmd.ExecuteNonQuery();
+                        Object Pid = objCmd.Parameters["OUTID"].Value;
+                        //string Pid = "0";
+                        if (cy.ID != null)
+                        {
+                            Pid = cy.ID;
+                        }
+                        foreach (SICItem cp in cy.SICLst)
+                        {
+                            if (cp.Isvalid == "Y" && cp.ItemId != "0")
+                            {
+                                using (OracleConnection objConns = new OracleConnection(_connectionString))
+                                {
+                                    OracleCommand objCmds = new OracleCommand("SICDETAILPROC", objConns);
+                                    if (cy.ID == null)
+                                    {
+                                        StatementType = "Insert";
+                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+
+                                    }
+                                    else
+                                    {
+                                        StatementType = "Update";
+                                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+
+                                    }
+                                    objCmds.CommandType = CommandType.StoredProcedure;
+                                    objCmds.Parameters.Add("SCISSBASICID", OracleDbType.NVarchar2).Value = Pid;
+                                    objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cp.ItemId;
+                                    objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = cp.Quantity;
+                                    objCmds.Parameters.Add("PUNIT", OracleDbType.NVarchar2).Value = cp.Unit;
+                                    objCmds.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = cp.rate;
+                                    objCmds.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = cp.Amount;
+                                    objCmds.Parameters.Add("PENDQTY", OracleDbType.NVarchar2).Value = cp.PendQty;
+                                    objCmds.Parameters.Add("REQQTY", OracleDbType.NVarchar2).Value = cp.ConFac;
+                                    objCmds.Parameters.Add("INDP", OracleDbType.NVarchar2).Value = cp.Indp;
+                                  
+                                    objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                                    objConns.Open();
+                                    objCmds.ExecuteNonQuery();
+                                    objConns.Close();
+                                }
+
+
+
+                            }
+                        }
+                       
                 }
                 catch (Exception ex)
                 {

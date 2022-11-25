@@ -11,9 +11,14 @@ namespace Arasan.Controllers
     public class StoreIssueProductionController : Controller
     {
         IStoreIssueProduction StoreIssueProt;
-        public StoreIssueProductionController(IStoreIssueProduction _StoreIssueProt)
+        private string? _connectionString;
+        IConfiguration? _configuratio;
+        DataTransactions datatrans;
+        public StoreIssueProductionController(IStoreIssueProduction _StoreIssueProt, IConfiguration _configuratio)
         {
             StoreIssueProt = _StoreIssueProt;
+            _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
+            datatrans = new DataTransactions(_connectionString);
         }
         public IActionResult StoreIssuePro(string id)
         {
@@ -48,7 +53,7 @@ namespace Arasan.Controllers
                     ca.DocNo = dt.Rows[0]["DOCID"].ToString();
                     ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
                     ca.ReqNo = dt.Rows[0]["REQNO"].ToString();
-                    ca.SIId = id;
+                    ca.ID = id;
                     ca.ReqDate = dt.Rows[0]["REQDATE"].ToString();
                     ca.Location = dt.Rows[0]["TOLOCID"].ToString();
                     ca.LocCon = dt.Rows[0]["LOCIDCONS"].ToString();
@@ -69,7 +74,7 @@ namespace Arasan.Controllers
                         double toaamt = 0;
                         tda.ItemGrouplst = BindItemGrplst();
                         DataTable dt3 = new DataTable();
-                        dt3 = StoreIssueProt.GetItemSubGroup(dt2.Rows[i]["ITEMID"].ToString());
+                        dt3 = datatrans.GetItemSubGroup(dt2.Rows[i]["ITEMID"].ToString());
                         if (dt3.Rows.Count > 0)
                         {
                             tda.ItemGroupId = dt3.Rows[0]["SUBGROUPCODE"].ToString();
@@ -78,7 +83,7 @@ namespace Arasan.Controllers
                         tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
                         tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
                         DataTable dt4 = new DataTable();
-                        dt4 = StoreIssueProt.GetItemDetails(tda.ItemId);
+                        dt4 = datatrans.GetItemDetails(tda.ItemId);
                         if (dt4.Rows.Count > 0)
                         {
 
@@ -92,10 +97,10 @@ namespace Arasan.Controllers
                         tda.Amount = toaamt;
                         tda.Unit = dt2.Rows[i]["UNITID"].ToString();
 
-                        tda.DRLst = BindDrum();
-                        tda.SRLst = BindSerial();
-                        tda.Drum = dt2.Rows[i]["DRUMYN"].ToString();
-                        tda.Serial = dt2.Rows[i]["SERIALYN"].ToString();
+                        //tda.DRLst = BindDrum();
+                        //tda.SRLst = BindSerial();
+                        //tda.Drum = dt2.Rows[i]["DRUMYN"].ToString();
+                        //tda.Serial = dt2.Rows[i]["SERIALYN"].ToString();
                         //tda.unitprim= dt2.Rows[i]["UNITID"].ToString();
                         //tda.FromBin = Convert.ToDouble(dt2.Rows[i]["CGSTPER"].ToString() == "" ? "0" : dt2.Rows[i]["CGSTPER"].ToString());
                         tda.PendQty = Convert.ToDouble(dt2.Rows[i]["PENDQTY"].ToString() == "" ? "0" : dt2.Rows[i]["PENDQTY"].ToString());
@@ -111,9 +116,11 @@ namespace Arasan.Controllers
                         tda.Isvalid = "Y";
                         TData.Add(tda);
                     }
+                    
                 }
-                ca.SIPLst = TData;
+               
             }
+            ca.SIPLst = TData;
             return View(ca);
         }
     
@@ -125,11 +132,11 @@ namespace Arasan.Controllers
 
             try
             {
-                Cy.SIId = id;
+                Cy.ID = id;
                 string Strout = StoreIssueProt.StoreIssueProCRUD(Cy);
                 if (string.IsNullOrEmpty(Strout))
                 {
-                    if (Cy.SIId == null)
+                    if (Cy.ID == null)
                     {
                         TempData["notice"] = "StoreIssuePro Inserted Successfully...!";
                     }
@@ -161,7 +168,7 @@ namespace Arasan.Controllers
         {
             try
             {
-                DataTable dtDesg = StoreIssueProt.GetBranch();
+                DataTable dtDesg = datatrans.GetBranch();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -178,7 +185,7 @@ namespace Arasan.Controllers
         {
             try
             {
-                DataTable dtDesg = StoreIssueProt.GetLocation();
+                DataTable dtDesg = datatrans.GetLocation();
 
 
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
@@ -194,36 +201,36 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public List<SelectListItem> BindDrum()
-        {
-            try
-            {
-                List<SelectListItem> lstdesg = new List<SelectListItem>();
-                lstdesg.Add(new SelectListItem() { Text = "YES", Value = "YES" });
-                lstdesg.Add(new SelectListItem() { Text = "NO", Value = "NO" });
+        //public List<SelectListItem> BindDrum()
+        //{
+        //    try
+        //    {
+        //        List<SelectListItem> lstdesg = new List<SelectListItem>();
+        //        lstdesg.Add(new SelectListItem() { Text = "YES", Value = "YES" });
+        //        lstdesg.Add(new SelectListItem() { Text = "NO", Value = "NO" });
 
-                return lstdesg;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        public List<SelectListItem> BindSerial()
-        {
-            try
-            {
-                List<SelectListItem> lstdesg = new List<SelectListItem>();
-                lstdesg.Add(new SelectListItem() { Text = "YES", Value = "YES" });
-                lstdesg.Add(new SelectListItem() { Text = "NO", Value = "NO" });
+        //        return lstdesg;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
+        //public List<SelectListItem> BindSerial()
+        //{
+        //    try
+        //    {
+        //        List<SelectListItem> lstdesg = new List<SelectListItem>();
+        //        lstdesg.Add(new SelectListItem() { Text = "YES", Value = "YES" });
+        //        lstdesg.Add(new SelectListItem() { Text = "NO", Value = "NO" });
 
-                return lstdesg;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        //        return lstdesg;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
         //public List<SelectListItem> BindEmp()
         //{
         //    try
@@ -245,7 +252,7 @@ namespace Arasan.Controllers
         {
             try
             {
-                DataTable dtDesg = StoreIssueProt.GetItem(value);
+                DataTable dtDesg = datatrans.GetItem(value);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -263,7 +270,7 @@ namespace Arasan.Controllers
         {
             try
             {
-                DataTable dtDesg = StoreIssueProt.GetItemSubGrp();
+                DataTable dtDesg = datatrans.GetItemSubGrp();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -286,11 +293,11 @@ namespace Arasan.Controllers
                 string unit = "";
                 string CF = "";
                 string price = "";
-                dt = StoreIssueProt.GetItemDetails(ItemId);
+                dt = datatrans.GetItemDetails(ItemId);
 
                 if (dt.Rows.Count > 0)
                 {
-                    Desc = dt.Rows[0]["ITEMDESC"].ToString();
+                    
                     unit = dt.Rows[0]["UNITID"].ToString();
                     price = dt.Rows[0]["LATPURPRICE"].ToString();
                     dt1 = StoreIssueProt.GetItemCF(ItemId, dt.Rows[0]["UNITMASTID"].ToString());
@@ -300,7 +307,7 @@ namespace Arasan.Controllers
                     }
                 }
 
-                var result = new { Desc = Desc, unit = unit, CF = CF, price = price };
+                var result = new {  unit = unit, CF = CF, price = price };
                 return Json(result);
             }
             catch (Exception ex)
@@ -310,7 +317,7 @@ namespace Arasan.Controllers
         }
         public JsonResult GetItemJSON(string itemid)
         {
-            DirItem model = new DirItem();
+            SIPItem model = new SIPItem();
             model.Itemlst = BindItemlst(itemid);
             return Json(BindItemlst(itemid));
 
