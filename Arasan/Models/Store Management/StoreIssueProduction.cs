@@ -11,7 +11,7 @@ namespace Arasan.Models
             this.Loclst = new List<SelectListItem>();
         }
         public List<SelectListItem> Brlst;
-        public string SIId { get; set; }
+        public string ID { get; set; }
 
         public string Branch { get; set; }
 

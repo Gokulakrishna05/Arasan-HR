@@ -33,7 +33,7 @@ namespace Arasan.Services
                         DirectPurchase cmp = new DirectPurchase
                         {
 
-                            DPId = rdr["DPBASICID"].ToString(),
+                            ID = rdr["DPBASICID"].ToString(),
                             Branch = rdr["BRANCHID"].ToString(),
                             Supplier = rdr["PARTY"].ToString(),
                             DocNo = rdr["DOCID"].ToString(),
@@ -123,7 +123,7 @@ namespace Arasan.Services
                     objCmd.CommandText = "DIRECTPURCHASEPROC";*/
 
                     objCmd.CommandType = CommandType.StoredProcedure;
-                    if (cy.DPId == null)
+                    if (cy.ID == null)
                     {
                         StatementType = "Insert";
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
@@ -131,7 +131,7 @@ namespace Arasan.Services
                     else
                     {
                         StatementType = "Update";
-                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.DPId;
+                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
 
                     }
                     objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
@@ -159,9 +159,9 @@ namespace Arasan.Services
                         objCmd.ExecuteNonQuery();
                         Object Pid = objCmd.Parameters["OUTID"].Value;
                         //string Pid = "0";
-                        if (cy.DPId != null)
+                        if (cy.ID != null)
                         {
-                            Pid = cy.DPId;
+                            Pid = cy.ID;
                         }
 
 
@@ -173,12 +173,18 @@ namespace Arasan.Services
                                 using (OracleConnection objConns = new OracleConnection(_connectionString))
                                 {
                                     OracleCommand objCmds = new OracleCommand("DPDETAILPROC", objConns);
-                                    if (cy.DPId == null)
+                                    if (cy.ID == null)
                                     {
                                         StatementType = "Insert";
                                         objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-                                    }
 
+                                    }
+                                    else
+                                    {
+                                        StatementType = "Update";
+                                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+
+                                    }
                                     objCmds.CommandType = CommandType.StoredProcedure;
                                     objCmds.Parameters.Add("DPBASICID", OracleDbType.NVarchar2).Value = Pid;
                                     objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cp.ItemId;
@@ -191,7 +197,7 @@ namespace Arasan.Services
                                     objCmds.Parameters.Add("DISC", OracleDbType.NVarchar2).Value = cp.Disc;
                                     objCmds.Parameters.Add("DISCAMOUNT", OracleDbType.NVarchar2).Value = cp.DiscAmount;
                                    
-                                    objCmds.Parameters.Add("PURTYPE", OracleDbType.NVarchar2).Value = cp.PurType;
+                                   
                                     objCmds.Parameters.Add("IFREIGHTCH", OracleDbType.NVarchar2).Value = cp.FrigCharge;
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                     objConns.Open();
@@ -212,7 +218,7 @@ namespace Arasan.Services
                                     string Sql = string.Empty;
                                     if (StatementType == "Update")
                                     {
-                                        Sql = "Update DPDETAIL SET  QTY= '" + cp.Quantity + "',RATE= '" + cp.rate + "',CF='" + cp.ConFac + "',AMOUNT='" + cp.Amount + "',DISCAMOUNT='" + cp.DiscAmount + "',PURTYPE='" + cp.PurType + "',IFREIGHTCH='" + cp.FrigCharge + "',TOTAMT='" + cp.TotalAmount + "'  where DPBASICID='" + cy.DPId + "'  AND ITEMID='" + cp.saveItemId + "' ";
+                                        Sql = "Update DPDETAIL SET  QTY= '" + cp.Quantity + "',RATE= '" + cp.rate + "',CF='" + cp.ConFac + "',AMOUNT='" + cp.Amount + "',DISCAMOUNT='" + cp.DiscAmount + "',PURTYPE='" + cp.PurType + "',IFREIGHTCH='" + cp.FrigCharge + "',TOTAMT='" + cp.TotalAmount + "'  where DPBASICID='" + cy.ID + "'  AND ITEMID='" + cp.saveItemId + "' ";
                                     }
                                     else
                                     {

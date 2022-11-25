@@ -54,7 +54,7 @@ namespace Arasan.Controllers
                     ca.DocNo = dt.Rows[0]["DOCID"].ToString();
                     ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
                     ca.ReqNo = dt.Rows[0]["REQNO"].ToString();
-                    ca.SIId = id;
+                    ca.ID = id;
                     ca.ReqDate = dt.Rows[0]["REQDATE"].ToString();
                     ca.Location = dt.Rows[0]["TOLOCID"].ToString();
                     ca.LocCon = dt.Rows[0]["LOCIDCONS"].ToString();
@@ -98,10 +98,10 @@ namespace Arasan.Controllers
                         tda.Amount = toaamt;
                         tda.Unit = dt2.Rows[i]["UNITID"].ToString();
                      
-                        tda.DRLst = BindDrum();
-                        tda.SRLst = BindSerial();
-                        tda.Drum = dt2.Rows[i]["DRUMYN"].ToString();
-                        tda.Serial = dt2.Rows[i]["SERIALYN"].ToString();
+                        //tda.DRLst = BindDrum();
+                        //tda.SRLst = BindSerial();
+                        //tda.Drum = dt2.Rows[i]["DRUMYN"].ToString();
+                        //tda.Serial = dt2.Rows[i]["SERIALYN"].ToString();
                         //tda.unitprim= dt2.Rows[i]["UNITID"].ToString();
                         //tda.FromBin = Convert.ToDouble(dt2.Rows[i]["CGSTPER"].ToString() == "" ? "0" : dt2.Rows[i]["CGSTPER"].ToString());
                         tda.PendQty = Convert.ToDouble(dt2.Rows[i]["PENDQTY"].ToString() == "" ? "0" : dt2.Rows[i]["PENDQTY"].ToString());
@@ -118,8 +118,9 @@ namespace Arasan.Controllers
                         TData.Add(tda);
                     }
                 }
-                ca.SICLst = TData;
+              
             }
+            ca.SICLst = TData;
             return View(ca);
         }
         [HttpPost]
@@ -128,11 +129,11 @@ namespace Arasan.Controllers
 
             try
             {
-                Cy.SIId = id;
+                Cy.ID = id;
                 string Strout = StoreIssService.StoreIssueCRUD(Cy);
                 if (string.IsNullOrEmpty(Strout))
                 {
-                    if (Cy.SIId == null)
+                    if (Cy.ID == null)
                     {
                         TempData["notice"] = "StoreIssueCons Inserted Successfully...!";
                     }
@@ -249,36 +250,36 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public List<SelectListItem> BindDrum()
-        {
-            try
-            {
-                List<SelectListItem> lstdesg = new List<SelectListItem>();
-                lstdesg.Add(new SelectListItem() { Text = "YES", Value = "YES" });
-                lstdesg.Add(new SelectListItem() { Text = "NO", Value = "NO" });
+        //public List<SelectListItem> BindDrum()
+        //{
+        //    try
+        //    {
+        //        List<SelectListItem> lstdesg = new List<SelectListItem>();
+        //        lstdesg.Add(new SelectListItem() { Text = "YES", Value = "YES" });
+        //        lstdesg.Add(new SelectListItem() { Text = "NO", Value = "NO" });
                
-                return lstdesg;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        public List<SelectListItem> BindSerial()
-        {
-            try
-            {
-                List<SelectListItem> lstdesg = new List<SelectListItem>();
-                lstdesg.Add(new SelectListItem() { Text = "YES", Value = "YES" });
-                lstdesg.Add(new SelectListItem() { Text = "NO", Value = "NO" });
+        //        return lstdesg;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
+        //public List<SelectListItem> BindSerial()
+        //{
+        //    try
+        //    {
+        //        List<SelectListItem> lstdesg = new List<SelectListItem>();
+        //        lstdesg.Add(new SelectListItem() { Text = "YES", Value = "YES" });
+        //        lstdesg.Add(new SelectListItem() { Text = "NO", Value = "NO" });
 
-                return lstdesg;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        //        return lstdesg;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
         public ActionResult GetItemDetail(string ItemId)
         {
             try
@@ -314,7 +315,7 @@ namespace Arasan.Controllers
 
         public JsonResult GetItemJSON(string itemid)
         {
-            DirItem model = new DirItem();
+            SICItem model = new SICItem();
             model.Itemlst = BindItemlst(itemid);
             return Json(BindItemlst(itemid));
 

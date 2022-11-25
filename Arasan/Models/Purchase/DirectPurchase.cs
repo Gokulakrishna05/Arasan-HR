@@ -12,7 +12,7 @@ namespace Arasan.Models
             this.Loclst = new List<SelectListItem>();
         }
         public List<SelectListItem> Brlst;
-        public string DPId { get; set; }
+        public string ID { get; set; }
 
         public string Branch { get; set; }
 
@@ -47,6 +47,7 @@ namespace Arasan.Models
     }
     public class DirItem
     {
+        public string ID { get; set; }
         public string ItemId { get; set; }
         public string saveItemId { get; set; }
         public List<SelectListItem> Itemlst { get; set; }
@@ -57,7 +58,7 @@ namespace Arasan.Models
         public double FrigCharge { get; set; }
         public string ConFac { get; set; }
         public string Unit { get; set; }
-        public List<SelectListItem> PURLst { get; set; }
+        public List<SelectListItem> PURLst;
 
         public string PurType { get; set; }
         public double Quantity { get; set; }

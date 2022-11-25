@@ -15,57 +15,7 @@ namespace Arasan.Services
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
         }
-        public DataTable GetBranch()
-        {
-            string SvSql = string.Empty;
-            SvSql = "select BRANCHMASTID,BRANCHID from BRANCHMAST order by BRANCHMASTID asc";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
-        public DataTable GetLocation()
-        {
-            string SvSql = string.Empty;
-            SvSql = "Select LOCID,LOCDETAILSID from LOCDETAILS ";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
-        //public DataTable GetEmp()
-        //{
-        //    string SvSql = string.Empty;
-        //    SvSql = "Select EMPID,EMPNAME,EMPMASTID from EMPMAST";
-        //    DataTable dtt = new DataTable();
-        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-        //    adapter.Fill(dtt);
-        //    return dtt;
-        //}
-        public DataTable GetItem(string value)
-        {
-            string SvSql = string.Empty;
-            SvSql = "select ITEMID,ITEMMASTERID from ITEMMASTER WHERE ITEMGROUP='" + value + "'";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
-
-        public DataTable GetItemGrp()
-        {
-            string SvSql = string.Empty;
-            SvSql = "Select ITEMGROUPID,GROUPCODE from itemgroup";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
+     
         public IEnumerable<SIPItem> GetAllStoreIssueItem(string id)
         {
             List<SIPItem> cmpList = new List<SIPItem>();
@@ -107,7 +57,7 @@ namespace Arasan.Services
                         StoreIssueProduction cmp = new StoreIssueProduction
                         {
 
-                            SIId = rdr["STORESISSBASICID"].ToString(),
+                            ID = rdr["STORESISSBASICID"].ToString(),
                             Branch = rdr["BRANCHID"].ToString(),
 
                             DocNo = rdr["DOCID"].ToString(),
@@ -164,7 +114,7 @@ namespace Arasan.Services
 
 
                     objCmd.CommandType = CommandType.StoredProcedure;
-                    if (cy.SIId == null)
+                    if (cy.ID == null)
                     {
                         StatementType = "Insert";
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
@@ -172,7 +122,7 @@ namespace Arasan.Services
                     else
                     {
                         StatementType = "Update";
-                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.SIId;
+                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                     }
                                       
                     objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
@@ -195,7 +145,54 @@ namespace Arasan.Services
                     {
                         objConn.Open();
                         objCmd.ExecuteNonQuery();
-                        //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
+                        Object Pid = objCmd.Parameters["OUTID"].Value;
+                        //string Pid = "0";
+                        if (cy.ID != null)
+                        {
+                            Pid = cy.ID;
+                        }
+                        foreach (SIPItem cp in cy.SIPLst)
+                        {
+                            if (cp.Isvalid == "Y" && cp.ItemId != "0")
+                            {
+                                using (OracleConnection objConns = new OracleConnection(_connectionString))
+                                {
+                                    OracleCommand objCmds = new OracleCommand("SIPDETAILPROC", objConns);
+                                    if (cy.ID == null)
+                                    {
+                                        StatementType = "Insert";
+                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+
+                                    }
+                                    else
+                                    {
+                                        StatementType = "Update";
+                                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+
+                                    }
+                                    objCmds.CommandType = CommandType.StoredProcedure;
+                                    objCmds.Parameters.Add("STORESISSBASICID", OracleDbType.NVarchar2).Value = Pid;
+                                    objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cp.ItemId;
+                                    objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = cp.Quantity;
+                                    objCmds.Parameters.Add("UNIT", OracleDbType.NVarchar2).Value = cp.Unit;
+                                    objCmds.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = cp.rate;
+                                    objCmds.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = cp.Amount;
+                                    objCmds.Parameters.Add("PENDQTY", OracleDbType.NVarchar2).Value = cp.PendQty;
+                                    objCmds.Parameters.Add("REQQTY", OracleDbType.NVarchar2).Value = cp.ConFac;
+                                    objCmds.Parameters.Add("SCHQTY", OracleDbType.NVarchar2).Value = cp.SchQty;
+                                    objCmds.Parameters.Add("CLSTOCK", OracleDbType.NVarchar2).Value = cp.ClStock;
+                                    objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                                    objConns.Open();
+                                    objCmds.ExecuteNonQuery();
+                                    objConns.Close();
+                                }
+
+
+
+                            }
+                        }
+
+                    
                     }
                     catch (Exception ex)
                     {
@@ -222,36 +219,7 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetItemSubGrp()
-        {
-            string SvSql = string.Empty;
-            SvSql = "Select SGCODE,ITEMSUBGROUPID FROM ITEMSUBGROUP";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
-        public DataTable GetItemSubGroup(string id)
-        {
-            string SvSql = string.Empty;
-            SvSql = "select ITEMID,SUBGROUPCODE from ITEMMASTER WHERE ITEMMASTERID='" + id + "'";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
-        public DataTable GetItemDetails(string ItemId)
-        {
-            string SvSql = string.Empty;
-            SvSql = "select UNITMAST.UNITID,ITEMID,ITEMDESC,UNITMAST.UNITMASTID,LATPURPRICE,ITEMMASTERPUNIT.CF,ITEMMASTER.LATPURPRICE from ITEMMASTER LEFT OUTER JOIN UNITMAST  on ITEMMASTER.PRIUNIT=UNITMAST.UNITMASTID LEFT OUTER JOIN ITEMMASTERPUNIT ON  ITEMMASTER.ITEMMASTERID=ITEMMASTERPUNIT.ITEMMASTERID Where ITEMMASTER.ITEMMASTERID='" + ItemId + "'";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
+      
 
     }
 }

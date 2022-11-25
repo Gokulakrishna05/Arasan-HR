@@ -57,7 +57,7 @@ namespace Arasan.Controllers
                     ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
                     ca.Supplier = dt.Rows[0]["PARTYID"].ToString();
                     ca.DocNo = dt.Rows[0]["DOCID"].ToString();
-                    ca.DPId = id;
+                    ca.ID = id;
                     ca.Currency = dt.Rows[0]["MAINCURRENCY"].ToString();
                     ca.RefDate = dt.Rows[0]["REFDT"].ToString();
                     ca.Voucher = dt.Rows[0]["VOUCHER"].ToString();
@@ -106,7 +106,7 @@ namespace Arasan.Controllers
                         //tda.QtyPrim= Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
                         tda.Amount = toaamt;
                         tda.Unit = dt2.Rows[i]["UNITID"].ToString();
-                        tda.PURLst = BindPurType();
+                        //tda.PURLst = BindPurType();
                         //tda.unitprim= dt2.Rows[i]["UNITID"].ToString();
                        
                         tda.Disc = Convert.ToDouble(dt2.Rows[i]["DISC"].ToString() == "" ? "0" : dt2.Rows[i]["DISC"].ToString());
@@ -114,15 +114,15 @@ namespace Arasan.Controllers
                         
                         tda.FrigCharge = Convert.ToDouble(dt2.Rows[i]["IFREIGHTCH"].ToString() == "" ? "0" : dt2.Rows[i]["IFREIGHTCH"].ToString());
                         tda.TotalAmount = Convert.ToDouble(dt2.Rows[i]["TOTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["TOTAMT"].ToString());
-                        tda.PurType = dt2.Rows[i]["PURTYPE"].ToString();
+                       // tda.PurType = dt2.Rows[i]["PURTYPE"].ToString();
                         tda.Isvalid = "Y";
                         TData.Add(tda);
                     }
                 }
                 //ca.net = Math.Round(total, 2);
-                ca.DirLst = TData;
+               
             }
-            
+            ca.DirLst = TData;
             return View(ca);
 
         }
@@ -137,11 +137,11 @@ namespace Arasan.Controllers
 
             try
             {
-                Cy.DPId = id;
+                Cy.ID = id;
                 string Strout = directPurchase.DirectPurCRUD(Cy);
                 if (string.IsNullOrEmpty(Strout))
                 {
-                    if (Cy.DPId == null)
+                    if (Cy.ID == null)
                     {
                         TempData["notice"] = "DirectPurchase Inserted Successfully...!";
                     }
@@ -244,22 +244,23 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public List<SelectListItem> BindPurType()
-        {
-            try
-            {
-                List<SelectListItem> lstdesg = new List<SelectListItem>();
-                lstdesg.Add(new SelectListItem() { Text = "CONSUMABLES PURCHASE", Value = "CONSUMABLES PURCHASE" });
-                lstdesg.Add(new SelectListItem() { Text = "FIXED PURCHASE", Value = "FIXED PURCHASE" });
-                lstdesg.Add(new SelectListItem() { Text = "MACHINERIES PURCHASE", Value = "MACHINERIES PURCHASE" });
-                lstdesg.Add(new SelectListItem() { Text = "RAW MATERIAL", Value = "RAW MATERIAL" });
-                return lstdesg;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        //public List<SelectListItem> BindPurType()
+        //{
+        //    try
+        //    {
+
+        //        List<SelectListItem> lstdesg = new List<SelectListItem>();
+        //        lstdesg.Add(new SelectListItem() { Text = "CONSUMABLES PURCHASE", Value = "CONSUMABLES PURCHASE" });
+        //        lstdesg.Add(new SelectListItem() { Text = "FIXED PURCHASE", Value = "FIXED PURCHASE" });
+        //        lstdesg.Add(new SelectListItem() { Text = "MACHINERIES PURCHASE", Value = "MACHINERIES PURCHASE" });
+        //        lstdesg.Add(new SelectListItem() { Text = "RAW MATERIAL", Value = "RAW MATERIAL" });
+        //        return lstdesg;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
         public List<SelectListItem> BindItemlst(string value)
         {
             try
