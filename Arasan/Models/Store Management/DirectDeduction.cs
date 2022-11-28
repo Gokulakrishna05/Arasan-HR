@@ -30,24 +30,27 @@ namespace Arasan.Models
     }
     public class DeductionItem
     {
+        public string ItemId { get; set; }
+        public string saveItemId { get; set; }
         public List<SelectListItem> Itlst { get; set; }
 
         public List<SelectListItem> ItemGrouplst { get; set; }
 
         public string ItemGroupId { get; set; }
         public string Isvalid { get; set; }
+        public string ConFac { get; set; }
         public string Unit { get; set; }
-        public string BinID { get; set; }
-        public string Batch { get; set; }
-        public string serial { get; set; }
-        public string CurrentStock { get; set; }
-        public string Qty { get; set; }
-        public string Rate { get; set; }
-        public string Amount { get; set; }
-        public string Number { get; set; }
-        public string SerialNumber { get; set; }
-        public string Process { get; set; }
-        public string Bat { get; set; }
+        public double BinID { get; set; }
+        //public string Batch { get; set; }
+        //public string serial { get; set; }
+        //public string CurrentStock { get; set; }
+        public double Qty { get; set; }
+        public double Rate { get; set; }
+        public double Amount { get; set; }
+        //public string Number { get; set; }
+        //public string SerialNumber { get; set; }
+        public double Process { get; set; }
+        //public string Bat { get; set; }
 
 
 
