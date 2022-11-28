@@ -109,7 +109,7 @@ namespace Arasan.Services
         public DataTable GetSICItemDetails(string name)
         {
             string SvSql = string.Empty;
-            SvSql = "Select SCISSDETAIL.QTY,SCISSDETAIL.SCISSDETAILID,SCISSDETAIL.ITEMID,UNITMAST.UNITID,RATE,CONVFACTOR,DRUMYN,SERIALYN,PENDQTY,REQQTY,AMOUNT,INDP from SCISSDETAIL LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=SCISSDETAIL.UNIT  where SCISSDETAIL.SCISSBASICID='" + name + "'";
+            SvSql = "Select SCISSDETAIL.QTY,SCISSDETAIL.SCISSDETAILID,SCISSDETAIL.ITEMID,UNITMAST.UNITID,RATE,PENDQTY,REQQTY,AMOUNT,INDP from SCISSDETAIL LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=SCISSDETAIL.UNIT  where SCISSDETAIL.SCISSBASICID='" + name + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -142,9 +142,9 @@ namespace Arasan.Services
                     }
                     objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
                     objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.DocNo;
-                    objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = cy.DocDate;
+                    objCmd.Parameters.Add("DOCDATE", OracleDbType.Date).Value = DateTime.Parse(cy.DocDate);
                     objCmd.Parameters.Add("REQNO", OracleDbType.NVarchar2).Value = cy.ReqNo;
-                    objCmd.Parameters.Add("ReqDate", OracleDbType.NVarchar2).Value = cy.ReqDate;
+                    objCmd.Parameters.Add("ReqDate", OracleDbType.Date).Value = DateTime.Parse(cy.ReqDate);
                     objCmd.Parameters.Add("TOLOCID", OracleDbType.NVarchar2).Value = cy.Location;
                     objCmd.Parameters.Add("LOCIDCONS", OracleDbType.NVarchar2).Value = cy.LocCon;
                     objCmd.Parameters.Add("PROCESSID", OracleDbType.NVarchar2).Value = cy.Process;
@@ -190,11 +190,11 @@ namespace Arasan.Services
                                     objCmds.Parameters.Add("SCISSBASICID", OracleDbType.NVarchar2).Value = Pid;
                                     objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cp.ItemId;
                                     objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = cp.Quantity;
-                                    objCmds.Parameters.Add("PUNIT", OracleDbType.NVarchar2).Value = cp.Unit;
+                                    objCmds.Parameters.Add("UNIT", OracleDbType.NVarchar2).Value = cp.Unit;
                                     objCmds.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = cp.rate;
                                     objCmds.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = cp.Amount;
                                     objCmds.Parameters.Add("PENDQTY", OracleDbType.NVarchar2).Value = cp.PendQty;
-                                    objCmds.Parameters.Add("REQQTY", OracleDbType.NVarchar2).Value = cp.ConFac;
+                                    objCmds.Parameters.Add("REQQTY", OracleDbType.NVarchar2).Value = cp.ReqQty;
                                     objCmds.Parameters.Add("INDP", OracleDbType.NVarchar2).Value = cp.Indp;
                                   
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
