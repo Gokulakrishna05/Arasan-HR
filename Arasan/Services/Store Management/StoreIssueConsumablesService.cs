@@ -9,7 +9,7 @@ using System.Security.Cryptography;
 
 namespace Arasan.Services
 {
-    public class StoreIssueConsumablesService: IStoreIssueConsumables
+    public class StoreIssueConsumablesService : IStoreIssueConsumables
     {
         private readonly string _connectionString;
         DataTransactions datatrans;
@@ -17,18 +17,8 @@ namespace Arasan.Services
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
         }
-      
-   
-        public DataTable GetItemCF(string ItemId, string unitid)
-        {
-            string SvSql = string.Empty;
-            SvSql = "Select CF from itemmasterpunit where ITEMMASTERID='" + ItemId + "' AND UNIT='" + unitid + "'";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
+
+
         public IEnumerable<SICItem> GetAllStoreIssueItem(string id)
         {
             List<SICItem> cmpList = new List<SICItem>();
@@ -45,7 +35,7 @@ namespace Arasan.Services
                         SICItem cmp = new SICItem
                         {
                             ItemId = rdr["ITEMID"].ToString(),
-                            Unit = rdr["UNITID"].ToString(),
+                            Unit = rdr["UNITMASTID"].ToString(),
                             Quantity = Convert.ToDouble(rdr["QTY"].ToString())
                         };
                         cmpList.Add(cmp);
@@ -64,7 +54,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select  BRANCHMAST.BRANCHID,DOCID,to_char(DOCDATE,'dd-MON-yyyy')DOCDATE,REQNO,to_char(REQDATE,'dd-MON-yyyy')REQDATE,TOLOCID,LOCIDCONS,PROCESSID,MCID,MCNAME,NARRATION,USERID,WCID,SCISSBASICID from SCISSBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=SCISSBASIC.BRANCHID  ORDER BY SCISSBASICID DESC";
+                    cmd.CommandText = "Select  BRANCHMAST.BRANCHID,SCISSBASIC.DOCID,to_char(SCISSBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,SCISSBASIC.REQNO,to_char(SCISSBASIC.REQDATE,'dd-MON-yyyy')REQDATE,TOLOCID,LOCIDCONS,PROCESSID,SCISSBASIC.MCID,SCISSBASIC.MCNAME,SCISSBASIC.NARRATION,USERID,WCID,SCISSBASICID from SCISSBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=SCISSBASIC.BRANCHID  ORDER BY SCISSBASICID DESC";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -73,13 +63,13 @@ namespace Arasan.Services
 
                             ID = rdr["SCISSBASICID"].ToString(),
                             Branch = rdr["BRANCHID"].ToString(),
-                           
+
                             DocNo = rdr["DOCID"].ToString(),
                             DocDate = rdr["DOCDATE"].ToString(),
                             ReqNo = rdr["REQNO"].ToString(),
                             ReqDate = rdr["REQDATE"].ToString(),
                             Location = rdr["TOLOCID"].ToString(),
-                           
+
                             LocCon = rdr["LOCIDCONS"].ToString(),
                             // net = rdr["NET"].ToString(),
                             Process = rdr["PROCESSID"].ToString(),
@@ -87,7 +77,7 @@ namespace Arasan.Services
                             MCNa = rdr["MCNAME"].ToString(),
                             Narr = rdr["NARRATION"].ToString(),
                             User = rdr["USERID"].ToString(),
-                            Work = rdr["WCID"].ToString()
+                            Work = rdr["WCID"].ToString(),
 
                         };
                         cmpList.Add(cmp);
@@ -99,7 +89,7 @@ namespace Arasan.Services
         public DataTable EditSICbyID(string name)
         {
             string SvSql = string.Empty;
-            SvSql = "Select  SCISSBASIC.BRANCHID,SCISSBASIC.DOCID,to_char(DOCDATE,'dd-MON-yyyy')DOCDATE,SCISSBASIC.REQNO,to_char(REQDATE,'dd-MON-yyyy')REQDATE,SCISSBASIC.TOLOCID,SCISSBASIC.LOCIDCONS,SCISSBASIC.PROCESSID,SCISSBASIC.MCID,SCISSBASIC.MCNAME,SCISSBASIC.NARRATION,SCISSBASIC.USERID,SCISSBASIC.WCID,SCISSBASICID from SCISSBASIC Where  SCISSBASIC.SCISSBASICID='" + name + "'";
+            SvSql = "Select  SCISSBASIC.BRANCHID,SCISSBASIC.DOCID,to_char(SCISSBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,SCISSBASIC.REQNO,to_char(SCISSBASIC.REQDATE,'dd-MON-yyyy')REQDATE,SCISSBASIC.TOLOCID,SCISSBASIC.LOCIDCONS,SCISSBASIC.PROCESSID,SCISSBASIC.MCID,SCISSBASIC.MCNAME,SCISSBASIC.NARRATION,SCISSBASIC.USERID,SCISSBASIC.WCID,SCISSBASICID from SCISSBASIC Where  SCISSBASIC.SCISSBASICID='" + name + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -109,7 +99,7 @@ namespace Arasan.Services
         public DataTable GetSICItemDetails(string name)
         {
             string SvSql = string.Empty;
-            SvSql = "Select SCISSDETAIL.QTY,SCISSDETAIL.SCISSDETAILID,SCISSDETAIL.ITEMID,UNITMAST.UNITID,RATE,PENDQTY,REQQTY,AMOUNT,INDP from SCISSDETAIL LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=SCISSDETAIL.UNIT  where SCISSDETAIL.SCISSBASICID='" + name + "'";
+            SvSql = "Select SCISSDETAIL.QTY,SCISSDETAIL.SCISSDETAILID,SCISSDETAIL.ITEMID,UNITMAST.UNITID,RATE,PENDQTY,REQQTY,AMOUNT,INDP,CONVFACTOR from SCISSDETAIL LEFT OUTER JOIN  ITEMMASTER on ITEMMASTER.ITEMMASTERID=SCISSDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=SCISSDETAIL.UNIT   where SCISSDETAIL.SCISSBASICID='" + name + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -126,7 +116,7 @@ namespace Arasan.Services
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("SICOSUPROC", objConn);
-                    
+
 
                     objCmd.CommandType = CommandType.StoredProcedure;
                     if (cy.ID == null)
@@ -153,12 +143,11 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("NARRATION", OracleDbType.NVarchar2).Value = cy.Narr;
                     objCmd.Parameters.Add("USERID", OracleDbType.NVarchar2).Value = cy.User;
                     objCmd.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = cy.Work;
-                   
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
-               
-                try
-                {
+
+                    try
+                    {
                         objConn.Open();
                         objCmd.ExecuteNonQuery();
                         Object Pid = objCmd.Parameters["OUTID"].Value;
@@ -196,7 +185,7 @@ namespace Arasan.Services
                                     objCmds.Parameters.Add("PENDQTY", OracleDbType.NVarchar2).Value = cp.PendQty;
                                     objCmds.Parameters.Add("REQQTY", OracleDbType.NVarchar2).Value = cp.ReqQty;
                                     objCmds.Parameters.Add("INDP", OracleDbType.NVarchar2).Value = cp.Indp;
-                                  
+                                    objCmds.Parameters.Add("CONVFACTOR", OracleDbType.NVarchar2).Value = cp.ConFac;
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                     objConns.Open();
                                     objCmds.ExecuteNonQuery();
@@ -207,22 +196,34 @@ namespace Arasan.Services
 
                             }
                         }
-                       
+
+                    }
+                    catch (Exception ex)
+                    {
+                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
+                    }
+                    objConn.Close();
                 }
-                catch (Exception ex)
-                {
-                    //System.Console.WriteLine("Exception: {0}", ex.ToString());
-                }
-                objConn.Close();
             }
-           }
-           catch (Exception ex)
-           {
-               msg = "Error Occurs, While inserting / updating Data";
-               throw ex;
-           }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
 
             return msg;
         }
-            }
+
+        public DataTable GetItemCF(string ItemId, string unitid)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select CF from itemmasterpunit where ITEMMASTERID='" + ItemId + "' AND UNIT='" + unitid + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+    }
 }
+
