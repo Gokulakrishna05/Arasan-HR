@@ -60,6 +60,7 @@ namespace Arasan.Controllers.Store_Management
                     st.Entered = dt.Rows[0]["ENTBY"].ToString();
                     st.Narr = dt.Rows[0]["NARRATION"].ToString();
                     st.NoDurms = dt.Rows[0]["NOOFD"].ToString();
+                   
 
                 }
                 DataTable dt2 = new DataTable();
@@ -88,8 +89,8 @@ namespace Arasan.Controllers.Store_Management
                             tda.ConFac = dt4.Rows[0]["CF"].ToString();
                             tda.Rate = Convert.ToDouble(dt4.Rows[0]["LATPURPRICE"].ToString());
                         }
-                        tda.Qty = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
-                        toaamt = tda.Rate * tda.Qty;
+                        tda.Quantity = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
+                        toaamt = tda.Rate * tda.Quantity;
                         total += toaamt;
                         //tda.QtyPrim= Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
                         tda.Amount = toaamt;
@@ -237,7 +238,7 @@ namespace Arasan.Controllers.Store_Management
                 DataTable dt = new DataTable();
                 DataTable dt1 = new DataTable();
                 string Desc = "";
-                string unit = "";
+                string Unit = "";
                 string CF = "";
                 string price = "";
                 dt = datatrans.GetItemDetails(ItemId);
@@ -245,7 +246,7 @@ namespace Arasan.Controllers.Store_Management
                 if (dt.Rows.Count > 0)
                 {
                     Desc = dt.Rows[0]["ITEMDESC"].ToString();
-                    unit = dt.Rows[0]["UNITID"].ToString();
+                    Unit = dt.Rows[0]["UNITID"].ToString();
                     price = dt.Rows[0]["LATPURPRICE"].ToString();
                     dt1 = DirectDeductionService.GetItemCF(ItemId, dt.Rows[0]["UNITMASTID"].ToString());
                     if (dt1.Rows.Count > 0)
@@ -253,8 +254,8 @@ namespace Arasan.Controllers.Store_Management
                         CF = dt1.Rows[0]["CF"].ToString();
                     }
                 }
-
-                var result = new { Desc = Desc, unit = unit, CF = CF, price = price };
+                
+                var result = new { Desc = Desc, Unit = Unit, CF = CF, price = price };
                 return Json(result);
             }
             catch (Exception ex)

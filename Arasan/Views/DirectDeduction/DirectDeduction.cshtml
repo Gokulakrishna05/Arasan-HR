@@ -168,7 +168,7 @@
 
                                                 </td>
                                                 <td>
-                                                    @Html.DropDownListFor(o => o.Itlst[i].Itlst, Model.Itlst[i].Itlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItlst" + i, style = "width: 200px;", onchange = "Grup_Change(this.value," + i + ")"})
+                                                            @Html.DropDownListFor(o => o.Itlst[i].ItemId, Model.Itlst[i].Itlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItlst" + i, style = "width: 200px;", onchange = "Grup_Change(this.value," + i + ")"})
                                                             @Html.HiddenFor(o => o.Itlst[i].saveItemId)
                                                 </td>
                                                 <td>
@@ -187,7 +187,7 @@
                                                     @Html.TextBoxFor(o => o.Itlst[i]. CurrentStock, new { @id = "txtCurrentStock" + i, @class = "form-control", style = "width: 90px;"})
                                                 </td>*@
                                                 <td>
-                                                            @Html.TextBoxFor(o => o.Itlst[i]. Qty, new { @id = "txtQty" + i, @class = "form-control",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")", style = "width: 80px;" })
+                                                            @Html.TextBoxFor(o => o.Itlst[i]. Quantity, new { @id = "txtQuantity" + i, @class = "form-control",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")", style = "width: 80px;" })
                                                 </td>
                                                 <td>
                                                             @Html.TextBoxFor(o => o.Itlst[i]. Rate, new { @id = "txtRate" + i, @class = "form-control",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")", style = "width: 80px;" ,@readonly = "readonly"})
@@ -459,7 +459,7 @@
 
         var ItemGrp = "<td><select style = 'width: 200px;' class='form-control chosen-select newcss' id='ddlItemGrp" + index + "' name='DirLst[" + index + "].ItemGroupId' onchange = 'Grup_Change(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
 
-        var Itlst = "<td><select style = 'width: 200px;' class='form-control chosen-select newcss' id='Itlst" + index + "' name='Itlst[" + index + "].Itlst' onchange = 'Grup_Change(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
+        var Itlst = "<td><select style = 'width: 200px;' class='form-control chosen-select newcss' id='Itlst" + index + "' name='Itlst[" + index + "].ItemId' onchange = 'Grup_Change(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
 
         var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='Itlst[" + index + "].Unit'  style='width: 80px;' type='text'onkeydown='return isNumeric2(event.keyCode,this.value)'  onchange = 'changeQty(this.value," + index + ")'  readonly='True' /></td>";
 
@@ -471,7 +471,7 @@
 
         var CurrentStock = "<td><input class='form-control' id='txtCurrentStock" + index + "' name='Itlst[" + index + "].CurrentStock'  style='width: 90px;' type='text'   /></td>"*@
 
-        var Qty = "<td><input class='form-control' id='txtQty" + index + "' name='Itlst[" + index + "].Qty'  style='width: 90px;' type='text'   /></td>"
+        var Quantity = "<td><input class='form-control' id='txtQuantity" + index + "' name='Itlst[" + index + "].Quantity'  style='width: 90px;' type='text'   /></td>"
 
         var Rate = "<td><input class='form-control' id='txtRate" + index + "' name='Itlst[" + index + "].Rate'  style='width: 90px;' type='text'   /></td>"
 
@@ -487,7 +487,7 @@
 
         var removeCell = "<td><input id='Isvalid" + index + "' name='Itlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='Itlst.Index' type='hidden' value='" + index + "'  /></td>";
 
-        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + ItemGrp + Itlst + Unit + BinID  + Qty + Rate + Amount + Process  + removeCell + "</tr>";
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + ItemGrp + Itlst + Unit + BinID + Quantity + Rate + Amount + Process + removeCell + "</tr>";
 
         //alert(Packing);
         $("#tbBooks").append(newRow);
