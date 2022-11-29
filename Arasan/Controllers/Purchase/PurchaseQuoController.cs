@@ -367,5 +367,90 @@ namespace Arasan.Controllers
         //    //model.ItemGrouplst = BindItemGrplst(value);
         //    return Json(BindItemGrplst());
         //}
+        //public IActionResult PurchaseQuotationFollowup(string id)
+        //{
+        //    QuoFollowup cmp = new QuoFollowup();
+        //    List<PurchaseFollowupDetails> TData = new List<PurchaseFollowupDetails>();
+        //    if (id == null)
+        //    {
+
+        //    }
+        //    else
+        //    {
+        //        if (!string.IsNullOrEmpty(id))
+        //        {
+        //            DataTable dt = new DataTable();
+        //           // dt = PurquoService.GetPurchaseQuoDetails(id);
+        //            if (dt.Rows.Count > 0)
+        //            {
+        //                cmp.QuoNo = dt.Rows[0]["DOCID"].ToString();
+        //                cmp.Supname = dt.Rows[0]["PARTY"].ToString();
+        //            }
+        //            DataTable dtt = new DataTable();
+        //        //    dtt = PurquoService.GetFolowup(id);
+        //            PurchaseFollowupDetails tda = new PurchaseFollowupDetails();
+
+        //            if (dtt.Rows.Count > 0)
+        //            {
+        //                for (int i = 0; i < dtt.Rows.Count; i++)
+        //                {
+        //                    tda = new PurchaseFollowupDetails();
+        //                    tda.Followby = dtt.Rows[i]["FOLLOWED_BY"].ToString();
+        //                    tda.Followdate = dtt.Rows[i]["FOLLOW_DATE"].ToString();
+        //                    tda.Nfdate = dtt.Rows[i]["NEXT_FOLLOW_DATE"].ToString();
+        //                    tda.Rmarks = dtt.Rows[i]["REMARKS"].ToString();
+        //                    tda.Enquiryst = dtt.Rows[i]["FOLLOW_STATUS"].ToString();
+        //                    TData.Add(tda);
+        //                }
+        //            }
+        //        }
+        //    }
+        //    cmp.pflst = TData;
+        //    return View(cmp);
+        //}
+
+
+
+        //IEnumerable<PurchaseFollowup> cmp = PurenqService.GetAllPurchaseFollowup();
+
+
+
+        //[HttpPost]
+        //public ActionResult PurchaseQuotationFollowup(QuoFollowup Pf, string id)
+        //{
+
+        //    try
+        //    {
+        //        Pf.ID = id;
+        //       // string Strout = PurquoService.PurchaseFollowupCRUD(Pf);
+        //        if (string.IsNullOrEmpty(Strout))
+        //        {
+        //            if (Pf.ID == null)
+        //            {
+        //                TempData["notice"] = "PurchaseQuotationFollowup Inserted Successfully...!";
+        //            }
+        //            else
+        //            {
+        //                TempData["notice"] = "PurchaseQuotationFollowup Updated Successfully...!";
+        //            }
+        //            return RedirectToAction("PurchaseQuotationFollowup");
+        //        }
+
+        //        else
+        //        {
+        //            ViewBag.PageTitle = "Edit PurchaseQuotationFollowup";
+        //            TempData["notice"] = Strout;
+        //            //return View();
+        //        }
+
+        //        // }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+
+        //    return View(Pf);
+        //}
     }
 }

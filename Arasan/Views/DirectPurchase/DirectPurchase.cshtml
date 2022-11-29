@@ -262,10 +262,7 @@
                                                         <td>
                                                             @Html.TextBoxFor(o => o.DirLst[i].TotalAmount, new { @id = "txtTotalAmount" + i, @class = "form-control", style = "width: 80px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)", @readonly = "readonly"})
                                                         </td>
-                                                       @* <td><input class="form-control newwidth" id="inputEmail3" placeholder="%" type="text"> </td>
-                                                            <td><input class="form-control newwidth" id="inputEmail3" placeholder="%" type="text"> </td>
-                                                            <td><input class="form-control newwidth" id="inputEmail3" placeholder="%" type="text"> </td>
-                                                            <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>*@
+                                                      
 
                                                                 <td>
                                                             @Html.HiddenFor(o => o.DirLst[i].Isvalid, new { @id = "Isvalid" + i })
@@ -551,7 +548,7 @@
         var Item = "<td><select style = 'width: 200px;' class='form-control chosen-select newcss' id='ddlItem" + index + "' name='Itemlst[" + index + "].ItemId' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option></select></td>";
         var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='DirLst[" + index + "].Unit'  style='width: 80px;' type='text'  readonly='True' /></td>";
 
-        var ConFac = "<td><input class='form-control' id='txtConFac" + index + "' name='DirLst[" + index + "].ConFac'  style='width: 80px;' type='text'  /></td>";
+        var ConFac = "<td><input class='form-control' id='txtConFac" + index + "' name='DirLst[" + index + "].ConFac'  style='width: 80px;' type='text' readonly='True'  /></td>";
        
       @*  var PurType = "<td><input class='form-control' id='txtPurType" + index + "' name='DirLst[" + index + "].PurType'  style='width: 80px;' type='text'   /></td>";*@
        

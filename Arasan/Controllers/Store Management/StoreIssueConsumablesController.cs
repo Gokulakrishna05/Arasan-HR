@@ -96,6 +96,7 @@ namespace Arasan.Controllers
                         total += toaamt;
                         //tda.QtyPrim= Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
                         tda.Amount = toaamt;
+
                         tda.Unit = dt2.Rows[i]["UNITID"].ToString();
                      
                         //tda.DRLst = BindDrum();
@@ -295,7 +296,7 @@ namespace Arasan.Controllers
                 if (dt.Rows.Count > 0)
                 {
                     Desc = dt.Rows[0]["ITEMDESC"].ToString();
-                    unit = dt.Rows[0]["UNITID"].ToString();
+                    unit = dt.Rows[0]["UNITMASTID"].ToString();
                     price = dt.Rows[0]["LATPURPRICE"].ToString();
                     dt1 = StoreIssService.GetItemCF(ItemId, dt.Rows[0]["UNITMASTID"].ToString());
                     if (dt1.Rows.Count > 0)

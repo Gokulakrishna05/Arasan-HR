@@ -32,7 +32,7 @@ namespace Arasan.Services
                         SIPItem cmp = new SIPItem
                         {
                             ItemId = rdr["ITEMID"].ToString(),
-                            Unit = rdr["UNITID"].ToString(),
+                            Unit = rdr["UNITMASTID"].ToString(),
                             Quantity = Convert.ToDouble(rdr["QTY"].ToString())
                         };
                         cmpList.Add(cmp);

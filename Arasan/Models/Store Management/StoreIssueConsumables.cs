@@ -41,6 +41,7 @@ namespace Arasan.Models
     }
     public class SICItem
     {
+        public string ID { get; set; }
         public string ItemId { get; set; }
         public string saveItemId { get; set; }
         public List<SelectListItem> Itemlst { get; set; }
