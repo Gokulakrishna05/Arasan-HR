@@ -8,7 +8,7 @@ namespace Arasan.Interface.Master
     public interface IEmployee
     {
 
-        string EmployeeCRUD(Employee emp);
+       // string EmployeeCRUD(Employee emp);
         DataTable GetState();
 
     }
