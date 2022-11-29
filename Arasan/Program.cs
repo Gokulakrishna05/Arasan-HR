@@ -61,6 +61,7 @@ internal class Program
         builder.Services.TryAddSingleton<IStoreIssueProduction, StoreIssueProductionService>();
         builder.Services.TryAddSingleton<IStoreIssueProduction, StoreIssueProductionService>();
         builder.Services.TryAddSingleton<IDirectAddition, DirectAdditionService>();
+        builder.Services.TryAddSingleton<IEmployee, EmployeeService>();
         builder.Services.AddSession();
         var emailConfig = builder.Configuration.GetSection("MailSettings").Get<MailSettings>();
         builder.Services.TryAddSingleton(emailConfig);
@@ -87,6 +88,7 @@ internal class Program
         app.MapControllerRoute(
             name: "default",
             pattern: "{controller=Account}/{action=Login}/{fid?}");
+        
         app.Run();
     }
 }
