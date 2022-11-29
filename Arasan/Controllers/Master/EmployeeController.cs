@@ -34,42 +34,42 @@ namespace Arasan.Controllers.Master
         }
 
         [HttpPost]
-        public ActionResult Employee(Employee emp, string id)
-        {
+        //public ActionResult Employee(Employee emp, string id)
+        //{
 
-            try
-            {
-               // emp.ID = id;
-                string Strout = EmployeeService.EmployeeCRUD(emp);
-                if (string.IsNullOrEmpty(Strout))
-                {
-                    if (emp.ID == null)
-                    {
-                        TempData["notice"] = " Employee Inserted Successfully...!";
-                    }
-                    else
-                    {
-                        TempData["notice"] = " Employee Updated Successfully...!";
-                    }
-                    return RedirectToAction("ListEmployee");
-                }
+        //    try
+        //    {
+        //       // emp.ID = id;
+        //        string Strout = EmployeeService.EmployeeCRUD(emp);
+        //        if (string.IsNullOrEmpty(Strout))
+        //        {
+        //            if (emp.ID == null)
+        //            {
+        //                TempData["notice"] = " Employee Inserted Successfully...!";
+        //            }
+        //            else
+        //            {
+        //                TempData["notice"] = " Employee Updated Successfully...!";
+        //            }
+        //            return RedirectToAction("ListEmployee");
+        //        }
 
-                else
-                {
-                    ViewBag.PageTitle = "Edit Employee";
-                    TempData["notice"] = Strout;
-                    //return View();
-                }
+        //        else
+        //        {
+        //            ViewBag.PageTitle = "Edit Employee";
+        //            TempData["notice"] = Strout;
+        //            //return View();
+        //        }
 
-                // }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+        //        // }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
 
-            return View(emp);
-        }
+        //    return View(emp);
+        //}
 
 
 
