@@ -499,7 +499,7 @@ namespace Arasan.Controllers
                     if (dt.Rows.Count > 0)
                     {
                         cmp.Enqno = dt.Rows[0]["ENQNO"].ToString();
-                        cmp.Supname = dt.Rows[0]["PARTYMASTID"].ToString();
+                        cmp.Supname = dt.Rows[0]["PARTY"].ToString();
                     }
                     DataTable dtt = new DataTable();
                     dtt = PurenqService.GetFolowup(id);
