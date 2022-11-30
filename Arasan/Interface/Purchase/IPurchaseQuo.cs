@@ -26,6 +26,8 @@ namespace Arasan.Interface
         DataTable GetPurchaseQuo(string id);
         //DataTable GetItemSubGroup(string id);
         DataTable GetPurchaseQuoItemDetails(string id);
+        DataTable GetPurchaseQuoDetails(string id);
+        //DataTable GetFolowup(string enqid);
 
     }
 }
