@@ -96,9 +96,9 @@ namespace Arasan.Services.Store_Management
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
-                    OracleCommand objCmd = new OracleCommand("ADDBASICPROC", objConn);
+                    OracleCommand objCmd = new OracleCommand("ITEMTRANLOCPROC", objConn);
                     /*objCmd.Connection = objConn;
-                    objCmd.CommandText = "ADDBASICPROC";*/
+                    objCmd.CommandText = "ITEMTRANLOCPROC";*/
 
                     objCmd.CommandType = CommandType.StoredProcedure;
                     if (ss.ID == null)

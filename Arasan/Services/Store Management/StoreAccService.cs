@@ -10,6 +10,7 @@ namespace Arasan.Interface.Master
     public class StoreAccService : IStoreAccService
     {
         private readonly string _connectionString;
+        DataTransactions datatrans;
         public StoreAccService(IConfiguration _configuratio)
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
@@ -86,8 +87,8 @@ namespace Arasan.Interface.Master
             string msg = "";
             try
             {
-                string StatementType = string.Empty;
-                //string svSQL = "";
+                string StatementType = string.Empty; string svSQL = "";
+
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
@@ -116,11 +117,59 @@ namespace Arasan.Interface.Master
                     objCmd.Parameters.Add("RETDATE", OracleDbType.NVarchar2).Value = ss.Retdate;
                     objCmd.Parameters.Add("NARRATION", OracleDbType.NVarchar2).Value = ss.Narr;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                    objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
                     {
                         objConn.Open();
                         objCmd.ExecuteNonQuery();
-                        //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
+                        Object Pid = objCmd.Parameters["OUTID"].Value;
+                        //string Pid = "0";
+                        if (ss.ID != null)
+                        {
+                            Pid = ss.ID;
+                        }
+                        foreach (StoItem cp in ss.Itlst)
+                        {
+                            if (cp.Isvalid == "Y" && cp.ItemId != "0")
+                            {
+                                using (OracleConnection objConns = new OracleConnection(_connectionString))
+                                {
+                                    OracleCommand objCmds = new OracleCommand("STORESACCDETAILPROC", objConns);
+                                    if (ss.ID == null)
+                                    {
+                                        StatementType = "Insert";
+                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+
+                                    }
+                                    else
+                                    {
+                                        StatementType = "Update";
+                                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = ss.ID;
+
+                                    }
+                                    objCmds.CommandType = CommandType.StoredProcedure;
+                                    objCmds.Parameters.Add("STORESACCBASICID", OracleDbType.NVarchar2).Value = Pid;
+                                    objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cp.ItemId;
+                                    objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = cp.Quantity;
+                                    objCmds.Parameters.Add("UNIT", OracleDbType.NVarchar2).Value = cp.Unit;
+                                    objCmds.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = cp.Rate;
+                                    objCmds.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = cp.Amount;
+                                    objCmds.Parameters.Add("FROMBINID", OracleDbType.NVarchar2).Value = cp.FromBinID;
+                                    objCmds.Parameters.Add("TOBINID", OracleDbType.NVarchar2).Value = cp.ToBinID;
+                                    objCmds.Parameters.Add("SERIALYN", OracleDbType.NVarchar2).Value = cp.Serial;
+                                    objCmds.Parameters.Add("PENDQTY", OracleDbType.NVarchar2).Value = cp.PendQty;
+                                    objCmds.Parameters.Add("REJQTY", OracleDbType.NVarchar2).Value = cp.RejQty;
+                                    objCmds.Parameters.Add("ACCQTY", OracleDbType.NVarchar2).Value = cp.AccQty;
+                                    objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                                    objConns.Open();
+                                    objCmds.ExecuteNonQuery();
+                                    objConns.Close();
+                                }
+
+
+
+                            }
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -168,7 +217,7 @@ namespace Arasan.Interface.Master
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetItem()
+        public DataTable GetItem(string Value)
         {
             string SvSql = string.Empty;
             SvSql = "select ITEMID,ITEMMASTERID from ITEMMASTER WHERE  ACTIVE='Y'";
@@ -177,6 +226,51 @@ namespace Arasan.Interface.Master
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
+        }
+        public DataTable GetItemCF(string ItemId, string Unitid)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select CF from itemmasterpunit where ITEMMASTERID='" + ItemId + "' AND UNIT='" + Unitid + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetStoreAccItemDetails(string name)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select STORESACCDETAIL.QTY,STORESACCDETAIL.STORESACCDETAILID,STORESACCDETAIL.ITEMID,UNITMAST.UNITID,RATE,AMOUNT,FROMBINID,TOBINID,SERIALYN,PENDQTY,REJQTY,ACCQTY from STORESACCDETAIL LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=STORESACCDETAIL.UNIT  where STORESACCDETAIL.STORESACCDETAILID='" + name + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public IEnumerable<StoItem> GetAllStoreAccItem(string id)
+        {
+            List<StoItem> cmpList = new List<StoItem>();
+            using (OracleConnection con = new OracleConnection(_connectionString))
+            {
+
+                using (OracleCommand cmd = con.CreateCommand())
+                {
+                    con.Open();
+                    cmd.CommandText = "Select STORESACCDETAIL.QTY,STORESACCDETAIL.STORESACCDETAILID,ITEMMASTER.ITEMID,UNITMAST.UNIT from STORESACCDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=STORESACCDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  where STORESACCDETAIL.STORESACCDETAILID='" + id + "'";
+                    OracleDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        StoItem cmp = new StoItem
+                        {
+                            ItemId = rdr["ITEMID"].ToString(),
+                            Unit = rdr["UNIT"].ToString(),
+                            Quantity = Convert.ToDouble(rdr["QTY"].ToString())
+                        };
+                        cmpList.Add(cmp);
+                    }
+                }
+            }
+            return cmpList;
         }
 
 

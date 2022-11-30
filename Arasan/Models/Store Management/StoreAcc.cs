@@ -27,18 +27,21 @@ namespace Arasan.Models
     }
     public class StoItem
     {
+        public string ItemId { get; set; }
+        public string saveItemId { get; set; }
         public List<SelectListItem> Itlst { get; set; }
         public string Isvalid { get; set; }
         public string Unit { get; set; }
-        public string FromBinID { get; set; }
-        public string ToBinID { get; set; }
-        public string Batch { get; set; }
-        public string Serial { get; set; }
-        public string PendQty { get; set; }
-        public string RetQty { get; set; }
-        public string RejQty { get; set; }
-        public string AccQty { get; set; }
-        public string Rate { get; set; }
+        public double FromBinID { get; set; }
+        public double ToBinID { get; set; }
+        public double Serial { get; set; }
+        public double Quantity { get; set; }
+        public double PendQty { get; set; }
+        public double RejQty { get; set; }
+        public double AccQty { get; set; }
+        public double Rate { get; set; }
+        public string ConFac { get; set; }
+        public double Amount { get; set; }
     }
 
 }
