@@ -28,17 +28,18 @@ namespace Arasan.Models
     }
     public class Itemtran
     {
+        public string ItemId { get; set; }
+        public string saveItemId { get; set; }
         public List<SelectListItem> Itlst { get; set; }
         public string Isvalid { get; set; }
-        public string Lot { get; set; }
-        public string FromBinID { get; set; }
-        public string ToBinID { get; set; }
-        public string Avaliable { get; set; }
-        public string Qty { get; set; }
+        public double Lot { get; set; }
+        public double FromBinID { get; set; }
+        public double ToBinID { get; set; }
+        public double Quantity { get; set; }
         public string Unit { get; set; }
-        public string Rate { get; set; }
-        public string CostRate { get; set; }
-        public string Amount { get; set; }
-        public string Serial { get; set; }
+        public double Rate { get; set; }
+        public double Amount { get; set; }
+        public double Serial { get; set; }
+        public string ConFac { get; set; }
     }
 }

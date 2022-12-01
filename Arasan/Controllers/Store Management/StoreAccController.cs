@@ -80,7 +80,6 @@ namespace Arasan.Controllers.Store_Management
                         dt4 = datatrans.GetItemDetails(tda.ItemId);
                         if (dt4.Rows.Count > 0)
                         {
-
                             tda.ConFac = dt4.Rows[0]["CF"].ToString();
                             tda.Rate = Convert.ToDouble(dt4.Rows[0]["LATPURPRICE"].ToString());
                         }
