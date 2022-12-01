@@ -499,10 +499,12 @@ namespace Arasan.Controllers
                     if (dt.Rows.Count > 0)
                     {
                         cmp.Enqno = dt.Rows[0]["ENQNO"].ToString();
+               
                         cmp.Supname = dt.Rows[0]["PARTY"].ToString();
                     }
                     DataTable dtt = new DataTable();
-                    dtt = PurenqService.GetFolowup(id);
+                    string e = cmp.Enqno;
+                    dtt = PurenqService.GetFolowup(e);
                     PurchaseFollowupDetails tda = new PurchaseFollowupDetails();
 
                     if (dtt.Rows.Count > 0)
@@ -521,15 +523,18 @@ namespace Arasan.Controllers
                 }
             }
                     cmp.pflst = TData;
+
                     return View(cmp);
                 }
-              
 
-            
-                //IEnumerable<PurchaseFollowup> cmp = PurenqService.GetAllPurchaseFollowup();
-            
-            
-        
+        //public IActionResult Followup()
+        //{
+
+        //    IEnumerable<PurchaseFollowup> cmp = PurenqService.GetAllPurchaseFollowup();
+        //    return View(cmp);
+        //}
+
+
         [HttpPost]
         public ActionResult Followup(PurchaseFollowup Pf, string id)
         {

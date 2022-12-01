@@ -28,6 +28,8 @@ namespace Arasan.Interface
         DataTable GetPurchaseQuoItemDetails(string id);
         DataTable GetPurchaseQuoDetails(string id);
         //DataTable GetFolowup(string enqid);
+        DataTable GetFolowup(string enqid);
+        string PurchaseFollowupCRUD(QuoFollowup pf);
 
     }
 }
