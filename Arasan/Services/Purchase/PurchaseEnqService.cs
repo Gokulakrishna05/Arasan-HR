@@ -1,4 +1,4 @@
-﻿using Arasan.Interface;
+﻿ using Arasan.Interface;
 using Arasan.Models;
 using Microsoft.Extensions.Configuration;
 using Oracle.ManagedDataAccess.Client;
