@@ -13,27 +13,27 @@ namespace Arasan.Controllers
     {
         public IActionResult BranchSelection()
         {
-            BranchSelection BS = new BranchSelection();
+           // BranchSelection BS = new BranchSelection();
 
-            return View(BS);
+            return View();
         }
 
-        public List<SelectListItem> BindBranch()
-        {
-            try
-            {
-                DataTable dtDesg = BranchSelectionService.GetBranch();
-                List<SelectListItem> lstdesg = new List<SelectListItem>();
-                for (int i = 0; i < dtDesg.Rows.Count; i++)
-                {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["BRANCHID"].ToString(), Value = dtDesg.Rows[i]["BRANCHMASTID"].ToString() });
-                }
-                return lstdesg;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        //public List<SelectListItem> BindBranch()
+        //{
+        //    try
+        //    {
+        //     //   DataTable dtDesg = BranchSelectionService.GetBranch();
+        //        List<SelectListItem> lstdesg = new List<SelectListItem>();
+        //        for (int i = 0; i < dtDesg.Rows.Count; i++)
+        //        {
+        //            lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["BRANCHID"].ToString(), Value = dtDesg.Rows[i]["BRANCHMASTID"].ToString() });
+        //        }
+        //        return lstdesg;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
     }
 }
