@@ -370,7 +370,7 @@ namespace Arasan.Controllers
         public IActionResult Followup(string id)
         {
             QuoFollowup cmp = new QuoFollowup();
-            List<PurchaseFollowupDetails> TData = new List<PurchaseFollowupDetails>();
+            List<QuotationFollowupDetails> TData = new List<QuotationFollowupDetails>();
             if (id == null)
             {
 
@@ -386,12 +386,31 @@ namespace Arasan.Controllers
                         cmp.QuoNo = dt.Rows[0]["DOCID"].ToString();
                         cmp.Supname = dt.Rows[0]["PARTY"].ToString();
                     }
-                   
-                   
+                    DataTable dtt = new DataTable();
+                    string e = cmp.QuoNo;
+                    dtt = PurquoService.GetFolowup(e);
+                    QuotationFollowupDetails tda = new QuotationFollowupDetails();
+
+                    if (dtt.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dtt.Rows.Count; i++)
+                        {
+                            tda = new QuotationFollowupDetails();
+                            tda.Followby = dtt.Rows[i]["FOLLOWED_BY"].ToString();
+                            tda.Followdate = dtt.Rows[i]["FOLLOW_DATE"].ToString();
+                            tda.Nfdate = dtt.Rows[i]["NEXT_FOLLOW_DATE"].ToString();
+                            tda.Rmarks = dtt.Rows[i]["REMARKS"].ToString();
+                            tda.Enquiryst = dtt.Rows[i]["FOLLOW_STATUS"].ToString();
+                            TData.Add(tda);
+                        }
+                    }
                 }
             }
-            
+            cmp.qflst = TData;
+
             return View(cmp);
+
+       
         }
 
 
@@ -400,42 +419,42 @@ namespace Arasan.Controllers
 
 
 
-        //[HttpPost]
-        //public ActionResult Followup(QuoFollowup Pf, string id)
-        //{
+        [HttpPost]
+        public ActionResult Followup(QuoFollowup Pf, string id)
+        {
 
-        //    try
-        //    {
-        //        Pf.ID = id;
-        //        // string Strout = PurquoService.PurchaseFollowupCRUD(Pf);
-        //        //if (string.IsNullOrEmpty(Strout))
-        //        //{
-        //        //    if (Pf.ID == null)
-        //        //    {
-        //        //        TempData["notice"] = "PurchaseQuotationFollowup Inserted Successfully...!";
-        //        //    }
-        //        //    else
-        //        //    {
-        //        //        TempData["notice"] = "PurchaseQuotationFollowup Updated Successfully...!";
-        //        //    }
-        //        //    return RedirectToAction("PurchaseQuotationFollowup");
-        //        //}
+            try
+            {
+                Pf.ID = id;
+                string Strout = PurquoService.PurchaseFollowupCRUD(Pf);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Pf.ID == null)
+                    {
+                        TempData["notice"] = "Followup Inserted Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "Followup Updated Successfully...!";
+                    }
+                    return RedirectToAction("Followup");
+                }
 
-        //        //else
-        //        //{
-        //        //    ViewBag.PageTitle = "Edit PurchaseQuotationFollowup";
-        //        //    TempData["notice"] = Strout;
-        //        //    //return View();
-        //        //}
+                else
+                {
+                    ViewBag.PageTitle = "Edit Followup";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
 
-        //        // }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
+            
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
-        //    return View(Pf);
-        //}
+            return View(Pf);
+}
     }
 }

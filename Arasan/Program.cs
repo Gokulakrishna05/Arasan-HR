@@ -62,6 +62,7 @@ internal class Program
         builder.Services.TryAddSingleton<IStoreIssueProduction, StoreIssueProductionService>();
         builder.Services.TryAddSingleton<IDirectAddition, DirectAdditionService>();
         builder.Services.TryAddSingleton<IEmployee, EmployeeService>();
+        builder.Services.TryAddSingleton<IStockIn, StockInService>();
         builder.Services.AddSession();
         var emailConfig = builder.Configuration.GetSection("MailSettings").Get<MailSettings>();
         builder.Services.TryAddSingleton(emailConfig);

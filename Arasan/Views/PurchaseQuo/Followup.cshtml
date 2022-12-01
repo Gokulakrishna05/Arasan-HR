@@ -34,16 +34,16 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Quotation ID <label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
 
-                                            @Html.TextBoxFor(C => C.QuoNo, new { @id = "QuoNo", @class = "form-control", @TabIndex = 2,@readonly="readonly" })
-
+                                            @Html.TextBoxFor(C => C.QuoNo, new { @id = "QuoNo", @class = "form-control", @TabIndex = 2,@readonly="readonly" })  <br />
+                                          
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="inputName3" class="col-sm-4 control-label">Supplier Name<label class="Mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Supplier <label class="Mandatory"></label></label>
                                     <div class="col-sm-8 bootstrap-timepicker">
-                                            @Html.DisplayFor(C=>C.Supname)
+                                            @Html.DisplayFor(C=>C.Supname)  <br />
                                     </div>
                                 </div>
                             </div>
@@ -54,12 +54,8 @@
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-4 control-label">Followed By<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <select class=" _select js-states form-control">
+                                            @Html.TextBoxFor(C => C.Followby, new { @id = "Followby", @class = "form-control", @TabIndex = 2 })  <br />
 
-
-                                            <option value="Anitha">Anitha </option>
-                                            <option value="Ramesh">Ramesh </option>
-                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -67,12 +63,8 @@
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-4 control-label">Quotation Status<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <select class=" _select js-states form-control">
+                                            @Html.TextBoxFor(C => C.Enquiryst, new { @id = "Enquiryst", @class = "form-control", @TabIndex = 2 })  <br />
 
-
-                                            <option value=""> </option>
-                                            <option value=""> </option>
-                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -109,7 +101,7 @@
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-2 control-label">Remarks<label class="Mandatory"></label></label>
                                     <div class="col-sm-12">
-                                            @Html.TextBoxFor(C => C.Rmarks, new { @id = "Rmarks", @class = "form-control", @TabIndex = 2 })
+                                            @Html.TextBoxFor(C => C.Rmarks, new { @id = "Rmarks", @class = "form-control", @TabIndex = 2 })    <br />
                                         </div>
                                 </div>
                             </div>
@@ -131,44 +123,39 @@
                                                 <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
                                                     <thead>
                                                         <tr>
-                                                            <td>S.No</td>
+                                                            
                                                             <th>Followed By</th>
                                                             <th>Follow Date</th>
                                                             <th>Next Follow Date</th>
+                                                           <th>Quotation Status</th>
                                                             <th>Remarks</th>
-                                                            <th>Edit</th>
-                                                            <th>Delete</th>
+                                                            @*<th>Edit</th>
+                                                            <th>Delete</th>*@
                                                         </tr>
                                                     </thead>
 
                                                     <tbody>
-                                                        <tr>
-                                                            <td>1</td>
-                                                            <td>Anitha</td>
-                                                            <td>09-Sep-2022</td>
-                                                            <td>22-Sep-2022</td>
-                                                            <td>Remarks</td>
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("PurchaseQuotationFollowup", "PurchaseEnq")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("PurchaseQuotationFollowup", "PurchaseEnq")"></a></div></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>2</td>
-                                                            <td>Anitha</td>
-                                                            <td>09-Sep-2022</td>
-                                                            <td>22-Sep-2022</td>
-                                                            <td>Remarks</td>
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("PurchaseQuotationFollowup", "PurchaseEnq")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("PurchaseQuotationFollowup", "PurchaseEnq")"></a></div></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>3</td>
-                                                            <td>Anitha</td>
-                                                            <td>09-Sep-2022</td>
-                                                            <td>22-Sep-2022</td>
-                                                            <td>Remarks</td>
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("PurchaseQuotationFollowup", "PurchaseEnq")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("PurchaseQuotationFollowup", "PurchaseEnq")"></a></div></td>
-                                                        </tr>
+                                                            @{
+                                                                int i = 1;
+
+                                                                foreach (var item in Model.qflst)
+                                                                {
+                                                                    <tr>
+
+                                                                        <td>@Html.DisplayFor(modelItem => item.Followby)</td>
+                                                                        <td>@Html.DisplayFor(modelItem => item.Followdate)</td>
+                                                                        <td>@Html.DisplayFor(modelItem => item.Nfdate)</td>
+                                                                        <td>@Html.DisplayFor(modelItem => item.Enquiryst)</td>
+                                                                        <td>@Html.DisplayFor(modelItem => item.Rmarks)</td>
+                                                                      @*  <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Followup", "PurchaseQuo",new { id=item.ID })"></a></div></td>
+                                                                        <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("Followup", "PurchaseQuo",new { id=item.ID })"></a></div></td>
+                                                                        *@
+                                                                    </tr>
+                                                                    i++;
+                                                                }
+                                                            }
+
+                                                       
                                                     </tbody>
                                                 </table>
                                             </div>
