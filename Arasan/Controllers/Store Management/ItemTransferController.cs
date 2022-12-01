@@ -11,9 +11,15 @@ namespace Arasan.Controllers.Store_Management
     public class ItemTransferController : Controller
     {
         IItemTransferService ItemTransferService;
+        IConfiguration? _configuratio;
+        private string? _connectionString;
+
+        DataTransactions datatrans;
         public ItemTransferController(IItemTransferService _ItemTransferService)
         {
             ItemTransferService = _ItemTransferService;
+            _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
+            datatrans = new DataTransactions(_connectionString);
         }
         public IActionResult ItemTransfer(string id)
         {
@@ -27,7 +33,7 @@ namespace Arasan.Controllers.Store_Management
                 for (int i = 0; i < 3; i++)
                 {
                     tda = new Itemtran();
-                    tda.Itlst = BindItem();
+                    tda.Itlst = BindItem("");
                     tda.Isvalid = "Y";
                     TData.Add(tda);
                 }
@@ -37,6 +43,7 @@ namespace Arasan.Controllers.Store_Management
                 //st = ItemTransferService.GetItemTransferById(id);
 
                 DataTable dt = new DataTable();
+                double total = 0;
                 dt = ItemTransferService.GetItemTransferDetails(id);
                 if (dt.Rows.Count > 0)
                 {
@@ -52,6 +59,44 @@ namespace Arasan.Controllers.Store_Management
                  
 
 
+                }
+                DataTable dt2 = new DataTable();
+                dt2 = ItemTransferService.GetItemTransferItemDetails(id);
+                if (dt2.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt2.Rows.Count; i++)
+                    {
+                        tda = new Itemtran();
+                        double toaamt = 0;
+                        DataTable dt3 = new DataTable();
+                        dt3 = datatrans.GetItemSubGroup(dt2.Rows[i]["ITEMID"].ToString());
+                        if (dt3.Rows.Count > 0)
+                            tda.Itlst = BindItem(tda.ItemId);
+                        tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
+                        tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
+                        DataTable dt4 = new DataTable();
+                        dt4 = datatrans.GetItemDetails(tda.ItemId);
+                        if (dt4.Rows.Count > 0)
+                        {
+
+                            tda.ConFac = dt4.Rows[0]["CF"].ToString();
+                            tda.Rate = Convert.ToDouble(dt4.Rows[0]["LATPURPRICE"].ToString());
+                        }
+                        tda.Quantity = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
+                        toaamt = tda.Rate * tda.Quantity;
+                        total += toaamt;
+                        //tda.QtyPrim= Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
+                        tda.Amount = toaamt;
+                        tda.Unit = dt2.Rows[i]["UNITID"].ToString();
+
+
+                        tda.FromBinID = Convert.ToDouble(dt2.Rows[i]["FROMBINID"].ToString() == "" ? "0" : dt2.Rows[i]["FROMBINID"].ToString());
+                        tda.ToBinID = Convert.ToDouble(dt2.Rows[i]["TOBINID"].ToString() == "" ? "0" : dt2.Rows[i]["TOBINID"].ToString());
+                        tda.Serial = Convert.ToDouble(dt2.Rows[i]["SERIALYN"].ToString() == "" ? "0" : dt2.Rows[i]["SERIALYN"].ToString());
+                        tda.Lot = Convert.ToDouble(dt2.Rows[i]["PENDQTY"].ToString() == "" ? "0" : dt2.Rows[i]["LSTOCK"].ToString());
+                        tda.Isvalid = "Y";
+                        TData.Add(tda);
+                    }
                 }
 
             }
@@ -117,11 +162,11 @@ namespace Arasan.Controllers.Store_Management
                 throw ex;
             }
         }
-        public List<SelectListItem> BindItem()
+        public List<SelectListItem> BindItem(string value)
         {
             try
             {
-                DataTable dtDesg = ItemTransferService.GetItem();
+                DataTable dtDesg = ItemTransferService.GetItem(value);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -151,11 +196,43 @@ namespace Arasan.Controllers.Store_Management
                 throw ex;
             }
         }
+        public ActionResult GetItemDetail(string ItemId)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                DataTable dt1 = new DataTable();
+                string Desc = "";
+                string unit = "";
+                string CF = "";
+                string price = "";
+                dt = datatrans.GetItemDetails(ItemId);
+
+                if (dt.Rows.Count > 0)
+                {
+                    Desc = dt.Rows[0]["ITEMDESC"].ToString();
+                    unit = dt.Rows[0]["UNITID"].ToString();
+                    price = dt.Rows[0]["LATPURPRICE"].ToString();
+                    dt1 = ItemTransferService.GetItemCF(ItemId, dt.Rows[0]["UNITMASTID"].ToString());
+                    if (dt1.Rows.Count > 0)
+                    {
+                        CF = dt1.Rows[0]["CF"].ToString();
+                    }
+                }
+
+                var result = new { Desc = Desc, Unit = unit, CF = CF, price = price };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public JsonResult GetItemJSON(string itemid)
         {
-            StoreAcc model = new StoreAcc();
-            // model.Itlst = BindItem();
-            return Json(BindItem());
+            Itemtran model = new Itemtran();
+            model.Itlst = BindItem(itemid);
+            return Json(BindItem(itemid));
         }
     }
 }

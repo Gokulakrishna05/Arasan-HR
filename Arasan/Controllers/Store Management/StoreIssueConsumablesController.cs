@@ -253,35 +253,35 @@ namespace Arasan.Controllers
         }
         //public List<SelectListItem> BindDrum()
         //{
-        //    try
-        //    {
-        //        List<SelectListItem> lstdesg = new List<SelectListItem>();
-        //        lstdesg.Add(new SelectListItem() { Text = "YES", Value = "YES" });
-        //        lstdesg.Add(new SelectListItem() { Text = "NO", Value = "NO" });
-               
-        //        return lstdesg;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
-        //public List<SelectListItem> BindSerial()
-        //{
-        //    try
-        //    {
-        //        List<SelectListItem> lstdesg = new List<SelectListItem>();
-        //        lstdesg.Add(new SelectListItem() { Text = "YES", Value = "YES" });
-        //        lstdesg.Add(new SelectListItem() { Text = "NO", Value = "NO" });
+            //    try
+            //    {
+            //        List<SelectListItem> lstdesg = new List<SelectListItem>();
+            //        lstdesg.Add(new SelectListItem() { Text = "YES", Value = "YES" });
+            //        lstdesg.Add(new SelectListItem() { Text = "NO", Value = "NO" });
 
-        //        return lstdesg;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
-        public ActionResult GetItemDetail(string ItemId)
+            //        return lstdesg;
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        throw ex;
+            //    }
+            //}
+            //public List<SelectListItem> BindSerial()
+            //{
+            //    try
+            //    {
+            //        List<SelectListItem> lstdesg = new List<SelectListItem>();
+            //        lstdesg.Add(new SelectListItem() { Text = "YES", Value = "YES" });
+            //        lstdesg.Add(new SelectListItem() { Text = "NO", Value = "NO" });
+
+            //        return lstdesg;
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        throw ex;
+            //    }
+            //}
+            public ActionResult GetItemDetail(string ItemId)
         {
             try
             {

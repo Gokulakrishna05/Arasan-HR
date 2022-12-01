@@ -13,8 +13,10 @@ namespace Arasan.Interface.Store_Management
 
         DataTable GetLocation();
         DataTable GetBranch();
-        DataTable GetItem();
+        DataTable GetItem(string value);
         DataTable GetItemTransferDetails(string id);
-
+        DataTable GetItemCF(string ItemId, string unitid);
+        DataTable GetItemTransferItemDetails(string id);
+        IEnumerable<Itemtran> GetAllItemTransferItem(string id);
     }
 }

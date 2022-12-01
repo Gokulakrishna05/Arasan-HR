@@ -70,7 +70,6 @@ namespace Arasan.Services.Store_Management
                     {
                         DirectDeduction sta = new DirectDeduction
                         {
-
                             ID = rdr["DEDBASICID"].ToString(),
                             Branch = rdr["BRANCHID"].ToString(),
                             Location = rdr["LOCID"].ToString(),
@@ -91,7 +90,7 @@ namespace Arasan.Services.Store_Management
         }
 
         public string DirectDeductionCRUD(DirectDeduction ss)
-        {
+           {
             string msg = "";
             try
             {

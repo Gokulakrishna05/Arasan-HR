@@ -76,7 +76,7 @@ namespace Arasan.Controllers.Store_Management
                         dt3 = datatrans.GetItemSubGroup(dt2.Rows[i]["ITEMID"].ToString());
                         if (dt3.Rows.Count > 0)
                         {
-                            tda.ItemGroupId = dt3.Rows[0]["SUBGROUPCODE"].ToString();
+                            tda.ItemGroupId = dt3.Rows[0]["GROUPCODE"].ToString();
                         }
                         tda.Itlst = BindItem(tda.ItemGroupId);
                         tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
