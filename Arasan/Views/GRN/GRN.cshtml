@@ -49,6 +49,7 @@
                                                 <div class="col-sm-8">
                                                      @Html.TextBoxFor(C => C.GRNNo, new { @id = "GRNNo", @class = "form-control", @TabIndex = 2 ,@readonly=true})
                                             @Html.HiddenFor(C => C.ID)
+                                            @Html.HiddenFor(C => C.BranchID)
                                                 </div>
                                             </div>
                                         </div>
@@ -150,13 +151,15 @@
                         <th> Order Qty </th>
                        <th> Pend. Qty </th>
                        <th> Bill Qty </th>
+                        <th> Recvd. Qty (Good)</th>
+                         <th>  Recvd. Qty (Defect) </th>
                                  <th>Rate </th>
                                 <th> Amount</th>
                                  <th> Disc %</th>
                          <th> Disc amount</th>
                   <th> Cost Rate</th>
-                           <th>Assessable Value</th>
-                                 @*   <th>Tariff Id</th>*@
+                            @* <th>Assessable Value</th>
+                                  <th>Tariff Id</th>*@
                               <th>CGSTP</th>
                                <th>SGSTP</th>
                                 <th>IGSTP</th>
@@ -203,6 +206,12 @@
                                                                                                                                                             @Html.TextBoxFor(o => o.PoItem[i].BillQty, new { @id = "txtBillQty" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")"})
                                                                                                                                                         </td>
                                                                                                                                                          <td>
+                                                                                                                                                            @Html.TextBoxFor(o => o.PoItem[i].Goodqty, new { @id = "txtGoodqty" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right"})
+                                                                                                                                                        </td>
+                                                                                                                                                         <td>
+                                                                                                                                                            @Html.TextBoxFor(o => o.PoItem[i].DamageQty, new { @id = "txtDamageQty" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right"})
+                                                                                                                                                        </td>
+                                                                                                                                                         <td>
                                                                                                                                                             @Html.TextBoxFor(o => o.PoItem[i].rate, new { @id = "txtrate" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")" })
                                                                                                                                                         </td>
                                                                                                                                                          <td>
@@ -218,9 +227,9 @@
                                                                                                                                                        <td>
                                                                                                                                                             @Html.TextBoxFor(o => o.PoItem[i].CostRate, new { @id = "txtCostRate" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right" })
                                                                                                                                                         </td>
-                                                                                                                                                        <td>
+                                                                                                                                                        @*    <td>
                                                                                                                                                             @Html.TextBoxFor(o => o.PoItem[i].AcessValue, new { @id = "txtAcessValue" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right" })
-                                                                                                                                                        </td>
+                                                                                                                                                        </td> *@
                                                                                                                                                          <td>
                                                                                                                                                             @Html.TextBoxFor(o => o.PoItem[i].CGSTPer, new { @id = "txtCGSTPer" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")" })
                                                                                                                                                         </td>
@@ -391,11 +400,19 @@
                                             
                                                 <label for="inputName3" class="col-sm-4 control-label">Truck No.<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                    <input class="form-control" id="inputEmail3" placeholder="0.00" type="text">
+                                                    @Html.TextBoxFor(C => C.truckno, new { @id = "txttruckno", @class = "form-control", @TabIndex = 2 })
                                                 </div>
                                             </div>
                                         </div>
-                                        
+                                         <div class="col-md-6">
+                                            <div class="form-group">
+                                            
+                                                <label for="inputName3" class="col-sm-4 control-label">Transporter<label class="Mandatory"></label></label>
+                                                <div class="col-sm-8">
+                                                     @Html.TextBoxFor(C => C.drivername, new { @id = "txtdrivername", @class = "form-control", @TabIndex = 2 })
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                      <div style="height:30px;"></div>
                                           <div class="row">
@@ -404,7 +421,7 @@
                                             
                                                 <label for="inputName3" class="col-sm-4 control-label">LR. No.<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                    <input class="form-control" id="inputEmail3" placeholder="0.00" type="text">
+                                                      @Html.TextBoxFor(C => C.LRno, new { @id = "txtLRno", @class = "form-control", @TabIndex = 2 })
                                                 </div>
                                             </div>
                                         </div>
@@ -412,30 +429,23 @@
                                             <div class="form-group">
                                                 <label for="inputName3" class="col-sm-4 control-label">LR.Date<label class="Mandatory"></label></label>
                                               
-                                                      <div class="col-sm-8">
-												  <input class="form-control" id="inputEmail3"  type="date" readonly>
-												</div>
+                                                    <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy" >
+                                            @Html.TextBoxFor(C => C.LRdate, new { @id = "LRdate", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })
+														<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+													</div>
                                                
                                             </div>
                                         </div>
                                     </div>
                                     <div style="height:30px;"></div>
                                           <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                            
-                                                <label for="inputName3" class="col-sm-4 control-label">Transporter<label class="Mandatory"></label></label>
-                                                <div class="col-sm-8">
-                                                    <input class="form-control" id="inputEmail3" placeholder="0.00" type="text">
-                                                </div>
-                                            </div>
-                                        </div>
+                                       
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="inputName3" class="col-sm-4 control-label">Place Of Dispatch<label class="Mandatory"></label></label>
                                               
                                                       <div class="col-sm-8">
-												  <input class="form-control" id="inputEmail3" placeholder="" type="text">
+												   @Html.TextBoxFor(C => C.dispatchname, new { @id = "txtdispatchname", @class = "form-control", @TabIndex = 2 })
 												</div>
                                                
                                             </div>
@@ -444,7 +454,7 @@
 
 									<div style="height:30px;"></div>
                 <button type="submit" class="btn aqua m-t-xs bottom15-xs">Submit</button>
-				  <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListPO", "PO")'">Cancel</button>
+				  <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListGRN", "GRN")'">Cancel</button>
               </form>
               }
             </div>
@@ -514,7 +524,7 @@
 
                     //if (frieght == "")
                     //    frieght = 0;
-
+                    document.getElementById("txtGoodqty" + i).value = qty;
                     var tot = eval(qty) * eval(up) * eval(cf);
                     document.getElementById("txtAmount" + i).value = tot.toFixed(2);
                     var igstperc = (eval(tot) / 100) * eval(IGST);

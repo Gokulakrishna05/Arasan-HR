@@ -29,7 +29,7 @@ namespace Arasan.Models
         public string Branch { get; set; }
 
         public string GRNNo { get; set; }
-
+        public string BranchID { get; set; }
         public string GRNdate { get; set; }
         public string PONo { get; set; }
         public string ExRate { get; set; }
@@ -38,6 +38,12 @@ namespace Arasan.Models
         public string Recid { get; set; }
 
         public string assignid { get; set; }
+
+        public string truckno { get; set; }
+        public string LRno { get; set; }
+        public string LRdate { get; set; }
+        public string drivername { get; set; }
+        public string dispatchname { get; set; }
 
         public string Supplier { get; set; }
         public string Status { get; set; }
@@ -70,7 +76,7 @@ namespace Arasan.Models
         public string DespatchAddr { get; set; }
         public double Roundminus { get; set; }
         public double otherdeduction { get; set; }
-        public string POID { get; set; }
+        public string GRNID { get; set; }
         public string RefNo { get; set; }
         public string RefDate { get; set; }
     }

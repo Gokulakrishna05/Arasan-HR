@@ -44,6 +44,8 @@ namespace Arasan.Controllers
                 if (dt.Rows.Count > 0)
                 {
                     po.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                    po.BranchID = dt.Rows[0]["BRANCHID"].ToString();
+                    po.GRNNo= dt.Rows[0]["DOCID"].ToString();
                     po.GRNdate = dt.Rows[0]["DOCDATE"].ToString();
                     po.Supplier = dt.Rows[0]["PARTYID"].ToString();
                     po.PONo = dt.Rows[0]["DOCID"].ToString();
@@ -64,6 +66,11 @@ namespace Arasan.Controllers
 
                     po.Gross = Convert.ToDouble(dt.Rows[0]["GROSS"].ToString() == "" ? "0" : dt.Rows[0]["GROSS"].ToString());
                     po.Net = Convert.ToDouble(dt.Rows[0]["NET"].ToString() == "" ? "0" : dt.Rows[0]["NET"].ToString());
+                    po.LRno = dt.Rows[0]["LRNO"].ToString();
+                    po.LRdate= dt.Rows[0]["LRDT"].ToString();
+                    po.dispatchname= dt.Rows[0]["DESPTHRU"].ToString();
+                    po.drivername= dt.Rows[0]["TRNSPNAME"].ToString();
+                   po.truckno= dt.Rows[0]["truckno"].ToString();
 
                 }
                 DataTable dt2 = new DataTable();
@@ -95,6 +102,7 @@ namespace Arasan.Controllers
                         tda.rate = Convert.ToDouble(dt2.Rows[i]["RATE"].ToString());
                         tda.Quantity = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
                         tda.BillQty = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
+                        tda.Goodqty = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
                         toaamt = tda.rate * tda.Quantity;
                         total += toaamt;
                         //tda.QtyPrim= Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
@@ -122,16 +130,16 @@ namespace Arasan.Controllers
             return View(po);
         }
         [HttpPost]
-        public ActionResult PurchaseOrder(GRN Cy, string id)
+        public ActionResult GRN(GRN Cy, string id)
         {
 
             try
             {
-                Cy.POID = id;
+                Cy.GRNID = id;
                 string Strout = GRNService.GRNCRUD(Cy);
                 if (string.IsNullOrEmpty(Strout))
                 {
-                    if (Cy.POID == null)
+                    if (Cy.GRNID == null)
                     {
                         TempData["notice"] = "GRN Inserted Successfully...!";
                     }

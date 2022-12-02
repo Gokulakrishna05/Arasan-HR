@@ -27,7 +27,7 @@ namespace Arasan.Models
         public string warrantyterms { get; set; }
         public string ID { get; set; }
         public string Branch { get; set; }
-
+       
         public string PONo { get; set; }
 
         public string POdate { get; set; }
@@ -102,6 +102,8 @@ namespace Arasan.Models
         public string Unit { get; set; }
         public string Conversionfactor { get; set; }
         public double Quantity { get; set; }
+        public double Goodqty { get; set; }
+        public double DamageQty { get; set; }
         public string unitprim { get; set; }
         public double QtyPrim { get; set; }
         public double rate { get; set; }

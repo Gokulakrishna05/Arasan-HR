@@ -49,6 +49,7 @@ namespace Arasan.Controllers
                 if (dt.Rows.Count > 0)
                 {
                     po.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                   
                     po.POdate = dt.Rows[0]["DOCDATE"].ToString();
                     po.Supplier = dt.Rows[0]["PARTYID"].ToString();
                     po.PONo = dt.Rows[0]["DOCID"].ToString();
