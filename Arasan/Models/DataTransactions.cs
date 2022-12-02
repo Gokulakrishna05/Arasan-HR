@@ -33,6 +33,23 @@ namespace Arasan.Models
             }
             return _Dt;
         }
+
+      
+        public int GetFinancialYear(DateTime Date1)
+        {
+            if (Date1.Year > 2000)
+            {
+                if (Date1.Month > 3)
+                {
+                    return new DateTime(Date1.Year, 4, 1).Year;
+                }
+                else
+                {
+                    return new DateTime(Date1.Year - 1, 4, 1).Year;
+                }
+            }
+            return Date1.Year;
+        }
         public int GetDataId(String sql)
         {
             DataTable _dt = new DataTable();

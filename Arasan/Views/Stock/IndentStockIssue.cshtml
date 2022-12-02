@@ -1,0 +1,113 @@
+﻿@model Arasan.Models.Stock
+
+@{
+    ViewData["Title"] = "Indent Stock Issue";
+}
+  <partial name="JqxGridPartial" />
+@* @Html.Partial("~/Views/JqxGridPartial.cshtml")  *@
+    
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a>Store Management</a> </li>
+            <li class="active"> <strong>Indent Stock Issue</strong> </li>
+        </ol>
+    </div>
+</div>
+
+ <script type="text/javascript">
+       $(document).ready(function () {
+            
+            // prepare the data
+           var source =
+            {
+                url: "/Stock/ListIndentStockIssue",
+               datatype: "json",
+                updaterow: function (rowid, rowdata) {
+                  // synchronize with the server - send update command
+              },
+                datafields: [
+                     { name: 'id', type: 'string' },
+                    { name: 'indentno', type: 'string' },
+                    { name: 'indentdate', type: 'string' },
+                    { name: 'itemname', type: 'string' },
+                    { name: 'unit', type: 'string' },
+                    { name: 'quantity', type: 'float' },
+                    { name: 'location', type: 'string' },
+                    { name: 'branchname', type: 'string' },
+                    { name: 'approval', type: 'string' }
+                ],
+                id: 'id',
+            };
+              var dataAdapter = new $.jqx.dataAdapter(source,
+                { contentType: 'application/json; charset=utf-8' }, {
+                    loadComplete: function () {
+
+                    }
+                }
+            );
+            var linkrenderer = function (row, column, value) {
+                if (value == 0) {
+                     return value;
+                }else{
+ return '<a href="' + value + '" onclick="return Approve()"><img  src="../Images/Inactive.png"  style="text-align: center; margin-top: 5px;padding-left:25px;"/></a>';
+                }
+               
+   }
+            // initialize jqxGrid
+            $("#grid").jqxGrid(
+            {
+                width: 1000,
+                source: dataAdapter,
+                 height: 365,
+                filterable: true,
+                     pageable: true,
+                    filterable: true,
+                    autoheight: true,
+                    sortable: true,
+                    rowdetails: true,
+                columns: [
+                  { text: 'Indent No.', datafield: 'indentno', width: 100 },
+                  { text: 'Indent Date', datafield: 'indentdate', width: 100 },
+                  { text: 'Item Name', columntype: 'dropdownlist', datafield: 'itemname', width: 200 },
+                  { text: 'Branch Name', datafield: 'branchname', width: 200 },
+                  { text: 'Location', datafield: 'location', width: 200 },
+                  { text: 'Quantity', datafield: 'quantity', cellsalign: 'right', width: 100 },
+                  { text: 'Stock Available', datafield: 'stockavailable', cellsalign: 'center', width: 100, cellsrenderer: linkrenderer, align: 'center'},
+                  
+                ]
+            });
+        });
+    </script>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                  
+                    <form>
+                      
+                        <div class="row">
+
+                             <div class="col-md-1 "> </div>
+                            <div class="col-md-11 "> 
+                                <div id="grid">
+    </div>
+
+                            </div>
+                           
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function Approve() {
+        return confirm('Are you sure want to Approve this Indent?');
+    }
+</script>

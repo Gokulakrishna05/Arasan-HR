@@ -57,12 +57,12 @@
                                 <tr>
                                                                             <td>@Html.DisplayFor(modelItem => item.Branch)</td>
                                                                             <td>@Html.DisplayFor(modelItem => item.Supplier)</td>
-                                                                            <td><a href="@Url.Action("PODetails", "PO",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'>@Html.DisplayFor(modelItem => item.GRNNo)</a></td>
+                                                                            <td>@Html.DisplayFor(modelItem => item.GRNNo)</td>
                                                                             <td>@Html.DisplayFor(modelItem => item.GRNdate)</td>
                                                                             <td>@Html.DisplayFor(modelItem => item.PONo)</td>
                                                                             <td>@Html.DisplayFor(modelItem => item.Cur)</td>
                                                                              <td>@Html.DisplayFor(modelItem => item.Status)</td>
-                                                                               @if(item.Status == "Generated"){
+                                                                               @if(item.Status == "GRN Completed"){
                                                                
                                                                 <td></td>
                                                                 <td></td>
