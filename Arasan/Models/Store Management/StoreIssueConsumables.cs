@@ -11,7 +11,7 @@ namespace Arasan.Models
             this.Loclst = new List<SelectListItem>();
         }
         public List<SelectListItem> Brlst;
-        public string SIId { get; set; }
+        public string ID { get; set; }
 
         public string Branch { get; set; }
 
@@ -41,12 +41,14 @@ namespace Arasan.Models
     }
     public class SICItem
     {
+        public string ID { get; set; }
         public string ItemId { get; set; }
         public string saveItemId { get; set; }
         public List<SelectListItem> Itemlst { get; set; }
 
         public List<SelectListItem> ItemGrouplst { get; set; }
-
+        public List<SelectListItem> DRLst { get; set; }
+        public List<SelectListItem> SRLst { get; set; }
         public string ItemGroupId { get; set; }
 
         public string ConFac { get; set; }
@@ -57,7 +59,7 @@ namespace Arasan.Models
         //  public double QtyPrim { get; set; }
         public double rate { get; set; }
         public double Amount { get; set; }
-        public double Drum { get; set; }
+        public string Drum { get; set; }
         public double Indp { get; set; }
         public double IndCtr { get; set; }
         public double PendQty { get; set; }

@@ -12,7 +12,7 @@ namespace Arasan.Interface
         //DataTable GetCurency();
         //DataTable GetItem(string value);
         //DataTable GetItemGrp();
-        //DataTable GetItemCF(string ItemId, string unitid);
+        DataTable GetItemCF(string ItemId, string unitid);
 
         //DataTable GetItemDetails(string ItemId);
         string PurQuotationCRUD(PurchaseQuo cy);
@@ -26,6 +26,10 @@ namespace Arasan.Interface
         DataTable GetPurchaseQuo(string id);
         //DataTable GetItemSubGroup(string id);
         DataTable GetPurchaseQuoItemDetails(string id);
+        DataTable GetPurchaseQuoDetails(string id);
+        //DataTable GetFolowup(string enqid);
+        DataTable GetFolowup(string enqid);
+        string PurchaseFollowupCRUD(QuoFollowup pf);
 
     }
 }

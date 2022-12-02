@@ -33,8 +33,13 @@ internal class Program
         builder.Services.TryAddSingleton<IItemSubGroupService, ItemSubGroupService>();
         builder.Services.TryAddSingleton<IProcessCostEntryService, ProcessCostEntryService>();
         builder.Services.TryAddSingleton<IDirectDeductionService, DirectDeductionService>();
+
         builder.Services.TryAddSingleton<IStockService, StockService>();
         builder.Services.TryAddSingleton<IPurchaseEnqService,PurchaseEnqService>();
+
+        builder.Services.TryAddSingleton<IPurchaseEnqService, PurchaseEnqService>();
+        builder.Services.TryAddSingleton<IItemTransferService, ItemTransferService>();
+
         builder.Services.TryAddSingleton<ISalesEnq, SalesEnqService>();
         builder.Services.TryAddSingleton<ICompanyService, CompanyService>();
         builder.Services.TryAddSingleton<ICompanyService, CompanyService>();
@@ -61,6 +66,8 @@ internal class Program
         builder.Services.TryAddSingleton<IStoreIssueProduction, StoreIssueProductionService>();
         builder.Services.TryAddSingleton<IStoreIssueProduction, StoreIssueProductionService>();
         builder.Services.TryAddSingleton<IDirectAddition, DirectAdditionService>();
+        builder.Services.TryAddSingleton<IEmployee, EmployeeService>();
+        builder.Services.TryAddSingleton<IStockIn, StockInService>();
         builder.Services.AddSession();
         var emailConfig = builder.Configuration.GetSection("MailSettings").Get<MailSettings>();
         builder.Services.TryAddSingleton(emailConfig);
@@ -87,6 +94,7 @@ internal class Program
         app.MapControllerRoute(
             name: "default",
             pattern: "{controller=Account}/{action=Login}/{fid?}");
+        
         app.Run();
     }
 }

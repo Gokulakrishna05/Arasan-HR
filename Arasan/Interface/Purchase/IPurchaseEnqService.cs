@@ -20,7 +20,7 @@ public interface IPurchaseEnqService
         PurchaseEnquiry GetPurenqServiceById(string id);
         string PurchaseFollowupCRUD(PurchaseFollowup pf);
         IEnumerable<PurchaseFollowup> GetAllPurchaseFollowup();
-        PurchaseFollowup GetPurchaseFollowupById(string id);
+        //PurchaseFollowup GetPurchaseFollowupById(string id);
         DataTable GetFolowup(string enqid);
         string EnquirytoQuote(string id);
 

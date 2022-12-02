@@ -93,7 +93,7 @@ namespace Arasan.Controllers
                 }
                 ca.Net = Math.Round(total, 2);
 
-                //}
+                
 
                 ca.QoLst = Data;
             }
@@ -327,38 +327,38 @@ namespace Arasan.Controllers
         //    return Json(BindItemlst(itemid));
 
         //}
-        //public ActionResult GetItemDetail(string ItemId)
-        //{
-        //    try
-        //    {
-        //        DataTable dt = new DataTable();
-        //        DataTable dt1 = new DataTable();
-        //        string Desc = "";
-        //        string unit = "";
-        //        string CF = "";
-        //        string price = "";
-        //        dt = PurquoService.GetItemDetails(ItemId);
+        public ActionResult GetItemDetail(string ItemId)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                DataTable dt1 = new DataTable();
+                string Desc = "";
+                string unit = "";
+                string CF = "";
+                string price = "";
+                dt = datatrans.GetItemDetails(ItemId);
 
-        //        if (dt.Rows.Count > 0)
-        //        {
-        //            Desc = dt.Rows[0]["ITEMDESC"].ToString();
-        //            unit = dt.Rows[0]["UNITID"].ToString();
-        //            price = dt.Rows[0]["LATPURPRICE"].ToString();
-        //            dt1 = PurquoService.GetItemCF(ItemId, dt.Rows[0]["UNITMASTID"].ToString());
-        //            if (dt1.Rows.Count > 0)
-        //            {
-        //                CF = dt1.Rows[0]["CF"].ToString();
-        //            }
-        //        }
+                if (dt.Rows.Count > 0)
+                {
+                    Desc = dt.Rows[0]["ITEMDESC"].ToString();
+                    unit = dt.Rows[0]["UNITID"].ToString();
+                    price = dt.Rows[0]["LATPURPRICE"].ToString();
+                    dt1 = PurquoService.GetItemCF(ItemId, dt.Rows[0]["UNITMASTID"].ToString());
+                    if (dt1.Rows.Count > 0)
+                    {
+                        CF = dt1.Rows[0]["CF"].ToString();
+                    }
+                }
 
-        //        var result = new { Desc = Desc, unit = unit, CF = CF, price = price };
-        //        return Json(result);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
+                var result = new { Desc = Desc, unit = unit, CF = CF, price = price };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
 
         //public JsonResult GetItemGrpJSON()
@@ -367,5 +367,94 @@ namespace Arasan.Controllers
         //    //model.ItemGrouplst = BindItemGrplst(value);
         //    return Json(BindItemGrplst());
         //}
+        public IActionResult Followup(string id)
+        {
+            QuoFollowup cmp = new QuoFollowup();
+            List<QuotationFollowupDetails> TData = new List<QuotationFollowupDetails>();
+            if (id == null)
+            {
+
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(id))
+                {
+                    DataTable dt = new DataTable();
+                     dt = PurquoService.GetPurchaseQuoDetails(id);
+                    if (dt.Rows.Count > 0)
+                    {
+                        cmp.QuoNo = dt.Rows[0]["DOCID"].ToString();
+                        cmp.Supname = dt.Rows[0]["PARTY"].ToString();
+                    }
+                    DataTable dtt = new DataTable();
+                    string e = cmp.QuoNo;
+                    dtt = PurquoService.GetFolowup(e);
+                    QuotationFollowupDetails tda = new QuotationFollowupDetails();
+
+                    if (dtt.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dtt.Rows.Count; i++)
+                        {
+                            tda = new QuotationFollowupDetails();
+                            tda.Followby = dtt.Rows[i]["FOLLOWED_BY"].ToString();
+                            tda.Followdate = dtt.Rows[i]["FOLLOW_DATE"].ToString();
+                            tda.Nfdate = dtt.Rows[i]["NEXT_FOLLOW_DATE"].ToString();
+                            tda.Rmarks = dtt.Rows[i]["REMARKS"].ToString();
+                            tda.Enquiryst = dtt.Rows[i]["FOLLOW_STATUS"].ToString();
+                            TData.Add(tda);
+                        }
+                    }
+                }
+            }
+            cmp.qflst = TData;
+
+            return View(cmp);
+
+       
+        }
+
+
+
+        //IEnumerable<PurchaseFollowup> cmp = PurenqService.GetAllPurchaseFollowup();
+
+
+
+        [HttpPost]
+        public ActionResult Followup(QuoFollowup Pf, string id)
+        {
+
+            try
+            {
+                Pf.ID = id;
+                string Strout = PurquoService.PurchaseFollowupCRUD(Pf);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Pf.ID == null)
+                    {
+                        TempData["notice"] = "Followup Inserted Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "Followup Updated Successfully...!";
+                    }
+                    return RedirectToAction("Followup");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit Followup";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
+
+            
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(Pf);
+}
     }
 }

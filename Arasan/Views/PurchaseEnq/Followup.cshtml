@@ -32,14 +32,14 @@
                                             <div class="form-group">
                                                 <label for="inputName3" class="col-sm-4 control-label">Enquiry ID <label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                  
-                                                  @Html.DisplayFor(C=>C.Enqno)
+                                                  @Html.TextBoxFor(C => C.Enqno, new { @id = "Enqno", @class = "form-control", @TabIndex = 2,@readonly="readonly" })
+                                      
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="inputName3" class="col-sm-4 control-label">Supplier Name<label class="Mandatory"></label></label>
+                                                <label for="inputName3" class="col-sm-4 control-label">Supplier <label class="Mandatory"></label></label>
                                                 <div class="col-sm-8 bootstrap-timepicker">
                                                  @Html.DisplayFor(C=>C.Supname)
                                                 </div>
@@ -103,11 +103,9 @@
                                             </div>
                                         </div>
                                     </div>
-
-                            <button type="submit" name="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" value="Save" tabindex="18">Save</button>
-                            <a button class="btn btn-danger" type="submit" href="@Url.Action("Followup", "PurchaseEnq")">Cancel</a>
-
-
+                            <div style="height:30px;"></div>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs">Submit</button>
+                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("Followup", "PurchaseEnq")'">Cancel</button>
 
 
                             <div class="row">

@@ -57,13 +57,14 @@ namespace Arasan.Controllers
                     ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
                     ca.Supplier = dt.Rows[0]["PARTYID"].ToString();
                     ca.DocNo = dt.Rows[0]["DOCID"].ToString();
-                    ca.DPId = id;
+                    ca.ID = id;
                     ca.Currency = dt.Rows[0]["MAINCURRENCY"].ToString();
                     ca.RefDate = dt.Rows[0]["REFDT"].ToString();
                     ca.Voucher = dt.Rows[0]["VOUCHER"].ToString();
                     ca.Location = dt.Rows[0]["LOCID"].ToString();
                     ca.Narration = dt.Rows[0]["NARR"].ToString();
-                    ca.Round = Convert.ToDouble(dt.Rows[0]["RNDOFF"].ToString() == "" ? "0" : dt.Rows[0]["RNDOFF"].ToString());
+                    ca.LRCha = Convert.ToDouble(dt.Rows[0]["LRCH"].ToString() == "" ? "0" : dt.Rows[0]["LRCH"].ToString());
+                    ca.DelCh = Convert.ToDouble(dt.Rows[0]["DELCH"].ToString() == "" ? "0" : dt.Rows[0]["DELCH"].ToString());
                     ca.Other = Convert.ToDouble(dt.Rows[0]["OTHERCH"].ToString() == "" ? "0" : dt.Rows[0]["OTHERCH"].ToString());
                     ca.Frig = Convert.ToDouble(dt.Rows[0]["FREIGHT"].ToString() == "" ? "0" : dt.Rows[0]["FREIGHT"].ToString());
                     ca.SpDisc = Convert.ToDouble(dt.Rows[0]["OTHERDISC"].ToString() == "" ? "0" : dt.Rows[0]["OTHERDISC"].ToString());
@@ -82,7 +83,7 @@ namespace Arasan.Controllers
                         double toaamt = 0;
                         tda.ItemGrouplst = BindItemGrplst();
                         DataTable dt3 = new DataTable();
-                        dt3 = directPurchase.GetItemSubGroup(dt2.Rows[i]["ITEMID"].ToString());
+                        dt3 = datatrans.GetItemSubGroup(dt2.Rows[i]["ITEMID"].ToString());
                         if (dt3.Rows.Count > 0)
                         {
                             tda.ItemGroupId = dt3.Rows[0]["SUBGROUPCODE"].ToString();
@@ -90,13 +91,14 @@ namespace Arasan.Controllers
                         tda.Itemlst = BindItemlst(tda.ItemGroupId);
                         tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
                         tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
+                      
                         DataTable dt4 = new DataTable();
-                        dt4 = directPurchase.GetItemDetails(tda.ItemId);
+                        dt4 = datatrans.GetItemDetails(tda.ItemId);
                         if (dt4.Rows.Count > 0)
                         {
                             
                             tda.ConFac = dt4.Rows[0]["CF"].ToString();
-                            tda.rate = Convert.ToDouble(dt4.Rows[0]["RATE"].ToString());
+                            tda.rate = Convert.ToDouble(dt4.Rows[0]["LATPURPRICE"].ToString());
                         }
                         tda.Quantity = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
                         toaamt = tda.rate * tda.Quantity;
@@ -104,15 +106,23 @@ namespace Arasan.Controllers
                         //tda.QtyPrim= Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
                         tda.Amount = toaamt;
                         tda.Unit = dt2.Rows[i]["UNITID"].ToString();
+                        //tda.PURLst = BindPurType();
                         //tda.unitprim= dt2.Rows[i]["UNITID"].ToString();
+                       
+                        tda.Disc = Convert.ToDouble(dt2.Rows[i]["DISC"].ToString() == "" ? "0" : dt2.Rows[i]["DISC"].ToString());
+                        tda.DiscAmount = Convert.ToDouble(dt2.Rows[i]["DISCAMOUNT"].ToString() == "" ? "0" : dt2.Rows[i]["DISCAMOUNT"].ToString());
+                        
+                        tda.FrigCharge = Convert.ToDouble(dt2.Rows[i]["IFREIGHTCH"].ToString() == "" ? "0" : dt2.Rows[i]["IFREIGHTCH"].ToString());
+                        tda.TotalAmount = Convert.ToDouble(dt2.Rows[i]["TOTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["TOTAMT"].ToString());
+                       // tda.PurType = dt2.Rows[i]["PURTYPE"].ToString();
                         tda.Isvalid = "Y";
                         TData.Add(tda);
                     }
                 }
-                ca.net = Math.Round(total, 2);
-                ca.DirLst = TData;
+                //ca.net = Math.Round(total, 2);
+               
             }
-            
+            ca.DirLst = TData;
             return View(ca);
 
         }
@@ -127,11 +137,11 @@ namespace Arasan.Controllers
 
             try
             {
-                Cy.DPId = id;
+                Cy.ID = id;
                 string Strout = directPurchase.DirectPurCRUD(Cy);
                 if (string.IsNullOrEmpty(Strout))
                 {
-                    if (Cy.DPId == null)
+                    if (Cy.ID == null)
                     {
                         TempData["notice"] = "DirectPurchase Inserted Successfully...!";
                     }
@@ -234,6 +244,23 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+        //public List<SelectListItem> BindPurType()
+        //{
+        //    try
+        //    {
+
+        //        List<SelectListItem> lstdesg = new List<SelectListItem>();
+        //        lstdesg.Add(new SelectListItem() { Text = "CONSUMABLES PURCHASE", Value = "CONSUMABLES PURCHASE" });
+        //        lstdesg.Add(new SelectListItem() { Text = "FIXED PURCHASE", Value = "FIXED PURCHASE" });
+        //        lstdesg.Add(new SelectListItem() { Text = "MACHINERIES PURCHASE", Value = "MACHINERIES PURCHASE" });
+        //        lstdesg.Add(new SelectListItem() { Text = "RAW MATERIAL", Value = "RAW MATERIAL" });
+        //        return lstdesg;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
         public List<SelectListItem> BindItemlst(string value)
         {
             try
@@ -256,11 +283,11 @@ namespace Arasan.Controllers
         {
             try
             {
-                DataTable dtDesg = directPurchase.GetItemGrp();
+                DataTable dtDesg = datatrans.GetItemSubGrp();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["GROUPCODE"].ToString(), Value = dtDesg.Rows[i]["ITEMGROUPID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["SGCODE"].ToString(), Value = dtDesg.Rows[i]["ITEMSUBGROUPID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -280,7 +307,7 @@ namespace Arasan.Controllers
                 string unit = "";
                 string CF = "";
                 string price = "";
-                dt = directPurchase.GetItemDetails(ItemId);
+                dt = datatrans.GetItemDetails(ItemId);
 
                 if (dt.Rows.Count > 0)
                 {

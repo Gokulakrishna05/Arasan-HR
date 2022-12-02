@@ -52,14 +52,14 @@ namespace Arasan.Controllers.Stores_Management
         {
             return View();
         }
-        public IActionResult Direct_Deducation()
-        {
-            return View();
-        }
-        public IActionResult Direct_Addition()
-        {
-            return View();
-        }
+        //public IActionResult Direct_Deducation()
+        //{
+        //    return View();
+        //}
+        //public IActionResult Direct_Addition()
+        //{
+        //    return View();
+        //}
         public IActionResult Sub_Contracting_DC()
         {
             return View();

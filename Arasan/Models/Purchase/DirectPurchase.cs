@@ -12,7 +12,7 @@ namespace Arasan.Models
             this.Loclst = new List<SelectListItem>();
         }
         public List<SelectListItem> Brlst;
-        public string DPId { get; set; }
+        public string ID { get; set; }
 
         public string Branch { get; set; }
 
@@ -37,8 +37,8 @@ namespace Arasan.Models
         public double Other { get; set; }
         public double Round { get; set; }
         public double SpDisc { get; set; }
-        public string LRCha { get; set; }
-        public string DelCh { get; set; }
+        public double LRCha { get; set; }
+        public double DelCh { get; set; }
         public string Status { get; set; }
         public string Narration { get; set; }
 
@@ -47,6 +47,7 @@ namespace Arasan.Models
     }
     public class DirItem
     {
+        public string ID { get; set; }
         public string ItemId { get; set; }
         public string saveItemId { get; set; }
         public List<SelectListItem> Itemlst { get; set; }
@@ -54,20 +55,21 @@ namespace Arasan.Models
         public List<SelectListItem> ItemGrouplst { get; set; }
 
         public string ItemGroupId { get; set; }
-
+        public double FrigCharge { get; set; }
         public string ConFac { get; set; }
         public string Unit { get; set; }
+        public List<SelectListItem> PURLst;
+
         public string PurType { get; set; }
         public double Quantity { get; set; }
      //   public string unitprim { get; set; }
       //  public double QtyPrim { get; set; }
         public double rate { get; set; }
         public double Amount { get; set; }
+
         public double Disc { get; set; }
         public double DiscAmount { get; set; }
-        public double CostRate { get; set; }
-        public double Assessable { get; set; }
-        public double TariffId { get; set; }
+    
         public double CGSTP { get; set; }
         public double SGSTP { get; set; }
         public double IGSTP { get; set; }

@@ -137,16 +137,16 @@
                                                             <th> Item </th>
                                                             <th> Unit </th>
                                                             <th> Bin ID </th>
-                                                            <th> Batch </th>
+                                                            @*<th> Batch </th>
                                                             <th> Serial </th>
-                                                            <th> Currect Stock </th>
+                                                            <th> Currect Stock </th>*@
                                                             <th> Qty </th>
                                                             <th> Rate </th>
                                                             <th> Amount </th>
-                                                            <th> Drum serial Number </th>
-                                                            <th> Serial Number </th>
+                                                            @*<th> Drum serial Number </th>
+                                                            <th> Serial Number </th>*@
                                                             <th> Process ID</th>
-                                                            <th>Batch</th>
+                                                            @*<th>Batch</th>*@
                                                         </tr>
 
                                                     </thead>
@@ -168,45 +168,46 @@
 
                                                 </td>
                                                 <td>
-                                                    @Html.DropDownListFor(o => o.Itlst[i].Itlst, Model.Itlst[i].Itlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItlst" + i, style = "width: 200px;", onchange = "Grup_Change(this.value," + i + ")"})
-
+                                                            @Html.DropDownListFor(o => o.Itlst[i].ItemId, Model.Itlst[i].Itlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItlst" + i, style = "width: 200px;", onchange = "Grup_Change(this.value," + i + ")"})
+                                                            @Html.HiddenFor(o => o.Itlst[i].saveItemId)
                                                 </td>
                                                 <td>
-                                                    @Html.TextBoxFor(o => o.Itlst[i].Unit, new { @id = "txtUnit" + i, @class = "form-control", style = "width: 90px;"})
+                                                            @Html.TextBoxFor(o => o.Itlst[i].Unit, new { @id = "txtUnit" + i, @class = "form-control", style = "width: 80px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)", @readonly = "readonly"})
                                                 </td>
                                                 <td>
-                                                    @Html.TextBoxFor(o => o.Itlst[i]. BinID, new { @id = "txtBinID" + i, @class = "form-control", style = "width: 90px;"})
+                                                            @Html.TextBoxFor(o => o.Itlst[i]. BinID, new { @id = "txtBinID" + i, @class = "form-control",onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;" })
                                                 </td>
-                                                <td>
+                                                @*<td>
                                                     @Html.TextBoxFor(o => o.Itlst[i]. Batch, new { @id = "txtBatch" + i, @class = "form-control", style = "width: 90px;"})
-                                                </td>
-                                                <td>
+                                                </td>*@
+                                                @*<td>
                                                     @Html.TextBoxFor(o => o.Itlst[i]. serial, new { @id = "txtserial" + i, @class = "form-control", style = "width: 90px;"})
-                                                </td>
-                                                <td>
+                                                </td>*@
+                                                @*<td>
                                                     @Html.TextBoxFor(o => o.Itlst[i]. CurrentStock, new { @id = "txtCurrentStock" + i, @class = "form-control", style = "width: 90px;"})
+                                                </td>*@
+                                                <td>
+                                                            @Html.TextBoxFor(o => o.Itlst[i]. Quantity, new { @id = "txtQuantity" + i, @class = "form-control",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")", style = "width: 80px;" })
                                                 </td>
                                                 <td>
-                                                    @Html.TextBoxFor(o => o.Itlst[i]. Qty, new { @id = "txtQty" + i, @class = "form-control", style = "width: 90px;"})
+                                                            @Html.TextBoxFor(o => o.Itlst[i]. Rate, new { @id = "txtRate" + i, @class = "form-control",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")", style = "width: 80px;" ,@readonly = "readonly"})
                                                 </td>
                                                 <td>
-                                                    @Html.TextBoxFor(o => o.Itlst[i]. Rate, new { @id = "txtRate" + i, @class = "form-control", style = "width: 90px;"})
+                                                            @Html.HiddenFor(o => o.Itlst[i].Isvalid, new { @id = "Isvalid" + i })
+                                                            @Html.TextBoxFor(o => o.Itlst[i]. Amount, new { @id = "txtAmount" + i , @class = "form-control",onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;" ,@readonly = "readonly" })
                                                 </td>
-                                                <td>
-                                                    @Html.TextBoxFor(o => o.Itlst[i]. Amount, new { @id = "txtAmount" + i, @class = "form-control", style = "width: 90px;"})
-                                                </td>
-                                                <td>
+                                                @*<td>
                                                     @Html.TextBoxFor(o => o.Itlst[i]. Number, new { @id = "txtNumber" + i, @class = "form-control", style = "width: 90px;"})
-                                                </td>
-                                                <td>
+                                                </td>*@
+                                               @* <td>
                                                     @Html.TextBoxFor(o => o.Itlst[i]. SerialNumber, new { @id = "txtSerialNumber" + i, @class = "form-control", style = "width: 90px;"})
-                                                </td>
+                                                </td>*@
                                                 <td>
-                                                    @Html.TextBoxFor(o => o.Itlst[i]. Process, new { @id = "txtProcess" + i, @class = "form-control", style = "width: 90px;"})
+                                                            @Html.TextBoxFor(o => o.Itlst[i]. Process, new { @id = "txtProcess" + i,@class = "form-control",onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;" })
                                                 </td>
-                                                <td>
+                                               @* <td>
                                                     @Html.TextBoxFor(o => o.Itlst[i]. Bat, new { @id = "txtBat" + i, @class = "form-control", style = "width: 90px;"})
-                                                </td>
+                                                </td>*@
 
 
                                                 <td>
@@ -315,6 +316,17 @@
         $(dropDownId).trigger("liszt:updated");
     }
     $(".chosen-select").chosen();
+    $('.form_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+    $(".chosen-select").chosen();
     function removeRow(id) {
         var table = document.getElementById("dataTable");
         var rowCount = table.rows.length;
@@ -331,6 +343,72 @@
         }
         else {
             alert("Cannot delete all the rows.")
+        }
+    }
+    function changeItem(ItemId, i) {
+        $.ajax({
+            url: 'GetItemDetail',
+            data: { "ItemId": ItemId },
+            type: "GET",
+            success: function (result) {
+
+                document.getElementById("txtUnit" + i).value = result.unit;
+
+                document.getElementById("txtConFac" + i).value = result.cf;
+                document.getElementById("txtRate" + i).value = result.price;
+            },
+            error: function () {
+                alert("Data Not Found");
+            }
+        });
+    }
+    function changeQty(_this, i) {
+        try {
+            var qty = document.getElementById("txtQty" + i).value;
+            var up = document.getElementById("txtRate" + i).value;
+            var CF = document.getElementById("txtConFac" + i).value;
+            if (qty == "")
+                qty = 0;
+
+            if (up == "")
+                up = 0;
+
+            if (CF == "")
+                CF = 0;
+
+            if (up > 0) {
+                var tot = eval(qty) * eval(up) * eval(CF);
+                document.getElementById("txtAmount" + i).value = tot.toFixed(2);
+            } else {
+                document.getElementById("txtAmount" + i).value = 0;
+            }
+
+
+
+            var GTot = 0;
+            var j = 0;
+            $('tr.chkitemlst').each(function () {
+                if ($(this).css('display') !== 'none') {
+                    var unit = $(this).find('#txtQty' + j.toString()).val();
+                    var qtys = $(this).find('#txtRate' + j.toString()).val();
+                    var CFs = $(this).find('#txtConFac' + j.toString()).val();
+                    if (CFs == "")
+                        CFs = 0;
+
+                    var tots = eval(qtys) * eval(unit) * eval(CFs);
+                    GTot = eval(tots) + eval(GTot);
+                }
+                j += 1;
+            });
+
+            //document.getElementById("gross").value = GTot;
+            //document.getElementById("net").value = GTot;
+            // document.getElementById('words').value = inWords(GTot);
+
+
+        }
+        catch (ex) {
+            alert(ex.message);
         }
     }
     function AddRow() {
@@ -381,35 +459,35 @@
 
         var ItemGrp = "<td><select style = 'width: 200px;' class='form-control chosen-select newcss' id='ddlItemGrp" + index + "' name='DirLst[" + index + "].ItemGroupId' onchange = 'Grup_Change(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
 
-        var Itlst = "<td><select style = 'width: 200px;' class='form-control chosen-select newcss' id='Itlst" + index + "' name='Itlst[" + index + "].Itlst' onchange = 'Grup_Change(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
+        var Itlst = "<td><select style = 'width: 200px;' class='form-control chosen-select newcss' id='Itlst" + index + "' name='Itlst[" + index + "].ItemId' onchange = 'Grup_Change(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
 
-        var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='Itlst[" + index + "].Unit'  style='width: 90px;' type='text'   /></td>"
+        var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='Itlst[" + index + "].Unit'  style='width: 80px;' type='text'onkeydown='return isNumeric2(event.keyCode,this.value)'  onchange = 'changeQty(this.value," + index + ")'  readonly='True' /></td>";
 
-        var BinID = "<td><input class='form-control' id='txtBinID" + index + "' name='Itlst[" + index + "].BinID'  style='width: 90px;' type='text'   /></td>"
+        var BinID = "<td><input class='form-control' id='txtBinID" + index + "' name='Itlst[" + index + "].BinID'  style='width: 80px;'onkeydown='return isNumeric2(event.keyCode,this.value)'  type='text'    /></td>";
 
-        var Batch = "<td><input class='form-control' id='txtBatch" + index + "' name='Itlst[" + index + "].Batch'  style='width: 90px;' type='text'   /></td>"
+      @* var Batch = "<td><input class='form-control' id='txtBatch" + index + "' name='Itlst[" + index + "].Batch'  style='width: 90px;' type='text'   /></td>"
 
         var serial = "<td><input class='form-control' id='txtserial" + index + "' name='Itlst[" + index + "].serial'  style='width: 90px;' type='text'   /></td>"
 
-        var CurrentStock = "<td><input class='form-control' id='txtCurrentStock" + index + "' name='Itlst[" + index + "].CurrentStock'  style='width: 90px;' type='text'   /></td>"
+        var CurrentStock = "<td><input class='form-control' id='txtCurrentStock" + index + "' name='Itlst[" + index + "].CurrentStock'  style='width: 90px;' type='text'   /></td>"*@
 
-        var Qty = "<td><input class='form-control' id='txtQty" + index + "' name='Itlst[" + index + "].Qty'  style='width: 90px;' type='text'   /></td>"
+        var Quantity = "<td><input class='form-control' id='txtQuantity" + index + "' name='Itlst[" + index + "].Quantity'  style='width: 90px;' type='text'   /></td>"
 
         var Rate = "<td><input class='form-control' id='txtRate" + index + "' name='Itlst[" + index + "].Rate'  style='width: 90px;' type='text'   /></td>"
 
         var Amount = "<td><input class='form-control' id='txtAmount" + index + "' name='Itlst[" + index + "].Amount'  style='width: 90px;' type='text'   /></td>"
 
-        var Number = "<td><input class='form-control' id='txtNumber" + index + "' name='Itlst[" + index + "].Number'  style='width: 90px;' type='text'   /></td>"
+       @* var Number = "<td><input class='form-control' id='txtNumber" + index + "' name='Itlst[" + index + "].Number'  style='width: 90px;' type='text'   /></td>"
 
-        var SerialNumber = "<td><input class='form-control' id='txtSerialNumber" + index + "' name='Itlst[" + index + "].SerialNumber'  style='width: 90px;' type='text'   /></td>"
+        var SerialNumber = "<td><input class='form-control' id='txtSerialNumber" + index + "' name='Itlst[" + index + "].SerialNumber'  style='width: 90px;' type='text'   /></td>" *@
 
-        var Process = "<td><input class='form-control' id='txtProcess" + index + "' name='Itlst[" + index + "].Process'  style='width: 90px;' type='text'   /></td>"
+        var Process = "<td><input class='form-control' id='txtProcess" + index + "' name='Itlst[" + index + "].Process'  style='width: 80px;'onkeydown='return isNumeric2(event.keyCode,this.value)'  type='text'    /></td>";
 
-        var Bat = "<td><input class='form-control' id='txtBat" + index + "' name='Itlst[" + index + "].Bat'  style='width: 90px;' type='text'   /></td>"
+       @* var Bat = "<td><input class='form-control' id='txtBat" + index + "' name='Itlst[" + index + "].Bat'  style='width: 90px;' type='text'   /></td>"*@
 
         var removeCell = "<td><input id='Isvalid" + index + "' name='Itlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='Itlst.Index' type='hidden' value='" + index + "'  /></td>";
 
-        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + ItemGrp + Itlst + Unit + BinID + Batch + serial + CurrentStock + Qty + Rate + Amount + Center + Number + SerialNumber + Process + Bat + removeCell + "</tr>";
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + ItemGrp + Itlst + Unit + BinID + Quantity + Rate + Amount + Process + removeCell + "</tr>";
 
         //alert(Packing);
         $("#tbBooks").append(newRow);

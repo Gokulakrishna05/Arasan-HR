@@ -26,14 +26,14 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select  BRANCHMAST.BRANCHID,PARTYRCODE.PARTY, DOCID,  DOCDATE,VOUCHER, REFDT,LOCID,MAINCURRENCY,GROSS,NET,FREIGHT,OTHERCH,RNDOFF,OTHERDISC,LRCH,DELCH,NARR,DPBASICID from DPBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=DPBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on DPBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH') ORDER BY DPBASICID DESC";
+                    cmd.CommandText = "Select  BRANCHMAST.BRANCHID,PARTYRCODE.PARTY,DPBASIC. DOCID,to_char(DPBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,DPBASIC.VOUCHER, to_char(DPBASIC.REFDT,'dd-MON-yyyy')REFDT,LOCID,CURRENCY.MAINCURR,DPBASIC.GROSS,DPBASIC.NET,DPBASIC.FREIGHT,OTHERCH,RNDOFF,DPBASIC.OTHERDISC,DPBASIC.LRCH,DPBASIC.DELCH,DPBASIC.NARR,DPBASICID from DPBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=DPBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on DPBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=DPBASIC.MAINCURRENCY LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH') ORDER BY DPBASIC.DPBASICID DESC";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
                         DirectPurchase cmp = new DirectPurchase
                         {
 
-                            DPId = rdr["DPBASICID"].ToString(),
+                            ID = rdr["DPBASICID"].ToString(),
                             Branch = rdr["BRANCHID"].ToString(),
                             Supplier = rdr["PARTY"].ToString(),
                             DocNo = rdr["DOCID"].ToString(),
@@ -41,10 +41,10 @@ namespace Arasan.Services
                             Voucher = rdr["VOUCHER"].ToString(),
                             RefDate = rdr["REFDT"].ToString(),
                             Location = rdr["LOCID"].ToString(),
-                            Currency = rdr["MAINCURRENCY"].ToString(),
+                            Currency = rdr["MAINCURR"].ToString(),
                             Narration = rdr["NARR"].ToString()
                             // Gross = rdr["GROSS"].ToString(),
-                            //// net = rdr["NET"].ToString(),
+                            // net = rdr["NET"].ToString(),
                             // Frig = rdr["FREIGHT"].ToString(),
                             // Other = rdr["OTHERCH"].ToString(),
                             // Round = rdr["RNDOFF"].ToString(),
@@ -61,6 +61,7 @@ namespace Arasan.Services
             }
             return cmpList;
         }
+
         public IEnumerable<DirItem> GetAllDirectPurItem(string id)
         {
             List<DirItem> cmpList = new List<DirItem>();
@@ -89,7 +90,7 @@ namespace Arasan.Services
         public DataTable GetDirectPurchaseItemDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select DPDETAIL.QTY,DPDETAIL.DPDETAILID,ITEMMASTER.ITEMID,UNITMAST.UNITID from DPDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=DPDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  where DPDETAIL.DPBASICID='" + id + "'";
+            SvSql = "Select DPDETAIL.QTY,DPDETAIL.DPDETAILID,DPDETAIL.ITEMID,UNITMAST.UNITID,RATE,TOTAMT,DISC,DISCAMOUNT,IFREIGHTCH,PURTYPE,AMOUNT,CF  from DPDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=DPDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  where DPDETAIL.DPBASICID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -99,76 +100,15 @@ namespace Arasan.Services
         public DataTable GetDirectPurchase(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select BRANCHID,PARTYID,DOCID,DOCDATE,VOUCHER,REFDT,LOCID,MAINCURRENCY,GROSS,NET,FREIGHT,OTHERCH,RNDOFF,OTHERDISC,LRCH,DELCH,NARR,DPBASICID  from DPBASIC where DPBASICID=" + id + "";
+            SvSql = "Select DPBASIC.BRANCHID,DPBASIC.PARTYID,DPBASIC.DOCID,to_char(DPBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,DPBASIC.VOUCHER,to_char(DPBASIC.REFDT,'dd-MON-yyyy')REFDT,DPBASIC.LOCID,DPBASIC.MAINCURRENCY,DPBASIC.GROSS,DPBASIC.NET,DPBASIC.FREIGHT,DPBASIC.OTHERCH,DPBASIC.RNDOFF,DPBASIC.OTHERDISC,DPBASIC.LRCH,DPBASIC.DELCH,DPBASIC.NARR,DPBASICID  from DPBASIC where DPBASIC.DPBASICID=" + id + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetItemSubGrp()
-        {
-            string SvSql = string.Empty;
-            SvSql = "Select SGCODE,ITEMSUBGROUPID FROM ITEMSUBGROUP";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
-        public DataTable GetItemSubGroup(string id)
-        {
-            string SvSql = string.Empty;
-            SvSql = "select ITEMID,SUBGROUPCODE from ITEMMASTER WHERE ITEMMASTERID='" + id + "'";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
-        public DirectPurchase GetDirectPurById(string eid)
-        {
-            DirectPurchase DirectPurchase = new DirectPurchase();
-            using (OracleConnection con = new OracleConnection(_connectionString))
-            {
-                using (OracleCommand cmd = con.CreateCommand())
-                {
-                    con.Open();
-                    cmd.CommandText = "Select BRANCHID,PARTYID,DOCID,DOCDATE,VOUCHER,REFDT,LOCID,MAINCURRENCY,GROSS,NET,FREIGHT,OTHERCH,RNDOFF,OTHERDISC,LRCH,DELCH,NARR,DPBASICID  from DPBASIC where DPBASICID=" + eid + "";
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
-                    {
-                        DirectPurchase cmp = new DirectPurchase
-                        {
-                            DPId = rdr["DPBASICID"].ToString(),
-                            Branch = rdr["BRANCHID"].ToString(),
-                            Supplier = rdr["PARTYID"].ToString(),
-                            DocNo = rdr["DOCID"].ToString(),
-                            DocDate = rdr["DOCDATE"].ToString(),
-                            Voucher = rdr["VOUCHER"].ToString(),
-                            RefDate = rdr["REFDT"].ToString(),
-                            Location = rdr["LOCID"].ToString(),
-                            Currency = rdr["MAINCURRENCY"].ToString(),
-                            Narration = rdr["NARR"].ToString()
-                            //  Gross = rdr["GROSS"].ToString(),
-                            ////  net = rdr["NET"].ToString(),
-                            //  Frig = rdr["FREIGHT"].ToString(),
-                            //  Other = rdr["OTHERCH"].ToString(),
-                            //  Round = rdr["RNDOFF"].ToString(),
-                            //  SpDisc = rdr["OTHERDISC"].ToString(),
-                            //  LRCha = rdr["LRCH"].ToString(),
-                            //  DelCh = rdr["DELCH"].ToString(),
-
-
-                        };
-
-                        DirectPurchase = cmp;
-                    }
-                }
-            }
-            return DirectPurchase;
-        }
-
+      
+       
         public string DirectPurCRUD(DirectPurchase cy)
         {
             string msg = "";
@@ -183,7 +123,7 @@ namespace Arasan.Services
                     objCmd.CommandText = "DIRECTPURCHASEPROC";*/
 
                     objCmd.CommandType = CommandType.StoredProcedure;
-                    if (cy.DPId == null)
+                    if (cy.ID == null)
                     {
                         StatementType = "Insert";
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
@@ -191,15 +131,15 @@ namespace Arasan.Services
                     else
                     {
                         StatementType = "Update";
-                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.DPId;
+                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
 
                     }
                     objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
                     objCmd.Parameters.Add("PARTYID", OracleDbType.NVarchar2).Value = cy.Supplier;
                     objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.DocNo;
-                    objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = cy.DocDate;
+                    objCmd.Parameters.Add("DOCDATE", OracleDbType.Date).Value = DateTime.Parse(cy.DocDate);
                     objCmd.Parameters.Add("VOUCHER", OracleDbType.NVarchar2).Value = cy.Voucher;
-                    objCmd.Parameters.Add("REFDT", OracleDbType.NVarchar2).Value = cy.RefDate;
+                    objCmd.Parameters.Add("REFDT", OracleDbType.Date).Value = DateTime.Parse(cy.RefDate);
                     objCmd.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = cy.Location;
                     objCmd.Parameters.Add("MAINCURRENCY", OracleDbType.NVarchar2).Value = cy.Currency;
                     objCmd.Parameters.Add("GROSS", OracleDbType.NVarchar2).Value = cy.Gross;
@@ -219,9 +159,9 @@ namespace Arasan.Services
                         objCmd.ExecuteNonQuery();
                         Object Pid = objCmd.Parameters["OUTID"].Value;
                         //string Pid = "0";
-                        if (cy.DPId != null)
+                        if (cy.ID != null)
                         {
-                            Pid = cy.DPId;
+                            Pid = cy.ID;
                         }
 
 
@@ -233,27 +173,32 @@ namespace Arasan.Services
                                 using (OracleConnection objConns = new OracleConnection(_connectionString))
                                 {
                                     OracleCommand objCmds = new OracleCommand("DPDETAILPROC", objConns);
-                                    if (cy.DPId == null)
+                                    if (cy.ID == null)
                                     {
                                         StatementType = "Insert";
                                         objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-                                    }
 
+                                    }
+                                    else
+                                    {
+                                        StatementType = "Update";
+                                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+
+                                    }
                                     objCmds.CommandType = CommandType.StoredProcedure;
-                                    objCmds.Parameters.Add("DPID", OracleDbType.NVarchar2).Value = Pid;
-                                    objCmds.Parameters.Add("ITEMIDS", OracleDbType.NVarchar2).Value = cp.ItemId;
-                                    objCmds.Parameters.Add("QUANTITY", OracleDbType.NVarchar2).Value = cp.Quantity;
-                                    objCmds.Parameters.Add("UNITP", OracleDbType.NVarchar2).Value = cp.Unit;
-                                    objCmds.Parameters.Add("Rat", OracleDbType.NVarchar2).Value = cp.rate;
-                                    objCmds.Parameters.Add("Amou", OracleDbType.NVarchar2).Value = cp.Amount;
-                                    objCmds.Parameters.Add("TotAmo", OracleDbType.NVarchar2).Value = cp.TotalAmount;
-                                    objCmds.Parameters.Add("Tariff", OracleDbType.NVarchar2).Value = cp.TariffId;
-                                    objCmds.Parameters.Add("Cons", OracleDbType.NVarchar2).Value = cp.ConFac;
-                                    objCmds.Parameters.Add("CostRa", OracleDbType.NVarchar2).Value = cp.CostRate;
-                                    objCmds.Parameters.Add("Discount", OracleDbType.NVarchar2).Value = cp.Disc;
-                                    objCmds.Parameters.Add("DiscountAmo", OracleDbType.NVarchar2).Value = cp.DiscAmount;
-                                    objCmds.Parameters.Add("Assess", OracleDbType.NVarchar2).Value = cp.Assessable;
-                                    objCmds.Parameters.Add("PType", OracleDbType.NVarchar2).Value = cp.PurType;
+                                    objCmds.Parameters.Add("DPBASICID", OracleDbType.NVarchar2).Value = Pid;
+                                    objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cp.ItemId;
+                                    objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = cp.Quantity;
+                                    objCmds.Parameters.Add("PUNIT", OracleDbType.NVarchar2).Value = cp.Unit;
+                                    objCmds.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = cp.rate;
+                                    objCmds.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = cp.Amount;
+                                    objCmds.Parameters.Add("TOTAMT", OracleDbType.NVarchar2).Value = cp.TotalAmount;
+                                    objCmds.Parameters.Add("CF", OracleDbType.NVarchar2).Value = cp.ConFac;
+                                    objCmds.Parameters.Add("DISC", OracleDbType.NVarchar2).Value = cp.Disc;
+                                    objCmds.Parameters.Add("DISCAMOUNT", OracleDbType.NVarchar2).Value = cp.DiscAmount;
+                                   
+                                   
+                                    objCmds.Parameters.Add("IFREIGHTCH", OracleDbType.NVarchar2).Value = cp.FrigCharge;
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                     objConns.Open();
                                     objCmds.ExecuteNonQuery();
@@ -273,7 +218,7 @@ namespace Arasan.Services
                                     string Sql = string.Empty;
                                     if (StatementType == "Update")
                                     {
-                                        Sql = "Update DPDETAIL SET  QTY= '" + cp.Quantity + "',RATE= '" + cp.rate + "',CF='" + cp.ConFac + "'  where DPBASICID='" + cy.DPId + "'  AND ITEMID='" + cp.saveItemId + "' ";
+                                        Sql = "Update DPDETAIL SET  QTY= '" + cp.Quantity + "',RATE= '" + cp.rate + "',CF='" + cp.ConFac + "',AMOUNT='" + cp.Amount + "',DISCAMOUNT='" + cp.DiscAmount + "',PURTYPE='" + cp.PurType + "',IFREIGHTCH='" + cp.FrigCharge + "',TOTAMT='" + cp.TotalAmount + "'  where DPBASICID='" + cy.ID + "'  AND ITEMID='" + cp.saveItemId + "' ";
                                     }
                                     else
                                     {
@@ -305,79 +250,9 @@ namespace Arasan.Services
             return msg;
         }
 
-        public DataTable GetBranch()
-        {
-            string SvSql = string.Empty;
-            SvSql = "select BRANCHMASTID,BRANCHID from BRANCHMAST order by BRANCHMASTID asc";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
-
-        public DataTable GetSupplier()
-        {
-            string SvSql = string.Empty;
-            SvSql = "Select PARTYMAST.PARTYMASTID,PARTYRCODE.PARTY from PARTYMAST LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND PARTYRCODE.PARTY IS NOT NULL";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
-
-        public DataTable GetCurency()
-        {
-            string SvSql = string.Empty;
-            SvSql = "Select MAINCURR || ' - ' || SYMBOL  as Cur,CURRENCYID from CURRENCY";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
-        public DataTable GetLocation()
-        {
-            string SvSql = string.Empty;
-            SvSql = "Select LOCID,LOCDETAILSID from LOCDETAILS ";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
-        public DataTable GetItem(string value)
-        {
-            string SvSql = string.Empty;
-            SvSql = "select ITEMID,ITEMMASTERID from ITEMMASTER WHERE ITEMGROUP='" + value + "'";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
-
-        public DataTable GetItemGrp()
-        {
-            string SvSql = string.Empty;
-            SvSql = "Select ITEMGROUPID,GROUPCODE from itemgroup";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
-        public DataTable GetItemDetails(string ItemId)
-        {
-            string SvSql = string.Empty;
-            SvSql = "select UNITMAST.UNITID,ITEMID,ITEMDESC,UNITMAST.UNITMASTID,LATPURPRICE,ITEMMASTERPUNIT.CF,ITEMMASTER.LATPURPRICE from ITEMMASTER LEFT OUTER JOIN UNITMAST  on ITEMMASTER.PRIUNIT=UNITMAST.UNITMASTID LEFT OUTER JOIN ITEMMASTERPUNIT ON  ITEMMASTER.ITEMMASTERID=ITEMMASTERPUNIT.ITEMMASTERID Where ITEMMASTER.ITEMMASTERID='" + ItemId + "'";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
+      
+      
+       
 
         public DataTable GetItemCF(string ItemId, string unitid)
         {

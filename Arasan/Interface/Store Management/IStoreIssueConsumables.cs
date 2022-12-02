@@ -6,17 +6,20 @@ namespace Arasan.Interface
 {
     public interface IStoreIssueConsumables
     {
-        DataTable GetBranch();
-        DataTable GetLocation();
+        //DataTable GetBranch();
+       // DataTable GetLocation();
         string StoreIssueCRUD(StoreIssueConsumables cy);
         IEnumerable<StoreIssueConsumables> GetAllStoreIssue();
-        DataTable GetEmp();
+       // DataTable GetEmp();
         DataTable EditSICbyID(string Poid);
-        DataTable GetItem(string value);
+        //DataTable GetItem(string value);
         //DataTable GetItemSubGrp();
         // DataTable GetItemSubGroup(string id);
+        DataTable GetItemCF(string ItemId, string unitid);
+        DataTable GetSICItemDetails(string id);
+        IEnumerable<SICItem> GetAllStoreIssueItem(string id);
 
-        DataTable GetItemGrp();
+        // DataTable GetItemGrp();
 
 
     }

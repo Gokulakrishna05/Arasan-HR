@@ -12,8 +12,12 @@ namespace Arasan.Interface.Store_Management
         DirectDeduction GetDirectDeductionById(string id);
         DataTable GetLocation();
         DataTable GetBranch();
-        DataTable GetItem();
+        DataTable GetItem(string value);
         DataTable GetItemGrp();
         DataTable GetDirectDeductionDetails(string id);
+        DataTable GetItemCF(string ItemId, string unitid);
+        DataTable GetDDItemDetails(string id);
+        IEnumerable<DeductionItem> GetAllStoreIssueItem(string id);
     }
+
 }

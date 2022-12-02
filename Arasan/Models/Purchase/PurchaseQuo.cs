@@ -67,5 +67,30 @@ namespace Arasan.Models
 
 
         }
+    public class QuoFollowup
+    {
+        public string ID { get; set; }
+        public string QuoNo { get; set; }
+        public string Supname { get; set; }
+        public string Enqdate { get; set; }
+        public string Followby { get; set; }
+        public string Enquiryst { get; set; }
+        public string Followdate { get; set; }
+        public string Nfdate { get; set; }
+        public string Rmarks { get; set; }
+
+
+        public List<QuotationFollowupDetails> qflst { get; set; }
+
     }
+    public class QuotationFollowupDetails
+    {
+        public string ID { get; set; }
+        public string Followby { get; set; }
+        public string Enquiryst { get; set; }
+        public string Followdate { get; set; }
+        public string Nfdate { get; set; }
+        public string Rmarks { get; set; }
+    }
+}
 
