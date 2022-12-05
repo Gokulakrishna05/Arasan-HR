@@ -35,5 +35,41 @@ namespace Arasan.Models
         public double Roundminus { get; set; }
         public double Gross { get; set; }
         public double Net { get; set; }
+        public List<RetItem> RetLst { get; set; }
+    }
+    public class RetItem
+    {
+        public string ID { get; set; }
+        public string ItemId { get; set; }
+        public string saveItemId { get; set; }
+        public List<SelectListItem> Itemlst { get; set; }
+
+        public List<SelectListItem> POlst { get; set; }
+
+        public string POID { get; set; }
+        public double FrigCharge { get; set; }
+        public string ConFac { get; set; }
+        public string Unit { get; set; }
+      
+
+      
+        public double Quantity { get; set; }
+        //   public string unitprim { get; set; }
+        //  public double QtyPrim { get; set; }
+        public double rate { get; set; }
+        public double Amount { get; set; }
+
+        public double Disc { get; set; }
+        public double DiscAmount { get; set; }
+
+        public double CGSTPer { get; set; }
+        public double CGSTAmt { get; set; }
+        public double SGSTPer { get; set; }
+        public double SGSTAmt { get; set; }
+        public double IGSTPer { get; set; }
+        public double IGSTAmt { get; set; }
+        public double TotalAmount { get; set; }
+        public string Isvalid { get; set; }
+
     }
 }

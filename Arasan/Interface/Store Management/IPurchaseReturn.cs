@@ -7,5 +7,8 @@ namespace Arasan.Interface
 {
     public interface IPurchaseReturn
     {
+        DataTable GetPO();
+        //DataTable GetItem();
+        DataTable GetPODetails(string ItemId);
     }
 }
