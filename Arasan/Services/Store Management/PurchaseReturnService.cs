@@ -37,10 +37,10 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetPODetails(string ItemId)
+        public DataTable GetPODetails(string POID)
         {
             string SvSql = string.Empty;
-            SvSql = "SELECT UNITMAST.UNITID,CF,QTY,RATE,AMOUNT,ITEMMASTER.ITEMID,DISCPER,DISCAMT,FREIGHTCHGS,CGSTPER,CGSTAMT,SGSTPER,SGSTAMT,IGSTPER,IGSTAMT,TOTALAMT FROM PODETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PODETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT WHERE POBASICID='" + ItemId + "'";
+            SvSql = "SELECT UNITMAST.UNITID,CF,QTY,RATE,AMOUNT,ITEMMASTER.ITEMID,DISCAMT,FREIGHTCHGS,CGSTPER,CGSTAMT,SGSTPER,SGSTAMT,IGSTPER,IGSTAMT,TOTALAMT FROM PODETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PODETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT WHERE POBASICID='" + POID + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

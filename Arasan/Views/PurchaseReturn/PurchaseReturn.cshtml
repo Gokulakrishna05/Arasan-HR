@@ -270,7 +270,8 @@
 
                                                                         <td>
                                                                 @Html.DropDownListFor(o => o.RetLst[i].POID, Model.RetLst[i].POlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlPO" + i, style = "width: 170px;", onchange = "changeItem(this.value," + i + ")" })
-                                                                        </td>
+                                                                       
+                                                                </td>
                                                                        <td>
                                                                 @Html.TextBoxFor(o => o.RetLst[i].ItemId, new { @id = "txtItemId" + i, @class = "form-control", style = "width: 100px;" , @readonly = "readonly"})
                                                             </td>
@@ -748,24 +749,28 @@
     });
     function changeItem(POID, i) {
         $.ajax({
-            url: 'GetPODetails',
+            url: 'GetPODetail',
             data: { "POID": POID },
             type: "GET",
             success: function (result) {
 
                 document.getElementById("txtUnit" + i).value = result.unit;
-                document.getElementById("txtitemId" + i).value = result.item;
                 document.getElementById("txtConFac" + i).value = result.cf;
+                document.getElementById("txtQuantity" + i).value = result.Qty;
                 document.getElementById("txtrate" + i).value = result.rate;
                 document.getElementById("txtAmount" + i).value = result.Amount;
-                document.getElementById("txtQuantity" + i).value = result.Qty;
+            
+                document.getElementById("txtitemId" + i).value = result.item;
+               
                 document.getElementById("txtDiscAmount" + i).value = result.DiscAmount;
                 document.getElementById("txtFrigCharge" + i).value = result.Frig;
                 document.getElementById("txtCGSTPer" + i).value = result.CGS;
+                  document.getElementById("txtCGSTAmt" + i).value = result.CGTA;
                 document.getElementById("txtSGSTPer" + i).value = result.SGS;
-                document.getElementById("txtIGSTPer" + i).value = result.IGS;
-                document.getElementById("txtCGSTAmt" + i).value = result.CGTA;
                 document.getElementById("txtSGSTAmt" + i).value = result.SGTA;
+                document.getElementById("txtIGSTPer" + i).value = result.IGS;
+              
+               
                 document.getElementById("txtIGSTAmt" + i).value = result.IGSTA;
                 document.getElementById("txtTotalAmount" + i).value = result.TotalAm;
             },

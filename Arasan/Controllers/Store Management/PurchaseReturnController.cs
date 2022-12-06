@@ -37,7 +37,7 @@ namespace Arasan.Controllers
                     tda = new RetItem();
                     tda.POlst = BindPOlist();
                     //tda.Itemlst = BindItemlst();
-                    tda.Isvalid = "Y";
+               
                     TData.Add(tda);
                 }
             }
@@ -152,12 +152,12 @@ namespace Arasan.Controllers
         //    }
         //}
 
-        public ActionResult GetItemDetail(string ItemId)
+        public ActionResult GetPODetail(string POID)
         {
             try
             {
                 DataTable dt = new DataTable();
-                DataTable dt1 = new DataTable();
+               
 
                 string unit = "";
                 string CF = "";
@@ -165,7 +165,7 @@ namespace Arasan.Controllers
                 string item = "";
                 string Qty = "";
                 string Amount = "";
-                string Disc = "";
+                //string Disc = "";
                 string DiscAmount = "";
                 string Frig = "";
                 string CGS = "";
@@ -175,21 +175,23 @@ namespace Arasan.Controllers
                 string IGS = "";
                 string IGSTA = "";
                 string TotalAm = "";
-                dt = PurReturn.GetPODetails(ItemId);
+                dt = PurReturn.GetPODetails(POID);
 
                 if (dt.Rows.Count > 0)
                 {
 
-                    unit = dt.Rows[0]["UNIT"].ToString();
+                    unit = dt.Rows[0]["UNITID"].ToString();
+                    CF = dt.Rows[0]["CF"].ToString();
+                    Qty = dt.Rows[0]["QTY"].ToString();
                     rate = dt.Rows[0]["RATE"].ToString();
                     //dt1 = PurReturn.GetItemCF(ItemId, dt.Rows[0]["UNITMASTID"].ToString());
-                   
-                        CF = dt.Rows[0]["CF"].ToString();
-                    item = dt.Rows[0]["ITEMID"].ToString();
-                    Qty = dt.Rows[0]["QTY"].ToString();
                     Amount = dt.Rows[0]["AMOUNT"].ToString();
-                    Disc = dt.Rows[0]["DISCPER"].ToString();
+
+                    item = dt.Rows[0]["ITEMID"].ToString();
                     DiscAmount = dt.Rows[0]["DISCAMT"].ToString();
+
+                   // Disc = dt.Rows[0]["DISCPER"].ToString();
+                   
                     Frig = dt.Rows[0]["FREIGHTCHGS"].ToString();
                     CGS = dt.Rows[0]["CGSTPER"].ToString();
                     CGTA = dt.Rows[0]["CGSTAMT"].ToString();
@@ -200,7 +202,7 @@ namespace Arasan.Controllers
                     TotalAm = dt.Rows[0]["TOTALAMT"].ToString();
                 }
 
-                var result = new { unit = unit, CF = CF, rate = rate, item = item, Qty = Qty, Amount = Amount , Disc = Disc, DiscAmount = DiscAmount, Frig = Frig, CGS = CGS, CGTA = CGTA, SGS = SGS, SGTA = SGTA, IGS = IGS, IGSTA = IGSTA, TotalAm = TotalAm };
+                var result = new { unit = unit, CF = CF, Qty = Qty, rate = rate, Amount = Amount, item = item,   DiscAmount = DiscAmount, Frig = Frig, CGS = CGS, CGTA = CGTA, SGS = SGS, SGTA = SGTA, IGS = IGS, IGSTA = IGSTA, TotalAm = TotalAm };
                 return Json(result);
             }
             catch (Exception ex)
