@@ -15,7 +15,7 @@ namespace Arasan.Controllers
         private string? _connectionString;
 
         DataTransactions datatrans;
-        public PurchaseReturnController(IPurchaseReturn _PurchaseReturn, IConfiguration _configuratio)
+        public PurchaseReturnController(IPurchaseReturn _PurchaseReturn)
         {
             PurReturn = _PurchaseReturn;
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
@@ -28,6 +28,7 @@ namespace Arasan.Controllers
             ca.Suplst = BindSupplier();
             ca.Curlst = BindCurrency();
             ca.Loclst = GetLoc();
+            ca.Satlst = GetSat();
             List<RetItem> TData = new List<RetItem>();
             RetItem tda = new RetItem();
             if (id == null)
@@ -117,6 +118,26 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+        public List<SelectListItem> GetSat()
+        {
+            try
+            {
+                DataTable dtDesg = PurReturn.GetState();
+
+
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["STATE"].ToString(), Value = dtDesg.Rows[i]["STATEMASTID"].ToString() });
+                }
+                return lstdesg;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<SelectListItem> BindPOlist()
         {
             try
@@ -125,7 +146,7 @@ namespace Arasan.Controllers
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["POBASICID"].ToString(), Value = dtDesg.Rows[i]["POBASICID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DOCID"].ToString(), Value = dtDesg.Rows[i]["POBASICID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -157,52 +178,55 @@ namespace Arasan.Controllers
             try
             {
                 DataTable dt = new DataTable();
-               
+                DataTable dtt = new DataTable();
 
                 string unit = "";
                 string CF = "";
                 string rate = "";
                 string item = "";
-                string Qty = "";
-                string Amount = "";
+                string qty = "";
+                string amount = "";
                 //string Disc = "";
-                string DiscAmount = "";
-                string Frig = "";
-                string CGS = "";
-                string CGTA = "";
-                string SGS = "";
-                string SGTA = "";
-                string IGS = "";
-                string IGSTA = "";
-                string TotalAm = "";
+                string discAmount = "";
+                string frig = "";
+                string cgs = "";
+                string cgta = "";
+                string sgs = "";
+                string sgta = "";
+                string igs = "";
+                string igsta = "";
+                string totalAm = "";
+             
+               
                 dt = PurReturn.GetPODetails(POID);
-
+             
                 if (dt.Rows.Count > 0)
                 {
 
                     unit = dt.Rows[0]["UNITID"].ToString();
                     CF = dt.Rows[0]["CF"].ToString();
-                    Qty = dt.Rows[0]["QTY"].ToString();
+                    qty = dt.Rows[0]["QTY"].ToString();
                     rate = dt.Rows[0]["RATE"].ToString();
                     //dt1 = PurReturn.GetItemCF(ItemId, dt.Rows[0]["UNITMASTID"].ToString());
-                    Amount = dt.Rows[0]["AMOUNT"].ToString();
+                    amount = dt.Rows[0]["AMOUNT"].ToString();
 
                     item = dt.Rows[0]["ITEMID"].ToString();
-                    DiscAmount = dt.Rows[0]["DISCAMT"].ToString();
+                    discAmount = dt.Rows[0]["DISCAMT"].ToString();
 
-                   // Disc = dt.Rows[0]["DISCPER"].ToString();
-                   
-                    Frig = dt.Rows[0]["FREIGHTCHGS"].ToString();
-                    CGS = dt.Rows[0]["CGSTPER"].ToString();
-                    CGTA = dt.Rows[0]["CGSTAMT"].ToString();
-                    SGS = dt.Rows[0]["SGSTPER"].ToString();
-                    SGTA = dt.Rows[0]["SGSTAMT"].ToString();
-                    IGS = dt.Rows[0]["IGSTPER"].ToString();
-                    IGSTA = dt.Rows[0]["IGSTAMT"].ToString();
-                    TotalAm = dt.Rows[0]["TOTALAMT"].ToString();
+                    // Disc = dt.Rows[0]["DISCPER"].ToString();
+
+                    frig = dt.Rows[0]["FREIGHTCHGS"].ToString();
+                    cgs = dt.Rows[0]["CGSTPER"].ToString();
+                    cgta = dt.Rows[0]["CGSTAMT"].ToString();
+                    sgs = dt.Rows[0]["SGSTPER"].ToString();
+                    sgta = dt.Rows[0]["SGSTAMT"].ToString();
+                    igs = dt.Rows[0]["IGSTPER"].ToString();
+                    igsta = dt.Rows[0]["IGSTAMT"].ToString();
+                    totalAm = dt.Rows[0]["TOTALAMT"].ToString();
+                 
                 }
-
-                var result = new { unit = unit, CF = CF, Qty = Qty, rate = rate, Amount = Amount, item = item,   DiscAmount = DiscAmount, Frig = Frig, CGS = CGS, CGTA = CGTA, SGS = SGS, SGTA = SGTA, IGS = IGS, IGSTA = IGSTA, TotalAm = TotalAm };
+               
+                    var result = new { unit = unit, CF = CF, qty = qty, rate = rate, amount = amount, item = item, discAmount = discAmount, frig = frig, cgs = cgs, cgta = cgta, sgs = sgs, sgta = sgta, igs = igs, igsta = igsta, totalAm = totalAm };
                 return Json(result);
             }
             catch (Exception ex)
@@ -210,6 +234,7 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+
         public IActionResult Index()
         {
             return View();

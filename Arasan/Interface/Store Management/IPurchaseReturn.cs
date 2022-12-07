@@ -9,6 +9,7 @@ namespace Arasan.Interface
     {
         DataTable GetPO();
         //DataTable GetItem();
+        DataTable GetState();
         DataTable GetPODetails(string ItemId);
     }
 }
