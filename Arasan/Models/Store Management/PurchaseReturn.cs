@@ -19,13 +19,22 @@ namespace Arasan.Models
         public string Supplier { get; set; }
 
         public List<SelectListItem> Suplst;
+        public string State { get; set; }
 
+        public List<SelectListItem> Satlst;
         public string Currency { get; set; }
 
         public List<SelectListItem> Curlst;
         public List<SelectListItem> Loclst;
         public string Location { get; set; }
         public string ReqDate { get; set; }
+        public string ReqNo { get; set; }
+        public string Reason { get; set; }
+        public string ExRate { get; set; }
+        public string RetNo { get; set; }
+        public string Grn { get; set; }
+        public string Tax { get; set; }
+        public string Trans { get; set; }
         public string RetDate { get; set; }
         public double Packingcharges { get; set; }
         public double Frieghtcharge { get; set; }
@@ -50,8 +59,6 @@ namespace Arasan.Models
         public double FrigCharge { get; set; }
         public string ConFac { get; set; }
         public string Unit { get; set; }
-      
-
       
         public double Quantity { get; set; }
         //   public string unitprim { get; set; }
