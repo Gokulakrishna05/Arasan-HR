@@ -29,11 +29,13 @@ namespace Arasan.Models
         public string Location { get; set; }
         public string ReqDate { get; set; }
         public string ReqNo { get; set; }
+        public string Rej { get; set; }
+        public string Temp { get; set; }
         public string Reason { get; set; }
         public string ExRate { get; set; }
         public string RetNo { get; set; }
         public string Grn { get; set; }
-        public string Tax { get; set; }
+        public string Narration { get; set; }
         public string Trans { get; set; }
         public string RetDate { get; set; }
         public double Packingcharges { get; set; }
