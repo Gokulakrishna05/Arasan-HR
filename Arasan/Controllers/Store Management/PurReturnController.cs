@@ -8,20 +8,20 @@ using System.Xml.Linq;
 
 namespace Arasan.Controllers 
 {
-    public class PurchaseReturnController : Controller
+    public class PurReturnController : Controller
     {
         IPurchaseReturn PurReturn;
         IConfiguration? _configuratio;
         private string? _connectionString;
 
         DataTransactions datatrans;
-        public PurchaseReturnController(IPurchaseReturn _PurchaseReturn)
+        public PurReturnController(IPurchaseReturn _PurchaseReturn, IConfiguration _configuratio)
         {
             PurReturn = _PurchaseReturn;
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public IActionResult PurchaseReturn(string id)
+        public IActionResult PurchaseRet(string id)
         {
             PurchaseReturn ca = new PurchaseReturn();
             ca.Brlst = BindBranch();
@@ -38,13 +38,89 @@ namespace Arasan.Controllers
                     tda = new RetItem();
                     tda.POlst = BindPOlist();
                     //tda.Itemlst = BindItemlst();
-               
+
                     TData.Add(tda);
                 }
             }
-            ca.RetLst = TData;
+            else
+            {
+
+                // ca = directPurchase.GetDirectPurById(id);
+
+
+                DataTable dt = new DataTable();
+                double total = 0;
+                dt = PurReturn.GetPurchaseReturn(id);
+                if (dt.Rows.Count > 0)
+                {
+                    ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                   
+                    ca.Supplier = dt.Rows[0]["PARTYID"].ToString();
+                    ca.RetNo = dt.Rows[0]["DOCID"].ToString();
+                    ca.RetDate = dt.Rows[0]["DOCDATE"].ToString();
+                    ca.ID = id;
+                    ca.Currency = dt.Rows[0]["MAINCURRENCY"].ToString();
+                    ca.ReqNo = dt.Rows[0]["REFNO"].ToString();
+                    ca.ReqDate = dt.Rows[0]["REFDT"].ToString();
+                    ca.Reason = dt.Rows[0]["REASONCODE"].ToString();
+                    ca.Location = dt.Rows[0]["LOCID"].ToString();
+                    ca.ExRate = dt.Rows[0]["EXCHANGERATE"].ToString();
+                    ca.Rej = dt.Rows[0]["REJBY"].ToString();
+                    ca.Temp = dt.Rows[0]["TEMPFIELD"].ToString();
+                    ca.Trans = dt.Rows[0]["TRANSITLOCID"].ToString();
+                    ca.Grn = dt.Rows[0]["RGRNNO"].ToString();
+                    ca.Narration = dt.Rows[0]["NARR"].ToString();
+                    //ca.LRCha = Convert.ToDouble(dt.Rows[0]["LRCH"].ToString() == "" ? "0" : dt.Rows[0]["LRCH"].ToString());
+                    //ca.DelCh = Convert.ToDouble(dt.Rows[0]["DELCH"].ToString() == "" ? "0" : dt.Rows[0]["DELCH"].ToString());
+                    //ca.Other = Convert.ToDouble(dt.Rows[0]["OTHERCH"].ToString() == "" ? "0" : dt.Rows[0]["OTHERCH"].ToString());
+                    //ca.Frig = Convert.ToDouble(dt.Rows[0]["FREIGHT"].ToString() == "" ? "0" : dt.Rows[0]["FREIGHT"].ToString());
+                    //ca.SpDisc = Convert.ToDouble(dt.Rows[0]["OTHERDISC"].ToString() == "" ? "0" : dt.Rows[0]["OTHERDISC"].ToString());
+
+                    ca.Gross = Convert.ToDouble(dt.Rows[0]["GROSS"].ToString() == "" ? "0" : dt.Rows[0]["GROSS"].ToString());
+                    ca.Net = Convert.ToDouble(dt.Rows[0]["NET"].ToString() == "" ? "0" : dt.Rows[0]["NET"].ToString());
+
+                }
+            }
+                ca.RetLst = TData;
             return View(ca);
 
+        }
+        [HttpPost]
+        public ActionResult PurchaseRet(PurchaseReturn Cy, string id)
+        {
+
+            try
+            {
+                Cy.ID = id;
+                string Strout = PurReturn.PurReturnCRUD(Cy);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Cy.ID == null)
+                    {
+                        TempData["notice"] = "PurchaseRet Inserted Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "PurchaseRet Updated Successfully...!";
+                    }
+                    return RedirectToAction("ListPurchaseReturn");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit PurchaseRet";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(Cy);
         }
         public List<SelectListItem> BindBranch()
         {
@@ -235,9 +311,10 @@ namespace Arasan.Controllers
             }
         }
 
-        public IActionResult Index()
+        public IActionResult ListPurchaseReturn()
         {
-            return View();
+            IEnumerable<PurchaseReturn> cmp = PurReturn.GetAllPurReturn();
+            return View(cmp);
         }
     }
 }
