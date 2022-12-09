@@ -645,8 +645,8 @@
 
                                                                                                         <br /><br />  <label for="inputName3" class="col-sm-4 control-label">Area ID<label class="Mandatory"></label></label>
                                                                                                         <div class="col-sm-8">
-                                                                                                            <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
-                                                                                                        </div>
+                                                                @Html.TextBoxFor(C => C.Addr, new { @id = "txtAddr", @class = "form-control", @TabIndex = 2, @onkeyup = "changeTot(this)"})<br />
+                                                            </div>
                                                                                                     </div>
                                                                                                 </div>
 
@@ -656,7 +656,7 @@
 
                                                                                                         <br /><br /> <label for="inputName3" class="col-sm-4 control-label">Address<label class="Mandatory"></label></label>
                                                                                                         <div class="col-sm-8">
-                                                                                                            <textarea class="form-control" id="inputEmail3" placeholder="" type="text"></textarea><br />
+                                                                @Html.TextBoxFor(C => C.Addr, new { @id = "txtAddr", @class = "form-control", @TabIndex = 2, @onkeyup = "changeTot(this)"})<br />
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 </div>
@@ -668,7 +668,7 @@
 
                                                                                                         <label for="inputName3" class="col-sm-4 control-label">City<label class="Mandatory"></label></label>
                                                                                                         <div class="col-sm-8">
-                                                                                                            <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
+                                            @Html.TextBoxFor(C => C.City, new { @id = "txtCity", @class = "form-control", @TabIndex = 2, @onkeyup = "changeTot(this)"})<br />
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 </div>
@@ -690,7 +690,7 @@
 
                                                                                                         <label for="inputName3" class="col-sm-4 control-label">Pincode<label class="Mandatory"></label></label>
                                                                                                         <div class="col-sm-8">
-                                                                                                            <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
+                                                                @Html.TextBoxFor(C => C.Pin, new { @id = "txtPin", @class = "form-control", @TabIndex = 2, @onkeyup = "changeTot(this)"})<br />
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 </div>
@@ -700,7 +700,7 @@
 
                                                                                                         <label for="inputName3" class="col-sm-4 control-label">Phone<label class="Mandatory"></label></label>
                                                                                                         <div class="col-sm-8">
-                                                                                                            <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
+                                                                @Html.TextBoxFor(C => C.Phone, new { @id = "txtPhone", @class = "form-control", @TabIndex = 2, @onkeyup = "changeTot(this)"})<br />
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 </div>
