@@ -59,7 +59,16 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-
+        public DataTable GetPurchaseReturnDes(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select PURRESADD.SADD1,PURRESADD.SCITY,PURRESADD.SSTATE,PURRESADD.SPINCODE,PURRESADD.SPHONE,PURRESADDID  from PURRESADD where PURRESADD.PURRESADDID=" + id + "";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public string PurReturnCRUD(PurchaseReturn cy)
         {
             string msg = "";
@@ -108,8 +117,43 @@ namespace Arasan.Services
                     {
                         objConn.Open();
                         objCmd.ExecuteNonQuery();
-                        //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
-                    }
+                        Object Pid = objCmd.Parameters["OUTID"].Value;
+                        //string Pid = "0";
+                        if (cy.ID != null)
+                        {
+                            Pid = cy.ID;
+                        }
+                        using (OracleConnection objConns = new OracleConnection(_connectionString))
+                        {
+                            OracleCommand objCmds = new OracleCommand("DESPATCHRETURN", objConns);
+                            if (cy.ID == null)
+                            {
+                                StatementType = "Insert";
+                                objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+
+                            }
+                            else
+                            {
+                                StatementType = "Update";
+                                objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+
+                            }
+                            objCmds.CommandType = CommandType.StoredProcedure;
+                            objCmds.Parameters.Add("PRETBASICID", OracleDbType.NVarchar2).Value = Pid;
+                            objCmds.Parameters.Add("SADD1", OracleDbType.NVarchar2).Value = cy.Addr;
+                            objCmds.Parameters.Add("SCITY", OracleDbType.NVarchar2).Value = cy.City;
+                            objCmds.Parameters.Add("SSTATE", OracleDbType.NVarchar2).Value = cy.State;
+                            objCmds.Parameters.Add("SPINCODE", OracleDbType.NVarchar2).Value = cy.Pin;
+                            objCmds.Parameters.Add("SPHONE", OracleDbType.NVarchar2).Value = cy.Phone;
+                            
+                            objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                            objConns.Open();
+                            objCmds.ExecuteNonQuery();
+                            objConns.Close();
+                        }
+
+
+                        }
                     catch (Exception ex)
                     {
                         //System.Console.WriteLine("Exception: {0}", ex.ToString());

@@ -47,6 +47,10 @@ namespace Arasan.Models
         public double Gross { get; set; }
         public double Net { get; set; }
         public List<RetItem> RetLst { get; set; }
+        public string Addr { get; set; }
+        public string Phone { get; set; }
+        public string Pin { get; set; }
+        public string City { get; set; }
     }
     public class RetItem
     {

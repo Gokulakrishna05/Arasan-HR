@@ -54,7 +54,7 @@ namespace Arasan.Controllers
                 if (dt.Rows.Count > 0)
                 {
                     ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
-                   
+
                     ca.Supplier = dt.Rows[0]["PARTYID"].ToString();
                     ca.RetNo = dt.Rows[0]["DOCID"].ToString();
                     ca.RetDate = dt.Rows[0]["DOCDATE"].ToString();
@@ -79,6 +79,22 @@ namespace Arasan.Controllers
                     ca.Gross = Convert.ToDouble(dt.Rows[0]["GROSS"].ToString() == "" ? "0" : dt.Rows[0]["GROSS"].ToString());
                     ca.Net = Convert.ToDouble(dt.Rows[0]["NET"].ToString() == "" ? "0" : dt.Rows[0]["NET"].ToString());
 
+                }
+                DataTable dt2 = new DataTable();
+                dt2 = PurReturn.GetPurchaseReturnDes(id);
+                if (dt2.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt2.Rows.Count; i++)
+                    {
+                   
+                        ca.Addr = dt.Rows[0]["SADD1"].ToString();
+
+                        ca.City = dt.Rows[0]["SCITY"].ToString();
+                        ca.State = dt.Rows[0]["SSTATE"].ToString();
+                        ca.Pin = dt.Rows[0]["SPINCODE"].ToString();
+                        ca.ID = id;
+                        ca.Phone = dt.Rows[0]["SPHONE"].ToString();
+                      }
                 }
             }
                 ca.RetLst = TData;
