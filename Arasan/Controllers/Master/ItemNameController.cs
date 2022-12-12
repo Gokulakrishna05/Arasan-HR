@@ -190,6 +190,7 @@ namespace Arasan.Controllers.Master
             }
             else
             {
+               
                 ca = ItemNameService.GetSupplierById(id);
 
                
