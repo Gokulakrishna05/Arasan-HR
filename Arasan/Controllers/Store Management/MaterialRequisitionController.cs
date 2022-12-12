@@ -10,6 +10,7 @@ using Arasan.Interface.Master;
 
 using Arasan.Models.Store_Management;
 using Newtonsoft.Json.Linq;
+using Arasan.Services.Store_Management;
 
 namespace Arasan.Controllers.Store_Management
 {
@@ -25,35 +26,45 @@ namespace Arasan.Controllers.Store_Management
             materialReq = _MatreqService;
            
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
+            datatrans = new DataTransactions(_connectionString);
         }
-
         public IActionResult MaterialRequisition(string id)
         {
-            MaterialRequisition MR = new MaterialRequisition();
+             MaterialRequisition MR = new MaterialRequisition();
              MR.Brlst = BindBranch();
-            MR.Loclst = GetLoc();
-
-            List<MaterialRequistionItem> Data = new List<MaterialRequistionItem>();
+             MR.Loclst = GetLoc();
+            List<MaterialRequistionItem> TData = new List<MaterialRequistionItem>();
             MaterialRequistionItem tda = new MaterialRequistionItem();
-            for (int i = 0; i < 3; i++)
-            {
-                tda = new MaterialRequistionItem();
-               
-                tda.Itemlst = BindItemlst();
-                tda.Isvalid = "Y";
-                Data.Add(tda);
-            }
-
-            MR.MRlst = Data;
             if (id == null)
             {
-
+                for (int i = 0; i < 3; i++)
+                {
+                    tda = new MaterialRequistionItem();
+                    tda.Itemlst = BindItemlst();
+                    tda.Isvalid = "Y";
+                    TData.Add(tda);
+                }
             }
             else
             {
-               MR = materialReq.GetMaterialById(id);
+                //st = StoreAccService.GetStoreAccById(id);
+
+                DataTable dt = new DataTable();
+                double total = 0;
+                dt = materialReq.GetmaterialReqDetails(id);
+                if (dt.Rows.Count > 0)
+                {
+                    MR.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                    MR.Location = dt.Rows[0]["FROMLOCID"].ToString();
+                    MR.Process = dt.Rows[0]["PROCESSID"].ToString();
+                    MR.RequestType = dt.Rows[0]["REQTYPE"].ToString();
+                    MR.DocId = dt.Rows[0]["DOCID"].ToString();
+                    MR.DocDa = dt.Rows[0]["DOCDATE"].ToString();
+                    
+                }
 
             }
+            MR.MRlst = TData;
             return View(MR);
         }
 
