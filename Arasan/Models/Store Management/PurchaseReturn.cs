@@ -51,6 +51,7 @@ namespace Arasan.Models
         public string Phone { get; set; }
         public string Pin { get; set; }
         public string City { get; set; }
+        public List<ReasonItem> ReLst { get; set; }
     }
     public class RetItem
     {
@@ -85,4 +86,9 @@ namespace Arasan.Models
         public string Isvalid { get; set; }
 
     }
-}
+    public class ReasonItem
+    {
+        public string Reason { get; set; }
+        public string SNo { get; set; }
+    }
+    }

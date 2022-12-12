@@ -678,7 +678,7 @@
 
                                                                                                         <label for="inputName3" class="col-sm-4 control-label">State<label class="Mandatory"></label></label>
                                                                                                         <div class="col-sm-8">
-                                                                @Html.DropDownListFor(C => C.State, Model.Satlst, new { @id = "ddlState", @Class = "form-control chosen-select", @TabIndex = 1 })
+                                                                @Html.DropDownListFor(C => C.State, Model.Satlst, new { @id = "ddlState", @Class = "form-control chosen-select",@Style="width=100px" ,@TabIndex =4 })
     <br />
                                                                                                         </div>
                                                                                                     </div>
@@ -690,7 +690,7 @@
 
                                                                                                         <label for="inputName3" class="col-sm-4 control-label">Pincode<label class="Mandatory"></label></label>
                                                                                                         <div class="col-sm-8">
-                                                                @Html.TextBoxFor(C => C.Pin, new { @id = "txtPin", @class = "form-control", @TabIndex = 2, @onkeyup = "changeTot(this)"})<br />
+                                                                @Html.TextBoxFor(C => C.Pin, new { @id = "txtPin", @class = "form-control", @TabIndex = 2})<br />
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 </div>
@@ -700,7 +700,7 @@
 
                                                                                                         <label for="inputName3" class="col-sm-4 control-label">Phone<label class="Mandatory"></label></label>
                                                                                                         <div class="col-sm-8">
-                                                                @Html.TextBoxFor(C => C.Phone, new { @id = "txtPhone", @class = "form-control", @TabIndex = 2, @onkeyup = "changeTot(this)"})<br />
+                                                                @Html.TextBoxFor(C => C.Phone, new { @id = "txtPhone", @class = "form-control", @TabIndex = 2})<br />
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 </div>

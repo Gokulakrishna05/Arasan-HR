@@ -31,6 +31,8 @@ namespace Arasan.Controllers
             ca.Satlst = GetSat();
             List<RetItem> TData = new List<RetItem>();
             RetItem tda = new RetItem();
+            List<ReasonItem> TData1 = new List<ReasonItem>();
+            ReasonItem tda1 = new ReasonItem();
             if (id == null)
             {
                 for (int i = 0; i < 3; i++)
@@ -40,6 +42,14 @@ namespace Arasan.Controllers
                     //tda.Itemlst = BindItemlst();
 
                     TData.Add(tda);
+                }
+                for (int i = 0; i < 3; i++)
+                {
+                    tda1 = new ReasonItem();
+                    //tda.POlst = BindPOlist();
+                    //tda.Itemlst = BindItemlst();
+
+                    TData1.Add(tda1);
                 }
             }
             else
@@ -97,6 +107,7 @@ namespace Arasan.Controllers
                       }
                 }
             }
+            ca.ReLst = TData1;
                 ca.RetLst = TData;
             return View(ca);
 
