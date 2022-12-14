@@ -110,16 +110,15 @@ namespace Arasan.Services
                             Process = rdr["PROCESSID"].ToString(),
                             RequestType = rdr["REQTYPE"].ToString(),
                             DocId = rdr["DOCID"].ToString(),
-
                             DocDa = rdr["DOCDATE"].ToString()
 
 
                        };
-
+                         
                         Material = cmp;
                     }
                 }
-           }
+           } 
             return Material;
         }
 
@@ -138,10 +137,10 @@ namespace Arasan.Services
 
                     objCmd.CommandType = CommandType.StoredProcedure;
                     if (cy.ID == null)
-                   {
+                    {
                         StatementType = "Insert";
                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-                   }
+                    }
                     else
                     {
                         StatementType = "Update";
