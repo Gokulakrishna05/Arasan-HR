@@ -176,6 +176,7 @@
                                                 <th> Item Group </th>
                                                             <th> Item  </th>
                                                             <th>Unit</th>
+                                                <th> CF</th>
                                                             <th> Req Qty </th>
                                                           @*  <th> From Bin</th>*@
                                                              <th> Quantity </th>
@@ -217,6 +218,9 @@
                                                         <td>
                                                             @Html.TextBoxFor(o => o.SIPLst[i].Unit, new { @id = "txtUnit" + i, @class = "form-control", style = "width: 80px;" , @readonly = "readonly"})
                                                         </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(o => o.SIPLst[i].ConFac, new { @id = "txtConFac" + i, @class = "form-control", style = "width: 80px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)", @readonly = "readonly"})
+                                                            </td>
                                                           <td>
                                                             @Html.TextBoxFor(o => o.SIPLst[i].ReqQty, new { @id = "txtReqQty" + i, @class = "form-control", style = "width: 80px;" })
                                                         </td>

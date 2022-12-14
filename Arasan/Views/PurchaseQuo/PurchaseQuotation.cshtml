@@ -288,10 +288,10 @@
             if (CF == "")
                 CF = 0;
             if (up > 0) {
-                var tot = eval(qty) * eval(up) ;
-                document.getElementById("txtAmount" + i).value = tot.toFixed(2);
+                var tot = eval(qty) * eval(up) * eval(CF);
+                document.getElementById("txtTotalAmount" + i).value = tot.toFixed(2);
             } else {
-                document.getElementById("txtAmount" + i).value = 0;
+                document.getElementById("txtTotalAmount" + i).value = 0;
             }
 
 
