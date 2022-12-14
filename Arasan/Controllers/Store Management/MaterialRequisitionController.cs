@@ -14,25 +14,25 @@ using Arasan.Services.Store_Management;
 
 namespace Arasan.Controllers.Store_Management
 {
-    public class MaterialRequisitionController:Controller
+    public class MaterialRequisitionController : Controller
     {
         IMaterialRequisition materialReq;
-       // IPurchaseIndent PurIndent;
+        // IPurchaseIndent PurIndent;
         private string? _connectionString;
         IConfiguration? _configuratio;
         DataTransactions datatrans;
         public MaterialRequisitionController(IMaterialRequisition _MatreqService, IConfiguration _configuratio)
         {
             materialReq = _MatreqService;
-           
+
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
         public IActionResult MaterialRequisition(string id)
         {
-             MaterialRequisition MR = new MaterialRequisition();
-             MR.Brlst = BindBranch();
-             MR.Loclst = GetLoc();
+            MaterialRequisition MR = new MaterialRequisition();
+            MR.Brlst = BindBranch();
+            MR.Loclst = GetLoc();
             List<MaterialRequistionItem> TData = new List<MaterialRequistionItem>();
             MaterialRequistionItem tda = new MaterialRequistionItem();
             if (id == null)
@@ -60,7 +60,7 @@ namespace Arasan.Controllers.Store_Management
                     MR.RequestType = dt.Rows[0]["REQTYPE"].ToString();
                     MR.DocId = dt.Rows[0]["DOCID"].ToString();
                     MR.DocDa = dt.Rows[0]["DOCDATE"].ToString();
-                    
+
                 }
 
             }
@@ -91,20 +91,20 @@ namespace Arasan.Controllers.Store_Management
             {
                 DataTable dt = new DataTable();
                 DataTable dt1 = new DataTable();
-               
+
                 string unit = "";
 
                 dt = materialReq.GetItemDetails(ItemId);
 
                 if (dt.Rows.Count > 0)
                 {
-                  
+
                     unit = dt.Rows[0]["UNITID"].ToString();
-                      
+
 
                 }
 
-                var result = new {unit = unit };
+                var result = new { unit = unit };
                 return Json(result);
             }
             catch (Exception ex)
@@ -112,39 +112,39 @@ namespace Arasan.Controllers.Store_Management
                 throw ex;
             }
         }
-       [HttpPost]
+        [HttpPost]
         public ActionResult MaterialRequisition(MaterialRequisition Cy, string id)
         {
 
             try
-           {
+            {
                 Cy.ID = id;
-               string Strout = materialReq.MaterialCRUD(Cy);
+                string Strout = materialReq.MaterialCRUD(Cy);
                 if (string.IsNullOrEmpty(Strout))
-               {
-                   if (Cy.ID == null)
-                   {
-                    TempData["notice"] = "MaterialRequisition Inserted Successfully...!";
-                   }
+                {
+                    if (Cy.ID == null)
+                    {
+                        TempData["notice"] = "MaterialRequisition Inserted Successfully...!";
+                    }
                     else
                     {
                         TempData["notice"] = "MaterialRequisition Updated Successfully...!";
                     }
-                   return RedirectToAction("ListMaterialRequisition");
-               }
+                    return RedirectToAction("ListMaterialRequisition");
+                }
 
                 else
                 {
                     ViewBag.PageTitle = "Edit ListMaterialRequisition";
                     TempData["notice"] = Strout;
-                   //return View();
-              }
+                    //return View();
+                }
 
-                 
-           }
-           catch (Exception ex)
-           {
-               throw ex;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
 
             return View(Cy);
@@ -156,7 +156,7 @@ namespace Arasan.Controllers.Store_Management
                 DataTable dt = new DataTable();
                 datatrans = new DataTransactions(_connectionString);
                 dt = datatrans.GetBranch();
-               // DataTable dtDesg = datatrans.GetBranch();
+                // DataTable dtDesg = datatrans.GetBranch();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dt.Rows.Count; i++)
                 {
@@ -226,13 +226,13 @@ namespace Arasan.Controllers.Store_Management
             IEnumerable<MaterialRequisition> cmp = materialReq.GetAllMaterial();
             return View(cmp);
         }
-    
 
-    public JsonResult GetItemJSON(string itemid)
-    {
+
+        public JsonResult GetItemJSON(string itemid)
+        {
             MaterialRequistionItem model = new MaterialRequistionItem();
-        model.Itemlst = BindItemlst();
-        return Json(BindItemlst());
-    }
+            model.Itemlst = BindItemlst();
+            return Json(BindItemlst());
+        }
     }
 }
