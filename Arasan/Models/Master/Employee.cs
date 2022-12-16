@@ -9,16 +9,16 @@ namespace Arasan.Models
             this.Statelst = new List<SelectListItem>();
             this.Citylst = new List<SelectListItem>();
         }
-        public int EmpId { get; set; }
+        public string EmpId { get; set; }
 
-        public int ID { get; set; }
+        public string ID { get; set; }
         public string EmpName { get; set; }
         public string Gender { get; set; }  
-        public DateTime DOB { get; set; }
+        public string DOB { get; set; }
      
         public string Address { get; set; }
-        public int  CityId { get; set; }
-        public int  StateId { get; set; }
+        public string CityId { get; set; }
+        public string StateId { get; set; }
         public string EmailId { get; set; }
         public string PhoneNo { get; set; }
 
@@ -40,10 +40,10 @@ namespace Arasan.Models
         public string Password { get; set; }
         public string EMPDeptment { get; set; }
         public string EMPDesign { get; set; }
-        public int EMPDeptCode { get; set; }
+        public string EMPDeptCode { get; set; }
 
-        public DateTime JoinDate { get; set; }
-        public DateTime ResignDate { get; set; }
+        public string JoinDate { get; set; }
+        public string ResignDate { get; set; }
 
         //Education Details
 
@@ -61,16 +61,16 @@ namespace Arasan.Models
         //Paycode
 
      
-        public int EMPPayCategory { get; set; }
-        public int EMPBasic { get; set; }
+        public string EMPPayCategory { get; set; }
+        public string EMPBasic { get; set; }
         public string  PFNo { get; set; }
         public string ESINo { get; set; }
 
-        public DateTime PFdate { get; set; }
-        public DateTime ESIDate { get; set; }
+        public string PFdate { get; set; }
+        public string ESIDate { get; set; }
 
        
-        public int EMPCost { get; set; }
+        public string EMPCost { get; set; }
 
 
 
