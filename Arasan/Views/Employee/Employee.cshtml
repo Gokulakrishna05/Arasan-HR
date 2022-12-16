@@ -27,13 +27,18 @@
                 <div class="widgets-container">
                     <h5 style="font-size:14px">Employee</h5>
                     <hr>
+                    @using (Html.BeginForm("Employee", "Employee", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+
                     <form>
                         <div class="tabs-container">
               <ul class="nav nav-tabs">
                 <li class="active"><a href="#tab-1" data-toggle="tab" >Employee Details</a></li>
                 <li ><a href="#tab-2" data-toggle="tab" >EducationDetails</a></li>
-                <li ><a href="#tab-3" data-toggle="tab" >Bin </a></li>
-                
+                <li ><a href="#tab-3" data-toggle="tab" >Pay Code </a></li>
+                <li ><a href="#tab-4" data-toggle="tab" >Personal Details</a></li>
+                                <li><a href="#tab-5" data-toggle="tab">Login Details</a></li>
               </ul>
               <div class="tab-content">
                 <div class="tab-pane active" id="tab-1">
@@ -46,11 +51,24 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Employee Name<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
                                          @Html.TextBoxFor(C => C.EmpName, new { @id = "EnqNo", @class = "form-control", @TabIndex = 1})
-                                            @Html.HiddenFor(C => C.EmpId)
+                                            @Html.HiddenFor(C => C.ID)
                                               <br />
                                      </div>
                                 </div>
-                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+
+                                                <label for="inputName3" class="col-sm-4 control-label">Employee ID<label class="Mandatory"></label></label>
+                                                <div class="col-sm-8">
+                                                    @Html.TextBoxFor(C => C.EmpId, new { @id = "EmpId", @class = "form-control", @TabIndex = 1})
+                                                   
+                                                    <br />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
 
@@ -69,24 +87,25 @@
 
                                 </div>
                             </div>
-                        </div>
+                                    <br />
 
                           
-                          <div class="row">
+                        
                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="inputName3" class="col-sm-4 control-label">DOB <label class="mandatory">*</label></label>
                                               
-													<div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy" >
-                                                         @Html.TextBoxFor(C => C.DOB, new { @id = "IndentDate", @class = "form-control", @TabIndex = 4,@size="32" })
-														<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                                        <br />
-													</div>
+													   <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                                    @Html.TextBoxFor(C => C.DOB, new { @id = "DOB", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                    </div>
 													
 													
 												
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="row">
                      <div class="col-md-6">
                              <div class="form-group">
 
@@ -96,39 +115,42 @@
                                           <br />
                                     </div>
                              </div>
-                         </div>       
+                         </div><br />
 
-                     </div>
-                     
-                          <div class="row">
-                            
-                            <div class="col-md-6">
-                                <div class="form-group">
+                                  
+                                
+                                <div class="col-md-6">
+                                    <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">State<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                         @Html.DropDownListFor(C => C.StateId, Model.Statelst, new { @id = "ddlState", @Class = "form-control chosen-select", @TabIndex = 6 })
-                                         <br />
+                                        <label for="inputName3" class="col-sm-4 control-label">State<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                             @Html.DropDownListFor(C => C.StateId, Model.Statelst, new { @id = "ddlState", @Class = "form-control chosen-select", @TabIndex = 6 , onchange = "State_Change(this.value)"})
+                                             <br />
+                                        </div>
+
+                                    </div>
+                                            </div>
                                     </div>
 
-                                </div>
-                            </div>
-                              <div class="col-md-6">
-                                <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">City<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                        @Html.DropDownListFor(C => C.CityId, Model.Citylst, new { @id = "ddlCity", @Class = "form-control chosen-select", @TabIndex = 7 })
-                                        <br />
-                                        
+
+                                    <div class="row">
+                                  <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">City<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.CityId, Model.Citylst, new { @id = "ddlCity", @Class = "form-control chosen-select", @TabIndex = 7 })
+                                            <br />
+                                            
+                                        </div>
+
                                     </div>
-
                                 </div>
-                            </div>
 
-                          </div>
+                              <br />
                            
-                          <div class="row">
+                          
                             <div class="col-md-6">
                                 <div class="form-group">
 
@@ -138,8 +160,12 @@
                                     </div>
 
                                 </div>
-                            </div>
+                                        </div>
+                                          </div>
+                     
 
+                                                            
+                              <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
 
@@ -258,25 +284,336 @@
               
                 <div class="tab-pane" id="tab-3">
                  @*3rd tab*@
-                
-               
-                
-		
-							
+
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+
+                                                <label for="inputName3" class="col-sm-4 control-label"> EMP Pay Category <label class="Mandatory"></label></label>
+                                                <div class="col-sm-8">
+                                                    @Html.TextBoxFor(C => C.EMPPayCategory, new { @id = "EMPPayCategory ", @class = "form-control", @TabIndex = 12})<br />
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+
+                                                <label for="inputName3" class="col-sm-4 control-label">EMP Basic<label class="Mandatory"></label></label>
+                                                <div class="col-sm-8">
+                                                    @Html.TextBoxFor(C => C.EMPBasic, new { @id = "EMPBasic ", @class = "form-control", @TabIndex = 13})<br />
+
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+
+                                                <label for="inputName3" class="col-sm-4 control-label"> PF No<label class="Mandatory"></label></label>
+                                                <div class="col-sm-8">
+                                                    @Html.TextBoxFor(C => C.PFNo, new { @id = "PFNo ", @class = "form-control", @TabIndex = 14})<br />
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+
+                                                <label for="inputName3" class="col-sm-4 control-label">ESI No<label class="Mandatory"></label></label>
+                                                <div class="col-sm-8">
+                                                    @Html.TextBoxFor(C => C.ESINo, new { @id = "ESINo ", @class = "form-control", @TabIndex = 15})<br />
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+
+                                                <label for="inputName3" class="col-sm-4 control-label"> PF date<label class="Mandatory"></label></label>
+                                                
+                                                    <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                                        @Html.TextBoxFor(C => C.PFdate, new { @id = "PFdate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
+                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                    </div>
+                                                
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+
+                                                <label for="inputName3" class="col-sm-4 control-label">ESI Date<label class="Mandatory"></label></label>
+                                                
+                                                    <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                                        @Html.TextBoxFor(C => C.ESIDate, new { @id = "ESIDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
+                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                   
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+
+                                                <label for="inputName3" class="col-sm-4 control-label"> EMP Cost<label class="Mandatory"></label></label>
+                                                <div class="col-sm-8">
+                                                    @Html.TextBoxFor(C => C.EMPCost, new { @id = "EMPCost ", @class = "form-control", @TabIndex = 14})<br />
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        </div>
                    
                 </div>
                 
+                <div class="tab-pane" id="tab-4">
+                 
+                    @*4th tab*@
+                    
+                        <div class="row">
+                         
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label"> Father Name <label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                                    @Html.TextBoxFor(C => C.FatherName, new { @id = "FatherName ", @class = "form-control", @TabIndex = 10})<br />
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Mother Name<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                           @Html.TextBoxFor(C => C.MotherName, new { @id = "MotherName ", @class = "form-control", @TabIndex = 11})<br />
+
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                               <div class="row">
+                         
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                                <label for="inputName3" class="col-sm-4 control-label"> Material Status<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                         @Html.TextBoxFor(C => C.MaterialStatus, new { @id = "MaterialStatus ", @class = "form-control", @TabIndex = 12})<br />
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Blood Group<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                           @Html.TextBoxFor(C => C.BloodGroup, new { @id = "BloodGroup ", @class = "form-control", @TabIndex = 13})<br />
+
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="row">
+                         
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label"> Community <label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                                    @Html.TextBoxFor(C => C.Community, new { @id = "Community ", @class = "form-control", @TabIndex = 14})<br />
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Pay Type<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                           @Html.TextBoxFor(C => C.PayType, new { @id = "PayType ", @class = "form-control", @TabIndex = 15})<br />
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+
+                                                <label for="inputName3" class="col-sm-4 control-label"> Emp Type <label class="Mandatory"></label></label>
+                                                <div class="col-sm-8">
+                                                    @Html.TextBoxFor(C => C.EmpType, new { @id = "EmpType ", @class = "form-control", @TabIndex = 14})<br />
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+
+                                                <label for="inputName3" class="col-sm-4 control-label">Disp<label class="Mandatory"></label></label>
+                                                <div class="col-sm-8">
+                                                    @Html.TextBoxFor(C => C.Disp, new { @id = "Disp ", @class = "form-control", @TabIndex = 15})<br />
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                      
+                        
+
+                   @* 4th tab*@
+                </div>
+                 <div class="tab-pane" id="tab-5">
+                 
+                    @*5th tab*@
+                    
+                        <div class="row">
+                         
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label"> User Name <label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                                    @Html.TextBoxFor(C => C.UserName, new { @id = "UserName ", @class = "form-control", @TabIndex = 10})<br />
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Password<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                                    @Html.TextBoxFor(C => C.Password, new { @id = "Password ", @class = "form-control", @TabIndex = 11})<br />
+
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                               <div class="row">
+                         
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                                <label for="inputName3" class="col-sm-4 control-label"> EMP Deptment<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                         @Html.TextBoxFor(C => C.EMPDeptment, new { @id = "EMPDeptment ", @class = "form-control", @TabIndex = 12})<br />
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">EMP Design<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                                    @Html.TextBoxFor(C => C.EMPDesign, new { @id = "EMPDesign ", @class = "form-control", @TabIndex = 13})<br />
+
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="row">
+                         
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label"> EMP DeptCode <label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                                    @Html.TextBoxFor(C => C.EMPDeptCode, new { @id = "EMPDeptCode ", @class = "form-control", @TabIndex = 14})<br />
+
+                                    </div>
+
+                                </div>
+                            </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputName3" class="col-sm-4 control-label">Join Date<label class="Mandatory"></label></label>
+
+                                                <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                                    @Html.TextBoxFor(C => C.JoinDate, new { @id = "JoinDate", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })
+                                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span><br />
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputName3" class="col-sm-4 control-label">Resign Date<label class="Mandatory"></label></label>
+
+                                                <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                                    @Html.TextBoxFor(C => C.ResignDate, new { @id = "ResignDate", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })
+                                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span><br />
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                      
+                        
+
+                   @* 5th tab*@
+                </div>
               </div>
            
 
         
                             <div style="height:30px;"></div>
-                            <a button type="submit" class="btn aqua m-t-xs bottom15-xs" href="@Url.Action("ItemList", "ItemName")">Submit</a>
-                            <a button class="btn btn-danger" type="submit" href="@Url.Action("ItemList", "ItemName")">Cancel</a>
-                    </div>
+                               <button type="submit" class="btn aqua m-t-xs bottom15-xs">Submit</button>
+                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListEmployee", "Employee")'">Cancel</button>
+  </div>
                         
                     </form>
-
+                    }
                 </div>
             </div>
         </div>
@@ -284,4 +621,35 @@
 </div>
 <script>
     $(".chosen-select").chosen();
+    $('.form_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+
+    function State_Change(itemid, i) {
+        //alert(itemid);
+        //debugger;
+        $.ajax({
+            url: "GetItemJSON",
+            type: "post",
+            data: { 'itemid': itemid },
+            cache: false,
+            success: function (response) {
+                var newlist;
+                //alert(JSON.stringify(response));
+                newlist = response.Ilst;
+                PopulateDropDown("#ddlCity" + i, response);
+            },
+            error: function () {
+                debugger;
+                alert("Please Select State");
+            }
+        });
+    }
 </script>
