@@ -163,9 +163,6 @@ namespace Arasan.Services
                         {
                             Pid = cy.ID;
                         }
-
-
-
                         foreach (DirItem cp in cy.DirLst)
                         {
                             if (cp.Isvalid == "Y" && cp.ItemId != "0")
@@ -177,13 +174,11 @@ namespace Arasan.Services
                                     {
                                         StatementType = "Insert";
                                         objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-
                                     }
                                     else
                                     {
                                         StatementType = "Update";
                                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
-
                                     }
                                     objCmds.CommandType = CommandType.StoredProcedure;
                                     objCmds.Parameters.Add("DPBASICID", OracleDbType.NVarchar2).Value = Pid;
@@ -195,9 +190,7 @@ namespace Arasan.Services
                                     objCmds.Parameters.Add("TOTAMT", OracleDbType.NVarchar2).Value = cp.TotalAmount;
                                     objCmds.Parameters.Add("CF", OracleDbType.NVarchar2).Value = cp.ConFac;
                                     objCmds.Parameters.Add("DISC", OracleDbType.NVarchar2).Value = cp.Disc;
-                                    objCmds.Parameters.Add("DISCAMOUNT", OracleDbType.NVarchar2).Value = cp.DiscAmount;
-                                   
-                                   
+                                    objCmds.Parameters.Add("DISCAMOUNT", OracleDbType.NVarchar2).Value = cp.DiscAmount;           
                                     objCmds.Parameters.Add("IFREIGHTCH", OracleDbType.NVarchar2).Value = cp.FrigCharge;
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                     objConns.Open();

@@ -9,7 +9,7 @@ namespace Arasan.Models
             this.Statelst = new List<SelectListItem>();
             this.Citylst = new List<SelectListItem>();
         }
-        public string EmpId { get; set; }
+        public string EmpNo { get; set; }
 
         public string ID { get; set; }
         public string EmpName { get; set; }
@@ -45,16 +45,6 @@ namespace Arasan.Models
         public string JoinDate { get; set; }
         public string ResignDate { get; set; }
 
-        //Education Details
-
-        public string Education { get; set; }
-        public string College { get; set; }
-        public string EcPlace { get; set; }
-        public string YearPassing { get; set; }
-        public int MPercentage { get; set; }
-
-        public string SkillSet { get; set; }
-
 
        
 
@@ -72,15 +62,32 @@ namespace Arasan.Models
        
         public string EMPCost { get; set; }
 
-
+     
+        public string Education { get; set; }
+        public string College { get; set; }
+        public string EcPlace { get; set; }
+        public string YearPassing { get; set; }
+        public double MPercentage { get; set; }
 
         public List<SelectListItem> Statelst;
 
         public List<SelectListItem> Citylst;
+        //public List<EduDeatils> EduLst { get; set; }
+        public string SkillSet { get; set; }
+    }
+    //public class EduDeatils
+    //{
+
+    //    //Education Details
+    //    public string ID { get; set; }
+    //    public string Education { get; set; }
+    //    public string College { get; set; }
+    //    public string EcPlace { get; set; }
+    //    public string YearPassing { get; set; }
+    //    public double MPercentage { get; set; }
+    //    public string EmpId { get; set; }
+    //    public string SkillSet { get; set; }
+    //}
+
 
     }
-
-   
-
-
-}

@@ -61,7 +61,7 @@
 
                                                 <label for="inputName3" class="col-sm-4 control-label">Employee ID<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                    @Html.TextBoxFor(C => C.EmpId, new { @id = "EmpId", @class = "form-control", @TabIndex = 1})
+                                                    @Html.TextBoxFor(C => C.EmpNo, new { @id = "EmpId", @class = "form-control", @TabIndex = 1})
                                                    
                                                     <br />
                                                 </div>
@@ -189,100 +189,99 @@
               </div>
             
 
-              
+               
                 <div class="tab-pane" id="tab-2">
                  
                     @*2nd tab*@
-                    
-                        <div class="row">
-                         
-                            <div class="col-md-6">
-                                <div class="form-group">
+                                      
+                                                <div class="row">
+                             
+                                <div class="col-md-6">
+                                    <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label"> Education <label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                         @Html.TextBoxFor(C => C.Education, new { @id = "education ", @class = "form-control", @TabIndex = 10})<br />
+                                        <label for="inputName3" class="col-sm-4 control-label"> Education <label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                                            @Html.TextBoxFor(C => C.Education, new { @id = "education ", @class = "form-control", @TabIndex = 10})<br />
 
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                    <label for="inputName3" class="col-sm-4 control-label">College<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                           @Html.TextBoxFor(C => C.College, new { @id = "college ", @class = "form-control", @TabIndex = 11})<br />
-
+                                        </div>
 
                                     </div>
-
                                 </div>
-                            </div>
-                        </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
 
-                               <div class="row">
-                         
-                            <div class="col-md-6">
-                                <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">College<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                                        @Html.TextBoxFor(C => C.College, new { @id = "college ", @class = "form-control", @TabIndex = 11})<br />
 
-                                    <label for="inputName3" class="col-sm-4 control-label"> Edu.Place <label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                         @Html.TextBoxFor(C => C.EcPlace, new { @id = "Eplace ", @class = "form-control", @TabIndex = 12})<br />
+
+                                        </div>
 
                                     </div>
-
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">YearPassing<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                           @Html.TextBoxFor(C => C.YearPassing, new { @id = "YearPassing ", @class = "form-control", @TabIndex = 13})<br />
+                                   <div class="row">
+                             
+                                <div class="col-md-6">
+                                    <div class="form-group">
 
+                                        <label for="inputName3" class="col-sm-4 control-label"> Edu.Place <label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                                                @Html.TextBoxFor(C => C.EcPlace, new { @id = "Eplace ", @class = "form-control", @TabIndex = 12})<br />
+
+                                        </div>
 
                                     </div>
-
                                 </div>
-                            </div>
-                        </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
 
-                            <div class="row">
-                         
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                    <label for="inputName3" class="col-sm-4 control-label"> Grade/Percentage <label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                         @Html.TextBoxFor(C => C.MPercentage, new { @id = "education ", @class = "form-control", @TabIndex = 14})<br />
+                                        <label for="inputName3" class="col-sm-4 control-label">YearPassing<label class="Mandatory"></label></label>
+                                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                                                @Html.TextBoxFor(C => C.YearPassing, new { @id = "YearPassing", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
+                                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                        </div>
 
                                     </div>
-
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Skillset<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                           @Html.TextBoxFor(C => C.SkillSet, new { @id = "college ", @class = "form-control", @TabIndex = 15})<br />
+                                <div class="row">
+                             
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label"> Grade/Percentage <label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                                                @Html.TextBoxFor(C => C.MPercentage, new { @id = "education ", @class = "form-control", @TabIndex = 14})<br />
+
+                                        </div>
 
                                     </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
 
+                                        <label for="inputName3" class="col-sm-4 control-label">Skillset<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                                                @Html.TextBoxFor(C => C.SkillSet, new { @id = "college ", @class = "form-control", @TabIndex = 15})<br />
+
+                                        </div>
+
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                     
-                      
-                        
+                             
+                                
 
                    @* 2 nd tab*@
                 </div>
 
-              
-                <div class="tab-pane" id="tab-3">
+                                
+
+                                    <div class="tab-pane" id="tab-3">
                  @*3rd tab*@
 
                                     <div class="row">
