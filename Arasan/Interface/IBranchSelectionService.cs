@@ -8,5 +8,6 @@ namespace Arasan.Interface
     {
         DataTable GetLocation();
         DataTable GetBranch();
+       
     }
 }

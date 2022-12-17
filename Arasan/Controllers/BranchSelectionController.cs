@@ -42,7 +42,6 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-
         public List<SelectListItem> BindLocation()
         {
             try
