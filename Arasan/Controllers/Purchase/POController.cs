@@ -174,6 +174,11 @@ namespace Arasan.Controllers
             IEnumerable<PO> cmp = PoService.GetAllPO();
             return View(cmp);
         }
+        public IActionResult GateInward()
+        {
+            return View();
+        }
+        
         public List<SelectListItem> BindBranch()
         {
             try
