@@ -13,5 +13,6 @@ namespace Arasan.Interface.Master
         DataTable GetCity();
         IEnumerable<Employee> GetAllEmployee();
         DataTable GetEmployee(string id);
+        //DataTable GetEmpEduDeatils(string id);
     }
 }

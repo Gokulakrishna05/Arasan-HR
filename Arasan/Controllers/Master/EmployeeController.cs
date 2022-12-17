@@ -21,6 +21,8 @@ namespace Arasan.Controllers.Master
             Employee E = new Employee();
             E.Statelst = BindState();
             E.Citylst = BindCity();
+            //List<EduDeatils> TData = new List<EduDeatils>();
+            //EduDeatils tda = new EduDeatils();
             if (id == null)
             {
 
@@ -35,7 +37,7 @@ namespace Arasan.Controllers.Master
                 if (dt.Rows.Count > 0)
                 {
                     E.EmpName = dt.Rows[0]["EMPNAME"].ToString();
-                    E.EmpId = dt.Rows[0]["EMPID"].ToString();
+                    E.EmpNo = dt.Rows[0]["EMPID"].ToString();
                     E.Gender = dt.Rows[0]["EMPSEX"].ToString();
                     E.DOB = dt.Rows[0]["EMPDOB"].ToString();
                     E.ID = id;
@@ -48,12 +50,29 @@ namespace Arasan.Controllers.Master
                     E.MotherName = dt.Rows[0]["MOTHERNAME"].ToString();
 
                 }
+                //DataTable dt2 = new DataTable();
+                //dt2 = EmployeeService.GetEmpEduDeatils(id);
+                //if (dt2.Rows.Count > 0)
+                //{
+                //    for (int i = 0; i < dt2.Rows.Count; i++)
+                //    {
+                //        tda = new EduDeatils();
+                //        tda.Education = dt.Rows[0]["EDUCATION"].ToString();
+                //        tda.College = dt.Rows[0]["UC"].ToString();
+                //        tda.EcPlace = dt.Rows[0]["ECPLACE"].ToString();
+                //        tda.MPercentage = Convert.ToDouble(dt2.Rows[i]["MPER"].ToString());
+                //        tda.YearPassing = dt.Rows[0]["YRPASSING"].ToString();
+                       
+                //        TData.Add(tda);
+                //    }
+                //}
+                //ca.net = Math.Round(total, 2);
 
-              
             }
+            //E.EduLst = TData;
             return View(E);
-        }
 
+        }
         [HttpPost]
         public ActionResult Employee(Employee emp, string id)
         {
