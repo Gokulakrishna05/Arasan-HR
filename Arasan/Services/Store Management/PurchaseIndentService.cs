@@ -13,7 +13,7 @@ namespace Arasan.Services
         IConfiguration? _configuratio;
         DataTransactions datatrans;
 
-        public PurchaseIndentService(IConfiguration _configuratio)
+        public  PurchaseIndentService (IConfiguration _configuratio)
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
         }

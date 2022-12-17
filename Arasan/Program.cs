@@ -33,7 +33,7 @@ internal class Program
         builder.Services.TryAddSingleton<IItemSubGroupService, ItemSubGroupService>();
         builder.Services.TryAddSingleton<IProcessCostEntryService, ProcessCostEntryService>();
         builder.Services.TryAddSingleton<IDirectDeductionService, DirectDeductionService>();
-
+        builder.Services.TryAddSingleton<IBranchSelectionService, BranchSelectionService>();
         builder.Services.TryAddSingleton<IStockService, StockService>();
         builder.Services.TryAddSingleton<IPurchaseEnqService,PurchaseEnqService>();
 
@@ -68,6 +68,8 @@ internal class Program
         builder.Services.TryAddSingleton<IDirectAddition, DirectAdditionService>();
         builder.Services.TryAddSingleton<IEmployee, EmployeeService>();
         builder.Services.TryAddSingleton<IStockIn, StockInService>();
+        builder.Services.TryAddSingleton<IPurchaseReturn, PurchaseReturnService>();
+
         builder.Services.AddSession();
         var emailConfig = builder.Configuration.GetSection("MailSettings").Get<MailSettings>();
         builder.Services.TryAddSingleton(emailConfig);

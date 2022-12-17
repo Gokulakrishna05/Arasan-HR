@@ -209,30 +209,30 @@ namespace Arasan.Services
 
                             }
                         }
-                        foreach (DirItem cp in cy.DirLst)
-                        {
-                            if (cp.Isvalid == "Y" && cp.saveItemId != "0")
-                            {
-                                using (OracleConnection objConnT = new OracleConnection(_connectionString))
-                                {
-                                    string Sql = string.Empty;
-                                    if (StatementType == "Update")
-                                    {
-                                        Sql = "Update DPDETAIL SET  QTY= '" + cp.Quantity + "',RATE= '" + cp.rate + "',CF='" + cp.ConFac + "',AMOUNT='" + cp.Amount + "',DISCAMOUNT='" + cp.DiscAmount + "',PURTYPE='" + cp.PurType + "',IFREIGHTCH='" + cp.FrigCharge + "',TOTAMT='" + cp.TotalAmount + "'  where DPBASICID='" + cy.ID + "'  AND ITEMID='" + cp.saveItemId + "' ";
-                                    }
-                                    else
-                                    {
-                                        Sql = "";
-                                    }
-                                    OracleCommand objCmds = new OracleCommand(Sql, objConnT);
-                                    objConnT.Open();
-                                    objCmds.ExecuteNonQuery();
-                                    objConnT.Close();
-                                }
-                            }
+                        //foreach (DirItem cp in cy.DirLst)
+                        //{
+                        //    if (cp.Isvalid == "Y" && cp.saveItemId != "0")
+                        //    {
+                        //        using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                        //        {
+                        //            string Sql = string.Empty;
+                        //            if (StatementType == "Update")
+                        //            {
+                        //                Sql = "Update DPDETAIL SET  QTY= '" + cp.Quantity + "',RATE= '" + cp.rate + "',CF='" + cp.ConFac + "',AMOUNT='" + cp.Amount + "',DISCAMOUNT='" + cp.DiscAmount + "',PURTYPE='" + cp.PurType + "',IFREIGHTCH='" + cp.FrigCharge + "',TOTAMT='" + cp.TotalAmount + "'  where DPBASICID='" + cy.ID + "'  AND ITEMID='" + cp.saveItemId + "' ";
+                        //            }
+                        //            else
+                        //            {
+                        //                Sql = "";
+                        //            }
+                        //            OracleCommand objCmds = new OracleCommand(Sql, objConnT);
+                        //            objConnT.Open();
+                        //            objCmds.ExecuteNonQuery();
+                        //            objConnT.Close();
+                        //        }
+                        //    }
 
 
-                        }
+                        //}
                     }
                     catch (Exception ex)
                     {

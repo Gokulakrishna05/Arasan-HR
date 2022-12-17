@@ -1,18 +1,15 @@
 ﻿@model Arasan.Models.BranchSelection
-@{
-    Layout = null;
+{
+	ViewData["Title"] = "";
 }
-<!DOCTYPE html>
-<html lang="en">
-
-
-<head>
+<html>
+@*<head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Arasan</title>
 	<link rel="shortcut icon" href="~/assets/images/Arasan_Logo.ico" type="image/x-icon" />
-    <link rel="icon" href="~/assets/images/Arasan_Logo.ico" type="image/x-icon" />
+	<link rel="icon" href="~/assets/images/Arasan_Logo.ico" type="image/x-icon" />
 	<!-- Bootstrap -->
 	<link href="assets/css/bootstrap.min.css" rel="stylesheet">
 	<!-- slimscroll -->
@@ -23,10 +20,10 @@
 	<!-- all buttons css -->
 	<link href="assets/css/buttons.css" rel="stylesheet">
 	<!-- animate css -->
-<link href="assets/css/animate.css" rel="stylesheet">
-<!-- top nev css -->
-<link href="assets/css/page-header.css" rel="stylesheet">
-<!-- adminui main css -->
+	<link href="assets/css/animate.css" rel="stylesheet">
+	<!-- top nev css -->
+	<link href="assets/css/page-header.css" rel="stylesheet">
+	<!-- adminui main css -->
 	<link href="assets/css/main.css" rel="stylesheet">
 	<!-- red green theme css -->
 	<link href="assets/css/aqua-black.css" rel="stylesheet">
@@ -34,43 +31,43 @@
 	<link href="assets/css/main.media.css" rel="stylesheet">
 	<!--[if lt IE 9]> <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script> <![endif]-->
 	<!--[if lt IE 9]> <script src="dist/html5shiv.js"></script> <![endif]-->
-</head>
-  @{
-        <script type="text/javascript">
-    @if (TempData["msg"] != null)
-    {
-        @:alert('@TempData["msg"]');
-    }
-
-        </script>
-    }
+</head>*@
+<style>
+	h1 {text-align: center;}
+	p {text-align: center;}
+	div {text-align: center;}
+</style>
 <body class="aqua-bg login">
 	<div class="middle-box text-center loginscreen ">
 		<div class="widgets-container">
 			<div>
-				<h1 class="logo-name"><img class="logo-default" alt="logo" src="assets/images/Arasan_Logo.png"></h1>
+				<h1><img src="assets/images/Arasan_Logo.png" alt="logo" width="250" height="250" ></h1>
 			</div>
 			<h3>Welcome to Arasan</h3>
-			    @using (Html.BeginForm("BranchSelection", "BranchSelection", FormMethod.Post))
-                        {
-                            @Html.AntiForgeryToken()
-			<form  class="top15">
-				<div class="form-group">
-					  @Html.DropDownListFor(C => C.Branch, Model.Brlst, new { @id = "ddlbranch", @Class = "form-control chosen-select", @TabIndex = 1 })<br />
-					
-				</div>
-				<div class="form-group">
-					 @Html.DropDownListFor(C => C.Location, Model.Loclst, new { @id = "ddllocation", @Class = "form-control chosen-select", @TabIndex = 2 })<br />
-					@*<input type="password" required="" placeholder="Password" class="form-control">*@
-				</div>
-				<button class="btn aqua block full-width  bottom15" type="submit">GO</button>
-			@*	<a href="forgot_password.html"><small>Forgot password?</small></a>
+			@using (Html.BeginForm("BranchSelection", "BranchSelection", FormMethod.Post))
+			{
+				@Html.AntiForgeryToken()
+				<form class="top15">
+					<div class="form-group">
+						@Html.DropDownListFor(C => C.Branch, Model.Brlst, new { @id = "ddlBranch", @Class = "form-control chosen-select", @TabIndex = 1 })
+
+					</div>
+					<div class="form-group">
+						@Html.DropDownListFor(C => C.Location, Model.Loclst, new { @id = "ddlLocation", @Class = "form-control chosen-select", @TabIndex = 1 })
+						@*<input type="password" required="" placeholder="Password" class="form-control">*@
+					</div>
+					<button class="btn aqua block full-width  bottom15" type="button">Go</button>
+					@*	<a href="forgot_password.html"><small>Forgot password?</small></a>
 				<p class="text-muted text-center"><small>Do not have an account?</small></p>
 				<a href="register.html" class="btn btn-sm btn-white btn-block">Create an account</a>*@
-			</form>
+				</form>
 			}
 		</div>
 	</div>
 </body>
-
 </html>
+
+<script>
+    $(".chosen-select").chosen();
+</script>
+

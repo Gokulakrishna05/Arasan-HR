@@ -478,10 +478,6 @@ namespace Arasan.Controllers
            //  model.ItemGrouplst = BindItemGrplst(value);
             return Json(BindItemGrplst());
         }
-
-       
-       
-        
         public IActionResult Followup(string id)
         {
             PurchaseFollowup cmp = new PurchaseFollowup();
@@ -499,7 +495,6 @@ namespace Arasan.Controllers
                     if (dt.Rows.Count > 0)
                     {
                         cmp.Enqno = dt.Rows[0]["ENQNO"].ToString();
-               
                         cmp.Supname = dt.Rows[0]["PARTY"].ToString();
                     }
                     DataTable dtt = new DataTable();
@@ -523,7 +518,6 @@ namespace Arasan.Controllers
                 }
             }
                     cmp.pflst = TData;
-
                     return View(cmp);
                 }
 

@@ -10,7 +10,6 @@ namespace Arasan.Interface.Master
         string ItemNameCRUD(ItemName by);
         IEnumerable<ItemName> GetAllItemName();
         ItemName GetSupplierDetailById(string id);
-
         DataTable GetItemGroup();
         DataTable GetItemCategory();
         DataTable GetItemSubGroup();

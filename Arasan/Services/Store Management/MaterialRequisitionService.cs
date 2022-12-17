@@ -25,6 +25,16 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetmaterialReqDetails(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select BRANCHID,FROMLOCID,PROCESSID,REQTYPE,DOCID,DOCDATE,STORESREQBASICID  from STORESREQBASIC where STORESREQBASICID=" + id + "";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetItem()
         {
             string SvSql = string.Empty;
@@ -54,20 +64,18 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                    con.Open();
-                    cmd.CommandText = "Select BRANCHID,DOCID,DOCDATE,FROMLOCID,PROCESSID,REQTYPE,STORESREQBASICID from STORESREQBASIC";
+                   cmd.CommandText = "Select BRANCHID,DOCID,DOCDATE,FROMLOCID,PROCESSID,REQTYPE,STORESREQBASICID from STORESREQBASIC";
                    OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                    {
                         MaterialRequisition cmp = new MaterialRequisition
                         {
                             ID = rdr["STORESREQBASICID"].ToString(),
-
                             Branch = rdr["BRANCHID"].ToString(),
                             Location = rdr["FROMLOCID"].ToString(),
                             Process = rdr["PROCESSID"].ToString(),
-                           RequestType = rdr["REQTYPE"].ToString(),
+                            RequestType = rdr["REQTYPE"].ToString(),
                             DocId = rdr["DOCID"].ToString(),
-                           
                             DocDa = rdr["DOCDATE"].ToString()
                            
                       
@@ -102,16 +110,15 @@ namespace Arasan.Services
                             Process = rdr["PROCESSID"].ToString(),
                             RequestType = rdr["REQTYPE"].ToString(),
                             DocId = rdr["DOCID"].ToString(),
-
                             DocDa = rdr["DOCDATE"].ToString()
 
 
                        };
-
+                         
                         Material = cmp;
                     }
                 }
-           }
+           } 
             return Material;
         }
 
@@ -130,10 +137,10 @@ namespace Arasan.Services
 
                     objCmd.CommandType = CommandType.StoredProcedure;
                     if (cy.ID == null)
-                   {
+                    {
                         StatementType = "Insert";
                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-                   }
+                    }
                     else
                     {
                         StatementType = "Update";
