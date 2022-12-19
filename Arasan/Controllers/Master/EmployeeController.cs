@@ -20,7 +20,7 @@ namespace Arasan.Controllers.Master
         {
             Employee E = new Employee();
             E.Statelst = BindState();
-            E.Citylst = BindCity();
+            E.Citylst = BindCity("");
             //List<EduDeatils> TData = new List<EduDeatils>();
             //EduDeatils tda = new EduDeatils();
             if (id == null)
@@ -48,24 +48,38 @@ namespace Arasan.Controllers.Master
                     E.PhoneNo = dt.Rows[0]["ECPHNO"].ToString();
                     E.FatherName = dt.Rows[0]["FATHERNAME"].ToString();
                     E.MotherName = dt.Rows[0]["MOTHERNAME"].ToString();
+                    E.EMPPayCategory = dt.Rows[0]["EMPPAYCAT"].ToString();
+                    E.EMPBasic = dt.Rows[0]["EMPBASIC"].ToString();
+                    E.PFNo = dt.Rows[0]["PFNO"].ToString();
+                    E.ESINo = dt.Rows[0]["ESINO"].ToString();
+                    E.EMPCost = dt.Rows[0]["EMPCOST"].ToString();
+                    E.PFdate = dt.Rows[0]["PFDT"].ToString();
+                    E.ESIDate = dt.Rows[0]["ESIDT"].ToString();
+                    E.UserName = dt.Rows[0]["USERNAME"].ToString();
+                    E.Password = dt.Rows[0]["PASSWORD"].ToString();
+                    E.EMPDeptment = dt.Rows[0]["EMPDEPT"].ToString();
+                    E.EMPDesign = dt.Rows[0]["EMPDESIGN"].ToString();
+                    E.EMPDeptCode = dt.Rows[0]["EMPDEPTCODE"].ToString();
+                    E.JoinDate = dt.Rows[0]["JOINDATE"].ToString();
+                    E.ResignDate = dt.Rows[0]["RESIGNDATE"].ToString();
 
                 }
-                //DataTable dt2 = new DataTable();
-                //dt2 = EmployeeService.GetEmpEduDeatils(id);
-                //if (dt2.Rows.Count > 0)
-                //{
-                //    for (int i = 0; i < dt2.Rows.Count; i++)
-                //    {
-                //        tda = new EduDeatils();
-                //        tda.Education = dt.Rows[0]["EDUCATION"].ToString();
-                //        tda.College = dt.Rows[0]["UC"].ToString();
-                //        tda.EcPlace = dt.Rows[0]["ECPLACE"].ToString();
-                //        tda.MPercentage = Convert.ToDouble(dt2.Rows[i]["MPER"].ToString());
-                //        tda.YearPassing = dt.Rows[0]["YRPASSING"].ToString();
-                       
-                //        TData.Add(tda);
-                //    }
-                //}
+                DataTable dt2 = new DataTable();
+                dt2 = EmployeeService.GetEmpEduDeatils(id);
+                if (dt2.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt2.Rows.Count; i++)
+                    {
+                       E = new Employee();
+                        E.Education = dt.Rows[0]["EDUCATION"].ToString();
+                        E.College = dt.Rows[0]["UC"].ToString();
+                        E.EcPlace = dt.Rows[0]["ECPLACE"].ToString();
+                        E.MPercentage = Convert.ToDouble(dt2.Rows[i]["MPER"].ToString());
+                        E.YearPassing = dt.Rows[0]["YRPASSING"].ToString();
+
+                        //TData.Add(E);
+                    }
+                }
                 //ca.net = Math.Round(total, 2);
 
             }
@@ -130,11 +144,11 @@ namespace Arasan.Controllers.Master
                 throw ex;
             }
         }
-        public List<SelectListItem> BindCity()
+        public List<SelectListItem> BindCity(string value)
         {
             try
             {
-                DataTable dtDesg = EmployeeService.GetCity();
+                DataTable dtDesg = EmployeeService.GetCity(value);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -147,13 +161,13 @@ namespace Arasan.Controllers.Master
                 throw ex;
             }
         }
-        //public JsonResult GetItemJSON(string itemid)
-        //{
-        //    Employee model = new Employee();
-        //    model.Citylst = BindCity(itemid);
-        //    return Json(BindCity(itemid));
+        public JsonResult GetItemJSON(string itemid)
+        {
+            Employee model = new Employee();
+            model.Citylst = BindCity(itemid);
+            return Json(BindCity(itemid));
 
-        //}
+        }
         public IActionResult ListEmployee()
         {
             IEnumerable<Employee> cmp = EmployeeService.GetAllEmployee();
