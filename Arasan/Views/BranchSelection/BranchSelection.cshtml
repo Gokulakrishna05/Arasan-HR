@@ -1,31 +1,53 @@
 ﻿@model Arasan.Models.BranchSelection
 @{
-	Layout = string.Empty;
+    Layout = null;
 }
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
+
 <head>
-<style>
-	h1 {text-align:  center;}
-	p  {text-align:  center;}
-	div {text-align: center;}
-	h3 {text-align:  center;}
-	img
-	{
-			display: block;
-			margin-left: auto;
-			margin-right: auto;
-			width: 40%;
-	}
-</style>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Arasan</title>
+	<link rel="shortcut icon" href="~/assets/images/Arasan_Logo.ico" type="image/x-icon" />
+    <link rel="icon" href="~/assets/images/Arasan_Logo.ico" type="image/x-icon" />
+	<!-- Bootstrap -->
+	<link href="~/assets/css/bootstrap.min.css" rel="stylesheet">
+	<!-- slimscroll -->
+	<link href="~/assets/css/jquery.slimscroll.css" rel="stylesheet">
+	<!-- Fontes -->
+	<link href="~/assets/css/font-awesome.min.css" rel="stylesheet">
+	<link href="~/assets/css/simple-line-icons.css" rel="stylesheet">
+	<!-- all buttons css -->
+	<link href="~/assets/css/buttons.css" rel="stylesheet">
+	<!-- animate css -->
+	<link href="~/assets/css/animate.css" rel="stylesheet">
+<!-- top nev css -->
+	<link href="~/assets/css/page-header.css" rel="stylesheet">
+<!-- adminui main css -->
+	<link href="~/assets/css/main.css" rel="stylesheet">
+	<!-- red green theme css -->
+	<link href="~/assets/css/aqua-black.css" rel="stylesheet">
+	<!-- media css for responsive  -->
+	<link href="~/assets/css/main.media.css" rel="stylesheet">
+	<!--[if lt IE 9]> <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script> <![endif]-->
+	<!--[if lt IE 9]> <script src="dist/html5shiv.js"></script> <![endif]-->
 </head>
-<body bgcolor="aqua-bg">
-	<div class="middle-box text-center">
+  @{
+        <script type="text/javascript">
+    @if (TempData["msg"] != null)
+    {
+        @:alert('@TempData["msg"]');
+    }
+
+        </script>
+    }
+<body class="aqua-bg login">
+	<div class="middle-box loginscreen">
 		<div class="widgets-container">
-			<div>
-				<h1><img src="assets/images/Arasan_Logo.png" alt="logo" width="250" height="250" ></h1>
-			</div>
-			<h3>Welcome to Arasan</h3>
+			
 			@using (Html.BeginForm("BranchSelection", "BranchSelection", FormMethod.Post))
 			{
 				@Html.AntiForgeryToken()
@@ -50,7 +72,23 @@
 	</div>
 </body>
 </html>
+	<script src="~/assets/js/vendor/jquery.min.js"></script>
+	<!-- bootstrap js -->
+	<script src="~/assets/js/vendor/bootstrap.min.js"></script>
+<script src="@Url.Content("~/js/chosen.jquery.js")"></script>
 
+<link href="@Url.Content("~/css/chosen.css")" rel="stylesheet" />
+<script type="text/javascript">
+		jQuery.browser = { };
+	(function () {
+		jQuery.browser.msie = false;
+		jQuery.browser.version = 0;
+		if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+			jQuery.browser.msie = true;
+			jQuery.browser.version = RegExp.$1;
+		}
+	})();
+	</script>
 <script>
     $(".chosen-select").chosen();
 </script>
