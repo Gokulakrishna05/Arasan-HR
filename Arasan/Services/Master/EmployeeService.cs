@@ -25,7 +25,7 @@ namespace Arasan.Services.Master
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select   EMPNAME,EMPID,EMPSEX,to_char(EMPDOB,'dd-MON-yyyy')EMPDOB,ECADD1, ECCITY,ECSTATE,ECMAILID,ECPHNO,FATHERNAME,MOTHERNAME,EMPMASTID from EMPMAST";
+                    cmd.CommandText = "Select  EMPMAST. EMPNAME, EMPMAST.EMPID, EMPMAST.EMPSEX,to_char( EMPMAST.EMPDOB,'dd-MON-yyyy')EMPDOB,ECADD1, ECCITY,ECSTATE,ECMAILID,ECPHNO,FATHERNAME,MOTHERNAME,EMPPAYCAT,EMPBASIC,PFNO,ESINO,EMPCOST,to_char( EMPMAST.PFDT,'dd-MON-yyyy')PFDT,to_char( EMPMAST.ESIDT,'dd-MON-yyyy')ESIDT,USERNAME,PASSWORD,EMPDEPT,EMPDESIGN,EMPDEPTCODE,to_char( EMPMAST.JOINDATE,'dd-MON-yyyy')JOINDATE,to_char( EMPMAST.RESIGNDATE,'dd-MON-yyyy')RESIGNDATE,EMPMASTID from EMPMAST";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -44,14 +44,7 @@ namespace Arasan.Services.Master
                             PhoneNo = rdr["ECPHNO"].ToString(),
                             FatherName = rdr["FATHERNAME"].ToString(),
                             MotherName = rdr["MOTHERNAME"].ToString(),
-                            // Frig = rdr["FREIGHT"].ToString(),
-                            // Other = rdr["OTHERCH"].ToString(),
-                            // Round = rdr["RNDOFF"].ToString(),
-                            // SpDisc = rdr["OTHERDISC"].ToString(),
-                            // LRCha = rdr["LRCH"].ToString(),
-                            // DelCh = rdr["DELCH"].ToString()
-
-
+                           
 
                         };
                         cmpList.Add(cmp);
@@ -97,11 +90,20 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("ECPHNO", OracleDbType.NVarchar2).Value = cy.PhoneNo;
                     objCmd.Parameters.Add("FATHERNAME", OracleDbType.NVarchar2).Value = cy.FatherName;
                     objCmd.Parameters.Add("MOTHERNAME", OracleDbType.NVarchar2).Value = cy.MotherName;
-                    //objCmd.Parameters.Add("RNDOFF", OracleDbType.NVarchar2).Value = cy.Round;
-                    //objCmd.Parameters.Add("OTHERDISC", OracleDbType.NVarchar2).Value = cy.SpDisc;
-                    //objCmd.Parameters.Add("LRCH", OracleDbType.NVarchar2).Value = cy.LRCha;
-                    //objCmd.Parameters.Add("DELCH", OracleDbType.NVarchar2).Value = cy.DelCh;
-                    //objCmd.Parameters.Add("NARR", OracleDbType.NVarchar2).Value = cy.Narration;
+                    objCmd.Parameters.Add("EMPPAYCAT", OracleDbType.NVarchar2).Value = cy.EMPPayCategory;
+                    objCmd.Parameters.Add("EMPBASIC", OracleDbType.NVarchar2).Value = cy.EMPBasic;
+                    objCmd.Parameters.Add("PFNO", OracleDbType.NVarchar2).Value = cy.PFNo;
+                    objCmd.Parameters.Add("ESINO", OracleDbType.NVarchar2).Value = cy.ESINo;
+                    objCmd.Parameters.Add("EMPCOST", OracleDbType.NVarchar2).Value = cy.EMPCost;
+                    objCmd.Parameters.Add("PFDT", OracleDbType.Date).Value = DateTime.Parse(cy.PFdate);
+                    objCmd.Parameters.Add("ESIDT", OracleDbType.Date).Value = DateTime.Parse(cy.ESIDate);
+                    objCmd.Parameters.Add("USERNAME", OracleDbType.NVarchar2).Value = cy.UserName;
+                    objCmd.Parameters.Add("PASSWORD", OracleDbType.NVarchar2).Value = cy.Password;
+                    objCmd.Parameters.Add("EMPDEPT", OracleDbType.NVarchar2).Value = cy.EMPDeptment;
+                    objCmd.Parameters.Add("EMPDESIGN", OracleDbType.NVarchar2).Value = cy.EMPDesign;
+                    objCmd.Parameters.Add("EMPDEPTCODE", OracleDbType.NVarchar2).Value = cy.EMPDeptCode;
+                    objCmd.Parameters.Add("JOINDATE", OracleDbType.Date).Value = DateTime.Parse(cy.JoinDate);
+                    objCmd.Parameters.Add("RESIGNDATE", OracleDbType.Date).Value = DateTime.Parse(cy.ResignDate);
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
@@ -144,16 +146,44 @@ namespace Arasan.Services.Master
                                     objCmds.Parameters.Add("YRPASSING", OracleDbType.NVarchar2).Value = cy.YearPassing;
                                 
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
-                            objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
+                           
                             objConns.Open();
                                     objCmds.ExecuteNonQuery();
                                     objConns.Close();
                                 }
+                        using (OracleConnection objConns = new OracleConnection(_connectionString))
+                        {
+                            OracleCommand objCmds = new OracleCommand("EMPOTHERINFOPROC", objConns);
+                            if (cy.ID == null)
+                            {
+                                StatementType = "Insert";
+                                objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+
+                            }
+                            else
+                            {
+                                StatementType = "Update";
+                                objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+
+                            }
+                            objCmds.CommandType = CommandType.StoredProcedure;
+                            objCmds.Parameters.Add("EMPMASTID", OracleDbType.NVarchar2).Value = Pid;
+                            objCmds.Parameters.Add("MARITALSTATUS", OracleDbType.NVarchar2).Value = cy.MaterialStatus;
+                            objCmds.Parameters.Add("BLOODGROUP", OracleDbType.NVarchar2).Value = cy.BloodGroup;
+                            objCmds.Parameters.Add("COMMUNITY", OracleDbType.NVarchar2).Value = cy.Community;
+                            objCmds.Parameters.Add("PAYTYPE", OracleDbType.NVarchar2).Value = cy.PayType;
+                            objCmds.Parameters.Add("EMPTYPE", OracleDbType.NVarchar2).Value = cy.EmpType;
+                            objCmds.Parameters.Add("DISP", OracleDbType.NVarchar2).Value = cy.Disp;
+                            objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+
+                            objConns.Open();
+                            objCmds.ExecuteNonQuery();
+                            objConns.Close();
+                        }
 
 
 
-                            
-                        
+
                         //foreach (DirItem cp in cy.DirLst)
                         //{
                         //    if (cp.Isvalid == "Y" && cp.saveItemId != "0")
@@ -210,10 +240,10 @@ namespace Arasan.Services.Master
             return dtt;
 
         }
-        public DataTable GetCity()
+        public DataTable GetCity(string value)
         {
             string SvSql = string.Empty;
-            SvSql = "select CITYNAME,CITYID from CITYMASTER ";
+            SvSql = "select CITYNAME,CITYID from CITYMASTER Where STATEID='" + value + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -223,22 +253,22 @@ namespace Arasan.Services.Master
         public DataTable GetEmployee(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select EMPMAST.EMPNAME,EMPMAST.EMPID,EMPMAST.EMPSEX,to_char(EMPMAST.EMPDOB,'dd-MON-yyyy')EMPDOB,EMPMAST.ECADD1,EMPMAST.ECCITY,EMPMAST.ECSTATE,EMPMAST.ECMAILID,EMPMAST.ECPHNO,EMPMAST.FATHERNAME,EMPMAST.MOTHERNAME,EMPMASTID  from EMPMAST where EMPMAST.EMPMASTID=" + id + "";
+            SvSql = "Select EMPMAST.EMPNAME,EMPMAST.EMPID,EMPMAST.EMPSEX,to_char(EMPMAST.EMPDOB,'dd-MON-yyyy')EMPDOB,EMPMAST.ECADD1,EMPMAST.ECCITY,EMPMAST.ECSTATE,EMPMAST.ECMAILID,EMPMAST.ECPHNO,EMPMAST.FATHERNAME,EMPMAST.MOTHERNAME,EMPMAST.EMPPAYCAT,EMPMAST.EMPBASIC,EMPMAST.PFNO,EMPMAST.ESINO,EMPMAST.EMPCOST,to_char(EMPMAST.PFDT,'dd-MON-yyyy')PFDT,to_char(EMPMAST.ESIDT,'dd-MON-yyyy')ESIDT,USERNAME,PASSWORD,EMPDEPT,EMPDESIGN,EMPDEPTCODE,to_char(EMPMAST.JOINDATE,'dd-MON-yyyy')JOINDATE,to_char(EMPMAST.RESIGNDATE,'dd-MON-yyyy')RESIGNDATE,EMPMASTID  from EMPMAST where EMPMAST.EMPMASTID=" + id + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
         }
-        //public DataTable GetEmpEduDeatils(string id)
-        //{
-        //    string SvSql = string.Empty;
-        //    SvSql = "Select EMPMEDU.EDUCATION,EMPMEDU.UC,EMPMEDU.ECPLACE,to_char(EMPMEDU.YRPASSING,'dd-MON-yyyy')YRPASSING,EMPMEDU.MPER,EMPMEDUID  from EMPMEDU where EMPMEDU.EMPMASTID=" + id + "";
-        //    DataTable dtt = new DataTable();
-        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-        //    adapter.Fill(dtt);
-        //    return dtt;
-        //}
+        public DataTable GetEmpEduDeatils(string data)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select EMPMEDU.EDUCATION,EMPMEDU.UC,EMPMEDU.ECPLACE,to_char(EMPMEDU.YRPASSING,'dd-MON-yyyy')YRPASSING,EMPMEDU.MPER,EMPMEDUID  from EMPMEDU where EMPMEDU.EMPMASTID=" + data + "";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
     }
 }

@@ -124,7 +124,7 @@
 
                                         <label for="inputName3" class="col-sm-4 control-label">State<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                             @Html.DropDownListFor(C => C.StateId, Model.Statelst, new { @id = "ddlState", @Class = "form-control chosen-select", @TabIndex = 6 , onchange = "State_Change(this.value)"})
+                                                        @Html.DropDownListFor(C => C.StateId, Model.Statelst, "Please Select", new { @id = "ddlState", @Class = "form-control chosen-select newcss", @TabIndex = 6 , onchange = "State_Change(this.value)"})
                                              <br />
                                         </div>
 
@@ -140,7 +140,7 @@
 
                                         <label for="inputName3" class="col-sm-4 control-label">City<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.CityId, Model.Citylst, new { @id = "ddlCity", @Class = "form-control chosen-select", @TabIndex = 7 })
+                                            @Html.DropDownListFor(C => C.CityId, Model.Citylst, "Please Select", new{ @id = "ddlCity", @Class = "form-control chosen-select newcss", @TabIndex = 7 })
                                             <br />
                                             
                                         </div>
@@ -156,7 +156,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Mobile No<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.PhoneNo, new { @id = "Phoneno", @class = "form-control", @TabIndex = 8}) <br />
+                                                        @Html.TextBoxFor(C => C.PhoneNo, new { @id = "Phoneno", @class = "form-control", @TabIndex = 8,@onkeydown = "return isNumeric2(event.keyCode,this.value)"}) <br />
                                     </div>
 
                                 </div>
@@ -254,7 +254,7 @@
 
                                         <label for="inputName3" class="col-sm-4 control-label"> Grade/Percentage <label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                                                @Html.TextBoxFor(C => C.MPercentage, new { @id = "education ", @class = "form-control", @TabIndex = 14})<br />
+                                                        @Html.TextBoxFor(C => C.MPercentage, new { @id = "education ", @class = "form-control", @TabIndex = 14,@onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
 
                                         </div>
 
@@ -290,7 +290,7 @@
                                             <div class="form-group">
 
                                                 <label for="inputName3" class="col-sm-4 control-label"> EMP Pay Category <label class="Mandatory"></label></label>
-                                                <div class="col-sm-8">
+                                             <div class="col-sm-8">
                                                     @Html.TextBoxFor(C => C.EMPPayCategory, new { @id = "EMPPayCategory ", @class = "form-control", @TabIndex = 12})<br />
 
                                                 </div>
@@ -419,10 +419,17 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                                <label for="inputName3" class="col-sm-4 control-label"> Material Status<label class="Mandatory"></label></label>
+                                                <label for="inputName3" class="col-sm-4 control-label"> Marital Status<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                         @Html.TextBoxFor(C => C.MaterialStatus, new { @id = "MaterialStatus ", @class = "form-control", @TabIndex = 12})<br />
+                                                        <div class="input-group">
 
+                                                            @Html.RadioButtonFor(C => C.MaterialStatus, "Single", new { @TabIndex = 2 })
+                                                            <label id="mt-radio">Single</label>
+                                                            @Html.RadioButtonFor(C => C.MaterialStatus, "Married", new { @TabIndex = 3 })
+                                                            <label id="mt-radio">Married</label>
+
+
+                                                        </div>
                                     </div>
 
                                 </div>
@@ -572,9 +579,10 @@
                                             <div class="form-group">
                                                 <label for="inputName3" class="col-sm-4 control-label">Join Date<label class="Mandatory"></label></label>
 
-                                                <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                                    @Html.TextBoxFor(C => C.JoinDate, new { @id = "JoinDate", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })
-                                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span><br />
+                                                 <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                                        @Html.TextBoxFor(C => C.JoinDate, new { @id = "JoinDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
+                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                   
                                                 </div>
 
                                             </div>
@@ -588,9 +596,10 @@
                                             <div class="form-group">
                                                 <label for="inputName3" class="col-sm-4 control-label">Resign Date<label class="Mandatory"></label></label>
 
-                                                <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                                    @Html.TextBoxFor(C => C.ResignDate, new { @id = "ResignDate", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })
-                                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span><br />
+                                                 <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                                        @Html.TextBoxFor(C => C.ResignDate, new { @id = "ResignDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
+                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                   
                                                 </div>
 
                                             </div>
@@ -650,5 +659,16 @@
                 alert("Please Select State");
             }
         });
+    }
+    function PopulateDropDown(dropDownId, list) {
+        //alert(list);
+        $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
+        if (list != null && list.length > 0) {
+            $(dropDownId).removeAttr("disabled");
+            $.each(list, function () {
+                $(dropDownId).append($("<option></option>").val(this['value']).html(this['text']));
+            });
+        }
+        $(dropDownId).trigger("liszt:updated");
     }
 </script>
