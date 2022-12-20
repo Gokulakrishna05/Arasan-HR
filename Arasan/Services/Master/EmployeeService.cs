@@ -180,8 +180,29 @@ namespace Arasan.Services.Master
                             objCmds.ExecuteNonQuery();
                             objConns.Close();
                         }
+                        using (OracleConnection objConns = new OracleConnection(_connectionString))
+                        {
+                            
+                            OracleCommand objCmds = new OracleCommand("EMPSKILLPROC", objConns);
+                            if (cy.ID == null)
+                            {
+                                StatementType = "Insert";
+                                objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
 
+                            }
+                            else
+                            {
+                                StatementType = "Update";
+                                objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
 
+                            }
+                            objCmds.CommandType = CommandType.StoredProcedure;
+                            objCmds.Parameters.Add("EMPMASTID", OracleDbType.NVarchar2).Value = Pid;
+                            objCmds.Parameters.Add("SKILL", OracleDbType.NVarchar2).Value = cy.SkillSet;
+                            objConns.Open();
+                            objCmds.ExecuteNonQuery();
+                            objConns.Close();
+                        }
 
 
                         //foreach (DirItem cp in cy.DirLst)
@@ -232,7 +253,7 @@ namespace Arasan.Services.Master
         public DataTable GetState()
         {
             string SvSql = string.Empty;
-            SvSql = "select STATE,STATEMASTID from STATEMAST order by STATEMASTID asc";
+            SvSql = "select STATE,STATEMASTID from STATEMAST";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -240,10 +261,10 @@ namespace Arasan.Services.Master
             return dtt;
 
         }
-        public DataTable GetCity(string value)
+        public DataTable GetCity()
         {
             string SvSql = string.Empty;
-            SvSql = "select CITYNAME,CITYID from CITYMASTER Where STATEID='" + value + "' ";
+            SvSql = "select CITYNAME,CITYID from CITYMASTER  ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -264,6 +285,26 @@ namespace Arasan.Services.Master
         {
             string SvSql = string.Empty;
             SvSql = "Select EMPMEDU.EDUCATION,EMPMEDU.UC,EMPMEDU.ECPLACE,to_char(EMPMEDU.YRPASSING,'dd-MON-yyyy')YRPASSING,EMPMEDU.MPER,EMPMEDUID  from EMPMEDU where EMPMEDU.EMPMASTID=" + data + "";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetEmpPersonalDeatils(string data)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select EMPMOI.MARITALSTATUS,EMPMOI.BLOODGROUP,EMPMOI.COMMUNITY,EMPMOI.PAYTYPE,EMPMOI.EMPTYPE,EMPMOI.DISP,EMPMOIID  from EMPMOI where EMPMOI.EMPMASTID=" + data + "";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetEmpSkillDeatils(string data)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select EMPMSS.SKILL,EMPMSSID  from EMPMSS where EMPMSS.EMPMASTID=" + data + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

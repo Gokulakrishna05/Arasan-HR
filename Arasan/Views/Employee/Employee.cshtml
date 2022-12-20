@@ -51,7 +51,7 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Employee Name<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
                                          @Html.TextBoxFor(C => C.EmpName, new { @id = "EnqNo", @class = "form-control", @TabIndex = 1})
-                                            @Html.HiddenFor(C => C.ID)
+                                           
                                               <br />
                                      </div>
                                 </div>
@@ -62,7 +62,7 @@
                                                 <label for="inputName3" class="col-sm-4 control-label">Employee ID<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
                                                     @Html.TextBoxFor(C => C.EmpNo, new { @id = "EmpId", @class = "form-control", @TabIndex = 1})
-                                                   
+                                                        @Html.HiddenFor(C => C.ID)
                                                     <br />
                                                 </div>
                                             </div>
@@ -124,7 +124,7 @@
 
                                         <label for="inputName3" class="col-sm-4 control-label">State<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                                        @Html.DropDownListFor(C => C.StateId, Model.Statelst, "Please Select", new { @id = "ddlState", @Class = "form-control chosen-select newcss", @TabIndex = 6 , onchange = "State_Change(this.value)"})
+                                                        @Html.DropDownListFor(C => C.StateId, Model.Statelst, "Please Select", new { @id = "ddlState", @Class = "form-control chosen-select newcss", @TabIndex = 6 })
                                              <br />
                                         </div>
 
@@ -640,35 +640,35 @@
         forceParse: 0
     });
 
-    function State_Change(itemid, i) {
-        //alert(itemid);
-        //debugger;
-        $.ajax({
-            url: "GetItemJSON",
-            type: "post",
-            data: { 'itemid': itemid },
-            cache: false,
-            success: function (response) {
-                var newlist;
-                //alert(JSON.stringify(response));
-                newlist = response.Ilst;
-                PopulateDropDown("#ddlCity" + i, response);
-            },
-            error: function () {
-                debugger;
-                alert("Please Select State");
-            }
-        });
-    }
-    function PopulateDropDown(dropDownId, list) {
-        //alert(list);
-        $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
-        if (list != null && list.length > 0) {
-            $(dropDownId).removeAttr("disabled");
-            $.each(list, function () {
-                $(dropDownId).append($("<option></option>").val(this['value']).html(this['text']));
-            });
-        }
-        $(dropDownId).trigger("liszt:updated");
-    }
+    //function State_Change(itemid, i) {
+    //    //alert(itemid);
+    //    //debugger;
+    //    $.ajax({
+    //        url: "GetItemJSON",
+    //        type: "post",
+    //        data: { 'CityId': itemid },
+    //        cache: false,
+    //        success: function (response) {
+    //            var newlist;
+    //            //alert(JSON.stringify(response));
+    //            newlist = response.Ilst;
+    //            PopulateDropDown("#ddlCity" + i, response);
+    //        },
+    //        error: function () {
+    //            debugger;
+    //            alert("Please Select State");
+    //        }
+    //    });
+    //}
+    //function PopulateDropDown(dropDownId, list) {
+    //    //alert(list);
+    //    $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
+    //    if (list != null && list.length > 0) {
+    //        $(dropDownId).removeAttr("disabled");
+    //        $.each(list, function () {
+    //            $(dropDownId).append($("<option></option>").val(this['value']).html(this['text']));
+    //        });
+    //    }
+    //    $(dropDownId).trigger("liszt:updated");
+    //}
 </script>

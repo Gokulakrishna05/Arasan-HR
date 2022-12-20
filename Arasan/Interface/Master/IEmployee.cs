@@ -11,9 +11,11 @@ namespace Arasan.Interface.Master
 
        string EmployeeCRUD(Employee emp);
         DataTable GetState();
-        DataTable GetCity(string value);
+        DataTable GetCity();
         IEnumerable<Employee> GetAllEmployee();
         DataTable GetEmployee(string id);
         DataTable GetEmpEduDeatils(string data);
+        DataTable GetEmpPersonalDeatils(string id);
+        DataTable GetEmpSkillDeatils(string id);
     }
 }

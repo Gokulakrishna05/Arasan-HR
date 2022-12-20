@@ -57,7 +57,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Party Name<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" type="text"><br />
+                                         @Html.TextBoxFor(C => C.PartyName, new { @id = "EnqNo", @class = "form-control", @TabIndex = 1})
                                     </div>
 
                                 </div>
@@ -82,8 +82,8 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Party Category<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" type="text"><br />
-                                    </div>
+                                                    @Html.TextBoxFor(C => C.PartyCategory, new { @id = "EnqNo", @class = "form-control", @TabIndex = 1})
+                                                </div>
 
                                 </div>
                             </div>
@@ -96,8 +96,8 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Account Name<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" type="text">
-                                    </div>
+                                                    @Html.TextBoxFor(C => C.LUTNumber, new { @id = "EnqNo", @class = "form-control", @TabIndex = 1})
+                                                </div>
 
                                 </div>
                             </div>
@@ -106,7 +106,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Party Group<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <textarea class="form-control" id="inputEmail3" type="text"></textarea><br />
+                                         @Html.TextBoxFor(C => C.LUTNumber, new { @id = "EnqNo", @class = "form-control", @TabIndex = 1})
                                     </div>
 
                                 </div>
@@ -120,8 +120,8 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Comm.Code<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" type="text">
-                                    </div>
+                                                    @Html.TextBoxFor(C => C.LUTNumber, new { @id = "EnqNo", @class = "form-control", @TabIndex = 1})
+                                                </div>
 
                                 </div>
                             </div>
@@ -144,8 +144,8 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">LUT No <label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" type="text">
-                                    </div>
+                                                    @Html.TextBoxFor(C => C.LUTNumber, new { @id = "LUTNumber", @class = "form-control", @TabIndex = 1})
+                                                </div>
 
                                 </div>
                             </div>
@@ -155,7 +155,11 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">LUT Date<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" type="date"><br />
+                                                    <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                                        @Html.TextBoxFor(C => C.LUTDate, new { @id = "LUTDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
+                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                        <br />
+                                                    </div>
                                     </div>
 
                                 </div>
@@ -169,7 +173,11 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Join Date<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" type="date">
+                                         <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                                        @Html.TextBoxFor(C => C.JoinDate, new { @id = "JoinDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
+                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                   <br />
+                                    </div>
                                     </div>
 
                                 </div>
@@ -181,7 +189,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Party Type<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" type="text"><br />
+                                                    @Html.TextBoxFor(C => C.PartyType, new { @id = "PartyType", @class = "form-control", @TabIndex = 1})
                                     </div>
 
                                 </div>
@@ -193,8 +201,8 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Credit Limit <label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" type="text">
-                                    </div>
+                                                    @Html.TextBoxFor(C => C.CreditLimit, new { @id = "CreditLimit", @class = "form-control", @TabIndex = 1})
+                                                </div>
 
                                 </div>
                             </div>
@@ -203,7 +211,11 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Credit Date<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" type="date"><br />
+                                      
+                                                 <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                                        @Html.TextBoxFor(C => C.CreditDate, new { @id = "CreditDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
+                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                   <br />
                                     </div>
 
                                 </div>
@@ -216,7 +228,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">TDS Section ID<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" type="text">
+                                                        @Html.TextBoxFor(C => C.TransationLimit, new { @id = "EnqNo", @class = "form-control", @TabIndex = 1})
                                     </div>
 
                                 </div>
@@ -228,7 +240,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Consionee Party ID<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" type="text"><br />
+                                         @Html.TextBoxFor(C => C.TransationLimit, new { @id = "EnqNo", @class = "form-control", @TabIndex = 1})
                                     </div>
 
                                 </div>
@@ -242,7 +254,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Transaction Limit<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" type="text">
+                                         @Html.TextBoxFor(C => C.TransationLimit, new { @id = "TransationLimit", @class = "form-control", @TabIndex = 1})
                                     </div>
 
                                 </div>
@@ -254,7 +266,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">GST Number<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" type="text"><br />
+                                                        @Html.TextBoxFor(C => C.GST, new { @id = "GST", @class = "form-control", @TabIndex = 1})
                                     </div>
 
                                 </div>
@@ -268,8 +280,8 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Active<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" type="text">
-                                    </div>
+                                                        @Html.TextBoxFor(C => C.Phone, new { @id = "EnqNo", @class = "form-control", @TabIndex = 1})
+                                                    </div>
 
                                 </div>
                             </div>
@@ -280,13 +292,13 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">OurRighr Rate Code<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" type="text"><br />
-                                    </div>
+                                                        @Html.TextBoxFor(C => C.Phone, new { @id = "EnqNo", @class = "form-control", @TabIndex = 1})
+                                                    </div>
 
                                 </div>
                             </div>
                        </div>
-                            
+                          </div>  
                   @*1st atb*@
                 </div>
                 <div class="tab-pane" id="tab-2">
@@ -306,17 +318,17 @@
                                             </div>
                                         </div>
 
-
+@*
                                         <div class="col-md-6">
                                             <div class="form-group">
 
                                                 <label for="inputName3" class="col-sm-4 control-label">Phone Number<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                    <input class="form-control" id="inputEmail3" type="text"><br />
+                                                    @Html.TextBoxFor(C => C.EmpName, new { @id = "EnqNo", @class = "form-control", @TabIndex = 1})
                                                 </div>
 
                                             </div>
-                                        </div>
+                                        </div>*@
                                     </div>
 
                                     <div class="row">
@@ -326,7 +338,7 @@
 
                                                 <label for="inputName3" class="col-sm-4 control-label">Mobile<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                    <input class="form-control" id="inputEmail3" type="text">
+                                                    @Html.TextBoxFor(C => C.Phone, new { @id = "Phone", @class = "form-control", @TabIndex = 1})
                                                 </div>
 
                                             </div>
@@ -338,7 +350,7 @@
 
                                                 <label for="inputName3" class="col-sm-4 control-label">PAN<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                    <input class="form-control" id="inputEmail3" type="text"><br />
+                                                    @Html.TextBoxFor(C => C.PanNumber, new { @id = "PanNumber", @class = "form-control", @TabIndex = 1})
                                                 </div>
 
                                             </div>
@@ -352,7 +364,8 @@
 
                                                 <label for="inputName3" class="col-sm-4 control-label">City<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                    <input class="form-control" id="inputEmail3" type="text">
+                                                    @Html.DropDownListFor(C => C.City, Model.Citylst,  new{ @id = "ddlCity", @Class = "form-control chosen-select newcss", @TabIndex = 7 })
+
                                                 </div>
 
                                             </div>
@@ -364,7 +377,8 @@
 
                                                 <label for="inputName3" class="col-sm-4 control-label">State<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                    <input class="form-control" id="inputEmail3" type="text"><br />
+                                                    @Html.DropDownListFor(C => C.State, Model.Statelst, new { @id = "ddlState", @Class = "form-control chosen-select newcss", @TabIndex = 6 })
+                                                    <br />
                                                 </div>
 
                                             </div>
@@ -378,7 +392,8 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Country<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" type="text">
+                                                                                  @Html.DropDownListFor(C => C.Country, Model.Countrylst,  new{ @id = "ddlCountry", @Class = "form-control chosen-select newcss", @TabIndex = 7 })
+
                                     </div>
 
                                 </div>
@@ -390,8 +405,8 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Pin Code<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" type="text"><br />
-                                    </div>
+                                                    @Html.TextBoxFor(C => C.Pincode, new { @id = "Pincode", @class = "form-control", @TabIndex = 1})
+                                                </div>
 
                                 </div>
                             </div>
@@ -454,7 +469,7 @@
 
                                                 <label for="inputName3" class="col-sm-4 control-label">Email <label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                    <input class="form-control" id="inputEmail3" type="email">
+                                                    @Html.TextBoxFor(C => C.Email, new { @id = "Email", @class = "form-control", @TabIndex = 1})
                                                 </div>
 
                                             </div>
@@ -682,30 +697,14 @@
                           
 
                 @* 3rd tab*@
-                </div>
+              
                             </div>
                         </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                        </div>
 
                         <div style="height:30px;"></div>
-                        <button type="submit" class="btn aqua m-t-xs bottom15-xs" href="@Url.Action("ItemList", "ItemName")">Submit</button>
-                        <button class="btn btn-danger" type="submit" href="@Url.Action("ItemList", "ItemName")">Cancel</button>
+                        <button type="submit" class="btn aqua m-t-xs bottom15-xs" href="@Url.Action("ListParty", "PartyMaster")">Submit</button>
+                        <button class="btn btn-danger" type="submit" href="@Url.Action("ListParty", "PartyMaster")">Cancel</button>
 
 
                     </form>
@@ -715,3 +714,16 @@
         </div>
     </div>
 </div>
+<script>
+    $(".chosen-select").chosen();
+    $('.form_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+</script>

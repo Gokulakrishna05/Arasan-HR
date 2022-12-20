@@ -20,7 +20,7 @@ namespace Arasan.Controllers.Master
         {
             Employee E = new Employee();
             E.Statelst = BindState();
-            E.Citylst = BindCity("");
+            E.Citylst = BindCity();
             //List<EduDeatils> TData = new List<EduDeatils>();
             //EduDeatils tda = new EduDeatils();
             if (id == null)
@@ -68,22 +68,45 @@ namespace Arasan.Controllers.Master
                 dt2 = EmployeeService.GetEmpEduDeatils(id);
                 if (dt2.Rows.Count > 0)
                 {
-                    for (int i = 0; i < dt2.Rows.Count; i++)
-                    {
-                       E = new Employee();
-                        E.Education = dt.Rows[0]["EDUCATION"].ToString();
-                        E.College = dt.Rows[0]["UC"].ToString();
-                        E.EcPlace = dt.Rows[0]["ECPLACE"].ToString();
-                        E.MPercentage = Convert.ToDouble(dt2.Rows[i]["MPER"].ToString());
-                        E.YearPassing = dt.Rows[0]["YRPASSING"].ToString();
+                   
+                      
+                        E.Education = dt2.Rows[0]["EDUCATION"].ToString();
+                        E.College = dt2.Rows[0]["UC"].ToString();
+                        E.EcPlace = dt2.Rows[0]["ECPLACE"].ToString();
+                        E.MPercentage = Convert.ToDouble(dt2.Rows[0]["MPER"].ToString());
+                        E.YearPassing = dt2.Rows[0]["YRPASSING"].ToString();
 
-                        //TData.Add(E);
-                    }
+                        
+                    
                 }
-                //ca.net = Math.Round(total, 2);
+                DataTable dt3 = new DataTable();
+                dt3 = EmployeeService.GetEmpPersonalDeatils(id);
+                if (dt3.Rows.Count > 0)
+                {
 
+                   
+                    E.MaterialStatus = dt3.Rows[0]["MARITALSTATUS"].ToString();
+                    E.BloodGroup = dt3.Rows[0]["BLOODGROUP"].ToString();
+                    E.Community = dt3.Rows[0]["COMMUNITY"].ToString();
+                    E.PayType = dt3.Rows[0]["PAYTYPE"].ToString();
+                    E.EmpType = dt3.Rows[0]["EMPTYPE"].ToString();
+                    E.Disp = dt3.Rows[0]["DISP"].ToString();
+
+
+                }
+                DataTable dt4 = new DataTable();
+                dt4 = EmployeeService.GetEmpSkillDeatils(id);
+                if (dt3.Rows.Count > 0)
+                {
+
+
+                    E.SkillSet = dt4.Rows[0]["SKILL"].ToString();
+                 
+
+
+                }
             }
-            //E.EduLst = TData;
+           
             return View(E);
 
         }
@@ -144,11 +167,11 @@ namespace Arasan.Controllers.Master
                 throw ex;
             }
         }
-        public List<SelectListItem> BindCity(string value)
+        public List<SelectListItem> BindCity()
         {
             try
             {
-                DataTable dtDesg = EmployeeService.GetCity(value);
+                DataTable dtDesg = EmployeeService.GetCity();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -161,13 +184,13 @@ namespace Arasan.Controllers.Master
                 throw ex;
             }
         }
-        public JsonResult GetItemJSON(string itemid)
-        {
-            Employee model = new Employee();
-            model.Citylst = BindCity(itemid);
-            return Json(BindCity(itemid));
+        //public JsonResult GetItemJSON(string itemid)
+        //{
+        //    Employee model = new Employee();
+        //    model.Citylst = BindCity(itemid);
+        //    return Json(BindCity(itemid));
 
-        }
+        //}
         public IActionResult ListEmployee()
         {
             IEnumerable<Employee> cmp = EmployeeService.GetAllEmployee();
