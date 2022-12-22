@@ -19,6 +19,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.8" />
     <PackageReference Include="NETCore.MailKit" Version="2.1.0" />
     <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="3.21.70" />
+    <PackageReference Include="PdfSharp" Version="1.50.5147" />
   </ItemGroup>
 
 </Project>
