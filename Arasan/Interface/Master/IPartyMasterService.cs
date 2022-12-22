@@ -8,12 +8,12 @@ namespace Arasan.Interface.Master
 {
     public interface IPartyMasterService
     {
-        //string PartyCRUD(PartyMaster emp);
+        string PartyCRUD(PartyMaster emp);
         DataTable GetState();
         DataTable GetCity();
         DataTable GetCountry();
-        //IEnumerable<PartyMaster> GetAllParty();
-        //DataTable GetEmployee(string id);
+        IEnumerable<PartyMaster> GetAllParty();
+       DataTable GetParty(string id);
         //DataTable GetEmpEduDeatils(string data);
         //DataTable GetEmpPersonalDeatils(string id);
         //DataTable GetEmpSkillDeatils(string id);

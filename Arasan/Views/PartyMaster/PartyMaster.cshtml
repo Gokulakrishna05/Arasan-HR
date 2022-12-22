@@ -27,6 +27,9 @@
                 <div class="widgets-container">
                    
                     <hr>
+                    @using (Html.BeginForm("PartyMaster", "PartyMaster", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
                     <form>
                         <div class="tabs-container">
               <ul class="nav nav-tabs">
@@ -45,10 +48,9 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Party ID<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                       <select class=" _select js-states form-control">
-                                        
-
-                                            </select><br />
+                                                    @Html.TextBoxFor(C => C.PartyCode, new { @id = "PartyCode", @class = "form-control", @TabIndex = 1})
+<br />
+                                                         @Html.HiddenFor(C => C.ID)
                                     </div>
                                 </div>
                             </div>
@@ -65,80 +67,76 @@
                         </div>
 
                          <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                    <label for="inputName3" class="col-sm-4 control-label">Category<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                       <select class=" _select js-states form-control">
-                                        
-
-                                            </select><br />
-                                    </div>
-                                </div>
-                            </div>
+                          
                              <div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">Party Category<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                                    @Html.TextBoxFor(C => C.PartyCategory, new { @id = "EnqNo", @class = "form-control", @TabIndex = 1})
+                                                        @Html.TextBoxFor(C => C.PartyCategory, new { @id = "PartyCategory", @class = "form-control", @TabIndex = 1})
                                                 </div>
 
                                 </div>
                             </div>
-                        </div>
-                          <div class="row">
-                            
+                       
 
                             <div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">Account Name<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                                    @Html.TextBoxFor(C => C.LUTNumber, new { @id = "EnqNo", @class = "form-control", @TabIndex = 1})
+                                                    @Html.TextBoxFor(C => C.AccName, new { @id = "AccName", @class = "form-control", @TabIndex = 1})<br />
                                                 </div>
 
                                 </div>
                             </div>
-                              <div class="col-md-6">
+                                    </div>
+                                    <div class="row">
+
+                                        <div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">Party Group<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                         @Html.TextBoxFor(C => C.LUTNumber, new { @id = "EnqNo", @class = "form-control", @TabIndex = 1})
+                                         @Html.TextBoxFor(C => C.PartyGroup, new { @id = "PartyGroup", @class = "form-control", @TabIndex = 1})<br />
                                     </div>
 
                                 </div>
                             </div>
 
-                            </div>
-
- <div class="row">
+                         
                             <div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">Comm.Code<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                                    @Html.TextBoxFor(C => C.LUTNumber, new { @id = "EnqNo", @class = "form-control", @TabIndex = 1})
+                                                    @Html.TextBoxFor(C => C.Comm, new { @id = "Comm", @class = "form-control", @TabIndex = 1})
                                                 </div>
 
                                 </div>
                             </div>
+                               </div>
 
+ <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">Regular Y/N<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" type="text"><br />
+                                                    <div class="input-group">
+
+                                                        @Html.RadioButtonFor(C => C.Regular, "YES", new { @TabIndex = 2 })
+                                                        <label id="mt-radio">YES</label>
+                                                        @Html.RadioButtonFor(C => C.Regular, "NO", new { @TabIndex = 3 })
+                                                        <label id="mt-radio">NO</label>
+
+
+                                                    </div><br />
                                     </div>
 
                                 </div>
                             </div>
-                            </div>
-
-                             <div class="row">
+                            
                             <div class="col-md-6">
                                 <div class="form-group">
 
@@ -149,40 +147,42 @@
 
                                 </div>
                             </div>
+                            </div>
 
+                             <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">LUT Date<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
+                                  
                                                     <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                                         @Html.TextBoxFor(C => C.LUTDate, new { @id = "LUTDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
                                                         <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                         <br />
-                                                    </div>
+                                                 
                                     </div>
 
                                 </div>
                             </div>
-                            </div>
-
-                            <div class="row">
+                           
 
                             <div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">Join Date<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
+                                    
                                          <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                                         @Html.TextBoxFor(C => C.JoinDate, new { @id = "JoinDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
                                                         <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                    <br />
-                                    </div>
+                                    
                                     </div>
 
                                 </div>
                             </div>
+                             </div>
 
+                            <div class="row">
 
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -194,111 +194,111 @@
 
                                 </div>
                             </div>
-                       </div>
-                        <div class="row">
+                     
                             <div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">Credit Limit <label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                                    @Html.TextBoxFor(C => C.CreditLimit, new { @id = "CreditLimit", @class = "form-control", @TabIndex = 1})
+                                                    @Html.TextBoxFor(C => C.CreditLimit, new { @id = "CreditLimit", @class = "form-control", @TabIndex = 1})<br />
                                                 </div>
 
                                 </div>
                             </div>
+                                    </div>
+                                    <div class="row">
                              <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Credit Date<label class="Mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Credit Days<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                      
-                                                 <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                                        @Html.TextBoxFor(C => C.CreditDate, new { @id = "CreditDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
-                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                                   <br />
+
+                                                        @Html.TextBoxFor(C => C.CreditDate, new { @id = "CreditDate", @class = "form-control", @TabIndex = 1})<br />
+
                                     </div>
 
                                 </div>
                             </div>
-</div>
-                            <div class="row">
 
                             <div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">TDS Section ID<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                                        @Html.TextBoxFor(C => C.TransationLimit, new { @id = "EnqNo", @class = "form-control", @TabIndex = 1})
+                                                    @Html.TextBoxFor(C => C.SectionID, new { @id = "SectionID", @class = "form-control", @TabIndex = 1})<br />
                                     </div>
 
                                 </div>
                             </div>
 
+                            </div>
+
+                            <div class="row">
 
                             <div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">Consionee Party ID<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                         @Html.TextBoxFor(C => C.TransationLimit, new { @id = "EnqNo", @class = "form-control", @TabIndex = 1})
+                                                    @Html.TextBoxFor(C => C.ConPartyID, new { @id = "ConPartyID", @class = "form-control", @TabIndex = 1})<br />
                                     </div>
 
                                 </div>
                             </div>
-                       </div>
-                        
-                            <div class="row">
+                     
 
                             <div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">Transaction Limit<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                         @Html.TextBoxFor(C => C.TransationLimit, new { @id = "TransationLimit", @class = "form-control", @TabIndex = 1})
+                                         @Html.TextBoxFor(C => C.TransationLimit, new { @id = "TransationLimit", @class = "form-control", @TabIndex = 1})<br />
                                     </div>
 
                                 </div>
                             </div>
-
+                              </div>
+                        
+                            <div class="row">
 
                             <div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">GST Number<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                                        @Html.TextBoxFor(C => C.GST, new { @id = "GST", @class = "form-control", @TabIndex = 1})
+                                                        @Html.TextBoxFor(C => C.GST, new { @id = "GST", @class = "form-control", @TabIndex = 1})<br />
                                     </div>
 
                                 </div>
                             </div>
-                       </div>
-
-                            <div class="row">
+                       
 
                             <div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">Active<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                                        @Html.TextBoxFor(C => C.Phone, new { @id = "EnqNo", @class = "form-control", @TabIndex = 1})
+                                                        @Html.TextBoxFor(C => C.Active, new { @id = "Active", @class = "form-control", @TabIndex = 1})
                                                     </div>
 
                                 </div>
                             </div>
 
+                                    </div>
 
+                                    <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">OurRighr Rate Code<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                                        @Html.TextBoxFor(C => C.Phone, new { @id = "EnqNo", @class = "form-control", @TabIndex = 1})
+                                                    @Html.TextBoxFor(C => C.RateCode, new { @id = "RateCode", @class = "form-control", @TabIndex = 1})
                                                     </div>
 
                                 </div>
                             </div>
                        </div>
-                          </div>  
+                         
                   @*1st atb*@
                 </div>
                 <div class="tab-pane" id="tab-2">
@@ -316,7 +316,7 @@
                                                 </div>
 
                                             </div>
-                                        </div>
+                                        </div><br />
 
 @*
                                         <div class="col-md-6">
@@ -329,20 +329,20 @@
 
                                             </div>
                                         </div>*@
-                                    </div>
-
-                                    <div class="row">
-
+                                  
                                         <div class="col-md-6">
                                             <div class="form-group">
 
                                                 <label for="inputName3" class="col-sm-4 control-label">Mobile<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                    @Html.TextBoxFor(C => C.Phone, new { @id = "Phone", @class = "form-control", @TabIndex = 1})
+                                                    @Html.TextBoxFor(C => C.Phone, new { @id = "Phone", @class = "form-control", @TabIndex = 1})<br />
                                                 </div>
 
                                             </div>
                                         </div>
+                                          </div>
+
+                                    <div class="row">
 
 
                                         <div class="col-md-6">
@@ -350,14 +350,12 @@
 
                                                 <label for="inputName3" class="col-sm-4 control-label">PAN<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                    @Html.TextBoxFor(C => C.PanNumber, new { @id = "PanNumber", @class = "form-control", @TabIndex = 1})
+                                                    @Html.TextBoxFor(C => C.PanNumber, new { @id = "PanNumber", @class = "form-control", @TabIndex = 1})<br />
                                                 </div>
 
                                             </div>
                                         </div>
-                                    </div>
-
-                                    <div class="row">
+                                  
 
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -370,6 +368,9 @@
 
                                             </div>
                                         </div>
+                                          </div>
+
+                                    <div class="row">
 
 
                                         <div class="col-md-6">
@@ -383,21 +384,22 @@
 
                                             </div>
                                         </div>
-                                    </div>
-                        
-                          <div class="row">
+                                 
 
                             <div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">Country<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                                                                  @Html.DropDownListFor(C => C.Country, Model.Countrylst,  new{ @id = "ddlCountry", @Class = "form-control chosen-select newcss", @TabIndex = 7 })
+                                              @Html.DropDownListFor(C => C.Country, Model.Countrylst,  new{ @id = "ddlCountry", @Class = "form-control chosen-select newcss", @TabIndex = 7 })
 
                                     </div>
 
                                 </div>
                             </div>
+                              </div>
+
+                                    <div class="row">
 
 
                             <div class="col-md-6">
@@ -410,8 +412,7 @@
 
                                 </div>
                             </div>
-                       </div>
-                                    <div class="row">
+                     
 
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -424,6 +425,9 @@
                                             </div>
                                         </div>
 
+                                          </div><br />
+
+                                    <div class="row">
 
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -435,9 +439,7 @@
 
                                             </div>
                                         </div>
-                                    </div>
-
-                                    <div class="row">
+                                  
 
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -450,6 +452,9 @@
                                             </div>
                                         </div>
 
+                                          </div>
+
+                                    <div class="row">
 
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -461,8 +466,7 @@
 
                                             </div>
                                         </div>
-                                    </div>
-                                      <div class="row">
+                               
 
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -475,6 +479,9 @@
                                             </div>
                                         </div>
 
+                                          </div>
+
+                                    <div class="row">
 
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -486,8 +493,7 @@
 
                                             </div>
                                         </div>
-                                    </div>
-                                      <div class="row">
+                                    
 
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -500,6 +506,9 @@
                                             </div>
                                         </div>
 
+                                          </div>
+
+                                    <div class="row">
 
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -511,10 +520,7 @@
 
                                             </div>
                                         </div>
-                                    </div>
-
-                                      <div class="row">
-
+                                   
                                         <div class="col-md-6">
                                             <div class="form-group">
 
@@ -525,6 +531,9 @@
 
                                             </div>
                                         </div>
+                                          </div>
+
+                                    <div class="row">
 
 
                                         <div class="col-md-6">
@@ -537,9 +546,7 @@
 
                                             </div>
                                         </div>
-                                    </div>
-
-                                      <div class="row">
+                                    
 
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -552,6 +559,9 @@
                                             </div>
                                         </div>
 
+                                          </div>
+
+                                    <div class="row">
 
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -563,8 +573,7 @@
 
                                             </div>
                                         </div>
-                                    </div>
-                                      <div class="row">
+                                    
 
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -577,6 +586,9 @@
                                             </div>
                                         </div>
 
+                                          </div>
+
+                                    <div class="row">
 
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -588,9 +600,7 @@
 
                                             </div>
                                         </div>
-                                    </div>
-
-                                      <div class="row">
+                                 
 
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -603,6 +613,9 @@
                                             </div>
                                         </div>
 
+                                          </div>
+
+                                    <div class="row">
 
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -703,12 +716,12 @@
                         </div>
 
                         <div style="height:30px;"></div>
-                        <button type="submit" class="btn aqua m-t-xs bottom15-xs" href="@Url.Action("ListParty", "PartyMaster")">Submit</button>
-                        <button class="btn btn-danger" type="submit" href="@Url.Action("ListParty", "PartyMaster")">Cancel</button>
-
+                          <button type="submit" class="btn aqua m-t-xs bottom15-xs">Submit</button>
+                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListParty", "PartyMaster")'">Cancel</button>
+ 
 
                     </form>
-
+                    }
                 </div>
             </div>
         </div>
