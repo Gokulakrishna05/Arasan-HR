@@ -185,6 +185,7 @@ namespace Arasan.Controllers
             {
                 datatrans = new DataTransactions(_connectionString);
                 MailRequest requestwer = new MailRequest();
+
                 requestwer.ToEmail = "deepa@icand.in";
                 requestwer.Subject = "Enquiry";
                 string Content = "";
@@ -192,7 +193,7 @@ namespace Arasan.Controllers
                 Content = @"<html> 
                 < head >
     < style >
-        table, th, td {
+                table, th, td {
                 border: 1px solid black;
                     border - collapse: collapse;
                 }
@@ -201,7 +202,7 @@ namespace Arasan.Controllers
 < body >
 <p>Dear Sir,</p>
 </br>
-<p>           Kindly arrange to send your lowest price offer for the following items through our email immediately.</p>
+  <p> Kindly arrange to send your lowest price offer for the following items through our email immediately.</p>
 </br>
 < table style = 'border: 1px solid black;border-collapse: collapse;' > ";
 
@@ -226,10 +227,12 @@ namespace Arasan.Controllers
 </p> ";
                 Content += @" </body> 
 </html> ";
+
                 requestwer.Body = Content;
                 //request.Attachments = "No";
-                datatrans.SendEmailAsync(requestwer);
+                datatrans.sendemail("Test mail", Content, "kesavanmoorthi81@gmail.com", "kesavanmoorthi70@gmail.com", "aqhfevhczfrnbtgz", "587", "true", "smtp.gmail.com", "IcanD");
                 return Ok();
+
             }
             catch (Exception ex)
             {

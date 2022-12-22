@@ -53,6 +53,7 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Document ID<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.DocId, new { @id = "txtDocId", @class = "form-control", @TabIndex = 1 })
+                                            @Html.HiddenFor(C => C.ID)
                                     </div>
                                 </div>
                             </div>
@@ -255,8 +256,9 @@
 
                         
                             <div style="height:30px;"></div>
-                            <button type="submit" name="submit" class="btn btn-success" id="btnSave" value="Save" tabindex="18">Insert</button>
-                            <a button class="btn btn-danger" type="submit" href="@Url.Action("ListDirectAddition", "DirectAddition")">Cancel</a>
+                                 <button type="submit" class="btn aqua m-t-xs bottom15-xs">Submit</button>
+                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListDirectAddition", "DirectAddition")'">Cancel</button>
+                           
                     </form>
                     }
                 </div>
