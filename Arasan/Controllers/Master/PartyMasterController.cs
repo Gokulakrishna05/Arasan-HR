@@ -41,46 +41,73 @@ namespace Arasan.Controllers.Master
 
                 // ca = directPurchase.GetDirectPurById(id);
 
+                DataTable dt = new DataTable();
+                double total = 0;
+                dt = PartyMasterService.GetParty(id);
+                if (dt.Rows.Count > 0)
+                {
+                    ca.PartyCode = dt.Rows[0]["PARTYID"].ToString();
+                    ca.PartyName = dt.Rows[0]["PARTYNAME"].ToString();
+                    ca.PartyCategory = dt.Rows[0]["PARTYCAT"].ToString();
+                    ca.PartyType = dt.Rows[0]["PARTYTYPE"].ToString();
+                    ca.ID = id;
+                    ca.ConPartyID = dt.Rows[0]["CSGNPARTYID"].ToString();
+                    ca.Comm = dt.Rows[0]["COMMCODE"].ToString();
+                    ca.CreditLimit = dt.Rows[0]["CREDITLIMIT"].ToString();
+                    ca.CreditDate = dt.Rows[0]["CREDITDAYS"].ToString();
+                    ca.TransationLimit = dt.Rows[0]["TRANSLMT"].ToString();
+                    ca.RateCode = dt.Rows[0]["RATECODE"].ToString();
+                    ca.Regular = dt.Rows[0]["REGULARYN"].ToString();
+                    ca.AccName = dt.Rows[0]["ACCOUNTNAME"].ToString();
+                    ca.Active = dt.Rows[0]["ACTIVE"].ToString();
+                    ca.GST = dt.Rows[0]["GSTNO"].ToString();
+                    ca.PartyGroup = dt.Rows[0]["PARTYGROUP"].ToString();
+                    ca.SectionID = dt.Rows[0]["SECTIONID"].ToString();
+                    ca.LUTDate = dt.Rows[0]["LUTDT"].ToString();
+                    ca.JoinDate = dt.Rows[0]["PJOINDATE"].ToString();
+                    ca.LUTNumber = dt.Rows[0]["LUTNO"].ToString();
+
+                }
             }
             return View(ca);
         }
         [HttpPost]
-        //public ActionResult PartyMaster(PartyMaster emp, string id)
-        //{
+        public ActionResult PartyMaster(PartyMaster emp, string id)
+        {
 
-        //    try
-        //    {
-        //        emp.ID = id;
-        //        string Strout = PartyMasterService.PartyCRUD(emp);
-        //        if (string.IsNullOrEmpty(Strout))
-        //        {
-        //            if (emp.ID == null)
-        //            {
-        //                TempData["notice"] = " PartyMaster Inserted Successfully...!";
-        //            }
-        //            else
-        //            {
-        //                TempData["notice"] = " PartyMaster Updated Successfully...!";
-        //            }
-        //            return RedirectToAction("ListParty");
-        //        }
+            try
+            {
+                emp.ID = id;
+                string Strout = PartyMasterService.PartyCRUD(emp);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (emp.ID == null)
+                    {
+                        TempData["notice"] = " PartyMaster Inserted Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = " PartyMaster Updated Successfully...!";
+                    }
+                    return RedirectToAction("ListParty");
+                }
 
-        //        else
-        //        {
-        //            ViewBag.PageTitle = "Edit PartyMaster";
-        //            TempData["notice"] = Strout;
-        //            //return View();
-        //        }
+                else
+                {
+                    ViewBag.PageTitle = "Edit PartyMaster";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
 
-        //        // }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
-        //    return View(emp);
-        //}
+            return View(emp);
+        }
 
 
 
@@ -137,8 +164,8 @@ namespace Arasan.Controllers.Master
         }
         public IActionResult ListParty()
         {
-           // IEnumerable<PartyMaster> cmp = PartyMasterService.GetAllParty();
-            return View();
+           IEnumerable<PartyMaster> cmp = PartyMasterService.GetAllParty();
+            return View(cmp);
         }
     }
 }
