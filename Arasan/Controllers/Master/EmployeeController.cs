@@ -184,13 +184,7 @@ namespace Arasan.Controllers.Master
                 throw ex;
             }
         }
-        //public JsonResult GetItemJSON(string itemid)
-        //{
-        //    Employee model = new Employee();
-        //    model.Citylst = BindCity(itemid);
-        //    return Json(BindCity(itemid));
-
-        //}
+     
         public IActionResult ListEmployee()
         {
             IEnumerable<Employee> cmp = EmployeeService.GetAllEmployee();

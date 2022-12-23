@@ -59,7 +59,7 @@ namespace Arasan.Controllers
 
 
                 DataTable dt = new DataTable();
-                double total = 0;
+              
                 dt = PurReturn.GetPurchaseReturn(id);
                 if (dt.Rows.Count > 0)
                 {
@@ -94,17 +94,15 @@ namespace Arasan.Controllers
                 dt2 = PurReturn.GetPurchaseReturnDes(id);
                 if (dt2.Rows.Count > 0)
                 {
-                    for (int i = 0; i < dt2.Rows.Count; i++)
-                    {
-                   
-                        ca.Addr = dt.Rows[0]["SADD1"].ToString();
+                 
+                        ca.Addr = dt2.Rows[0]["SADD1"].ToString();
 
-                        ca.City = dt.Rows[0]["SCITY"].ToString();
-                        ca.State = dt.Rows[0]["SSTATE"].ToString();
-                        ca.Pin = dt.Rows[0]["SPINCODE"].ToString();
+                        ca.City = dt2.Rows[0]["SCITY"].ToString();
+                        ca.State = dt2.Rows[0]["SSTATE"].ToString();
+                        ca.Pin = dt2.Rows[0]["SPINCODE"].ToString();
                         ca.ID = id;
-                        ca.Phone = dt.Rows[0]["SPHONE"].ToString();
-                      }
+                        ca.Phone = dt2.Rows[0]["SPHONE"].ToString();
+                      
                 }
             }
             ca.ReLst = TData1;

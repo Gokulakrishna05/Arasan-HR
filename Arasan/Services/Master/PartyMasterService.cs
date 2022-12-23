@@ -24,7 +24,7 @@ namespace Arasan.Services.Master
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select  PARTYID,PARTYNAME,PARTYCAT,ACCOUNTNAME,PARTYGROUP,COMMCODE,REGULARYN,LUTNO,to_char(PARTYMAST.LUTDT,'dd-MON-yyyy')LUTDT,to_char(PARTYMAST.PJOINDATE,'dd-MON-yyyy')PJOINDATE,PARTYTYPE,CREDITLIMIT,CREDITDAYS,SECTIONID,CSGNPARTYID,TRANSLMT,GSTNO,ACTIVE,RATECODE,PARTYMASTID from PARTYMAST";
+                    cmd.CommandText = "Select  PARTYID,PARTYNAME,PARTYCAT,ACCOUNTNAME,PARTYGROUP,COMMCODE,REGULARYN,LUTNO,to_char(PARTYMAST.LUTDT,'dd-MON-yyyy')LUTDT,to_char(PARTYMAST.PJOINDATE,'dd-MON-yyyy')PJOINDATE,TYPE,CREDITLIMIT,CREDITDAYS,SECTIONID,CSGNPARTYID,TRANSLMT,GSTNO,ACTIVE,RATECODE,MOBILE,PHONENO,PANNO,CITY,STATE,COUNTRY,PINCODE,COUNTRYCODE,EMAIL,FAX,COMMISIONERATE,RANGEDIVISION,ECCNO,EXCISEAPPLICABLE,PARTYTYPE,HTTP,OVERDUEINTEREST,ADD1,REMARKS,INTRODUCEDBY,PARTYMASTID from PARTYMAST";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -42,7 +42,7 @@ namespace Arasan.Services.Master
                             LUTNumber = rdr["LUTNO"].ToString(),
                             LUTDate = rdr["LUTDT"].ToString(),
                              JoinDate = rdr["PJOINDATE"].ToString(),
-                            PartyType = rdr["PARTYTYPE"].ToString(),
+                            PartyType = rdr["TYPE"].ToString(),
                             CreditLimit = rdr["CREDITLIMIT"].ToString(),
                             CreditDate = rdr["CREDITDAYS"].ToString(),
                             TransationLimit = rdr["TRANSLMT"].ToString(),
@@ -94,7 +94,7 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("LUTNO", OracleDbType.NVarchar2).Value = cy.LUTNumber;
                     objCmd.Parameters.Add("LUTDT", OracleDbType.Date).Value = DateTime.Parse(cy.LUTDate);
                     objCmd.Parameters.Add("PJOINDATE", OracleDbType.Date).Value = DateTime.Parse(cy.JoinDate);
-                    objCmd.Parameters.Add("PARTYTYPE", OracleDbType.NVarchar2).Value = cy.PartyType;
+                    objCmd.Parameters.Add("TYPE", OracleDbType.NVarchar2).Value = cy.PartyType;
                     objCmd.Parameters.Add("CREDITLIMIT", OracleDbType.NVarchar2).Value = cy.CreditLimit;
                     objCmd.Parameters.Add("CREDITDAYS", OracleDbType.NVarchar2).Value = cy.CreditDate;
                     objCmd.Parameters.Add("SECTIONID", OracleDbType.NVarchar2).Value = cy.SectionID;
@@ -103,14 +103,72 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("GSTNO", OracleDbType.NVarchar2).Value = cy.GST;
                     objCmd.Parameters.Add("ACTIVE", OracleDbType.NVarchar2).Value = cy.Active;
                     objCmd.Parameters.Add("RATECODE", OracleDbType.NVarchar2).Value = cy.RateCode;
-                   
+                    objCmd.Parameters.Add("MOBILE", OracleDbType.NVarchar2).Value = cy.Mobile;
+                    objCmd.Parameters.Add("PHONENO", OracleDbType.NVarchar2).Value = cy.Phone;
+                    objCmd.Parameters.Add("PANNO", OracleDbType.NVarchar2).Value = cy.PanNumber;
+                    objCmd.Parameters.Add("CITY", OracleDbType.NVarchar2).Value = cy.City;
+                    objCmd.Parameters.Add("STATE", OracleDbType.NVarchar2).Value = cy.State;
+                    objCmd.Parameters.Add("COUNTRY", OracleDbType.NVarchar2).Value = cy.Country;
+                    objCmd.Parameters.Add("PINCODE", OracleDbType.NVarchar2).Value = cy.Pincode;
+                    objCmd.Parameters.Add("COUNTRYCODE", OracleDbType.NVarchar2).Value = cy.CountryCode;
+                    objCmd.Parameters.Add("EMAIL", OracleDbType.NVarchar2).Value = cy.Email;
+                    objCmd.Parameters.Add("FAX", OracleDbType.NVarchar2).Value = cy.Fax;
+                    objCmd.Parameters.Add("COMMISIONERATE", OracleDbType.NVarchar2).Value = cy.Commisionerate;
+                    objCmd.Parameters.Add("RANGEDIVISION", OracleDbType.NVarchar2).Value = cy.Range;
+                    objCmd.Parameters.Add("ECCNO", OracleDbType.NVarchar2).Value = cy.EccID;
+                    objCmd.Parameters.Add("EXCISEAPPLICABLE", OracleDbType.NVarchar2).Value = cy.Excise;
+                    objCmd.Parameters.Add("PARTYTYPE", OracleDbType.NVarchar2).Value = cy.Type;
+                    objCmd.Parameters.Add("HTTP", OracleDbType.NVarchar2).Value = cy.Http;
+                    objCmd.Parameters.Add("OVERDUEINTEREST", OracleDbType.NVarchar2).Value = cy.OverDueInterest;
+                    objCmd.Parameters.Add("ADD1", OracleDbType.NVarchar2).Value = cy.Address;
+                    objCmd.Parameters.Add("REMARKS", OracleDbType.NVarchar2).Value = cy.Remark;
+                    objCmd.Parameters.Add("INTRODUCEDBY", OracleDbType.NVarchar2).Value = cy.Intred;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
+
                     try
                     {
                         objConn.Open();
                         objCmd.ExecuteNonQuery();
-                        //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
+                        Object Pid = objCmd.Parameters["OUTID"].Value;
+                        //string Pid = "0";
+                        if (cy.ID != null)
+                        {
+                            Pid = cy.ID;
+                        }
+                        foreach (PartyItem cp in cy.PartyLst)
+                        {
+
+                            using (OracleConnection objConns = new OracleConnection(_connectionString))
+                            {
+                                OracleCommand objCmds = new OracleCommand("PARTYCONTACTPROC", objConns);
+                                if (cy.ID == null)
+                                {
+                                    StatementType = "Insert";
+                                    objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                }
+                                else
+                                {
+                                    StatementType = "Update";
+                                    objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                                }
+                                objCmds.CommandType = CommandType.StoredProcedure;
+                                objCmds.Parameters.Add("PARTYMASTID", OracleDbType.NVarchar2).Value = Pid;
+                                objCmds.Parameters.Add("CONTACTPURPOSE", OracleDbType.NVarchar2).Value = cp.Purpose;
+                                objCmds.Parameters.Add("CONTACTNAME", OracleDbType.NVarchar2).Value = cp.ContactPerson;
+                                objCmds.Parameters.Add("CONTACTDESIG", OracleDbType.NVarchar2).Value = cp.Designation;
+                                objCmds.Parameters.Add("CONTACTPHONE", OracleDbType.NVarchar2).Value = cp.Phone;
+                                objCmds.Parameters.Add("CONTACTEMAIL", OracleDbType.NVarchar2).Value = cp.Email;
+                               
+                                objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                                objConns.Open();
+                                objCmds.ExecuteNonQuery();
+                                objConns.Close();
+                            }
+
+
+
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -120,17 +178,28 @@ namespace Arasan.Services.Master
                 }
             }
             catch (Exception ex)
-            {
-                msg = "Error Occurs, While inserting / updating Data";
-                throw ex;
-            }
+                    {
+                        msg = "Error Occurs, While inserting / updating Data";
+                        throw ex;
+                    }
 
             return msg;
         }
+
         public DataTable GetParty(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select PARTYMAST.PARTYID,PARTYMAST.PARTYNAME,PARTYMAST.PARTYCAT,to_char(PARTYMAST.LUTDT,'dd-MON-yyyy')LUTDT,PARTYMAST.ACCOUNTNAME,PARTYMAST.PARTYGROUP,PARTYMAST.COMMCODE,PARTYMAST.REGULARYN,PARTYMAST.LUTNO,PARTYMAST.PARTYTYPE,PARTYMAST.CREDITLIMIT,PARTYMAST.CREDITDAYS,PARTYMAST.SECTIONID,PARTYMAST.CSGNPARTYID,PARTYMAST.TRANSLMT,PARTYMAST.GSTNO,to_char(PARTYMAST.PJOINDATE,'dd-MON-yyyy')PJOINDATE,ACTIVE,RATECODE,PARTYMASTID  from PARTYMAST where PARTYMAST.PARTYMASTID=" + id + "";
+            SvSql = "Select PARTYMAST.PARTYID,PARTYMAST.PARTYNAME,PARTYMAST.PARTYCAT,to_char(PARTYMAST.LUTDT,'dd-MON-yyyy')LUTDT,PARTYMAST.ACCOUNTNAME,PARTYMAST.PARTYGROUP,PARTYMAST.COMMCODE,PARTYMAST.REGULARYN,PARTYMAST.LUTNO,PARTYMAST.TYPE,PARTYMAST.CREDITLIMIT,PARTYMAST.CREDITDAYS,PARTYMAST.SECTIONID,PARTYMAST.CSGNPARTYID,PARTYMAST.TRANSLMT,PARTYMAST.GSTNO,to_char(PARTYMAST.PJOINDATE,'dd-MON-yyyy')PJOINDATE,ACTIVE,RATECODE,MOBILE,PHONENO,PANNO,CITY,STATE,COUNTRY,PINCODE,COUNTRYCODE,EMAIL,FAX,COMMISIONERATE,RANGEDIVISION,ECCNO,EXCISEAPPLICABLE,PARTYTYPE,HTTP,OVERDUEINTEREST,ADD1,REMARKS,INTRODUCEDBY,PARTYMASTID  from PARTYMAST where PARTYMAST.PARTYMASTID=" + id + "";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetPartyContact(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select PARTYMASTCONTACT.CONTACTPURPOSE,PARTYMASTCONTACT.CONTACTNAME,PARTYMASTCONTACT.CONTACTDESIG,PARTYMASTCONTACT.CONTACTPHONE,PARTYMASTCONTACT.CONTACTEMAIL,PARTYMASTID  from PARTYMASTCONTACT where PARTYMASTCONTACT.PARTYMASTID=" + id + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

@@ -22,15 +22,26 @@ namespace Arasan.Models
         public string Comm { get; set; }
         public string Address { get; set; }
         public List<SelectListItem> Statelst;
-
+        public string State { get; set; }
         public List<SelectListItem> Citylst;
+        public string City { get; set; }
+
         public List<SelectListItem> Countrylst;
-        public int City { get; set; }
-        public int State { get; set; }
-        public int Country { get; set; }
+       
+        public string Country { get; set; }
         public string Phone { get; set; }
+        public string Remark { get; set; }
+        public string Mobile { get; set; }
         public string Email { get; set; }
         public string  GST { get; set; }
+        public string Http { get; set; }
+        public string Type { get; set; }
+        public string Excise { get; set; }
+        public string EccID { get; set; }
+        public string Range { get; set; }
+        public string Fax { get; set; }
+        public string Intred { get; set; }
+        public string Commisionerate { get; set; }
         public string PanNumber { get; set; }   
         public string TanNumber { get; set; }
         public string AccName { get; set; }
@@ -46,9 +57,9 @@ namespace Arasan.Models
         public string LUTNumber { get; set; }
         public string LUTDate { get; set; }
 
-        public int Pincode { get; set; }
-        public string ContactPerson { get; set; }
-        public int OverDueInterest { get; set; }    
+        public string Pincode { get; set; }
+      
+        public string OverDueInterest { get; set; }    
         public string AccountNumber { get; set; }   
         public string CurrencyType { get; set; }    
         public  int TotalnoofBills { get; set; }
@@ -56,9 +67,21 @@ namespace Arasan.Models
         public int  EntryBY { get; set; }   
         public string EntryOn { get; set; }
         public int UpdatedBY { get; set; }
-
+        public List<PartyItem> PartyLst { get; set; }
 
 
 
     }
-}
+    public class PartyItem
+    {
+        public string ID { get; set; }
+        public string ContactPerson { get; set; }
+        public string Purpose { get; set; }
+      
+        public string Designation { get; set; }
+        public string Phone { get; set; }
+       
+        public string Email { get; set; }
+        public string Isvalid { get; set; }
+    }
+    }
