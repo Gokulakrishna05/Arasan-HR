@@ -31,8 +31,8 @@ namespace Arasan.Controllers.Master
             ca.Countrylst = BindCountry();
             ca.Statelst = BindState();
             ca.Citylst = BindCity();
-            //List<DirItem> TData = new List<DirItem>();
-            //DirItem tda = new DirItem();
+            List<PartyItem> TData = new List<PartyItem>();
+            PartyItem tda = new PartyItem();
             if (id == null)
             {
             }
@@ -42,14 +42,14 @@ namespace Arasan.Controllers.Master
                 // ca = directPurchase.GetDirectPurById(id);
 
                 DataTable dt = new DataTable();
-                double total = 0;
+
                 dt = PartyMasterService.GetParty(id);
                 if (dt.Rows.Count > 0)
                 {
                     ca.PartyCode = dt.Rows[0]["PARTYID"].ToString();
                     ca.PartyName = dt.Rows[0]["PARTYNAME"].ToString();
                     ca.PartyCategory = dt.Rows[0]["PARTYCAT"].ToString();
-                    ca.PartyType = dt.Rows[0]["PARTYTYPE"].ToString();
+                    ca.PartyType = dt.Rows[0]["TYPE"].ToString();
                     ca.ID = id;
                     ca.ConPartyID = dt.Rows[0]["CSGNPARTYID"].ToString();
                     ca.Comm = dt.Rows[0]["COMMCODE"].ToString();
@@ -66,9 +66,46 @@ namespace Arasan.Controllers.Master
                     ca.LUTDate = dt.Rows[0]["LUTDT"].ToString();
                     ca.JoinDate = dt.Rows[0]["PJOINDATE"].ToString();
                     ca.LUTNumber = dt.Rows[0]["LUTNO"].ToString();
+                    ca.Mobile = dt.Rows[0]["MOBILE"].ToString();
+                    ca.Phone = dt.Rows[0]["PHONENO"].ToString();
+                    ca.PanNumber = dt.Rows[0]["PANNO"].ToString();
+                    ca.City = dt.Rows[0]["CITY"].ToString();
+                    ca.State = dt.Rows[0]["STATE"].ToString();
+                    ca.Country = dt.Rows[0]["COUNTRY"].ToString();
+                    ca.Pincode = dt.Rows[0]["PINCODE"].ToString();
+                    ca.CountryCode = dt.Rows[0]["COUNTRYCODE"].ToString();
+                    ca.Email = dt.Rows[0]["EMAIL"].ToString();
+                    ca.Fax = dt.Rows[0]["FAX"].ToString();
+                    ca.Commisionerate = dt.Rows[0]["COMMISIONERATE"].ToString();
+                    ca.Range = dt.Rows[0]["RANGEDIVISION"].ToString();
+                    ca.EccID = dt.Rows[0]["ECCNO"].ToString();
+                    ca.Excise = dt.Rows[0]["EXCISEAPPLICABLE"].ToString();
+                    ca.Type = dt.Rows[0]["PARTYTYPE"].ToString();
+                    ca.Http = dt.Rows[0]["HTTP"].ToString();
+                    ca.OverDueInterest = dt.Rows[0]["OVERDUEINTEREST"].ToString();
+                    ca.Address = dt.Rows[0]["ADD1"].ToString();
+                    ca.Remark = dt.Rows[0]["REMARKS"].ToString();
+                    ca.Intred = dt.Rows[0]["INTRODUCEDBY"].ToString();
 
                 }
+                DataTable dt2 = new DataTable();
+                dt2 = PartyMasterService.GetPartyContact(id);
+                if (dt2.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt2.Rows.Count; i++)
+                    {
+                        tda = new PartyItem();
+
+                        tda.Purpose = dt2.Rows[0]["CONTACTPURPOSE"].ToString();
+                        tda.ContactPerson = dt2.Rows[0]["CONTACTNAME"].ToString();
+                        tda.Designation = dt2.Rows[0]["CONTACTDESIG"].ToString();
+                        tda.Phone = dt2.Rows[0]["CONTACTPHONE"].ToString();
+                        tda.Email = dt2.Rows[0]["CONTACTEMAIL"].ToString();
+
+                    }
+                }
             }
+                    ca.PartyLst = TData;
             return View(ca);
         }
         [HttpPost]
@@ -119,7 +156,7 @@ namespace Arasan.Controllers.Master
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["STATE"].ToString(), Value = dtDesg.Rows[i]["STATEMASTID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["STATE"].ToString(), Value = dtDesg.Rows[i]["STATE"].ToString() });
                 }
                 return lstdesg;
             }
@@ -136,7 +173,7 @@ namespace Arasan.Controllers.Master
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["CITYNAME"].ToString(), Value = dtDesg.Rows[i]["CITYID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["CITYNAME"].ToString(), Value = dtDesg.Rows[i]["CITYNAME"].ToString() });
                 }
                 return lstdesg;
             }
@@ -153,7 +190,7 @@ namespace Arasan.Controllers.Master
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COUNTRYNAME"].ToString(), Value = dtDesg.Rows[i]["COUNTRYMASTID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COUNTRYNAME"].ToString(), Value = dtDesg.Rows[i]["COUNTRYNAME"].ToString() });
                 }
                 return lstdesg;
             }
@@ -166,6 +203,12 @@ namespace Arasan.Controllers.Master
         {
            IEnumerable<PartyMaster> cmp = PartyMasterService.GetAllParty();
             return View(cmp);
+        }
+        public JsonResult GetItemGrpJSON()
+        {
+            PartyItem model = new PartyItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(model);
         }
     }
 }
