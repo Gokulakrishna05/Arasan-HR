@@ -41,16 +41,14 @@ namespace Arasan.Services.Master
                             Regular = rdr["REGULARYN"].ToString(),
                             LUTNumber = rdr["LUTNO"].ToString(),
                             LUTDate = rdr["LUTDT"].ToString(),
-                             JoinDate = rdr["PJOINDATE"].ToString(),
+                            JoinDate = rdr["PJOINDATE"].ToString(),
                             PartyType = rdr["TYPE"].ToString(),
                             CreditLimit = rdr["CREDITLIMIT"].ToString(),
                             CreditDate = rdr["CREDITDAYS"].ToString(),
                             TransationLimit = rdr["TRANSLMT"].ToString(),
                             GST = rdr["GSTNO"].ToString(),
                             RateCode = rdr["RATECODE"].ToString(),
-                            // DelCh = rdr["DELCH"].ToString()
-
-
+                          
 
                         };
                         cmpList.Add(cmp);
@@ -136,8 +134,7 @@ namespace Arasan.Services.Master
                         {
                             Pid = cy.ID;
                         }
-                        foreach (PartyItem cp in cy.PartyLst)
-                        {
+                     
 
                             using (OracleConnection objConns = new OracleConnection(_connectionString))
                             {
@@ -154,12 +151,11 @@ namespace Arasan.Services.Master
                                 }
                                 objCmds.CommandType = CommandType.StoredProcedure;
                                 objCmds.Parameters.Add("PARTYMASTID", OracleDbType.NVarchar2).Value = Pid;
-                                objCmds.Parameters.Add("CONTACTPURPOSE", OracleDbType.NVarchar2).Value = cp.Purpose;
-                                objCmds.Parameters.Add("CONTACTNAME", OracleDbType.NVarchar2).Value = cp.ContactPerson;
-                                objCmds.Parameters.Add("CONTACTDESIG", OracleDbType.NVarchar2).Value = cp.Designation;
-                                objCmds.Parameters.Add("CONTACTPHONE", OracleDbType.NVarchar2).Value = cp.Phone;
-                                objCmds.Parameters.Add("CONTACTEMAIL", OracleDbType.NVarchar2).Value = cp.Email;
-                               
+                                objCmds.Parameters.Add("CONTACTPURPOSE", OracleDbType.NVarchar2).Value = cy.Purpose;
+                                objCmds.Parameters.Add("CONTACTNAME", OracleDbType.NVarchar2).Value = cy.ContactPerson;
+                                objCmds.Parameters.Add("CONTACTDESIG", OracleDbType.NVarchar2).Value = cy.Designation;
+                                objCmds.Parameters.Add("CONTACTPHONE", OracleDbType.NVarchar2).Value = cy.CPhone;
+                                objCmds.Parameters.Add("CONTACTEMAIL", OracleDbType.NVarchar2).Value = cy.CEmail;
                                 objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                 objConns.Open();
                                 objCmds.ExecuteNonQuery();
@@ -169,7 +165,7 @@ namespace Arasan.Services.Master
 
 
                         }
-                    }
+                    
                     catch (Exception ex)
                     {
                         //System.Console.WriteLine("Exception: {0}", ex.ToString());

@@ -31,8 +31,9 @@ namespace Arasan.Controllers.Master
             ca.Countrylst = BindCountry();
             ca.Statelst = BindState();
             ca.Citylst = BindCity();
-            List<PartyItem> TData = new List<PartyItem>();
-            PartyItem tda = new PartyItem();
+            ca.assignList = BindEmp();
+            //List<PartyItem> TData = new List<PartyItem>();
+            //PartyItem tda = new PartyItem();
             if (id == null)
             {
             }
@@ -94,18 +95,18 @@ namespace Arasan.Controllers.Master
                 {
                     for (int i = 0; i < dt2.Rows.Count; i++)
                     {
-                        tda = new PartyItem();
 
-                        tda.Purpose = dt2.Rows[0]["CONTACTPURPOSE"].ToString();
-                        tda.ContactPerson = dt2.Rows[0]["CONTACTNAME"].ToString();
-                        tda.Designation = dt2.Rows[0]["CONTACTDESIG"].ToString();
-                        tda.Phone = dt2.Rows[0]["CONTACTPHONE"].ToString();
-                        tda.Email = dt2.Rows[0]["CONTACTEMAIL"].ToString();
+
+                        ca.Purpose = dt2.Rows[0]["CONTACTPURPOSE"].ToString();
+                        ca.ContactPerson = dt2.Rows[0]["CONTACTNAME"].ToString();
+                        ca.Designation = dt2.Rows[0]["CONTACTDESIG"].ToString();
+                        ca.CPhone = dt2.Rows[0]["CONTACTPHONE"].ToString();
+                        ca.CEmail = dt2.Rows[0]["CONTACTEMAIL"].ToString();
 
                     }
                 }
             }
-                    ca.PartyLst = TData;
+                    //ca.PartyLst = TData;
             return View(ca);
         }
         [HttpPost]
@@ -199,6 +200,23 @@ namespace Arasan.Controllers.Master
                 throw ex;
             }
         }
+        public List<SelectListItem> BindEmp()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetEmp();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["EMPNAME"].ToString(), Value = dtDesg.Rows[i]["EMPMASTID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public IActionResult ListParty()
         {
            IEnumerable<PartyMaster> cmp = PartyMasterService.GetAllParty();
@@ -206,7 +224,7 @@ namespace Arasan.Controllers.Master
         }
         public JsonResult GetItemGrpJSON()
         {
-            PartyItem model = new PartyItem();
+            PartyMaster model = new PartyMaster();
             //  model.ItemGrouplst = BindItemGrplst(value);
             return Json(model);
         }
