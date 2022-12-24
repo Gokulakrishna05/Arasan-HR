@@ -5,21 +5,22 @@
     display: inline-block;
     zoom: 1;
     *display: inline;
+    z-index: 2000;
 }
-.chzn-container .chzn-drop {
-  background: #fff;
-  border: 1px solid #aaa;
-  border-top: 0;
-  position: absolute;
-  overflow: visible;
-  top: 29px;
-  left: 0;
-  -webkit-box-shadow: 0 4px 5px rgba(0,0,0,.15);
-  -moz-box-shadow   : 0 4px 5px rgba(0,0,0,.15);
-  -o-box-shadow     : 0 4px 5px rgba(0,0,0,.15);
-  box-shadow        : 0 4px 5px rgba(0,0,0,.15);
-  z-index: 999;
-}
+    .chzn-container .chzn-drop {
+        background: #fff;
+        border: 1px solid #aaa;
+        border-top: 0;
+        position: absolute;
+        overflow: visible;
+        top: 29px;
+        left: 0;
+        -webkit-box-shadow: 0 4px 5px rgba(0,0,0,.15);
+        -moz-box-shadow: 0 4px 5px rgba(0,0,0,.15);
+        -o-box-shadow: 0 4px 5px rgba(0,0,0,.15);
+        box-shadow: 0 4px 5px rgba(0,0,0,.15);
+        z-index: 2000;
+    }
 /* @end */
 
 /* @group Single Chosen */
@@ -105,7 +106,7 @@
   position: relative;
   margin: 0;
   white-space: nowrap;
-  z-index: 1010;
+  z-index: 2210;
 }
 .chzn-container-single .chzn-search input {
   background: #fff url('chosen-sprite.png') no-repeat 100% -22px;

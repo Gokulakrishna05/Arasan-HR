@@ -73,6 +73,32 @@ namespace Arasan.Services
             }
             return cmpList;
         }
+        public IEnumerable<POItem> GetAllGateInwardItem(string gateinwardid)
+        {
+            List<POItem> cmpList = new List<POItem>();
+            using (OracleConnection con = new OracleConnection(_connectionString))
+            {
+
+                using (OracleCommand cmd = con.CreateCommand())
+                {
+                    con.Open();
+                    cmd.CommandText = "Select GATE_INWARD_DETAILS.IN_QTY,GATE_INWARD_DETAILS.QCFLAG,ITEMMASTER.ITEMID,UNITMAST.UNITID from GATE_INWARD_DETAILS LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=GATE_INWARD_DETAILS.ITEM_ID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  where GATE_INWARD_DETAILS.GATE_IN_ID='" + gateinwardid + "'";
+                    OracleDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        POItem cmp = new POItem
+                        {
+                            ItemId = rdr["ITEMID"].ToString(),
+                            Unit = rdr["UNITID"].ToString(),
+                            Quantity = Convert.ToDouble(rdr["IN_QTY"].ToString()),
+                            QC= rdr["QCFLAG"].ToString(),
+                        };
+                        cmpList.Add(cmp);
+                    }
+                }
+            }
+            return cmpList;
+        }
 
         public DataTable GetPObyID(string name)
         {
@@ -84,7 +110,16 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-
+        public DataTable GetPObySuppID(string name)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select POBASIC.POBASICID,POBASIC.DOCID from POBASIC where POBASIC.PARTYID='" + name + "' AND POBASIC.STATUS IS NULL";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable EditPObyID(string name)
         {
             string SvSql = string.Empty;
@@ -98,7 +133,7 @@ namespace Arasan.Services
         public DataTable GetPOItembyID(string name)
         {
             string SvSql = string.Empty;
-            SvSql = "Select PODETAIL.QTY,PODETAIL.PODETAILID,ITEMMASTER.ITEMID,UNITMAST.UNITID,PODETAIL.RATE,CGSTPER,CGSTAMT,SGSTPER,SGSTAMT,IGSTPER,IGSTAMT,TOTALAMT,DISCPER,DISCAMT,FREIGHTCHGS,PURTYPE,to_char(DUEDATE,'dd-MON-yyyy') DUEDATE from PODETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PODETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  where PODETAIL.POBASICID='" + name + "'";
+            SvSql = "Select PODETAIL.ITEMID as Itemi,PODETAIL.QTY,PODETAIL.PODETAILID,ITEMMASTER.ITEMID,UNITMAST.UNITID,PODETAIL.RATE,CGSTPER,CGSTAMT,SGSTPER,SGSTAMT,IGSTPER,IGSTAMT,TOTALAMT,DISCPER,DISCAMT,FREIGHTCHGS,PURTYPE,to_char(DUEDATE,'dd-MON-yyyy') DUEDATE from PODETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PODETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  where PODETAIL.POBASICID='" + name + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -109,6 +144,16 @@ namespace Arasan.Services
         {
             string SvSql = string.Empty;
             SvSql = "Select PODETAIL.QTY,PODETAIL.PODETAILID,PODETAIL.ITEMID,UNITMAST.UNITID,PODETAIL.RATE,CGSTPER,CGSTAMT,SGSTPER,SGSTAMT,IGSTPER,IGSTAMT,TOTALAMT,DISCPER,DISCAMT,FREIGHTCHGS,PURTYPE,to_char(DUEDATE,'dd-MON-yyyy') DUEDATE from PODETAIL LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=PODETAIL.UNIT  where PODETAIL.POBASICID='" + name + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetAllGateInward(string fromdate, string todate)
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT GATE_INWARD.GATE_IN_ID,POBASIC.POBASICID,POBASIC.DOCID,GATE_INWARD.GATE_IN_TIME,to_char(GATE_IN_DATE,'dd-MON-yyyy') GATE_IN_DATE,GATE_INWARD.TOTAL_QTY,PARTYRCODE.PARTY,POBASIC.STATUS FROM GATE_INWARD LEFT OUTER JOIN POBASIC ON GATE_INWARD.POBASICID=POBASIC.POBASICID LEFT OUTER JOIN  PARTYMAST on POBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND GATE_IN_DATE BETWEEN '" + fromdate + "' AND '"+ todate  + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -186,13 +231,98 @@ namespace Arasan.Services
 
                 using (OracleConnection objConnE = new OracleConnection(_connectionString))
                 {
-                    string Sql = "UPDATE POBASIC SET STATUS='Generated' where POBASICID='" + POID + "'";
+                    string Sql = "UPDATE POBASIC SET STATUS='GRN Generated' where POBASICID='" + POID + "'";
                     OracleCommand objCmds = new OracleCommand(Sql, objConnE);
                     objConnE.Open();
                     objCmds.ExecuteNonQuery();
                     objConnE.Close();
                 }
 
+            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
+        }
+
+        public string GateInwardCRUD(GateInward cy)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
+
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    OracleCommand objCmd = new OracleCommand("GATEINPROC", objConn);
+
+                    objCmd.CommandType = CommandType.StoredProcedure;
+                    if (cy.ID == null)
+                    {
+                        StatementType = "Insert";
+                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                    }
+                    else
+                    {
+                        StatementType = "Update";
+                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                    }
+                    objCmd.Parameters.Add("POBASICID", OracleDbType.NVarchar2).Value = cy.POId;
+                    objCmd.Parameters.Add("GATE_IN_TIME", OracleDbType.NVarchar2).Value = cy.GateInTime;
+                    objCmd.Parameters.Add("TOTAL_QTY", OracleDbType.NVarchar2).Value = cy.TotalQty;
+                    objCmd.Parameters.Add("GATE_IN_DATE", OracleDbType.Date).Value = DateTime.Parse(cy.GateInDate);
+                    objCmd.Parameters.Add("NARRATION", OracleDbType.NVarchar2).Value = cy.Narration;
+                    objCmd.Parameters.Add("PARTYID", OracleDbType.NVarchar2).Value = cy.Supplier;
+                    objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                    objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
+                    try
+                    {
+                        objConn.Open();
+                        objCmd.ExecuteNonQuery();
+                        Object Pid = objCmd.Parameters["OUTID"].Value;
+                        foreach (POGateItem cp in cy.PoItem)
+                        {
+                            if (cp.itemid != "0")
+                            {
+                                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                                {
+                                    string Sql = string.Empty;
+                                    if (StatementType == "Insert")
+                                    {
+                                        Sql = "Insert into GATE_INWARD_DETAILS(GATE_IN_ID,ITEM_ID,QCFLAG,IN_QTY) Values('" + Pid + "','" + cp.itemid + "','" + cp.qc + "','" + cp.quantity + "')";
+                                    }
+                                    else
+                                    {
+                                        Sql = "";
+                                    }
+                                    OracleCommand objCmds = new OracleCommand(Sql, objConnT);
+                                    objConnT.Open();
+                                    objCmds.ExecuteNonQuery();
+                                    objConnT.Close();
+                                }
+                            }
+
+
+                        }
+
+                        using (OracleConnection objConnE = new OracleConnection(_connectionString))
+                        {
+                            string Sql = "UPDATE POBASIC SET STATUS='GATE IN Verified' where POBASICID='" + cy.POId + "'";
+                            OracleCommand objCmds = new OracleCommand(Sql, objConnE);
+                            objConnE.Open();
+                            objCmds.ExecuteNonQuery();
+                            objConnE.Close();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
+                    }
+                    objConn.Close();
+                }
             }
             catch (Exception ex)
             {

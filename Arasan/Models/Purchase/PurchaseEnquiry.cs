@@ -14,7 +14,7 @@ namespace Arasan.Models
             this.EnqassignList = new List<SelectListItem>();
         }
         public List<SelectListItem> Brlst;
-
+        public int PRId { get; set; }
         public string ID { get; set; }
         public string Branch { get; set; }
 

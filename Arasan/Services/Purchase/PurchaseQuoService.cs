@@ -149,7 +149,7 @@ namespace Arasan.Services
         public DataTable GetPurchaseQuo(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select PURQUOTBASIC.BRANCHID, PURQUOTBASIC.DOCID,to_char(PURQUOTBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PURQUOTBASIC.PARTYID,PURQUOTBASIC.ENQNO,to_char(PURQUOTBASIC.ENQDATE,'dd-MON-yyyy')ENQDATE,PURQUOTBASIC.MAINCURRENCY,PURQUOTBASIC.EXRATE,PURQUOTBASICID from PURQUOTBASIC where PURQUOTBASIC.PURQUOTBASICID=" + id + "";
+            SvSql = "Select PURQUOTBASIC.BRANCHID, PURQUOTBASIC.DOCID,to_char(PURQUOTBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PURQUOTBASIC.PARTYID,PURENQ.ENQNO,to_char(PURENQ.ENQDATE,'dd-MON-yyyy')ENQDATE,PURQUOTBASIC.MAINCURRENCY,PURQUOTBASIC.EXRATE,PURQUOTBASICID from PURQUOTBASIC LEFT OUTER JOIN PURENQ ON PURENQ.PURENQID=PURQUOTBASIC.ENQID where PURQUOTBASIC.PURQUOTBASICID=" + id + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -180,7 +180,7 @@ namespace Arasan.Services
                             EnqNo = rdr["ENQNO"].ToString(),
                             EnqDate = rdr["ENQDATE"].ToString(),
                             Currency = rdr["MAINCURRENCY"].ToString(),
-                              ExRate = rdr["EXRATE"].ToString()
+                            ExRate = rdr["EXRATE"].ToString()
 
                         };
                         cmpList.Add(cmp);
@@ -374,7 +374,7 @@ namespace Arasan.Services
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
-                    svSQL = "Insert into POBASIC (PARTYID,BRANCHID,QUOTNO,EXRATE,ENQNO,MAINCURRENCY,DOCID,DOCDATE) (Select PARTYID,BRANCHID,'" + QuoteId + "',EXRATE,ENQNO,MAINCURRENCY,'" + PONo + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "'  from PURQUOTBASIC where PURQUOTBASICID='" + QuoteId + "')";
+                    svSQL = "Insert into POBASIC (PARTYID,BRANCHID,QUOTNO,EXRATE,MAINCURRENCY,DOCID,DOCDATE) (Select PARTYID,BRANCHID,'" + QuoteId + "',EXRATE,MAINCURRENCY,'" + PONo + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "'  from PURQUOTBASIC where PURQUOTBASICID='" + QuoteId + "')";
                     OracleCommand objCmd = new OracleCommand(svSQL, objConn);
                     try
                     {

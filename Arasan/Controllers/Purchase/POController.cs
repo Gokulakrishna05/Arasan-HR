@@ -174,11 +174,122 @@ namespace Arasan.Controllers
             IEnumerable<PO> cmp = PoService.GetAllPO();
             return View(cmp);
         }
+        public IActionResult ListGateInWard(string fromdate,string todate)
+        {
+            GateInward cmp = new GateInward();
+            DateTime now = DateTime.Now;
+            if (string.IsNullOrEmpty(fromdate) && string.IsNullOrEmpty(todate))
+            {
+                fromdate = now.ToString("dd-MMM-yyyy");
+                todate = now.ToString("dd-MMM-yyyy");
+            }
+            DataTable dt = new DataTable();
+            dt = PoService.GetAllGateInward(fromdate, todate);
+            cmp.fromdate = fromdate;
+            cmp.todate = todate;
+            List<GateInwardItem> TData = new List<GateInwardItem>();
+            GateInwardItem tda = new GateInwardItem();
+            if(dt.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    tda = new GateInwardItem();
+                    tda.Supplier = dt.Rows[i]["PARTY"].ToString();
+                    tda.Status = dt.Rows[i]["STATUS"].ToString();
+                    tda.GateInDate = dt.Rows[i]["GATE_IN_DATE"].ToString();
+                    tda.GateInTime = dt.Rows[i]["GATE_IN_TIME"].ToString();
+                    tda.PONo = dt.Rows[i]["DOCID"].ToString();
+                    tda.POID = dt.Rows[i]["GATE_IN_ID"].ToString();
+                    tda.TotalQty= dt.Rows[i]["TOTAL_QTY"].ToString()=="" ? 0 : Convert.ToDouble(dt.Rows[i]["TOTAL_QTY"].ToString());
+                    TData.Add(tda);
+                }
+            }
+            cmp.GateInlst = TData;
+            return View(cmp);
+        }
         public IActionResult GateInward()
         {
-            return View();
+            GateInward GI=new GateInward();
+            GI.Suplst = BindSupplier();
+            GI.GateInDate = DateTime.Now.ToString("dd-MMM-yyyy");
+            GI.GateInTime = DateTime.Now.ToString("h:mm");
+            return View(GI);
         }
-        
+
+        [HttpPost]
+        public ActionResult GateInward(GateInward Cy, string id)
+        {
+
+            try
+            {
+                string Strout = PoService.GateInwardCRUD(Cy);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Cy.ID == null)
+                    {
+                        TempData["notice"] = "Gate Inward Entered Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "Gate Inward Updated Successfully...!";
+                    }
+                    return RedirectToAction("GateInward");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit Gate Inward";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(Cy);
+        }
+        public JsonResult GetSuppJSON(string supid)
+        {
+            GateInward model = new GateInward();
+            model.POlst = BindPOlst(supid);
+            return Json(BindPOlst(supid));
+
+        }
+        public JsonResult GetPOJSON(string poid)
+        {
+            GateInward model = new GateInward();
+            DataTable dtt = new DataTable();
+            List<POGateItem> Data = new List<POGateItem>();
+            POGateItem tda = new POGateItem();
+            dtt = PoService.GetPOItembyID(poid);
+            if (dtt.Rows.Count > 0)
+            {
+                for (int i = 0; i < dtt.Rows.Count; i++)
+                {
+                    tda = new POGateItem();
+                    tda.itemid = dtt.Rows[i]["Itemi"].ToString();
+                    tda.itemname= dtt.Rows[i]["ITEMID"].ToString();
+                    tda.unit = dtt.Rows[i]["UNITID"].ToString();
+                    tda.quantity = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString());
+                    DataTable dt4 = new DataTable();
+                    dt4 = datatrans.GetItemDetails(tda.itemid);
+                    if (dt4.Rows.Count > 0)
+                    {
+                        tda.Conversionfactor = dt4.Rows[0]["CF"].ToString();
+                        tda.qc= dt4.Rows[0]["QCCOMPFLAG"].ToString(); 
+                    }
+                    Data.Add(tda);
+                }
+            }
+            //ca.Net = tot;
+            model.PoItem = Data;
+            return Json(model.PoItem);
+
+        }
         public List<SelectListItem> BindBranch()
         {
             try
@@ -344,7 +455,23 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-
+        public List<SelectListItem> BindPOlst(string value)
+        {
+            try
+            {
+                DataTable dtDesg = PoService.GetPObySuppID(value);
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DOCID"].ToString(), Value = dtDesg.Rows[i]["POBASICID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<SelectListItem> BindItemGrplst()
         {
             try
@@ -365,6 +492,11 @@ namespace Arasan.Controllers
         public IActionResult PODetails(string id)
         {
             IEnumerable<POItem> cmp = PoService.GetAllPOItem(id);
+            return View(cmp);
+        }
+        public IActionResult GateInwardDetails(string id)
+        {
+            IEnumerable<POItem> cmp = PoService.GetAllGateInwardItem(id);
             return View(cmp);
         }
         public IActionResult ViewPO(string id)

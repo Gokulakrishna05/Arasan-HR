@@ -6,12 +6,16 @@ namespace Arasan.Interface
     public interface IPO
     {
         IEnumerable<PO> GetAllPO();
+        DataTable GetAllGateInward(string fromdate, string todate);
         IEnumerable<POItem> GetAllPOItem(string Poid);
+        IEnumerable<POItem> GetAllGateInwardItem(string GateInwardId);
         DataTable GetPObyID(string Poid);
         DataTable GetPOItembyID(string Poid);
         DataTable EditPObyID(string Poid);
         DataTable GetPOItemDetails(string Poid);
         string PurOrderCRUD(PO Cy);
+        string GateInwardCRUD(GateInward Cy);
         string POtoGRN(string POID);
+        DataTable GetPObySuppID(string supid);
     }
 }

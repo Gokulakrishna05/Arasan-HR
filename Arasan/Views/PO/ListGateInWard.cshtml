@@ -1,7 +1,7 @@
-﻿ @model IEnumerable<Arasan.Models.PO>
+﻿ @model Arasan.Models.GateInward
 
 @{
-    ViewData["Title"] = "Purchase Order";
+    ViewData["Title"] = "Gate Inward";
 }
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
@@ -9,7 +9,7 @@
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Transaction</a> </li>
-            <li class="active"> <strong>Purchase Order</strong> </li>
+            <li class="active"> <strong>Gate Inward</strong> </li>
         </ol>
     </div>
 </div>
@@ -22,6 +22,46 @@
                   
                     <form>
 
+<div style="height:10px;"></div>
+
+                        <div class="row">
+                              <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputName3" class="col-sm-4 control-label">From Date <label class="mandatory">*</label></label>
+                                              
+													<div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy" >
+                                                         @Html.TextBoxFor(C => C.fromdate, new { @id = "dtFrom", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })
+														<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+													</div>
+													
+													<br/>
+												
+                                            </div>
+                                        </div> 
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputName3" class="col-sm-4 control-label">To Date <label class="mandatory">*</label></label>
+                                              
+													<div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy" >
+                                                         @Html.TextBoxFor(C => C.todate, new { @id = "dtTo", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })
+														<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+													</div>
+													
+													<br/>
+												
+                                            </div>
+                                        </div>
+                        
+                        </div>
+                        <div style="height:10px;"></div>
+                        <div class="row">
+                            <div class="col-md-6"></div>
+                            <div class="col-md-6">
+                                <input type="submit" name="submit" id="btnSave" class="btn btn-success marginleft_new2" value="Generate" tabindex="5" />
+                            </div>
+
+                        </div>
+<div style="height:30px;"></div>
 
 <div class="row">
           <div class="col-lg-12">
@@ -33,16 +73,12 @@
                     <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
                       <thead>
                         <tr>
-                          <th>Branch</th>
                           <th>Supplier Name</th>
                           <th>PO No.</th>
-                          <th>PO Date</th>
-                          <th>Quotation No.</th>
-                          <th>Currency</th>
-                          <th>Generate PO</th>
-                         <th>Move To GRN</th>
-                          <th>Edit</th>
-                          <th>Delete</th>
+                          <th>IN Date</th>
+                          <th>IN Time</th>
+                          <th>Total Qty.</th>
+                          
                         </tr>
                       </thead>
                    
@@ -51,32 +87,18 @@
                                                             int i = 1;
 
 
-                                                            foreach (var item in Model)
+                                                            foreach (var item in Model.GateInlst)
                                                             {
                                                                 
 
                                 <tr>
-                                                                            <td>@Html.DisplayFor(modelItem => item.Branch)</td>
                                                                             <td>@Html.DisplayFor(modelItem => item.Supplier)</td>
-                                                                            <td><a href="@Url.Action("PODetails", "PO",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'>@Html.DisplayFor(modelItem => item.PONo)</a></td>
-                                                                            <td>@Html.DisplayFor(modelItem => item.POdate)</td>
-                                                                            <td>@Html.DisplayFor(modelItem => item.QuoteNo)</td>
-                                                                            <td>@Html.DisplayFor(modelItem => item.Cur)</td>
-                                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a href="#"><img src='../Images/pdf.png' alt='Generate PO' width='20'/></a></div></td>  
-                                                                            @if(string.IsNullOrEmpty(item.Status))
-                                                                    {
-                                                                         <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewPO", "PO",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20'/></a></div></td>   
-                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("PurchaseOrder", "PO",new { id=item.ID })"></a></div></td>
-                                                                    <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("PurchaseOrder", "PO",new { id=item.ID })"></a></div></td>
-                                                                    }
-                                                                   else{
-
-                                                                <td><div class="fa-hover col-md-2 col-sm-4"> <span style="color:green"><b>@Html.DisplayFor(modelItem => item.Status)</b></span></div></td>
-
-                                                                <td></td>
-                                                                <td></td>
-                                                                 }
-                                                                   
+                                                                            <td><a href="@Url.Action("GateInwardDetails", "PO",new { id=item.POID })" class='fancybox' data-fancybox-type='iframe'>@Html.DisplayFor(modelItem => item.PONo)</a></td>
+                                                                            <td>@Html.DisplayFor(modelItem => item.GateInDate)</td>
+                                                                            <td>@Html.DisplayFor(modelItem => item.GateInTime)</td>
+                                                                            <td>@Html.DisplayFor(modelItem => item.TotalQty)</td>
+                                                                          
+                                                                           
 
                                                                         
                                  </tr>
@@ -105,6 +127,14 @@
 </div>
 
                           <script>
+                                $(document).ready(function () {
+                $('#btnSave').click(function (e) {
+                    var frodate = document.getElementById("dtFrom").value;
+                    var todate = document.getElementById("dtTo").value;
+               window.location.href = "/PO/ListGateInWard?frodate=" + frodate + "&todate=" + todate 
+                });
+
+            });
                               $(document).ready(function() {
                                 $('#example7').DataTable({
                 dom: 'Bfrtip',
@@ -134,6 +164,16 @@
 
 
         });
+         $('.form_date').datetimepicker({
+     //   language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 2,
+    minView: 2,
+    forceParse: 0
+    });
                           </script>
 
                       <a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
