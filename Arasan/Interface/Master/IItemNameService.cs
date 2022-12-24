@@ -15,7 +15,7 @@ namespace Arasan.Interface.Master
         DataTable GetItemSubGroup();
         DataTable GetHSNcode();
         DataTable GetSupplier();
-       
+        DataTable BindBinID();
         string SupplierCRUD(ItemName pf);
         ItemName GetSupplierById(string id);
         DataTable GetAllSupplier(string id);
