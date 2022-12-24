@@ -25,7 +25,7 @@ namespace Arasan.Services.Master
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMCODE,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MAXSTOCKLVL,MINSTOCKLVL,CONVERAT,UOM,HSN,SELLINGPRI,ITEMMASTERID from ITEMMASTER";
+                    cmd.CommandText = "Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMCODE,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MAXSTOCKLVL,MINSTOCKLVL,CONVERAT,UOM,HSN,SELLINGPRI,BINNO,BINYN,ITEMMASTERID from ITEMMASTER";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -46,6 +46,8 @@ namespace Arasan.Services.Master
                             Uom = rdr["UOM"].ToString(),
                             Hcode = rdr["HSN"].ToString(),
                             Selling = rdr["SELLINGPRI"].ToString(),
+                            BinNo = rdr["BINNO"].ToString(),
+                            Yn = rdr["BINYN"].ToString(),
 
                         };
                         staList.Add(sta);
@@ -62,7 +64,7 @@ namespace Arasan.Services.Master
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMCODE,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MAXSTOCKLVL,MINSTOCKLVL,CONVERAT,UOM,HSN,SELLINGPRI,ITEMMASTERID from ITEMMASTER where ITEMMASTERID=" + eid + "";
+                    cmd.CommandText = "Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMCODE,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MAXSTOCKLVL,MINSTOCKLVL,CONVERAT,UOM,HSN,SELLINGPRI,BINNO,BINYN,ITEMMASTERID from ITEMMASTER where ITEMMASTERID=" + eid + "";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -83,6 +85,8 @@ namespace Arasan.Services.Master
                             Uom = rdr["UOM"].ToString(),
                             Hcode = rdr["HSN"].ToString(),
                             Selling = rdr["SELLINGPRI"].ToString(),
+                            BinNo = rdr["BINNO"].ToString(),
+                            Yn = rdr["BINYN"].ToString(),
                         };
                         ItemName = sta;
                     }
@@ -92,7 +96,7 @@ namespace Arasan.Services.Master
         }
         public string ItemNameCRUD(ItemName ss)
         {
-            string msg = "";
+            string msg = " ";
             try
             {
                 string StatementType = string.Empty;
@@ -130,6 +134,8 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("UOM", OracleDbType.NVarchar2).Value = ss.Uom;
                     objCmd.Parameters.Add("HSN", OracleDbType.NVarchar2).Value = ss.Hcode;
                     objCmd.Parameters.Add("SELLINGPRI", OracleDbType.NVarchar2).Value = ss.Selling;
+                    objCmd.Parameters.Add("BINNO", OracleDbType.NVarchar2).Value = ss.BinNo;
+                    objCmd.Parameters.Add("BINYN", OracleDbType.NVarchar2).Value = ss.Yn;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     try
                     {
@@ -156,6 +162,16 @@ namespace Arasan.Services.Master
         {
             string SvSql = string.Empty;
             SvSql = "Select ITEMGROUPID,GROUPCODE from ITEMGROUP where APPROVALSTATUS='Y'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable BindBinID()
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select BINBASICID,BINID from BINBASIC";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

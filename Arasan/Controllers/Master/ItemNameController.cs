@@ -24,6 +24,7 @@ namespace Arasan.Controllers.Master
             ca.Iclst = BindItemCategory();
             ca.Isglst = BindItemSubGroup ();
             ca.Hsn = BindHSNcode();
+            ca.Bin = BindBinID();
             List<SupItem> TData = new List<SupItem>();
             SupItem tda = new SupItem();
             if (id == null)
@@ -39,12 +40,30 @@ namespace Arasan.Controllers.Master
             }
             else
             {
-                ca = ItemNameService.GetSupplierDetailById(id);
+               // ca = ItemNameService.GetSupplierDetailById(id);
 
 
             }
+            
             ca.Suplst = TData;
             return View(ca);
+        }
+        public List<SelectListItem> BindBinID()
+        {
+            try
+            {
+                DataTable dtDesg = ItemNameService.BindBinID();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["BINID"].ToString(), Value = dtDesg.Rows[i]["BINBASICID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public List<SelectListItem> BindItemGroup()
         {
@@ -141,6 +160,7 @@ namespace Arasan.Controllers.Master
                     TempData["notice"] = Strout;
                     //return View();
                 }
+                
 
                 // }
             }
@@ -220,7 +240,7 @@ namespace Arasan.Controllers.Master
                     }
                 }
                 cmp.pflst = TData;
-
+                cmp.blst = TData;
             }
             //IEnumerable<PurchaseFollowup> cmp = PurenqService.GetAllPurchaseFollowup();
             return View(cmp);
