@@ -96,7 +96,7 @@ namespace Arasan.Controllers.Master
                 }
                 DataTable dt4 = new DataTable();
                 dt4 = EmployeeService.GetEmpSkillDeatils(id);
-                if (dt3.Rows.Count > 0)
+                if (dt4.Rows.Count > 0)
                 {
 
 

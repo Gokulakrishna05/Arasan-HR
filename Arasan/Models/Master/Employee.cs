@@ -8,6 +8,7 @@ namespace Arasan.Models
         {
             this.Statelst = new List<SelectListItem>();
             this.Citylst = new List<SelectListItem>();
+
         }
         public string EmpNo { get; set; }
 

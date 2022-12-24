@@ -9,6 +9,7 @@ namespace Arasan.Models
             this.Statelst = new List<SelectListItem>();
             this.Citylst = new List<SelectListItem>();
             this.Countrylst = new List<SelectListItem>();
+            this.assignList = new List<SelectListItem>();
         }
         public string ID { get; set; }
         public string CategoryType { get; set; }
@@ -29,6 +30,8 @@ namespace Arasan.Models
         public List<SelectListItem> Countrylst;
        
         public string Country { get; set; }
+        public List<SelectListItem> assignList;
+
         public string Phone { get; set; }
         public string Remark { get; set; }
         public string Mobile { get; set; }
@@ -67,21 +70,29 @@ namespace Arasan.Models
         public int  EntryBY { get; set; }   
         public string EntryOn { get; set; }
         public int UpdatedBY { get; set; }
-        public List<PartyItem> PartyLst { get; set; }
+        //public List<PartyItem> PartyLst { get; set; }
 
-
-
-    }
-    public class PartyItem
-    {
-        public string ID { get; set; }
+        public string CID { get; set; }
         public string ContactPerson { get; set; }
         public string Purpose { get; set; }
-      
+
         public string Designation { get; set; }
-        public string Phone { get; set; }
-       
-        public string Email { get; set; }
+        public string CPhone { get; set; }
+
+        public string CEmail { get; set; }
         public string Isvalid { get; set; }
+
     }
+    //public class PartyItem
+    //{
+    //    public string ID { get; set; }
+    //    public string ContactPerson { get; set; }
+    //    public string Purpose { get; set; }
+      
+    //    public string Designation { get; set; }
+    //    public string Phone { get; set; }
+       
+    //    public string Email { get; set; }
+    //    public string Isvalid { get; set; }
+    //}
     }
