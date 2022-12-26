@@ -15,7 +15,7 @@ namespace Arasan.Services
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
         }
-  public DataTable GetWorkCenter(string LocationId)
+        public DataTable GetWorkCenter(string LocationId)
         {
             string SvSql = string.Empty;
             SvSql = "Select WCBASIC.ILOCATION,WCID LOCDETAILS from WCBASIC LEFT OUTER JOIN LOCDETAILS on LOCDETAILS.LOCDETAILSID = WCBASIC.ILOCATION where LOCDETAILS.LOCDETAILSID = '" + LocationId + "'";
@@ -64,7 +64,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                    con.Open();
-                   cmd.CommandText = "Select BRANCHID,DOCID,DOCDATE,FROMLOCID,PROCESSID,REQTYPE,STORESREQBASICID from STORESREQBASIC";
+                   cmd.CommandText = "Select BRANCHMAST.BRANCHID,DOCID,to_char(DOCDATE,'dd-MON-yyyy')DOCDATE,LOCDETAILS.LOCID,PROCESSID,REQTYPE,STORESREQBASICID from STORESREQBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=STORESREQBASIC.BRANCHID LEFT OUTER JOIN  LOCDETAILS on STORESREQBASIC.FROMLOCID=LOCDETAILS.LOCDETAILSID";
                    OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                    {
@@ -72,7 +72,7 @@ namespace Arasan.Services
                         {
                             ID = rdr["STORESREQBASICID"].ToString(),
                             Branch = rdr["BRANCHID"].ToString(),
-                            Location = rdr["FROMLOCID"].ToString(),
+                            Location = rdr["LOCID"].ToString(),
                             Process = rdr["PROCESSID"].ToString(),
                             RequestType = rdr["REQTYPE"].ToString(),
                             DocId = rdr["DOCID"].ToString(),
@@ -89,38 +89,38 @@ namespace Arasan.Services
         }
 
 
-        public MaterialRequisition GetMaterialById(string eid)
-        {
-            MaterialRequisition Material = new MaterialRequisition();
-            using (OracleConnection con = new OracleConnection(_connectionString))
-            {
-                using (OracleCommand cmd = con.CreateCommand())
-                {
-                    con.Open();
-                    cmd.CommandText = "Select BRANCHID,DOCID,DOCDATE,FROMLOCID,PROCESSID,REQTYPE,STORESREQBASICID from STORESREQBASIC where STORESREQBASICID=" + eid + "";
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
-                    {
-                        MaterialRequisition cmp = new MaterialRequisition
-                        {
-                            ID = rdr["STORESREQBASICID"].ToString(),
+        //public MaterialRequisition GetMaterialById(string eid)
+        //{
+        //    MaterialRequisition Material = new MaterialRequisition();
+        //    using (OracleConnection con = new OracleConnection(_connectionString))
+        //    {
+        //        using (OracleCommand cmd = con.CreateCommand())
+        //        {
+        //            con.Open();
+        //            cmd.CommandText = "Select BRANCHID,DOCID,DOCDATE,FROMLOCID,PROCESSID,REQTYPE,STORESREQBASICID from STORESREQBASIC where STORESREQBASICID=" + eid + "";
+        //            OracleDataReader rdr = cmd.ExecuteReader();
+        //            while (rdr.Read())
+        //            {
+        //                MaterialRequisition cmp = new MaterialRequisition
+        //                {
+        //                    ID = rdr["STORESREQBASICID"].ToString(),
 
-                           Branch = rdr["BRANCHID"].ToString(),
-                           Location = rdr["FROMLOCID"].ToString(),
-                            Process = rdr["PROCESSID"].ToString(),
-                            RequestType = rdr["REQTYPE"].ToString(),
-                            DocId = rdr["DOCID"].ToString(),
-                            DocDa = rdr["DOCDATE"].ToString()
+        //                   Branch = rdr["BRANCHID"].ToString(),
+        //                   Location = rdr["FROMLOCID"].ToString(),
+        //                    Process = rdr["PROCESSID"].ToString(),
+        //                    RequestType = rdr["REQTYPE"].ToString(),
+        //                    DocId = rdr["DOCID"].ToString(),
+        //                    DocDa = rdr["DOCDATE"].ToString()
 
 
-                       };
+        //               };
                          
-                        Material = cmp;
-                    }
-                }
-           } 
-            return Material;
-        }
+        //                Material = cmp;
+        //            }
+        //        }
+        //   } 
+        //    return Material;
+        //}
 
         public string MaterialCRUD(MaterialRequisition cy)
         {
@@ -132,9 +132,7 @@ namespace Arasan.Services
                using (OracleConnection objConn = new OracleConnection(_connectionString))
                {
                   OracleCommand objCmd = new OracleCommand("MATERIALREQPROC", objConn);
-                    /*objCmd.Connection = objConn;
-                     objCmd.CommandText = "MATERIALREQPROC";*/
-
+                
                     objCmd.CommandType = CommandType.StoredProcedure;
                     if (cy.ID == null)
                     {
@@ -146,7 +144,7 @@ namespace Arasan.Services
                         StatementType = "Update";
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                     }
-                    objCmd.Parameters.Add("BRANCHID", OracleDbType.Int64).Value = cy.Branch;
+                    objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
                     objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.DocId;
                     objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = cy.DocDa;
                     objCmd.Parameters.Add("FROMLOCID", OracleDbType.NVarchar2).Value = cy.Location;

@@ -326,7 +326,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select ENQ_ID,FOLLOWED_BY,to_char(FOLLOW_DATE,'dd-MON-yyyy')FOLLOW_DATE,to_char(NEXT_FOLLOW_DATE,'dd-MON-yyyy')NEXT_FOLLOW_DATE,REMARKS,FOLLOW_STATUS,ENQ_FOLLOW_ID from ENQUIRY_FOLLOW_UP";
+                    cmd.CommandText = "Select ENQ_ID,EMPMAST.EMPNAME,to_char(FOLLOW_DATE,'dd-MON-yyyy')FOLLOW_DATE,to_char(NEXT_FOLLOW_DATE,'dd-MON-yyyy')NEXT_FOLLOW_DATE,REMARKS,FOLLOW_STATUS,ENQ_FOLLOW_ID from ENQUIRY_FOLLOW_UP LEFT OUTER JOIN EMPMAST ON EMPMASTID=ENQUIRY_FOLLOW_UP.FOLLOWED_BY";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -334,7 +334,7 @@ namespace Arasan.Services
                         {
                             ID = rdr["ENQ_FOLLOW_ID"].ToString(),
                             Enqno = rdr["ENQ_ID"].ToString(),
-                            Followby = rdr["FOLLOWED_BY"].ToString(),
+                            Followby = rdr["EMPNAME"].ToString(),
                             Followdate = rdr["FOLLOW_DATE"].ToString(),
                             Nfdate = rdr["NEXT_FOLLOW_DATE"].ToString(),
                             Rmarks = rdr["REMARKS"].ToString(),
@@ -349,7 +349,7 @@ namespace Arasan.Services
         public DataTable GetFolowup(string enqid)
         {
             string SvSql = string.Empty;
-            SvSql = "Select ENQUIRY_FOLLOW_UP.ENQ_ID,ENQUIRY_FOLLOW_UP.FOLLOWED_BY,to_char(ENQUIRY_FOLLOW_UP.FOLLOW_DATE,'dd-MON-yyyy')FOLLOW_DATE,to_char(ENQUIRY_FOLLOW_UP.NEXT_FOLLOW_DATE,'dd-MON-yyyy')NEXT_FOLLOW_DATE,ENQUIRY_FOLLOW_UP.REMARKS,ENQUIRY_FOLLOW_UP.FOLLOW_STATUS,ENQ_FOLLOW_ID from ENQUIRY_FOLLOW_UP WHERE ENQ_ID='" + enqid + "'";
+            SvSql = "Select ENQUIRY_FOLLOW_UP.ENQ_ID,ENQUIRY_FOLLOW_UP.FOLLOWED_BY,to_char(ENQUIRY_FOLLOW_UP.FOLLOW_DATE,'dd-MON-yyyy')FOLLOW_DATE,to_char(ENQUIRY_FOLLOW_UP.NEXT_FOLLOW_DATE,'dd-MON-yyyy')NEXT_FOLLOW_DATE,ENQUIRY_FOLLOW_UP.REMARKS,ENQUIRY_FOLLOW_UP.FOLLOW_STATUS,ENQ_FOLLOW_ID from ENQUIRY_FOLLOW_UP LEFT OUTER JOIN EMPMAST ON EMPNAME=ENQUIRY_FOLLOW_UP.FOLLOWED_BY  WHERE ENQ_ID='" + enqid + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

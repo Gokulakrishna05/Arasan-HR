@@ -69,6 +69,16 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetPurchaseReturnReason(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select PRETTANDC.REASON,PRETTANDC.SNO,PRETTANDCID  from PRETTANDC where PRETTANDC.PRETBASICID=" + id + "";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public string PurReturnCRUD(PurchaseReturn cy)
         {
             string msg = "";
@@ -151,9 +161,35 @@ namespace Arasan.Services
                             objCmds.ExecuteNonQuery();
                             objConns.Close();
                         }
+                        using (OracleConnection objConns = new OracleConnection(_connectionString))
+                        {
+                            OracleCommand objCmds = new OracleCommand("PURRETURNTANDCPROC", objConns);
+                            if (cy.ID == null)
+                            {
+                                StatementType = "Insert";
+                                objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
 
+                            }
+                            else
+                            {
+                                StatementType = "Update";
+                                objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
 
+                            }
+                            objCmds.CommandType = CommandType.StoredProcedure;
+                            objCmds.Parameters.Add("PRETBASICID", OracleDbType.NVarchar2).Value = Pid;
+                            objCmds.Parameters.Add("SNO", OracleDbType.NVarchar2).Value = cy.SNO;
+                            objCmds.Parameters.Add("REASON", OracleDbType.NVarchar2).Value = cy.Reason;
+                           
+
+                            objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                            objConns.Open();
+                            objCmds.ExecuteNonQuery();
+                            objConns.Close();
                         }
+
+
+                    }
                     catch (Exception ex)
                     {
                         //System.Console.WriteLine("Exception: {0}", ex.ToString());
@@ -193,6 +229,16 @@ namespace Arasan.Services
         {
             string SvSql = string.Empty;
             SvSql = "Select STATE,STATEMASTID from STATEMAST";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetCity()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select CITYNAME,CITYID from CITYMASTER  ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

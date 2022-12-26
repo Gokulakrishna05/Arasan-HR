@@ -63,7 +63,8 @@ namespace Arasan.Models
         public string Followdate { get; set; }
         public string Nfdate { get; set; }
         public string Rmarks { get; set; }
-        
+        public List<SelectListItem> EnqassignList;
+
 
         public List<PurchaseFollowupDetails> pflst  { get; set; }
 
