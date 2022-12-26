@@ -211,7 +211,7 @@ namespace Arasan.Controllers.Master
             else
             {
                
-                ca = ItemNameService.GetSupplierById(id);
+                //ca = ItemNameService.GetSupplierById(id);
 
                
             }
@@ -240,7 +240,7 @@ namespace Arasan.Controllers.Master
                     }
                 }
                 cmp.pflst = TData;
-                cmp.blst = TData;
+               
             }
             //IEnumerable<PurchaseFollowup> cmp = PurenqService.GetAllPurchaseFollowup();
             return View(cmp);

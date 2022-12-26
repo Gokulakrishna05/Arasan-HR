@@ -465,7 +465,7 @@
                 </div>
                 <div class="tab-pane" id="tab-3">
                  @*3rd tab*@
-                  <div class="row">
+                        <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
 
@@ -498,55 +498,33 @@
                             </div>
                         </div>
                                         <div class="row">
-                                            <div class="col-lg-12">
                                                 <div class="ibox float-e-margins">
-
-                                                    <div class="ibox-content collapse in">
-                                                        <div class="widgets-container">
                                                             <div>
                                                                 <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
                                                                     <thead>
                                                                         <tr>
-
                                                                             <th>Bin Y/N</th>
                                                                             <th>Bin ID</th>
-                                                                           
-                                                                            
-
                                                                         </tr>
                                                                     </thead>
 
                                                                     <tbody>
                                                                         @{
-
-
-
-                                                                            foreach (var item in Model.blst)
+                                                                            int a = 1;
+                                                                            foreach (var item in Model.Suplst)
                                                                             {
                                                                                 <tr>
-
                                                                                     <td>@Html.DisplayFor(modelItem => item.BinNo)</td>
                                                                                     <td>@Html.DisplayFor(modelItem => item.Yn)</td>
-                                                                                    
                                                                                 </tr>
-                                                                               
+                                                                               a++;
                                                                             }
                                                                         }
-
-                                                                       
                                                                     </tbody>
+                                                                    
                                                                 </table>
                                                             </div>
-                                                        </div>
-                                                    </div>
-
                                                 </div>
-
-
-
-
-                                            </div>
-
                                         </div>
                 @* 3rd tab*@
                 </div>
@@ -629,10 +607,10 @@
                    @* 4th tab*@
                 
                 
-                            <div style="height:30px;"></div>
-                            <a button type="submit" class="btn aqua m-t-xs bottom15-xs" href="@Url.Action("ItemList", "ItemName")">Submit</a>
-                            <a button class="btn btn-danger" type="submit" href="@Url.Action("ItemList", "ItemName")">Cancel</a>
-                    
+                            
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs">Submit</button>
+                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ItemList", "ItemName")'">Cancel</button>
+
                         
                </from>
                     
@@ -640,6 +618,7 @@
             </div>
         </div>
     </div>
+  </div>
 </div>
 <script>
     $(".chosen-select").chosen();

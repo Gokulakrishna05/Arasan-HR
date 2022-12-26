@@ -73,7 +73,7 @@
                                                                    
                                                                    
                                                             @* <td>₹</td>*@
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a href="#"><img src='../Images/mail_icon.png' alt='Send Email' /></a></div></td>
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("SendMail", "PurchaseQuo",new { id=item.ID })"><img src='../Images/mail_icon.png' alt='Send Email' /></a></div></td>
                                                                     <td> <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("Followup", "PurchaseQuo",new { id=item.ID })"><img src='../Images/followup.png' alt='FollowUp' /> - (1)</a></div></td>
                                                             @if(item.status == "Generated"){
                                                                 <td><div class="fa-hover col-md-2 col-sm-4"> <img src='../Images/tick.png' alt='Moved to Quote' width='20' /></div></td>
