@@ -5,6 +5,7 @@ using System.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Arasan.Models;
 using System.Xml.Linq;
+using Arasan.Services.Master;
 
 namespace Arasan.Controllers 
 {
@@ -29,10 +30,10 @@ namespace Arasan.Controllers
             ca.Curlst = BindCurrency();
             ca.Loclst = GetLoc();
             ca.Satlst = GetSat();
+            ca.Citylst = BindCity();
             List<RetItem> TData = new List<RetItem>();
             RetItem tda = new RetItem();
-            List<ReasonItem> TData1 = new List<ReasonItem>();
-            ReasonItem tda1 = new ReasonItem();
+           
             if (id == null)
             {
                 for (int i = 0; i < 3; i++)
@@ -43,14 +44,7 @@ namespace Arasan.Controllers
 
                     TData.Add(tda);
                 }
-                for (int i = 0; i < 3; i++)
-                {
-                    tda1 = new ReasonItem();
-                    //tda.POlst = BindPOlist();
-                    //tda.Itemlst = BindItemlst();
-
-                    TData1.Add(tda1);
-                }
+               
             }
             else
             {
@@ -104,8 +98,19 @@ namespace Arasan.Controllers
                         ca.Phone = dt2.Rows[0]["SPHONE"].ToString();
                       
                 }
+                DataTable dt3 = new DataTable();
+                dt3 = PurReturn.GetPurchaseReturnReason(id);
+                if (dt3.Rows.Count > 0)
+                {
+
+                    ca.Reason = dt3.Rows[0]["REASON"].ToString();
+
+                    ca.SNO = dt3.Rows[0]["SNO"].ToString();
+                   
+
+                }
             }
-            ca.ReLst = TData1;
+           
                 ca.RetLst = TData;
             return View(ca);
 
@@ -239,6 +244,23 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+        public List<SelectListItem> BindCity()
+        {
+            try
+            {
+                DataTable dtDesg = PurReturn.GetCity();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["CITYNAME"].ToString(), Value = dtDesg.Rows[i]["CITYID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<SelectListItem> BindPOlist()
         {
             try
@@ -340,6 +362,12 @@ namespace Arasan.Controllers
         {
             IEnumerable<PurchaseReturn> cmp = PurReturn.GetAllPurReturn();
             return View(cmp);
+        }
+        public JsonResult GetItemGrpJSON()
+        {
+            PurchaseReturn model = new PurchaseReturn();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(model);
         }
     }
 }

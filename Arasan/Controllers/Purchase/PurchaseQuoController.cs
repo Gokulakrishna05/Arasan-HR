@@ -370,6 +370,7 @@ namespace Arasan.Controllers
         public IActionResult Followup(string id)
         {
             QuoFollowup cmp = new QuoFollowup();
+            cmp.EnqassignList = BindEmp();
             List<QuotationFollowupDetails> TData = new List<QuotationFollowupDetails>();
             if (id == null)
             {

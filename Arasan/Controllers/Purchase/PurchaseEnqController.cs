@@ -35,6 +35,7 @@ namespace Arasan.Controllers
             ca.EnqRecList= BindEmp();
             List<EnqItem> TData = new List<EnqItem>();
             EnqItem tda = new EnqItem();
+
             if (id == null)
             {
                 for (int i = 0; i < 3; i++)
@@ -67,13 +68,13 @@ namespace Arasan.Controllers
                 {
                     ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
                     ca.Enqdate= dt.Rows[0]["ENQDATE"].ToString();
-                    ca.Supplier= dt.Rows[0]["PARTYMASTID"].ToString();
+                    ca.Supplier= dt.Rows[0]["PARTY"].ToString();
                     ca.EnqNo= dt.Rows[0]["ENQNO"].ToString();
                     ca.ID = id;
                     ca.ParNo= dt.Rows[0]["PARTYREFNO"].ToString();
                     ca.Cur= dt.Rows[0]["CURRENCYID"].ToString();
                     ca.ExRate= dt.Rows[0]["EXCRATERATE"].ToString();
-                    ca.RefNo= dt.Rows[0]["ENQREF"].ToString();
+                    ca.RefNo= dt.Rows[0]["PARTYREFNO"].ToString();
                 }
                 DataTable dt2 = new DataTable();
                 dt2 = PurenqService.GetPurchaseEnqItemDetails(id);
@@ -484,6 +485,7 @@ namespace Arasan.Controllers
         public IActionResult Followup(string id)
         {
             PurchaseFollowup cmp = new PurchaseFollowup();
+            cmp.EnqassignList = BindEmp();
             List<PurchaseFollowupDetails> TData = new List<PurchaseFollowupDetails>();
             if (id == null)
             {
