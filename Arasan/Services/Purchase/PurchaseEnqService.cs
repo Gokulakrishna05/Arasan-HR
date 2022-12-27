@@ -297,10 +297,7 @@ namespace Arasan.Services
 
 
                         }
-
-
-
-                        
+                 
                     }
                     catch (Exception ex)
                     {
@@ -356,6 +353,17 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         
+        }
+        public DataTable GetFollowupDetail(string enqid)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select ENQUIRY_FOLLOW_UP.ENQ_ID,ENQUIRY_FOLLOW_UP.FOLLOWED_BY,to_char(ENQUIRY_FOLLOW_UP.FOLLOW_DATE,'dd-MON-yyyy')FOLLOW_DATE,to_char(ENQUIRY_FOLLOW_UP.NEXT_FOLLOW_DATE,'dd-MON-yyyy')NEXT_FOLLOW_DATE,ENQUIRY_FOLLOW_UP.REMARKS,ENQUIRY_FOLLOW_UP.FOLLOW_STATUS,ENQ_FOLLOW_ID from ENQUIRY_FOLLOW_UP   WHERE ENQ_ID='" + enqid + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+
         }
         //public PurchaseFollowup GetPurchaseFollowupById(string eid)
         //{
