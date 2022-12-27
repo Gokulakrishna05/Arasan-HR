@@ -76,5 +76,6 @@ namespace Arasan.Models
         public string Isvalid { get; set; }
         public string BinNo { get; set; }
         public string Yn { get; set; }
+
     }
 }

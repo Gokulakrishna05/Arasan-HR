@@ -465,7 +465,7 @@
                 </div>
                 <div class="tab-pane" id="tab-3">
                  @*3rd tab*@
-                        <div class="row">
+                        
                             <div class="col-md-6">
                                 <div class="form-group">
 
@@ -489,42 +489,60 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Bin ID <label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                                        @Html.DropDownListFor(C => C.BinId, Model.Bin, new { @id = "ddlBinId", @Class = "form-control chosen-select", @TabIndex = 1 ,Style = "width :300px:"})<br />
+                                                    @Html.DropDownListFor(C => C.BinNo, Model.Bin, new { @id = "ddlBinNo", @Class = "form-control chosen-select", @TabIndex = 2})<br />
 
                                         
                                     </div>
 
                                 </div>
                             </div>
-                        </div>
+                           
                                         <div class="row">
+                                            <div class="col-lg-12">
                                                 <div class="ibox float-e-margins">
+
+                                                    <div class="ibox-content collapse in">
+                                                        <div class="widgets-container">
                                                             <div>
                                                                 <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
                                                                     <thead>
                                                                         <tr>
-                                                                            <th>Bin Y/N</th>
+
+                                                                            
                                                                             <th>Bin ID</th>
+                                                                            <th>Bin Y/N</th>
+
                                                                         </tr>
                                                                     </thead>
 
                                                                     <tbody>
                                                                         @{
                                                                             int a = 1;
+
                                                                             foreach (var item in Model.Suplst)
                                                                             {
                                                                                 <tr>
+
                                                                                     <td>@Html.DisplayFor(modelItem => item.BinNo)</td>
                                                                                     <td>@Html.DisplayFor(modelItem => item.Yn)</td>
                                                                                 </tr>
-                                                                               a++;
+                                                                                a++;
                                                                             }
                                                                         }
+
+                                                                        
+                                                                   
                                                                     </tbody>
-                                                                    
                                                                 </table>
                                                             </div>
+                                                        </div>
+                                                    </div>
+
                                                 </div>
+
+
+                                            </div>
+
                                         </div>
                 @* 3rd tab*@
                 </div>

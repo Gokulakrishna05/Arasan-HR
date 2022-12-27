@@ -92,7 +92,7 @@ namespace Arasan.Controllers.Master
                 DataTable dt2 = new DataTable();
                 dt2 = PartyMasterService.GetPartyContact(id);
                 if (dt2.Rows.Count > 0)
-                {
+                { 
                     for (int i = 0; i < dt2.Rows.Count; i++)
                     {
 
@@ -110,8 +110,8 @@ namespace Arasan.Controllers.Master
             return View(ca);
         }
         [HttpPost]
-        public ActionResult PartyMaster(PartyMaster emp, string id)
-        {
+        public ActionResult PartyMaster(PartyMaster emp, string id)    
+        {  
 
             try
             {

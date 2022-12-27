@@ -4,6 +4,7 @@ using Arasan.Interface;
 using Arasan.Interface.Master;
 using Arasan.Models;
 using Arasan.Services.Master;
+using Arasan.Services.Store_Management;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -40,30 +41,52 @@ namespace Arasan.Controllers.Master
             }
             else
             {
-               // ca = ItemNameService.GetSupplierDetailById(id);
-
-
+                // ca = ItemNameService.GetSupplierDetailById(id);
+                
+                    DataTable dt = new DataTable();
+                    dt = ItemNameService.GetItemNameDetails(id);
+                    if (dt.Rows.Count > 0)
+                    {
+                        ca.ItemG = dt.Rows[0]["IGROUP"].ToString();
+                        ca.ItemSub = dt.Rows[0]["ISUBGROUP"].ToString();
+                        ca.SubCat = dt.Rows[0]["SUBCATEGORY"].ToString();
+                        ca.ItemCode = dt.Rows[0]["ITEMCODE"].ToString();
+                        ca.Item = dt.Rows[0]["ITEMID"].ToString();
+                        ca.ItemDes = dt.Rows[0]["ITEMDESC"].ToString();
+                        ca.Reorderqu = dt.Rows[0]["REORDERQTY"].ToString();
+                        ca.Reorderlvl = dt.Rows[0]["REORDERLVL"].ToString();
+                        ca.Maxlvl = dt.Rows[0]["MAXSTOCKLVL"].ToString();
+                        ca.Minlvl = dt.Rows[0]["MINSTOCKLVL"].ToString();
+                        ca.Con = dt.Rows[0]["CONVERAT"].ToString();
+                        ca.Uom = dt.Rows[0]["UOM"].ToString();
+                        ca.Hcode = dt.Rows[0]["HSN"].ToString();
+                        ca.Selling = dt.Rows[0]["SELLINGPRI"].ToString();
+                        ca.BinNo = dt.Rows[0]["BINNO"].ToString();
+                        ca.Yn = dt.Rows[0]["BINYN"].ToString();
+                    }
             }
-            
             ca.Suplst = TData;
             return View(ca);
         }
         public List<SelectListItem> BindBinID()
         {
-            try
-            {
-                DataTable dtDesg = ItemNameService.BindBinID();
-                List<SelectListItem> lstdesg = new List<SelectListItem>();
-                for (int i = 0; i < dtDesg.Rows.Count; i++)
+
+            
+                try
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["BINID"].ToString(), Value = dtDesg.Rows[i]["BINBASICID"].ToString() });
+                    DataTable dtDesg = ItemNameService.BindBinID();
+                    List<SelectListItem> lstdesg = new List<SelectListItem>();
+                    for (int i = 0; i < dtDesg.Rows.Count; i++)
+                    {
+                        lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["BINID"].ToString(), Value = dtDesg.Rows[i]["BINBASICID"].ToString() });
+                    }
+                    return lstdesg;
                 }
-                return lstdesg;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            
         }
         public List<SelectListItem> BindItemGroup()
         {
