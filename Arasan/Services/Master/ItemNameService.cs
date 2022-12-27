@@ -158,6 +158,16 @@ namespace Arasan.Services.Master
 
             return msg;
         }
+        public DataTable GetItemNameDetails(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMCODE,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MAXSTOCKLVL,MINSTOCKLVL,CONVERAT,UOM,HSN,SELLINGPRI,BINNO,BINYN,ITEMMASTERID  from ITEMMASTER where ITEMMASTERID=" + id + "";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetItemGroup()
         {
             string SvSql = string.Empty;
