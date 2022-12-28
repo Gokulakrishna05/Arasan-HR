@@ -14,6 +14,7 @@ namespace Arasan.Interface.Master
         DataTable GetCountry();
         IEnumerable<PartyMaster> GetAllParty();
        DataTable GetParty(string id);
+        DataTable GetCountryDetails(string id);
         DataTable GetPartyContact(string id);
         //DataTable GetEmpEduDeatils(string data);
         //DataTable GetEmpPersonalDeatils(string id);

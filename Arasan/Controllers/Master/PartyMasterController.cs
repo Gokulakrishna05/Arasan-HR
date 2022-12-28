@@ -32,6 +32,7 @@ namespace Arasan.Controllers.Master
             ca.Statelst = BindState();
             ca.Citylst = BindCity();
             ca.assignList = BindEmp();
+            ca.Categorylst = BindCategory();
             //List<PartyItem> TData = new List<PartyItem>();
             //PartyItem tda = new PartyItem();
             if (id == null)
@@ -148,7 +149,22 @@ namespace Arasan.Controllers.Master
         }
 
 
+        public List<SelectListItem> BindCategory()
+        {
+            try
+            {
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                lstdesg.Add(new SelectListItem() { Text = "CUSTOMER", Value = "CUSTOMER" });
+                lstdesg.Add(new SelectListItem() { Text = "SUPPLIER", Value = "SUPPLIER" });
+                lstdesg.Add(new SelectListItem() { Text = "BOTH", Value = "BOTH" });
 
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<SelectListItem> BindState()
         {
             try
@@ -227,6 +243,32 @@ namespace Arasan.Controllers.Master
             PartyMaster model = new PartyMaster();
             //  model.ItemGrouplst = BindItemGrplst(value);
             return Json(model);
+        }
+        public ActionResult GetCountryDetail(string CID)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+               
+                string country = "";
+                
+                dt = PartyMasterService.GetCountryDetails(CID);
+
+                if (dt.Rows.Count > 0)
+                {
+
+                    country= dt.Rows[0]["COUNTRYCODE"].ToString();
+                   
+                  
+                }
+
+                var result = new { country = country };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }
