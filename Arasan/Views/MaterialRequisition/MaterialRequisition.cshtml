@@ -45,6 +45,7 @@
                                     <label for="inputName3" class="col-sm-4 control-label">DocumentNo<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.DocId, new { @id = "txtDocId", @class = "form-control", @TabIndex = 2 })
+                                            @Html.HiddenFor(C => C.ID)
                                 </div>
                             </div>
                             </div>
@@ -188,7 +189,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Amount In Words<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
+                                            @Html.TextBoxFor(C => C.Amount, new { @id = "Amount", @class = "form-control", @TabIndex = 2 })<br />
                                     </div>
                                 </div>
                             </div>
@@ -197,9 +198,9 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Narrayion<label class="Mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Narration<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <textarea class="form-control" id="inputEmail3" placeholder="" type="text"></textarea><br />
+                                            @Html.TextBoxFor(C => C.Narration, new { @id = "Narration", @class = "form-control", @TabIndex = 2 })<br />
                                     </div>
                                 </div>
                             </div>
@@ -208,7 +209,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Entered By<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
+                                            @Html.TextBoxFor(C => C.Entered, new { @id = "Entered", @class = "form-control", @TabIndex = 2 })<br />
                                     </div>
                                 </div>
                             </div>
@@ -217,8 +218,9 @@
 
                             <div style="height:30px;"></div>
                             <div class="col-lg-8"></div>
-                            <button type="submit" name="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" value="Save" tabindex="18">Save</button>
-                            <a button class="btn btn-danger" type="submit" href="@Url.Action("ListMaterialRequisition", "MaterialRequisition")">Cancel</a>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs">Submit</button>
+				  <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListMaterialRequisition", "MaterialRequisition")'">Cancel</button>
+                           
                     </form>
                     }
                 </div>

@@ -54,7 +54,8 @@
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-4 control-label">Followed By<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Followby, new { @id = "Followby", @class = "form-control", @TabIndex = 2 })  <br />
+                                              @Html.DropDownListFor(C => C.Followby,Model.EnqassignList, new { @id = "Followby", @Class = "form-control chosen-select", @TabIndex = 2 })
+  <br />
 
                                     </div>
                                 </div>

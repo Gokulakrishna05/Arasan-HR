@@ -141,6 +141,67 @@ namespace Arasan.Controllers
             IEnumerable<PurchaseQuo> cmp = PurquoService.GetAllPurQuotation();
             return View(cmp);
         }
+        public ActionResult SendMail(string id)
+        {
+            try
+            {
+                datatrans = new DataTransactions(_connectionString);
+                MailRequest requestwer = new MailRequest();
+
+                requestwer.ToEmail = "deepa@icand.in";
+                requestwer.Subject = "Quotations";
+                string Content = "";
+                IEnumerable<QoItem> cmp = PurquoService.GetAllPurQuotationItem(id);
+                Content = @"<html> 
+                < head >
+    < style >
+                table, th, td {
+                border: 1px solid black;
+                    border - collapse: collapse;
+                }
+    </ style >
+</ head >
+< body >
+<p>Dear Sir,</p>
+</br>
+  <p> Kindly arrange to send your lowest price offer for the following items through our email immediately.</p>
+</br>
+< table style = 'border: 1px solid black;border-collapse: collapse;' > ";
+
+
+
+                foreach (QoItem item in cmp)
+                {
+                    Content += " <tr><td>" + item.Desc + "</td>";
+                    Content += " <td>" + item.Quantity + "</td>";
+                    Content += " <td>" + item.Unit + "</td></tr>";
+                }
+                Content += "</table>";
+
+                Content += @" </br> 
+<p style='padding-left:30px;font-style:italic;'>With Regards,
+</br><img src='../assets/images/Arasan_Logo.png' alt='Arasan Logo'/>
+</br>N Balaji Purchase Manager
+</br>The Arasan Aluminium Industries (P) Ltd.
+<br/102-A
+
+</br>
+</p> ";
+                Content += @" </body> 
+</html> ";
+
+                requestwer.Body = Content;
+                //request.Attachments = "Yes";
+                datatrans.sendemail("Test mail", Content, "kesavanmoorthi81@gmail.com", "kesavanmoorthi70@gmail.com", "aqhfevhczfrnbtgz", "587", "true", "smtp.gmail.com", "Arasan");
+                return Ok();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
         public IActionResult PurchaseQuotationFollowup()
         {
             return View();
@@ -370,6 +431,7 @@ namespace Arasan.Controllers
         public IActionResult Followup(string id)
         {
             QuoFollowup cmp = new QuoFollowup();
+            cmp.EnqassignList = BindEmp();
             List<QuotationFollowupDetails> TData = new List<QuotationFollowupDetails>();
             if (id == null)
             {

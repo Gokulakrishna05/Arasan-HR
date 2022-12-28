@@ -24,8 +24,8 @@ public interface IPurchaseEnqService
         DataTable GetFolowup(string enqid);
         string EnquirytoQuote(string id);
 
-
-        DataTable GetPurchaseEnqDetails(string id);
+    DataTable GetFollowupDetail(string id);
+    DataTable GetPurchaseEnqDetails(string id);
         DataTable GetPurchaseEnqItemDetails(string id);
         DataTable GetItemSubGrp();
         DataTable GetItemSubGroup(string id);

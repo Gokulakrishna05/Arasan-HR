@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Arasan.Interface.Master;
-
 using Arasan.Models.Store_Management;
 using Newtonsoft.Json.Linq;
 using Arasan.Services.Store_Management;
@@ -50,7 +49,7 @@ namespace Arasan.Controllers.Store_Management
                 //st = StoreAccService.GetStoreAccById(id);
 
                 DataTable dt = new DataTable();
-                double total = 0;
+                
                 dt = materialReq.GetmaterialReqDetails(id);
                 if (dt.Rows.Count > 0)
                 {

@@ -465,20 +465,21 @@
                 </div>
                 <div class="tab-pane" id="tab-3">
                  @*3rd tab*@
-                  <div class="row">
+                        
                             <div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">Bin Y/N <label class="Mandatory"></label></label>
                                     <div class="col-sm-6">
-                                      <label class="mt-radio">
-                                            <input type="radio" class="iCheck" checked="" value="Yes" id="optionsRadios6" name="optionsRadios2">
-                                            Yes
-                                        </label>
-                                        <label class="mt-radio">
-                                            <input type="radio" class="iCheck" checked="" value="No" id="optionsRadios5" name="optionsRadios2">
-                                         No
-                                        </label>
+                                                        <div class="input-group">
+
+                                                            @Html.RadioButtonFor(C => C.Yn, "Yes", new { @TabIndex = 2 })
+                                                            <label id="mt-radio">Yes</label>
+                                                            @Html.RadioButtonFor(C => C.Yn, "No", new { @TabIndex = 3 })
+                                                            <label id="mt-radio">No</label>
+
+
+                                                        </div>
                                     </div>
 
                                 </div>
@@ -488,49 +489,61 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Bin ID <label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" type="text" ><br />
+                                                    @Html.DropDownListFor(C => C.BinNo, Model.Bin, new { @id = "ddlBinNo", @Class = "form-control chosen-select", @TabIndex = 2})<br />
+
                                         
                                     </div>
 
                                 </div>
                             </div>
-                        </div>
-                    <div class="row">
-                               <div class="col-md-12">
-                                   <h2>Bin History</h2>
-</div>
-                                </div>
-                                <div style="height:30px;"></div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                            <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
-                      <thead>
-                        <tr>
-                          <th>Bin Y/N</th>
-                          <th>Bin ID</th>
-                     </tr>
-                      </thead>
-                    
-                      <tbody>
-                        <tr>
-                          <td>Yes</td>
-                          <td>10039000000058</td>
-               
-                        </tr>
-                        <tr>
-                          <td>Yes</td>
-                          <td>10039000000073</td>
-                       
-                        </tr>
-                         <tr>
-                          <td>Yes</td>
-                          <td>10047000000156</td>
-                        
-                        </tr>
-                      </tbody>
-                    </table>
-                                    </div>
-                                </div>
+                           
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="ibox float-e-margins">
+
+                                                    <div class="ibox-content collapse in">
+                                                        <div class="widgets-container">
+                                                            <div>
+                                                                <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
+                                                                    <thead>
+                                                                        <tr>
+
+                                                                            
+                                                                            <th>Bin ID</th>
+                                                                            <th>Bin Y/N</th>
+
+                                                                        </tr>
+                                                                    </thead>
+
+                                                                    <tbody>
+                                                                        @{
+                                                                            int a = 1;
+
+                                                                            foreach (var item in Model.Suplst)
+                                                                            {
+                                                                                <tr>
+
+                                                                                    <td>@Html.DisplayFor(modelItem => item.BinNo)</td>
+                                                                                    <td>@Html.DisplayFor(modelItem => item.Yn)</td>
+                                                                                </tr>
+                                                                                a++;
+                                                                            }
+                                                                        }
+
+                                                                        
+                                                                   
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+
+                                            </div>
+
+                                        </div>
                 @* 3rd tab*@
                 </div>
                  <div class="tab-pane" id="tab-4">
@@ -612,10 +625,10 @@
                    @* 4th tab*@
                 
                 
-                            <div style="height:30px;"></div>
-                            <a button type="submit" class="btn aqua m-t-xs bottom15-xs" href="@Url.Action("ItemList", "ItemName")">Submit</a>
-                            <a button class="btn btn-danger" type="submit" href="@Url.Action("ItemList", "ItemName")">Cancel</a>
-                    
+                            
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs">Submit</button>
+                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ItemList", "ItemName")'">Cancel</button>
+
                         
                </from>
                     
@@ -623,6 +636,7 @@
             </div>
         </div>
     </div>
+  </div>
 </div>
 <script>
     $(".chosen-select").chosen();

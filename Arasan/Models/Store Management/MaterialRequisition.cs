@@ -26,14 +26,10 @@ namespace Arasan.Models
         public DateTime MaterialReqDate { get; set; }
 
         public string RequestType { get; set; }
-        public int ItemGroupId { get; set; }
-        public string ItemGroup { get; set; }
-        public int ItemId { get; set; }
-        public string Item { get; set; }
 
-        public int unit { get; set; }
-        public int ClosingStock { get; set; }
-        public int ReqQty { get; set; }
+        public string Amount { get; set; }
+        public string Narration { get; set; }
+        public string Entered { get; set; }
 
         public List<SelectListItem> Brlst;
         public List<SelectListItem> Loclst;
