@@ -57,8 +57,9 @@ namespace Arasan.Models
         public string SupPartNo { get; set; }
         public string Price { get; set; }
         public string Dy { get; set; }
-        public string BinNo { get; set; }
-        public string Yn { get; set; }
+        public string BinID { get; set; }
+        public string BinYN { get; set; }
+        //public string ItemMas { get; set; }
 
         public List<ItemName> pflst { get; set; }
        
@@ -74,8 +75,10 @@ namespace Arasan.Models
         public string Preforder { get; set; }
         public string Delivery { get; set; }
         public string Isvalid { get; set; }
-        public string BinNo { get; set; }
-        public string Yn { get; set; }
+        public string BinID { get; set; }
+        public string BinYN { get; set; }
+       // public string ItemMas { get; set; }
+
 
     }
 }

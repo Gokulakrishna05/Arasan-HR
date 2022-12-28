@@ -61,9 +61,23 @@ namespace Arasan.Controllers.Master
                         ca.Uom = dt.Rows[0]["UOM"].ToString();
                         ca.Hcode = dt.Rows[0]["HSN"].ToString();
                         ca.Selling = dt.Rows[0]["SELLINGPRI"].ToString();
-                        ca.BinNo = dt.Rows[0]["BINNO"].ToString();
-                        ca.Yn = dt.Rows[0]["BINYN"].ToString();
+                       
                     }
+                DataTable dt2 = new DataTable();
+                dt2 = ItemNameService.GetBinDeatils(id);
+                if (dt2.Rows.Count > 0)
+                {
+
+
+                    ca.BinID = dt2.Rows[0]["BINID"].ToString();
+                    ca.BinYN = dt2.Rows[0]["BINYN"].ToString();
+                   // ca.ItemMas = dt2.Rows[0]["ITEMMASTERID"].ToString();
+                     
+
+
+
+                }
+
             }
             ca.Suplst = TData;
             return View(ca);

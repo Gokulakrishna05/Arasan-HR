@@ -25,7 +25,7 @@ namespace Arasan.Services.Master
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMCODE,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MAXSTOCKLVL,MINSTOCKLVL,CONVERAT,UOM,HSN,SELLINGPRI,BINNO,BINYN,ITEMMASTERID from ITEMMASTER";
+                    cmd.CommandText = "Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMCODE,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MAXSTOCKLVL,MINSTOCKLVL,CONVERAT,UOM,HSN,SELLINGPRI,ITEMMASTERID from ITEMMASTER";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -46,8 +46,7 @@ namespace Arasan.Services.Master
                             Uom = rdr["UOM"].ToString(),
                             Hcode = rdr["HSN"].ToString(),
                             Selling = rdr["SELLINGPRI"].ToString(),
-                            BinNo = rdr["BINNO"].ToString(),
-                            Yn = rdr["BINYN"].ToString(),
+                           
 
                         };
                         staList.Add(sta);
@@ -64,7 +63,7 @@ namespace Arasan.Services.Master
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMCODE,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MAXSTOCKLVL,MINSTOCKLVL,CONVERAT,UOM,HSN,SELLINGPRI,BINNO,BINYN,ITEMMASTERID from ITEMMASTER where ITEMMASTERID=" + eid + "";
+                    cmd.CommandText = "Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMCODE,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MAXSTOCKLVL,MINSTOCKLVL,CONVERAT,UOM,HSN,SELLINGPRI,ITEMMASTERID from ITEMMASTER where ITEMMASTERID=" + eid + "";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -85,8 +84,7 @@ namespace Arasan.Services.Master
                             Uom = rdr["UOM"].ToString(),
                             Hcode = rdr["HSN"].ToString(),
                             Selling = rdr["SELLINGPRI"].ToString(),
-                            BinNo = rdr["BINNO"].ToString(),
-                            Yn = rdr["BINYN"].ToString(),
+                           
                         };
                         ItemName = sta;
                     }
@@ -134,18 +132,54 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("UOM", OracleDbType.NVarchar2).Value = ss.Uom;
                     objCmd.Parameters.Add("HSN", OracleDbType.NVarchar2).Value = ss.Hcode;
                     objCmd.Parameters.Add("SELLINGPRI", OracleDbType.NVarchar2).Value = ss.Selling;
-                    objCmd.Parameters.Add("BINNO", OracleDbType.NVarchar2).Value = ss.BinNo;
-                    objCmd.Parameters.Add("BINYN", OracleDbType.NVarchar2).Value = ss.Yn;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                    objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
                     {
                         objConn.Open();
                         objCmd.ExecuteNonQuery();
-                        //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
+                        Object Pid = objCmd.Parameters["OUTID"].Value;
+                        //string Pid = "0";
+                        if (ss.ID != null)
+                        {
+                            Pid = ss.ID;
+                        }
+                      //  foreach (DirItem cp in cy.DirLst)
+                        //{
+                            
+                            
+                                using (OracleConnection objConns = new OracleConnection(_connectionString))
+                                {
+                                    OracleCommand objCmds = new OracleCommand("BINMASTERID", objConns);
+                                    if (ss.ID == null)
+                                    {
+                                        StatementType = "Insert";
+                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                    }
+                                    else
+                                    {
+                                        StatementType = "Update";
+                                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = ss.ID;
+                                    }
+                                    objCmds.CommandType = CommandType.StoredProcedure;
+                                    objCmds.Parameters.Add("BINMASTERID", OracleDbType.NVarchar2).Value = Pid;
+                                    objCmds.Parameters.Add("BINID", OracleDbType.NVarchar2).Value = ss.BinID;
+                                    objCmds.Parameters.Add("BINYN", OracleDbType.NVarchar2).Value = ss.BinYN;
+                                  //  objCmds.Parameters.Add("ITEMMASTERID", OracleDbType.NVarchar2).Value = ss.ItemMas;
+                                    objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                                    objConns.Open();
+                                    objCmds.ExecuteNonQuery();
+                                    objConns.Close();
+                                }
+
+
+
+                            
+                      //  }
                     }
                     catch (Exception ex)
                     {
-                        System.Console.WriteLine("Exception: {0}", ex.ToString());
+                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
                     }
                     objConn.Close();
                 }
@@ -162,6 +196,16 @@ namespace Arasan.Services.Master
         {
             string SvSql = string.Empty;
             SvSql = "Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMCODE,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MAXSTOCKLVL,MINSTOCKLVL,CONVERAT,UOM,HSN,SELLINGPRI,BINNO,BINYN,ITEMMASTERID  from ITEMMASTER where ITEMMASTERID=" + id + "";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetBinDeatils(string data)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select BINMASTER.BINID,BINMASTER.BINYN,BINMASTER.ITEMMASTERID,BINMASTERID  from BINMASTER where BINMASTER.BINMASTERID=" + data + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

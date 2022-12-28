@@ -20,5 +20,6 @@ namespace Arasan.Interface.Master
         ItemName GetSupplierById(string id);
         DataTable GetAllSupplier(string id);
         DataTable GetItemNameDetails(string id);
+        DataTable GetBinDeatils(string id);
     }
 }
