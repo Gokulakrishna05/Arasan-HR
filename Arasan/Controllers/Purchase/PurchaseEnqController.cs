@@ -46,6 +46,7 @@ namespace Arasan.Controllers
                     tda.Isvalid = "Y";
                     TData.Add(tda);
                 }
+                ca.Cur = "1";
             }
             else
             {
@@ -73,6 +74,10 @@ namespace Arasan.Controllers
                     ca.ID = id;
                     ca.ParNo= dt.Rows[0]["PARTYREFNO"].ToString();
                     ca.Cur= dt.Rows[0]["CURRENCYID"].ToString();
+                    if (string.IsNullOrEmpty(ca.Cur))
+                    {
+                        ca.Cur = "1";
+                    }
                     ca.ExRate= dt.Rows[0]["EXCRATERATE"].ToString();
                     ca.RefNo= dt.Rows[0]["PARTYREFNO"].ToString();
                 }

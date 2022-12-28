@@ -74,7 +74,40 @@ namespace Arasan.Models
         public string RefNo { get; set; }
         public string RefDate { get; set; }
     }
+    public class GateInward
+    {
+        public GateInward()
+        {
+            this.Suplst = new List<SelectListItem>();
+            this.POlst = new List<SelectListItem>();
 
+        }
+        public string ID { get; set; }
+        public string Supplier { get; set; }
+        public string Status { get; set; }
+        public string POId { get; set; }
+        public string GateInDate { get; set; }
+        public string GateInTime { get; set; }
+        public string Narration { get; set; }
+        public double TotalQty { get; set; }
+        public List<SelectListItem> Suplst;
+        public List<SelectListItem> POlst;
+        public List<POGateItem> PoItem { get; set; }
+        public string fromdate { get; set; }
+        public string todate { get; set; }
+        public List<GateInwardItem> GateInlst { get; set; }
+    }
+    public class GateInwardItem
+    {
+        public string Supplier { get; set; }
+        public string Status { get; set; }
+        public string GateInDate { get; set; }
+        public string GateInTime { get; set; }
+        public string Narration { get; set; }
+        public string PONo { get; set; }
+        public string POID { get; set; }
+        public double TotalQty { get; set; }
+    }
     public class POItemlst
     {
         public string ItemId { get; set; }
@@ -97,7 +130,7 @@ namespace Arasan.Models
         public List<SelectListItem> PURLst { get; set; }
         public string ItemGroupId { get; set; }
         public string Purtype { get; set; }
-
+        public string QC { get; set; }
         public string Desc { get; set; }
         public string Unit { get; set; }
         public string Conversionfactor { get; set; }
@@ -126,4 +159,13 @@ namespace Arasan.Models
         public string Duedate { get; set; }
 
     }
-}
+    public class POGateItem
+    {
+        public string itemid { get; set; }
+        public string itemname { get; set; }
+        public string unit { get; set; }
+        public string Conversionfactor { get; set; }
+        public double quantity { get; set; }
+        public string qc { get; set; }
+    }
+   }
