@@ -50,8 +50,12 @@ namespace Arasan.Models
         public string Addr { get; set; }
         public string Phone { get; set; }
         public string Pin { get; set; }
+        public List<SelectListItem> Citylst;
         public string City { get; set; }
-        public List<ReasonItem> ReLst { get; set; }
+        public string SNO { get; set; }
+   
+        public string Isvalid { get; set; }
+
     }
     public class RetItem
     {
@@ -59,7 +63,6 @@ namespace Arasan.Models
         public string ItemId { get; set; }
         public string saveItemId { get; set; }
         public List<SelectListItem> Itemlst { get; set; }
-
         public List<SelectListItem> POlst { get; set; }
 
         public string POID { get; set; }
@@ -86,9 +89,5 @@ namespace Arasan.Models
         public string Isvalid { get; set; }
 
     }
-    public class ReasonItem
-    {
-        public string Reason { get; set; }
-        public string SNo { get; set; }
-    }
+   
     }

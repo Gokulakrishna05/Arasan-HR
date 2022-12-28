@@ -13,7 +13,9 @@ namespace Arasan.Interface
         DataTable GetPODetails(string ItemId);
         string PurReturnCRUD(PurchaseReturn cy);
         DataTable GetPurchaseReturn(string id);
+        DataTable GetPurchaseReturnReason(string id);
         DataTable GetPurchaseReturnDes(string id);
         IEnumerable<PurchaseReturn> GetAllPurReturn();
+        DataTable GetCity();
     }
 }

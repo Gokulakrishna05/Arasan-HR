@@ -35,6 +35,7 @@
                                         <label for="inputName3" class="col-sm-4 control-label">Item Group<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.itemGroup, new { @id = "txtItemGroups", @class = "form-control", @TabIndex = 1 })<br />
+                                            @Html.HiddenFor(C => C.ID)
                                     </div>
                                             </div>
                                         </div>
@@ -53,9 +54,9 @@
                                         </div>
                                         <div class="row">
                             <div class="col-lg-8"></div>
-                                <button type="submit" name="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" value="Save" tabindex="18">Save</button>
+                                                        <button type="submit" class="btn aqua m-t-xs bottom15-xs">Submit</button>
+                                <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListItemGroup", "ItemGroup")'">Cancel</button>
 
-                                <a button class="btn btn-danger" type="submit" href="@Url.Action("ListItemGroup", "ItemGroup")">Cancel</a>
                         </div>
                         
                                         </form>

@@ -8,6 +8,11 @@ using MailKit.Security;
 using Microsoft.Extensions.Options;
 using Arasan.Interface;
 using Arasan.Models;
+using Org.BouncyCastle.Crypto.Macs;
+using System.Net.Mail;
+using System.Net.Mime;
+using System.Text;
+
 namespace Arasan.Models
 {
     public class DataTransactions
@@ -187,49 +192,36 @@ namespace Arasan.Models
             }
             return str;
         }
-        public void SendEmailAsync(MailRequest mailRequest)
+        public void sendemail(string Subject, string Message, string EmailID, string SenderID, string SenderPassword, string CompanySMTPPort, string SmtpEnableSsl, string sSmtpServer, string CompanyName)
         {
-            DataTable dt = new DataTable();
-            dt = GetEmailConfig();
-            string emailid = string.Empty;
-            string password=string.Empty;
-            string HOST=string.Empty;
-            int Port = 587;
-            if (dt.Rows.Count > 0)
+            string strerr = "";
+            if (EmailID != "" && EmailID != null)
             {
-                emailid=dt.Rows[0]["EMAIL_ID"].ToString();
-                password= dt.Rows[0]["PASSWORD"].ToString();
-                HOST= dt.Rows[0]["SMTP_HOST"].ToString();
-                Port= Convert.ToInt32(dt.Rows[0]["PORT_NO"].ToString());
+                try
+                {
+                    MailMessage mail = new MailMessage();
+                    System.Net.Mail.SmtpClient SmtpServer = new System.Net.Mail.SmtpClient(sSmtpServer);
+                    mail.From = new MailAddress(SenderID, CompanyName);
+                    mail.To.Add(EmailID);
+                    mail.Subject = Subject;
+                    StringBuilder sb3 = new StringBuilder();
+                    sb3.Append(Message);
+                    mail.Body = sb3.ToString();
+                    AlternateView avHtml = AlternateView.CreateAlternateViewFromString(sb3.ToString(), null, MediaTypeNames.Text.Html);
+                    mail.AlternateViews.Add(avHtml);
+                    mail.IsBodyHtml = true;
+                    SmtpServer.Port = Convert.ToInt32(CompanySMTPPort);
+                    SmtpServer.Credentials = new System.Net.NetworkCredential(SenderID, SenderPassword);
+                    SmtpServer.EnableSsl = Convert.ToBoolean(SmtpEnableSsl);
+                    //SmtpServer.Timeout = 10000;
+                    SmtpServer.Send(mail);
+                    mail.Dispose();
+                }
+                catch (Exception ex)
+                {
+                    strerr = ex.Message;
+                }
             }
-            var email = new MimeMessage();
-            email.Sender = MailboxAddress.Parse(emailid);
-            email.To.Add(MailboxAddress.Parse(mailRequest.ToEmail));
-            email.Subject = mailRequest.Subject;
-            var builder = new BodyBuilder();
-            //if (mailRequest.Attachments != null)
-            //{
-            //    byte[] fileBytes;
-            //    foreach (var file in mailRequest.Attachments)
-            //    {
-            //        if (file.Length > 0)
-            //        {
-            //            using (var ms = new MemoryStream())
-            //            {
-            //                file.CopyTo(ms);
-            //                fileBytes = ms.ToArray();
-            //            }
-            //            builder.Attachments.Add(file.FileName, fileBytes, ContentType.Parse(file.ContentType));
-            //        }
-            //    }
-            //}
-            builder.HtmlBody = mailRequest.Body;
-            email.Body = builder.ToMessageBody();
-            using var smtp = new SmtpClient();
-            smtp.Connect(HOST, Port, SecureSocketOptions.StartTls);
-            smtp.Authenticate(emailid, password);
-            smtp.SendAsync(email);
-            smtp.Disconnect(true);
         }
         public bool UpdateStatus(string query)
         {
@@ -250,5 +242,6 @@ namespace Arasan.Models
             return Saved;
         }
 
+       
     }
 }

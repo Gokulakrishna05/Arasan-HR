@@ -35,6 +35,7 @@ namespace Arasan.Controllers
             ca.EnqRecList= BindEmp();
             List<EnqItem> TData = new List<EnqItem>();
             EnqItem tda = new EnqItem();
+
             if (id == null)
             {
                 for (int i = 0; i < 3; i++)
@@ -68,7 +69,7 @@ namespace Arasan.Controllers
                 {
                     ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
                     ca.Enqdate= dt.Rows[0]["ENQDATE"].ToString();
-                    ca.Supplier= dt.Rows[0]["PARTYMASTID"].ToString();
+                    ca.Supplier= dt.Rows[0]["PARTY"].ToString();
                     ca.EnqNo= dt.Rows[0]["ENQNO"].ToString();
                     ca.ID = id;
                     ca.ParNo= dt.Rows[0]["PARTYREFNO"].ToString();
@@ -78,7 +79,7 @@ namespace Arasan.Controllers
                         ca.Cur = "1";
                     }
                     ca.ExRate= dt.Rows[0]["EXCRATERATE"].ToString();
-                    ca.RefNo= dt.Rows[0]["ENQREF"].ToString();
+                    ca.RefNo= dt.Rows[0]["PARTYREFNO"].ToString();
                 }
                 DataTable dt2 = new DataTable();
                 dt2 = PurenqService.GetPurchaseEnqItemDetails(id);
@@ -190,6 +191,7 @@ namespace Arasan.Controllers
             {
                 datatrans = new DataTransactions(_connectionString);
                 MailRequest requestwer = new MailRequest();
+
                 requestwer.ToEmail = "deepa@icand.in";
                 requestwer.Subject = "Enquiry";
                 string Content = "";
@@ -197,7 +199,7 @@ namespace Arasan.Controllers
                 Content = @"<html> 
                 < head >
     < style >
-        table, th, td {
+                table, th, td {
                 border: 1px solid black;
                     border - collapse: collapse;
                 }
@@ -206,7 +208,7 @@ namespace Arasan.Controllers
 < body >
 <p>Dear Sir,</p>
 </br>
-<p>           Kindly arrange to send your lowest price offer for the following items through our email immediately.</p>
+  <p> Kindly arrange to send your lowest price offer for the following items through our email immediately.</p>
 </br>
 < table style = 'border: 1px solid black;border-collapse: collapse;' > ";
 
@@ -231,10 +233,12 @@ namespace Arasan.Controllers
 </p> ";
                 Content += @" </body> 
 </html> ";
+
                 requestwer.Body = Content;
                 //request.Attachments = "No";
-                datatrans.SendEmailAsync(requestwer);
+                datatrans.sendemail("Test mail", Content, "kesavanmoorthi81@gmail.com", "kesavanmoorthi70@gmail.com", "aqhfevhczfrnbtgz", "587", "true", "smtp.gmail.com", "IcanD");
                 return Ok();
+
             }
             catch (Exception ex)
             {
@@ -276,7 +280,7 @@ namespace Arasan.Controllers
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw ex; 
             }
 
             return View(Cy);
@@ -486,6 +490,7 @@ namespace Arasan.Controllers
         public IActionResult Followup(string id)
         {
             PurchaseFollowup cmp = new PurchaseFollowup();
+            cmp.EnqassignList = BindEmp();
             List<PurchaseFollowupDetails> TData = new List<PurchaseFollowupDetails>();
             if (id == null)
             {
@@ -502,6 +507,17 @@ namespace Arasan.Controllers
                         cmp.Enqno = dt.Rows[0]["ENQNO"].ToString();
                         cmp.Supname = dt.Rows[0]["PARTY"].ToString();
                     }
+                    DataTable dt1 = new DataTable();
+                    dt1 = PurenqService.GetFollowupDetail(id);
+                    if (dt1.Rows.Count > 0)
+                    {
+                        cmp.Enqno = dt1.Rows[0]["ENQNO"].ToString();
+                        cmp.Followby = dt1.Rows[0]["FOLLOWED_BY"].ToString();
+                        cmp.Followdate = dt1.Rows[0]["FOLLOW_DATE"].ToString();
+                        cmp.Nfdate = dt1.Rows[0]["NEXT_FOLLOW_DATE"].ToString();
+                        cmp.Rmarks = dt1.Rows[0]["REMARKS"].ToString();
+                        cmp.Enquiryst = dt1.Rows[0]["FOLLOW_STATUS"].ToString();
+                    }
                     DataTable dtt = new DataTable();
                     string e = cmp.Enqno;
                     dtt = PurenqService.GetFolowup(e);
@@ -515,6 +531,7 @@ namespace Arasan.Controllers
                             tda.Followby = dtt.Rows[i]["FOLLOWED_BY"].ToString();
                             tda.Followdate = dtt.Rows[i]["FOLLOW_DATE"].ToString();
                             tda.Nfdate = dtt.Rows[i]["NEXT_FOLLOW_DATE"].ToString();
+                           // tda.ID = id;
                             tda.Rmarks = dtt.Rows[i]["REMARKS"].ToString();
                             tda.Enquiryst = dtt.Rows[i]["FOLLOW_STATUS"].ToString();
                             TData.Add(tda);
@@ -577,10 +594,7 @@ namespace Arasan.Controllers
             return View();
         }
 
-        public IActionResult PurchaseQuotationFollowup()
-        {
-            return View();
-        }
+  
         
 
       

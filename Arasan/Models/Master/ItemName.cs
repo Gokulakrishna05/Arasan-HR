@@ -1,4 +1,7 @@
-﻿
+﻿using Arasan.Models;
+using System.Collections.Generic;
+using System.Collections;
+using System.Data;
 
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -12,7 +15,8 @@ namespace Arasan.Models
             this.Iclst = new List<SelectListItem>();
             this.Isglst = new List<SelectListItem>();
             this.Hsn =  new List<SelectListItem>();
-           
+            this.Bin = new List<SelectListItem>();
+
         }
         public List<SelectListItem> IgLst;
         public string ItemGroup { get; set; }
@@ -27,8 +31,11 @@ namespace Arasan.Models
         public string HSNcode { get; set; }
 
         public List<SelectListItem> Hsn;
+        public string BinId { get; set; }
 
-       
+        public List<SelectListItem> Bin;
+
+
         public string ID { get; set; }
         public string ItemG { get; set; }
         public string ItemSub { get; set; }
@@ -50,19 +57,25 @@ namespace Arasan.Models
         public string SupPartNo { get; set; }
         public string Price { get; set; }
         public string Dy { get; set; }
+        public string BinNo { get; set; }
+        public string Yn { get; set; }
 
         public List<ItemName> pflst { get; set; }
+       
     }
 
     public class SupItem
     {
 
         public List<SelectListItem> Suplst { get; set; }
+      
         public string SupplierPart { get; set; }
         public string PurchasePrice { get; set; }
         public string Preforder { get; set; }
         public string Delivery { get; set; }
         public string Isvalid { get; set; }
+        public string BinNo { get; set; }
+        public string Yn { get; set; }
 
     }
 }

@@ -5,6 +5,7 @@ using System.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Arasan.Models;
 using System.Xml.Linq;
+using Arasan.Services.Master;
 
 namespace Arasan.Controllers 
 {
@@ -29,10 +30,10 @@ namespace Arasan.Controllers
             ca.Curlst = BindCurrency();
             ca.Loclst = GetLoc();
             ca.Satlst = GetSat();
+            ca.Citylst = BindCity();
             List<RetItem> TData = new List<RetItem>();
             RetItem tda = new RetItem();
-            List<ReasonItem> TData1 = new List<ReasonItem>();
-            ReasonItem tda1 = new ReasonItem();
+           
             if (id == null)
             {
                 for (int i = 0; i < 3; i++)
@@ -43,14 +44,7 @@ namespace Arasan.Controllers
 
                     TData.Add(tda);
                 }
-                for (int i = 0; i < 3; i++)
-                {
-                    tda1 = new ReasonItem();
-                    //tda.POlst = BindPOlist();
-                    //tda.Itemlst = BindItemlst();
-
-                    TData1.Add(tda1);
-                }
+               
             }
             else
             {
@@ -59,7 +53,7 @@ namespace Arasan.Controllers
 
 
                 DataTable dt = new DataTable();
-                double total = 0;
+              
                 dt = PurReturn.GetPurchaseReturn(id);
                 if (dt.Rows.Count > 0)
                 {
@@ -94,20 +88,29 @@ namespace Arasan.Controllers
                 dt2 = PurReturn.GetPurchaseReturnDes(id);
                 if (dt2.Rows.Count > 0)
                 {
-                    for (int i = 0; i < dt2.Rows.Count; i++)
-                    {
-                   
-                        ca.Addr = dt.Rows[0]["SADD1"].ToString();
+                 
+                        ca.Addr = dt2.Rows[0]["SADD1"].ToString();
 
-                        ca.City = dt.Rows[0]["SCITY"].ToString();
-                        ca.State = dt.Rows[0]["SSTATE"].ToString();
-                        ca.Pin = dt.Rows[0]["SPINCODE"].ToString();
+                        ca.City = dt2.Rows[0]["SCITY"].ToString();
+                        ca.State = dt2.Rows[0]["SSTATE"].ToString();
+                        ca.Pin = dt2.Rows[0]["SPINCODE"].ToString();
                         ca.ID = id;
-                        ca.Phone = dt.Rows[0]["SPHONE"].ToString();
-                      }
+                        ca.Phone = dt2.Rows[0]["SPHONE"].ToString();
+                      
+                }
+                DataTable dt3 = new DataTable();
+                dt3 = PurReturn.GetPurchaseReturnReason(id);
+                if (dt3.Rows.Count > 0)
+                {
+
+                    ca.Reason = dt3.Rows[0]["REASON"].ToString();
+
+                    ca.SNO = dt3.Rows[0]["SNO"].ToString();
+                   
+
                 }
             }
-            ca.ReLst = TData1;
+           
                 ca.RetLst = TData;
             return View(ca);
 
@@ -241,6 +244,23 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+        public List<SelectListItem> BindCity()
+        {
+            try
+            {
+                DataTable dtDesg = PurReturn.GetCity();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["CITYNAME"].ToString(), Value = dtDesg.Rows[i]["CITYID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<SelectListItem> BindPOlist()
         {
             try
@@ -342,6 +362,12 @@ namespace Arasan.Controllers
         {
             IEnumerable<PurchaseReturn> cmp = PurReturn.GetAllPurReturn();
             return View(cmp);
+        }
+        public JsonResult GetItemGrpJSON()
+        {
+            PurchaseReturn model = new PurchaseReturn();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(model);
         }
     }
 }
