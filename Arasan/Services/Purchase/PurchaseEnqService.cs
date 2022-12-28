@@ -22,7 +22,7 @@ namespace Arasan.Services
             string SvSql = string.Empty;
             SvSql = "select BRANCHMASTID,BRANCHID from BRANCHMAST order by BRANCHMASTID asc";
             DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString); 
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
