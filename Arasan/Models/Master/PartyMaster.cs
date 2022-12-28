@@ -10,8 +10,11 @@ namespace Arasan.Models
             this.Citylst = new List<SelectListItem>();
             this.Countrylst = new List<SelectListItem>();
             this.assignList = new List<SelectListItem>();
+            this.Categorylst = new List<SelectListItem>();
         }
         public string ID { get; set; }
+        public List<SelectListItem> Categorylst;
+
         public string CategoryType { get; set; }
         public string Regular { get; set; }
         public string PartyCategory { get; set; }
