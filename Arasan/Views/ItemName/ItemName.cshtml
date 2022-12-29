@@ -19,8 +19,15 @@
     display: none;
     padding: 10px !important;
 }
+
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
 </style>
-<div class="wrapper-content ">
+<div class="wrapper-content">
     <div class="row">
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
@@ -619,16 +626,10 @@
               </div>
             </div>
           </div>
-        
-		
-							
-                   @* 4th tab*@
-                
-                
-                            
+                            <div class="row">
                             <button type="submit" class="btn aqua m-t-xs bottom15-xs">Submit</button>
                             <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ItemList", "ItemName")'">Cancel</button>
-
+                            </div>
                         
                </from>
                     

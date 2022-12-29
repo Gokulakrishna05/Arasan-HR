@@ -12,6 +12,8 @@ namespace Arasan.Services.Master
     public class ItemNameService : IItemNameService
     {
         private readonly string _connectionString;
+        DataTransactions datatrans;
+
         public ItemNameService(IConfiguration _configuratio)
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
@@ -97,8 +99,8 @@ namespace Arasan.Services.Master
             string msg = " ";
             try
             {
-                string StatementType = string.Empty;
-                //string svSQL = "";
+                string StatementType = string.Empty;  string svSQL = "";
+                
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
@@ -165,7 +167,7 @@ namespace Arasan.Services.Master
                                     objCmds.Parameters.Add("BINMASTERID", OracleDbType.NVarchar2).Value = Pid;
                                     objCmds.Parameters.Add("BINID", OracleDbType.NVarchar2).Value = ss.BinID;
                                     objCmds.Parameters.Add("BINYN", OracleDbType.NVarchar2).Value = ss.BinYN;
-                                  //  objCmds.Parameters.Add("ITEMMASTERID", OracleDbType.NVarchar2).Value = ss.ItemMas;
+                                  //objCmds.Parameters.Add("ITEMMASTERID", OracleDbType.NVarchar2).Value = ss.ItemMas;
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                     objConns.Open();
                                     objCmds.ExecuteNonQuery();
