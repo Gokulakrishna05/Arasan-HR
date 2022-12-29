@@ -24,14 +24,22 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
+                                    <label for="inputName3" class="col-sm-4 control-label">Type<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownListFor(C => C.Type, Model.Typlst, new { @id = "Type", @Class = "form-control chosen-select", @TabIndex = 1})<br />
+
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
                                     <label for="inputName3" class="col-sm-4 control-label">Doc Id<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <select class=" _select js-states form-control">
+                                        @Html.DropDownListFor(C => C.POGRN, Model.lst, new { @id = "ddlPOGRN", @Class = "form-control chosen-select", @TabIndex = 1 })<br />
 
-
-                                            <option value="TAAI">TF-300054 </option>
-
-                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -287,8 +295,9 @@
                         </div>
                        
                         <div style="height:30px;"></div>
-                        <button type="submit" class="btn aqua m-t-xs bottom15-xs">Submit</button>
-                        <button class="btn btn-danger" type="submit">Cancel</button>
+                      <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+                        <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListQCTesting", "QCTesting")'">Cancel</button>
+ 
                     </form>
                 </div>
             </div>
@@ -296,3 +305,28 @@
 
     </div>
 </div>
+<script>
+    $(".chosen-select").chosen();
+
+
+    //function Grup_Change(itemid) {
+    //    //alert(itemid);
+    //    //debugger;
+    //    $.ajax({
+    //        url: "GetItemJSON",
+    //        type: "post",
+    //        data: { 'POGRN': itemid },
+    //        cache: false,
+    //        success: function (response) {
+    //            var newlist;
+    //            //alert(JSON.stringify(response));
+    //            newlist = response.lst;
+    //            PopulateDropDown("#ddlPOGRN", response);
+    //        },
+    //        error: function () {
+    //            debugger;
+    //            alert("Please Select Type");
+    //        }
+    //    });
+    //}
+</script>

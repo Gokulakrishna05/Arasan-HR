@@ -367,20 +367,19 @@
 
                                             </div>
                                         </div>
-                                            @{
-                                                int i = 0;
+                                           
                                   
                                         <div class="col-md-6">
                                                 <div class="form-group">
 
                                                     <label for="inputName3" class="col-sm-4 control-label">Country<label class="mandatory"></label></label>
                                                     <div class="col-sm-8">
-                                                        @Html.DropDownListFor(C => C.Country, Model.Countrylst, new { @id = "ddlCountryName"+i, @Class = "form-control chosen-select", @TabIndex = 1, style = "width: 330px;", @onchange = "changeCode(this.value," + i + ")"  })
+                                                        @Html.DropDownListFor(C => C.Country, Model.Countrylst, new { @id = "ddlCountryName", @Class = "form-control chosen-select", @TabIndex = 1, style = "width: 330px;", @onchange = "changeCode(this.value)"  })
 
                                                     </div>
                                                 </div>
                                             </div>
-                                                      }
+                                                      
                                         
                                           
                                              </div>
@@ -392,7 +391,7 @@
 
                                                     <label for="inputName3" class="col-sm-4 control-label">State<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
-                                                        @Html.DropDownListFor(C => C.State, Model.Statelst, new { @id = "ddlStateName", @Class = "form-control chosen-select", style = "width: 330px;", @TabIndex = 1 })
+                                                        @Html.DropDownListFor(C => C.State, Model.Statelst, new { @id = "ddlStateName", @Class = "form-control chosen-select", style = "width: 330px;", @TabIndex = 1 })<br/>
 
                                     </div>
                                 </div>
@@ -403,20 +402,20 @@
 
                                                     <label for="inputName3" class="col-sm-4 control-label">City<label class="Mandatory"></label></label>
                                                     <div class="col-sm-8">
-                                                        @Html.DropDownListFor(C => C.City, Model.Citylst, new { @id = "ddlCityName", @Class = "form-control chosen-select", @TabIndex = 1, style = "width: 330px;" })
+                                                        @Html.DropDownListFor(C => C.City, Model.Citylst, new { @id = "ddlCityName", @Class = "form-control chosen-select", @TabIndex = 1, style = "width: 330px;" })<br />
 
                                                     </div>
                                                 </div>
                                             </div>
                                 </div>
-
+                                0
                                     <div class="row">
 
 
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Pin Code<label class="Mandatory"></label></label>
+                                                    <br />  <label for="inputName3" class="col-sm-4 control-label">Pin Code<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
                                                         @Html.TextBoxFor(C => C.Pincode, new { @id = "Pincode", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)"})   <br />
                                                 </div>
@@ -429,9 +428,9 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
 
-                                                <label for="inputName3" class="col-sm-4 control-label">Country Code<label class="Mandatory"></label></label>
+                                                    <br />   <label for="inputName3" class="col-sm-4 control-label">Country Code<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                        @Html.TextBoxFor(C => C.CountryCode, new { @id = "txtCountryCode "+ i, @class = "form-control", @TabIndex = 1, onchange = "changeCode(this.value," + i + ")"})   <br />
+                                                        @Html.TextBoxFor(C => C.CountryCode, new { @id = "txtCountryCode ", @class = "form-control", @TabIndex = 1, onchange = "changeCode(this.value)"})   <br />
 
                                                 </div>
 
@@ -462,7 +461,7 @@
 
                                                 <label for="inputName3" class="col-sm-4 control-label">Intred By<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                        @Html.DropDownListFor(C => C.Intred, Model.assignList, new { @id = "ddlIntred", @Class = "form-control chosen-select", @TabIndex = 1, style = "width: 300px;" })
+                                                        @Html.DropDownListFor(C => C.Intred, Model.assignList, new { @id = "ddlIntred", @Class = "form-control chosen-select", @TabIndex = 1, style = "width: 300px;" })<br/>
 
                                                 </div>
 
@@ -514,7 +513,7 @@
 
                                                 <label for="inputName3" class="col-sm-4 control-label">Commisionerate<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                              @Html.TextBoxFor(C => C.Commisionerate, new { @id = "Commisionerate", @class = "form-control", @TabIndex = 1})
+                              @Html.TextBoxFor(C => C.Commisionerate, new { @id = "Commisionerate", @class = "form-control", @TabIndex = 1})<br/>
 
                                                 </div>
 
@@ -528,7 +527,7 @@
 
                                                 <label for="inputName3" class="col-sm-4 control-label">Range Division<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                        @Html.TextBoxFor(C => C.Range, new { @id = "Range", @class = "form-control", @TabIndex = 1})
+                                                        @Html.TextBoxFor(C => C.Range, new { @id = "Range", @class = "form-control", @TabIndex = 1})<br/>
 <br />
                                                 </div>
 
@@ -540,7 +539,7 @@
 
                                                 <label for="inputName3" class="col-sm-4 control-label">ECC No<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                        @Html.TextBoxFor(C => C.EccID, new { @id = "EccID", @class = "form-control", @TabIndex = 1})
+                                                        @Html.TextBoxFor(C => C.EccID, new { @id = "EccID", @class = "form-control", @TabIndex = 1})<br />
 
                                                 </div>
 
@@ -681,7 +680,7 @@
                                                     <tbody id="tbBooks">
                                                         @{
 
-                                                             i = 0;
+                                                           int  i = 0;
 
                                                          
 
@@ -794,14 +793,14 @@
         });
 
     });
-      function changeCode(CID, i) {
+      function changeCode(CID) {
         $.ajax({
             url: 'GetCountryDetail',
             data: { "Country": CID },
             type: "GET",
             success: function (result) {
                 
-                document.getElementById("txtCountryCode" + i).value = result.country;
+                document.getElementById("txtCountryCode" ).value = result.country;
               
                
             },
