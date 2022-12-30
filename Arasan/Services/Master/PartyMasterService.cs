@@ -236,7 +236,7 @@ namespace Arasan.Services.Master
         public DataTable GetCountryDetails(string CID)
         {
             string SvSql = string.Empty;
-            SvSql = "select COUNTRYCODE,COUNTRYMASTID from CONMAST where COUNTRYMASTID='" + CID + "'";
+            SvSql = "select COUNTRYCODE,COUNTRYNAME,COUNTRYMASTID from CONMAST where COUNTRYNAME='" + CID + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

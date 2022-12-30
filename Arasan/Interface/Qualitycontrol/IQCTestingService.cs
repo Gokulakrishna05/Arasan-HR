@@ -12,5 +12,11 @@ namespace Arasan.Interface
         DataTable GetGRN();
         //DataTable GetGRN(string id);
         DataTable GetGRNDetails(string id);
+        DataTable GetItembyId(string id);
+        string QCTestingCRUD(QCTesting cy);
+
+        DataTable GetQCTesting(string id);
+        IEnumerable<QCTesting> GetAllQCTesting();
+
     }
 }
