@@ -141,7 +141,6 @@ namespace Arasan.Services.Master
                         objConn.Open();
                         objCmd.ExecuteNonQuery();
                         Object Pid = objCmd.Parameters["OUTID"].Value;
-                        //string Pid = "0";
                         if (ss.ID != null)
                         {
                             Pid = ss.ID;
@@ -152,7 +151,7 @@ namespace Arasan.Services.Master
                             
                                 using (OracleConnection objConns = new OracleConnection(_connectionString))
                                 {
-                                    OracleCommand objCmds = new OracleCommand("BINMASTERID", objConns);
+                                    OracleCommand objCmds = new OracleCommand("BINMASTEPROC", objConns);
                                     if (ss.ID == null)
                                     {
                                         StatementType = "Insert";
@@ -167,10 +166,9 @@ namespace Arasan.Services.Master
                                     objCmds.Parameters.Add("BINMASTERID", OracleDbType.NVarchar2).Value = Pid;
                                     objCmds.Parameters.Add("BINID", OracleDbType.NVarchar2).Value = ss.BinID;
                                     objCmds.Parameters.Add("BINYN", OracleDbType.NVarchar2).Value = ss.BinYN;
-                                  //objCmds.Parameters.Add("ITEMMASTERID", OracleDbType.NVarchar2).Value = ss.ItemMas;
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                     objConns.Open();
-                                    objCmds.ExecuteNonQuery();
+                                    objCmds.ExecuteNonQuery();   
                                     objConns.Close();
                                 }
 
@@ -207,7 +205,7 @@ namespace Arasan.Services.Master
         public DataTable GetBinDeatils(string data)
         {
             string SvSql = string.Empty;
-            SvSql = "Select BINMASTER.BINID,BINMASTER.BINYN,BINMASTER.ITEMMASTERID,BINMASTERID  from BINMASTER where BINMASTER.BINMASTERID=" + data + "";
+            SvSql = "Select BINMASTER.BINID,BINMASTER.BINYN,BINMASTERID  from BINMASTER where BINMASTER.BINMASTERID=" + data + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -223,7 +221,7 @@ namespace Arasan.Services.Master
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
-        }
+         }
         public DataTable BindBinID()
         {
             string SvSql = string.Empty;
