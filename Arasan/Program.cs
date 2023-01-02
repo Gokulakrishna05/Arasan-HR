@@ -36,7 +36,7 @@ internal class Program
         builder.Services.TryAddSingleton<IBranchSelectionService, BranchSelectionService>();
         builder.Services.TryAddSingleton<IStockService, StockService>();
         builder.Services.TryAddSingleton<IPurchaseEnqService,PurchaseEnqService>();
-
+        builder.Services.TryAddSingleton<IHomeService, HomeService>();
         builder.Services.TryAddSingleton<IPurchaseEnqService, PurchaseEnqService>();
         builder.Services.TryAddSingleton<IItemTransferService, ItemTransferService>();
 

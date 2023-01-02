@@ -101,6 +101,7 @@ namespace Arasan.Controllers
                         }
                         tda.rate = Convert.ToDouble(dt2.Rows[i]["RATE"].ToString());
                         tda.Quantity = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
+                        //tda.PendingQty= Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
                         tda.BillQty = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
                         tda.Goodqty = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
                         toaamt = tda.rate * tda.Quantity;

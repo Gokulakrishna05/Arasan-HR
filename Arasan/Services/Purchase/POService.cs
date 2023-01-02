@@ -277,6 +277,7 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("NARRATION", OracleDbType.NVarchar2).Value = cy.Narration;
                     objCmd.Parameters.Add("PARTYID", OracleDbType.NVarchar2).Value = cy.Supplier;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                    objCmd.Parameters.Add("statu", OracleDbType.NVarchar2).Value = "Waiting";
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
                     {
@@ -323,6 +324,93 @@ namespace Arasan.Services
                     }
                     objConn.Close();
                 }
+
+
+                ///////////////////////GRN Generation
+                int cunt = datatrans.GetDataId("Select count(GRNBLBASICID) from GRNBLBASIC Where POBASICID=" + cy.POId + "");
+                if (cunt == 1)
+                {
+
+                DateTime theDate = DateTime.Now;
+                DateTime todate; DateTime fromdate;
+                string t; string f;
+                if (DateTime.Now.Month >= 4)
+                {
+                    todate = theDate.AddYears(1);
+                }
+                else
+                {
+                    todate = theDate;
+                }
+                if (DateTime.Now.Month >= 4)
+                {
+                    fromdate = theDate;
+                }
+                else
+                {
+                    fromdate = theDate.AddYears(-1);
+                }
+                t = todate.ToString("yy");
+                f = fromdate.ToString("yy");
+                string disp = string.Format("{0}-{1}", f, t);
+
+                int idc = datatrans.GetDataId(" SELECT COMMON_TEXT FROM COMMON_MASTER WHERE COMMON_TYPE = 'GRN' AND IS_ACTIVE = 'Y'");
+                string PONo = string.Format("{0} - {1} / {2}", "GRN", (idc + 1).ToString(), disp);
+
+                string updateCMd = " UPDATE COMMON_MASTER SET COMMON_TEXT ='" + (idc + 1).ToString() + "' WHERE COMMON_TYPE ='GRN' AND IS_ACTIVE ='Y'";
+                try
+                {
+                    datatrans.UpdateStatus(updateCMd);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    svSQL = "Insert into GRNBLBASIC (PARTYID,BRANCHID,POBASICID,EXRATE,MAINCURRENCY,DOCID,DOCDATE,PACKING_CHRAGES,OTHER_CHARGES,OTHER_DEDUCTION,ROUND_OFF_PLUS,ROUND_OFF_MINUS,FREIGHT,GROSS,NET) (Select PARTYID,BRANCHID,'" + cy.POId + "',EXRATE,MAINCURRENCY,'" + PONo + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "',PACKING_CHRAGES,OTHER_CHARGES,OTHER_DEDUCTION,ROUND_OFF_PLUS,ROUND_OFF_MINUS,FREIGHT,GROSS,NET  from POBASIC where POBASICID='" + cy.POId + "')";
+                    OracleCommand objCmd = new OracleCommand(svSQL, objConn);
+                    try
+                    {
+                        objConn.Open();
+                        objCmd.ExecuteNonQuery();
+                    }
+                    catch (Exception ex)
+                    {
+                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
+                    }
+                    objConn.Close();
+                }
+
+                string quotid = datatrans.GetDataString("Select GRNBLBASICID from GRNBLBASIC Where POBASICID=" + cy.POId + "");
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    string Sql = "Insert into GRNBLDETAIL (GRNBLBASICID,ITEMID,RATE,QTY,UNIT,AMOUNT,CF,CGSTPER,CGSTAMT,SGSTPER,SGSTAMT,IGSTPER,IGSTAMT,TOTAMT,DISCPER,DISC,PURTYPE) (Select '" + quotid + "',ITEMID,RATE,QTY,UNIT,AMOUNT,CF,CGSTPER,CGSTAMT,SGSTPER,SGSTAMT,IGSTPER,IGSTAMT,TOTALAMT,DISCPER,DISCAMT,PURTYPE FROM PODETAIL WHERE POBASICID=" + cy.POId + ")";
+                    OracleCommand objCmds = new OracleCommand(Sql, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+                using (OracleConnection objConnE = new OracleConnection(_connectionString))
+                {
+                    string Sql = "UPDATE GRNBLBASIC SET STATUS='GATE IN Verified' where GRNBLBASICID='" + quotid + "'";
+                    OracleCommand objCmds = new OracleCommand(Sql, objConnE);
+                    objConnE.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnE.Close();
+                }
+
+                }
+                ///////////////////////GRN Generation
+
+
+
+
+
+
+
             }
             catch (Exception ex)
             {

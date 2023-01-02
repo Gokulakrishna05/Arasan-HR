@@ -224,7 +224,7 @@ namespace Arasan.Services
 
                                 }
                                 string status = "GRN Completed";
-                                if (cp.BillQty  < cp.Quantity)
+                                if (cp.PendingQty  > 0)
                                 {
                                     status= "Partially Completed";
                                 }
