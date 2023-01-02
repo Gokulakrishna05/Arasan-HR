@@ -9,6 +9,8 @@ using Arasan.Models;
 using Arasan.Models.Store_Management;
 using Arasan.Interface.Store_Management;
 using Arasan.Services.Store_Management;
+using Arasan.Services.Qualitycontrol;
+using Arasan.Interface.Qualitycontrol;
 //using Arasan.Services.Store_Management;
 
 
@@ -39,7 +41,7 @@ internal class Program
         builder.Services.TryAddSingleton<IHomeService, HomeService>();
         builder.Services.TryAddSingleton<IPurchaseEnqService, PurchaseEnqService>();
         builder.Services.TryAddSingleton<IItemTransferService, ItemTransferService>();
-
+        builder.Services.TryAddSingleton<IQCResultService, QCResultService>();
         builder.Services.TryAddSingleton<ISalesEnq, SalesEnqService>();
         builder.Services.TryAddSingleton<ICompanyService, CompanyService>();
         builder.Services.TryAddSingleton<ICompanyService, CompanyService>();
