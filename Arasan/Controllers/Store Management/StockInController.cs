@@ -21,6 +21,13 @@ namespace Arasan.Controllers
            
 
         }
+        public IActionResult IssueToIndent(string ItemID)
+        {
+            StockIn S = new StockIn();
+            DataTable dt = new DataTable(); 
+
+            return View(S);
+        }
         public IActionResult ListStockIn()
         {
 

@@ -51,12 +51,8 @@
                                                             <th>Quantity</th>
                                                            
                                                             <th>Location</th>
-
-                                                            @* <th>Send Mail</th>
-                                                            <th>Followup</th>
-                                                            <th>Move To Quote</th>*@
-                                                          @*  <th>Edit</th>
-                                                            <th>Delete</th>*@
+                                                             <th>Issue To Indent</th>
+                                                          
                                                         </tr>
                                                     </thead>
 
@@ -67,19 +63,14 @@
 
                                                         foreach (var item in Model)
                                                         {
-
-                                                        
                                                         <tr>
-                                                        @*<td>@Html.DisplayFor(modelItem => item.Branch)</td>*@
                                                                     <td>@Html.DisplayFor(modelItem => item.Item)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.Unit)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.Qty)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.Location)</td>
-                                                       @* <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("SendMail", "PurchaseEnq",new { id=item.ID })"><img src='../Images/mail_icon.png' alt='Send Email' /></a></div></td>
-                                                        <td> <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("Followup", "PurchaseEnq",new { id=item.ID })"><img src='../Images/followup.png' alt='FollowUp' /> - (1)</a></div></td>*@
+                                                        <td> <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("IssueToIndent", "StockIn",new { id=item.ItemID })"><img src='../Images/checklist.png' alt='' /></a></div></td>
                                                            
                                                         </tr>
-
                                                           i++;
                                                         }
                                                         }

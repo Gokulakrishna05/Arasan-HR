@@ -17,6 +17,8 @@ namespace Arasan.Controllers
         DataTransactions datatrans;
         public POController(IPO _PoService, IConfiguration _configuratio)
         {
+
+
             PoService = _PoService;
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);

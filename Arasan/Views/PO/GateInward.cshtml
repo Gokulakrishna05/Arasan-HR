@@ -334,7 +334,9 @@
                 });
             }
 function PO_Change(poid) {
-    $("tbody").children().remove();
+    //$("tbody").children().remove();
+    document.getElementById("tbBooks").innerHTML="";
+
      $.ajax({
                     url: "GetPOJSON",
                     type: "post",
