@@ -29,6 +29,8 @@ namespace Arasan.Controllers
             ca.lst = BindGRNlist();
             ca.assignList = BindEmp();
             //ca.lst = BindGRNlist("");
+            List<QCItem> TData = new List<QCItem>();
+            QCItem tda = new QCItem();
             if (id == null)
             {
 
@@ -55,8 +57,25 @@ namespace Arasan.Controllers
                     ca.Remarks = dt.Rows[0]["REMARKS"].ToString();
                     ca.ClassCode = dt.Rows[0]["CLASSCODE"].ToString();
                 }
-                
+                DataTable dt2 = new DataTable();
+
+                dt2 = QCTestingService.GetQCDetail(id);
+                if (dt2.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt2.Rows.Count; i++)
+                    {
+                        tda = new QCItem();
+                        tda.TestDec = dt2.Rows[0]["TESTDESC"].ToString();
+                        tda.TestValue = dt2.Rows[0]["TESTVALUE"].ToString();
+                        tda.Result = dt2.Rows[0]["RESULT"].ToString();
+                        tda.AcTestValue = dt2.Rows[0]["ACTTESTVALUE"].ToString();
+                        tda.AccVale = dt2.Rows[0]["ACVAL"].ToString();
+                        tda.ManualValue = dt2.Rows[0]["MANUALVALUE"].ToString();
+                        
+                    }
+                }
             }
+            ca.QCLst = TData;
             return View(ca);
         }
         [HttpPost]
@@ -168,9 +187,9 @@ namespace Arasan.Controllers
         //        throw ex;
         //    }
         //}
-        public JsonResult GetItemJSON(string itemid)
+        public JsonResult GetItemJSON()
         {
-            QCTesting model = new QCTesting();
+            QCItem model = new QCItem();
             //model.Itemlst = BindItemlst(itemid);
             return Json(model);
 
@@ -180,24 +199,16 @@ namespace Arasan.Controllers
             try
             {
                 DataTable dt = new DataTable();
-                DataTable dt1 = new DataTable();
-
-                string grn = "";
                 string grndate = "";
                 string party = "";
                 dt = QCTestingService.GetGRNDetails(ItemId);
-
                 if (dt.Rows.Count > 0)
                 {
-
-                    grn = dt.Rows[0]["DOCID"].ToString();
-                    grndate = dt.Rows[0]["DOCDATE"].ToString();
-                    party = dt.Rows[0]["PARTY"].ToString();
-
-
+                    grndate = dt.Rows[0]["GRNDATE"].ToString();
+                    party = dt.Rows[0]["ID"].ToString();
                 }
 
-                var result = new { grn = grn, grndate = grndate, party = party };
+                var result = new { grndate = grndate, party = party };
                 return Json(result);
             }
             catch (Exception ex)

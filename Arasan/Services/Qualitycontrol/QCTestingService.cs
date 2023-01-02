@@ -27,7 +27,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select ITEMMASTER.ITEMID,QCVALUEBASIC.GRNNO,QCVALUEBASIC.DOCID,to_char(QCVALUEBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,to_char(QCVALUEBASIC.GRNDATE,'dd-MON-yyyy')GRNDATE,QCVALUEBASIC.CLASSCODE,PARTYRCODE.PARTY,QCVALUEBASICID,QCVALUEBASIC.LOTSERIALNO,SLNO,QCVALUEBASIC.TESTRESULT,QCVALUEBASIC.TESTEDBY,QCVALUEBASIC.REMARKS from QCVALUEBASIC LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=QCVALUEBASIC.ITEMID LEFT OUTER JOIN  PARTYMAST on QCVALUEBASIC.PARTYID=PARTYMAST.PARTYMASTID  LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH') ORDER BY QCVALUEBASIC.QCVALUEBASICID DESC\r\n";
+                    cmd.CommandText = "Select ITEMMASTER.ITEMID,QCVALUEBASIC.GRNNO,QCVALUEBASIC.DOCID,to_char(QCVALUEBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,to_char(QCVALUEBASIC.GRNDATE,'dd-MON-yyyy')GRNDATE,QCVALUEBASIC.CLASSCODE,PARTYRCODE.PARTY,QCVALUEBASICID,QCVALUEBASIC.LOTSERIALNO,SLNO,QCVALUEBASIC.TESTRESULT,QCVALUEBASIC.TESTEDBY,QCVALUEBASIC.REMARKS from QCVALUEBASIC LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=QCVALUEBASIC.ITEMID LEFT OUTER JOIN  PARTYMAST on QCVALUEBASIC.PARTYID=PARTYMAST.PARTYMASTID  LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -35,6 +35,7 @@ namespace Arasan.Services
                         {
 
                             ID = rdr["QCVALUEBASICID"].ToString(),
+                            DocId = rdr["DOCID"].ToString(),
                             GRNNo = rdr["GRNNO"].ToString(),
                             GRNDate = rdr["GRNDATE"].ToString(),
                            
@@ -47,8 +48,7 @@ namespace Arasan.Services
                             TestResult = rdr["TESTRESULT"].ToString(),
                             TestedBy = rdr["TESTEDBY"].ToString(),
                              Remarks = rdr["REMARKS"].ToString()
-                            // Other = rdr["OTHERCH"].ToString(),
-                            // Round = rdr["RNDOFF"].ToString(),
+                           
                            
 
 
@@ -61,14 +61,14 @@ namespace Arasan.Services
             return cmpList;
         }
         public string QCTestingCRUD(QCTesting cy)
-        {
+          {
             string msg = "";
             try
             {
                 string StatementType = string.Empty; string svSQL = "";
 
-                using (OracleConnection objConn = new OracleConnection(_connectionString))
-                {
+                using (           OracleConnection objConn = new OracleConnection(_connectionString))
+                 {
                     OracleCommand objCmd = new OracleCommand("QCTESTINGPROC", objConn);
                    
                     objCmd.CommandType = CommandType.StoredProcedure;
@@ -97,11 +97,53 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("REMARKS", OracleDbType.NVarchar2).Value = cy.Remarks;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
-                    try
+                   
+                     try
                     {
                         objConn.Open();
                         objCmd.ExecuteNonQuery();
-                        //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
+                        Object Pid = objCmd.Parameters["OUTID"].Value;
+                        //string Pid = "0";
+                        if (cy.ID != null)
+                        {
+                            Pid = cy.ID;
+                        }
+                        foreach (QCItem cp in cy.QCLst)
+                        {
+                            
+                                using (OracleConnection objConns = new OracleConnection(_connectionString))
+                                {
+                                    OracleCommand objCmds = new OracleCommand("DPDETAILPROC", objConns);
+                                    if (cy.ID == null)
+                                    {
+                                        StatementType = "Insert";
+                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                    }
+                                    else
+                                    {
+                                        StatementType = "Update";
+                                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                                    }
+                                    objCmds.CommandType = CommandType.StoredProcedure;
+                                    objCmds.Parameters.Add("QCVALUEBASICID", OracleDbType.NVarchar2).Value = Pid;
+                                    objCmds.Parameters.Add("TESTDESC", OracleDbType.NVarchar2).Value = cp.TestDec;
+                                    objCmds.Parameters.Add("ACVAL", OracleDbType.NVarchar2).Value = cp.AccVale;
+                                    objCmds.Parameters.Add("TESTVALUE", OracleDbType.NVarchar2).Value = cp.TestValue;
+                                    objCmds.Parameters.Add("RESULT", OracleDbType.NVarchar2).Value = cp.Result;
+                                    objCmds.Parameters.Add("MANUALVALUE", OracleDbType.NVarchar2).Value = cp.ManualValue;
+                                    objCmds.Parameters.Add("ACTTESTVALUE", OracleDbType.NVarchar2).Value = cp.AcTestValue;
+                                
+                                    objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                                    objConns.Open();
+                                    objCmds.ExecuteNonQuery();
+                                    objConns.Close();
+                                }
+
+
+
+                            }
+                       
+                     
                     }
                     catch (Exception ex)
                     {
@@ -141,7 +183,7 @@ namespace Arasan.Services
         public DataTable GetGRNDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select DOCID,to_char(DOCDATE,'dd-MON-yyyy')DOCDATE,PARTYRCODE.PARTY,GRNBLBASICID from GRNBLBASIC LEFT OUTER JOIN  PARTYMAST on GRNBLBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID where GRNBLBASIC.GRNBLBASICID='" + id +"'";
+            SvSql = "Select PARTYRCODE.ID,to_char(GRNDATE,'dd-MON-yyyy')GRNDATE,GRNBLBASICID from GRNBLBASIC LEFT OUTER JOIN  PARTYMAST on GRNBLBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID where GRNBLBASIC.GRNBLBASICID='" + id +"'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -152,6 +194,16 @@ namespace Arasan.Services
         {
             string SvSql = string.Empty;
             SvSql = "Select ITEMMASTER.ITEMID,GRNBLBASICID,GRNBLDETAILID from GRNBLDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=GRNBLDETAIL.ITEMID where GRNBLDETAIL.GRNBLBASICID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetQCDetail(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select TESTDESC,ACVAL,TESTVALUE,RESULT,MANUALVALUE,ACTTESTVALUE from QCVALUEDETAIL Where QCVALUEBASICID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
