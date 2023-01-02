@@ -238,24 +238,24 @@ namespace Arasan.Controllers.Master
             //  model.ItemGrouplst = BindItemGrplst(value);
             return Json(BindSupplier());
         }
-        public IActionResult SupplierDetail(String id)
-        {
-            ItemName ca = new ItemName();
-            if (id == null)
-            {
+        //public IActionResult SupplierDetail(String id)
+        //{
+        //    ItemName ca = new ItemName();
+        //    if (id == null)
+        //    {
 
-            }
-            else
-            {
+        //    }
+        //    else
+        //    {
                
-                //ca = ItemNameService.GetSupplierById(id);
+        //        //ca = ItemNameService.GetSupplierById(id);
 
                
-            }
+        //    }
 
-            return View(ca);
-        }
-        public IActionResult Supplier(string id)
+        //    return View(ca);
+        //}
+        public IActionResult GetSupplier(string id)
         {
             ItemName cmp = new ItemName();
             if (!string.IsNullOrEmpty(id))

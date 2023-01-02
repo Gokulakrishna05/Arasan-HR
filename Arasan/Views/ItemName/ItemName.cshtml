@@ -523,7 +523,7 @@
                                                                     </thead>
 
                                                                     <tbody>
-                                                                        @{
+                                                                        @*@{
                                                                             int a = 1;
 
                                                                             foreach (var item in Model.Suplst)
@@ -535,7 +535,7 @@
                                                                                 </tr>
                                                                                 a++;
                                                                             }
-                                                                        }
+                                                                        }*@
 
                                                                         
                                                                    
@@ -628,7 +628,7 @@
           </div>
                             <div class="row">
                             <button type="submit" class="btn aqua m-t-xs bottom15-xs">Submit</button>
-                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ItemList", "ItemName")'">Cancel</button>
+                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ItemName", "ItemList")'">Cancel</button>
                             </div>
                         
                </from>
