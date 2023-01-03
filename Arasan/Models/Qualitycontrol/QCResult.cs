@@ -14,6 +14,7 @@ namespace Arasan.Models
             this.lst = new List<SelectListItem>();
             this.Itemlst = new List<SelectListItem>();
             this.assignList = new List<SelectListItem>();
+            this.Loc = new List<SelectListItem>();
         }
         public List<SelectListItem> Typlst;
 
@@ -22,6 +23,9 @@ namespace Arasan.Models
         public List<SelectListItem> lst;
 
         public List<SelectListItem> assignList;
+
+        public List<SelectListItem> Loc;
+        public string Location { get; set; }
 
         public string POGRN { get; set; }
 

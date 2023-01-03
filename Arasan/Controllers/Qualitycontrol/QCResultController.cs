@@ -5,6 +5,7 @@ using Arasan.Interface.Master;
 using Arasan.Interface.Qualitycontrol;
 using Arasan.Models;
 using Arasan.Services;
+using Arasan.Services.Store_Management;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -29,6 +30,7 @@ namespace Arasan.Controllers.Qualitycontrol
             ca.Typlst = BindType();
             ca.lst = BindGRNlist();
             ca.assignList = BindEmp();
+            ca.Loc = BindLocation();
             //ca.lst = BindGRNlist("");
             if (id == null)
             {
@@ -48,6 +50,7 @@ namespace Arasan.Controllers.Qualitycontrol
                     ca.GRNDate = dt.Rows[0]["GRNDATE"].ToString();
                     ca.ID = id;
                     ca.Party = dt.Rows[0]["PARTYID"].ToString();
+                    ca.Location = dt.Rows[0]["LOCATION"].ToString();
 
                 }
 
@@ -96,6 +99,23 @@ namespace Arasan.Controllers.Qualitycontrol
 
             IEnumerable<QCResult> cmp = QCResultService.GetAllQCResult();
             return View(cmp);
+        }
+        public List<SelectListItem> BindLocation()
+        {
+            try
+            {
+                DataTable dtDesg = QCResultService.GetLocation();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["LOCID"].ToString(), Value = dtDesg.Rows[i]["LOCDETAILSID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public List<SelectListItem> BindEmp()
         {
@@ -160,7 +180,7 @@ namespace Arasan.Controllers.Qualitycontrol
                 DataTable dt = new DataTable();
                 DataTable dt1 = new DataTable();
 
-                string grn = "";
+               
                 string grndate = "";
                 string party = "";
                 dt = QCResultService.GetGRNDetails(ItemId);
@@ -168,14 +188,14 @@ namespace Arasan.Controllers.Qualitycontrol
                 if (dt.Rows.Count > 0)
                 {
 
-                    grn = dt.Rows[0]["DOCID"].ToString();
+                  
                     grndate = dt.Rows[0]["DOCDATE"].ToString();
-                    party = dt.Rows[0]["PARTY"].ToString();
+                    party = dt.Rows[0]["ID"].ToString();
 
 
                 }
 
-                var result = new { grn = grn, grndate = grndate, party = party };
+                var result = new { grndate = grndate, party = party };
                 return Json(result);
             }
             catch (Exception ex)

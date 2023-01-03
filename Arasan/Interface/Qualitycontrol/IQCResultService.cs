@@ -15,5 +15,6 @@ namespace Arasan.Interface.Qualitycontrol
 
         DataTable GetQCResult(string id);
         IEnumerable<QCResult> GetAllQCResult();
+        DataTable GetLocation();
     }
 }
