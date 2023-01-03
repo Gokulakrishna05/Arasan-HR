@@ -41,7 +41,7 @@
                                                            
                                                             <th>Doc Id  </th>
                                                             <th>Doc Date </th>
-
+                                                            <th>Location</th>
                                                             <th>Edit</th>
                                                             <th>Delete</th>
                                                         </tr>
@@ -57,6 +57,7 @@
                                                         <tr>
                                                                     <td>@Html.DisplayFor(modelItem => item.GRNNo)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.Party)</td>
+                                                                     <td>@Html.DisplayFor(modelItem => item.Location)</td>
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("QCResult", "QCResult",new { id=item.ID })"></a></div></td>
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("QCResult", "QCResult",new { id=item.ID })"></a></div></td>
                                                         </tr>

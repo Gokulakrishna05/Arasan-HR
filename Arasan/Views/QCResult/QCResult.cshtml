@@ -78,7 +78,7 @@
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-4 control-label">Location<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="" type="text">
+                                        @Html.DropDownListFor(C => C.Location, Model.Loc, new { @id = "ddlLocation", @Class = "form-control chosen-select", @TabIndex = 1 })<br />
                                     </div>
                                 </div>
                             </div>
@@ -132,6 +132,7 @@
 
                             <div class="col-lg-12">
                                 <div class="ibox float-e-margins">
+                                    
 
                                     <!-- / ibox-title -->
                                     <div id="demo3" class="ibox-content collapse in">
@@ -269,7 +270,7 @@
             type: "GET",
             success: function (result) {
 
-                document.getElementById("GRNNo").value = result.grn;
+                
 
                 document.getElementById("DocDate").value = result.grndate;
                 document.getElementById("Party").value = result.party;
