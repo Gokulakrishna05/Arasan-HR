@@ -29,8 +29,8 @@ namespace Arasan.Controllers
             ca.lst = BindGRNlist();
             ca.assignList = BindEmp();
             //ca.lst = BindGRNlist("");
-            List<QCItem> TData = new List<QCItem>();
-            QCItem tda = new QCItem();
+            //List<QCItem> TData = new List<QCItem>();
+            //QCItem tda = new QCItem();
             if (id == null)
             {
 
@@ -45,7 +45,7 @@ namespace Arasan.Controllers
                 {
                     ca.DocId = dt.Rows[0]["DOCID"].ToString();
                     ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
-                    ca.GRNNo = dt.Rows[0]["GRNNO"].ToString();
+                    ca.GRNNo = dt.Rows[0]["DOCID"].ToString();
                     ca.GRNDate = dt.Rows[0]["GRNDATE"].ToString();
                     ca.ID = id;
                     ca.Party = dt.Rows[0]["PARTY"].ToString();
@@ -62,20 +62,17 @@ namespace Arasan.Controllers
                 dt2 = QCTestingService.GetQCDetail(id);
                 if (dt2.Rows.Count > 0)
                 {
-                    for (int i = 0; i < dt2.Rows.Count; i++)
-                    {
-                        tda = new QCItem();
-                        tda.TestDec = dt2.Rows[0]["TESTDESC"].ToString();
-                        tda.TestValue = dt2.Rows[0]["TESTVALUE"].ToString();
-                        tda.Result = dt2.Rows[0]["RESULT"].ToString();
-                        tda.AcTestValue = dt2.Rows[0]["ACTTESTVALUE"].ToString();
-                        tda.AccVale = dt2.Rows[0]["ACVAL"].ToString();
-                        tda.ManualValue = dt2.Rows[0]["MANUALVALUE"].ToString();
+                    ca.TestDec = dt2.Rows[0]["TESTDESC"].ToString();
+                    ca.TestValue = dt2.Rows[0]["TESTVALUE"].ToString();
+                    ca.Result = dt2.Rows[0]["RESULT"].ToString();
+                    ca.AcTestValue = dt2.Rows[0]["ACTTESTVALUE"].ToString();
+                    ca.AccVale = dt2.Rows[0]["ACVAL"].ToString();
+                    ca.ManualValue = dt2.Rows[0]["MANUALVALUE"].ToString();
                         
-                    }
+                    
                 }
             }
-            ca.QCLst = TData;
+          
             return View(ca);
         }
         [HttpPost]
@@ -189,7 +186,7 @@ namespace Arasan.Controllers
         //}
         public JsonResult GetItemJSON()
         {
-            QCItem model = new QCItem();
+            QCTesting model = new QCTesting();
             //model.Itemlst = BindItemlst(itemid);
             return Json(model);
 
@@ -200,15 +197,15 @@ namespace Arasan.Controllers
             {
                 DataTable dt = new DataTable();
                 string grndate = "";
-                string party = "";
+               
                 dt = QCTestingService.GetGRNDetails(ItemId);
                 if (dt.Rows.Count > 0)
                 {
-                    grndate = dt.Rows[0]["GRNDATE"].ToString();
-                    party = dt.Rows[0]["ID"].ToString();
+                    grndate = dt.Rows[0]["DOCDATE"].ToString();
+                  
                 }
 
-                var result = new { grndate = grndate, party = party };
+                var result = new { grndate = grndate };
                 return Json(result);
             }
             catch (Exception ex)
@@ -223,6 +220,13 @@ namespace Arasan.Controllers
             return Json(BindItemlst(supid));
 
         }
+        public JsonResult GetGRNSuppJSON(string suppid)
+        {
+            QCTesting model = new QCTesting();
+            model.Supplst = BindSupplst(suppid);
+            return Json(BindSupplst(suppid));
+
+        }
         public List<SelectListItem> BindItemlst(string value)
         {
             try
@@ -232,6 +236,23 @@ namespace Arasan.Controllers
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["GRNBLDETAILID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindSupplst(string value)
+        {
+            try
+            {
+                DataTable dtDesg = QCTestingService.GetParty(value);
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                 {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTY"].ToString(), Value = dtDesg.Rows[i]["GRNBLBASICID"].ToString() });
                 }
                 return lstdesg;
             }

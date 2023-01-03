@@ -9,10 +9,12 @@ namespace Arasan.Models
             this.Typlst = new List<SelectListItem>();
             this.lst = new List<SelectListItem>();
             this.Itemlst = new List<SelectListItem>();
+            this.Supplst = new List<SelectListItem>();
             this.assignList = new List<SelectListItem>();
         }
         public List<SelectListItem> Typlst;
         public List<SelectListItem> Itemlst;
+        public List<SelectListItem> Supplst;
         public string ItemId { get; set; }
         public string ID { get; set; }
         public string Type { get; set; }
@@ -31,18 +33,26 @@ namespace Arasan.Models
         public List<SelectListItem> assignList;
         public string TestedBy { get; set; }
         public string Remarks { get; set; }
-        public List<QCItem> QCLst { get; set; }
-
-    }
-    public class QCItem
-        {
-        public string TestDec{ get; set; }
+        //public List<QCItem> QCLst { get; set; }
+        public string TestDec { get; set; }
         public string Result { get; set; }
         public string TestValue { get; set; }
         public string ManualValue { get; set; }
         public string AccVale { get; set; }
         public string AcTestValue { get; set; }
         public string Isvalid { get; set; }
+
     }
+    //public class QCItem
+    //    {
+    //    public string TestDec{ get; set; }
+    //    public string Result { get; set; }
+    //    public string TestValue { get; set; }
+    //    public string ManualValue { get; set; }
+    //    public string AccVale { get; set; }
+    //    public string AcTestValue { get; set; }
+    //    public string Isvalid { get; set; }
+      
+    //}
 
 }

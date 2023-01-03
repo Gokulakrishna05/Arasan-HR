@@ -37,8 +37,7 @@ namespace Arasan.Services
                             ID = rdr["QCVALUEBASICID"].ToString(),
                             DocId = rdr["DOCID"].ToString(),
                             GRNNo = rdr["GRNNO"].ToString(),
-                            GRNDate = rdr["GRNDATE"].ToString(),
-                           
+                            GRNDate = rdr["GRNDATE"].ToString(),                           
                             DocDate = rdr["DOCDATE"].ToString(),
                             ClassCode = rdr["CLASSCODE"].ToString(),
                             SNo = rdr["SLNO"].ToString(),
@@ -47,12 +46,8 @@ namespace Arasan.Services
                             ItemId = rdr["ITEMID"].ToString(),
                             TestResult = rdr["TESTRESULT"].ToString(),
                             TestedBy = rdr["TESTEDBY"].ToString(),
-                             Remarks = rdr["REMARKS"].ToString()
+                            Remarks = rdr["REMARKS"].ToString()
                            
-                           
-
-
-
                         };
                         cmpList.Add(cmp);
                     }
@@ -67,7 +62,7 @@ namespace Arasan.Services
             {
                 string StatementType = string.Empty; string svSQL = "";
 
-                using (           OracleConnection objConn = new OracleConnection(_connectionString))
+                using ( OracleConnection objConn = new OracleConnection(_connectionString))
                  {
                     OracleCommand objCmd = new OracleCommand("QCTESTINGPROC", objConn);
                    
@@ -108,12 +103,11 @@ namespace Arasan.Services
                         {
                             Pid = cy.ID;
                         }
-                        foreach (QCItem cp in cy.QCLst)
-                        {
+                    
                             
                                 using (OracleConnection objConns = new OracleConnection(_connectionString))
                                 {
-                                    OracleCommand objCmds = new OracleCommand("DPDETAILPROC", objConns);
+                                    OracleCommand objCmds = new OracleCommand("QCDETAILPROC", objConns);
                                     if (cy.ID == null)
                                     {
                                         StatementType = "Insert";
@@ -126,12 +120,12 @@ namespace Arasan.Services
                                     }
                                     objCmds.CommandType = CommandType.StoredProcedure;
                                     objCmds.Parameters.Add("QCVALUEBASICID", OracleDbType.NVarchar2).Value = Pid;
-                                    objCmds.Parameters.Add("TESTDESC", OracleDbType.NVarchar2).Value = cp.TestDec;
-                                    objCmds.Parameters.Add("ACVAL", OracleDbType.NVarchar2).Value = cp.AccVale;
-                                    objCmds.Parameters.Add("TESTVALUE", OracleDbType.NVarchar2).Value = cp.TestValue;
-                                    objCmds.Parameters.Add("RESULT", OracleDbType.NVarchar2).Value = cp.Result;
-                                    objCmds.Parameters.Add("MANUALVALUE", OracleDbType.NVarchar2).Value = cp.ManualValue;
-                                    objCmds.Parameters.Add("ACTTESTVALUE", OracleDbType.NVarchar2).Value = cp.AcTestValue;
+                                    objCmds.Parameters.Add("TESTDESC", OracleDbType.NVarchar2).Value = cy.TestDec;
+                                    objCmds.Parameters.Add("ACVAL", OracleDbType.NVarchar2).Value = cy.AccVale;
+                                    objCmds.Parameters.Add("TESTVALUE", OracleDbType.NVarchar2).Value = cy.TestValue;
+                                    objCmds.Parameters.Add("RESULT", OracleDbType.NVarchar2).Value = cy.Result;
+                                    objCmds.Parameters.Add("MANUALVALUE", OracleDbType.NVarchar2).Value = cy.ManualValue;
+                                    objCmds.Parameters.Add("ACTTESTVALUE", OracleDbType.NVarchar2).Value = cy.AcTestValue;
                                 
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                     objConns.Open();
@@ -139,11 +133,6 @@ namespace Arasan.Services
                                     objConns.Close();
                                 }
 
-
-
-                            }
-                       
-                     
                     }
                     catch (Exception ex)
                     {
@@ -173,7 +162,7 @@ namespace Arasan.Services
         public DataTable GetQCTesting(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select ITEMMASTER.ITEMID,QCVALUEBASIC.GRNNO,QCVALUEBASIC.DOCID,to_char(QCVALUEBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,to_char(QCVALUEBASIC.GRNDATE,'dd-MON-yyyy')GRNDATE,QCVALUEBASIC.CLASSCODE,PARTYRCODE.PARTY,QCVALUEBASICID,QCVALUEBASIC.LOTSERIALNO,SLNO,QCVALUEBASIC.TESTRESULT,QCVALUEBASIC.TESTEDBY,QCVALUEBASIC.REMARKS from QCVALUEBASIC LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=QCVALUEBASIC.ITEMID LEFT OUTER JOIN  PARTYMAST on QCVALUEBASIC.PARTYID=PARTYMAST.PARTYMASTID  LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH')  AND QCVALUEBASIC.QCVALUEBASICID='" + id +"' ";
+            SvSql = "Select ITEMMASTER.ITEMID,GRNBLBASIC.DOCID,QCVALUEBASIC.DOCID,to_char(QCVALUEBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,to_char(QCVALUEBASIC.GRNDATE,'dd-MON-yyyy')GRNDATE,QCVALUEBASIC.CLASSCODE,PARTYRCODE.PARTY,QCVALUEBASICID,QCVALUEBASIC.LOTSERIALNO,SLNO,QCVALUEBASIC.TESTRESULT,QCVALUEBASIC.TESTEDBY,QCVALUEBASIC.REMARKS from QCVALUEBASIC LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=QCVALUEBASIC.ITEMID LEFT OUTER JOIN GRNBLBASIC ON GRNBLBASICID=QCVALUEBASIC.GRNNO  LEFT OUTER JOIN  PARTYMAST on QCVALUEBASIC.PARTYID=PARTYMAST.PARTYMASTID  LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH')  AND QCVALUEBASIC.QCVALUEBASICID='" + id +"' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -183,7 +172,7 @@ namespace Arasan.Services
         public DataTable GetGRNDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select PARTYRCODE.ID,to_char(GRNDATE,'dd-MON-yyyy')GRNDATE,GRNBLBASICID from GRNBLBASIC LEFT OUTER JOIN  PARTYMAST on GRNBLBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID where GRNBLBASIC.GRNBLBASICID='" + id +"'";
+            SvSql = "Select PARTYRCODE.ID,to_char(GRNBLBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,GRNBLBASICID from GRNBLBASIC LEFT OUTER JOIN  PARTYMAST on GRNBLBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID where GRNBLBASIC.GRNBLBASICID='" + id +"'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -194,6 +183,16 @@ namespace Arasan.Services
         {
             string SvSql = string.Empty;
             SvSql = "Select ITEMMASTER.ITEMID,GRNBLBASICID,GRNBLDETAILID from GRNBLDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=GRNBLDETAIL.ITEMID where GRNBLDETAIL.GRNBLBASICID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetParty(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select PARTYRCODE.PARTY,GRNBLBASICID from GRNBLBASIC LEFT OUTER JOIN  PARTYMAST on GRNBLBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID where GRNBLBASIC.GRNBLBASICID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
