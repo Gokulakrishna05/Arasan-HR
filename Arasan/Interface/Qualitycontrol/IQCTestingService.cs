@@ -14,6 +14,7 @@ namespace Arasan.Interface
         DataTable GetGRNDetails(string id);
         DataTable GetItembyId(string id);
         DataTable GetQCDetail(string id);
+        DataTable GetParty(string id);
         string QCTestingCRUD(QCTesting cy);
 
         DataTable GetQCTesting(string id);
