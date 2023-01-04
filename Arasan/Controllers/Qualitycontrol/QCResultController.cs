@@ -27,8 +27,8 @@ namespace Arasan.Controllers.Qualitycontrol
         public IActionResult QCResult(string id)
         {
             QCResult ca = new QCResult();
-            ca.Typlst = BindType();
-            ca.lst = BindGRNlist();
+           
+            
             ca.assignList = BindEmp();
             ca.Loc = BindLocation();
             //ca.lst = BindGRNlist("");
@@ -38,6 +38,7 @@ namespace Arasan.Controllers.Qualitycontrol
             }
             else
             {
+                //ca = QCResultService.GetQCResultById(id);
 
                 DataTable dt = new DataTable();
 
@@ -48,7 +49,6 @@ namespace Arasan.Controllers.Qualitycontrol
                     ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
                     ca.GRNNo = dt.Rows[0]["GRNNO"].ToString();
                     ca.GRNDate = dt.Rows[0]["GRNDATE"].ToString();
-                    ca.ID = id;
                     ca.Party = dt.Rows[0]["PARTYID"].ToString();
                     ca.Location = dt.Rows[0]["LOCATION"].ToString();
 
@@ -134,98 +134,7 @@ namespace Arasan.Controllers.Qualitycontrol
                 throw ex;
             }
         }
-        public List<SelectListItem> BindType()
-        {
-            try
-            {
-                List<SelectListItem> lstdesg = new List<SelectListItem>();
-                lstdesg.Add(new SelectListItem() { Text = "PO", Value = "PO" });
-                lstdesg.Add(new SelectListItem() { Text = "GRN", Value = "GRN" });
-
-                return lstdesg;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        public List<SelectListItem> BindGRNlist()
-        {
-            try
-            {
-                DataTable dtDesg = QCResultService.GetGRN();
-                List<SelectListItem> lstdesg = new List<SelectListItem>();
-                for (int i = 0; i < dtDesg.Rows.Count; i++)
-                {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DOCID"].ToString(), Value = dtDesg.Rows[i]["GRNBLBASICID"].ToString() });
-                }
-                return lstdesg;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        public JsonResult GetItemJSON(string itemid)
-        {
-            QCResult model = new QCResult();
-            //model.Itemlst = BindItemlst(itemid);
-            return Json(model);
-
-        }
-        public ActionResult GetGRNDetail(string ItemId)
-        {
-            try
-            {
-                DataTable dt = new DataTable();
-                DataTable dt1 = new DataTable();
-
-               
-                string grndate = "";
-                string party = "";
-                dt = QCResultService.GetGRNDetails(ItemId);
-
-                if (dt.Rows.Count > 0)
-                {
-
-                  
-                    grndate = dt.Rows[0]["DOCDATE"].ToString();
-                    party = dt.Rows[0]["ID"].ToString();
-
-
-                }
-
-                var result = new { grndate = grndate, party = party };
-                return Json(result);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        public JsonResult GetGRNItemJSON(string supid)
-        {
-            QCResult model = new QCResult();
-            model.Itemlst = BindItemlst(supid);
-            return Json(BindItemlst(supid));
-
-        }
-        public List<SelectListItem> BindItemlst(string value)
-        {
-            try
-            {
-                DataTable dtDesg = QCResultService.GetItembyId(value);
-                List<SelectListItem> lstdesg = new List<SelectListItem>();
-                for (int i = 0; i < dtDesg.Rows.Count; i++)
-                {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["GRNBLDETAILID"].ToString() });
-                }
-                return lstdesg;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+      
+      
     }
 }
