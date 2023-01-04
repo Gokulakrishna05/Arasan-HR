@@ -26,7 +26,7 @@ namespace Arasan.Controllers
         {
             QCTesting ca = new QCTesting();
             ca.Typlst = BindType();
-            ca.lst = BindGRNlist();
+            ca.lst = BindGRNlist("");
             ca.assignList = BindEmp();
             //ca.lst = BindGRNlist("");
             //List<QCItem> TData = new List<QCItem>();
@@ -123,8 +123,9 @@ namespace Arasan.Controllers
             try
             {
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
-                lstdesg.Add(new SelectListItem() { Text = "PO", Value = "PO" });
                 lstdesg.Add(new SelectListItem() { Text = "GRN", Value = "GRN" });
+                lstdesg.Add(new SelectListItem() { Text = "PO", Value = "PO" });
+              
 
                 return lstdesg;
             }
@@ -133,15 +134,29 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public List<SelectListItem> BindGRNlist()
+        public JsonResult GetTypeJSON(string GPID)
+        {
+            QCTesting model = new QCTesting();
+            model.Typlst = BindGRNlist(GPID);
+            return Json(BindGRNlist(GPID));
+
+        }
+        public List<SelectListItem> BindGRNlist(string type)
         {
             try
             {
-                DataTable dtDesg = QCTestingService.GetGRN();
+                DataTable dtDesg = QCTestingService.GetGRN(type);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DOCID"].ToString(), Value = dtDesg.Rows[i]["GRNBLBASICID"].ToString() });
+                    if (type == "GRN")
+                    {
+                        lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DOCID"].ToString(), Value = dtDesg.Rows[i]["GRNBLBASICID"].ToString() });
+                    }
+                    else
+                    {
+                        lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DOCID"].ToString(), Value = dtDesg.Rows[i]["POBASICID"].ToString() }); 
+                    }
                 }
                 return lstdesg;
             }

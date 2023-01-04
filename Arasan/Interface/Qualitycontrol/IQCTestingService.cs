@@ -9,7 +9,7 @@ namespace Arasan.Interface
 {
     public interface IQCTestingService
     {
-        DataTable GetGRN();
+        DataTable GetGRN(string id);
         //DataTable GetGRN(string id);
         DataTable GetGRNDetails(string id);
         DataTable GetItembyId(string id);
