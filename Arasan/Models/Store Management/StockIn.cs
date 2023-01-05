@@ -9,8 +9,10 @@ namespace Arasan.Models
         public string Unit { get; set; }
         public string ItemID { get; set; }
         public string Qty { get; set; }
-         public string Branch { get; set; }
+        public string QtyS { get; set; }
+        public string Branch { get; set; }
         public string Location { get; set; }
+        public string TotalQty { get; set; }
         public List<IndentList> Indentlist { get; set; }
        
     }
@@ -19,8 +21,11 @@ namespace Arasan.Models
         public string IndentNo { get; set; }
         public string IndentDate { get; set; }
         public string ItemName { get; set; }
+        public string ItemId { get; set; }
         public string Quantity { get; set; }
+        public string Unit { get; set; }
         public string LocationName { get; set; }
+        public string StockQty { get; set; }
     }
 
 }
