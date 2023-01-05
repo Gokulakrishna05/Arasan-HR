@@ -17,7 +17,6 @@ namespace Arasan.Controllers
             loginService = _loginService;
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
         }
-        
         public IActionResult Index()
         {
             return View();

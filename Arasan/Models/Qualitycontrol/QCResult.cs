@@ -10,7 +10,11 @@ namespace Arasan.Models
     {
         public QCResult()
         {
-          
+            //this.Typlst = new List<SelectListItem>();
+            this.lst = new List<SelectListItem>();
+            this.Itemlst = new List<SelectListItem>();
+            this.Supplst = new List<SelectListItem>();
+            
             this.assignList = new List<SelectListItem>();
             this.Loc = new List<SelectListItem>();
         }
@@ -18,14 +22,23 @@ namespace Arasan.Models
 
         public List<SelectListItem> assignList;
 
+        //public List<SelectListItem> Typlst;
+        public List<SelectListItem> lst;
+        public List<SelectListItem> Itemlst;
+        public List<SelectListItem> Supplst;
+     
         public List<SelectListItem> Loc;
+        
+        
         public string Location { get; set; }
 
-      
+        public string QcLocation { get; set; }
         public string ID { get; set; }
      
         public string Party { get; set; }
         public string GRNNo { get; set; }
+        public string Remarks { get; set; }
+        //public string Type { get; set; }
         public string DocId { get; set; }
         public string DocDate { get; set; }
         public string GRNDate { get; set; }
