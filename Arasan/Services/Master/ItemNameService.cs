@@ -57,6 +57,16 @@ namespace Arasan.Services.Master
             }
             return staList;
         }
+        public DataTable GetAllItems()
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMCODE,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MAXSTOCKLVL,MINSTOCKLVL,CONVERAT,UOM,HSN,SELLINGPRI,ITEMMASTERID from ITEMMASTER";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public ItemName GetSupplierDetailById(string eid)
         {
             ItemName ItemName = new ItemName();

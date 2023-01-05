@@ -103,8 +103,11 @@ namespace Arasan.Services
                         {
                             Pid = cy.ID;
                         }
-                    
-                            
+
+                        foreach (QCItem cp in cy.QCLst)
+                        {
+                            if (cp.Isvalid == "Y" && cp.TestDec != "0")
+                            {
                                 using (OracleConnection objConns = new OracleConnection(_connectionString))
                                 {
                                     OracleCommand objCmds = new OracleCommand("QCDETAILPROC", objConns);
@@ -120,18 +123,20 @@ namespace Arasan.Services
                                     }
                                     objCmds.CommandType = CommandType.StoredProcedure;
                                     objCmds.Parameters.Add("QCVALUEBASICID", OracleDbType.NVarchar2).Value = Pid;
-                                    objCmds.Parameters.Add("TESTDESC", OracleDbType.NVarchar2).Value = cy.TestDec;
-                                    objCmds.Parameters.Add("ACVAL", OracleDbType.NVarchar2).Value = cy.AccVale;
-                                    objCmds.Parameters.Add("TESTVALUE", OracleDbType.NVarchar2).Value = cy.TestValue;
-                                    objCmds.Parameters.Add("RESULT", OracleDbType.NVarchar2).Value = cy.Result;
-                                    objCmds.Parameters.Add("MANUALVALUE", OracleDbType.NVarchar2).Value = cy.ManualValue;
-                                    objCmds.Parameters.Add("ACTTESTVALUE", OracleDbType.NVarchar2).Value = cy.AcTestValue;
-                                
+                                    objCmds.Parameters.Add("TESTDESC", OracleDbType.NVarchar2).Value = cp.TestDec;
+                                    objCmds.Parameters.Add("ACVAL", OracleDbType.NVarchar2).Value = cp.AccVale;
+                                    objCmds.Parameters.Add("TESTVALUE", OracleDbType.NVarchar2).Value = cp.TestValue;
+                                    objCmds.Parameters.Add("RESULT", OracleDbType.NVarchar2).Value = cp.Result;
+                                    objCmds.Parameters.Add("MANUALVALUE", OracleDbType.NVarchar2).Value = cp.ManualValue;
+                                    objCmds.Parameters.Add("ACTTESTVALUE", OracleDbType.NVarchar2).Value = cp.AcTestValue;
+
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                     objConns.Open();
                                     objCmds.ExecuteNonQuery();
                                     objConns.Close();
                                 }
+                            }
+                        }
 
                     }
                     catch (Exception ex)
@@ -152,17 +157,17 @@ namespace Arasan.Services
         public DataTable GetGRN(string type)
         {
             string SvSql = string.Empty;
-           
-            if (type == "GRN")
-            {
-                SvSql = "Select DOCID,GRNBLBASICID from GRNBLBASIC where GRNBLBASIC.STATUS IS NULL";
-            }
-            
-            else
-            {
-           
-                SvSql = "Select DOCID, POBASICID from POBASIC";
-            }
+            SvSql = "Select DOCID,GRNBLBASICID from GRNBLBASIC where GRNBLBASIC.STATUS IS NULL";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetPO(string type)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select DOCID, POBASICID from POBASIC ";          
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
