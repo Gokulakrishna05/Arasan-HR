@@ -16,7 +16,7 @@ namespace Arasan.Interface
         DataTable GetQCDetail(string id);
         DataTable GetParty(string id);
         string QCTestingCRUD(QCTesting cy);
-
+        DataTable GetPO(string id);
         DataTable GetQCTesting(string id);
         IEnumerable<QCTesting> GetAllQCTesting();
 

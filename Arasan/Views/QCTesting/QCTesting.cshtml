@@ -2,6 +2,15 @@
 @{
     ViewData["Title"] = "QC Testing";
 }
+<style>
+    
+    .mandatory{
+	color: red;
+	position:relative;
+	top:2px;
+	left:5px;
+}
+</style>
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
 
@@ -31,16 +40,51 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Type<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
                                         @Html.DropDownListFor(C => C.Type, Model.Typlst, new { @id = "Type", @Class = "form-control chosen-select", @TabIndex = 1, @onchange = "changeType(this.value)"})<br />
+                                        <br />
+                                    </div>
+                                </div>
+                            </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">GRN/Prod.No<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.GRNNo, Model.lst, new { @id = "ddlGRNNo", @Class = "form-control chosen-select", @TabIndex = 1, @onchange = "changeItem(this.value)"})<br />
+                                            <br />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="row">
+                                    <div class="col-md-6">
+                                <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">GRN Date<label class="mandatory">*</label></label>
+
+                                    <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                        @Html.TextBoxFor(C => C.GRNDate, new { @id = "GRNDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                    </div>
+                                    <input type="hidden" id="dtp_input2" value="" readonly/>
+                                    
+                                </div>
+                            </div>
+                                     
+                                         <div class="col-md-6">
+                                <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Party <label class="mandatory">*</label></label>
+                                    <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.Party, Model.Supplst, new { @id = "ddlParty", @Class = "form-control chosen-select", @TabIndex = 1,@readonly="readonly" })<br />
 
                                     </div>
                                 </div>
                             </div>
-                            </div>
+                                    </div>
                         <div class="row">
                                <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Doc Id<label class="Mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Doc Id<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.DocId, new { @id = "DocId", @class = "form-control", @TabIndex = 2 })
                                             @Html.HiddenFor(C => C.ID)
@@ -51,7 +95,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Doc Date<label class="Mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Doc Date<label class="mandatory">*</label></label>
 
 
                                     <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
@@ -65,113 +109,73 @@
                         </div>
 
                        @* <div style="height:30px;"></div>*@
-                        <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-
-                                        <label for="inputName3" class="col-sm-4 control-label">GRN/Prod.No<label class="Mandatory"></label></label>
-                                        <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.GRNNo, Model.lst, new { @id = "ddlDocId", @Class = "form-control chosen-select", @TabIndex = 1, @onchange = "changeItem(this.value)"})<br />
-                                         
-                                        </div>
-                                    </div>
-                                </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="inputName3" class="col-sm-4 control-label">GRN Date<label class="Mandatory"></label></label>
-
-                                    <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                        @Html.TextBoxFor(C => C.GRNDate, new { @id = "GRNDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
-                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                    </div>
-                                    <input type="hidden" id="dtp_input2" value="" readonly/>
-                                    
-                                </div>
-                            </div>
-                        </div>
-                       <div style="height:30px;"></div>
+                       
+                     
 									 <div class="row">
-                                        <div class="col-md-12">
+                                        <div class="col-md-6">
                                             <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-2 control-label">Item ID<label class="mandatory"></label></label>
-                                                <div class="col-sm-10">
+                                    <label for="inputName3" class="col-sm-4 control-label">Item ID<label class="mandatory">*</label></label>
+                                                <div class="col-sm-8">
                                         @Html.DropDownListFor(C => C.ItemId, Model.Itemlst, new { @id = "ddlItemId", @Class = "form-control chosen-select", @TabIndex = 1 })<br />
                                                 </div>
                                             </div>
                                         </div>
-                                        
-                                    </div>
-                        <div style="height:30px;"></div>
-                        <div class="row">
-                            <div class="col-md-6">
+                                 <div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">SI No<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.SNo, new { @id = "SNo", @class = "form-control", @TabIndex = 2})
+                                        @Html.TextBoxFor(C => C.SNo, new { @id = "SNo", @class = "form-control", @TabIndex = 2})<br />
                                     </div>
                                 </div>
                             </div>
+                            </div>
+                            <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-4 control-label">Class Code<label class="Mandatory"></label></label>
 
                                     <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.ClassCode, new { @id = "ClassCode", @class = "form-control", @TabIndex = 2})
+                                        @Html.TextBoxFor(C => C.ClassCode, new { @id = "ClassCode", @class = "form-control", @TabIndex = 2})<br />
                                     </div>
 
                                 </div>
                             </div>
-                        </div>
-                        <div style="height:30px;"></div>
-                        <div class="row">
+                      
                             <div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">Lot No<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.LotNo, new { @id = "LotNo", @class = "form-control", @TabIndex = 2})
+                                        @Html.TextBoxFor(C => C.LotNo, new { @id = "LotNo", @class = "form-control", @TabIndex = 2})<br />
                                     </div>
                                 </div>
                             </div>
+                            </div>
+                            <div class="row">
                               <div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">GRN/Prod.Qty<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="" type="text">
+                                            <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div style="height:30px;"></div>
-                        <div class="row">
-                            <div class="col-md-12">
+                        
+                            <div class="col-md-6">
                                             <div class="form-group">
                                             
-                                                <label for="inputName3" class="col-sm-2 control-label">Test Procedure<label class="Mandatory"></label></label>
-                                                <div class="col-sm-10">
+                                                <label for="inputName3" class="col-sm-4 control-label">Test Procedure<label class="Mandatory"></label></label>
+                                                <div class="col-sm-8">
                                                     <textarea class="form-control" id="inputEmail3" type="text" rows="3"></textarea>
                                                 </div>
                                             </div>
                                         </div>
 
                         </div>
-                        <div style="height:30px;"></div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                    <label for="inputName3" class="col-sm-4 control-label">Party ID<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Party, Model.Supplst, new { @id = "ddlParty", @Class = "form-control chosen-select", @TabIndex = 1,@readonly="readonly" })<br />
-
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
+                     
 
                             <div style="height:30px;"></div>
                             <div class="row">
@@ -204,43 +208,46 @@
                                                         </tr>
                                                     </thead>
                                         <tbody id="tbBooks">
-                                                        @{
+                                            @{
 
-                                                            int i = 0;
-                                                            int j = 1;
+                                                int i = 0;
+                                                int j = 1;
 
-                                                            
-                                                                        <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+
+                                                foreach (var item in Model.QCLst.ToList())
+                                                {
+                                                    <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
                                                             <td>
-                                                                @Html.TextBoxFor(o => o.TestDec, new { @id = "txtTestDec" + i, @class = "form-control", style = "width: 130px;" })
+                                                                @Html.TextBoxFor(o => o.QCLst[i].TestDec, new { @id = "txtTestDec" + i, @class = "form-control", style = "width: 130px;" })
                                                             </td>
                                                             <td>
 
 
-                                                                @Html.TextBoxFor(o => o.AccVale, new { @id = "txtAccVale" + i, @class = "form-control", style = "width: 130px;",onkeydown = "return isNumeric2(event.keyCode,this.value)"})
+                                                                @Html.TextBoxFor(o => o.QCLst[i].AccVale, new { @id = "txtAccVale" + i, @class = "form-control", style = "width: 130px;",onkeydown = "return isNumeric2(event.keyCode,this.value)"})
                                                             </td>
                                                             <td>
-                                                                @Html.TextBoxFor(o => o.TestValue, new { @id = "txtTestValue" + i, @class = "form-control", style = "width: 130px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
+                                                                @Html.TextBoxFor(o => o.QCLst[i].TestValue, new { @id = "txtTestValue" + i, @class = "form-control", style = "width: 130px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
                                                             </td>
                                                             <td>
-                                                                @Html.TextBoxFor(o => o.ManualValue, new { @id = "txtManualValue" + i, @class = "form-control", style = "width: 130px;" })
+                                                                @Html.TextBoxFor(o => o.QCLst[i].ManualValue, new { @id = "txtManualValue" + i, @class = "form-control", style = "width: 130px;" })
                                                             </td>
                                                             <td>
-                                                                @Html.TextBoxFor(o => o.AcTestValue, new { @id = "txtAcTestValue" + i, @class = "form-control", style = "width: 130px;" })
+                                                                @Html.TextBoxFor(o => o.QCLst[i].AcTestValue, new { @id = "txtAcTestValue" + i, @class = "form-control", style = "width: 130px;" })
                                                             </td>
 
                                                             <td>
-                                                                @Html.TextBoxFor(o => o.Result, new { @id = "txtResult" + i, @class = "form-control", style = "width: 130px;"})
+                                                                @Html.TextBoxFor(o => o.QCLst[i].Result, new { @id = "txtResult" + i, @class = "form-control", style = "width: 130px;"})
                                                             </td>
                                                              <td>
-                                                                @Html.HiddenFor(o => o.Isvalid, new { @id = "Isvalid" + i })
+                                                                @Html.HiddenFor(o => o.QCLst[i].Isvalid, new { @id = "Isvalid" + i })
                                                                             <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(i)" />
                                                                         </td>
                                                         </tr>
                                                     i = i + 1;
                                                     j = j + 1;
                                                      
+                                                     }
                                                      }
                                                     </tbody>
                                                 </table>
@@ -264,10 +271,10 @@
 
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Teasted By<label class="Mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Tested By<label class="Mandatory"></label></label>
 
                                     <div class="col-sm-8">     
-                                        @Html.TextBoxFor(C => C.TestedBy, new { @id = "ddlTestedBy", @Class = "form-control ", @TabIndex = 1 })<br />
+                                            @Html.DropDownListFor(C => C.TestedBy, Model.assignList, new { @id = "ddlTestedBy", @Class = "form-control chosen-select", @TabIndex = 1 })<br />
 
                                     </div>
 
@@ -307,7 +314,109 @@
 </div>
 <script>
     $(".chosen-select").chosen();
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+            if (document.getElementById("ddlGRNNo").value == "" || document.getElementById("ddlGRNNo").value == 0) {
+                isValid = false;
+                $(ddlGRNNo_chzn).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
 
+                alert("Please Select GRN or PO");
+                return false;
+            }
+            else {
+                $(ddlGRNNo_chzn).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("GRNDate").value == "") {
+                isValid = false;
+                $(GRNDate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select GRN Date");
+                return false;
+            }
+            else {
+                $(GRNDate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("DocId").value == "") {
+                isValid = false;
+                $(DocId).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Doc Id");
+                return false;
+            }
+            else {
+                $(DocId).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("DocDate").value == "") {
+                isValid = false;
+                $(DocDate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Doc Date");
+                return false;
+            }
+            else {
+                $(DocDate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("ddlParty").value == "" || document.getElementById("ddlParty").value == 0) {
+                isValid = false;
+                $(ddlParty_chzn).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Party");
+                return false;
+            }
+            else {
+                $(ddlParty_chzn).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("ddlItemId").value == "" || document.getElementById("ddlItemId").value == 0) {
+                isValid = false;
+                $(ddlItemId_chzn).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Item");
+                return false;
+            }
+            else {
+                $(ddlItemId_chzn).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+        });
+
+    });
 
     $('.form_date').datetimepicker({
         //   language:  'fr',
@@ -319,16 +428,16 @@
         minView: 2,
         forceParse: 0
     });
-      function changeType(ItemId) {
+      function changeType(id) {
         $.ajax({
             url: "GetTypeJSON",
             type: "post",
-            data: { 'GPID': ItemId },
+            data: { 'GPID': id },
             cache: false,
             success: function (response) {
                 var newlist;
                 newlist = response.lst;
-                PopulateDropDown("#ddlDocId", response);
+                PopulateDropDown("#ddlGRNNo", response);
             },
             error: function () {
                 debugger;
@@ -344,7 +453,7 @@
             success: function (result) {
 
                 document.getElementById("GRNDate").value = result.grndate;
-                document.getElementById("Party" ).value = result.party;
+              
             },
             error: function () {
                 alert("Data Not Found");
