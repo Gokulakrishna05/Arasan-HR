@@ -41,6 +41,16 @@ namespace Arasan.Services.Qualitycontrol
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetQCDetail(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select TESTDESC,ACVAL,TESTVALUE,RESULT,MANUALVALUE,ACTTESTVALUE from QCVALUEDETAIL Where QCVALUEBASICID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public IEnumerable<QCResult> GetAllQCResult()
         {
             List<QCResult> cmpList = new List<QCResult>();
@@ -101,8 +111,8 @@ namespace Arasan.Services.Qualitycontrol
                     }
                     objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.DocId;
                     objCmd.Parameters.Add("GRNNO", OracleDbType.NVarchar2).Value = cy.GRNNo;
-                    objCmd.Parameters.Add("DOCDATE", OracleDbType.Date).Value = cy.DocDate;
                     objCmd.Parameters.Add("GRNDATE", OracleDbType.Date).Value = cy.GRNDate;
+                    objCmd.Parameters.Add("DOCDATE", OracleDbType.Date).Value = cy.DocDate;
                     objCmd.Parameters.Add("PARTYID", OracleDbType.NVarchar2).Value = cy.Party;
                     objCmd.Parameters.Add("TESTEDBY", OracleDbType.NVarchar2).Value = cy.TestedBy;
                     objCmd.Parameters.Add("LOCATION", OracleDbType.NVarchar2).Value = cy.Location;

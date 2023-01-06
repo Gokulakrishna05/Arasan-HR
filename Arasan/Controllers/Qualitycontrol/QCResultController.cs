@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data;
+using System.Xml.Linq;
 using Arasan.Interface;
 using Arasan.Interface.Master;
 using Arasan.Interface.Qualitycontrol;
@@ -27,15 +28,22 @@ namespace Arasan.Controllers.Qualitycontrol
         public IActionResult QCResult(string id)
         {
             QCResult ca = new QCResult();
-            //ca.Typlst = BindType();
-            //ca.QcLocation = BindLocation();
+           
             ca.lst = BindGRNlist();
             ca.assignList = BindEmp();
             ca.Loc = BindLocation();
-            //ca.lst = BindGRNlist("");
+           
+            List<QCResultItem> TData = new List<QCResultItem>();
+            QCResultItem tda = new QCResultItem();
             if (id == null)
             {
+                for (int i = 0; i < 3; i++)
+                {
+                    //tda = new QCResultItem();
 
+                    //tda.Isvalid = "Y";
+                    //TData.Add(tda);
+                }
             }
             else
             {
@@ -49,15 +57,35 @@ namespace Arasan.Controllers.Qualitycontrol
                     ca.DocId = dt.Rows[0]["DOCID"].ToString();
                     ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
                     ca.GRNNo = dt.Rows[0]["GRNNO"].ToString();
-                    ca.GRNDate = dt.Rows[0]["GRNDATE"].ToString();
+                    ca.GRNDate = dt.Rows[0]["GRNDATE"].ToString();          
                     ca.ID = id;
                     ca.Party = dt.Rows[0]["PARTYID"].ToString();
                     ca.Location = dt.Rows[0]["LOCATION"].ToString();
                     ca.Remarks = dt.Rows[0]["REMARKS"].ToString();
                     ca.Remarks = dt.Rows[0]["QCLOCATION"].ToString();
                 }
+                //DataTable dt2 = new DataTable();
+                //dt2 = QCResultService.GetQCDetail(id);
+                //if (dt2.Rows.Count > 0)
+                //{
+
+                //    for (int i = 0; i < dt2.Rows.Count; i++)
+                //    {
+                //        tda = new QCResultItem();
+                //        tda.TestDec = dt2.Rows[0]["TESTDESC"].ToString();
+                //        tda.TestValue = dt2.Rows[0]["TESTVALUE"].ToString();
+                //        tda.Result = dt2.Rows[0]["RESULT"].ToString();
+                //        tda.AcTestValue = dt2.Rows[0]["ACTTESTVALUE"].ToString();
+                //        tda.AccVale = dt2.Rows[0]["ACVAL"].ToString();
+                //        tda.ManualValue = dt2.Rows[0]["MANUALVALUE"].ToString();
+                //        tda.Isvalid = "Y";
+                //        TData.Add(tda);
+                //    }
+
+                //}
 
             }
+            //ca.QCResultLst = TData;
             return View(ca);
         }
         [HttpPost]
