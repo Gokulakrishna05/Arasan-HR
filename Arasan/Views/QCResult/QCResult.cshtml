@@ -2,6 +2,15 @@
 @{
     ViewData["Title"] = "QC Result";
 }
+<style>
+
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
 
@@ -68,7 +77,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">QC Location<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">QC Location<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.QcLocation, Model.Loc, new { @id = "ddlQcLocation", @Class = "form-control chosen-select", @TabIndex = 1 })<br />
                                     </div>
@@ -88,16 +97,16 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">GRN No<label class="Mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">GRN No<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.GRNNo, Model.lst, new { @id = "ddlDocId", @Class = "form-control chosen-select", @TabIndex = 1, @onchange = "changeItem(this.value)"})<br />
+                                            @Html.DropDownListFor(C => C.GRNNo, Model.lst, new { @id = "ddlGRNNo", @Class = "form-control chosen-select", @TabIndex = 1, @onchange = "changeItem(this.value)"})<br />
 
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="inputName3" class="col-sm-4 control-label">GRN Date<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">GRN Date<label class="mandatory">*</label></label>
 
 
                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
@@ -113,7 +122,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Party ID<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Party ID<label class="mandatory">*</label></label>
                                                 <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.Party, Model.Supplst, new { @id = "ddlParty", @Class = "form-control chosen-select", @TabIndex = 1,@readonly="readonly" })<br />
                                                 </div>
@@ -188,38 +197,38 @@
                                     </div>
                                 </div>
                             </div>
-                        
-                       
-                         <div class="col-md-6">
-                            <div class="row">
+
+
+                        <div style="height:30px;"></div>
+                        <div class="row">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-4 control-label">Teasted By<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.TestedBy, Model.assignList, new { @id = "ddlTestedBy", @Class = "form-control chosen-select", @TabIndex = 1 })
                                             <br />
                                     </div>
-
                                 </div>
-                            </div>
+                             </div>
                         </div>
 
+                            <div style="height:30px;"></div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
 
-                        <div style="height:30px;"></div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
+                                        <label for="inputName3" class="col-sm-2 control-label">Remarks<label class="Mandatory"></label></label>
+                                        <div class="col-sm-10">
+                                            @Html.TextAreaFor(C => C.Remarks, new { @id = "Remarks", @class = "form-control", @TabIndex = 2})
 
-                                    <label for="inputName3" class="col-sm-2 control-label">Remarks<label class="Mandatory"></label></label>
-                                    <div class="col-sm-10">
-                                            @Html.TextBoxFor(C => C.Remarks, new { @id = "Remarks", @class = "form-control", @TabIndex = 2 })<br />
+                                        </div>
                                     </div>
                                 </div>
+
                             </div>
 
-                        </div>
-
                              <div style="height:30px;"></div>
-                          <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+                             <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
                             <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListQCResult", "QCResult")'">Cancel</button>
                  </from>
                  }
@@ -232,6 +241,109 @@
 
  </div>
 <script>
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+            if (document.getElementById("ddlGRNNo").value == "" || document.getElementById("ddlGRNNo").value == 0) {
+                isValid = false;
+                $(ddlGRNNo_chzn).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select GRN or PO");
+                return false;
+            }
+            else {
+                $(ddlGRNNo_chzn).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("GRNDate").value == "") {
+                isValid = false;
+                $(GRNDate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select GRN Date");
+                return false;
+            }
+            else {
+                $(GRNDate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("DocId").value == "") {
+                isValid = false;
+                $(DocId).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Doc Id");
+                return false;
+            }
+            else {
+                $(DocId).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("DocDate").value == "") {
+                isValid = false;
+                $(DocDate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Doc Date");
+                return false;
+            }
+            else {
+                $(DocDate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("ddlParty").value == "" || document.getElementById("ddlParty").value == 0) {
+                isValid = false;
+                $(ddlParty_chzn).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Party");
+                return false;
+            }
+            else {
+                $(ddlParty_chzn).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("ddlItemId").value == "" || document.getElementById("ddlItemId").value == 0) {
+                isValid = false;
+                $(ddlItemId_chzn).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Item");
+                return false;
+            }
+            else {
+                $(ddlItemId_chzn).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+        });
+
+    });
     $(".chosen-select").chosen();
 
 

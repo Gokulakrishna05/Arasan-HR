@@ -18,5 +18,6 @@ namespace Arasan.Interface.Qualitycontrol
         DataTable GetItembyId(string value);
         DataTable GetGRNDetails(string itemId);
         DataTable GetGRN();
+        //DataTable GetQCDetail(string id);
     }
 }
