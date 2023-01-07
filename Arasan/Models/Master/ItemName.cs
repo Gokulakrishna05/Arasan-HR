@@ -26,15 +26,16 @@ namespace Arasan.Models
         public string ItemSubGroup { get; set; }
 
         public List<SelectListItem> Isglst;
-        public List<SupItem> Suplst { get; set; }
+        public List<SupItem> Suplst;
 
         public string HSNcode { get; set; }
 
         public List<SelectListItem> Hsn;
         public string BinId { get; set; }
 
-        public List<SelectListItem> Bin;
+        public List<SelectListItem> Bin { get; set; }
 
+        public List<BinItem> Binlst;
 
         public string ID { get; set; }
         public string ItemG { get; set; }
@@ -60,7 +61,8 @@ namespace Arasan.Models
         public string BinID { get; set; }
         public string BinYN { get; set; }
         //public string ItemMas { get; set; }
-
+        public string EditRow { get; set; }
+        public string DelRow { get; set; }
         public List<ItemName> pflst { get; set; }
        
     }
@@ -69,16 +71,40 @@ namespace Arasan.Models
     {
 
         public List<SelectListItem> Suplst { get; set; }
-      
+        public string SupName { get; set; }
         public string SupplierPart { get; set; }
         public string PurchasePrice { get; set; }
         public string Preforder { get; set; }
         public string Delivery { get; set; }
         public string Isvalid { get; set; }
-        public string BinID { get; set; }
-        public string BinYN { get; set; }
+
+        public string ID { get; set; }
+        //public string BinID { get; set; }
+        //public string BinYN { get; set; }
        // public string ItemMas { get; set; }
 
+
+    }
+    public class BinItem
+    {
+        public string Isvalid { get; set; }
+        public string BinID { get; set; }
+        public string BinYN { get; set; }
+    }
+
+    public class ItemList
+    {
+        public string id  { get;set;}
+        public string itemgroup { get; set; }
+        public string itemsubgroup { get; set; }
+        public string itemname { get; set; }
+        public string bin { get; set; }
+        public string cf { get; set; }
+        public string uom { get; set; }
+        public string hsncode { get; set; }
+        public string editrow { get; set; }
+        public string delrow { get; set; }
+        public string itemcode { get; set; }    
 
     }
     
