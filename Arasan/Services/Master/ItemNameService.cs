@@ -155,37 +155,65 @@ namespace Arasan.Services.Master
                         {
                             Pid = ss.ID;
                         }
-                      //  foreach (DirItem cp in cy.DirLst)
+                        //  foreach (DirItem cp in cy.DirLst)
                         //{
-                            
-                            
-                                using (OracleConnection objConns = new OracleConnection(_connectionString))
+
+
+                        using (OracleConnection objConns = new OracleConnection(_connectionString))
+                        {
+                            OracleCommand objCmds = new OracleCommand("BINMASTEPROC", objConns);
+                            if (ss.ID == null)
+                            {
+                                StatementType = "Insert";
+                                objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                            }
+                            else
+                            {
+                                StatementType = "Update";
+                                objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = ss.ID;
+                            }
+                            objCmds.CommandType = CommandType.StoredProcedure;
+                            objCmds.Parameters.Add("BINMASTERID", OracleDbType.NVarchar2).Value = Pid;
+                            objCmds.Parameters.Add("BINID", OracleDbType.NVarchar2).Value = ss.BinID;
+                            objCmds.Parameters.Add("BINYN", OracleDbType.NVarchar2).Value = ss.BinYN;
+                            objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                            objConns.Open();
+                            objCmds.ExecuteNonQuery();
+                            objConns.Close();
+                        }
+                        bool result = datatrans.UpdateStatus("DELETE SUPPLIERPARTNO  Where ITEMMASTERID='" + Pid + "'");
+                        foreach (SupItem cp in ss.Suplst)
+                        {
+                            using (OracleConnection objConnI = new OracleConnection(_connectionString))
+                            {
+                                OracleCommand objCmdI = new OracleCommand("SUPPLIERPROC", objConnI);
+
+                                objCmdI.CommandType = CommandType.StoredProcedure;
+                                StatementType = "Insert";
+                                objCmdI.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                objCmdI.Parameters.Add("SUPPLIERID", OracleDbType.NVarchar2).Value = cp.SupName;
+                                objCmdI.Parameters.Add("SUPPLIERPARTNO", OracleDbType.NVarchar2).Value = cp.SupplierPart;
+                                objCmdI.Parameters.Add("SPURPRICE", OracleDbType.NVarchar2).Value = cp.PurchasePrice;
+                                objCmdI.Parameters.Add("DELDAYS", OracleDbType.NVarchar2).Value = cp.Delivery;
+                                objCmdI.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                                try
                                 {
-                                    OracleCommand objCmds = new OracleCommand("BINMASTEPROC", objConns);
-                                    if (ss.ID == null)
-                                    {
-                                        StatementType = "Insert";
-                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-                                    }
-                                    else
-                                    {
-                                        StatementType = "Update";
-                                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = ss.ID;
-                                    }
-                                    objCmds.CommandType = CommandType.StoredProcedure;
-                                    objCmds.Parameters.Add("BINMASTERID", OracleDbType.NVarchar2).Value = Pid;
-                                    objCmds.Parameters.Add("BINID", OracleDbType.NVarchar2).Value = ss.BinID;
-                                    objCmds.Parameters.Add("BINYN", OracleDbType.NVarchar2).Value = ss.BinYN;
-                                    objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
-                                    objConns.Open();
-                                    objCmds.ExecuteNonQuery();   
-                                    objConns.Close();
+                                    objConnI.Open();
+                                    objCmdI.ExecuteNonQuery();
+                                    //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
+                                }
+                                catch (Exception ex)
+                                {
+                                    //System.Console.WriteLine("Exception: {0}", ex.ToString());
                                 }
 
+                                objConnI.Close();
+                            }
+
+                        }
+                       
 
 
-                            
-                      //  }
                     }
                     catch (Exception ex)
                     {
@@ -282,33 +310,43 @@ namespace Arasan.Services.Master
             adapter.Fill(dtt);
             return dtt;
         }
-        public IEnumerable<ItemName> GetAllSupplier(string id)
+        //public IEnumerable<ItemName> GetAllSupplier(string id)
+        //{
+        //    List<ItemName> cmpList = new List<ItemName>();
+        //    using (OracleConnection con = new OracleConnection(_connectionString))
+        //    {
+
+        //        using (OracleCommand cmd = con.CreateCommand())
+        //        {
+        //            con.Open();
+        //            cmd.CommandText = "Select SUPPLIERID,SUPPLIERPARTNO,SPURPRICE,DELDAYS,SUPPLIERPARTNOID from SUPPLIERPARTNO";
+        //            OracleDataReader rdr = cmd.ExecuteReader();
+        //            while (rdr.Read())
+        //            {
+        //                ItemName cmp = new ItemName
+        //                {
+        //                    ID = rdr["SUPPLIERPARTNOID"].ToString(),
+        //                    SupName = rdr["SUPPLIERID"].ToString(),
+        //                    SupPartNo = rdr["SUPPLIERPARTNO"].ToString(),
+        //                    Price = rdr["SPURPRICE"].ToString(),
+        //                    Dy = rdr["DELDAYS"].ToString(),
+
+        //                };
+        //                cmpList.Add(cmp);
+        //            }
+        //        }
+        //    }
+        //    return cmpList;
+        //}
+        public DataTable GetAllSupplier(string id)
         {
-            List<ItemName> cmpList = new List<ItemName>();
-            using (OracleConnection con = new OracleConnection(_connectionString))
-            {
-
-                using (OracleCommand cmd = con.CreateCommand())
-                {
-                    con.Open();
-                    cmd.CommandText = "Select SUPPLIERID,SUPPLIERPARTNO,SPURPRICE,DELDAYS,REMARKS,SUPPLIERPARTNOID from SUPPLIERPARTNO";
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
-                    {
-                        ItemName cmp = new ItemName
-                        {
-                            ID = rdr["SUPPLIERPARTNOID"].ToString(),
-                            SupName = rdr["SUPPLIERID"].ToString(),
-                            SupPartNo = rdr["SUPPLIERPARTNO"].ToString(),
-                            Price = rdr["SPURPRICE"].ToString(),
-                            Dy = rdr["DELDAYS"].ToString(),
-
-                        };
-                        cmpList.Add(cmp);
-                    }
-                }
-            }
-            return cmpList;
+            string SvSql = string.Empty;
+            SvSql = "Select SUPPLIERID,SUPPLIERPARTNO,SPURPRICE,DELDAYS,SUPPLIERPARTNOID from SUPPLIERPARTNO where ITEMMASTERID='"+ id  + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
         }
         public ItemName GetSupplierById(string eid)
         {
@@ -346,42 +384,7 @@ namespace Arasan.Services.Master
             {
                 string StatementType = string.Empty; string svSQL = "";
 
-                using (OracleConnection objConn = new OracleConnection(_connectionString))
-                {
-                    OracleCommand objCmd = new OracleCommand("SUPPLIERPROC", objConn);
-                    /*objCmd.Connection = objConn;
-                    objCmd.CommandText = "SUPPLIERPROC";*/
-
-                    objCmd.CommandType = CommandType.StoredProcedure;
-                    if (cy.ID == null)
-                    {
-                        StatementType = "Insert";
-                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-                    }
-                    else
-                    {
-                        StatementType = "Update";
-                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
-                    }
-
-                    objCmd.Parameters.Add("SUPPLIERID", OracleDbType.NVarchar2).Value = cy.SupName;
-                    objCmd.Parameters.Add("SUPPLIERPARTNO", OracleDbType.NVarchar2).Value = cy.SupPartNo;
-                    objCmd.Parameters.Add("SPURPRICE", OracleDbType.NVarchar2).Value = cy.Price;
-                    objCmd.Parameters.Add("DELDAYS", OracleDbType.NVarchar2).Value = cy.Dy;
-                    objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
-                    try
-                    {
-                        objConn.Open();
-                        objCmd.ExecuteNonQuery();
-                        //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
-                    }
-                    catch (Exception ex)
-                    {
-                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
-                    }
-
-                    objConn.Close();
-                }
+               
             }
             catch (Exception ex)
             {
@@ -392,10 +395,7 @@ namespace Arasan.Services.Master
             return msg;
         }
 
-        DataTable IItemNameService.GetAllSupplier(string id)
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 
 }
