@@ -154,7 +154,7 @@ namespace Arasan.Services
 
             return msg;
         }
-        public DataTable GetGRN(string type)
+        public DataTable GetGRN(string id)
         {
             string SvSql = string.Empty;
             SvSql = "Select DOCID,GRNBLBASICID from GRNBLBASIC where GRNBLBASIC.STATUS IS NULL";
@@ -164,17 +164,27 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetPO(string type)
+        public DataTable GetPO(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select DOCID, POBASICID from POBASIC ";          
+            SvSql = "Select DOCID,POBASICID from POBASIC";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetQCTesting(string id)
+        //public DataTable GetPO(string type)
+        //{
+        //    string SvSql = string.Empty;
+        //    SvSql = "Select DOCID, POBASICID from POBASIC ";          
+        //    DataTable dtt = new DataTable();
+        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
+        //}
+        public DataTable GetQCTesting(string id)  
         {
             string SvSql = string.Empty;
             SvSql = "Select ITEMMASTER.ITEMID,GRNBLBASIC.DOCID,QCVALUEBASIC.DOCID,to_char(QCVALUEBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,to_char(QCVALUEBASIC.GRNDATE,'dd-MON-yyyy')GRNDATE,QCVALUEBASIC.CLASSCODE,PARTYRCODE.PARTY,QCVALUEBASICID,QCVALUEBASIC.LOTSERIALNO,SLNO,QCVALUEBASIC.TESTRESULT,QCVALUEBASIC.TESTEDBY,QCVALUEBASIC.REMARKS from QCVALUEBASIC LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=QCVALUEBASIC.ITEMID LEFT OUTER JOIN GRNBLBASIC ON GRNBLBASICID=QCVALUEBASIC.GRNNO  LEFT OUTER JOIN  PARTYMAST on QCVALUEBASIC.PARTYID=PARTYMAST.PARTYMASTID  LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH')  AND QCVALUEBASIC.QCVALUEBASICID='" + id +"' ";
@@ -199,13 +209,25 @@ namespace Arasan.Services
         {
             string SvSql = string.Empty;
             SvSql = "Select ITEMMASTER.ITEMID,GRNBLBASICID,GRNBLDETAILID from GRNBLDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=GRNBLDETAIL.ITEMID where GRNBLDETAIL.GRNBLBASICID='" + id + "'";
-           
+            SvSql = "Select ITEMMASTER.ITEMID,POBASICID,PODETAILID from PODETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PODETAIL.ITEMID where PODETAIL.POBASICID='" + id + "'";
+
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
         }
+        //public DataTable GetPOItembyId(string id)
+        //{
+        //    string SvSql = string.Empty;
+        //    SvSql = "Select ITEMMASTER.ITEMID,POBASICID,PODETAILID from PODETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PODETAIL.ITEMID where PODETAIL.POBASICID='" + id + "'";
+
+        //    DataTable dtt = new DataTable();
+        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
+        //}
         public DataTable GetParty(string id)
         {
             string SvSql = string.Empty;

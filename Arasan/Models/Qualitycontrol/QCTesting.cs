@@ -34,13 +34,7 @@ namespace Arasan.Models
         public string TestedBy { get; set; }
         public string Remarks { get; set; }
         public List<QCItem> QCLst;
-        public string TestDec { get; set; }
-        public string Result { get; set; }
-        public string TestValue { get; set; }
-        public string ManualValue { get; set; }
-        public string AccVale { get; set; }
-        public string AcTestValue { get; set; }
-        public string Isvalid { get; set; }
+  
 
     }
     public class QCItem
