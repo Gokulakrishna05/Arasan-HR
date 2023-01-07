@@ -440,7 +440,7 @@
             cache: false,
             success: function (response) {
                 var newlist;
-                newlist = response.lst;
+                newlist = response.Typlst;
                 PopulateDropDown("#ddlGRNNo", response);
             },
             error: function () {
@@ -527,16 +527,17 @@
             alert("Cannot delete all the rows.")
         }
   }
-            function PopulateDropDown(dropDownId, list) {
-                 //alert(list);
-                  if (list != null && list.length > 0) {
-                    $(dropDownId).removeAttr("disabled");
-                    $.each(list, function () {
-                        $(dropDownId).append($("<option></option>").val(this['value']).html(this['text']));
-                    });
-                }
-                $(dropDownId).trigger("liszt:updated");
-            }
+    function PopulateDropDown(dropDownId, list) {
+        //alert(list);
+        $(dropDownId).empty().append();
+        if (list != null && list.length > 0) {
+            $(dropDownId).removeAttr("disabled");
+            $.each(list, function () {
+                $(dropDownId).append($("<option></option>").val(this['value']).html(this['text']));
+            });
+        }
+        $(dropDownId).trigger("liszt:updated");
+    }
     function AppendRow(opt) {
         var index = $("#tbBooks").children("tr").length;
         var TestDec = "<td><input class='form-control' id='txtTestDec" + index + "' name='QCLst[" + index + "].TestDec'  style='width: 130px;'  type='text'  /></td>";
