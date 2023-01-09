@@ -174,16 +174,7 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        //public DataTable GetPO(string type)
-        //{
-        //    string SvSql = string.Empty;
-        //    SvSql = "Select DOCID, POBASICID from POBASIC ";          
-        //    DataTable dtt = new DataTable();
-        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-        //    adapter.Fill(dtt);
-        //    return dtt;
-        //}
+     
         public DataTable GetQCTesting(string id)  
         {
             string SvSql = string.Empty;
@@ -205,10 +196,31 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetPODetails(string id)
+        {
+            string SvSql = string.Empty;
+
+            SvSql = "Select to_char(POBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,POBASICID from POBASIC  where POBASIC.POBASICID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetItembyId(string id)
         {
             string SvSql = string.Empty;
             SvSql = "Select ITEMMASTER.ITEMID,GRNBLBASICID,GRNBLDETAILID from GRNBLDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=GRNBLDETAIL.ITEMID where GRNBLDETAIL.GRNBLBASICID='" + id + "'";
+
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetPOItembyId(string id)
+        {
+            string SvSql = string.Empty;
             SvSql = "Select ITEMMASTER.ITEMID,POBASICID,PODETAILID from PODETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PODETAIL.ITEMID where PODETAIL.POBASICID='" + id + "'";
 
             DataTable dtt = new DataTable();
@@ -217,21 +229,20 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        //public DataTable GetPOItembyId(string id)
-        //{
-        //    string SvSql = string.Empty;
-        //    SvSql = "Select ITEMMASTER.ITEMID,POBASICID,PODETAILID from PODETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PODETAIL.ITEMID where PODETAIL.POBASICID='" + id + "'";
-
-        //    DataTable dtt = new DataTable();
-        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-        //    adapter.Fill(dtt);
-        //    return dtt;
-        //}
         public DataTable GetParty(string id)
         {
             string SvSql = string.Empty;
             SvSql = "Select PARTYRCODE.PARTY,GRNBLBASICID from GRNBLBASIC LEFT OUTER JOIN  PARTYMAST on GRNBLBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID where GRNBLBASIC.GRNBLBASICID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetPOParty(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select PARTYRCODE.PARTY,POBASICID from POBASIC LEFT OUTER JOIN  PARTYMAST on POBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID where POBASIC.POBASICID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -248,15 +259,6 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        //public DataTable GetGRN(string id)
-        //{
-        //    string SvSql = string.Empty;
-        //    SvSql = "Select DOCID,GRNBLBASICID from GRNBLBASIC where='"+id+ "'";
-        //    DataTable dtt = new DataTable();
-        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-        //    adapter.Fill(dtt);
-        //    return dtt;
-        //}
+      
     }
 }
