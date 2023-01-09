@@ -28,21 +28,18 @@ namespace Arasan.Controllers.Qualitycontrol
         public IActionResult QCResult(string id)
         {
             QCResult ca = new QCResult();
-           
             ca.lst = BindGRNlist();
             ca.assignList = BindEmp();
             ca.Loc = BindLocation();
-           
             List<QCResultItem> TData = new List<QCResultItem>();
             QCResultItem tda = new QCResultItem();
             if (id == null)
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    //tda = new QCResultItem();
-
-                    //tda.Isvalid = "Y";
-                    //TData.Add(tda);
+                    tda = new QCResultItem();
+                    tda.Isvalid = "Y";
+                    TData.Add(tda);
                 }
             }
             else
@@ -64,28 +61,27 @@ namespace Arasan.Controllers.Qualitycontrol
                     ca.Remarks = dt.Rows[0]["REMARKS"].ToString();
                     ca.Remarks = dt.Rows[0]["QCLOCATION"].ToString();
                 }
-                //DataTable dt2 = new DataTable();
-                //dt2 = QCResultService.GetQCDetail(id);
-                //if (dt2.Rows.Count > 0)
-                //{
+                DataTable dt2 = new DataTable();
+                dt2 = QCResultService.GetQCResultDetail(id);
+                if (dt2.Rows.Count > 0)
+                {
 
-                //    for (int i = 0; i < dt2.Rows.Count; i++)
-                //    {
-                //        tda = new QCResultItem();
-                //        tda.TestDec = dt2.Rows[0]["TESTDESC"].ToString();
-                //        tda.TestValue = dt2.Rows[0]["TESTVALUE"].ToString();
-                //        tda.Result = dt2.Rows[0]["RESULT"].ToString();
-                //        tda.AcTestValue = dt2.Rows[0]["ACTTESTVALUE"].ToString();
-                //        tda.AccVale = dt2.Rows[0]["ACVAL"].ToString();
-                //        tda.ManualValue = dt2.Rows[0]["MANUALVALUE"].ToString();
-                //        tda.Isvalid = "Y";
-                //        TData.Add(tda);
-                //    }
+                    for (int i = 0; i < dt2.Rows.Count; i++)
+                    {
+                        tda = new QCResultItem();
+                      //tda.ItemID = dt2.Rows[0]["ITEMID"].ToString();
+                        tda.GrnQty = dt2.Rows[0]["GRNQTY"].ToString();
+                        tda.InsQty = dt2.Rows[0]["INSQTY"].ToString();
+                        tda.RejQty = dt2.Rows[0]["REJQTY"].ToString();
+                        tda.AccQty = dt2.Rows[0]["ACCQTY"].ToString();
+                        tda.Isvalid = "Y";
+                        TData.Add(tda);
+                    }
 
-                //}
+                }
 
             }
-            //ca.QCResultLst = TData;
+            ca.QCResultLst = TData;
             return View(ca);
         }
         [HttpPost]

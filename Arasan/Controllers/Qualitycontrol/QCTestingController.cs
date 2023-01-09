@@ -66,7 +66,6 @@ namespace Arasan.Controllers
                     ca.ClassCode = dt.Rows[0]["CLASSCODE"].ToString();
                 }
                 DataTable dt2 = new DataTable();
-
                 dt2 = QCTestingService.GetQCDetail(id);
                 if (dt2.Rows.Count > 0)
                 {
@@ -84,7 +83,6 @@ namespace Arasan.Controllers
                     } 
                     
                 }
-               
             }
             ca.QCLst = TData;
             return View(ca);
@@ -137,9 +135,12 @@ namespace Arasan.Controllers
             try
             {
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
+
+
+
+
                 lstdesg.Add(new SelectListItem() { Text = "PO", Value = "PO" });
                 lstdesg.Add(new SelectListItem() { Text = "GRN", Value = "GRN" });
-              
 
                 return lstdesg;
             }
