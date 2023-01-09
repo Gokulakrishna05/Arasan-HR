@@ -1,0 +1,107 @@
+﻿@model Arasan.Models.ItemName
+
+@{
+    ViewData["Title"] = "Index";
+}
+  <partial name="JqxGridPartial" />
+@* @Html.Partial("~/Views/JqxGridPartial.cshtml")  *@
+    
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a>Master</a> </li>
+            <li class="active"> <strong>Item Master</strong> </li>
+        </ol>
+    </div>
+</div>
+
+ <script type="text/javascript">
+        $(document).ready(function () {
+            var source =
+            {
+                url: "/ItemName/MyListItemgrid",
+               datatype: "json",
+                updaterow: function (rowid, rowdata) {
+                  // synchronize with the server - send update command
+              },
+                datafields: [
+                     { name: 'itemgroup', type: 'string' },
+                    { name: 'itemsubgroup', type: 'string' },
+                    { name: 'itemname', type: 'string' },
+                      { name: 'bin', type: 'string' },
+                         { name: 'cf', type: 'string' },
+                            { name: 'uom', type: 'string' },
+ { name: 'hsncode', type: 'string' },
+  { name: 'editrow', type: 'string' },
+   { name: 'delrow', type: 'string' },
+                ],
+                id: 'id',
+            };
+              var dataAdapter = new $.jqx.dataAdapter(source,
+                { contentType: 'application/json; charset=utf-8' }, {
+                    loadComplete: function () {
+
+                    }
+                }
+            );
+          
+            $("#grid").jqxGrid(
+                {
+                    width: getWidth('Grid'),
+                    source: dataAdapter, 
+                    height: 365,
+                    source: source,
+                    pageable: true,
+                    filterable: true,
+                    autoheight: true,
+                    sortable: true,
+                    columns: [
+                    
+                    { text: 'Item Group', datafield: 'itemgroup', width: 150 },
+                      { text: 'Item Sub Group', datafield: 'itemsubgroup', width: 150 },
+                      { text: 'Item Name', datafield: 'itemname', width: 300 },
+                      { text: 'UOM', datafield: 'uom', width: 50, align: 'center' },
+                     { text: 'CF', datafield: 'cf', width: 50 , align: 'center'},
+                      { text: 'HSN Code', datafield: 'hsncode', width: 100, align: 'center' },
+                      { text: 'Edit', datafield: 'editrow', width: 70 , align: 'center', cellsalign: 'center'},
+                      { text: 'Delete', datafield: 'delrow', width: 70 , align: 'center', cellsalign: 'center'},
+                  ]
+            });
+        });
+    </script>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                  
+                    <form>
+                         <div class="row">
+                             <div class="col-md-12 "> 
+                                   <div class=" textalignright">
+                                    <a href="@Url.Action("ItemName", "ItemName")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Item</a>
+                                     <br>
+                                </div>
+                       
+                       
+                        </div>
+                        </div>
+                        <div class="row">
+
+                             <div class="col-md-2 "> </div>
+                            <div class="col-md-10 "> 
+                                <div id="grid">
+    </div>
+
+                            </div>
+                           
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

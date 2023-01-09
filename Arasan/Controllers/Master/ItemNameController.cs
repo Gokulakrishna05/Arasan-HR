@@ -28,6 +28,10 @@ namespace Arasan.Controllers.Master
             ca.Bin = BindBinID();
             List<SupItem> TData = new List<SupItem>();
             SupItem tda = new SupItem();
+
+            List<BinItem> TDatab = new List<BinItem>();
+            BinItem tdaB = new BinItem();
+
             if (id == null)
            
             {
@@ -37,6 +41,13 @@ namespace Arasan.Controllers.Master
                     tda.Suplst = BindSupplier();
                     tda.Isvalid = "Y";
                     TData.Add(tda);
+                }
+
+                for (int i = 0; i < 3; i++)
+                {
+                    tdaB = new BinItem();
+                    tdaB.Isvalid = "Y";
+                    TDatab.Add(tdaB);
                 }
             }
             else
@@ -67,18 +78,37 @@ namespace Arasan.Controllers.Master
                 dt2 = ItemNameService.GetBinDeatils(id);
                 if (dt2.Rows.Count > 0)
                 {
-
-
-                    ca.BinID = dt2.Rows[0]["BINID"].ToString();
-                    ca.BinYN = dt2.Rows[0]["BINYN"].ToString();
-                   // ca.ItemMas = dt2.Rows[0]["ITEMMASTERID"].ToString();
-                     
-
-
-
+                    for (int i = 0; i < dt2.Rows.Count; i++)
+                    {
+                        tdaB = new BinItem();
+                        tdaB.BinID = dt2.Rows[0]["BINID"].ToString();
+                        tdaB.BinYN = dt2.Rows[0]["BINYN"].ToString();
+                        tdaB.Isvalid = "Y";
+                        TDatab.Add(tdaB);
+                    }
                 }
 
+                DataTable dtt = new DataTable();
+                dtt = ItemNameService.GetAllSupplier(id);
+             
+                if (dtt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dtt.Rows.Count; i++)
+                    {
+                        tda = new SupItem();
+                        tda.Suplst = BindSupplier();
+                        tda.SupName = dtt.Rows[i]["SUPPLIERID"].ToString();
+                        tda.SupplierPart = dtt.Rows[i]["SUPPLIERPARTNO"].ToString();
+                        tda.PurchasePrice = dtt.Rows[i]["SPURPRICE"].ToString();
+                        tda.Delivery = dtt.Rows[i]["DELDAYS"].ToString();
+                        tda.Isvalid = "Y";
+                        TData.Add(tda);
+                    }
+                }
+                //ca.Suplst = TData;
+
             }
+            ca.Binlst = TDatab;
             ca.Suplst = TData;
             return View(ca);
         }
@@ -232,6 +262,53 @@ namespace Arasan.Controllers.Master
             IEnumerable<ItemName> sta = ItemNameService.GetAllItemName();
             return View(sta);
         }
+
+        public IActionResult ListItem()
+        {
+            return View();
+        }
+        public ActionResult MyListItemgrid()
+        {
+            List<ItemList> Reg = new List<ItemList>();
+            DataTable dtUsers = new DataTable();
+
+            dtUsers = ItemNameService.GetAllItems();
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+
+                string DeleteRow = string.Empty;
+                string EditRow = string.Empty;
+
+                EditRow = "<a href=ItemName?id=" + dtUsers.Rows[i]["ITEMMASTERID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=ItemName?tag=Del&id=" + dtUsers.Rows[i]["ITEMMASTERID"].ToString() + ")'><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                Reg.Add(new ItemList
+                {
+                    id = dtUsers.Rows[i]["ITEMMASTERID"].ToString(),
+                    itemgroup = dtUsers.Rows[i]["IGROUP"].ToString(),
+                    itemsubgroup = dtUsers.Rows[i]["ISUBGROUP"].ToString(),
+                    itemcode = dtUsers.Rows[i]["ITEMCODE"].ToString(),
+                    itemname = dtUsers.Rows[i]["ITEMID"].ToString(),
+                    //Reorderqu = dtUsers.Rows[i]["REORDERQTY"].ToString(),
+                    //Reorderlvl = dtUsers.Rows[i]["REORDERLVL"].ToString(),
+                    //Maxlvl = dtUsers.Rows[i]["MAXSTOCKLVL"].ToString(),
+                    //Minlvl = dtUsers.Rows[i]["MINSTOCKLVL"].ToString(),
+                    cf = dtUsers.Rows[i]["CONVERAT"].ToString(),
+                    uom = dtUsers.Rows[i]["UOM"].ToString(),
+                    hsncode = dtUsers.Rows[i]["HSN"].ToString(),
+                    //sellingprice = dtUsers.Rows[i]["SELLINGPRI"].ToString(),
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
+        }
         public JsonResult GetItemGrpJSON()
         {
             //EnqItem model = new EnqItem();
@@ -282,42 +359,42 @@ namespace Arasan.Controllers.Master
             //IEnumerable<PurchaseFollowup> cmp = PurenqService.GetAllPurchaseFollowup();
             return View(cmp);
         }
-        public ActionResult Supplier(ItemName Pf, string id)
-        {
+        //public ActionResult Supplier(ItemName Pf, string id)
+        //{
 
-            try
-            {
-                Pf.ID = id;
-                string Strout = ItemNameService.SupplierCRUD(Pf);
-                if (string.IsNullOrEmpty(Strout))
-                {
-                    if (Pf.ID == null)
-                    {
-                        TempData["notice"] = "ItemName Inserted Successfully...!";
-                    }
-                    else
-                    {
-                        TempData["notice"] = "ItemName Updated Successfully...!";
-                    }
-                    return RedirectToAction("ItemName");
-                }
+        //    try
+        //    {
+        //        Pf.ID = id;
+        //        string Strout = ItemNameService.SupplierCRUD(Pf);
+        //        if (string.IsNullOrEmpty(Strout))
+        //        {
+        //            if (Pf.ID == null)
+        //            {
+        //                TempData["notice"] = "ItemName Inserted Successfully...!";
+        //            }
+        //            else
+        //            {
+        //                TempData["notice"] = "ItemName Updated Successfully...!";
+        //            }
+        //            return RedirectToAction("ItemName");
+        //        }
 
-                else
-                {
-                    ViewBag.PageTitle = "Edit ItemName";
-                    TempData["notice"] = Strout;
-                    //return View();
-                }
+        //        else
+        //        {
+        //            ViewBag.PageTitle = "Edit ItemName";
+        //            TempData["notice"] = Strout;
+        //            //return View();
+        //        }
 
-                // }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+        //        // }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
 
-            return View(Pf);
-        }
+        //    return View(Pf);
+        //}
 
     }
 }
