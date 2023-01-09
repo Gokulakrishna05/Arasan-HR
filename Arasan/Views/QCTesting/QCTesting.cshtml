@@ -220,34 +220,34 @@
 
                                                 foreach (var item in Model.QCLst.ToList())
                                                 {
-                                                    <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                        <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
-                                                            <td>
-                                                                @Html.TextBoxFor(o => o.QCLst[i].TestDec, new { @id = "txtTestDec" + i, @class = "form-control", style = "width: 130px;" })
-                                                            </td>
-                                                            <td>
+                                                                <td>
+                                                                    @Html.TextBoxFor(o => o.QCLst[i].TestDec, new { @id = "txtTestDec" + i, @class = "form-control", style = "width: 130px;" })
+                                                                </td>
+                                                                <td>
 
 
-                                                                @Html.TextBoxFor(o => o.QCLst[i].AccVale, new { @id = "txtAccVale" + i, @class = "form-control", style = "width: 130px;",onkeydown = "return isNumeric2(event.keyCode,this.value)"})
-                                                            </td>
-                                                            <td>
-                                                                @Html.TextBoxFor(o => o.QCLst[i].TestValue, new { @id = "txtTestValue" + i, @class = "form-control", style = "width: 130px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
-                                                            </td>
-                                                            <td>
-                                                                @Html.TextBoxFor(o => o.QCLst[i].ManualValue, new { @id = "txtManualValue" + i, @class = "form-control", style = "width: 130px;" })
-                                                            </td>
-                                                            <td>
-                                                                @Html.TextBoxFor(o => o.QCLst[i].AcTestValue, new { @id = "txtAcTestValue" + i, @class = "form-control", style = "width: 130px;" })
-                                                            </td>
+                                                                    @Html.TextBoxFor(o => o.QCLst[i].AccVale, new { @id = "txtAccVale" + i, @class = "form-control", style = "width: 130px;",onkeydown = "return isNumeric2(event.keyCode,this.value)"})
+                                                                </td>
+                                                                <td>
+                                                                    @Html.TextBoxFor(o => o.QCLst[i].TestValue, new { @id = "txtTestValue" + i, @class = "form-control", style = "width: 130px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
+                                                                </td>
+                                                                <td>
+                                                                    @Html.TextBoxFor(o => o.QCLst[i].ManualValue, new { @id = "txtManualValue" + i, @class = "form-control", style = "width: 130px;" })
+                                                                </td>
+                                                                <td>
+                                                                    @Html.TextBoxFor(o => o.QCLst[i].AcTestValue, new { @id = "txtAcTestValue" + i, @class = "form-control", style = "width: 130px;" })
+                                                                </td>
 
-                                                            <td>
-                                                                @Html.TextBoxFor(o => o.QCLst[i].Result, new { @id = "txtResult" + i, @class = "form-control", style = "width: 130px;"})
-                                                            </td>
-                                                             <td>
-                                                                @Html.HiddenFor(o => o.QCLst[i].Isvalid, new { @id = "Isvalid" + i })
-                                                                            <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(i)" />
-                                                                        </td>
-                                                        </tr>
+                                                                <td>
+                                                                    @Html.TextBoxFor(o => o.QCLst[i].Result, new { @id = "txtResult" + i, @class = "form-control", style = "width: 130px;"})
+                                                                </td>
+                                                                 <td>
+                                                                    @Html.HiddenFor(o => o.QCLst[i].Isvalid, new { @id = "Isvalid" + i })
+                                                                                <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(i)" />
+                                                                            </td>
+                                                            </tr>
                                                     i = i + 1;
                                                     j = j + 1;
                                                      
@@ -443,9 +443,10 @@
         });
       }
     function changeItem(ItemId) {
+         var type=document.getElementById("Type").value();
         $.ajax({
             url: 'GetGRNDetail',
-            data: { "ItemId": ItemId },
+            data: { "ItemId": ItemId ,"Type":type },
             type: "GET",
             success: function (result) {
 
@@ -456,10 +457,38 @@
                 alert("Data Not Found");
             }
         });
+     @*    $.ajax({
+            url: 'GetPODetail',
+            data: { "Item": ItemId,"GPID":type },
+            type: "GET",
+            success: function (result) {
+
+                document.getElementById("GRNDate").value = result.podate;
+              
+            },
+            error: function () {
+                alert("Data Not Found");
+            }
+        });*@
           $.ajax({
             url: "GetGRNItemJSON",
             type: "post",
-            data: { 'supid': ItemId },
+                data: { 'supid': ItemId, "Type": type },
+            cache: false,
+            success: function (response) {
+                var newlist;
+                    newlist = response.Typlst;
+                PopulateDropDown("#ddlItemId", response);
+            },
+            error: function () {
+                debugger;
+                alert("Please Select GRN ID");
+            }
+        });
+           @* $.ajax({
+            url: "GetPOItemJSON", 
+            type: "post",
+            data: { 'Poid': ItemId,"GPID":type },
             cache: false,
             success: function (response) {
                 var newlist;
@@ -470,11 +499,26 @@
                 debugger;
                 alert("Please Select GRN ID");
             }
-        });
+        });*@
           $.ajax({
             url: "GetGRNSuppJSON",
             type: "post",
-            data: { 'suppid': ItemId },
+                data: { 'suppid': ItemId, "Type": type },
+            cache: false,
+            success: function (response) {
+                var newlist;
+                    newlist = response.Typlst;
+                PopulateDropDown("#ddlParty", response);
+            },
+            error: function () {
+                debugger;
+                alert("Please Select GRN ID");
+            }
+        });
+       @*   $.ajax({
+            url: "GetPOSuppJSON",
+            type: "post",
+            data: { 'POsuppid': ItemId, "GPID": type },
             cache: false,
             success: function (response) {
                 var newlist;
@@ -485,7 +529,7 @@
                 debugger;
                 alert("Please Select GRN ID");
             }
-        });
+        });*@
     }
    function AddRow() {
         var opt = "";
