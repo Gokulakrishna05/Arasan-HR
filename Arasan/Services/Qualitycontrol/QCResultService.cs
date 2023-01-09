@@ -41,7 +41,7 @@ namespace Arasan.Services.Qualitycontrol
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetQCDetail(string id)
+        public DataTable GetQCResultDetail(string id)
         {
             string SvSql = string.Empty;
             SvSql = "Select TESTDESC,ACVAL,TESTVALUE,RESULT,MANUALVALUE,ACTTESTVALUE from QCVALUEDETAIL Where QCVALUEBASICID='" + id + "'";
@@ -56,7 +56,6 @@ namespace Arasan.Services.Qualitycontrol
             List<QCResult> cmpList = new List<QCResult>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
-
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
@@ -66,7 +65,6 @@ namespace Arasan.Services.Qualitycontrol
                     {
                         QCResult cmp = new QCResult
                         {
-
                             ID = rdr["QCRESULTBASICID"].ToString(),
                             DocId = rdr["DOCID"].ToString(),
                             GRNNo = rdr["GRNNO"].ToString(),
@@ -77,8 +75,6 @@ namespace Arasan.Services.Qualitycontrol
                             Location = rdr["LOCATION"].ToString(),
                             Remarks = rdr["REMARKS"].ToString(),
                             QcLocation = rdr["QCLOCATION"].ToString(),
-
-
                     };
                         cmpList.Add(cmp);
                     }
@@ -89,7 +85,6 @@ namespace Arasan.Services.Qualitycontrol
         public string QCResultCRUD(QCResult cy)
         {
             string msg = "";
-            
             try
             {
                 string StatementType = string.Empty; string svSQL = "";
@@ -124,7 +119,46 @@ namespace Arasan.Services.Qualitycontrol
                     {
                         objConn.Open();
                         objCmd.ExecuteNonQuery();
-                        //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
+                        Object Pid = objCmd.Parameters["OUTID"].Value;
+                        //string Pid = "0";
+                        if (cy.ID != null)
+                        {
+                            Pid = cy.ID;
+                        }
+                        foreach (QCResultItem cp in cy.QCResultLst)
+                        {
+                            if (cp.Isvalid == "Y" && cp.GrnQty != "0")
+                            {
+                                using (OracleConnection objConns = new OracleConnection(_connectionString))
+                                {
+                                    OracleCommand objCmds = new OracleCommand("QCRESULTDETAILPROC", objConns);
+                                    if (cy.ID == null)
+                                    {
+                                        StatementType = "Insert";
+                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                    }
+                                    else
+                                    {
+                                        StatementType = "Update";
+                                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                                    }
+                                    objCmds.CommandType = CommandType.StoredProcedure;
+                                    objCmds.Parameters.Add("QCRESULTBASICID", OracleDbType.NVarchar2).Value = Pid;
+                                    //objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cp.ItemId;
+                                    objCmds.Parameters.Add("GRNQTY", OracleDbType.NVarchar2).Value = cp.GrnQty;
+                                    objCmds.Parameters.Add("INSQTY", OracleDbType.NVarchar2).Value = cp.InsQty;
+                                    objCmds.Parameters.Add("REJQTY", OracleDbType.NVarchar2).Value = cp.RejQty;
+                                    objCmds.Parameters.Add("ACCQTY", OracleDbType.NVarchar2).Value = cp.AccQty;
+                                    //objCmds.Parameters.Add("BINID", OracleDbType.NVarchar2).Value = cp.BinID;
+                                    //objCmds.Parameters.Add("PROCESSID", OracleDbType.NVarchar2).Value = cp.Process;
+                                    objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                                    objConns.Open();
+                                    objCmds.ExecuteNonQuery();
+                                    objConns.Close();
+                                }
+
+                            }
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -144,9 +178,7 @@ namespace Arasan.Services.Qualitycontrol
         public DataTable GetGRN()
         {
             string SvSql = string.Empty;
-
-                SvSql = "Select DOCID,GRNBLBASICID from GRNBLBASIC where GRNBLBASIC.STATUS IS NULL";
-           
+            SvSql = "Select DOCID,GRNBLBASICID from GRNBLBASIC where GRNBLBASIC.STATUS IS NULL";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -167,7 +199,6 @@ namespace Arasan.Services.Qualitycontrol
         {
             string SvSql = string.Empty;
             SvSql = "Select ITEMMASTER.ITEMID,GRNBLBASICID,GRNBLDETAILID from GRNBLDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=GRNBLDETAIL.ITEMID where GRNBLDETAIL.GRNBLBASICID='" + id + "'";
-
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

@@ -44,13 +44,17 @@ namespace Arasan.Models
         public string GRNDate { get; set; }
         public string TestedBy { get; set; }
        
-        public List<QCItem> QCResultLst;
+        public List<QCResultItem> QCResultLst;
     }
     public class QCResultItem
     {
-        public string TestDec { get; set; }
+        //public string TestDec { get; set; }
+        //public string ItemID { get; set; }
+        public string GrnQty { get; set; }
+        public string InsQty { get; set; }
+        public string RejQty { get; set; }
+        public string AccQty { get; set; }
         public string Isvalid { get; set; }
-        public string ItemId { get; set; }
 
     }
 }
