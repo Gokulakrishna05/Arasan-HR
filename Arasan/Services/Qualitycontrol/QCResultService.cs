@@ -71,7 +71,7 @@ namespace Arasan.Services.Qualitycontrol
                             DocId = rdr["DOCID"].ToString(),
                             GRNNo = rdr["GRNNO"].ToString(),
                             GRNDate = rdr["GRNDATE"].ToString(),
-                            DocDate = rdr["DOCDATE"].ToString(),
+                            DocDate = rdr["DOCDATE"].ToString(), 
                             Party = rdr["PARTY"].ToString(),
                             TestedBy = rdr["TESTEDBY"].ToString(),
                             Location = rdr["LOCATION"].ToString(),

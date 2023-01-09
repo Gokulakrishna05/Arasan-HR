@@ -129,7 +129,6 @@ namespace Arasan.Services
                                     objCmds.Parameters.Add("RESULT", OracleDbType.NVarchar2).Value = cp.Result;
                                     objCmds.Parameters.Add("MANUALVALUE", OracleDbType.NVarchar2).Value = cp.ManualValue;
                                     objCmds.Parameters.Add("ACTTESTVALUE", OracleDbType.NVarchar2).Value = cp.AcTestValue;
-
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                     objConns.Open();
                                     objCmds.ExecuteNonQuery();
