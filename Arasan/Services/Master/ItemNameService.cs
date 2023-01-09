@@ -158,20 +158,12 @@ namespace Arasan.Services.Master
                         //  foreach (DirItem cp in cy.DirLst)
                         //{
 
-
+                        bool resultsds = datatrans.UpdateStatus("UPDATE BINMASTER SET ISUPDATED='N' Where ITEMID='" + Pid + "'");
                         using (OracleConnection objConns = new OracleConnection(_connectionString))
                         {
                             OracleCommand objCmds = new OracleCommand("BINMASTEPROC", objConns);
-                            if (ss.ID == null)
-                            {
-                                StatementType = "Insert";
-                                objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-                            }
-                            else
-                            {
-                                StatementType = "Update";
-                                objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = ss.ID;
-                            }
+                            StatementType = "Insert";
+                            objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
                             objCmds.CommandType = CommandType.StoredProcedure;
                             objCmds.Parameters.Add("BINMASTERID", OracleDbType.NVarchar2).Value = Pid;
                             objCmds.Parameters.Add("BINID", OracleDbType.NVarchar2).Value = ss.BinID;

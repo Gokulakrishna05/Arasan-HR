@@ -359,42 +359,42 @@ namespace Arasan.Controllers.Master
             //IEnumerable<PurchaseFollowup> cmp = PurenqService.GetAllPurchaseFollowup();
             return View(cmp);
         }
-        public ActionResult Supplier(ItemName Pf, string id)
-        {
+        //public ActionResult Supplier(ItemName Pf, string id)
+        //{
 
-            try
-            {
-                Pf.ID = id;
-                string Strout = ItemNameService.SupplierCRUD(Pf);
-                if (string.IsNullOrEmpty(Strout))
-                {
-                    if (Pf.ID == null)
-                    {
-                        TempData["notice"] = "ItemName Inserted Successfully...!";
-                    }
-                    else
-                    {
-                        TempData["notice"] = "ItemName Updated Successfully...!";
-                    }
-                    return RedirectToAction("ItemName");
-                }
+        //    try
+        //    {
+        //        Pf.ID = id;
+        //        string Strout = ItemNameService.SupplierCRUD(Pf);
+        //        if (string.IsNullOrEmpty(Strout))
+        //        {
+        //            if (Pf.ID == null)
+        //            {
+        //                TempData["notice"] = "ItemName Inserted Successfully...!";
+        //            }
+        //            else
+        //            {
+        //                TempData["notice"] = "ItemName Updated Successfully...!";
+        //            }
+        //            return RedirectToAction("ItemName");
+        //        }
 
-                else
-                {
-                    ViewBag.PageTitle = "Edit ItemName";
-                    TempData["notice"] = Strout;
-                    //return View();
-                }
+        //        else
+        //        {
+        //            ViewBag.PageTitle = "Edit ItemName";
+        //            TempData["notice"] = Strout;
+        //            //return View();
+        //        }
 
-                // }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+        //        // }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
 
-            return View(Pf);
-        }
+        //    return View(Pf);
+        //}
 
     }
 }
