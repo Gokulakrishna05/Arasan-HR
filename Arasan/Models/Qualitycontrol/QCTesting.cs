@@ -28,6 +28,8 @@ namespace Arasan.Models
         public string GRNDate { get; set; }
         public string SNo { get; set; }
         public string LotNo { get; set; }
+        public string Qty { get; set; }
+        public string Procedure { get; set; }
         public string ClassCode { get; set; }
         public string TestResult { get; set; }
         public List<SelectListItem> assignList;

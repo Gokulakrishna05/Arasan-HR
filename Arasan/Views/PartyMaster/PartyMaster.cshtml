@@ -80,7 +80,7 @@
 
                                                     <label for="inputName3" class="col-sm-4 control-label">Party Category<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
-                                                        @Html.DropDownListFor(C => C.PartyCategory, Model.Categorylst, new { @id = "PartyCategory", @Class = "form-control chosen-select", @TabIndex = 1, style = "width: 300px;" })
+                                                        @Html.DropDownListFor(C => C.PartyCategory, Model.Categorylst, new { @id = "ddlPartyCategory", @Class = "form-control chosen-select", @TabIndex = 1 })<br />
                                                 </div>
 
                                 </div>
@@ -374,7 +374,7 @@
 
                                                     <label for="inputName3" class="col-sm-4 control-label">Country<label class="mandatory"></label></label>
                                                     <div class="col-sm-8">
-                                                        @Html.DropDownListFor(C => C.Country, Model.Countrylst, new { @id = "ddlCountryName", @Class = "form-control chosen-select", @TabIndex = 1, style = "width: 330px;", @onchange = "changeCode(this.value)"  })
+                                            @Html.DropDownListFor(C => C.Country, Model.Countrylst, new { @id = "ddlCountry", @Class = "form-control chosen-select", @TabIndex = 1 })<br />
 
                                                     </div>
                                                 </div>
@@ -391,7 +391,7 @@
 
                                                     <label for="inputName3" class="col-sm-4 control-label">State<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
-                                                        @Html.DropDownListFor(C => C.State, Model.Statelst, new { @id = "ddlStateName", @Class = "form-control chosen-select", style = "width: 330px;", @TabIndex = 1 })<br/>
+                                                        @Html.DropDownListFor(C => C.State, Model.Statelst, new { @id = "ddlState", @Class = "form-control chosen-select", @TabIndex = 1 })<br />
 
                                     </div>
                                 </div>
@@ -402,7 +402,7 @@
 
                                                     <label for="inputName3" class="col-sm-4 control-label">City<label class="Mandatory"></label></label>
                                                     <div class="col-sm-8">
-                                                        @Html.DropDownListFor(C => C.City, Model.Citylst, new { @id = "ddlCityName", @Class = "form-control chosen-select", @TabIndex = 1, style = "width: 330px;" })<br />
+                                                        @Html.DropDownListFor(C => C.City, Model.Citylst, new { @id = "ddlCity", @Class = "form-control chosen-select", @TabIndex = 1 })<br />
 
                                                     </div>
                                                 </div>
@@ -461,7 +461,7 @@
 
                                                 <label for="inputName3" class="col-sm-4 control-label">Intred By<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                        @Html.DropDownListFor(C => C.Intred, Model.assignList, new { @id = "ddlIntred", @Class = "form-control chosen-select", @TabIndex = 1, style = "width: 300px;" })<br/>
+                                                        @Html.DropDownListFor(C => C.Intred, Model.assignList, new { @id = "ddlIntred", @Class = "form-control chosen-select", @TabIndex = 1 })<br />
 
                                                 </div>
 

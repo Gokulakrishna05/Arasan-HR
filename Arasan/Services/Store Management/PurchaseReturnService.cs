@@ -72,7 +72,7 @@ namespace Arasan.Services
         public DataTable GetPurchaseReturnReason(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select PRETTANDC.REASON,PRETTANDC.SNO,PRETTANDCID  from PRETTANDC where PRETTANDC.PRETBASICID=" + id + "";
+            SvSql = "Select PRETTANDC.REASON,PRETTANDCID  from PRETTANDC where PRETTANDC.PRETBASICID=" + id + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -178,7 +178,7 @@ namespace Arasan.Services
                             }
                             objCmds.CommandType = CommandType.StoredProcedure;
                             objCmds.Parameters.Add("PRETBASICID", OracleDbType.NVarchar2).Value = Pid;
-                            objCmds.Parameters.Add("SNO", OracleDbType.NVarchar2).Value = cy.SNO;
+                          
                             objCmds.Parameters.Add("REASON", OracleDbType.NVarchar2).Value = cy.Reason;
                            
 
@@ -205,20 +205,20 @@ namespace Arasan.Services
 
             return msg;
         }
-        public DataTable GetPO()
+        public DataTable GetGRN()
         {
             string SvSql = string.Empty;
-            SvSql = "Select DOCID,POBASICID from POBASIC ";
+            SvSql = "Select DOCID,GRNBLBASICID from GRNBLBASIC ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetPODetails(string POID)
+        public DataTable GetGRNDetails(string POID)
         {
             string SvSql = string.Empty;
-            SvSql = "SELECT UNITMAST.UNITID,CF,QTY,RATE,AMOUNT,ITEMMASTER.ITEMID,DISCAMT,FREIGHTCHGS,CGSTPER,CGSTAMT,SGSTPER,SGSTAMT,IGSTPER,IGSTAMT,TOTALAMT FROM PODETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PODETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT WHERE POBASICID='" + POID + "'";
+            SvSql = "SELECT UNITMAST.UNITID,CF,QTY,RATE,AMOUNT,ITEMMASTER.ITEMID,DISC,IFREIGHTCH,CGSTPER,CGSTAMT,SGSTPER,SGSTAMT,IGSTPER,IGSTAMT,TOTAMT FROM GRNBLDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=GRNBLDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT WHERE GRNBLBASICID='" + POID + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -235,10 +235,10 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetCity()
+        public DataTable GetCity(string ItemId)
         {
             string SvSql = string.Empty;
-            SvSql = "select CITYNAME,CITYID from CITYMASTER  ";
+            SvSql = "select CITYNAME,CITYID from CITYMASTER where STATEMASTID='"+ ItemId+"'  ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

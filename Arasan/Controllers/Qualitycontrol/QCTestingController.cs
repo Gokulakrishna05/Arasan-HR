@@ -37,7 +37,6 @@ namespace Arasan.Controllers
                 for (int i = 0; i < 3; i++)
                 {
                     tda = new QCItem();
-                 
                     tda.Isvalid = "Y";
                     TData.Add(tda);
                 }
@@ -81,7 +80,6 @@ namespace Arasan.Controllers
                         tda.ManualValue = dt2.Rows[0]["MANUALVALUE"].ToString();
                         TData.Add(tda);
                     } 
-                    
                 }
             }
             ca.QCLst = TData;
@@ -139,9 +137,9 @@ namespace Arasan.Controllers
 
 
 
-                lstdesg.Add(new SelectListItem() { Text = "PO", Value = "PO" });
                 lstdesg.Add(new SelectListItem() { Text = "GRN", Value = "GRN" });
 
+                lstdesg.Add(new SelectListItem() { Text = "PO", Value = "PO" });
                 return lstdesg;
             }
             catch (Exception ex)
@@ -214,14 +212,14 @@ namespace Arasan.Controllers
             return Json(model);
 
         }
-        public ActionResult GetGRNDetail(string ItemId,string GPID)
+        public ActionResult GetGRNDetail(string ItemId,string Type)
         {
             try
             {
                 DataTable dt = new DataTable();
                 string grndate = "";
-                string podate = "";
-                if (GPID == "GRN")
+             
+                if (Type == "GRN")
                 {
                     dt = QCTestingService.GetGRNDetails(ItemId);
                     if (dt.Rows.Count > 0)
@@ -235,12 +233,12 @@ namespace Arasan.Controllers
                     dt = QCTestingService.GetPODetails(ItemId);
                     if (dt.Rows.Count > 0)
                     {
-                        podate = dt.Rows[0]["DOCDATE"].ToString();
+                        grndate = dt.Rows[0]["DOCDATE"].ToString();
 
                     }
 
                 }
-                var result = new { grndate = grndate , podate = podate };
+                var result = new { grndate = grndate};
                 return Json(result);
             }
             catch (Exception ex)
@@ -270,11 +268,11 @@ namespace Arasan.Controllers
         //        throw ex;
         //    }
         //}
-        public JsonResult GetGRNItemJSON(string supid, string GPID)
+        public JsonResult GetGRNItemJSON(string supid, string Type)
         {
             QCTesting model = new QCTesting();
-            model.Itemlst = BindItemlst(supid, GPID);
-            return Json(BindItemlst(supid, GPID));
+            model.Itemlst = BindItemlst(supid, Type);
+            return Json(BindItemlst(supid, Type));
 
         }
         //public JsonResult GetPOItemJSON(string Poid)
@@ -284,11 +282,11 @@ namespace Arasan.Controllers
         //    return Json(BindPOItemlst(Poid));
 
         //}
-        public JsonResult GetGRNSuppJSON(string suppid,string GPID)
+        public JsonResult GetGRNSuppJSON(string suppid,string Type)
         {
             QCTesting model = new QCTesting();
-            model.Supplst = BindSupplst(suppid, GPID);
-            return Json(BindSupplst(suppid, GPID));
+            model.Supplst = BindSupplst(suppid, Type);
+            return Json(BindSupplst(suppid, Type));
 
         }
         //public JsonResult GetPOSuppJSON(string POsuppid)
@@ -298,13 +296,13 @@ namespace Arasan.Controllers
         //    return Json(BindPOSupplst(POsuppid));
 
         //}
-        public List<SelectListItem> BindItemlst(string value,string GPID)
+        public List<SelectListItem> BindItemlst(string value,string Type)
         {
             try
             {
 
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
-                if(GPID == "GRN")
+                if(Type == "GRN")
                 { 
                 DataTable dtDesg = QCTestingService.GetItembyId(value);
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
@@ -356,12 +354,12 @@ namespace Arasan.Controllers
             //    }
             //}
         
-        public List<SelectListItem> BindSupplst(string value,string GPID)
+        public List<SelectListItem> BindSupplst(string value,string Type)
         {
             try
             {
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
-                if (GPID == "GRN")
+                if (Type == "GRN")
                 {
                     DataTable dtDesg = QCTestingService.GetParty(value);
                     for (int i = 0; i < dtDesg.Rows.Count; i++)
