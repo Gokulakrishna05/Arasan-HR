@@ -470,11 +470,12 @@
 
                    @* 2 nd tab*@
                 </div>
+                
                 <div class="tab-pane" id="tab-3">
                  @*3rd tab*@
 
                  <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                             
                                                 <label for="inputName3" class="col-sm-4 control-label">Bin Y/N<label class="Mandatory"></label></label>
@@ -489,12 +490,12 @@
                                                         </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-8">
                                             <div class="form-group">
                                                 <label for="inputName3" class="col-sm-4 control-label">Bin ID<label class="Mandatory"></label></label>
                                               
                                                       <div class="col-sm-8">
-												   @Html.DropDownListFor(C => C.BinID, Model.Bin, new { @id = "ddlBinID", @Class = "form-control chosen-select", @TabIndex = 2})<br />
+												   @Html.DropDownListFor(C => C.BinID, Model.Bin, new { @id = "ddlBinID", @Class = "form-control chosen-select", @TabIndex = 2,@style="width: 300px !important;" })<br />
 												</div>
                                                
                                             </div>
@@ -522,10 +523,10 @@
                                                                     </thead>
 
                                                                     <tbody>
-                                                                        @*@{
+                                                                        @{
                                                                             int a = 1;
 
-                                                                            foreach (var item in Model.Suplst)
+                                                                            foreach (var item in Model.Binlst)
                                                                             {
                                                                                 <tr>
 
@@ -534,7 +535,7 @@
                                                                                 </tr>
                                                                                 a++;
                                                                             }
-                                                                        }*@
+                                                                        }
 
                                                                         
                                                                    
@@ -638,7 +639,9 @@
     </div>
   </div>
 </div>
-<script>
+
+  
+<script type="text/javascript">
     $(".chosen-select").chosen();
 
     function PopulateDropDown(dropDownId, list) {
@@ -727,5 +730,19 @@
         $("#tbBooks").append(newRow);
 
         $(".chosen-select").chosen();
+    }
+   
+      function Grup_Change(SupId, i) {
+        $.ajax({
+            url: 'GetSupDetail',
+            data: { "SupId": SupId },
+            type: "GET",
+            success: function (result) {
+                document.getElementById("txtSupplierPart" + i).value = result.suppart;
+            },
+            error: function () {
+                alert("Data Not Found");
+            }
+        });
     }
 </script>
