@@ -69,7 +69,7 @@ namespace Arasan.Controllers.Qualitycontrol
                     for (int i = 0; i < dt2.Rows.Count; i++)
                     {
                         tda = new QCResultItem();
-                      //tda.ItemID = dt2.Rows[0]["ITEMID"].ToString();
+                        //tda.ItemID = dt2.Rows[0]["ITEMID"].ToString();
                         tda.GrnQty = dt2.Rows[0]["GRNQTY"].ToString();
                         tda.InsQty = dt2.Rows[0]["INSQTY"].ToString();
                         tda.RejQty = dt2.Rows[0]["REJQTY"].ToString();
@@ -81,7 +81,7 @@ namespace Arasan.Controllers.Qualitycontrol
                 }
 
             }
-            ca.QCResultLst = TData;
+            ca.QCRLst = TData;
             return View(ca);
         }
         [HttpPost]
@@ -103,6 +103,9 @@ namespace Arasan.Controllers.Qualitycontrol
                         TempData["notice"] = "QCResult Updated Successfully...!";
                     }
                     return RedirectToAction("ListQCResult");
+
+
+
                 }
 
                 else
