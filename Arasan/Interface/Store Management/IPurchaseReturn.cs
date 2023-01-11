@@ -7,15 +7,15 @@ namespace Arasan.Interface
 {
     public interface IPurchaseReturn
     {
-        DataTable GetPO();
+        DataTable GetGRN();
         //DataTable GetItem();
         DataTable GetState();
-        DataTable GetPODetails(string ItemId);
+        DataTable GetGRNDetails(string ItemId);
         string PurReturnCRUD(PurchaseReturn cy);
         DataTable GetPurchaseReturn(string id);
         DataTable GetPurchaseReturnReason(string id);
         DataTable GetPurchaseReturnDes(string id);
         IEnumerable<PurchaseReturn> GetAllPurReturn();
-        DataTable GetCity();
+        DataTable GetCity(string id);
     }
 }

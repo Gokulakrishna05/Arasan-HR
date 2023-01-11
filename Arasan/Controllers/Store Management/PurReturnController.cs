@@ -30,7 +30,7 @@ namespace Arasan.Controllers
             ca.Curlst = BindCurrency();
             ca.Loclst = GetLoc();
             ca.Satlst = GetSat();
-            ca.Citylst = BindCity();
+            ca.Citylst = BindCity("");
             List<RetItem> TData = new List<RetItem>();
             RetItem tda = new RetItem();
            
@@ -39,7 +39,7 @@ namespace Arasan.Controllers
                 for (int i = 0; i < 3; i++)
                 {
                     tda = new RetItem();
-                    tda.POlst = BindPOlist();
+                    tda.POlst = BindGRNlist();
                     //tda.Itemlst = BindItemlst();
 
                     TData.Add(tda);
@@ -105,7 +105,7 @@ namespace Arasan.Controllers
 
                     ca.Reason = dt3.Rows[0]["REASON"].ToString();
 
-                    ca.SNO = dt3.Rows[0]["SNO"].ToString();
+                   
                    
 
                 }
@@ -244,11 +244,18 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public List<SelectListItem> BindCity()
+        public JsonResult GetCityJSON(string ItemId)
+        {
+            PurchaseReturn model = new PurchaseReturn();
+            model.Citylst = BindCity(ItemId);
+            return Json(BindCity(ItemId));
+
+        }
+        public List<SelectListItem> BindCity(string ItemId)
         {
             try
             {
-                DataTable dtDesg = PurReturn.GetCity();
+                DataTable dtDesg = PurReturn.GetCity(ItemId);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -261,15 +268,15 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public List<SelectListItem> BindPOlist()
+        public List<SelectListItem> BindGRNlist()
         {
             try
             {
-                DataTable dtDesg = PurReturn.GetPO();
+                DataTable dtDesg = PurReturn.GetGRN();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DOCID"].ToString(), Value = dtDesg.Rows[i]["POBASICID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DOCID"].ToString(), Value = dtDesg.Rows[i]["GRNBLBASICID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -296,7 +303,7 @@ namespace Arasan.Controllers
         //    }
         //}
 
-        public ActionResult GetPODetail(string POID)
+        public ActionResult GetGRNDetail(string POID)
         {
             try
             {
@@ -321,7 +328,7 @@ namespace Arasan.Controllers
                 string totalAm = "";
              
                
-                dt = PurReturn.GetPODetails(POID);
+                dt = PurReturn.GetGRNDetails(POID);
              
                 if (dt.Rows.Count > 0)
                 {
@@ -334,18 +341,18 @@ namespace Arasan.Controllers
                     amount = dt.Rows[0]["AMOUNT"].ToString();
 
                     item = dt.Rows[0]["ITEMID"].ToString();
-                    discAmount = dt.Rows[0]["DISCAMT"].ToString();
+                    discAmount = dt.Rows[0]["DISC"].ToString();
 
                     // Disc = dt.Rows[0]["DISCPER"].ToString();
 
-                    frig = dt.Rows[0]["FREIGHTCHGS"].ToString();
+                    frig = dt.Rows[0]["IFREIGHTCH"].ToString();
                     cgs = dt.Rows[0]["CGSTPER"].ToString();
                     cgta = dt.Rows[0]["CGSTAMT"].ToString();
                     sgs = dt.Rows[0]["SGSTPER"].ToString();
                     sgta = dt.Rows[0]["SGSTAMT"].ToString();
                     igs = dt.Rows[0]["IGSTPER"].ToString();
                     igsta = dt.Rows[0]["IGSTAMT"].ToString();
-                    totalAm = dt.Rows[0]["TOTALAMT"].ToString();
+                    totalAm = dt.Rows[0]["TOTAMT"].ToString();
                  
                 }
                
