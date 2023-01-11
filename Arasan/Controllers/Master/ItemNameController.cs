@@ -112,6 +112,29 @@ namespace Arasan.Controllers.Master
             ca.Suplst = TData;
             return View(ca);
         }
+        public ActionResult GetSupDetail(string SupId)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                DataTable dt1 = new DataTable();
+
+                string suppart = "";
+                dt = ItemNameService.GetSupplierName(SupId);
+
+                if (dt.Rows.Count > 0)
+                {
+                    suppart = dt.Rows[0]["UNITID"].ToString();
+                }
+
+                var result = new { suppart = suppart };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<SelectListItem> BindBinID()
         {
 

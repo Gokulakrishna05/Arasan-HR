@@ -157,21 +157,24 @@ namespace Arasan.Services.Master
                         }
                         //  foreach (DirItem cp in cy.DirLst)
                         //{
-
+                        string latestbin = datatrans.GetDataString("Select BINID from BINMASTER where ITEMID='" + Pid + "' AND ISUPDATED='Y'");
+                        if (latestbin != ss.BinID)
+                        {
                         bool resultsds = datatrans.UpdateStatus("UPDATE BINMASTER SET ISUPDATED='N' Where ITEMID='" + Pid + "'");
                         using (OracleConnection objConns = new OracleConnection(_connectionString))
                         {
                             OracleCommand objCmds = new OracleCommand("BINMASTEPROC", objConns);
                             StatementType = "Insert";
-                            objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
                             objCmds.CommandType = CommandType.StoredProcedure;
-                            objCmds.Parameters.Add("BINMASTERID", OracleDbType.NVarchar2).Value = Pid;
+                            objCmds.Parameters.Add("BINMASTERID", OracleDbType.NVarchar2).Value = DBNull.Value;
                             objCmds.Parameters.Add("BINID", OracleDbType.NVarchar2).Value = ss.BinID;
                             objCmds.Parameters.Add("BINYN", OracleDbType.NVarchar2).Value = ss.BinYN;
+                            objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = Pid;
                             objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                             objConns.Open();
                             objCmds.ExecuteNonQuery();
                             objConns.Close();
+                        }
                         }
                         bool result = datatrans.UpdateStatus("DELETE SUPPLIERPARTNO  Where ITEMMASTERID='" + Pid + "'");
                         foreach (SupItem cp in ss.Suplst)
@@ -296,6 +299,16 @@ namespace Arasan.Services.Master
         {
             string SvSql = string.Empty;
             SvSql = "Select PARTYMAST.PARTYMASTID,PARTYRCODE.PARTY from PARTYMAST LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND PARTYRCODE.PARTY IS NOT NULL";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetSupplierName(string subid)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select SUPPLIERID,SUPPLIERPARTNO,SPURPRICE,DELDAYS,SUPPLIERPARTNOID from SUPPLIERPARTNO WHERE SUPPLIERPARTNOID='"+ subid + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
