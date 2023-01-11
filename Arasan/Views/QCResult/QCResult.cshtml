@@ -168,23 +168,23 @@
                                                 int j = 1;
 
 
-                                                foreach (var item in Model.QCResultLst.ToList())
+                                                foreach (var item in Model.QCRLst.ToList())
                                                 {
                                                     <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
 
                                                         <td>
-                                                            @Html.TextBoxFor(o => o.QCResultLst[i].GrnQty, new { @id = "txtGrnQty" + i, @class = "form-control", style = "width: 130px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
+                                                            @Html.TextBoxFor(o => o.QCRLst[i].GrnQty, new { @id = "txtGrnQty" + i, @class = "form-control", style = "width: 130px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
                                                         </td>
                                                         <td>
 
-                                                            @Html.TextBoxFor(o => o.QCResultLst[i].InsQty, new { @id = "txtInsQty" + i, @class = "form-control", style = "width: 130px;",onkeydown = "return isNumeric2(event.keyCode,this.value)"})
+                                                            @Html.TextBoxFor(o => o.QCRLst[i].InsQty, new { @id = "txtInsQty" + i, @class = "form-control", style = "width: 130px;",onkeydown = "return isNumeric2(event.keyCode,this.value)"})
                                                             </td>
                                                             <td>
-                                                            @Html.TextBoxFor(o => o.QCResultLst[i].RejQty, new { @id = "txtRejQty" + i, @class = "form-control", style = "width: 130px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
+                                                            @Html.TextBoxFor(o => o.QCRLst[i].RejQty, new { @id = "txtRejQty" + i, @class = "form-control", style = "width: 130px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
                                                             </td>
                                                             <td>
-                                                            @Html.TextBoxFor(o => o.QCResultLst[i].AccQty, new { @id = "txtAccQty" + i, @class = "form-control", style = "width: 130px;" })
+                                                            @Html.TextBoxFor(o => o.QCRLst[i].AccQty, new { @id = "txtAccQty" + i, @class = "form-control", style = "width: 130px;" })
                                                             </td>
                                                             @*<td>
                                                                @Html.TextBoxFor(o => o.QCResultLst[i].AcTestValue, new { @id = "txtAcTestValue" + i, @class = "form-control", style = "width: 130px;" })
@@ -194,7 +194,7 @@
                                                                 @Html.TextBoxFor(o => o.QCResultLst[i].Result, new { @id = "txtResult" + i, @class = "form-control", style = "width: 130px;"})
                                                             </td>*@
                                                          <td>
-                                                            @Html.HiddenFor(o => o.QCResultLst[i].Isvalid, new { @id = "Isvalid" + i })
+                                                            @Html.HiddenFor(o => o.QCRLst[i].Isvalid, new { @id = "Isvalid" + i })
                                                                             <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(i)" />
                                                                         </td>
 
@@ -515,13 +515,13 @@
   }
     function AppendRow(opt) {
         var index = $("#tbBooks").children("tr").length;
-        var GrnQty = "<td><input class='form-control' id='txtGrnQty" + index + "' name='QCResultLst[" + index + "].GrnQty'  style='width: 130px;'  type='text'  /></td>";
+        var GrnQty = "<td><input class='form-control' id='txtGrnQty" + index + "' name='QCRLst[" + index + "].GrnQty'  style='width: 130px;'  type='text'  /></td>";
 
-        var InsQty = "<td><input class='form-control' id='txtInsQty" + index + "' name='QCResultLst[" + index + "].InsQty'  style='width: 130px;'  type='text'    /></td>";
+        var InsQty = "<td><input class='form-control' id='txtInsQty" + index + "' name='QCRLst[" + index + "].InsQty'  style='width: 130px;'  type='text'    /></td>";
 
-        var RejQty = "<td><input class='form-control' id='txtRejQty" + index + "' name='QCResultLst[" + index + "].RejQty'  style='width: 130px;'  type='text'    /></td>";
+        var RejQty = "<td><input class='form-control' id='txtRejQty" + index + "' name='QCRLst[" + index + "].RejQty'  style='width: 130px;'  type='text'    /></td>";
 
-        var AccQty = "<td><input class='form-control' id='txtAccQty" + index + "' name='QCResultLst[" + index + "].AccQty'  style='width: 130px;'  type='text'    /></td>";
+        var AccQty = "<td><input class='form-control' id='txtAccQty" + index + "' name='QCRLst[" + index + "].AccQty'  style='width: 130px;'  type='text'    /></td>";
 
         @*var AcTestValue = "<td><input class='form-control' id='txtAcTestValue" + index + "' name='QCLst[" + index + "].AcTestValue'  style='width: 130px;'  type='text'    /></td>";
 
