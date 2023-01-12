@@ -109,7 +109,34 @@ namespace Arasan.Controllers
                    
 
                 }
-            }
+                DataTable dt4 = new DataTable();
+
+                dt4 = PurReturn.GetPurchaseReturnDetail(id);
+                if (dt.Rows.Count > 0)
+                {
+
+                    for (int i = 0; i < dt4.Rows.Count; i++)
+                    {
+                        tda = new RetItem();
+                        tda.GRNNo = dt.Rows[0]["BRANCHID"].ToString();
+
+                        tda.ItemId = dt.Rows[0]["PARTYID"].ToString();
+                        tda.rate = dt.Rows[0]["DOCID"].ToString();
+                        tda.Amount = dt.Rows[0]["DOCDATE"].ToString();
+
+                        tda.TotalAmount = dt.Rows[0]["MAINCURRENCY"].ToString();
+                        tda.ConFac = dt.Rows[0]["REFNO"].ToString();
+                        tda.Unit = dt.Rows[0]["REFDT"].ToString();
+                        tda.CGSTPer = Convert.ToDouble(dt2.Rows[i]["CGSTPER"].ToString() == "" ? "0" : dt2.Rows[i]["CGSTPER"].ToString());
+                        tda.SGSTPer = Convert.ToDouble(dt2.Rows[i]["SGSTPER"].ToString() == "" ? "0" : dt2.Rows[i]["SGSTPER"].ToString());
+                        tda.IGSTPer = Convert.ToDouble(dt2.Rows[i]["IGSTPER"].ToString() == "" ? "0" : dt2.Rows[i]["IGSTPER"].ToString());
+                        tda.CGSTAmt = Convert.ToDouble(dt2.Rows[i]["CGSTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["CGSTAMT"].ToString());
+                        tda.SGSTAmt = Convert.ToDouble(dt2.Rows[i]["SGSTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["SGSTAMT"].ToString());
+                        tda.IGSTAmt = Convert.ToDouble(dt2.Rows[i]["IGSTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["IGSTAMT"].ToString());
+
+                    }
+                }
+                }
            
                 ca.RetLst = TData;
             return View(ca);
@@ -372,8 +399,8 @@ namespace Arasan.Controllers
         }
         public JsonResult GetItemGrpJSON()
         {
-            PurchaseReturn model = new PurchaseReturn();
-            //  model.ItemGrouplst = BindItemGrplst(value);
+            RetItem model = new RetItem();
+              model.POlst = BindGRNlist();
             return Json(model);
         }
     }

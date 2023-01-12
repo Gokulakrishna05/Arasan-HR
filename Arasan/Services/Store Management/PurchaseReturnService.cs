@@ -59,6 +59,16 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetPurchaseReturnDetail(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select PRETDETAIL.GRNNO,PRETDETAIL.ITEMID,PRETDETAIL.QTY,PRETDETAIL.UNIT,PRETDETAIL.RATE,PRETDETAIL.AMOUNT,PRETDETAIL.TOTAMT,PRETDETAIL.CF,PRETDETAIL.CGSTPER,PRETDETAIL.CGSTAMT,PRETDETAIL.SGSTPER,PRETDETAIL.SGSTAMT,PRETDETAIL.IGSTPER,PRETDETAIL.IGSTAMT,PRETDETAILID  from PRETDETAIL where PRETDETAIL.PRETBASICID=" + id + "";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetPurchaseReturnDes(string id)
         {
             string SvSql = string.Empty;
@@ -155,7 +165,7 @@ namespace Arasan.Services
                             objCmds.Parameters.Add("SSTATE", OracleDbType.NVarchar2).Value = cy.State;
                             objCmds.Parameters.Add("SPINCODE", OracleDbType.NVarchar2).Value = cy.Pin;
                             objCmds.Parameters.Add("SPHONE", OracleDbType.NVarchar2).Value = cy.Phone;
-                            
+
                             objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                             objConns.Open();
                             objCmds.ExecuteNonQuery();
@@ -178,17 +188,60 @@ namespace Arasan.Services
                             }
                             objCmds.CommandType = CommandType.StoredProcedure;
                             objCmds.Parameters.Add("PRETBASICID", OracleDbType.NVarchar2).Value = Pid;
-                          
+
                             objCmds.Parameters.Add("REASON", OracleDbType.NVarchar2).Value = cy.Reason;
-                           
+
 
                             objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                             objConns.Open();
                             objCmds.ExecuteNonQuery();
                             objConns.Close();
                         }
+                        foreach (RetItem cp in cy.RetLst)
+                        {
+                            if (cp.Isvalid == "Y" && cp.ItemId != "0")
+                            {
+                                using (OracleConnection objConns = new OracleConnection(_connectionString))
+                                {
+                                    OracleCommand objCmds = new OracleCommand("PURRETURNDETAILPROC", objConns);
+                                    if (cy.ID == null)
+                                    {
+                                        StatementType = "Insert";
+                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+
+                                    }
+                                    else
+                                    {
+                                        StatementType = "Update";
+                                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+
+                                    }
+                                    objCmds.CommandType = CommandType.StoredProcedure;
+                                    objCmds.Parameters.Add("PRETBASICID", OracleDbType.NVarchar2).Value = Pid;
+                                    objCmds.Parameters.Add("GRNNO", OracleDbType.NVarchar2).Value = cp.GRNNo;
+                                    objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cp.ItemId;
+                                    objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = cp.Quantity;
+                                    objCmds.Parameters.Add("PUNIT", OracleDbType.NVarchar2).Value = cp.Unit;
+                                    objCmds.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = cp.rate;
+                                    objCmds.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = cp.Amount;
+                                    objCmds.Parameters.Add("TOTAMT", OracleDbType.NVarchar2).Value = cp.TotalAmount;
+                                    objCmds.Parameters.Add("CF", OracleDbType.NVarchar2).Value = cp.ConFac;
+                                    objCmds.Parameters.Add("CGSTPER", OracleDbType.NVarchar2).Value = cp.CGSTPer;
+                                    objCmds.Parameters.Add("CGSTAMT", OracleDbType.NVarchar2).Value = cp.CGSTAmt;
+                                    objCmds.Parameters.Add("SGSTPER", OracleDbType.NVarchar2).Value = cp.SGSTPer;
+                                    objCmds.Parameters.Add("SGSTAMT", OracleDbType.NVarchar2).Value = cp.SGSTAmt;
+                                    objCmds.Parameters.Add("IGSTPER", OracleDbType.NVarchar2).Value = cp.IGSTPer;
+                                    objCmds.Parameters.Add("IGSTAMT", OracleDbType.NVarchar2).Value = cp.IGSTAmt;
 
 
+                                    objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                                    objConns.Open();
+                                    objCmds.ExecuteNonQuery();
+                                    objConns.Close();
+                                }
+
+                            }
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -238,7 +291,7 @@ namespace Arasan.Services
         public DataTable GetCity(string ItemId)
         {
             string SvSql = string.Empty;
-            SvSql = "select CITYNAME,CITYID from CITYMASTER where STATEMASTID='"+ ItemId+"'  ";
+            SvSql = "select CITYNAME,CITYID from CITYMASTER where STATEID='"+ ItemId+"'  ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

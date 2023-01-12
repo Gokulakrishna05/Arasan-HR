@@ -13,6 +13,7 @@ namespace Arasan.Interface
         DataTable GetGRNDetails(string ItemId);
         string PurReturnCRUD(PurchaseReturn cy);
         DataTable GetPurchaseReturn(string id);
+        DataTable GetPurchaseReturnDetail(string id);
         DataTable GetPurchaseReturnReason(string id);
         DataTable GetPurchaseReturnDes(string id);
         IEnumerable<PurchaseReturn> GetAllPurReturn();

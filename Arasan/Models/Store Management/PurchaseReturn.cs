@@ -65,16 +65,16 @@ namespace Arasan.Models
         public List<SelectListItem> Itemlst { get; set; }
         public List<SelectListItem> POlst { get; set; }
 
-        public string POID { get; set; }
+        public string GRNNo { get; set; }
         public double FrigCharge { get; set; }
         public string ConFac { get; set; }
         public string Unit { get; set; }
       
-        public double Quantity { get; set; }
+        public string Quantity { get; set; }
         //   public string unitprim { get; set; }
         //  public double QtyPrim { get; set; }
-        public double rate { get; set; }
-        public double Amount { get; set; }
+        public string rate { get; set; }
+        public string Amount { get; set; }
 
         public double Disc { get; set; }
         public double DiscAmount { get; set; }
@@ -85,7 +85,7 @@ namespace Arasan.Models
         public double SGSTAmt { get; set; }
         public double IGSTPer { get; set; }
         public double IGSTAmt { get; set; }
-        public double TotalAmount { get; set; }
+        public string TotalAmount { get; set; }
         public string Isvalid { get; set; }
 
     }
