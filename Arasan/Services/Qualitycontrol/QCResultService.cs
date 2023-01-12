@@ -125,10 +125,10 @@ namespace Arasan.Services.Qualitycontrol
                         {
                             Pid = cy.ID;
                         }
-                        foreach (QCResultItem cp in cy.QCRLst)
+                        foreach (QCResultItem ca in cy.QCRLst)
                         {
-                            if (cp.Isvalid == "Y" && cp.GrnQty != "0")
-                            {
+                            if (ca.Isvalid == "Y" && ca.GrnQty != "0")
+                            {   
                                 using (OracleConnection objConns = new OracleConnection(_connectionString))
                                 {
                                     OracleCommand objCmds = new OracleCommand("QCRESULTDETAILPROC", objConns);
@@ -144,10 +144,10 @@ namespace Arasan.Services.Qualitycontrol
                                     }
                                     objCmds.CommandType = CommandType.StoredProcedure;
                                     objCmds.Parameters.Add("QCRESULTBASICID", OracleDbType.NVarchar2).Value = Pid;
-                                    objCmds.Parameters.Add("GRNQTY", OracleDbType.NVarchar2).Value = cp.GrnQty;
-                                    objCmds.Parameters.Add("INSQTY", OracleDbType.NVarchar2).Value = cp.InsQty;
-                                    objCmds.Parameters.Add("REJQTY", OracleDbType.NVarchar2).Value = cp.RejQty;
-                                    objCmds.Parameters.Add("ACCQTY", OracleDbType.NVarchar2).Value = cp.AccQty;
+                                    objCmds.Parameters.Add("GRNQTY", OracleDbType.NVarchar2).Value = ca.GrnQty;
+                                    objCmds.Parameters.Add("INSQTY", OracleDbType.NVarchar2).Value = ca.InsQty;
+                                    objCmds.Parameters.Add("REJQTY", OracleDbType.NVarchar2).Value = ca.RejQty;
+                                    objCmds.Parameters.Add("ACCQTY", OracleDbType.NVarchar2).Value = ca.AccQty;
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                     objConns.Open();
                                     objCmds.ExecuteNonQuery();
