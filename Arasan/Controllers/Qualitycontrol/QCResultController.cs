@@ -69,7 +69,7 @@ namespace Arasan.Controllers.Qualitycontrol
                     for (int i = 0; i < dt2.Rows.Count; i++)
                     {
                         tda = new QCResultItem();
-                        //tda.ItemID = dt2.Rows[0]["ITEMID"].ToString();
+
                         tda.GrnQty = dt2.Rows[0]["GRNQTY"].ToString();
                         tda.InsQty = dt2.Rows[0]["INSQTY"].ToString();
                         tda.RejQty = dt2.Rows[0]["REJQTY"].ToString();
@@ -104,17 +104,13 @@ namespace Arasan.Controllers.Qualitycontrol
                     }
                     return RedirectToAction("ListQCResult");
 
-
-
                 }
-
                 else
                 {
                     ViewBag.PageTitle = "Edit QCResult";
                     TempData["notice"] = Strout;
-                    return View();
+                    //return View();
                 }
-
               
             }
             catch (Exception ex)
@@ -130,7 +126,6 @@ namespace Arasan.Controllers.Qualitycontrol
             IEnumerable<QCResult> cmp = QCResultService.GetAllQCResult();
             return View(cmp);
         }
-      
         public List<SelectListItem> BindGRNlist()
         {
             try
