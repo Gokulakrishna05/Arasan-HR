@@ -22,7 +22,7 @@ namespace Arasan.Services.Qualitycontrol
         public DataTable GetQCResult(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select GRNBLBASIC.DOCID,QCRESULTBASIC.DOCID,to_char(QCRESULTBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,to_char(QCRESULTBASIC.GRNDATE,'dd-MON-yyyy')GRNDATE,PARTYRCODE.PARTY,QCRESULTBASICID,QCRESULTBASIC.TESTEDBY from QCRESULTBASIC LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=QCRESULTBASIC.ITEMID LEFT OUTER JOIN GRNBLBASIC ON GRNBLBASICID=QCRESULTBASIC.GRNNO  LEFT OUTER JOIN  PARTYMAST on QCVALUEBASIC.PARTYID=PARTYMAST.PARTYMASTID  LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH')  AND QCRESULTBASIC.QCRESULTBASICID='" + id + "' ";
+            SvSql = "Select GRNBLBASIC.DOCID,QCRESULTBASIC.DOCID,to_char(QCRESULTBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,to_char(QCRESULTBASIC.GRNDATE,'dd-MON-yyyy')GRNDATE,PARTYRCODE.PARTY,QCRESULTBASICID,QCRESULTBASIC.TESTEDBY,QCRESULTBASIC.REMARKS,QCRESULTBASIC.QCLOCATION  from QCRESULTBASIC LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=QCRESULTBASIC.ITEMID LEFT OUTER JOIN GRNBLBASIC ON GRNBLBASICID=QCRESULTBASIC.GRNNO  LEFT OUTER JOIN  PARTYMAST on QCVALUEBASIC.PARTYID=PARTYMAST.PARTYMASTID  LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH')  AND QCRESULTBASIC.QCRESULTBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -159,7 +159,7 @@ namespace Arasan.Services.Qualitycontrol
                     }
                     catch (Exception ex)
                     {
-                        System.Console.WriteLine("Exception: {0}", ex.ToString());
+                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
                     }
                     objConn.Close();
                 }
