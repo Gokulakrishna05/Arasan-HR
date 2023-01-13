@@ -199,8 +199,7 @@ namespace Arasan.Services
                         }
                         foreach (RetItem cp in cy.RetLst)
                         {
-                            if (cp.Isvalid == "Y" && cp.ItemId != "0")
-                            {
+                            
                                 using (OracleConnection objConns = new OracleConnection(_connectionString))
                                 {
                                     OracleCommand objCmds = new OracleCommand("PURRETURNDETAILPROC", objConns);
@@ -221,7 +220,7 @@ namespace Arasan.Services
                                     objCmds.Parameters.Add("GRNNO", OracleDbType.NVarchar2).Value = cp.GRNNo;
                                     objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cp.ItemId;
                                     objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = cp.Quantity;
-                                    objCmds.Parameters.Add("PUNIT", OracleDbType.NVarchar2).Value = cp.Unit;
+                                    objCmds.Parameters.Add("UNIT", OracleDbType.NVarchar2).Value = cp.Unit;
                                     objCmds.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = cp.rate;
                                     objCmds.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = cp.Amount;
                                     objCmds.Parameters.Add("TOTAMT", OracleDbType.NVarchar2).Value = cp.TotalAmount;
@@ -240,7 +239,7 @@ namespace Arasan.Services
                                     objConns.Close();
                                 }
 
-                            }
+                            
                         }
                     }
                     catch (Exception ex)
@@ -298,6 +297,16 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetItem(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select ITEMMASTER.ITEMID,GRNBLBASICID,GRNBLDETAILID from GRNBLDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=GRNBLDETAIL.ITEMID where GRNBLDETAIL.GRNBLBASICID='" + id + "'";
 
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
     }
 }

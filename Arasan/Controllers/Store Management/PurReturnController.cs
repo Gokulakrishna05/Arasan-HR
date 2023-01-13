@@ -40,7 +40,7 @@ namespace Arasan.Controllers
                 {
                     tda = new RetItem();
                     tda.POlst = BindGRNlist();
-                    //tda.Itemlst = BindItemlst();
+                    tda.Itemlst = BindItemlst("");
 
                     TData.Add(tda);
                 }
@@ -112,27 +112,27 @@ namespace Arasan.Controllers
                 DataTable dt4 = new DataTable();
 
                 dt4 = PurReturn.GetPurchaseReturnDetail(id);
-                if (dt.Rows.Count > 0)
+                if (dt4.Rows.Count > 0)
                 {
 
                     for (int i = 0; i < dt4.Rows.Count; i++)
                     {
                         tda = new RetItem();
-                        tda.GRNNo = dt.Rows[0]["BRANCHID"].ToString();
+                        tda.GRNNo = dt4.Rows[0]["GRNNO"].ToString();
 
-                        tda.ItemId = dt.Rows[0]["PARTYID"].ToString();
-                        tda.rate = dt.Rows[0]["DOCID"].ToString();
-                        tda.Amount = dt.Rows[0]["DOCDATE"].ToString();
-
-                        tda.TotalAmount = dt.Rows[0]["MAINCURRENCY"].ToString();
-                        tda.ConFac = dt.Rows[0]["REFNO"].ToString();
-                        tda.Unit = dt.Rows[0]["REFDT"].ToString();
-                        tda.CGSTPer = Convert.ToDouble(dt2.Rows[i]["CGSTPER"].ToString() == "" ? "0" : dt2.Rows[i]["CGSTPER"].ToString());
-                        tda.SGSTPer = Convert.ToDouble(dt2.Rows[i]["SGSTPER"].ToString() == "" ? "0" : dt2.Rows[i]["SGSTPER"].ToString());
-                        tda.IGSTPer = Convert.ToDouble(dt2.Rows[i]["IGSTPER"].ToString() == "" ? "0" : dt2.Rows[i]["IGSTPER"].ToString());
-                        tda.CGSTAmt = Convert.ToDouble(dt2.Rows[i]["CGSTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["CGSTAMT"].ToString());
-                        tda.SGSTAmt = Convert.ToDouble(dt2.Rows[i]["SGSTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["SGSTAMT"].ToString());
-                        tda.IGSTAmt = Convert.ToDouble(dt2.Rows[i]["IGSTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["IGSTAMT"].ToString());
+                        tda.ItemId = dt4.Rows[0]["ITEMID"].ToString();
+                        tda.rate = dt4.Rows[0]["RATE"].ToString();
+                        tda.Amount = dt4.Rows[0]["AMOUNT"].ToString();
+                        tda.Quantity = dt4.Rows[0]["QTY"].ToString();
+                        tda.TotalAmount = dt4.Rows[0]["TOTAMT"].ToString();
+                        tda.ConFac = dt4.Rows[0]["CF"].ToString();
+                        tda.Unit = dt4.Rows[0]["UNIT"].ToString();
+                        tda.CGSTPer = Convert.ToDouble(dt4.Rows[i]["CGSTPER"].ToString() == "" ? "0" : dt4.Rows[i]["CGSTPER"].ToString());
+                        tda.SGSTPer = Convert.ToDouble(dt4.Rows[i]["SGSTPER"].ToString() == "" ? "0" : dt4.Rows[i]["SGSTPER"].ToString());
+                        tda.IGSTPer = Convert.ToDouble(dt4.Rows[i]["IGSTPER"].ToString() == "" ? "0" : dt4.Rows[i]["IGSTPER"].ToString());
+                        tda.CGSTAmt = Convert.ToDouble(dt4.Rows[i]["CGSTAMT"].ToString() == "" ? "0" : dt4.Rows[i]["CGSTAMT"].ToString());
+                        tda.SGSTAmt = Convert.ToDouble(dt4.Rows[i]["SGSTAMT"].ToString() == "" ? "0" : dt4.Rows[i]["SGSTAMT"].ToString());
+                        tda.IGSTAmt = Convert.ToDouble(dt4.Rows[i]["IGSTAMT"].ToString() == "" ? "0" : dt4.Rows[i]["IGSTAMT"].ToString());
 
                     }
                 }
@@ -312,23 +312,30 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        //public List<SelectListItem> BindItemlst()
-        //{
-        //    try
-        //    {
-        //        DataTable dtDesg = PurReturn.GetItem();
-        //        List<SelectListItem> lstdesg = new List<SelectListItem>();
-        //        for (int i = 0; i < dtDesg.Rows.Count; i++)
-        //        {
-        //            lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEMMASTERID"].ToString() });
-        //        }
-        //        return lstdesg;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
+        public JsonResult GetGRNItemJSON(string supid)
+        {
+            RetItem model = new RetItem();
+            model.Itemlst = BindItemlst(supid);
+            return Json(BindItemlst(supid));
+
+        }
+        public List<SelectListItem> BindItemlst(string value)
+        {
+            try
+            {
+                DataTable dtDesg = PurReturn.GetItem(value);
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["GRNBLDETAILID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         public ActionResult GetGRNDetail(string POID)
         {
@@ -340,7 +347,7 @@ namespace Arasan.Controllers
                 string unit = "";
                 string CF = "";
                 string rate = "";
-                string item = "";
+              
                 string qty = "";
                 string amount = "";
                 //string Disc = "";
@@ -367,7 +374,7 @@ namespace Arasan.Controllers
                     //dt1 = PurReturn.GetItemCF(ItemId, dt.Rows[0]["UNITMASTID"].ToString());
                     amount = dt.Rows[0]["AMOUNT"].ToString();
 
-                    item = dt.Rows[0]["ITEMID"].ToString();
+                
                     discAmount = dt.Rows[0]["DISC"].ToString();
 
                     // Disc = dt.Rows[0]["DISCPER"].ToString();
@@ -383,7 +390,7 @@ namespace Arasan.Controllers
                  
                 }
                
-                    var result = new { unit = unit, CF = CF, qty = qty, rate = rate, amount = amount, item = item, discAmount = discAmount, frig = frig, cgs = cgs, cgta = cgta, sgs = sgs, sgta = sgta, igs = igs, igsta = igsta, totalAm = totalAm };
+                    var result = new { unit = unit, CF = CF, qty = qty, rate = rate, amount = amount, discAmount = discAmount, frig = frig, cgs = cgs, cgta = cgta, sgs = sgs, sgta = sgta, igs = igs, igsta = igsta, totalAm = totalAm };
                 return Json(result);
             }
             catch (Exception ex)
@@ -399,9 +406,10 @@ namespace Arasan.Controllers
         }
         public JsonResult GetItemGrpJSON()
         {
-            RetItem model = new RetItem();
-              model.POlst = BindGRNlist();
-            return Json(model);
+            //RetItem model = new RetItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(BindGRNlist());
         }
+
     }
 }
