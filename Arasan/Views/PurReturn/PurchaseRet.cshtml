@@ -213,9 +213,10 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="btn-group">
-                                        <button class="btn sbold green" id="addRow"> Add New <i class="fa fa-plus"></i> </button>
+                                        <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" /></p>
                                     </div>
                                 </div>
+                            </div>
 
                                          <div style="height:30px;"></div>
                  <div class="row">
@@ -275,8 +276,9 @@
 
                                                                                 </td>
                                                                                        <td>
-                                                                    @Html.TextBoxFor(o => o.RetLst[i].ItemId, new { @id = "txtItemId" + i, @class = "form-control", style = "width: 180px;" , @readonly = "readonly", onchange = "changeItem(this.value," + i + ")"})
-                                                                            </td>
+                                                            @Html.DropDownListFor(o => o.RetLst[i].ItemId, Model.RetLst[i].Itemlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItemId" + i, style = "width: 170px;"})
+                                                            @Html.HiddenFor(o => o.RetLst[i].saveItemId)
+                                                        </td>
                                                                             <td>
                                                                     @Html.TextBoxFor(o => o.RetLst[i].Unit, new { @id = "txtUnit" + i, @class = "form-control", style = "width: 60px;" , @readonly = "readonly"})
                                                                             </td>
@@ -286,16 +288,14 @@
                                                                             <td>
                                                                     @Html.TextBoxFor(o => o.RetLst[i].Quantity, new { @id = "txtQuantity" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;text-align:right", @onkeyup = "changeQty(this," + i + ")"})
                                                                             </td>
-                                                                @*<td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>*@
+                                                       
                                                                                           <td>
                                                                     @Html.TextBoxFor(o => o.RetLst[i].DiscAmount, new { @id = "txtDiscAmount" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;text-align:right", @onkeyup = "changeQty(this," + i + ")" , @readonly = "readonly" })
                                                                                                                                                         </td>
                                                                             <td>
                                                                     @Html.TextBoxFor(o => o.RetLst[i].FrigCharge, new { @id = "txtFrigCharge" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;text-align:right", @onkeyup = "changeQty(this," + i + ")" , @readonly = "readonly" })
                                                                             </td>
-                                                                @*<td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
-                                                                        <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
-                                                                        <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>*@
+                                                               
                                                                             <td>
                                                                     @Html.TextBoxFor(o => o.RetLst[i].rate, new { @id = "txtrate" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")" , @readonly = "readonly" })
                                                                             </td>
@@ -303,12 +303,7 @@
 
                                                                     @Html.TextBoxFor(o => o.RetLst[i].Amount, new { @id = "txtAmount" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right",@readonly="readonly"})
                                                                             </td>
-                                                                @* <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
-                                                                        <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
-                                                                        <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
-                                                                        <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
-                                                                        <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
-                                                                        <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>*@
+                                                            
                                                                             <td>
                                                                     @Html.TextBoxFor(o => o.RetLst[i].CGSTPer, new { @id = "txtCGSTPer" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 70px;text-align:right", @onkeyup = "changeQty(this," + i + ")" , @readonly = "readonly" })
                                                                             </td>
@@ -347,7 +342,7 @@
                                                                         </table>
                                                                         </div>
                                                                         </div>
-                                                                        </div>
+                                                                        
 
 
 
@@ -714,7 +709,9 @@
                 alert("Please Select State");
             }
         }); 
+
         }
+
     function changeItem(POID, i) {
         $.ajax({
             url: 'GetGRNDetail',
@@ -728,7 +725,7 @@
                 document.getElementById("txtrate" + i).value = result.rate;
                 document.getElementById("txtAmount" + i).value = result.amount;
 
-                document.getElementById("txtItemId" + i).value = result.item;
+            
 
                 document.getElementById("txtDiscAmount" + i).value = result.discAmount;
                 document.getElementById("txtFrigCharge" + i).value = result.frig;
@@ -756,6 +753,32 @@
                 alert("Data Not Found");
             }
         });
+        $.ajax({
+            url: "GetGRNItemJSON",
+            type: "post",
+            data: { 'supid': POID },
+            cache: false,
+            success: function (response) {
+                var newlist;
+                newlist = response.Itemlst;
+                PopulateDropDown("#ddlItemId" + i, response);
+            },
+            error: function () {
+                debugger;
+                alert("Please Select GRN ID");
+            }
+        });
+    }
+    function PopulateDropDown(dropDownId, list) {
+        //alert(list);
+        $(dropDownId).empty().append();
+        if (list != null && list.length > 0) {
+            $(dropDownId).removeAttr("disabled");
+            $.each(list, function () {
+                $(dropDownId).append($("<option></option>").val(this['value']).html(this['text']));
+            });
+        }
+        $(dropDownId).trigger("liszt:updated");
     }
        function changeQty(_this, i) {
                 try {
@@ -891,11 +914,11 @@
                 return pad_with_zeros(round_decimals(amt + 1, 0));
             return pad_with_zeros(round_decimals(amt , 0));
         }
-    function AddRow() {
+   function AddRow() {
         var opt = "";
         $.ajax({
             type: "POST",
-            url: 'GetItemGrpJSON',
+            url: 'GetItemJSON',
             success: function (data) {
 
                 $.each(data, function () {
@@ -905,6 +928,7 @@
             }
         })
     }
+      $(".chosen-select").chosen();
     function removeRow(id) {
         var table = document.getElementById("dataTable");
         var rowCount = table.rows.length;
@@ -922,13 +946,13 @@
         else {
             alert("Cannot delete all the rows.")
         }
-    }
+  }
     function AppendRow(opt) {
         var index = $("#tbBooks").children("tr").length;
 
         var GRNNo = "<td><select style = 'width: 200px;' class='form-control chosen-select newcss' id='ddlGRN" + index + "' name='RetLst[" + index + "].GRNNo' onchange = 'changeItem(this.value, " + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
 
-         var ItemId = "<td><input class='form-control' id='txtItemId" + index + "' name='RetLst[" + index + "].ItemId'  style='width: 80px;' type='text'  readonly='True' /></td>"
+        var ItemId = "<td><input class='form-control' id='txtItemId" + index + "' name='Itemlst[" + index + "].ItemId'  style='width: 80px;' type='text'  readonly='True' /></td>"
         var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='RetLst[" + index + "].Unit'  style='width: 80px;' type='text'  readonly='True' /></td>";
 
         var ConFac = "<td><input class='form-control' id='txtConFac" + index + "' name='RetLst[" + index + "].ConFac'  style='width: 80px;' type='text' readonly='True'  /></td>";
@@ -964,7 +988,7 @@
 
 
 
-        var removeCell = "<td><input id='Isvalid" + index + "' name='POlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='DirLst.Index' type='hidden' value='" + index + "'  /></td>";
+        var removeCell = "<td><input id='Isvalid" + index + "' name='Itemlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='RetLst.Index' type='hidden' value='" + index + "'  /></td>";
 
 
         var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + GRNNo + ItemId + Unit + ConFac + PurType + Quantity + rate + Amount + CGSTPer + SGSTPer + IGSTPer + CGSTAmt + SGSTAmt + IGSTAmt + TotalAmount + removeCell + "</tr>";
