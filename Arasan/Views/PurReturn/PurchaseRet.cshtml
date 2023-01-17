@@ -209,16 +209,16 @@
                                     </div>
                                 </div>
                             </div>
-                            <div style="height:30px;"></div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="btn-group">
-                                        <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" /></p>
-                                    </div>
+                           <div style="height:30px;"></div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="btn-group">
+                                    <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" /></p>
                                 </div>
                             </div>
+                        </div>
 
-                                         <div style="height:30px;"></div>
+                                        
                  <div class="row">
 
 
@@ -240,8 +240,8 @@
                                                             <th>Serial</th>
                                                             <th>Current Stock</th>
                                                             <th>Return Qty</th>*@
-                                                                <th>Discount</th>
-                                                                <th>Freight</th>
+                                                             @*   <th>Discount</th>
+                                                                <th>Freight</th>*@
                                                                 <th>Rate</th>
                                                                 <th>Amount</th>
                                                     @*<th>Indent Open?</th>*@
@@ -289,18 +289,18 @@
                                                                     @Html.TextBoxFor(o => o.RetLst[i].Quantity, new { @id = "txtQuantity" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;text-align:right", @onkeyup = "changeQty(this," + i + ")"})
                                                                             </td>
                                                        
-                                                                                          <td>
+                                                                                          @*<td>
                                                                     @Html.TextBoxFor(o => o.RetLst[i].DiscAmount, new { @id = "txtDiscAmount" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;text-align:right", @onkeyup = "changeQty(this," + i + ")" , @readonly = "readonly" })
                                                                                                                                                         </td>
                                                                             <td>
                                                                     @Html.TextBoxFor(o => o.RetLst[i].FrigCharge, new { @id = "txtFrigCharge" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;text-align:right", @onkeyup = "changeQty(this," + i + ")" , @readonly = "readonly" })
-                                                                            </td>
+                                                                            </td>*@
                                                                
                                                                             <td>
                                                                     @Html.TextBoxFor(o => o.RetLst[i].rate, new { @id = "txtrate" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")" , @readonly = "readonly" })
                                                                             </td>
                                                                             <td>
-
+                                                            @Html.HiddenFor(o => o.RetLst[i].Isvalid, new { @id = "Isvalid" + i })
                                                                     @Html.TextBoxFor(o => o.RetLst[i].Amount, new { @id = "txtAmount" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right",@readonly="readonly"})
                                                                             </td>
                                                             
@@ -328,9 +328,9 @@
                                                                     @Html.TextBoxFor(o => o.RetLst[i].TotalAmount, new { @id = "txtTotalAmount" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")"  , @readonly = "readonly"})
                                                                             </td>
                                                                             <td>
-                                                                             @Html.HiddenFor(o => o.RetLst[i].Isvalid, new { @id = "Isvalid" + i })
-                                                                                <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(i)" />
-                                                                            </td>
+                                                            @Html.HiddenFor(o => o.RetLst[i].Isvalid, new { @id = "Isvalid" + i })
+                                                                        <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(i)" />
+                                                                    </td>
                                                                                     </tr>
 
                                                         i = i + 1;
@@ -727,8 +727,8 @@
 
             
 
-                document.getElementById("txtDiscAmount" + i).value = result.discAmount;
-                document.getElementById("txtFrigCharge" + i).value = result.frig;
+              @*  document.getElementById("txtDiscAmount" + i).value = result.discAmount;
+                document.getElementById("txtFrigCharge" + i).value = result.frig;*@
                 document.getElementById("txtCGSTPer" + i).value = result.cgs;
                   document.getElementById("txtCGSTAmt" + i).value = result.cgta;
                 document.getElementById("txtSGSTPer" + i).value = result.sgs;
@@ -914,11 +914,30 @@
                 return pad_with_zeros(round_decimals(amt + 1, 0));
             return pad_with_zeros(round_decimals(amt , 0));
         }
+            $(".chosen-select").chosen();
+    function removeRow(id) {
+        var table = document.getElementById("dataTable");
+        var rowCount = table.rows.length;
+        var row = document.getElementById('trBook' + id);
+        var j = 0;
+        $('tr.chkitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+                j += 1;
+            }
+        });
+        if (j > 1) {
+            row.style.display = "none";
+            document.getElementById('Isvalid' + id).value = "N";
+        }
+        else {
+            alert("Cannot delete all the rows.")
+        }
+    }
    function AddRow() {
         var opt = "";
         $.ajax({
             type: "POST",
-            url: 'GetItemJSON',
+            url: 'GetItemGrpJSON',
             success: function (data) {
 
                 $.each(data, function () {
@@ -950,20 +969,20 @@
     function AppendRow(opt) {
         var index = $("#tbBooks").children("tr").length;
 
-        var GRNNo = "<td><select style = 'width: 200px;' class='form-control chosen-select newcss' id='ddlGRN" + index + "' name='RetLst[" + index + "].GRNNo' onchange = 'changeItem(this.value, " + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
+        var GRNNo = "<td><select style = 'width: 170px;' class='form-control chosen-select newcss' id='ddlGRN" + index + "' name='RetLst[" + index + "].GRNNo' onchange = 'changeItem(this.value, " + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
 
-        var ItemId = "<td><input class='form-control' id='txtItemId" + index + "' name='Itemlst[" + index + "].ItemId'  style='width: 80px;' type='text'  readonly='True' /></td>"
-        var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='RetLst[" + index + "].Unit'  style='width: 80px;' type='text'  readonly='True' /></td>";
+        var ItemId = "<td><select style = 'width: 170px;' class='form-control chosen-select newcss' id='ddlItemId" + index + "' name='Itemlst[" + index + "].ItemId'><option value=''>Please select</option></select></td>";
+        var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='RetLst[" + index + "].Unit'  style='width: 60px;' type='text'  readonly='True' /></td>";
 
-        var ConFac = "<td><input class='form-control' id='txtConFac" + index + "' name='RetLst[" + index + "].ConFac'  style='width: 80px;' type='text' readonly='True'  /></td>";
+        var ConFac = "<td><input class='form-control' id='txtConFac" + index + "' name='RetLst[" + index + "].ConFac'  style='width: 50px;' type='text' readonly='True'  /></td>";
 
     @*  var PurType = "<td><input class='form-control' id='txtPurType" + index + "' name='DirLst[" + index + "].PurType'  style='width: 80px;' type='text'   /></td>";*@
 
             var Quantity = "<td><input class='form-control' id='txtQuantity" + index + "' name='RetLst[" + index + "].Quantity'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;text-align:right' type='text' value='0' onchange = 'changeQty(this.value," + index + ")' /></td>";
 
-        var rate = "<td><input class='form-control' id='txtrate" + index + "' name='RetLst[" + index + "].rate'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;text-align:right' type='text' value='0' readonly='True' /></td>";
+        var rate = "<td><input class='form-control' id='txtrate" + index + "' name='RetLst[" + index + "].rate'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 100px;text-align:right' type='text' value='0' readonly='True' /></td>";
 
-        var Amount = "<td><input class='form-control' id='txtAmount" + index + "' name='RetLst[" + index + "].Amount'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;text-align:right' type='text' value='0' readonly='True' /></td>";
+        var Amount = "<td><input class='form-control' id='txtAmount" + index + "' name='RetLst[" + index + "].Amount'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 100px;text-align:right' type='text' value='0' readonly='True' /></td>";
 
        @* var Disc = "<td><input class='form-control' id='txtDisc" + index + "' name='RetLst[" + index + "].Disc'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text'    /></td>";
 
@@ -972,26 +991,26 @@
         var FrigCharge = "<td><input class='form-control' id='txtFrigCharge" + index + "' name='RetLst[" + index + "].CostRate'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text'    /></td>";
 *@
 
-            var CGSTPer = "<td><input class='form-control' id='txtCGSTPer" + index + "' name='RetLst[" + index + "].CGSTPer'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text'  /></td>";
+            var CGSTPer = "<td><input class='form-control' id='txtCGSTPer" + index + "' name='RetLst[" + index + "].CGSTPer'  style='width: 70px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text'  /></td>";
 
-        var SGSTPer = "<td><input class='form-control' id='txtSGSTPer" + index + "' name='RetLst[" + index + "].SGSTPer'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text'    /></td>";
+        var SGSTPer = "<td><input class='form-control' id='txtSGSTPer" + index + "' name='RetLst[" + index + "].SGSTPer'  style='width: 70px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text'    /></td>";
 
-        var IGSTPer = "<td><input class='form-control' id='txtIGSTPer" + index + "' name='RetLst[" + index + "].IGSTPer'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text'    /></td>";
+        var IGSTPer = "<td><input class='form-control' id='txtIGSTPer" + index + "' name='RetLst[" + index + "].IGSTPer'  style='width: 70px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text'    /></td>";
 
-        var CGSTAmt = "<td><input class='form-control' id='txtCGSTAmt" + index + "' name='RetLst[" + index + "].CGSTAmt'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text'    /></td>";
+        var CGSTAmt = "<td><input class='form-control' id='txtCGSTAmt" + index + "' name='RetLst[" + index + "].CGSTAmt'  style='width: 70px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text'    /></td>";
 
-        var SGSTAmt = "<td><input class='form-control' id='txtSGSTAmt" + index + "' name='RetLst[" + index + "].SGSTAmt'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text'    /></td>";
+        var SGSTAmt = "<td><input class='form-control' id='txtSGSTAmt" + index + "' name='RetLst[" + index + "].SGSTAmt'  style='width: 70px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text'    /></td>";
 
-        var IGSTAmt = "<td><input class='form-control' id='txtIGSTAmt" + index + "' name='RetLst[" + index + "].IGSTAmt'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text'    /></td>";
+        var IGSTAmt = "<td><input class='form-control' id='txtIGSTAmt" + index + "' name='RetLst[" + index + "].IGSTAmt'  style='width: 70px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text'    /></td>";
 
-        var TotalAmount = "<td><input class='form-control' id='txtTotalAmount" + index + "' name='RetLst[" + index + "].TotalAmount'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text'    /></td>";
+        var TotalAmount = "<td><input class='form-control' id='txtTotalAmount" + index + "' name='RetLst[" + index + "].TotalAmount'  style='width: 100px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text'    /></td>";
 
 
 
         var removeCell = "<td><input id='Isvalid" + index + "' name='Itemlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='RetLst.Index' type='hidden' value='" + index + "'  /></td>";
 
 
-        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + GRNNo + ItemId + Unit + ConFac + PurType + Quantity + rate + Amount + CGSTPer + SGSTPer + IGSTPer + CGSTAmt + SGSTAmt + IGSTAmt + TotalAmount + removeCell + "</tr>";
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + GRNNo + ItemId + Unit + ConFac  + Quantity + rate + Amount + CGSTPer + SGSTPer + IGSTPer + CGSTAmt + SGSTAmt + IGSTAmt + TotalAmount + removeCell + "</tr>";
         //alert(Packing);
         $("#tbBooks").append(newRow);
 

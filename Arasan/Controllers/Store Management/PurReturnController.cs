@@ -375,11 +375,11 @@ namespace Arasan.Controllers
                     amount = dt.Rows[0]["AMOUNT"].ToString();
 
                 
-                    discAmount = dt.Rows[0]["DISC"].ToString();
+                    //discAmount = dt.Rows[0]["DISC"].ToString();
 
                     // Disc = dt.Rows[0]["DISCPER"].ToString();
 
-                    frig = dt.Rows[0]["IFREIGHTCH"].ToString();
+                    //frig = dt.Rows[0]["IFREIGHTCH"].ToString();
                     cgs = dt.Rows[0]["CGSTPER"].ToString();
                     cgta = dt.Rows[0]["CGSTAMT"].ToString();
                     sgs = dt.Rows[0]["SGSTPER"].ToString();
