@@ -62,7 +62,7 @@ namespace Arasan.Services
         public DataTable GetPurchaseReturnDetail(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select PRETDETAIL.GRNNO,PRETDETAIL.ITEMID,PRETDETAIL.QTY,PRETDETAIL.UNIT,PRETDETAIL.RATE,PRETDETAIL.AMOUNT,PRETDETAIL.TOTAMT,PRETDETAIL.CF,PRETDETAIL.CGSTPER,PRETDETAIL.CGSTAMT,PRETDETAIL.SGSTPER,PRETDETAIL.SGSTAMT,PRETDETAIL.IGSTPER,PRETDETAIL.IGSTAMT,PRETDETAILID  from PRETDETAIL where PRETDETAIL.PRETBASICID=" + id + "";
+            SvSql = "Select PRETDETAIL.GRNNO,PRETDETAIL.ITEMID,PRETDETAIL.QTY,PRETDETAIL.UNIT,PRETDETAIL.RATE,PRETDETAIL.AMOUNT,PRETDETAIL.TOTAMT,PRETDETAIL.CF,PRETDETAIL.CGSTPER,PRETDETAIL.CGSTAMT,PRETDETAIL.SGSTPER,PRETDETAIL.SGSTAMT,PRETDETAIL.IGSTPER,PRETDETAIL.IGSTAMT,PRETBASICID,PRETDETAILID  from PRETDETAIL where PRETDETAIL.PRETBASICID=" + id + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -72,7 +72,7 @@ namespace Arasan.Services
         public DataTable GetPurchaseReturnDes(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select PURRESADD.SADD1,PURRESADD.SCITY,PURRESADD.SSTATE,PURRESADD.SPINCODE,PURRESADD.SPHONE,PURRESADDID  from PURRESADD where PURRESADD.PURRESADDID=" + id + "";
+            SvSql = "Select PURRESADD.SADD1,PURRESADD.SCITY,PURRESADD.SSTATE,PURRESADD.SPINCODE,PURRESADD.SPHONE,PURRESADDID  from PURRESADD where PURRESADD.PRETBASICID=" + id + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -199,7 +199,8 @@ namespace Arasan.Services
                         }
                         foreach (RetItem cp in cy.RetLst)
                         {
-                            
+                            if (cp.Isvalid == "Y" && cp.ItemId != "0")
+                            {
                                 using (OracleConnection objConns = new OracleConnection(_connectionString))
                                 {
                                     OracleCommand objCmds = new OracleCommand("PURRETURNDETAILPROC", objConns);
@@ -239,7 +240,8 @@ namespace Arasan.Services
                                     objConns.Close();
                                 }
 
-                            
+
+                            }
                         }
                     }
                     catch (Exception ex)

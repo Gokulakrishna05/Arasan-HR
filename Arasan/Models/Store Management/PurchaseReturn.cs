@@ -10,6 +10,7 @@ namespace Arasan.Models
             //this.Suplst = new List<SelectListItem>();
             this.Curlst = new List<SelectListItem>();
             this.Loclst = new List<SelectListItem>();
+            this.assignList = new List<SelectListItem>();
         }
         public List<SelectListItem> Brlst;
         public string ID { get; set; }
@@ -26,6 +27,7 @@ namespace Arasan.Models
 
         public List<SelectListItem> Curlst;
         public List<SelectListItem> Loclst;
+        public List<SelectListItem> assignList;
         public string Location { get; set; }
         public string ReqDate { get; set; }
         public string ReqNo { get; set; }
