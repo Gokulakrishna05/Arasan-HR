@@ -30,6 +30,7 @@ namespace Arasan.Controllers
             ca.Curlst = BindCurrency();
             ca.Loclst = GetLoc();
             ca.Satlst = GetSat();
+            ca.assignList = BindEmp();
             ca.Citylst = BindCity("");
             List<RetItem> TData = new List<RetItem>();
             RetItem tda = new RetItem();
@@ -265,6 +266,23 @@ namespace Arasan.Controllers
                 }
                 return lstdesg;
 
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindEmp()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetEmp();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["EMPNAME"].ToString(), Value = dtDesg.Rows[i]["EMPNAME"].ToString() });
+                }
+                return lstdesg;
             }
             catch (Exception ex)
             {

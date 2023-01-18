@@ -2,7 +2,15 @@
 @{
     ViewData["Title"] = " Purchase Return";
 }
-
+<style>
+    
+    .mandatory{
+	color: red;
+	position:relative;
+	top:2px;
+	left:5px;
+}
+</style>
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
 
@@ -53,7 +61,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">P.Return.No<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">P.Return.No<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.RetNo, new { @id = "txtRetNo", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
                                             @Html.HiddenFor(C => C.ID)
@@ -63,7 +71,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">P.Return Date<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">P.Return Date<label class="mandatory">*</label></label>
 
                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                             @Html.TextBoxFor(C => C.RetDate, new { @id = "RetDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
@@ -106,7 +114,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Req No<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Req No<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.ReqNo, new { @id = "txtReqNo", @class = "form-control", @TabIndex = "2"})
                                         </div>
@@ -115,7 +123,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Req Date<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Req Date<label class="mandatory">*</label></label>
                                         <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                             @Html.TextBoxFor(C => C.ReqDate, new { @id = "ReqDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -192,7 +200,7 @@
                                         <label for="inputName3" class="col-sm-4 control-label">Rejected By<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
 
-                                            @Html.TextBoxFor(C => C.Rej, new { @id = "txtRej", @class = "form-control", @TabIndex = 2, @onkeyup = "changeTot(this)"})
+                                            @Html.DropDownListFor(C => C.Rej, Model.assignList, new { @id = "ddlRej", @Class = "form-control chosen-select", @TabIndex = 1 })
 
                                         </div>
                                     </div>
@@ -224,7 +232,7 @@
 
               <div class="col-lg-12" style="overflow-x:scroll; min-width:300px; min-height:200px;">
 
-                        <table class="table table-striped table-hover">
+                        <table class="table table-striped table-hover" id="dataTable">
                                                         <thead>
                                                             <tr>
 
@@ -268,70 +276,70 @@
                                                     int j = 1;
                                                     foreach (var item in Model.RetLst.ToList())
                                                     {
-                                                                                    <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                                        <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
 
-                                                                                        <td>
-                                                                    @Html.DropDownListFor(o => o.RetLst[i].GRNNo, Model.RetLst[i].POlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlGRN" + i, style = "width: 170px;", onchange = "changeItem(this.value," + i + ")" })
+                                                                                            <td>
+                                                                        @Html.DropDownListFor(o => o.RetLst[i].GRNNo, Model.RetLst[i].POlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlGRN" + i, style = "width: 170px;", onchange = "changeItem(this.value," + i + ")" })
 
+                                                                                    </td>
+                                                                                           <td>
+                                                                @Html.DropDownListFor(o => o.RetLst[i].ItemId, Model.RetLst[i].Itemlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItemId" + i, style = "width: 170px;"})
+                                                                @Html.HiddenFor(o => o.RetLst[i].saveItemId)
+                                                            </td>
+                                                                                <td>
+                                                                        @Html.TextBoxFor(o => o.RetLst[i].Unit, new { @id = "txtUnit" + i, @class = "form-control", style = "width: 60px;" , @readonly = "readonly"})
                                                                                 </td>
-                                                                                       <td>
-                                                            @Html.DropDownListFor(o => o.RetLst[i].ItemId, Model.RetLst[i].Itemlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItemId" + i, style = "width: 170px;"})
-                                                            @Html.HiddenFor(o => o.RetLst[i].saveItemId)
-                                                        </td>
-                                                                            <td>
-                                                                    @Html.TextBoxFor(o => o.RetLst[i].Unit, new { @id = "txtUnit" + i, @class = "form-control", style = "width: 60px;" , @readonly = "readonly"})
-                                                                            </td>
-                                                                              <td>
-                                                                    @Html.TextBoxFor(o => o.RetLst[i].ConFac, new { @id = "txtConFac" + i, @class = "form-control", style = "width: 50px;" , @readonly = "readonly"})
-                                                                            </td>
-                                                                            <td>
-                                                                    @Html.TextBoxFor(o => o.RetLst[i].Quantity, new { @id = "txtQuantity" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;text-align:right", @onkeyup = "changeQty(this," + i + ")"})
-                                                                            </td>
-                                                       
-                                                                                          @*<td>
+                                                                                  <td>
+                                                                        @Html.TextBoxFor(o => o.RetLst[i].ConFac, new { @id = "txtConFac" + i, @class = "form-control", style = "width: 50px;" , @readonly = "readonly"})
+                                                                                </td>
+                                                                                <td>
+                                                                        @Html.TextBoxFor(o => o.RetLst[i].Quantity, new { @id = "txtQuantity" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;text-align:right", @onkeyup = "changeQty(this," + i + ")"})
+                                                                                </td>
+                                                           
+                                                                                              @*<td>
                                                                     @Html.TextBoxFor(o => o.RetLst[i].DiscAmount, new { @id = "txtDiscAmount" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;text-align:right", @onkeyup = "changeQty(this," + i + ")" , @readonly = "readonly" })
                                                                                                                                                         </td>
                                                                             <td>
                                                                     @Html.TextBoxFor(o => o.RetLst[i].FrigCharge, new { @id = "txtFrigCharge" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;text-align:right", @onkeyup = "changeQty(this," + i + ")" , @readonly = "readonly" })
                                                                             </td>*@
-                                                               
-                                                                            <td>
-                                                                    @Html.TextBoxFor(o => o.RetLst[i].rate, new { @id = "txtrate" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")" , @readonly = "readonly" })
-                                                                            </td>
-                                                                            <td>
-                                                            @Html.HiddenFor(o => o.RetLst[i].Isvalid, new { @id = "Isvalid" + i })
-                                                                    @Html.TextBoxFor(o => o.RetLst[i].Amount, new { @id = "txtAmount" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right",@readonly="readonly"})
-                                                                            </td>
-                                                            
-                                                                            <td>
-                                                                    @Html.TextBoxFor(o => o.RetLst[i].CGSTPer, new { @id = "txtCGSTPer" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 70px;text-align:right", @onkeyup = "changeQty(this," + i + ")" , @readonly = "readonly" })
-                                                                            </td>
-                                                                            <td>
-                                                                    @Html.TextBoxFor(o => o.RetLst[i].SGSTPer, new { @id = "txtSGSTPer" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 70px;text-align:right", @onkeyup = "changeQty(this," + i + ")" , @readonly = "readonly" })
-                                                                            </td>
-                                                                            <td>
-                                                                    @Html.TextBoxFor(o => o.RetLst[i].IGSTPer, new { @id = "txtIGSTPer" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 70px;text-align:right", @onkeyup = "changeQty(this," + i + ")" , @readonly = "readonly" })
-                                                                            </td>
-                                                                            <td>
-                                                                    @Html.TextBoxFor(o => o.RetLst[i].CGSTAmt, new { @id = "txtCGSTAmt" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 70px;text-align:right", @onkeyup = "changeQty(this," + i + ")" , @readonly = "readonly" })
-                                                                            </td>
+                                                                   
+                                                                                <td>
+                                                                        @Html.TextBoxFor(o => o.RetLst[i].rate, new { @id = "txtrate" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")" , @readonly = "readonly" })
+                                                                                </td>
+                                                                                <td>
+                                                                @Html.HiddenFor(o => o.RetLst[i].Isvalid, new { @id = "Isvalid" + i })
+                                                                        @Html.TextBoxFor(o => o.RetLst[i].Amount, new { @id = "txtAmount" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right",@readonly="readonly"})
+                                                                                </td>
+                                                                
+                                                                                <td>
+                                                                        @Html.TextBoxFor(o => o.RetLst[i].CGSTPer, new { @id = "txtCGSTPer" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 70px;text-align:right", @onkeyup = "changeQty(this," + i + ")" , @readonly = "readonly" })
+                                                                                </td>
+                                                                                <td>
+                                                                        @Html.TextBoxFor(o => o.RetLst[i].SGSTPer, new { @id = "txtSGSTPer" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 70px;text-align:right", @onkeyup = "changeQty(this," + i + ")" , @readonly = "readonly" })
+                                                                                </td>
+                                                                                <td>
+                                                                        @Html.TextBoxFor(o => o.RetLst[i].IGSTPer, new { @id = "txtIGSTPer" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 70px;text-align:right", @onkeyup = "changeQty(this," + i + ")" , @readonly = "readonly" })
+                                                                                </td>
+                                                                                <td>
+                                                                        @Html.TextBoxFor(o => o.RetLst[i].CGSTAmt, new { @id = "txtCGSTAmt" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 70px;text-align:right", @onkeyup = "changeQty(this," + i + ")" , @readonly = "readonly" })
+                                                                                </td>
 
-                                                                            <td>
-                                                                    @Html.TextBoxFor(o => o.RetLst[i].SGSTAmt, new { @id = "txtSGSTAmt" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 70px;text-align:right", @onkeyup = "changeQty(this," + i + ")" , @readonly = "readonly" })
-                                                                            </td>
+                                                                                <td>
+                                                                        @Html.TextBoxFor(o => o.RetLst[i].SGSTAmt, new { @id = "txtSGSTAmt" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 70px;text-align:right", @onkeyup = "changeQty(this," + i + ")" , @readonly = "readonly" })
+                                                                                </td>
 
-                                                                            <td>
-                                                                    @Html.TextBoxFor(o => o.RetLst[i].IGSTAmt, new { @id = "txtIGSTAmt" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 70px;text-align:right", @onkeyup = "changeQty(this," + i + ")"  , @readonly = "readonly"})
-                                                                            </td>
-                                                                            <td>
-                                                                    @Html.TextBoxFor(o => o.RetLst[i].TotalAmount, new { @id = "txtTotalAmount" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")"  , @readonly = "readonly"})
-                                                                            </td>
-                                                                            <td>
-                                                            @Html.HiddenFor(o => o.RetLst[i].Isvalid, new { @id = "Isvalid" + i })
-                                                                        <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(i)" />
-                                                                    </td>
-                                                                                    </tr>
+                                                                                <td>
+                                                                        @Html.TextBoxFor(o => o.RetLst[i].IGSTAmt, new { @id = "txtIGSTAmt" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 70px;text-align:right", @onkeyup = "changeQty(this," + i + ")"  , @readonly = "readonly"})
+                                                                                </td>
+                                                                                <td>
+                                                                        @Html.TextBoxFor(o => o.RetLst[i].TotalAmount, new { @id = "txtTotalAmount" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")"  , @readonly = "readonly"})
+                                                                                </td>
+                                                                                <td>
+                                                                @Html.HiddenFor(o => o.RetLst[i].Isvalid, new { @id = "Isvalid" + i })
+                                                                            <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(i)" />
+                                                                        </td>
+                                                                                        </tr>
 
                                                         i = i + 1;
                                                         j = j + 1;
@@ -670,7 +678,7 @@
 
                                                                         <div style="height:30px;"></div>
                                                                                      <div style="height:30px;"></div>
-                    <button type="submit" class="btn aqua m-t-xs bottom15-xs">Submit</button>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
                                 <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListPurchaseReturn", "PurReturn")'">Cancel</button>
 
                                                                         </form>
@@ -682,6 +690,7 @@
     </div>
 </div>
 <script>
+    
     $(".chosen-select").chosen();
     $('.form_date').datetimepicker({
         //   language:  'fr',
@@ -711,7 +720,25 @@
         }); 
 
         }
-
+    $(".chosen-select").chosen();
+    function removeRow(id) {
+        var table = document.getElementById("dataTable");
+        var rowCount = table.rows.length;
+        var row = document.getElementById('trBook' + id);
+        var j = 0;
+        $('tr.chkitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+                j += 1;
+            }
+        });
+        if (j > 1) {
+            row.style.display = "none";
+            document.getElementById('Isvalid' + id).value = "N";
+        }
+        else {
+            alert("Cannot delete all the rows.")
+        }
+    }
     function changeItem(POID, i) {
         $.ajax({
             url: 'GetGRNDetail',
@@ -914,25 +941,7 @@
                 return pad_with_zeros(round_decimals(amt + 1, 0));
             return pad_with_zeros(round_decimals(amt , 0));
         }
-            $(".chosen-select").chosen();
-    function removeRow(id) {
-        var table = document.getElementById("dataTable");
-        var rowCount = table.rows.length;
-        var row = document.getElementById('trBook' + id);
-        var j = 0;
-        $('tr.chkitemlst').each(function () {
-            if ($(this).css('display') !== 'none') {
-                j += 1;
-            }
-        });
-        if (j > 1) {
-            row.style.display = "none";
-            document.getElementById('Isvalid' + id).value = "N";
-        }
-        else {
-            alert("Cannot delete all the rows.")
-        }
-    }
+         
    function AddRow() {
         var opt = "";
         $.ajax({
@@ -1016,4 +1025,80 @@
 
         $(".chosen-select").chosen();
     }
+
+  
+</script>
+<script>
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+            if (document.getElementById("txtRetNo").value == "") {
+                isValid = false;
+                $(txtRetNo).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Return No");
+                return false;
+            }
+            else {
+                $(txtRetNo).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("RetDate").value == "") {
+                isValid = false;
+                $(RetDate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Return Date");
+                return false;
+            }
+            else {
+                $(RetDate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("txtReqNo").value == "") {
+                isValid = false;
+                $(txtReqNo).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Req No");
+                return false;
+            }
+            else {
+                $(txtReqNo).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("ReqDate").value == "") {
+                isValid = false;
+                $(ReqDate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Req Date");
+                return false;
+            }
+            else {
+                $(ReqDate).css({
+                    "border": "",
+                    "background": ""
+                });
+
+            }
+            });
+
+    });
 </script>
