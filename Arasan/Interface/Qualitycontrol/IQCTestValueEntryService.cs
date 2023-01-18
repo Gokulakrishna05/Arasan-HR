@@ -7,7 +7,7 @@ namespace Arasan.Interface.Qualitycontrol
 {
     public interface IQCTestValueEntryService
     {
-       s
+       
 
     }
 }
