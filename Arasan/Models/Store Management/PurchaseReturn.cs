@@ -33,6 +33,7 @@ namespace Arasan.Models
         public string ReqNo { get; set; }
         public string Rej { get; set; }
         public string Temp { get; set; }
+        public string ReasonCode { get; set; }
         public string Reason { get; set; }
         public string ExRate { get; set; }
         public string RetNo { get; set; }

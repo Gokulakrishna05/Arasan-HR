@@ -151,7 +151,7 @@
                                         <label for="inputName3" class="col-sm-4 control-label">Reason Code<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
 
-                                            @Html.TextBoxFor(C => C.Reason, new { @id = "txtReason", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)" , @onkeyup = "changeTot(this)"})
+                                            @Html.TextBoxFor(C => C.ReasonCode, new { @id = "txtReasonCode", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)" , @onkeyup = "changeTot(this)"})
     <br />
 
                                         </div>
@@ -305,7 +305,7 @@
                                                                             </td>*@
                                                                    
                                                                                 <td>
-                                                                        @Html.TextBoxFor(o => o.RetLst[i].rate, new { @id = "txtrate" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")" , @readonly = "readonly" })
+                                                                        @Html.TextBoxFor(o => o.RetLst[i].rate, new { @id = "txtrate" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @readonly = "readonly" })
                                                                                 </td>
                                                                                 <td>
                                                                 @Html.HiddenFor(o => o.RetLst[i].Isvalid, new { @id = "Isvalid" + i })
@@ -313,27 +313,27 @@
                                                                                 </td>
                                                                 
                                                                                 <td>
-                                                                        @Html.TextBoxFor(o => o.RetLst[i].CGSTPer, new { @id = "txtCGSTPer" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 70px;text-align:right", @onkeyup = "changeQty(this," + i + ")" , @readonly = "readonly" })
+                                                                        @Html.TextBoxFor(o => o.RetLst[i].CGSTPer, new { @id = "txtCGSTPer" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 70px;text-align:right" , @readonly = "readonly" })
                                                                                 </td>
                                                                                 <td>
-                                                                        @Html.TextBoxFor(o => o.RetLst[i].SGSTPer, new { @id = "txtSGSTPer" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 70px;text-align:right", @onkeyup = "changeQty(this," + i + ")" , @readonly = "readonly" })
+                                                                        @Html.TextBoxFor(o => o.RetLst[i].SGSTPer, new { @id = "txtSGSTPer" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 70px;text-align:right" , @readonly = "readonly" })
                                                                                 </td>
                                                                                 <td>
-                                                                        @Html.TextBoxFor(o => o.RetLst[i].IGSTPer, new { @id = "txtIGSTPer" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 70px;text-align:right", @onkeyup = "changeQty(this," + i + ")" , @readonly = "readonly" })
+                                                                        @Html.TextBoxFor(o => o.RetLst[i].IGSTPer, new { @id = "txtIGSTPer" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 70px;text-align:right" , @readonly = "readonly" })
                                                                                 </td>
                                                                                 <td>
-                                                                        @Html.TextBoxFor(o => o.RetLst[i].CGSTAmt, new { @id = "txtCGSTAmt" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 70px;text-align:right", @onkeyup = "changeQty(this," + i + ")" , @readonly = "readonly" })
-                                                                                </td>
-
-                                                                                <td>
-                                                                        @Html.TextBoxFor(o => o.RetLst[i].SGSTAmt, new { @id = "txtSGSTAmt" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 70px;text-align:right", @onkeyup = "changeQty(this," + i + ")" , @readonly = "readonly" })
+                                                                        @Html.TextBoxFor(o => o.RetLst[i].CGSTAmt, new { @id = "txtCGSTAmt" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 70px;text-align:right" , @readonly = "readonly" })
                                                                                 </td>
 
                                                                                 <td>
-                                                                        @Html.TextBoxFor(o => o.RetLst[i].IGSTAmt, new { @id = "txtIGSTAmt" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 70px;text-align:right", @onkeyup = "changeQty(this," + i + ")"  , @readonly = "readonly"})
+                                                                        @Html.TextBoxFor(o => o.RetLst[i].SGSTAmt, new { @id = "txtSGSTAmt" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 70px;text-align:right",  @readonly = "readonly" })
+                                                                                </td>
+
+                                                                                <td>
+                                                                        @Html.TextBoxFor(o => o.RetLst[i].IGSTAmt, new { @id = "txtIGSTAmt" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 70px;text-align:right", @readonly = "readonly"})
                                                                                 </td>
                                                                                 <td>
-                                                                        @Html.TextBoxFor(o => o.RetLst[i].TotalAmount, new { @id = "txtTotalAmount" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")"  , @readonly = "readonly"})
+                                                                        @Html.TextBoxFor(o => o.RetLst[i].TotalAmount, new { @id = "txtTotalAmount" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right"  , @readonly = "readonly"})
                                                                                 </td>
                                                                                 <td>
                                                                 @Html.HiddenFor(o => o.RetLst[i].Isvalid, new { @id = "Isvalid" + i })
@@ -582,7 +582,7 @@
 
                                                 <label for="inputName3" class="col-sm-4 control-label">Reason<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                    @Html.TextAreaFor(C => C.Reason, new { @id = "txtReason", @class = "form-control", @TabIndex = 2})<br />
+                                                    @Html.TextBoxFor(C => C.Reason, new { @id = "txtReason", @class = "form-control", @TabIndex = 2})<br />
                                                 </div>
                                             </div>
                                         </div>
@@ -827,7 +827,7 @@
 
                     var SGST = document.getElementById("txtSGSTPer" + i).value;
 
-                    var Disc = document.getElementById("txtDiscPer" + i).value;
+                
 
                     if (qty == "")
                         qty = 0;
@@ -847,12 +847,9 @@
                     if (SGST == "")
                         SGST = 0;
 
-                    if (Disc == "")
-                        Disc = 0;
+                  
 
-                    if (frieght == "")
-                        frieght = 0;
-
+                
                     var tot = eval(qty) * eval(up) * eval(cf);
                     document.getElementById("txtAmount" + i).value = tot.toFixed(2);
                     var igstperc = (eval(tot) / 100) * eval(IGST);
@@ -864,7 +861,7 @@
                      document.getElementById("txtCGSTAmt" + i).value = cgstperc.toFixed(2);
                       document.getElementById("txtSGSTAmt" + i).value = sgstperc.toFixed(2);
                        document.getElementById("txtIGSTAmt" + i).value = igstperc.toFixed(2);
-                        document.getElementById("txtDiscAmt" + i).value = Discperc.toFixed(2);
+                       
 
                     var tottax = eval(tot) + eval(igstperc) + eval(cgstperc) + eval(sgstperc) + eval(frieght);
                     var totdisc = eval(tottax) - eval(Discperc);
@@ -873,16 +870,14 @@
 
                     $('tr.chkitemlst').each(function () {
                         if ($(this).css('display') !== 'none') {
-                            frieght = $(this).find('#txtFrieghtAmt' + j.toString()).val();
-                            if (frieght == "")
-                        frieght = 0;
+                           
 
                          var amt = $(this).find('#txtAmount' + j.toString()).val();
                             if (amt == "")
                         amt = 0;
 
                          totamt += eval(amt);
-                         totfrieght += eval(frieght);
+                       
 
                           var tamt = $(this).find('#txtTotalAmount' + j.toString()).val();
                             if (tamt == "")
