@@ -143,6 +143,51 @@ namespace Arasan.Services
                         {
                             Pid = cy.ID;
                         }
+
+                        foreach (RetItem cp in cy.RetLst)
+                        {
+                           
+                                using (OracleConnection objConns = new OracleConnection(_connectionString))
+                                {
+                                    OracleCommand objCmds = new OracleCommand("PURRETURNDETAILPROC", objConns);
+                                    if (cy.ID == null)
+                                    {
+                                        StatementType = "Insert";
+                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+
+                                    }
+                                    else
+                                    {
+                                        StatementType = "Update";
+                                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+
+                                    }
+                                    objCmds.CommandType = CommandType.StoredProcedure;
+                                    objCmds.Parameters.Add("PRETBASICID", OracleDbType.NVarchar2).Value = Pid;
+                                    objCmds.Parameters.Add("GRNNO", OracleDbType.NVarchar2).Value = cp.GRNNo;
+                                    objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cp.ItemId;
+                                    objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = cp.Quantity;
+                                    objCmds.Parameters.Add("UNIT", OracleDbType.NVarchar2).Value = cp.Unit;
+                                    objCmds.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = cp.rate;
+                                    objCmds.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = cp.Amount;
+                                    objCmds.Parameters.Add("TOTAMT", OracleDbType.NVarchar2).Value = cp.TotalAmount;
+                                    objCmds.Parameters.Add("CF", OracleDbType.NVarchar2).Value = cp.ConFac;
+                                    objCmds.Parameters.Add("CGSTPER", OracleDbType.NVarchar2).Value = cp.CGSTPer;
+                                    objCmds.Parameters.Add("CGSTAMT", OracleDbType.NVarchar2).Value = cp.CGSTAmt;
+                                    objCmds.Parameters.Add("SGSTPER", OracleDbType.NVarchar2).Value = cp.SGSTPer;
+                                    objCmds.Parameters.Add("SGSTAMT", OracleDbType.NVarchar2).Value = cp.SGSTAmt;
+                                    objCmds.Parameters.Add("IGSTPER", OracleDbType.NVarchar2).Value = cp.IGSTPer;
+                                    objCmds.Parameters.Add("IGSTAMT", OracleDbType.NVarchar2).Value = cp.IGSTAmt;
+
+
+                                    objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                                    objConns.Open();
+                                    objCmds.ExecuteNonQuery();
+                                    objConns.Close();
+                                }
+
+
+                        }
                         using (OracleConnection objConns = new OracleConnection(_connectionString))
                         {
                             OracleCommand objCmds = new OracleCommand("DESPATCHRETURN", objConns);
@@ -196,52 +241,6 @@ namespace Arasan.Services
                             objConns.Open();
                             objCmds.ExecuteNonQuery();
                             objConns.Close();
-                        }
-                        foreach (RetItem cp in cy.RetLst)
-                        {
-                            if (cp.Isvalid == "Y" && cp.ItemId != "0")
-                            {
-                                using (OracleConnection objConns = new OracleConnection(_connectionString))
-                                {
-                                    OracleCommand objCmds = new OracleCommand("PURRETURNDETAILPROC", objConns);
-                                    if (cy.ID == null)
-                                    {
-                                        StatementType = "Insert";
-                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-
-                                    }
-                                    else
-                                    {
-                                        StatementType = "Update";
-                                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
-
-                                    }
-                                    objCmds.CommandType = CommandType.StoredProcedure;
-                                    objCmds.Parameters.Add("PRETBASICID", OracleDbType.NVarchar2).Value = Pid;
-                                    objCmds.Parameters.Add("GRNNO", OracleDbType.NVarchar2).Value = cp.GRNNo;
-                                    objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cp.ItemId;
-                                    objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = cp.Quantity;
-                                    objCmds.Parameters.Add("UNIT", OracleDbType.NVarchar2).Value = cp.Unit;
-                                    objCmds.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = cp.rate;
-                                    objCmds.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = cp.Amount;
-                                    objCmds.Parameters.Add("TOTAMT", OracleDbType.NVarchar2).Value = cp.TotalAmount;
-                                    objCmds.Parameters.Add("CF", OracleDbType.NVarchar2).Value = cp.ConFac;
-                                    objCmds.Parameters.Add("CGSTPER", OracleDbType.NVarchar2).Value = cp.CGSTPer;
-                                    objCmds.Parameters.Add("CGSTAMT", OracleDbType.NVarchar2).Value = cp.CGSTAmt;
-                                    objCmds.Parameters.Add("SGSTPER", OracleDbType.NVarchar2).Value = cp.SGSTPer;
-                                    objCmds.Parameters.Add("SGSTAMT", OracleDbType.NVarchar2).Value = cp.SGSTAmt;
-                                    objCmds.Parameters.Add("IGSTPER", OracleDbType.NVarchar2).Value = cp.IGSTPer;
-                                    objCmds.Parameters.Add("IGSTAMT", OracleDbType.NVarchar2).Value = cp.IGSTAmt;
-
-
-                                    objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
-                                    objConns.Open();
-                                    objCmds.ExecuteNonQuery();
-                                    objConns.Close();
-                                }
-
-
-                            }
                         }
                     }
                     catch (Exception ex)

@@ -134,12 +134,8 @@ namespace Arasan.Controllers
             {
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
 
-
-
-
-                lstdesg.Add(new SelectListItem() { Text = "GRN", Value = "GRN" });
-
                 lstdesg.Add(new SelectListItem() { Text = "PO", Value = "PO" });
+                lstdesg.Add(new SelectListItem() { Text = "GRN", Value = "GRN" });
                 return lstdesg;
             }
             catch (Exception ex)

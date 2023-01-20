@@ -119,22 +119,25 @@ namespace Arasan.Controllers
                     for (int i = 0; i < dt4.Rows.Count; i++)
                     {
                         tda = new RetItem();
-                        tda.GRNNo = dt4.Rows[0]["GRNNO"].ToString();
-
-                        tda.ItemId = dt4.Rows[0]["ITEMID"].ToString();
-                        tda.rate = dt4.Rows[0]["RATE"].ToString();
-                        tda.Amount = dt4.Rows[0]["AMOUNT"].ToString();
-                        tda.Quantity = dt4.Rows[0]["QTY"].ToString();
-                        tda.TotalAmount = dt4.Rows[0]["TOTAMT"].ToString();
-                        tda.ConFac = dt4.Rows[0]["CF"].ToString();
-                        tda.Unit = dt4.Rows[0]["UNIT"].ToString();
+                        tda.GRNNo = dt4.Rows[i]["GRNNO"].ToString();
+                        tda.POlst = BindGRNlist();
+                        tda.Itemlst = BindItemlst(tda.GRNNo);
+                        tda.ItemId = dt4.Rows[i]["ITEMID"].ToString();
+                        tda.saveItemId = dt4.Rows[i]["ITEMID"].ToString();
+                        tda.rate = dt4.Rows[i]["RATE"].ToString();
+                        tda.Amount = dt4.Rows[i]["AMOUNT"].ToString();
+                        tda.Quantity = dt4.Rows[i]["QTY"].ToString();
+                        tda.TotalAmount = dt4.Rows[i]["TOTAMT"].ToString();
+                        tda.ConFac = dt4.Rows[i]["CF"].ToString();
+                        tda.Unit = dt4.Rows[i]["UNIT"].ToString();
                         tda.CGSTPer = Convert.ToDouble(dt4.Rows[i]["CGSTPER"].ToString() == "" ? "0" : dt4.Rows[i]["CGSTPER"].ToString());
                         tda.SGSTPer = Convert.ToDouble(dt4.Rows[i]["SGSTPER"].ToString() == "" ? "0" : dt4.Rows[i]["SGSTPER"].ToString());
                         tda.IGSTPer = Convert.ToDouble(dt4.Rows[i]["IGSTPER"].ToString() == "" ? "0" : dt4.Rows[i]["IGSTPER"].ToString());
                         tda.CGSTAmt = Convert.ToDouble(dt4.Rows[i]["CGSTAMT"].ToString() == "" ? "0" : dt4.Rows[i]["CGSTAMT"].ToString());
                         tda.SGSTAmt = Convert.ToDouble(dt4.Rows[i]["SGSTAMT"].ToString() == "" ? "0" : dt4.Rows[i]["SGSTAMT"].ToString());
                         tda.IGSTAmt = Convert.ToDouble(dt4.Rows[i]["IGSTAMT"].ToString() == "" ? "0" : dt4.Rows[i]["IGSTAMT"].ToString());
-
+                        tda.Isvalid = "Y";
+                        TData.Add(tda);
                     }
                 }
                 }
@@ -280,7 +283,7 @@ namespace Arasan.Controllers
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["EMPNAME"].ToString(), Value = dtDesg.Rows[i]["EMPNAME"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["EMPNAME"].ToString(), Value = dtDesg.Rows[i]["EMPMASTID"].ToString() });
                 }
                 return lstdesg;
             }
