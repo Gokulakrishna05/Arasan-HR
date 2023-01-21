@@ -9,13 +9,13 @@ namespace Arasan.Interface.Store_Management
     {
         string DirectAdditionCRUD(DirectAddition by);
         IEnumerable<DirectAddition> GetAllDirectAddition();
-        DirectAddition GetDirectAdditionById(string id);
+        //DirectAddition GetDirectAdditionById(string id);
         DataTable GetLocation();
         DataTable GetBranch();
-        DataTable GetItem(string value);
+        //DataTable GetItem(string value);
         DataTable GetDirectAdditionDetails(string id);
         DataTable GetDAItemDetails(string id);
-        DataTable GetItemCF(string ItemId, string Unitid);
+        DataTable GetItemCF(string ItemId, string unitid);
         IEnumerable<DirectItem> GetAllDirectAdditionItem(string id);
     }
 }

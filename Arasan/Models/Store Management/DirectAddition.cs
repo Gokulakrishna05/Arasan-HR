@@ -9,7 +9,8 @@ namespace Arasan.Models
         public string Docdate { get; set; }
         public string ChellanNo { get; set; }
         public string Reason { get; set; }
-        public string Gro { get; set; }
+        public double Gro { get; set; }
+        public double Net { get; set; }
         public string Entered { get; set; }
         public string Narr { get; set; }
 
@@ -29,21 +30,27 @@ namespace Arasan.Models
     }
     public class DirectItem
     {
+        public string ID { get; set; }
         public string ItemId { get; set; }
         public string saveItemId { get; set; }
-        public List<SelectListItem> Itlst { get; set; }
-        public string Isvalid { get; set; }
+        public List<SelectListItem> Itemlst { get; set; }
+
+        public List<SelectListItem> ItemGrouplst { get; set; }
+
+        public string ItemGroupId { get; set; }
+        public string ConFac { get; set; }
         public string Unit { get; set; }
         public double BinID { get; set; }
-        //public string Batch { get; set; }
-        //public string serial { get; set; }
-        //public string Expiry { get; set; }
+
+        public List<SelectListItem> PURLst;
+        public string PurType { get; set; }
         public double Quantity { get; set; }
-        public double Rate { get; set; }
+        public double rate { get; set; }
         public double Amount { get; set; }
         //public string Center { get; set; }
         public double Process { get; set; }
-        public string ConFac { get; set; }
+        public double TotalAmount { get; set; }
+        public string Isvalid { get; set; }
 
 
     }
