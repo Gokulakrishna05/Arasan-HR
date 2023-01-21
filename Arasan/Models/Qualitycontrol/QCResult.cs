@@ -12,7 +12,7 @@ namespace Arasan.Models
         {
             //this.Typlst = new List<SelectListItem>();
             this.lst = new List<SelectListItem>();
-            this.Itemlst = new List<SelectListItem>();
+          
             this.Supplst = new List<SelectListItem>();
             
             this.assignList = new List<SelectListItem>();
@@ -24,7 +24,7 @@ namespace Arasan.Models
 
         //public List<SelectListItem> Typlst;
         public List<SelectListItem> lst;
-        public List<SelectListItem> Itemlst;
+      
         public List<SelectListItem> Supplst;
      
         public List<SelectListItem> Loc;
@@ -50,9 +50,14 @@ namespace Arasan.Models
     {
        
         public string GrnQty { get; set; }
+        public string ItemId { get; set; }
+        public string saveItemId { get; set; }
+        public List<SelectListItem> Itemlst;
         public string InsQty { get; set; }
         public string RejQty { get; set; }
         public string AccQty { get; set; }
+        public string Unit { get; set; }
+        public string CostRate { get; set; }
         public string Isvalid { get; set; }
 
     }

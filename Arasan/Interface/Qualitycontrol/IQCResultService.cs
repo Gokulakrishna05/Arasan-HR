@@ -13,11 +13,12 @@ namespace Arasan.Interface.Qualitycontrol
         string QCResultCRUD(QCResult cy);
         DataTable GetQCResult(string id);
         IEnumerable<QCResult> GetAllQCResult();
-        DataTable GetLocation();
+       
         DataTable GetParty(string value);
         DataTable GetItembyId(string value);
         DataTable GetGRNDetails(string itemId);
         DataTable GetGRN();
         DataTable GetQCResultDetail(string id);
+        DataTable GetGRNItemDetails(string itemId);
     }
 }
