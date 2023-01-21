@@ -234,7 +234,7 @@ namespace Arasan.Controllers.Store_Management
         public JsonResult GetItemJSON(string itemid)
         {
             DirectItem model = new DirectItem();
-            model.Itlst = BindItem(itemid);
+            //model.Itlst = BindItem(itemid);
             return Json(BindItem(itemid));
         }
     }

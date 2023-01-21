@@ -38,7 +38,8 @@ namespace Arasan.Services.Store_Management
                             Docdate = rdr["DOCDATE"].ToString(),
                             ChellanNo = rdr["DCNO"].ToString(),
                             Reason = rdr["REASON"].ToString(),
-                            Gro = rdr["GROSS"].ToString(),
+                            //Gro = rdr["GROSS"].ToString(),
+                            //Net = rdr["NET"].ToString(),
                             Entered = rdr["ENTBY"].ToString(),
                             Narr = rdr["NARRATION"].ToString(),
                            
@@ -53,38 +54,38 @@ namespace Arasan.Services.Store_Management
             return staList;
         }
 
-        public DirectAddition GetDirectAdditionById(string eid)
-        {
-            DirectAddition DirectAddition = new DirectAddition();
-            using (OracleConnection con = new OracleConnection(_connectionString))
-            {
-                using (OracleCommand cmd = con.CreateCommand())
-                {
-                    con.Open();
-                    cmd.CommandText = "Select BRANCHID,LOCID,DOCID,DOCDATE,DCNO,REASON,GROSS,ENTBY,NARRATION,ADDBASICID  from ADDBASIC where ADDBASICID=" + eid + "";
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
-                    {
-                        DirectAddition sta = new DirectAddition
-                        {
+        //public DirectAddition GetDirectAdditionById(string eid)
+        //{
+        //    DirectAddition DirectAddition = new DirectAddition();
+        //    using (OracleConnection con = new OracleConnection(_connectionString))
+        //    {
+        //        using (OracleCommand cmd = con.CreateCommand())
+        //        {
+        //            con.Open();
+        //            cmd.CommandText = "Select BRANCHID,LOCID,DOCID,DOCDATE,DCNO,REASON,GROSS,ENTBY,NARRATION,ADDBASICID  from ADDBASIC where ADDBASICID=" + eid + "";
+        //            OracleDataReader rdr = cmd.ExecuteReader();
+        //            while (rdr.Read())
+        //            {
+        //                DirectAddition sta = new DirectAddition
+        //                {
 
-                            ID = rdr["ADDBASICID"].ToString(),
-                            Branch = rdr["BRANCHID"].ToString(),
-                            Location = rdr["LOCID"].ToString(),
-                            DocId = rdr["DOCID"].ToString(),
-                            Docdate = rdr["DOCDATE"].ToString(),
-                            ChellanNo = rdr["DCNO"].ToString(),
-                            Reason = rdr["REASON"].ToString(),
-                            Gro = rdr["GROSS"].ToString(),
-                            Entered = rdr["ENTBY"].ToString(),
-                            Narr = rdr["NARRATION"].ToString(),
-                        };
-                        DirectAddition = sta;
-                    }
-                }
-            }
-            return DirectAddition;
-        }
+        //                    ID = rdr["ADDBASICID"].ToString(),
+        //                    Branch = rdr["BRANCHID"].ToString(),
+        //                    Location = rdr["LOCID"].ToString(),
+        //                    DocId = rdr["DOCID"].ToString(),
+        //                    Docdate = rdr["DOCDATE"].ToString(),
+        //                    ChellanNo = rdr["DCNO"].ToString(),
+        //                    Reason = rdr["REASON"].ToString(),
+        //                    Gro = rdr["GROSS"].ToString(),
+        //                    Entered = rdr["ENTBY"].ToString(),
+        //                    Narr = rdr["NARRATION"].ToString(),
+        //                };
+        //                DirectAddition = sta;
+        //            }
+        //        }
+        //    }
+        //    return DirectAddition;
+        //}
 
         public string DirectAdditionCRUD(DirectAddition ss)
         {
@@ -118,6 +119,7 @@ namespace Arasan.Services.Store_Management
                     objCmd.Parameters.Add("DCNO", OracleDbType.NVarchar2).Value = ss.ChellanNo;
                     objCmd.Parameters.Add("REASON", OracleDbType.NVarchar2).Value = ss.Reason;
                     objCmd.Parameters.Add("GROSS", OracleDbType.NVarchar2).Value = ss.Gro;
+                    objCmd.Parameters.Add("NET", OracleDbType.NVarchar2).Value = ss.Net;
                     objCmd.Parameters.Add("ENTBY", OracleDbType.NVarchar2).Value = ss.Entered;
                     objCmd.Parameters.Add("NARRATION", OracleDbType.NVarchar2).Value = ss.Narr;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
@@ -156,8 +158,10 @@ namespace Arasan.Services.Store_Management
                                     objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cp.ItemId;
                                     objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = cp.Quantity;
                                     objCmds.Parameters.Add("UNIT", OracleDbType.NVarchar2).Value = cp.Unit;
-                                    objCmds.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = cp.Rate;
+                                    objCmds.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = cp.rate;
                                     objCmds.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = cp.Amount;
+                                    objCmds.Parameters.Add("TOTAMT", OracleDbType.NVarchar2).Value = cp.TotalAmount;
+                                    objCmds.Parameters.Add("CF", OracleDbType.NVarchar2).Value = cp.ConFac;
                                     objCmds.Parameters.Add("BINID", OracleDbType.NVarchar2).Value = cp.BinID;
                                     objCmds.Parameters.Add("PROCESSID", OracleDbType.NVarchar2).Value = cp.Process;
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
@@ -217,16 +221,7 @@ namespace Arasan.Services.Store_Management
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetItem(string Value)
-        {
-            string SvSql = string.Empty;
-            SvSql = "select ITEMID,ITEMMASTERID from ITEMMASTER WHERE  ACTIVE='Y'";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
+       
         public DataTable GetItemCF(string ItemId, string unitid)
         {
             string SvSql = string.Empty;
@@ -256,7 +251,7 @@ namespace Arasan.Services.Store_Management
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select ADDDETAIL.QTY,ADDDETAIL.ADDDETAILID,ITEMMASTER.ITEMID,UNITMAST.UNITID from ADDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=ADDDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  where ADDDETAIL.ADDDETAILID='" + id + "'";
+                    cmd.CommandText = "Select DPDETAIL.QTY,DPDETAIL.DPDETAILID,ITEMMASTER.ITEMID,UNITMAST.UNITID from DPDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=DPDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  where DPDETAIL.DPBASICID='" + id + "'";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
