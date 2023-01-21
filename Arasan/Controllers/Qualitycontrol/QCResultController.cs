@@ -38,6 +38,7 @@ namespace Arasan.Controllers.Qualitycontrol
                 for (int i = 0; i < 3; i++)
                 {
                     tda = new QCResultItem();
+                    tda.Itemlst = BindItemlst("");
                     tda.Isvalid = "Y";
                     TData.Add(tda);
                 }
@@ -192,7 +193,7 @@ namespace Arasan.Controllers.Qualitycontrol
         }
         public JsonResult GetGRNItemJSON(string supid)
         {
-            QCResult model = new QCResult();
+            QCResultItem model = new QCResultItem();
             model.Itemlst = BindItemlst(supid);
             return Json(BindItemlst(supid));
 
@@ -242,7 +243,7 @@ namespace Arasan.Controllers.Qualitycontrol
         {
             try
             {
-                DataTable dtDesg = QCResultService.GetLocation();
+                DataTable dtDesg = datatrans.GetLocation();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -272,7 +273,50 @@ namespace Arasan.Controllers.Qualitycontrol
                 throw ex;
             }
         }
-      
-      
+        public ActionResult GetGRNItemDetail(string ItemId)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+            
+
+             
+                string qty = "";
+                string accqty = "";
+
+                string rejqty = "";
+                string cost = "";
+                //string Disc = "";
+
+
+
+                dt = QCResultService.GetGRNItemDetails(ItemId);
+
+                if (dt.Rows.Count > 0)
+                {
+
+                   
+                    qty = dt.Rows[0]["QTY"].ToString();
+                    accqty = dt.Rows[0]["ACCQTY"].ToString();
+                    rejqty = dt.Rows[0]["REJQTY"].ToString();
+                    //dt1 = PurReturn.GetItemCF(ItemId, dt.Rows[0]["UNITMASTID"].ToString());
+                    cost = dt.Rows[0]["COSTRATE"].ToString();
+
+
+                  
+
+                }
+
+                var result = new {  qty = qty, accqty = accqty, rejqty = rejqty, cost = cost };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+
     }
 }

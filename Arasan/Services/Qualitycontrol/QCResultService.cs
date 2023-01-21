@@ -30,16 +30,16 @@ namespace Arasan.Services.Qualitycontrol
             return dtt;
         }
         
-        public DataTable GetLocation()
-        {
-            string SvSql = string.Empty;
-            SvSql = "Select LOCID,LOCDETAILSID from LOCDETAILS ";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
+        //public DataTable GetLocation()
+        //{
+        //    string SvSql = string.Empty;
+        //    SvSql = "Select LOCID,LOCDETAILSID from LOCDETAILS ";
+        //    DataTable dtt = new DataTable();
+        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
+        //}
         public DataTable GetQCResultDetail(string id)
         {
             string SvSql = string.Empty;
@@ -186,6 +186,16 @@ namespace Arasan.Services.Qualitycontrol
         {
             string SvSql = string.Empty;
             SvSql = "Select PARTYRCODE.ID,to_char(GRNBLBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,GRNBLBASICID from GRNBLBASIC LEFT OUTER JOIN  PARTYMAST on GRNBLBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID where GRNBLBASIC.GRNBLBASICID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetGRNItemDetails(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select GRNBLDETAIL.QTY,GRNBLDETAIL.ACCQTY,GRNBLDETAIL.REJQTY,GRNBLDETAIL.COSTRATE,GRNBLDETAILID from GRNBLDETAIL where GRNBLDETAIL.GRNBLDETAILID   ='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
