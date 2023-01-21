@@ -31,6 +31,9 @@
                             <div class="col-lg-12">
                                 <div class="ibox float-e-margins">
                                     <div class="widgets-container">
+                                        @using (Html.BeginForm("QCTestValueEntry", "QCTestValueEntry", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
 
                                         <form>
                                             <div class="row">
@@ -39,12 +42,8 @@
 
                                                         <label for="inputName3" class="col-sm-4 control-label">Branch<label class="Mandatory"></label></label>
                                                         <div class="col-sm-8">
-                                                            <select class=" _select js-states form-control">
-
-                                                                <option value="TAAI">(TAAI)CHENNAI - DEPOT </option>
-                                                                <option value="TAAI">(TAAI)KOLKATA - DEPOT </option>
-                                                                <option value="TAAI">(TAAI)SVK - FACTORY </option>
-                                                            </select><br />
+                                                             @Html.DropDownListFor(C => C.Branch, Model.Brlst, new { @id = "ddlBranch", @Class = "form-control chosen-select", @TabIndex = 1 })
+                                                             <br />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -310,7 +309,7 @@
 
                                                         <label for="inputName3" class="col-sm-4 control-label">Entered By<label class="Mandatory"></label></label>
                                                         <div class="col-sm-8">
-                                                            <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
+                                                            @Html.DropDownListFor(C => C.Entered, Model.assignList, new { @id = "ddlEntered", @Class = "form-control chosen-select", @TabIndex = 1 })<br />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -331,6 +330,7 @@
                                             <button type="submit" class="btn aqua m-t-xs bottom15-xs">Submit</button>
                                             <button class="btn btn-danger" type="submit">Cancel</button>
                                         </form>
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -413,3 +413,6 @@
     </div>
 
 </div>
+<script>
+    $(".chosen-select").chosen();
+</script>
