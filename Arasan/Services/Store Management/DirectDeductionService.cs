@@ -56,38 +56,38 @@ namespace Arasan.Services.Store_Management
             return staList;
         }
 
-        public DirectDeduction GetDirectDeductionById(string eid)
-        {
-            DirectDeduction DirectDeduction = new DirectDeduction();
-            using (OracleConnection con = new OracleConnection(_connectionString))
-            {
-                using (OracleCommand cmd = con.CreateCommand())
-                {
-                    con.Open();
-                    cmd.CommandText = "Select BRANCHID,LOCID,DOCID,DOCDATE,DCNO,REASON,GROSS,ENTBY,NARRATION,NOOFD,DEDBASICID  from DEDBASIC where DEDBASICID=" + eid + "";
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
-                    {
-                        DirectDeduction sta = new DirectDeduction
-                        {
-                            ID = rdr["DEDBASICID"].ToString(),
-                            Branch = rdr["BRANCHID"].ToString(),
-                            Location = rdr["LOCID"].ToString(),
-                            DocId = rdr["DOCID"].ToString(),
-                            Docdate = rdr["DOCDATE"].ToString(),
-                            Dcno = rdr["DCNO"].ToString(),
-                            Reason = rdr["REASON"].ToString(),
-                            Gro = rdr["GROSS"].ToString(),
-                            Entered = rdr["ENTBY"].ToString(),
-                            Narr = rdr["NARRATION"].ToString(),
-                            NoDurms = rdr["NOOFD"].ToString(),
-                        };
-                        DirectDeduction = sta;
-                    }
-                }
-            }
-            return DirectDeduction;
-        }
+        //public DirectDeduction GetDirectDeductionById(string eid)
+        //{
+        //    DirectDeduction DirectDeduction = new DirectDeduction();
+        //    using (OracleConnection con = new OracleConnection(_connectionString))
+        //    {
+        //        using (OracleCommand cmd = con.CreateCommand())
+        //        {
+        //            con.Open();
+        //            cmd.CommandText = "Select BRANCHID,LOCID,DOCID,DOCDATE,DCNO,REASON,GROSS,ENTBY,NARRATION,NOOFD,DEDBASICID  from DEDBASIC where DEDBASICID=" + eid + "";
+        //            OracleDataReader rdr = cmd.ExecuteReader();
+        //            while (rdr.Read())
+        //            {
+        //                DirectDeduction sta = new DirectDeduction
+        //                {
+        //                    ID = rdr["DEDBASICID"].ToString(),
+        //                    Branch = rdr["BRANCHID"].ToString(),
+        //                    Location = rdr["LOCID"].ToString(),
+        //                    DocId = rdr["DOCID"].ToString(),
+        //                    Docdate = rdr["DOCDATE"].ToString(),
+        //                    Dcno = rdr["DCNO"].ToString(),
+        //                    Reason = rdr["REASON"].ToString(),
+        //                    Gro = rdr["GROSS"].ToString(),
+        //                    Entered = rdr["ENTBY"].ToString(),
+        //                    Narr = rdr["NARRATION"].ToString(),
+        //                    NoDurms = rdr["NOOFD"].ToString(),
+        //                };
+        //                DirectDeduction = sta;
+        //            }
+        //        }
+        //    }
+        //    return DirectDeduction;
+        //}
 
         public string DirectDeductionCRUD(DirectDeduction ss)
            {
@@ -159,8 +159,10 @@ namespace Arasan.Services.Store_Management
                                     objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cp.ItemId;
                                     objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = cp.Quantity;
                                     objCmds.Parameters.Add("UNIT", OracleDbType.NVarchar2).Value = cp.Unit;
-                                    objCmds.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = cp.Rate;
+                                    objCmds.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = cp.rate;
                                     objCmds.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = cp.Amount;
+                                    objCmds.Parameters.Add("TOTAMT", OracleDbType.NVarchar2).Value = cp.TotalAmount;
+                                    objCmds.Parameters.Add("CF", OracleDbType.NVarchar2).Value = cp.ConFac;
                                     objCmds.Parameters.Add("BINID", OracleDbType.NVarchar2).Value = cp.BinID;
                                     objCmds.Parameters.Add("PROCESSID", OracleDbType.NVarchar2).Value = cp.Process;
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
@@ -176,7 +178,7 @@ namespace Arasan.Services.Store_Management
                     }
                     catch (Exception ex)
                     {
-                        System.Console.WriteLine("Exception: {0}", ex.ToString());
+                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
                     }
                     objConn.Close();
                 }
@@ -200,16 +202,16 @@ namespace Arasan.Services.Store_Management
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable EditSICbyID(string name)
-        {
-            string SvSql = string.Empty;
-            SvSql = "Select  SCISSBASIC.BRANCHID,SCISSBASIC.DOCID,to_char(DOCDATE,'dd-MON-yyyy')DOCDATE,SCISSBASIC.REQNO,to_char(REQDATE,'dd-MON-yyyy')REQDATE,SCISSBASIC.TOLOCID,SCISSBASIC.LOCIDCONS,SCISSBASIC.PROCESSID,SCISSBASIC.MCID,SCISSBASIC.MCNAME,SCISSBASIC.NARRATION,SCISSBASIC.USERID,SCISSBASIC.WCID,SCISSBASICID from SCISSBASIC Where  SCISSBASIC.SCISSBASICID='" + name + "'";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
+        //public DataTable EditSICbyID(string name)
+        //{
+        //    string SvSql = string.Empty;
+        //    SvSql = "Select  SCISSBASIC.BRANCHID,SCISSBASIC.DOCID,to_char(DOCDATE,'dd-MON-yyyy')DOCDATE,SCISSBASIC.REQNO,to_char(REQDATE,'dd-MON-yyyy')REQDATE,SCISSBASIC.TOLOCID,SCISSBASIC.LOCIDCONS,SCISSBASIC.PROCESSID,SCISSBASIC.MCID,SCISSBASIC.MCNAME,SCISSBASIC.NARRATION,SCISSBASIC.USERID,SCISSBASIC.WCID,SCISSBASICID from SCISSBASIC Where  SCISSBASIC.SCISSBASICID='" + name + "'";
+        //    DataTable dtt = new DataTable();
+        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
+        //}
         public DataTable GetItemCF(string ItemId, string unitid)
         {
             string SvSql = string.Empty;
@@ -220,10 +222,10 @@ namespace Arasan.Services.Store_Management
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetDDItemDetails(string name)
+        public DataTable GetDDItemDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select DEDDETAIL.QTY,DEDDETAIL.DEDDETAILID,DEDDETAIL.ITEMID,UNITMAST.UNITID,RATE,BINID,PROCESSID,AMOUNT from DEDDETAIL LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=DEDDETAIL.UNIT  where DEDDETAIL.DEDDETAILID='" + name + "'";
+            SvSql = "Select DEDDETAIL.QTY,DEDDETAIL.DEDDETAILID,DEDDETAIL.ITEMID,UNITMAST.UNITID,RATE,TOTAMT,AMOUNT,CF  from DEDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=DEDDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  where DEDDETAIL.DEDBASICID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -239,7 +241,7 @@ namespace Arasan.Services.Store_Management
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select DEDDETAIL.QTY,DEDDETAIL.DEDDETAILID,ITEMMASTER.ITEMID,UNITMAST.UNITID from DEDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=DEDDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  where DEDDETAIL.DEDDETAILID='" + id + "'";
+                    cmd.CommandText = "Select DEDDETAIL.QTY,DEDDETAIL.DEDDETAILID,ITEMMASTER.ITEMID,UNITMAST.UNITID from DEDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=DEDDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  where DEDDETAIL.DEDBASICID='" + id + "'";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -255,16 +257,7 @@ namespace Arasan.Services.Store_Management
             }
             return cmpList;
         }
-        public DataTable GetItemGrp()
-        {
-            string SvSql = string.Empty;
-            SvSql = "Select ITEMGROUPID,GROUPCODE from itemgroup";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
+       
         public DataTable GetBranch()
         {
             string SvSql = string.Empty;
@@ -285,16 +278,7 @@ namespace Arasan.Services.Store_Management
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetItem(string value)
-        {
-            string SvSql = string.Empty;
-            SvSql = "select ITEMID,ITEMMASTERID from ITEMMASTER WHERE  ACTIVE='Y'";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
+      
       
     }
 }

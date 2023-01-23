@@ -9,11 +9,11 @@ namespace Arasan.Interface.Store_Management
 
         string DirectDeductionCRUD(DirectDeduction by);
         IEnumerable<DirectDeduction> GetAllDirectDeduction();
-        DirectDeduction GetDirectDeductionById(string id);
+        //DirectDeduction GetDirectDeductionById(string id);
         DataTable GetLocation();
         DataTable GetBranch();
-        DataTable GetItem(string value);
-        DataTable GetItemGrp();
+        //DataTable GetItem(string value);
+        ////DataTable GetItemGrp();
         DataTable GetDirectDeductionDetails(string id);
         DataTable GetItemCF(string ItemId, string unitid);
         DataTable GetDDItemDetails(string id);

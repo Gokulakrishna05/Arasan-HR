@@ -10,6 +10,7 @@ namespace Arasan.Models
         public string Dcno { get; set; }
         public string Reason { get; set; }
         public string Gro { get; set; }
+        public string  net { get; set; }
         public string Entered { get; set; }
         public string Narr { get; set; }
         public string NoDurms { get; set; }
@@ -33,7 +34,7 @@ namespace Arasan.Models
     {
         public string ItemId { get; set; }
         public string saveItemId { get; set; }
-        public List<SelectListItem> Itlst { get; set; }
+        public List<SelectListItem> Itemlst { get; set; }
 
         public List<SelectListItem> ItemGrouplst { get; set; }
 
@@ -46,8 +47,9 @@ namespace Arasan.Models
         //public string serial { get; set; }
         //public string CurrentStock { get; set; }
         public double Quantity { get; set; }
-        public double Rate { get; set; }
+        public double rate { get; set; }
         public double Amount { get; set; }
+        public double TotalAmount { get; set; }
         //public string Number { get; set; }
         //public string SerialNumber { get; set; }
         public double Process { get; set; }

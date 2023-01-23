@@ -232,10 +232,10 @@ namespace Arasan.Services.Store_Management
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetDAItemDetails(string name)
+        public DataTable GetDAItemDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select ADDDETAIL.QTY,ADDDETAIL.ADDDETAILID,ADDDETAIL.ITEMID,UNITMAST.UNITID,RATE,BINID,PROCESSID,AMOUNT from ADDDETAIL LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ADDDETAIL.UNIT  where ADDDETAIL.ADDDETAILID='" + name + "'";
+            SvSql = "Select ADDDETAIL.QTY,ADDDETAIL.ADDDETAILID,ADDDETAIL.ITEMID,UNITMAST.UNITID,RATE,TOTAMT,AMOUNT,CF  from ADDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=ADDDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  where ADDDETAIL.ADDBASICID='" + id + "'"; 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -251,7 +251,7 @@ namespace Arasan.Services.Store_Management
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select DPDETAIL.QTY,DPDETAIL.DPDETAILID,ITEMMASTER.ITEMID,UNITMAST.UNITID from DPDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=DPDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  where DPDETAIL.DPBASICID='" + id + "'";
+                    cmd.CommandText = "Select ADDDETAIL.QTY,ADDDETAIL.ADDDETAILID,ITEMMASTER.ITEMID,UNITMAST.UNITID from ADDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=ADDDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  where ADDDETAIL.ADDDETAILID='" + id + "'";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
