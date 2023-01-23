@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using Arasan.Interface;
-
 using System.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Arasan.Models;
