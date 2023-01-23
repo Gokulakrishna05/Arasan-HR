@@ -26,12 +26,13 @@ namespace Arasan.Controllers
         {
             PurchaseReturn ca = new PurchaseReturn();
             ca.Brlst = BindBranch();
-            ca.Suplst = BindSupplier();
-            ca.Curlst = BindCurrency();
+         
+            
             ca.Loclst = GetLoc();
             ca.Satlst = GetSat();
             ca.assignList = BindEmp();
             ca.Citylst = BindCity("");
+            ca.POlst = BindGRNlist();
             List<RetItem> TData = new List<RetItem>();
             RetItem tda = new RetItem();
            
@@ -40,7 +41,7 @@ namespace Arasan.Controllers
                 for (int i = 0; i < 3; i++)
                 {
                     tda = new RetItem();
-                    tda.POlst = BindGRNlist();
+                   
                     tda.Itemlst = BindItemlst("");
 
                     TData.Add(tda);
@@ -119,9 +120,8 @@ namespace Arasan.Controllers
                     for (int i = 0; i < dt4.Rows.Count; i++)
                     {
                         tda = new RetItem();
-                        tda.GRNNo = dt4.Rows[i]["GRNNO"].ToString();
-                        tda.POlst = BindGRNlist();
-                        tda.Itemlst = BindItemlst(tda.GRNNo);
+                       
+                        tda.Itemlst = BindItemlst(ca.Grn);
                         tda.ItemId = dt4.Rows[i]["ITEMID"].ToString();
                         tda.saveItemId = dt4.Rows[i]["ITEMID"].ToString();
                         tda.rate = dt4.Rows[i]["RATE"].ToString();
@@ -200,16 +200,22 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+        public JsonResult GetGRNCurrencyJSON(string suppid)
+        {
+            PurchaseReturn model = new PurchaseReturn();
+            model.Curlst = BindCurrency(suppid);
+            return Json(BindCurrency(suppid));
 
-        public List<SelectListItem> BindCurrency()
+        }
+        public List<SelectListItem> BindCurrency(string id)
         {
             try
             {
-                DataTable dtDesg = datatrans.GetCurency();
+                DataTable dtDesg = PurReturn.GetCurrency(id);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["Cur"].ToString(), Value = dtDesg.Rows[i]["CURRENCYID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["MAINCURR"].ToString(), Value = dtDesg.Rows[i]["GRNBLBASICID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -218,15 +224,22 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public List<SelectListItem> BindSupplier()
+        public JsonResult GetGRNSuppJSON(string suppid)
+        {
+            PurchaseReturn model = new PurchaseReturn();
+            model.Suplst = BindSupplier(suppid);
+            return Json(BindSupplier(suppid));
+
+        }
+        public List<SelectListItem> BindSupplier(string id)
         {
             try
             {
-                DataTable dtDesg = datatrans.GetSupplier();
+                DataTable dtDesg = PurReturn.GetSupplier(id);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTY"].ToString(), Value = dtDesg.Rows[i]["PARTYMASTID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTY"].ToString(), Value = dtDesg.Rows[i]["GRNBLBASICID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -357,7 +370,52 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+        public ActionResult GetGRNBL(string GRNID)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+          
+                string ex = "";
+                string frig = "";
+                string other = "";
 
+                string roundoffplus = "";
+                string roundofmin = "";
+            
+                string otherdedu = "";
+                string gross = "";
+                string net = "";
+               
+
+
+                dt = PurReturn.GetGRNBlDetails(GRNID);
+
+                if (dt.Rows.Count > 0)
+                {
+
+                    ex = dt.Rows[0]["EXRATE"].ToString();
+                    frig = dt.Rows[0]["FREIGHT"].ToString();
+                    other = dt.Rows[0]["OTHER_CHARGES"].ToString();
+                    roundoffplus = dt.Rows[0]["ROUND_OFF_PLUS"].ToString();
+                    //dt1 = PurReturn.GetItemCF(ItemId, dt.Rows[0]["UNITMASTID"].ToString());
+                    roundofmin = dt.Rows[0]["ROUND_OFF_MINUS"].ToString();
+
+                    otherdedu = dt.Rows[0]["OTHER_DEDUCTION"].ToString();
+                    gross = dt.Rows[0]["GROSS"].ToString();
+                    net = dt.Rows[0]["NET"].ToString();
+                   
+
+                }
+
+                var result = new { ex = ex, frig = frig, other = other, roundoffplus = roundoffplus, roundofmin = roundofmin, otherdedu = otherdedu, gross = gross, net = net};
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public ActionResult GetGRNDetail(string POID)
         {
             try

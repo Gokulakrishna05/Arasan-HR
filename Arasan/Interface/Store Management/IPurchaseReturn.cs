@@ -11,6 +11,9 @@ namespace Arasan.Interface
         DataTable GetItem(string id);
         DataTable GetState();
         DataTable GetGRNDetails(string ItemId);
+        DataTable GetGRNBlDetails(string ItemId);
+        DataTable GetSupplier(string ItemId);
+        DataTable GetCurrency(string ItemId);
         string PurReturnCRUD(PurchaseReturn cy);
         DataTable GetPurchaseReturn(string id);
         DataTable GetPurchaseReturnDetail(string id);
