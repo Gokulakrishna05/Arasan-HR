@@ -7,7 +7,7 @@ namespace Arasan.Models
         public PurchaseReturn()
         {
             this.Brlst = new List<SelectListItem>();
-            //this.Suplst = new List<SelectListItem>();
+            this.Suplst = new List<SelectListItem>();
             this.Curlst = new List<SelectListItem>();
             this.Loclst = new List<SelectListItem>();
             this.assignList = new List<SelectListItem>();
@@ -37,6 +37,7 @@ namespace Arasan.Models
         public string Reason { get; set; }
         public string ExRate { get; set; }
         public string RetNo { get; set; }
+        public List<SelectListItem> POlst { get; set; }
         public string Grn { get; set; }
         public string Narration { get; set; }
         public string Trans { get; set; }
@@ -66,7 +67,7 @@ namespace Arasan.Models
         public string ItemId { get; set; }
         public string saveItemId { get; set; }
         public List<SelectListItem> Itemlst { get; set; }
-        public List<SelectListItem> POlst { get; set; }
+       
 
         public string GRNNo { get; set; }
         public double FrigCharge { get; set; }

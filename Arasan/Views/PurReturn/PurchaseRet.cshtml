@@ -88,6 +88,15 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
+                                        <label for="inputName3" class="col-sm-4 control-label">GRN No<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(o => o.Grn, Model.POlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlGRN" , onchange = "changeItem(this.value," + 0 + ")" })<br />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
                                         <label for="inputName3" class="col-sm-4 control-label">Currency<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.Currency, Model.Curlst, new { @id = "ddlCurrency", @Class = "form-control chosen-select", @TabIndex = 1 })
@@ -95,6 +104,8 @@
                                         </div>
                                     </div>
                                 </div>
+                                </div>
+                                 <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
 
@@ -106,11 +117,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
-
-
-                            <div class="row">
+                        
                                 <div class="col-md-6">
                                     <div class="form-group">
 
@@ -120,6 +127,11 @@
                                         </div>
                                     </div>
                                 </div>
+                                    </div>
+
+
+
+                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
 
@@ -132,19 +144,21 @@
 
                                     </div>
                                 </div>
-                            </div>
-
-
-                            <div class="row">
+                            
                                 <div class="col-md-6">
                                     <div class="form-group">
 
                                         <label for="inputName3" class="col-sm-4 control-label">Party <label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Supplier, Model.Suplst, new { @id = "ddlSupplier", @Class = "form-control chosen-select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.Supplier, Model.Suplst, new { @id = "ddlParty", @Class = "form-control chosen-select", @TabIndex = 1 })
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+
+
+
+                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
 
@@ -157,10 +171,9 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            
 
-
-                            <div class="row">
+                            @*<div class="row">
                                 @* <div class="col-md-6">
                                 <div class="form-group">
 
@@ -169,7 +182,7 @@
                                             @Html.TextBoxFor(C => C.Trans, new { @id = "txtReason", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)" , @onkeyup = "changeTot(this)"})<br />
                                     </div>
                                 </div>
-                            </div>*@
+                            </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
 
@@ -182,18 +195,10 @@
                                     </div>
                                 </div>
                             </div>
+*@
 
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-
-                                        <label for="inputName3" class="col-sm-4 control-label">GRN No<label class="Mandatory"></label></label>
-                                        <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Grn, new { @id = "txtGrn", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)" , @onkeyup = "changeTot(this)"})
-                                        </div>
-                                    </div>
-                                </div>
+                           
+                                
                                 <div class="col-md-6">
                                     <div class="form-group">
 
@@ -212,7 +217,7 @@
 
                                         <br /><br />   <label for="inputName3" class="col-sm-4 control-label">Transit LocID<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Trans, new { @id = "txtTrans", @class = "form-control", @TabIndex = 2, @onkeyup = "changeTot(this)"})<br />
+                                            @Html.DropDownListFor(C => C.Trans, Model.Loclst, new { @id = "ddlTrans", @Class = "form-control chosen-select", @TabIndex = 4 })
                                         </div>
                                     </div>
                                 </div>
@@ -279,12 +284,8 @@
                                                                                         <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
 
-                                                                                            <td>
-                                                                        @Html.DropDownListFor(o => o.RetLst[i].GRNNo, Model.RetLst[i].POlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlGRN" + i, style = "width: 170px;", onchange = "changeItem(this.value," + i + ")" })
-
-                                                                                    </td>
                                                                                            <td>
-                                                                @Html.DropDownListFor(o => o.RetLst[i].ItemId, Model.RetLst[i].Itemlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItemId" + i, style = "width: 170px;"})
+                                                                @Html.DropDownListFor(o => o.RetLst[i].ItemId, Model.RetLst[i].Itemlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItemId" + i, style = "width: 170px;", onchange = "changeItemDetails(this.value," + i + ")"})
                                                                 @Html.HiddenFor(o => o.RetLst[i].saveItemId)
                                                             </td>
                                                                                 <td>
@@ -363,7 +364,7 @@
 
                                                                                     <label for="inputName3" class="col-sm-4 control-label">Packing and Forwarding ( + ) <label class="Mandatory"></label></label>
                                                                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Packingcharges, new { @id = "txtPackingcharges", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)" , @onkeyup = "changeTot(this)"})
+                                            @Html.TextBoxFor(C => C.Packingcharges, new { @id = "txtPackingcharges", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -372,7 +373,7 @@
 
                                                                                     <label for="inputName3" class="col-sm-4 control-label">Freight Charges ( + ) <label class="Mandatory"></label></label>
                                                                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Frieghtcharge, new { @id = "txtFrieghtcharge", @class = "form-control", @TabIndex = 2, onkeydown = "return isNumeric2(event.keyCode,this.value)" , @onkeyup = "changeTot(this)"})
+                                            @Html.TextBoxFor(C => C.Frieghtcharge, new { @id = "txtFrieghtcharge", @class = "form-control", @TabIndex = 2, onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -384,7 +385,7 @@
 
                                                                                     <label for="inputName3" class="col-sm-4 control-label">Other Charges ( + )<label class="Mandatory"></label></label>
                                                                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Othercharges, new { @id = "txtOthercharges", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)"  , @onkeyup = "changeTot(this)"})
+                                            @Html.TextBoxFor(C => C.Othercharges, new { @id = "txtOthercharges", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -393,7 +394,7 @@
                                                                                     <label for="inputName3" class="col-sm-4 control-label">Round Off ( + )<label class="Mandatory"></label></label>
 
                                                                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Round, new { @id = "txtRound", @class = "form-control", @TabIndex = 2 ,onkeydown = "return isNumeric2(event.keyCode,this.value)" , @onkeyup = "changeTot(this)"})
+                                            @Html.TextBoxFor(C => C.Round, new { @id = "txtRound", @class = "form-control", @TabIndex = 2 ,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                                                                     </div>
 
                                                                                 </div>
@@ -406,7 +407,7 @@
 
                                                                                     <label for="inputName3" class="col-sm-4 control-label">Other Deductions ( - )<label class="Mandatory"></label></label>
                                                                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.otherdeduction, new { @id = "txtotherdeduction", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)"  , @onkeyup = "changeTot(this)"})
+                                            @Html.TextBoxFor(C => C.otherdeduction, new { @id = "txtotherdeduction", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -415,7 +416,7 @@
                                                                                     <label for="inputName3" class="col-sm-4 control-label">Round Off ( - )<label class="Mandatory"></label></label>
 
                                                                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Roundminus, new { @id = "txtRoundminus", @class = "form-control", @TabIndex = 2 ,onkeydown = "return isNumeric2(event.keyCode,this.value)" , @onkeyup = "changeTot(this)"})
+                                            @Html.TextBoxFor(C => C.Roundminus, new { @id = "txtRoundminus", @class = "form-control", @TabIndex = 2 ,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                                                                     </div>
 
                                                                                 </div>
@@ -438,7 +439,7 @@
 
                                                                                     <div class="col-sm-8">
                                                                                         <input type="hidden" id="hidnet" />
-                                            @Html.TextBoxFor(C => C.Net, new { @id = "txtNet", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
+                                            @Html.TextBoxFor(C => C.Net, new { @id = "txtNet", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)",@readonly=true})
                                                                                     </div>
 
                                                                                 </div>
@@ -739,8 +740,80 @@
             alert("Cannot delete all the rows.")
         }
     }
-    function changeItem(POID, i) {
+    function changeItem(GRNID, i) {
+     
         $.ajax({
+            url: "GetGRNItemJSON",
+            type: "post",
+            data: { 'supid': GRNID },
+            cache: false,
+            success: function (response) {
+                var newlist;
+                newlist = response.Itemlst;
+                PopulateDropDown("#ddlItemId" + i, response);
+            },
+            error: function () {
+                debugger;
+                alert("Please Select GRN ID");
+            }
+        });
+          $.ajax({
+            url: "GetGRNSuppJSON",
+            type: "post",
+            data: { 'suppid': GRNID },
+            cache: false,
+            success: function (response) {
+                var newlist;
+                newlist = response.Suppst;
+                PopulateDropDown("#ddlParty", response);
+            },
+            error: function () {
+                debugger;
+                alert("Please Select GRN ID");
+            }
+        });
+      $.ajax({
+            url: "GetGRNCurrencyJSON",
+            type: "post",
+            data: { 'suppid': GRNID },
+            cache: false,
+            success: function (response) {
+                var newlist;
+                newlist = response.Suppst;
+                PopulateDropDown("#ddlCurrency", response);
+            },
+            error: function () {
+                debugger;
+                alert("Please Select GRN ID");
+            }
+        });
+
+        $.ajax({
+            url: 'GetGRNBL',
+            data: { "GRNID": GRNID },
+            type: "GET",
+            success: function (result) {
+
+             
+ 
+                    document.getElementById("txtFrieghtcharge" ).value = result.frig;
+                    document.getElementById("txtOthercharges" ).value = result.other;
+                    document.getElementById("txtRound" ).value = result.roundoffplus;
+                    document.getElementById("txtotherdeduction" ).value = result.otherdedu;
+                    document.getElementById("txtRoundminus").value = result.roundoffmin;
+
+
+                    document.getElementById("txtGross").value = result.gross;
+                    document.getElementById("txtNet" ).value = result.net;
+                },
+            error: function () {
+                alert("Data Not Found");
+            }
+        });
+    }
+    function changeItemDetails(POID,i)
+    {
+           $.ajax({
             url: 'GetGRNDetail',
             data: { "POID": POID },
             type: "GET",
@@ -780,25 +853,11 @@
                 alert("Data Not Found");
             }
         });
-        $.ajax({
-            url: "GetGRNItemJSON",
-            type: "post",
-            data: { 'supid': POID },
-            cache: false,
-            success: function (response) {
-                var newlist;
-                newlist = response.Itemlst;
-                PopulateDropDown("#ddlItemId" + i, response);
-            },
-            error: function () {
-                debugger;
-                alert("Please Select GRN ID");
-            }
-        });
     }
     function PopulateDropDown(dropDownId, list) {
         //alert(list);
-        $(dropDownId).empty().append();
+        $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
+
         if (list != null && list.length > 0) {
             $(dropDownId).removeAttr("disabled");
             $.each(list, function () {

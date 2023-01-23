@@ -57,10 +57,11 @@ namespace Arasan.Controllers.Qualitycontrol
                     ca.GRNNo = dt.Rows[0]["GRNNO"].ToString();
                     ca.GRNDate = dt.Rows[0]["GRNDATE"].ToString();          
                     ca.ID = id;
-                    ca.Party = dt.Rows[0]["PARTYID"].ToString();
+                    ca.Party = dt.Rows[0]["PARTY"].ToString();
                     ca.Location = dt.Rows[0]["LOCATION"].ToString();
                     ca.Remarks = dt.Rows[0]["REMARKS"].ToString();
-                    ca.Remarks = dt.Rows[0]["QCLOCATION"].ToString();
+                    ca.QcLocation = dt.Rows[0]["QCLOCATION"].ToString();
+                    ca.TestedBy = dt.Rows[0]["TESTEDBY"].ToString();
                 }
                 DataTable dt2 = new DataTable();
                 dt2 = QCResultService.GetQCResultDetail(id);
@@ -70,11 +71,14 @@ namespace Arasan.Controllers.Qualitycontrol
                     for (int i = 0; i < dt2.Rows.Count; i++)
                     {
                         tda = new QCResultItem();
-
+                        tda.ItemId = dt2.Rows[0]["ITEMID"].ToString();
+                        tda.Itemlst = BindItemlst(ca.GRNNo);
+                        tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
                         tda.GrnQty = dt2.Rows[0]["GRNQTY"].ToString();
-                        tda.InsQty = dt2.Rows[0]["INSQTY"].ToString();
+                        //tda.InsQty = dt2.Rows[0]["INSQTY"].ToString();
                         tda.RejQty = dt2.Rows[0]["REJQTY"].ToString();
                         tda.AccQty = dt2.Rows[0]["ACCQTY"].ToString();
+                        tda.CostRate = dt2.Rows[0]["COSTRATE"].ToString();
                         tda.Isvalid = "Y";
                         TData.Add(tda);
                     }
