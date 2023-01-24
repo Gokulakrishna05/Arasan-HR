@@ -72,7 +72,7 @@ namespace Arasan.Controllers
                     ca.Location = dt.Rows[0]["LOCID"].ToString();
                     ca.ExRate = dt.Rows[0]["EXCHANGERATE"].ToString();
                     ca.Rej = dt.Rows[0]["REJBY"].ToString();
-                    ca.Temp = dt.Rows[0]["TEMPFIELD"].ToString();
+                  
                     ca.Trans = dt.Rows[0]["TRANSITLOCID"].ToString();
                     ca.Grn = dt.Rows[0]["RGRNNO"].ToString();
                     ca.Narration = dt.Rows[0]["NARR"].ToString();
@@ -381,7 +381,7 @@ namespace Arasan.Controllers
                 string other = "";
 
                 string roundoffplus = "";
-                string roundofmin = "";
+                string roundoffmin = "";
             
                 string otherdedu = "";
                 string gross = "";
@@ -399,7 +399,7 @@ namespace Arasan.Controllers
                     other = dt.Rows[0]["OTHER_CHARGES"].ToString();
                     roundoffplus = dt.Rows[0]["ROUND_OFF_PLUS"].ToString();
                     //dt1 = PurReturn.GetItemCF(ItemId, dt.Rows[0]["UNITMASTID"].ToString());
-                    roundofmin = dt.Rows[0]["ROUND_OFF_MINUS"].ToString();
+                    roundoffmin = dt.Rows[0]["ROUND_OFF_MINUS"].ToString();
 
                     otherdedu = dt.Rows[0]["OTHER_DEDUCTION"].ToString();
                     gross = dt.Rows[0]["GROSS"].ToString();
@@ -408,7 +408,7 @@ namespace Arasan.Controllers
 
                 }
 
-                var result = new { ex = ex, frig = frig, other = other, roundoffplus = roundoffplus, roundofmin = roundofmin, otherdedu = otherdedu, gross = gross, net = net};
+                var result = new { ex = ex, frig = frig, other = other, roundoffplus = roundoffplus, roundoffmin = roundoffmin, otherdedu = otherdedu, gross = gross, net = net};
                 return Json(result);
             }
             catch (Exception ex)

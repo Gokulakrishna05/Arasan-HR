@@ -126,7 +126,7 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("REASONCODE", OracleDbType.NVarchar2).Value = cy.Reason;
                     objCmd.Parameters.Add("REJBY", OracleDbType.NVarchar2).Value = cy.Rej;
                     objCmd.Parameters.Add("TRANSITLOCID", OracleDbType.NVarchar2).Value = cy.Trans;
-                    objCmd.Parameters.Add("TEMPFIELD", OracleDbType.NVarchar2).Value = cy.Temp;
+                   
                     objCmd.Parameters.Add("RGRNNO", OracleDbType.NVarchar2).Value = cy.Grn;
                     objCmd.Parameters.Add("GROSS", OracleDbType.NVarchar2).Value = cy.Gross;
                     objCmd.Parameters.Add("NET", OracleDbType.NVarchar2).Value = cy.Net;
@@ -164,7 +164,7 @@ namespace Arasan.Services
                                     }
                                     objCmds.CommandType = CommandType.StoredProcedure;
                                     objCmds.Parameters.Add("PRETBASICID", OracleDbType.NVarchar2).Value = Pid;
-                                    objCmds.Parameters.Add("GRNNO", OracleDbType.NVarchar2).Value = cp.GRNNo;
+                                   
                                     objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cp.ItemId;
                                     objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = cp.Quantity;
                                     objCmds.Parameters.Add("UNIT", OracleDbType.NVarchar2).Value = cp.Unit;

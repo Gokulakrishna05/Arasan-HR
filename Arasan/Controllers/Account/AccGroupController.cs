@@ -21,9 +21,9 @@ namespace Arasan.Controllers
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public IActionResult AccGroup(string id)
+        public IActionResult AccountGroup()
         {
-            PurchaseReturn ca = new PurchaseReturn();
+            AccGroup ca = new AccGroup();
             ca.Brlst = BindBranch();
             return View(ca);
         }
@@ -45,9 +45,10 @@ namespace Arasan.Controllers
             }
         }
 
-        public IActionResult AccGroup()
+        public IActionResult ListAccountGroup()
         {
-            return View();
+            IEnumerable<AccGroup> cmp = Accgroup.GetAllAccGroup();
+            return View(cmp);
         }
     }
 }

@@ -5,5 +5,6 @@ namespace Arasan.Interface
 {
     public interface IAccGroup
     {
+        IEnumerable<AccGroup> GetAllAccGroup();
     }
 }

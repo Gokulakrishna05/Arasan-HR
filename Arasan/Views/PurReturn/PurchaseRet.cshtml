@@ -242,7 +242,7 @@
                                                             <tr>
 
 
-                                                                <th>GRN</th>
+                                                               
                                                                 <th> Item  </th>
                                                                 <th>Unit</th>
                                                                  <th>CF</th>
@@ -794,14 +794,15 @@
             type: "GET",
             success: function (result) {
 
-             
- 
+
+                document.getElementById("txtExRate").value = result.ex;
                     document.getElementById("txtFrieghtcharge" ).value = result.frig;
                     document.getElementById("txtOthercharges" ).value = result.other;
                     document.getElementById("txtRound" ).value = result.roundoffplus;
-                    document.getElementById("txtotherdeduction" ).value = result.otherdedu;
-                    document.getElementById("txtRoundminus").value = result.roundoffmin;
+                document.getElementById("txtRoundminus").value = result.roundoffmin;
 
+                    document.getElementById("txtotherdeduction" ).value = result.otherdedu;
+                   
 
                     document.getElementById("txtGross").value = result.gross;
                     document.getElementById("txtNet" ).value = result.net;
