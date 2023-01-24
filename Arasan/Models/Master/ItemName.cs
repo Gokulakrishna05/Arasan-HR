@@ -64,7 +64,23 @@ namespace Arasan.Models
         public string EditRow { get; set; }
         public string DelRow { get; set; }
         public List<ItemName> pflst { get; set; }
-       
+
+        public string StackAccount { get; set; }
+        public string Expiry { get; set; }
+        public string ValuationMethod { get; set; }
+        public string Serial { get; set; }
+        public string Batch { get; set; }
+        public string QCTemplate { get; set; }
+        public string QCRequired { get; set; }
+        public string  Latast   { get; set; }
+        public string SubHeading { get; set; }
+        public string Rejection { get; set; }
+        public string Percentage { get; set; }
+        public string PercentageAdd { get; set; }
+        public string Additive { get; set; }
+        public string RawMaterial { get; set; }
+
+
     }
 
     public class SupItem
