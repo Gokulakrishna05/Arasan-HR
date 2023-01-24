@@ -18,8 +18,6 @@ namespace Arasan.Controllers
         {
             StackService = _StackService;
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
-           
-
         }
         public IActionResult IssueToIndent(string ItemID)
         {
@@ -44,14 +42,16 @@ namespace Arasan.Controllers
                 for (int i = 0; i < dt2.Rows.Count; i++)
                 {
                     tda = new IndentList();
+                    tda.IndentID= dt2.Rows[i]["PINDDETAILID"].ToString();
                     tda.IndentNo = dt2.Rows[i]["DOCID"].ToString();
                     tda.IndentDate = dt2.Rows[i]["DOCDATE"].ToString();
                     tda.ItemName = dt2.Rows[i]["ITEMID"].ToString();
                     tda.ItemId= dt2.Rows[i]["ITEM_ID"].ToString();
                     tda.Quantity = dt2.Rows[i]["QTY"].ToString();
+                    tda.qty= dt2.Rows[i]["QTY"].ToString();
                     tda.Unit= dt2.Rows[i]["UNITID"].ToString();
                     tda.LocationName = dt2.Rows[i]["LOCID"].ToString();
-                   
+                    tda.LocationID= dt2.Rows[i]["DEPARTMENT"].ToString();
                     TData.Add(tda);
                 }
             }
@@ -96,7 +96,6 @@ namespace Arasan.Controllers
 
         public IActionResult ListStockIn()
         {
-
             IEnumerable<StockIn> cmp = StackService.GetAllStock();
             return View(cmp);
         }
