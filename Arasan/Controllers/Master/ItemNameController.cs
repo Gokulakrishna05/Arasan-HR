@@ -72,8 +72,23 @@ namespace Arasan.Controllers.Master
                         ca.Uom = dt.Rows[0]["UOM"].ToString();
                         ca.Hcode = dt.Rows[0]["HSN"].ToString();
                         ca.Selling = dt.Rows[0]["SELLINGPRI"].ToString();
-                       
-                    }
+                        ca.StackAccount = dt.Rows[0]["ITEMACC"].ToString();
+                        ca.Expiry = dt.Rows[0]["EXPYN"].ToString();
+                        ca.ValuationMethod = dt.Rows[0]["VALMETHOD"].ToString();
+                        ca.Serial = dt.Rows[0]["SERIALYN"].ToString();
+                        ca.Batch = dt.Rows[0]["BSTATEMENTYN"].ToString();
+                        ca.QCTemplate = dt.Rows[0]["QCT"].ToString();
+                        ca.QCRequired = dt.Rows[0]["QCCOMPFLAG"].ToString();
+                        ca.Latast = dt.Rows[0]["LATPURPRICE"].ToString();
+                        ca.SubHeading = dt.Rows[0]["TARIFFHEADING"].ToString();
+                        ca.Rejection = dt.Rows[0]["REJRAWMATPER"].ToString();
+                        ca.Percentage = dt.Rows[0]["RAWMATPER"].ToString();
+                        ca.PercentageAdd = dt.Rows[0]["ADD1PER"].ToString();
+                        ca.Additive = dt.Rows[0]["RAWMATCAT"].ToString();
+                        ca.RawMaterial = dt.Rows[0]["SELLINGPRI"].ToString();
+                        
+
+                }
                 DataTable dt2 = new DataTable();
                 dt2 = ItemNameService.GetBinDeatils(id);
                 if (dt2.Rows.Count > 0)

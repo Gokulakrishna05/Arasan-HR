@@ -27,7 +27,7 @@ namespace Arasan.Services.Master
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMCODE,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MAXSTOCKLVL,MINSTOCKLVL,CONVERAT,UOM,HSN,SELLINGPRI,ITEMMASTERID from ITEMMASTER";
+                    cmd.CommandText = "Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMCODE,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MAXSTOCKLVL,MINSTOCKLVL,CONVERAT,UOM,HSN,SELLINGPRI,ITEMACC,EXPYN,VALMETHOD,SERIALYN,BSTATEMENTYN,QCT,QCCOMPFLAG,LATPURPRICE,TARIFFHEADING,REJRAWMATPER,RAWMATPER,ADD1PER,ADD1,RAWMATCAT,ITEMMASTERID from ITEMMASTER";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -48,7 +48,21 @@ namespace Arasan.Services.Master
                             Uom = rdr["UOM"].ToString(),
                             Hcode = rdr["HSN"].ToString(),
                             Selling = rdr["SELLINGPRI"].ToString(),
-                           
+                            StackAccount  = rdr["ITEMACC"].ToString(),
+                            Expiry = rdr["EXPYN"].ToString(),
+                            ValuationMethod = rdr["VALMETHOD"].ToString(),
+                            Serial = rdr["SERIALYN"].ToString(),
+                            Batch = rdr["BSTATEMENTYN"].ToString(),
+                            QCTemplate = rdr["QCT"].ToString(),
+                            QCRequired = rdr["QCCOMPFLAG"].ToString(),
+                            Latast = rdr["LATPURPRICE"].ToString(),
+                            SubHeading = rdr["TARIFFHEADING"].ToString(),
+                            Rejection = rdr["REJRAWMATPER"].ToString(),
+                            Percentage = rdr["RAWMATPER"].ToString(),
+                            PercentageAdd = rdr["ADD1PER"].ToString(),
+                            Additive = rdr["ADD1"].ToString(),
+                            RawMaterial  = rdr["RAWMATCAT"].ToString(),
+
 
                         };
                         staList.Add(sta);
@@ -67,43 +81,43 @@ namespace Arasan.Services.Master
             adapter.Fill(dtt);
             return dtt;
         }
-        public ItemName GetSupplierDetailById(string eid)
-        {
-            ItemName ItemName = new ItemName();
-            using (OracleConnection con = new OracleConnection(_connectionString))
-            {
-                using (OracleCommand cmd = con.CreateCommand())
-                {
-                    con.Open();
-                    cmd.CommandText = "Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMCODE,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MAXSTOCKLVL,MINSTOCKLVL,CONVERAT,UOM,HSN,SELLINGPRI,ITEMMASTERID from ITEMMASTER where ITEMMASTERID=" + eid + "";
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
-                    {
-                        ItemName sta = new ItemName
-                        {
-                            ID = rdr["ITEMMASTERID"].ToString(),
-                            ItemG = rdr["IGROUP"].ToString(),
-                            ItemSub = rdr["ISUBGROUP"].ToString(),
-                            SubCat = rdr["SUBCATEGORY"].ToString(),
-                            ItemCode = rdr["ITEMCODE"].ToString(),
-                            Item = rdr["ITEMID"].ToString(),
-                            ItemDes = rdr["ITEMDESC"].ToString(),
-                            Reorderqu = rdr["REORDERQTY"].ToString(),
-                            Reorderlvl = rdr["REORDERLVL"].ToString(),
-                            Maxlvl = rdr["MAXSTOCKLVL"].ToString(),
-                            Minlvl = rdr["MINSTOCKLVL"].ToString(),
-                            Con = rdr["CONVERAT"].ToString(),
-                            Uom = rdr["UOM"].ToString(),
-                            Hcode = rdr["HSN"].ToString(),
-                            Selling = rdr["SELLINGPRI"].ToString(),
+        //public ItemName GetSupplierDetailById(string eid)
+        //{
+        //    ItemName ItemName = new ItemName();
+        //    using (OracleConnection con = new OracleConnection(_connectionString))
+        //    {
+        //        using (OracleCommand cmd = con.CreateCommand())
+        //        {
+        //            con.Open();
+        //            cmd.CommandText = "Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMCODE,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MAXSTOCKLVL,MINSTOCKLVL,CONVERAT,UOM,HSN,SELLINGPRI,ITEMMASTERID from ITEMMASTER where ITEMMASTERID=" + eid + "";
+        //            OracleDataReader rdr = cmd.ExecuteReader();
+        //            while (rdr.Read())
+        //            {
+        //                ItemName sta = new ItemName
+        //                {
+        //                    ID = rdr["ITEMMASTERID"].ToString(),
+        //                    ItemG = rdr["IGROUP"].ToString(),
+        //                    ItemSub = rdr["ISUBGROUP"].ToString(),
+        //                    SubCat = rdr["SUBCATEGORY"].ToString(),
+        //                    ItemCode = rdr["ITEMCODE"].ToString(),
+        //                    Item = rdr["ITEMID"].ToString(),
+        //                    ItemDes = rdr["ITEMDESC"].ToString(),
+        //                    Reorderqu = rdr["REORDERQTY"].ToString(),
+        //                    Reorderlvl = rdr["REORDERLVL"].ToString(),
+        //                    Maxlvl = rdr["MAXSTOCKLVL"].ToString(),
+        //                    Minlvl = rdr["MINSTOCKLVL"].ToString(),
+        //                    Con = rdr["CONVERAT"].ToString(),
+        //                    Uom = rdr["UOM"].ToString(),
+        //                    Hcode = rdr["HSN"].ToString(),
+        //                    Selling = rdr["SELLINGPRI"].ToString(),
                            
-                        };
-                        ItemName = sta;
-                    }
-                }
-            }
-            return ItemName;
-        }
+        //                };
+        //                ItemName = sta;
+        //            }
+        //        }
+        //    }
+        //    return ItemName;
+        //}
         public string ItemNameCRUD(ItemName ss)
         {
             string msg = " ";
@@ -144,6 +158,20 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("UOM", OracleDbType.NVarchar2).Value = ss.Uom;
                     objCmd.Parameters.Add("HSN", OracleDbType.NVarchar2).Value = ss.Hcode;
                     objCmd.Parameters.Add("SELLINGPRI", OracleDbType.NVarchar2).Value = ss.Selling;
+                    objCmd.Parameters.Add("ITEMACC ", OracleDbType.NVarchar2).Value = ss.StackAccount;
+                    objCmd.Parameters.Add("EXPYN ", OracleDbType.NVarchar2).Value = ss.Expiry;
+                    objCmd.Parameters.Add("VALMETHOD ", OracleDbType.NVarchar2).Value = ss.ValuationMethod;
+                    objCmd.Parameters.Add("SERIALYN ", OracleDbType.NVarchar2).Value = ss.Serial;
+                    objCmd.Parameters.Add("BSTATEMENTYN ", OracleDbType.NVarchar2).Value = ss.Batch;
+                    objCmd.Parameters.Add("QCT ", OracleDbType.NVarchar2).Value = ss.QCTemplate;
+                    objCmd.Parameters.Add("QCCOMPFLAG ", OracleDbType.NVarchar2).Value = ss.QCRequired;
+                    objCmd.Parameters.Add("LATPURPRICE ", OracleDbType.NVarchar2).Value = ss.Latast;
+                    objCmd.Parameters.Add("TARIFFHEADING ", OracleDbType.NVarchar2).Value = ss.SubHeading;
+                    objCmd.Parameters.Add("REJRAWMATPER ", OracleDbType.NVarchar2).Value = ss.Rejection;
+                    objCmd.Parameters.Add("RAWMATPER ", OracleDbType.NVarchar2).Value = ss.Percentage;
+                    objCmd.Parameters.Add("ADD1PER ", OracleDbType.NVarchar2).Value = ss.PercentageAdd;
+                    objCmd.Parameters.Add("ADD1 ", OracleDbType.NVarchar2).Value = ss.Additive;
+                    objCmd.Parameters.Add("RAWMATCAT ", OracleDbType.NVarchar2).Value = ss.RawMaterial;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
