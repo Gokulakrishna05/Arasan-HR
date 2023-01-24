@@ -4,6 +4,12 @@ namespace Arasan.Models
 {
     public class DirectDeduction
     {
+        public DirectDeduction()
+        {
+            this.Loc = new List<SelectListItem>();
+            this.Brlst = new List<SelectListItem>();
+            this.assignList = new List<SelectListItem>();
+        }
         public string ID { get; set; }
         public string DocId { get; set; }
         public string Docdate { get; set; }
@@ -11,17 +17,14 @@ namespace Arasan.Models
         public string Reason { get; set; }
         public string Gro { get; set; }
         public string  net { get; set; }
+        public List<SelectListItem> assignList;
         public string Entered { get; set; }
         public string Narr { get; set; }
         public string NoDurms { get; set; }
        
 
 
-        public DirectDeduction()
-        {
-            this.Loc = new List<SelectListItem>();
-            this.Brlst = new List<SelectListItem>();
-        }
+       
         public string Branch { get; set; }
 
         public List<SelectListItem> Brlst;

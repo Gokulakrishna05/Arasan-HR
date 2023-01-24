@@ -43,7 +43,7 @@
                                                             <th>Document ID</th>
                                                             <th>Document Date</th>
                                                             <th>Ref No</th>
-                                                            <th>Location</th>
+                                                     
                                                             <th>Edit</th>
                                                             <th>Delete</th>
                                                         </tr>
@@ -60,7 +60,7 @@
                                                                     <td>@Html.DisplayFor(modelItem => item.Docid)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.Docdate)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.Refno)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.Location)</td>
+                                                                  
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("StoreAcc", "StoreAcc",new { id=item.ID })"></a></div></td>
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("StoreAcc", "StoreAcc",new { id=item.ID })"></a></div></td>
                                                         </tr>

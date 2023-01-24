@@ -55,7 +55,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Document ID<label class="Mandatory"></label></label>
+                                    <br /><label for="inputName3" class="col-sm-4 control-label">Document ID<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.DocId, new { @id = "txtDocId", @class = "form-control", @TabIndex = 1 })
                                             @Html.HiddenFor(C => C.ID)
@@ -65,9 +65,9 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Document Date<label class="Mandatory"></label></label>
+                                  <br />   <label for="inputName3" class="col-sm-4 control-label">Document Date<label class="Mandatory"></label></label>
                                           <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy" ,@readonly=true>
-                                            @Html.TextBoxFor(C => C.Docdate, new { @id = "Docdate", @class = "form-control", @TabIndex = 2,@size="31" })
+                                            @Html.TextBoxFor(C => C.Docdate, new { @id = "Docdate", @class = "form-control", @TabIndex = 2,@size="31" ,@readonly=true})
                                                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                 <br />
                                                 </div>
@@ -245,18 +245,18 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Gross<label class="Mandatory"></label></label>
+                                  <br />  <label for="inputName3" class="col-sm-4 control-label">Gross<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Gro, new { @id = "txtGro", @class = "form-control", @TabIndex = 1 })
+                                            @Html.TextBoxFor(C => C.Gro, new { @id = "txtGro", @class = "form-control", @TabIndex = 1 })  <br />
                                     </div>
                                 </div>
                             </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputName3" class="col-sm-4 control-label">Net<label class="Mandatory"></label></label>
+                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Net<label class="Mandatory"></label></label>
 
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.net, new { @id = "net", @class = "form-control", @TabIndex = 2 })
+                                            @Html.TextBoxFor(C => C.net, new { @id = "net", @class = "form-control", @TabIndex = 2 })  <br />
                                         </div>
 
                                     </div>
@@ -270,7 +270,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Entered By<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Entered, new { @id = "txtEntered", @class = "form-control", @TabIndex = 1 })<br />
+                                            @Html.DropDownListFor(C => C.Entered, Model.assignList, new { @id = "ddlEnterd", @Class = "form-control chosen-select", @TabIndex = 1 })
                                     </div>
                                 </div>
                             </div>
@@ -293,7 +293,7 @@
 
 
                             <div style="height:30px;"></div>
-                            <button type="submit" name="submit" class="btn btn-success" id="btnSave" value="Save" tabindex="18">Insert</button>
+                            <button type="submit" name="submit" class="btn btn-success" id="btnSave" value="Save" tabindex="18">Submit</button>
                             <a button class="btn btn-danger" type="submit" href="@Url.Action("ListDirectDeduction", "DirectDeduction")">Cancel</a>
                     </form>
                     }
@@ -380,7 +380,7 @@
                 document.getElementById("txtUnit" + i).value = result.unit;
 
                 document.getElementById("txtConFac" + i).value = result.cf;
-                document.getElementById("txtRate" + i).value = result.price;
+                document.getElementById("txtrate" + i).value = result.price;
             },
             error: function () {
                 alert("Data Not Found");
@@ -389,8 +389,8 @@
     }
     function changeQty(_this, i) {
         try {
-            var qty = document.getElementById("txtQty" + i).value;
-            var up = document.getElementById("txtRate" + i).value;
+            var qty = document.getElementById("txtQuantity" + i).value;
+            var up = document.getElementById("txtrate" + i).value;
             var CF = document.getElementById("txtConFac" + i).value;
             if (qty == "")
                 qty = 0;
@@ -414,8 +414,8 @@
             var j = 0;
             $('tr.chkitemlst').each(function () {
                 if ($(this).css('display') !== 'none') {
-                    var unit = $(this).find('#txtQty' + j.toString()).val();
-                    var qtys = $(this).find('#txtRate' + j.toString()).val();
+                    var unit = $(this).find('#txtQuantity' + j.toString()).val();
+                    var qtys = $(this).find('#txtrate' + j.toString()).val();
                     var CFs = $(this).find('#txtConFac' + j.toString()).val();
                     if (CFs == "")
                         CFs = 0;
@@ -427,7 +427,7 @@
             });
 
             //document.getElementById("gross").value = GTot;
-            //document.getElementById("net").value = GTot;
+            document.getElementById("net").value = GTot;
             // document.getElementById('words').value = inWords(GTot);
 
 

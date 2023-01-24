@@ -28,6 +28,7 @@ namespace Arasan.Controllers.Store_Management
             DirectDeduction st = new DirectDeduction();
             st.Loc = BindLocation();
             st.Brlst = BindBranch();
+            st.assignList = BindEmp();
             List<DeductionItem> TData = new List<DeductionItem>();
             DeductionItem tda = new DeductionItem();
             if (id == null)
@@ -173,6 +174,23 @@ namespace Arasan.Controllers.Store_Management
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["LOCID"].ToString(), Value = dtDesg.Rows[i]["LOCDETAILSID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindEmp()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetEmp();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["EMPNAME"].ToString(), Value = dtDesg.Rows[i]["EMPMASTID"].ToString() });
                 }
                 return lstdesg;
             }

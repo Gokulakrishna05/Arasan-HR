@@ -23,10 +23,12 @@ namespace Arasan.Models
 
         public List<SelectListItem> Loc;
         public string Location { get; set; }
-        public List<StoItem> Itlst { get; set; }
+        public List<StoItem> Stolst { get; set; }
     }
     public class StoItem
     {
+        public List<SelectListItem> ItemGrouplst { get; set; }
+        public string ItemGroupId { get; set; }
         public string ItemId { get; set; }
         public string saveItemId { get; set; }
         public List<SelectListItem> Itlst { get; set; }
