@@ -40,7 +40,7 @@
                                                         <tr>
                                                             
                                                             <th>Branch </th>
-                                                            <th>Location</th>
+                                                           
                                                             <th>DOC ID</th>
                                                             <th>DOC Date</th>
                                                             <th>D.C.Num</th>
@@ -53,14 +53,14 @@
 
                                                     <tbody>
                                                         @{
-                                                            int i = 1;
+                                                            
 
                                                             foreach (var item in Model)
                                                             {
                                                         <tr>
 
                                                                     <td>@Html.DisplayFor(modelItem => item.Branch)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.Location)</td>
+                                                                
                                                                     <td>@Html.DisplayFor(modelItem => item.DocId)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.Docdate)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.Dcno)</td>
@@ -71,7 +71,7 @@
                                                          
                                                         </tr>
 
-                                                                i++;
+                                                              
                                                             }
                                                         }
 
