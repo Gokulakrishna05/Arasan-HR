@@ -6,11 +6,11 @@ using Arasan.Services.Master;
 using Arasan.Interface.Production;
 using Arasan.Services.Production;
 using Arasan.Models;
-using Arasan.Models.Store_Management;
 using Arasan.Interface.Store_Management;
 using Arasan.Services.Store_Management;
 using Arasan.Services.Qualitycontrol;
 using Arasan.Interface.Qualitycontrol;
+using Arasan.Interface.Stores_Management;
 //using Arasan.Services.Store_Management;
 
 
@@ -73,6 +73,7 @@ internal class Program
         builder.Services.TryAddSingleton<IPurchaseReturn, PurchaseReturnService>();
         builder.Services.TryAddSingleton<IQCTestValueEntryService,QCTestValueEntryService>();
         builder.Services.TryAddSingleton<IAccGroup, AccGroupService>();
+        builder.Services.TryAddSingleton<IStoresReturnService,StoresReturnService>();
 
         builder.Services.AddSession();
         var emailConfig = builder.Configuration.GetSection("MailSettings").Get<MailSettings>();

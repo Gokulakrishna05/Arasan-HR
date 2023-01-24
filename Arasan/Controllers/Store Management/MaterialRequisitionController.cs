@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Arasan.Interface.Master;
-using Arasan.Models.Store_Management;
 using Newtonsoft.Json.Linq;
 using Arasan.Services.Store_Management;
 
