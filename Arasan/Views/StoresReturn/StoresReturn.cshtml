@@ -1,5 +1,7 @@
-﻿@{
-    ViewData["Title"] = "Stores Return";
+﻿@model Arasan.Models.StoresReturn
+
+@{
+    ViewData["Title"] = "StoresReturn";
 }
 <style>
     .newwidth {
@@ -23,6 +25,9 @@
                 <div class="widgets-container">
                     <h5 style="font-size:14px">Stores Return</h5>
                     <hr>
+                    @using (Html.BeginForm("StoresReturn", "StoresReturn", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
                     <from>
                         <div class="row">
                             <div class="col-md-6">
@@ -30,12 +35,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Branch <label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <select class=" _select js-states form-control">
-
-
-                                            <option value="TAAI">(TAAI)SVK - FACTORY </option>
-
-                                        </select>
+                                        @Html.DropDownListFor(C => C.Branch, Model.Brlst, new { @id = "ddlBranch", @Class = "form-control chosen-select", @TabIndex = 1 })
                                     </div>
                                 </div>
                             </div>
@@ -44,8 +44,9 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Location<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        
-                                          <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
+
+                                            @Html.DropDownListFor(C => C.Location, Model.Loc, new { @id = "ddlLocation", @Class = "form-control chosen-select", @TabIndex = 1 })
+                                        <br />
                                           
                                     </div>
                                 </div>
@@ -58,7 +59,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Document ID<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="SRT-300017" type="text">
+                                            @Html.TextBoxFor(C => C.DocId, new { @id = "txtDocId", @class = "form-control", @TabIndex = 1 })
                                     </div>
                                 </div>
                             </div>
@@ -67,9 +68,11 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Document Date<label class="Mandatory"></label></label>
 
-                                    <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="" type="date"><br />
-                                    </div>
+                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy" ,@readonly=true>
+                                            @Html.TextBoxFor(C => C.Docdate, new { @id = "Docdate", @class = "form-control", @TabIndex = 2,@size="31" })
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                            <br />
+                                        </div>
                                    
                                 </div>
                             </div>
@@ -80,7 +83,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Ref No<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="" type="text">
+                                            @Html.TextBoxFor(C => C.RefNo, new { @id = "txtRefNo", @class = "form-control", @TabIndex = 1 })
                                     </div>
                                 </div>
                             </div>
@@ -88,9 +91,11 @@
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-4 control-label">Ref Date<label class="Mandatory"></label></label>
 
-                                    <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="" type="date"><br />
-                                    </div>
+                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy" ,@readonly=true>
+                                            @Html.TextBoxFor(C => C.RefDate, new { @id = "RefDate", @class = "form-control", @TabIndex = 2,@size="31" })
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                            <br />
+                                        </div>
                                     
 
                                 </div>
@@ -206,7 +211,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Narration<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <textarea class="form-control" id="inputEmail3" placeholder="" type="text"></textarea>
+                                            @Html.TextBoxFor(C => C.Narr, new { @id = "txtNarr", @class = "form-control", @TabIndex = 1 })<br />
                                     </div>
                                 </div>
                             </div>
@@ -215,13 +220,18 @@
 
 
 
-                        <div style="height:30px;"></div>
-                        <button type="submit" class="btn aqua m-t-xs bottom15-xs">Submit</button>
-                        <button class="btn btn-danger" type="submit">Cancel</button>
+                             <div style="height:30px;"></div>
+                             <button type="submit" class="btn aqua m-t-xs bottom15-xs">Submit</button>
+                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListStoresReturn", "StoresReturn")'">Cancel</button>
+                           
                     </from>
+                    }
                 </div>
             </div>
         </div>
 
     </div>
 </div>
+<script>
+    $(".chosen-select").chosen();
+</script>
