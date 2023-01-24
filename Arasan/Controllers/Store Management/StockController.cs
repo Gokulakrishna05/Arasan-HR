@@ -32,18 +32,15 @@ namespace Arasan.Controllers
             for (int i = 0; i < dtEnq.Rows.Count; i++)
             {
                 string Approval = string.Empty;
-                int stk = datatrans.GetDataId("select SUM(BALANCE_QTY) AS qty from INVENTORY_ITEM WHERE ITEM_ID='"+ dtEnq.Rows[i]["ITEMMASTERID"].ToString() + "' AND LOCATION_ID='10001000000827' AND BRANCH_ID='" + dtEnq.Rows[i]["BRANCH_ID"].ToString() + "'");
                 EnqChkItem.Add(new Stock
                 {
-                    id = Convert.ToInt64(dtEnq.Rows[i]["PINDDETAILID"].ToString()),
+                    //id = Convert.ToInt64(dtEnq.Rows[i]["PINDDETAILID"].ToString()),
                     itemname = dtEnq.Rows[i]["ITEMID"].ToString(),
                     unit = dtEnq.Rows[i]["UNITID"].ToString(),
                     quantity = Convert.ToDouble(dtEnq.Rows[i]["QTY"].ToString()),
                     location = dtEnq.Rows[i]["LOCID"].ToString(),
                     branchname = dtEnq.Rows[i]["BRANCHID"].ToString(),
-                    indentno = dtEnq.Rows[i]["DOCID"].ToString(),
-                    indentdate = dtEnq.Rows[i]["DOCDATE"].ToString(),
-                    stockavailable = stk
+        
                 });
             }
 

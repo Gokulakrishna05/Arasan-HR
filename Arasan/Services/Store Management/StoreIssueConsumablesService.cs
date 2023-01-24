@@ -68,7 +68,7 @@ namespace Arasan.Services
                             DocDate = rdr["DOCDATE"].ToString(),
                             ReqNo = rdr["REQNO"].ToString(),
                             ReqDate = rdr["REQDATE"].ToString(),
-                            Location = rdr["TOLOCID"].ToString(),
+                            Location = rdr["LOCID"].ToString(),
 
                             LocCon = rdr["LOCIDCONS"].ToString(),
                             // net = rdr["NET"].ToString(),
