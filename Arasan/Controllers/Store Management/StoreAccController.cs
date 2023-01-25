@@ -71,6 +71,7 @@ namespace Arasan.Controllers.Store_Management
                     {
                         tda = new StoItem();
                         double toaamt = 0;
+                        tda.ItemGrouplst = BindItemGrplst();
                         DataTable dt3 = new DataTable();
                         dt3 = datatrans.GetItemSubGroup(dt2.Rows[i]["ITEMID"].ToString());
                         if (dt3.Rows.Count > 0)

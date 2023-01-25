@@ -232,7 +232,7 @@ namespace Arasan.Interface.Master
         public DataTable GetStoreAccItemDetails(string name)
         {
             string SvSql = string.Empty;
-            SvSql = "Select STORESACCDETAIL.QTY,STORESACCDETAIL.STORESACCDETAILID,STORESACCDETAIL.ITEMID,UNITMAST.UNITID,CONVFACTOR,RATE,AMOUNT,FROMBINID,TOBINID,SERIALYN,PENDQTY,REJQTY,ACCQTY from STORESACCDETAIL LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=STORESACCDETAIL.UNIT  where STORESACCDETAIL.STORESACCBASICID='" + name + "'";
+            SvSql = "Select STORESACCDETAIL.QTY,STORESACCDETAILID,STORESACCDETAIL.ITEMID,UNIT,CONVFACTOR,RATE,AMOUNT,FROMBINID,TOBINID,SERIALYN,PENDQTY,REJQTY,ACCQTY from STORESACCDETAIL   where STORESACCDETAIL.STORESACCBASICID='" + name + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

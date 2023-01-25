@@ -24,9 +24,9 @@
                 <div class="widgets-container">
                     <h5 style="font-size:14px"> Account Group </h5>
                     <hr>
-                 @*   @using (Html.BeginForm("DirectDeduction", "DirectDeduction", FormMethod.Post))
+                    @using (Html.BeginForm("AccountGroup", "AccGroup", FormMethod.Post))
                     {
-                        @Html.AntiForgeryToken()*@
+                        @Html.AntiForgeryToken()
                         <form>
                             <div class="row">
                                 <div class="col-md-6">
@@ -43,8 +43,7 @@
                           
                                 <div class="col-md-6">
                                     <div class="form-group">
-
-                                        <label for="inputName3" class="col-sm-4 control-label">Document ID<label class="Mandatory"></label></label>
+  <label for="inputName3" class="col-sm-4 control-label">Document ID<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.DocId, new { @id = "txtDocId", @class = "form-control", @TabIndex = 1 })
                                             @Html.HiddenFor(C => C.ID)
@@ -57,7 +56,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">CPM NAME<label class="Mandatory"></label></label>
+                                    <br />     <label for="inputName3" class="col-sm-4 control-label">CPM NAME<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
                                         @Html.TextBoxFor(C => C.CPMName, new { @id = "txtCPMName", @class = "form-control", @TabIndex = 1 }) <br />
                                         </div>
@@ -66,7 +65,8 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">PM Name<label class="Mandatory"></label></label>
+
+                                    <br />     <label for="inputName3" class="col-sm-4 control-label">PM Name<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
 
                                         @Html.TextBoxFor(C => C.PmName, new { @id = "txtPmName", @class = "form-control", @TabIndex = 1 })
@@ -99,7 +99,7 @@
                         <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListAccountGroup", "AccGroup")'">Cancel</button>
 
                         </form>
-                   @* }*@
+                    }
                 </div>
             </div>
         </div>

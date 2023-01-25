@@ -133,8 +133,8 @@
                                                             <th> Amount </th>
                                                             @*<th> Work Center</th>*@
                                                             <th>Process ID</th>
-                                                            <th>Total Amount</th>
-                                                           
+                                                           @* <th>Total Amount</th>
+                                                           *@
 
 
 
@@ -193,9 +193,9 @@
                                                         <td>
                                                             @Html.TextBoxFor(o => o.Itlst[i]. Process, new { @id = "txtProcess" + i,@class = "form-control",onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;" })
                                                         </td>
-                                                        <td>
+                                                       @* <td>
                                                             @Html.TextBoxFor(o => o.Itlst[i].TotalAmount, new { @id = "txtTotalAmount" + i, @class = "form-control", style = "width: 80px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)", @readonly = "readonly"})
-                                                        </td>
+                                                        </td>*@
 
                                                         <td>
                                                             @Html.HiddenFor(o => o.Itlst[i].Isvalid, new { @id = "Isvalid" + i })
@@ -484,12 +484,12 @@
 
         var Process = "<td><input class='form-control' id='txtProcess" + index + "' name='Itlst[" + index + "].Process'  style='width: 80px;'onkeydown='return isNumeric2(event.keyCode,this.value)'  type='text'/></td>"
 
-          var TotalAmount = "<td><input class='form-control' id='txtTotalAmount" + index + "' name='Itlst[" + index + "].TotalAmount'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text'    /></td>";
-
+@*          var TotalAmount = "<td><input class='form-control' id='txtTotalAmount" + index + "' name='Itlst[" + index + "].TotalAmount'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text'    /></td>";
+*@
 
         var removeCell = "<td><input id='Isvalid" + index + "' name='Itlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='Itlst.Index' type='hidden' value='" + index + "'  /></td>";
 
-        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + ItemGrp + Item + Unit + ConFac  + BinID + Quantity + rate + Amount + Process + TotalAmount + removeCell + "</tr>";
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + ItemGrp + Item + Unit + ConFac  + BinID + Quantity + rate + Amount + Process + removeCell + "</tr>";
         //alert(Packing);
         $("#tbBooks").append(newRow);
 

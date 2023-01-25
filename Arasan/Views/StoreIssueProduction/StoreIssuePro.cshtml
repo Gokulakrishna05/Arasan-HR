@@ -461,7 +461,7 @@
         var Item = "<td><select style = 'width: 200px;' class='form-control chosen-select newcss' id='ddlItem" + index + "' name='Itemlst[" + index + "].ItemId' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option></select></td>";
         var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='SIPLst[" + index + "].Unit'  style='width: 80px;' type='text'  onkeydown='return isNumeric2(event.keyCode,this.value)'  onchange = 'changeQty(this.value," + index + ")'  readonly='True' /></td>";
 
-    @*var ConFac = "<td><input class='form-control' id='txtConFac" + index + "' name='DirLst[" + index + "].ConFac'  style='width: 80px;' type='text'  /></td>";*@
+    var ConFac = "<td><input class='form-control' id='txtConFac" + index + "' name='DirLst[" + index + "].ConFac'  style='width: 80px;' type='text'  /></td>";
                     var ReqQty = "<td><input class='form-control' id='txtReqQty" + index + "' name='SIPLst[" + index + "].ReqQty'  style='width: 80px;' type='text'  onkeydown='return isNumeric2(event.keyCode,this.value)'   /></td>";
 
             @*var FromBin = "<td><input class='form-control' id='txtFromBin" + index + "' name='SIPLst[" + index + "].FromBin'  style='width: 80px;' type='text'   /></td>";*@
@@ -501,7 +501,7 @@
                 var removeCell = "<td><input id='Isvalid" + index + "' name='Itemlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='SIPLst.Index' type='hidden' value='" + index + "'  /></td>";
 
 
-        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + ItemGrp + Item + Unit + ReqQty  + Quantity +  SchQty + PendQty + ClStock  + rate + Amount +  removeCell + "</tr>";
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + ItemGrp + Item + Unit + ConFac + ReqQty  + Quantity +  SchQty + PendQty + ClStock  + rate + Amount +  removeCell + "</tr>";
         //alert(Packing);
         $("#tbBooks").append(newRow);
 
