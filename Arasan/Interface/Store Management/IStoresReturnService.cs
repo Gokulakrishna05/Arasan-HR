@@ -10,5 +10,9 @@ namespace Arasan.Interface.Stores_Management
         DataTable GetLocation();
         DataTable GetBranch();
         string StoresReturnCRUD(StoresReturn cy);
+        DataTable GetStoresReturn(string id);
+        DataTable GetSRItemDetails(string id);
+        IEnumerable<StoreItem> GetAllStoresReturnItem(string id);
+        DataTable GetItemCF(string ItemId, string unitid);
     }
 }

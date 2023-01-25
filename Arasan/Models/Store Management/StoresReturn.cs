@@ -23,5 +23,31 @@ namespace Arasan.Models
 
         public List<SelectListItem> Loc;
         public string Location { get; set; }
+        public List<StoreItem> StrLst { get; set; }
+    }
+    public class StoreItem
+    {
+        public string ID { get; set; }
+        public string ItemId { get; set; }
+        public string saveItemId { get; set; }
+        public List<SelectListItem> Itemlst { get; set; }
+
+        public List<SelectListItem> ItemGrouplst { get; set; }
+
+        public string ItemGroupId { get; set; }
+        public string ConFac { get; set; }
+        public string Unit { get; set; }
+        public double Quantity { get; set; }
+
+        public double rate { get; set; }
+        public double Amount { get; set; }
+
+        public double TotalAmount { get; set; }
+
+        public string FromBin { get; set; }
+
+        public string ToBin { get; set; }
+        public string Isvalid { get; set; }
+
     }
 }
