@@ -31,6 +31,7 @@ namespace Arasan.Controllers.Store_Management
             MaterialRequisition MR = new MaterialRequisition();
             MR.Brlst = BindBranch();
             MR.Loclst = GetLoc();
+            MR.assignList = BindEmp();
             List<MaterialRequistionItem> TData = new List<MaterialRequistionItem>();
             MaterialRequistionItem tda = new MaterialRequistionItem();
             if (id == null)
@@ -167,7 +168,23 @@ namespace Arasan.Controllers.Store_Management
                 throw ex;
             }
         }
-
+        public List<SelectListItem> BindEmp()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetEmp();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["EMPNAME"].ToString(), Value = dtDesg.Rows[i]["EMPMASTID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<SelectListItem> GetLoc()
         {
             try

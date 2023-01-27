@@ -3,8 +3,12 @@
     ViewData["Title"] = "Account Group";
 }
 <style>
-    .newwidth {
-        width: 120px;
+
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
     }
 </style>
 <div class="row wrapper border-bottom page-heading">
@@ -43,7 +47,7 @@
                           
                                 <div class="col-md-6">
                                     <div class="form-group">
-  <label for="inputName3" class="col-sm-4 control-label">Document ID<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Document ID<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.DocId, new { @id = "txtDocId", @class = "form-control", @TabIndex = 1 })
                                             @Html.HiddenFor(C => C.ID)
@@ -56,7 +60,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                    <br />     <label for="inputName3" class="col-sm-4 control-label">CPM NAME<label class="Mandatory"></label></label>
+                                        <br />     <label for="inputName3" class="col-sm-4 control-label">CPM NAME<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                         @Html.TextBoxFor(C => C.CPMName, new { @id = "txtCPMName", @class = "form-control", @TabIndex = 1 }) <br />
                                         </div>
@@ -80,7 +84,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">UNIQUE ID<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">UNIQUE ID<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                         @Html.TextBoxFor(C => C.Unique, new { @id = "txtUnique", @class = "form-control", @TabIndex = 1 })
                                         </div>
@@ -108,5 +112,59 @@
 </div>
 <script>
     $(".chosen-select").chosen();
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+            if (document.getElementById("txtDocId").value == "") {
+                isValid = false;
+                $(txtDocId).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
 
+                alert("Please Select Doc No");
+                return false;
+            }
+            else {
+                $(txtDocId).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtCPMName").value == "") {
+                isValid = false;
+                $(txtCPMName).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select CPM Name");
+                return false;
+            }
+            else {
+                $(txtCPMName).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtUnique").value == "") {
+                isValid = false;
+                $(txtUnique).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Unique Id");
+                return false;
+            }
+            else {
+                $(txtUnique).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+        });
+
+    });
 </script>

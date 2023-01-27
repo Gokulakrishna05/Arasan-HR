@@ -21,11 +21,72 @@ namespace Arasan.Controllers
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public IActionResult AccountGroup()
+        public IActionResult AccountGroup(string id)
         {
             AccGroup ca = new AccGroup();
             ca.Brlst = BindBranch();
+            if (id == null)
+            {
+
+
+            }
+            else
+            {
+
+
+                DataTable dt = new DataTable();
+
+                dt = Accgroup.GetAccGroup(id);
+                if (dt.Rows.Count > 0)
+                {
+                    ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                    ca.DocId = dt.Rows[0]["DOCID"].ToString();
+                    ca.CPMName = dt.Rows[0]["CPMNAME"].ToString();
+                    ca.PmName = dt.Rows[0]["PMNAME"].ToString();
+                    ca.Unique = dt.Rows[0]["UNIQUEID"].ToString();
+                    ca.ID = id;
+
+                }
+               
+            }
             return View(ca);
+        }
+        [HttpPost]
+        public ActionResult AccountGroup(AccGroup Cy, string id)
+        {
+
+            try
+            {
+                Cy.ID = id;
+                string Strout = Accgroup.AccGroupCRUD(Cy);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Cy.ID == null)
+                    {
+                        TempData["notice"] = "AccGroup Inserted Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "AccGroup Updated Successfully...!";
+                    }
+                    return RedirectToAction("ListAccountGroup");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit AccountGroup";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(Cy);
         }
         public List<SelectListItem> BindBranch()
         {
