@@ -4,8 +4,11 @@
     ViewData["Title"] = "Stores Return";
 }
 <style>
-    .newwidth {
-        width: 120px;
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
     }
 </style>
 <div class="row wrapper border-bottom page-heading">
@@ -33,16 +36,18 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Branch <label class="Mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Branch <label class="mandatory"></label></label>
                                     <div class="col-sm-8">
                                         @Html.DropDownListFor(C => C.Branch, Model.Brlst, new { @id = "ddlBranch", @Class = "form-control chosen-select", @TabIndex = 1 })
+                                         <br />
                                     </div>
                                 </div>
                             </div>
+                        
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Location<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Location<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
 
                                             @Html.DropDownListFor(C => C.Location, Model.Loc, new { @id = "ddlLocation", @Class = "form-control chosen-select", @TabIndex = 1 })
@@ -51,7 +56,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                         </div>
 
                         <div class="row">
                             <div class="col-md-6">
@@ -60,13 +65,14 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Document ID<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.DocId, new { @id = "txtDocId", @class = "form-control", @TabIndex = 1 })
+                                           
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Document Date<label class="Mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Document Date<label class="mandatory"></label></label>
 
                                      <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                             @Html.TextBoxFor(C => C.Docdate, new { @id = "Docdate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
@@ -84,12 +90,13 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Ref No<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.RefNo, new { @id = "txtRefNo", @class = "form-control", @TabIndex = 1 })
+                                            
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="inputName3" class="col-sm-4 control-label">Ref Date<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Ref Date<label class="mandatory"></label></label>
 
                                         <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                             @Html.TextBoxFor(C => C.RefDate, new { @id = "RefDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
@@ -239,13 +246,13 @@
 </script>
 <script>
 
-    function Grup_Change(itemid, i) {
-        //alert(itemid);
+    function Grup_Change(ItemId, i) {
+        //alert(ItemId);
         //debugger;
         $.ajax({
             url: "GetItemJSON",
             type: "post",
-            data: { 'itemid': itemid },
+            data: { 'ItemId': ItemId },
             cache: false,
             success: function (response) {
                 var newlist;
