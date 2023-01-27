@@ -2,6 +2,15 @@
 @{
     ViewData["Title"] = "Direct Addition";
 }
+<style>
+
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
 
@@ -50,7 +59,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                   <br /> <label for="inputName3" class="col-sm-4 control-label">Document ID<label class="Mandatory"></label></label>
+                                   <br /> <label for="inputName3" class="col-sm-4 control-label">Document ID<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.DocId, new { @id = "txtDocId", @class = "form-control", @TabIndex = 1 })
                                             @Html.HiddenFor(C => C.ID)
@@ -60,7 +69,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                <br />    <label for="inputName3" class="col-sm-4 control-label">Document Date<label class="Mandatory"></label></label>
+                                <br />    <label for="inputName3" class="col-sm-4 control-label">Document Date<label class="mandatory">*</label></label>
 
 
                                             <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy" ,@readonly=true>
@@ -77,7 +86,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Challan No<label class="Mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Challan No<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.ChellanNo, new { @id = "txtChellanNo", @class = "form-control", @TabIndex = 1 })
                                     </div>
@@ -269,7 +278,7 @@
 
                         
                             <div style="height:30px;"></div>
-                                 <button type="submit" class="btn aqua m-t-xs bottom15-xs">Submit</button>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
                             <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListDirectAddition", "DirectAddition")'">Cancel</button>
                            
                     </form>
@@ -495,4 +504,61 @@
 
         $(".chosen-select").chosen();
     }
+</script>
+<script>
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+            if (document.getElementById("txtDocId").value == "") {
+                isValid = false;
+                $(txtDocId).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Doc No");
+                return false;
+            }
+            else {
+                $(txtDocId).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("Docdate").value == "") {
+                isValid = false;
+                $(Docdate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Doc Date");
+                return false;
+            }
+            else {
+                $(Docdate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtChellanNo").value == "") {
+                isValid = false;
+                $(txtChellanNo).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Challan No");
+                return false;
+            }
+            else {
+                $(txtChellanNo).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+        });
+
+    });
 </script>

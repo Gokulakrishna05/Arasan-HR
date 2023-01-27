@@ -7,6 +7,15 @@
         width: 120px;
     }
 </style>
+<style>
+    
+    .mandatory{
+	color: red;
+	position:relative;
+	top:2px;
+	left:5px;
+}
+</style>
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
 
@@ -56,7 +65,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                  <br />  <label for="inputName3" class="col-sm-4 control-label">Document ID<label class="Mandatory"></label></label>
+                                  <br />  <label for="inputName3" class="col-sm-4 control-label">Doc ID<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.Docid, new { @id = "txtDocid", @class = "form-control", @TabIndex = 1 })
                                     </div>
@@ -65,7 +74,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Document Date<label class="Mandatory"></label></label>
+                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Document Date<label class="mandatory">*</label></label>
 
                                         <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy" ,@readonly=true>
                                             @Html.TextBoxFor(C => C.Docdate, new { @id = "Docdate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
@@ -81,7 +90,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Ref No<label class="Mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Ref No<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.Refno, new { @id = "txtRefno", @class = "form-control", @TabIndex = 1 })
                                     </div>
@@ -90,7 +99,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Ref Date<label class="Mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Ref Date<label class="mandatory">*</label></label>
 
                                         <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy" ,@readonly=true>
                                             @Html.TextBoxFor(C => C.Refdate, new { @id = "Refdate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true})
@@ -477,4 +486,78 @@
 
         $(".chosen-select").chosen();
     }
+</script>
+<script>
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+            if (document.getElementById("txtDocid").value == "") {
+                isValid = false;
+                $(txtDocid).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Doc No");
+                return false;
+            }
+            else {
+                $(txtDocid).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("Docdate").value == "") {
+                isValid = false;
+                $(Docdate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Doc Date");
+                return false;
+            }
+            else {
+                $(Docdate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("txtRefno").value == "") {
+                isValid = false;
+                $(txtRefno).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Ref No");
+                return false;
+            }
+            else {
+                $(txtRefno).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("Refdate").value == "") {
+                isValid = false;
+                $(Refdate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Ref Date");
+                return false;
+            }
+            else {
+                $(Refdate).css({
+                    "border": "",
+                    "background": ""
+                });
+
+            }
+            });
+
+    });
 </script>
