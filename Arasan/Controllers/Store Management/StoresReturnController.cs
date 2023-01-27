@@ -56,7 +56,7 @@ namespace Arasan.Controllers.Stores_Management
                     ca.DocId = dt.Rows[0]["DOCID"].ToString();
                     ca.RefNo = dt.Rows[0]["REFNO"].ToString();
                     ca.RefDate = dt.Rows[0]["REFDATE"].ToString();
-                    //ca.ID = id;
+                    ca.ID = id;
                     //ca.Currency = dt.Rows[0]["MAINCURRENCY"].ToString();
                     //ca.RefDate = dt.Rows[0]["REFDT"].ToString();
                     //ca.Voucher = dt.Rows[0]["VOUCHER"].ToString();
