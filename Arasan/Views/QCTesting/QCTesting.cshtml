@@ -47,7 +47,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">GRN/Prod.No<label class="mandatory">*</label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">GRN/PO.No<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.GRNNo, Model.lst, new { @id = "ddlGRNNo", @Class = "form-control chosen-select", @TabIndex = 1, @onchange = "changeItem(this.value)"})<br />
                                             <br />
@@ -58,7 +58,7 @@
                              <div class="row">
                                     <div class="col-md-6">
                                 <div class="form-group">
-                                        <label for="inputName3" class="col-sm-4 control-label">GRN Date<label class="mandatory">*</label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">GRN/PO Date<label class="mandatory">*</label></label>
 
                                     <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                         @Html.TextBoxFor(C => C.GRNDate, new { @id = "GRNDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
@@ -117,7 +117,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Item ID<label class="mandatory">*</label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Item <label class="mandatory">*</label></label>
                                                 <div class="col-sm-8">
                                         @Html.DropDownListFor(C => C.ItemId, Model.Itemlst, new { @id = "ddlItemId", @Class = "form-control chosen-select", @TabIndex = 1 })<br />
                                                 </div>
@@ -455,19 +455,7 @@
                 alert("Data Not Found");
             }
         });
-     @*    $.ajax({
-            url: 'GetPODetail',
-            data: { "Item": ItemId,"GPID":type },
-            type: "GET",
-            success: function (result) {
-
-                document.getElementById("GRNDate").value = result.podate;
-              
-            },
-            error: function () {
-                alert("Data Not Found");
-            }
-        });*@
+  
           $.ajax({
             url: "GetGRNItemJSON",
             type: "post",
@@ -483,21 +471,7 @@
                 alert("Please Select GRN ID");
             }
         }); 
-           @* $.ajax({
-            url: "GetPOItemJSON", 
-            type: "post",
-            data: { 'Poid': ItemId,"GPID":type },
-            cache: false,
-            success: function (response) {
-                var newlist;
-                newlist = response.Itemlst;
-                PopulateDropDown("#ddlItemId", response);
-            },
-            error: function () {
-                debugger;
-                alert("Please Select GRN ID");
-            }
-        });*@
+          
           $.ajax({
             url: "GetGRNSuppJSON",
             type: "post",
@@ -513,21 +487,7 @@
                 alert("Please Select GRN ID");
             }
         });
-       @*   $.ajax({
-            url: "GetPOSuppJSON",
-            type: "post",
-            data: { 'POsuppid': ItemId, "GPID": type },
-            cache: false,
-            success: function (response) {
-                var newlist;
-                newlist = response.Suppst;
-                PopulateDropDown("#ddlParty", response);
-            },
-            error: function () {
-                debugger;
-                alert("Please Select GRN ID");
-            }
-        });*@
+    
     }
    function AddRow() {
         var opt = "";
