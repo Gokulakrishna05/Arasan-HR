@@ -43,7 +43,7 @@
                                     </div>
                                 </div>
                             </div>
-                        
+                                
                             <div class="col-md-6">
                                 <div class="form-group">
 
@@ -135,8 +135,8 @@
                                                             <th> Item Group </th>
                                                             <th> Item ID </th>
                                                             <th> Unit </th>
-                                                            @*<th> From Bin ID </th>
-                                                            <th> To Bin ID </th>*@
+                                                            <th> From Bin ID </th>
+                                                            <th> To Bin ID </th>
                                                             @*<th> Batch </th>
                                                             <th> Serial </th>
                                                             <th> Expiry</th>
@@ -169,8 +169,15 @@
                                                             @Html.DropDownListFor(o => o.StrLst[i].ItemId, Model.StrLst[i].Itemlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItem" + i, style = "width: 200px;", onchange = "changeItem(this.value," + i + ")" })
                                                             @Html.HiddenFor(o => o.StrLst[i].saveItemId)
                                                         </td>
+                                                         
                                                         <td>
                                                             @Html.TextBoxFor(o => o.StrLst[i].Unit, new { @id = "txtUnit" + i, @class = "form-control", style = "width: 80px;" , @readonly = "readonly"})
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(o => o.StrLst[i]. FromBin, new { @id = "txtFromBin" + i,@class = "form-control",onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(o => o.StrLst[i]. ToBin, new { @id = "txtToBin" + i,@class = "form-control",onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;" })
                                                         </td>
                                                         <td>
                                                             @Html.TextBoxFor(o => o.StrLst[i].ConFac, new { @id = "txtConFac" + i, @class = "form-control", style = "width: 80px;" , @readonly = "readonly"})
@@ -395,6 +402,11 @@
 
         var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='StrLst[" + index + "].Unit'  style='width: 80px;' type='text'  readonly='True' /></td>";
 
+        var FromBin = "<td><input class='form-control' id='txtToBin" + index + "' name='StrLst[" + index + "].FromBin'  style='width: 80px;'onkeydown='return isNumeric2(event.keyCode,this.value)'  type='text'    /></td>";
+
+        var ToBin = "<td><input class='form-control' id='txtToBin" + index + "' name='StrLst[" + index + "].ToBin'  style='width: 80px;'onkeydown='return isNumeric2(event.keyCode,this.value)'  type='text'    /></td>";
+
+
         var ConFac = "<td><input class='form-control' id='txtConFac" + index + "' name='StrLst[" + index + "].ConFac'  style='width: 80px;' type='text' readonly='True'  /></td>";
 
         var Quantity = "<td><input class='form-control' id='txtQuantity" + index + "' name='StrLst[" + index + "].Quantity'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;text-align:right' type='text' value='0' onchange = 'changeQty(this.value," + index + ")' /></td>";
@@ -408,7 +420,7 @@
         var removeCell = "<td><input id='Isvalid" + index + "' name='Itemlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='DirLst.Index' type='hidden' value='" + index + "'  /></td>";
 
 
-        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + ItemGrp + Item + Unit + ConFac  + Quantity + rate + Amount + TotalAmount + removeCell + "</tr>";
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + ItemGrp + Item + Unit + FromBin + ToBin + ConFac  + Quantity + rate + Amount + TotalAmount + removeCell + "</tr>";
         //alert(Packing);
         $("#tbBooks").append(newRow);
 

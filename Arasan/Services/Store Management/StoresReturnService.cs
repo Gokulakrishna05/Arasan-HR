@@ -38,7 +38,7 @@ public class StoresReturnService : IStoresReturnService
                         Docdate = rdr["DOCDATE"].ToString(),
                         RefNo = rdr["REFNO"].ToString(),
                         RefDate = rdr["REFDATE"].ToString(),
-                        Narr = rdr["NARRATION"].ToString()
+                        Narr = rdr["NARRATION"].ToString(),
 
                     };
                     cmpList.Add(cmp);
@@ -86,7 +86,7 @@ public class StoresReturnService : IStoresReturnService
     public DataTable GetSRItemDetails(string id)
     {
         string SvSql = string.Empty;
-        SvSql = "Select STORESRETDETAIL.QTY,STORESRETDETAIL.STORESRETDETAILID,STORESRETDETAIL.ITEMID,UNITMAST.UNITID,RATE,AMOUNT,CF  from STORESRETDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=STORESRETDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  where STORESRETDETAIL.STORESRETBASICID='" + id + "'";
+        SvSql = "Select STORESRETDETAIL.QTY,STORESRETDETAIL.STORESRETDETAILID,STORESRETDETAIL.ITEMID,UNITMAST.UNITID,RATE,AMOUNT,TOTAMT,CF,FROMBINID,TOBINID from STORESRETDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=STORESRETDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  where STORESRETDETAIL.STORESRETBASICID='" + id + "'";
         DataTable dtt = new DataTable();
         OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
         OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -96,7 +96,7 @@ public class StoresReturnService : IStoresReturnService
     public DataTable GetStoresReturn(string id)
     {
         string SvSql = string.Empty;
-        SvSql = "Select DPBASIC.BRANCHID,DPBASIC.PARTYID,DPBASIC.DOCID,to_char(DPBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,DPBASIC.VOUCHER,to_char(DPBASIC.REFDT,'dd-MON-yyyy')REFDT,DPBASIC.LOCID,DPBASIC.MAINCURRENCY,DPBASIC.GROSS,DPBASIC.NET,DPBASIC.FREIGHT,DPBASIC.OTHERCH,DPBASIC.RNDOFF,DPBASIC.OTHERDISC,DPBASIC.LRCH,DPBASIC.DELCH,DPBASIC.NARR,DPBASICID  from DPBASIC where DPBASIC.DPBASICID=" + id + "";
+        SvSql = "Select STORESRETBASIC.BRANCHID,STORESRETBASIC.DOCID,to_char(STORESRETBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,STORESRETBASIC.FROMLOCID,to_char(STORESRETBASIC.REFDATE,'dd-MON-yyyy')REFDATE,STORESRETBASIC.REFNO,STORESRETBASIC.NARRATION,STORESRETBASICID  from STORESRETBASIC where STORESRETBASIC.STORESRETBASICID=" + id + "";
         DataTable dtt = new DataTable();
         OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
         OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -128,7 +128,8 @@ public class StoresReturnService : IStoresReturnService
         string msg = "";
         try
         {
-            string StatementType = string.Empty; string svSQL = "";
+            string StatementType = string.Empty; 
+            //string svSQL = "";
 
             using (OracleConnection objConn = new OracleConnection(_connectionString))
             {
@@ -151,10 +152,10 @@ public class StoresReturnService : IStoresReturnService
                 objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
                 objCmd.Parameters.Add("FROMLOCID", OracleDbType.NVarchar2).Value = cy.Location;
                 objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.DocId;
-                objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = DateTime.Parse(cy.Docdate);
+                objCmd.Parameters.Add("DOCDATE", OracleDbType.Date).Value = DateTime.Parse(cy.Docdate);
                 objCmd.Parameters.Add("REFNO", OracleDbType.NVarchar2).Value = cy.RefNo;
-                objCmd.Parameters.Add("REFDATE", OracleDbType.NVarchar2).Value = DateTime.Parse(cy.RefDate);
-                objCmd.Parameters.Add("NARRATION", OracleDbType.Int64).Value = cy.Narr;
+                objCmd.Parameters.Add("REFDATE", OracleDbType.Date).Value = DateTime.Parse(cy.RefDate);
+                objCmd.Parameters.Add("NARRATION", OracleDbType.NVarchar2).Value = cy.Narr;
                 objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                 objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                 try
@@ -187,15 +188,15 @@ public class StoresReturnService : IStoresReturnService
                                 objCmds.CommandType = CommandType.StoredProcedure;
                                 objCmds.Parameters.Add("STORESRETBASICID", OracleDbType.NVarchar2).Value = Pid;
                                 objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cp.ItemId;
-                                objCmds.Parameters.Add("QTY",OracleDbType.NVarchar2).Value = cp.Quantity;
-                                objCmds.Parameters.Add("UNIT",OracleDbType.NVarchar2).Value = cp.Unit;
-                                objCmds.Parameters.Add("RATE",OracleDbType.NVarchar2).Value = cp.rate;
-                                objCmds.Parameters.Add("AMOUNT",OracleDbType.NVarchar2).Value = cp.Amount;
-                                //objCmds.Parameters.Add("TOTAMT", OracleDbType.NVarchar2).Value = cp.TotalAmount;
-                                //objCmds.Parameters.Add("CF", OracleDbType.NVarchar2).Value = cp.ConFac;
-                                //objCmds.Parameters.Add("FROMBINID",OracleDbType.NVarchar2).Value = cp.FromBin;
-                                //objCmds.Parameters.Add("TOBINID",OracleDbType.NVarchar2).Value = cp.ToBin;
-                                objCmds.Parameters.Add("StatementType",OracleDbType.NVarchar2).Value = StatementType;
+                                objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = cp.Quantity;
+                                objCmds.Parameters.Add("UNIT", OracleDbType.NVarchar2).Value = cp.Unit;
+                                objCmds.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = cp.rate;
+                                objCmds.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = cp.Amount;
+                                objCmds.Parameters.Add("TOTAMT", OracleDbType.NVarchar2).Value = cp.TotalAmount;
+                                objCmds.Parameters.Add("CF", OracleDbType.NVarchar2).Value = cp.ConFac;
+                                objCmds.Parameters.Add("FROMBINID", OracleDbType.NVarchar2).Value = cp.FromBin;
+                                objCmds.Parameters.Add("TOBINID", OracleDbType.NVarchar2).Value = cp.ToBin;
+                                objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                 objConns.Open();
                                 objCmds.ExecuteNonQuery();
                                 objConns.Close();
