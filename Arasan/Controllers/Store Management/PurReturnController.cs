@@ -26,8 +26,6 @@ namespace Arasan.Controllers
         {
             PurchaseReturn ca = new PurchaseReturn();
             ca.Brlst = BindBranch();
-         
-            
             ca.Loclst = GetLoc();
             ca.Satlst = GetSat();
             ca.assignList = BindEmp();
@@ -353,6 +351,51 @@ namespace Arasan.Controllers
             return Json(BindItemlst(supid));
 
         }
+        public JsonResult GetPRJSON(string grnid,string branch,string loc)
+        {
+            PurchaseReturn model = new PurchaseReturn();
+            DataTable dtt = new DataTable();
+            List<ReturnItem> Data = new List<ReturnItem>();
+            ReturnItem tda = new ReturnItem();
+            dtt = PurReturn.GetGRNDetails(grnid);
+            if (dtt.Rows.Count > 0)
+            {
+                for (int i = 0; i < dtt.Rows.Count; i++)
+                {
+                    tda = new ReturnItem();
+                    tda.itemid = dtt.Rows[i]["itemi"].ToString();
+                    tda.itemname = dtt.Rows[i]["ITEMID"].ToString();
+                    tda.unit = dtt.Rows[i]["UNITID"].ToString();
+                    tda.quantity = dtt.Rows[i]["QTY"].ToString();
+                    tda.rqty= dtt.Rows[i]["QTY"].ToString();
+                    tda.confac = dtt.Rows[i]["CF"].ToString();
+                    tda.rate= dtt.Rows[i]["RATE"].ToString();
+                    tda.amount = dtt.Rows[i]["AMOUNT"].ToString();
+                    tda.disc= Convert.ToDouble(dtt.Rows[i]["DISCPER"].ToString());
+                    tda.discAmount= Convert.ToDouble(dtt.Rows[i]["DISC"].ToString());
+                    tda.frigcharge= dtt.Rows[i]["IFREIGHTCH"].ToString() == "" ? 0 : Convert.ToDouble(dtt.Rows[i]["IFREIGHTCH"].ToString());
+                    tda.cgstamt= Convert.ToDouble(dtt.Rows[i]["CGSTAMT"].ToString());
+                    tda.cgstper= Convert.ToDouble(dtt.Rows[i]["CGSTPER"].ToString());
+                    tda.sgstamt= Convert.ToDouble(dtt.Rows[i]["SGSTAMT"].ToString());
+                    tda.sgstper= Convert.ToDouble(dtt.Rows[i]["SGSTPER"].ToString());
+                    tda.igstamt= Convert.ToDouble(dtt.Rows[i]["IGSTAMT"].ToString());
+                    tda.igstper= Convert.ToDouble(dtt.Rows[i]["IGSTPER"].ToString());
+                    tda.totalamount= dtt.Rows[i]["TOTAMT"].ToString()=="" ? 0 : Convert.ToDouble(dtt.Rows[i]["TOTAMT"].ToString());
+                    tda.binid= dtt.Rows[i]["BINID"].ToString();
+                    tda.unitid= dtt.Rows[i]["UNIT"].ToString();
+                    DataTable dt = new DataTable();
+                    dt = PurReturn.Getstkqty(grnid, loc, branch);
+                    if(dt.Rows.Count > 0)
+                    {
+                        tda.stkqty = dt.Rows[0]["QTY"].ToString();
+                    }
+                    Data.Add(tda);
+                }
+            }
+            model.returnlist = Data;
+            return Json(model.returnlist);
+
+        }
         public List<SelectListItem> BindItemlst(string value)
         {
             try
@@ -364,6 +407,28 @@ namespace Arasan.Controllers
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["GRNBLDETAILID"].ToString() });
                 }
                 return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult GetStkqty(string grnid,string loc,string branch)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+
+                string stkqty = "";
+
+                dt = PurReturn.Getstkqty(grnid, loc, branch);
+                if (dt.Rows.Count > 0)
+                {
+                    stkqty = dt.Rows[0]["QTY"].ToString();
+                }
+
+                var result = new { stkqty = stkqty };
+                return Json(result);
             }
             catch (Exception ex)
             {
@@ -386,7 +451,7 @@ namespace Arasan.Controllers
                 string otherdedu = "";
                 string gross = "";
                 string net = "";
-               
+                string packing = "";
 
 
                 dt = PurReturn.GetGRNBlDetails(GRNID);
@@ -400,7 +465,7 @@ namespace Arasan.Controllers
                     roundoffplus = dt.Rows[0]["ROUND_OFF_PLUS"].ToString();
                     //dt1 = PurReturn.GetItemCF(ItemId, dt.Rows[0]["UNITMASTID"].ToString());
                     roundoffmin = dt.Rows[0]["ROUND_OFF_MINUS"].ToString();
-
+                    packing= dt.Rows[0]["PACKING_CHRAGES"].ToString();
                     otherdedu = dt.Rows[0]["OTHER_DEDUCTION"].ToString();
                     gross = dt.Rows[0]["GROSS"].ToString();
                     net = dt.Rows[0]["NET"].ToString();
@@ -408,7 +473,7 @@ namespace Arasan.Controllers
 
                 }
 
-                var result = new { ex = ex, frig = frig, other = other, roundoffplus = roundoffplus, roundoffmin = roundoffmin, otherdedu = otherdedu, gross = gross, net = net};
+                var result = new { ex = ex, frig = frig, other = other, roundoffplus = roundoffplus, roundoffmin = roundoffmin, otherdedu = otherdedu, gross = gross, net = net, packing = packing };
                 return Json(result);
             }
             catch (Exception ex)
@@ -439,8 +504,9 @@ namespace Arasan.Controllers
                 string igs = "";
                 string igsta = "";
                 string totalAm = "";
-             
-               
+                string packing = "";
+
+
                 dt = PurReturn.GetGRNDetails(POID);
              
                 if (dt.Rows.Count > 0)
@@ -452,8 +518,8 @@ namespace Arasan.Controllers
                     rate = dt.Rows[0]["RATE"].ToString();
                     //dt1 = PurReturn.GetItemCF(ItemId, dt.Rows[0]["UNITMASTID"].ToString());
                     amount = dt.Rows[0]["AMOUNT"].ToString();
+                    packing= dt.Rows[0]["AMOUNT"].ToString();
 
-                
                     //discAmount = dt.Rows[0]["DISC"].ToString();
 
                     // Disc = dt.Rows[0]["DISCPER"].ToString();
@@ -469,7 +535,7 @@ namespace Arasan.Controllers
                  
                 }
                
-                    var result = new { unit = unit, CF = CF, qty = qty, rate = rate, amount = amount, discAmount = discAmount, frig = frig, cgs = cgs, cgta = cgta, sgs = sgs, sgta = sgta, igs = igs, igsta = igsta, totalAm = totalAm };
+                    var result = new { unit = unit, CF = CF, qty = qty, rate = rate, amount = amount, discAmount = discAmount, frig = frig, cgs = cgs, cgta = cgta, sgs = sgs, sgta = sgta, igs = igs, igsta = igsta, totalAm = totalAm , packing = packing };
                 return Json(result);
             }
             catch (Exception ex)

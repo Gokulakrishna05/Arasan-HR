@@ -51,6 +51,7 @@ namespace Arasan.Models
         public double Gross { get; set; }
         public double Net { get; set; }
         public List<RetItem> RetLst { get; set; }
+        public List<ReturnItem> returnlist { get; set; }
         public string Addr { get; set; }
         public string Phone { get; set; }
         public string Pin { get; set; }
@@ -67,8 +68,6 @@ namespace Arasan.Models
         public string ItemId { get; set; }
         public string saveItemId { get; set; }
         public List<SelectListItem> Itemlst { get; set; }
-       
-
         public string GRNNo { get; set; }
         public double FrigCharge { get; set; }
         public string ConFac { get; set; }
@@ -93,5 +92,32 @@ namespace Arasan.Models
         public string Isvalid { get; set; }
 
     }
-   
+    public class ReturnItem
+    {
+        public string id { get; set; }
+        public string itemid { get; set; }
+        public string itemname { get; set; }
+        public string saveItemId { get; set; }
+        public double frigcharge { get; set; }
+        public string confac { get; set; }
+        public string unit { get; set; }
+        public string unitid { get; set; }
+        public string quantity { get; set; }
+        public string rqty { get; set; }
+        public string rate { get; set; }
+        public string amount { get; set; }
+        public double disc { get; set; }
+        public double discAmount { get; set; }
+        public double cgstper { get; set; }
+        public double cgstamt { get; set; }
+        public double sgstper { get; set; }
+        public double sgstamt { get; set; }
+        public double igstper { get; set; }
+        public double igstamt { get; set; }
+        public double totalamount { get; set; }
+        public string stkqty { get; set; }
+        public string binid { get; set; }
+        public string grnitemid { get; set; }
+
     }
+}

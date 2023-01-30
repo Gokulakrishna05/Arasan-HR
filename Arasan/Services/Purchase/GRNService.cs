@@ -176,8 +176,8 @@ namespace Arasan.Services
                                     OracleCommand objCmdI = new OracleCommand("INVENTORYITEMPROC", objConn);
                                     objCmdI.CommandType = CommandType.StoredProcedure;
                                     objCmdI.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-                                    objCmdI.Parameters.Add("GRN_ID", OracleDbType.NVarchar2).Value = GRNITEMID;
                                     objCmdI.Parameters.Add("ITEM_ID", OracleDbType.NVarchar2).Value = cp.saveItemId;
+                                    objCmdI.Parameters.Add("GRN_ID", OracleDbType.NVarchar2).Value = GRNITEMID;
                                     objCmdI.Parameters.Add("GRN_DATE", OracleDbType.Date).Value = DateTime.Parse(cy.GRNdate);
                                     objCmdI.Parameters.Add("REC_GOOD_QTY", OracleDbType.NVarchar2).Value = cp.BillQty;
                                     objCmdI.Parameters.Add("BALANCE_QTY", OracleDbType.NVarchar2).Value = cp.BillQty;
@@ -188,6 +188,7 @@ namespace Arasan.Services
                                     objCmdI.Parameters.Add("LOCATION_ID", OracleDbType.NVarchar2).Value = "10001000000827";
                                     objCmdI.Parameters.Add("BRANCH_ID", OracleDbType.NVarchar2).Value = cy.BranchID;
                                     objCmdI.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = "Insert";
+                                    objCmdI.Parameters.Add("INV_OUT_ID", OracleDbType.NVarchar2).Value = "0";
                                     objCmdI.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                                     objConnI.Open();
                                     objCmdI.ExecuteNonQuery();
