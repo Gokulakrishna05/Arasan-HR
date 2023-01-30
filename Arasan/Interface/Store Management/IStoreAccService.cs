@@ -9,15 +9,16 @@ namespace Arasan.Interface.Master
     {
         string StoreAccCRUD(StoreAcc by);
         IEnumerable<StoreAcc> GetAllStoreAcc();
-        StoreAcc GetStoreAccById(string id);
+        //StoreAcc GetStoreAccById(string id);
 
         DataTable GetLocation();
         DataTable GetBranch();
-        DataTable GetItem(string value);
+     
         DataTable GetStoreAccDetails(string id);
         DataTable GetStoreAccItemDetails(string id);
         DataTable GetItemCF(string ItemId, string Unitid);
         IEnumerable<StoItem> GetAllStoreAccItem(string id);
+      
     }
 
 }

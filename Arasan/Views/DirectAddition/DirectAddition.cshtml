@@ -2,6 +2,15 @@
 @{
     ViewData["Title"] = "Direct Addition";
 }
+<style>
+
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
 
@@ -50,7 +59,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Document ID<label class="Mandatory"></label></label>
+                                   <br /> <label for="inputName3" class="col-sm-4 control-label">Document ID<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.DocId, new { @id = "txtDocId", @class = "form-control", @TabIndex = 1 })
                                             @Html.HiddenFor(C => C.ID)
@@ -60,11 +69,13 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Document Date<label class="Mandatory"></label></label>
+                                <br />    <label for="inputName3" class="col-sm-4 control-label">Document Date<label class="mandatory">*</label></label>
 
 
-                                            <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy" ,@readonly=true>
+                                            <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+
                                             @Html.TextBoxFor(C => C.Docdate, new { @id = "Docdate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true  })
+
                                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                             <br />
                                             </div>
@@ -77,7 +88,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Challan No<label class="Mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Challan No<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.ChellanNo, new { @id = "txtChellanNo", @class = "form-control", @TabIndex = 1 })
                                     </div>
@@ -133,7 +144,7 @@
                                                             <th> Amount </th>
                                                             @*<th> Work Center</th>*@
                                                             <th>Process ID</th>
-                                                         
+
                                                         </tr>
 
                                                     </thead>
@@ -186,10 +197,12 @@
                                                            @* <td>
                                                             @Html.TextBoxFor(o => o.Itlst[i]. Center, new { @id = "txtCenter" + i, @class = "form-control", style = "width: 90px;"})
                                                         </td>*@
+
                                                             <td>
                                                                 @Html.TextBoxFor(o => o.Itlst[i]. Process, new { @id = "txtProcess" + i,@class = "form-control",onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;" })
                                                             </td>
                                                           
+
 
                                                             <td>
                                                                 @Html.HiddenFor(o => o.Itlst[i].Isvalid, new { @id = "Isvalid" + i })
@@ -243,7 +256,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Entered By<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Entered, new { @id = "txtEntered", @class = "form-control", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.Entered, Model.assignList, new { @id = "ddlEnterd", @Class = "form-control chosen-select", @TabIndex = 1 })
                                     </div>
                                 </div>
                             </div>
@@ -263,7 +276,7 @@
 
                         
                             <div style="height:30px;"></div>
-                                 <button type="submit" class="btn aqua m-t-xs bottom15-xs">Submit</button>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
                             <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListDirectAddition", "DirectAddition")'">Cancel</button>
                            
                     </form>
@@ -484,15 +497,72 @@
 
         var Process = "<td><input class='form-control' id='txtProcess" + index + "' name='Itlst[" + index + "].Process'  style='width: 80px;'onkeydown='return isNumeric2(event.keyCode,this.value)'  type='text'/></td>"
 
-          var TotalAmount = "<td><input class='form-control' id='txtTotalAmount" + index + "' name='Itlst[" + index + "].TotalAmount'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text'    /></td>";
-
+@*          var TotalAmount = "<td><input class='form-control' id='txtTotalAmount" + index + "' name='Itlst[" + index + "].TotalAmount'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text'    /></td>";
+*@
 
         var removeCell = "<td><input id='Isvalid" + index + "' name='Itlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='Itlst.Index' type='hidden' value='" + index + "'  /></td>";
 
-        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + ItemGrp + Item + Unit + ConFac  + BinID + Quantity + rate + Amount + Process + TotalAmount + removeCell + "</tr>";
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + ItemGrp + Item + Unit + ConFac  + BinID + Quantity + rate + Amount + Process + removeCell + "</tr>";
         //alert(Packing);
         $("#tbBooks").append(newRow);
 
         $(".chosen-select").chosen();
     }
+</script>
+<script>
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+            if (document.getElementById("txtDocId").value == "") {
+                isValid = false;
+                $(txtDocId).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Doc No");
+                return false;
+            }
+            else {
+                $(txtDocId).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("Docdate").value == "") {
+                isValid = false;
+                $(Docdate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Doc Date");
+                return false;
+            }
+            else {
+                $(Docdate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtChellanNo").value == "") {
+                isValid = false;
+                $(txtChellanNo).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Challan No");
+                return false;
+            }
+            else {
+                $(txtChellanNo).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+        });
+
+    });
 </script>

@@ -24,7 +24,7 @@ namespace Arasan.Interface.Master
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select BRANCHID,LOCATIONID,DOCID,DOCDATE,REFNO,REFDATE,RETNO,RETDATE,NARRATION,STORESACCBASICID from STORESACCBASIC";
+                    cmd.CommandText = "Select BRANCHMAST.BRANCHID, LOCDETAILS.LOCID,DOCID,to_char(DOCDATE,'dd-MON-yyyy')DOCDATE,REFNO,to_char(REFDATE,'dd-MON-yyyy')REFDATE,RETNO,to_char(RETDATE,'dd-MON-yyyy')RETDATE,NARRATION,STORESACCBASICID from STORESACCBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=STORESACCBASIC.BRANCHID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID=STORESACCBASIC.TOLOCID";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -32,7 +32,7 @@ namespace Arasan.Interface.Master
                         {
                             ID = rdr["STORESACCBASICID"].ToString(),
                             Branch = rdr["BRANCHID"].ToString(),
-                            Location = rdr["LOCATIONID"].ToString(),
+                            Location = rdr["LOCID"].ToString(),
                             Docid = rdr["DOCID"].ToString(),
                             Docdate = rdr["DOCDATE"].ToString(),
                             Refno = rdr["REFNO"].ToString(),
@@ -49,38 +49,38 @@ namespace Arasan.Interface.Master
             return staList;
         }
 
-        public StoreAcc GetStoreAccById(string eid)
-        {
-            StoreAcc StoreAcc = new StoreAcc();
-            using (OracleConnection con = new OracleConnection(_connectionString))
-            {
-                using (OracleCommand cmd = con.CreateCommand())
-                {
-                    con.Open();
-                    cmd.CommandText = "Select BRANCHID,LOCATIONID,DOCID,DOCDATE,REFNO,REFDATE,RETNO,RETDATE,NARRATION,STORESACCBASICID  from STORESACCBASIC where STORESACCBASICID=" + eid + "";
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
-                    {
-                        StoreAcc sta = new StoreAcc
-                        {
+        //public StoreAcc GetStoreAccById(string eid)
+        //{
+        //    StoreAcc StoreAcc = new StoreAcc();
+        //    using (OracleConnection con = new OracleConnection(_connectionString))
+        //    {
+        //        using (OracleCommand cmd = con.CreateCommand())
+        //        {
+        //            con.Open();
+        //            cmd.CommandText = "Select BRANCHID,LOCATIONID,DOCID,DOCDATE,REFNO,REFDATE,RETNO,RETDATE,NARRATION,STORESACCBASICID  from STORESACCBASIC where STORESACCBASICID=" + eid + "";
+        //            OracleDataReader rdr = cmd.ExecuteReader();
+        //            while (rdr.Read())
+        //            {
+        //                StoreAcc sta = new StoreAcc
+        //                {
 
-                            ID = rdr["STORESACCBASICID"].ToString(),
-                            Branch = rdr["BRANCHID"].ToString(),
-                            Location = rdr["LOCATIONID"].ToString(),
-                            Docid = rdr["DOCID"].ToString(),
-                            Docdate = rdr["DOCDATE"].ToString(),
-                            Refno = rdr["REFNO"].ToString(),
-                            Refdate = rdr["REFDATE"].ToString(),
-                            Retno = rdr["RETNO"].ToString(),
-                            Retdate = rdr["RETDATE"].ToString(),
-                            Narr = rdr["NARRATION"].ToString()
-                        };
-                        StoreAcc = sta;
-                    }
-                }
-            }
-            return StoreAcc;
-        }
+        //                    ID = rdr["STORESACCBASICID"].ToString(),
+        //                    Branch = rdr["BRANCHID"].ToString(),
+        //                    Location = rdr["LOCATIONID"].ToString(),
+        //                    Docid = rdr["DOCID"].ToString(),
+        //                    Docdate = rdr["DOCDATE"].ToString(),
+        //                    Refno = rdr["REFNO"].ToString(),
+        //                    Refdate = rdr["REFDATE"].ToString(),
+        //                    Retno = rdr["RETNO"].ToString(),
+        //                    Retdate = rdr["RETDATE"].ToString(),
+        //                    Narr = rdr["NARRATION"].ToString()
+        //                };
+        //                StoreAcc = sta;
+        //            }
+        //        }
+        //    }
+        //    return StoreAcc;
+        //}
 
         public string StoreAccCRUD(StoreAcc ss)
         {
@@ -128,7 +128,7 @@ namespace Arasan.Interface.Master
                         {
                             Pid = ss.ID;
                         }
-                        foreach (StoItem cp in ss.Itlst)
+                        foreach (StoItem cp in ss.Stolst)
                         {
                             if (cp.Isvalid == "Y" && cp.ItemId != "0")
                             {
@@ -152,6 +152,7 @@ namespace Arasan.Interface.Master
                                     objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cp.ItemId;
                                     objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = cp.Quantity;
                                     objCmds.Parameters.Add("UNIT", OracleDbType.NVarchar2).Value = cp.Unit;
+                                    objCmds.Parameters.Add("CONVFACTOR", OracleDbType.NVarchar2).Value = cp.ConFac;
                                     objCmds.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = cp.Rate;
                                     objCmds.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = cp.Amount;
                                     objCmds.Parameters.Add("FROMBINID", OracleDbType.NVarchar2).Value = cp.FromBinID;
@@ -190,7 +191,7 @@ namespace Arasan.Interface.Master
         public DataTable GetStoreAccDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select BRANCHID,LOCATIONID,DOCID,DOCDATE,REFNO,REFDATE,RETNO,RETDATE,NARRATION,STORESACCBASICID  from STORESACCBASIC where STORESACCBASICID=" + id + "";
+            SvSql = "Select BRANCHID,LOCATIONID,DOCID,to_char(DOCDATE,'dd-MON-yyyy')DOCDATE,REFNO,to_char(REFDATE,'dd-MON-yyyy')REFDATE,RETNO,to_char(RETDATE,'dd-MON-yyyy')RETDATE,NARRATION,STORESACCBASICID  from STORESACCBASIC where STORESACCBASICID=" + id + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -217,16 +218,7 @@ namespace Arasan.Interface.Master
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetItem(string Value)
-        {
-            string SvSql = string.Empty;
-            SvSql = "select ITEMID,ITEMMASTERID from ITEMMASTER WHERE  ACTIVE='Y'";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
+   
         public DataTable GetItemCF(string ItemId, string Unitid)
         {
             string SvSql = string.Empty;
@@ -240,7 +232,7 @@ namespace Arasan.Interface.Master
         public DataTable GetStoreAccItemDetails(string name)
         {
             string SvSql = string.Empty;
-            SvSql = "Select STORESACCDETAIL.QTY,STORESACCDETAIL.STORESACCDETAILID,STORESACCDETAIL.ITEMID,UNITMAST.UNITID,RATE,AMOUNT,FROMBINID,TOBINID,SERIALYN,PENDQTY,REJQTY,ACCQTY from STORESACCDETAIL LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=STORESACCDETAIL.UNIT  where STORESACCDETAIL.STORESACCDETAILID='" + name + "'";
+            SvSql = "Select STORESACCDETAIL.QTY,STORESACCDETAILID,STORESACCDETAIL.ITEMID,UNIT,CONVFACTOR,RATE,AMOUNT,FROMBINID,TOBINID,SERIALYN,PENDQTY,REJQTY,ACCQTY from STORESACCDETAIL   where STORESACCDETAIL.STORESACCBASICID='" + name + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

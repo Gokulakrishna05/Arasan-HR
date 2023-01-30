@@ -1,14 +1,13 @@
-﻿@model IEnumerable<Arasan.Models.DirectAddition>
-
+﻿@model IEnumerable<Arasan.Models.StoresReturn>
 @{
-    ViewData["Title"] = "DirectAddition";
+    ViewData["Title"] = "Stores Return";
 }
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
-            <li> <a>Master</a> </li>
-            <li class="active"> <strong>Direct Addition</strong> </li>
+            <li> <a>Stores Management </a> </li>
+            <li class="active"> <strong>Stores Return</strong> </li>
         </ol>
     </div>
 </div>
@@ -23,10 +22,9 @@
                         <div class="row">
                             <div class="col-md-12 ">
                                 <div class=" textalignright">
-                                    <a href="@Url.Action("DirectAddition","DirectAddition")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add DirectAddition</a>
+                                    <a href="@Url.Action("StoresReturn","StoresReturn")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add StoresReturn</a>
                                     <br>
                                 </div>
-
                             </div>
                         </div>
 
@@ -39,48 +37,45 @@
                                                 <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
                                                     <thead>
                                                         <tr>
-                                                           
+
                                                             <th>Branch </th>
-                                                            
+                                                            <th>Location</th>
                                                             <th>Document ID</th>
-                                                            <th>Document Date</th>
+                                                            @*<th>Document Date</th>*@
                                                             <th>Edit</th>
                                                             <th>Delete</th>
                                                         </tr>
                                                     </thead>
 
                                                     <tbody>
-                                                         @{
+                                                        @{
                                                             int i = 1;
 
                                                             foreach (var item in Model)
                                                             {
-                                                        <tr>
+                                                                <tr>
                                                                     <td>@Html.DisplayFor(modelItem => item.Branch)</td>
-                                                                    
+                                                                    <td>@Html.DisplayFor(modelItem => item.Location)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.DocId)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.Docdate)</td>
-                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("DirectAddition", "DirectAddition",new { id=item.ID })"></a></div></td>
-                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("DirectAddition", "DirectAddition",new { id=item.ID })"></a></div></td>
-                                                        </tr>
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("StoresReturn", "StoresReturn",new { id=item.ID })"></a></div></td>
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("StoresReturn", "StoresReturn",new { id=item.ID })"></a></div></td>
+                                                                </tr>
                                                                 i++;
                                                             }
                                                         }
-
-                                                       
                                                         @*<tr>
                                                             <td>2</td>
                                                             <td>SGST</td>
                                                             <td>2%</td>
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("tax", "tax")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("tax", "tax")"></a></div></td>
+                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("StoresReturn", "StoresReturn")"></a></div></td>
+                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("StoresReturn", "StoresReturn")"></a></div></td>
                                                         </tr>
                                                         <tr>
                                                             <td>3</td>
                                                             <td>IGST</td>
                                                             <td>10%</td>
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("tax", "tax")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("tax", "tax")"></a></div></td>
+                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("StoresReturn", "StoresReturn")"></a></div></td>
+                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("StoresReturn", "StoresReturn")"></a></div></td>
                                                         </tr>*@
                                                     </tbody>
                                                 </table>
@@ -127,4 +122,6 @@
 
 
     });
+
 </script>
+

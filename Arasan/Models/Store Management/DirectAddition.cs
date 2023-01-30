@@ -11,6 +11,7 @@ namespace Arasan.Models
         public string Reason { get; set; }
         public double Gro { get; set; }
         public double Net { get; set; }
+        public List<SelectListItem> assignList;
         public string Entered { get; set; }
         public string Narr { get; set; }
 
@@ -19,6 +20,7 @@ namespace Arasan.Models
         {
             this.Loc = new List<SelectListItem>();
             this.Brlst = new List<SelectListItem>();
+            this.assignList = new List<SelectListItem>();
         }
         public string Branch { get; set; }
 
