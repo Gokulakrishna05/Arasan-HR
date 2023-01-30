@@ -25,7 +25,7 @@ public class StoresReturnService : IStoresReturnService
             using (OracleCommand cmd = con.CreateCommand())
             {
                 con.Open();
-                cmd.CommandText = "Select BRANCHID,FROMLOCID,DOCID,DOCDATE,REFNO,REFDATE,NARRATION,STORESRETBASICID from STORESRETBASIC";
+                cmd.CommandText = "Select BRANCHID,FROMLOCID,DOCID,to_char(DOCDATE,'dd-MON-yyyy')DOCDATE,REFNO,to_char(REFDATE,'dd-MON-yyyy')REFDATE,NARRATION,STORESRETBASICID from STORESRETBASIC";
                 OracleDataReader rdr = cmd.ExecuteReader();
                 while (rdr.Read())
                 {
@@ -151,9 +151,9 @@ public class StoresReturnService : IStoresReturnService
                 objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
                 objCmd.Parameters.Add("FROMLOCID", OracleDbType.NVarchar2).Value = cy.Location;
                 objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.DocId;
-                objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = cy.Docdate;
+                objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = DateTime.Parse(cy.Docdate);
                 objCmd.Parameters.Add("REFNO", OracleDbType.NVarchar2).Value = cy.RefNo;
-                objCmd.Parameters.Add("REFDATE", OracleDbType.NVarchar2).Value = cy.RefDate;
+                objCmd.Parameters.Add("REFDATE", OracleDbType.NVarchar2).Value = DateTime.Parse(cy.RefDate);
                 objCmd.Parameters.Add("NARRATION", OracleDbType.Int64).Value = cy.Narr;
                 objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                 objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
@@ -193,8 +193,8 @@ public class StoresReturnService : IStoresReturnService
                                 objCmds.Parameters.Add("AMOUNT",OracleDbType.NVarchar2).Value = cp.Amount;
                                 //objCmds.Parameters.Add("TOTAMT", OracleDbType.NVarchar2).Value = cp.TotalAmount;
                                 //objCmds.Parameters.Add("CF", OracleDbType.NVarchar2).Value = cp.ConFac;
-                                objCmds.Parameters.Add("FROMBINID",OracleDbType.NVarchar2).Value = cp.FromBin;
-                                objCmds.Parameters.Add("TOBINID",OracleDbType.NVarchar2).Value = cp.ToBin;
+                                //objCmds.Parameters.Add("FROMBINID",OracleDbType.NVarchar2).Value = cp.FromBin;
+                                //objCmds.Parameters.Add("TOBINID",OracleDbType.NVarchar2).Value = cp.ToBin;
                                 objCmds.Parameters.Add("StatementType",OracleDbType.NVarchar2).Value = StatementType;
                                 objConns.Open();
                                 objCmds.ExecuteNonQuery();
