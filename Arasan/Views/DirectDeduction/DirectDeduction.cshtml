@@ -57,7 +57,7 @@
                                 </div>
                             </div>
                         </div>
-
+                        <div style="height:15px;"></div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -72,8 +72,10 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
+
                                   <br />   <label for="inputName3" class="col-sm-4 control-label">Document Date<label class="mandatory">*</label></label>
-                                          <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy" ,@readonly=true>
+                                          <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy" >
+
                                             @Html.TextBoxFor(C => C.Docdate, new { @id = "Docdate", @class = "form-control", @TabIndex = 2,@size="31" ,@readonly=true})
                                                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                 <br />
@@ -155,7 +157,7 @@
                                                             @*<th> Drum serial Number </th>
                                                             <th> Serial Number </th>*@
                                                             <th> Process ID</th>
-                                                            @*<th>Total Amount</th>*@
+
                                                             @*<th>Batch</th>*@
                                                         </tr>
 
@@ -188,7 +190,7 @@
                                                             @Html.TextBoxFor(o => o.Itlst[i].ConFac, new { @id = "txtConFac" + i, @class = "form-control", style = "width: 80px;" , @readonly = "readonly"})
                                                  </td>
                                                 <td>
-                                                            @Html.TextBoxFor(o => o.Itlst[i]. BinID, new { @id = "txtBinID" + i, @class = "form-control",onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;" })
+                                                            @Html.TextBoxFor(o => o.Itlst[i]. BinID, new { @id = "txtBinID" + i, @class = "form-control",onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;", @readonly = "readonly" })
                                                 </td>
                                                 @*<td>
                                                     @Html.TextBoxFor(o => o.Itlst[i]. Batch, new { @id = "txtBatch" + i, @class = "form-control", style = "width: 90px;"})
@@ -203,7 +205,7 @@
                                                             @Html.TextBoxFor(o => o.Itlst[i]. Quantity, new { @id = "txtQuantity" + i, @class = "form-control",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")", style = "width: 80px;" })
                                                 </td>
                                                 <td>
-                                                            @Html.TextBoxFor(o => o.Itlst[i].rate, new { @id = "txtrate" + i, @class = "form-control", style = "width: 80px;",@readonly="readonly",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")" })
+                                                            @Html.TextBoxFor(o => o.Itlst[i].rate, new { @id = "txtRate" + i, @class = "form-control", style = "width: 80px;",@readonly="readonly",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")" })
                                                         </td>
                                                 <td>
                                                             @Html.HiddenFor(o => o.Itlst[i].Isvalid, new { @id = "Isvalid" + i })
@@ -218,12 +220,7 @@
                                                 <td>
                                                             @Html.TextBoxFor(o => o.Itlst[i]. Process, new { @id = "txtProcess" + i,@class = "form-control",onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;" })
                                                 </td>
-                                                @*<td>
-                                                            @Html.TextBoxFor(o => o.Itlst[i].TotalAmount, new { @id = "txtTotalAmount" + i, @class = "form-control", style = "width: 80px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)", @readonly = "readonly"})
-                                                        </td>
-                                                <td>
-                                                    @Html.TextBoxFor(o => o.Itlst[i]. Bat, new { @id = "txtBat" + i, @class = "form-control", style = "width: 90px;"})
-                                                </td>*@
+
 
 
                                                 <td>
@@ -247,14 +244,16 @@
                                  </div>
                             </div>
                                    
-                          
+                           <div style="height:30px;"></div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
 
                                   <br />  <label for="inputName3" class="col-sm-4 control-label">Gross<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Gro, new { @id = "txtGro", @class = "form-control", @TabIndex = 1 })  <br />
+
+                                            @Html.TextBoxFor(C => C.Gro, new { @id = "gross", @class = "form-control", @TabIndex = 1 })
+
                                     </div>
                                 </div>
                             </div>
@@ -270,7 +269,7 @@
                                 </div>
 
                         </div>
-
+                         <div style="height:15px;"></div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -385,7 +384,6 @@
             success: function (result) {
 
                 document.getElementById("txtUnit" + i).value = result.unit;
-
                 document.getElementById("txtConFac" + i).value = result.cf;
                 document.getElementById("txtrate" + i).value = result.price;
             },
@@ -397,7 +395,9 @@
     function changeQty(_this, i) {
         try {
             var qty = document.getElementById("txtQuantity" + i).value;
-            var up = document.getElementById("txtrate" + i).value;
+
+            var up = document.getElementById("txtRate" + i).value;
+
             var CF = document.getElementById("txtConFac" + i).value;
             if (qty == "")
                 qty = 0;
@@ -422,18 +422,27 @@
             $('tr.chkitemlst').each(function () {
                 if ($(this).css('display') !== 'none') {
                     var unit = $(this).find('#txtQuantity' + j.toString()).val();
-                    var qtys = $(this).find('#txtrate' + j.toString()).val();
+
+                    var qtys = $(this).find('#txtRate' + j.toString()).val();
+
                     var CFs = $(this).find('#txtConFac' + j.toString()).val();
                     if (CFs == "")
                         CFs = 0;
 
+                    if (unit == "")
+                        unit = 0;
+
+                    if (qtys == "")
+                        qtys = 0;
                     var tots = eval(qtys) * eval(unit) * eval(CFs);
                     GTot = eval(tots) + eval(GTot);
                 }
                 j += 1;
             });
 
-            //document.getElementById("gross").value = GTot;
+
+            document.getElementById("gross").value = GTot;
+
             document.getElementById("net").value = GTot;
             // document.getElementById('words').value = inWords(GTot);
 
@@ -508,7 +517,7 @@
 
         var Quantity = "<td><input class='form-control' id='txtQuantity" + index + "' name='Itlst[" + index + "].Quantity'  style='width: 90px;' type='text'   /></td>"
 
-        var rate = "<td><input class='form-control' id='txtrate" + index + "' name='Itlst[" + index + "].rate'  style='width: 90px;' type='text'   /></td>"
+        var rate = "<td><input class='form-control' id='txtRate" + index + "' name='Itlst[" + index + "].rate'  style='width: 90px;' type='text'   /></td>"
 
         var Amount = "<td><input class='form-control' id='txtAmount" + index + "' name='Itlst[" + index + "].Amount'  style='width: 90px;' type='text'   /></td>"
 
