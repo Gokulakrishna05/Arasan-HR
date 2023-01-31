@@ -144,8 +144,7 @@ namespace Arasan.Services.Master
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = ss.ID;
                     }
 
-                    objCmd.Parameters.Add("IGROUP", OracleDbType.NVarchar2).Value = ss.ItemG;
-                    objCmd.Parameters.Add("ISUBGROUP", OracleDbType.NVarchar2).Value = ss.ItemSub;
+                   
                     objCmd.Parameters.Add("SUBCATEGORY", OracleDbType.NVarchar2).Value = ss.SubCat;
                     objCmd.Parameters.Add("ITEMCODE", OracleDbType.NVarchar2).Value = ss.ItemCode;
                     objCmd.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = ss.Item;
@@ -159,19 +158,19 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("HSN", OracleDbType.NVarchar2).Value = ss.Hcode;
                     objCmd.Parameters.Add("SELLINGPRI", OracleDbType.NVarchar2).Value = ss.Selling;
                     objCmd.Parameters.Add("ITEMACC ", OracleDbType.NVarchar2).Value = ss.StackAccount;
-                    objCmd.Parameters.Add("EXPYN ", OracleDbType.NVarchar2).Value = ss.Expiry;
-                    objCmd.Parameters.Add("VALMETHOD ", OracleDbType.NVarchar2).Value = ss.ValuationMethod;
-                    objCmd.Parameters.Add("SERIALYN ", OracleDbType.NVarchar2).Value = ss.Serial;
-                    objCmd.Parameters.Add("BSTATEMENTYN ", OracleDbType.NVarchar2).Value = ss.Batch;
-                    objCmd.Parameters.Add("QCT ", OracleDbType.NVarchar2).Value = ss.QCTemplate;
-                    objCmd.Parameters.Add("QCCOMPFLAG ", OracleDbType.NVarchar2).Value = ss.QCRequired;
-                    objCmd.Parameters.Add("LATPURPRICE ", OracleDbType.NVarchar2).Value = ss.Latast;
-                    objCmd.Parameters.Add("TARIFFHEADING ", OracleDbType.NVarchar2).Value = ss.SubHeading;
-                    objCmd.Parameters.Add("REJRAWMATPER ", OracleDbType.NVarchar2).Value = ss.Rejection;
-                    objCmd.Parameters.Add("RAWMATPER ", OracleDbType.NVarchar2).Value = ss.Percentage;
+                    objCmd.Parameters.Add("EXPYN", OracleDbType.NVarchar2).Value = ss.Expiry;
+                    objCmd.Parameters.Add("VALMETHOD", OracleDbType.NVarchar2).Value = ss.ValuationMethod;
+                    objCmd.Parameters.Add("SERIALYN", OracleDbType.NVarchar2).Value = ss.Serial;
+                    objCmd.Parameters.Add("BSTATEMENTYN", OracleDbType.NVarchar2).Value = ss.Batch;
+                    objCmd.Parameters.Add("QCT", OracleDbType.NVarchar2).Value = ss.QCTemplate;
+                    objCmd.Parameters.Add("QCCOMPFLAG", OracleDbType.NVarchar2).Value = ss.QCRequired;
+                    objCmd.Parameters.Add("LATPURPRICE", OracleDbType.NVarchar2).Value = ss.Latast;
+                    objCmd.Parameters.Add("TARIFFHEADING", OracleDbType.NVarchar2).Value = ss.SubHeading;
+                    objCmd.Parameters.Add("REJRAWMATPER", OracleDbType.NVarchar2).Value = ss.Rejection;
+                    objCmd.Parameters.Add("RAWMATPER", OracleDbType.NVarchar2).Value = ss.Percentage;
                     objCmd.Parameters.Add("ADD1PER ", OracleDbType.NVarchar2).Value = ss.PercentageAdd;
-                    objCmd.Parameters.Add("ADD1 ", OracleDbType.NVarchar2).Value = ss.Additive;
-                    objCmd.Parameters.Add("RAWMATCAT ", OracleDbType.NVarchar2).Value = ss.RawMaterial;
+                    objCmd.Parameters.Add("ADD1", OracleDbType.NVarchar2).Value = ss.Additive;
+                    objCmd.Parameters.Add("RAWMATCAT", OracleDbType.NVarchar2).Value = ss.RawMaterial;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
@@ -256,7 +255,7 @@ namespace Arasan.Services.Master
         public DataTable GetItemNameDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMCODE,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MAXSTOCKLVL,MINSTOCKLVL,CONVERAT,UOM,HSN,SELLINGPRI,BINNO,BINYN,ITEMMASTERID  from ITEMMASTER where ITEMMASTERID=" + id + "";
+            SvSql = "Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMCODE,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MAXSTOCKLVL,MINSTOCKLVL,CONVERAT,UOM,HSN,SELLINGPRI,ITEMACC,EXPYN,VALMETHOD,SERIALYN,BSTATEMENTYN,QCT,QCCOMPFLAG,LATPURPRICE,TARIFFHEADING,REJRAWMATPER,RAWMATPER,ADD1PER,ADD1,RAWMATCAT,ITEMMASTERID  from ITEMMASTER where ITEMMASTERID=" + id + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

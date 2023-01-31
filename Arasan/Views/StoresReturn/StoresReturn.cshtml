@@ -39,7 +39,7 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Branch <label class="mandatory"></label></label>
                                     <div class="col-sm-8">
                                         @Html.DropDownListFor(C => C.Branch, Model.Brlst, new { @id = "ddlBranch", @Class = "form-control chosen-select", @TabIndex = 1 })
-                                         <br />
+                                         
                                     </div>
                                 </div>
                             </div>
@@ -47,7 +47,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Location<label class="mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Location<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
 
                                             @Html.DropDownListFor(C => C.Location, Model.Loc, new { @id = "ddlLocation", @Class = "form-control chosen-select", @TabIndex = 1 })
@@ -62,7 +62,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Document ID<label class="Mandatory"></label></label>
+                                 <br />   <label for="inputName3" class="col-sm-4 control-label">Document ID<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.DocId, new { @id = "txtDocId", @class = "form-control", @TabIndex = 1 })
                                            
@@ -72,7 +72,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Document Date<label class="mandatory"></label></label>
+                                  <br />  <label for="inputName3" class="col-sm-4 control-label">Document Date<label class="mandatory">*</label></label>
 
                                      <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                             @Html.TextBoxFor(C => C.Docdate, new { @id = "Docdate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
@@ -96,7 +96,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                        <label for="inputName3" class="col-sm-4 control-label">Ref Date<label class="mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Ref Date<label class="mandatory">*</label></label>
 
                                         <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                             @Html.TextBoxFor(C => C.RefDate, new { @id = "RefDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
@@ -142,10 +142,11 @@
                                                             <th> Expiry</th>
                                                             <th> Current Stock </th>*@
                                                             <th>Conv.Factor</th>
-                                                            <th> Ret.Qty </th>
+                                                            <th> Qty </th>
+                                                            @*<th>Ret.Qty</th>*@
                                                             <th> Rate </th>
                                                             <th>Amount</th>
-                                                            <th>Total Amount</th>
+                                                           @* <th>Total Amount</th>*@
 
 
                                                         </tr>
@@ -193,9 +194,9 @@
 
                                                             @Html.TextBoxFor(o => o.StrLst[i].Amount, new { @id = "txtAmount" + i, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @readonly = "readonly" })
                                                         </td>
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.StrLst[i].TotalAmount, new { @id = "txtTotalAmount" + i, @class = "form-control", style = "width: 80px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)", @readonly = "readonly"})
-                                                        </td>
+                                                        //<td>
+                                                        //    @Html.TextBoxFor(o => o.StrLst[i].TotalAmount, new { @id = "txtTotalAmount" + i, @class = "form-control", style = "width: 80px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)", @readonly = "readonly"})
+                                                        //</td>
 
                                                         <td>
                                                             @Html.HiddenFor(o => o.StrLst[i].Isvalid, new { @id = "Isvalid" + i })
@@ -415,12 +416,12 @@
 
         var Amount = "<td><input class='form-control' id='txtAmount" + index + "' name='StrLst[" + index + "].Amount'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;text-align:right' type='text' value='0' readonly='True' /></td>";
        
-        var TotalAmount = "<td><input class='form-control' id='txtTotalAmount" + index + "' name='StrLst[" + index + "].TotalAmount'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text'    /></td>";
-
+       @* var TotalAmount = "<td><input class='form-control' id='txtTotalAmount" + index + "' name='StrLst[" + index + "].TotalAmount'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text'    /></td>";
+*@
         var removeCell = "<td><input id='Isvalid" + index + "' name='Itemlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='DirLst.Index' type='hidden' value='" + index + "'  /></td>";
 
 
-        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + ItemGrp + Item + Unit + FromBin + ToBin + ConFac  + Quantity + rate + Amount + TotalAmount + removeCell + "</tr>";
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + ItemGrp + Item + Unit + FromBin + ToBin + ConFac  + Quantity + rate + Amount + removeCell + "</tr>";
         //alert(Packing);
         $("#tbBooks").append(newRow);
 
