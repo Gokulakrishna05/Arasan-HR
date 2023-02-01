@@ -218,7 +218,7 @@ namespace Arasan.Services
                                                     objCmdIn.Parameters.Add("INVENTORY_ITEM_ID", OracleDbType.NVarchar2).Value = cp.itemid;
                                                     objCmdIn.Parameters.Add("GRN_ID", OracleDbType.NVarchar2).Value = dt.Rows[i]["GRN_ID"].ToString();
                                                     objCmdIn.Parameters.Add("ITEM_ID", OracleDbType.NVarchar2).Value = dt.Rows[i]["INVENTORY_ITEM_ID"].ToString();
-                                                objCmdIn.Parameters.Add("TRANS_TYPE", OracleDbType.NVarchar2).Value = "PURACHSERETURN";
+                                                    objCmdIn.Parameters.Add("TRANS_TYPE", OracleDbType.NVarchar2).Value = "PURACHSERETURN";
                                                     objCmdIn.Parameters.Add("TRANS_IMPACT", OracleDbType.NVarchar2).Value = "O";
                                                     objCmdIn.Parameters.Add("TRANS_QTY", OracleDbType.NVarchar2).Value = bqty;
                                                     objCmdIn.Parameters.Add("TRANS_NOTES", OracleDbType.NVarchar2).Value = "PURACHSERETURN";
@@ -230,7 +230,7 @@ namespace Arasan.Services
                                                     objCmdIn.Parameters.Add("BRANCH_ID", OracleDbType.NVarchar2).Value = cy.Branch;
                                                     objCmdIn.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = "Insert";
                                                     objCmdIn.ExecuteNonQuery();
-                                                objConnT.Close();
+                                                    objConnT.Close();
 
                                                 
 
