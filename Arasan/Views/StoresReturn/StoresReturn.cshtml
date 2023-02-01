@@ -194,9 +194,9 @@
 
                                                             @Html.TextBoxFor(o => o.StrLst[i].Amount, new { @id = "txtAmount" + i, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @readonly = "readonly" })
                                                         </td>
-                                                        //<td>
-                                                        //    @Html.TextBoxFor(o => o.StrLst[i].TotalAmount, new { @id = "txtTotalAmount" + i, @class = "form-control", style = "width: 80px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)", @readonly = "readonly"})
-                                                        //</td>
+                                                        @*<td>
+                                                            @Html.TextBoxFor(o => o.StrLst[i].TotalAmount, new { @id = "txtTotalAmount" + i, @class = "form-control", style = "width: 80px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)", @readonly = "readonly"})
+                                                        </td>*@
 
                                                         <td>
                                                             @Html.HiddenFor(o => o.StrLst[i].Isvalid, new { @id = "Isvalid" + i })
@@ -341,9 +341,6 @@
             } else {
                 document.getElementById("txtAmount" + i).value = 0;
             }
-
-
-
             var GTot = 0;
             var j = 0;
             $('tr.chkitemlst').each(function () {
@@ -359,10 +356,9 @@
                 }
                 j += 1;
             });
-
             document.getElementById("gross").value = GTot;
             document.getElementById("net").value = GTot;
-            // document.getElementById('words').value = inWords(GTot);
+         // document.getElementById('words').value = inWords(GTot);
 
 
         }
