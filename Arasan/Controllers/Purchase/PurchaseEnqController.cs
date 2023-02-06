@@ -69,7 +69,7 @@ namespace Arasan.Controllers
                 {
                     ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
                     ca.Enqdate= dt.Rows[0]["ENQDATE"].ToString();
-                    ca.Supplier= dt.Rows[0]["PARTY"].ToString();
+                    ca.Supplier= dt.Rows[0]["PARTYMASTID"].ToString();
                     ca.EnqNo= dt.Rows[0]["ENQNO"].ToString();
                     ca.ID = id;
                     ca.ParNo= dt.Rows[0]["PARTYREFNO"].ToString();
