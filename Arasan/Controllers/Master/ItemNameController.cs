@@ -87,7 +87,7 @@ namespace Arasan.Controllers.Master
                         ca.Additive = dt.Rows[0]["RAWMATCAT"].ToString();
                         ca.RawMaterial = dt.Rows[0]["SELLINGPRI"].ToString();
                         
-
+                        
                 }
                 DataTable dt2 = new DataTable();
                 dt2 = ItemNameService.GetBinDeatils(id);
@@ -152,8 +152,6 @@ namespace Arasan.Controllers.Master
         }
         public List<SelectListItem> BindBinID()
         {
-
-            
                 try
                 {
                     DataTable dtDesg = ItemNameService.BindBinID();
@@ -168,7 +166,6 @@ namespace Arasan.Controllers.Master
                 {
                     throw ex;
                 }
-            
         }
         public List<SelectListItem> BindItemGroup()
         {
