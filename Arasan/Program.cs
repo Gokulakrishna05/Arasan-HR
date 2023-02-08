@@ -74,6 +74,7 @@ internal class Program
         builder.Services.TryAddSingleton<IQCTestValueEntryService,QCTestValueEntryService>();
         builder.Services.TryAddSingleton<IAccGroup, AccGroupService>();
         builder.Services.TryAddSingleton<IStoresReturnService,StoresReturnService>();
+        builder.Services.TryAddSingleton<IReasonCodeService, ReasonCodeService>();
 
         builder.Services.AddSession();
         var emailConfig = builder.Configuration.GetSection("MailSettings").Get<MailSettings>();
