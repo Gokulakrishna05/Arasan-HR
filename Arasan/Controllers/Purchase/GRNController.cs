@@ -297,5 +297,6 @@ namespace Arasan.Controllers
             IEnumerable<GRN> cmp = GRNService.GetAllGRN();
             return View(cmp);
         }
+        
     }
 }

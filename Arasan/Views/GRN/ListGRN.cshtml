@@ -40,6 +40,7 @@
                           <th>PO No.</th>
                           <th>Currency</th>
                           <th>Status</th>
+                          <th>Account</th>
                           <th>Edit</th>
                           <th>Delete</th>
                         </tr>
@@ -63,14 +64,16 @@
                                                                             <td>@Html.DisplayFor(modelItem => item.Cur)</td>
                                                                              <td>@Html.DisplayFor(modelItem => item.Status)</td>
                                                                                @if(item.Status == "GRN Completed"){
-                                                               
+                                                               <td> <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("GRNAccount", "GRN",new { ItemID=item.ID })" class="fancybox" data-fancybox-type="iframe"><img src='../Images/checklist.png' alt='' /></a></div></td>
                                                                 <td></td>
                                                                 <td></td>
+                                                                
                                                                  }
                                                                     else{
-                                                                        
+                                                                      <td></td>  
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("GRN", "GRN",new { id=item.ID })"></a></div></td>
                                                                     <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("GRN", "GRN",new { id=item.ID })"></a></div></td>
+                                                                    
                                                                     }
 
                                                                         

@@ -1,0 +1,158 @@
+﻿@model Arasan.Models.MaterialRequisition
+
+@{
+    Layout = "_PopupLayout";
+    ViewData["Title"] = "Material Requisition";
+}
+<style>
+    .newwidth {
+        width: 120px;
+    }
+</style>
+
+
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                   @using (Html.BeginForm("ApproveMaterial", "MaterialRequisition", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                    <form>
+ <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                            
+                                                <label for="inputName3" class="col-sm-4 control-label">Branch<label class="Mandatory"></label></label>
+                                                <div class="col-sm-8">
+                                                    @Html.HiddenFor(C => C.ID)
+                                           @Html.DisplayFor(C => C.Branch)
+                                           @Html.HiddenFor(C => C.BranchId)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputName3" class="col-sm-4 control-label">Location<label class="Mandatory"></label></label>
+                                              
+                                                      <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.Location)
+                                            @Html.HiddenFor(C => C.LocationId)
+												</div>
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+									
+									 <div style="height:30px;"></div>
+                                     <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                            
+                                                <label for="inputName3" class="col-sm-4 control-label">Doc No.<label class="Mandatory"></label></label>
+                                                <div class="col-sm-8">
+                                           @Html.DisplayFor(C => C.DocId)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputName3" class="col-sm-4 control-label">Doc Date<label class="Mandatory"></label></label>
+                                              
+                                                      <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.DocDa)
+												</div>
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+									
+									 <div style="height:30px;"></div>
+                                      <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                            
+                                                <label for="inputName3" class="col-sm-4 control-label">Request Type<label class="Mandatory"></label></label>
+                                                <div class="col-sm-8">
+                                           @Html.DisplayFor(C => C.RequestType)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+									
+									 <div style="height:30px;"></div>
+
+<div class="row">
+          <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+              
+              <div class="ibox-content collapse in">
+                <div class="widgets-container">
+                  <div >
+                    <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
+                      <thead>
+                        <tr>
+                          <th>Item Name</th>
+                          <th>Quantity</th>
+                          <th>Stock Quantity</th>
+                          <th>Unit</th>
+                        <th>Issue Quantity</th>
+                        </tr>
+                      </thead>
+                   
+                      <tbody>
+                          @{
+                                                            int i = 0;
+
+                                                            foreach (var item in Model.MRlst.ToList())
+                                                            {
+                                                                
+                                        <tr>
+                                                                                    <td>@Html.DisplayFor(o => o.MRlst[i].Item)</td>
+                                                                                    <td>@Html.DisplayFor(o => o.MRlst[i].ReqQty)</td>
+                                                                                    <td>@Html.DisplayFor(o => o.MRlst[i].ClosingStock)</td>
+                                                                                    <td>@Html.DisplayFor(o => o.MRlst[i].Unit)@Html.HiddenFor(o => o.MRlst[i].UnitID)</td>
+                                                                           <td>@Html.TextBoxFor(o => o.MRlst[i].InvQty, new { @id = "InvQty" + i, @class = "form-control",@readonly=true , style = "width: 80px;"})</td>
+                                         </tr>
+                                                                i++;
+                                                            }
+                                                        }
+                       
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+                                  
+                                     <div style="height:30px;"></div>
+                            <div class="col-lg-10"></div>
+                            <button type="submit" name="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" value="Save" tabindex="18" onClick="window.parent.jQuery.fancybox.close();">Generate</button>
+                         
+                           <input type="button" class="btn btn-danger" value="Close" onClick="window.parent.jQuery.fancybox.close();" />
+                                   
+                                 
+                    </form>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        $(document).on('click', '.closeFancybox', function() {
+            $.fancybox.close();
+        });
+       
+})
+
+</script>
+                         
+
+                 

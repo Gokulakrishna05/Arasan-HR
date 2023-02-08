@@ -61,7 +61,7 @@ namespace Arasan.Controllers.Store_Management
                     MR.DocDa = dt.Rows[0]["DOCDATE"].ToString();
 
                 }
-
+                
             }
             MR.MRlst = TData;
             return View(MR);
@@ -84,7 +84,7 @@ namespace Arasan.Controllers.Store_Management
                 throw ex;
             }
         }
-        public ActionResult GetItemDetail(string ItemId)
+        public ActionResult GetItemDetail(string ItemId,string branch,string loc)
         {
             try
             {
@@ -92,18 +92,26 @@ namespace Arasan.Controllers.Store_Management
                 DataTable dt1 = new DataTable();
 
                 string unit = "";
+                string stk = "";
+                string unitid = "";
 
                 dt = materialReq.GetItemDetails(ItemId);
 
                 if (dt.Rows.Count > 0)
                 {
-
                     unit = dt.Rows[0]["UNITID"].ToString();
-
-
+                    unitid= dt.Rows[0]["UNITMASTID"].ToString();
                 }
-
-                var result = new { unit = unit };
+                dt1 = materialReq.Getstkqty(ItemId,loc, branch);
+                if(dt1.Rows.Count > 0)
+                {
+                    stk= dt1.Rows[0]["QTY"].ToString();
+                }
+                if(stk == "")
+                {
+                    stk = "0";
+                }
+                var result = new { unit = unit , stk = stk , unitid = unitid };
                 return Json(result);
             }
             catch (Exception ex)
@@ -242,7 +250,190 @@ namespace Arasan.Controllers.Store_Management
             return View(cmp);
         }
 
+        public IActionResult ApproveMaterial(string id)
+        {
+            MaterialRequisition MR = new MaterialRequisition();
+            DataTable dt = new DataTable();
+            DataTable dtt = new DataTable();
+            dt = materialReq.GetMatbyID(id);
+            if (dt.Rows.Count > 0)
+            {
+                MR.Location = dt.Rows[0]["LOCID"].ToString();
+                MR.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                MR.DocId= dt.Rows[0]["DOCID"].ToString();
+                MR.DocDa= dt.Rows[0]["DOCDATE"].ToString();
+                MR.RequestType = dt.Rows[0]["REQTYPE"].ToString();
+                MR.BranchId = dt.Rows[0]["BRANCHIDS"].ToString();
+                MR.LocationId= dt.Rows[0]["FROMLOCID"].ToString();
+            }
+            List<MaterialRequistionItem> TData = new List<MaterialRequistionItem>();
+            MaterialRequistionItem tda = new MaterialRequistionItem();
+            dtt = materialReq.GetMatItemByID(id);
+            if (dtt.Rows.Count > 0)
+            {
+                for (int i = 0; i < dtt.Rows.Count; i++)
+                {
+                    tda = new MaterialRequistionItem();
+                    tda.Item = dtt.Rows[i]["ITEMID"].ToString();
+                    tda.UnitID = dtt.Rows[i]["UNIT"].ToString();
+                    tda.Unit = dtt.Rows[i]["UNITID"].ToString();
+                    tda.ReqQty = dtt.Rows[i]["QTY"].ToString();
+                    double reqqty = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString()); 
+                    DataTable dt1 = materialReq.Getstkqty(dtt.Rows[i]["ITEMMASTERID"].ToString(), dt.Rows[0]["FROMLOCID"].ToString(), dt.Rows[0]["BRANCHIDS"].ToString());
+                    if (dt1.Rows.Count > 0)
+                    {
+                        tda.ClosingStock = dt1.Rows[0]["QTY"].ToString();
+                    }
+                    double stkqty = 0;
+                    if(!string.IsNullOrEmpty(tda.ClosingStock))
+                    {
+                        stkqty = Convert.ToDouble(tda.ClosingStock);
+                    }
+                    if(stkqty > reqqty)
+                    {
+                        tda.InvQty = reqqty;
+                        tda.IndQty = 0;
+                    }
+                    else
+                    {
+                        tda.InvQty = stkqty;
+                        tda.IndQty = (reqqty- stkqty);
+                    }
+                    //tda.Itemlst = BindItemlst();
+                    tda.Isvalid = "Y";
+                    TData.Add(tda);
+                }
+            }
+            MR.MRlst=TData;
+            return View(MR);
+        }
+        public IActionResult IssueToindent(string id)
+        {
+            MaterialRequisition MR = new MaterialRequisition();
+            DataTable dt = new DataTable();
+            DataTable dtt = new DataTable();
+            dt = materialReq.GetMatbyID(id);
+            if (dt.Rows.Count > 0)
+            {
+                MR.Location = dt.Rows[0]["LOCID"].ToString();
+                MR.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                MR.DocId = dt.Rows[0]["DOCID"].ToString();
+                MR.DocDa = dt.Rows[0]["DOCDATE"].ToString();
+                MR.RequestType = dt.Rows[0]["REQTYPE"].ToString();
+                MR.BranchId = dt.Rows[0]["BRANCHIDS"].ToString();
+                MR.LocationId = dt.Rows[0]["FROMLOCID"].ToString();
+            }
+            List<MaterialRequistionItem> TData = new List<MaterialRequistionItem>();
+            MaterialRequistionItem tda = new MaterialRequistionItem();
+            dtt = materialReq.GetMatItemByID(id);
+            if (dtt.Rows.Count > 0)
+            {
+                for (int i = 0; i < dtt.Rows.Count; i++)
+                {
+                    tda = new MaterialRequistionItem();
+                    tda.Item = dtt.Rows[i]["ITEMID"].ToString();
+                    tda.UnitID = dtt.Rows[i]["UNIT"].ToString();
+                    tda.Unit = dtt.Rows[i]["UNITID"].ToString();
+                    tda.ReqQty = dtt.Rows[i]["QTY"].ToString();
+                    double reqqty = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString());
+                    DataTable dt1 = materialReq.Getstkqty(dtt.Rows[i]["ITEMMASTERID"].ToString(), dt.Rows[0]["FROMLOCID"].ToString(), dt.Rows[0]["BRANCHIDS"].ToString());
+                    if (dt1.Rows.Count > 0)
+                    {
+                        tda.ClosingStock = dt1.Rows[0]["QTY"].ToString();
+                    }
+                    double stkqty = 0;
+                    if (!string.IsNullOrEmpty(tda.ClosingStock))
+                    {
+                        stkqty = Convert.ToDouble(tda.ClosingStock);
+                    }
+                    if (stkqty > reqqty)
+                    {
+                        tda.InvQty = reqqty;
+                        tda.IndQty = 0;
+                    }
+                    else
+                    {
+                        tda.InvQty = stkqty;
+                        tda.IndQty = (reqqty - stkqty);
+                    }
+                    //tda.Itemlst = BindItemlst();
+                    tda.Isvalid = "Y";
+                    TData.Add(tda);
+                }
+            }
+            MR.MRlst = TData;
+            return View(MR);
+        }
+        [HttpPost]
+        public ActionResult IssueToindent(MaterialRequisition Cy, string id)
+        {
+            try
+            {
+                Cy.ID = id;
+                string Strout = materialReq.IssuetoIndent(Cy);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Cy.ID == null)
+                    {
+                        TempData["notice"] = "Material Issued Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "Material Issued Successfully...!";
+                    }
+                    return RedirectToAction("ListMaterialRequisition");
+                }
 
+                else
+                {
+                    ViewBag.PageTitle = "Edit PO";
+                    TempData["notice"] = Strout;
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return RedirectToAction("ListPO");
+        }
+        [HttpPost]
+        public ActionResult ApproveMaterial(MaterialRequisition Cy, string id)
+        {
+            try
+            {
+                Cy.ID = id;
+                string Strout = materialReq.ApproveMaterial(Cy);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Cy.ID == null)
+                    {
+                        TempData["notice"] = "Material Issued Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "Material Issued Successfully...!";
+                    }
+                    return RedirectToAction("ListMaterialRequisition");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit PO";
+                    TempData["notice"] = Strout;
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return RedirectToAction("ListPO");
+        }
         public JsonResult GetItemJSON(string itemid)
         {
             MaterialRequistionItem model = new MaterialRequistionItem();
