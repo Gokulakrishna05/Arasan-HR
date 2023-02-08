@@ -328,7 +328,7 @@ namespace Arasan.Services
 
                 ///////////////////////GRN Generation
                 int cunt = datatrans.GetDataId("Select count(GRNBLBASICID) from GRNBLBASIC Where POBASICID=" + cy.POId + "");
-                if (cunt == 1)
+                if (cunt == 0)
                 {
 
                 DateTime theDate = DateTime.Now;
