@@ -5,5 +5,7 @@ namespace Arasan.Interface.Production
 {
     public interface IReasonCodeService
     {
+        IEnumerable<ReasonCode> GetAllReasonCode();
+        string ReasonCodeCRUD(ReasonCode cy);
     }
 }
