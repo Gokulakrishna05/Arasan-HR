@@ -501,7 +501,7 @@ namespace Arasan.Controllers
                 if (!string.IsNullOrEmpty(id))
                 {
                     DataTable dt = new DataTable();
-                    dt = PurenqService.GetPurchaseEnqDetails(id);
+                    dt = PurenqService.GetPurchaseEnqFolwDetails(id);
                     if (dt.Rows.Count > 0)
                     {
                         cmp.Enqno = dt.Rows[0]["ENQNO"].ToString();

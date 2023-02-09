@@ -22,11 +22,13 @@ public interface IPurchaseEnqService
         IEnumerable<PurchaseFollowup> GetAllPurchaseFollowup();
         //PurchaseFollowup GetPurchaseFollowupById(string id);
         DataTable GetFolowup(string enqid);
+
         string EnquirytoQuote(string id);
 
     DataTable GetFollowupDetail(string id);
     DataTable GetPurchaseEnqDetails(string id);
-        DataTable GetPurchaseEnqItemDetails(string id);
+    DataTable GetPurchaseEnqFolwDetails(string id);
+    DataTable GetPurchaseEnqItemDetails(string id);
         DataTable GetItemSubGrp();
         DataTable GetItemSubGroup(string id);
 

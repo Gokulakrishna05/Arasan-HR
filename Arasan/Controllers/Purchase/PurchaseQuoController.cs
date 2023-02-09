@@ -519,5 +519,11 @@ namespace Arasan.Controllers
 
             return View(Pf);
 }
+        //public IActionResult Followup()
+        //{
+        //    IEnumerable<QuoFollowup> cmp = PurquoService.GetAllPurchaseFollowup();
+        //    return View(cmp);
+        //}
+
     }
 }

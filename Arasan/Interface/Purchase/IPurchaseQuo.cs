@@ -30,6 +30,7 @@ namespace Arasan.Interface
         //DataTable GetFolowup(string enqid);
         DataTable GetFolowup(string enqid);
         string PurchaseFollowupCRUD(QuoFollowup pf);
+        IEnumerable<QuoFollowup> GetAllPurchaseFollowup();
 
     }
 }
