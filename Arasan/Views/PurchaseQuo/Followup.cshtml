@@ -56,7 +56,7 @@
                                     <div class="col-sm-8">
                                               @Html.DropDownListFor(C => C.Followby,Model.EnqassignList, new { @id = "Followby", @Class = "form-control chosen-select", @TabIndex = 2 })
   <br />
-                                            @Html.HiddenFor(C => C.ID)
+                                            @Html.HiddenFor(C => C.FolID)
                                     </div>
                                 </div>
                             </div>
@@ -143,7 +143,9 @@
                                                                 {
                                                                     <tr>
 
-                                                                        <td>@Html.DisplayFor(modelItem => item.Followby)</td>
+                                                                        <td>
+                                                                            @Html.HiddenFor(C => C.FolID)
+                                                                        @Html.DisplayFor(modelItem => item.Followby)</td>
                                                                         <td>@Html.DisplayFor(modelItem => item.Followdate)</td>
                                                                         <td>@Html.DisplayFor(modelItem => item.Nfdate)</td>
                                                                         <td>@Html.DisplayFor(modelItem => item.Enquiryst)</td>
