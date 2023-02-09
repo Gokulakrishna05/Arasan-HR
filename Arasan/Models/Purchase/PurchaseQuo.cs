@@ -69,7 +69,7 @@ namespace Arasan.Models
         }
     public class QuoFollowup
     {
-        public string ID { get; set; }
+        public string FolID { get; set; }
         public string QuoNo { get; set; }
         public string Supname { get; set; }
         public string Enqdate { get; set; }

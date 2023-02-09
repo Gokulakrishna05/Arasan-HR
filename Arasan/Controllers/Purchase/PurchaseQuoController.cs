@@ -93,9 +93,6 @@ namespace Arasan.Controllers
                     }
                 }
                 ca.Net = Math.Round(total, 2);
-
-                
-
                 ca.QoLst = Data;
             }
             return View(ca);
@@ -478,7 +475,7 @@ namespace Arasan.Controllers
 
 
 
-        //IEnumerable<PurchaseFollowup> cmp = PurenqService.GetAllPurchaseFollowup();
+      
 
 
 
@@ -488,11 +485,12 @@ namespace Arasan.Controllers
 
             try
             {
-                Pf.ID = id;
+                Pf.FolID = id;
                 string Strout = PurquoService.PurchaseFollowupCRUD(Pf);
+                //IEnumerable<QuoFollowup> cmp = PurquoService.GetAllPurchaseFollowup();
                 if (string.IsNullOrEmpty(Strout))
                 {
-                    if (Pf.ID == null)
+                    if (Pf.FolID == null)
                     {
                         TempData["notice"] = "Followup Inserted Successfully...!";
                     }

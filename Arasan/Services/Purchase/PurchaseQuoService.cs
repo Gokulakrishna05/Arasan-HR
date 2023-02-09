@@ -425,13 +425,13 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select QUO_ID,EMPMAST.EMPNAME,to_char(FOLLOW_DATE,'dd-MON-yyyy')FOLLOW_DATE,to_char(NEXT_FOLLOW_DATE,'dd-MON-yyyy')NEXT_FOLLOW_DATE,REMARKS,FOLLOW_STATUS,QUO_FOLLOW_ID from left outer join EMPMAST on FOLLOWED_BY =EMPMAST.EMPNAME\r\n QUOTATION_FOLLOW_UP";
+                    cmd.CommandText = "Select QUO_ID,EMPMAST.EMPNAME,to_char(FOLLOW_DATE,'dd-MON-yyyy')FOLLOW_DATE,to_char(NEXT_FOLLOW_DATE,'dd-MON-yyyy')NEXT_FOLLOW_DATE,REMARKS,FOLLOW_STATUS,QUO_FOLLOW_ID from left outer join EMPMAST on FOLLOWED_BY =EMPMAST.EMPNAME ";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
                         QuoFollowup cmp = new QuoFollowup
                         {
-                            ID = rdr["QUO_FOLLOW_ID"].ToString(),
+                            FolID = rdr["QUO_FOLLOW_ID"].ToString(),
                             QuoNo = rdr["QUO_ID"].ToString(),
                             Followby = rdr["FOLLOWED_BY"].ToString(),
                             Followdate = rdr["FOLLOW_DATE"].ToString(),
@@ -470,7 +470,7 @@ namespace Arasan.Services
                     objCmd.CommandText = "PURCHASEFOLLOWPROC";*/
 
                     objCmd.CommandType = CommandType.StoredProcedure;
-                    if (cy.ID == null)
+                    if (cy.FolID == null)
                     {
                         StatementType = "Insert";
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
@@ -478,7 +478,7 @@ namespace Arasan.Services
                     else
                     {
                         StatementType = "Update";
-                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.FolID;
                     }
 
                     objCmd.Parameters.Add("QUO_ID", OracleDbType.NVarchar2).Value = cy.QuoNo;
