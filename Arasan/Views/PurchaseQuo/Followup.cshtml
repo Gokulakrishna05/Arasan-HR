@@ -56,7 +56,7 @@
                                     <div class="col-sm-8">
                                               @Html.DropDownListFor(C => C.Followby,Model.EnqassignList, new { @id = "Followby", @Class = "form-control chosen-select", @TabIndex = 2 })
   <br />
-
+                                            @Html.HiddenFor(C => C.ID)
                                     </div>
                                 </div>
                             </div>
@@ -137,7 +137,7 @@
 
                                                     <tbody>
                                                             @{
-                                                                int i = 1;
+                                                               
 
                                                                 foreach (var item in Model.qflst)
                                                                 {
@@ -152,7 +152,7 @@
                                                                         <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("Followup", "PurchaseQuo",new { id=item.ID })"></a></div></td>
                                                                         *@
                                                                     </tr>
-                                                                    i++;
+                                                                   
                                                                 }
                                                             }
 

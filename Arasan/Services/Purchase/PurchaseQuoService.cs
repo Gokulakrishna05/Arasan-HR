@@ -425,7 +425,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select QUO_ID,FOLLOWED_BY,to_char(FOLLOW_DATE,'dd-MON-yyyy')FOLLOW_DATE,to_char(NEXT_FOLLOW_DATE,'dd-MON-yyyy')NEXT_FOLLOW_DATE,REMARKS,FOLLOW_STATUS,QUO_FOLLOW_ID from QUOTATION_FOLLOW_UP";
+                    cmd.CommandText = "Select QUO_ID,EMPMAST.EMPNAME,to_char(FOLLOW_DATE,'dd-MON-yyyy')FOLLOW_DATE,to_char(NEXT_FOLLOW_DATE,'dd-MON-yyyy')NEXT_FOLLOW_DATE,REMARKS,FOLLOW_STATUS,QUO_FOLLOW_ID from left outer join EMPMAST on FOLLOWED_BY =EMPMAST.EMPNAME\r\n QUOTATION_FOLLOW_UP";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
