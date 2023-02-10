@@ -104,7 +104,26 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-
+        public DataTable FetchAccountRec(string GRNId)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select PACKING_CHRAGES,OTHER_CHARGES,OTHER_DEDUCTION,ROUND_OFF_PLUS,ROUND_OFF_MINUS,CGST,SGST,IGST,FREIGHT,GROSS,NET,TOT_DISC from GRNBLBASIC where GRNBLBASICID='" + GRNId + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable LedgerList()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select MASTERID,DISPNAME from MASTER";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public string GRNCRUD(GRN cy)
         {
             string msg = "";

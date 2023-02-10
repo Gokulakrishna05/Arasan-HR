@@ -64,7 +64,7 @@
                                                                             <td>@Html.DisplayFor(modelItem => item.Cur)</td>
                                                                              <td>@Html.DisplayFor(modelItem => item.Status)</td>
                                                                                @if(item.Status == "GRN Completed"){
-                                                               <td> <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("GRNAccount", "GRN",new { ItemID=item.ID })" class="fancybox" data-fancybox-type="iframe"><img src='../Images/checklist.png' alt='' /></a></div></td>
+                                                               <td> <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("GRNAccount", "GRN",new { id=item.ID })" class="fancybox" data-fancybox-type="iframe"><img src='../Images/checklist.png' alt='' /></a></div></td>
                                                                 <td></td>
                                                                 <td></td>
                                                                 

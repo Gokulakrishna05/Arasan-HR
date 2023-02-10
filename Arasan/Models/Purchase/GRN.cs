@@ -57,6 +57,7 @@ namespace Arasan.Models
         public List<POItemlst> PoItemlst { get; set; }
 
         public List<POItem> PoItem { get; set; }
+        public List<GRNAccount> Acclst { get; set; }
 
         public List<SelectListItem> RecList;
 
@@ -64,7 +65,8 @@ namespace Arasan.Models
 
         public double Gross { get; set; }
         public double Net { get; set; }
-
+        public double TotalCRAmt { get; set; }
+        public double TotalDRAmt { get; set; }
         public double Frieghtcharge { get; set; }
         public double Packingcharges { get; set; }
         public double Othercharges { get; set; }
@@ -79,5 +81,23 @@ namespace Arasan.Models
         public string GRNID { get; set; }
         public string RefNo { get; set; }
         public string RefDate { get; set; }
+
+        public double DiscAmt { get; set; }
+        public double CGST { get; set; }
+        public double SGST { get; set; }
+        public double IGST { get; set; }
+    }
+    public class GRNAccount
+    {
+        public string Ledgername { get;set; }   
+        public List<SelectListItem> Ledgerlist { get; set; }
+        public string TypeName { get; set; }    
+        public string CRDR { get; set; }
+        public List<SelectListItem> CRDRLst { get; set; }
+        public double CRAmount { get; set; }
+        public double DRAmount { get; set; }
+        public string Isvalid { get; set; }
+        public string symbol { get; set; }
+
     }
 }
