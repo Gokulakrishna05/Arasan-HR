@@ -29,15 +29,33 @@ namespace Arasan.Controllers.Production
             ReasonCode ca = new ReasonCode();
             ca.assignList = BindEmp();
             //ca.Categorylst = BindCategory();
+            List<ReasonItem> TData = new List<ReasonItem>();
+            ReasonItem tda = new ReasonItem();
             if (id == null)
             {
-
+                for (int i = 0; i < 3; i++)
+                {
+                    tda = new ReasonItem();
+                    tda.Categorylst = BindCategory();
+                    tda.Isvalid = "Y";
+                    TData.Add(tda);
+                }
             }
             else
             {
-                //ca = LocationService.GetLocationsById(id);
+                DataTable dt = new DataTable();
+
+                dt = ReasonCodeService.GetReasonCode(id);
+                if (dt.Rows.Count > 0)
+                {
+                    //ca.DocId = dt.Rows[0]["DOCID"].ToString();
+                    //ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
+                   
+                    
+                }
 
             }
+            ca.ReLst = TData;
             return View(ca);
         }
         [HttpPost]
@@ -77,22 +95,22 @@ namespace Arasan.Controllers.Production
 
             return View(Cy);
         }
-        //public List<SelectListItem> BindCategory()
-        //{
-        //    try
-        //    {
-        //        List<SelectListItem> lstdesg = new List<SelectListItem>();
-        //        lstdesg.Add(new SelectListItem() { Text = "IDLE-TIME", Value = "IDLE-TIME" });
-        //        lstdesg.Add(new SelectListItem() { Text = "DOWN-TIME", Value = "DOWN-TIME" });
-        //        lstdesg.Add(new SelectListItem() { Text = "RUN-TIME", Value = "RUN-TIME" });
+        public List<SelectListItem> BindCategory()
+        {
+            try
+            {
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                lstdesg.Add(new SelectListItem() { Text = "IDLE-TIME", Value = "IDLE-TIME" });
+                lstdesg.Add(new SelectListItem() { Text = "DOWN-TIME", Value = "DOWN-TIME" });
+                lstdesg.Add(new SelectListItem() { Text = "RUN-TIME", Value = "RUN-TIME" });
 
-        //        return lstdesg;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<SelectListItem> BindEmp()
         {
             try
@@ -115,5 +133,18 @@ namespace Arasan.Controllers.Production
             IEnumerable<ReasonCode> cmp = ReasonCodeService.GetAllReasonCode();
             return View();
         }
+        public JsonResult GetItemJSON()
+        {
+            ReasonItem model = new ReasonItem();
+            //model.Itemlst = BindItemlst(itemid);
+            return Json(model);
+
+        }
+        //public JsonResult GetItemGrpJSON()
+        //{
+        //    //DirectItem model = new DirectItem();
+        //    //  model.ItemGrouplst = BindItemGrplst(value);
+        //    return Json(BindItemGrplst());
+        //}
     }
 }
