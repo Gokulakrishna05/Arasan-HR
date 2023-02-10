@@ -10,5 +10,7 @@ namespace Arasan.Interface
         DataTable GetGRNItembyID(string Poid);
         string GRNCRUD(GRN cy);
         DataTable EditGRNbyID(string name);
+        DataTable FetchAccountRec(string GRNId);
+        DataTable LedgerList();
     }
 }

@@ -1,0 +1,274 @@
+﻿@model Arasan.Models.GRN
+
+@{
+    Layout = "_PopupLayout";
+    ViewData["Title"] = "GRN Account";
+}
+<style>
+    .newwidth {
+        width: 120px;
+    }
+</style>
+
+
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                   @using (Html.BeginForm("GRNAccount", "GRN", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                    <form>
+ <div style="height:30px;"></div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="btn-group">
+                                   <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" /></p>
+                                </div>
+                            </div>
+  <div class="row">
+          <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+              
+              <div class="ibox-content collapse in">
+                <div class="widgets-container">
+                  <div >
+                    <table id="dataTable" class="display nowrap table  responsive nowrap table-bordered">
+                      <thead>
+                        <tr>
+                          <th>Name</th>
+                          <th>Ledger Name</th>
+                          <th>Account Type</th>
+                          <th>Credit Amount</th>
+                          <th>Debit Amount</th>
+                          <th>Remove</th>
+                        </tr>
+                      </thead>
+                   
+                      <tbody id="tbBooks">
+                          @{
+                                                            int i = 0;
+
+                                                            foreach (var item in Model.Acclst.ToList())
+                                                            {
+                                                                
+                                                            <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                                                        <td>@Html.TextBoxFor(o => o.Acclst[i].TypeName, new { @id = "TypeName" + i, @class = "form-control", style = "width: 180px;"})</td>
+                                                                                                        <td>@Html.DropDownListFor(o => o.Acclst[i].Ledgername, Model.Acclst[i].Ledgerlist, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlLedgername" + i, style = "width: 170px;"})</td>
+                                                                                                        <td>@Html.DropDownListFor(o => o.Acclst[i].CRDR, Model.Acclst[i].CRDRLst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlCRDR" + i, style = "width: 170px;" , onchange = "changeCRDR(this.value," + i + ")"})</td>
+                                                                                                        <td>@Html.HiddenFor(o => o.Acclst[i].symbol, new { @id = "symbol" + i, @class = "form-control", style = "width: 50px;",@readonly="readonly"})
+                                                                                                        @Html.TextBoxFor(o => o.Acclst[i].CRAmount, new { @id = "txtCRAmount" + i, @class = "form-control", style="width: 100px;text-align:right", @onkeyup = "changecramt(this," + i + ")"})
+                                                                                                        </td>
+                                                                                                <td>@Html.TextBoxFor(o => o.Acclst[i].DRAmount, new { @id = "txtDRAmount" + i, @class = "form-control", style="width: 100px;text-align:right", @onkeyup = "changedramt(this," + i + ")"})</td>
+                                                                                                  <td>
+                                                                                                                                        @Html.HiddenFor(o => o.Acclst[i].Isvalid, new { @id = "Isvalid" + i })
+                                                                                                                                        <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> 
+                                                                                                                                    </td>
+                                                             </tr>
+                                                                i++;
+                                                            }
+                                                        }
+                       
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+
+          <div style="height:30px;"></div>
+
+                        @* <div class="row">
+                             <div class="col-md-5"></div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                            
+                                                <label for="inputName3" class="col-sm-4 control-label">Total Amount<label class="Mandatory"></label></label>
+                                                <div class="col-sm-8">
+                                                    @Html.TextBoxFor(C => C.TotalAmt ,new { @id = "txTotalAmt", @Class = "form-control", @TabIndex = 1 ,@readonly=true})
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>*@
+
+                                  <div style="height:30px;"></div>
+                                  <div class="row">
+                                       <div class="col-md-6">
+                                            <div class="form-group">
+                                            
+                                                <label for="inputName3" class="col-sm-4 control-label">Total Credit Amount<label class="Mandatory"></label></label>
+                                                <div class="col-sm-8">
+                                                    @Html.TextBoxFor(C => C.TotalCRAmt ,new { @id = "txTotalAmt", @Class = "form-control", @TabIndex = 1 ,@readonly=true})
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputName3" class="col-sm-4 control-label">Total Debit Amount<label class="Mandatory"></label></label>
+                                              
+                                                      <div class="col-sm-8">
+                                                        <input type="hidden" id="hidnet" /> 
+												 @Html.TextBoxFor(C => C.TotalDRAmt, new { @id = "txtNet", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)" ,@readonly=true})
+												</div>
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+                                     <div style="height:30px;"></div>
+                            <div class="col-lg-10"></div>
+                            <button type="submit" name="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" value="Save" tabindex="18" onClick="window.parent.jQuery.fancybox.close();">Account</button>
+                         
+                           <input type="button" class="btn btn-danger" value="Close" onClick="window.parent.jQuery.fancybox.close();" />
+                                   
+                                 
+                    </form>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+     $(".chosen-select").chosen();
+    $(function(){
+        $(document).on('click', '.closeFancybox', function() {
+            $.fancybox.close();
+        });
+       
+})
+function changeCRDR(type, i) {
+    if (type == "Cr") {
+        document.getElementById("symbol" + i).value = "+";
+    } else if (type == "Dr") {
+        document.getElementById("symbol" + i).value = "-";
+    }
+            }
+             function removeRow(id) {
+        var table = document.getElementById("dataTable");
+        var rowCount = table.rows.length;
+        var row = document.getElementById('trBook' + id);
+        var j = 0;
+        $('tr.chkitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+                j += 1;
+            }
+        });
+        if (j > 1) {
+            row.style.display = "none";
+            document.getElementById('Isvalid' + id).value = "N";
+        }
+        else {
+            alert("Cannot delete all the rows.")
+        }
+
+          var i = 0;
+                    var qty = 0;
+                    var tot = 0;
+                    $('tr.chkitemlst').each(function () {
+                        if ($(this).css('display') !== 'none') {
+                            qty = $(this).find('#txtAmount' + i.toString()).val();
+                            if (qty == "")
+                        qty = 0;
+
+                         tot += eval(qty);
+                              }
+                        i += 1;
+                    });
+                  document.getElementById("txTotalAmt").value = tot.toFixed(2);
+
+    }
+     function AddRow() {
+        var opt = "";
+        $.ajax({
+            type: "POST",
+            url: 'GetItemGrpJSON',
+            success: function (data) {
+               
+                $.each(data, function () {
+                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
+                });
+                AppendRow(opt);
+            }
+        })
+    }
+    function AppendRow(opt) {
+        var index = $("#tbBooks").children("tr").length;
+
+        var ledgrlst = "<td><select style = 'width: 170px;' class='form-control chosen-select newcss' id='ddlLedgername" + index + "' name='Acclst[" + index + "].Ledgername' ><option value=''>Please select</option>" + opt + "</select></td>";
+
+        var drcrlst = "<td><select style = 'width: 170px;' class='form-control chosen-select newcss' id='ddlCRDR" + index + "' name='Acclst[" + index + "].CRDR' onchange = 'changeCRDR(this.value," + index + ")'><option value=''>Please select</option><option value='Dr'>Dr</option><option value='Cr'>Cr</option></select></td>";
+
+        var Name = "<td><input class='form-control' id='TypeName" + index + "' name='Acclst[" + index + "].TypeName'  style='width: 180px;' type='text'  /></td>";
+
+        var symbol = "<td><input class='form-control' id='symbol" + index + "' name='Acclst[" + index + "].symbol'  style='width: 50px;' type='text'  readonly='True'/> </td>";
+       
+        var Amount = "<td><input class='form-control' id='txtAmount" + index + "' name='Acclst[" + index + "].Amount'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 100px;text-align:right' type='text' value='0'  /></td>";
+
+        var removeCell = "<td><input id='Isvalid" + index + "' name='Acclst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='Acclst.Index' type='hidden' value='" + index + "'  /></td>";
+       
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Name + ledgrlst + drcrlst +  symbol + Amount +  removeCell + "</tr>";
+        //alert(Packing);
+        $("#tbBooks").append(newRow);
+
+        $(".chosen-select").chosen();
+    }
+     function changecramt(_this, i) {
+                try {
+
+                       var j = 0;
+                    var qty = 0;
+                    var tot = 0;
+                    var crdr = "Cr";
+                    $('tr.chkitemlst').each(function () {
+                        if ($(this).css('display') !== 'none') {
+                            qty = $(this).find('#txtCRAmount' + j.toString()).val();
+
+                            if (qty == "")
+                        qty = 0;
+
+                                tot += eval(qty);
+                           
+                         
+                              }
+                        j += 1;
+                    });
+                  document.getElementById("txTotalAmt").value = tot.toFixed(2);
+                }
+                catch (ex) {
+                    alert(ex.message);
+                }
+            }
+            function changedramt(_this, i) {
+                try {
+
+                       var j = 0;
+                    var qty = 0;
+                    var tot = 0;
+                    var crdr = "Cr";
+                    $('tr.chkitemlst').each(function () {
+                        if ($(this).css('display') !== 'none') {
+                            qty = $(this).find('#txtDRAmount' + j.toString()).val();
+
+                            if (qty == "")
+                        qty = 0;
+
+                                tot += eval(qty);
+                           
+                         
+                              }
+                        j += 1;
+                    });
+                  document.getElementById("txtNet").value = tot.toFixed(2);
+                }
+                catch (ex) {
+                    alert(ex.message);
+                }
+            }
+</script>
+                         
+
+                 
