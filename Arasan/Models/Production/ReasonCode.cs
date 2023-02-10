@@ -19,13 +19,19 @@ namespace Arasan.Models
 
         //public string CategoryType { get; set; }
         //public string PartyCategory { get; set; }
-
+        public List<ReasonItem> ReLst;
     }
-    //public class ReasonItem
-    //{
+    public class ReasonItem
+    {
+        public string Reason { get; set; }
 
-    //    public string Reason { get; set; }
+        //public string Type { get; set; }
+        public string Description { get; set; }
+        public string Group { get; set; }
+        public string Isvalid { get; set; }
 
-    //    public string Isvalid { get; set; }
-    //}
+        public List<SelectListItem> Categorylst { get; set; }
+
+        public string Category { get; set; }
+    }
 }
