@@ -52,7 +52,7 @@
 
                                         <label for="inputName3" class="col-sm-4 control-label">ModBy<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                                @Html.DropDownListFor(C => C.Intred, Model.assignList, new { @id = "ddlIntred", @Class = "form-control chosen-select", @TabIndex = 1 })<br />
+                                                @Html.DropDownListFor(C => C.ModBy, Model.assignList, new { @id = "ddlIntred", @Class = "form-control chosen-select", @TabIndex = 1 })<br />
 
                                         </div>
                                     </div>
@@ -110,7 +110,7 @@
                                                                 @Html.TextBoxFor(o => o.ReLst[i].Description, new { @id = "txtDescription" + i, @class = "form-control", style = "width: 130px;" })
                                                             </td>
                                                             <td>
-                                                                @Html.TextBoxFor(o => o.ReLst[i].Group, new { @id = "txtGroup" + i, @class = "form-control", style = "width: 130px;" })
+                                                                @Html.TextBoxFor(o => o.ReLst[i].GroupId, new { @id = "txtGroupId" + i, @class = "form-control", style = "width: 130px;" })
                                                             </td>
                                                             <td>
                                                                 @Html.HiddenFor(o => o.ReLst[i].Isvalid, new { @id = "Isvalid" + i })
@@ -240,14 +240,14 @@
 
     function AppendRow(opt) {
         var index = $("#tbBooks").children("tr").length;
+
         var Reason = "<td><input class='form-control' id='txtReason" + index + "' name='ReLst[" + index + "].Reason'  style='width: 130px;'  type='text'  /></td>";
 
         var Category = "<td><select style = 'width: 200px;' class='form-control chosen-select newcss' id='ddlCategory" + index + "' name='ReLst[" + index + "].Category' onchange = 'Grup_Change(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
 
         var Description = "<td><input class='form-control' id='txtDescription" + index + "' name='ReLst[" + index + "].Description'  style='width: 130px;'  type='text'  /></td>";
 
-        var Group = "<td><input class='form-control' id='txtGroup" + index + "' name='ReLst[" + index + "].Group'  style='width: 130px;'  type='text'  /></td>";
-
+        var GroupId = "<td><input class='form-control' id='txtGroupId" + index + "' name='ReLst[" + index + "].GroupId'  style='width: 130px;'  type='text'  /></td>";
         
         var removeCell = "<td><input id='Isvalid" + index + "' name='ReLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='ReLst.Index' type='hidden' value='" + index + "'  /></td>";
 
