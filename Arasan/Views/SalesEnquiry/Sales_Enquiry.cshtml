@@ -1,4 +1,7 @@
 ﻿ @model Arasan.Models.SalesEnquiry
+ @{
+    ViewData["Title"] = "Sales Enquiry";
+ }
 <div class="row wrapper border-bottom page-heading">
       <div class="col-lg-12">
 
@@ -23,7 +26,8 @@
                                             
                                                 <label for="inputName3" class="col-sm-4 control-label">Branch<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                        
+                                        @Html.DropDownListFor(C => C.Branch, Model.Brlst, new { @id = "ddlBranch", @Class = "form-control chosen-select", @TabIndex = 1 })
+
 
                                                 </div>
                                             </div>
@@ -31,16 +35,10 @@
                                          <div class="col-md-6">
                                             <div class="form-group">
                                             
-                                                <label for="inputName3" class="col-sm-4 control-label">Type<label class="Mandatory"></label></label>
+                                                <label for="inputName3" class="col-sm-4 control-label">Enquiry Type<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                  <select class=" _select js-states form-control">
-                       
-                       
-                        <option value="TAAI">Government Offer</option>
-                        <option value="TAAI">Standard</option>
-                        
-                        
-                      </select>
+                                        @Html.DropDownListFor(C => C.EnqType, Model.Enqlst, new { @id = "ddlEnqType", @Class = "form-control chosen-select", @TabIndex = 1 })
+
                                                 </div>
                                             </div>
                                         </div>
@@ -53,7 +51,8 @@
                                             
                                                 <label for="inputName3" class="col-sm-4 control-label">Enquiry No.<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                    <input class="form-control" id="inputEmail3" placeholder="PENQ100002" type="text" readonly>
+                                        @Html.TextBoxFor(C => C.EnqNo, new { @id = "txtEnqNo", @class = "form-control", @TabIndex = 2 })
+
                                                 </div>
                                             </div>
                                         </div>
@@ -62,13 +61,12 @@
                                                 <label for="inputName3" class="col-sm-4 control-label">Enquiry Date<label class="Mandatory"></label></label>
                                               
                                                    
-													<div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2"
-														data-link-format="yyyy-mm-dd">
-														<input class="form-control" size="32" type="text" value="" readonly>
-														<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-													</div>
-													<input type="hidden" id="dtp_input2" value="" />
-                                                    <br />
+												 <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                        @Html.TextBoxFor(C => C.EnqDate, new { @id = "EnqDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                    </div>
+                                    <input type="hidden" id="dtp_input2" value="" />
+                                    <br />
 													
 												
                                                
@@ -76,81 +74,124 @@
                                         </div>
                                     </div>
                <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                            
-                                                <label for="inputName3" class="col-sm-4 control-label">Currency<label class="Mandatory"></label></label>
-                                                <div class="col-sm-8">
-                                                   @*  @Html.DropDownListFor(C => C.Currency, Model.Curlst, new { @id = "ddlCurrency", @Class = "form-control chosen-select", @TabIndex = 1 })*@
+                            <div class="col-md-6">
+                                <div class="form-group">
 
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="inputName3" class="col-sm-4 control-label">Exchange Rate<label class="Mandatory"></label></label>
-                                              
-                                                      <div class="col-sm-8">
-												  <input class="form-control" id="inputEmail3" placeholder="1.00" type="text">
-												</div>
-                                               
-                                            </div>
-                                        </div>
+                                    <label for="inputName3" class="col-sm-4 control-label">Customer Type<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(C => C.CustomerType, new { @id = "txtCustomerType", @class = "form-control", @TabIndex = 2  })
+
                                     </div>
-									
-									<div style="height:30px;"></div>
-									 <div class="row">
-                                        <div class="col-md-6">
+                                </div>
+                            </div>
+                    <div class="col-md-6">
                                             <div class="form-group">
                                             
                                                 <label for="inputName3" class="col-sm-4 control-label">Customer Name<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                    <select class=" _select js-states form-control">
-                       
-                       
-                        <option value="TAAI">Customer Name </option>
-                        
-                      </select>
+                                        @Html.DropDownListFor(C => C.Customer, Model.Suplst, new { @id = "ddlCustomer", @Class = "form-control chosen-select", @TabIndex = 1 })
+
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="inputName3" class="col-sm-4 control-label">address<label class="Mandatory"></label></label>
-                                              
-                                                      <div class="col-sm-8">
-												  <input class="form-control" id="inputEmail3" placeholder="address" type="text" readonly>
-												</div>
-                                               
-                                            </div>
-                                        </div>
+                        </div>
+                          <div class="row">
+                               <div class="col-md-6">
+                                <div class="form-group">
+
+                                  <br />  <label for="inputName3" class="col-sm-4 control-label">Currency<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownListFor(C => C.Currency, Model.Curlst, new { @id = "ddlCurrency", @Class = "form-control chosen-select", @TabIndex = 1 })
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">address<label class="Mandatory"></label></label>
+
+                                    <div class="col-sm-8">
+                                        @Html.TextAreaFor(C => C.Address, new { @id = "txtAddress", @class = "form-control", @TabIndex = 2 })
+
+                                    </div>
+
+                                </div>
+                            </div>
                                     </div>
 									
 									<div style="height:30px;"></div>
 									 <div class="row">
+
+                          
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">City<label class="Mandatory"></label></label>
+
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(C => C.City, new { @id = "txtCity", @class = "form-control", @TabIndex = 2 })
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Pin Code<label class="Mandatory"></label></label>
+
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(C => C.PinCode, new { @id = "txtPinCode", @class = "form-control", @TabIndex = 2 })
+
+                                    </div>
+
+                                </div>
+                            </div>
+                                    </div>
+									
+									<div style="height:30px;"></div>
+                        <div class="row">
+                       
+									
                                         <div class="col-md-6">
                                             <div class="form-group">
                                             
-                                                <label for="inputName3" class="col-sm-4 control-label">Mobile No.<label class="Mandatory"></label></label>
+                                                <label for="inputName3" class="col-sm-4 control-label">Contact Person<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                    <input class="form-control" id="inputEmail3" placeholder="Mobile No." type="text" readonly>
+                                        @Html.TextBoxFor(C => C.ContactPersion, new { @id = "txtContactPersion", @class = "form-control", @TabIndex = 2 })
                                                 </div>
                                             </div>
                                         </div>
+                                       
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="inputName3" class="col-sm-4 control-label">Email Id<label class="Mandatory"></label></label>
+                                                <label for="inputName3" class="col-sm-4 control-label">Mobile<label class="Mandatory"></label></label>
                                               
                                                       <div class="col-sm-8">
-												  <input class="form-control" id="inputEmail3" placeholder="Email Id" type="text" readonly>
+                                                                         @Html.TextBoxFor(C => C.Mobile, new { @id = "txtMobile", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
+
+                                       
+
 												</div>
                                                
                                             </div>
                                         </div>
                                     </div>
-									
-									
-									<div style="height:30px;"></div>
+
+                        <div style="height:30px;"></div>
+                        <div class="row">
+
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Priority<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownListFor(C => C.Priority, Model.Prilst, new { @id = "ddlPriority", @Class = "form-control chosen-select", @TabIndex = 1 })
+
+                                    </div>
+                                </div>
+                            </div>
+								</div>	
+								@*	<div style="height:30px;"></div>
 									 <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -169,7 +210,7 @@
                                             </div>
                                         </div>
                                         
-                                    </div>
+                                    </div>*@
 									
 									 <div style="height:30px;"></div>
 			 <div class="row">
@@ -248,33 +289,26 @@
                                             <div class="form-group">
                                             
                                                 <label for="inputName3" class="col-sm-4 control-label">Recieved By<label class="Mandatory"></label></label>
-                                                <div class="col-sm-8">
-                                                     <select class=" _select js-states form-control">
-                       
-                       
-                        <option value="Anitha">Anitha </option>
-                        <option value="Ramesh">Ramesh </option>
-                      </select>
+                                                   <div class="col-sm-8">
+                                        @Html.DropDownListFor(C => C.Recieved, Model.RecList, new { @id = "ddlRecieved", @Class = "form-control chosen-select", @TabIndex = 1 })
+                                        
+												</div>
                                                 </div>
                                             </div>
-                                        </div>
+                                       
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="inputName3" class="col-sm-4 control-label">Assign To<label class="Mandatory"></label></label>
                                               
                                                       <div class="col-sm-8">
-												 <select class=" _select js-states form-control">
-                       
-                       
-                        <option value="Anitha">Anitha </option>
-                        <option value="Ramesh">Ramesh </option>
-                      </select>
+												                                        @Html.DropDownListFor(C => C.Assign, Model.assignList, new { @id = "ddlAssign", @Class = "form-control chosen-select", @TabIndex = 1 })
+
 												</div>
                                                
                                             </div>
                                         </div>
                                     </div>
-									 <div style="height:30px;"></div>
+								@*	 <div style="height:30px;"></div>
 									 <div class="row">
                                         <div class="col-md-6">
                                              <div class="form-group">
@@ -310,7 +344,8 @@
                                             
                                                 <label for="inputName3" class="col-sm-2 control-label">Followup Details<label class="Mandatory"></label></label>
                                                 <div class="col-sm-10">
-                                                    <textarea class="form-control" id="inputEmail3" type="text" rows="3"></textarea>
+                                                                                          @Html.TextAreaFor(C => C.Email, new { @id = "txtMobile", @class = "form-control", @TabIndex = 2,@Type="email" })
+
                                                 </div>
                                             </div>
                                         </div>
@@ -327,10 +362,11 @@
                                             </div>
                                         </div>
                                         
-                                    </div>
-									<div style="height:30px;"></div>
-                <button type="submit" class="btn aqua m-t-xs bottom15-xs">Submit</button>
-				 <button class="btn btn-danger" type="submit">Cancel</button>
+                                    </div>*@
+							 <div style="height:30px;"></div>
+                          <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListSalesEnquiry", "SalesEnquiry")'">Cancel</button>
+ 
               </form>
             </div>
           </div>
@@ -338,3 +374,18 @@
          
         </div>
       </div>
+
+
+      <script>
+    $(".chosen-select").chosen();
+     $('.form_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+</script>
