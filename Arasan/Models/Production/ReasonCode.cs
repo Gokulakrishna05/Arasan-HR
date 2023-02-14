@@ -13,7 +13,7 @@ namespace Arasan.Models
         public string ID { get; set; }
 
         public List<SelectListItem> assignList;
-        public string Intred { get; set; }
+        public string ModBy { get; set; }
 
         //public List<SelectListItem> Categorylst;
 
@@ -27,7 +27,7 @@ namespace Arasan.Models
 
         //public string Type { get; set; }
         public string Description { get; set; }
-        public string Group { get; set; }
+        public string GroupId { get; set; }
         public string Isvalid { get; set; }
 
         public List<SelectListItem> Categorylst { get; set; }

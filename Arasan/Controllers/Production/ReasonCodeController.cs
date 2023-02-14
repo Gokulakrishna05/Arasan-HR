@@ -48,10 +48,10 @@ namespace Arasan.Controllers.Production
                 dt = ReasonCodeService.GetReasonCode(id);
                 if (dt.Rows.Count > 0)
                 {
-                    //ca.DocId = dt.Rows[0]["DOCID"].ToString();
+                    ca.ModBy = dt.Rows[0]["MODBY"].ToString();
                     //ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
-                   
-                    
+
+
                 }
 
             }
