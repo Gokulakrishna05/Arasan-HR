@@ -311,7 +311,7 @@ namespace Arasan.Services
 
                         using (OracleConnection objConnE = new OracleConnection(_connectionString))
                         {
-                            string Sql = "UPDATE POBASIC SET STATUS='GATE IN Verified' where POBASICID='" + cy.POId + "'";
+                            string Sql = "UPDATE POBASIC SET STATUS='GRN Generated' where POBASICID='" + cy.POId + "'";
                             OracleCommand objCmds = new OracleCommand(Sql, objConnE);
                             objConnE.Open();
                             objCmds.ExecuteNonQuery();
