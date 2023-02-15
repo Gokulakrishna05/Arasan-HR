@@ -51,7 +51,7 @@ namespace Arasan.Controllers.Production
                     ca.ModBy = dt.Rows[0]["MODBY"].ToString();
                     //ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
 
-
+                    
                 }
 
             }
@@ -131,7 +131,7 @@ namespace Arasan.Controllers.Production
         public IActionResult ListReasonCode()
         {
             IEnumerable<ReasonCode> cmp = ReasonCodeService.GetAllReasonCode();
-            return View();
+            return View(cmp);
         }
         public JsonResult GetItemJSON()
         {

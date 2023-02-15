@@ -1,13 +1,12 @@
-﻿@model Arasan.Models.ReasonCode
-
+﻿@model IEnumerable<Arasan.Models.ReasonCode>
 @{
-    ViewData["Title"] = "ReasonCode";
+    ViewData["Title"] = "Reason Code";
 }
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
-            <li> <a>Master</a> </li>
+            <li> <a>Production</a> </li>
             <li class="active"> <strong>Reason Code</strong> </li>
         </ol>
     </div>
@@ -40,9 +39,9 @@
                                                     <thead>
                                                         <tr>
                                                             
-                                                            <th>Reason</th>
-                                                            <th> Type </th>
-                                                            <th>Description</th>
+                                                            <th>Mod By</th>
+                                                            @*<th> Type </th>
+                                                            <th>Description</th>*@
                                                             <th>Edit</th>
                                                             <th>Delete</th>
                                                         </tr>
@@ -51,18 +50,16 @@
                                                         @{
                                                             int i = 1;
 
-                                                            //foreach (var item in Model)
-                                                            //{
-                                                            //    <tr>
+                                                            foreach (var item in Model)
+                                                            {
+                                                                <tr>
 
-                                                            //        <td>@Html.DisplayFor(modelItem => item.Reason)</td>
-                                                            //        <td>@Html.DisplayFor(modelItem => item.Category)</td>
-                                                            //        <td>@Html.DisplayFor(modelItem => item.Description)</td>
-                                                            //        <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("ReasonCode", "ReasonCode",new { id=item.ID })"></a></div></td>
-                                                            //        <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("ReasonCode", "ReasonCode",new { id=item.ID })"></a></div></td>
-                                                            //    </tr>
-                                                            //    i++;
-                                                            //}
+                                                                    <td>@Html.DisplayFor(modelItem => item.ModBy)</td>
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("ReasonCode", "ReasonCode",new { id=item.ID })"></a></div></td>
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("ReasonCode", "ReasonCode",new { id=item.ID })"></a></div></td>
+                                                                </tr>
+                                                                i++;
+                                                            }
                                                        }
                                                     </tbody>
                                                 </table>

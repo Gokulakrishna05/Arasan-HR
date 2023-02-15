@@ -12,7 +12,12 @@ namespace Arasan.Models
             this.assignList = new List<SelectListItem>();
             this.Curlst = new List<SelectListItem>();
             this.Categorylst = new List<SelectListItem>();
+            this.cuntylst = new List<SelectListItem>();
         }
+        public List<SelectListItem> cuntylst;
+
+        public string Country { get; set; }
+
         public List<SelectListItem> Brlst;
 
         public string Branch { get; set; }
@@ -30,5 +35,29 @@ namespace Arasan.Models
 
         public string Sent { get; set; }
         public string ID { get; set; }
+
+        public double Net { get; set; }
+
+        public List<QuoItem> QuoLst;
+    }
+    public class QuoItem 
+    {
+        public string ItemId { get; set; }
+
+        public List<SelectListItem> Ilst { get; set; }
+
+        public List<SelectListItem> ItemGrouplst { get; set; }
+
+        public string saveItemId { get; set; }
+        public string ItemGroupId { get; set; }
+        public string Desc { get; set; }
+        public string Unit { get; set; }
+        public string ConsFa { get; set; }
+        public double Quantity { get; set; }
+
+        public double rate { get; set; }
+        public double TotalAmount { get; set; }
+
+        public string Isvalid { get; set; }
     }
 }
