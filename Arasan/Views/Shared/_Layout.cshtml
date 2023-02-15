@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -56,7 +57,25 @@
     <![endif]-->
 </head>
 <body class="page-header-fixed ">
+    @{
+        string strName = "Admin";
+        string Brname = "";
+        string Locname = "";
+        if(HttpContextAccessor.HttpContext.Request.Cookies["UserName"] != null || HttpContextAccessor.HttpContext.Request.Cookies["UserName"] != "")
+        {
+            strName = HttpContextAccessor.HttpContext.Request.Cookies["UserName"];
+        }
+        if(HttpContextAccessor.HttpContext.Request.Cookies["BranchName"] != null || HttpContextAccessor.HttpContext.Request.Cookies["BranchName"] != "")
+        {
+            Brname = HttpContextAccessor.HttpContext.Request.Cookies["BranchName"];
+        }
+        if(HttpContextAccessor.HttpContext.Request.Cookies["LocationName"] != null || HttpContextAccessor.HttpContext.Request.Cookies["LocationName"] != "")
+        {
+            Locname = HttpContextAccessor.HttpContext.Request.Cookies["LocationName"];
+        }
+    }
 <div class="page-header navbar navbar-fixed-top">
+    
   <!-- BEGIN HEADER INNER -->
   <div class="page-header-inner ">
     <!-- BEGIN LOGO -->
@@ -64,14 +83,38 @@
     <!-- END LOGO -->
     <div class="library-menu"> <span class="one">-</span> <span class="two">-</span> <span class="three">-</span> </div><div class="top-nev-mobile-togal"><i class="glyphicon glyphicon-cog"></i></div>
     <!-- BEGIN TOP NAVIGATION MENU -->
-    <div class="top-menu">
+    <li class="top-menu">
 <!--  TOP NAVIGATION MENU -->
-               
+
+  <div class="hor-menu  hor-menu-light hidden-sm hidden-xs">
+       <ul class="nav navbar-nav pull-left" style="padding-left: 50px;padding-top:10px;">
+            	<li>
+						
+						<h3><span style="color:green" > Branch Name : </span>	</h3>					</li>
+      	<li>
+						
+						<h3><span style="color:white" > &nbsp;&nbsp;@Brname </span>	</h3>					</li>
+                        </ul>
+                        <ul class="nav navbar-nav" style="padding-left: 300px;padding-top:10px;">
+                            <li>
+						
+						<h3><span style="color:green" > Location Name : </span>	</h3>					</li>
+                       <li>
+						
+						<h3><span style="color:white"> &nbsp;&nbsp;@Locname </span>	</h3>					</li>
+                  </ul>
+
+                   
+                </div>
+
+
+
+              
                 <!--  TOP NAVIGATION MENU -->
        <ul class="nav navbar-nav pull-right">
                     <!-- START USER LOGIN DROPDOWN -->
                     <li class="dropdown dropdown-user">
-                        <a data-close-others="true" data-hover="dropdown" data-toggle="dropdown" class="dropdown-toggle" href="javascript:;"> <img src="~/assets/images/teem/placeholders.jpg" class="img-circle" alt=""> <span class="username username-hide-on-mobile"> Admin </span> <i class="fa fa-angle-down"></i> </a>
+                        <a data-close-others="true" data-hover="dropdown" data-toggle="dropdown" class="dropdown-toggle" href="javascript:;"> <img src="~/assets/images/teem/placeholders.jpg" class="img-circle" alt=""> <span class="username username-hide-on-mobile"> @strName  </span> <i class="fa fa-angle-down"></i> </a>
                         <ul class="dropdown-menu dropdown-menu-default">
                             <li>
                                 <a href="profile.html"> <i class="icon-user"></i> My Profile </a>
@@ -306,7 +349,7 @@
                             <li class="nav-item active"><a class="nav-link" href="@Url.Action("BatchCreation", "ProcessCostEntry")">Batch Creation</a></li>
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("ListReasonCode", "ReasonCode")">Reason Code Masters</a></li>
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("ProductionLog", "ProcessCostEntry")">Production Log</a></li>
-                            <li class="nav-item"><a class="nav-link" href="@Url.Action("ProductionEntry", "ProcessCostEntry")">Production Entry</a></li>
+                            <li class="nav-item"><a class="nav-link" href="@Url.Action("ProductionEntry", "ProductionEntry")">Production Entry</a></li>
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("CuringInward", "ProcessCostEntry")">Curing Inward</a></li>
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("CuringEStatus", "ProcessCostEntry")">Curing E-Status</a></li>
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("CuringOutward", "ProcessCostEntry")">Curing Outward</a></li>

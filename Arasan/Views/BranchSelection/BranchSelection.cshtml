@@ -36,13 +36,13 @@
 	<!--[if lt IE 9]> <script src="dist/html5shiv.js"></script> <![endif]-->
 </head>
   @{
-        <script type="text/javascript">
-    @if (TempData["msg"] != null)
+	<script type="text/javascript">
+			@if (TempData["msg"] != null)
     {
-        @:alert('@TempData["msg"]');
+				@:alert('@TempData["msg"]');
     }
 
-        </script>
+	</script>
     }
 <body class="aqua-bg login">
 	<div class="middle-box loginscreen">
@@ -53,15 +53,23 @@
 				@Html.AntiForgeryToken()
 				<form class="top15">
 					<div class="form-group">
-						@Html.DropDownListFor(C => C.Branch, Model.Brlst, new { @id = "ddlBranch", @Class = "form-control chosen-select", @TabIndex = 1 })
+						<b>Branch Name :</b>
+						<br/>
+						</div>
+					<div class="form-group">
+						@Html.DropDownListFor(C => C.Branch, Model.Brlst, new { @id = "ddlBranch", @Class = "form-control chosen-select", @TabIndex = 1 ,onchange = "BR_Change(this.value)"})
 						<br/>
 					</div>
+					<div class="form-group">
+						<b>Location Name :</b>
+						<br/>
+						</div>
 					<div class="form-group">
 				 		@Html.DropDownListFor(C => C.Location, Model.Loclst, new { @id = "ddlLocation", @Class = "form-control chosen-select", @TabIndex = 1 })
 						<br />
 						@*<input type="password" required="" placeholder="Password" class="form-control">*@
 					</div>
-					<button class="btn aqua block full-width  bottom15" type="button">Go</button>
+					<button class="btn aqua block full-width  bottom15" type="submit">Go</button>
 					<br />
 					@*	<a href="forgot_password.html"><small>Forgot password?</small></a>
 				<p class="text-muted text-center"><small>Do not have an account?</small></p>
@@ -91,5 +99,34 @@
 	</script>
 <script>
     $(".chosen-select").chosen();
+//var brid = document.getElementById("ddlBranch").value;
+//BR_Change(brid);
+	 function BR_Change(branch) {
+        $.ajax({
+            url: 'GetLocDetail',
+            data: { 'branch' : branch },
+            type: "GET",
+            success: function (response) {
+               var newlist;
+                        newlist = response.Loclst;
+                        PopulateDropDown("#ddlLocation", response);
+            },
+            error: function () {
+                alert("Data Not Found");
+            }
+        });
+    }
+	
+            function PopulateDropDown(dropDownId, list) {
+                 //alert(list);
+                $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
+                if (list != null && list.length > 0) {
+                    $(dropDownId).removeAttr("disabled");
+                    $.each(list, function () {
+                        $(dropDownId).append($("<option></option>").val(this['value']).html(this['text']));
+                    });
+                }
+                $(dropDownId).trigger("liszt:updated");
+            }
 </script>
 

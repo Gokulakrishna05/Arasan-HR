@@ -21,10 +21,14 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetLocation()
+        public DataTable GetLocation(string branch)
         {
             string SvSql = string.Empty;
-            SvSql = "Select LOCID,LOCDETAILSID from LOCDETAILS ";
+            SvSql = "Select LOCID,LOCDETAILSID from LOCDETAILS";
+            if(branch != "" || branch != "0")
+            {
+                SvSql += " Where BRANCHID='" + branch + "'";
+            }
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

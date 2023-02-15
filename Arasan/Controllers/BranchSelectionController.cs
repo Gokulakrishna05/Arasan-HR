@@ -12,18 +12,45 @@ namespace Arasan.Controllers
     public class BranchSelectionController : Controller
     {
         IBranchSelectionService BranchSelectionService;
-        public BranchSelectionController(IBranchSelectionService _BranchSelectionService)
+        DataTransactions datatrans;
+        private string? _connectionString;
+
+        public BranchSelectionController(IBranchSelectionService _BranchSelectionService, IConfiguration _configuratio)
         {
             BranchSelectionService = _BranchSelectionService;
+            _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
+
         }
         public IActionResult BranchSelection(string id)
         {
             BranchSelection br = new BranchSelection();
-            br.Loclst = BindLocation();
+            br.Loclst = BindLocation("10001000000001");
             br.Brlst = BindBranch();
 
 
             return View(br);
+        }
+        [HttpPost]
+        public IActionResult BranchSelection(BranchSelection model)
+
+        {
+            datatrans = new DataTransactions(_connectionString);
+            var userId = Request.Cookies["UserId"];
+            CookieOptions option = new CookieOptions();
+            option.Expires = DateTime.Now.AddMonths(3);
+            Response.Cookies.Append("LocationId", model.Location, option);
+            Response.Cookies.Append("BranchId", model.Branch, option);
+            var brname = datatrans.GetDataString("select BRANCHID from BRANCHMAST Where BRANCHMASTID='"+ model.Branch + "'");
+            var locname =  datatrans.GetDataString("Select LOCID from LOCDETAILS Where LOCDETAILSID='" + model.Location + "'");
+            Response.Cookies.Append("LocationName", locname, option);
+            Response.Cookies.Append("BranchName", brname, option);
+            //ViewBag.UserId = userId;
+            return RedirectToAction(actionName: "Index", controllerName: "Home");
+        }
+        public JsonResult GetLocDetail(string branch)
+        {
+            return Json(BindLocation(branch));
+
         }
         public List<SelectListItem> BindBranch()
         {
@@ -42,11 +69,11 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public List<SelectListItem> BindLocation()
+        public List<SelectListItem> BindLocation(string branch)
         {
             try
             {
-                DataTable dtDesg = BranchSelectionService.GetLocation();
+                DataTable dtDesg = BranchSelectionService.GetLocation(branch);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
