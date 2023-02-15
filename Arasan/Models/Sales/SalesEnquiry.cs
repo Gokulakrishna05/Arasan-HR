@@ -13,6 +13,7 @@ namespace Arasan.Models
             this.assignList = new List<SelectListItem>();
             this.Prilst = new List<SelectListItem>();
             this.Enqlst = new List<SelectListItem>();
+            this.Typelst = new List<SelectListItem>();
         }
     public List<SelectListItem> Brlst;
     public string ID { get; set; }
@@ -24,8 +25,8 @@ namespace Arasan.Models
     public List<SelectListItem> Suplst;
 
     public string Currency { get; set; }
-
-    public List<SelectListItem> Curlst;
+      
+        public List<SelectListItem> Curlst;
         public List<SelectListItem> RecList;
         public string Assign { get; set; }
         public List<SelectListItem> assignList;
@@ -35,6 +36,7 @@ namespace Arasan.Models
         public string Email { get; set; }
         public string Address { get; set; }
         public List<SelectListItem> Enqlst;
+        public List<SelectListItem> Typelst;
         public string CustomerType { get; set; }
         public string EnqType { get; set; }
         public string City { get; set; }
@@ -42,6 +44,18 @@ namespace Arasan.Models
         public string EnqNo { get; set; }
         public string ContactPersion { get; set; }
         public string Priority { get; set; }
+        public List<SalesItem> SalesLst { get; set; }
     }
-}
+    public class SalesItem
+    {
+        public string ID { get; set; }
+        public string ItemId { get; set; }
+        public string saveItemId { get; set; }
+        public List<SelectListItem> Itemlst { get; set; }
+        public string Des { get; set; }
+        public string Isvalid { get; set; }
+        public string Unit { get; set; }
+        public string Qty { get; set; }
+    }
+    }
    
