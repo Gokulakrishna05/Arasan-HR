@@ -11,6 +11,8 @@ using Arasan.Services.Store_Management;
 using Arasan.Services.Qualitycontrol;
 using Arasan.Interface.Qualitycontrol;
 using Arasan.Interface.Stores_Management;
+using Arasan.Interface.Sales;
+using Arasan.Services.Sales;
 //using Arasan.Services.Store_Management;
 
 
@@ -75,8 +77,12 @@ internal class Program
         builder.Services.TryAddSingleton<IAccGroup, AccGroupService>();
         builder.Services.TryAddSingleton<IStoresReturnService,StoresReturnService>();
         builder.Services.TryAddSingleton<IReasonCodeService, ReasonCodeService>();
+
         builder.Services.TryAddSingleton<IProductionEntry, ProductionEntryService>();
         builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+        builder.Services.TryAddSingleton<ISalesQuotationService, SalesQuotationService>();
+
 
         builder.Services.AddSession();
         var emailConfig = builder.Configuration.GetSection("MailSettings").Get<MailSettings>();
