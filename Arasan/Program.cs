@@ -82,6 +82,7 @@ internal class Program
         builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
         builder.Services.TryAddSingleton<ISalesQuotationService, SalesQuotationService>();
+        builder.Services.TryAddSingleton<ICustomerType, CustomerTypeService>();
 
 
         builder.Services.AddSession();

@@ -6,9 +6,14 @@ namespace Arasan.Interface
 {
     public interface ISalesEnq
     {
+        DataTable GetCusType();
         DataTable GetSupplier();
+        DataTable GetItem();
         IEnumerable<SalesEnquiry> GetAllSalesEnq();
         string SalesEnqCRUD(SalesEnquiry cy);
         DataTable GetSalesEnquiry(string id);
+        DataTable GetCustomerDetails(string id);
+        DataTable GetItemDetails(string id);
+        DataTable GetSalesEnquiryItem(string id);
     }
 }

@@ -1,0 +1,72 @@
+﻿@model Arasan.Models.CustomerType
+
+@{
+    ViewData["Title"] = "Customer Type";
+}
+
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a>Master</a> </li>
+            <li class="active"> <strong> Customer Type </strong> </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    <h5 style="font-size:14px">Customer Type</h5>
+                    <hr>
+                    @using (Html.BeginForm("CustomerType", "CustomerType", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+              <form>
+
+                            <div class="row">
+                                <div class="col-lg-7">
+                                
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Customer Type<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.Type, new { @id = "txtType", @class = "form-control", @TabIndex = 2  })<br />
+                                            <br />
+                                            @Html.HiddenFor(C => C.ID)
+                                        </div>
+
+                                    </div>
+                                </div> 
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-md-7">
+                                    <div class="form-group">
+                                        
+                                        <label for="inputName3" class="col-sm-4 control-label">Description<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.Des, new { @id = "txtDes", @class = "form-control", @TabIndex = 2  })<br />
+                                            <br />
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                
+			 
+                            <div style="height:30px;"></div>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs">Submit</button>
+                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListCustomerType", "CustomerType")'">Cancel</button>
+
+                      
+                    </form>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
