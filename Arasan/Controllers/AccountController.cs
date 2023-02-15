@@ -71,10 +71,22 @@ namespace Arasan.Controllers
                 _dtUser = _dtransactions.GetData(_selUser);
                 if (_dtUser.Rows.Count > 0)
                 {
-                    HttpContext.Session.SetString("UserId", _dtUser.Rows[0]["EMPMASTID"].ToString());
-                    HttpContext.Session.SetString("UserName", _dtUser.Rows[0]["Username"].ToString());
-                    HttpContext.Session.SetString("Department", _dtUser.Rows[0]["empdept"].ToString());
-                   
+                    CookieOptions option = new CookieOptions();
+                    //HttpCookie Cookie = Request.Cookies["Arasan"];
+                    //if (expireTime.HasValue)
+                    //    option.Expires = DateTime.Now.AddMinutes(expireTime.Value);
+                    //else
+                    option.Expires = DateTime.Now.AddMonths(3);
+                    Response.Cookies.Append("UserId", _dtUser.Rows[0]["EMPMASTID"].ToString(), option);
+                    Response.Cookies.Append("UserName", _dtUser.Rows[0]["Username"].ToString(), option);
+                    Response.Cookies.Append("Department", _dtUser.Rows[0]["empdept"].ToString(), option);
+
+                    //HttpContext.Session.SetString("UserId", _dtUser.Rows[0]["EMPMASTID"].ToString());
+                    //HttpContext.Session.SetString("UserName", _dtUser.Rows[0]["Username"].ToString());
+                    //HttpContext.Session.SetString("Department", _dtUser.Rows[0]["empdept"].ToString());
+
+                    //var userId = HttpContext.Request.Cookies["UserId"];
+
                     isValidUser = true;
                 }
 
@@ -88,8 +100,8 @@ namespace Arasan.Controllers
 
             {
                 //TempData["msg"] = "You are welcome to Admin Section";
-                 return RedirectToAction(actionName: "Index", controllerName: "Home");
-               // return RedirectToAction(actionName: "BranchSelection", controllerName: "BranchSelection");
+                // return RedirectToAction(actionName: "Index", controllerName: "Home");
+                return RedirectToAction(actionName: "BranchSelection", controllerName: "BranchSelection");
             }
             else
             {

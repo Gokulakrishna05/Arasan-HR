@@ -24,6 +24,7 @@ namespace Arasan.Controllers
         public IActionResult Index()
         {
             Home H=new Home();
+            //ViewBag.Name = Request.Cookies["UserName"];
             List<QcNotify> TData = new List<QcNotify>();
             QcNotify tda = new QcNotify();
             DataTable dt2 = new DataTable();
