@@ -1,6 +1,6 @@
 ﻿@model Arasan.Models.SalesQuotation
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "SalesQuotation";
 }
 <style>
     .newwidth {
@@ -65,7 +65,7 @@
 
                                                 <label for="inputName3" class="col-sm-4 control-label">Quotation No.<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                    <input class="form-control" id="inputEmail3" placeholder="PENQ100002" type="text" readonly>
+                                                    <input class="form-control" id="inputEmail3" placeholder="PENQ100002" type="text">
                                                 </div>
                                             </div>
                                         </div>
@@ -95,10 +95,10 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="inputName3" class="col-sm-4 control-label">Exchange Rate<label class="Mandatory"></label></label>
+                                                <label for="inputName3" class="col-sm-4 control-label">Delivery Term<label class="Mandatory"></label></label>
 
                                                       <div class="col-sm-8">
-                                                  <input class="form-control" id="inputEmail3" placeholder="1.00" type="text"><br />
+                                                  <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
                                                 </div>
 
                                             </div>
@@ -112,12 +112,7 @@
 
                                                 <label for="inputName3" class="col-sm-4 control-label">Customer Name<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                    <select class=" _select js-states form-control">
-
-
-                        <option value="TAAI">Customer Name </option>
-
-                      </select>
+                                                    <input class="form-control" id="inputEmail3" placeholder="address" type="text" readonly>
                                                 </div>
                                             </div>
                                         </div>
@@ -156,22 +151,38 @@
                                         </div>
                                     </div>
 
+                                    <div style="height:30px;"></div>
+                                     <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Enquiry No<label class="Mandatory"></label></label>
+                                                <div class="col-sm-8">
+                                                    <input class="form-control" id="inputEmail3" placeholder="Mobile No." type="text" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputName3" class="col-sm-4 control-label">Enquiry Date<label class="Mandatory"></label></label>
+
+                                                      <div class="col-sm-8">
+                                            <input class="form-control" id="inputEmail3" placeholder="Email Id" type="date" readonly><br />
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
 
                                     <div style="height:30px;"></div>
                                      <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
 
-                                                <label for="inputName3" class="col-sm-4 control-label">Enquiry Ref.<label class="Mandatory"></label></label>
+                                                <label for="inputName3" class="col-sm-4 control-label">Country of Shipment<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                 <select class=" _select js-states form-control">
+                                            @Html.DropDownListFor(C => C.Country, Model.cuntylst, new { @id = "ddlCountry", @Class = "form-control chosen-select", @TabIndex = 1 })
 
-
-                        <option value="TAAI">Email</option>
-                        <option value="TAAI">Phone</option>
-                        <option value="TAAI">Market Visit</option>
-
-                      </select>
                                                 </div>
                                             </div>
                                         </div>
@@ -205,7 +216,11 @@
                            <th> Cash Discount </th>
                             <th> Qty Discount </th>
                              <th> Special Discount </th>
-                                <th> CST %</th>
+                                <th> IGST %</th>
+                                <th> CGST %</th>
+                                <th> SGST %</th>
+                                
+
                             
                              
                               
@@ -226,6 +241,8 @@
                                 <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
                                 <td><input class="form-control newwidth" id="inputEmail3" placeholder="0" type="text"> </td>
                                 <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+                                 <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+                                  <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
                         </tr>
                          <tr>
                           
@@ -240,6 +257,8 @@
                                 <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
                                <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
                                 <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+                                 <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+                                  <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
                                
                         </tr>
                          <tr>
@@ -256,6 +275,8 @@
                                <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
                                 <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
                                <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+                                <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
+                                                                <td><input class="form-control newwidth" id="inputEmail3" placeholder="0.00" type="text"> </td>
                               
                         </tr>
                       </tbody>
@@ -335,7 +356,7 @@
                                             </div>
                                         </div>
                                       </div>*@
-                                         <div style="height:30px;"></div>
+                                       @*  <div style="height:30px;"></div>
                                      <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -348,7 +369,7 @@
                                             </div>
                                         </div>
 
-                                    </div>
+                                    </div>*@
                                     <div style="height:30px;"></div>
                                      <div class="row">
                                         <div class="col-md-12">
