@@ -8,7 +8,7 @@ namespace Arasan.Interface
     {
         DataTable GetCusType();
         DataTable GetSupplier();
-        DataTable GetItem();
+       
         IEnumerable<SalesEnquiry> GetAllSalesEnq();
         string SalesEnqCRUD(SalesEnquiry cy);
         DataTable GetSalesEnquiry(string id);

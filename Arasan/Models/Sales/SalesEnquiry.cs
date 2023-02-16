@@ -44,6 +44,7 @@ namespace Arasan.Models
         public string EnqNo { get; set; }
         public string ContactPersion { get; set; }
         public string Priority { get; set; }
+        public string TotalQty { get; set; }
         public List<SalesItem> SalesLst { get; set; }
     }
     public class SalesItem
@@ -52,6 +53,9 @@ namespace Arasan.Models
         public string ItemId { get; set; }
         public string saveItemId { get; set; }
         public List<SelectListItem> Itemlst { get; set; }
+        public List<SelectListItem> ItemGrouplst { get; set; }
+
+        public string ItemGroupId { get; set; }
         public string Des { get; set; }
         public string Isvalid { get; set; }
         public string Unit { get; set; }
