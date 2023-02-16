@@ -27,13 +27,15 @@ namespace Arasan.Controllers
             {
                 SalesEnquiry ca = new SalesEnquiry();
                 ca.Brlst = BindBranch();
-                ca.Suplst = BindSupplier();
+            ca.Branch = Request.Cookies["BranchId"];
+            ca.Suplst = BindSupplier();
                 ca.Curlst = BindCurrency();
             ca.RecList = BindEmp();
             ca.assignList = BindEmp();
             ca.Prilst = BindPriority();
             ca.Enqlst = BindEnqType();
             ca.Typelst = BindCusType();
+            ca.EnqDate = DateTime.Now.ToString("dd-MMM-yyyy");
             List<SalesItem> TData = new List<SalesItem>();
             SalesItem tda = new SalesItem();
             if (id == null)
@@ -42,7 +44,8 @@ namespace Arasan.Controllers
                 {
                     tda = new SalesItem();
 
-                    tda.Itemlst = BindItemlst();
+                    tda.ItemGrouplst = BindItemGrplst();
+                    tda.Itemlst = BindItemlst("");
                     tda.Isvalid = "Y";
                     TData.Add(tda);
                 }
@@ -75,21 +78,32 @@ namespace Arasan.Controllers
                     ca.Priority = dt.Rows[0]["PRIORITY"].ToString();
                     ca.Address = dt.Rows[0]["ADDRESS"].ToString();
                     ca.Currency = dt.Rows[0]["CURRENCY_TYPE"].ToString();
+
                 }
                 DataTable dt2 = new DataTable();
 
-                dt = Sales.GetSalesEnquiryItem(id);
-                if (dt.Rows.Count > 0)
+                dt2 = Sales.GetSalesEnquiryItem(id);
+                if (dt2.Rows.Count > 0)
                 {
                     for (int i = 0; i < dt2.Rows.Count; i++)
                     {
+                        tda = new SalesItem();
+                        tda.ItemGrouplst = BindItemGrplst();
+                        DataTable dt3 = new DataTable();
+                        dt3 = datatrans.GetItemSubGroup(dt2.Rows[i]["ITEM_ID"].ToString());
+                        if (dt3.Rows.Count > 0)
+                        {
+                            tda.ItemGroupId = dt3.Rows[0]["SUBGROUPCODE"].ToString();
+                        }
+                        tda.Itemlst = BindItemlst(tda.ItemGroupId);
+
                         tda.ItemId = dt2.Rows[i]["ITEM_ID"].ToString();
                         tda.saveItemId = dt2.Rows[i]["ITEM_ID"].ToString();
                         DataTable dt4 = new DataTable();
                         dt4 = Sales.GetItemDetails(tda.ItemId);
                         if (dt4.Rows.Count > 0)
                         {
-                            tda.Des = dt4.Rows[0]["ITEM_DESCRIPTION"].ToString();
+                            tda.Des = dt4.Rows[0]["ITEMDESC"].ToString();
                            
                            
                         }
@@ -174,11 +188,11 @@ namespace Arasan.Controllers
                     throw ex;
                 }
             }
-        public List<SelectListItem> BindItemlst()
+        public List<SelectListItem> BindItemlst(string value)
         {
             try
             {
-                DataTable dtDesg = Sales.GetItem();
+                DataTable dtDesg = datatrans.GetItem(value);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -191,12 +205,36 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public JsonResult GetItemJSON()
-        {
-            SalesItem model = new SalesItem();
-            model.Itemlst = BindItemlst();
-            return Json(BindItemlst());
 
+        public List<SelectListItem> BindItemGrplst()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetItemSubGrp();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["SGCODE"].ToString(), Value = dtDesg.Rows[i]["ITEMSUBGROUPID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public JsonResult GetItemJSON(string itemid)
+        {
+            DirItem model = new DirItem();
+            model.Itemlst = BindItemlst(itemid);
+            return Json(BindItemlst(itemid));
+
+        }
+        public JsonResult GetItemGrpJSON()
+        {
+            //EnqItem model = new EnqItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(BindItemGrplst());
         }
         public List<SelectListItem> BindPriority()
         {
@@ -296,7 +334,7 @@ namespace Arasan.Controllers
                 DataTable dt1 = new DataTable();
 
                 string address = "";
-               
+                string contact = "";
                 string city = "";
                 string pin = "";
                 dt = Sales.GetCustomerDetails(ItemId);
@@ -305,8 +343,8 @@ namespace Arasan.Controllers
                 {
 
                     address = dt.Rows[0]["ADD1"].ToString();
-                   
-                 
+
+                    contact = dt.Rows[0]["INTRODUCEDBY"].ToString();
                     city = dt.Rows[0]["CITY"].ToString();
                 
                    
@@ -314,7 +352,7 @@ namespace Arasan.Controllers
                    
                 }
 
-                var result = new { address = address, city = city, pin = pin };
+                var result = new { address = address, contact= contact, city = city, pin = pin };
                 return Json(result);
             }
             catch (Exception ex)
