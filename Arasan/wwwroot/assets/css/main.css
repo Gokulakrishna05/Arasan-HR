@@ -426,7 +426,8 @@ Button css
 }
 
 .aqua-bg {
-    background-color:#49b6d6;
+     background-color:#49b6d6;
+   /* background-image: url("assets/images/Arasan.jpg")*/
 }
 
 .purple-bg {
