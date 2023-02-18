@@ -38,40 +38,57 @@
                                                 <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
                                                     <thead>
                                                         <tr>
-                                                           
-                                                            <th>Branch </th>
+                                                            <th>S.No</th>
+                                                            <th>Branch</th>
+                                                           @* <th>Supplier</th>*@
                                                             <th>Enquiry No</th>
                                                             <th>Quo No</th>
+                                                            <th>Quo Date</th>
+                                                            @* <th>Currency</th>*@
+                                                            <th>Send Mail</th>
+                                                            <th>Followup</th>
+                                                           @* <th>Generate PO</th>*@
                                                             <th>Edit</th>
                                                             <th>Delete</th>
+                                                        
                                                         </tr>
                                                     </thead>
-
+                                                    
                                                     <tbody>
-                                                        <tr>
+                                                        @{
+                                                            int i = 1;
+
+                                                            foreach (var item in Model)
+                                                            {
+                                                                <tr>
+                                                                    <td>@i</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Branch)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.EnNo)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.QuoId)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.QuoDate)</td>
+
+
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("SendMail", "SalesQuotation",new { id=item.ID })"><img src='../Images/mail_icon.png' alt='Send Email' /></a></div></td>
+                                                                    <td> <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("Followup", "SalesQuotation",new { id=item.ID })"><img src='../Images/followup.png' alt='FollowUp' /> - (1)</a></div></td>
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <img src='../Images/tick.png' alt='Moved to Quote' width='20' /></div></td>
+
+                                                                    <td>
+
+                                                                        <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("SalesQuotation", "SalesQuotation",new { id=item.ID })"></a></div>
+
+                                                                    </td>
+                                                                    <td>
+
+                                                                        <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("SalesQuotation", "SalesQuotation",new { id=item.ID })"></a></div>
+
+                                                                    </td>
+
+                                                                </tr>
+                                                                i++;
+                                                            }
+                                                        }
                                                            
-                                                            <td>CGST</td>
-                                                            <td>5%</td>
-                                                            <th>667-FGWU</th>
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("tax", "tax")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("tax", "tax")"></a></div></td>
-                                                        </tr>
-                                                        <tr>
                                                            
-                                                            <td>SGST</td>
-                                                            <td>2%</td>
-                                                            <th>667-FGWU</th>
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("tax", "tax")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("tax", "tax")"></a></div></td>
-                                                        </tr>
-                                                        <tr>
-                                                            
-                                                            <td>IGST</td>
-                                                            <td>10%</td>
-                                                            <th>667-FGWU</th>
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("tax", "tax")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("tax", "tax")"></a></div></td>
-                                                        </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -117,4 +134,34 @@
 
 
     });
+</script>
+</script>
+<a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+<a class="fancyboxe1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+<link rel="stylesheet" href="@Url.Content("~/css/jquery.fancybox.css?v=2.1.5")" type="text/css" media="screen" />
+<script type="text/javascript" src="@Url.Content("~/css/jquery.fancybox.pack.js?v=2.1.5")"></script>
+<script type="text/javascript">
+    var fancybox123;
+    jQuery(document).ready(function ($) {
+        $(".fancybox").fancybox({
+            width: '80%',
+            height: '10%',
+            arrows: false,
+            afterClose: function () {
+                location.reload();
+                return;
+            }
+        });
+        fancybox123 = $.fancybox;
+    });
+
+    function close_popup() {
+        fancybox123.close();
+        $(".fancybox1").fancybox({
+            width: '100%',
+            height: '100%',
+            arrows: false,
+        });
+        $(".fancybox1").eq(0).trigger('click');
+    }
 </script>
