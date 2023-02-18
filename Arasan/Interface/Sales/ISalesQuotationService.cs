@@ -1,5 +1,6 @@
 ﻿using Arasan.Models;
 using System.Data;
+using System.Collections.Generic;
 
 namespace Arasan.Interface.Sales
 {
@@ -13,5 +14,8 @@ namespace Arasan.Interface.Sales
         string SalesQuotationCRUD(SalesQuotation cy);
 
         DataTable GetItemCF(string ItemId, string unitid);
+        IEnumerable<QuoItem> GetAllSalesQuotationItem(string id);
+        DataTable GetCustomerDetails(string itemId);
+        DataTable GetCusType();
     }
 }

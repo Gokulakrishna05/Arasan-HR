@@ -13,11 +13,20 @@ namespace Arasan.Models
             this.Curlst = new List<SelectListItem>();
             this.Categorylst = new List<SelectListItem>();
             this.cuntylst = new List<SelectListItem>();
+            this.Enqlst = new List<SelectListItem>();
+            this.Typelst = new List<SelectListItem>();
+            this.Prilst = new List<SelectListItem>();
         }
+        public List<SelectListItem> Enqlst;
+        public List<SelectListItem> Typelst;
+        public string CustomerType { get; set; }
+        public string EnqType { get; set; }
         public List<SelectListItem> cuntylst;
 
         public string Country { get; set; }
+        public List<SelectListItem> Prilst;
 
+        public string Priority { get; set; }
         public List<SelectListItem> Brlst;
 
         public string Branch { get; set; }
@@ -36,6 +45,16 @@ namespace Arasan.Models
         public string Sent { get; set; }
         public string ID { get; set; }
 
+        public string QuoId { get; set; }
+        public string QuoDate { get; set; }
+        public string EnNo { get; set; }
+        public string EnDate { get; set; }
+
+        public string Customer { get; set; }
+        public string Address { get; set; }
+        public string City { get; set; }
+
+        public string PinCode { get; set; }
         public double Net { get; set; }
 
         public List<QuoItem> QuoLst;
