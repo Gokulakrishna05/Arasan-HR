@@ -25,6 +25,9 @@ namespace Arasan.Controllers.Sales
         {
             SalesQuotation ca = new SalesQuotation();
             ca.Brlst = BindBranch();
+            ca.Branch = Request.Cookies["BranchId"];
+            ca.Suplst = BindSupplier();
+            ca.RecList = BindEmp();
             ca.assignList = BindEmp();
             ca.Curlst = BindCurrency();
             ca.Prilst = BindPriority();
@@ -40,7 +43,7 @@ namespace Arasan.Controllers.Sales
                 {
                     tda = new QuoItem();
                     tda.ItemGrouplst = BindItemGrplst();
-                    tda.Itemlst = BindItemlst("");
+                    tda.Itlst = BindItemlst("");
                     tda.Isvalid = "Y";
                     TData.Add(tda);
                 }
@@ -81,24 +84,34 @@ namespace Arasan.Controllers.Sales
                         {
                             tda.ItemGroupId = dt3.Rows[0]["SUBGROUPCODE"].ToString();
                         }
-                        tda.Itemlst = BindItemlst(tda.ItemGroupId);
+                        tda.Itlst = BindItemlst(tda.ItemId);
                         tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
                         tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
                         DataTable dt4 = new DataTable();
                         dt4 = datatrans.GetItemDetails(tda.ItemId);
                         if (dt4.Rows.Count > 0)
                         {
-                            tda.Desc = dt4.Rows[0]["ITEMDESC"].ToString();
-                            tda.ConsFa = dt4.Rows[0]["CF"].ToString();
-                            tda.rate = Convert.ToDouble(dt4.Rows[0]["LATPURPRICE"].ToString());
+                            tda.Des = dt4.Rows[0]["ITEMDESC"].ToString();
+                            tda.ConFac = dt4.Rows[0]["CF"].ToString();
+                            tda.Rate = Convert.ToDouble(dt4.Rows[0]["LATPURPRICE"].ToString());
                         }
                         tda.Quantity = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
-                        toaamt = tda.rate * tda.Quantity;
+                        toaamt = tda.Rate * tda.Quantity;
                         total += toaamt;
                         //tda.QtyPrim= Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
                         tda.Amount = toaamt;
-                        tda.Unit = dt2.Rows[i]["UNITID"].ToString();
+                        tda.Unit = dt2.Rows[i]["UNIT"].ToString();
                         //tda.unitprim= dt2.Rows[i]["UNITID"].ToString();
+                        tda.Disc = Convert.ToDouble(dt2.Rows[i]["DISC"].ToString() == "" ? "0" : dt2.Rows[i]["DISC"].ToString());
+                        tda.DiscAmount = Convert.ToDouble(dt2.Rows[i]["DISCAMOUNT"].ToString() == "" ? "0" : dt2.Rows[i]["DISCAMOUNT"].ToString());
+                        tda.FrigCharge = Convert.ToDouble(dt2.Rows[i]["IFREIGHTCH"].ToString() == "" ? "0" : dt2.Rows[i]["IFREIGHTCH"].ToString());
+                        tda.TotalAmount = Convert.ToDouble(dt2.Rows[i]["TOTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["TOTAMT"].ToString());
+                        tda.CGSTP = Convert.ToDouble(dt2.Rows[i]["CGSTPER"].ToString() == "" ? "0" : dt2.Rows[i]["CGSTPER"].ToString());
+                        tda.SGSTP = Convert.ToDouble(dt2.Rows[i]["SGSTPER"].ToString() == "" ? "0" : dt2.Rows[i]["SGSTPER"].ToString());
+                        tda.IGSTP = Convert.ToDouble(dt2.Rows[i]["IGSTPER"].ToString() == "" ? "0" : dt2.Rows[i]["IGSTPER"].ToString());
+                        tda.CGST = Convert.ToDouble(dt2.Rows[i]["CGSTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["CGSTAMT"].ToString());
+                        tda.SGST = Convert.ToDouble(dt2.Rows[i]["SGSTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["SGSTAMT"].ToString());
+                        tda.IGST = Convert.ToDouble(dt2.Rows[i]["IGSTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["IGSTAMT"].ToString());
                         tda.Isvalid = "Y";
                         TData.Add(tda);
                     }
@@ -161,6 +174,23 @@ namespace Arasan.Controllers.Sales
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["CUSTOMER_TYPE"].ToString(), Value = dtDesg.Rows[i]["ID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindSupplier()
+        {
+            try
+            {
+                DataTable dtDesg = SalesQuotationService.GetSupplier();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTY"].ToString(), Value = dtDesg.Rows[i]["PARTYMASTID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -234,7 +264,7 @@ namespace Arasan.Controllers.Sales
                 DataTable dt1 = new DataTable();
 
                 string address = "";
-
+                string contact = "";
                 string city = "";
                 string pin = "";
                 dt = SalesQuotationService.GetCustomerDetails(ItemId);
@@ -244,7 +274,7 @@ namespace Arasan.Controllers.Sales
 
                     address = dt.Rows[0]["ADD1"].ToString();
 
-
+                    contact = dt.Rows[0]["INTRODUCEDBY"].ToString();
                     city = dt.Rows[0]["CITY"].ToString();
 
 
@@ -252,7 +282,7 @@ namespace Arasan.Controllers.Sales
 
                 }
 
-                var result = new { address = address, city = city, pin = pin };
+                var result = new { address = address, contact = contact, city = city, pin = pin };
                 return Json(result);
             }
             catch (Exception ex)
@@ -266,25 +296,28 @@ namespace Arasan.Controllers.Sales
             {
                 DataTable dt = new DataTable();
                 DataTable dt1 = new DataTable();
-                string Desc = "";
-                string unit = "";
+
+                string Unit = "";
                 string CF = "";
                 string price = "";
+                string Desc = "";
+                //string Desc = "";
                 dt = datatrans.GetItemDetails(ItemId);
 
                 if (dt.Rows.Count > 0)
                 {
-                    Desc = dt.Rows[0]["ITEMDESC"].ToString();
-                    unit = dt.Rows[0]["UNITID"].ToString();
+
+                    Unit = dt.Rows[0]["UNITID"].ToString();
                     price = dt.Rows[0]["LATPURPRICE"].ToString();
                     dt1 = SalesQuotationService.GetItemCF(ItemId, dt.Rows[0]["UNITMASTID"].ToString());
                     if (dt1.Rows.Count > 0)
                     {
                         CF = dt1.Rows[0]["CF"].ToString();
+                        Desc = dt.Rows[0]["ITEMDESC"].ToString();
                     }
                 }
 
-                var result = new { Desc = Desc, unit = unit, CF = CF, price = price };
+                var result = new { Unit = Unit, CF = CF, Desc = Desc, price = price };
                 return Json(result);
             }
             catch (Exception ex)
@@ -408,7 +441,7 @@ namespace Arasan.Controllers.Sales
 
                 foreach (QuoItem item in cmp)
                 {
-                    Content += " <tr><td>" + item.Desc + "</td>";
+                    Content += " <tr><td>" + item.Des + "</td>";
                     Content += " <td>" + item.Quantity + "</td>";
                     Content += " <td>" + item.Unit + "</td></tr>";
                 }
@@ -437,6 +470,18 @@ namespace Arasan.Controllers.Sales
                 throw ex;
             }
 
+        }
+        public JsonResult GetItemJSON(string itemid)
+        {
+            QuoItem model = new QuoItem();
+            //model.Itlst = BindItem(itemid);
+            return Json(BindItemlst(itemid));
+        }
+        public JsonResult GetItemGrpJSON()
+        {
+            QuoItem model = new QuoItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(BindItemGrplst());
         }
         public List<SelectListItem> BindCategory()
         {

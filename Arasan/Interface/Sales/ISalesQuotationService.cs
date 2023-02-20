@@ -9,6 +9,8 @@ namespace Arasan.Interface.Sales
         IEnumerable<SalesQuotation> GetAllSalesQuotation();
         DataTable GetBranch();
         DataTable Getcountry();
+
+        DataTable GetSupplier();
         DataTable GetSalesQuotation(string id);
         DataTable GetSalesQuotationItemDetails(string id);
         string SalesQuotationCRUD(SalesQuotation cy);
