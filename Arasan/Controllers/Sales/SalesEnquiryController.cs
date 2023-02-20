@@ -387,6 +387,88 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+        public IActionResult ViewQuote(string id)
+        {
+            SalesEnquiry ca = new SalesEnquiry();
+            DataTable dt = new DataTable();
+            DataTable dtt = new DataTable();
+            dt = Sales.GetEnqByName(id);
+            if (dt.Rows.Count > 0)
+            {
+               
+                ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                
+                ca.Customer = dt.Rows[0]["PARTY"].ToString();
+                ca.EnqNo = dt.Rows[0]["ENQ_NO"].ToString();
+                ca.EnqDate = dt.Rows[0]["ENQ_DATE"].ToString();
+                ca.EnqType = dt.Rows[0]["ENQ_TYPE"].ToString();
+                ca.CustomerType = dt.Rows[0]["CUSTOMER_TYPE"].ToString();
+                ca.Currency = dt.Rows[0]["CURRENCY_TYPE"].ToString();
+                ca.Priority = dt.Rows[0]["PRIORITY"].ToString();
+                ca.PinCode = dt.Rows[0]["PINCODE"].ToString();
+                ca.Address = dt.Rows[0]["ADDRESS"].ToString();
+                ca.ContactPersion = dt.Rows[0]["CONTACT_PERSON"].ToString();
+                ca.City = dt.Rows[0]["CITY"].ToString();
+                ca.ID = id;
+            }
+            List<SalesItem> Data = new List<SalesItem>();
+            SalesItem tda = new SalesItem();
+            double tot = 0;
+            dtt = Sales.GetEnqItem(id);
+            if (dtt.Rows.Count > 0)
+            {
+                for (int i = 0; i < dtt.Rows.Count; i++)
+                {
+                    tda = new SalesItem();
+                    tda.ItemId = dtt.Rows[i]["ITEMID"].ToString();
+                    tda.Des = dtt.Rows[i]["ITEM_DESCRIPTION"].ToString();
+                    tda.Unit = dtt.Rows[i]["UNIT"].ToString();
+                    tda.Qty = dtt.Rows[i]["QUANTITY"].ToString();
+                 
+                    //tot += tda.TotalAmount;
+                    Data.Add(tda);
+                }
+            }
+            //ca.Net = tot;
+            ca.SalesLst = Data;
+            return View(ca);
+        }
+
+        [HttpPost]
+        public ActionResult ViewQuote(SalesEnquiry Cy, string id)
+        {
+            try
+            {
+                Cy.ID = id;
+                string Strout = Sales.EnquirytoQuote(Cy.ID);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Cy.ID == null)
+                    {
+                        TempData["notice"] = "SalesQuotation Generated Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "SalesQuotation Generated Successfully...!";
+                    }
+                    return RedirectToAction("ListSalesEnquiry");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit Sales_Enquiry";
+                    TempData["notice"] = Strout;
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return RedirectToAction("ListSalesEnquiry");
+        }
         public IActionResult ListSalesEnquiry()
         {
             IEnumerable<SalesEnquiry> cmp = Sales.GetAllSalesEnq();
