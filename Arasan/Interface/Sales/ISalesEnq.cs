@@ -15,5 +15,8 @@ namespace Arasan.Interface
         DataTable GetCustomerDetails(string id);
         DataTable GetItemDetails(string id);
         DataTable GetSalesEnquiryItem(string id);
+        string EnquirytoQuote(string id);
+        DataTable GetEnqByName(string id);
+        DataTable GetEnqItem(string id);
     }
 }
