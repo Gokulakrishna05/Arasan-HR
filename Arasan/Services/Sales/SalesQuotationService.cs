@@ -42,8 +42,13 @@ namespace Arasan.Services.Sales
                             Currency = rdr["CURRENCY_TYPE"].ToString(),
                             Customer = rdr["CUSTOMER"].ToString(),
                             Address = rdr["ADDRESS"].ToString(),
-                            City = rdr["CITY"].ToString()
-
+                            City = rdr["CITY"].ToString(),
+                            Mobile = rdr["CONTACT_PERSON_MOBILE"].ToString(),
+                            Gmail = rdr["CONTACT_PERSON_MAIL"].ToString(),
+                            PinCode = rdr["PINCODE"].ToString(),
+                            Pro = rdr["PRIORITY"].ToString(),
+                            Assign = rdr["ASSIGNED_TO"].ToString()
+                           
                         };
                         cmpList.Add(cmp);
                     }
@@ -51,11 +56,11 @@ namespace Arasan.Services.Sales
             }
             return cmpList;
         }
-       
-        public DataTable GetItemCF(string ItemId, string unitid)
+
+        public DataTable GetItemCF(string ItemId, string Unitid)
         {
             string SvSql = string.Empty;
-            SvSql = "Select CF from itemmasterpunit where ITEMMASTERID='" + ItemId + "' AND UNIT='" + unitid + "'";
+            SvSql = "Select CF from itemmasterpunit where ITEMMASTERID='" + ItemId + "' AND UNIT='" + Unitid + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -84,7 +89,7 @@ namespace Arasan.Services.Sales
         public DataTable GetCustomerDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select CITY,PINCODE,ADD1,ADD2,ADD3 from PARTYMAST Where PARTYMAST.PARTYMASTID='" + id + "'";
+            SvSql = "Select CITY,PINCODE,ADD1,ADD2,ADD3,INTRODUCEDBY from PARTYMAST Where PARTYMAST.PARTYMASTID='" + id + "'";
             DataTable dtt = new DataTable(); OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
 
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -137,39 +142,69 @@ namespace Arasan.Services.Sales
                     objCmd.Parameters.Add("CUSTOMER", OracleDbType.NVarchar2).Value = cy.Customer;
                     objCmd.Parameters.Add("ADDRESS", OracleDbType.NVarchar2).Value = cy.Address;
                     objCmd.Parameters.Add("CITY", OracleDbType.NVarchar2).Value = cy.City;
+                    objCmd.Parameters.Add("CONTACT_PERSON_MOBILE", OracleDbType.NVarchar2).Value = cy.Mobile;
+                    objCmd.Parameters.Add("CONTACT_PERSON_MAIL", OracleDbType.NVarchar2).Value = cy.Gmail;
+                    objCmd.Parameters.Add("PINCODE", OracleDbType.NVarchar2).Value = cy.PinCode;
+                    objCmd.Parameters.Add("PRIORITY", OracleDbType.NVarchar2).Value = cy.Pro;
+                    objCmd.Parameters.Add("ASSIGNED_TO", OracleDbType.NVarchar2).Value = cy.Assign;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                    objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
                     {
                         objConn.Open();
                         objCmd.ExecuteNonQuery();
-                        //Object Pid = objCmd.Parameters["OUTID"].Value;
+                        Object Pid = objCmd.Parameters["OUTID"].Value;
+                        //string Pid = "0";
+                        if (cy.ID != null)
+                        {
+                            Pid = cy.ID;
+                        }
                         foreach (QuoItem cp in cy.QuoLst)
                         {
-                            if (cp.Isvalid == "Y" && cp.saveItemId != "0")
+                            if (cp.Isvalid == "Y" && cp.ItemId != "0")
                             {
-                                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                                using (OracleConnection objConns = new OracleConnection(_connectionString))
                                 {
-                                    string Sql = string.Empty;
-                                    if (StatementType == "Update")
+                                    OracleCommand objCmds = new OracleCommand("SALESQUOTEDETAILPROC", objConns);
+                                    if (cy.ID == null)
                                     {
-                                        Sql = "Update PURQUOTDETAIL SET  QTY= '" + cp.Quantity + "',RATE= '" + cp.rate + "',CF='" + cp.ConsFa + "'  where PURQUOTBASICID='" + cy.ID + "'  AND ITEMID='" + cp.saveItemId + "' ";
+                                        StatementType = "Insert";
+                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
                                     }
                                     else
                                     {
-                                        Sql = "";
+                                        StatementType = "Update";
+                                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                                     }
-                                    OracleCommand objCmds = new OracleCommand(Sql, objConnT);
-                                    objConnT.Open();
+                                    objCmds.CommandType = CommandType.StoredProcedure;
+                                    objCmds.Parameters.Add("SALESQUOID", OracleDbType.NVarchar2).Value = Pid;
+                                    objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cp.ItemId;
+                                    objCmds.Parameters.Add("ITEMDESC", OracleDbType.NVarchar2).Value = cp.Des;
+                                    objCmds.Parameters.Add("UNIT", OracleDbType.NVarchar2).Value = cp.Unit;
+                                    objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = cp.Quantity;
+                                    objCmds.Parameters.Add("CF", OracleDbType.NVarchar2).Value = cp.ConFac;
+                                    objCmds.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = cp.Rate;
+                                    objCmds.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = cp.Amount;
+                                    objCmds.Parameters.Add("TOTAMT", OracleDbType.NVarchar2).Value = cp.TotalAmount;
+                                    objCmds.Parameters.Add("DISC", OracleDbType.NVarchar2).Value = cp.Disc;
+                                    objCmds.Parameters.Add("DISCAMOUNT", OracleDbType.NVarchar2).Value = cp.DiscAmount;
+                                    objCmds.Parameters.Add("IFREIGHTCH", OracleDbType.NVarchar2).Value = cp.FrigCharge;
+                                    objCmds.Parameters.Add("CGSTPER", OracleDbType.NVarchar2).Value = cp.CGSTP;
+                                    objCmds.Parameters.Add("SGSTPER", OracleDbType.NVarchar2).Value = cp.SGSTP;
+                                    objCmds.Parameters.Add("IGSTPER", OracleDbType.NVarchar2).Value = cp.IGSTP;
+                                    objCmds.Parameters.Add("CGSTAMT", OracleDbType.NVarchar2).Value = cp.CGST;
+                                    objCmds.Parameters.Add("SGSTAMT", OracleDbType.NVarchar2).Value = cp.SGST;
+                                    objCmds.Parameters.Add("IGSTAMT", OracleDbType.NVarchar2).Value = cp.IGST;
+                                    objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                                    objConns.Open();
                                     objCmds.ExecuteNonQuery();
-                                    objConnT.Close();
+                                    objConns.Close();
                                 }
+
+
+
                             }
-
-
                         }
-
-
-
 
                     }
                     catch (Exception ex)
@@ -198,17 +233,26 @@ namespace Arasan.Services.Sales
             adapter.Fill(dtt);
             return dtt;
         }
-
-        public DataTable GetSalesQuotationItemDetails(string id)
+        public DataTable GetSupplier()
         {
             string SvSql = string.Empty;
-            SvSql = "Select PURQUOTDETAIL.QTY,PURQUOTDETAIL.PURQUOTDETAILID,PURQUOTDETAIL.ITEMID,UNITMAST.UNITID,PURQUOTDETAIL.RATE  from PURQUOTDETAIL LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=PURQUOTDETAIL.UNIT  where PURQUOTDETAIL.PURQUOTBASICID='" + id + "'";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            SvSql = "Select PARTYMAST.PARTYMASTID,PARTYRCODE.PARTY from PARTYMAST LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Customer','BOTH') AND PARTYRCODE.PARTY IS NOT NULL";
+            DataTable dtt = new DataTable(); OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
         }
+
+        //public DataTable GetSalesQuotationItemDetails(string name);
+        //{
+        //    string SvSql = string.Empty;
+        //    SvSql = "Select STORESACCDETAIL.QTY,SALESQUOTEDETAILID,SALESQUOTEDETAIL.ITEMID,UNIT,RATE,AMOUNT from SALESQUOTEDETAIL   where SALESQUOTEDETAIL.SALESQUOTEDETAILID='" + name + "'";
+        //    DataTable dtt = new DataTable();
+        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
+        //}
         public IEnumerable<QuoItem> GetAllSalesQuotationItem(string id)
         {
             List<QuoItem> cmpList = new List<QuoItem>();
@@ -218,14 +262,14 @@ namespace Arasan.Services.Sales
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select PURQUOTDETAIL.QTY,PURQUOTDETAIL.PURQUOTDETAILID,ITEMMASTER.ITEMID,UNITMAST.UNITID from PURQUOTDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PURQUOTDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  where PURQUOTDETAIL.PURQUOTBASICID='" + id + "'";
+                    cmd.CommandText = "Select SALESQUOTEDETAIL.QTY,SALESQUOTEDETAIL.SALESQUOTEDETAILID,ITEMMASTER.ITEMID,UNITMAST.UNITID from SALESQUOTEDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=SALESQUOTEDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  where SALESQUOTEDETAIL.SALESQUOTEDETAILID='" + id + "'";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
                         QuoItem cmp = new QuoItem
                         {
                             ItemId = rdr["ITEMID"].ToString(),
-                            Unit = rdr["UNITID"].ToString(),
+                            Unit = rdr["UNIT"].ToString(),
                             Quantity = Convert.ToDouble(rdr["QTY"].ToString())
                         };
                         cmpList.Add(cmp);
@@ -233,6 +277,17 @@ namespace Arasan.Services.Sales
                 }
             }
             return cmpList;
+        }
+
+        public DataTable GetSalesQuotationItemDetails(string name)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select STORESACCDETAIL.QTY,SALESQUOTEDETAILID,SALESQUOTEDETAIL.ITEMID,ITEMDESC,UNIT,RATE,AMOUNT from SALESQUOTEDETAIL   where SALESQUOTEDETAIL.SALESQUOTEDETAILID='" + name + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
         }
     }
 }
