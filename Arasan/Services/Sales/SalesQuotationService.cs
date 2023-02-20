@@ -77,7 +77,6 @@ namespace Arasan.Services.Sales
             string SvSql = string.Empty;
             SvSql = "Select CUSTOMER_TYPE,ID From CUSTOMERTYPE";
             DataTable dtt = new DataTable(); OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;

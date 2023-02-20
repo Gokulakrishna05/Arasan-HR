@@ -4,6 +4,7 @@ using Arasan.Interface.Sales;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Data;
 using System.Collections.Generic;
+using System.Xml.Linq;
 
 namespace Arasan.Controllers.Sales
 {
@@ -31,11 +32,18 @@ namespace Arasan.Controllers.Sales
             ca.cuntylst = BindCountry();
             ca.Enqlst = BindEnqType();
             ca.Typelst = BindCusType();
-            List<QuoItem> Data = new List<QuoItem>();
+            List<QuoItem> TData = new List<QuoItem>();
             QuoItem tda = new QuoItem();
             if (id == null)
             {
-
+                for (int i = 0; i < 3; i++)
+                {
+                    tda = new QuoItem();
+                    tda.ItemGrouplst = BindItemGrplst();
+                    tda.Itemlst = BindItemlst("");
+                    tda.Isvalid = "Y";
+                    TData.Add(tda);
+                }
             }
             else
             {
@@ -73,7 +81,7 @@ namespace Arasan.Controllers.Sales
                         {
                             tda.ItemGroupId = dt3.Rows[0]["SUBGROUPCODE"].ToString();
                         }
-                        tda.Ilst = BindItemlst(tda.ItemGroupId);
+                        tda.Itemlst = BindItemlst(tda.ItemGroupId);
                         tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
                         tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
                         DataTable dt4 = new DataTable();
@@ -88,17 +96,19 @@ namespace Arasan.Controllers.Sales
                         toaamt = tda.rate * tda.Quantity;
                         total += toaamt;
                         //tda.QtyPrim= Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
-                        tda.TotalAmount = toaamt;
+                        tda.Amount = toaamt;
                         tda.Unit = dt2.Rows[i]["UNITID"].ToString();
                         //tda.unitprim= dt2.Rows[i]["UNITID"].ToString();
                         tda.Isvalid = "Y";
-                        Data.Add(tda);
+                        TData.Add(tda);
                     }
                 }
-                ca.Net = Math.Round(total, 2);
-                ca.QuoLst = Data;
+                //ca.Net = Math.Round(total, 2);
+                //ca.QuoLst = Data;
             }
+            ca.QuoLst = TData;
             return View(ca);
+            
         }
         [HttpPost]
         public ActionResult SalesQuotation(SalesQuotation Cy, string id)
@@ -120,7 +130,7 @@ namespace Arasan.Controllers.Sales
                     }
                     return RedirectToAction("ListSalesQuotation");
                 }
-
+               
                 else
                 {
                     ViewBag.PageTitle = "Edit SalesQuotation";
@@ -151,6 +161,40 @@ namespace Arasan.Controllers.Sales
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["CUSTOMER_TYPE"].ToString(), Value = dtDesg.Rows[i]["ID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindItemlst(string value)
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetItem(value);
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEMMASTERID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindItemGrplst()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetItemSubGrp();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["SGCODE"].ToString(), Value = dtDesg.Rows[i]["ITEMSUBGROUPID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -265,40 +309,7 @@ namespace Arasan.Controllers.Sales
                 throw ex;
             }
         }
-        public List<SelectListItem> BindItemlst(string value)
-        {
-            try
-            {
-                DataTable dtDesg = datatrans.GetItem(value);
-                List<SelectListItem> lstdesg = new List<SelectListItem>();
-                for (int i = 0; i < dtDesg.Rows.Count; i++)
-                {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEMMASTERID"].ToString() });
-                }
-                return lstdesg;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        public List<SelectListItem> BindItemGrplst()
-        {
-            try
-            {
-                DataTable dtDesg = datatrans.GetItemSubGrp();
-                List<SelectListItem> lstdesg = new List<SelectListItem>();
-                for (int i = 0; i < dtDesg.Rows.Count; i++)
-                {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["SGCODE"].ToString(), Value = dtDesg.Rows[i]["ITEMSUBGROUPID"].ToString() });
-                }
-                return lstdesg;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+      
         public List<SelectListItem> BindCurrency()
         {
             try
