@@ -280,7 +280,7 @@
                                                         </td>
 
                                                         <td>
-                                                            @Html.DropDownListFor(o => o.QuoLst[i].ItemId, Model.QuoLst[i].Itlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItem" + i, style = "width: 200px;", onchange = "changeItem(this.value," + i + ")" })
+                                                            @Html.DropDownListFor(o => o.QuoLst[i].ItemId, Model.QuoLst[i].Itlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItem" + i, style = "width: 200px;", onchange = "changeItemDetail(this.value," + i + ")" })
                                                             @Html.HiddenFor(o => o.QuoLst[i].saveItemId)
                                                         </td>
                                                         <td>
@@ -540,7 +540,7 @@
             }
         });
     }
-    function changeItem(ItemId, i) {
+    function changeItemDetail(ItemId, i) {
         $.ajax({
             url: 'GetItemDetail',
             data: { "ItemId": ItemId },
@@ -709,7 +709,7 @@
         startView: 2,
         minView: 2,
         forceParse: 0
-    });s
+    });
     function AppendRow(opt) {
         var index = $("#tbBooks").children("tr").length;
 

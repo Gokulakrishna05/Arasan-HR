@@ -48,7 +48,7 @@
                                             
                                                 <label for="inputName3" class="col-sm-4 control-label">Enquiry Type<label class="mandatory">*</label></label>
                                                 <div class="col-sm-8">
-                                        @Html.DropDownListFor(C => C.EnqType, Model.Enqlst, new { @id = "ddlEnqType", @Class = "form-control chosen-select", @TabIndex = 1 })
+                                        @Html.DropDownListFor(C => C.EnqType, Model.Enqlst, "Please Select", new { @id = "ddlEnqType", @Class = "form-control chosen-select", @TabIndex = 1 })
                                           @Html.HiddenFor(C => C.ID)
                                                 </div>
                                             </div>
@@ -91,7 +91,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Customer Type<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
-                               @Html.DropDownListFor(C => C.CustomerType, Model.Typelst, new { @id = "ddlCustomerType", @Class = "form-control chosen-select", @TabIndex = 1 })
+                               @Html.DropDownListFor(C => C.CustomerType, Model.Typelst, "Please Select", new { @id = "ddlCustomerType", @Class = "form-control chosen-select", @TabIndex = 1 })
 
 
                                     </div>
@@ -102,7 +102,7 @@
                                             
                                                 <label for="inputName3" class="col-sm-4 control-label">Customer Name<label class="mandatory">*</label></label>
                                                 <div class="col-sm-8">
-                                        @Html.DropDownListFor(C => C.Customer, Model.Suplst, new { @id = "ddlCustomer", @Class = "form-control chosen-select", @TabIndex = 1,onchange = "changeItem(this.value)" })
+                                        @Html.DropDownListFor(C => C.Customer, Model.Suplst, "Please Select", new { @id = "ddlCustomer", @Class = "form-control chosen-select", @TabIndex = 1,onchange = "changeItem(this.value)" })
 
                                                 </div>
                                             </div>
@@ -167,7 +167,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                            
-                                    <label for="inputName3" class="col-sm-4 control-label">Contact Person Mobile<label class="Mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Contact Person Mobile<label class="mandatory">*</label></label>
                                               
                                         <div class="col-sm-8">
                                              @Html.TextBoxFor(C => C.Mobile, new { @id = "txtMobile", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
@@ -564,22 +564,6 @@
     $(document).ready(function () {
         $('#btnSave').click(function (e) {
             var isValid = true;
-            if (document.getElementById("ddlEnqType").value == "" || document.getElementById("ddlEnqType").value == 0) {
-                isValid = false;
-                $(ddlEnqType_chzn).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Select Enq Type");
-                return false;
-            }
-            else {
-                $(ddlEnqType_chzn).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
             if (document.getElementById("EnqDate").value == "") {
                 isValid = false;
                 $(EnqDate).css({
@@ -596,6 +580,23 @@
                     "background": ""
                 });
             }
+            if (document.getElementById("txtMobile").value == "") {
+                isValid = false;
+                $(txtMobile).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Phone Number");
+                return false;
+            }
+            else {
+                $(txtMobile).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
 
             if (document.getElementById("ddlCustomerType").value == "" || document.getElementById("ddlCustomerType").value == 0) {
                 isValid = false;
@@ -620,8 +621,8 @@
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select Customer Name);
-                            return false;
+                alert("Please Select Customer Name");
+                return false;
             }
             else {
                 $(ddlCustomer_chzn).css({
@@ -629,61 +630,24 @@
                     "background": ""
                 });
             }
+            if (document.getElementById("ddlEnqType").value == "" || document.getElementById("ddlEnqType").value == 0) {
+                isValid = false;
+                $(ddlEnqType_chzn).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
 
-            //Grid validation
-            var j = 0;
-            $('tr.chkitemlst').each(function () {
-                if ($(this).css('display') !== 'none') {
-
-                    if ($(this).find('#ddlItemGrp' + j.toString()).val() == "" || $(this).find('#ddlItemGrp' + j.toString()).val() == 0) {
-                        isValid = false;
-                        alert("Please Select Sub Group");
-                        return false;
-                    }
-                    if ($(this).find('#ddlItemGrp' + j.toString()).val() != "" || $(this).find('#ddlItemGrp' + j.toString()).val() != "0") {
-
-                        if ($(this).find('#ddlItem' + j.toString()).val() == "" || $(this).find('#ddlItem' + j.toString()).val() == 0) {
-                            isValid = false;
-                            $(this).find('#ddlItem' + j.toString()).css({
-                                "border": "1px solid red",
-                                "background": "#FFCECE"
-                            });
-                            alert("Please Select Item");
-                            $(this).find('#ddlItem' + j.toString()).focus();
-                            return false;
-                        }
-                        else {
-                            $(this).find('#ddlItem' + j.toString()).css({
-                                "border": "",
-                                "background": ""
-                            });
-                        }
-                    }
-                    if ($(this).find('#txtQty' + j.toString()).val() == "" || $(this).find('#txtQty' + j.toString()).val() == "0") {
-                        isValid = false;
-                        $(this).find('#txtQty' + j.toString()).css({
-                            "border": "1px solid red",
-                            "background": "#FFCECE"
-                        });
-
-                        alert("Please Enter Quantity");
-                        $(this).find('#txtQty' + j.toString()).focus();
-                        return false;
-
-                    }
-                    else {
-                        $(this).find('#txtQty' + j.toString()).css({
-                            "border": "",
-                            "background": ""
-                        });
-                    }
-
-                }
-                j += 1;
-            });
+                alert("Please Select Enq Type");
+                return false;
+            }
+            else {
+                $(ddlEnqType_chzn).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
             if (isValid == false)
                 e.preventDefault();
-
         });
 
     });
