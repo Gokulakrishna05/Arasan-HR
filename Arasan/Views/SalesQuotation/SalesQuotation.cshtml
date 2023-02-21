@@ -128,7 +128,7 @@
                                             </div>
                                         </div>
                                     </div>
-
+                                    s
                                     <div style="height:30px;"></div>
                                      <div class="row">
                                         <div class="col-md-6">
@@ -465,7 +465,7 @@
 
                                     </div>
                                  <div style="height:30px;"></div>
-                          <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
                             <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListSalesQuotation", "SalesQuotation")'">Cancel</button>
  
               </form>
@@ -479,7 +479,8 @@
 <script>
     $(".chosen-select").chosen();
 
-    function PopulateDropDown(dropDownId, list) {
+    function PopulateDropDown(dropDownId, list)
+    {
         //alert(list);
         $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
         if (list != null && list.length > 0) {
@@ -502,7 +503,9 @@
         forceParse: 0
     });
     $(".chosen-select").chosen();
-    function removeRow(id) {
+    function removeRow(id)
+    {
+        
         var table = document.getElementById("dataTable");
         var rowCount = table.rows.length;
         var row = document.getElementById('trBook' + id);
@@ -761,5 +764,35 @@
         $("#tbBooks").append(newRow);
 
         $(".chosen-select").chosen();
+    }
+</script>
+<script>
+    <a class="fancybox1" rel = "group" data - fancybox - type="iframe" href = "#" style = "display: none; width: 760px;" > </a>
+        < a class="fancyboxe1" rel = "group" data - fancybox - type="iframe" href = "#" style = "display: none; width: 760px;" > </a>
+            < link rel = "stylesheet" href = "@Url.Content("~/css/jquery.fancybox.css?v=2.1.5")" type = "text/css" media = "screen" />
+                <script type="text/javascript" src = "@Url.Content("~/css/jquery.fancybox.pack.js?v=2.1.5")" ></script>
+<script type="text/javascript">
+        var fancybox123;
+    jQuery(document).ready(function ($) {
+        $(".fancybox").fancybox({
+            width: '80%',
+            height: '10%',
+            arrows: false,
+            afterClose: function () {
+                location.reload();
+                return;
+            }
+        });
+        fancybox123 = $.fancybox;
+    });
+
+    function close_popup() {
+        fancybox123.close();
+        $(".fancybox1").fancybox({
+            width: '100%',
+            height: '100%',
+            arrows: false,
+        });
+        $(".fancybox1").eq(0).trigger('click');
     }
 </script>
