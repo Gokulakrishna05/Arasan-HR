@@ -48,6 +48,8 @@ namespace Arasan.Services
             }
             return cmpList;
         }
+
+
         public DataTable GetData(string sql)
         {
             DataTable _Dt = new DataTable();
@@ -291,7 +293,7 @@ namespace Arasan.Services
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
-                    svSQL = "Insert into SALES_QUOTE (BRANCHID,ENQNO,CURRENCY_TYPE,QUOTE_NO,QUOTE_DATE,CONTACT_PERSON,PRIORITY,ADDRESS,CITY,PINCODE,CUSTOMER_TYPE,CUSTOMER) (Select BRANCH_ID,'" + QuoteId + "',CURRENCY_TYPE,'" + QUONo + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "' ,CONTACT_PERSON,PRIORITY,ADDRESS,CITY,PINCODE,CUSTOMER_TYPE,CUSTOMER_NAME from SALES_ENQUIRY where SALES_ENQUIRY.ID='" + QuoteId + "')";
+                    svSQL = "Insert into SALES_QUOTE (BRANCHID,ENQNO,CURRENCY_TYPE,QUOTE_NO,QUOTE_DATE,CONTACT_PERSON,PRIORITY,ADDRESS,CITY,PINCODE,CUSTOMER_TYPE,CUSTOMER) (Select BRANCH_ID,ENQ_NO,CURRENCY_TYPE,'" + QUONo + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "' ,CONTACT_PERSON,PRIORITY,ADDRESS,CITY,PINCODE,CUSTOMER_TYPE,CUSTOMER_NAME from SALES_ENQUIRY where SALES_ENQUIRY.ID='" + QuoteId + "')";
                     OracleCommand objCmd = new OracleCommand(svSQL, objConn);
                     try
                     {
