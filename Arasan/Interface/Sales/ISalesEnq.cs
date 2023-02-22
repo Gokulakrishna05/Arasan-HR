@@ -18,5 +18,9 @@ namespace Arasan.Interface
         string EnquirytoQuote(string id);
         DataTable GetEnqByName(string id);
         DataTable GetEnqItem(string id);
+        DataTable GetEnqDetail(string id);
+        DataTable GetFolowup(string id);
+        string PurchaseFollowupCRUD(EnqFollowup pf);
+        IEnumerable<SalesItem> GetAllSalesenquriyItem(string id);
     }
 }

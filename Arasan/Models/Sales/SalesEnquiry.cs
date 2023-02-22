@@ -62,5 +62,32 @@ namespace Arasan.Models
         public string Unit { get; set; }
         public string Qty { get; set; }
     }
+    public class EnqFollowup
+    {
+        public string FolID { get; set; }
+        public string EnqNo { get; set; }
+        public string CusName { get; set; }
+        public string Enqdate { get; set; }
+        public string Followby { get; set; }
+        public string Enquiryst { get; set; }
+        public string Followdate { get; set; }
+        public string Nfdate { get; set; }
+        public string Rmarks { get; set; }
+        public List<SelectListItem> EnqassignList;
+
+
+        public List<SalesEnqFollowupDetails> qflst { get; set; }
+
+
     }
+    public class SalesEnqFollowupDetails
+    {
+        public string ID { get; set; }
+        public string Followby { get; set; }
+        public string Enquiryst { get; set; }
+        public string Followdate { get; set; }
+        public string Nfdate { get; set; }
+        public string Rmarks { get; set; }
+    }
+}
    

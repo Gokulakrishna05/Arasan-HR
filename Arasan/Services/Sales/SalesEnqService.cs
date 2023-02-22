@@ -25,7 +25,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select  PARTYRCODE.PARTY,ENQ_NO,to_char(ENQ_DATE,'dd-MON-yyyy')ENQ_DATE, ENQ_TYPE,CUSTOMER_TYPE,SALES_ENQUIRY.ID from SALES_ENQUIRY LEFT OUTER JOIN  PARTYMAST on SALES_ENQUIRY.CUSTOMER_NAME=PARTYMAST.PARTYMASTID  LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Customer','BOTH')";
+                    cmd.CommandText = "Select  PARTYRCODE.PARTY,ENQ_NO,to_char(ENQ_DATE,'dd-MON-yyyy')ENQ_DATE, ENQ_TYPE,CUSTOMER_TYPE,STATUS,SALES_ENQUIRY.ID from SALES_ENQUIRY LEFT OUTER JOIN  PARTYMAST on SALES_ENQUIRY.CUSTOMER_NAME=PARTYMAST.PARTYMASTID  LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Customer','BOTH')";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -38,9 +38,9 @@ namespace Arasan.Services
                             EnqNo = rdr["ENQ_NO"].ToString(),
                             EnqDate = rdr["ENQ_DATE"].ToString(),
                            
-                            EnqType = rdr["ENQ_TYPE"].ToString()
-                         
-                            
+                            EnqType = rdr["ENQ_TYPE"].ToString(),
+                           status = rdr["STATUS"].ToString(),
+
                         };
                         cmpList.Add(cmp);
                     }
@@ -49,7 +49,31 @@ namespace Arasan.Services
             return cmpList;
         }
 
+        public IEnumerable<SalesItem> GetAllSalesenquriyItem(string id)
+        {
+            List<SalesItem> cmpList = new List<SalesItem>();
+            using (OracleConnection con = new OracleConnection(_connectionString))
+            {
 
+                using (OracleCommand cmd = con.CreateCommand())
+                {
+                    con.Open();
+                    cmd.CommandText = "Select SLAES_ENQ_ITEM.QUANTITY,SLAES_ENQ_ITEM.ID,ITEMMASTER.ITEMID,UNITMAST.UNITID from SLAES_ENQ_ITEM LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=SLAES_ENQ_ITEM.ITEM_ID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  where SLAES_ENQ_ITEM.SAL_ENQ_ID='" + id + "'";
+                    OracleDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        SalesItem cmp = new SalesItem
+                        {
+                            ItemId = rdr["ITEMID"].ToString(),
+                            Unit = rdr["UNITID"].ToString(),
+                            Qty = rdr["QTY"].ToString()
+                        };
+                        cmpList.Add(cmp);
+                    }
+                }
+            }
+            return cmpList;
+        }
         public DataTable GetData(string sql)
         {
             DataTable _Dt = new DataTable();
@@ -136,7 +160,7 @@ namespace Arasan.Services
                     string disp = string.Format("{0}-{1}", f, t);
 
                     int idc = GetDataId(" SELECT COMMON_TEXT FROM COMMON_MASTER WHERE COMMON_TYPE = 'SE' AND IS_ACTIVE = 'Y'");
-                    cy.EnqNo = string.Format("{0}/ {3} / {1} - {2} ", "TAAI","SE", (idc + 1).ToString(), disp);
+                    cy.EnqNo = string.Format("{0}/{3}/{1} - {2} ", "TAAI","SE", (idc + 1).ToString(), disp);
 
                     string updateCMd = " UPDATE COMMON_MASTER SET COMMON_TEXT ='" + (idc + 1).ToString() + "' WHERE COMMON_TYPE ='SE' AND IS_ACTIVE ='Y'";
                     try
@@ -279,7 +303,7 @@ namespace Arasan.Services
                 string disp = string.Format("{0}-{1}", f, t);
 
                 int idc = datatrans.GetDataId(" SELECT COMMON_TEXT FROM COMMON_MASTER WHERE COMMON_TYPE = 'SQ' AND IS_ACTIVE = 'Y'");
-                string QUONo = string.Format("{0}/ {3} / {1} - {2}","TAAI", "SQ", (idc + 1).ToString(), disp);
+                string QUONo = string.Format("{0}/{3}/{1} - {2}","TAAI", "SQ", (idc + 1).ToString(), disp);
 
                 string updateCMd = " UPDATE COMMON_MASTER SET COMMON_TEXT ='" + (idc + 1).ToString() + "' WHERE COMMON_TYPE ='SQ' AND IS_ACTIVE ='Y'";
                 try
@@ -293,7 +317,7 @@ namespace Arasan.Services
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
-                    svSQL = "Insert into SALES_QUOTE (BRANCHID,ENQNO,CURRENCY_TYPE,QUOTE_NO,QUOTE_DATE,CONTACT_PERSON,PRIORITY,ADDRESS,CITY,PINCODE,CUSTOMER_TYPE,CUSTOMER) (Select BRANCH_ID,ENQ_NO,CURRENCY_TYPE,'" + QUONo + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "' ,CONTACT_PERSON,PRIORITY,ADDRESS,CITY,PINCODE,CUSTOMER_TYPE,CUSTOMER_NAME from SALES_ENQUIRY where SALES_ENQUIRY.ID='" + QuoteId + "')";
+                    svSQL = "Insert into SALES_QUOTE (BRANCHID,ENQNO,SALES_ENQ_ID,CURRENCY_TYPE,QUOTE_NO,QUOTE_DATE,CONTACT_PERSON,PRIORITY,ADDRESS,CITY,PINCODE,CUSTOMER_TYPE,CUSTOMER) (Select BRANCH_ID,ENQ_NO,'" + QuoteId + "',CURRENCY_TYPE,'" + QUONo + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "' ,CONTACT_PERSON,PRIORITY,ADDRESS,CITY,PINCODE,CUSTOMER_TYPE,CUSTOMER_NAME from SALES_ENQUIRY where SALES_ENQUIRY.ID='" + QuoteId + "')";
                     OracleCommand objCmd = new OracleCommand(svSQL, objConn);
                     try
                     {
@@ -307,25 +331,86 @@ namespace Arasan.Services
                     objConn.Close();
                 }
 
-                string quotid = datatrans.GetDataString("Select ID from SALES_QUOTE Where QUOTE_NO=" + QuoteId + "");
+                string quotid = datatrans.GetDataString("Select SALES_QUOTE.ID from SALES_QUOTE Where SALES_ENQ_ID=" + QuoteId + "");
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
                     string Sql = "Insert into SALESQUOTEDETAIL (SALESQUOID,ITEMID,ITEMDESC,QTY,UNIT) (Select '" + quotid + "',ITEM_ID,ITEM_DESCRIPTION,QUANTITY,UNIT FROM SALES_ENQ_ITEM WHERE SAL_ENQ_ID=" + QuoteId + ")";
                     OracleCommand objCmds = new OracleCommand(Sql, objConnT);
-                    objConnT.Open();
-                    objCmds.ExecuteNonQuery();
+                    try
+                    {
+                        objConnT.Open();
+                        objCmds.ExecuteNonQuery();
+                    }
+                    catch (Exception ex)
+                    {
+                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
+                    }
                     objConnT.Close();
                 }
 
                 using (OracleConnection objConnE = new OracleConnection(_connectionString))
                 {
-                    string Sql = "UPDATE SALES_ENQUIRY SET STATUS='Generated' where ID='" + QuoteId + "'";
+                    string Sql = "UPDATE SALES_ENQUIRY SET STATUS='Generated' where SALES_ENQUIRY.ID='" + QuoteId + "'";
                     OracleCommand objCmds = new OracleCommand(Sql, objConnE);
                     objConnE.Open();
                     objCmds.ExecuteNonQuery();
                     objConnE.Close();
                 }
 
+            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
+        }
+        public string PurchaseFollowupCRUD(EnqFollowup cy)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
+
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    OracleCommand objCmd = new OracleCommand("SALENQFOLLOWUPPROC", objConn);
+                    /*objCmd.Connection = objConn;
+                    objCmd.CommandText = "PURCHASEFOLLOWPROC";*/
+
+                    objCmd.CommandType = CommandType.StoredProcedure;
+                    if (cy.FolID == null)
+                    {
+                        StatementType = "Insert";
+                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                    }
+                    else
+                    {
+                        StatementType = "Update";
+                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.FolID;
+                    }
+
+                    objCmd.Parameters.Add("ENQ_NO", OracleDbType.NVarchar2).Value = cy.EnqNo;
+                    objCmd.Parameters.Add("FOLLOW_BY", OracleDbType.NVarchar2).Value = cy.Followby;
+                    objCmd.Parameters.Add("FOLLOWDATE", OracleDbType.Date).Value = DateTime.Parse(cy.Followdate);
+                    objCmd.Parameters.Add("NEXTFOLLOWDATE", OracleDbType.Date).Value = DateTime.Parse(cy.Nfdate);
+                    objCmd.Parameters.Add("REMARK", OracleDbType.NVarchar2).Value = cy.Rmarks;
+                    objCmd.Parameters.Add("FOLLOW_DETAILS", OracleDbType.NVarchar2).Value = cy.Enquiryst;
+                    objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                    try
+                    {
+                        objConn.Open();
+                        objCmd.ExecuteNonQuery();
+                        //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
+                    }
+                    catch (Exception ex)
+                    {
+                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
+                    }
+
+                    objConn.Close();
+                }
             }
             catch (Exception ex)
             {
@@ -410,6 +495,26 @@ namespace Arasan.Services
         {
             string SvSql = string.Empty;
             SvSql = "Select SALES_ENQ_ITEM.QUANTITY,SALES_ENQ_ITEM.ID,ITEMMASTER.ITEMID,SALES_ENQ_ITEM.UNIT,SALES_ENQ_ITEM.ITEM_DESCRIPTION from SALES_ENQ_ITEM LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=SALES_ENQ_ITEM.ITEM_ID   where SALES_ENQ_ITEM.SAL_ENQ_ID='" + name + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetEnqDetail(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select   ENQ_NO ,PARTYRCODE.PARTY from SALES_ENQUIRY  LEFT OUTER JOIN  PARTYMAST on SALES_ENQUIRY.CUSTOMER_NAME=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Customer','BOTH')  AND SALES_ENQUIRY.ID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetFolowup(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select   ENQ_NO ,FOLLOW_BY,to_char(SALES_ENQ_FOLLOWUP.FOLLOWDATE,'dd-MON-yyyy')FOLLOWDATE,to_char(SALES_ENQ_FOLLOWUP.NEXTFOLLOWDATE,'dd-MON-yyyy')NEXTFOLLOWDATE,REMARK,FOLLOW_DETAILS ,SALESENQFOLLOWID From SALES_ENQ_FOLLOWUP Where SALES_ENQ_FOLLOWUP.ENQ_NO='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
