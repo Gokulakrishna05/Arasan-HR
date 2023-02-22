@@ -474,6 +474,171 @@ namespace Arasan.Controllers
             IEnumerable<SalesEnquiry> cmp = Sales.GetAllSalesEnq();
             return View(cmp);
         }
+        public IActionResult Followup(string id)
+        {
+            EnqFollowup cmp = new EnqFollowup();
+            cmp.EnqassignList = BindEmpl();
+            cmp.Followdate = DateTime.Now.ToString("dd-MMM-yyyy");
+            List<SalesEnqFollowupDetails> TData = new List<SalesEnqFollowupDetails>();
+            if (id == null)
+            {
+
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(id))
+                {
+                    DataTable dt = new DataTable();
+                    dt = Sales.GetEnqDetail(id);
+                    if (dt.Rows.Count > 0)
+                    {
+                        cmp.EnqNo = dt.Rows[0]["ENQ_NO"].ToString();
+                        cmp.CusName = dt.Rows[0]["PARTY"].ToString();
+                    }
+                    DataTable dtt = new DataTable();
+                    string e = cmp.EnqNo;
+                    dtt = Sales.GetFolowup(e);
+                   SalesEnqFollowupDetails tda = new SalesEnqFollowupDetails();
+
+                    if (dtt.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dtt.Rows.Count; i++)
+                        {
+                            tda = new SalesEnqFollowupDetails();
+                            tda.Followby = dtt.Rows[i]["FOLLOW_BY"].ToString();
+                            tda.Followdate = dtt.Rows[i]["FOLLOWDATE"].ToString();
+                            tda.Nfdate = dtt.Rows[i]["NEXTFOLLOWDATE"].ToString();
+                            tda.Rmarks = dtt.Rows[i]["REMARK"].ToString();
+                            tda.Enquiryst = dtt.Rows[i]["FOLLOW_DETAILS"].ToString();
+                            TData.Add(tda);
+                        }
+                    }
+               
+            
+        }
+            }
+            cmp.qflst = TData;
+            return View(cmp);
+
+
+        }
+
+        [HttpPost]
+        public ActionResult Followup(EnqFollowup Pf, string id)
+        {
+
+            try
+            {
+                Pf.FolID = id;
+                string Strout = Sales.PurchaseFollowupCRUD(Pf);
+                //IEnumerable<QuoFollowup> cmp = PurquoService.GetAllPurchaseFollowup();
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Pf.FolID == null)
+                    {
+                        TempData["notice"] = "Followup Inserted Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "Followup Updated Successfully...!";
+                    }
+                    return RedirectToAction("Followup");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit Followup";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(Pf);
+        }
+        public List<SelectListItem> BindEmpl()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetEmp();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["EMPNAME"].ToString(), Value = dtDesg.Rows[i]["EMPNAME"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult SendMail(string id)
+        {
+            try
+            {
+                datatrans = new DataTransactions(_connectionString);
+                MailRequest requestwer = new MailRequest();
+
+                requestwer.ToEmail = "deepa@icand.in";
+                requestwer.Subject = "Enquiry";
+                string Content = "";
+                IEnumerable<SalesItem> cmp = Sales.GetAllSalesenquriyItem(id);
+                Content = @"<html> 
+                < head >
+    < style >
+                table, th, td {
+                border: 1px solid black;
+                    border - collapse: collapse;
+                }
+    </ style >
+</ head >
+< body >
+<p>Dear Sir,</p>
+</br>
+  <p> Kindly arrange to send your lowest price offer for the following items through our email immediately.</p>
+</br>
+< table style = 'border: 1px solid black;border-collapse: collapse;' > ";
+
+
+
+                foreach (SalesItem item in cmp)
+                {
+                    Content += " <tr><td>" + item.Des + "</td>";
+                    Content += " <td>" + item.Qty + "</td>";
+                    Content += " <td>" + item.Unit + "</td></tr>";
+                }
+                Content += "</table>";
+
+                Content += @" </br> 
+<p style='padding-left:30px;font-style:italic;'>With Regards,
+</br><img src='../assets/images/Arasan_Logo.png' alt='Arasan Logo'/>
+</br>N Balaji Purchase Manager
+</br>The Arasan Aluminium Industries (P) Ltd.
+<br/102-A
+
+</br>
+</p> ";
+                Content += @" </body> 
+</html> ";
+
+                requestwer.Body = Content;
+                //request.Attachments = "No";
+                datatrans.sendemail("Test mail", Content, "kesavanmoorthi81@gmail.com", "kesavanmoorthi70@gmail.com", "aqhfevhczfrnbtgz", "587", "true", "smtp.gmail.com", "IcanD");
+                return Ok();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
         public IActionResult Sales_Quotation()
         {
             return View();
