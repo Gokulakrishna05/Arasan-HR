@@ -100,4 +100,30 @@ namespace Arasan.Models
         public double TotalAmount { get; set; }
         public string Isvalid { get; set; }
     }
+    public class QuotationFollowup
+    {
+        public string FolID { get; set; }
+        public string QuoId { get; set; }
+        public string Customer { get; set; }
+        public string Enqdate { get; set; }
+        public string Followby { get; set; }
+        public string Enquiryst { get; set; }
+        public string Followdate { get; set; }
+        public string Nfdate { get; set; }
+        public string Rmarks { get; set; }
+        public List<SelectListItem> EnqassignList;
+
+
+        public List<QuotationFollowupDetail> qflst { get; set; }
+
+    }
+    public class QuotationFollowupDetail
+    {
+        public string ID { get; set; }
+        public string Followby { get; set; }
+        public string Enquiryst { get; set; }
+        public string Followdate { get; set; }
+        public string Nfdate { get; set; }
+        public string Rmarks { get; set; }
+    }
 }

@@ -19,5 +19,10 @@ namespace Arasan.Interface.Sales
         IEnumerable<QuoItem> GetAllSalesQuotationItem(string id);
         DataTable GetCustomerDetails(string itemId);
         DataTable GetCusType();
+        DataTable GetPurchaseQuotationDetails(string id);
+        string SalesQuotationFollowupCRUD(QuotationFollowup pf);
+        DataTable GetFolowup(string enqid);
+        //DataTable GetSalesQuotationByName(string id);
+        //DataTable GetSalesQuotationItem(string id);
     }
 }

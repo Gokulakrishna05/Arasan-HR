@@ -62,13 +62,18 @@ namespace Arasan.Controllers.Sales
                     ca.EnDate = dt.Rows[0]["ENQDATE"].ToString();
                     ca.Currency = dt.Rows[0]["CURRENCY_TYPE"].ToString();
                     ca.Customer = dt.Rows[0]["CUSTOMER"].ToString();
+                    ca.CustomerType = dt.Rows[0]["CUSTOMER_TYPE"].ToString();
                     ca.Address = dt.Rows[0]["ADDRESS"].ToString();
-                    ca.City = dt.Rows[0]["CITY"].ToString();
+                    ca.PinCode = dt.Rows[0]["PINCODE"].ToString();
+                    ca.Gmail = dt.Rows[0]["CONTACT_PERSON_MAIL"].ToString();
+                    ca.Mobile = dt.Rows[0]["CONTACT_PERSON_MOBILE"].ToString();
+                    ca.Pro = dt.Rows[0]["PRIORITY"].ToString();
+                    ca.Assign = dt.Rows[0]["ASSIGNED_TO"].ToString();
                     ca.ID = id;
                     
                     
                 }
-                //ca =SalesQuotationService.GetLocationsById(id);
+                //ca = SalesQuotationService.GetLocationsById(id);
                 DataTable dt2 = new DataTable();
                 dt2 = SalesQuotationService.GetSalesQuotationItemDetails(id);
                 if (dt2.Rows.Count > 0)
@@ -256,6 +261,44 @@ namespace Arasan.Controllers.Sales
                 throw ex;
             }
         }
+        //public IActionResult ViewQuote(string id)
+        //{
+        //    SalesQuotation ca = new SalesQuotation();
+        //    DataTable dt = new DataTable();
+        //    DataTable dtt = new DataTable();
+        //    dt = SalesQuotationService.GetSalesQuotationByName(id);
+        //    if (dt.Rows.Count > 0)
+        //    {
+        //        ca.Customer = dt.Rows[0]["PARTY"].ToString();
+        //        ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+        //        ca.QuoId = dt.Rows[0]["QUOTE_NO"].ToString();
+        //        ca.QuoDate = dt.Rows[0]["QUOTE_DATE"].ToString();
+        //        ca.EnNo = dt.Rows[0]["ENQNO"].ToString();
+        //        ca.EnDate = dt.Rows[0]["ENQDATE"].ToString();
+        //        ca.ID = id;
+        //    }
+        //    List<QuoItem> Data = new List<QuoItem>();
+        //    QuoItem tda = new QuoItem();
+        //    double tot = 0;
+        //    dtt = SalesQuotationService.GetSalesQuotationItem(id);
+        //    if (dtt.Rows.Count > 0)
+        //    {
+        //        for (int i = 0; i < dtt.Rows.Count; i++)
+        //        {
+        //            tda = new QuoItem();
+        //            tda.ItemId = dtt.Rows[i]["ITEMID"].ToString();
+        //            tda.Unit = dtt.Rows[i]["UNIT"].ToString();
+        //            tda.Quantity = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString());
+        //            tda.Rate = Convert.ToDouble(dtt.Rows[i]["RATE"].ToString() == "" ? "0" : dtt.Rows[i]["RATE"].ToString());
+        //            tda.TotalAmount = tda.Quantity * tda.Rate;
+        //            tot += tda.TotalAmount;
+        //            Data.Add(tda);
+        //        }
+        //    }
+        //    ca.Net = tot;
+        //    ca.QuoLst = Data;
+        //    return View(ca);
+        //}
         public ActionResult GetCustomerDetail(string ItemId)
         {
             try
@@ -273,11 +316,8 @@ namespace Arasan.Controllers.Sales
                 {
 
                     address = dt.Rows[0]["ADD1"].ToString();
-
                     contact = dt.Rows[0]["INTRODUCEDBY"].ToString();
                     city = dt.Rows[0]["CITY"].ToString();
-
-
                     pin = dt.Rows[0]["PINCODE"].ToString();
 
                 }
@@ -470,6 +510,90 @@ namespace Arasan.Controllers.Sales
                 throw ex;
             }
 
+        }
+        public IActionResult Followup(string id)
+        {
+            QuotationFollowup cmp = new QuotationFollowup();
+            cmp.EnqassignList = BindEmp();
+            List<QuotationFollowupDetail> TData = new List<QuotationFollowupDetail>();
+            if (id == null)
+            {
+
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(id))
+                {
+                    DataTable dt = new DataTable();
+                    dt = SalesQuotationService.GetPurchaseQuotationDetails(id);
+                    if (dt.Rows.Count > 0)
+                    {
+                        cmp.QuoId = dt.Rows[0]["QUOTE_NO"].ToString();
+                        cmp.Customer = dt.Rows[0]["PARTY"].ToString();
+                    }
+                    DataTable dtt = new DataTable();
+                    string e = cmp.QuoId;
+                    dtt = SalesQuotationService.GetFolowup(e);
+                    QuotationFollowupDetail tda = new QuotationFollowupDetail();
+
+                    if (dtt.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dtt.Rows.Count; i++)
+                        {
+                            tda = new QuotationFollowupDetail();
+                            tda.Followby = dtt.Rows[i]["FOLLOW_BY"].ToString();
+                            tda.Followdate = dtt.Rows[i]["FOLLOW_DATE"].ToString();
+                            tda.Nfdate = dtt.Rows[i]["NEXT_FOLLOW_DATE"].ToString();
+                            tda.Rmarks = dtt.Rows[i]["REMARKS"].ToString();
+                            tda.Enquiryst = dtt.Rows[i]["FOLLOW_STATUS"].ToString();
+                            TData.Add(tda);
+                        }
+                    }
+                }
+            }
+            cmp.qflst = TData;
+
+            return View(cmp);
+
+
+        }
+        [HttpPost]
+        public ActionResult Followup(QuotationFollowup Pf, string id)
+        {
+
+            try
+            {
+                Pf.FolID = id;
+                string Strout = SalesQuotationService.SalesQuotationFollowupCRUD(Pf);
+                //IEnumerable<QuoFollowup> cmp = PurquoService.GetAllPurchaseFollowup();
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Pf.FolID == null)
+                    {
+                        TempData["notice"] = "Followup Inserted Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "Followup Updated Successfully...!";
+                    }
+                    return RedirectToAction("Followup");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit Followup";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(Pf);
         }
         public JsonResult GetItemJSON(string itemid)
         {
