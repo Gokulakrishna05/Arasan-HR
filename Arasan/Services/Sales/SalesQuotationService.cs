@@ -27,7 +27,7 @@ namespace Arasan.Services.Sales
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select BRANCHID,QUOTE_NO,QUOTE_DATE,ENQNO,ENQDATE,CURRENCY_TYPE,CUSTOMER,ADDRESS,CITY,ID from SALES_QUOTE";
+                    cmd.CommandText = "Select BRANCHID,QUOTE_NO,to_char(QUOTE_DATE,'dd-MON-yyyy')QUOTE_DATE,ENQNO,to_char(ENQDATE,'dd-MON-yyyy')ENQDATE,CURRENCY_TYPE,CUSTOMER,CUSTOMER_TYPE,ADDRESS,CITY,CONTACT_PERSON_MOBILE,CONTACT_PERSON_MAIL,PINCODE,PRIORITY,ASSIGNED_TO,ID from SALES_QUOTE";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -41,6 +41,7 @@ namespace Arasan.Services.Sales
                             EnDate = rdr["ENQDATE"].ToString(),
                             Currency = rdr["CURRENCY_TYPE"].ToString(),
                             Customer = rdr["CUSTOMER"].ToString(),
+                            CustomerType = rdr["CUSTOMER_TYPE"].ToString(),
                             Address = rdr["ADDRESS"].ToString(),
                             City = rdr["CITY"].ToString(),
                             Mobile = rdr["CONTACT_PERSON_MOBILE"].ToString(),
@@ -131,20 +132,21 @@ namespace Arasan.Services.Sales
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                     }
 
-                    StatementType = "Update";
-                    objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+
+                    //objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                     objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
                     objCmd.Parameters.Add("QUOTE_NO", OracleDbType.NVarchar2).Value = cy.QuoId;
                     objCmd.Parameters.Add("QUOTE_DATE", OracleDbType.Date).Value = DateTime.Parse(cy.QuoDate);
                     objCmd.Parameters.Add("ENQNO", OracleDbType.NVarchar2).Value = cy.EnNo;
-                    objCmd.Parameters.Add("ENQDATE", OracleDbType.NVarchar2).Value = cy.EnDate;
+                    objCmd.Parameters.Add("ENQDATE", OracleDbType.Date).Value = DateTime.Parse(cy.EnDate);
                     objCmd.Parameters.Add("CURRENCY_TYPE", OracleDbType.NVarchar2).Value = cy.Currency;
                     objCmd.Parameters.Add("CUSTOMER", OracleDbType.NVarchar2).Value = cy.Customer;
+                    objCmd.Parameters.Add("CUSTOMER_TYPE", OracleDbType.NVarchar2).Value = cy.CustomerType;
                     objCmd.Parameters.Add("ADDRESS", OracleDbType.NVarchar2).Value = cy.Address;
                     objCmd.Parameters.Add("CITY", OracleDbType.NVarchar2).Value = cy.City;
-                    objCmd.Parameters.Add("CONTACT_PERSON_MOBILE", OracleDbType.NVarchar2).Value = cy.Mobile;
-                    objCmd.Parameters.Add("CONTACT_PERSON_MAIL", OracleDbType.NVarchar2).Value = cy.Gmail;
                     objCmd.Parameters.Add("PINCODE", OracleDbType.NVarchar2).Value = cy.PinCode;
+                    objCmd.Parameters.Add("CONTACT_PERSON_MAIL", OracleDbType.NVarchar2).Value = cy.Gmail;
+                    objCmd.Parameters.Add("CONTACT_PERSON_MOBILE", OracleDbType.NVarchar2).Value = cy.Mobile;
                     objCmd.Parameters.Add("PRIORITY", OracleDbType.NVarchar2).Value = cy.Pro;
                     objCmd.Parameters.Add("ASSIGNED_TO", OracleDbType.NVarchar2).Value = cy.Assign;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
@@ -181,8 +183,8 @@ namespace Arasan.Services.Sales
                                     objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cp.ItemId;
                                     objCmds.Parameters.Add("ITEMDESC", OracleDbType.NVarchar2).Value = cp.Des;
                                     objCmds.Parameters.Add("UNIT", OracleDbType.NVarchar2).Value = cp.Unit;
-                                    objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = cp.Quantity;
                                     objCmds.Parameters.Add("CF", OracleDbType.NVarchar2).Value = cp.ConFac;
+                                    objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = cp.Quantity;
                                     objCmds.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = cp.Rate;
                                     objCmds.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = cp.Amount;
                                     objCmds.Parameters.Add("TOTAMT", OracleDbType.NVarchar2).Value = cp.TotalAmount;
@@ -214,7 +216,8 @@ namespace Arasan.Services.Sales
                                     string Sql = string.Empty;
                                     if (StatementType == "Update")
                                     {
-                                        Sql = "Update SALESQUOTEDETAIL SET  QTY= '" + cp.Quantity + "',RATE= '" + cp.Rate + "',CF='" + cp.ConFac + "',AMOUNT='" + cp.Amount + "',DISCAMOUNT='" + cp.DiscAmount + "',IFREIGHTCH='" + cp.FrigCharge + "',TOTAMT='" + cp.TotalAmount + "'  where SALESQUOID='" + cy.ID + "'  AND ITEMID='" + cp.saveItemId + "' ";
+                                        
+                                    Sql = "Update SALESQUOTEDETAIL SET  QTY= '" + cp.Quantity + "',RATE= '" + cp.Rate + "',CF='" + cp.ConFac + "'  where SALESQUOTEDETAILID='" + cy.ID + "'  AND ITEMID='" + cp.saveItemId + "' ";
                                     }
                                     else
                                     {
@@ -250,7 +253,7 @@ namespace Arasan.Services.Sales
         public DataTable GetSalesQuotation(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select SALES_QUOTE.BRANCHID,SALES_QUOTE.QUOTE_NO,to_char(SALES_QUOTE.QUOTE_DATE,'dd-MON-yyyy')QUOTE_DATE,PURENQ.ENQNO,to_char(PURENQ.ENQDATE,'dd-MON-yyyy')ENQDATE,SALES_QUOTE.CURRENCY_TYPE,SALES_QUOTE.CUSTOMER,SALES_QUOTE.ADDRESS,SALES_QUOTE.CITY,ID from SALES_QUOTE LEFT OUTER JOIN SALES_ENQUIRY ON SALES_ENQUIRY.ID=SALES_QUOTE.ENQID where SALES_QUOTE.ID=" + id + "";
+            SvSql = "Select SALES_QUOTE.BRANCHID,SALES_QUOTE.QUOTE_NO,to_char(SALES_QUOTE.QUOTE_DATE,'dd-MON-yyyy')QUOTE_DATE,SALES_QUOTE.ENQNO,to_char(SALES_QUOTE.ENQDATE,'dd-MON-yyyy')ENQDATE,SALES_QUOTE.CURRENCY_TYPE,SALES_QUOTE.CUSTOMER,SALES_QUOTE.CUSTOMER_TYPE,SALES_QUOTE.ADDRESS,SALES_QUOTE.CITY,SALES_QUOTE.PINCODE,SALES_QUOTE.CONTACT_PERSON_MAIL,SALES_QUOTE.CONTACT_PERSON_MOBILE,SALES_QUOTE.PRIORITY,SALES_QUOTE.ASSIGNED_TO,ID from SALES_QUOTE  where SALES_QUOTE.ID=" + id + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -267,16 +270,7 @@ namespace Arasan.Services.Sales
             return dtt;
         }
 
-        //public DataTable GetSalesQuotationItemDetails(string name);
-        //{
-        //    string SvSql = string.Empty;
-        //    SvSql = "Select STORESACCDETAIL.QTY,SALESQUOTEDETAILID,SALESQUOTEDETAIL.ITEMID,UNIT,RATE,AMOUNT from SALESQUOTEDETAIL   where SALESQUOTEDETAIL.SALESQUOTEDETAILID='" + name + "'";
-        //    DataTable dtt = new DataTable();
-        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-        //    adapter.Fill(dtt);
-        //    return dtt;
-        //}
+
         public IEnumerable<QuoItem> GetAllSalesQuotationItem(string id)
         {
             List<QuoItem> cmpList = new List<QuoItem>();
@@ -286,7 +280,7 @@ namespace Arasan.Services.Sales
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select SALESQUOTEDETAIL.QTY,SALESQUOTEDETAIL.SALESQUOTEDETAILID,ITEMMASTER.ITEMID,UNITMAST.UNITID from SALESQUOTEDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=SALESQUOTEDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  where SALESQUOTEDETAIL.SALESQUOTEDETAILID='" + id + "'";
+                    cmd.CommandText = "Select SALESQUOTEDETAIL.QTY,SALESQUOTEDETAIL.SALESQUOTEDETAILID,ITEMMASTER.ITEMID,UNITMAST.UNIT from SALESQUOTEDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=SALESQUOTEDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  where SALESQUOTEDETAIL.SALESQUOTEDETAILID='" + id + "'";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -303,15 +297,109 @@ namespace Arasan.Services.Sales
             return cmpList;
         }
 
-        public DataTable GetSalesQuotationItemDetails(string name)
+
+        public DataTable GetSalesQuotationItemDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select STORESACCDETAIL.QTY,SALESQUOTEDETAILID,SALESQUOTEDETAIL.ITEMID,ITEMDESC,UNIT,RATE,AMOUNT from SALESQUOTEDETAIL   where SALESQUOTEDETAIL.SALESQUOTEDETAILID='" + name + "'";
+            SvSql = "Select SALESQUOTEDETAIL.QTY,SALESQUOTEDETAIL.SALESQUOTEDETAILID,SALESQUOTEDETAIL.ITEMID,UNITMAST.UNITID,SALESQUOTEDETAIL.RATE  from SALESQUOTEDETAIL LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=SALESQUOTEDETAIL.UNIT  where SALESQUOTEDETAIL.SALESQUOTEDETAILID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
         }
+
+        public DataTable GetPurchaseQuotationDetails(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select QUOTE_NO,PARTYRCODE.PARTY from SALES_QUOTE  LEFT OUTER JOIN  PARTYMAST on SALES_QUOTE.CUSTOMER=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Customer','BOTH')  AND SALES_QUOTE.ID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public string SalesQuotationFollowupCRUD(QuotationFollowup cy)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
+
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    OracleCommand objCmd = new OracleCommand("SALESQUOFOLLOWPROC", objConn);
+                    /*objCmd.Connection = objConn;
+                    objCmd.CommandText = "PURCHASEFOLLOWPROC";*/
+
+                    objCmd.CommandType = CommandType.StoredProcedure;
+                    if (cy.FolID == null)
+                    {
+                        StatementType = "Insert";
+                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                    }
+                    else
+                    {
+                        StatementType = "Update";
+                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.FolID;
+                    }
+                    objCmd.Parameters.Add("QUOTE_NO", OracleDbType.NVarchar2).Value = cy.QuoId;
+                    objCmd.Parameters.Add("FOLLOW_BY", OracleDbType.NVarchar2).Value = cy.Followby;
+                    objCmd.Parameters.Add("FOLLOW_DATE", OracleDbType.Date).Value = DateTime.Parse(cy.Followdate);
+                    objCmd.Parameters.Add("NEXT_FOLLOW_DATE", OracleDbType.Date).Value = DateTime.Parse(cy.Nfdate);
+                    objCmd.Parameters.Add("REMARKS", OracleDbType.NVarchar2).Value = cy.Rmarks;
+                    objCmd.Parameters.Add("FOLLOW_STATUS", OracleDbType.NVarchar2).Value = cy.Enquiryst;
+                    objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                    try
+                    {
+                        objConn.Open();
+                        objCmd.ExecuteNonQuery();
+                        //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
+                    }
+                    catch (Exception ex)
+                    {
+                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
+                    }
+
+                    objConn.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
+        }
+
+        public DataTable GetFolowup(string enqid)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select SALESQUOFOLLOWUP.QUOTE_NO,SALESQUOFOLLOWUP.FOLLOW_BY,to_char(SALESQUOFOLLOWUP.FOLLOW_DATE,'dd-MON-yyyy')FOLLOW_DATE,to_char(SALESQUOFOLLOWUP.NEXT_FOLLOW_DATE,'dd-MON-yyyy')NEXT_FOLLOW_DATE,SALESQUOFOLLOWUP.REMARKS,SALESQUOFOLLOWUP.FOLLOW_STATUS,SALESQUOFOLLOWID from SALESQUOFOLLOWUP WHERE QUOTE_NO='" + enqid + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+
+        }
+
+        //public DataTable GetSalesQuotationByName(string name)
+        //{
+        //    string SvSql = string.Empty;
+        //    SvSql = "Select  BRANCHMAST.BRANCHID, QUOTE_NO,to_char(QUOTE_DATE,'dd-MON-yyyy') QUOTE_DATE,PARTYRCODE.PARTY,SALES_QUOTE.ENQNO,to_char(SALES_QUOTE.ENQDATE,'dd-MON-yyyy') ENQDATE,ID,SALES_QUOTE.STATUS from SALES_QUOTE LEFT OUTER JOIN PURENQ on SALES_QUOTE.ENQID=PURENQ.PURENQID LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=SALES_QUOTE.BRANCHID LEFT OUTER JOIN  PARTYMAST on SALES_QUOTE.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Customer','BOTH') AND ID='" + name + "'";
+        //    DataTable dtt = new DataTable();
+        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
+        //}
+
+        //public DataTable GetSalesQuotationItem(string id)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }
