@@ -25,6 +25,7 @@ namespace Arasan.Controllers
         {
             DirectPurchase ca = new DirectPurchase();
             ca.Brlst = BindBranch();
+            ca.Branch = Request.Cookies["BranchId"];
             ca.Suplst = BindSupplier();
             ca.Curlst = BindCurrency();
             ca.Loclst = GetLoc();
