@@ -32,6 +32,7 @@ namespace Arasan.Controllers
                 ca.Curlst = BindCurrency();
             ca.RecList = BindEmp();
             ca.assignList = BindEmp();
+            ca.Assign = Request.Cookies["UserId"];
             ca.Prilst = BindPriority();
             ca.Enqlst = BindEnqType();
             ca.Typelst = BindCusType();

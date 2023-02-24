@@ -9,5 +9,7 @@ namespace Arasan.Interface
         DataTable GetWorkCenter();
         DataTable GetProcess(string id);
         IEnumerable<BatchCreation> GetAllBatchCreation();
+        DataTable GetProcess();
+        DataTable GetItem();
     }
 }
