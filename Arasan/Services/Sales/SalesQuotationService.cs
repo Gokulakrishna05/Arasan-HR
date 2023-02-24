@@ -207,31 +207,31 @@ namespace Arasan.Services.Sales
 
                             }
                         }
-                        foreach (QuoItem cp in cy.QuoLst)
-                        {
-                            if (cp.Isvalid == "Y" && cp.saveItemId != "0")
-                            {
-                                using (OracleConnection objConnT = new OracleConnection(_connectionString))
-                                {
-                                    string Sql = string.Empty;
-                                    if (StatementType == "Update")
-                                    {
+                    //    foreach (QuoItem cp in cy.QuoLst)
+                    //    {
+                    //        if (cp.Isvalid == "Y" && cp.saveItemId != "0")
+                    //        {
+                    //            using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                    //            {
+                    //                string Sql = string.Empty;
+                    //                if (StatementType == "Update")
+                    //                {
                                         
-                                    Sql = "Update SALESQUOTEDETAIL SET  QTY= '" + cp.Quantity + "',RATE= '" + cp.Rate + "',CF='" + cp.ConFac + "'  where SALESQUOTEDETAILID='" + cy.ID + "'  AND ITEMID='" + cp.saveItemId + "' ";
-                                    }
-                                    else
-                                    {
-                                        Sql = "";
-                                    }
-                                    OracleCommand objCmds = new OracleCommand(Sql, objConnT);
-                                    objConnT.Open();
-                                    objCmds.ExecuteNonQuery();
-                                    objConnT.Close();
-                                }
-                            }
+                    //                Sql = "Update SALESQUOTEDETAIL SET  QTY= '" + cp.Quantity + "',RATE= '" + cp.Rate + "',CF='" + cp.ConFac + "'  where SALESQUOTEDETAILID='" + cy.ID + "'  AND ITEMID='" + cp.saveItemId + "' ";
+                    //                }
+                    //                else
+                    //                {
+                    //                    Sql = "";
+                    //                }
+                    //                OracleCommand objCmds = new OracleCommand(Sql, objConnT);
+                    //                objConnT.Open();
+                    //                objCmds.ExecuteNonQuery();
+                    //                objConnT.Close();
+                    //            }
+                    //        }
 
 
-                        }
+                    //    }
 
                     }
                     catch (Exception ex)

@@ -67,7 +67,7 @@ namespace Arasan.Models
         public string PinCode { get; set; }
         public double Net { get; set; }
 
-        public List<QuoItem> QuoLst;
+        public List<QuoItem> QuoLst { get; set; }
     }
     public class QuoItem 
     {
