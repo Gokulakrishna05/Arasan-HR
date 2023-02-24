@@ -130,7 +130,7 @@
                                                 <label for="inputName3" class="col-sm-4 control-label">Address<label class="Mandatory"></label></label>
 
                                                       <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Address, new { @id = "txtAddress", @class = "form-control", @TabIndex = 1 })<br />
+                                            @Html.TextBoxFor(C => C.Address, new { @id = "txtAddress", @class = "form-control", @TabIndex = 1,@readonly=true })<br />
 
                                         </div>
 
@@ -167,7 +167,7 @@
 
                                         <label for="inputName3" class="col-sm-4 control-label">PinCode<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.PinCode, new { @id = "txtPinCode", @class = "form-control", @TabIndex = 2})
+                                            @Html.TextBoxFor(C => C.PinCode, new { @id = "txtPinCode", @class = "form-control", @TabIndex = 2,@readonly=true})
                                         </div>
                                     </div>
                                 </div>
@@ -176,7 +176,7 @@
                                     <label for="inputName3" class="col-sm-4 control-label">City<label class="Mandatory"></label></label>
 
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.City, new { @id = "txtCity", @class = "form-control", @TabIndex = 2 })
+                                            @Html.TextBoxFor(C => C.City, new { @id = "txtCity", @class = "form-control", @TabIndex = 2,@readonly=true })
 
                                         </div>
 
@@ -713,7 +713,7 @@
             success: function (result) {
 
                 document.getElementById("txtAddress").value = result.address;
-                document.getElementById("txtContactPersion").value = result.contact;
+                document.getElementById("txtMobile").value = result.contact;
                 document.getElementById("txtCity").value = result.city;
                 document.getElementById("txtPinCode").value = result.pin;
             },
@@ -815,4 +815,96 @@
         });
         $(".fancybox1").eq(0).trigger('click');
     }
+</script>
+<script>
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+            if (document.getElementById("EnDate").value == "") {
+                isValid = false;
+                $(EnqDate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Enq Date");
+                return false;
+            }
+            else {
+                $(EnqDate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtMobile").value == "") {
+                isValid = false;
+                $(txtMobile).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Phone Number");
+                return false;
+            }
+            else {
+                $(txtMobile).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+
+            if (document.getElementById("ddlCustomerType").value == "" || document.getElementById("ddlCustomerType").value == 0) {
+                isValid = false;
+                $(ddlCustomerType_chzn).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Customer Type");
+                return false;
+            }
+            else {
+                $(ddlCustomerType_chzn).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("ddlCustomer").value == "" || document.getElementById("ddlCustomer").value == 0) {
+                isValid = false;
+                $(ddlCustomer_chzn).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Customer Name");
+                return false;
+            }
+            else {
+                $(ddlCustomer_chzn).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("ddlEnqType").value == "" || document.getElementById("ddlEnqType").value == 0) {
+                isValid = false;
+                $(ddlEnqType_chzn).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Enq Type");
+                return false;
+            }
+            else {
+                $(ddlEnqType_chzn).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (isValid == false)
+                e.preventDefault();
+        });
+
+    });
 </script>
