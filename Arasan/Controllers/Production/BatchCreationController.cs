@@ -38,6 +38,12 @@ namespace Arasan.Controllers
             BatchItem tda = new BatchItem();
             List<BatchInItem> TData1 = new List<BatchInItem>();
             BatchInItem tda1 = new BatchInItem();
+            List<BatchOutItem> TData2 = new List<BatchOutItem>();
+            BatchOutItem tda2 = new BatchOutItem();
+            List<BatchOtherItem> TData3 = new List<BatchOtherItem>();
+            BatchOtherItem tda3 = new BatchOtherItem();
+            List<BatchParemItem> TData4 = new List<BatchParemItem>();
+            BatchParemItem tda4 = new BatchParemItem();
             if (id == null)
             {
                 for (int i = 0; i < 3; i++)
@@ -58,9 +64,37 @@ namespace Arasan.Controllers
                     tda1.Isvalid = "Y";
                     TData1.Add(tda1);
                 }
+                for (int i = 0; i < 3; i++)
+                {
+                    tda2 = new BatchOutItem();
+
+                    tda2.OProcesslst = BindProcessid();
+                    tda2.OItemlst = BindItemlst();
+                    tda2.Isvalid = "Y";
+                    TData2.Add(tda2);
+                }
+                for (int i = 0; i < 3; i++)
+                {
+                    tda3 = new BatchOtherItem();
+
+                    tda3.OProcessidlst = BindProcessid();
+              
+                    tda3.Isvalid = "Y";
+                    TData3.Add(tda3);
+                }
+                for (int i = 0; i < 3; i++)
+                {
+                    tda4 = new BatchParemItem();
+                    tda4.Isvalid = "Y";
+                    TData4.Add(tda4);
+                }
             }
+            ca.BatchParemLst = TData4;
+            ca.BatchOtherLst = TData3;
+            ca.BatchOutLst = TData2;
             ca.BatchInLst = TData1;
             ca.BatchLst = TData;
+            
             return View(ca);
         }
         public List<SelectListItem> BindBranch()
@@ -168,11 +202,12 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+       
         public List<SelectListItem> BindProcessid()
         {
             try
             {
-                DataTable dtDesg = Batch.GetProcess();
+                DataTable dtDesg = Batch.GetProcessid();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -185,6 +220,34 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+       
+
+        public ActionResult GetItemDetail(string ItemId)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                
+                string unit = "";
+             
+                dt = datatrans.GetItemDetails(ItemId);
+
+                if (dt.Rows.Count > 0)
+                {
+
+                    unit = dt.Rows[0]["UNITID"].ToString();
+                    
+                }
+
+                var result = new { unit = unit  };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public JsonResult GetProcessJSON()
         {
             //EnqItem model = new EnqItem();
