@@ -260,11 +260,11 @@
                                                                             </tr>
                                                                         </thead>
                                                             <tbody id="tbBooks">
-
+ 
                                                                 @{
 
                                                                     int i = 0;
-                                                                    int j = 1;
+                                                                  
 
                                                                     foreach (var item in Model.BatchLst.ToList())
                                                                     {
@@ -290,72 +290,72 @@
                                                                             </td>
                                                                         </tr>
                                                                         i = i + 1;
-                                                                        j = j + 1;
+
 
                                                                     }
-                                                                }
-                                                                        </tbody>
-                                                                        </table>
-                                                                        </div>
-                                                                        </div>
-                                            
-                                                                   
-                                            <!-- 1st tab  -->
-                                        </div>
-                                        <div class="tab-pane" id="tab-2">
-                                            <!-- 2nd tab  -->
-                                             <div style="height:30px;"></div>
+                                                                } 
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+
+
+                                                <!-- 1st tab  -->
+                                            </div>
+                                            <div class="tab-pane" id="tab-2">
+                                                <!-- 2nd tab  -->
+                                                <div style="height:30px;"></div>
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="btn-group">
-                                                            <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" /></p>
+                                                            <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow1()" class="btn sbold green" /></p>
                                                         </div>
                                                     </div>
                                                 </div>
 
                                                 <div class="row">
-                            <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
+                                                    <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
 
-                                <table class="table table-striped table-hover" id="dataTable">
-                                                                        <thead>
-                                                                            <tr>
-                                                                                <th>Process Id</th>
-                                                                                <th> Input Items </th>
-                                                                                <th>Unit </th>
+                                                        <table class="table table-striped table-hover" id="dataTable">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Process Id</th>
+                                                                    <th> Input Items </th>
+                                                                    <th>Unit </th>
 
-                                                                                <th>Input Qty  </th>
-                                                                            </tr>
-                                                                        </thead>
-                                                                          <tbody id="tbBooks">
+                                                                    <th>Input Qty  </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="tbBooks">
 
                                                                 @{
 
-                                                                    
+                                                                    int j = 0;
 
                                                                     foreach (var item in Model.BatchInLst.ToList())
                                                                     {
-                                                                        <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                        <tr id="trBook@(j)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
                                                                             <td>
-                                                                                @Html.DropDownListFor(o => o.BatchInLst[i].Process, Model.BatchInLst[i].IProcesslst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlProcess" + i, style = "width: 200px;", onchange = "Grup_Change(this.value," + i + ")"})
+                                                                                @Html.DropDownListFor(o => o.BatchInLst[j].Process, Model.BatchInLst[j].IProcesslst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlProcess" + j, style = "width: 200px;"})
 
                                                                             </td>
                                                                             <td>
-                                                                                @Html.DropDownListFor(o => o.BatchInLst[i].Item, Model.BatchInLst[i].Itemlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItem" + i, style = "width: 200px;" })
-                                                                                @Html.HiddenFor(o => o.BatchInLst[i].saveItemId)
+                                                                                @Html.DropDownListFor(o => o.BatchInLst[j].Item, Model.BatchInLst[j].Itemlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItem" + j, style = "width: 200px;", onchange = "changeItem(this.value," + j + ")" })
+                                                                                @Html.HiddenFor(o => o.BatchInLst[j].saveItemId)
                                                                             </td>
                                                                             <td>
-                                                                                @Html.TextBoxFor(o => o.BatchInLst[i].Unit, new { @id = "txtUnit" + i, @class = "form-control", style = "width: 120px;" })
+                                                                                @Html.TextBoxFor(o => o.BatchInLst[j].Unit, new { @id = "txtUnit" + j, @class = "form-control", style = "width: 120px;" ,@readonly="readonly"})
                                                                             </td>
                                                                             <td>
-                                                                                @Html.TextBoxFor(o => o.BatchInLst[i].Qty, new { @id = "txtQty" + i, @class = "form-control", style = "width: 120px;" })
+                                                                                @Html.TextBoxFor(o => o.BatchInLst[j].Qty, new { @id = "txtQty" + j, @class = "form-control", style = "width: 120px;" })
                                                                             </td>
                                                                            
                                                                             <td>
-                                                                                @Html.HiddenFor(o => o.BatchInLst[i].Isvalid, new { @id = "Isvalid" + i })
-                                                                                <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(i)" />
+                                                                                @Html.HiddenFor(o => o.BatchInLst[j].Isvalid, new { @id = "Isvalid" + j })
+                                                                                <img onclick="removeRow1(@(j));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(j)" />
                                                                             </td>
                                                                         </tr>
-                                                                        i = i + 1;
+                                                                     
                                                                         j = j + 1;
 
                                                                     }
@@ -369,24 +369,22 @@
                                         </div>
                                         <div class="tab-pane" id="tab-3">
                                             <!-- 3rd tab  -->
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="btn-group">
-                                                        <button class="btn sbold green" id="addRow"> Add New <i class="fa fa-plus"></i> </button>
+                                            <div style="height:30px;"></div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="btn-group">
+                                                            <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" /></p>
+                                                        </div>
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-12">
-                                                    <div class="ibox float-e-margins">
+                                                <div class="row">
+                                                    <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
 
-                                                        <!-- / ibox-title -->
-                                                        <div id="demo3" class="ibox-content collapse in">
-                                                            <div class="borderedTable">
-                                                                <div class="table-scrollable">
-                                                                    <table class="table table-striped table-hover">
+                                                        <table class="table table-striped table-hover" id="dataTable">
                                                                         <thead>
                                                                             <tr>
-                                                                                <th> S. No. </th>
+                                                                               
                                                                                 <th>Process ID</th>
                                                                                 <th>Output Items</th>
                                                                                 <th> Unit </th>
@@ -399,81 +397,78 @@
 
                                                                             </tr>
                                                                         </thead>
-                                                                        <tbody>
-                                                                            <tr>
-                                                                                <td> 1 </td>
+                                                                        <tbody id="tbBooks">
 
-                                                                                <td><input class="form-control newwidth" id="inputEmail3" placeholder="  " type="text"> </td>
+                                                                @{
 
+                                                                    int g = 0;
 
-                                                                                <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control newwidth" id="inputEmail3" placeholder="" Qty" type="text"> </td>
-                                                                                <td><input class="form-control newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
+                                                                    foreach (var item in Model.BatchOutLst.ToList())
+                                                                    {
+                                                                        <tr id="trBook@(g)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                            <td>
+                                                                                @Html.DropDownListFor(o => o.BatchOutLst[g].OProcess, Model.BatchOutLst[g].OProcesslst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlOProcess" + g, style = "width: 200px;"})
 
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td> 2 </td>
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.DropDownListFor(o => o.BatchOutLst[g].OItem, Model.BatchOutLst[g].OItemlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlOItem" + g, style = "width: 200px;", onchange = "changeOutItem(this.value," + g + ")" })
+                                                                                @Html.HiddenFor(o => o.BatchOutLst[g].saveItemId)
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.TextBoxFor(o => o.BatchOutLst[g].OUnit, new { @id = "txtOUnit" + g, @class = "form-control", style = "width: 120px;", @readonly="ReadOnly" })
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.TextBoxFor(o => o.BatchOutLst[g].OutType, new { @id = "txtOutType" + g, @class = "form-control", style = "width: 120px;" })
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.TextBoxFor(o => o.BatchOutLst[g].OQty, new { @id = "txtOQty" +g, @class = "form-control", style = "width: 120px;" })
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.TextBoxFor(o => o.BatchOutLst[g].Waste, new { @id = "txtWaste" + g, @class = "form-control", style = "width: 120px;" })
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.TextBoxFor(o => o.BatchOutLst[g].Vmper, new { @id = "txtVmper" +g, @class = "form-control", style = "width: 120px;" })
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.TextBoxFor(o => o.BatchOutLst[g].Greas, new { @id = "txtGreas" + g, @class = "form-control", style = "width: 120px;" })
+                                                                            </td>
+                                                                           
+                                                                            <td>
+                                                                                @Html.HiddenFor(o => o.BatchOutLst[g].Isvalid, new { @id = "Isvalid" + g })
+                                                                                <img onclick="removeRow2(@(g));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(g)" />
+                                                                            </td>
+                                                                        </tr>
+                                                                     
+                                                                        g = g + 1;
 
-                                                                                <td><input class="form-control newwidth" id="inputEmail3" placeholder="  " type="text"> </td>
-
-
-                                                                                <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control newwidth" id="inputEmail3" placeholder="" Qty" type="text"> </td>
-                                                                                <td><input class="form-control newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td> 3 </td>
-
-
-                                                                                <td><input class="form-control newwidth" id="inputEmail3" placeholder="  " type="text"> </td>
-
-
-                                                                                <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control newwidth" id="inputEmail3" placeholder="" Qty" type="text"> </td>
-                                                                                <td><input class="form-control newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                            </tr>
+                                                                    }
+                                                                }
+                                                                           
                                                                         </tbody>
                                                                     </table>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                                        
                                             <!-- 3rd tab  -->
                                         </div>
                                         <div class="tab-pane" id="tab-4">
                                             <!-- 4th tab  -->
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="btn-group">
-                                                        <button class="btn sbold green" id="addRow"> Add New <i class="fa fa-plus"></i> </button>
+                                                <div style="height:30px;"></div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="btn-group">
+                                                            <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" /></p>
+                                                        </div>
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-12">
-                                                    <div class="ibox float-e-margins">
+                                                <div class="row">
+                                                    <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
 
-                                                        <!-- / ibox-title -->
-                                                        <div id="demo3" class="ibox-content collapse in">
-                                                            <div class="borderedTable">
-                                                                <div class="table-scrollable">
-                                                                    <table class="table table-striped table-hover">
+                                                        <table class="table table-striped table-hover" id="dataTable">
                                                                         <thead>
                                                                             <tr>
-                                                                                <th> S. No. </th>
+                                                                               
                                                                                 <th>Process ID </th>
                                                                                 <th>Seq</th>
                                                                                 <th> Start Date </th>
@@ -486,92 +481,83 @@
                                                                                 <th> Remarks </th>
                                                                             </tr>
                                                                         </thead>
-                                                                        <tbody>
-                                                                            <tr>
-                                                                                <td> 1 </td>
+                                                                        <tbody id="tbBooks">
 
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
+                                                                @{
 
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="date"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="time"> </td>
+                                                                    int k = 0;
 
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="date"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="time"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
+                                                                    foreach (var item in Model.BatchOtherLst.ToList())
+                                                                    {
+                                                                        <tr id="trBook@(g)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                            <td>
+                                                                                @Html.DropDownListFor(o => o.BatchOtherLst[k].OtProcessId, Model.BatchOtherLst[k].OProcessidlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlOtProcessId" + k, style = "width: 200px;"})
 
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
+                                                                            </td>
+                                                                             <td>
+                                                                                @Html.TextBoxFor(o => o.BatchOtherLst[k].Seqe, new { @id = "txtSeqe" + k, @class = "form-control", style = "width: 120px;" })
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.TextBoxFor(o => o.BatchOtherLst[k].Start, new { @id = "txtStart" + k, @class = "form-control", style = "width: 120px;" })
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.TextBoxFor(o => o.BatchOtherLst[k].StartT, new { @id = "txtStartT" + k, @class = "form-control", style = "width: 120px;" })
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.TextBoxFor(o => o.BatchOtherLst[k].End, new { @id = "txtEnd" +k, @class = "form-control", style = "width: 120px;" })
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.TextBoxFor(o => o.BatchOtherLst[k].EndT, new { @id = "txtEndT" + k, @class = "form-control", style = "width: 120px;" })
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.TextBoxFor(o => o.BatchOtherLst[k].Total, new { @id = "txtTotal" +k, @class = "form-control", style = "width: 120px;" })
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.TextBoxFor(o => o.BatchOtherLst[k].Break, new { @id = "txtBreak" + k, @class = "form-control", style = "width: 120px;" })
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.TextBoxFor(o => o.BatchOtherLst[k].RunHrs, new { @id = "txtRunHrs" +k, @class = "form-control", style = "width: 120px;" })
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.TextBoxFor(o => o.BatchOtherLst[k].Remark, new { @id = "txtRemark" + k, @class = "form-control", style = "width: 120px;" })
+                                                                            </td>
+                                                                           
+                                                                            <td>
+                                                                                @Html.HiddenFor(o => o.BatchOtherLst[k].Isvalid, new { @id = "Isvalid" + k })
+                                                                                <img onclick="removeRow3(@(k));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(k)" />
+                                                                            </td>
+                                                                        </tr>
+                                                                     
+                                                                       k = k + 1;
 
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
-
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td> 2 </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="date"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="time"> </td>
-
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="date"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="time"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td> 3 </td>
-
-
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="date"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="time"> </td>
-
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="date"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="time"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                            </tr>
+                                                                    }
+                                                                }
+                                                                          
                                                                         </tbody>
                                                                     </table>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                                       
                                             <!-- 4th tab  -->
                                         </div>
                                         <div class="tab-pane" id="tab-5">
                                             <!-- 5th tab  -->
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="btn-group">
-                                                        <button class="btn sbold green" id="addRow"> Add New <i class="fa fa-plus"></i> </button>
+                                              <div style="height:30px;"></div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="btn-group">
+                                                            <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" /></p>
+                                                        </div>
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-12">
-                                                    <div class="ibox float-e-margins">
+                                                <div class="row">
+                                                    <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
 
-                                                        <!-- / ibox-title -->
-                                                        <div id="demo3" class="ibox-content collapse in">
-                                                            <div class="borderedTable">
-                                                                <div class="table-scrollable">
-                                                                    <table class="table table-striped table-hover">
+                                                        <table class="table table-striped table-hover" id="dataTable">
                                                                         <thead>
                                                                             <tr>
-                                                                                <th> S. No. </th>
+                                                                               
                                                                                 <th>Parameter </th>
                                                                                 <th>Unit</th>
                                                                                 <th> Start Date </th>
@@ -582,60 +568,54 @@
 
                                                                             </tr>
                                                                         </thead>
-                                                                        <tbody>
-                                                                            <tr>
-                                                                                <td> 1 </td>
+                                                                          <tbody id="tbBooks">
 
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
+                                                                @{
 
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="date"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="time"> </td>
+                                                                    int a = 0;
 
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="date"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="time"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
+                                                                    foreach (var item in Model.BatchParemLst.ToList())
+                                                                    {
+                                                                        <tr id="trBook@(a)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                            
+                                                                             <td>
+                                                                                @Html.TextBoxFor(o => o.BatchParemLst[a].Param, new { @id = "txtParam" + a, @class = "form-control", style = "width: 120px;" })
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.TextBoxFor(o => o.BatchParemLst[a].StartDate, new { @id = "txtStartDate" + a, @class = "form-control", style = "width: 120px;" })
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.TextBoxFor(o => o.BatchParemLst[a].StartTime, new { @id = "txtStartTime" + a, @class = "form-control", style = "width: 120px;" })
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.TextBoxFor(o => o.BatchParemLst[a].EndDate, new { @id = "txtEndDate" +a, @class = "form-control", style = "width: 120px;" })
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.TextBoxFor(o => o.BatchParemLst[a].EndTime, new { @id = "txtEndTime" + a, @class = "form-control", style = "width: 120px;" })
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.TextBoxFor(o => o.BatchParemLst[a].PUnit, new { @id = "txtPUnit" +a, @class = "form-control", style = "width: 120px;" })
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.TextBoxFor(o => o.BatchParemLst[a].Value, new { @id = "txtValue" + a, @class = "form-control", style = "width: 120px;" })
+                                                                            </td>
+                                                                            
+                                                                           
+                                                                            <td>
+                                                                                @Html.HiddenFor(o => o.BatchOtherLst[a].Isvalid, new { @id = "Isvalid" + a })
+                                                                                <img onclick="removeRow4(@(a));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(a)" />
+                                                                            </td>
+                                                                        </tr>
+                                                                     
+                                                                       a = a + 1;
 
-
-
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td> 2 </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="date"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="time"> </td>
-
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="date"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="time"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-
-
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td> 3 </td>
-
-
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="date"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="time"> </td>
-
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="date"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="time"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-
-
-                                                                            </tr>
+                                                                    }
+                                                                }
+                                                                       
                                                                         </tbody>
                                                                     </table>
                                                                 </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                       
                                             </div>
                                             <!-- 5th tab  -->
                                         </div>
@@ -705,7 +685,7 @@
             cache: false,
             success: function (response) {
                 var newlist;
-                    newlist = response.Worklst;
+                    newlist = response.Ilst;
                 PopulateDropDown("#ddlProcess", response);
             },
             error: function () {
@@ -734,6 +714,38 @@
             }
         });
     }
+     function changeItem(ItemId, i) {
+        $.ajax({
+            url: 'GetItemDetail',
+            data: { "ItemId": ItemId },
+            type: "GET",
+            success: function (result) {
+                
+                document.getElementById("txtUnit" + i).value = result.unit;
+              
+              
+            },
+            error: function () {
+                alert("Data Not Found");
+            }
+        });
+    }
+     function changeOutItem(ItemId, i) {
+        $.ajax({
+            url: 'GetItemDetail',
+            data: { "ItemId": ItemId },
+            type: "GET",
+            success: function (result) {
+                
+                document.getElementById("txtOUnit" + i).value = result.unit;
+              
+              
+            },
+            error: function () {
+                alert("Data Not Found");
+            }
+        });
+    }
        function PopulateDropDown(dropDownId, list) {
         //alert(list);
         $(dropDownId).empty().append();
@@ -759,7 +771,7 @@
             }
         })
     }
-    function AddRow() {
+    function AddRow1() {
         var opt = "";
         $.ajax({
             type: "POST",
@@ -769,11 +781,84 @@
                 $.each(data, function () {
                     opt += "<option value=" + this.value + ">" + this.text + "</option>";
                 });
-                AppendRow(opt);
+                AppendRow1(opt);
             }
         })
     }
+
     function removeRow(id) {
+        var table = document.getElementById("dataTable");
+        var rowCount = table.rows.length;
+        var row = document.getElementById('trBook' + id);
+        var j = 0;
+        $('tr.chkitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+                j += 1;
+            }
+        });
+        if (j > 1) {
+            row.style.display = "none";
+            document.getElementById('Isvalid' + id).value = "N";
+        }
+        else {
+            alert("Cannot delete all the rows.")
+        }
+    }
+     function removeRow1(id) {
+        var table = document.getElementById("dataTable");
+        var rowCount = table.rows.length;
+        var row = document.getElementById('trBook' + id);
+        var j = 0;
+        $('tr.chkitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+                j += 1;
+            }
+        });
+        if (j > 1) {
+            row.style.display = "none";
+            document.getElementById('Isvalid' + id).value = "N";
+        }
+        else {
+            alert("Cannot delete all the rows.")
+        }
+    }
+     function removeRow2(id) {
+        var table = document.getElementById("dataTable");
+        var rowCount = table.rows.length;
+        var row = document.getElementById('trBook' + id);
+        var j = 0;
+        $('tr.chkitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+                j += 1;
+            }
+        });
+        if (j > 1) {
+            row.style.display = "none";
+            document.getElementById('Isvalid' + id).value = "N";
+        }
+        else {
+            alert("Cannot delete all the rows.")
+        }
+    }
+     function removeRow3(id) {
+        var table = document.getElementById("dataTable");
+        var rowCount = table.rows.length;
+        var row = document.getElementById('trBook' + id);
+        var j = 0;
+        $('tr.chkitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+                j += 1;
+            }
+        });
+        if (j > 1) {
+            row.style.display = "none";
+            document.getElementById('Isvalid' + id).value = "N";
+        }
+        else {
+            alert("Cannot delete all the rows.")
+        }
+    }
+    function removeRow4(id) {
         var table = document.getElementById("dataTable");
         var rowCount = table.rows.length;
         var row = document.getElementById('trBook' + id);
@@ -809,6 +894,29 @@
 
 
         var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + WorkId + ProcessId + Seq + Req  + removeCell + "</tr>";
+        //alert(Packing);
+        $("#tbBooks").append(newRow);
+
+        $(".chosen-select").chosen();
+    }
+     function AppendRow1(opt) {
+        var index = $("#tbBooks").children("tr").length;
+
+        var Process = "<td><select style = 'width: 200px;' class='form-control chosen-select newcss' id='ddlProcess" + index + "' name='BatchInLst[" + index + "].Process' ><option value=''>Please select</option>" + opt + "</select></td>";
+
+
+
+        var Item = "<td><select style = 'width: 200px;' class='form-control chosen-select newcss' id='ddlItem" + index + "' name='IProcesslst[" + index + "].Item' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option></select></td>";
+        var Unit = "<td><input class='form-control' id='txtSeq" + index + "' name='BatchLst[" + index + "].Unit'  style='width: 120px;' type='text'   /></td>";
+
+        var qty = "<td><input class='form-control' id='txtReq" + index + "' name='BatchLst[" + index + "].qty'  style='width: 120px;' type='text'  /></td>";
+     
+
+
+        var removeCell = "<td><input id='Isvalid" + index + "' name='IProcesslst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='BatchLst.Index' type='hidden' value='" + index + "'  /></td>";
+
+
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Process + Item + Unit + qty  + removeCell + "</tr>";
         //alert(Packing);
         $("#tbBooks").append(newRow);
 

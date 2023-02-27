@@ -67,7 +67,7 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetProcess()
+        public DataTable GetProcessid()
         {
             string SvSql = string.Empty;
             SvSql = "Select PROCESSID,PROCESSMASTID from PROCESSMAST ";
@@ -87,5 +87,6 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
+        
     }
 }
