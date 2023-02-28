@@ -30,7 +30,68 @@ namespace Arasan.Controllers
             ca.Location= Request.Cookies["LocationId"];
             ca.Branch= Request.Cookies["BranchId"];
             ca.Shiftlst = BindShift();
+            ca.Processlst= BindProcess();
+            ca.ETypelst = BindEType();
+            List<ProIn> TData = new List<ProIn>();
+            ProIn tda = new ProIn();
+            for (int i = 0; i < 3; i++)
+            {
+                tda = new ProIn();
+                tda.ItemGrouplst = BindItemGrplst();
+                tda.Itemlst = BindItemlst("");
+                tda.drumlst = Binddrum();
+                tda.Isvalid = "Y";
+                TData.Add(tda);
+            }
+            ca.inputlst = TData;
             return View(ca);
+        }
+        public JsonResult GetItemJSON(string itemid)
+        {
+            EnqItem model = new EnqItem();
+            model.Itemlst = BindItemlst(itemid);
+            return Json(BindItemlst(itemid));
+
+        }
+        public JsonResult GetItemGrpJSON()
+        {
+            //EnqItem model = new EnqItem();
+            //model.ItemGrouplst = BindItemGrplst(value);
+            return Json(BindItemGrplst());
+        }
+        public List<SelectListItem> BindItemlst(string value)
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetItem(value);
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEMMASTERID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindItemGrplst()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetItemSubGrp();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["SGCODE"].ToString(), Value = dtDesg.Rows[i]["ITEMSUBGROUPID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public List<SelectListItem> BindBranch()
         {
@@ -41,6 +102,23 @@ namespace Arasan.Controllers
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["BRANCHID"].ToString(), Value = dtDesg.Rows[i]["BRANCHMASTID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> Binddrum()
+        {
+            try
+            {
+                DataTable dtDesg = IProductionEntry.DrumDeatils();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DRUMNO"].ToString(), Value = dtDesg.Rows[i]["DRUMMASTID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -66,6 +144,38 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+        public List<SelectListItem> BindProcess()
+        {
+            try
+            {
+                DataTable dtDesg = IProductionEntry.BindProcess();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PROCESSID"].ToString(), Value = dtDesg.Rows[i]["PROCESSMASTID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindEType()
+        {
+            try
+            {
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                lstdesg.Add(new SelectListItem() { Text = "BOTH", Value = "BOTH" });
+                lstdesg.Add(new SelectListItem() { Text = "INPUT", Value = "INPUT" });
+                lstdesg.Add(new SelectListItem() { Text = "OUTPUT", Value = "OUTPUT" });
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<SelectListItem> BindLocation()
         {
             try
@@ -77,6 +187,29 @@ namespace Arasan.Controllers
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["LOCID"].ToString(), Value = dtDesg.Rows[i]["LOCDETAILSID"].ToString() });
                 }
                 return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult GetStkqty(string branch, string loc, string ItemId)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                string stkqty = "0";
+                dt = IProductionEntry.Getstkqty(branch, loc, ItemId);
+                if (dt.Rows.Count > 0)
+                {
+                    stkqty = dt.Rows[0]["QTY"].ToString();
+                }
+                if(stkqty == "")
+                {
+                    stkqty = "0";
+                }
+                var result = new { stkqty = stkqty };
+                return Json(result);
             }
             catch (Exception ex)
             {
