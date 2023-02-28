@@ -23,6 +23,16 @@ namespace Arasan.Models
         public string Seq { get; set; }
         public List<SelectListItem> RecList;
         public string Enterd { get; set; }
+        public double IOFrom { get; set; }
+        public double IOTo { get; set; }
+        public double MTO { get; set; }
+        public string Leaf { get; set; }
+        public string Prod { get; set; }
+        public string BatchNo { get; set; }
+        public string Shall { get; set; }
+        public string Narr { get; set; }
+        public string RefBatch { get; set; }
+      
         public List<BatchItem> BatchLst { get; set; }
         public List<BatchInItem> BatchInLst { get; set; }
         public List<BatchOutItem> BatchOutLst { get; set; }
@@ -40,7 +50,7 @@ namespace Arasan.Models
         public List<SelectListItem> WorkCenterlst { get; set; }
 
         public string WorkId { get; set; }
-        public string Process { get; set; }
+       
         public string Seq { get; set; }
         public string Req { get; set; }
         public string Isvalid { get; set; }
