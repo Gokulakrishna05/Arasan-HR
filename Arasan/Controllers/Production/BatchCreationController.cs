@@ -49,16 +49,16 @@ namespace Arasan.Controllers
                 for (int i = 0; i < 3; i++)
                 {
                     tda = new BatchItem();
-                    tda.WorkCenterlst = BindWorkCenter();
+                    tda.WorkCenterlst = BindWorkCenterid();
                     tda.Processidlst = BindProcess("");
-                  
+
                     tda.Isvalid = "Y";
                     TData.Add(tda);
                 }
                 for (int i = 0; i < 3; i++)
                 {
                     tda1 = new BatchInItem();
-                    
+
                     tda1.IProcesslst = BindProcessid();
                     tda1.Itemlst = BindItemlst();
                     tda1.Isvalid = "Y";
@@ -78,7 +78,7 @@ namespace Arasan.Controllers
                     tda3 = new BatchOtherItem();
 
                     tda3.OProcessidlst = BindProcessid();
-              
+
                     tda3.Isvalid = "Y";
                     TData3.Add(tda3);
                 }
@@ -89,6 +89,64 @@ namespace Arasan.Controllers
                     TData4.Add(tda4);
                 }
             }
+            else
+            {
+
+                // ca = directPurchase.GetDirectPurById(id);
+
+
+                DataTable dt = new DataTable();
+                double total = 0;
+                dt = Batch.GetBatchCreation(id);
+                if (dt.Rows.Count > 0)
+                {
+                    ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                    ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
+                    ca.WorkCenter = dt.Rows[0]["WCID"].ToString();
+                    ca.BatchNo = dt.Rows[0]["DOCID"].ToString();
+                    ca.ID = id;
+                    ca.Prod = dt.Rows[0]["PSCHNO"].ToString();
+                    ca.Process = dt.Rows[0]["WPROCESSID"].ToString();
+                    ca.RefBatch = dt.Rows[0]["REFDOCID"].ToString();
+                    ca.Enterd = dt.Rows[0]["ENTEREDBY"].ToString();
+                    ca.Narr = dt.Rows[0]["NARR"].ToString();
+                    ca.Seq = dt.Rows[0]["SEQYN"].ToString();
+                    ca.Shall = dt.Rows[0]["PTYPE"].ToString();
+                    ca.Leaf = dt.Rows[0]["BTYPE"].ToString();
+                    ca.IOFrom = Convert.ToDouble(dt.Rows[0]["IORATIOFROM"].ToString() == "" ? "0" : dt.Rows[0]["IORATIOFROM"].ToString());
+                    ca.IOTo = Convert.ToDouble(dt.Rows[0]["IORATIOTO"].ToString() == "" ? "0" : dt.Rows[0]["IORATIOTO"].ToString());
+                    ca.MTO = Convert.ToDouble(dt.Rows[0]["MTONO"].ToString() == "" ? "0" : dt.Rows[0]["MTONO"].ToString());
+
+
+                }
+                DataTable dt2 = new DataTable();
+        ;
+                dt2 = Batch.GetBatchCreationDetail(id);
+                if (dt2.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt2.Rows.Count; i++)
+                    {
+                        tda = new BatchItem();
+                        tda.WorkCenterlst = BindWorkCenter();
+                        DataTable dt3 = new DataTable();
+                        dt3 = Batch.GetWorkCenterGr(dt2.Rows[i]["PROCESSID"].ToString());
+                        if (dt3.Rows.Count > 0)
+                        {
+                            tda.WorkId = dt3.Rows[0]["WCID"].ToString();
+                        }
+                        tda.Processidlst = BindProcess(tda.WorkId);
+                    
+                        tda.ProcessId = dt2.Rows[0]["PROCESSID"].ToString();
+                        tda.saveItemId = dt2.Rows[i]["PROCESSID"].ToString();
+                        tda.Seq = dt2.Rows[0]["PSEQ"].ToString();
+                        tda.Req = dt2.Rows[0]["INSREQ"].ToString();
+                        tda.ID = id;
+                       
+                    }
+
+                }
+            }
+            
             ca.BatchParemLst = TData4;
             ca.BatchOtherLst = TData3;
             ca.BatchOutLst = TData2;
@@ -96,6 +154,43 @@ namespace Arasan.Controllers
             ca.BatchLst = TData;
             
             return View(ca);
+        }
+        [HttpPost]
+        public ActionResult BatchCreation(BatchCreation Cy, string id)
+        {
+
+            try
+            {
+                Cy.ID = id;
+                string Strout = Batch.BatchCRUD(Cy);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Cy.ID == null)
+                    {
+                        TempData["notice"] = "BatchCreation Inserted Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "BatchCreation Updated Successfully...!";
+                    }
+                    return RedirectToAction("ListBatchCreation");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit BatchCreation";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(Cy);
         }
         public List<SelectListItem> BindBranch()
         {
@@ -148,11 +243,28 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+        public List<SelectListItem> BindWorkCenterid()
+        {
+            try
+            {
+                DataTable dtDesg = Batch.GetWorkCenter();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["WCID"].ToString(), Value = dtDesg.Rows[i]["WCBASICID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public JsonResult GetItemJSON(string itemid)
         {
             BatchItem model = new BatchItem();
-            model.Processidlst = BindProcess(itemid);
-            return Json(BindProcess(itemid));
+            model.Processidlst = BindProcessid(itemid);
+            return Json(BindProcessid(itemid));
 
         }
         public JsonResult GetItemGrpJSON()
@@ -173,6 +285,23 @@ namespace Arasan.Controllers
             try
             {
                 DataTable dtDesg = Batch.GetProcess(id);
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PROCESSID"].ToString(), Value = dtDesg.Rows[i]["WCBASICID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindProcessid(string id)
+        {
+            try
+            {
+                DataTable dtDesg = Batch.GetProcessid(id);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {

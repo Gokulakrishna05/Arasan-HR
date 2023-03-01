@@ -84,6 +84,8 @@ internal class Program
         builder.Services.TryAddSingleton<ISalesQuotationService, SalesQuotationService>();
         builder.Services.TryAddSingleton<ICustomerType, CustomerTypeService>();
         builder.Services.TryAddSingleton<IBatchCreation, BatchCreationService>();
+        builder.Services.TryAddSingleton<IWorkOrderService, WorkOrderService>();
+        builder.Services.TryAddSingleton<ICuringInwardService, CuringInwardService>();
 
 
         builder.Services.AddSession();
