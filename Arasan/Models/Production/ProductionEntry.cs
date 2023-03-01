@@ -13,6 +13,7 @@ namespace Arasan.Models
             this.ETypelst = new List<SelectListItem>();
         }
         public List<SelectListItem> Brlst;
+       
         public string Branch { get; set; }
 
         public List<SelectListItem> Loclst;
@@ -34,6 +35,7 @@ namespace Arasan.Models
         public List<SelectListItem> Processlst;
         public List<SelectListItem> ETypelst;
         public List<ProIn> inputlst { get; set; }
+        public List<ProInCons> inconslst { get; set; }
         public double totalinqty { get; set; }
         public double totaloutqty { get; set; }
         public double wastageqty { get; set; }  
@@ -56,6 +58,18 @@ namespace Arasan.Models
         public string MillLoadAdd { get; set; }
         public string Output { get; set; }
         public string Isvalid { get; set; }
+        public List<SelectListItem> outputlst;
+
+    }
+    public class ProInCons
+    {
+        public string ItemId { get; set; }
+        public List<SelectListItem> Itemlst { get; set; }
+        public double ConsStock { get; set; }
+        public string consunit { get; set; }
+        public double consQty { get; set; }
+        public string Isvalid { get; set; }
+        public string BinId { get; set; }
 
     }
 }

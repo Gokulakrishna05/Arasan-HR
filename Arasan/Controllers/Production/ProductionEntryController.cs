@@ -32,18 +32,32 @@ namespace Arasan.Controllers
             ca.Shiftlst = BindShift();
             ca.Processlst= BindProcess();
             ca.ETypelst = BindEType();
+            
             List<ProIn> TData = new List<ProIn>();
             ProIn tda = new ProIn();
             for (int i = 0; i < 3; i++)
             {
                 tda = new ProIn();
-                tda.ItemGrouplst = BindItemGrplst();
+                //tda.ItemGrouplst = BindItemGrplst();
                 tda.Itemlst = BindItemlst("");
                 tda.drumlst = Binddrum();
+                tda.outputlst = Bindoutput();
                 tda.Isvalid = "Y";
                 TData.Add(tda);
             }
             ca.inputlst = TData;
+
+            List<ProInCons> TData1 = new List<ProInCons>();
+            ProInCons tda1 = new ProInCons();
+            for (int i = 0; i < 3; i++)
+            {
+                tda1 = new ProInCons();
+                tda1.Itemlst = BindItemlst("");
+                tda1.Isvalid = "Y";
+                TData1.Add(tda1);
+            }
+            ca.inputlst = TData;
+            ca.inconslst = TData1;
             return View(ca);
         }
         public JsonResult GetItemJSON(string itemid)
@@ -51,7 +65,6 @@ namespace Arasan.Controllers
             EnqItem model = new EnqItem();
             model.Itemlst = BindItemlst(itemid);
             return Json(BindItemlst(itemid));
-
         }
         public JsonResult GetItemGrpJSON()
         {
@@ -59,6 +72,11 @@ namespace Arasan.Controllers
             //model.ItemGrouplst = BindItemGrplst(value);
             return Json(BindItemGrplst());
         }
+        public JsonResult GetDrumJSON()
+        {
+            return Json(Binddrum());
+        }
+
         public List<SelectListItem> BindItemlst(string value)
         {
             try
@@ -169,6 +187,20 @@ namespace Arasan.Controllers
                 lstdesg.Add(new SelectListItem() { Text = "BOTH", Value = "BOTH" });
                 lstdesg.Add(new SelectListItem() { Text = "INPUT", Value = "INPUT" });
                 lstdesg.Add(new SelectListItem() { Text = "OUTPUT", Value = "OUTPUT" });
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> Bindoutput()
+        {
+            try
+            {
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                lstdesg.Add(new SelectListItem() { Text = "YES", Value = "YES" });
+                lstdesg.Add(new SelectListItem() { Text = "NO", Value = "NO" });
                 return lstdesg;
             }
             catch (Exception ex)

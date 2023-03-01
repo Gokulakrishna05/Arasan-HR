@@ -147,7 +147,11 @@ namespace Arasan.Models
         public DataTable GetItem(string value)
         {
             string SvSql = string.Empty;
-            SvSql = "select ITEMID,ITEMMASTERID from ITEMMASTER WHERE SUBGROUPCODE='" + value + "'";
+            SvSql = "select ITEMID,ITEMMASTERID from ITEMMASTER";
+            if(!string.IsNullOrEmpty(value) && value != "0")
+            {
+                SvSql += " Where SUBGROUPCODE='" + value + "'";
+            }
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
