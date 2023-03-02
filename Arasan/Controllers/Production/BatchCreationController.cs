@@ -43,13 +43,13 @@ namespace Arasan.Controllers
             List<BatchOtherItem> TData3 = new List<BatchOtherItem>();
             BatchOtherItem tda3 = new BatchOtherItem();
             List<BatchParemItem> TData4 = new List<BatchParemItem>();
-            BatchParemItem tda4 = new BatchParemItem();
+            BatchParemItem tda4 = new BatchParemItem();                                                                          
             if (id == null)
             {
                 for (int i = 0; i < 3; i++)
                 {
                     tda = new BatchItem();
-                    tda.WorkCenterlst = BindWorkCenterid();
+                    tda.WorkCenterlst = BindWorkCenterid();                                                                                                                                                                                          
                     tda.Processidlst = BindProcess("");
 
                     tda.Isvalid = "Y";
@@ -120,7 +120,7 @@ namespace Arasan.Controllers
 
                 }
                 DataTable dt2 = new DataTable();
-        ;
+        
                 dt2 = Batch.GetBatchCreationDetail(id);
                 if (dt2.Rows.Count > 0)
                 {
@@ -217,7 +217,7 @@ namespace Arasan.Controllers
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["EMPNAME"].ToString(), Value = dtDesg.Rows[i]["EMPMASTID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["EMPNAME"].ToString(), Value = dtDesg.Rows[i]["EMPNAME"].ToString() });
                 }
                 return lstdesg;
             }
@@ -377,7 +377,7 @@ namespace Arasan.Controllers
             }
         }
 
-        public JsonResult GetProcessJSON()
+        public JsonResult GetProcessidJSON()
         {
             //EnqItem model = new EnqItem();
             //  model.ItemGrouplst = BindItemGrplst(value);
@@ -387,7 +387,7 @@ namespace Arasan.Controllers
         {
             IEnumerable<BatchCreation> cmp = Batch.GetAllBatchCreation();
             return View(cmp);
-        }
+         }
 
     }
 }

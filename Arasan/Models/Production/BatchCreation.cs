@@ -100,9 +100,6 @@ namespace Arasan.Models
 
         public List<SelectListItem> OProcessidlst { get; set; }
 
-      
-    
-
         public string Seqe { get; set; }
         public string Start { get; set; }
         public string Isvalid { get; set; }
@@ -121,11 +118,7 @@ namespace Arasan.Models
     {
         public string ID { get; set; }
         public string Param { get; set; }
-      
-     
-
-
-
+    
         public string PUnit { get; set; }
         public string StartDate { get; set; }
         public string Isvalid { get; set; }
