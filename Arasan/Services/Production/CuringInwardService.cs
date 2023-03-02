@@ -22,20 +22,21 @@ namespace Arasan.Services.Production
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select QCRESULTBASIC.GRNNO,QCRESULTBASIC.DOCID,to_char(QCRESULTBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,to_char(QCRESULTBASIC.GRNDATE,'dd-MON-yyyy')GRNDATE,PARTYRCODE.PARTY,QCRESULTBASIC.TESTEDBY,LOCDETAILS.LOCID,QCRESULTBASIC.REMARKS,QCRESULTBASIC.QCLOCATION,QCRESULTBASICID from QCRESULTBASIC LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=QCRESULTBASIC.LOCATION LEFT OUTER JOIN  PARTYMAST on QCRESULTBASIC.PARTYID=PARTYMAST.PARTYMASTID  LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID";
+                    cmd.CommandText = "Select BRANCH,DOCID,DOCDATE,WCID,SHIFT,ENTEREDBY,REMARKS,CURINGESBASICID from CURINGESBASIC";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
                         CuringInward cmp = new CuringInward
                         {
-                            ID = rdr["CURINPBASICID"].ToString(),
-                            Branch = rdr["BRANCHID"].ToString(),
+                            ID = rdr["CURINGESBASICID"].ToString(),
+                            Branch = rdr["BRANCH"].ToString(),
                             DocId = rdr["DOCID"].ToString(),
                             Docdate = rdr["DOCDATE"].ToString(),
                             WorkCenter = rdr["WCID"].ToString(),
                             Shift = rdr["SHIFT"].ToString(),
                             RecevedBy = rdr["ENTEREDBY"].ToString(),
-                          
+                            Remarks = rdr["REMARKS"].ToString(),
+
                         };
                         cmpList.Add(cmp);
                     }
@@ -52,7 +53,7 @@ namespace Arasan.Services.Production
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
-                    OracleCommand objCmd = new OracleCommand("CURINPBASICPROC", objConn);
+                    OracleCommand objCmd = new OracleCommand("CURINGESBASICPROC",objConn);
 
                     objCmd.CommandType = CommandType.StoredProcedure;
                     if (cy.ID == null)
@@ -65,12 +66,13 @@ namespace Arasan.Services.Production
                         StatementType = "Update";
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                     }
-                    objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
+                    objCmd.Parameters.Add("BRANCH", OracleDbType.NVarchar2).Value = cy.Branch;
                     objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.DocId;
                     objCmd.Parameters.Add("DOCDATE", OracleDbType.Date).Value = DateTime.Parse(cy.Docdate);
                     objCmd.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = cy.WorkCenter;
                     objCmd.Parameters.Add("SHIFT", OracleDbType.NVarchar2).Value = cy.Shift;
                     objCmd.Parameters.Add("ENTEREDBY", OracleDbType.NVarchar2).Value = cy.RecevedBy;
+                    objCmd.Parameters.Add("REMARKS", OracleDbType.NVarchar2).Value = cy.Remarks;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
@@ -89,7 +91,7 @@ namespace Arasan.Services.Production
                             {
                                 using (OracleConnection objConns = new OracleConnection(_connectionString))
                                 {
-                                    OracleCommand objCmds = new OracleCommand("QCRESULTDETAILPROC", objConns);
+                                    OracleCommand objCmds = new OracleCommand("CURINGESDETAILPROC", objConns);
                                     if (cy.ID == null)
                                     {
                                         StatementType = "Insert";
@@ -101,13 +103,14 @@ namespace Arasan.Services.Production
                                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                                     }
                                     objCmds.CommandType = CommandType.StoredProcedure;
-                                    objCmds.Parameters.Add("QCRESULTBASICID", OracleDbType.NVarchar2).Value = Pid;
+                                    objCmds.Parameters.Add("CURINGESBASICID", OracleDbType.NVarchar2).Value = Pid;
                                     objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = ca.ItemId;
-                                    //objCmds.Parameters.Add("GRNQTY", OracleDbType.NVarchar2).Value = ca.GrnQty;
-                                    //objCmds.Parameters.Add("INSQTY", OracleDbType.NVarchar2).Value = ca.InsQty;
-                                    //objCmds.Parameters.Add("REJQTY", OracleDbType.NVarchar2).Value = ca.RejQty;
+                                    objCmds.Parameters.Add("BATCHQTY", OracleDbType.NVarchar2).Value = ca.batchqty;
+                                    objCmds.Parameters.Add("DRUMNO", OracleDbType.NVarchar2).Value = ca.drumno;
+                                    objCmds.Parameters.Add("BATCHNO", OracleDbType.NVarchar2).Value = ca.batchno;
                                     //objCmds.Parameters.Add("ACCQTY", OracleDbType.NVarchar2).Value = ca.AccQty;
-                                    //objCmds.Parameters.Add("COSTRATE", OracleDbType.NVarchar2).Value = ca.CostRate;
+                                    //objCmds.Parameters.Add("COSTRATE", OracleDbType.NVarchar2).Va
+                                    //lue = ca.CostRate;
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                     objConns.Open();
                                     objCmds.ExecuteNonQuery();
@@ -131,6 +134,16 @@ namespace Arasan.Services.Production
             }
 
             return msg;
+        }
+        public DataTable GetWorkCenter()
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select WCID,WCBASICID from WCBASIC ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
         }
         public DataTable DrumDeatils()
         {
@@ -166,7 +179,7 @@ namespace Arasan.Services.Production
         public DataTable GetCuringInward(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select QCRESULTBASIC.GRNNO,QCRESULTBASIC.DOCID,to_char(QCRESULTBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,to_char(QCRESULTBASIC.GRNDATE,'dd-MON-yyyy')GRNDATE,PARTYRCODE.PARTY,QCRESULTBASICID,QCRESULTBASIC.TESTEDBY,QCRESULTBASIC.LOCATION,QCRESULTBASIC.REMARKS,QCRESULTBASIC.QCLOCATION  from QCRESULTBASIC  LEFT OUTER JOIN  PARTYMAST on QCRESULTBASIC.PARTYID=PARTYMAST.PARTYMASTID  LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH')  AND QCRESULTBASIC.QCRESULTBASICID='" + id + "' ";
+            SvSql = "Select CURINGESBASIC.BRANCH,CURINGESBASIC.DOCID,to_char(CURINGESBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,CURINGESBASICID,CURINGESBASIC.WCID,CURINGESBASIC.SHIFT,CURINGESBASIC.ENTEREDBY,CURINGESBASIC.REMARKS  from CURINGESBASIC Where CURINGESBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -177,7 +190,7 @@ namespace Arasan.Services.Production
         public DataTable GetCuringInwardDetail(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select GRNBLDETAIL.QTY,GRNBLDETAIL.ACCQTY,GRNBLDETAIL.REJQTY,GRNBLDETAIL.COSTRATE,GRNBLDETAILID from GRNBLDETAIL where GRNBLDETAIL.GRNBLDETAILID   ='" + id + "'";
+            SvSql = "select CURINGESBASICID,ITEMID,BATCHQTY,DRUMNO,BATCHNO from CURINGESDETAIL where CURINGESDETAILID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

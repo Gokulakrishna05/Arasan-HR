@@ -9,16 +9,21 @@ namespace Arasan.Models
         public string ID { get; set; }
         public string DocId { get; set; }
         public string Docdate { get; set; }
+
+        public List<SelectListItem> Worklst;
+
         public string WorkCenter { get; set; }
 
         public List<SelectListItem> Shiftlst;
         public string Shift { get; set; }
-      
+        
+        public string Remarks { get; set; }
         public CuringInward()
         {
             this.Brlst = new List<SelectListItem>();
             this.assignList = new List<SelectListItem>();
             this.Shiftlst = new List<SelectListItem>();
+            this.Worklst = new List<SelectListItem>();
         }
         public List<SelectListItem> Brlst;
         public string Branch { get; set; }
@@ -42,5 +47,7 @@ namespace Arasan.Models
 
         public string batchno { get; set; }
         public double batchqty { get; set; }
+
+        public string Shed { get; set; }
     }
 }

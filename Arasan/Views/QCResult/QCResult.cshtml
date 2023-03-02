@@ -533,6 +533,7 @@
   }
     function AppendRow(opt) {
         var index = $("#tbBooks").children("tr").length;
+
         var ItemId = "<td><select style = 'width: 170px;' class='form-control chosen-select newcss' id='ddlItemId" + index + "' name='Itemlst[" + index + "].ItemId'onchange = 'changeItemDetail(this.value," + index + ")'><option value=''>Please select</option></select></td>";
 
         var GrnQty = "<td><input class='form-control' id='txtGrnQty" + index + "' name='QCRLst[" + index + "].GrnQty' onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 130px;'  type='text'  /></td>";
