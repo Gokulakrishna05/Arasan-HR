@@ -36,6 +36,8 @@ namespace Arasan.Models
         public List<SelectListItem> ETypelst;
         public List<ProIn> inputlst { get; set; }
         public List<ProInCons> inconslst { get; set; }
+        public List<output> outlst { get; set; }
+        public List<wastage> wastelst { get; set; }
         public double totalinqty { get; set; }
         public double totaloutqty { get; set; }
         public double wastageqty { get; set; }  
@@ -71,5 +73,36 @@ namespace Arasan.Models
         public string Isvalid { get; set; }
         public string BinId { get; set; }
 
+    }
+    public class output
+    {
+        public string ItemId { get; set; }
+        public List<SelectListItem> Itemlst { get; set; }
+        public string Isvalid { get; set; }
+        public double OutStock { get; set; }
+        public double ExcessQty { get; set; }
+        public double OutQty { get; set; }
+        public string startdate { get; set; }
+        public string enddate { get; set; }
+        public string starttime { get; set; }
+        public string endtime { get; set; }
+        public string drumno { get; set; }
+        public List<SelectListItem> drumlst { get; set; }
+        public string batchno { get; set; }
+        public string status { get; set; }
+        public List<SelectListItem> statuslst { get; set; }
+        public string toloc { get; set; }
+        public List<SelectListItem> loclst { get; set; }
+    }
+    public class wastage
+    {
+        public string ItemId { get; set; }
+        public List<SelectListItem> Itemlst { get; set; }
+        public string Isvalid { get; set; }
+        public string batchno { get; set; }
+        public double wastageQty { get; set; }
+        public string toloc { get; set; }
+        public List<SelectListItem> loclst { get; set; }
+        public string BinId { get; set; }
     }
 }
