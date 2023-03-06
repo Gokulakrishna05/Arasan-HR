@@ -35,7 +35,7 @@ namespace Arasan.Controllers
             
             List<ProIn> TData = new List<ProIn>();
             ProIn tda = new ProIn();
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 1; i++)
             {
                 tda = new ProIn();
                 //tda.ItemGrouplst = BindItemGrplst();
@@ -49,15 +49,42 @@ namespace Arasan.Controllers
 
             List<ProInCons> TData1 = new List<ProInCons>();
             ProInCons tda1 = new ProInCons();
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 1; i++)
             {
                 tda1 = new ProInCons();
                 tda1.Itemlst = BindItemlst("");
                 tda1.Isvalid = "Y";
                 TData1.Add(tda1);
             }
+
+            List<output> TData2 = new List<output>();
+            output tda2 = new output();
+            for (int i = 0; i < 1; i++)
+            {
+                tda2 = new output();
+                tda2.Itemlst = BindItemlst("");
+                tda2.drumlst = Binddrum();
+                tda2.statuslst = BindStatus();
+                tda2.loclst = BindLocation();
+                tda2.Isvalid = "Y";
+                TData2.Add(tda2);
+            }
+
+            List<wastage> TData3 = new List<wastage>();
+            wastage tda3 = new wastage();
+            for (int i = 0; i < 1; i++)
+            {
+                tda3 = new wastage();
+                tda3.Itemlst = BindItemlst("");
+                tda3.loclst= BindLocation();
+                tda3.Isvalid = "Y";
+                TData3.Add(tda3);
+            }
+
             ca.inputlst = TData;
             ca.inconslst = TData1;
+            ca.outlst= TData2;
+            ca.wastelst= TData3;
             return View(ca);
         }
         public JsonResult GetItemJSON(string itemid)
@@ -187,6 +214,20 @@ namespace Arasan.Controllers
                 lstdesg.Add(new SelectListItem() { Text = "BOTH", Value = "BOTH" });
                 lstdesg.Add(new SelectListItem() { Text = "INPUT", Value = "INPUT" });
                 lstdesg.Add(new SelectListItem() { Text = "OUTPUT", Value = "OUTPUT" });
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindStatus()
+        {
+            try
+            {
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                lstdesg.Add(new SelectListItem() { Text = "PENDING", Value = "PENDING" });
+                lstdesg.Add(new SelectListItem() { Text = "COMPLETED", Value = "COMPLETED" });
                 return lstdesg;
             }
             catch (Exception ex)
