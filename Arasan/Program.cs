@@ -85,8 +85,8 @@ internal class Program
         builder.Services.TryAddSingleton<ICustomerType, CustomerTypeService>();
         builder.Services.TryAddSingleton<IBatchCreation, BatchCreationService>();
         builder.Services.TryAddSingleton<IWorkOrderService, WorkOrderService>();
-        builder.Services.TryAddSingleton<ICuringInwardService, CuringInwardService>();
-
+        builder.Services.TryAddSingleton<ICuringInwardService, CuringInwardService>(); 
+         builder.Services.TryAddSingleton<IProductionScheduleService, ProductionScheduleService>();
 
         builder.Services.AddSession();
         var emailConfig = builder.Configuration.GetSection("MailSettings").Get<MailSettings>();

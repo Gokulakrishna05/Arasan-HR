@@ -27,7 +27,6 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-
         public DataTable GetSupplier()
         {
             string SvSql = string.Empty;
@@ -37,7 +36,6 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-
         public DataTable GetCurency()
         {
             string SvSql = string.Empty;
@@ -48,7 +46,6 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-
         public DataTable GetItem(string value)
         {
             string SvSql = string.Empty;
