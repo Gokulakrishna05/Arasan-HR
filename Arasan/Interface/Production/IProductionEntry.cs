@@ -8,5 +8,8 @@ namespace Arasan.Interface
         DataTable DrumDeatils();
         DataTable Getstkqty(string branch, string loc, string ItemId);
         DataTable BindProcess();
+        IEnumerable<ProductionEntry> GetAllProductionEntry();
+        string ProductionEntryCRUD(ProductionEntry id);
+        DataTable GetWorkCenter();
     }
 }

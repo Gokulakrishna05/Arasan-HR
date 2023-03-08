@@ -60,7 +60,7 @@ namespace Arasan.Models
         public string ID { get; set; }
         public string Process { get; set; }
         public string saveItemId { get; set; }
-       
+        
         public List<SelectListItem> IProcesslst { get; set; }
 
         public List<SelectListItem> Itemlst { get; set; }
@@ -76,7 +76,9 @@ namespace Arasan.Models
         public string ID { get; set; }
         public string OProcess { get; set; }
         public string saveItemId { get; set; }
+        public List<SelectListItem> OItemGrouplst { get; set; }
 
+        public string ItemGroupId { get; set; }
         public List<SelectListItem> OProcesslst { get; set; }
 
         public List<SelectListItem> OItemlst { get; set; }

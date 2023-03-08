@@ -351,7 +351,7 @@
 
                                                                             </td>
                                                                             <td>
-                                                                                @Html.DropDownListFor(o => o.BatchInLst[j].Item, Model.BatchInLst[j].Itemlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItem" + j, style = "width: 200px;", onchange = "changeItem(this.value," + j + ")" })
+                                                                                @Html.DropDownListFor(o => o.BatchInLst[j].Item, Model.BatchInLst[j].Itemlst, "Please Select", new { @class = "form-control   newcss", @id = "ddlItem" + j, style = "width: 200px;", onchange = "changeItem(this.value," + j + ")" })
                                                                                 @Html.HiddenFor(o => o.BatchInLst[j].saveItemId)
                                                                             </td>
                                                                             <td>
@@ -422,7 +422,7 @@
 
                                                                             </td>
                                                                             <td>
-                                                                                @Html.DropDownListFor(o => o.BatchOutLst[g].OItem, Model.BatchOutLst[g].OItemlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlOItem" + g, style = "width: 200px;", onchange = "changeOutItem(this.value," + g + ")" })
+                                                                                @Html.DropDownListFor(o => o.BatchOutLst[g].OItem, Model.BatchOutLst[g].OItemlst, "Please Select", new { @class = "form-control   newcss", @id = "ddlOItem" + g, style = "width: 200px;", onchange = "changeOutItem(this.value," + g + ")" })
                                                                                 @Html.HiddenFor(o => o.BatchOutLst[g].saveItemId)
                                                                             </td>
                                                                             <td>
@@ -511,23 +511,23 @@
                                                                             <td>
                                                                             <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
 
-                                                                                @Html.TextBoxFor(o => o.BatchOtherLst[k].Start, new { @id = "txtStart" + k, @class = "form-control", style = "width: 120px;" })
+                                                                                @Html.TextBoxFor(o => o.BatchOtherLst[k].Start, new { @id = "txtStart" + k, @class = "form-control", style = "width: 120px;",@readonly="readonly"  })
                                                                                   <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                                             </div>
                                                                             </td>
                                                                             <td>
-                                                                                    @Html.TextBoxFor(o => o.BatchOtherLst[k].StartT, new { @id = "txtStartT" + k, @class = "form-control", style = "width: 120px;" ,@readonly="readonly" })
+                                                                                    @Html.TextBoxFor(o => o.BatchOtherLst[k].StartT, new { @id = "txtStartT" + k, @class = "form-control", style = "width: 120px;",@Type="Time" })
                                                                                
                                                                             </td>
                                                                             <td>
                                                                             <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
 
-                                                                                @Html.TextBoxFor(o => o.BatchOtherLst[k].End, new { @id = "txtEnd" +k, @class = "form-control", style = "width: 120px;" })
+                                                                                @Html.TextBoxFor(o => o.BatchOtherLst[k].End, new { @id = "txtEnd" +k, @class = "form-control", style = "width: 120px;",@readonly="readonly" })
                                                                                   <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                                             </div>
                                                                             </td>
                                                                             <td>
-                                                                                @Html.TextBoxFor(o => o.BatchOtherLst[k].EndT, new { @id = "txtEndT" + k, @class = "form-control", style = "width: 120px;"  ,@readonly="readonly"})
+                                                                                @Html.TextBoxFor(o => o.BatchOtherLst[k].EndT, new { @id = "txtEndT" + k, @class = "form-control", style = "width: 120px;",@Type="Time"  })
                                                                                   
                                                                             </td>
                                                                             <td>
@@ -614,7 +614,7 @@
                                                                             </td>
                                                                             <td>
 
-                                                                                @Html.TextBoxFor(o => o.BatchParemLst[a].StartTime, new { @id = "txtStartTime" + a, @class = "form-control", style = "width: 120px;" })
+                                                                                @Html.TextBoxFor(o => o.BatchParemLst[a].StartTime, new { @id = "txtStartTime" + a, @class = "form-control", style = "width: 120px;",@Type="Time" })
                                                                             </td>
                                                                             <td>
                                                                                 <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
@@ -623,7 +623,7 @@
                                                                                 </div>
                                                                             </td>
                                                                             <td>
-                                                                                @Html.TextBoxFor(o => o.BatchParemLst[a].EndTime, new { @id = "txtEndTime" + a, @class = "form-control", style = "width: 120px;" })
+                                                                                @Html.TextBoxFor(o => o.BatchParemLst[a].EndTime, new { @id = "txtEndTime" + a, @class = "form-control", style = "width: 120px;",@Type="Time" })
                                                                             </td>
                                                                          
                                                                             <td>
@@ -745,6 +745,7 @@
             }
         });
     }
+
      function changeItem(ItemId, i) {
         $.ajax({
             url: 'GetItemDetail',

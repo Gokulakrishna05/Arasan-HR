@@ -229,8 +229,8 @@ namespace Arasan.Services
                                     objCmds.CommandType = CommandType.StoredProcedure;
                                     objCmds.Parameters.Add("BCPRODBASICID", OracleDbType.NVarchar2).Value = Pid;
                                     objCmds.Parameters.Add("EPROCESSID", OracleDbType.NVarchar2).Value = cp.OtProcessId;
-                                    objCmd.Parameters.Add("ESDT", OracleDbType.Date).Value = DateTime.Parse(cp.Start);
-                                    objCmd.Parameters.Add("EEDT", OracleDbType.Date).Value = DateTime.Parse(cp.End);
+                                    objCmds.Parameters.Add("ESDT", OracleDbType.Date).Value = DateTime.Parse(cp.Start);
+                                    objCmds.Parameters.Add("EEDT", OracleDbType.Date).Value = DateTime.Parse(cp.End);
                                     objCmds.Parameters.Add("EST", OracleDbType.NVarchar2).Value = cp.StartT;
                                    
                                     objCmds.Parameters.Add("EET", OracleDbType.NVarchar2).Value = cp.EndT;
@@ -270,8 +270,8 @@ namespace Arasan.Services
                                     objCmds.CommandType = CommandType.StoredProcedure;
                                     objCmds.Parameters.Add("BCPRODBASICID", OracleDbType.NVarchar2).Value = Pid;
                                     objCmds.Parameters.Add("PROCPARAM", OracleDbType.NVarchar2).Value = cp.Param;
-                                    objCmd.Parameters.Add("PSDT", OracleDbType.Date).Value = DateTime.Parse(cp.StartDate);
-                                    objCmd.Parameters.Add("PEDT", OracleDbType.Date).Value = DateTime.Parse(cp.EndDate);
+                                    objCmds.Parameters.Add("PSDT", OracleDbType.Date).Value = DateTime.Parse(cp.StartDate);
+                                    objCmds.Parameters.Add("PEDT", OracleDbType.Date).Value = DateTime.Parse(cp.EndDate);
                                     objCmds.Parameters.Add("PSTIME", OracleDbType.NVarchar2).Value = cp.StartTime;
 
                                     objCmds.Parameters.Add("PETIME", OracleDbType.NVarchar2).Value = cp.EndTime;
@@ -369,6 +369,16 @@ namespace Arasan.Services
         {
             string SvSql = string.Empty;
             SvSql = "select BCPRODBASICID,BWCID,PROCESSID,PSEQ,INSREQ from BCPRODDETAIL where BCPRODBASICID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetBatchCreationInputDetail(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select BCPRODBASICID,IPROCESSID,IITEMID,IUNIT,IQTY from BCINPUTDETAIL where BCPRODBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

@@ -11,6 +11,7 @@ namespace Arasan.Models
             this.Shiftlst=new List<SelectListItem>();
             this.Processlst=new List<SelectListItem>();
             this.ETypelst = new List<SelectListItem>();
+            this.RecList = new List<SelectListItem>();
         }
         public List<SelectListItem> Brlst;
        
@@ -40,8 +41,14 @@ namespace Arasan.Models
         public List<wastage> wastelst { get; set; }
         public double totalinqty { get; set; }
         public double totaloutqty { get; set; }
-        public double wastageqty { get; set; }  
+        public double wastageqty { get; set; }
+        public double Machine { get; set; }
+        public double totaRmqty { get; set; }
+        public double totalRmValue { get; set; }
+        public double CosValue { get; set; }
         public double totalconsqty { get; set; }
+        public List<SelectListItem> RecList;
+        public string Enterd { get; set; }
     }
     public class ProIn
     {
