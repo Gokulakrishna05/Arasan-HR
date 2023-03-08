@@ -128,12 +128,12 @@ namespace Arasan.Controllers
                     {
                         tda = new BatchItem();
                         tda.WorkCenterlst = BindWorkCenter();
-                        DataTable dt3 = new DataTable();
-                        dt3 = Batch.GetWorkCenterGr(dt2.Rows[i]["PROCESSID"].ToString());
-                        if (dt3.Rows.Count > 0)
-                        {
-                            tda.WorkId = dt3.Rows[0]["WCID"].ToString();
-                        }
+                        //DataTable dt3 = new DataTable();
+                        //dt3 = Batch.GetWorkCenterGr(dt2.Rows[i]["PROCESSID"].ToString());
+                        //if (dt3.Rows.Count > 0)
+                        //{
+                        //    tda.WorkId = dt3.Rows[0]["WCID"].ToString();
+                        //}
                         tda.Processidlst = BindProcess(tda.WorkId);
                     
                         tda.ProcessId = dt2.Rows[0]["PROCESSID"].ToString();
@@ -142,6 +142,26 @@ namespace Arasan.Controllers
                         tda.Req = dt2.Rows[0]["INSREQ"].ToString();
                         tda.ID = id;
                        
+                    }
+
+                }
+                DataTable dt3 = new DataTable();
+                dt3 = Batch.GetBatchCreationInputDetail(id);
+                if (dt3.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt3.Rows.Count; i++)
+                    {
+                        tda1 = new BatchInItem();
+                         
+                        tda1.Process = dt3.Rows[0]["IPROCESSID"].ToString();
+                     
+                        tda1.Item = dt3.Rows[0]["IITEMID"].ToString();
+                        tda1.Unit = dt3.Rows[0]["IUNIT"].ToString();
+                        tda1.Qty = dt3.Rows[0]["IQTY"].ToString();
+
+                       
+                        tda1.ID = id;
+
                     }
 
                 }
