@@ -1,0 +1,820 @@
+﻿@model Arasan.Models.ProductionSchedule
+@{
+    ViewData["Title"] = "Production Schedule";
+}
+<style>
+    .newwidth {
+        width: 120px;
+    }
+</style>
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a>Production</a> </li>
+            <li class="active"> <strong>Production Schedule</strong> </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    <h5 style="font-size:14px">Production Schedule</h5>
+                    <hr>
+                     @using (Html.BeginForm("ProductionSchedule", "ProductionSchedule", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                    <form>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Branch<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                         @Html.DropDownListFor(C => C.Branch, Model.Brlst, new { @id = "ddlBranch", @Class = "form-control chosen-select", @TabIndex = 1 })
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Plan Type<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        <select class=" _select js-states form-control">
+
+                                            <option value="TAAI">MONTHLY</option>
+                                            <option value="TAAI">YEARLY </option>
+
+                                        </select><br />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Prod.Schedule.No<label class="Mandatory"></label></label>
+
+                                    <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.DocId, new { @id = "txtDocId", @class = "form-control", @TabIndex = 2 })<br />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Date<label class="Mandatory"></label></label>
+
+                                    <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                            @Html.TextBoxFor(C => C.Docdate, new { @id = "Docdate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                    </div>
+                                        <input type="hidden" id="dtp_input2" value="" />
+                                        <br />
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                        <br />     <label for="inputName3" class="col-sm-4 control-label">Work Center<label class="Mandatory"></label></label>
+                                      <div class="col-sm-8">
+                                    @Html.DropDownListFor(C => C.WorkCenter, Model.Worklst,"Please Select", new { @id = "ddlWorkCenter", @Class = "form-control chosen-select", @TabIndex = 1, @onchange = "changeProcess(this.value)" })
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <br /> <label for="inputName3" class="col-sm-4 control-label">Process<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownListFor(C => C.Process, Model.Processlst, new { @id = "ddlProcess", @Class = "form-control chosen-select", @TabIndex = 1 })
+
+                                        @Html.HiddenFor(C => C.ID)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Prod.Planning<label class="Mandatory"></label></label>
+
+                                    <div class="col-sm-8">
+                                        <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Sch.Date<label class="Mandatory"></label></label>
+                                    <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                            @Html.TextBoxFor(C => C.Schdate, new { @id = "Schdate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
+                                        <input type="hidden" id="dtp_input2" value="" />
+                                        <br />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Formula<label class="Mandatory"></label></label>
+
+                                    <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.DocId, new { @id = "txtDocId", @class = "form-control", @TabIndex = 2 })<br />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Prod.Due.Dt<label class="Mandatory"></label></label>
+
+                                    <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                            @Html.TextBoxFor(C => C.Proddt, new { @id = "Proddt", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
+                                        <input type="hidden" id="dtp_input2" value="" />
+                                        <br />
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Output Item<label class="Mandatory"></label></label>
+
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(C => C.Itemid, new { @id = "txtItemid", @class = "form-control", @TabIndex = 2 })<br />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Unit<label class="Mandatory"></label></label>
+
+                                    <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.Unit, new { @id = "txtUnit", @class = "form-control", @TabIndex = 2 })<br />
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Output Qty<label class="Mandatory"></label></label>
+
+                                    <div class="col-sm-8">
+                                         @Html.TextBoxFor(C => C.Qty, new { @id = "txtQty", @class = "form-control", @TabIndex = 2 })<br />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Exp.Run Hrs<label class="Mandatory"></label></label>
+
+                                    <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.Exprunhrs, new { @id = "txtExprunhrs", @class = "form-control", @TabIndex = 2 })<br />
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Ref.Sch.No<label class="Mandatory"></label></label>
+
+                                    <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.Refno, new { @id = "txtRefno", @class = "form-control", @TabIndex = 2 })<br />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Prim/Sec.?<label class="Mandatory"></label></label>
+
+                                    <div class="col-sm-8">
+                                        <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Fresh/Amend?<label class="Mandatory"></label></label>
+
+                                    <div class="col-sm-8">
+                                        <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Amd.Sch.No<label class="Mandatory"></label></label>
+
+                                    <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.Amdno, new { @id = "txtAmdno", @class = "form-control", @TabIndex = 2 })<br />
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div style="height:30px;"></div>
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <div class="tabs-container">
+                                    <ul class="nav nav-tabs">
+                                        <li class="active"><a href="#tab-1" data-toggle="tab">Input Items</a></li>
+                                        <li><a href="#tab-2" data-toggle="tab">Output Items </a></li>
+                                        <li><a href="#tab-3" data-toggle="tab">Process Parameters </a></li>
+                                        <li><a href="#tab-4" data-toggle="tab">Output Details Day Wise </a></li>
+                                        <li><a href="#tab-5" data-toggle="tab">Pack Meterials </a></li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div class="tab-pane active" id="tab-1">
+                                            <!-- 1st tab  -->
+                                            <div style="height:30px;"></div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="btn-group">
+                                                            <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" /></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                 <div class="row">
+                                                     <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
+
+                                                                     <table class="table table-striped table-hover" id="dataTable">
+                                                                        <thead>
+                                                                            <tr>
+                                                                              
+
+                                                                                <th>Item Group</th>
+                                                                                <th> Input Item </th>
+                                                                                <th> Item Desc </th>
+                                                                                <th> Unit </th>
+                                                                                <th> Input %</th>
+                                                                                <th>Required Qty </th>
+
+
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody id="tbBooks">
+
+                                                                    @{
+
+                                                                        int i = 0;
+                                                                        int j = 0;
+                                                                        foreach (var item in Model.PrsLst.ToList())
+                                                                        {
+                                                                            <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                                <td>
+                                                                                    @Html.DropDownListFor(o => o.PrsLst[i].ItemGroupId, Model.PrsLst[i].ItemGrouplst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItemGrp" + i, style = "width: 170px;", onchange = "Grup_Change(this.value," + i + ")"})
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    @Html.DropDownListFor(o => o.PrsLst[i].ItemId, Model.PrsLst[i].Itemlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItem" + i, style = "width: 170px;", onchange = "changeItem(this.value," + i + ")" })
+                                                                                    @Html.HiddenFor(o => o.PrsLst[i].saveItemId)
+                                                                                </td>
+                                                                                <td>
+                                                                                    @Html.TextBoxFor(o => o.PrsLst[i].Desc, new { @id = "txtDesc" + i, @class = "form-control", style = "width: 200px;", @readonly = "readonly"})
+                                                                                </td>
+                                                                                <td>
+                                                                                    @Html.TextBoxFor(o => o.PrsLst[i].Unit, new { @id = "txtUnit" + i, @class = "form-control", style = "width: 100px;" , @readonly = "readonly"})
+                                                                                </td>
+                                                                            <td>
+                                                                                @Html.TextBoxFor(o => o.PrsLst[i].Input, new { @id = "txtInput" + i, @class = "form-control", style = "width: 120px;" })
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.TextBoxFor(o => o.PrsLst[i].Qty, new { @id = "txtQty" + i, @class = "form-control", style = "width: 120px;" })
+                                                                            </td>
+
+                                                                                <td>
+                                                                                @Html.HiddenFor(o => o.PrsLst[j].Isvalid, new { @id = "Isvalid" + j })
+                                                                                <img onclick="removeRow1(@(j));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(j)" />
+                                                                            </td>
+                                                                               
+                                                                        </tr>
+
+
+                                                                        i = i + 1;
+                                                                        j = j + 1;
+                                                                    }
+                                                                    }
+
+
+
+                                                                        </tbody>
+                                                                    </table>
+                                                            
+                                                       
+                                                    </div>
+                                                </div>
+                                            <!-- 1st tab  -->
+                                        </div>
+                                        <div class="tab-pane" id="tab-2">
+                                            <!-- 2nd tab  -->
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="btn-group">
+                                                        <button class="btn sbold green" id="addRow"> Add New <i class="fa fa-plus"></i> </button>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-12">
+                                                    <div class="ibox float-e-margins">
+
+                                                        <!-- / ibox-title -->
+                                                        <div id="demo3" class="ibox-content collapse in">
+                                                            <div class="borderedTable">
+                                                                <div class="table-scrollable">
+                                                                    <table class="table table-striped table-hover">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                
+                                                                                <th>Item Group</th>
+                                                                                <th>Output Item</th>
+                                                                                <th> Item Desc </th>
+                                                                                <th> Unit </th>
+                                                                                <th> Output % </th>
+                                                                                <th>Alam %</th>
+                                                                                <th> Output Type </th>
+                                                                                <th> Sch Qty </th>
+                                                                                <th> Produced Qty </th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td> 1 </td>
+
+                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
+                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
+                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
+                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
+                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
+                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
+                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
+                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
+
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td> 2 </td>
+                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
+                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
+                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
+                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
+                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
+                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
+                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
+                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td> 3 </td>
+
+
+                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
+                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
+                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
+                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
+                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
+                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
+                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
+                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- 2nd tab  -->
+                                        </div>
+                                        <div class="tab-pane" id="tab-3">
+                                            <!-- 3rd tab  -->
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="btn-group">
+                                                        <button class="btn sbold green" id="addRow"> Add New <i class="fa fa-plus"></i> </button>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+
+                                                    <div class="col-lg-12 ">
+                                                        <div class="ibox float-e-margins">
+
+                                                            <!-- / ibox-title -->
+                                                            <div id="demo3" class="ibox-content collapse in">
+                                                                <div class="col-lg-3"></div>
+                                                                <div class="borderedTable">
+                                                                    <div class="table-scrollable">
+                                                                        <table class="table table-striped table-hover">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th> S. No. </th>
+                                                                                    <th>Parameters</th>
+                                                                                    <th>Unit</th>
+                                                                                    <th> Initial Values </th>
+                                                                                    <th> Final Value </th>
+                                                                                    <th>Remarks</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td> 1 </td>
+
+                                                                                    <td><input class="form-control " id="inputEmail3" placeholder="" type="text"> </td>
+                                                                                    <td><input class="form-control " id="inputEmail3" placeholder="" type="text"> </td>
+                                                                                    <td><input class="form-control " id="inputEmail3" placeholder="" type="text"> </td>
+                                                                                    <td><input class="form-control " id="inputEmail3" placeholder="" type="text"> </td>
+                                                                                    <td><input class="form-control " id="inputEmail3" placeholder="" type="text"> </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td> 2 </td>
+
+                                                                                    <td><input class="form-control " id="inputEmail3" placeholder="" type="text"> </td>
+                                                                                    <td><input class="form-control " id="inputEmail3" placeholder="" type="text"> </td>
+                                                                                    <td><input class="form-control " id="inputEmail3" placeholder="" type="text"> </td>
+                                                                                    <td><input class="form-control " id="inputEmail3" placeholder="" type="text"> </td>
+                                                                                    <td><input class="form-control " id="inputEmail3" placeholder="" type="text"> </td>
+
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td> 3 </td>
+
+
+                                                                                    <td><input class="form-control " id="inputEmail3" placeholder="" type="text"> </td>
+                                                                                    <td><input class="form-control " id="inputEmail3" placeholder="" type="text"> </td>
+                                                                                    <td><input class="form-control " id="inputEmail3" placeholder="" type="text"> </td>
+                                                                                    <td><input class="form-control " id="inputEmail3" placeholder="" type="text"> </td>
+                                                                                    <td><input class="form-control " id="inputEmail3" placeholder="" type="text"> </td>
+
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- 3rd tab  -->
+                                        </div>
+                                        <div class="tab-pane" id="tab-4">
+                                            <!-- 4th tab  -->
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="btn-group">
+                                                        <button class="btn sbold green" id="addRow"> Add New <i class="fa fa-plus"></i> </button>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+
+                                                    <div class="col-lg-12">
+                                                        <div class="ibox float-e-margins">
+
+                                                            <!-- / ibox-title -->
+                                                            <div id="demo3" class="ibox-content collapse in">
+
+                                                                <div class="borderedTable">
+                                                                    <div class="table-scrollable">
+                                                                        <table class="table table-striped table-hover">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th> S. No. </th>
+                                                                                    <th>Sch.Date </th>
+                                                                                    <th>Run Hrs </th>
+                                                                                    <th>Item ID </th>
+                                                                                    <th>Sch.Qty </th>
+                                                                                    <th>No.Of Change </th>
+
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td> 1 </td>
+                                                                                    <td><input class="form-control" id="inputEmail3" placeholder=" " type="date"> </td>
+                                                                                    <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
+                                                                                    <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
+                                                                                    <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
+                                                                                    <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td> 2 </td>
+                                                                                    <td><input class="form-control" id="inputEmail3" placeholder=" " type="date"> </td>
+                                                                                    <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
+                                                                                    <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
+                                                                                    <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
+                                                                                    <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
+
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td> 3 </td>
+
+
+                                                                                    <td><input class="form-control" id="inputEmail3" placeholder=" " type="date"> </td>
+                                                                                    <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
+                                                                                    <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
+                                                                                    <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
+                                                                                    <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
+
+
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- 4th tab  -->
+                                        </div>
+                                        <div class="tab-pane " id="tab-5">
+                                            <!-- 5th tab  -->
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="btn-group">
+                                                        <button class="btn sbold green" id="addRow"> Add New <i class="fa fa-plus"></i> </button>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-3"></div>
+                                                    <div class="col-lg-5">
+                                                        <div class="ibox float-e-margins">
+
+                                                            <!-- / ibox-title -->
+                                                            <div id="demo3" class="ibox-content collapse in">
+                                                                <div class="borderedTable">
+                                                                    <div class="table-scrollable">
+                                                                        <table class="table table-striped table-hover">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th> S. No. </th>
+                                                                                    <th>Pack Item</th>
+                                                                                    <th>Qty</th>
+
+
+
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td> 1 </td>
+
+                                                                                    <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
+
+                                                                                    <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
+
+
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td> 2 </td>
+                                                                                    <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
+
+                                                                                    <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
+
+
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td> 3 </td>
+
+                                                                                    <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
+
+                                                                                    <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
+
+
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- 5th tab  -->
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <div style="height:30px;"></div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Entered By<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Other Detail<label class="Mandatory"></label></label>
+
+                                    <div class="col-sm-8">
+                                        <textarea class="form-control" id="inputEmail3" placeholder="" type="text"></textarea><br />
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div style="height:30px;"></div>
+                        <button type="submit" class="btn aqua m-t-xs bottom15-xs">Submit</button>
+                        <button class="btn btn-danger" type="submit">Cancel</button>
+                    </form>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    $(".chosen-select").chosen();
+    $('.form_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+    function changeProcess(ItemId) {
+
+        $.ajax({
+            url: "GetProcessJSON",
+            type: "post",
+            data: { 'processid': ItemId },
+            cache: false,
+            success: function (response) {
+                var newlist;
+                newlist = response.Worklst;
+                PopulateDropDown("#ddlProcess", response);
+            },
+            error: function () {
+                debugger;
+                alert("Please Select Work Center");
+            }
+        });
+    }
+    function Grup_Change(itemid, i) {
+        //alert(itemid);
+        //debugger;
+        $.ajax({
+            url: "GetItemJSON",
+            type: "post",
+            data: { 'itemid': itemid },
+            cache: false,
+            success: function (response) {
+                var newlist;
+                //alert(JSON.stringify(response));
+                newlist = response.Ilst;
+                PopulateDropDown("#ddlItem" + i, response);
+            },
+            error: function () {
+                debugger;
+                alert("Please Select Item Group");
+            }
+        });
+    }
+    function changeItem(ItemId, i) {
+        $.ajax({
+            url: 'GetItemDetail',
+            data: { "ItemId": ItemId },
+            type: "GET",
+            success: function (result) {
+
+                document.getElementById("txtUnit" + i).value = result.unit;
+                document.getElementById("txtDesc" + i).value = result.desc;
+
+
+            },
+            error: function () {
+                alert("Data Not Found");
+            }
+        });
+    }
+    
+    function PopulateDropDown(dropDownId, list) {
+        //alert(list);
+        $(dropDownId).empty().append();
+        if (list != null && list.length > 0) {
+            $(dropDownId).removeAttr("disabled");
+            $.each(list, function () {
+                $(dropDownId).append($("<option></option>").val(this['value']).html(this['text']));
+            });
+        }
+        $(dropDownId).trigger("liszt:updated");
+    }
+    function AddRow() {
+        var opt = "";
+        $.ajax({
+            type: "POST",
+            url: 'GetItemGrpJSON',
+            success: function (data) {
+
+                $.each(data, function () {
+                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
+                });
+                AppendRow(opt);
+            }
+        })
+    }
+   
+    function removeRow(id) {
+        var table = document.getElementById("dataTable");
+        var rowCount = table.rows.length;
+        var row = document.getElementById('trBook' + id);
+        var j = 0;
+        $('tr.chkitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+                j += 1;
+            }
+        });
+        if (j > 1) {
+            row.style.display = "none";
+            document.getElementById('Isvalid' + id).value = "N";
+        }
+        else {
+            alert("Cannot delete all the rows.")
+        }
+    }
+    
+     $('.form_date').datetimepicker({
+     //   language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 2,
+    minView: 2,
+    forceParse: 0
+    });
+    function AppendRow(opt) {
+        var index = $("#tbBooks").children("tr").length;
+
+         var ItemGrp = "<td><select style = 'width: 170px;' class='form-control chosen-select newcss' id='ddlItemGrp" + index + "' name='PrsLst[" + index + "].ItemGroupId' onchange = 'Grup_Change(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
+
+        var Item = "<td><select style = 'width: 170px;' class='form-control chosen-select newcss' id='ddlItem" + index + "' name='PrsLst[" + index + "].ItemId' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option></select></td>";
+
+        var Desc = "<td><input class='form-control' id='txtDesc" + index + "' name='PrsLst[" + index + "].Desc'  style='width: 200px;' type='text'  /></td>";
+
+        var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='PrsLst[" + index + "].Unit'  style='width: 100px;' type='text'  readonly='True' /></td>";
+
+        var Input = "<td><input class='form-control' id='txtInput" + index + "' name='PrsLst[" + index + "].Input'  style='width: 120px;' type='text'   /></td>";
+
+        var Qty = "<td><input class='form-control' id='txtQty" + index + "' name='PrsLst[" + index + "].Qty'  style='width: 120px;' type='text'  /></td>";
+
+        var removeCell = "<td><input id='Isvalid" + index + "' name='PrsLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='EnqLst.Index' type='hidden' value='" + index + "'  /></td>";
+       
+
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + ItemGrp + Item + Desc + Unit + Input + Qty + removeCell + "</tr>";
+        //alert(Packing);
+        $("#tbBooks").append(newRow);
+
+        $(".chosen-select").chosen();
+    }
+</script>
