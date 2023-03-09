@@ -14,5 +14,6 @@ namespace Arasan.Interface.Production
         DataTable GetBranch();
         DataTable GetCuringInward(string id);
         DataTable GetCuringInwardDetail(string id);
+        DataTable GetWorkCenter();
     }
 }

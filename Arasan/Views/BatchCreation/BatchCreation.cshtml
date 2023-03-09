@@ -40,7 +40,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Branch <label class="Mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Branch <label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                                     @Html.DropDownListFor(C => C.Branch, Model.Brlst, new { @id = "ddlBranch", @Class = "form-control chosen-select", @TabIndex = 1 })
 <br />
@@ -51,7 +51,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Work Center<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Work Center<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
 
                                             @Html.DropDownListFor(C => C.WorkCenter, Model.Worklst,"Please Select", new { @id = "ddlWorkCenter", @Class = "form-control chosen-select", @TabIndex = 1, @onchange = "changeProcess(this.value)" })
@@ -102,7 +102,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="inputName3" class="col-sm-4 control-label">Doc.Date<label class="Mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Doc.Date<label class="mandatory">*</label></label>
                                         <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                             @Html.TextBoxFor(C => C.DocDate, new { @id = "DocDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -149,7 +149,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Batch No.<label class="Mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Batch No.<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                                                                @Html.TextBoxFor(C => C.BatchNo, new { @id = "txtBatchNo", @class = "form-control", @TabIndex = 2 })
  <br />
@@ -193,7 +193,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Input/Output Radio From<label class="Mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Input/Output Radio From<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                                                              @Html.TextBoxFor(C => C.IOFrom, new { @id = "txtIOFrom", @class = "form-control", @TabIndex = 2 })
 <br />
@@ -208,7 +208,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label"> To<label class="Mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label"> To<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
 
                                                                                 @Html.TextBoxFor(C => C.IOTo, new { @id = "txtIOTo", @class = "form-control", @TabIndex = 2 })
@@ -222,7 +222,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">MTO Circulation No.<label class="Mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">MTO Circulation No.<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.MTO, new { @id = "txtMTO", @class = "form-control", @TabIndex = 2 })
 <br />
@@ -308,9 +308,9 @@
                                                             </tbody>
                                                         </table>
                                                     </div>
+
+
                                                 </div>
-
-
                                                 <!-- 1st tab  -->
                                             </div>
                                             <div class="tab-pane" id="tab-2">
@@ -351,7 +351,7 @@
 
                                                                             </td>
                                                                             <td>
-                                                                                @Html.DropDownListFor(o => o.BatchInLst[j].Item, Model.BatchInLst[j].Itemlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItem" + j, style = "width: 200px;", onchange = "changeItem(this.value," + j + ")" })
+                                                                                @Html.DropDownListFor(o => o.BatchInLst[j].Item, Model.BatchInLst[j].Itemlst, "Please Select", new { @class = "form-control   newcss", @id = "ddlItem" + j, style = "width: 200px;", onchange = "changeItem(this.value," + j + ")" })
                                                                                 @Html.HiddenFor(o => o.BatchInLst[j].saveItemId)
                                                                             </td>
                                                                             <td>
@@ -384,7 +384,7 @@
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="btn-group">
-                                                            <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" /></p>
+                                                            <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow2()" class="btn sbold green" /></p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -408,7 +408,7 @@
 
                                                                             </tr>
                                                                         </thead>
-                                                                        <tbody id="tbBooks">
+                                                                        <tbody id="tbBooks2">
 
                                                                 @{
 
@@ -416,13 +416,13 @@
 
                                                                     foreach (var item in Model.BatchOutLst.ToList())
                                                                     {
-                                                                        <tr id="trBook@(g)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                        <tr id="trBook2@(g)" class="chkitemlst2" style="height: 30px;border-bottom: 1px dashed #ddd;">
                                                                             <td>
                                                                                 @Html.DropDownListFor(o => o.BatchOutLst[g].OProcess, Model.BatchOutLst[g].OProcesslst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlOProcess" + g, style = "width: 200px;"})
 
                                                                             </td>
                                                                             <td>
-                                                                                @Html.DropDownListFor(o => o.BatchOutLst[g].OItem, Model.BatchOutLst[g].OItemlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlOItem" + g, style = "width: 200px;", onchange = "changeOutItem(this.value," + g + ")" })
+                                                                                @Html.DropDownListFor(o => o.BatchOutLst[g].OItem, Model.BatchOutLst[g].OItemlst, "Please Select", new { @class = "form-control   newcss", @id = "ddlOItem" + g, style = "width: 200px;", onchange = "changeOutItem(this.value," + g + ")" })
                                                                                 @Html.HiddenFor(o => o.BatchOutLst[g].saveItemId)
                                                                             </td>
                                                                             <td>
@@ -454,7 +454,7 @@
 
                                                                     }
                                                                 }
-                                                                           
+                                                                      
                                                                         </tbody>
                                                                     </table>
                                                                 </div>
@@ -500,25 +500,35 @@
 
                                                                     foreach (var item in Model.BatchOtherLst.ToList())
                                                                     {
-                                                                        <tr id="trBook@(g)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                        <tr id="trBook3@(g)" class="chkitemlst3" style="height: 30px;border-bottom: 1px dashed #ddd;">
                                                                             <td>
                                                                                 @Html.DropDownListFor(o => o.BatchOtherLst[k].OtProcessId, Model.BatchOtherLst[k].OProcessidlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlOtProcessId" + k, style = "width: 200px;"})
-
+                                                                                      @Html.HiddenFor(o => o.BatchOtherLst[k].saveItemId)
                                                                             </td>
                                                                              <td>
                                                                                 @Html.TextBoxFor(o => o.BatchOtherLst[k].Seqe, new { @id = "txtSeqe" + k, @class = "form-control", style = "width: 120px;" })
                                                                             </td>
                                                                             <td>
-                                                                                @Html.TextBoxFor(o => o.BatchOtherLst[k].Start, new { @id = "txtStart" + k, @class = "form-control", style = "width: 120px;" })
+                                                                            <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+
+                                                                                @Html.TextBoxFor(o => o.BatchOtherLst[k].Start, new { @id = "txtStart" + k, @class = "form-control", style = "width: 120px;",@readonly="readonly"  })
+                                                                                  <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                                            </div>
                                                                             </td>
                                                                             <td>
-                                                                                @Html.TextBoxFor(o => o.BatchOtherLst[k].StartT, new { @id = "txtStartT" + k, @class = "form-control", style = "width: 120px;" })
+                                                                                    @Html.TextBoxFor(o => o.BatchOtherLst[k].StartT, new { @id = "txtStartT" + k, @class = "form-control", style = "width: 120px;",@Type="Time" })
+                                                                               
                                                                             </td>
                                                                             <td>
-                                                                                @Html.TextBoxFor(o => o.BatchOtherLst[k].End, new { @id = "txtEnd" +k, @class = "form-control", style = "width: 120px;" })
+                                                                            <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+
+                                                                                @Html.TextBoxFor(o => o.BatchOtherLst[k].End, new { @id = "txtEnd" +k, @class = "form-control", style = "width: 120px;",@readonly="readonly" })
+                                                                                  <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                                            </div>
                                                                             </td>
                                                                             <td>
-                                                                                @Html.TextBoxFor(o => o.BatchOtherLst[k].EndT, new { @id = "txtEndT" + k, @class = "form-control", style = "width: 120px;" })
+                                                                                @Html.TextBoxFor(o => o.BatchOtherLst[k].EndT, new { @id = "txtEndT" + k, @class = "form-control", style = "width: 120px;",@Type="Time"  })
+                                                                                  
                                                                             </td>
                                                                             <td>
                                                                                 @Html.TextBoxFor(o => o.BatchOtherLst[k].Total, new { @id = "txtTotal" +k, @class = "form-control", style = "width: 120px;" })
@@ -591,22 +601,31 @@
                                                                             
                                                                              <td>
                                                                                 @Html.TextBoxFor(o => o.BatchParemLst[a].Param, new { @id = "txtParam" + a, @class = "form-control", style = "width: 120px;" })
+                                                                                     
                                                                             </td>
-                                                                            <td>
-                                                                                @Html.TextBoxFor(o => o.BatchParemLst[a].StartDate, new { @id = "txtStartDate" + a, @class = "form-control", style = "width: 120px;" })
-                                                                            </td>
-                                                                            <td>
-                                                                                @Html.TextBoxFor(o => o.BatchParemLst[a].StartTime, new { @id = "txtStartTime" + a, @class = "form-control", style = "width: 120px;" })
-                                                                            </td>
-                                                                            <td>
-                                                                                @Html.TextBoxFor(o => o.BatchParemLst[a].EndDate, new { @id = "txtEndDate" +a, @class = "form-control", style = "width: 120px;" })
-                                                                            </td>
-                                                                            <td>
-                                                                                @Html.TextBoxFor(o => o.BatchParemLst[a].EndTime, new { @id = "txtEndTime" + a, @class = "form-control", style = "width: 120px;" })
-                                                                            </td>
-                                                                            <td>
+                                                                               <td>
                                                                                 @Html.TextBoxFor(o => o.BatchParemLst[a].PUnit, new { @id = "txtPUnit" +a, @class = "form-control", style = "width: 120px;" })
                                                                             </td>
+                                                                            <td>
+                                                                              <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                                                                @Html.TextBoxFor(o => o.BatchParemLst[a].StartDate, new { @id = "txtStartDate" + a, @class = "form-control", style = "width: 120px;" ,@readonly="readonly"})
+                                                                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
+                                                                            </td>
+                                                                            <td>
+
+                                                                                @Html.TextBoxFor(o => o.BatchParemLst[a].StartTime, new { @id = "txtStartTime" + a, @class = "form-control", style = "width: 120px;",@Type="Time" })
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                                                                @Html.TextBoxFor(o => o.BatchParemLst[a].EndDate, new { @id = "txtEndDate" +a, @class = "form-control", style = "width: 120px;"  ,@readonly="readonly"})
+                                                                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.TextBoxFor(o => o.BatchParemLst[a].EndTime, new { @id = "txtEndTime" + a, @class = "form-control", style = "width: 120px;",@Type="Time" })
+                                                                            </td>
+                                                                         
                                                                             <td>
                                                                                 @Html.TextBoxFor(o => o.BatchParemLst[a].Value, new { @id = "txtValue" + a, @class = "form-control", style = "width: 120px;" })
                                                                             </td>
@@ -663,7 +682,7 @@
 
                         </div>
                          <div style="height:30px;"></div>
-                            <button type="submit" class="btn aqua m-t-xs bottom15-xs">Submit</button>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" >Submit</button>
                             <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListBatchCreation", "BatchCreation")'">Cancel</button>
 
 
@@ -726,6 +745,7 @@
             }
         });
     }
+
      function changeItem(ItemId, i) {
         $.ajax({
             url: 'GetItemDetail',
@@ -783,8 +803,34 @@
             }
         })
     }
-   
+     function AddRow1() {
+        var opt = "";
+        $.ajax({
+            type: "POST",
+            url: 'GetProcessidJSON',
+            success: function (data) {
 
+                $.each(data, function () {
+                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
+                });
+                AppendRow1(opt);
+            }
+        })
+    }
+     function AddRow2() {
+        var opt = "";
+        $.ajax({
+            type: "POST",
+            url: 'GetProcessidJSON',
+            success: function (data) {
+
+                $.each(data, function () {
+                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
+                });
+                AppendRow2(opt);
+            }
+        })
+    }
     function removeRow(id) {
         var table = document.getElementById("dataTable");
         var rowCount = table.rows.length;
@@ -824,9 +870,9 @@
      function removeRow2(id) {
         var table = document.getElementById("dataTable");
         var rowCount = table.rows.length;
-        var row = document.getElementById('trBook' + id);
+        var row = document.getElementById('trBook2' + id);
         var j = 0;
-        $('tr.chkitemlst').each(function () {
+        $('tr.').each(function () {
             if ($(this).css('display') !== 'none') {
                 j += 1;
             }
@@ -842,9 +888,9 @@
      function removeRow3(id) {
         var table = document.getElementById("dataTable");
         var rowCount = table.rows.length;
-        var row = document.getElementById('trBook' + id);
+        var row = document.getElementById('trBook3' + id);
         var j = 0;
-        $('tr.chkitemlst').each(function () {
+        $('tr.chkitemlst3').each(function () {
             if ($(this).css('display') !== 'none') {
                 j += 1;
             }
@@ -905,20 +951,173 @@
 
 
 
-        var Item = "<td><select style = 'width: 200px;' class='form-control chosen-select newcss' id='ddlItem" + index + "' name='IProcesslst[" + index + "].Item' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option></select></td>";
-        var Unit = "<td><input class='form-control' id='txtSeq" + index + "' name='BatchLst[" + index + "].Unit'  style='width: 120px;' type='text'   /></td>";
+        var Item = "<td><select style = 'width: 200px;' class='form-control chosen-select newcss' id='ddlItem" + index + "' name='Itemlst[" + index + "].Item' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option></select></td>";
+        var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='BatchLst[" + index + "].Unit'  style='width: 120px;' type='text' ReadOnly='readonly'  /></td>";
 
-        var qty = "<td><input class='form-control' id='txtReq" + index + "' name='BatchLst[" + index + "].qty'  style='width: 120px;' type='text'  /></td>";
+        var qty = "<td><input class='form-control' id='txtqty" + index + "' name='BatchLst[" + index + "].qty'  style='width: 120px;' type='text'  /></td>";
      
 
 
-        var removeCell = "<td><input id='Isvalid" + index + "' name='IProcesslst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow1(" + index + ");'  style='cursor:pointer' /><input name='BatchInLst.Index' type='hidden' value='" + index + "'  /></td>";
+        var removeCell = "<td><input id='Isvalid" + index + "' name='Itemlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow1(" + index + ");'  style='cursor:pointer' /><input name='BatchInLst.Index' type='hidden' value='" + index + "'  /></td>";
 
 
-        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Process + Item + Unit + qty  + removeCell + "</tr>";
+        var newRow = "<tr class='chkitemlst1'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook1" + index + "'>" + Process + Item + Unit + qty  + removeCell + "</tr>";
         //alert(Packing);
         $("#tbBooks1").append(newRow);
 
         $(".chosen-select").chosen();
     }
+     function AppendRow2(opt) {
+        var index = $("#tbBooks2").children("tr").length;
+
+        var Process = "<td><select style = 'width: 200px;' class='form-control chosen-select newcss' id='ddlOProcess" + index + "' name='BatchOutLst[" + index + "].OProcess' ><option value=''>Please select</option>" + opt + "</select></td>";
+
+
+
+        var Item = "<td><select style = 'width: 200px;' class='form-control chosen-select newcss' id='ddlOItem" + index + "' name='OItemlst[" + index + "].OItem' onchange = 'changeOutItem(this.value," + index + ")'><option value=''>Please select</option></select></td>";
+        var Unit = "<td><input class='form-control' id='txtOUnit" + index + "' name='BatchOutLst[" + index + "].OUnit'  style='width: 120px;' type='text'   ReadOnly='readonly' /></td>";
+        var Type = "<td><input class='form-control' id='txtOutType" + index + "' name='BatchOutLst[" + index + "].OutType'  style='width: 120px;' type='text'   /></td>";
+        var qty = "<td><input class='form-control' id='txtOQty" + index + "' name='BatchOutLst[" + index + "].OQty'  style='width: 120px;' type='text'  /></td>";
+     
+
+
+
+      
+
+        var Waste = "<td><input class='form-control' id='txtWaste" + index + "' name='BatchOutLst[" + index + "].Waste'  style='width: 120px;' type='text'  /></td>";
+     
+        var Vm = "<td><input class='form-control' id='txtVmper" + index + "' name='BatchOutLst[" + index + "].Vmper'  style='width: 120px;' type='text'  /></td>";
+        var Grase = "<td><input class='form-control' id='txtGreas" + index + "' name='BatchOutLst[" + index + "].Greas'  style='width: 120px;' type='text'  /></td>";
+     
+
+        var removeCell = "<td><input id='Isvalid" + index + "' name='OItemlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow2(" + index + ");'  style='cursor:pointer' /><input name='BatchInLst.Index' type='hidden' value='" + index + "'  /></td>";
+
+
+        var newRow = "<tr class='chkitemlst2'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook2" + index + "'>" + Process + Item + Unit + Type + qty + Waste+ Vm + Grase + removeCell + "</tr>";
+        //alert(Packing);
+        $("#tbBooks2").append(newRow);
+
+        $(".chosen-select").chosen();
+    }
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+            if (document.getElementById("DocDate").value == "") {
+                isValid = false;
+                $(DocDate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select  Date");
+                return false;
+            }
+            else {
+                $(DocDate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtBatchNo").value == "") {
+                isValid = false;
+                $(txtBatchNo).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Batch Number");
+                return false;
+            }
+            else {
+                $(txtBatchNo).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+             if (document.getElementById("txtIOFrom").value == "") {
+                isValid = false;
+                $(txtIOFrom).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select  IOFrom");
+                return false;
+            }
+            else {
+                $(txtIOFrom).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtIOTo").value == "") {
+                isValid = false;
+                $(txtIOTo).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select IOTo");
+                return false;
+            }
+            else {
+                $(txtIOTo).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtMTO").value == "") {
+                isValid = false;
+                $(txtMTO).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select MTO");
+                return false;
+            }
+            else {
+                $(txtMTO).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("ddlBranch").value == "" || document.getElementById("ddlBranch").value == 0) {
+                isValid = false;
+                $(ddlBranch_chzn).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Customer Type");
+                return false;
+            }
+            else {
+                $(ddlBranch_chzn).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("ddlWorkCenter").value == "" || document.getElementById("ddlWorkCenter").value == 0) {
+                isValid = false;
+                $(ddlWorkCenter_chzn).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Customer Name");
+                return false;
+            }
+            else {
+                $(ddlWorkCenter_chzn).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+          
+            if (isValid == false)
+                e.preventDefault();
+        });
+
+    });
 </script>

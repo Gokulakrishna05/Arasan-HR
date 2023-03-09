@@ -60,7 +60,7 @@ namespace Arasan.Models
         public string ID { get; set; }
         public string Process { get; set; }
         public string saveItemId { get; set; }
-       
+        
         public List<SelectListItem> IProcesslst { get; set; }
 
         public List<SelectListItem> Itemlst { get; set; }
@@ -76,7 +76,9 @@ namespace Arasan.Models
         public string ID { get; set; }
         public string OProcess { get; set; }
         public string saveItemId { get; set; }
+        public List<SelectListItem> OItemGrouplst { get; set; }
 
+        public string ItemGroupId { get; set; }
         public List<SelectListItem> OProcesslst { get; set; }
 
         public List<SelectListItem> OItemlst { get; set; }
@@ -100,9 +102,6 @@ namespace Arasan.Models
 
         public List<SelectListItem> OProcessidlst { get; set; }
 
-      
-    
-
         public string Seqe { get; set; }
         public string Start { get; set; }
         public string Isvalid { get; set; }
@@ -121,11 +120,7 @@ namespace Arasan.Models
     {
         public string ID { get; set; }
         public string Param { get; set; }
-      
-     
-
-
-
+    
         public string PUnit { get; set; }
         public string StartDate { get; set; }
         public string Isvalid { get; set; }

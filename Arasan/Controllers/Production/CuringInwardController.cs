@@ -30,7 +30,9 @@ namespace Arasan.Controllers.Production
         {
             CuringInward ca = new CuringInward();
             ca.Brlst = BindBranch();
+            ca.Branch = Request.Cookies["BranchId"];
             ca.assignList = BindEmp();
+            ca.Worklst = BindWorkCenter();
             ca.Shiftlst = BindShift();
             List<CIItem> TData = new List<CIItem>();
             CIItem tda = new CIItem();
@@ -54,13 +56,16 @@ namespace Arasan.Controllers.Production
                 dt = CuringInwardService.GetCuringInward(id);
                 if (dt.Rows.Count > 0)
                 {
+                    ca.Branch = dt.Rows[0]["BRANCH"].ToString();
                     ca.DocId = dt.Rows[0]["DOCID"].ToString();
                     ca.Docdate = dt.Rows[0]["DOCDATE"].ToString();
                     ca.ID = id;
                     ca.WorkCenter = dt.Rows[0]["WCID"].ToString();
                     ca.Shift = dt.Rows[0]["SHIFT"].ToString();
                     ca.RecevedBy = dt.Rows[0]["ENTEREDBY"].ToString();
-                    
+                    ca.Remarks= dt.Rows[0]["REMARKS"].ToString();
+
+
                 }
                 DataTable dt2 = new DataTable();
                 dt2 = CuringInwardService.GetCuringInwardDetail(id);
@@ -159,6 +164,23 @@ namespace Arasan.Controllers.Production
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["EMPNAME"].ToString(), Value = dtDesg.Rows[i]["EMPMASTID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindWorkCenter()
+        {
+            try
+            {
+                DataTable dtDesg = CuringInwardService.GetWorkCenter();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["WCID"].ToString(), Value = dtDesg.Rows[i]["WCBASICID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -266,6 +288,12 @@ namespace Arasan.Controllers.Production
             model.Itemlst = BindItemlst(itemid);
             return Json(BindItemlst(itemid));
 
+        }
+        public JsonResult GetItemGrpJSON()
+        {
+            //CIItem model = new CIItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(BindItemGrplst());
         }
     }
 }

@@ -15,6 +15,120 @@ public class ProductionEntryService : IProductionEntry
     {
         _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
     }
+    public IEnumerable<ProductionEntry> GetAllProductionEntry()
+    {
+        List<ProductionEntry> cmpList = new List<ProductionEntry>();
+        using (OracleConnection con = new OracleConnection(_connectionString))
+        {
+
+            using (OracleCommand cmd = con.CreateCommand())
+            {
+                con.Open();
+                cmd.CommandText = "Select  BRANCHMAST.BRANCHID, ETYPE,NPRODBASIC. DOCID,to_char(NPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,NPRODBASICID from NPRODBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=NPRODBASIC.BRANCH ";
+                OracleDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    ProductionEntry cmp = new ProductionEntry
+                    {
+
+                        ID = rdr["NPRODBASICID"].ToString(),
+                        Branch = rdr["BRANCHID"].ToString(),
+                        EntryType = rdr["ETYPE"].ToString(),
+                        DocId = rdr["DOCID"].ToString(),
+                        Shiftdate = rdr["DOCDATE"].ToString()
+                      
+                     
+
+
+
+                    };
+                    cmpList.Add(cmp);
+                }
+            }
+        }
+        return cmpList;
+    }
+    public string ProductionEntryCRUD(ProductionEntry cy)
+    {
+        string msg = "";
+        try
+        {
+            string StatementType = string.Empty; string svSQL = "";
+
+            using (OracleConnection objConn = new OracleConnection(_connectionString))
+            {
+                OracleCommand objCmd = new OracleCommand("PRODUCTIONENTRYPROC", objConn);
+                /*objCmd.Connection = objConn;
+                objCmd.CommandText = "DIRECTPURCHASEPROC";*/
+
+                objCmd.CommandType = CommandType.StoredProcedure;
+                if (cy.ID == null)
+                {
+                    StatementType = "Insert";
+                    objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                }
+                else
+                {
+                    StatementType = "Update";
+                    objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+
+                }
+                objCmd.Parameters.Add("BRANCH", OracleDbType.NVarchar2).Value = cy.Branch;
+                objCmd.Parameters.Add("PROCESSID", OracleDbType.NVarchar2).Value = cy.ProcessId;
+                objCmd.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = cy.Location;
+                objCmd.Parameters.Add("SHIFT", OracleDbType.NVarchar2).Value = cy.Shift;
+                objCmd.Parameters.Add("DOCDATE", OracleDbType.Date).Value = DateTime.Parse(cy.Shiftdate);
+                objCmd.Parameters.Add("ETYPE", OracleDbType.NVarchar2).Value = cy.EntryType;
+                objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.DocId;
+                objCmd.Parameters.Add("STARTDATE", OracleDbType.Date).Value = DateTime.Parse(cy.startdate);
+                objCmd.Parameters.Add("ENDDATE", OracleDbType.Date).Value = DateTime.Parse(cy.enddate);
+                objCmd.Parameters.Add("ENTEREDBY", OracleDbType.NVarchar2).Value = cy.Enterd;
+                objCmd.Parameters.Add("SCHQTY", OracleDbType.NVarchar2).Value = cy.SchQty;
+                objCmd.Parameters.Add("PRODQTY", OracleDbType.NVarchar2).Value = cy.ProdQty;
+                objCmd.Parameters.Add("PRODLOGID", OracleDbType.NVarchar2).Value = cy.ProdLogId;
+                objCmd.Parameters.Add("PSCHNO", OracleDbType.NVarchar2).Value = cy.ProdSchNo;
+                objCmd.Parameters.Add("ITEMTYPE", OracleDbType.NVarchar2).Value = cy.Selection;
+                objCmd.Parameters.Add("TOTALINPUT", OracleDbType.NVarchar2).Value = cy.totalinqty;
+                objCmd.Parameters.Add("TOTALOUTPUT", OracleDbType.NVarchar2).Value = cy.totaloutqty;
+                objCmd.Parameters.Add("TOTCONSQTY", OracleDbType.NVarchar2).Value = cy.totalconsqty;
+                objCmd.Parameters.Add("TOTRMQTY", OracleDbType.NVarchar2).Value = cy.totaRmqty;
+                objCmd.Parameters.Add("TOTRMVALUE", OracleDbType.NVarchar2).Value = cy.totalRmValue;
+                objCmd.Parameters.Add("TOTALWASTAGE", OracleDbType.NVarchar2).Value = cy.wastageqty;
+                objCmd.Parameters.Add("TOTMACHINEVALUE", OracleDbType.NVarchar2).Value = cy.Machine;
+                objCmd.Parameters.Add("TOTCONSVALUE", OracleDbType.NVarchar2).Value = cy.CosValue;
+                objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
+                try
+                {
+                    objConn.Open();
+                    objCmd.ExecuteNonQuery();
+                   
+                }
+                catch (Exception ex)
+                {
+                    //System.Console.WriteLine("Exception: {0}", ex.ToString());
+                }
+                objConn.Close();
+            }
+        }
+        catch (Exception ex)
+        {
+            msg = "Error Occurs, While inserting / updating Data";
+            throw ex;
+        }
+
+        return msg;
+    }
+    public DataTable GetWorkCenter()
+    {
+        string SvSql = string.Empty;
+        SvSql = "Select WCID,WCBASICID from WCBASIC ";
+        DataTable dtt = new DataTable();
+        OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        adapter.Fill(dtt);
+        return dtt;
+    }
     public DataTable ShiftDeatils()
     {
         string SvSql = string.Empty;

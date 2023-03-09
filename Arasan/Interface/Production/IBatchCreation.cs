@@ -16,5 +16,6 @@ namespace Arasan.Interface
         DataTable GetBatchCreation(string id);
         DataTable GetBatchCreationDetail(string id);
         string BatchCRUD(BatchCreation id);
+        DataTable GetBatchCreationInputDetail(string id);
     }
 }

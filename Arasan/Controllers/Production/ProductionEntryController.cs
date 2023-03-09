@@ -26,9 +26,11 @@ namespace Arasan.Controllers
         {
             ProductionEntry ca = new ProductionEntry();
             ca.Brlst = BindBranch();
-            ca.Loclst = BindLocation();
+            ca.Loclst = BindWorkCenter();
             ca.Location= Request.Cookies["LocationId"];
             ca.Branch= Request.Cookies["BranchId"];
+            ca.Enterd = Request.Cookies["UserId"];
+            ca.RecList = BindEmp();
             ca.Shiftlst = BindShift();
             ca.Processlst= BindProcess();
             ca.ETypelst = BindEType();
@@ -265,6 +267,40 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+        public List<SelectListItem> BindWorkCenter()
+        {
+            try
+            {
+                DataTable dtDesg = IProductionEntry.GetWorkCenter();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["WCID"].ToString(), Value = dtDesg.Rows[i]["WCBASICID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindEmp()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetEmp();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["EMPNAME"].ToString(), Value = dtDesg.Rows[i]["EMPNAME"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public ActionResult GetStkqty(string branch, string loc, string ItemId)
         {
             try
@@ -312,6 +348,48 @@ namespace Arasan.Controllers
             {
                 throw ex;
             }
+        }
+        [HttpPost]
+        public ActionResult ProductionEntry(ProductionEntry Cy, string id)
+        {
+
+            try
+            {
+                Cy.ID = id;
+                string Strout = IProductionEntry.ProductionEntryCRUD(Cy);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Cy.ID == null)
+                    {
+                        TempData["notice"] = "ProductionEntry Inserted Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "ProductionEntry Updated Successfully...!";
+                    }
+                    return RedirectToAction("ListProductionEntry");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit ProductionEntry";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(Cy);
+        }
+        public IActionResult ListProductionEntry()
+        {
+            IEnumerable<ProductionEntry> cmp = IProductionEntry.GetAllProductionEntry();
+            return View(cmp);
         }
     }
 }

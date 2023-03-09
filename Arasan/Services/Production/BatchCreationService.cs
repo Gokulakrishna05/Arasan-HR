@@ -77,7 +77,6 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.BatchNo;
                     objCmd.Parameters.Add("DOCDATE", OracleDbType.Date).Value = DateTime.Parse(cy.DocDate);
                     objCmd.Parameters.Add("WPROCESSID", OracleDbType.NVarchar2).Value = cy.Process;
-                  
                     objCmd.Parameters.Add("ENTEREDBY", OracleDbType.NVarchar2).Value = cy.Enterd;
                     objCmd.Parameters.Add("SEQYN", OracleDbType.NVarchar2).Value = cy.Seq;
                     objCmd.Parameters.Add("IORATIOFROM", OracleDbType.NVarchar2).Value = cy.IOFrom;
@@ -86,7 +85,6 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("PSCHNO", OracleDbType.NVarchar2).Value = cy.Prod;
                     objCmd.Parameters.Add("PTYPE", OracleDbType.NVarchar2).Value = cy.Shall;
                     objCmd.Parameters.Add("BTYPE", OracleDbType.NVarchar2).Value = cy.Leaf;
-
                     objCmd.Parameters.Add("REFDOCID", OracleDbType.NVarchar2).Value = cy.RefBatch;
                     objCmd.Parameters.Add("NARR", OracleDbType.NVarchar2).Value = cy.Narr;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
@@ -171,7 +169,126 @@ namespace Arasan.Services
 
                             }
                         }
+                        foreach (BatchOutItem cp in cy.BatchOutLst)
+                        {
+                            if (cp.Isvalid == "Y" && cp.OItem != "0")
+                            {
+                                using (OracleConnection objConns = new OracleConnection(_connectionString))
+                                {
+                                    OracleCommand objCmds = new OracleCommand("BCOUTPUTDETAILPROC", objConns);
+                                    if (cy.ID == null)
+                                    {
+                                        StatementType = "Insert";
+                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                    }
+                                    else
+                                    {
+                                        StatementType = "Update";
+                                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                                    }
+                                    objCmds.CommandType = CommandType.StoredProcedure;
+                                    objCmds.Parameters.Add("BCPRODBASICID", OracleDbType.NVarchar2).Value = Pid;
+                                    objCmds.Parameters.Add("OPROCESSID", OracleDbType.NVarchar2).Value = cp.OProcess;
+                                    objCmds.Parameters.Add("OITEMID", OracleDbType.NVarchar2).Value = cp.OItem;
+                                    objCmds.Parameters.Add("OUNIT", OracleDbType.NVarchar2).Value = cp.OUnit;
+                                    objCmds.Parameters.Add("OQTY", OracleDbType.NVarchar2).Value = cp.OQty;
+                  
+                                    objCmds.Parameters.Add("OTYPE", OracleDbType.NVarchar2).Value = cp.OutType;
+                                    objCmds.Parameters.Add("GPER", OracleDbType.NVarchar2).Value = cp.Vmper;
+                                    objCmds.Parameters.Add("VMPER", OracleDbType.NVarchar2).Value = cp.Greas;
+                                    objCmds.Parameters.Add("OWPER", OracleDbType.NVarchar2).Value = cp.Waste;
 
+                                    objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+
+                                    objConns.Open();
+                                    objCmds.ExecuteNonQuery();
+                                    objConns.Close();
+                                }
+
+
+
+                            }
+                        }
+                        foreach (BatchOtherItem cp in cy.BatchOtherLst)
+                        {
+                            if (cp.Isvalid == "Y" && cp.OtProcessId != "0")
+                            {
+                                using (OracleConnection objConns = new OracleConnection(_connectionString))
+                                {
+                                    OracleCommand objCmds = new OracleCommand("BCOTHERDETAILPROC", objConns);
+                                    if (cy.ID == null)
+                                    {
+                                        StatementType = "Insert";
+                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                    }
+                                    else
+                                    {
+                                        StatementType = "Update";
+                                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                                    }
+                                    objCmds.CommandType = CommandType.StoredProcedure;
+                                    objCmds.Parameters.Add("BCPRODBASICID", OracleDbType.NVarchar2).Value = Pid;
+                                    objCmds.Parameters.Add("EPROCESSID", OracleDbType.NVarchar2).Value = cp.OtProcessId;
+                                    objCmds.Parameters.Add("ESDT", OracleDbType.Date).Value = DateTime.Parse(cp.Start);
+                                    objCmds.Parameters.Add("EEDT", OracleDbType.Date).Value = DateTime.Parse(cp.End);
+                                    objCmds.Parameters.Add("EST", OracleDbType.NVarchar2).Value = cp.StartT;
+                                   
+                                    objCmds.Parameters.Add("EET", OracleDbType.NVarchar2).Value = cp.EndT;
+                                    objCmds.Parameters.Add("EPSEQ", OracleDbType.NVarchar2).Value = cp.Seqe;
+                                    objCmds.Parameters.Add("ETOTHRS", OracleDbType.NVarchar2).Value = cp.Total;
+                                    objCmds.Parameters.Add("EBRHRS", OracleDbType.NVarchar2).Value = cp.Break;
+                                    objCmds.Parameters.Add("ERUNHRS", OracleDbType.NVarchar2).Value = cp.RunHrs;
+                                    objCmds.Parameters.Add("ENARR", OracleDbType.NVarchar2).Value = cp.Remark;
+                                    objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+
+                                    objConns.Open();
+                                    objCmds.ExecuteNonQuery();
+                                    objConns.Close();
+                                }
+
+
+
+                            }
+                        }
+                        foreach (BatchParemItem cp in cy.BatchParemLst)
+                        {
+                            if (cp.Isvalid == "Y" && cp.Param != "0")
+                            {
+                                using (OracleConnection objConns = new OracleConnection(_connectionString))
+                                {
+                                    OracleCommand objCmds = new OracleCommand("BCPARMDETAILPROC", objConns);
+                                    if (cy.ID == null)
+                                    {
+                                        StatementType = "Insert";
+                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                    }
+                                    else
+                                    {
+                                        StatementType = "Update";
+                                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                                    }
+                                    objCmds.CommandType = CommandType.StoredProcedure;
+                                    objCmds.Parameters.Add("BCPRODBASICID", OracleDbType.NVarchar2).Value = Pid;
+                                    objCmds.Parameters.Add("PROCPARAM", OracleDbType.NVarchar2).Value = cp.Param;
+                                    objCmds.Parameters.Add("PSDT", OracleDbType.Date).Value = DateTime.Parse(cp.StartDate);
+                                    objCmds.Parameters.Add("PEDT", OracleDbType.Date).Value = DateTime.Parse(cp.EndDate);
+                                    objCmds.Parameters.Add("PSTIME", OracleDbType.NVarchar2).Value = cp.StartTime;
+
+                                    objCmds.Parameters.Add("PETIME", OracleDbType.NVarchar2).Value = cp.EndTime;
+                                    objCmds.Parameters.Add("PARAMUNIT", OracleDbType.NVarchar2).Value = cp.PUnit;
+                                    objCmds.Parameters.Add("PARAMVALUE", OracleDbType.NVarchar2).Value = cp.Value;
+                                 
+                                    objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+
+                                    objConns.Open();
+                                    objCmds.ExecuteNonQuery();
+                                    objConns.Close();
+                                }
+
+
+
+                            }
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -241,7 +358,7 @@ namespace Arasan.Services
         public DataTable GetBatchCreation(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select BRANCHID,WCID,DOCID,DOCDATE,WPROCESSID,ENTEREDBY,SEQYN,IORATIOFROM,IORATIOTO,MTONO,PSCHNO,PTYPE,BTYPE,REFDOCID,NARR,BCPRODBASICID from BCPRODBASIC Where BCPRODBASICID='"+ id +"' ";
+            SvSql = "select BRANCHID,WCID,DOCID,to_char(BCPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,WPROCESSID,ENTEREDBY,SEQYN,IORATIOFROM,IORATIOTO,MTONO,PSCHNO,PTYPE,BTYPE,REFDOCID,NARR,BCPRODBASICID from BCPRODBASIC Where BCPRODBASICID='" + id +"' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -252,6 +369,16 @@ namespace Arasan.Services
         {
             string SvSql = string.Empty;
             SvSql = "select BCPRODBASICID,BWCID,PROCESSID,PSEQ,INSREQ from BCPRODDETAIL where BCPRODBASICID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetBatchCreationInputDetail(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select BCPRODBASICID,IPROCESSID,IITEMID,IUNIT,IQTY from BCINPUTDETAIL where BCPRODBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
