@@ -34,7 +34,7 @@ namespace Arasan.Controllers
             ca.Shiftlst = BindShift();
             ca.Processlst= BindProcess();
             ca.ETypelst = BindEType();
-            
+            ca.Shiftdate = DateTime.Now.ToString("dd-MMM-yyyy");
             List<ProIn> TData = new List<ProIn>();
             ProIn tda = new ProIn();
             for (int i = 0; i < 1; i++)
@@ -64,7 +64,7 @@ namespace Arasan.Controllers
             {
                 tda2 = new output();
                 tda2.Itemlst = BindItemlst("");
-                tda2.drumlst = Binddrum();
+                tda2.drumlst = BinddrumOut();
                 tda2.statuslst = BindStatus();
                 tda2.loclst = BindLocation();
                 tda2.Isvalid = "Y";
@@ -164,6 +164,23 @@ namespace Arasan.Controllers
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DRUMNO"].ToString(), Value = dtDesg.Rows[i]["DRUMNO"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BinddrumOut()
+        {
+            try
+            {
+                DataTable dtDesg = IProductionEntry.DrumDeatils();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DRUMNO"].ToString(), Value = dtDesg.Rows[i]["DRUMMASTID"].ToString() });
                 }
                 return lstdesg;
@@ -181,7 +198,7 @@ namespace Arasan.Controllers
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["SHIFTNO"].ToString(), Value = dtDesg.Rows[i]["SHIFTMASTID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["SHIFTNO"].ToString(), Value = dtDesg.Rows[i]["SHIFTNO"].ToString() });
                 }
                 return lstdesg;
             }
@@ -332,7 +349,7 @@ namespace Arasan.Controllers
                 string fromtime = "";
                 string totime= "";
                 string tothrs = "";
-                dt = datatrans.GetData("Select FROMTIME,TOTIME,SHIFTHRS from SHIFTMAST where SHIFTMASTID='"+ Shiftid + "'");
+                dt = datatrans.GetData("Select FROMTIME,TOTIME,SHIFTHRS from SHIFTMAST where SHIFTNO='" + Shiftid + "'");
                 if (dt.Rows.Count > 0)
                 {
 
@@ -390,6 +407,31 @@ namespace Arasan.Controllers
         {
             IEnumerable<ProductionEntry> cmp = IProductionEntry.GetAllProductionEntry();
             return View(cmp);
+        }
+        public ActionResult GetItemDetail(string ItemId)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+
+                string unit = "";
+
+                dt = datatrans.GetItemDetails(ItemId);
+
+                if (dt.Rows.Count > 0)
+                {
+
+                    unit = dt.Rows[0]["UNITID"].ToString();
+
+                }
+
+                var result = new { unit = unit };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

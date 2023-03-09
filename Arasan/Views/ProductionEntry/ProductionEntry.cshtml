@@ -998,7 +998,7 @@ function changeConsQty(_this, i) {
                               }
                         j += 1;
                     });
-                  document.getElementById("txttotalconsqty").value = tot.toFixed(2);
+            document.getElementById("txttotalconsqty").value = tot.toFixed(2);
                 }
                 catch (ex) {
                     alert(ex.message);
@@ -1073,6 +1073,20 @@ function changeConsQty(_this, i) {
             error: function () {
                 debugger;
                 alert("Please Select State");
+            }
+        });
+        $.ajax({
+            url: 'GetItemDetail',
+            data: { "ItemId": ItemId },
+            type: "GET",
+            success: function (result) {
+
+                document.getElementById("txtconsunit" + i).value = result.unit;
+
+
+            },
+            error: function () {
+                alert("Data Not Found");
             }
         });
                
