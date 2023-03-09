@@ -15,7 +15,7 @@ namespace Arasan.Models
         public List<SelectListItem> Brlst;
        
         public string Branch { get; set; }
-
+        public string Itemname { get; set; }
         public List<SelectListItem> Loclst;
         public string Location { get; set; }
         public string ID { get; set; }
@@ -23,6 +23,8 @@ namespace Arasan.Models
         public string Shiftdate { get; set; }
         public string ProcessId { get; set; }
         public string Selection { get; set; }
+        public string BatchNo { get; set; }
+        public string batchcomplete { get; set; }
         public double ProdQty { get; set; }
         public double SchQty { get; set; }
         public string EntryType { get; set; }
