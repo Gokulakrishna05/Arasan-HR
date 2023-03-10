@@ -318,7 +318,7 @@ namespace Arasan.Services
         public DataTable GetProcess(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select WCID,WCBASICID,PROCESSMAST.PROCESSID from WCBASIC LEFT OUTER JOIN PROCESSMAST ON PROCESSMASTID=WCBASIC.PROCESSID where WCBASICID='" + id + "' ";
+            SvSql = "Select PROCESSID ,PROCESSMASTID from PROCESSMAST";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -328,7 +328,7 @@ namespace Arasan.Services
         public DataTable GetProcessid(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select WCID,WCBASICID,PROCESSMAST.PROCESSID from WCBASIC LEFT OUTER JOIN PROCESSMAST ON PROCESSMASTID=WCBASIC.PROCESSID where WCBASICID='" + id + "' ";
+            SvSql = "Select PROCESSID ,PROCESSMASTID from PROCESSMAST";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
