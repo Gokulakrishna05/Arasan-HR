@@ -41,7 +41,7 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Branch <label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                         @Html.HiddenFor(C => C.ID)
-                                        @Html.DropDownListFor(C => C.Branch, Model.Brlst," -- Please Select -- ", new { @id = "ddlBranch", @Class = "form-control chosen-select", @TabIndex = 1 })<br/>
+                                            @Html.DropDownListFor(C => C.Branch, Model.Brlst," -- Please Select -- ", new { @id = "ddlBranch", @Class = "form-control _select", @TabIndex = 1 })<br />
                                     </div>
                                 </div>
                             </div>
@@ -51,7 +51,7 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Work Center<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
 
-                                       @Html.DropDownListFor(C => C.Location, Model.Loclst, new { @id = "ddlStLoc", @Class = "form-control chosen-select", @TabIndex = 1 })<br/>
+                                            @Html.DropDownListFor(C => C.Location, Model.Loclst, new { @id = "ddlStLoc", @Class = "form-control _select", @TabIndex = 1 })<br />
 
                                     </div>
                                 </div>
@@ -66,7 +66,7 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Processer ID<label class="Mandatory"></label></label>
 
                                     <div class="col-sm-8">
-                                         @Html.DropDownListFor(C => C.ProcessId, Model.Processlst," -- Please Select -- ", new { @id = "ddlProcess", @Class = "form-control chosen-select", @TabIndex = 1 })<br/>
+                                         @Html.DropDownListFor(C => C.ProcessId, Model.Processlst," -- Please Select -- ", new { @id = "ddlProcess", @Class = "form-control _select", @TabIndex = 1 })<br/>
                                     </div>
                                 </div>
                             </div>
@@ -99,7 +99,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Entry Type<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
-                                         @Html.DropDownListFor(C => C.EntryType, Model.ETypelst, new { @id = "ddlEntryType", @Class = "form-control chosen-select", @TabIndex = 1,onchange = "changeentry(this.value)" })<br/>
+                                         @Html.DropDownListFor(C => C.EntryType, Model.ETypelst, new { @id = "ddlEntryType", @Class = "form-control _select", @TabIndex = 1,onchange = "changeentry(this.value)" })<br/>
                                         
                                     </div>
                                 </div>
@@ -134,7 +134,7 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Shift<label class="mandatory"> *</label></label>
 
                                     <div class="col-sm-8">
-                                        @Html.DropDownListFor(C => C.Shift, Model.Shiftlst," -- Please Select -- ", new { @id = "ddlShift", @Class = "form-control chosen-select", @TabIndex = 1 ,onchange = "changeshift(this.value)"})<br/>
+                                        @Html.DropDownListFor(C => C.Shift, Model.Shiftlst," -- Please Select -- ", new { @id = "ddlShift", @Class = "form-control _select", @TabIndex = 1 ,onchange = "changeshift(this.value)"})<br/>
                                     </div>
                                 </div>
                             </div>
@@ -270,17 +270,17 @@
                                                                                                                                   <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
                                                                                                                                     
                                                                                                                                                                                 <td>
-                                                                                                                                                                                    @Html.DropDownListFor(o => o.inputlst[i].ItemId, Model.inputlst[i].Itemlst, "Please Select", new { @class = "form-control   newcss", @id = "ddlItem" + i, style = "width: 170px;", onchange = "changeItem(this.value," + i + ")" })
+                                                                                @Html.DropDownListFor(o => o.inputlst[i].ItemId, Model.inputlst[i].Itemlst, "Please Select", new { @class = "form-control _select   newcss", @id = "ddlItem" + i, style = "width: 170px;", onchange = "changeItem(this.value," + i + ")" })
                                                                                                                                                                                 </td>
                                                                                                                                         <td>@Html.TextBoxFor(o => o.inputlst[i].BinId, new { @id = "txtBinId" + i, @class = "form-control", style = "width: 100px;"})</td> 
-                                                                                                                                         <td>@Html.DropDownListFor(o => o.inputlst[i].drumno, Model.inputlst[i].drumlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddldrumno" + i, style = "width: 120px;" })
+                                                                                                                                         <td>@Html.DropDownListFor(o => o.inputlst[i].drumno, Model.inputlst[i].drumlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddldrumno" + i, style = "width: 120px;" })
                                                                                                                                           </td>
                                                                                                                                          <td>@Html.TextBoxFor(o => o.inputlst[i].batchno, new { @id = "txtbatchno" + i, @class = "form-control", style = "width: 200px;"})</td> 
                                                                                                                                         <td> @Html.TextBoxFor(o => o.inputlst[i].batchqty, new { @id = "txtbatchqty" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;text-align:right" })</td>
                                                                                                                                         <td>@Html.TextBoxFor(o => o.inputlst[i].StockAvailable, new { @id = "txtStockAvailable" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;text-align:right" })</td>
                                                                                                                                         <td>@Html.TextBoxFor(o => o.inputlst[i].IssueQty, new { @id = "txtIssueQty" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")" })</td>
                                                                                                                                         <td>@Html.TextBoxFor(o => o.inputlst[i].MillLoadAdd, new { @id = "txtMillLoadAdd" + i, @class = "form-control", style = "width: 100px;"})</td>
-                                                                                                                                        <td> @Html.DropDownListFor(o => o.inputlst[i].Output, Model.inputlst[i].outputlst, new { @class = "form-control chosen-select newcss", @id = "ddlOutput" + i, style = "width: 100px;" })</td>
+                                                                                                                                        <td> @Html.DropDownListFor(o => o.inputlst[i].Output, Model.inputlst[i].outputlst, new { @class = "form-control _select newcss", @id = "ddlOutput" + i, style = "width: 100px;" })</td>
                                                                                                                                            <td>
                                                                                                                                                                                     @Html.HiddenFor(o => o.inputlst[i].Isvalid, new { @id = "Isvalid" + i })
                                                                                                                                                                                     <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> 
@@ -330,7 +330,7 @@
                                                                                                                                   <tr id="trBookinc@(j)" class="chkitemlstinc" style="height: 30px;border-bottom: 1px dashed #ddd;">
                                                                                                                                     
                                                                                                                                                                                 <td>
-                                                                                                                                                                                    @Html.DropDownListFor(o => o.inconslst[j].ItemId, Model.inconslst[j].Itemlst, "Please Select", new { @class = "form-control   newcss", @id = "ddlConsItem" + j, style = "width: 170px;", onchange = "changeconsItem(this.value," + j + ")" })
+                                                                                                                                                                                    @Html.DropDownListFor(o => o.inconslst[j].ItemId, Model.inconslst[j].Itemlst, "Please Select", new { @class = "form-control  _select newcss", @id = "ddlConsItem" + j, style = "width: 170px;", onchange = "changeconsItem(this.value," + j + ")" })
                                                                                                                                                                                 </td>
                                                                                                                                                                                 <td>@Html.TextBoxFor(o => o.inconslst[j].consunit, new { @id = "txtconsunit" + j, @class = "form-control", style = "width: 100px;"})</td> 
                                                                                                                                         <td>@Html.TextBoxFor(o => o.inconslst[j].BinId, new { @id = "txtConsBinId" + j, @class = "form-control", style = "width: 100px;"})</td> 
@@ -393,7 +393,7 @@
                                                                                                                                   <tr id="trBookout@(k)" class="chkitemlstout" style="height: 30px;border-bottom: 1px dashed #ddd;">
                                                                                                                                     
                                                                                                                                                                                 <td>
-                                                                                                                                                                                    @Html.DropDownListFor(o => o.outlst[k].ItemId, Model.outlst[k].Itemlst, "Please Select", new { @class = "form-control   newcss", @id = "ddlOutItem" + k, style = "width: 170px;", onchange = "changeoutItem(this.value," + k + ")" })
+                                                                                                                                                                                    @Html.DropDownListFor(o => o.outlst[k].ItemId, Model.outlst[k].Itemlst, "Please Select", new { @class = "form-control _select   newcss", @id = "ddlOutItem" + k, style = "width: 170px;", onchange = "changeoutItem(this.value," + k + ")" })
                                                                                                                                                                                 </td>
                                                                                                                                                                                  <td>
                                                                                                                          <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy" >
@@ -407,14 +407,15 @@
                                                                                                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                                                                                 </div> </td>
                                                                                                                  <td>@Html.TextBoxFor(o => o.outlst[k].endtime, new { @id = "txtendtime" + k, @class = "form-control", style = "width: 100px;",@type="time"})</td>
-                                                                                                                 <td>@Html.DropDownListFor(o => o.outlst[k].drumno, Model.outlst[k].drumlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddloutdrumno" + k, style = "width: 120px;" })
+                                                                            <td>
+                                                                                @Html.DropDownListFor(o => o.outlst[k].drumno, Model.outlst[k].drumlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddloutdrumno" + k, style = "width: 120px;" })
                                                                                                                                           </td>
                                                                                                                 <td>@Html.TextBoxFor(o => o.outlst[k].batchno, new { @id = "txtbatchno" + k, @class = "form-control", style = "width: 200px;"})</td> 
                                                                                                                                         <td>@Html.TextBoxFor(o => o.outlst[k].OutStock, new { @id = "txtOutStock" + k, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;text-align:right" })</td>
                                                                                                                                         <td>@Html.TextBoxFor(o => o.outlst[k].OutQty, new { @id = "txtOutQty" + k, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeOutQty(this," + k + ")" })</td>
                                                                                                                                        <td>@Html.TextBoxFor(o => o.outlst[k].ExcessQty, new { @id = "txtExcessQty" + k, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;text-align:right" })</td>
-                                                                                                                                           <td>@Html.DropDownListFor(o => o.outlst[k].status, Model.outlst[k].statuslst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlstatus" + k, style = "width: 120px;" })</td>
-                                                                                                                                            <td>@Html.DropDownListFor(o => o.outlst[k].toloc, Model.outlst[k].loclst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddltoloc" + k, style = "width: 120px;" })</td>
+                                                                                                                                           <td>@Html.DropDownListFor(o => o.outlst[k].status, Model.outlst[k].statuslst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlstatus" + k, style = "width: 120px;" })</td>
+                                                                                                                                            <td>@Html.DropDownListFor(o => o.outlst[k].toloc, Model.outlst[k].loclst, "Please Select", new { @class = "form-control _select newcss", @id = "ddltoloc" + k, style = "width: 120px;" })</td>
                                                                                                                                        <td>
                                                                                                                                                                                     @Html.HiddenFor(o => o.outlst[k].Isvalid, new { @id = "IsOutvalid" + k })
                                                                                                                                                                                     <img onclick="removeOutRow(@(k));" src="../Images/delete.png" style="cursor:pointer" /> 
@@ -463,11 +464,11 @@
                                                                                                                                   <tr id="trBookinc@(m)" class="chkitemlstinc" style="height: 30px;border-bottom: 1px dashed #ddd;">
                                                                                                                                     
                                                                                                                                                                                 <td>
-                                                                                                                                                                                    @Html.DropDownListFor(o => o.wastelst[m].ItemId, Model.wastelst[m].Itemlst, "Please Select", new { @class = "form-control   newcss", @id = "ddlWasteItem" + m, style = "width: 170px;" })
+                                                                                                                                                                                    @Html.DropDownListFor(o => o.wastelst[m].ItemId, Model.wastelst[m].Itemlst, "Please Select", new { @class = "form-control _select  newcss", @id = "ddlWasteItem" + m, style = "width: 170px;" })
                                                                                                                                                                                 </td>
                                                                                                                                                                                 <td>@Html.TextBoxFor(o => o.wastelst[m].batchno, new { @id = "txtbatchno" + m, @class = "form-control", style = "width: 200px;"})</td> 
                                                                                                                                         <td>@Html.TextBoxFor(o => o.wastelst[m].wastageQty, new { @id = "txtwasteQty" + m, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeWasteQty(this," + m + ")" })</td>
-                                                                                                                                        <td>@Html.DropDownListFor(o => o.wastelst[m].toloc, Model.wastelst[m].loclst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlwastetoloc" + m, style = "width: 120px;" })</td>
+                                                                                                                                        <td>@Html.DropDownListFor(o => o.wastelst[m].toloc, Model.wastelst[m].loclst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlwastetoloc" + m, style = "width: 120px;" })</td>
                                                                                                                                         <td>@Html.TextBoxFor(o => o.wastelst[m].BinId, new { @id = "txtWasteBinId" + m, @class = "form-control", style = "width: 100px;"})</td>
                                                                                                                                            <td>@Html.HiddenFor(o => o.inconslst[m].Isvalid, new { @id = "IsWastevalid" + m }) <img onclick="removeWasteRow(@(j));" src="../Images/delete.png" style="cursor:pointer" />  </td>
 
@@ -591,7 +592,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Entered By<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Enterd, Model.RecList, new { @id = "ddlEnterd", @Class = "form-control chosen-select", @TabIndex = 1 })<br />
+                                            @Html.DropDownListFor(C => C.Enterd, Model.RecList, new { @id = "ddlEnterd", @Class = "form-control _select", @TabIndex = 1 })<br />
 <br />
                                     </div>
                                 </div>
@@ -668,7 +669,7 @@
     });
    
 
-    $(".chosen-select").chosen();
+    
      $('.form_date').datetimepicker({
      //   language:  'fr',
         weekStart: 1,
@@ -914,24 +915,27 @@
       function AppendRow(opt, remopt) {
         var index = $("#tbBooks").children("tr").length;
 
-        var itemid = "<td><select style = 'width: 170px;' class='form-control chosen-select newcss' id='ddlItem" + index + "' name='inputlst[" + index + "].ItemId' ><option value=''>Please select</option>" + opt + "</select></td>";
+        var itemid = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlItem" + index + "' name='inputlst[" + index + "].ItemId' ><option value=''>Please select</option>" + opt + "</select></td>";
         var binid = "<td><input class='form-control'  id='txtBinId" + index + "' name='inputlst[" + index + "].BinId' style='width: 100px;' type='text' value=''></td>";
-        var drumno = "<td><select style = 'width: 120px;' class='form-control chosen-select newcss' id='drumno" + index + "' name='inputlst[" + index + "].drumno' ><option value=''>Please select</option>" + remopt + "</select></td>";
+        var drumno = "<td><select style = 'width: 120px;' class='form-control _select newcss' id='drumno" + index + "' name='inputlst[" + index + "].drumno' ><option value=''>Please select</option>" + remopt + "</select></td>";
         var batchno = "<td><input class='form-control'  id='txtbatchno" + index + "' name='inputlst[" + index + "].batchno' style='width: 200px;' type='text' value=''></td>";
         var batchqty="<td><input class='form-control'  id='txtbatchqty" + index + "' name='inputlst[" + index + "].batchqty' style='width: 80px;' type='text' value=''></td>";
         var stock="<td><input class='form-control'  id='txtStockAvailable" + index + "' name='inputlst[" + index + "].StockAvailable' style='width: 80px;' type='text' value=''></td>";
         var issueqty="<td><input class='form-control'  id='txtIssueQty" + index + "' name='inputlst[" + index + "].IssueQty' style='width: 100px;' type='text' value=''></td>";
         var MillLoadAdd="<td><input class='form-control'  id='txtMillLoadAdd" + index + "' name='inputlst[" + index + "].MillLoadAdd' style='width: 100px;' type='text' value=''></td>";
-        var output = "<td><select style = 'width: 100px;' class='form-control chosen-select newcss' id='ddlOutput" + index + "' name='inputlst[" + index + "].Output' ><option value='YES'>YES</option><option value='NO'>NO</option></select></td>";
+        var output = "<td><select style = 'width: 100px;' class='form-control _select newcss' id='ddlOutput" + index + "' name='inputlst[" + index + "].Output' ><option value='YES'>YES</option><option value='NO'>NO</option></select></td>";
         var removeCell = "<td><input id='Isvalid" + index + "' name='inputlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='inputlst.Index' type='hidden' value='" + index + "'  /></td>";
         var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + itemid + binid + drumno + batchno + batchqty + stock + issueqty + MillLoadAdd + output + removeCell + "</tr>";
         $("#tbBooks").append(newRow);
-        $(".chosen-select").chosen();
+       
+       $(function() {
+            $('._select').select2();
+        });
     }
     function AppendcosRow(opt) {
         var index = $("#tbBooksinc").children("tr").length;
 
-        var itemid = "<td><select style = 'width: 170px;' class='form-control chosen-select newcss' id='ddlConsItem" + index + "' name='inconslst[" + index + "].ItemId' onchange='changeconsItem(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
+        var itemid = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlConsItem" + index + "' name='inconslst[" + index + "].ItemId' onchange='changeconsItem(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
         var unitid = "<td><input class='form-control'  id='txtconsunit" + index + "' name='inconslst[" + index + "].consunit' style='width: 100px;' type='text' value=''></td>";
         var binid = "<td><input class='form-control'  id='txtConsBinId" + index + "' name='inconslst[" + index + "].BinId' style='width: 100px;' type='text' value=''></td>";
         var stock="<td><input class='form-control'  id='txtConsStock" + index + "' name='inconslst[" + index + "].ConsStock' style='width: 80px;' type='text' value=''></td>";
@@ -939,11 +943,14 @@
         var removeCell = "<td><input id='Isvalid" + index + "' name='inconslst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeConsRow(" + index + ");'  style='cursor:pointer' /><input name='inconslst.Index' type='hidden' value='" + index + "'  /></td>";
         var newRow = "<tr class='chkitemlstinc'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookinc" + index + "'>" + itemid + unitid + binid +  stock + issueqty + removeCell + "</tr>";
         $("#tbBooks").append(newRow);
-        $(".chosen-select").chosen();
+      
+       $(function() {
+            $('._select').select2();
+        });
     }
     function AppendOutRow(opt, remopt,locopt) {
         var index = $("#tbBooksout").children("tr").length;
-        var itemid = "<td><select style = 'width: 170px;' class='form-control chosen-select newcss' id='ddlOutItem" + index + "' name='outlst[" + index + "].ItemId' onchange='changeoutItem(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
+        var itemid = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlOutItem" + index + "' name='outlst[" + index + "].ItemId' onchange='changeoutItem(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
         var startdate="<td><div class='input-group date form_date col-sm-8'  data-date-format='dd-M-yyyy'><input class='form-control' id='txtstartdate" + index + "' name='outlst[" + index + "].startdate' readonly='True' style='width: 100px;' type='text' value=''> <span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div> </td>";
         var starttime = "<td><input class='form-control'  id='txtstarttime" + index + "' name='outlst[" + index + "].starttime' style='width: 100px;' type='time' value=''></td>";
         var enddate="<td><div class='input-group date form_date col-sm-8'  data-date-format='dd-M-yyyy'><input class='form-control' id='txtenddate" + index + "' name='outlst[" + index + "].enddate' readonly='True' style='width: 100px;' type='text' value=''> <span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div> </td>";
@@ -953,12 +960,15 @@
         var stock="<td><input class='form-control'  id='txtOutStock" + index + "' name='outlst[" + index + "].OutStock' style='width: 80px;text-align:right' type='text' value='' onkeydown='return isNumeric2(event.keyCode,this.value)'></td>";
         var outqty="<td><input class='form-control'  id='txtOutQty" + index + "' name='outlst[" + index + "].OutQty' style='width: 100px;text-align:right' type='text' value='' onkeyup='changeOutQty(this," + index + ")' onkeydown='return isNumeric2(event.keyCode,this.value)'></td>";
         var excessqty="<td><input class='form-control'  id='txtExcessQty" + index + "' name='outlst[" + index + "].ExcessQty' style='width: 80px;text-align:right' type='text' value='' onkeydown='return isNumeric2(event.keyCode,this.value)'></td>";
-        var status="<td><select style = 'width: 120px;' class='form-control chosen-select newcss' id='ddlstatus" + index + "' name='outlst[" + index + "].status' ><option value=''>Please select</option><option value='PENDING'>PENDING</option><option value='COMPLETED'>COMPLETED</option></select></td>";
-        var loc = "<td><select style = 'width: 120px;' class='form-control chosen-select newcss' id='ddltoloc" + index + "' name='outlst[" + index + "].toloc' ><option value=''>Please select</option>" + locopt + "</select></td>";
+        var status="<td><select style = 'width: 120px;' class='form-control _select newcss' id='ddlstatus" + index + "' name='outlst[" + index + "].status' ><option value=''>Please select</option><option value='PENDING'>PENDING</option><option value='COMPLETED'>COMPLETED</option></select></td>";
+        var loc = "<td><select style = 'width: 120px;' class='form-control _select newcss' id='ddltoloc" + index + "' name='outlst[" + index + "].toloc' ><option value=''>Please select</option>" + locopt + "</select></td>";
         var removeCell = "<td><input id='IsOutvalid" + index + "' name='outlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeOutRow(" + index + ");'  style='cursor:pointer' /><input name='outlst.Index' type='hidden' value='" + index + "'  /></td>";
         var newRow = "<tr class='chkitemlstout'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookout" + index + "'>" + itemid + startdate + starttime +  enddate + endtime + drumno + batchno + stock + outqty + excessqty +status + loc + removeCell + "</tr>";
         $("#tbBooksout").append(newRow);
-        $(".chosen-select").chosen();
+      
+       $(function() {
+            $('._select').select2();
+        });
     }
     function changeQty(_this, i) {
                 try {
@@ -1108,4 +1118,7 @@ function changeConsQty(_this, i) {
         });
                
             }
+             $(function() {
+            $('._select').select2();
+        });
 </script>
