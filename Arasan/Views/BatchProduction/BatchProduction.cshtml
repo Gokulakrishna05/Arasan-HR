@@ -928,7 +928,7 @@
         var removeCell = "<td><input id='Isvalid" + index + "' name='inputlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='inputlst.Index' type='hidden' value='" + index + "'  /></td>";
         var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + itemid + binid + drumno + batchno + batchqty + stock + issueqty  + removeCell + "</tr>";
         $("#tbBooks").append(newRow);
-        $("._select").chosen();
+        $("._select").select2();
     }
     function AppendcosRow(opt) {
         var index = $("#tbBooksinc").children("tr").length;
@@ -940,8 +940,8 @@
         var issueqty="<td><input class='form-control'  id='txtconsQty" + index + "' name='inconslst[" + index + "].consQty' style='width: 100px;' type='text' value='' onkeyup='changeConsQty(this," + index + ")'></td>";
         var removeCell = "<td><input id='Isvalid" + index + "' name='inconslst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeConsRow(" + index + ");'  style='cursor:pointer' /><input name='inconslst.Index' type='hidden' value='" + index + "'  /></td>";
         var newRow = "<tr class='chkitemlstinc'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookinc" + index + "'>" + itemid + unitid + binid +  stock + issueqty + removeCell + "</tr>";
-        $("#tbBooks").append(newRow);
-        $("._select").chosen();
+        $("#tbBooksinc").append(newRow);
+        $("._select").select2();
     }
     function AppendOutRow(opt, remopt,locopt) {
         var index = $("#tbBooksout").children("tr").length;
@@ -960,7 +960,7 @@
         var removeCell = "<td><input id='IsOutvalid" + index + "' name='outlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeOutRow(" + index + ");'  style='cursor:pointer' /><input name='outlst.Index' type='hidden' value='" + index + "'  /></td>";
         var newRow = "<tr class='chkitemlstout'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookout" + index + "'>" + itemid + startdate + starttime +  enddate + endtime + drumno + batchno + stock + outqty + excessqty +status + loc + removeCell + "</tr>";
         $("#tbBooksout").append(newRow);
-        $("._select").chosen();
+        $("._select").select2();
     }
     function changeQty(_this, i) {
                 try {
@@ -1096,76 +1096,7 @@ function changeConsQty(_this, i) {
         });
                
             }
-        @*      $(function() {
-     var availableTags = [
-     { label: "anders", value: "andersv" },
-      { label: "andreas", value: "andreasv" },
-      { label: "antal", value: "antalv" },
-      { label: "annhhx10", value: "Products" },
-      { label: "annk K12", value: "Products" },
-      { label: "annttop C13", value: "Products" },
-      { label: "anders andersson", value: "People" },
-      { label: "andreas andersson", value: "People" },
-      { label: "andreas johnson", value: "People" }
-     
-    ];
-
-
-
-
-     $( "#tags" ).autocomplete({
-       source: function (request, response) {
-           $.ajax({
-               url: 'GetItemJSON',
-               type: 'GET',
-               dataType: 'json',
-               data: request,
-               success: function (data) {
-                  response( $.each(data, function() {
-                        return {
-                           label: this.text,
-                           value: this.value
-                       };
-                }));
-                   response($.map(data, function (value, key) { 
-                        return {
-                            label: value,
-                            value: key
-                        };
-                   }));
-               }
-           });
-        }
-    });
-
-
-
-      });*/*@
-@*
-      $(function () {
-            $("#tags").autocomplete({
-                source: function (request, response) {
-                    $.ajax({
-                        url: 'GetsearchItemJSON',
-                        dataType: "json",
-                        type: "POST",
-                        data: "{'prefix': '" + request.term + "'}",
-                        contentType: "application/json; charset=utf-8",
-                        success: function (data) {
-                            response($.map(data, function(item) {
-                                return {
-                                    label: item.text,
-                                    value: item.value
-                                };
-                            }));
-                        },
-                       
-                    });
-                },
-               
-                minLength: 1
-            });
-        });*@
+       
          $(function() {
             $('._select').select2();
         });
