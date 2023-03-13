@@ -113,8 +113,6 @@
                                 </div>
                             </div>
 
-
-
                             <div class="col-md-6">
                                 <div class="form-group">
 
@@ -971,7 +969,7 @@
         var index = $("#tbBooks2").children("tr").length;
 
         var Process = "<td><select style = 'width: 200px;' class='form-control chosen-select newcss' id='ddlOProcess" + index + "' name='BatchOutLst[" + index + "].OProcess' ><option value=''>Please select</option>" + opt + "</select></td>";
-
+         
 
 
         var Item = "<td><select style = 'width: 200px;' class='form-control chosen-select newcss' id='ddlOItem" + index + "' name='OItemlst[" + index + "].OItem' onchange = 'changeOutItem(this.value," + index + ")'><option value=''>Please select</option></select></td>";
@@ -988,8 +986,6 @@
      
         var Vm = "<td><input class='form-control' id='txtVmper" + index + "' name='BatchOutLst[" + index + "].Vmper'  style='width: 120px;' type='text'  /></td>";
         var Grase = "<td><input class='form-control' id='txtGreas" + index + "' name='BatchOutLst[" + index + "].Greas'  style='width: 120px;' type='text'  /></td>";
-     
-
         var removeCell = "<td><input id='Isvalid" + index + "' name='OItemlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow2(" + index + ");'  style='cursor:pointer' /><input name='BatchInLst.Index' type='hidden' value='" + index + "'  /></td>";
 
 
