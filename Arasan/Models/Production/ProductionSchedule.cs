@@ -39,8 +39,12 @@ namespace Arasan.Models
         public string Refno { get; set; }
         public string Amdno { get; set; }
         public string Entered { get; set; }
-
         public List<ProductionScheduleItem> PrsLst { get; set; }
+        public List<ProductionItem> ProLst { get; set; }
+        public List<ProItem> Prlst { get; set; }
+        public List<ProScItem> ProscLst { get; set; }
+
+        public List<ProSchItem> ProschedLst { get; set; }
     }
     public class ProductionScheduleItem
     {
@@ -60,8 +64,58 @@ namespace Arasan.Models
 
         public string Isvalid { get; set; }
     }
-    //public class ProductionItem
-    //{
+    public class ProductionItem
+    {
+        public string Item { get; set; }
+        public string saveItemId { get; set; }
+        public List<SelectListItem> PItemlst { get; set; }
 
-    //}
+        public List<SelectListItem> PItemGrouplst { get; set; }
+
+        public string ItemGroup { get; set; }
+
+        public string Des { get; set; }
+        public string Unit { get; set; }
+
+        public string Output { get; set; }
+        public string Alam { get; set; }
+        public string OutputType { get; set; }
+        public string Sch { get; set; }
+        public string Produced { get; set; }
+        public string Isvalid { get; set; }
+
+    }
+    public class ProItem
+    {
+        public string Isvalid { get; set; }
+        public string Parameters { get; set; }
+        public string Unit { get; set; }
+        public string Initial { get; set; }
+        public string Final { get; set; }
+        public string Remarks { get; set; }
+    }
+    public class ProScItem
+    {
+        public string Itemd { get; set; }
+        public string saveItemId { get; set; }
+        public List<SelectListItem> SItemlst { get; set; }
+
+        public List<SelectListItem> SItemGrouplst { get; set; }
+
+        public string ItemGrp { get; set; }
+        public string SchDate { get; set; }
+        public string Hrs { get; set; }
+
+        public string Qty { get; set; }
+        public string Change { get; set; }
+        public string Isvalid { get; set; }
+
+    }
+    public class ProSchItem
+    {
+        public string Isvalid { get; set; }
+        public string Pack { get; set; }
+        public string Qty { get; set; }
+
+    }
 }
