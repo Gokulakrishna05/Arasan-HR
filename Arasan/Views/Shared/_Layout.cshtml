@@ -12,6 +12,7 @@
     <link href="~/assets/css/bootstrap.min.css" rel="stylesheet">
 
     <link href="~/assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+    <link href="~/assets/css/jquery-ui.css" rel="stylesheet">
     <!-- slimscroll -->
     <link href="~/assets/css/jquery.slimscroll.css" rel="stylesheet">
     <!-- project -->
@@ -49,6 +50,8 @@
     <link href="~/assets/css/main.media.css" rel="stylesheet">
     <!-- AdminUI demo css-->
     <link href="~/assets/css/adminUIdemo.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="~/assets/css/select2.min.css" />
+	<link rel="stylesheet" type="text/css" href="~/assets/css/bootstrap-select.min.css" />
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -356,7 +359,7 @@
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("ListCuringInward", "CuringInward")">Curing Inward</a></li>
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("CuringEStatus", "ProcessCostEntry")">Curing E-Status</a></li>
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("CuringOutward", "ProcessCostEntry")">Curing Outward</a></li>
-                            <li class="nav-item"><a class="nav-link" href="@Url.Action("BatchProductionEntry", "ProcessCostEntry")">Batch Production Entry</a></li>
+                            <li class="nav-item"><a class="nav-link" href="@Url.Action("BatchProduction", "BatchProduction")">Batch Production Entry</a></li>
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("PackingIssueEntry", "ProcessCostEntry")">Packing Issue Entry</a></li>
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("PackingDrumAllocation", "ProcessCostEntry")">Packing Drum Allocation</a></li>
                              <li class="nav-item"><a class="nav-link" href="@Url.Action("PackingEntry", "ProcessCostEntry")">Packing Entry</a></li>
@@ -494,11 +497,13 @@
 	<!-- dataTables-->
 <script type="text/javascript" src="~/assets/js/vendor/jquery.dataTables.js"></script>
 <script type="text/javascript" src="~/assets/js/vendor/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript" src="~/assets/js/vendor/jquery-ui.js" charset="UTF-8"></script>
 	<!-- slimscroll js -->
 	<script type="text/javascript" src="~/assets/js/vendor/jquery.slimscroll.js"></script>
 	<!-- pace js -->
 	<script src="~/assets/js/vendor/pace/pace.min.js"></script>
     <script src="~/assets/js/vendor/select2.min.js"></script>
+    <script src="~/assets/js/vendor/bootstrap-select.min.js"></script>
 	<!-- Sparkline -->
 <script src="~/assets/js/vendor/jquery.sparkline.min.js"></script>
 <!-- main js -->
