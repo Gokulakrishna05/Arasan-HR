@@ -51,14 +51,12 @@ namespace Arasan.Controllers
                     tda = new BatchItem();
                     tda.WorkCenterlst = BindWorkCenterid();                                                                                                                                                                                          
                     tda.Processidlst = BindProcess("");
-
                     tda.Isvalid = "Y";
                     TData.Add(tda);
                 }
                 for (int i = 0; i < 3; i++)
                 {
                     tda1 = new BatchInItem();
-
                     tda1.IProcesslst = BindProcessid();
                     tda1.Itemlst = BindItemlst("");
                     tda1.Isvalid = "Y";
@@ -67,7 +65,6 @@ namespace Arasan.Controllers
                 for (int i = 0; i < 3; i++)
                 {
                     tda2 = new BatchOutItem();
-
                     tda2.OProcesslst = BindProcessid();
                     tda2.OItemlst = BindItemlst("");
                     tda2.Isvalid = "Y";
@@ -76,9 +73,7 @@ namespace Arasan.Controllers
                 for (int i = 0; i < 3; i++)
                 {
                     tda3 = new BatchOtherItem();
-
                     tda3.OProcessidlst = BindProcessid();
-
                     tda3.Isvalid = "Y";
                     TData3.Add(tda3);
                 }
@@ -154,7 +149,9 @@ namespace Arasan.Controllers
                         tda1 = new BatchInItem();
                         tda1.IProcesslst = BindProcessid();
                         tda1.Process = dt3.Rows[0]["IPROCESSID"].ToString();
+  
                         tda1.Itemlst = BindItemlst(tda1.Process);
+ 
                         tda1.Item = dt3.Rows[0]["IITEMID"].ToString();
                         tda1.Unit = dt3.Rows[0]["IUNIT"].ToString();
                         tda1.Qty = dt3.Rows[0]["IQTY"].ToString();

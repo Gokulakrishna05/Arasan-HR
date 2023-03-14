@@ -6,6 +6,7 @@ using System.Data;
 using System.Security.Cryptography.Pkcs;
 using System.Xml.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using PdfSharp.Pdf;
 
 namespace Arasan.Controllers.Production
 {
@@ -34,8 +35,14 @@ namespace Arasan.Controllers.Production
             ca.RecList = BindEmp();
             List<ProductionScheduleItem> TData = new List<ProductionScheduleItem>();
             ProductionScheduleItem tda = new ProductionScheduleItem();
-            //List<ProductionItem> TData1 = new List<ProductionItem>();
-            //ProductionItem tda1 = new ProductionItem();
+            List<ProductionItem> TData1 = new List<ProductionItem>();
+            ProductionItem tda1 = new ProductionItem();
+            List<ProItem> TData2 = new List<ProItem>();
+            ProItem tda2 = new ProItem();
+            List<ProScItem> TData3 = new List<ProScItem>();
+            ProScItem tda3 = new ProScItem();
+            List<ProSchItem> TData4 = new List<ProSchItem>();
+            ProSchItem tda4 = new ProSchItem();
             if (id == null)
             {
                 for (int i = 0; i < 3; i++)
@@ -46,15 +53,35 @@ namespace Arasan.Controllers.Production
                     tda.Isvalid = "Y";
                     TData.Add(tda);
                 }
-                //for (int i = 0; i < 3; i++)
-                //{
-                //    tda1 = new ProductionItem();
+                for (int i = 0; i < 3; i++)
+                {
+                    tda1 = new ProductionItem();
 
-                //    tda.PItemGrouplst = BindItemGrplstid();
-                //    tda.PItemlst = BindItemlstid("");
-                //    tda.Isvalid = "Y";
-                //    TData.Add(tda);
-                //}
+                    tda1.PItemGrouplst = BindItemGrplst();
+                    tda1.PItemlst = BindItemlst("");
+                    tda1.Isvalid = "Y";
+                    TData1.Add(tda1);
+                }
+                for (int i = 0; i < 3; i++)
+                {
+                    tda2 = new ProItem();
+                    tda2.Isvalid = "Y";
+                    TData2.Add(tda2);
+                }
+                for (int i = 0; i < 3; i++)
+                {
+                    tda3 = new ProScItem();
+                    tda3.SItemGrouplst = BindItemGrplst();
+                    tda3.SItemlst = BindItemlst("");
+                    tda3.Isvalid = "Y";
+                    TData3.Add(tda3);
+                }
+                for (int i = 0; i < 3; i++)
+                {
+                    tda4 = new ProSchItem();
+                    tda4.Isvalid = "Y";
+                    TData4.Add(tda4);
+                }
             }
             else
             {
@@ -112,7 +139,12 @@ namespace Arasan.Controllers.Production
                 }
 
             }
+           
             ca.PrsLst = TData;
+            ca.ProLst = TData1;
+            ca.Prlst = TData2;
+            ca.ProscLst = TData3;
+            ca.ProschedLst =TData4;
             return View(ca);
         }
         [HttpPost]
@@ -152,46 +184,11 @@ namespace Arasan.Controllers.Production
             return View(Cy);
         }
 
-       
         public IActionResult ListProductionSchedule()
         {
             IEnumerable<ProductionSchedule> cmp = ProductionScheduleService.GetProductionSchedule();
-            return View();
+            return View(cmp);
         }
-        //public List<SelectListItem> BindItemlstid(string value)
-        //{
-        //    try
-        //    {
-        //        DataTable dtDesg = ProductionScheduleService.GetItem(value);
-        //        List<SelectListItem> lstdesg = new List<SelectListItem>();
-        //        for (int i = 0; i < dtDesg.Rows.Count; i++)
-        //        {
-        //            lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEMMASTERID"].ToString() });
-        //        }
-        //        return lstdesg;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
-        //public List<SelectListItem> BindItemGrplstid()
-        //{
-        //    try
-        //    {
-        //        DataTable dtDesg = ProductionScheduleService.GetItemSubGrp();
-        //        List<SelectListItem> lstdesg = new List<SelectListItem>();
-        //        for (int i = 0; i < dtDesg.Rows.Count; i++)
-        //        {
-        //            lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["SGCODE"].ToString(), Value = dtDesg.Rows[i]["ITEMSUBGROUPID"].ToString() });
-        //        }
-        //        return lstdesg;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
         public List<SelectListItem> BindItemlst(string value)
         {
             try
@@ -317,6 +314,13 @@ namespace Arasan.Controllers.Production
             {
                 throw ex;
             }
+        }
+        public JsonResult GetProcessJSON(string processid)
+        {
+            ProductionScheduleItem model = new ProductionScheduleItem();
+            //model.Processlst = BindProcess(processid);
+            return Json(BindProcess(processid));
+
         }
         public JsonResult GetItemGrpJSON()
         {

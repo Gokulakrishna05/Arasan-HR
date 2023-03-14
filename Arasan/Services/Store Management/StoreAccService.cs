@@ -144,7 +144,7 @@ namespace Arasan.Interface.Master
                                     else
                                     {
                                         StatementType = "Update";
-                                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = ss.ID;
+                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = ss.ID;
 
                                     }
                                     objCmds.CommandType = CommandType.StoredProcedure;
