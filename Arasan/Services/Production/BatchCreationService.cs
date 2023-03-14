@@ -114,7 +114,7 @@ namespace Arasan.Services
                                     else
                                     {
                                         StatementType = "Update";
-                                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                                     }
                                     objCmds.CommandType = CommandType.StoredProcedure;
                                     objCmds.Parameters.Add("BCPRODBASICID", OracleDbType.NVarchar2).Value = Pid;
@@ -149,7 +149,7 @@ namespace Arasan.Services
                                     else
                                     {
                                         StatementType = "Update";
-                                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                                     }
                                     objCmds.CommandType = CommandType.StoredProcedure;
                                     objCmds.Parameters.Add("BCPRODBASICID", OracleDbType.NVarchar2).Value = Pid;
@@ -184,7 +184,7 @@ namespace Arasan.Services
                                     else
                                     {
                                         StatementType = "Update";
-                                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                                     }
                                     objCmds.CommandType = CommandType.StoredProcedure;
                                     objCmds.Parameters.Add("BCPRODBASICID", OracleDbType.NVarchar2).Value = Pid;
@@ -224,7 +224,7 @@ namespace Arasan.Services
                                     else
                                     {
                                         StatementType = "Update";
-                                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                                     }
                                     objCmds.CommandType = CommandType.StoredProcedure;
                                     objCmds.Parameters.Add("BCPRODBASICID", OracleDbType.NVarchar2).Value = Pid;
@@ -265,7 +265,7 @@ namespace Arasan.Services
                                     else
                                     {
                                         StatementType = "Update";
-                                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                                     }
                                     objCmds.CommandType = CommandType.StoredProcedure;
                                     objCmds.Parameters.Add("BCPRODBASICID", OracleDbType.NVarchar2).Value = Pid;
@@ -315,7 +315,7 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetProcess(string id)
+        public DataTable GetProcess()
         {
             string SvSql = string.Empty;
             SvSql = "Select PROCESSID ,PROCESSMASTID from PROCESSMAST";
@@ -325,16 +325,16 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetProcessid(string id)
-        {
-            string SvSql = string.Empty;
-            SvSql = "Select PROCESSID ,PROCESSMASTID from PROCESSMAST";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
+        //public DataTable GetProcessid(string id)
+        //{
+        //    string SvSql = string.Empty;
+        //    SvSql = "Select PROCESSID ,PROCESSMASTID from PROCESSMAST";
+        //    DataTable dtt = new DataTable();
+        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
+        //}
         public DataTable GetProcessid()
         {
             string SvSql = string.Empty;
@@ -385,10 +385,30 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetWorkCenterGr(string id)
+        public DataTable GetBatchCreationOutputDetail(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select  WCID,WCBASICID from WCBASIC where PROCESSID='" + id + "' ";
+            SvSql = "select BCPRODBASICID,OPROCESSID,OITEMID,OUNIT,OQTY,OTYPE,GPER,VMPER,OWPER from BCOUTPUTDETAIL where BCPRODBASICID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetBatchCreationOtherDetail(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select BCPRODBASICID,EPROCESSID,to_char(BCOTHERDETAIL.ESDT,'dd-MON-yyyy')ESDT,to_char(BCOTHERDETAIL.EEDT,'dd-MON-yyyy')EEDT,EST,EET,EPSEQ,ETOTHRS,EBRHRS,ERUNHRS,ENARR from BCOTHERDETAIL where BCPRODBASICID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetBatchCreationParmDetail(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select BCPRODBASICID,PROCPARAM,to_char(BCPARAMDETAIL.PSDT,'dd-MON-yyyy')PSDT,to_char(BCPARAMDETAIL.PEDT,'dd-MON-yyyy')PEDT,PSTIME,PETIME,PARAMUNIT,PARAMVALUE from BCPARAMDETAIL where BCPRODBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
