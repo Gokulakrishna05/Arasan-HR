@@ -89,6 +89,7 @@ namespace Arasan.Controllers
                     for (int i = 0; i < dt2.Rows.Count; i++)
                     {
                         tda = new SalesItem();
+                        double toaamt = 0;
                         tda.ItemGrouplst = BindItemGrplst();
                         DataTable dt3 = new DataTable();
                         dt3 = datatrans.GetItemSubGroup(dt2.Rows[i]["ITEM_ID"].ToString());
@@ -97,19 +98,18 @@ namespace Arasan.Controllers
                             tda.ItemGroupId = dt3.Rows[0]["SUBGROUPCODE"].ToString();
                         }
                         tda.Itemlst = BindItemlst(tda.ItemGroupId);
-
                         tda.ItemId = dt2.Rows[i]["ITEM_ID"].ToString();
                         tda.saveItemId = dt2.Rows[i]["ITEM_ID"].ToString();
                         DataTable dt4 = new DataTable();
-                        dt4 = Sales.GetItemDetails(tda.ItemId);
+                        dt4 = datatrans.GetItemDetails(tda.ItemId);
                         if (dt4.Rows.Count > 0)
                         {
                             tda.Des = dt4.Rows[0]["ITEMDESC"].ToString();
-                           
-                           
+                             
                         }
                         tda.Unit = dt2.Rows[i]["UNIT"].ToString();
                         tda.Qty = dt2.Rows[i]["QUANTITY"].ToString();
+                        TData.Add(tda);
                     }
                 }
             }
