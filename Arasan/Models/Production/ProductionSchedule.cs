@@ -11,8 +11,12 @@ namespace Arasan.Models
             this.Worklst = new List<SelectListItem>();
             this.Processlst = new List<SelectListItem>();
             this.RecList = new List<SelectListItem>();
+            this.Itemlst = new List<SelectListItem>();
 
         }
+        public List<SelectListItem> Itemlst;
+
+        public string Itemid { get; set; }
         public string ID { get; set; }
 
         public List<SelectListItem> Brlst;
@@ -32,7 +36,7 @@ namespace Arasan.Models
         public string Schdate { get; set; }
         public string Formula { get; set; }
         public string Proddt { get; set; }
-        public string Itemid { get; set; }
+       
         public string Unit { get; set; }
         public string Qty { get; set; }
         public string Exprunhrs { get; set; }
