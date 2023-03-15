@@ -33,6 +33,7 @@ namespace Arasan.Controllers.Production
             ca.Processlst = BindProcess("");
             ca.Enterd = Request.Cookies["UserId"];
             ca.RecList = BindEmp();
+            ca.Itemlst = BindItemlst();
             List<ProductionScheduleItem> TData = new List<ProductionScheduleItem>();
             ProductionScheduleItem tda = new ProductionScheduleItem();
             List<ProductionItem> TData1 = new List<ProductionItem>();
@@ -206,7 +207,23 @@ namespace Arasan.Controllers.Production
                 throw ex;
             }
         }
-
+        public List<SelectListItem> BindItemlst()
+        {
+            try
+            {
+                DataTable dtDesg = ProductionScheduleService.GetItem();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEMMASTERID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<SelectListItem> BindItemGrplst()
         {
             try

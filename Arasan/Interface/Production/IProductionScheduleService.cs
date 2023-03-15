@@ -13,7 +13,7 @@ namespace Arasan.Interface.Production
         DataTable GetProcess(string id);
         DataTable GetWorkCenter();
         DataTable GetItem(string value);
-
+        DataTable GetItem();
         DataTable GetItemDetails(string ItemId);
         DataTable GetItemSubGroup(string id);
         DataTable GetItemSubGrp();

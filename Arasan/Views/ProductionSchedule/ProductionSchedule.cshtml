@@ -162,7 +162,8 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Output Item<label class="Mandatory"></label></label>
 
                                     <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.Itemid, new { @id = "txtItemid", @class = "form-control", @TabIndex = 2 })<br />
+                                            @Html.DropDownListFor(C => C.Itemid, Model.Itemlst, new { @id = "ddlItemid", @Class = "form-control _select", @TabIndex = 1,onchange = "changeentry(this.value)" })<br />
+                                            <br />
                                     </div>
                                 </div>
                             </div>
@@ -674,7 +675,7 @@
                                      </div>
                              </div>
                          </div>
-                            </div>
+                        </div>
                        
 
 
@@ -1025,7 +1026,7 @@
     function AppendRow(opt) {
         var index = $("#tbBooks").children("tr").length;
 
-         var ItemGrp = "<td><select style = 'width: 170px;' class='form-control chosen-select newcss' id='ddlItemGrp" + index + "' name='PrsLst[" + index + "].ItemGroupId' onchange = 'Grup_Change(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
+        var ItemGrp = "<td><select style = 'width: 170px;' class='form-control chosen-select newcss' id='ddlItemGrp" + index + "' name='PrsLst[" + index + "].ItemGroupId' onchange = 'Grup_Change(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
 
         var Item = "<td><select style = 'width: 170px;' class='form-control chosen-select newcss' id='ddlItem" + index + "' name='PrsLst[" + index + "].ItemId' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option></select></td>";
 
@@ -1040,7 +1041,7 @@
         var removeCell = "<td><input id='Isvalid" + index + "' name='PrsLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='EnqLst.Index' type='hidden' value='" + index + "'  /></td>";
        
 
-        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + ItemGrp + Item + Des + Unit + Input + Qty + removeCell + "</tr>";
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + ItemGrp + Item + Desc + Unit + Input + Qty + removeCell + "</tr>";
         //alert(Packing);
         $("#tbBooks").append(newRow);
 
@@ -1070,7 +1071,7 @@
         var removeCell = "<td><input id='Isvalid" + index + "' name='ProLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow1(" + index + ");'  style='cursor:pointer' /><input name='EnqLst.Index' type='hidden' value='" + index + "'  /></td>";
 
 
-        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + ItemGrp + Item + Desc + Unit + Output + Alam + OutputType + Sch + Produced + removeCell + "</tr>";
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + ItemGrp + Item + Des + Unit + Output + Alam + OutputType + Sch + Produced + removeCell + "</tr>";
         //alert(Packing);
         $("#tbBooks1").append(newRow);
 
@@ -1114,7 +1115,6 @@
 
         var removeCell = "<td><input id='Isvalid" + index + "' name='ProScItem[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow3(" + index + ");'  style='cursor:pointer' /><input name='EnqLst.Index' type='hidden' value='" + index + "'  /></td>";
 
-
         var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + SchDate + Hrs + ItemGrp + Item + Qty + Change + removeCell + "</tr>";
         //alert(Packing);
         $("#tbBooks3").append(newRow);
@@ -1124,7 +1124,6 @@
      function AppendRow4(opt) {
         var index = $("#tbBooks4").children("tr").length;
 
-       
         var Pack = "<td><input class='form-control' id='txtPack" + index + "' name='ProschedLst[" + index + "].Pack'  style='width: 120px;' type='text'   /></td>";
 
         var Qty = "<td><input class='form-control' id='txtQty" + index + "' name='ProschedLst[" + index + "].Qty'  style='width: 120px;' type='text'   /></td>";
@@ -1186,7 +1185,7 @@
             else {
                 $(ddlWorkCenter_chzn).css({
                     "border": "",
-                    "background": ""
+                    "background": ""s
                 });
             }
 
@@ -1194,5 +1193,11 @@
                 e.preventDefault();
         });
 
+    });
+     
+</script>
+<script>
+    $(function () {
+        $('._select').select2();
     });
 </script>
