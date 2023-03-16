@@ -11,5 +11,10 @@ namespace Arasan.Interface
         IEnumerable<ProductionEntry> GetAllProductionEntry();
         string ProductionEntryCRUD(ProductionEntry id);
         DataTable GetWorkCenter();
+        DataTable EditProEntry(string PROID);
+        DataTable ProIndetail(string PROID);
+        DataTable ProOutDetail(string PROID);
+        DataTable ProConsDetail(string PROID);
+        DataTable ProwasteDetail(string PROID);
     }
 }
