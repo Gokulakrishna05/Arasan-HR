@@ -25,17 +25,33 @@ namespace Arasan.Controllers
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public IActionResult ProductionLog()
+        public IActionResult ProductionLog(string id)
         {
             ProductionLog ca = new ProductionLog();
             ca.Brlst = BindBranch();
             ca.Worklst = BindWorkCenter();
             ca.Branch = Request.Cookies["BranchId"];
-            ca.Enterd = Request.Cookies["UserId"];
+            ca.Supervised = Request.Cookies["UserId"];
             ca.RecList = BindEmp();
             ca.Shiftlst = BindShift();
             ca.Processlst = BindProcess();
             ca.Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
+            List<WorkCenter> TData = new List<WorkCenter>();
+            WorkCenter tda = new WorkCenter();
+            if (id == null)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    tda = new WorkCenter();
+                    tda.WorkCenterlst = BindWorkCenterid();
+                    tda.Reasonlst = BindWReason( );
+                    tda.Statuslst = BindWStatus();
+                    tda.PTypelst = BindWType();
+                    tda.Isvalid = "Y";
+                    TData.Add(tda);
+                }
+            }
+            ca.WorkLst = TData;
             return View(ca);
         }
         public List<SelectListItem> BindBranch()
@@ -106,6 +122,41 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+        public List<SelectListItem> BindWReason()
+        {
+            try
+            {
+                DataTable dtDesg = productionLog.GetReason();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["REASON"].ToString(), Value = dtDesg.Rows[i]["REASON"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindWorkCenterid()
+        {
+            try
+            {
+                DataTable dtDesg = productionLog.GetWorkCenter();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["WCID"].ToString(), Value = dtDesg.Rows[i]["WCID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+       
         public List<SelectListItem> BindEmp()
         {
             try
@@ -116,6 +167,35 @@ namespace Arasan.Controllers
                 {
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["EMPNAME"].ToString(), Value = dtDesg.Rows[i]["EMPNAME"].ToString() });
                 }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindWType()
+        {
+            try
+            {
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                lstdesg.Add(new SelectListItem() { Text = "None", Value = "None" });
+                lstdesg.Add(new SelectListItem() { Text = "EB", Value = "EB" });
+                
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindWStatus()
+        {
+            try
+            {
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                lstdesg.Add(new SelectListItem() { Text = "Run", Value = "Run" });
+                lstdesg.Add(new SelectListItem() { Text = "Stop", Value = "Stop" });
                 return lstdesg;
             }
             catch (Exception ex)

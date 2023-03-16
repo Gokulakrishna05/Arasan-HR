@@ -1,4 +1,4 @@
-﻿@model Arasan.Models.ProductionEntry
+﻿@model Arasan.Models.BatchProduction
 @{
     ViewData["Title"] = "Batch Production Entry";
 }
@@ -19,7 +19,7 @@
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Production</a> </li>
-            <li class="active"> <strong>Batch Production  Entry</strong> </li>
+            <li class="active"> <strong>Batch Production Entry</strong> </li>
         </ol>
     </div>
 </div>
@@ -210,9 +210,9 @@
                                     <div class="col-sm-8">
                                                     <div class="input-group">
 
-                                                        @Html.RadioButtonFor(C => C.batchcomplete, "Yes", new { @TabIndex = 2 })
+                                                        @Html.RadioButtonFor(C => C.batchcomplete, "Y", new { @TabIndex = 2 })
                                                         <label id="mt-radio">Yes</label>
-                                                            @Html.RadioButtonFor(C => C.batchcomplete, "No", new { @TabIndex = 3 })
+                                                            @Html.RadioButtonFor(C => C.batchcomplete, "N", new { @TabIndex = 3 })
                                                         <label id="mt-radio">No</label>
 
 
@@ -551,7 +551,8 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Total RM Value<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
+                                                                                @Html.TextBoxFor(C => C.totalRmValue, new { @id = "txttotalRmValue", @class = "form-control", @TabIndex = 1 })<br />
+
                                     </div>
                                 </div>
                             </div>
@@ -560,19 +561,21 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Machine Value<label class="Mandatory"></label></label>
 
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
-                                    </div>
+                                                                                                                  @Html.TextBoxFor(C => C.Machine, new { @id = "txtMachine", @class = "form-control", @TabIndex = 1 })<br />
+
 
                                 </div>
                             </div>
                         </div>
+                            </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">Cons.Value<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
+                                                                                                           @Html.TextBoxFor(C => C.CosValue, new { @id = "txtCosValue", @class = "form-control", @TabIndex = 1 })<br />
+
                                     </div>
                                 </div>
                             </div>
@@ -581,7 +584,8 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Total RM Qty<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="" type="text">
+                                                @Html.TextBoxFor(C => C.totaRmqty, new { @id = "txttotaRmqty", @class = "form-control", @TabIndex = 1 })<br />
+          
                                     </div>
                                 </div>
                             </div>
@@ -595,7 +599,8 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Entered By<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
+                                                                             @Html.DropDownListFor(C => C.Enterd, Model.RecList, new { @id = "ddlEnterd", @Class = "form-control _select", @TabIndex = 1 })<br/>
+<br />
                                     </div>
                                 </div>
                             </div>
@@ -603,7 +608,7 @@
                        
                         <div style="height:30px;"></div>
                           <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
-                        <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListProductionEntry", "ProductionEntry")'">Cancel</button>
+                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListBatchProduction", "BatchProduction")'">Cancel</button>
                     </form>
                     }
                 </div>
@@ -654,7 +659,7 @@
              data: {'branch' : branch ,'loc' : loc,'ItemId' : ItemId},
             type: "post",
               success: function (result) {
-                         document.getElementById('txtStockAvailable' + rowIndex).value=result.stkqty;
+                         document.getElementById('txtStockAvailable' + rowIndex).value=result.stkqty;     
             },
             error: function () {
                 debugger;
