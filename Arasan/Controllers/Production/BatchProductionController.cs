@@ -24,9 +24,9 @@ namespace Arasan.Controllers
         }
         public IActionResult BatchProduction()
         {
-            ProductionEntry ca = new ProductionEntry();
+            BatchProduction ca = new BatchProduction();
             ca.Brlst = BindBranch();
-            ca.Loclst = BindLocation();
+            ca.Loclst = BindWorkCenter();
             ca.Location = Request.Cookies["LocationId"];
             ca.Branch = Request.Cookies["BranchId"];
             ca.Shiftlst = BindShift();
@@ -86,7 +86,43 @@ namespace Arasan.Controllers
             ca.wastelst = TData3;
             return View(ca);
         }
+        [HttpPost]
+        public ActionResult BatchProduction(BatchProduction Cy, string id)
+        {
 
+            try
+            {
+                Cy.ID = id;
+                string Strout = IProductionEntry.BatchProductionCRUD(Cy);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Cy.ID == null)
+                    {
+                        TempData["notice"] = "BatchProduction Inserted Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "BatchProduction Updated Successfully...!";
+                    }
+                    return RedirectToAction("ListBatchProduction");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit BatchProduction";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(Cy);
+        }
         public JsonResult GetItemJSON(string itemid)
         {
             EnqItem model = new EnqItem();
@@ -134,6 +170,23 @@ namespace Arasan.Controllers
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEMMASTERID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindWorkCenter()
+        {
+            try
+            {
+                DataTable dtDesg = IProductionEntry.GetWorkCenter();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["WCID"].ToString(), Value = dtDesg.Rows[i]["WCBASICID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -201,7 +254,7 @@ namespace Arasan.Controllers
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["SHIFTNO"].ToString(), Value = dtDesg.Rows[i]["SHIFTMASTID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["SHIFTNO"].ToString(), Value = dtDesg.Rows[i]["SHIFTNO"].ToString() });
                 }
                 return lstdesg;
             }
@@ -318,7 +371,7 @@ namespace Arasan.Controllers
                 string fromtime = "";
                 string totime = "";
                 string tothrs = "";
-                dt = datatrans.GetData("Select FROMTIME,TOTIME,SHIFTHRS from SHIFTMAST where SHIFTMASTID='" + Shiftid + "'");
+                dt = datatrans.GetData("Select FROMTIME,TOTIME,SHIFTHRS from SHIFTMAST where SHIFTNO='" + Shiftid + "'");
                 if (dt.Rows.Count > 0)
                 {
 
@@ -336,7 +389,11 @@ namespace Arasan.Controllers
             }
         }
 
-
+        public IActionResult ListBatchProduction()
+        {
+            IEnumerable<BatchProduction> cmp = IProductionEntry.GetAllBatchProduction();
+            return View(cmp);
+        }
 
     }
 }

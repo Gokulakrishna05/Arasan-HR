@@ -9,6 +9,7 @@ namespace Arasan.Interface
         DataTable ShiftDeatils();
         DataTable BindProcess();
         DataTable GetWorkCenter();
+        DataTable GetReason();
         IEnumerable<ProductionLog> GetAllProductionLog();
     }
 }

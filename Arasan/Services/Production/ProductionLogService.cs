@@ -58,6 +58,16 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetReason()
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select REASON,REASONDETAILID from REASONDETAIL ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable ShiftDeatils()
         {
             string SvSql = string.Empty;

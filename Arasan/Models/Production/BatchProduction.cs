@@ -11,6 +11,7 @@ namespace Arasan.Models
             this.Shiftlst = new List<SelectListItem>();
             this.Processlst = new List<SelectListItem>();
             this.ETypelst = new List<SelectListItem>();
+            this.RecList = new List<SelectListItem>();
         }
         public List<SelectListItem> Brlst;
 
@@ -22,7 +23,7 @@ namespace Arasan.Models
         public string DocId { get; set; }
         public string Shiftdate { get; set; }
         public string ProcessId { get; set; }
-        public string Selection { get; set; }
+        public string batchcomplete { get; set; }
         public double ProdQty { get; set; }
         public double SchQty { get; set; }
         public string EntryType { get; set; }
@@ -42,5 +43,13 @@ namespace Arasan.Models
         public double totaloutqty { get; set; }
         public double wastageqty { get; set; }
         public double totalconsqty { get; set; }
+        public double Machine { get; set; }
+        public double totaRmqty { get; set; }
+        public double totalRmValue { get; set; }
+        public double CosValue { get; set; }
+
+        public double BatchNo { get; set; }
+        public List<SelectListItem> RecList;
+        public string Enterd { get; set; }
     }
 }

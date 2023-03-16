@@ -11,5 +11,8 @@ namespace Arasan.Interface
         DataTable Getstkqty(string branch, string loc, string ItemId);
         DataTable BindProcess();
         DataTable SeacrhItem(string terms);
+        string BatchProductionCRUD(BatchProduction cy);
+        IEnumerable<BatchProduction>  GetAllBatchProduction();
+        DataTable GetWorkCenter();
     }
 }
