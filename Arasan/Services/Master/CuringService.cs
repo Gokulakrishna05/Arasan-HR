@@ -44,14 +44,14 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select LOCATIONID,SUBGROUP,SHEDNUMBER,NOFDAYS,STATUS,CURINGMASTERID  from CURINGMASTER";
+                    cmd.CommandText = "Select LOCDETAILS.LOCID,SUBGROUP,SHEDNUMBER,NOFDAYS,STATUS,CURINGMASTERID  from CURINGMASTER LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID = CURINGMASTER.LOCATIONID";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
                         Curing cmp = new Curing
                         {
                             ID = rdr["CURINGMASTERID"].ToString(),
-                            Location = rdr["LOCATIONID"].ToString(),
+                            Location = rdr["LOCID"].ToString(),
                             Sub = rdr["SUBGROUP"].ToString(),
                             Shed = rdr["SHEDNUMBER"].ToString(),
                             Days = rdr["NOFDAYS"].ToString(),

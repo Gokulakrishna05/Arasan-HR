@@ -33,7 +33,8 @@ namespace Arasan.Controllers.Production
             ca.Processlst = BindProcess("");
             ca.Enterd = Request.Cookies["UserId"];
             ca.RecList = BindEmp();
-            ca.Itemlst = BindItemlst();
+            ca.Planlst = BindPType();
+            //ca.Itemlst = BindItemlst();
             List<ProductionScheduleItem> TData = new List<ProductionScheduleItem>();
             ProductionScheduleItem tda = new ProductionScheduleItem();
             List<ProductionItem> TData1 = new List<ProductionItem>();
@@ -189,6 +190,20 @@ namespace Arasan.Controllers.Production
         {
             IEnumerable<ProductionSchedule> cmp = ProductionScheduleService.GetProductionSchedule();
             return View(cmp);
+        }
+        public List<SelectListItem> BindPType()
+        {
+            try
+            {
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                lstdesg.Add(new SelectListItem() { Text = "MONTHLY", Value = "MONTHLY" });
+                lstdesg.Add(new SelectListItem() { Text = "YEARLY", Value = "YEARLY" });
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public List<SelectListItem> BindItemlst(string value)
         {
