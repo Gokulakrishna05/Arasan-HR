@@ -11,10 +11,11 @@ namespace Arasan.Models
             this.Worklst = new List<SelectListItem>();
             this.Processlst = new List<SelectListItem>();
             this.RecList = new List<SelectListItem>();
-            this.Itemlst = new List<SelectListItem>();
+            this.Planlst = new List<SelectListItem>();
+            //this.Itemlst = new List<SelectListItem>();
 
         }
-        public List<SelectListItem> Itemlst;
+        //public List<SelectListItem> Itemlst;
 
         public string Itemid { get; set; }
         public string ID { get; set; }
@@ -30,6 +31,8 @@ namespace Arasan.Models
 
         public List<SelectListItem> RecList;
         public string Enterd { get; set; }
+
+        public List<SelectListItem> Planlst;
         public string Type { get; set; }
         public string DocId { get; set; }
         public string Docdate { get; set; }
