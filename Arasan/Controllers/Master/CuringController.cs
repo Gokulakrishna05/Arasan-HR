@@ -98,9 +98,9 @@ namespace Arasan.Controllers
             try
             {
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
-                lstdesg.Add(new SelectListItem() { Text = "ADD1", Value = "ADD1" });
-                lstdesg.Add(new SelectListItem() { Text = "ADD2", Value = "ADD2" });
-                lstdesg.Add(new SelectListItem() { Text = "ADD3", Value = "ADD3" });
+                lstdesg.Add(new SelectListItem() { Text = "Curing Set 1", Value = "ADD1" });
+                lstdesg.Add(new SelectListItem() { Text = "Curing Set 2", Value = "ADD2" });
+                lstdesg.Add(new SelectListItem() { Text = "Curing Set 3", Value = "ADD3" });
                 return lstdesg;
             }
             catch (Exception ex)
