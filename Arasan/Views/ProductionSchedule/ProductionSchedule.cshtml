@@ -55,7 +55,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="inputName3" class="col-sm-4 control-label">Prod.Schedule.No<label class="Mandatory"></label></label>
+                                   <br/>   <label for="inputName3" class="col-sm-4 control-label">Prod.Schedule.No<label class="Mandatory"></label></label>
 
                                     <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.DocId, new { @id = "txtDocId", @class = "form-control", @TabIndex = 2 })<br />
@@ -64,7 +64,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="inputName3" class="col-sm-4 control-label">Date<label class="Mandatory"></label></label>
+                                        <br />   <label for="inputName3" class="col-sm-4 control-label">Date<label class="Mandatory"></label></label>
 
                                     <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                             @Html.TextBoxFor(C => C.Docdate, new { @id = "Docdate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
@@ -80,7 +80,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                          <label for="inputName3" class="col-sm-4 control-label">Work Center<label class="Mandatory"></label></label>
+                                       <label for="inputName3" class="col-sm-4 control-label">Work Center<label class="Mandatory"></label></label>
                                       <div class="col-sm-8">
                                     @Html.DropDownListFor(C => C.WorkCenter, Model.Worklst,"Please Select", new { @id = "ddlWorkCenter", @Class = "form-control chosen-select", @TabIndex = 1, @onchange = "changeProcess(this.value)" })
 
@@ -92,7 +92,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                     <label for="inputName3" class="col-sm-4 control-label">Process<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Process<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
                                         @Html.DropDownListFor(C => C.Process, Model.Processlst, new { @id = "ddlProcess", @Class = "form-control chosen-select", @TabIndex = 1 })
 
