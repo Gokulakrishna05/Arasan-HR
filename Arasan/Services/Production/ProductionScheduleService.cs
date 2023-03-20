@@ -81,7 +81,7 @@ namespace Arasan.Services.Production
         public DataTable GetProductionSchedule(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select BRANCHID,SCHPLANTYPE,DOCID,to_char(DOCDATE,'dd-MON-yyyy')DOCDATE,WCID,PROCESSID,to_char(SCHDATE,'dd-MON-yyyy') SCHDATE,FORMULA,(PDOCDT,'dd-MON-yyyy') PDOCDT,OPITEMID,OPUNIT,EXPRUNHRS,REFSCHNO,AMDSCHNO,ENTEREDBY  from PSBASIC Where PSBASICID='" + id + "'";
+            SvSql = "Select BRANCHID,SCHPLANTYPE,DOCID,to_char(DOCDATE,'dd-MON-yyyy')DOCDATE,WCID,PROCESSID,to_char(SCHDATE,'dd-MON-yyyy') SCHDATE,FORMULA,to_char(PDOCDT,'dd-MON-yyyy') PDOCDT,OPITEMID,OPUNIT,EXPRUNHRS,REFSCHNO,AMDSCHNO,ENTEREDBY from PSBASIC Where PSBASICID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -163,7 +163,7 @@ namespace Arasan.Services.Production
                                     else
                                     {
                                         StatementType = "Update";
-                                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                                     }
                                     objCmds.CommandType = CommandType.StoredProcedure;
                                     objCmds.Parameters.Add("PSBASICID", OracleDbType.NVarchar2).Value = Pid;
@@ -199,7 +199,7 @@ namespace Arasan.Services.Production
                                     else
                                     {
                                         StatementType = "Update";
-                                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                                     }
                                     objCmds.CommandType = CommandType.StoredProcedure;
                                     objCmds.Parameters.Add("PSBASICID", OracleDbType.NVarchar2).Value = Pid;
@@ -236,7 +236,7 @@ namespace Arasan.Services.Production
                                     else
                                     {
                                         StatementType = "Update";
-                                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                                     }
                                     objCmds.CommandType = CommandType.StoredProcedure;
                                     objCmds.Parameters.Add("PSBASICID", OracleDbType.NVarchar2).Value = Pid;
@@ -270,7 +270,7 @@ namespace Arasan.Services.Production
                                     else
                                     {
                                         StatementType = "Update";
-                                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                                     }
                                     objCmds.CommandType = CommandType.StoredProcedure;
                                     objCmds.Parameters.Add("PSBASICID", OracleDbType.NVarchar2).Value = Pid;
@@ -304,7 +304,7 @@ namespace Arasan.Services.Production
                                     else
                                     {
                                         StatementType = "Update";
-                                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                                     }
                                     objCmds.CommandType = CommandType.StoredProcedure;
                                     objCmds.Parameters.Add("PSBASICID", OracleDbType.NVarchar2).Value = Pid;
@@ -342,7 +342,7 @@ namespace Arasan.Services.Production
         public DataTable GetProductionScheduleDetail(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select PSBASICID,ITEMID,SUBGROUPCODE,ITEMDESC,UNITID from PSINPDETAIL where PSBASICID='" + id + "' ";
+            SvSql = "select PSBASICID,ITEMID,SUBGROUPCODE,ITEMDESC from PSINPDETAIL where PSBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
