@@ -48,10 +48,6 @@
                                                             <th>Work Center</th>
                                                             <th>Process</th>
                                                             <th>Doc Date</th>
-                                                            
-                                                            <th>Send Mail</th>
-                                                            @* <th>Followup</th>
-                                                            <th>Move To Quote</th>*@
                                                             <th>Edit</th>
                                                             <th>Delete</th>
                                                         </tr>
@@ -69,20 +65,8 @@
                                                                     <td>@Html.DisplayFor(modelItem => item.WorkCenter)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.Process)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.DocDate)</td>
-                                                                   
-                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a href="#"><img src='../Images/mail_icon.png' alt='Send Email' /></a></div></td>
-                                                                    @*<td> <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("PurchaseFollowup", "PurchaseEnq")"><img src='../Images/followup.png' alt='FollowUp' /> - (1)</a></div></td>*@
-
-                                                                    <td>
-
-                                                                        <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("BatchCreation", "BatchCreation",new { id=item.ID })"></a></div>
-
-                                                                    </td>
-                                                                    <td>
-
-                                                                        <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("BatchCreation", "BatchCreation",new { id=item.ID })"></a></div>
-
-                                                                    </td>
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("BatchCreation", "BatchCreation",new { id=item.ID })"></a></div></td>
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("BatchCreation", "BatchCreation",new { id=item.ID })"></a></div></td>
                                                                 </tr>
 
                                                                 i++;

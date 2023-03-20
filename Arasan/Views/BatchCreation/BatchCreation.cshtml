@@ -277,27 +277,27 @@
 
                                                                     foreach (var item in Model.BatchLst.ToList())
                                                                     {
-                                                                        <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
-                                                                            <td>
-                                                                                @Html.DropDownListFor(o => o.BatchLst[i].WorkId, Model.BatchLst[i].WorkCenterlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlWorkId" + i, style = "width: 200px;", onchange = "Grup_Change(this.value," + i + ")"})
+                                                                            <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                                <td>
+                                                                                    @Html.DropDownListFor(o => o.BatchLst[i].WorkId, Model.BatchLst[i].WorkCenterlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlWorkId" + i, style = "width: 200px;", onchange = "Grup_Change(this.value," + i + ")"})
 
-                                                                            </td>
-                                                                            <td>
-                                                                                @Html.DropDownListFor(o => o.BatchLst[i].ProcessId, Model.BatchLst[i].Processidlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlProcessId" + i, style = "width: 200px;" })
+                                                                                </td>
+                                                                                <td>
+                                                                                    @Html.DropDownListFor(o => o.BatchLst[i].ProcessId, Model.BatchLst[i].Processidlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlProcessId" + i, style = "width: 200px;" })
+                                                                                   
+                                                                                </td>
+                                                                                <td>
+                                                                                    @Html.TextBoxFor(o => o.BatchLst[i].Seq, new { @id = "txtSeq" + i, @class = "form-control", style = "width: 120px;" })
+                                                                                </td>
+                                                                                <td>
+                                                                                    @Html.TextBoxFor(o => o.BatchLst[i].Req, new { @id = "txtReq" + i, @class = "form-control", style = "width: 120px;" })
+                                                                                </td>
                                                                                
-                                                                            </td>
-                                                                            <td>
-                                                                                @Html.TextBoxFor(o => o.BatchLst[i].Seq, new { @id = "txtSeq" + i, @class = "form-control", style = "width: 120px;" })
-                                                                            </td>
-                                                                            <td>
-                                                                                @Html.TextBoxFor(o => o.BatchLst[i].Req, new { @id = "txtReq" + i, @class = "form-control", style = "width: 120px;" })
-                                                                            </td>
-                                                                           
-                                                                            <td>
-                                                                                @Html.HiddenFor(o => o.BatchLst[i].Isvalid, new { @id = "Isvalid" + i })
-                                                                                <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(i)" />
-                                                                            </td>
-                                                                        </tr>
+                                                                                <td>
+                                                                                    @Html.HiddenFor(o => o.BatchLst[i].Isvalid, new { @id = "Isvalid" + i })
+                                                                                    <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(i)" />
+                                                                                </td>
+                                                                            </tr>
                                                                         i = i + 1;
 
 
@@ -343,27 +343,27 @@
 
                                                                     foreach (var item in Model.BatchInLst.ToList())
                                                                     {
-                                                                        <tr id="trBook1@(j)" class="chkitemlst1" style="height: 30px;border-bottom: 1px dashed #ddd;">
-                                                                            <td>
-                                                                                @Html.DropDownListFor(o => o.BatchInLst[j].Process, Model.BatchInLst[j].IProcesslst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlInProcess" + j, style = "width: 200px;"})
+                                                                            <tr id="trBook1@(j)" class="chkitemlst1" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                                <td>
+                                                                                    @Html.DropDownListFor(o => o.BatchInLst[j].Process, Model.BatchInLst[j].IProcesslst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlInProcess" + j, style = "width: 200px;"})
 
-                                                                            </td>
-                                                                            <td>
-                                                                                @Html.DropDownListFor(o => o.BatchInLst[j].Item, Model.BatchInLst[j].Itemlst, "Please Select", new { @class = "form-control _select   newcss", @id = "ddlItem" + j, style = "width: 200px;", onchange = "changeItem(this.value," + j + ")" })
-                                                                          
-                                                                            </td>
-                                                                            <td>
-                                                                                @Html.TextBoxFor(o => o.BatchInLst[j].Unit, new { @id = "txtUnit" + j, @class = "form-control", style = "width: 120px;" ,@readonly="readonly"})
-                                                                            </td>
-                                                                            <td>
-                                                                                @Html.TextBoxFor(o => o.BatchInLst[j].Qty, new { @id = "txtQty" + j, @class = "form-control", style = "width: 120px;" })
-                                                                            </td>
-                                                                           
-                                                                            <td>
-                                                                                @Html.HiddenFor(o => o.BatchInLst[j].Isvalid, new { @id = "Isvalid" + j })
-                                                                                <img onclick="removeRow1(@(j));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(j)" />
-                                                                            </td>
-                                                                        </tr>
+                                                                                </td>
+                                                                                <td>
+                                                                                    @Html.DropDownListFor(o => o.BatchInLst[j].Item, Model.BatchInLst[j].Itemlst, "Please Select", new { @class = "form-control _select   newcss", @id = "ddlItem" + j, style = "width: 200px;", onchange = "changeItem(this.value," + j + ")" })
+                                                                              
+                                                                                </td>
+                                                                                <td>
+                                                                                    @Html.TextBoxFor(o => o.BatchInLst[j].Unit, new { @id = "txtUnit" + j, @class = "form-control", style = "width: 120px;" ,@readonly="readonly"})
+                                                                                </td>
+                                                                                <td>
+                                                                                    @Html.TextBoxFor(o => o.BatchInLst[j].Qty, new { @id = "txtQty" + j, @class = "form-control", style = "width: 120px;" })
+                                                                                </td>
+                                                                               
+                                                                                <td>
+                                                                                    @Html.HiddenFor(o => o.BatchInLst[j].Isvalid, new { @id = "Isvalid" + j })
+                                                                                    <img onclick="removeRow1(@(j));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(j)" />
+                                                                                </td>
+                                                                            </tr>
                                                                      
                                                                         j = j + 1;
 
@@ -414,39 +414,39 @@
 
                                                                     foreach (var item in Model.BatchOutLst.ToList())
                                                                     {
-                                                                        <tr id="trBookout@(g)" class="chkitemlstout" style="height: 30px;border-bottom: 1px dashed #ddd;">
-                                                                            <td>
-                                                                                @Html.DropDownListFor(o => o.BatchOutLst[g].OProcess, Model.BatchOutLst[g].OProcesslst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlOProcess" + g, style = "width: 200px;"})
+                                                                            <tr id="trBookout@(g)" class="chkitemlstout" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                                <td>
+                                                                                    @Html.DropDownListFor(o => o.BatchOutLst[g].OProcess, Model.BatchOutLst[g].OProcesslst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlOProcess" + g, style = "width: 200px;"})
 
-                                                                            </td>
-                                                                            <td>
-                                                                                @Html.DropDownListFor(o => o.BatchOutLst[g].OItem, Model.BatchOutLst[g].OItemlst, "Please Select", new { @class = "form-control _select  newcss", @id = "ddlOItem" + g, style = "width: 200px;", onchange = "changeOutItem(this.value," + g + ")" })
-                                                                              
-                                                                            </td>
-                                                                            <td>
-                                                                                @Html.TextBoxFor(o => o.BatchOutLst[g].OUnit, new { @id = "txtOUnit" + g, @class = "form-control", style = "width: 120px;", @readonly="ReadOnly" })
-                                                                            </td>
-                                                                            <td>
-                                                                                @Html.TextBoxFor(o => o.BatchOutLst[g].OutType, new { @id = "txtOutType" + g, @class = "form-control", style = "width: 120px;" })
-                                                                            </td>
-                                                                            <td>
-                                                                                @Html.TextBoxFor(o => o.BatchOutLst[g].OQty, new { @id = "txtOQty" +g, @class = "form-control", style = "width: 120px;" })
-                                                                            </td>
-                                                                            <td>
-                                                                                @Html.TextBoxFor(o => o.BatchOutLst[g].Waste, new { @id = "txtWaste" + g, @class = "form-control", style = "width: 120px;" })
-                                                                            </td>
-                                                                            <td>
-                                                                                @Html.TextBoxFor(o => o.BatchOutLst[g].Vmper, new { @id = "txtVmper" +g, @class = "form-control", style = "width: 120px;" })
-                                                                            </td>
-                                                                            <td>
-                                                                                @Html.TextBoxFor(o => o.BatchOutLst[g].Greas, new { @id = "txtGreas" + g, @class = "form-control", style = "width: 120px;" })
-                                                                            </td>
-                                                                           
-                                                                            <td>
-                                                                                @Html.HiddenFor(o => o.BatchOutLst[g].Isvalid, new { @id = "IsOutvalid" + g })
-                                                                                <img onclick="removeOutRow(@(g));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(g)" />
-                                                                            </td>
-                                                                        </tr>
+                                                                                </td>
+                                                                                <td>
+                                                                                    @Html.DropDownListFor(o => o.BatchOutLst[g].OItem, Model.BatchOutLst[g].OItemlst, "Please Select", new { @class = "form-control _select  newcss", @id = "ddlOItem" + g, style = "width: 200px;", onchange = "changeOutItem(this.value," + g + ")" })
+                                                                                  
+                                                                                </td>
+                                                                                <td>
+                                                                                    @Html.TextBoxFor(o => o.BatchOutLst[g].OUnit, new { @id = "txtOUnit" + g, @class = "form-control", style = "width: 120px;", @readonly="ReadOnly" })
+                                                                                </td>
+                                                                                <td>
+                                                                                    @Html.TextBoxFor(o => o.BatchOutLst[g].OutType, new { @id = "txtOutType" + g, @class = "form-control", style = "width: 120px;" })
+                                                                                </td>
+                                                                                <td>
+                                                                                    @Html.TextBoxFor(o => o.BatchOutLst[g].OQty, new { @id = "txtOQty" +g, @class = "form-control", style = "width: 120px;" })
+                                                                                </td>
+                                                                                <td>
+                                                                                    @Html.TextBoxFor(o => o.BatchOutLst[g].Waste, new { @id = "txtWaste" + g, @class = "form-control", style = "width: 120px;" })
+                                                                                </td>
+                                                                                <td>
+                                                                                    @Html.TextBoxFor(o => o.BatchOutLst[g].Vmper, new { @id = "txtVmper" +g, @class = "form-control", style = "width: 120px;" })
+                                                                                </td>
+                                                                                <td>
+                                                                                    @Html.TextBoxFor(o => o.BatchOutLst[g].Greas, new { @id = "txtGreas" + g, @class = "form-control", style = "width: 120px;" })
+                                                                                </td>
+                                                                               
+                                                                                <td>
+                                                                                    @Html.HiddenFor(o => o.BatchOutLst[g].Isvalid, new { @id = "IsOutvalid" + g })
+                                                                                    <img onclick="removeOutRow(@(g));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(g)" />
+                                                                                </td>
+                                                                            </tr>
                                                                      
                                                                         g = g + 1;
 
@@ -498,54 +498,54 @@
 
                                                                     foreach (var item in Model.BatchOtherLst.ToList())
                                                                     {
-                                                                        <tr id="trBookOther@(k)" class="chkitemlstOther" style="height: 30px;border-bottom: 1px dashed #ddd;">
-                                                                            <td>
-                                                                                @Html.DropDownListFor(o => o.BatchOtherLst[k].OtProcessId, Model.BatchOtherLst[k].OProcessidlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlOtProcessId" + k, style = "width: 200px;"})
+                                                                            <tr id="trBookOther@(k)" class="chkitemlstOther" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                                <td>
+                                                                                    @Html.DropDownListFor(o => o.BatchOtherLst[k].OtProcessId, Model.BatchOtherLst[k].OProcessidlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlOtProcessId" + k, style = "width: 200px;"})
+                                                                                       
+                                                                                </td>
+                                                                                 <td>
+                                                                                    @Html.TextBoxFor(o => o.BatchOtherLst[k].Seqe, new { @id = "txtSeqe" + k, @class = "form-control", style = "width: 120px;" })
+                                                                                </td>
+                                                                                <td>
+                                                                                <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+
+                                                                                    @Html.TextBoxFor(o => o.BatchOtherLst[k].Start, new { @id = "txtStart" + k, @class = "form-control", style = "width: 120px;",@readonly="readonly"  })
+                                                                                      <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                                                </div>
+                                                                                </td>
+                                                                                <td>
+                                                                                        @Html.TextBoxFor(o => o.BatchOtherLst[k].StartT, new { @id = "txtStartT" + k, @class = "form-control", style = "width: 120px;",@Type="Time" })
                                                                                    
-                                                                            </td>
-                                                                             <td>
-                                                                                @Html.TextBoxFor(o => o.BatchOtherLst[k].Seqe, new { @id = "txtSeqe" + k, @class = "form-control", style = "width: 120px;" })
-                                                                            </td>
-                                                                            <td>
-                                                                            <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                                                                </td>
+                                                                                <td>
+                                                                                <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
 
-                                                                                @Html.TextBoxFor(o => o.BatchOtherLst[k].Start, new { @id = "txtStart" + k, @class = "form-control", style = "width: 120px;",@readonly="readonly"  })
-                                                                                  <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                                                            </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                    @Html.TextBoxFor(o => o.BatchOtherLst[k].StartT, new { @id = "txtStartT" + k, @class = "form-control", style = "width: 120px;",@Type="Time" })
+                                                                                    @Html.TextBoxFor(o => o.BatchOtherLst[k].End, new { @id = "txtEnd" +k, @class = "form-control", style = "width: 120px;",@readonly="readonly" })
+                                                                                      <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                                                </div>
+                                                                                </td>
+                                                                                <td>
+                                                                                    @Html.TextBoxFor(o => o.BatchOtherLst[k].EndT, new { @id = "txtEndT" + k, @class = "form-control", style = "width: 120px;",@Type="Time"  })
+                                                                                      
+                                                                                </td>
+                                                                                <td>
+                                                                                    @Html.TextBoxFor(o => o.BatchOtherLst[k].Total, new { @id = "txtTotal" +k, @class = "form-control", style = "width: 120px;" })
+                                                                                </td>
+                                                                                <td>
+                                                                                    @Html.TextBoxFor(o => o.BatchOtherLst[k].Break, new { @id = "txtBreak" + k, @class = "form-control", style = "width: 120px;" })
+                                                                                </td>
+                                                                                <td>
+                                                                                    @Html.TextBoxFor(o => o.BatchOtherLst[k].RunHrs, new { @id = "txtRunHrs" +k, @class = "form-control", style = "width: 120px;" })
+                                                                                </td>
+                                                                                <td>
+                                                                                    @Html.TextBoxFor(o => o.BatchOtherLst[k].Remark, new { @id = "txtRemark" + k, @class = "form-control", style = "width: 120px;" })
+                                                                                </td>
                                                                                
-                                                                            </td>
-                                                                            <td>
-                                                                            <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-
-                                                                                @Html.TextBoxFor(o => o.BatchOtherLst[k].End, new { @id = "txtEnd" +k, @class = "form-control", style = "width: 120px;",@readonly="readonly" })
-                                                                                  <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                                                            </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                @Html.TextBoxFor(o => o.BatchOtherLst[k].EndT, new { @id = "txtEndT" + k, @class = "form-control", style = "width: 120px;",@Type="Time"  })
-                                                                                  
-                                                                            </td>
-                                                                            <td>
-                                                                                @Html.TextBoxFor(o => o.BatchOtherLst[k].Total, new { @id = "txtTotal" +k, @class = "form-control", style = "width: 120px;" })
-                                                                            </td>
-                                                                            <td>
-                                                                                @Html.TextBoxFor(o => o.BatchOtherLst[k].Break, new { @id = "txtBreak" + k, @class = "form-control", style = "width: 120px;" })
-                                                                            </td>
-                                                                            <td>
-                                                                                @Html.TextBoxFor(o => o.BatchOtherLst[k].RunHrs, new { @id = "txtRunHrs" +k, @class = "form-control", style = "width: 120px;" })
-                                                                            </td>
-                                                                            <td>
-                                                                                @Html.TextBoxFor(o => o.BatchOtherLst[k].Remark, new { @id = "txtRemark" + k, @class = "form-control", style = "width: 120px;" })
-                                                                            </td>
-                                                                           
-                                                                            <td>
-                                                                                @Html.HiddenFor(o => o.BatchOtherLst[k].Isvalid, new { @id = "IsOthervalid" + k })
-                                                                                <img onclick="removeOtherRow(@(k));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(k)" />
-                                                                            </td>
-                                                                        </tr>
+                                                                                <td>
+                                                                                    @Html.HiddenFor(o => o.BatchOtherLst[k].Isvalid, new { @id = "IsOthervalid" + k })
+                                                                                    <img onclick="removeOtherRow(@(k));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(k)" />
+                                                                                </td>
+                                                                            </tr>
                                                                      
                                                                        k = k + 1;
 
@@ -595,45 +595,45 @@
 
                                                                     foreach (var item in Model.BatchParemLst.ToList())
                                                                     {
-                                                                        <tr id="trBookParam@(a)" class="chkitemlstParam" style="height: 30px;border-bottom: 1px dashed #ddd;">
-                                                                            
-                                                                             <td>
-                                                                                @Html.TextBoxFor(o => o.BatchParemLst[a].Param, new { @id = "txtParam" + a, @class = "form-control", style = "width: 120px;" })
-                                                                                     
-                                                                            </td>
-                                                                               <td>
-                                                                                @Html.TextBoxFor(o => o.BatchParemLst[a].PUnit, new { @id = "txtPUnit" +a, @class = "form-control", style = "width: 120px;" })
-                                                                            </td>
-                                                                            <td>
-                                                                              <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                                                                @Html.TextBoxFor(o => o.BatchParemLst[a].StartDate, new { @id = "txtStartDate" + a, @class = "form-control", style = "width: 120px;" ,@readonly="readonly"})
-                                                                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                        </div>
-                                                                            </td>
-                                                                            <td>
+                                                                            <tr id="trBookParam@(a)" class="chkitemlstParam" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                                
+                                                                                 <td>
+                                                                                    @Html.TextBoxFor(o => o.BatchParemLst[a].Param, new { @id = "txtParam" + a, @class = "form-control", style = "width: 120px;" })
+                                                                                         
+                                                                                </td>
+                                                                                   <td>
+                                                                                    @Html.TextBoxFor(o => o.BatchParemLst[a].PUnit, new { @id = "txtPUnit" +a, @class = "form-control", style = "width: 120px;" })
+                                                                                </td>
+                                                                                <td>
+                                                                                  <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                                                                    @Html.TextBoxFor(o => o.BatchParemLst[a].StartDate, new { @id = "txtStartDate" + a, @class = "form-control", style = "width: 120px;" ,@readonly="readonly"})
+                                                                                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                            </div>
+                                                                                </td>
+                                                                                <td>
 
-                                                                                @Html.TextBoxFor(o => o.BatchParemLst[a].StartTime, new { @id = "txtStartTime" + a, @class = "form-control", style = "width: 120px;",@Type="Time" })
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                                                                @Html.TextBoxFor(o => o.BatchParemLst[a].EndDate, new { @id = "txtEndDate" +a, @class = "form-control", style = "width: 120px;"  ,@readonly="readonly"})
-                                                                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                @Html.TextBoxFor(o => o.BatchParemLst[a].EndTime, new { @id = "txtEndTime" + a, @class = "form-control", style = "width: 120px;",@Type="Time" })
-                                                                            </td>
-                                                                         
-                                                                            <td>
-                                                                                @Html.TextBoxFor(o => o.BatchParemLst[a].Value, new { @id = "txtValue" + a, @class = "form-control", style = "width: 120px;" })
-                                                                            </td>
-                                                                            
-                                                                           
-                                                                            <td>
-                                                                                @Html.HiddenFor(o => o.BatchOtherLst[a].Isvalid, new { @id = "IsParamvalid" + a })
-                                                                                <img onclick="removeRowParam(@(a));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(a)" />
-                                                                            </td>
-                                                                        </tr>
+                                                                                    @Html.TextBoxFor(o => o.BatchParemLst[a].StartTime, new { @id = "txtStartTime" + a, @class = "form-control", style = "width: 120px;",@Type="Time" })
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                                                                    @Html.TextBoxFor(o => o.BatchParemLst[a].EndDate, new { @id = "txtEndDate" +a, @class = "form-control", style = "width: 120px;"  ,@readonly="readonly"})
+                                                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td>
+                                                                                    @Html.TextBoxFor(o => o.BatchParemLst[a].EndTime, new { @id = "txtEndTime" + a, @class = "form-control", style = "width: 120px;",@Type="Time" })
+                                                                                </td>
+                                                                             
+                                                                                <td>
+                                                                                    @Html.TextBoxFor(o => o.BatchParemLst[a].Value, new { @id = "txtValue" + a, @class = "form-control", style = "width: 120px;" })
+                                                                                </td>
+                                                                                
+                                                                               
+                                                                                <td>
+                                                                                    @Html.HiddenFor(o => o.BatchOtherLst[a].Isvalid, new { @id = "IsParamvalid" + a })
+                                                                                    <img onclick="removeRowParam(@(a));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(a)" />
+                                                                                </td>
+                                                                            </tr>
                                                                      
                                                                        a = a + 1;
 
@@ -952,14 +952,6 @@
         });
     }
 
-     function AppendRow2(opt) {
-        var index = $("#tbBooks2").children("tr").length;
-
-        var Process = "<td><select style = 'width: 200px;' class='form-control chosen-select newcss' id='ddlOProcess" + index + "' name='BatchOutLst[" + index + "].OProcess' ><option value=''>Please select</option>" + opt + "</select></td>";
-         
-
-
-        var Item = "<td><select style = 'width: 200px;' class='form-control chosen-select newcss' id='ddlOItem" + index + "' name='OItemlst[" + index + "].OItem' onchange = 'changeOutItem(this.value," + index + ")'><option value=''>Please select</option></select></td>";
 
     function AppendOutRow(opt) {
         var index = $("#tbBooksout").children("tr").length;
