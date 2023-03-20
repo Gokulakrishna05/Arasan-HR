@@ -19,7 +19,7 @@ namespace Arasan.Services;
     {
         List<BatchProduction> cmpList = new List<BatchProduction>();
         using (OracleConnection con = new OracleConnection(_connectionString))
-        {
+        { 
 
             using (OracleCommand cmd = con.CreateCommand())
             {
