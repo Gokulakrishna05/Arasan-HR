@@ -342,7 +342,47 @@ namespace Arasan.Services.Production
         public DataTable GetProductionScheduleDetail(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select PSBASICID,ITEMID,SUBGROUPCODE,ITEMDESC from PSINPDETAIL where PSBASICID='" + id + "' ";
+            SvSql = "select PSBASICID,RITEMID,RUNIT,RITEMDESC,IPER,RQTY from PSINPDETAIL  where PSBASICID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetProductionScheduleOutputDetail(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select PSBASICID,OITEMID,OITEMDESC,OUNIT,OPER,ALPER,OTYPE,SCHQTY,PQTY from PSOUTDETAIL where PSBASICID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetProductionScheduleParametersDetail(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select PSBASICID,PARAMETERS,UNIT,IPARAMVALUE,FPARAMVALUE,REMARKS from PSPARAMDETAIL  where PSBASICID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetOutputDetailsDayWiseDetail(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select PSBASICID,ODDATE,ODRUNHRS,ODITEMID,ODQTY,NOOFCHARGE from PSOUTDAYDETAIL  where PSBASICID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetPackDetail(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select PSBASICID,PKITEMID,PKQTY from PSPACKDETAIL where PSBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

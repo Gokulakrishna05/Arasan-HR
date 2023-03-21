@@ -119,25 +119,113 @@ namespace Arasan.Controllers.Production
                     {
                         tda = new ProductionScheduleItem();
                         tda.ItemGrouplst = BindItemGrplst();
-                        DataTable dt3 = new DataTable();
-                        dt3 = ProductionScheduleService.GetItemSubGroup(dt2.Rows[i]["ITEMID"].ToString());
-                        if (dt3.Rows.Count > 0)
-                        {
-                            tda.ItemGroupId = dt3.Rows[0]["SUBGROUPCODE"].ToString();
-                        }
+                        //DataTable dt3 = new DataTable();
+                        //dt3 = ProductionScheduleService.GetItemSubGroup(dt2.Rows[i]["RITEMID"].ToString());
+                        //if (dt3.Rows.Count > 0)
+                        //{
+                        //    tda.ItemGroupId = dt3.Rows[0]["SUBGROUPCODE"].ToString();
+                        //}
                         tda.Itemlst = BindItemlst(tda.ItemGroupId);
-                        tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
-                        tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
-                        DataTable dt4 = new DataTable();
-                        dt4 = ProductionScheduleService.GetItemDetails(tda.ItemId);
-                        if (dt4.Rows.Count > 0)
+                        tda.ItemId = dt2.Rows[i]["RITEMID"].ToString();
+                        tda.saveItemId = dt2.Rows[i]["RITEMID"].ToString();
+                        DataTable dt7 = new DataTable();
+                        dt7 = ProductionScheduleService.GetItemDetails(tda.ItemId);
+                        if (dt7.Rows.Count > 0)
                         {
-                            tda.Desc = dt4.Rows[0]["ITEMDESC"].ToString();
+                            tda.Desc = dt7.Rows[0]["ITEMDESC"].ToString();
                         }
-                        tda.Unit = dt2.Rows[i]["UNITID"].ToString();
+                        tda.Unit = dt2.Rows[i]["RUNIT"].ToString();
                         tda.Isvalid = "Y";
+                        tda.Input = dt2.Rows[i]["IPER"].ToString();
+                        tda.Qty = dt2.Rows[i]["RQTY"].ToString();
+                        tda.ID = id;
                         TData.Add(tda);
                     }
+                }
+                DataTable dt3 = new DataTable();
+                dt3 = ProductionScheduleService.GetProductionScheduleOutputDetail(id);
+                if (dt3.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt3.Rows.Count; i++)
+                    {
+                        tda1 = new ProductionItem();
+                        tda1.PItemGrouplst = BindItemGrplst();
+                        tda1.PItemlst = BindItemlst("");
+                        tda1.Item = dt3.Rows[0]["OITEMID"].ToString();
+
+                        tda1.PItemlst = BindItemlst(tda1.ItemGroup);
+
+                        tda1.Item = dt3.Rows[0]["OITEMID"].ToString();
+                        tda1.Unit = dt3.Rows[0]["OUNIT"].ToString();
+                        tda1.Des = dt3.Rows[0]["OITEMDESC"].ToString();
+                        tda1.Output = dt3.Rows[0]["OPER"].ToString();
+                        tda1.Alam = dt3.Rows[0]["ALPER"].ToString();
+                        tda1.OutputType = dt3.Rows[0]["OTYPE"].ToString();
+                        tda1.Sch = dt3.Rows[0]["SCHQTY"].ToString();
+                        tda1.Produced = dt3.Rows[0]["PQTY"].ToString();
+
+
+                        tda1.ID = id;
+                        TData1.Add(tda1);
+                    }
+
+                }
+                DataTable dt4 = new DataTable();
+                dt4 = ProductionScheduleService.GetProductionScheduleParametersDetail(id);
+                if (dt4.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt4.Rows.Count; i++)
+                    {
+                        tda2 = new ProItem();
+                       
+                        tda2.Parameters = dt4.Rows[0]["PARAMETERS"].ToString();
+                        tda2.Unit = dt4.Rows[0]["UNIT"].ToString();
+                        tda2.Initial = dt4.Rows[0]["IPARAMVALUE"].ToString();
+                        tda2.Final = dt4.Rows[0]["FPARAMVALUE"].ToString();
+                        tda2.Remarks = dt4.Rows[0]["REMARKS"].ToString();
+                        tda2.ID = id;
+                        TData2.Add(tda2);
+                    }
+
+                }
+                DataTable dt5 = new DataTable();
+                dt5 = ProductionScheduleService.GetOutputDetailsDayWiseDetail(id);
+                if (dt5.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt5.Rows.Count; i++)
+                    {
+                        tda3 = new ProScItem();
+                        tda3.SItemGrouplst = BindItemGrplst();
+                        tda3.SItemlst = BindItemlst("");
+                        tda3.Itemd = dt3.Rows[0]["ODITEMID"].ToString();
+
+                        tda3.SItemlst = BindItemlst(tda3.ItemGrp);
+
+                        tda3.Itemd = dt3.Rows[0]["ODITEMID"].ToString();
+                        tda3.SchDate = dt5.Rows[0]["ODDATE"].ToString();
+                        tda3.Hrs = dt5.Rows[0]["ODRUNHRS"].ToString();
+                        tda3.Qty = dt5.Rows[0]["ODQTY"].ToString();
+                        tda3.Change = dt5.Rows[0]["NOOFCHARGE"].ToString();
+                        tda3.ID = id;
+                        TData3.Add(tda3);
+                    }
+
+                }
+                DataTable dt6 = new DataTable();
+                dt6 = ProductionScheduleService.GetPackDetail(id);
+                if (dt6.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt6.Rows.Count; i++)
+                    {
+                        tda4 = new ProSchItem();
+
+                        tda4.Pack = dt6.Rows[0]["PKITEMID"].ToString();
+                        tda4.Qty = dt6.Rows[0]["PKQTY"].ToString();
+
+                        tda4.ID = id;
+                        TData4.Add(tda4);
+                    }
+
                 }
 
             }

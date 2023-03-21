@@ -91,7 +91,8 @@ internal class Program
 
          builder.Services.TryAddSingleton<IProductionScheduleService, ProductionScheduleService>();
         builder.Services.TryAddSingleton<IProductionLog, ProductionLogService>();
-        builder.Services.TryAddSingleton<ICuringService, CuringService>();
+        builder.Services.TryAddSingleton<ICuringService, CuringService>(); 
+          builder.Services.TryAddSingleton<IDrumIssueEntryService, DrumIssueEntryService>();
 
         builder.Services.AddSession();
         var emailConfig = builder.Configuration.GetSection("MailSettings").Get<MailSettings>();
