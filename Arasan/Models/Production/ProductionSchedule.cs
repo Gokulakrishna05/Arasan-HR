@@ -63,6 +63,7 @@ namespace Arasan.Models
 
         public string ItemGroupId { get; set; }
 
+        public string ID { get; set; }
         public string Desc { get; set; }
         public string Unit { get; set; }
 
@@ -73,6 +74,7 @@ namespace Arasan.Models
     }
     public class ProductionItem
     {
+        public string ID { get; set; }
         public string Item { get; set; }
         public string saveItemId { get; set; }
         public List<SelectListItem> PItemlst { get; set; }
@@ -94,6 +96,7 @@ namespace Arasan.Models
     }
     public class ProItem
     {
+        public string ID { get; set; }
         public string Isvalid { get; set; }
         public string Parameters { get; set; }
         public string Unit { get; set; }
@@ -103,6 +106,7 @@ namespace Arasan.Models
     }
     public class ProScItem
     {
+        public string ID { get; set; }
         public string Itemd { get; set; }
         public string saveItemId { get; set; }
         public List<SelectListItem> SItemlst { get; set; }
@@ -120,6 +124,7 @@ namespace Arasan.Models
     }
     public class ProSchItem
     {
+        public string ID { get; set; }
         public string Isvalid { get; set; }
         public string Pack { get; set; }
         public string Qty { get; set; }
