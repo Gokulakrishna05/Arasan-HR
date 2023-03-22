@@ -24,22 +24,18 @@ public class ProductionEntryService : IProductionEntry
             using (OracleCommand cmd = con.CreateCommand())
             {
                 con.Open();
-                cmd.CommandText = "Select  BRANCHMAST.BRANCHID, ETYPE,NPRODBASIC. DOCID,to_char(NPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,NPRODBASICID from NPRODBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=NPRODBASIC.BRANCH ";
+                cmd.CommandText = "Select  BRANCHMAST.BRANCHID, ETYPE,NPRODBASIC. DOCID,to_char(NPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,NPRODBASICID,ISCURING from NPRODBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=NPRODBASIC.BRANCH ";
                 OracleDataReader rdr = cmd.ExecuteReader();
                 while (rdr.Read())
                 {
                     ProductionEntry cmp = new ProductionEntry
                     {
-
                         ID = rdr["NPRODBASICID"].ToString(),
                         Branch = rdr["BRANCHID"].ToString(),
                         EntryType = rdr["ETYPE"].ToString(),
                         DocId = rdr["DOCID"].ToString(),
-                        Shiftdate = rdr["DOCDATE"].ToString()
-                      
-                     
-
-
+                        Shiftdate = rdr["DOCDATE"].ToString(),
+                        IsCuring= rdr["ISCURING"].ToString()
 
                     };
                     cmpList.Add(cmp);
@@ -48,6 +44,44 @@ public class ProductionEntryService : IProductionEntry
         }
         return cmpList;
     }
+
+    public DataTable GetInwardEntry()
+    {
+        string SvSql = string.Empty;
+        SvSql = "Select BRANCHMAST.BRANCHID, ETYPE,NPRODBASIC. DOCID,to_char(NPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,NPRODBASICID from NPRODBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=NPRODBASIC.BRANCH WHERE NPRODBASIC.ISCURING='Y'";
+        DataTable dtt = new DataTable();
+        OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        adapter.Fill(dtt);
+        return dtt;
+    }
+    //public IEnumerable<ProductionEntry> GetInwardEntry()
+    //{
+    //    List<ProductionEntry> cmpList = new List<ProductionEntry>();
+    //    using (OracleConnection con = new OracleConnection(_connectionString))
+    //    {
+
+    //        using (OracleCommand cmd = con.CreateCommand())
+    //        {
+    //            con.Open();
+    //            cmd.CommandText = "Select BRANCHMAST.BRANCHID, ETYPE,NPRODBASIC. DOCID,to_char(NPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,NPRODBASICID from NPRODBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=NPRODBASIC.BRANCH WHERE NPRODBASIC.ISCURING='Y'";
+    //            OracleDataReader rdr = cmd.ExecuteReader();
+    //            while (rdr.Read())
+    //            {
+    //                ProductionEntry cmp = new ProductionEntry
+    //                {
+    //                    ID = rdr["NPRODBASICID"].ToString(),
+    //                    Branch = rdr["BRANCHID"].ToString(),
+    //                    EntryType = rdr["ETYPE"].ToString(),
+    //                    DocId = rdr["DOCID"].ToString(),
+    //                    Shiftdate = rdr["DOCDATE"].ToString()
+    //                };
+    //                cmpList.Add(cmp);
+    //            }
+    //        }
+    //    }
+    //    return cmpList;
+    //}
     public string ProductionEntryCRUD(ProductionEntry cy)
     {
         string msg = "";
