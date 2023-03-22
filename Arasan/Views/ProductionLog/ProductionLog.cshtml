@@ -30,6 +30,10 @@
                 <div class="widgets-container">
                     <h5 style="font-size:14px"> Production  Log</h5>
                     <hr>
+
+                    @using (Html.BeginForm("ProductionLog", "ProductionLog", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
                     <form>
 
                         <div class="row">
@@ -118,7 +122,7 @@
 
                                   <br />  <label for="inputName3" class="col-sm-4 control-label">Supervised By<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.DropDownListFor(C => C.Supervised , Model.RecList, new { @id = "ddlSupervised ", @Class = "form-control _select", @TabIndex = 1 })<br />
+                                            @Html.DropDownListFor(C => C.Supervised , Model.RecList," -- Please Select -- ", new { @id = "ddlSupervised ", @Class = "form-control _select", @TabIndex = 1 })<br />
 
                                     </div>
                                 </div>
@@ -199,7 +203,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Meting Target<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.DocId, new { @id = "txtDocId", @class = "form-control", @TabIndex = 1 })<br />
+                                        @Html.TextBoxFor(C => C.Melting, new { @id = "txtMelting", @class = "form-control", @TabIndex = 1 })<br />
                                     </div>
                                 </div>
                             </div>
@@ -345,24 +349,21 @@
                                         </div>
                                         <div class="tab-pane" id="tab-2">
                                             <!-- 2nd tab  -->
-                                            <div class="row">
+                                           <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="btn-group">
-                                                        <button class="btn sbold green" id="addRow"> Add New <i class="fa fa-plus"></i> </button>
+                                                        <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" />
                                                     </div>
                                                 </div>
+                                                 </div>
 
-                                                <div class="col-lg-12">
-                                                    <div class="ibox float-e-margins">
-
-                                                        <!-- / ibox-title -->
-                                                        <div id="demo3" class="ibox-content collapse in">
-                                                            <div class="borderedTable">
-                                                                <div class="table-scrollable">
-                                                                    <table class="table table-striped table-hover">
+                                               <div class="row">
+           <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:200px;">
+                                               
+                                                                    <table class="table table-striped table-hover" id="dataTableMachine">
                                                                         <thead>
                                                                             <tr>
-                                                                               <th> S. No. </th>
+                                                                               
                                                                                 <th>Machine ID</th>
                                                                                 <th>Machine Name</th>
                                                                                 <th>Status </th>
@@ -376,85 +377,70 @@
                                                                                 <th>MReason </th>
                                                                             </tr>
                                                                         </thead>
-                                                                        <tbody>
-                                                                            <tr>
-                                                                                <td> 1 </td>
+                                                                       <tbody id="tbBooks">
+                                                                            @{
 
-                                                                               <td><input class="form-control newwidth" id="inputEmail3" placeholder="" type="text"> </td>
+                                                            int j = 0;
+                                                            foreach (var item in Model.MachineLst.ToList())
+                                                            {
+                                                                 <tr id="trBookMachine@(j)" class="chkMachineitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                                                                                    
+                                                      <td>@Html.TextBoxFor(o => o.MachineLst[j].MachineId, new { @id = "txtMachineId" + j, @class = "form-control" , style = "width: 100px; "  })</td>
 
-                                                                                <td><input class="form-control newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="date"> </td>
-                                                                                 <td><input class="form-control" id="inputEmail3" placeholder=" " type="time"> </td>
-                                                                                  <td><input class="form-control" id="inputEmail3" placeholder=" " type="date"> </td>
-                                                                                   <td><input class="form-control" id="inputEmail3" placeholder=" " type="time"> </td>
-                                                                                <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                    <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                     <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                      <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td> 2 </td>
-                                                                               <td><input class="form-control newwidth" id="inputEmail3" placeholder="" type="text"> </td>
+                                                               <td>@Html.DropDownListFor(o => o.MachineLst[j].Machine, Model.MachineLst[j].Maclst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlMachine" + j, style = "width: 170px;" })
+                                                                      </td>
+                                                              <td>@Html.TextBoxFor(o => o.MachineLst[j].Status, new { @id = "txtStatus" + j, @class = "form-control" , style = "width: 120px; "  })</td>
 
-                                                                                <td><input class="form-control newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="date"> </td>
-                                                                                 <td><input class="form-control" id="inputEmail3" placeholder=" " type="time"> </td>
-                                                                                  <td><input class="form-control" id="inputEmail3" placeholder=" " type="date"> </td>
-                                                                                   <td><input class="form-control" id="inputEmail3" placeholder=" " type="time"> </td>
-                                                                                <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                    <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                     <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                      <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td> 3 </td>
+                                                                    <td><div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy" >@Html.TextBoxFor(o => o.MachineLst[j].StartDate, new { @id = "txtStartDate" + j, @class = "form-control", style = "width: 100px;",@readonly="readonly"})<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                                                                                </div> </td> 
+                                                                   
+                                                                    <td>@Html.TextBoxFor(o => o.MachineLst[j].StartTime, new { @id = "txtStartTime" + j, @class = "form-control", style = "width: 110px;", @Type="time"})</td> 
+                                                                        <td><div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy"> @Html.TextBoxFor(o => o.MachineLst[j].EndDate, new { @id = "txtEndDate" + j, @class = "form-control",  style = "width: 100px;" ,@readonly="readonly"})<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                                                                                </div> </td>
+                                                                <td>@Html.TextBoxFor(o => o.MachineLst[j].EndTime, new { @id = "txtEndTime" + j, @class = "form-control" , style = "width: 110px; ",@Type="time" })</td>
+                                                              <td>@Html.TextBoxFor(o => o.MachineLst[j].TotalMins, new { @id = "txtTotalMins" + j, @class = "form-control" , style = "width: 80px;" })</td>
+                                                           @* <td>@Html.TextBoxFor(o => o.inputlst[i].MillLoadAdd, new { @id = "txtMillLoadAdd" + i, @class = "form-control", style = "width: 100px;"})</td>*@
+                                                                <td>@Html.TextBoxFor(o => o.MachineLst[j].TotalHrs, new { @id = "txtTotalHrs" + j, @class = "form-control" , style = "width: 80px;" })</td>
+                                                              <td>@Html.TextBoxFor(o => o.MachineLst[j].TotalMachineCost, new { @id = "txtTotalMachineCost" + j, @class = "form-control" , style = "width: 70px; "  })</td>
+                                                                     <td>@Html.TextBoxFor(o => o.MachineLst[j].Reason, new { @id = "txtReason" + j, @class = "form-control" , style = "width: 120px; "  })</td>
+
+                                                                <td>
+                                                                                @Html.HiddenFor(o => o.MachineLst[j].Isvalid, new { @id = "MachineIsvalid" + j })
+                                                                  <img onclick="removeMachineRow(@(j));" src="../Images/delete.png" style="cursor:pointer" /> 
+                                                                 </td>
 
 
-                                                                                <td><input class="form-control newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-
-                                                                                <td><input class="form-control newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="date"> </td>
-                                                                                 <td><input class="form-control" id="inputEmail3" placeholder=" " type="time"> </td>
-                                                                                  <td><input class="form-control" id="inputEmail3" placeholder=" " type="date"> </td>
-                                                                                   <td><input class="form-control" id="inputEmail3" placeholder=" " type="time"> </td>
-                                                                                <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                    <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                     <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                      <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                            </tr>
+                                                                                                                                    </tr>
+                                                      
+                                                          j= j + 1;
+                                                            }
+                                                        }
+                                                                           
                                                                         </tbody>
                                                                     </table>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                                        
                                             <!-- 2nd tab  -->
                                         </div>
                                         <div class="tab-pane" id="tab-3">
                                             <!-- 3rd tab  -->
-                                            <div class="row">
+                                          <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="btn-group">
-                                                        <button class="btn sbold green" id="addRow"> Add New <i class="fa fa-plus"></i> </button>
+                                                        <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" />
                                                     </div>
                                                 </div>
+                                                 </div>
 
-                                                <div class="col-lg-12">
-                                                    <div class="ibox float-e-margins">
-
-                                                        <!-- / ibox-title -->
-                                                        <div id="demo3" class="ibox-content collapse in">
-                                                            <div class="borderedTable">
-                                                                <div class="table-scrollable">
-                                                                    <table class="table table-striped table-hover">
+                                               <div class="row">
+           <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:200px;">
+                                               
+                                                                    <table class="table table-striped table-hover" id="dataTableEmp">
+                                         
                                                                         <thead>
                                                                             <tr>
-                                                                                <th> S. No. </th>
+                                                                                 
                                                                                 <th>Emp Name</th>
                                                                                 <th>Emp Code</th>
                                                                                 <th>Department </th>
@@ -469,87 +455,69 @@
 
                                                                             </tr>
                                                                         </thead>
-                                                                        <tbody>
-                                                                            <tr>
-                                                                                <td> 1 </td>
+                                                                        <tbody id="tbBooks">
+                                                                            @{
 
-                                                                               <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
+                                                            int k = 0;
+                                                            foreach (var item in Model.EmpLst.ToList())
+                                                            {
+                                                                 <tr id="trBookEmp@(k)" class="chkEmpitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                                                                                    
+                                                  
 
-                                                                                <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="date"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="time"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="date"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="time"> </td>
-                                                                                <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
+                                                               <td>@Html.DropDownListFor(o => o.EmpLst[k].Employee, Model.EmpLst[k].Employeelst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlEmployee" + k, style = "width: 170px;",onchange = "changeEmployeeItem(this.value," + k + ")" })
+                                                                      </td>
+                                                                          <td>@Html.TextBoxFor(o => o.EmpLst[k].EmpCode, new { @id = "txtEmpCode" +k, @class = "form-control" , style = "width: 100px; "  })</td>
+                                                              <td>@Html.TextBoxFor(o => o.EmpLst[k].Depart, new { @id = "txtDepart" + k, @class = "form-control" , style = "width: 120px; "  })</td>
 
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td> 2 </td>
-                                                                              <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
+                                                                    <td><div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy" >@Html.TextBoxFor(o => o.EmpLst[k].StartDate, new { @id = "txtStartDate" + k, @class = "form-control", style = "width: 100px;",@readonly="readonly"})<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                                                                                </div> </td> 
+                                                                   
+                                                                    <td>@Html.TextBoxFor(o => o.EmpLst[k].StartTime, new { @id = "txtStartTime" +k, @class = "form-control", style = "width: 110px;", @Type="time"})</td> 
+                                                                        <td><div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy"> @Html.TextBoxFor(o => o.EmpLst[k].EndDate, new { @id = "txtEndDate" + k, @class = "form-control",  style = "width: 100px;" ,@readonly="readonly"})<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                                                                                </div> </td>
+                                                                <td>@Html.TextBoxFor(o => o.EmpLst[k].EndTime, new { @id = "txtEndTime" + k, @class = "form-control" , style = "width: 110px; ",@Type="time" })</td>
+                                                              <td>@Html.TextBoxFor(o => o.EmpLst[k].OTHrs, new { @id = "txtOTHrs" + k, @class = "form-control" , style = "width: 80px;" })</td>
+                                                           @* <td>@Html.TextBoxFor(o => o.inputlst[i].MillLoadAdd, new { @id = "txtMillLoadAdd" + i, @class = "form-control", style = "width: 100px;"})</td>*@
+                                                                <td>@Html.TextBoxFor(o => o.EmpLst[k].ETOther, new { @id = "txtETOther" + k, @class = "form-control" , style = "width: 80px;" })</td>
+                                                              <td>@Html.TextBoxFor(o => o.EmpLst[k].Normal, new { @id = "txtNormal" + k, @class = "form-control" , style = "width: 70px; "  })</td>
+                                                                     <td>@Html.TextBoxFor(o => o.EmpLst[k].NOW, new { @id = "txtNOW" + k, @class = "form-control" , style = "width: 120px; "  })</td>
 
-                                                                                <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="date"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="time"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="date"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="time"> </td>
-                                                                                <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
+                                                                <td>
+                                                                                @Html.HiddenFor(o => o.EmpLst[k].Isvalid, new { @id = "EmpIsvalid" + k})
+                                                                  <img onclick="removeEmpRow(@(k));" src="../Images/delete.png" style="cursor:pointer" /> 
+                                                                 </td>
 
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td> 3 </td>
 
-                                                                          <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-
-                                                                                <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control  newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="date"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="time"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="date"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="time"> </td>
-                                                                                <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control  newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-
-                                                                            </tr>
+                                                                                                                                    </tr>
+                                                      
+                                                         k = k + 1;
+                                                            }
+                                                        }
                                                                         </tbody>
                                                                     </table>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                                       
                                             <!-- 3rd tab  -->
                                         </div>
                                         <div class="tab-pane" id="tab-4">
                                             <!-- 4th tab  -->
-                                            <div class="row">
+                                           <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="btn-group">
-                                                        <button class="btn sbold green" id="addRow"> Add New <i class="fa fa-plus"></i> </button>
+                                                        <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" />
                                                     </div>
                                                 </div>
+                                                 </div>
 
-                                                <div class="col-lg-12">
-                                                    <div class="ibox float-e-margins">
-
-                                                        <!-- / ibox-title -->
-                                                        <div id="demo3" class="ibox-content collapse in">
-                                                            <div class="borderedTable">
-                                                                <div class="table-scrollable">
-                                                                    <table class="table table-striped table-hover">
+                                               <div class="row">
+           <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:200px;">
+                                               
+                                                                    <table class="table table-striped table-hover" id="dataTableBreak">
                                                                         <thead>
                                                                             <tr>
-                                                                                <th> S. No. </th>
+                                                                          
                                                                                 <th>Machine Code</th>
                                                                                 <th>Description</th>
                                                                                 <th>Dept.Type </th>
@@ -562,66 +530,50 @@
                                                                                 <th>Reason </th>
                                                                             </tr>
                                                                         </thead>
-                                                                        <tbody>
-                                                                            <tr>
-                                                                                <td> 1 </td>
+                                                                         <tbody id="tbBooks">
+                                                                            @{
+
+                                                            int a = 0;
+                                                            foreach (var item in Model.BreakLst.ToList())
+                                                            {
+                                                                 <tr id="trBookBreak@(a)" class="chkBreakitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                                                                                    
+                                                  
+
+                                                               <td>@Html.DropDownListFor(o => o.BreakLst[a].MachineId, Model.BreakLst[a].Machinelst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlMachineId" + a, style = "width: 120px;", onchange = "changeMachineItem(this.value," + a + ")" })
+                                                                      </td>
+                                                                          <td>@Html.TextBoxFor(o => o.BreakLst[a].MachineDes, new { @id = "txtMachineDes" +a, @class = "form-control" , style = "width: 180px; "  })</td>
+                                                              <td>@Html.TextBoxFor(o => o.BreakLst[a].DType, new { @id = "txtDType" + a, @class = "form-control" , style = "width: 120px; "  })</td>
+
+                                                                      <td>@Html.TextBoxFor(o => o.BreakLst[a].MType, new { @id = "txtMType" + a, @class = "form-control" , style = "width: 120px;" })</td>
+                                                                   
+                                                                    <td>@Html.TextBoxFor(o => o.BreakLst[a].StartTime, new { @id = "txtStartTime" +a, @class = "form-control", style = "width: 110px;", @Type="time"})</td> 
+                                                                        
+                                                                <td>@Html.TextBoxFor(o => o.BreakLst[a].EndTime, new { @id = "txtEndTime" + a, @class = "form-control" , style = "width: 110px; ",@Type="time" })</td>
+                                                            
+                                                           @* <td>@Html.TextBoxFor(o => o.inputlst[i].MillLoadAdd, new { @id = "txtMillLoadAdd" + i, @class = "form-control", style = "width: 100px;"})</td>*@
+                                                                <td>@Html.TextBoxFor(o => o.BreakLst[a].PB, new { @id = "txtPB" + a, @class = "form-control" , style = "width: 80px;" })</td>
+                                                               <td>@Html.DropDownListFor(o => o.BreakLst[a].Alloted, Model.BreakLst[a].Emplst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlAlloted" + a, style = "width: 140px;" })
+                                                                      </td>
+                                                                     <td>@Html.TextBoxFor(o => o.BreakLst[a].Reason, new { @id = "txtReason" +a, @class = "form-control" , style = "width: 120px; "  })</td>
+
+                                                                <td>
+                                                                                @Html.HiddenFor(o => o.BreakLst[a].Isvalid, new { @id = "BreakIsvalid" + a})
+                                                                  <img onclick="removeBreakRow(@(a));" src="../Images/delete.png" style="cursor:pointer" /> 
+                                                                 </td>
 
 
-                                                                              <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
-
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                 <td><input class="form-control" id="inputEmail3" placeholder=" " type="time"> </td>
-
-                                                                                   <td><input class="form-control" id="inputEmail3" placeholder=" " type="time"> </td>
-                                                                                    <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                     <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                      <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-
-
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td> 2 </td>
-
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
-
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="time"> </td>
-
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="time"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td> 3 </td>
-
-
-
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
-
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="time"> </td>
-
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="time"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-
-                                                                            </tr>
+                                                                                                                                    </tr>
+                                                      
+                                                         a =a + 1;
+                                                            }
+                                                        }
+                                                                          
                                                                         </tbody>
                                                                     </table>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                                        
                                             <!-- 4th tab  -->
                                         </div>
                                         <div class="tab-pane" id="tab-5">
@@ -629,23 +581,20 @@
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="btn-group">
-                                                        <button class="btn sbold green" id="addRow"> Add New <i class="fa fa-plus"></i> </button>
+                                                        <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" />
                                                     </div>
                                                 </div>
+                                                 </div>
 
-                                                <div class="col-lg-12">
-                                                    <div class="ibox float-e-margins">
-
-                                                        <!-- / ibox-title -->
-                                                        <div id="demo3" class="ibox-content collapse in">
-                                                            <div class="borderedTable">
-                                                                <div class="table-scrollable">
-                                                                    <table class="table table-striped table-hover">
+                                               <div class="row">
+           <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:200px;">
+                                               
+                                                                    <table class="table table-striped table-hover" id="dataTableInput">
                                                                         <thead>
                                                                             <tr>
-                                                                                <th> S. No. </th>
+                                                                             
                                                                                 <th>Item ID</th>
-                                                                                <th>Bat Y/N</th>
+                                                                                <th>Lot Y/N</th>
                                                                                 <th>Drum Y/N </th>
                                                                                 <th> Drum No </th>
                                                                                 <th> Batch No </th>
@@ -657,142 +606,121 @@
 
                                                                             </tr>
                                                                         </thead>
-                                                                        <tbody>
-                                                                            <tr>
-                                                                                <td> 1 </td>
+                                                                       <tbody id="tbBooks">
+                                                                            @{
+
+                                                            int b = 0;
+                                                            foreach (var item in Model.InputLst.ToList())
+                                                            {
+                                                                 <tr id="trBookInput@(b)" class="chkInputitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                                                                                    
+                                                  
+
+                                                               <td>@Html.DropDownListFor(o => o.InputLst[b].Item, Model.InputLst[b].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + b, style = "width: 170px;" })
+                                                                      </td>
+                                                                  <td>@Html.DropDownListFor(o => o.InputLst[b].LotYN, Model.InputLst[b].Lotlst, new { @class = "form-control _select newcss", @id = "ddlLotYN" + b, style = "width: 120px;" })
+                                                                  <td>@Html.DropDownListFor(o => o.InputLst[b].Drumyn, Model.InputLst[b].DrumYNlst, new { @class = "form-control _select newcss", @id = "ddlDrumyn" + b, style = "width: 120px;" })
+                                                                      </td>
+                                                                 <td>@Html.DropDownListFor(o => o.InputLst[b].DrumNo, Model.InputLst[b].Drumlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlDrumNo" + b, style = "width: 130px;" })
+                                                                      </td>                                                                   
+                                                                    <td>@Html.TextBoxFor(o => o.InputLst[b].Batch, new { @id = "txtBatch" +b, @class = "form-control", style = "width: 110px;" })</td> 
+                                                                        
+                                                                <td>@Html.TextBoxFor(o => o.InputLst[b].BatchQty, new { @id = "txtBatchQty" + b, @class = "form-control" , style = "width: 110px; "  })</td>
+                                                            
+                                                           @* <td>@Html.TextBoxFor(o => o.inputlst[i].MillLoadAdd, new { @id = "txtMillLoadAdd" + i, @class = "form-control", style = "width: 100px;"})</td>*@
+                                                                <td>@Html.TextBoxFor(o => o.InputLst[b].Stock, new { @id = "txtStock" + b, @class = "form-control" , style = "width: 80px;" })</td>
+                                                              <td>@Html.TextBoxFor(o => o.InputLst[b].IQty, new { @id = "txtIQty" + b, @class = "form-control" , style = "width: 80px;" })</td>
+
+                                                                     <td>@Html.TextBoxFor(o => o.InputLst[b].IBRate, new { @id = "txtIBRate" +b, @class = "form-control" , style = "width: 120px; "  })</td>
+
+                                                                <td>
+                                                                                @Html.HiddenFor(o => o.InputLst[b].Isvalid, new { @id = "InputIsvalid" + b})
+                                                                  <img onclick="removeInputRow(@(b));" src="../Images/delete.png" style="cursor:pointer" /> 
+                                                                 </td>
 
 
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
-
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td> 2 </td>
-
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
-
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td> 3 </td>
-
-
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
-
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-
-
-                                                                            </tr>
+                                                                                                                                    </tr>
+                                                      
+                                                          b = b + 1;
+                                                            }
+                                                        }
+                                                                          
+                                                                          
                                                                         </tbody>
                                                                     </table>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                                       
                                             <!-- 5th tab  -->
                                         </div>
                                         <div class="tab-pane" id="tab-6">
                                             <!-- 6th tab  -->
-                                            <div class="row">
+                                           <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="btn-group">
-                                                        <button class="btn sbold green" id="addRow"> Add New <i class="fa fa-plus"></i> </button>
+                                                        <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" />
                                                     </div>
                                                 </div>
+                                                 </div>
 
-                                                <div class="col-lg-12">
-                                                    <div class="ibox float-e-margins">
-
-                                                        <!-- / ibox-title -->
-                                                        <div id="demo3" class="ibox-content collapse in">
-                                                            <div class="borderedTable">
-                                                                <div class="table-scrollable">
-                                                                    <table class="table table-striped table-hover">
+                                               <div class="row">
+           <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:200px;">
+                                               
+                                                                    <table class="table table-striped table-hover" id="dataTableCons">
                                                                         <thead>
                                                                             <tr>
-                                                                                <th> S. No. </th>
+                                                                              
                                                                                 <th>Item Id</th>
                                                                                 <th> Unit </th>
-                                                                                <th> Bat Y/N </th>
+                                                                                <th> Lot Y/N </th>
                                                                                 <th> Stock </th>
                                                                                 <th>Cons.Qty  </th>
                                                                                   <th> Rate </th>
                                                                                 <th>Value  </th>
                                                                             </tr>
                                                                         </thead>
-                                                                        <tbody>
-                                                                            <tr>
-                                                                                <td> 1 </td>
+                                                                         <tbody id="tbBooks">
+                                                                            @{
 
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="Item Id" type="text"> </td>
+                                                            int c = 0;
+                                                            foreach (var item in Model.ConsLst.ToList())
+                                                            {
+                                                                 <tr id="trBookCons@(c)" class="chkConsitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                                                                                    
+                                                  
 
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="Stock" type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="Cons.Qty" type="text"> </td>
-                                                                                  <td><input class="form-control" id="inputEmail3" placeholder="Rate" type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="Value" type="text"> </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td> 2 </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="Item Id" type="text"> </td>
+                                                               <td>@Html.DropDownListFor(o => o.ConsLst[c].Item, Model.ConsLst[c].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + c, style = "width: 170px;", onchange = "changeItem(this.value," + c + ")" })
+                                                                      </td>
+                                                                         <td>@Html.TextBoxFor(o => o.ConsLst[c].Unit, new { @id = "txtUnit" + c, @class = "form-control" , style = "width: 110px; " ,@readonly="readonly"  })</td>
 
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="Stock" type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="Cons.Qty" type="text"> </td>
-                                                                                  <td><input class="form-control" id="inputEmail3" placeholder="Rate" type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="Value" type="text"> </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td> 3 </td>
+                                                                  <td>@Html.DropDownListFor(o => o.ConsLst[c].LotYN, Model.ConsLst[c].Lotlst, new { @class = "form-control _select newcss", @id = "ddlLotYN" + c, style = "width: 120px;" })
+                                                                   
+                                                                                                                                
+                                                                         
+                                                                <td>@Html.TextBoxFor(o => o.ConsLst[c].Stock, new { @id = "txtStock" + c, @class = "form-control" , style = "width: 110px; "  })</td>
+                                                            
+                                                                 <td>@Html.TextBoxFor(o => o.ConsLst[c].ConsQty, new { @id = "txtConsQty" + c, @class = "form-control" , style = "width: 80px;" })</td>
+                                                              <td>@Html.TextBoxFor(o => o.ConsLst[c].Rate, new { @id = "txtRate" + c, @class = "form-control" , style = "width: 80px;" })</td>
+
+                                                                     <td>@Html.TextBoxFor(o => o.ConsLst[c].Value, new { @id = "txtValue" +c, @class = "form-control" , style = "width: 120px; "  })</td>
+
+                                                                <td>
+                                                                                @Html.HiddenFor(o => o.ConsLst[c].Isvalid, new { @id = "ConsIsvalid" + c})
+                                                                  <img onclick="removeConsRow(@(c));" src="../Images/delete.png" style="cursor:pointer" /> 
+                                                                 </td>
 
 
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="Item Id" type="text"> </td>
-
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="0.00" type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="Stock" type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="Cons.Qty" type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="Rate" type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="Value" type="text"> </td>
-                                                                            </tr>
+                                                                                                                                    </tr>
+                                                      
+                                                          c = c + 1;
+                                                            }
+                                                        }
+                                                                          
                                                                         </tbody>
                                                                     </table>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                                         
                                             <!-- 6th tab  -->
                                         </div>
                                          <div class="tab-pane" id="tab-7">
@@ -800,24 +728,21 @@
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="btn-group">
-                                                        <button class="btn sbold green" id="addRow"> Add New <i class="fa fa-plus"></i> </button>
+                                                        <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" />
                                                     </div>
                                                 </div>
+                                                 </div>
 
-                                                <div class="col-lg-12">
-                                                    <div class="ibox float-e-margins">
-
-                                                        <!-- / ibox-title -->
-                                                        <div id="demo3" class="ibox-content collapse in">
-                                                            <div class="borderedTable">
-                                                                <div class="table-scrollable">
-                                                                    <table class="table table-striped table-hover">
+                                               <div class="row">
+           <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:200px;">
+                                               
+                                                                    <table class="table table-striped table-hover" id="dataTableOutput">
                                                                         <thead>
                                                                             <tr>
-                                                                               <th> S. No. </th>
+                                                                                
                                                                                 <th>Output Item ID</th>
                                                                                 <th>Drum Y/N</th>
-                                                                                <th>Bat Y/N </th>
+                                                                                <th>Lot Y/N </th>
                                                                                 <th>Drum No </th>
                                                                                 <th>Batch No </th>
                                                                                 <th>Output Qty </th>
@@ -829,152 +754,138 @@
                                                                                 <th>RHRS </th>
                                                                             </tr>
                                                                         </thead>
-                                                                        <tbody>
-                                                                            <tr>
-                                                                                <td> 1 </td>
+                                                                       <tbody id="tbBooks">
+                                                                            @{
 
-                                                                               <td><input class="form-control newwidth" id="inputEmail3" placeholder="" type="text"> </td>
+                                                            int g = 0;
+                                                            foreach (var item in Model.OutLst.ToList())
+                                                            {
+                                                                 <tr id="trBookOutput@(g)" class="chkOutputitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                                                                                    
+                                                  
 
-                                                                                <td><input class="form-control newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                  <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                    <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                     <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="date"> </td>
-                                                                                 <td><input class="form-control" id="inputEmail3" placeholder=" " type="time"> </td>
-                                                                                  <td><input class="form-control" id="inputEmail3" placeholder=" " type="date"> </td>
-                                                                                   <td><input class="form-control" id="inputEmail3" placeholder=" " type="time"> </td>
+                                                               <td>@Html.DropDownListFor(o => o.OutLst[g].Item, Model.OutLst[g].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlOItem" + g, style = "width: 170px;" })
+                                                                      </td>
+                                                                        <td>@Html.DropDownListFor(o => o.OutLst[g].Drumyn, Model.OutLst[g].DrumYNlst, new { @class = "form-control _select newcss", @id = "ddlODrumyn" + g, style = "width: 120px;" })
+                                                                      </td>
+                                                                  <td>@Html.DropDownListFor(o => o.OutLst[g].LotYN, Model.OutLst[g].Lotlst, new { @class = "form-control _select newcss", @id = "ddlOLotYN" + g, style = "width: 120px;" })
+                                                                
+                                                                 <td>@Html.DropDownListFor(o => o.OutLst[g].DrumNo, Model.OutLst[g].Drumlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlODrumNo" + g, style = "width: 130px;" })
+                                                                      </td>                                                                   
+                                                                    <td>@Html.TextBoxFor(o => o.OutLst[g].Batch, new { @id = "txtOBatch" +g, @class = "form-control", style = "width: 110px;" })</td> 
+                                                                        
+                                                                <td>@Html.TextBoxFor(o => o.OutLst[g].OQty, new { @id = "txtOQty" + g, @class = "form-control" , style = "width: 110px; "  })</td>
+                                                            
+                                                              <td><div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy" >@Html.TextBoxFor(o => o.OutLst[g].StartDate, new { @id = "txtStartDate" + g, @class = "form-control", style = "width: 100px;",@readonly="readonly"})<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                                                                                </div> </td> 
+                                                                   
+                                                                    <td>@Html.TextBoxFor(o => o.OutLst[g].StartTime, new { @id = "txtStartTime" + g, @class = "form-control", style = "width: 110px;", @Type="time"})</td> 
+                                                                        <td><div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy"> @Html.TextBoxFor(o => o.OutLst[g].EndDate, new { @id = "txtEndDate" + g, @class = "form-control",  style = "width: 100px;" ,@readonly="readonly"})<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                                                                                </div> </td>
 
-                                                                                      <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td> 2 </td>
-                                                                                  <td><input class="form-control newwidth" id="inputEmail3" placeholder="" type="text"> </td>
+                                                                <td>@Html.TextBoxFor(o => o.OutLst[g].EndTime, new { @id = "txtEndTime" + g, @class = "form-control" , style = "width: 110px; ",@Type="time" })</td>
+                                                          <td>@Html.TextBoxFor(o => o.OutLst[g].Hrs, new { @id = "txtHrs" + g, @class = "form-control" , style = "width: 110px; "  })</td>
 
-                                                                                <td><input class="form-control newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                  <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                    <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                     <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="date"> </td>
-                                                                                 <td><input class="form-control" id="inputEmail3" placeholder=" " type="time"> </td>
-                                                                                  <td><input class="form-control" id="inputEmail3" placeholder=" " type="date"> </td>
-                                                                                   <td><input class="form-control" id="inputEmail3" placeholder=" " type="time"> </td>
-
-                                                                                      <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td> 3 </td>
+                                                                <td>
+                                                                                @Html.HiddenFor(o => o.OutLst[g].Isvalid, new { @id = "OutputIsvalid" + g})
+                                                                  <img onclick="removeOutputRow(@(g));" src="../Images/delete.png" style="cursor:pointer" /> 
+                                                                 </td>
 
 
-                                                                                 <td><input class="form-control newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-
-                                                                                <td><input class="form-control newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control newwidth" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                  <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                    <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                     <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="date"> </td>
-                                                                                 <td><input class="form-control" id="inputEmail3" placeholder=" " type="time"> </td>
-                                                                                  <td><input class="form-control" id="inputEmail3" placeholder=" " type="date"> </td>
-                                                                                   <td><input class="form-control" id="inputEmail3" placeholder=" " type="time"> </td>
-
-                                                                                      <td><input class="form-control newwidth" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                            </tr>
+                                                                                                                                    </tr>
+                                                      
+                                                          g = g + 1;
+                                                            }
+                                                        }
+                                                                            
                                                                         </tbody>
                                                                     </table>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                                        
                                             <!-- 7th tab  -->
                                         </div>
 
                                          <div class="tab-pane " id="tab-8">
                                             <!-- 8th tab  -->
-                                            <div class="row">
+                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="btn-group">
-                                                        <button class="btn sbold green" id="addRow"> Add New <i class="fa fa-plus"></i> </button>
+                                                        <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" />
                                                     </div>
                                                 </div>
+                                                 </div>
 
-                                                <div class="col-lg-12">
-                                                    <div class="ibox float-e-margins">
-
-                                                        <!-- / ibox-title -->
-                                                        <div id="demo3" class="ibox-content collapse in">
-                                                            <div class="borderedTable">
-                                                                <div class="table-scrollable">
-                                                                    <table class="table table-striped table-hover">
+                                               <div class="row">
+           <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:200px;">
+                                               
+                                                                    <table class="table table-striped table-hover" id="dataTableWaste">
                                                                         <thead>
                                                                             <tr>
-                                                                                <th> S. No. </th>
+                                                                                
                                                                                 <th>Wastage Item</th>
                                                                                 <th>Batch No</th>
                                                                                 <th>Wastage Qty </th>
+                                                                                <th> Rate</th>
 
                                                                             </tr>
                                                                         </thead>
-                                                                        <tbody>
-                                                                            <tr>
-                                                                                <td> 1 </td>
+                                                                       <tbody id="tbBooks">
+                                                                            @{
 
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
+                                                            int w = 0;
+                                                            foreach (var item in Model.WasteLst.ToList())
+                                                            {
+                                                                 <tr id="trBookWaste@(w)" class="chkWasteitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                                                                                    
+                                                  
 
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
+                                                               <td>@Html.DropDownListFor(o => o.WasteLst[w].Item, Model.WasteLst[w].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlWItem" + w, style = "width: 170px;" })
+                                                                      </td>
+                                                                                                                                    
+                                                                    <td>@Html.TextBoxFor(o => o.WasteLst[w].WBatch, new { @id = "txtWBatch" +w, @class = "form-control", style = "width: 110px;" })</td> 
+                                                                        
+                                                                <td>@Html.TextBoxFor(o => o.WasteLst[w].WQty, new { @id = "txtWQty" + w, @class = "form-control" , style = "width: 110px; "  })</td>
+                                                            
+                                                               <td>@Html.TextBoxFor(o => o.WasteLst[w].WRate, new { @id = "txtWRate" + w, @class = "form-control" , style = "width: 110px; "  })</td>
 
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td> 2 </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
+                                                                <td>
+                                                                                @Html.HiddenFor(o => o.WasteLst[w].Isvalid, new { @id = "WasteIsvalid" + w})
+                                                                  <img onclick="removeWasteRow(@(w));" src="../Images/delete.png" style="cursor:pointer" /> 
+                                                                 </td>
 
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
 
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td> 3 </td>
-
-                                                                              <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
-
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
-
-                                                                            </tr>
+                                                                                                                                    </tr>
+                                                      
+                                                          w = w + 1;
+                                                            }
+                                                        }
+                                                                            
+                                                                            
                                                                         </tbody>
                                                                     </table>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                                        
                                             <!-- 8th tab  -->
                                         </div>
                                         <div class="tab-pane" id="tab-9">
                                             <!-- 9th tab  -->
-                                            <div class="row">
+                                              <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="btn-group">
-                                                        <button class="btn sbold green" id="addRow"> Add New <i class="fa fa-plus"></i> </button>
+                                                        <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" />
                                                     </div>
                                                 </div>
+                                                 </div>
 
-                                                <div class="col-lg-12">
-                                                    <div class="ibox float-e-margins">
-
-                                                        <!-- / ibox-title -->
-                                                        <div id="demo3" class="ibox-content collapse in">
-                                                            <div class="borderedTable">
-                                                                <div class="table-scrollable">
-                                                                    <table class="table table-striped table-hover">
+                                               <div class="row">
+           <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:200px;">
+                                               
+                                                                    <table class="table table-striped table-hover" id="dataTableWaste">
                                                                         <thead>
                                                                             <tr>
-                                                                                <th> S. No. </th>
+                                                                              
                                                                                 <th>No.Of.Emp</th>
                                                                                 <th>Start Date</th>
                                                                                 <th>Start Time </th>
@@ -987,67 +898,48 @@
                                                                                 <th>Nature Of Work </th>
                                                                             </tr>
                                                                         </thead>
-                                                                        <tbody>
-                                                                            <tr>
-                                                                                <td> 1 </td>
+                                                                       <tbody id="tbBooks">
+                                                                            @{
+
+                                                            int r = 0;
+                                                            foreach (var item in Model.SourcingLst.ToList())
+                                                            {
+                                                                 <tr id="trBookOutput@(r)" class="chkOutputitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                                                                                    
+                                                  
+                                                                  <td>@Html.TextBoxFor(o => o.SourcingLst[r].NoOfEmp, new { @id = "txtNoOfEmp" + r, @class = "form-control" , style = "width: 110px; "  })</td>
+                                                                   <td><div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy" >@Html.TextBoxFor(o => o.SourcingLst[r].StartDate, new { @id = "txtStartDate" + r, @class = "form-control", style = "width: 100px;",@readonly="readonly"})<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                                                                                </div> </td> 
+                                                                   
+                                                                    <td>@Html.TextBoxFor(o => o.SourcingLst[r].StartTime, new { @id = "txtStartTime" + r, @class = "form-control", style = "width: 110px;", @Type="time"})</td> 
+                                                                        <td><div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy"> @Html.TextBoxFor(o => o.SourcingLst[r].EndDate, new { @id = "txtEndDate" + r, @class = "form-control",  style = "width: 100px;" ,@readonly="readonly"})<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                                                                                </div> </td>
+                                                                <td>@Html.TextBoxFor(o => o.SourcingLst[r].EndTime, new { @id = "txtEndTime" + r, @class = "form-control" , style = "width: 110px; ",@Type="time" })</td>
+                                                        
+                                                                    <td>@Html.TextBoxFor(o => o.SourcingLst[r].WorkHrs, new { @id = "txWorkHrs" + r, @class = "form-control" , style = "width: 110px; "  })</td>
+                                                                    <td>@Html.TextBoxFor(o => o.SourcingLst[r].EmpCost, new { @id = "txtEmpCost" + r, @class = "form-control" , style = "width: 110px; "  })</td>                                                                
+                                                                   <td>@Html.TextBoxFor(o => o.SourcingLst[r].Expence, new { @id = "txtExpence" + r, @class = "form-control" , style = "width: 110px; "  })</td>                                                                  
+                                                                   
+                                                            
+                                                             <td>@Html.TextBoxFor(o => o.SourcingLst[r].NOW, new { @id = "txtNOFW" + r, @class = "form-control" , style = "width: 110px; "  })</td>
+
+                                                                <td>
+                                                                                @Html.HiddenFor(o => o.SourcingLst[r].Isvalid, new { @id = "OutputIsvalid" + r})
+                                                                  <img onclick="removeOutputRow(@(r));" src="../Images/delete.png" style="cursor:pointer" /> 
+                                                                 </td>
 
 
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
-
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="date"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="time"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="date"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="time"> </td>
-
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-
-
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td> 2 </td>
-
-                                                                               <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
-
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="date"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="time"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="date"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="time"> </td>
-
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td> 3 </td>
-
-
-
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="text"> </td>
-
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="date"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder="" type="time"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="date"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="time"> </td>
-
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-                                                                                <td><input class="form-control" id="inputEmail3" placeholder=" " type="text"> </td>
-
-                                                                            </tr>
+                                                                                                                                    </tr>
+                                                      
+                                                          r = r + 1;
+                                                            }
+                                                        }
+                                                                            
                                                                         </tbody>
                                                                     </table>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                                        
                                             <!-- 9th tab  -->
                                         </div>
                                          <div class="tab-pane " id="tab-10">
@@ -1443,7 +1335,7 @@
 
                                     <div class="col-sm-8">
 
-                                                                              @Html.TextBoxFor(C => C.InpuyQty, new { @id = "txtInpuyQty", @class = "form-control", @TabIndex = 1 })<br />
+                                                                              @Html.TextBoxFor(C => C.InputQty, new { @id = "txtInpuyQty", @class = "form-control", @TabIndex = 1 })<br />
                                     </div>
 
 
@@ -1515,7 +1407,15 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Completed YN<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
+                                        <div class="input-group">
+
+                                            @Html.RadioButtonFor(C => C.ComplYN, "Y", new { @TabIndex = 2 })
+                                            <label id="mt-radio">YES</label>
+                                                @Html.RadioButtonFor(C => C.ComplYN, "N", new { @TabIndex = 3 })
+                                            <label id="mt-radio">NO</label>
+
+
+                                        </div><br />
                                     </div>
                                 </div>
                             </div>
@@ -1527,7 +1427,8 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Entered By<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="" type="text">
+                                            @Html.DropDownListFor(C => C.Entered , Model.EmpList," -- Please Select -- ", new { @id = "ddlEntered ", @Class = "form-control _select", @TabIndex = 1 })<br />
+
                                     </div>
                                 </div>
                             </div>
@@ -1546,9 +1447,18 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
+                                    <br /> <br /><label for="inputName3" class="col-sm-4 control-label">RM Value<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(C => C.Rmvalue, new { @id = "txtRmvalue", @class = "form-control", @TabIndex = 1 })<br />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+
                                     <br /> <br /><label for="inputName3" class="col-sm-4 control-label">Main Value<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                                                              @Html.TextBoxFor(C => C.MainValue, new { @id = "txtMainValue", @class = "form-control", @TabIndex = 1 })<br />
+                                        @Html.TextBoxFor(C => C.MainValue, new { @id = "txtMainValue", @class = "form-control", @TabIndex = 1 })<br />
                                     </div>
                                 </div>
                             </div>
@@ -1560,6 +1470,7 @@
 
 
                     </form>
+                    }
                 </div>
             </div>
         </div>
@@ -1670,54 +1581,195 @@
         });
 
     });
-    //function removeRow(id) {
-    //    var table = document.getElementById("dataTable");
-    //    var rowCount = table.rows.length;
-    //    var row = document.getElementById('trBook' + id);
-    //    var j = 0;
-    //    $('tr.chkitemlst').each(function () {
-    //        if ($(this).css('display') !== 'none') {
-    //            j += 1;
-    //        }
-    //    });
-    //    if (j > 1) {
-    //        row.style.display = "none";
-    //        document.getElementById('Isvalid' + id).value = "N";
-    //    }
-    //    else {
-    //        alert("Cannot delete all the rows.")
-    //    }
-    //     function AddRow() {
-    //    var opt = "";
-    //    $.ajax({
-    //        type: "POST",
-    //        url: 'GetItemJSON',
-    //        success: function (data) {
-    //            $.each(data, function () {
-    //                opt += "<option value=" + this.value + ">" + this.text + "</option>";
-    //            });
-    //            AppendRow(opt);
-    //        }
-    //    })
-    //}
-    //   function AppendRow(opt ) {
-    //    var index = $("#tbBooks").children("tr").length;
+     function changeMachineItem(ItemId, i) {
+        $.ajax({
+            url: 'GetMachineDetail',
+            data: { "ItemId": ItemId },
+            type: "GET",
+            success: function (result) {
+                
+                document.getElementById("txtMachineDes" + i).value = result.name;
+              
+                document.getElementById("txtMType" + i).value = result.type;
+                
+            },
+            error: function () {
+                alert("Data Not Found");
+            }
+        });
+    }
+       function changeEmployeeItem(ItemId, i) {
+        $.ajax({
+            url: 'GetEmployeeDetail',
+            data: { "ItemId": ItemId },
+            type: "GET",
+            success: function (result) {
+                
+                document.getElementById("txtEmpCode" + i).value = result.code;
+              
+                
+                
+            },
+            error: function () {
+                alert("Data Not Found");
+            }
+        });
+    }
+       function changeItem(ItemId, i) {
+        $.ajax({
+            url: 'GetItemDetail',
+            data: { "ItemId": ItemId },
+            type: "GET",
+            success: function (result) {
+                
+                document.getElementById("txtUnit" + i).value = result.unit;
+              
+                 
+            },
+            error: function () {
+                alert("Data Not Found");
+            }
+        });
+    }
+    function removeRow(id) {
+       var table = document.getElementById("dataTable");
+      var rowCount = table.rows.length;
+       var row = document.getElementById('trBook' + id);
+       var j = 0;
+       $('tr.chkitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+                j += 1;
+            }
+        });
+       if (j > 1) {
+           row.style.display = "none";
+         document.getElementById('Isvalid' + id).value = "N";
+     }
+       else {
+            alert("Cannot delete all the rows.")
+        }
+    }
+     function removeMachineRow(id) {
+       var table = document.getElementById("dataTableMachine");
+      var rowCount = table.rows.length;
+       var row = document.getElementById('trBookMachine' + id);
+       var j = 0;
+       $('tr.chkMachineitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+                j += 1;
+            }
+        });
+       if (j > 1) {
+           row.style.display = "none";
+         document.getElementById('MachineIsvalid' + id).value = "N";
+     }
+       else {
+            alert("Cannot delete all the rows.")
+        }
+    }
+     function removeEmpRow(id) {
+       var table = document.getElementById("dataTableEmp");
+      var rowCount = table.rows.length;
+       var row = document.getElementById('trBookEmp' + id);
+       var j = 0;
+       $('tr.chkEmpitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+                j += 1;
+            }
+        });
+       if (j > 1) {
+           row.style.display = "none";
+         document.getElementById('EmpIsvalid' + id).value = "N";
+     }
+       else {
+            alert("Cannot delete all the rows.")
+        }
+    }
+     function removeBreakRow(id) {
+       var table = document.getElementById("dataTableBreak");
+      var rowCount = table.rows.length;
+       var row = document.getElementById('trBookBreak' + id);
+       var j = 0;
+       $('tr.chkBreakitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+                j += 1;
+            }
+        });
+       if (j > 1) {
+           row.style.display = "none";
+         document.getElementById('BreakIsvalid' + id).value = "N";
+     }
+       else {
+            alert("Cannot delete all the rows.")
+        }
+    }
+     function removeInputRow(id) {
+       var table = document.getElementById("dataTableInput");
+      var rowCount = table.rows.length;
+       var row = document.getElementById('trBookInput' + id);
+       var j = 0;
+       $('tr.chkInputitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+                j += 1;
+            }
+        });
+       if (j > 1) {
+           row.style.display = "none";
+         document.getElementById('InputIsvalid' + id).value = "N";
+     }
+       else {
+            alert("Cannot delete all the rows.")
+        }
+    }
+     function removeConsRow(id) {
+       var table = document.getElementById("dataTableCons");
+      var rowCount = table.rows.length;
+       var row = document.getElementById('trBookCons' + id);
+       var j = 0;
+       $('tr.chkInputitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+                j += 1;
+            }
+        });
+       if (j > 1) {
+           row.style.display = "none";
+         document.getElementById('ConsIsvalid' + id).value = "N";
+     }
+       else {
+            alert("Cannot delete all the rows.")
+        }
+    }
+       function AddRow() {
+        var opt = "";
+        $.ajax({
+            type: "POST",
+            url: 'GetItemJSON',
+            success: function (data) {
+                $.each(data, function () {
+                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
+                });
+                AppendRow(opt);
+            }
+        })
+    }
+      @* function AppendRow(opt ) {
+        var index = $("#tbBooks").children("tr").length;
 
-    //    var Work = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlWorkId" + index + "' name='WorkLst[" + index + "].WorkId' ><option value=''>Please select</option>" + opt + "</select></td>";
-    //        var Status = "" < td > <select style = 'width: 170px;' class='form-control _select newcss' id = 'ddlStatus" + index + "' name = 'WorkLst[" + index + "].Status' > <option value='Run' > Run < /option><option value='Stop'>Stop</option > </select></td > ";
-    //        var type = "<td><select style = 'width: 120px;' class='form-control _select newcss' id='ddlWType" + index + "' name='WorkLst[" + index + "].WType' > <option value='None' > None < /option><option value='EB'>EB</option > </select></td>";
-    //    var startdate = "<td><div class='input-group date form_date col-sm-8'  data-date-format='dd-M-yyyy'><input class='form-control'  id='txStartDate" + index + "' name='WorkLst[" + index + "].StartDate' style='width: 200px;' type='text' value=''><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div></td>";
-    //    var starttime="<td><input class='form-control'  id='txtStartTime" + index + "' name='WorkLst[" + index + "].StartTime' style='width: 80px;' type='time' value=''></td>";
-    //        var enddate = "<td><div class='input-group date form_date col-sm-8'  data-date-format='dd-M-yyyy'><input class='form-control'  id='txtEndDate" + index + "' name='WorkLst[" + index + "].EndDate' style='width: 80px;' type='text' value=''><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div></td>";
-    //    var endtime="<td><input class='form-control'  id='txtEndTime" + index + "' name='WorkLst[" + index + "].EndTime' style='width: 100px;' type='time' value=''></td>";
-    //    var totalhrs="<td><input class='form-control'  id='txtTotalHrs" + index + "' name='WorkLst[" + index + "].TotalHrs' style='width: 100px;' type='text' value=''></td>";
-    //    var reason = "<td><select style = 'width: 100px;' class='form-control _select newcss' id='ddlReason" + index + "' name='WorkLst[" + index + "].Reason' ></select></td>";
-    //        var removeCell = "<td><input id='Isvalid" + index + "' name='WorkLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='inputlst.Index' type='hidden' value='" + index + "'  /></td>";
-    //    var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Work + Status + type + startdate + starttime + enddate + endtime + totalhrs + reason + removeCell + "</tr>";
-    //    $("#tbBooks").append(newRow);
+        var Work = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlWorkId" + index + "' name='WorkLst[" + index + "].WorkId' ><option value=''>Please select</option>" + opt + "</select></td>";
+            var Status = "" < td > <select style = 'width: 170px;' class='form-control _select newcss' id = 'ddlStatus" + index + "' name = 'WorkLst[" + index + "].Status' > <option value='Run' > Run < /option><option value='Stop'>Stop</option > </select></td > ";
+            var type = "<td><select style = 'width: 120px;' class='form-control _select newcss' id='ddlWType" + index + "' name='WorkLst[" + index + "].WType' > <option value='None' > None < /option><option value='EB'>EB</option > </select></td>";
+        var startdate = "<td><div class='input-group date form_date col-sm-8'  data-date-format='dd-M-yyyy'><input class='form-control'  id='txStartDate" + index + "' name='WorkLst[" + index + "].StartDate' style='width: 200px;' type='text' value=''><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div></td>";
+        var starttime="<td><input class='form-control'  id='txtStartTime" + index + "' name='WorkLst[" + index + "].StartTime' style='width: 80px;' type='time' value=''></td>";
+            var enddate = "<td><div class='input-group date form_date col-sm-8'  data-date-format='dd-M-yyyy'><input class='form-control'  id='txtEndDate" + index + "' name='WorkLst[" + index + "].EndDate' style='width: 80px;' type='text' value=''><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div></td>";
+        var endtime="<td><input class='form-control'  id='txtEndTime" + index + "' name='WorkLst[" + index + "].EndTime' style='width: 100px;' type='time' value=''></td>";
+        var totalhrs="<td><input class='form-control'  id='txtTotalHrs" + index + "' name='WorkLst[" + index + "].TotalHrs' style='width: 100px;' type='text' value=''></td>";
+        var reason = "<td><select style = 'width: 100px;' class='form-control _select newcss' id='ddlReason" + index + "' name='WorkLst[" + index + "].Reason' ></select></td>";
+            var removeCell = "<td><input id='Isvalid" + index + "' name='WorkLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='inputlst.Index' type='hidden' value='" + index + "'  /></td>";
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Work + Status + type + startdate + starttime + enddate + endtime + totalhrs + reason + removeCell + "</tr>";
+        $("#tbBooks").append(newRow);
        
-    //   $(function() {
-    //        $('._select').select2();
-    //    });
-    //}
+        
+          
+      
+    }*@
     </script>

@@ -32,7 +32,7 @@ namespace Arasan.Controllers
             ca.Shiftlst = BindShift();
             ca.Processlst = BindProcess();
             ca.ETypelst = BindEType();
-
+            ca.RecList = BindEmp();
             List<ProInputItem> TData = new List<ProInputItem>();
             ProInputItem tda = new ProInputItem();
             for (int i = 0; i < 1; i++)
@@ -377,6 +377,23 @@ namespace Arasan.Controllers
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEMMASTERID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindEmp()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetEmp();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["EMPNAME"].ToString(), Value = dtDesg.Rows[i]["EMPNAME"].ToString() });
                 }
                 return lstdesg;
             }
