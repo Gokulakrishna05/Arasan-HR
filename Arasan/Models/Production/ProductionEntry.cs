@@ -103,6 +103,7 @@ namespace Arasan.Models
         public List<SelectListItem> statuslst { get; set; }
         public string toloc { get; set; }
         public List<SelectListItem> loclst { get; set; }
+        public string Shed { get; set; }
     }
     public class wastage
     {

@@ -89,7 +89,39 @@ namespace Arasan.Controllers
             return View(ca);
         }
 
-
+        public ActionResult CuringInward(string PROID)
+        {
+            ProductionEntry ca = new ProductionEntry();
+            DataTable dt = IProductionEntry.EditProEntry(PROID);
+            if (dt.Rows.Count > 0)
+            {
+                ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                ca.Location = dt.Rows[0]["WCID"].ToString();
+                ca.Shift = dt.Rows[0]["SHIFT"].ToString();
+                List<output> TData2 = new List<output>();
+                output tda2 = new output();
+                DataTable dtproOut = IProductionEntry.ProOutDetail(PROID);
+                for (int i = 0; i < dtproOut.Rows.Count; i++)
+                {
+                    tda2 = new output();
+                    tda2.ItemId = dtproOut.Rows[i]["ITEMID"].ToString();
+                    tda2.startdate = dtproOut.Rows[i]["DSDT"].ToString();
+                    tda2.starttime = dtproOut.Rows[i]["STIME"].ToString();
+                    tda2.enddate = dtproOut.Rows[i]["DEDT"].ToString();
+                    tda2.endtime = dtproOut.Rows[i]["ETIME"].ToString();
+                    tda2.batchno = dtproOut.Rows[i]["OBATCHNO"].ToString();
+                    tda2.drumno = dtproOut.Rows[i]["DRUMNO"].ToString();
+                    tda2.OutStock = dtproOut.Rows[i]["OSTOCK"].ToString() != "" ? Convert.ToDouble(dtproOut.Rows[i]["OSTOCK"].ToString()) : 0;
+                    tda2.OutQty = dtproOut.Rows[i]["OQTY"].ToString() != "" ? Convert.ToDouble(dtproOut.Rows[i]["OQTY"].ToString()) : 0;
+                    tda2.ExcessQty = dtproOut.Rows[i]["OXQTY"].ToString() != "" ? Convert.ToDouble(dtproOut.Rows[i]["OXQTY"].ToString()) : 0;
+                    tda2.status = dtproOut.Rows[i]["STATUS"].ToString();
+                    tda2.toloc = dtproOut.Rows[i]["LOCID"].ToString();
+                    TData2.Add(tda2);
+                }
+                ca.outlst = TData2;
+            }
+                return View(ca);
+        }
         public IActionResult ApproveProEntry(string PROID)
         {
             ProductionEntry ca = new ProductionEntry();
