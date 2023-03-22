@@ -114,11 +114,9 @@ namespace Arasan.Services.Production
             try
             {
                 string StatementType = string.Empty; string svSQL = "";
-
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("DIEBASICPROC", objConn);
-
                     objCmd.CommandType = CommandType.StoredProcedure;
                     if (cy.ID == null)
                     {
@@ -130,7 +128,6 @@ namespace Arasan.Services.Production
                         StatementType = "Update";
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                     }
-
                     objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.Docid;
                     objCmd.Parameters.Add("DOCDATE", OracleDbType.Date).Value = DateTime.Parse(cy.Docdate);
                     objCmd.Parameters.Add("BRANCH", OracleDbType.NVarchar2).Value = cy.Branch;
@@ -207,7 +204,6 @@ namespace Arasan.Services.Production
 
             return msg;
         }
-
         public DataTable GetDIEDetail(string id)
         {
             string SvSql = string.Empty;
