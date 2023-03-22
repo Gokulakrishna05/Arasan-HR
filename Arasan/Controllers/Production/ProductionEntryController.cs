@@ -506,6 +506,12 @@ namespace Arasan.Controllers
             IEnumerable<ProductionEntry> cmp = IProductionEntry.GetAllProductionEntry();
             return View(cmp);
         }
+        public IActionResult ListCuringInward()
+        {
+            DataTable dt= IProductionEntry.GetInwardEntry();
+            IEnumerable<ProductionEntry> cmp = IProductionEntry.GetAllProductionEntry();
+            return View(cmp);
+        }
         public ActionResult GetItemDetail(string ItemId)
         {
             try

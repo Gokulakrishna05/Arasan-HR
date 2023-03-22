@@ -16,5 +16,6 @@ namespace Arasan.Interface
         DataTable ProOutDetail(string PROID);
         DataTable ProConsDetail(string PROID);
         DataTable ProwasteDetail(string PROID);
+        DataTable GetInwardEntry();
     }
 }

@@ -30,16 +30,11 @@ namespace Arasan.Services;
                 {
                     BatchProduction cmp = new BatchProduction
                     {
-
                         ID = rdr["BPRODBASICID"].ToString(),
-
                         Branch = rdr["BRANCHID"].ToString(),
                         Location = rdr["WCID"].ToString(),
                         ProcessId = rdr["PROCESSID"].ToString(),
-
                         DocId = rdr["DOCID"].ToString(),
-
-
                     };
                     cmpList.Add(cmp);
                 }

@@ -33,6 +33,7 @@ namespace Arasan.Models
         public string ProdSchNo { get; set; }
         public string startdate { get; set; }
         public string enddate { get; set; }
+        public string IsCuring { get; set; }
         public string Shift { get; set; }
         public List<SelectListItem> Shiftlst;
         public List<SelectListItem> Processlst;
