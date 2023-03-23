@@ -39,9 +39,9 @@
                                                     <thead>
                                                         <tr>
 
-                                                            <th>Doc Date</th>
-                                                            <th>Branch</th>
                                                             <th>From Location</th>
+                                                            <th>To Location</th>
+                                                            <th>Branch</th>
                                                             <th>Edit</th>
                                                             <th>Delete</th>
                                                         </tr>
@@ -55,9 +55,9 @@
                                                             foreach (var item in Model)
                                                             {
                                                                 <tr>
-                                                                    <td>@Html.DisplayFor(modelItem => item.Docdate)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.Branch)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.FromLoc)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Toloc)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Branch)</td>
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("DrumIssueEntry", "DrumIssueEntry",new { id=item.ID })"></a></div></td>
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("DrumIssueEntry", "DrumIssueEntry",new { id=item.ID })"></a></div></td>
                                                                 </tr>

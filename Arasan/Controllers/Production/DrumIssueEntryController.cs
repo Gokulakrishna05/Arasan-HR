@@ -165,6 +165,31 @@ namespace Arasan.Controllers.Production
                 throw ex;
             }
         }
+        public ActionResult GetItemDetail(string ItemId)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+
+                string unit = "";
+
+                dt = datatrans.GetItemDetails(ItemId);
+
+                if (dt.Rows.Count > 0)
+                {
+
+                    unit = dt.Rows[0]["UNITID"].ToString();
+
+                }
+
+                var result = new { unit = unit };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<SelectListItem> Binddrum()
         {
             try
@@ -173,7 +198,7 @@ namespace Arasan.Controllers.Production
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DRUMNO"].ToString(), Value = dtDesg.Rows[i]["DRUMMASTID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DRUMNO"].ToString(), Value = dtDesg.Rows[i]["DRUMNO"].ToString() });
                 }
                 return lstdesg;
             }

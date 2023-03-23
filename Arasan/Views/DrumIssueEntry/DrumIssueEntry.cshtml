@@ -37,7 +37,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Doc ID<label class="Mandatory"></label></label>
+                                            <br />  <label for="inputName3" class="col-sm-4 control-label">Doc ID<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
 
                                                 @Html.TextBoxFor(C => C.Docid, new { @id = "txtDocid", @class = "form-control", @TabIndex = 1 })
@@ -48,12 +48,12 @@
                                     <div class="form-group">
 
 
-                                        <label for="inputName3" class="col-sm-4 control-label">DOC Date<label class="Mandatory"></label></label>
+                                        <br />  <label for="inputName3" class="col-sm-4 control-label">DOC Date<label class="Mandatory"></label></label>
                                             <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                                 @Html.TextBoxFor(C => C.Docdate, new { @id = "Docdate", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })
                                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                             </div>
-                                            <br />
+                                           
                                     </div>
                                 </div>
                             </div>
@@ -70,9 +70,9 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                      <br />  <label for="inputName3" class="col-sm-4 control-label">Item ID<label class="Mandatory"></label></label>
+                                      <br />  <label for="inputName3" class="col-sm-4 control-label">Item ID<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                                @Html.DropDownListFor(C => C.Itemid, Model.Itemlst, new { @id = "ddlItemid", @Class = "form-control _select", @TabIndex = 1 })
+                                                @Html.DropDownListFor(C => C.Itemid, Model.Itemlst, new { @id = "ddlItemid", @Class = "form-control _select", @TabIndex = 1 ,onchange = "changeItem(value)" })
                                         </div>
 
 
@@ -85,7 +85,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                       <br /> <label for="inputName3" class="col-sm-4 control-label">From Location<label class="Mandatory"></label></label>
+                                       <br /> <label for="inputName3" class="col-sm-4 control-label">From Location<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                                 @Html.DropDownListFor(C => C.FromLoc, Model.Loc, new { @id = "ddlFromLoc", @Class = "form-control _select", @TabIndex = 1 })
 
@@ -95,7 +95,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <br /><label for="inputName3" class="col-sm-4 control-label">To Location<label class="Mandatory"></label></label>
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">To Location<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
 
                                                 @Html.DropDownListFor(C => C.Toloc, Model.ToLoc, new { @id = "ddlToloc", @Class = "form-control _select", @TabIndex = 1 })
@@ -107,7 +107,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                                <br /> <label for="inputName3" class="col-sm-4 control-label">From BinId<label class="Mandatory"></label></label>
+                                            <br /> <label for="inputName3" class="col-sm-4 control-label">From BinId<label class="mandatory">*</label></label>
 
                                         <div class="col-sm-8">
                                                 @Html.DropDownListFor(C => C.Frombin, Model.Bin, new { @id = "ddlFrombin", @Class = "form-control _select", @TabIndex = 1 })
@@ -120,7 +120,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                      <br />  <label for="inputName3" class="col-sm-4 control-label">To BinId<label class="Mandatory"></label></label>
+                                      <br />  <label for="inputName3" class="col-sm-4 control-label">To BinId<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
 
                                                 @Html.DropDownListFor(C => C.Tobin, Model.ToBin, new { @id = "ddlTobin", @Class = "form-control _select", @TabIndex = 1 })
@@ -132,10 +132,10 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                            <br /> <label for="inputName3" class="col-sm-4 control-label">Unit<label class="Mandatory"></label></label>
+                                            <br /> <label for="inputName3" class="col-sm-4 control-label">Unit<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
 
-                                                @Html.TextBoxFor(C => C.Unit, new { @id = "txtUnit", @class = "form-control", @TabIndex = 1 })<br />
+                                                @Html.TextBoxFor(C => C.Unit, new { @id = "txtUnit", @class = "form-control", @TabIndex = 1,@readonly="readonly" })<br />
                                         </div>
                                     </div>
                                 </div>
@@ -220,7 +220,9 @@
 
                                                     </td>
                                                     <td>
-                                                                @Html.TextBoxFor(o => o.Drumlst[i].Qty, new { @id = "txtQty" + i, @class = "form-control", style = "width: 120px;" })
+                                                                @Html.HiddenFor(o => o.Drumlst[i].Isvalid, new { @id = "Isvalid" + i })
+                                                                @Html.TextBoxFor(o => o.Drumlst[i].Qty, new { @id = "txtQty" + i, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)",@onkeyup = "changeQty(this," + i + ")"})
+                                                               
                                                     </td>
                                                     <td>
                                                                 @Html.TextBoxFor(o => o.Drumlst[i].Batch, new { @id = "txtBatch" + i, @class = "form-control", style = "width: 120px;" })
@@ -266,9 +268,11 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                          <br /><label for="inputName3" class="col-sm-4 control-label">Total Qty<label class="Mandatory"></label></label>
+                                          <br /><label for="inputName3" class="col-sm-4 control-label">Total Qty<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                                @Html.TextBoxFor(C => C.Qty, new { @id = "txtQty", @class = "form-control", @TabIndex = 1 })<br />
+                                                @Html.TextBoxFor(C => C.Qty, new { @id = "txtTotalQty", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)" ,@readonly="readonly"})
+
+                                                <br />
                                         </div>
                                     </div>
                                 </div>
@@ -314,6 +318,43 @@
         minView: 2,
         forceParse: 0
     });
+    function changeItem(ItemId) {
+        $.ajax({
+            url: 'GetItemDetail',
+            data: { "ItemId": ItemId },
+            type: "GET",
+            success: function (result) {
+                
+                document.getElementById("txtUnit").value = result.unit;
+
+            },
+            error: function () {
+                alert("Data Not Found");
+            }
+        });
+    }
+    function changeQty(_this, i) {
+        try {
+
+            var j = 0;
+            var qty = 0;
+            var tot = 0;
+            $('tr.chkitemlst').each(function () {
+                if ($(this).css('display') !== 'none') {
+                    qty = $(this).find('#txtQty' + j.toString()).val();
+                    if (qty == "")
+                        qty = 0;
+
+                    tot += eval(qty);
+                }
+                j += 1;
+            });
+            document.getElementById("txtTotalQty").value = tot.toFixed(2);
+        }
+        catch (ex) {
+            alert(ex.message);
+        }
+    }
     function PopulateDropDown(dropDownId, list) {
         //alert(list);
         $(dropDownId).empty().append();
@@ -366,7 +407,7 @@
 
         var Drum = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlDrum" + index + "' name='Drumlst[" + index + "].Drum' ><option value=''>Please select</option>" + opt + "</select></td>";
  
-        var Qty = "<td><input class='form-control' id='txtQty" + index + "' name='Drumlst[" + index + "].Qty'  style='width: 120px;' type='text'  /></td>";
+        var Qty = "<td><input class='form-control' id='txtQty" + index + "' name='Drumlst[" + index + "].Qty'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text' onkeyup = 'changeQty(this," + index + ")'    /></td>";
 
         var Batch = "<td><input class='form-control' id='txtBatch" + index + "' name='Drumlst[" + index + "].Batch'  style='width: 120px;' type='text'  /></td>";
 
