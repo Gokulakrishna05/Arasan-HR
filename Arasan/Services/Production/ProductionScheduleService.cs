@@ -66,11 +66,10 @@ namespace Arasan.Services.Production
             adapter.Fill(dtt);
             return dtt;
         }
-
-        public DataTable GetProcess(string id)
+        public DataTable GetProcess()
         {
             string SvSql = string.Empty;
-            SvSql = "Select WCID,WCBASICID,PROCESSMAST.PROCESSID from WCBASIC LEFT OUTER JOIN PROCESSMAST ON PROCESSMASTID=WCBASIC.PROCESSID where WCBASICID='" + id + "' ";
+            SvSql = "Select PROCESSID ,PROCESSMASTID from PROCESSMAST";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

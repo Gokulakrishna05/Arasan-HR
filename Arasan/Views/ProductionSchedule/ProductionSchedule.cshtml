@@ -31,11 +31,11 @@
 
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="form-group">
+                                <div class="form-gro2up">
 
                                     <label for="inputName3" class="col-sm-4 control-label">Branch<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                         @Html.DropDownListFor(C => C.Branch, Model.Brlst, new { @id = "ddlBranch", @Class = "form-control chosen-select", @TabIndex = 1 })
+                                         @Html.DropDownListFor(C => C.Branch, Model.Brlst, new { @id = "ddlBranch", @Class = "form-control _select", @TabIndex = 1 })
                                     </div>
                                 </div>
                             </div>
@@ -46,7 +46,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Plan Type<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Type, Model.Planlst, new { @id = "ddlType", @Class = "form-control chosen-select", @TabIndex = 1 })<br />
+                                            @Html.DropDownListFor(C => C.Type, Model.Planlst, new { @id = "ddlType", @Class = "form-control _select", @TabIndex = 1 })<br />
                                     </div>
                                 </div>
                             </div>
@@ -82,8 +82,7 @@
                                 <div class="form-group">
                                        <label for="inputName3" class="col-sm-4 control-label">Work Center<label class="Mandatory"></label></label>
                                       <div class="col-sm-8">
-                                    @Html.DropDownListFor(C => C.WorkCenter, Model.Worklst,"Please Select", new { @id = "ddlWorkCenter", @Class = "form-control chosen-select", @TabIndex = 1, @onchange = "changeProcess(this.value)" })
-
+                                     @Html.DropDownListFor(C => C.WorkCenter, Model.Worklst, new { @id = "ddlWorkCenter", @Class = "form-control _select", @TabIndex = 1 })
                                     </div>
 
                                 </div>
@@ -94,9 +93,8 @@
 
                                         <label for="inputName3" class="col-sm-4 control-label">Process<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.DropDownListFor(C => C.Process, Model.Processlst, new { @id = "ddlProcess", @Class = "form-control chosen-select", @TabIndex = 1 })
-
-                                        @Html.HiddenFor(C => C.ID)
+                                        @Html.DropDownListFor(C => C.Process, Model.Processlst, new { @id = "ddlProcess", @Class = "form-control _select", @TabIndex = 1 })
+                                       
                                     </div>
                                 </div>
                             </div>
@@ -157,7 +155,7 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Output Item<label class="Mandatory"></label></label>
 
                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Itemid, new { @id = "txtItemid", @class = "form-control", @TabIndex = 2 })<br />
+                                             @Html.DropDownListFor(C => C.Itemid, Model.Itemlst, new { @id = "ddlItemid", @Class = "form-control _select", @TabIndex = 1 ,onchange = "changeItemd(value)" })<br />
                                             <br />
                                     </div>
                                 </div>
@@ -168,7 +166,7 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Unit<label class="Mandatory"></label></label>
 
                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Unit, new { @id = "txtUnit", @class = "form-control", @TabIndex = 2 })<br />
+                                            @Html.TextBoxFor(C => C.Unit, new { @id = "txtUnit", @class = "form-control", @TabIndex = 2,@readonly="readonly"})<br />
                                     </div>
                                 </div>
                             </div>
@@ -292,11 +290,11 @@
                                                                         {
                                                                             <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
                                                                                 <td>
-                                                                                    @Html.DropDownListFor(o => o.PrsLst[i].ItemGroupId, Model.PrsLst[i].ItemGrouplst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItemGrp" + i, style = "width: 170px;", onchange = "Grup_Change(this.value," + i + ")"})
+                                                                                    @Html.DropDownListFor(o => o.PrsLst[i].ItemGroupId, Model.PrsLst[i].ItemGrouplst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItemGrp" + i, style = "width: 170px;", onchange = "Grup_Changek(this.value," + i + ")"})
                                                                                 </td>
                                                                                 <td>
 
-                                                                                    @Html.DropDownListFor(o => o.PrsLst[i].ItemId, Model.PrsLst[i].Itemlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItem" + i, style = "width: 170px;", onchange = "changeItem(this.value," + i + ")" })
+                                                                                    @Html.DropDownListFor(o => o.PrsLst[i].ItemId, Model.PrsLst[i].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 170px;", onchange = "changeItemk(this.value," + i + ")" })
                                                                                     @Html.HiddenFor(o => o.PrsLst[i].saveItemId)
                                                                                 </td>
                                                                                 <td>
@@ -377,11 +375,11 @@
                                                                     {
                                                                         <tr id="trBook@(j)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
                                                                             <td>
-                                                                                @Html.DropDownListFor(o => o.ProLst[j].ItemGroup, Model.ProLst[j].PItemGrouplst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItemGroup" + j, style = "width: 170px;", onchange = "Grup_Change1(this.value," + j + ")"})
+                                                                                @Html.DropDownListFor(o => o.ProLst[j].ItemGroup, Model.ProLst[j].PItemGrouplst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItemGroup" + j, style = "width: 170px;", onchange = "Grup_Change1(this.value," + j + ")"})
                                                                             </td>
                                                                             <td>
 
-                                                                                @Html.DropDownListFor(o => o.ProLst[j].Item, Model.ProLst[j].PItemlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItemid" + j, style = "width: 170px;", onchange = "changeItem1(this.value," + j + ")" })
+                                                                                @Html.DropDownListFor(o => o.ProLst[j].Item, Model.ProLst[j].PItemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItemid" + j, style = "width: 170px;", onchange = "changeItem1(this.value," + j + ")" })
                                                                                 @Html.HiddenFor(o => o.ProLst[j].saveItemId)
                                                                             </td>
                                                                             <td>
@@ -556,11 +554,11 @@
                                                                         @Html.TextBoxFor(o => o.ProscLst[a].Hrs, new { @id = "txtHrs" + a, @class = "form-control", style = "width: 120px;" })
                                                                 </td>
                                                                 <td>
-                                                                        @Html.DropDownListFor(o => o.ProscLst[a].ItemGrp, Model.ProscLst[a].SItemGrouplst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItemGp" + a, style = "width: 170px;", onchange = "Grup_Change2(this.value," + a + ")"})
+                                                                        @Html.DropDownListFor(o => o.ProscLst[a].ItemGrp, Model.ProscLst[a].SItemGrouplst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItemGp" + a, style = "width: 170px;", onchange = "Grup_Change2(this.value," + a + ")"})
                                                                 </td>
                                                                 <td>
 
-                                                                        @Html.DropDownListFor(o => o.ProscLst[a].Itemd, Model.ProscLst[a].SItemlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItem1" + a, style = "width: 170px;", onchange = "changeItem1(this.value," + a + ")" })
+                                                                       @Html.DropDownListFor(o => o.ProscLst[a].Itemd, Model.ProscLst[a].SItemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem1" + a, style = "width: 170px;", onchange = "changeItem1(this.value," + a + ")" })
                                                                         @Html.HiddenFor(o => o.ProscLst[a].saveItemId)
                                                                  </td>
                                                                  <td>
@@ -681,7 +679,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Entered By<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
+                                            @Html.DropDownListFor(C => C.Enterd, Model.RecList, new { @id = "ddlEnterd", @Class = "form-control _select", @TabIndex = 1 })<br />
                                     </div>
                                 </div>
                             </div>
@@ -713,7 +711,9 @@
     </div>
 </div>
 <script>
-    $(".chosen-select").chosen();
+    $(function () {
+        $('._select').select2();
+    });
     $('.form_date').datetimepicker({
         //   language:  'fr',
         weekStart: 1,
@@ -724,7 +724,22 @@
         minView: 2,
         forceParse: 0
     });
-    function changeProcess(ItemId) {
+     function changeItemd(ItemId) {
+        $.ajax({
+            url: 'GetItemDetail',
+            data: { "ItemId": ItemId },
+            type: "GET",
+            success: function (result) {
+                
+                document.getElementById("txtUnit").value = result.unit;
+
+            },
+            error: function () {
+                alert("Data Not Found");
+            }
+        });
+    }
+    @*function changeProcess(ItemId) {
 
         $.ajax({
             url: "GetProcessJSON",
@@ -741,8 +756,8 @@
                 alert("Please Select Work Center");
             }
         });
-    }
-    function Grup_Change(itemid, i) {
+    }*@
+    function Grup_Changek(itemid, i) {
         //alert(itemid);
         //debugger;
         $.ajax({
@@ -802,16 +817,16 @@
             }
         });
     }
-    function changeItem(ItemId, i) {
+    function changeItemk(ItemId, i) {
         $.ajax({
             url: 'GetItemDetail',
             data: { "ItemId": ItemId },
             type: "GET",
             success: function (result) {
 
-                document.getElementById("txtUnit" + i).value = result.unit;
+               
+                 document.getElementById("txtUnit" + i).value = result.unit;
                 document.getElementById("txtDesc" + i).value = result.Desc;
-
 
             },
             error: function () {
@@ -828,7 +843,8 @@
 
                 document.getElementById("txtUnitId" + i).value = result.unit;
                 document.getElementById("txtDes" + i).value = result.desc;
-
+                 document.getElementById("txtUnit" + i).value = result.unit;
+                document.getElementById("txtDesc" + i).value = result.Desc;
 
             },
             error: function () {
@@ -1039,8 +1055,9 @@
         var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + ItemGrp + Item + Desc + Unit + Input + Qty + removeCell + "</tr>";
         //alert(Packing);
         $("#tbBooks").append(newRow);
-
-        $(".chosen-select").chosen();
+        $(function () {
+            $('._select').select2();
+        });
     }
     function AppendRow1(opt) {
         var index = $("#tbBooks1").children("tr").length;
@@ -1069,8 +1086,10 @@
         var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + ItemGrp + Item + Des + Unit + Output + Alam + OutputType + Sch + Produced + removeCell + "</tr>";
         //alert(Packing);
         $("#tbBooks1").append(newRow);
-
-        $(".chosen-select").chosen();
+       $(function() 
+       {
+            $('._select').select2();
+       });
     }
      function AppendRow2(opt) {
         var index = $("#tbBooks2").children("tr").length;
@@ -1090,8 +1109,10 @@
         var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Parameters + Unit + Desc + Unit + Initial + Final + Remarks  + removeCell + "</tr>";
         //alert(Packing);
         $("#tbBooks2").append(newRow);
-
-        $(".chosen-select").chosen();
+       $(function() 
+       {
+            $('._select').select2();
+       });
     }
     function AppendRow3(opt) {
         var index = $("#tbBooks3").children("tr").length;
@@ -1113,8 +1134,10 @@
         var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + SchDate + Hrs + ItemGrp + Item + Qty + Change + removeCell + "</tr>";
         //alert(Packing);
         $("#tbBooks3").append(newRow);
-
-        $(".chosen-select").chosen();
+        $(function() 
+       {
+            $('._select').select2();
+       });
     }
      function AppendRow4(opt) {
         var index = $("#tbBooks4").children("tr").length;
@@ -1129,9 +1152,14 @@
         var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Pack + Qty + removeCell + "</tr>";
         //alert(Packing);
         $("#tbBooks4").append(newRow);
-
-        $(".chosen-select").chosen();
+        $(function() 
+       {
+            $('._select').select2();
+       });
     }
+     $(function () {
+        $('._select').select2();
+    });
    @* $(document).ready(function () {
         $('#btnSave').click(function (e) {
             var isValid = true;

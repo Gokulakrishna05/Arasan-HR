@@ -30,11 +30,11 @@ namespace Arasan.Controllers.Production
             ca.Brlst = BindBranch();
             ca.Branch = Request.Cookies["BranchId"];
             ca.Worklst = BindWorkCenter();
-            ca.Processlst = BindProcess("");
             ca.Enterd = Request.Cookies["UserId"];
             ca.RecList = BindEmp();
             ca.Planlst = BindPType();
-            //ca.Itemlst = BindItemlst();
+            ca.Itemlst = BindItemlst();
+            ca.Processlst = BindProcess("");
             List<ProductionScheduleItem> TData = new List<ProductionScheduleItem>();
             ProductionScheduleItem tda = new ProductionScheduleItem();
             List<ProductionItem> TData1 = new List<ProductionItem>();
@@ -279,6 +279,23 @@ namespace Arasan.Controllers.Production
             IEnumerable<ProductionSchedule> cmp = ProductionScheduleService.GetProductionSchedule();
             return View(cmp);
         }
+        public List<SelectListItem> BindProcess(string id)
+        {
+            try
+            {
+                DataTable dtDesg = ProductionScheduleService.GetProcess();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PROCESSID"].ToString(), Value = dtDesg.Rows[i]["PROCESSMASTID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<SelectListItem> BindPType()
         {
             try
@@ -304,6 +321,31 @@ namespace Arasan.Controllers.Production
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEMMASTERID"].ToString() });
                 }
                 return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult GetItemDetails(string ItemId)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+
+                string unit = "";
+
+                dt = datatrans.GetItemDetails(ItemId);
+
+                if (dt.Rows.Count > 0)
+                {
+
+                    unit = dt.Rows[0]["UNITID"].ToString();
+
+                }
+
+                var result = new { unit = unit };
+                return Json(result);
             }
             catch (Exception ex)
             {
@@ -395,23 +437,6 @@ namespace Arasan.Controllers.Production
                 throw ex;
             }
         }
-        public List<SelectListItem> BindProcess(string id)
-        {
-            try
-            {
-                DataTable dtDesg = ProductionScheduleService.GetProcess(id);
-                List<SelectListItem> lstdesg = new List<SelectListItem>();
-                for (int i = 0; i < dtDesg.Rows.Count; i++)
-                {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PROCESSID"].ToString(), Value = dtDesg.Rows[i]["WCBASICID"].ToString() });
-                }
-                return lstdesg;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
         public ActionResult GetItemDetail(string ItemId)
         {
             try
@@ -435,13 +460,13 @@ namespace Arasan.Controllers.Production
                 throw ex;
             }
         }
-        public JsonResult GetProcessJSON(string processid)
-        {
-            ProductionScheduleItem model = new ProductionScheduleItem();
-            //model.Processlst = BindProcess(processid);
-            return Json(BindProcess(processid));
+        //public JsonResult GetProcessJSON(string processid)
+        //{
+        //    ProductionScheduleItem model = new ProductionScheduleItem();
+        //    //model.Processlst = BindProcess(processid);
+        //    return Json(BindProcess(processid));
 
-        }
+        //}
         public JsonResult GetItemGrpJSON()
         {
             //ProductionScheduleItem model = new ProductionScheduleItem();
