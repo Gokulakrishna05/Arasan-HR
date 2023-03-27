@@ -290,15 +290,15 @@
                                                                         {
                                                                             <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
                                                                                 <td>
-                                                                                    @Html.DropDownListFor(o => o.PrsLst[i].ItemGroupId, Model.PrsLst[i].ItemGrouplst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItemGrp" + i, style = "width: 170px;", onchange = "Grup_Changek(this.value," + i + ")"})
+                                                                                    @Html.DropDownListFor(o => o.PrsLst[i].ItemGroupId, Model.PrsLst[i].ItemGrouplst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItemGrp" + i, style = "width: 170px;", onchange = "Grup_Change(this.value," + i + ")"})
                                                                                 </td>
                                                                                 <td>
 
-                                                                                    @Html.DropDownListFor(o => o.PrsLst[i].ItemId, Model.PrsLst[i].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 170px;", onchange = "changeItemk(this.value," + i + ")" })
+                                                                                    @Html.DropDownListFor(o => o.PrsLst[i].ItemId, Model.PrsLst[i].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 170px;", onchange = "changeItem(this.value," + i + ")" })
                                                                                     @Html.HiddenFor(o => o.PrsLst[i].saveItemId)
                                                                                 </td>
                                                                                 <td>
-                                                                                @Html.TextBoxFor(o => o.PrsLst[i].Desc, new { @id = "txtDesc" + i, @class = "form-control", style = "width: 200px;", @readonly = "readonly"})
+                                                                                @Html.TextBoxFor(o => o.PrsLst[i].Desc, new { @id = "txtDes" + i, @class = "form-control", style = "width: 200px;", @readonly = "readonly"})
                                                                                 </td>
                                                                                 <td>
                                                                                     @Html.TextBoxFor(o => o.PrsLst[i].Unit, new { @id = "txtUnit" + i, @class = "form-control", style = "width: 100px;" , @readonly = "readonly"})
@@ -312,7 +312,7 @@
 
                                                                                 <td>
                                                                                 @Html.HiddenFor(o => o.PrsLst[i].Isvalid, new { @id = "Isvalid" + i })
-                                                                                <img onclick="removeRow1(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(i)" />
+                                                                                <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(i)" />
                                                                             </td>
                                                                                
                                                                         </tr>
@@ -739,29 +739,12 @@
             }
         });
     }
-    @*function changeProcess(ItemId) {
-
-        $.ajax({
-            url: "GetProcessJSON",
-            type: "post",
-            data: { 'processid': ItemId },
-            cache: false,
-            success: function (response) {
-                var newlist;
-                newlist = response.Worklst;
-                PopulateDropDown("#ddlProcess", response);
-            },
-            error: function () {
-                debugger;
-                alert("Please Select Work Center");
-            }
-        });
-    }*@
-    function Grup_Changek(itemid, i) {
+  
+    function Grup_Change(itemid, i) {
         //alert(itemid);
         //debugger;
         $.ajax({
-            url: "GetItemJSON",
+            url: "GetItem1JSON",
             type: "post",
             data: { 'itemid': itemid },
             cache: false,
@@ -781,7 +764,7 @@
         //alert(itemid);
         //debugger;
         $.ajax({
-            url: "GetItemJSON",
+            url: "GetItem1JSON",
             type: "post",
             data: { 'itemid': itemid },
             cache: false,
@@ -817,17 +800,16 @@
             }
         });
     }
-    function changeItemk(ItemId, i) {
+    function changeItem(ItemId, i) {
         $.ajax({
             url: 'GetItemDetail',
             data: { "ItemId": ItemId },
             type: "GET",
             success: function (result) {
 
-               
+                 document.getElementById("txtDes" + i).value = result.desc;
                  document.getElementById("txtUnit" + i).value = result.unit;
-                document.getElementById("txtDesc" + i).value = result.Desc;
-
+               
             },
             error: function () {
                 alert("Data Not Found");
@@ -843,8 +825,7 @@
 
                 document.getElementById("txtUnitId" + i).value = result.unit;
                 document.getElementById("txtDes" + i).value = result.desc;
-                 document.getElementById("txtUnit" + i).value = result.unit;
-                document.getElementById("txtDesc" + i).value = result.Desc;
+               
 
             },
             error: function () {
@@ -881,7 +862,7 @@
         var opt = "";
         $.ajax({
             type: "POST",
-            url: 'GetItemGrpJSON',
+            url: 'GetItemGrp1JSON',
             success: function (data) {
 
                 $.each(data, function () {
