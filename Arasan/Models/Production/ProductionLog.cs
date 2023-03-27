@@ -54,6 +54,9 @@ namespace Arasan.Models
         public List<OutputDetail> OutLst { get; set; }
         public List<WasteDetail> WasteLst { get; set; }
         public List<SourcingDetail> SourcingLst { get; set; }
+        public List<BunkerDetail> BunkLst { get; set; }
+        public List<ParameterDetail> ParamLst { get; set; }
+        public List<ProcessDetail> ProcessLst { get; set; }
     }
     public class WorkCenter
     {
@@ -256,5 +259,74 @@ namespace Arasan.Models
         public string StartTime { get; set; }
         public string EndTime { get; set; }
         public string Isvalid { get; set; }
+    }
+    public class BunkerDetail
+    {
+        public string ID { get; set; }
+
+       
+
+
+
+
+        public double OPBin { get; set; }
+        public double PIP { get; set; }
+        public double GIP { get; set; }
+        public double CLBin { get; set; }
+
+        public double MLOP { get; set; }
+        public double MLAdd { get; set; }
+        public double MLDed { get; set; }
+        public double MLCL { get; set; }
+      
+        
+    }
+    public class ParameterDetail
+    {
+        public string ID { get; set; }
+
+
+
+
+
+
+        public string Param { get; set; }
+        public string Unit { get; set; }
+        public string StartDate { get; set; }
+        public string EndDate { get; set; }
+
+        public string StartTime { get; set; }
+        public string EndTime { get; set; }
+        public string Value { get; set; }
+       
+        public string Isvalid { get; set; }
+
+
+    }
+    public class ProcessDetail
+    {
+        public string ID { get; set; }
+
+
+
+
+        public List<SelectListItem> Procelst { get; set; }
+        public string Process { get; set; }
+
+        public double DistNo { get; set; }
+        public double DistNo1 { get; set; }
+        public string StartDate { get; set; }
+        public string EndDate { get; set; }
+        public double RunHrs { get; set; }
+        public double TotHrs { get; set; }
+        public double BreakHrs { get; set; }
+        public string Seq { get; set; }
+        public string StartTime { get; set; }
+        public string EndTime { get; set; }
+        public string Batch { get; set; }
+        public string Narr { get; set; }
+        public string Isvalid { get; set; }
+
+
     }
 }

@@ -18,6 +18,13 @@ namespace Arasan.Interface
         DataTable GetProEmpDet(string id);
         DataTable GetProBreakDet(string id);
         DataTable GetProInpDet(string id);
+        DataTable GetProConsDet(string id);
+        DataTable GetProOutDet(string id);
+        DataTable GetProOutsDet(string id);
+        DataTable GetProBunkDet(string id);
+        DataTable GetProParamDet(string id);
+        DataTable GetProProcessDet(string id);
+        DataTable GetProWasteDet(string id);
         DataTable GetEmployeeDetails(string id);
         DataTable GetProductionLog(string id);
         DataTable GetMachineDetails(string id);
