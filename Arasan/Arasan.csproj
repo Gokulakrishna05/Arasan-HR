@@ -10,6 +10,7 @@
     <None Remove="Models\DataTransactions.cs~RF6bf757.TMP" />
     <None Remove="Services\Production\euok0plw.tmv~" />
     <None Remove="Views\Account\1agfobwd.bjs~" />
+    <None Remove="Views\QCFinalValueEntry\QCFinalValueEntry.cshtml~RF5db3da.TMP" />
   </ItemGroup>
 
   <ItemGroup>
