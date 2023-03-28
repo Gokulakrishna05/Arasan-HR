@@ -93,7 +93,11 @@ internal class Program
         builder.Services.TryAddSingleton<IProductionLog, ProductionLogService>();
         builder.Services.TryAddSingleton<ICuringService, CuringService>(); 
           builder.Services.TryAddSingleton<IDrumIssueEntryService, DrumIssueEntryService>();
+ 
+        builder.Services.TryAddSingleton<IPackingNote, PackingNoteService>();
+ 
         builder.Services.TryAddSingleton<IQCFinalValueEntryService, QCFinalValueEntryService>();
+ 
 
         builder.Services.AddSession();
         var emailConfig = builder.Configuration.GetSection("MailSettings").Get<MailSettings>();
