@@ -10,7 +10,6 @@ namespace Arasan.Interface.Production
         DataTable GetProductionSchedule(string id);
         //DataTable GetProductionScheduleServiceDetail(string id);
         string ProductionScheduleCRUD(ProductionSchedule cy);
-        DataTable GetProcess(string id);
         DataTable GetWorkCenter();
         DataTable GetItem(string value);
         DataTable GetItem();
@@ -23,6 +22,6 @@ namespace Arasan.Interface.Production
         DataTable GetProductionScheduleParametersDetail(string id);
         DataTable GetOutputDetailsDayWiseDetail(string id);
         DataTable GetPackDetail(string id);
-
+        DataTable GetProcess();
     }
 }

@@ -79,35 +79,7 @@ namespace Arasan.Services.Production
             return dtt;
         }
        
-        public IEnumerable<DrumIssueEntry> GetAllDrumIssueEntry()
-        {
-            List<DrumIssueEntry> cmpList = new List<DrumIssueEntry>();
-            using (OracleConnection con = new OracleConnection(_connectionString))
-            {
-                using (OracleCommand cmd = con.CreateCommand())
-                {
-                    con.Open();
-                    cmd.CommandText = "select DOCID,to_char(DIEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,BRANCHMAST.BRANCHID,FROMLOC,TOLOC,DIEBASICID FROM DIEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=DIEBASIC.BRANCH";
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
-                    {
-                        DrumIssueEntry cmp = new DrumIssueEntry
-                        {
-                            ID = rdr["DIEBASICID"].ToString(),
-                            Docid = rdr["DOCID"].ToString(),
-                            Docdate = rdr["DOCDATE"].ToString(),
-                            Branch = rdr["BRANCH"].ToString(),
-                            FromLoc = rdr["FROMLOC"].ToString(),
-                            Toloc = rdr["TOLOC"].ToString(),
-                            
-                           
-                        };
-                        cmpList.Add(cmp);
-                    }
-                }
-            }
-            return cmpList;
-        }
+       
         public string DrumIssueEntryCRUD(DrumIssueEntry cy)
         {
             string msg = "";
@@ -207,12 +179,41 @@ namespace Arasan.Services.Production
         public DataTable GetDIEDetail(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select ITEMID,ITEMMASTERID from ITEMMASTER";
+            SvSql = "select DIEBASICID,FBINID,TBINID,DRUMNO,QTY,BATCHNO from DIEDETAIL where DIEBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
+        }
+
+        public IEnumerable<DrumIssueEntry> GetAllDrumIssueEntry()
+        {
+            List<DrumIssueEntry> cmpList = new List<DrumIssueEntry>();
+            using (OracleConnection con = new OracleConnection(_connectionString))
+            {
+
+                using (OracleCommand cmd = con.CreateCommand())
+                {
+                    con.Open();
+                    cmd.CommandText = "select LOCDETAILS.LOCID,TYPE,BRANCHMAST.BRANCHID,DIEBASICID FROM DIEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=DIEBASIC.BRANCH  LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID=DIEBASIC.FROMLOC";
+                    OracleDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        DrumIssueEntry cmp = new DrumIssueEntry
+                        {
+
+                            ID = rdr["DIEBASICID"].ToString(),
+                            FromLoc = rdr["LOCID"].ToString(),
+                            Branch = rdr["BRANCHID"].ToString(),
+                            type = rdr["TYPE"].ToString(),
+                           
+                        };
+                        cmpList.Add(cmp);
+                    }
+                }
+            }
+            return cmpList;
         }
     }
 }
