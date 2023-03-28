@@ -46,7 +46,6 @@ namespace Arasan.Controllers
             {
 
                 DataTable dt = new DataTable();
-
                 dt = QCTestingService.GetQCTesting(id);
                 if (dt.Rows.Count > 0)
                 {

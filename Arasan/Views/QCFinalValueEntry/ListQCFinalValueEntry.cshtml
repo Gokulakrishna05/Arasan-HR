@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<Arasan.Models.QCFinalValueEntry>
 @{
     ViewData["Title"] = "QCFinalValueEntry";
 }
@@ -38,38 +38,32 @@
                                                 <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
                                                     <thead>
                                                         <tr>
-                                                            <td>S.No</td>
-                                                            <th>Tax Type </th>
-                                                            <th>Percentage [%]</th>
-
+                                                            
+                                                            <th>Branch</th>
+                                                            <th>Work Center</th>
+                                                            <th>Process</th>
                                                             <th>Edit</th>
                                                             <th>Delete</th>
                                                         </tr>
                                                     </thead>
 
                                                     <tbody>
-                                                        <tr>
-                                                            <td>1</td>
-                                                            <td>CGST</td>
-                                                            <td>5%</td>
+                                                        @{
+                                                            int i = 1;
 
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("QCFinalValueEntry", "QCFinalValueEntry")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("QCFinalValueEntry", "QCFinalValueEntry")"></a></div></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>2</td>
-                                                            <td>SGST</td>
-                                                            <td>2%</td>
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("QCFinalValueEntry", "QCFinalValueEntry")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("QCFinalValueEntry", "QCFinalValueEntry")"></a></div></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>3</td>
-                                                            <td>IGST</td>
-                                                            <td>10%</td>
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("QCFinalValueEntry", "QCFinalValueEntry")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("QCFinalValueEntry", "QCFinalValueEntry")"></a></div></td>
-                                                        </tr>
+                                                            foreach (var item in Model)
+                                                            {
+                                                                <tr>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Branch)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.WorkCenter)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Process)</td>
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("QCFinalValueEntry", "QCFinalValueEntry",new { id=item.ID })"></a></div></td>
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("QCFinalValueEntry", "QCFinalValueEntry",new { id=item.ID })"></a></div></td>
+                                                                </tr>
+                                                                i++;
+                                                            }
+                                                        }
+                                                       
                                                     </tbody>
                                                 </table>
                                             </div>
