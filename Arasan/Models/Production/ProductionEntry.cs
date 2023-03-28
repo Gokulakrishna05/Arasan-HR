@@ -52,6 +52,14 @@ namespace Arasan.Models
         public double totalconsqty { get; set; }
         public List<SelectListItem> RecList;
         public string Enterd { get; set; }
+        public string Remarks { get; set; }
+       public string PROID { get; set; }
+        public string BranchId { get; set; }    
+        public string WCID { get; set; }
+        public string LOCID { get; set; }
+        public string shiftid { get; set; }
+        public string starttime { get; set; }
+        public string endtime { get; set; }
     }
     public class ProIn
     {
@@ -104,6 +112,7 @@ namespace Arasan.Models
         public string toloc { get; set; }
         public List<SelectListItem> loclst { get; set; }
         public string Shed { get; set; }
+        public List<SelectListItem> Shedlst { get; set; }
     }
     public class wastage
     {
@@ -115,5 +124,23 @@ namespace Arasan.Models
         public string toloc { get; set; }
         public List<SelectListItem> loclst { get; set; }
         public string BinId { get; set; }
+    }
+    public class InwardItemBindList
+    {
+        public string branch { get; set; }
+        public string docid { get; set; }
+        public string docdate { get; set; }
+        public long inwardid { get; set; }
+        public string curoutward { get; set; }
+    }
+    public class InwardItemDetailBindList
+    {
+        public string itemid { get; set; }
+        public string drumno { get; set; }
+        public string batchno { get; set; }
+        public long inwdetailid { get; set; }
+        public string batchqty { get; set; }
+        public string duedate { get; set; }
+        public long inwardid { get; set; }
     }
 }

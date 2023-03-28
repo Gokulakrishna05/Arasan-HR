@@ -29,7 +29,7 @@ namespace Arasan.Services.Qualitycontrol
                     {
                         QCTestValueEntry cmp = new QCTestValueEntry
                         {
-                            ID = rdr["QCRESULTBASICID"].ToString(),
+                            ID = rdr["QTVEBASICID"].ToString(),
                             DocId = rdr["DOCID"].ToString(),
                             Docdate = rdr["DOCDATE"].ToString(),
                             Work = rdr["WCID"].ToString(),

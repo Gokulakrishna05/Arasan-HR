@@ -96,26 +96,34 @@ namespace Arasan.Controllers
             if (dt.Rows.Count > 0)
             {
                 ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                ca.BranchId = dt.Rows[0]["BRANCHMASTID"].ToString();
+                ca.WCID= dt.Rows[0]["WCBASICID"].ToString();
+                ca.LOCID = datatrans.GetDataString("select LOCDETAILSID from locdetails where LOCID='CURING'");
                 ca.Location = dt.Rows[0]["WCID"].ToString();
                 ca.Shift = dt.Rows[0]["SHIFT"].ToString();
+                DataTable dts = datatrans.GetData("select SHIFTMASTID,FROMTIME,TOTIME from SHIFTMAST where SHIFTNO='"+ ca.Shift  + "'");
+                if(dts.Rows.Count > 0)
+                {
+                    ca.shiftid= dts.Rows[0]["SHIFTMASTID"].ToString();
+                    ca.starttime= dts.Rows[0]["FROMTIME"].ToString();
+                    ca.endtime= dts.Rows[0]["TOTIME"].ToString();
+                }
+                ca.RecList = BindEmp();
+                ca.PROID = PROID;
+                ca.Enterd = Request.Cookies["UserId"];
                 List<output> TData2 = new List<output>();
                 output tda2 = new output();
-                DataTable dtproOut = IProductionEntry.ProOutDetail(PROID);
+                DataTable dtproOut = IProductionEntry.ProOutInwardDetail(PROID);
                 for (int i = 0; i < dtproOut.Rows.Count; i++)
                 {
                     tda2 = new output();
                     tda2.ItemId = dtproOut.Rows[i]["ITEMID"].ToString();
-                    tda2.startdate = dtproOut.Rows[i]["DSDT"].ToString();
-                    tda2.starttime = dtproOut.Rows[i]["STIME"].ToString();
-                    tda2.enddate = dtproOut.Rows[i]["DEDT"].ToString();
-                    tda2.endtime = dtproOut.Rows[i]["ETIME"].ToString();
                     tda2.batchno = dtproOut.Rows[i]["OBATCHNO"].ToString();
                     tda2.drumno = dtproOut.Rows[i]["DRUMNO"].ToString();
                     tda2.OutStock = dtproOut.Rows[i]["OSTOCK"].ToString() != "" ? Convert.ToDouble(dtproOut.Rows[i]["OSTOCK"].ToString()) : 0;
                     tda2.OutQty = dtproOut.Rows[i]["OQTY"].ToString() != "" ? Convert.ToDouble(dtproOut.Rows[i]["OQTY"].ToString()) : 0;
-                    tda2.ExcessQty = dtproOut.Rows[i]["OXQTY"].ToString() != "" ? Convert.ToDouble(dtproOut.Rows[i]["OXQTY"].ToString()) : 0;
-                    tda2.status = dtproOut.Rows[i]["STATUS"].ToString();
                     tda2.toloc = dtproOut.Rows[i]["LOCID"].ToString();
+                    tda2.Shedlst = BindCusringset();
                     TData2.Add(tda2);
                 }
                 ca.outlst = TData2;
@@ -414,6 +422,24 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+
+        public List<SelectListItem> BindCusringset()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetcuringSet();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["BINID"].ToString(), Value = dtDesg.Rows[i]["BINBASICID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<SelectListItem> BindWorkCenter()
         {
             try
@@ -533,6 +559,43 @@ namespace Arasan.Controllers
 
             return View(Cy);
         }
+        [HttpPost]
+        public ActionResult CuringInward(ProductionEntry Cy, string id)
+        {
+
+            try
+            {
+                Cy.ID = id;
+                string Strout = IProductionEntry.CuringInwardEntryCRUD(Cy);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Cy.ID == null)
+                    {
+                        TempData["notice"] = "ProductionEntry Inserted Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "ProductionEntry Updated Successfully...!";
+                    }
+                    return RedirectToAction("ListProductionEntry");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit ProductionEntry";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(Cy);
+        }
         public IActionResult ListProductionEntry()
         {
             IEnumerable<ProductionEntry> cmp = IProductionEntry.GetAllProductionEntry();
@@ -540,9 +603,56 @@ namespace Arasan.Controllers
         }
         public IActionResult ListCuringInward()
         {
-            DataTable dt= IProductionEntry.GetInwardEntry();
-            IEnumerable<ProductionEntry> cmp = IProductionEntry.GetAllProductionEntry();
-            return View(cmp);
+            return View();
+        }
+        public ActionResult MyListPInwardgrid()
+        {
+            List<InwardItemBindList> Reg = new List<InwardItemBindList>();
+            DataTable dtUsers = new DataTable();
+
+            dtUsers = IProductionEntry.GetInward();
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+
+             Reg.Add(new InwardItemBindList
+                {
+                 inwardid = Convert.ToInt64(dtUsers.Rows[i]["CURINPBASICID"].ToString()),
+                    branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
+                    docid = dtUsers.Rows[i]["DOCID"].ToString(),
+                    docdate = dtUsers.Rows[i]["DOCDATE"].ToString()
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
+        }
+        public ActionResult ListInwardItemgrid(string PRID)
+        {
+            List<InwardItemDetailBindList> EnqChkItem = new List<InwardItemDetailBindList>();
+            DataTable dtEnq = new DataTable();
+            dtEnq = IProductionEntry.GetInwardItem(PRID);
+            for (int i = 0; i < dtEnq.Rows.Count; i++)
+            {
+                EnqChkItem.Add(new InwardItemDetailBindList
+                {
+                    inwardid = Convert.ToInt64(dtEnq.Rows[i]["CURINPBASICID"].ToString()),
+                    inwdetailid = Convert.ToInt64(dtEnq.Rows[i]["CURINPDETAILID"].ToString()),
+                    itemid = dtEnq.Rows[i]["ITEMID"].ToString(),
+                    drumno = dtEnq.Rows[i]["DRUMNO"].ToString(),
+                    batchno = dtEnq.Rows[i]["BATCHNO"].ToString(),
+                    batchqty = dtEnq.Rows[i]["BATCHQTY"].ToString(),
+                    duedate = dtEnq.Rows[i]["DUEDATE"].ToString(),
+                });
+            }
+
+            return Json(new
+            {
+                EnqChkItem
+            });
         }
         public ActionResult GetItemDetail(string ItemId)
         {

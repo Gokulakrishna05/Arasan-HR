@@ -294,6 +294,57 @@ namespace Arasan.Services;
         return dtt;
 
     }
+
+    public DataTable EditProEntry(string PROID)
+    {
+        string SvSql = string.Empty;
+        SvSql = "select WCBASIC.WCBASICID,BRANCHMAST.BRANCHMASTID,BRANCHMAST.BRANCHID,WCBASIC.WCID,PROCESSMAST.PROCESSID,BPRODBASIC.DOCID,to_char(BPRODBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,BPRODBASIC.STARTTIME,BPRODBASIC.ENDTIME,to_char(BPRODBASIC.STARTDATE,'dd-MON-yyyy') STARTDATE,to_char(BPRODBASIC.ENDDATE,'dd-MON-yyyy') ENDDATE,ETYPE,TOTALINPUT,TOTALOUTPUT,TOTALWASTAGE,TOTCONSQTY,TOTRMVALUE,TOTCONSVALUE,TOTMACHINEVALUE,TOTINPUTVALUE,TOTRMQTY,SHIFT from BPRODBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=BPRODBASIC.BRANCH LEFT OUTER JOIN WCBASIC ON BPRODBASIC.WCID=WCBASIC.WCBASICID LEFT OUTER JOIN PROCESSMAST ON PROCESSMAST.PROCESSMASTID=BPRODBASIC.PROCESSID where BPRODBASICID=" + PROID + "";
+        DataTable dtt = new DataTable();
+        OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        adapter.Fill(dtt);
+        return dtt;
+    }
+    public DataTable ProIndetail(string PROID)
+    {
+        string SvSql = string.Empty;
+        SvSql = "select ITEMMASTER.ITEMID,IBINID,ICDRUMNO,IBATCHNO,IBATCHQTY,IQTY from BPRODINPDET LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=BPRODINPDET.IITEMID  WHERE BPRODBASICID =" + PROID + "";
+        DataTable dtt = new DataTable();
+        OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        adapter.Fill(dtt);
+        return dtt;
+    }
+    public DataTable ProOutDetail(string PROID)
+    {
+        string SvSql = string.Empty;
+        SvSql = "select ITEMMASTER.ITEMID,to_char(DSDT,'dd-MON-yyyy') DSDT,to_char(DEDT,'dd-MON-yyyy') DEDT,STIME,ETIME,OBATCHNO,DRUMMAST.DRUMNO,OSTOCK,OQTY,OXQTY,STATUS,LOCDETAILS.LOCID from BPRODOUTDET LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=BPRODOUTDET.OITEMID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=BPRODOUTDET.TOLOCATION LEFT OUTER JOIN DRUMMAST ON DRUMMAST.DRUMMASTID=BPRODOUTDET.ODRUMNO  WHERE BPRODBASICID =" + PROID + "";
+        DataTable dtt = new DataTable();
+        OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        adapter.Fill(dtt);
+        return dtt;
+    }
+    public DataTable ProConsDetail(string PROID)
+    {
+        string SvSql = string.Empty;
+        SvSql = "select ITEMMASTER.ITEMID,CBINID,CUNIT,CONSQTY,CVALUE from BPRODCONSDET LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=BPRODCONSDET.CITEMID   WHERE BPRODBASICID =" + PROID + "";
+        DataTable dtt = new DataTable();
+        OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        adapter.Fill(dtt);
+        return dtt;
+    }
+    public DataTable ProwasteDetail(string PROID)
+    {
+        string SvSql = string.Empty;
+        SvSql = "select ITEMMASTER.ITEMID,WBINID,LOCDETAILS.LOCID,WQTY,WBATCHNO from BPRODWASTEDET LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=BPRODWASTEDET.WITEMID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=BPRODWASTEDET.WLOCATION   WHERE BPRODBASICID =" + PROID + "";
+        DataTable dtt = new DataTable();
+        OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        adapter.Fill(dtt);
+        return dtt;
+    }
     public DataTable GetBatchProInpDet(string id)
     {
         string SvSql = string.Empty;

@@ -82,6 +82,26 @@ public class ProductionEntryService : IProductionEntry
     //    }
     //    return cmpList;
     //}
+    public DataTable GetInward()
+    {
+        string SvSql = string.Empty;
+        SvSql = "select DOCID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE,CURINPBASICID,BRANCHMAST.BRANCHID from CURINPBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=CURINPBASIC.BRANCHID WHERE CURINPBASIC.ISOUTWARD='N'  Order by CURINPBASICID DESC ";
+        DataTable dtt = new DataTable();
+        OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        adapter.Fill(dtt);
+        return dtt;
+    }
+    public DataTable GetInwardItem(string inid)
+    {
+        string SvSql = string.Empty;
+        SvSql = "Select ITEMMASTER.ITEMID,CURINPDETAIL.BATCHQTY,CURINPDETAIL.CURINPDETAILID,CURINPDETAIL.CURINPBASICID ,to_char(CURINPDETAIL.DUEDATE,'dd-MON-yyyy') DUEDATE,CURINPDETAIL.DRUMNO,CURINPDETAIL.BATCHNO from CURINPDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=CURINPDETAIL.ITEMID ";
+        DataTable dtt = new DataTable();
+        OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        adapter.Fill(dtt);
+        return dtt;
+    }
     public string ProductionEntryCRUD(ProductionEntry cy)
     {
         string msg = "";
@@ -311,6 +331,118 @@ public class ProductionEntryService : IProductionEntry
 
         return msg;
     }
+
+    public string CuringInwardEntryCRUD(ProductionEntry cy)
+    {
+        string msg = "";
+        try
+        {
+            string StatementType = string.Empty; string svSQL = "";
+
+            using (OracleConnection objConn = new OracleConnection(_connectionString))
+            {
+                OracleCommand objCmd = new OracleCommand("CURINGINWARDPPROC", objConn);
+               
+                objCmd.CommandType = CommandType.StoredProcedure;
+                if (cy.ID == null)
+                {
+                    StatementType = "Insert";
+                    objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                }
+                else
+                {
+                    StatementType = "Update";
+                    objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                }
+                objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.BranchId;
+                objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.DocId;
+                objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = DateTime.Parse(cy.Shiftdate);
+                objCmd.Parameters.Add("LOCDETAILSID", OracleDbType.NVarchar2).Value = cy.LOCID;
+                objCmd.Parameters.Add("SHIFT", OracleDbType.Date).Value = cy.shiftid;
+                objCmd.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = cy.WCID;
+                objCmd.Parameters.Add("STARTTIME", OracleDbType.NVarchar2).Value = cy.starttime;
+
+                objCmd.Parameters.Add("ENDTIME", OracleDbType.NVarchar2).Value = cy.endtime;
+                objCmd.Parameters.Add("ENTEREDBY", OracleDbType.NVarchar2).Value = cy.Enterd;
+                objCmd.Parameters.Add("REMARKS", OracleDbType.NVarchar2).Value = cy.Remarks;
+                objCmd.Parameters.Add("NPRODBASICID", OracleDbType.NVarchar2).Value = cy.PROID;
+                objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
+                try
+                {
+                    objConn.Open();
+                    objCmd.ExecuteNonQuery();
+                    Object Pid = objCmd.Parameters["OUTID"].Value;
+                    if (cy.ID != null)
+                    {
+                        Pid = cy.ID;
+                    }
+                   
+                    
+                    foreach (output cp in cy.outlst)
+                    {
+                        if (cp.Isvalid == "Y" && cp.ItemId != "0")
+                        {
+                            using (OracleConnection objConns = new OracleConnection(_connectionString))
+                            {
+                                OracleCommand objCmds = new OracleCommand("CURINPDETAILPROC", objConns);
+                                if (cy.ID == null)
+                                {
+                                    StatementType = "Insert";
+                                    objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                }
+                                else
+                                {
+                                    StatementType = "Update";
+                                    objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                                }
+                                objCmds.CommandType = CommandType.StoredProcedure;
+                                objCmds.Parameters.Add("CURINPBASICID", OracleDbType.NVarchar2).Value = Pid;
+                                objCmds.Parameters.Add("FDATE", OracleDbType.NVarchar2).Value = DateTime.Parse(cy.Shiftdate);
+                                objCmds.Parameters.Add("FTIME", OracleDbType.Date).Value = cy.starttime;
+                                objCmds.Parameters.Add("ITEMID", OracleDbType.Date).Value = cp.ItemId;
+                                objCmds.Parameters.Add("DRUMNO", OracleDbType.NVarchar2).Value = cp.drumno;
+                                objCmds.Parameters.Add("BATCHNO", OracleDbType.NVarchar2).Value = cp.batchno;
+                                objCmds.Parameters.Add("BATCHQTY", OracleDbType.NVarchar2).Value = cp.OutQty;
+                                objCmds.Parameters.Add("BINID", OracleDbType.NVarchar2).Value = cp.Shed;
+                                DataTable dt = datatrans.GetData("select CAPACITY,BINBASICID,BINID,OCCUPIED from BINBASIC WHERE BINBASICID='"+ cp.Shed + "'");
+                                int curday = datatrans.GetDataId("select CURINGDAY from ITEMMASTER where ITEMMASTERID='"+ cp.ItemId + "'");
+                                DateTime fdate= DateTime.Parse(cy.Shiftdate);
+                                var dueDate = fdate.Date.AddDays(curday);
+                                objCmds.Parameters.Add("CURDAY", OracleDbType.NVarchar2).Value = curday;
+                                objCmds.Parameters.Add("BINMASTERID", OracleDbType.NVarchar2).Value = cp.Shed;
+                                objCmds.Parameters.Add("CAPACITY", OracleDbType.NVarchar2).Value = dt.Rows[0]["CAPACITY"].ToString();
+                                objCmds.Parameters.Add("OCCUPIED", OracleDbType.NVarchar2).Value = dt.Rows[0]["OCCUPIED"].ToString();
+                                objCmds.Parameters.Add("DUEDATE", OracleDbType.NVarchar2).Value = dueDate;
+                                objCmds.Parameters.Add("CBINID", OracleDbType.NVarchar2).Value = dt.Rows[0]["BINID"].ToString();
+                                objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+
+                                objConns.Open();
+                                objCmds.ExecuteNonQuery();
+                                objConns.Close();
+                            }
+
+
+
+                        }
+                    }
+                   
+                }
+                catch (Exception ex)
+                {
+                    //System.Console.WriteLine("Exception: {0}", ex.ToString());
+                }
+                objConn.Close();
+            }
+        }
+        catch (Exception ex)
+        {
+            msg = "Error Occurs, While inserting / updating Data";
+            throw ex;
+        }
+
+        return msg;
+    }
     public DataTable GetWorkCenter()
     {
         string SvSql = string.Empty;
@@ -324,7 +456,7 @@ public class ProductionEntryService : IProductionEntry
     public DataTable EditProEntry(string PROID)
     {
         string SvSql = string.Empty;
-        SvSql = "select BRANCHMAST.BRANCHID,WCBASIC.WCID,PROCESSMAST.PROCESSID,NPRODBASIC.DOCID,to_char(NPRODBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,NPRODBASIC.STARTTIME,NPRODBASIC.ENDTIME,to_char(NPRODBASIC.STARTDATE,'dd-MON-yyyy') STARTDATE,to_char(NPRODBASIC.ENDDATE,'dd-MON-yyyy') ENDDATE,ETYPE,TOTALINPUT,TOTALOUTPUT,TOTALWASTAGE,TOTCONSQTY,TOTRMVALUE,TOTCONSVALUE,TOTMACHINEVALUE,TOTINPUTVALUE,TOTRMQTY,SHIFT from NPRODBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=NPRODBASIC.BRANCH LEFT OUTER JOIN WCBASIC ON NPRODBASIC.WCID=WCBASIC.WCBASICID LEFT OUTER JOIN PROCESSMAST ON PROCESSMAST.PROCESSMASTID=NPRODBASIC.PROCESSID where NPRODBASICID="+ PROID  + "";
+        SvSql = "select WCBASIC.WCBASICID,BRANCHMAST.BRANCHMASTID,BRANCHMAST.BRANCHID,WCBASIC.WCID,PROCESSMAST.PROCESSID,NPRODBASIC.DOCID,to_char(NPRODBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,NPRODBASIC.STARTTIME,NPRODBASIC.ENDTIME,to_char(NPRODBASIC.STARTDATE,'dd-MON-yyyy') STARTDATE,to_char(NPRODBASIC.ENDDATE,'dd-MON-yyyy') ENDDATE,ETYPE,TOTALINPUT,TOTALOUTPUT,TOTALWASTAGE,TOTCONSQTY,TOTRMVALUE,TOTCONSVALUE,TOTMACHINEVALUE,TOTINPUTVALUE,TOTRMQTY,SHIFT from NPRODBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=NPRODBASIC.BRANCH LEFT OUTER JOIN WCBASIC ON NPRODBASIC.WCID=WCBASIC.WCBASICID LEFT OUTER JOIN PROCESSMAST ON PROCESSMAST.PROCESSMASTID=NPRODBASIC.PROCESSID where NPRODBASICID=" + PROID  + "";
         DataTable dtt = new DataTable();
         OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
         OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -345,6 +477,17 @@ public class ProductionEntryService : IProductionEntry
     {
         string SvSql = string.Empty;
         SvSql = "select ITEMMASTER.ITEMID,to_char(DSDT,'dd-MON-yyyy') DSDT,to_char(DEDT,'dd-MON-yyyy') DEDT,STIME,ETIME,OBATCHNO,DRUMMAST.DRUMNO,OSTOCK,OQTY,OXQTY,STATUS,LOCDETAILS.LOCID from NPRODOUTDET LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=NPRODOUTDET.OITEMID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=NPRODOUTDET.TOLOCATION LEFT OUTER JOIN DRUMMAST ON DRUMMAST.DRUMMASTID=NPRODOUTDET.ODRUMNO  WHERE NPRODBASICID =" + PROID + "";
+        DataTable dtt = new DataTable();
+        OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        adapter.Fill(dtt);
+        return dtt;
+    }
+
+    public DataTable ProOutInwardDetail(string PROID)
+    {
+        string SvSql = string.Empty;
+        SvSql = "select ITEMMASTER.ITEMID,to_char(DSDT,'dd-MON-yyyy') DSDT,to_char(DEDT,'dd-MON-yyyy') DEDT,STIME,ETIME,OBATCHNO,DRUMMAST.DRUMNO,OSTOCK,OQTY,OXQTY,STATUS,LOCDETAILS.LOCID from NPRODOUTDET LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=NPRODOUTDET.OITEMID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=NPRODOUTDET.TOLOCATION LEFT OUTER JOIN DRUMMAST ON DRUMMAST.DRUMMASTID=NPRODOUTDET.ODRUMNO  WHERE NPRODBASICID =" + PROID + " AND NPRODOUTDET.TOLOCATION='10044000011739'";
         DataTable dtt = new DataTable();
         OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
         OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

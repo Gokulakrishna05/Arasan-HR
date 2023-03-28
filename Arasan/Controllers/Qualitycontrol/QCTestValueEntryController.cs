@@ -60,6 +60,7 @@ namespace Arasan.Controllers.Qualitycontrol
             }
             return View(ca);
         }
+        [HttpPost]
         public ActionResult QCTestValueEntry(QCTestValueEntry Cy, string id)
         {
 
