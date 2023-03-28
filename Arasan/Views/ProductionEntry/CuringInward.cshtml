@@ -42,6 +42,13 @@
                                         <label for="inputName3" class="col-sm-4 control-label">Branch <label class="mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.HiddenFor(C => C.ID)
+                                             @Html.HiddenFor(C => C.BranchId)
+                                              @Html.HiddenFor(C => C.WCID)
+                                               @Html.HiddenFor(C => C.LOCID)
+                                                @Html.HiddenFor(C => C.shiftid)
+                                                 @Html.HiddenFor(C => C.starttime)
+                                                  @Html.HiddenFor(C => C.endtime)
+                                                  @Html.HiddenFor(C => C.PROID)
                                             @Html.DisplayFor(C => C.Branch)<br>
                                         </div>
                                     </div>
@@ -151,9 +158,10 @@
                                                               <td>@Html.DisplayFor(o => o.outlst[i].ItemId) </td>
                                                            
                                                             <td>@Html.DisplayFor(o => o.outlst[i].drumno) </td>
-                                                            <td>@Html.TextBoxFor(o => o.outlst[i].batchno, new { @id = "txtbatchno" + i, @class = "form-control", style = "width: 250px;"})</td>
+                                                            <td>@Html.TextBoxFor(o => o.outlst[i].batchno, new { @id = "txtbatchno" + i, @class = "form-control", style = "width: 350px;"})</td>
                                                             <td> @Html.DisplayFor(o => o.outlst[i].OutQty)</td>
-                                                           <td>@Html.TextBoxFor(o => o.outlst[i].Shed, new { @id = "txtShed" + i, @class = "form-control", style = "width: 100px;"})</td>
+                                                             <td> @Html.DropDownListFor(o => o.outlst[i].Shed, Model.outlst[i].Shedlst, new { @class = "form-control _select newcss", @id = "ddlShed" + i, style = "width: 100px;" })</td>
+                                                    
                                                           
 
                                                             </tr>
@@ -167,7 +175,25 @@
                                             </div>
 
 
-
+                                             <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br /><br /> <label for="inputName3" class="col-sm-4 control-label">Entered By<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                                @Html.DropDownListFor(C => C.Enterd, Model.RecList, new { @id = "ddlRecevedBy", @Class = "form-control _select", @TabIndex = 1 })<br />
+                                        </div>
+                                    </div>
+                                </div>
+                           
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br /><br /><label for="inputName3" class="col-sm-4 control-label">Remarks<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                                @Html.TextBoxFor(C => C.Remarks, new { @id = "Remarks", @class = "form-control", @TabIndex = 2 })<br />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
 
                             <div style="height:30px;"></div>
@@ -182,6 +208,9 @@
     </div>
 </div>
 <script>
+     $(function() {
+            $('._select').select2();
+        });
      $('.form_date').datetimepicker({
         //   language:  'fr',
         weekStart: 1,
@@ -192,34 +221,5 @@
         minView: 2,
         forceParse: 0
     });
-    $(function() {
-        var entry = '@ViewBag.entrytype';
-        changeentry(entry);
-        function changeentry(typeid) {
-            if (typeid == "INPUT") {
-                document.getElementById("ainp").click();
-    @*window.location.href = href*@
-                    document.getElementById("liinp").style.display = "block";
-                document.getElementById("liinpC").style.display = "block";
-                document.getElementById("liout").style.display = "none";
-                document.getElementById("lioutW").style.display = "none";
-            }
-            else if (typeid == "OUTPUT") {
-                document.getElementById("aout").click();;
-    @*  window.location.href = href*@
-                    document.getElementById("liinp").style.display = "none";
-                document.getElementById("liinpC").style.display = "none";
-                document.getElementById("liout").style.display = "block";
-                document.getElementById("lioutW").style.display = "block";
-            }
-            else {
-                document.getElementById("ainp").click();
-    @*window.location.href = href*@
-                    document.getElementById("liinp").style.display = "block";
-                document.getElementById("liinpC").style.display = "block";
-                document.getElementById("liout").style.display = "block";
-                document.getElementById("lioutW").style.display = "block";
-            }
-        }
-    });
+   
 </script>

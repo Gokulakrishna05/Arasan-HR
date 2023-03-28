@@ -94,6 +94,17 @@ namespace Arasan.Models
             adapter.Fill(dtt);
             return dtt;
         }
+
+        public DataTable GetcuringSet()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select * from BINBASIC WHERE ACTIVE='Y' AND ISCURINGSET='Y'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetEmailConfig()
         {
             string SvSql = "Select ID,SMTP_HOST,PORT_NO,SIGNATURE,SSL,EMAIL_ID,PASSWORD from EMAIL_CONFIG where IS_ACTIVE = 'Y'";

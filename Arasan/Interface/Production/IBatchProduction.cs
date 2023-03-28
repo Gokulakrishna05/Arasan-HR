@@ -19,10 +19,10 @@ namespace Arasan.Interface
         DataTable GetBatchProConsDet(string id);
         DataTable GetBatchProOutDet(string id);
         DataTable GetBatchProWasteDet(string id);
-        //DataTable EditProEntry(string PROID);
-        //DataTable ProIndetail(string PROID);
-        //DataTable ProOutDetail(string PROID);
-        //DataTable ProConsDetail(string PROID);
-        //DataTable ProwasteDetail(string PROID);
+        DataTable EditProEntry(string PROID);
+        DataTable ProIndetail(string PROID);
+        DataTable ProOutDetail(string PROID);
+        DataTable ProConsDetail(string PROID);
+        DataTable ProwasteDetail(string PROID);
     }
 }
