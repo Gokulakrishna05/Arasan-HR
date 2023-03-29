@@ -33,6 +33,8 @@ namespace Arasan.Controllers
             ca.Processlst = BindProcess();
             ca.ETypelst = BindEType();
             ca.RecList = BindEmp();
+            ca.ProdLoglst = BindProdLog();
+            ca.ProdSchlst = BindProdSch();
             List<ProInputItem> TData = new List<ProInputItem>();
             ProInputItem tda = new ProInputItem();
             for (int i = 0; i < 1; i++)
@@ -364,7 +366,40 @@ namespace Arasan.Controllers
         {
             return Json(Binddrum());
         }
-
+        public List<SelectListItem> BindProdLog()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetProdLog();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DOCID"].ToString(), Value = dtDesg.Rows[i]["LPRODBASICID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindProdSch()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetProdSch();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DOCID"].ToString(), Value = dtDesg.Rows[i]["PSBASICID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<SelectListItem> BindItemlst(string value)
         {
             try

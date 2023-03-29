@@ -13,13 +13,13 @@ namespace Arasan.Controllers
 {
     public class PackingNoteController : Controller
     {
-           IPackingNote Packing;
+            IPackingNote Packing;
             IConfiguration? _configuratio;
             private string? _connectionString;
             DataTransactions datatrans;
             public PackingNoteController(IPackingNote _Packing, IConfiguration _configuratio)
             {
-            Packing = _Packing;
+                Packing = _Packing;
                 _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
                 datatrans = new DataTransactions(_connectionString);
             }

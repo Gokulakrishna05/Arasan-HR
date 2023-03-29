@@ -12,9 +12,12 @@ namespace Arasan.Models
             this.Processlst = new List<SelectListItem>();
             this.ETypelst = new List<SelectListItem>();
             this.RecList = new List<SelectListItem>();
+            this.ProdLoglst = new List<SelectListItem>();
+            this.ProdSchlst = new List<SelectListItem>();
         }
         public List<SelectListItem> Brlst;
-
+        public List<SelectListItem> ProdLoglst;
+        public List<SelectListItem> ProdSchlst;
         public string Branch { get; set; }
 
         public List<SelectListItem> Loclst;
