@@ -17,6 +17,7 @@ namespace Arasan.Interface
         DataTable GetBatch(string id);
         DataTable GetPackingNote(string id);
         //DataTable GetItemDet(string id); 
+        DataTable GetDrumItem(string id);
 
     }
 }

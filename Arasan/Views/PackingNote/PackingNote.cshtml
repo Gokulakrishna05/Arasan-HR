@@ -2,6 +2,14 @@
 @{
     ViewData["Title"] = "Packing Note";
 }
+<style>
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
 <div class="page-content-wrapper animated fadeInRight">
     <div class="row wrapper border-bottom page-heading">
         <div class="col-lg-12">
@@ -40,15 +48,15 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">DOC Date<label class="Mandatory"></label></label>
-                                        <div class="col-sm-8">
+                                            <label for="inputName3" class="col-sm-4 control-label">DOC Date<label class="mandatory">*</label></label>
+                                   
                                             <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                                 @Html.TextBoxFor(C => C.Docdate, new { @id = "Docdate", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })
                                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                             </div>
 
                                             <br />
-                                        </div>
+                                        
                                     </div>
 
                                 </div>
@@ -58,7 +66,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Work Center<label class="Mandatory"></label></label>
+                                            <label for="inputName3" class="col-sm-4 control-label">Work Center<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.WorkId, Model.Worklst, new { @id = "ddlWorkCenter", @Class = "form-control _select", @TabIndex = 1 })<br />
                                               @Html.HiddenFor(C => C.ID)
@@ -69,58 +77,69 @@
 
                                     </div>
                                 </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="inputName3" class="col-sm-4 control-label">Shift<label class="Mandatory"></label></label>
+
+                                            <div class="col-sm-8">
+                                                @Html.DropDownListFor(C => C.Shift, Model.Shiftlst," -- Please Select -- ", new { @id = "ddlShift", @Class = "form-control _select", @TabIndex = 1 ,onchange = "changeshift(this.value)"})<br />
+
+
+
+                                            </div>
+
+                                        </div>
+                                    </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                       <br /> <label for="inputName3" class="col-sm-4 control-label">Drum Location<label class="Mandatory"></label></label>
+                                            <br /> <label for="inputName3" class="col-sm-4 control-label">Drum Location<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.DrumLoc, Model.DrumLoclst, new { @id = "ddlDrumLoc", @Class = "form-control _select", @TabIndex = 1, @onchange = "changeItem(this.value," + 0 + ")" })<br />
 
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Sch.No<label class="Mandatory"></label></label>
-                                        <div class="col-sm-8">
+                                            <br />   <label for="inputName3" class="col-sm-4 control-label">Packing Item<label class="Mandatory"></label></label>
+                                            <div class="col-sm-8">
 
-                                                                                     @Html.TextBoxFor(C => C.ProdSchNo, new { @id = "txtProdSchNo", @class = "form-control", @TabIndex = 1 })<br />
+                                                @Html.DropDownListFor(C => C.ItemId, Model.Itemlst," -- Please Select -- ", new { @id = "ddlItemId", @Class = "form-control _select", @TabIndex = 1 })<br />
 
-
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="inputName3" class="col-sm-4 control-label">Shift<label class="Mandatory"></label></label>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
 
-                                        <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Shift, Model.Shiftlst," -- Please Select -- ", new { @id = "ddlShift", @Class = "form-control _select", @TabIndex = 1 ,onchange = "changeshift(this.value)"})<br />
+                                        <br />    <label for="inputName3" class="col-sm-4 control-label">Sch.No<label class="Mandatory"></label></label>
+                                            <div class="col-sm-8">
 
-
-
-                                        </div>
-
-                                    </div>
-                                </div>
+                                                @Html.TextBoxFor(C => C.ProdSchNo, new { @id = "txtProdSchNo", @class = "form-control", @TabIndex = 1 })<br />
 
 
-                                <div class="col-md-6">
-                                    <div class="form-group">
-
-                                        <label for="inputName3" class="col-sm-4 control-label">Packing Item<label class="Mandatory"></label></label>
-                                        <div class="col-sm-8">
-
-                                            @Html.DropDownListFor(C => C.ItemId, Model.Itemlst," -- Please Select -- ", new { @id = "ddlItemId", @Class = "form-control _select", @TabIndex = 1 })<br />
-
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+                                            <br />  <label for="inputName3" class="col-sm-4 control-label">Pac.Lot No<label class="Mandatory"></label></label>
+                                            <div class="col-sm-8">
+
+                                                @Html.TextBoxFor(C => C.LotNo, new { @id = "txtLotNo", @class = "form-control", @TabIndex = 1 })<br />
+
+                                            </div>
+                                        </div>
+                                    </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
@@ -170,17 +189,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-
-                                        <label for="inputName3" class="col-sm-4 control-label">Pac.Lot No<label class="Mandatory"></label></label>
-                                        <div class="col-sm-8">
-
-                                                                                                                              @Html.TextBoxFor(C => C.LotNo, new { @id = "txtLotNo", @class = "form-control", @TabIndex = 1 })<br />
-
-                                        </div>
-                                    </div>
-                                </div>
+                               
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
@@ -247,7 +256,8 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputName3" class="col-sm-4 control-label">EnteredBy<label class="Mandatory"></label></label>
+                                         
+                                              <br /><label for="inputName3" class="col-sm-4 control-label">EnteredBy<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.Enterd , Model.RecList," -- Please Select -- ", new { @id = "ddlEnterd ", @Class = "form-control _select", @TabIndex = 1 })<br />
 
@@ -256,7 +266,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputName3" class="col-sm-4 control-label">Remarks<label class="Mandatory"></label></label>
+                                            <br />  <label for="inputName3" class="col-sm-4 control-label">Remarks<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
                                                                                                                          @Html.TextAreaFor(C => C.Remark, new { @id = "txtRemark", @class = "form-control", @TabIndex = 1 })<br />
 
@@ -405,17 +415,31 @@
             alert("Cannot delete all the rows.")
         }
     }
+    function AddRow() {
+        var opt = "";
+        $.ajax({
+            type: "POST",
+            url: 'GetDrumJSON',
+            success: function (data) {
+
+                $.each(data, function () {
+                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
+                });
+                AppendRow(opt);
+            }
+        })
+    }
      function AppendRow(opt) {
         var index = $("#tbBooks").children("tr").length;
 
-        var Drum = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItemGrp" + index + "' name='DrumDetlst[" + index + "].ItemGroupId' onchange = 'changeBatch(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
+        var Drum = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlDrumNo" + index + "' name='DrumDetlst[" + index + "].DrumNo' onchange = 'changeBatch(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
 
-       
-       
-       var Batch = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItem" + index + "' name='Batchlst[" + index + "].ItemId' onchange = 'changeDrumDet(this.value," + index + ")'><option value=''>Please select</option></select></td>";
-        var Qty = "<td><input class='form-control' id='txtUnit" + index + "' name='DrumDetlst[" + index + "].Unit'  style='width: 80px;' type='text'  readonly='True' /></td>";
 
-        var Comp = "<td><input class='form-control' id='txtConFac" + index + "' name='DrumDetlst[" + index + "].ConFac'  style='width: 80px;' type='text' readonly='True'  /></td>";
+
+        var Batch = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlBatchNo" + index + "' name='Batchlst[" + index + "].BatchNo' onchange = 'changeDrumDet(this.value," + index + ")'><option value=''>Please select</option></select></td>";
+        var Qty = "<td><input class='form-control' id='txtBatchQty" + index + "' name='DrumDetlst[" + index + "].BatchQty'  style='width: 130px;' type='text'  readonly='True' /></td>";
+
+        var Comp = "<td><input class='form-control' id='txtComp" + index + "' name='DrumDetlst[" + index + "].Comp'  style='width: 130px;' type='text' readonly='True'  /></td>";
        
     
 
@@ -428,4 +452,63 @@
 
         $('._select').select2();
     }
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+            if (document.getElementById("DocDate").value == "") {
+                isValid = false;
+                $(DocDate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select  Date");
+                return false;
+            }
+            else {
+                $(DocDate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+           
+      
+            if (document.getElementById("ddlDrumLoc").value == "" || document.getElementById("ddlDrumLoc").value == 0) {
+                isValid = false;
+                $(ddlDrumLoc_chzn).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Customer Type");
+                return false;
+            }
+            else {
+                $(ddlDrumLoc_chzn).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("ddlWorkCenter").value == "" || document.getElementById("ddlWorkCenter").value == 0) {
+                isValid = false;
+                $(ddlWorkCenter_chzn).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Customer Name");
+                return false;
+            }
+            else {
+                $(ddlWorkCenter_chzn).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (isValid == false)
+                e.preventDefault();
+        });
+
+    });
 </script>
