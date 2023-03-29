@@ -112,7 +112,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Prod.Log ID<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.ProdLogId, new { @id = "txtProdLogId", @class = "form-control", @TabIndex = 1 })<br />
+                                        @Html.DropDownListFor(C => C.ProdLogId, Model.ProdLoglst, new { @id = "ddlProdLogId", @Class = "form-control _select", @TabIndex = 1})<br/>
                                     </div>
                                 </div>
                             </div>
@@ -121,7 +121,7 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Prod.Sch.No<label class="Mandatory"></label></label>
 
                                     <div class="col-sm-8">
-                                       @Html.TextBoxFor(C => C.ProdSchNo, new { @id = "txtProdSchNo", @class = "form-control", @TabIndex = 1 })<br />
+                                         @Html.DropDownListFor(C => C.ProdSchNo, Model.ProdSchlst, new { @id = "ddlProdSchNo", @Class = "form-control _select", @TabIndex = 1})<br/>
                                     </div>
                                 </div>
                             </div>

@@ -95,7 +95,7 @@ internal class Program
           builder.Services.TryAddSingleton<IDrumIssueEntryService, DrumIssueEntryService>();
  
         builder.Services.TryAddSingleton<IPackingNote, PackingNoteService>();
- 
+        builder.Services.TryAddSingleton<ICuringOutward, CuringOutwardService>();
         builder.Services.TryAddSingleton<IQCFinalValueEntryService, QCFinalValueEntryService>();
  
 

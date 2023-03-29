@@ -34,6 +34,8 @@ namespace Arasan.Controllers
             ca.Shiftlst = BindShift();
             ca.Processlst= BindProcess();
             ca.ETypelst = BindEType();
+            ca.ProdLoglst= BindProdLog();
+            ca.ProdSchlst= BindProdSch();
             ca.Shiftdate = DateTime.Now.ToString("dd-MMM-yyyy");
             List<ProIn> TData = new List<ProIn>();
             ProIn tda = new ProIn();
@@ -269,6 +271,40 @@ namespace Arasan.Controllers
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["SGCODE"].ToString(), Value = dtDesg.Rows[i]["ITEMSUBGROUPID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindProdLog()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetProdLog();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DOCID"].ToString(), Value = dtDesg.Rows[i]["LPRODBASICID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindProdSch()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetProdSch();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DOCID"].ToString(), Value = dtDesg.Rows[i]["PSBASICID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -679,5 +715,12 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+
+        public ActionResult CuringOutward()
+        {
+            return View();
+        }
+
+
     }
 }

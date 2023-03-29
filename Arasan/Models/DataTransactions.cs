@@ -155,6 +155,26 @@ namespace Arasan.Models
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetProdLog()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select LPRODBASICID,DOCID from LPRODBASIC";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetProdSch()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select PSBASICID,DOCID from PSBASIC   WHERE PSCHSTATUS='ACTIVE'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetItem(string value)
         {
             string SvSql = string.Empty;
