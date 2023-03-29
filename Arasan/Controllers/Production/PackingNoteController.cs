@@ -66,7 +66,7 @@ namespace Arasan.Controllers
                     //{
                     //    ca.DrumLoc = dt3.Rows[0]["SUBGROUPCODE"].ToString();
                     //}
-                    //ca.Itemlst = BindItemlst(ca.DrumLoc);
+                    ca.Itemlst = BindItemlst(ca.DrumLoc);
                     ca.ItemId = dt.Rows[0]["OITEMID"].ToString();
                     ca.DocId = dt.Rows[0]["DOCID"].ToString();
                     ca.LotNo = dt.Rows[0]["PACLOTNO"].ToString();
@@ -76,6 +76,30 @@ namespace Arasan.Controllers
                     ca.Enterd = dt.Rows[0]["ENTEREDBY"].ToString();
 
                     ca.Remark = dt.Rows[0]["REMARKS"].ToString();
+
+                }
+                DataTable dt2 = new DataTable();
+
+                dt2 = Packing.GetDrumItem(id);
+                if (dt2.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt2.Rows.Count; i++)
+                    {
+                        tda = new DrumDetail();
+                        tda.DrumNolst = BindDrumNo(ca.DrumLoc);
+                        tda.DrumNo = dt2.Rows[i]["IDRUMNO"].ToString();
+                        tda.Batchlst = BindBatch(tda.DrumNo);
+                        
+
+                       
+                        tda.BatchNo = dt2.Rows[i]["IBATCHNO"].ToString();
+                        tda.BatchQty = dt2.Rows[i]["IBATCHQTY"].ToString();
+                        tda.Comp = dt2.Rows[i]["COMBNO"].ToString();
+                        
+
+                        tda.ID = id;
+                        TData.Add(tda);
+                    }
 
                 }
             }

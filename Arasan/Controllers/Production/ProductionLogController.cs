@@ -835,6 +835,30 @@ namespace Arasan.Controllers
             //  model.ItemGrouplst = BindItemGrplst(value);
             return Json(BindWorkCenter());
         }
+        public JsonResult GetMachineJSON()
+        {
+            //EnqItem model = new EnqItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(BindMachine());
+        }
+        public JsonResult GetEmpJSON()
+        {
+            //EnqItem model = new EnqItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(BindEmp());
+        }
+        public JsonResult GetBreakJSON()
+        {
+            //EnqItem model = new EnqItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(BindMachineID());
+        }
+        public JsonResult GetBreakEmpJSON()
+        {
+            //EnqItem model = new EnqItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(BindEmployee());
+        }
         public List<SelectListItem> BindWType()
         {
             try

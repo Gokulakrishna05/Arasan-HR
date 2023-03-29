@@ -245,7 +245,7 @@ namespace Arasan.Services
 return msg;
     
 }
-                        public DataTable GetWorkCenter()
+        public DataTable GetWorkCenter()
         {
             string SvSql = string.Empty;
             SvSql = "Select WCID,WCBASICID from WCBASIC ";
@@ -335,5 +335,16 @@ return msg;
         //    adapter.Fill(dtt);
         //    return dtt;
         //}
+        public DataTable GetDrumItem(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select  PACKNOTEBASICID,IDRUMNO,IBATCHNO,IBATCHQTY,COMBNO from PACKNOTEINPDETAIL    where PACKNOTEBASICID= '" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
     }
+
 }

@@ -35,52 +35,61 @@ namespace Arasan.Controllers
             ca.RecList = BindEmp();
             List<ProInputItem> TData = new List<ProInputItem>();
             ProInputItem tda = new ProInputItem();
-            for (int i = 0; i < 1; i++)
-            {
-                tda = new ProInputItem();
-                // tda.ItemGrouplst = BindItemGrplst();
-                tda.Itemlst = BindItemlst("");
-                tda.drumlst = Binddrum();
-                //tda.outputlst = Bindoutput();
-                tda.Isvalid = "Y";
-                TData.Add(tda);
-            }
 
             List<BProInCons> TData1 = new List<BProInCons>();
             BProInCons tda1 = new BProInCons();
-            for (int i = 0; i < 1; i++)
-            {
-                tda1 = new BProInCons();
-                tda1.Itemlst = BindItemlst("");
-                tda1.Isvalid = "Y";
-                TData1.Add(tda1);
-            }
 
             List<Boutput> TData2 = new List<Boutput>();
             Boutput tda2 = new Boutput();
-            for (int i = 0; i < 1; i++)
-            {
-                tda2 = new Boutput();
-                tda2.Itemlst = BindItemlst("");
-                tda2.drumlst = Binddrum();
-                tda2.statuslst = BindStatus();
-                tda2.loclst = BindLocation();
-                tda2.Isvalid = "Y";
-                TData2.Add(tda2);
-            }
 
             List<Bwastage> TData3 = new List<Bwastage>();
             Bwastage tda3 = new Bwastage();
-            for (int i = 0; i < 1; i++)
+            if (id != null)
             {
-                tda3 = new Bwastage();
-                tda3.Itemlst = BindItemlst("");
-                tda3.loclst = BindLocation();
-                tda3.Isvalid = "Y";
-                TData3.Add(tda3);
+                for (int i = 0; i < 1; i++)
+                {
+                    tda = new ProInputItem();
+                    // tda.ItemGrouplst = BindItemGrplst();
+                    tda.Itemlst = BindItemlst("");
+                    tda.drumlst = Binddrum();
+                    //tda.outputlst = Bindoutput();
+                    tda.Isvalid = "Y";
+                    TData.Add(tda);
+                }
+
+
+                for (int i = 0; i < 1; i++)
+                {
+                    tda1 = new BProInCons();
+                    tda1.Itemlst = BindItemlst("");
+                    tda1.Isvalid = "Y";
+                    TData1.Add(tda1);
+                }
+
+
+                for (int i = 0; i < 1; i++)
+                {
+                    tda2 = new Boutput();
+                    tda2.Itemlst = BindItemlst("");
+                    tda2.drumlst = Binddrum();
+                    tda2.statuslst = BindStatus();
+                    tda2.loclst = BindLocation();
+                    tda2.Isvalid = "Y";
+                    TData2.Add(tda2);
+                }
+
+
+                for (int i = 0; i < 1; i++)
+                {
+                    tda3 = new Bwastage();
+                    tda3.Itemlst = BindItemlst("");
+                    tda3.loclst = BindLocation();
+                    tda3.Isvalid = "Y";
+                    TData3.Add(tda3);
+                }
             }
-            if(id != null)
-            {
+            else
+            { 
                 DataTable dt = new DataTable();
                 double total = 0;
                 dt = IProductionEntry.GetBatchProduction(id);
