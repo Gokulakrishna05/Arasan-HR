@@ -68,7 +68,7 @@
 
                                             <label for="inputName3" class="col-sm-4 control-label">Work Center<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.WorkId, Model.Worklst, new { @id = "ddlWorkCenter", @Class = "form-control _select", @TabIndex = 1 })<br />
+                                            @Html.DropDownListFor(C => C.WorkId, Model.Worklst, new { @id = "ddlWorkCenter", @Class = "form-control _select", @TabIndex = 1,onchange = "changesdrum(this.value)" })<br />
                                               @Html.HiddenFor(C => C.ID)
                                         </div>
 
@@ -82,7 +82,7 @@
                                             <label for="inputName3" class="col-sm-4 control-label">Shift<label class="Mandatory"></label></label>
 
                                             <div class="col-sm-8">
-                                                @Html.DropDownListFor(C => C.Shift, Model.Shiftlst," -- Please Select -- ", new { @id = "ddlShift", @Class = "form-control _select", @TabIndex = 1 ,onchange = "changeshift(this.value)"})<br />
+                                                @Html.DropDownListFor(C => C.Shift, Model.Shiftlst," -- Please Select -- ", new { @id = "ddlShift", @Class = "form-control _select", @TabIndex = 1 ,onchange = "changesdrumS(this.value)"})<br />
 
 
 
@@ -226,24 +226,24 @@
 
                                                 foreach (var item in Model.DrumDetlst.ToList())
                                                 {
-                                                    <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                        <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
-                                                            <td>@Html.DropDownListFor(o => o.DrumDetlst[i].DrumNo, Model.DrumDetlst[i].DrumNolst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlDrumNo" + i, style = "width: 170px;",onchange = "changeBatch(this.value," + i + ")" })
-                                                                      </td>
-                                                        <td>@Html.DropDownListFor(o => o.DrumDetlst[i].BatchNo, Model.DrumDetlst[i].Batchlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlBatchNo" + i, style = "width: 170px;",onchange = "changeDrumDet(this.value," + i + ")" })
-                                                                      </td>
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.DrumDetlst[i].BatchQty, new { @id = "txtBatchQty" + i, @class = "form-control", style = "width: 130px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)",ReadOnly="readonly"})
-                                                        </td>
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.DrumDetlst[i].Comp, new { @id = "txtComp" + i, @class = "form-control", style = "width: 130px;" })
-                                                        </td>
-                                                        
-                                                        <td>
-                                                            @Html.HiddenFor(o => o.DrumDetlst[i].Isvalid, new { @id = "Isvalid" + i })
-                                                            <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(i)" />
-                                                        </td>
-                                                    </tr>
+                                                                <td>@Html.DropDownListFor(o => o.DrumDetlst[i].DrumNo, Model.DrumDetlst[i].DrumNolst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlDrumNo" + i, style = "width: 170px;",onchange = "changeBatch(this.value," + i + ")" })
+                                                                          </td>
+                                                            <td>@Html.DropDownListFor(o => o.DrumDetlst[i].BatchNo, Model.DrumDetlst[i].Batchlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlBatchNo" + i, style = "width: 170px;",onchange = "changeDrumDet(this.value," + i + ")" })
+                                                                          </td>
+                                                            <td>
+                                                                @Html.TextBoxFor(o => o.DrumDetlst[i].BatchQty, new { @id = "txtBatchQty" + i, @class = "form-control", style = "width: 130px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)",ReadOnly="readonly"})
+                                                            </td>
+                                                            <td>
+                                                                @Html.TextBoxFor(o => o.DrumDetlst[i].Comp, new { @id = "txtComp" + i, @class = "form-control", style = "width: 130px;" })
+                                                            </td>
+                                                            
+                                                            <td>
+                                                                @Html.HiddenFor(o => o.DrumDetlst[i].Isvalid, new { @id = "Isvalid" + i })
+                                                                <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(i)" />
+                                                            </td>
+                                                        </tr>
                                                     i = i + 1;
                                                     
                                                 }
@@ -312,6 +312,42 @@
     forceParse: 0,
         showMeridian: 1
     });
+    function changesdrum(WCID){
+        var shift = document.getElementById("ddlShift").value;
+         $.ajax({
+            url: "GetDrumJSON",
+            type: "post",
+            data: { 'wcid' : WCID ,'shift' : shift},
+            cache: false,
+            success: function (response) {
+                var newlist;
+                newlist = response.DrumNolst;
+                PopulateDropDown("#ddlDrumNo" +i, response);
+            },
+            error: function () {
+                debugger;
+                alert("Please Select Drum Location");
+            }
+        });
+    }
+      function changesdrumS(shift){
+        var WCID = document.getElementById("ddlWorkCenter").value;
+         $.ajax({
+            url: "GetDrumJSON",
+            type: "post",
+            data: { 'wcid' : WCID ,'shift' : shift },
+            cache: false,
+            success: function (response) {
+                var newlist;
+                newlist = response.DrumNolst;
+                PopulateDropDown("#ddlDrumNo" +i, response);
+            },
+            error: function () {
+                debugger;
+                alert("Please Select Drum Location");
+            }
+        });
+    }
     function changeItem(ItemId,i) {
         
 

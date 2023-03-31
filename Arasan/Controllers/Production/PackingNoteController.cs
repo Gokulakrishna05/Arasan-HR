@@ -50,7 +50,6 @@ namespace Arasan.Controllers
             else
             {
                 DataTable dt = new DataTable();
-
                 dt = Packing.GetPackingNote(id);
                 if (dt.Rows.Count > 0)
                 {
