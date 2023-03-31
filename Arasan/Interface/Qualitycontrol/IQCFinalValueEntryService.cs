@@ -12,7 +12,7 @@ namespace Arasan.Interface.Qualitycontrol
         string QCFinalValueEntryCRUD(QCFinalValueEntry cy);
         IEnumerable<QCFinalValueEntry> GetAllQCFinalValueEntry();
         DataTable DrumDeatils();
-        DataTable BatchDeatils();
+        DataTable BatchDeatils(string id);
         DataTable GetItem(string value);
         DataTable GetQCFVDeatil(string id);
         DataTable GetQCFVResultDetail(string id);
