@@ -1,4 +1,4 @@
-﻿@model Arasan.Models.PackingNote
+﻿@model Arasan.Models.CuringOutward
 @{
     ViewData["Title"] = "Curing Outward";
 }
@@ -62,14 +62,41 @@
                                         </div>
                                
                             </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+                                               <label for="inputName3" class="col-sm-4 control-label">Doc Id<label class="Mandatory"></label></label>
+                                            <div class="col-sm-8">
+
+                                                @Html.TextBoxFor(C => C.ProdSchNo, new { @id = "txtProdSchNo", @class = "form-control", @TabIndex = 1 })<br />
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+                                               <label for="inputName3" class="col-sm-4 control-label">Packing Note<label class="Mandatory"></label></label>
+                                            <div class="col-sm-8">
+
+                                                @Html.DropDownListFor(C => C.PackingNote, Model.Notelst," -- Please Select -- ", new { @id = "ddlPackingNote", @Class = "form-control _select", @TabIndex = 1, @onchange = "changeItem(this.value," + 0 + ")" })<br />
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             <div class="row">
                                 
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">From Location<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">From Work Center<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.WorkId, Model.Worklst, new { @id = "ddlWorkCenter", @Class = "form-control _select", @TabIndex = 1 })<br />
+                                                @Html.DropDownListFor(C => C.FromWork, Model.FromWorklst, new { @id = "ddlFromWork", @Class = "form-control _select", @TabIndex = 1 })<br />
                                               @Html.HiddenFor(C => C.ID)
                                         </div>
 
@@ -81,7 +108,7 @@
 
                                         <label for="inputName3" class="col-sm-4 control-label">To Work Center<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.WorkId, Model.Worklst, new { @id = "ddlWorkCenter", @Class = "form-control _select", @TabIndex = 1 })<br />
+                                                @Html.DropDownListFor(C => C.ToWork, Model.ToWorklst, new { @id = "ddlToWork", @Class = "form-control _select", @TabIndex = 1 })<br />
                                               @Html.HiddenFor(C => C.ID)
                                         </div>
 
@@ -119,22 +146,21 @@
                             </div>
                           
                             
-                            <div class="row">
+                           @* <div class="row">
                                 <div class="col-md-12">
                                     <div class="btn-group">
                                         <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" /></p>
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
 
 
-                            <div class="col-lg-12">
-                                <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
+                                <div class="row">
 
 
-                                    <!-- / ibox-title -->
+                                    <br />   <br />  <div class="col-lg-12" style=" overflow-y:scroll; min-width:800px; min-height:500px;">
 
-                                    <table class="table table-striped table-hover" id="dataTable">
+                                        <br />   <br />  <table class="table table-striped table-hover" id="dataTable">
                                                         <thead>
                                                             <tr>
                                                                  
@@ -142,40 +168,13 @@
                                                                 <th>Batch No</th>
                                                                 <th>  Qty</th>
                                                                 <th> Comp.No.</th>
+                                                    <th> Shed.No.</th>
 
                                                             </tr>
                                                         </thead>
                                         <tbody id="tbBooks">
-                                            @{
+                                           
 
-                                                int i = 0;
-                                                
-
-
-                                                foreach (var item in Model.DrumDetlst.ToList())
-                                                {
-                                                    <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
-
-                                                            <td>@Html.DropDownListFor(o => o.DrumDetlst[i].DrumNo, Model.DrumDetlst[i].DrumNolst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlDrumNo" + i, style = "width: 170px;",onchange = "changeBatch(this.value," + i + ")" })
-                                                                      </td>
-                                                        <td>@Html.DropDownListFor(o => o.DrumDetlst[i].BatchNo, Model.DrumDetlst[i].Batchlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlBatchNo" + i, style = "width: 170px;",onchange = "changeDrumDet(this.value," + i + ")" })
-                                                                      </td>
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.DrumDetlst[i].BatchQty, new { @id = "txtBatchQty" + i, @class = "form-control", style = "width: 130px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)",ReadOnly="readonly"})
-                                                        </td>
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.DrumDetlst[i].Comp, new { @id = "txtComp" + i, @class = "form-control", style = "width: 130px;" })
-                                                        </td>
-                                                        
-                                                        <td>
-                                                            @Html.HiddenFor(o => o.DrumDetlst[i].Isvalid, new { @id = "Isvalid" + i })
-                                                            <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(i)" />
-                                                        </td>
-                                                    </tr>
-                                                    i = i + 1;
-                                                    
-                                                }
-                                            }
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -184,7 +183,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputName3" class="col-sm-4 control-label">EnteredBy<label class="Mandatory"></label></label>
+                                            <br />   <label for="inputName3" class="col-sm-4 control-label">EnteredBy<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.Enterd , Model.RecList," -- Please Select -- ", new { @id = "ddlEnterd ", @Class = "form-control _select", @TabIndex = 1 })<br />
 
@@ -193,7 +192,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputName3" class="col-sm-4 control-label">Remarks<label class="Mandatory"></label></label>
+                                            <br />   <label for="inputName3" class="col-sm-4 control-label">Remarks<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
                                                                                                                          @Html.TextAreaFor(C => C.Remark, new { @id = "txtRemark", @class = "form-control", @TabIndex = 1 })<br />
 
@@ -202,9 +201,68 @@
 
                                 </div>
                             </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+                                         <label for="inputName3" class="col-sm-4 control-label">End Date<label class="Mandatory"></label></label>
+                                            <div class="col-sm-8">
+
+                                                <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                                    @Html.TextBoxFor(C => C.enddate, new { @id = "enddate", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })
+                                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                </div>
+
+                                                <br />
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+                                            <label for="inputName3" class="col-sm-4 control-label">Total Qty<label class="Mandatory"></label></label>
+                                            <div class="col-sm-8">
+
+                                                @Html.TextBoxFor(C => C.TotalQty, new { @id = "txtLotNo", @class = "form-control", @TabIndex = 1 })<br />
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+                                            <br />    <label for="inputName3" class="col-sm-4 control-label">Total Value<label class="Mandatory"></label></label>
+                                            <div class="col-sm-8">
+
+                                                @Html.TextBoxFor(C => C.TotalValue, new { @id = "txtProdSchNo", @class = "form-control", @TabIndex = 1 })<br />
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+                                            <br />  <label for="inputName3" class="col-sm-4 control-label">FRate<label class="Mandatory"></label></label>
+                                            <div class="col-sm-8">
+
+                                                @Html.TextBoxFor(C => C.FRate, new { @id = "txtLotNo", @class = "form-control", @TabIndex = 1 })<br />
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                           <div style="height:30px;"></div>
                           <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
-                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListPackingNote", "PackingNote")'">Cancel</button>
+                                <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListCuringOutward", "CuringOutward")'">Cancel</button>
 
 
                         </form>
@@ -254,29 +312,63 @@
             },
             error: function () {
                 debugger;
-                alert("Please Select Drum Location");
+                alert("Please Select Pack Note");
             }
         });
 
        
         $.ajax({
-            url: "GetDrumJSON",
+            url: "GetShiftJSON",
             type: "post",
-            data: { 'Drmid': ItemId },
+            data: { 'supid': ItemId },
             cache: false,
             success: function (response) {
                 var newlist;
-                newlist = response.DrumNolst;
-                PopulateDropDown("#ddlDrumNo" +i, response);
+                newlist = response.Shiftlst;
+                PopulateDropDown("#ddlShift", response);
             },
             error: function () {
                 debugger;
-                alert("Please Select Drum Location");
+                alert("Please Select Packing Note");
+            }
+        });
+         document.getElementById("tbBooks").innerHTML="";
+        $.ajax({
+            url: 'GetPackingDetails',
+            type: "post",
+            data: { "id": ItemId },
+            cache: false,
+             
+             success: function (list) {
+                  //if (list != null && list.length > 0) {
+                     list.forEach((item) => {
+
+         var index = $("#tbBooks").children("tr").length;
+                
+         var Drum = "<td><input class='form-control' id='txtdrum" + index + "' name='Curinglst[" + index + "].drum'  style='width: 100px;' type='text'  readonly='True'  value=" + item.drum + " /></td>";
+
+         var Batch = "<td><input class='form-control' id='txtbatch" + index + "' name='Curinglst[" + index + "].batch'  style='width: 250px;' type='text' readonly='True'  value=" + item.batch + " /></td>";
+
+         var Qty = "<td><input class='form-control' id='txtqty" + index + "' name='Curinglst[" + index + "].qty'  style='width: 80px;' type='text' readonly='True' value=" + item.qty + "  /></td>";
+
+         var Comp = "<td><input class='form-control' id='txtcomp" + index + "' name='Curinglst[" + index + "].comp'  style='width: 60px;' type='text' readonly='True'  value=" + item.comp + " /></td>";
+
+         var Shed = "<td><input class='form-control' id='txtshed" + index + "' name='Curinglst[" + index + "].shed'  style='width: 60px;' type='text'      /></td>";
+
+                    
+         var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Drum + Batch + Qty + Comp + Shed + "</tr>";
+        
+        $("#tbBooks").append(newRow);
+        });
+        //}
+                },
+            error: function () {
+                alert("Data Not Found");
             }
         });
         }
-         function changeBatch(ItemId,i) 
-         {
+    @* function changeBatch(ItemId,i)
+        {
 
         $.ajax({
             url: "GetBatchJSON",
@@ -294,7 +386,7 @@
             }
         });
 
-    }
+            }*@
      
    function PopulateDropDown(dropDownId, list) {
         //alert(list);
@@ -342,7 +434,7 @@
             alert("Cannot delete all the rows.")
         }
     }
-     function AppendRow(opt) {
+    @* function AppendRow(opt) {
         var index = $("#tbBooks").children("tr").length;
 
         var Drum = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItemGrp" + index + "' name='DrumDetlst[" + index + "].ItemGroupId' onchange = 'changeBatch(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
@@ -364,5 +456,5 @@
         $("#tbBooks").append(newRow);
 
         $('._select').select2();
-    }
+    }*@
 </script>
