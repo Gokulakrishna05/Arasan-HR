@@ -52,6 +52,7 @@ namespace Arasan.Models
         public string CTemp { get; set; }
         public string FResult { get; set; }
         public string RType { get; set; }
+        public string Reamarks { get; set; }
 
         public List<QCFVItem> QCFVLst { get; set; }
 

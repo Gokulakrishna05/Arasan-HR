@@ -39,17 +39,28 @@ namespace Arasan.Services.Qualitycontrol
         public DataTable DrumDeatils()
         {
             string SvSql = string.Empty;
-            SvSql = "select DRUMMAST.DRUMNO,NPRODBASICID from NPRODOUTDET LEFT OUTER JOIN DRUMMAST  on DRUMMASTID=NPRODOUTDET.ODRUMNO";
+            SvSql = "select DRUMMAST.DRUMNO,NPRODBASICID,ODRUMNO,NPRODOUTDETID from NPRODOUTDET LEFT OUTER JOIN DRUMMAST  on DRUMMASTID=NPRODOUTDET.ODRUMNO";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable BatchDeatils()
+        public DataTable GetItem(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select NBATCHNO,NPRODBASICID from NPRODOUTDET";
+            SvSql = "select ITEMMASTER.ITEMID,OITEMID,NPRODBASICID from NPRODOUTDET LEFT OUTER JOIN ITEMMASTER  on ITEMMASTERID=NPRODOUTDET.OITEMID Where ODRUMNO ='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+
+        }
+        public DataTable BatchDeatils(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select ODRUMNO,NBATCHNO,NPRODBASICID from NPRODOUTDET where ODRUMNO= '" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -98,6 +109,7 @@ namespace Arasan.Services.Qualitycontrol
                     objCmd.Parameters.Add("FINALRESULT", OracleDbType.NVarchar2).Value = cy.FResult;
                     objCmd.Parameters.Add("RESULTTYPE", OracleDbType.NVarchar2).Value = cy.RType;
                     objCmd.Parameters.Add("ENTEREDBY", OracleDbType.NVarchar2).Value = cy.Enterd;
+                    objCmd.Parameters.Add("REMARKS", OracleDbType.NVarchar2).Value = cy.Reamarks;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
@@ -165,10 +177,11 @@ namespace Arasan.Services.Qualitycontrol
                                     }
                                     objCmds.CommandType = CommandType.StoredProcedure;
                                     objCmds.Parameters.Add("FQTVEBASICID", OracleDbType.NVarchar2).Value = Pid;
-                                    objCmds.Parameters.Add("MINS", OracleDbType.NVarchar2).Value = cp.Vol;
-                                    objCmds.Parameters.Add("VOL25C", OracleDbType.Date).Value =cp.Volat;
-                                    objCmds.Parameters.Add("VOL35C", OracleDbType.Date).Value = cp.Volc;
-                                    objCmds.Parameters.Add("VOL45C", OracleDbType.NVarchar2).Value = cp.Stp;
+                                    objCmds.Parameters.Add("MINS", OracleDbType.NVarchar2).Value = cp.Time;
+                                    objCmds.Parameters.Add("VOL25C", OracleDbType.NVarchar2).Value =cp.Vol;
+                                    objCmds.Parameters.Add("VOL35C", OracleDbType.NVarchar2).Value = cp.Volat;
+                                    objCmds.Parameters.Add("VOL45C", OracleDbType.NVarchar2).Value = cp.Volc;
+                                    objCmds.Parameters.Add("VOLSTP", OracleDbType.NVarchar2).Value = cp.Stp;
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                     objConns.Open();
                                     objCmds.ExecuteNonQuery();
@@ -228,22 +241,12 @@ namespace Arasan.Services.Qualitycontrol
             return cmpList;
         }
 
-        public DataTable GetItem(string id)
-        {
-            string SvSql = string.Empty;
-            SvSql = "select ITEMMASTER.ITEMID,FQTVEBASICID from FQTVEBASIC LEFT OUTER JOIN ITEMMASTER  on ITEMMASTERID=FQTVEBASIC.ITEMID  Where FQTVEBASICID='" + id + "'";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-
-        }
+       
 
         public DataTable GetQCFVDeatil(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select BRANCH,DOCID,to_char(FQTVEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,WCID,PROCESSID,DRUMNO,BATCH,BATCHNO,ITEMID,PRODID,RATEPHR,to_char(FQTVEBASIC.PRODDATE,'dd-MON-yyyy')PRODDATE,SAMPLENO,NOZZLENO,AIRPRESS,ADDCH,STIME,BCT,FINALRESULT,RESULTTYPE,ENTEREDBY FQTVEBASICID from FQTVEBASIC Where FQTVEBASICID='" + id + "'";
+            SvSql = "select BRANCH,DOCID,to_char(FQTVEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,WCID,PROCESSID,DRUMNO,BATCH,BATCHNO,ITEMID,PRODID,RATEPHR,to_char(FQTVEBASIC.PRODDATE,'dd-MON-yyyy')PRODDATE,SAMPLENO,NOZZLENO,AIRPRESS,ADDCH,STIME,BCT,FINALRESULT,RESULTTYPE,ENTEREDBY,REMARKS,FQTVEBASICID from FQTVEBASIC Where FQTVEBASICID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -265,7 +268,7 @@ namespace Arasan.Services.Qualitycontrol
         public DataTable GetQCFVGasDetail(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select FQTVEBASICID,MINS,VOL25C,VOL35C,VOL45C,VOLSTPO from FQTVEGEDETAIL where FQTVEBASICID='" + id + "' ";
+            SvSql = "select FQTVEBASICID,MINS,VOL25C,VOL35C,VOL45C,VOLSTP from FQTVEGEDETAIL where FQTVEBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

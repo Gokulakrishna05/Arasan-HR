@@ -28,7 +28,7 @@
                 <div class="widgets-container">
                     <h5 style="font-size:14px">QC Final Value Entry</h5>
                     <hr>
-                      @using (Html.BeginForm("QCResult", "QCResult", FormMethod.Post))
+                      @using (Html.BeginForm("QCFinalValueEntry", "QCFinalValueEntry", FormMethod.Post))
                         {
                             @Html.AntiForgeryToken()
                     <form>
@@ -36,8 +36,9 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                       <br />  <label for="inputName3" class="col-sm-4 control-label">Branch<label class="Mandatory"></label></label>
+                                       <br />  <label for="inputName3" class="col-sm-4 control-label">Branch<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
+                                           @Html.HiddenFor(C => C.ID)
                                             @Html.DropDownListFor(C => C.Branch, Model.Brlst, new { @id = "ddlBranch", @Class = "form-control _select", @TabIndex = 1 })
                                            
                                     </div>
@@ -69,15 +70,16 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                         <br />   <label for="inputName3" class="col-sm-4 control-label">Work Center<label class="Mandatory"></label></label>
+                                         <br />   <label for="inputName3" class="col-sm-4 control-label">Work Center<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
+                                            @Html.HiddenFor(C => C.ID)
                                             @Html.DropDownListFor(C => C.WorkCenter, Model.Worklst, new { @id = "ddlWorkCenter", @Class = "form-control _select", @TabIndex = 1 })
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                 <br />  <label for="inputName3" class="col-sm-4 control-label">Processer ID<label class="Mandatory"></label></label>
+                                 <br />  <label for="inputName3" class="col-sm-4 control-label">Processer ID<label class="mandatory">*</label></label>
 
                                     <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.Process, Model.Processlst, new { @id = "ddlProcess", @Class = "form-control _select", @TabIndex = 1 })
@@ -89,7 +91,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Drum No<label class="Mandatory"></label></label>
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Drum No<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.DrumNo, Model.drumlst, new { @id = "ddlDrumNo", @Class = "form-control _select", @TabIndex = 1,onchange = "changeItem(this.value)"})
                                               
@@ -110,18 +112,18 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <br />   <label for="inputName3" class="col-sm-4 control-label">Batch No<label class="Mandatory"></label></label>
+                                    <br />   <label for="inputName3" class="col-sm-4 control-label">Batch No<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.BatchNo, Model.Batchlst, new { @id = "ddlBatchNo", @Class = "form-control _select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.BatchNo, Model.Batchlst," -- Please Select -- " ,new { @id = "ddlBatchNo", @Class = "form-control _select", @TabIndex = 1 })
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                           <br /> <label for="inputName3" class="col-sm-4 control-label">Item ID<label class="Mandatory"></label></label>
+                                           <br /> <label for="inputName3" class="col-sm-4 control-label">Item ID<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Itemid, Model.Itemlst, new { @id = "ddlItemid", @Class = "form-control _select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.Itemid, Model.Itemlst, " -- Please Select -- ",new { @id = "ddlItemid", @Class = "form-control _select", @TabIndex = 1 })
                                     </div>
                                 </div>
                             </div>
@@ -139,7 +141,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <br />   <label for="inputName3" class="col-sm-4 control-label">Rate/Hr<label class="Mandatory"></label></label>
+                                    <br />   <label for="inputName3" class="col-sm-4 control-label">Rate/Hr<label class="mandatory">*</label></label>
 
                                     <div class="col-sm-8">
                                               @Html.TextBoxFor(C => C.Rate, new { @id = "txtRate", @class = "form-control", @TabIndex = 1 })
@@ -152,7 +154,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                     <br />  <label for="inputName3" class="col-sm-4 control-label">Prod Date<label class="Mandatory"></label></label>
+                                     <br />  <label for="inputName3" class="col-sm-4 control-label">Prod Date<label class="mandatory">*</label></label>
                                         <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                             @Html.TextBoxFor(C => C.ProDate, new { @id = "ProDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly="readonly" })
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -229,26 +231,27 @@
                                 <div class="tabs-container">
                                     <ul class="nav nav-tabs">
                                         <li class="active"><a href="#tab-1" data-toggle="tab"> Result Detail</a></li>
-                                        <li><a href="#tab-2" data-toggle="tab">Other Drums </a></li>
-                                        <li><a href="#tab-3" data-toggle="tab">Gas Evoluation Details </a></li>
+                                        @*<li><a href="#tab-2" data-toggle="tab">Other Drums </a></li>*@
+                                        <li><a href="#tab-2" data-toggle="tab">Gas Evoluation Details </a></li>
                                     </ul>
-                                        <div style="height:30px;"></div>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="btn-group">
-                                                    <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" /></p>
-                                                </div>
-                                            </div>
-                                        </div>
+                                     <div class="tab-content">
+                                    <div class="tab-pane active" id="tab-1">
+                                 <!-- 1st tab  -->
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="btn-group">
+                                                             <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" /></p>
+                                                        </div>
+                                                    </div>
 
-                                   <div class="col-lg-12">
-                                         <div class="ibox float-e-margins">
+                                                    <div class="col-lg-12">
+                                                        <div class="ibox float-e-margins">
 
-                                                        <!-- / ibox-title -->
-                                                        <div id="demo3" class="ibox-content collapse in">
-                                                            <div class="borderedTable">
-                                                                <div class="table-scrollable">
-                                                                    <table class="table table-striped table-hover">
+                                                            <!-- / ibox-title -->
+                                                            <div id="demo3" class="ibox-content collapse in">
+                                                                <div class="borderedTable">
+                                                                    <div class="table-scrollable">
+                                                                        <table class="table table-striped table-hover">
                                                                         <thead>
                                                                             <tr>
                                                                                 
@@ -319,11 +322,12 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    
-                                           
+                                                    </div>
+                                                </div>
+                                           </div>
                                             <!-- 1st tab  -->
                                         </div>
-                                        <div class="tab-pane" id="tab-2">
+                                        @*<div class="tab-pane" id="tab-2">
                                             <!-- 2nd tab  -->
                                             <div class="row">
                                                 <div class="col-md-12">
@@ -383,9 +387,9 @@
                                                 </div>
                                             </div>
                                             <!-- 2nd tab  -->
-                                        </div>
-                                        <div class="tab-pane" id="tab-3">
-                                            <!-- 3rd tab  -->
+                                        </div>*@
+                                        <div class="tab-pane" id="tab-2">
+                                            <!-- 2rd tab  -->
                                              <div style="height:30px;"></div>
                                         <div class="row">
                                             <div class="col-md-12">
@@ -413,7 +417,7 @@
                                                                                 <th> Vol. at STP </th>
                                                                             </tr>
                                                                         </thead>
-                                                                        <tbody id="tbBooks">
+                                                                        <tbody id="tbBooks1">
                                                                             
 
                                                                                 @{
@@ -421,21 +425,24 @@
                                                                                     int j = 0;
 
 
-                                                                                    foreach (var item in Model.QCFVLst.ToList())
+                                                                                    foreach (var item in Model.QCFVDLst.ToList())
                                                                                     {
-                                                                                    <tr id="trBook@(j)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                                    <tr id="trBook1@(j)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
                                                                                         <td>
-                                                                                                @Html.TextBoxFor(o => o.QCFVDLst[j].Vol, new { @id = "txtVol" + j, @class = "form-control", style = "width: 120px;" })
+                                                                                                @Html.TextBoxFor(o => o.QCFVDLst[j].Time, new { @id = "txtTime" + j, @class = "form-control", style = "width: 120px;" })
                                                                                         </td>
                                                                                         <td>
                                                                                                 @Html.TextBoxFor(o => o.QCFVDLst[j].Vol, new { @id = "txtVol" + j, @class = "form-control", style = "width: 120px;" })
                                                                                         </td>
                                                                                         <td>
-                                                                                                @Html.TextBoxFor(o => o.QCFVDLst[j].Volc, new { @id = "txtVolc" + j, @class = "form-control", style = "width: 120px;" })
+                                                                                                @Html.TextBoxFor(o => o.QCFVDLst[j].Volat, new { @id = "txtVolat" + j, @class = "form-control", style = "width: 120px;" })
                                                                                         </td>
                                                                                         <td>
-                                                                                                @Html.TextBoxFor(o => o.QCFVDLst[j].Stp, new { @id = "txtStp" + j, @class = "form-control", style = "width: 120px;" })
+                                                                                            @Html.TextBoxFor(o => o.QCFVDLst[j].Volc, new { @id = "txtVolc" + j, @class = "form-control", style = "width: 120px;" })
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            @Html.TextBoxFor(o => o.QCFVDLst[j].Stp, new { @id = "txtStp" + j, @class = "form-control", style = "width: 120px;" })
                                                                                         </td>
 
                                                                                         <td>
@@ -444,7 +451,7 @@
                                                                                         </td>
 
                                                                                     </tr>
-                                                                                        j = j+ 1;
+                                                                                        j = j + 1;
 
 
                                                                                     }
@@ -459,9 +466,9 @@
                                                     </div>
                                                 </div>
                                            
-                                            <!-- 3rd tab  -->
+                                            <!-- 2rd tab  -->
                                         </div>
-
+                                       
                                    </div>
                                 </div>
 
@@ -474,18 +481,18 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Final Result<label class="Mandatory"></label></label>
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Final Result<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.FResult, new { @id = "txtFResult", @class = "form-control", @TabIndex = 1 })<br />
+                                            @Html.TextBoxFor(C => C.FResult, new { @id = "txtFResult", @class = "form-control", @TabIndex = 1 })
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="inputName3" class="col-sm-4 control-label">Result Type<label class="Mandatory"></label></label>
+                                   <br /> <label for="inputName3" class="col-sm-4 control-label">Result Type<label class="Mandatory"></label></label>
 
                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.RType, new { @id = "txtRType", @class = "form-control", @TabIndex = 1 })<br />
+                                            @Html.TextBoxFor(C => C.RType, new { @id = "txtRType", @class = "form-control", @TabIndex = 1 })
                                     </div>
 
                                 </div>
@@ -495,28 +502,27 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                     <br />   <label for="inputName3" class="col-sm-4 control-label">Entered By<label class="Mandatory"></label></label>
+                                        <br />   <label for="inputName3" class="col-sm-4 control-label">Entered By<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Enterd, Model.RecList, new { @id = "ddlEnterd", @Class = "form-control _select", @TabIndex = 1 })<br />
+                                            @Html.DropDownListFor(C => C.Enterd, Model.RecList, new { @id = "ddlEnterd", @Class = "form-control _select", @TabIndex = 1 })
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
+                       
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Remarks<label class="Mandatory"></label></label>
+                                    <br /><label for="inputName3" class="col-sm-4 control-label">Remarks<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="" type="text">
+                                            @Html.TextBoxFor(C => C.Reamarks, new { @id = "txtReamarks", @class = "form-control", @TabIndex = 1 })
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div style="height:30px;"></div>
-                        <button type="submit" class="btn aqua m-t-xs bottom15-xs">Submit</button>
-                        <button class="btn btn-danger" type="submit">Cancel</button>
+                            <div style="height:30px;"></div>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListQCFinalValueEntry", "QCFinalValueEntry")'">Cancel</button>
                     </form>
                     }
                 </div>
@@ -529,23 +535,41 @@
     $(function () {
         $('._select').select2();
     });
-    function changeItem(ItemId, i) {
+    function changeItem(ItemId) {
+        
+
         $.ajax({
-            url: "GetGRNItemJSON",
+            url: "GetItemJSON",
             type: "post",
-            data: { 'suppid': ItemId },
+            data: { 'supid': ItemId },
             cache: false,
             success: function (response) {
                 var newlist;
-                newlist = response.BindItemlst;
+                newlist = response.Itemlst;
                 PopulateDropDown("#ddlItemid", response);
             },
             error: function () {
                 debugger;
-                alert("Please Select GRN ID");
+                alert("Please Select Drum Location");
             }
         });
-    }
+         $.ajax({
+            url: "GetBatchJSON",
+            type: "post",
+            data: { 'Batchid': ItemId },
+            cache: false,
+            success: function (response) {
+                var newlist;
+                newlist = response.Batchlst;
+                PopulateDropDown("#ddlBatchNo" , response);
+            },
+            error: function () {
+                debugger;
+                alert("Please Select Drum No");
+            }
+        });
+        }
+   
     function PopulateDropDown(dropDownId, list) {
         //alert(list);
         $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
@@ -596,17 +620,7 @@
             }
         })
     }
-    function PopulateDropDown(dropDownId, list) {
-        //alert(list);
-        $(dropDownId).empty().append();
-        if (list != null && list.length > 0) {
-            $(dropDownId).removeAttr("disabled");
-            $.each(list, function () {
-                $(dropDownId).append($("<option></option>").val(this['value']).html(this['text']));
-            });
-        }
-        $(dropDownId).trigger("liszt:updated");
-    }
+   
     function removeRow(id) {
         var table = document.getElementById("dataTable");
         var rowCount = table.rows.length;
@@ -664,9 +678,9 @@
 
         var Result = "<td><input class='form-control' id='txtResultl" + index + "' name='QCFVLst[" + index + "].Result'  style='width: 120px;' type='text'  /></td>";
 
-        var removeCell = "<td><input id='Isvalid" + index + "' name='QCFVLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='Drumlst.Index' type='hidden' value='" + index + "'  /></td>";
+        var removeCell = "<td><input id='Isvalid" + index + "' name='Itemlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='Drumlst.Index' type='hidden' value='" + index + "'  /></td>";
 
-        var newRow = "<tr class='chkitemlst1'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Des + Value + Unit + Sta + En + Test + Manual + Actual + Result + removeCell + "</tr>";
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Des + Value + Unit + Sta + En + Test + Manual + Actual + Result + removeCell + "</tr>";
 
         //alert(Packing);
         $("#tbBooks").append(newRow);
@@ -676,6 +690,8 @@
     }
     function AppendRow1(opt) {
         var index = $("#tbBooks1").children("tr").length;
+
+        var Time = "<td><input class='form-control' id='Time" + index + "' name='QCFVDLst[" + index + "].Time'  style='width: 120px;' type='time'    /></td>";
 
         var Vol = "<td><input class='form-control' id='txtVol" + index + "' name='QCFVDLst[" + index + "].Vol'  style='width: 120px;' type='text'  /></td>";
 
@@ -687,7 +703,7 @@
 
         var removeCell = "<td><input id='Isvalid" + index + "' name='QCFVDLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow1(" + index + ");'  style='cursor:pointer' /><input name='Drumlst.Index' type='hidden' value='" + index + "'  /></td>";
 
-        var newRow = "<tr class='chkitemlst2'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook2" + index + "'>" + Des + Value + Unit + Sta + En + Test + Manual + Actual + Result + removeCell + "</tr>";
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook1" + index + "'>" + Des + Value + Unit + Sta + En + Test + Manual + Actual + Result + removeCell + "</tr>";
 
         //alert(Packing);
         $("#tbBooks1").append(newRow);

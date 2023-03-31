@@ -34,7 +34,7 @@ namespace Arasan.Controllers.Qualitycontrol
             ca.Processlst = BindProcess("");
             ca.drumlst = Binddrum();
             ca.Itemlst = BindItemlst("");
-            ca.Batchlst = BindBatch();
+            ca.Batchlst = BindBatch("");
             List<QCFVItem> TData = new List<QCFVItem>();
             QCFVItem tda = new QCFVItem();
             List<QCFVItemDeatils> TData1 = new List<QCFVItemDeatils>();
@@ -83,6 +83,7 @@ namespace Arasan.Controllers.Qualitycontrol
                     ca.FResult = dt.Rows[0]["FINALRESULT"].ToString();
                     ca.RType = dt.Rows[0]["RESULTTYPE"].ToString();
                     ca.Enterd = dt.Rows[0]["ENTEREDBY"].ToString();
+                    ca.Reamarks = dt.Rows[0]["REMARKS"].ToString();
 
                 }
                 DataTable dt2 = new DataTable();
@@ -107,6 +108,7 @@ namespace Arasan.Controllers.Qualitycontrol
                 }
                 DataTable dt3 = new DataTable();
                 dt3 = QCFinalValueEntryService.GetQCFVGasDetail(id);
+
                 if (dt3.Rows.Count > 0)
                 {
 
@@ -118,6 +120,15 @@ namespace Arasan.Controllers.Qualitycontrol
                         tda1.Volat = dt3.Rows[0]["VOL35C"].ToString();
                         tda1.Volc = dt3.Rows[0]["VOL45C"].ToString();
                         tda1.Stp = dt3.Rows[0]["VOLSTP"].ToString();
+                        TData1.Add(tda1);
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < 1; i++)
+                    {
+                        tda1 = new QCFVItemDeatils();
+                        tda1.Isvalid = "Y";
                         TData1.Add(tda1);
                     }
                 }
@@ -170,11 +181,32 @@ namespace Arasan.Controllers.Qualitycontrol
             IEnumerable<QCFinalValueEntry> cmp = QCFinalValueEntryService.GetAllQCFinalValueEntry();
             return View(cmp);
         }
-        public JsonResult GetGRNItemJSON(string supid)
+        //public JsonResult GetGRNItemJSON(string supid)
+        //{
+        //    QCFinalValueEntry model = new QCFinalValueEntry();
+        //    model.Itemlst = BindItemlst(supid);
+        //    return Json(BindItemlst(supid));
+
+        //}
+        public JsonResult GetItemJSON(string supid)
         {
             QCFinalValueEntry model = new QCFinalValueEntry();
             model.Itemlst = BindItemlst(supid);
             return Json(BindItemlst(supid));
+
+        }
+        //public JsonResult GetDrumJSON(string Drmid)
+        //{
+        //    QCFinalValueEntry model = new QCFinalValueEntry();
+        //    model.drumlst = Binddrum(Drmid); 
+        //    return Json(Binddrum(Drmid));
+
+        //}
+        public JsonResult GetBatchJSON(string Batchid)
+        {
+            QCFinalValueEntry model = new QCFinalValueEntry();
+            model.Batchlst = BindBatch(Batchid);
+            return Json(BindBatch(Batchid));
 
         }
         public List<SelectListItem> Binddrum()
@@ -185,7 +217,7 @@ namespace Arasan.Controllers.Qualitycontrol
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DRUMNO"].ToString(), Value = dtDesg.Rows[i]["NPRODBASICID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DRUMNO"].ToString(), Value = dtDesg.Rows[i]["ODRUMNO"].ToString() });
                 }
                 return lstdesg;
             }
@@ -194,15 +226,15 @@ namespace Arasan.Controllers.Qualitycontrol
                 throw ex;
             }
         }
-        public List<SelectListItem> BindBatch()
+        public List<SelectListItem> BindBatch(string value)
         {
             try
             {
-                DataTable dtDesg = QCFinalValueEntryService.BatchDeatils();
+                DataTable dtDesg = QCFinalValueEntryService.BatchDeatils(value);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["NBATCHNO"].ToString(), Value = dtDesg.Rows[i]["NPRODBASICID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["NBATCHNO"].ToString(), Value = dtDesg.Rows[i]["NBATCHNO"].ToString() });
                 }
                 return lstdesg;
             }
@@ -219,7 +251,7 @@ namespace Arasan.Controllers.Qualitycontrol
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["NPRODBASICID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["OITEMID"].ToString() });
                 }
                 return lstdesg;
             }
