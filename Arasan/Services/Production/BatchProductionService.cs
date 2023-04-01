@@ -54,7 +54,22 @@ namespace Arasan.Services;
                 OracleCommand objCmd = new OracleCommand("BATCHPRODUCTIONPROC", objConn);
                 /*objCmd.Connection = objConn;
                 objCmd.CommandText = "DIRECTPURCHASEPROC";*/
-
+                string[] sdateList = cy.startdate.Split(" - ");
+                string sdate = "";
+                string stime = "";
+                if (sdateList.Length > 0)
+                {
+                    sdate = sdateList[0];
+                    stime = sdateList[1];
+                }
+                string[] edateList = cy.enddate.Split(" - ");
+                string endate = "";
+                string endtime = "";
+                if (sdateList.Length > 0)
+                {
+                    endate = edateList[0];
+                    endtime = edateList[1];
+                }
                 objCmd.CommandType = CommandType.StoredProcedure;
                 if (cy.ID == null)
                 {
@@ -75,8 +90,10 @@ namespace Arasan.Services;
                 objCmd.Parameters.Add("ETYPE", OracleDbType.NVarchar2).Value = cy.EntryType;
                 objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.DocId;
                 objCmd.Parameters.Add("BATCH", OracleDbType.NVarchar2).Value = cy.BatchNo;
-                //objCmd.Parameters.Add("STARTDATE", OracleDbType.Date).Value = DateTime.Parse(cy.startdate);
-                //objCmd.Parameters.Add("ENDDATE", OracleDbType.Date).Value = DateTime.Parse(cy.enddate);
+                objCmd.Parameters.Add("STARTDATE", OracleDbType.Date).Value = DateTime.Parse(cy.startdate);
+                objCmd.Parameters.Add("ENDDATE", OracleDbType.Date).Value = DateTime.Parse(cy.enddate);
+                objCmd.Parameters.Add("STARTTIME", OracleDbType.NVarchar2).Value = stime;
+                objCmd.Parameters.Add("ENDTIME", OracleDbType.NVarchar2).Value = endtime;
                 objCmd.Parameters.Add("ENTEREDBY", OracleDbType.NVarchar2).Value = cy.Enterd;
                 objCmd.Parameters.Add("SCHQTY", OracleDbType.NVarchar2).Value = cy.SchQty;
                 objCmd.Parameters.Add("PRODQTY", OracleDbType.NVarchar2).Value = cy.ProdQty;
