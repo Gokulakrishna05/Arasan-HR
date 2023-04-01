@@ -108,7 +108,22 @@ public class ProductionEntryService : IProductionEntry
         try
         {
             string StatementType = string.Empty; string svSQL = "";
-
+            string[] sdateList = cy.startdate.Split(" - ");
+            string sdate = "";
+            string stime = "";
+            if (sdateList.Length > 0)
+            {
+                sdate = sdateList[0];
+                stime = sdateList[1];
+            }
+            string[] edateList = cy.enddate.Split(" - ");
+            string endate = "";
+            string endtime = "";
+            if (sdateList.Length > 0)
+            {
+                endate = edateList[0];
+                endtime = edateList[1];
+            }
             using (OracleConnection objConn = new OracleConnection(_connectionString))
             {
                 OracleCommand objCmd = new OracleCommand("PRODUCTIONENTRYPROC", objConn);
@@ -134,8 +149,10 @@ public class ProductionEntryService : IProductionEntry
                 objCmd.Parameters.Add("DOCDATE", OracleDbType.Date).Value = DateTime.Parse(cy.Shiftdate);
                 objCmd.Parameters.Add("ETYPE", OracleDbType.NVarchar2).Value = cy.EntryType;
                 objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.DocId;
-                //objCmd.Parameters.Add("STARTDATE", OracleDbType.Date).Value = DateTime.Parse(cy.startdate);
-                //objCmd.Parameters.Add("ENDDATE", OracleDbType.Date).Value = DateTime.Parse(cy.enddate);
+                objCmd.Parameters.Add("STARTDATE", OracleDbType.Date).Value = DateTime.Parse(sdate);
+                objCmd.Parameters.Add("ENDDATE", OracleDbType.Date).Value = DateTime.Parse(endate);
+                objCmd.Parameters.Add("STARTTIME", OracleDbType.NVarchar2).Value = stime;
+                objCmd.Parameters.Add("ENDTIME", OracleDbType.NVarchar2).Value = endtime;
                 objCmd.Parameters.Add("ENTEREDBY", OracleDbType.NVarchar2).Value = cy.Enterd;
                 objCmd.Parameters.Add("SCHQTY", OracleDbType.NVarchar2).Value = cy.SchQty;
                 objCmd.Parameters.Add("PRODQTY", OracleDbType.NVarchar2).Value = cy.ProdQty;
@@ -225,7 +242,7 @@ public class ProductionEntryService : IProductionEntry
                                 objCmds.Parameters.Add("CUNIT", OracleDbType.NVarchar2).Value = cp.consunit;
                                 objCmds.Parameters.Add("CONSQTY", OracleDbType.NVarchar2).Value = cp.consQty;
                                 objCmds.Parameters.Add("CVALUE", OracleDbType.NVarchar2).Value = cp.ConsStock;
-                              
+
                                 objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
 
                                 objConns.Open();

@@ -344,11 +344,11 @@
                      list.forEach((item) => {
 
          var index = $("#tbBooks").children("tr").length;
-                
+                         //alert(item.batch);  
          var Drum = "<td><input class='form-control' id='txtdrum" + index + "' name='Curinglst[" + index + "].drum'  style='width: 100px;' type='text'  readonly='True'  value=" + item.drum + " /></td>";
 
-         var Batch = "<td><input class='form-control' id='txtbatch" + index + "' name='Curinglst[" + index + "].batch'  style='width: 250px;' type='text' readonly='True'  value=" + item.batch + " /></td>";
-
+         var Batch = "<td><label>" + item.batch + "</label></td>";
+        
          var Qty = "<td><input class='form-control' id='txtqty" + index + "' name='Curinglst[" + index + "].qty'  style='width: 80px;' type='text' readonly='True' value=" + item.qty + "  /></td>";
 
          var Comp = "<td><input class='form-control' id='txtcomp" + index + "' name='Curinglst[" + index + "].comp'  style='width: 60px;' type='text' readonly='True'  value=" + item.comp + " /></td>";
