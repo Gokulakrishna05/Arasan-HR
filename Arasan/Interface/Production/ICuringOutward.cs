@@ -17,5 +17,7 @@ namespace Arasan.Interface
         DataTable GetPackingDetail(string id);
         IEnumerable<CuringOutward> GetAllCuringOutward();
         string  CuringOutwardCRUD(CuringOutward Cy);
+        DataTable Getcuringoutward(string id);
+        DataTable GetCuringDetail(string id);
     }
 }
