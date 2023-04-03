@@ -69,8 +69,8 @@
                                                <label for="inputName3" class="col-sm-4 control-label">Doc Id<label class="Mandatory"></label></label>
                                             <div class="col-sm-8">
 
-                                                @Html.TextBoxFor(C => C.ProdSchNo, new { @id = "txtProdSchNo", @class = "form-control", @TabIndex = 1 })<br />
-
+                                                @Html.TextBoxFor(C => C.DocId, new { @id = "txtDocId", @class = "form-control", @TabIndex = 1 })<br />
+                                                     @Html.HiddenFor(C => C.ID)
 
                                             </div>
                                         </div>
@@ -97,7 +97,7 @@
                                         <label for="inputName3" class="col-sm-4 control-label">From Work Center<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
                                                 @Html.DropDownListFor(C => C.FromWork, Model.FromWorklst, new { @id = "ddlFromWork", @Class = "form-control _select", @TabIndex = 1 })<br />
-                                              @Html.HiddenFor(C => C.ID)
+                                 
                                         </div>
 
                                     </div>
@@ -109,7 +109,7 @@
                                         <label for="inputName3" class="col-sm-4 control-label">To Work Center<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
                                                 @Html.DropDownListFor(C => C.ToWork, Model.ToWorklst, new { @id = "ddlToWork", @Class = "form-control _select", @TabIndex = 1 })<br />
-                                              @Html.HiddenFor(C => C.ID)
+                                         
                                         </div>
 
                                     </div>
@@ -122,7 +122,7 @@
                                         <label for="inputName3" class="col-sm-4 control-label">Shift<label class="Mandatory"></label></label>
 
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Shift, Model.Shiftlst," -- Please Select -- ", new { @id = "ddlShift", @Class = "form-control _select", @TabIndex = 1 ,onchange = "changeshift(this.value)"})<br />
+                                            @Html.DropDownListFor(C => C.Shift, Model.Shiftlst," -- Please Select -- ", new { @id = "ddlShift", @Class = "form-control _select", @TabIndex = 1  })<br />
 
 
 
@@ -194,7 +194,7 @@
                                     <div class="form-group">
                                             <br />   <label for="inputName3" class="col-sm-4 control-label">Remarks<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                                                                                                         @Html.TextAreaFor(C => C.Remark, new { @id = "txtRemark", @class = "form-control", @TabIndex = 1 })<br />
+                                            @Html.TextAreaFor(C => C.Remark, new { @id = "txtRemark", @class = "form-control", @TabIndex = 1 })<br />
 
                                         </div>
                                     </div>
@@ -206,7 +206,7 @@
                                         <div class="form-group">
 
                                          <label for="inputName3" class="col-sm-4 control-label">End Date<label class="Mandatory"></label></label>
-                                            <div class="col-sm-8">
+                                        
 
                                                 <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                                     @Html.TextBoxFor(C => C.enddate, new { @id = "enddate", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })
@@ -216,7 +216,7 @@
                                                 <br />
 
 
-                                            </div>
+                                            
                                         </div>
                                     </div>
 
