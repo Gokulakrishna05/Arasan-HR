@@ -173,10 +173,10 @@
                                                                 <td>
                                                                         @Html.DropDownListFor(o => o.QCRLst[i].ItemId, Model.QCRLst[i].Itemlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItemId" + i, style = "width: 170px;", onchange = "changeItemDetail(this.value," + i + ")"})
                                                                     @Html.HiddenFor(o => o.QCRLst[i].saveItemId)
-                                                                    </td>
-                                                               @* <td>
+                                                                </td>
+                                                               @*<td>
                                                                 @Html.TextBoxFor(o => o.QCRLst[i].Unit, new { @id = "txtGrnQty" + i, @class = "form-control", style = "width: 130px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
-                                                            </td>*@
+                                                                 </td>*@
                                                                 <td>
 
                                                                 @Html.TextBoxFor(o => o.QCRLst[i].GrnQty, new { @id = "txtGrnQty" + i, @class = "form-control", style = "width: 130px;",onkeydown = "return isNumeric2(event.keyCode,this.value)"})
@@ -195,7 +195,7 @@
                                                                  <td>
                                                                     @Html.HiddenFor(o => o.QCRLst[i].Isvalid, new { @id = "Isvalid" + i })
                                                                                     <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(i)" />
-                                                                                </td>
+                                                                 </td>
 
                                                             </tr>
                                                     i = i + 1;
@@ -203,22 +203,9 @@
 
                                                 }
                                             }
-                                                            @*<tr>
-                                                                <td>2</td>
-                                                                <td>SGST</td>
-                                                                <td>2%</td>
-                                                                <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("tax", "tax")"></a></div></td>
-                                                                <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("tax", "tax")"></a></div></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>3</td>
-                                                                <td>IGST</td>
-                                                                <td>10%</td>
-                                                                <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("tax", "tax")"></a></div></td>
-                                                                <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("tax", "tax")"></a></div></td>
-                                                            </tr>*@
+                                        </tbody>                   
                                                       
-                                        </table>
+                                    </table>
                                 </div>
                             </div>
 
