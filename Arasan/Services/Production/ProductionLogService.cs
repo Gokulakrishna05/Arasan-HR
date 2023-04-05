@@ -54,6 +54,23 @@ namespace Arasan.Services
             try
             {
                 string StatementType = string.Empty; string svSQL = "";
+                string[] sdateList = cy.startdate.Split(" - ");
+                string sdate = "";
+                string stime = "";
+                if (sdateList.Length > 0)
+                {
+                    sdate = sdateList[0];
+                    stime = sdateList[1];
+                }
+                string[] edateList = cy.enddate.Split(" - ");
+                string endate = "";
+                string endtime = "";
+                if (sdateList.Length > 0)
+                {
+                    endate = edateList[0];
+                    endtime = edateList[1];
+                }
+              
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
@@ -81,8 +98,10 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("TBMELT", OracleDbType.NVarchar2).Value = cy.Melting;
                     objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.DocId;
                     objCmd.Parameters.Add("SUPERBY", OracleDbType.NVarchar2).Value = cy.Supervised;
-                    //objCmd.Parameters.Add("STARTDATE", OracleDbType.Date).Value = DateTime.Parse(cy.startdate);
-                    //objCmd.Parameters.Add("ENDDATE", OracleDbType.Date).Value = DateTime.Parse(cy.enddate);
+                    objCmd.Parameters.Add("STARTDATE", OracleDbType.Date).Value = DateTime.Parse(sdate);
+                    objCmd.Parameters.Add("ENDDATE", OracleDbType.Date).Value = DateTime.Parse(endate);
+                    objCmd.Parameters.Add("STARTTIME", OracleDbType.NVarchar2).Value = stime;
+                    objCmd.Parameters.Add("ENDTIME", OracleDbType.NVarchar2).Value = endtime;
                     objCmd.Parameters.Add("ENTEREDBY", OracleDbType.NVarchar2).Value = cy.Entered;
                     objCmd.Parameters.Add("EBUNITSCONS", OracleDbType.NVarchar2).Value = cy.EUnit;
                     objCmd.Parameters.Add("FUELQTY", OracleDbType.NVarchar2).Value = cy.FuelQty;

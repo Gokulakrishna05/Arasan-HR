@@ -178,7 +178,7 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Output Qty<label class="Mandatory"></label></label>
 
                                     <div class="col-sm-8">
-                                         @Html.TextBoxFor(C => C.Qty, new { @id = "txtQty", @class = "form-control", @TabIndex = 2 })<br />
+                                            @Html.TextBoxFor(C => C.Qty, new { @id = "txtQty", @class = "form-control", @TabIndex = 2 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
                                     </div>
                                 </div>
                             </div>
@@ -188,7 +188,7 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Exp.Run Hrs<label class="Mandatory"></label></label>
 
                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Exprunhrs, new { @id = "txtExprunhrs", @class = "form-control", @TabIndex = 2 })<br />
+                                            @Html.TextBoxFor(C => C.Exprunhrs, new { @id = "txtExprunhrs", @class = "form-control", @TabIndex = 2 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
                                     </div>
                                 </div>
                             </div>
@@ -307,7 +307,7 @@
                                                                                 @Html.TextBoxFor(o => o.PrsLst[i].Input, new { @id = "txtInput" + i, @class = "form-control", style = "width: 120px;" })
                                                                             </td>
                                                                             <td>
-                                                                                @Html.TextBoxFor(o => o.PrsLst[i].Qty, new { @id = "txtQty" + i, @class = "form-control", style = "width: 120px;" })
+                                                                                @Html.TextBoxFor(o => o.PrsLst[i].Qty, new { @id = "txtQty" + i, @class = "form-control", style = "width: 120px;",onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                                                             </td>
 
                                                                                 <td>
@@ -398,10 +398,10 @@
                                                                                 @Html.TextBoxFor(o => o.ProLst[j].OutputType, new { @id = "txtOutputType" + j, @class = "form-control", style = "width: 120px;" })
                                                                             </td>
                                                                              <td>
-                                                                                @Html.TextBoxFor(o => o.ProLst[j].Sch, new { @id = "txtSch" + j, @class = "form-control", style = "width: 120px;" })
+                                                                                @Html.TextBoxFor(o => o.ProLst[j].Sch, new { @id = "txtSch" + j, @class = "form-control", style = "width: 120px;",onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                                                             </td>
                                                                             <td>
-                                                                                @Html.TextBoxFor(o => o.ProLst[j].Produced, new { @id = "txtProduced" + j, @class = "form-control", style = "width: 120px;" })
+                                                                                @Html.TextBoxFor(o => o.ProLst[j].Produced, new { @id = "txtProduced" + j, @class = "form-control", style = "width: 120px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
                                                                             </td>
 
                                                                             <td>
@@ -551,7 +551,7 @@
                                                                     </div>
                                                                 </td>
                                                                  <td>
-                                                                        @Html.TextBoxFor(o => o.ProscLst[a].Hrs, new { @id = "txtHrs" + a, @class = "form-control", style = "width: 120px;" })
+                                                                        @Html.TextBoxFor(o => o.ProscLst[a].Hrs, new { @id = "txtHrs" + a, @class = "form-control", style = "width: 120px;",onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                                                 </td>
                                                                 <td>
                                                                         @Html.DropDownListFor(o => o.ProscLst[a].ItemGrp, Model.ProscLst[a].SItemGrouplst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItemGp" + a, style = "width: 170px;", onchange = "Grup_Change2(this.value," + a + ")"})
@@ -562,7 +562,7 @@
                                                                         @Html.HiddenFor(o => o.ProscLst[a].saveItemId)
                                                                  </td>
                                                                  <td>
-                                                                        @Html.TextBoxFor(o => o.ProscLst[a].Qty, new { @id = "txtQty" + a, @class = "form-control", style = "width: 120px;" })
+                                                                                @Html.TextBoxFor(o => o.ProscLst[a].Qty, new { @id = "txtQty" + a, @class = "form-control", style = "width: 120px;",onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                                                 </td>
                                                                 <td>
                                                                         @Html.TextBoxFor(o => o.ProscLst[a].Change, new { @id = "txtChange" + a, @class = "form-control", style = "width: 120px;" })
@@ -636,7 +636,7 @@
                                                                         @Html.TextBoxFor(o => o.ProschedLst[k].Pack, new { @id = "txtPack" + k, @class = "form-control", style = "width: 120px;" })
                                                                 </td>
                                                                 <td>
-                                                                        @Html.TextBoxFor(o => o.ProschedLst[k].Qty, new { @id = "txtQty" + k, @class = "form-control", style = "width: 120px;" })
+                                                                                                @Html.TextBoxFor(o => o.ProschedLst[k].Qty, new { @id = "txtQty" + k, @class = "form-control", style = "width: 120px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
                                                                 </td>
 
                                                                 <td>

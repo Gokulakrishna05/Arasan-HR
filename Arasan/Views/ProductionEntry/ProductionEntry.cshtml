@@ -97,7 +97,7 @@
                                           <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Entry Type<label class="mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Entry Type<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                          @Html.DropDownListFor(C => C.EntryType, Model.ETypelst, new { @id = "ddlEntryType", @Class = "form-control _select", @TabIndex = 1,onchange = "changeentry(this.value)" })<br/>
                                         
@@ -155,7 +155,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Sch Qty<label class="mandatory"> *</label></label>
                                     <div class="col-sm-8">
-                                         @Html.TextBoxFor(C => C.SchQty, new { @id = "txtSchQty", @class = "form-control", @TabIndex = 1 })<br />
+                                            @Html.TextBoxFor(C => C.SchQty, new { @id = "txtSchQty", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
                                     </div>
                                 </div>
                             </div>
@@ -164,7 +164,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Prod Qty<label class="mandatory"> *</label></label>
                                     <div class="col-sm-8">
-                                         @Html.TextBoxFor(C => C.ProdQty, new { @id = "txtProdQty", @class = "form-control", @TabIndex = 1 })<br />
+                                         @Html.TextBoxFor(C => C.ProdQty, new { @id = "txtProdQty", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)" })<br />
                                     </div>
                                 </div>
                             </div>
@@ -501,7 +501,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Total Input Qty<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.totalinqty, new { @id = "txttotalinqty", @class = "form-control", @TabIndex = 1 })<br />
+                                        @Html.TextBoxFor(C => C.totalinqty, new { @id = "txttotalinqty", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)" })<br />
                                     </div>
                                 </div>
                             </div>
@@ -510,7 +510,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Total Cons Qty<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.totalconsqty, new { @id = "txttotalconsqty", @class = "form-control", @TabIndex = 1 })<br />
+                                        @Html.TextBoxFor(C => C.totalconsqty, new { @id = "txttotalconsqty", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
                                     </div>
                                 </div>
                             </div>
@@ -523,7 +523,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Total Output Qty<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.totaloutqty, new { @id = "totaloutqty", @class = "form-control", @TabIndex = 1 })<br />
+                                        @Html.TextBoxFor(C => C.totaloutqty, new { @id = "totaloutqty", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
                                     </div>
                                 </div>
                             </div>
@@ -532,7 +532,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Total Waste<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.wastageqty, new { @id = "totalwastageqty", @class = "form-control", @TabIndex = 1 })<br />
+                                        @Html.TextBoxFor(C => C.wastageqty, new { @id = "totalwastageqty", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
                                     </div>
                                 </div>
                             </div>
@@ -544,7 +544,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Total RM Value<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.totalRmValue, new { @id = "totalRmValue", @class = "form-control", @TabIndex = 1 })<br />
+                                            @Html.TextBoxFor(C => C.totalRmValue, new { @id = "totalRmValue", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)" })<br />
 
                                     </div>
                                 </div>
@@ -554,7 +554,7 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Machine Value<label class="Mandatory"></label></label>
 
                                     <div class="col-sm-8">
-                                                                              @Html.TextBoxFor(C => C.Machine, new { @id = "txtMachine", @class = "form-control", @TabIndex = 1 })<br />
+                                            @Html.TextBoxFor(C => C.Machine, new { @id = "txtMachine", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
 
                                     </div>
 
@@ -567,7 +567,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Cons.Value<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                                                               @Html.TextBoxFor(C => C.CosValue, new { @id = "CosValue", @class = "form-control", @TabIndex = 1 })<br />
+                                                                               @Html.TextBoxFor(C => C.CosValue, new { @id = "CosValue", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
 
                                     </div>
                                 </div>
@@ -577,7 +577,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Total RM Qty<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                                                              @Html.TextBoxFor(C => C.totaRmqty, new { @id = "totaRmqty", @class = "form-control", @TabIndex = 1 })<br />
+                                                                              @Html.TextBoxFor(C => C.totaRmqty, new { @id = "totaRmqty", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
 
                                     </div>
                                 </div>
@@ -1121,4 +1121,173 @@ function changeConsQty(_this, i) {
              $(function() {
             $('._select').select2();
         });
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+            if (document.getElementById("ddlBranch").value == "" || document.getElementById("ddlBranch").value == 0) {
+                isValid = false;
+                $(ddlBranch).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Branch");
+                return false;
+            }
+            else {
+                $(ddlBranch).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("Shiftdate").value == "") {
+                isValid = false;
+                $(Shiftdate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select  Date");
+                return false;
+            }
+            else {
+                $(Shiftdate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+             if (document.getElementById("ddlEntryType").value == "" || document.getElementById("ddlEntryType").value == 0) {
+                isValid = false;
+                $(ddlEntryType).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Entry Type");
+                return false;
+            }
+            else {
+                $(ddlEntryType).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("ddlShift").value == "" || document.getElementById("ddlShift").value == 0) {
+                isValid = false;
+                $(ddlShift).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Shift");
+                return false;
+            }
+            else {
+                $(ddlShift).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtSchQty").value == "") {
+                isValid = false;
+                $(txtSchQty).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select SchQty");
+                return false;
+            }
+            else {
+                $(txtSchQty).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtProdQty").value == "") {
+                isValid = false;
+                $(txtProdQty).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select  Prod Qty");
+                return false;
+            }
+            else {
+                $(txtProdQty).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("startdate").value == "") {
+                isValid = false;
+                $(startdate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Start Date");
+                return false;
+            }
+            else {
+                $(startdate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("enddate").value == "") {
+                isValid = false;
+                $(enddate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select End Date");
+                return false;
+            }
+            else {
+                $(enddate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtBatchNo").value == "") {
+                isValid = false;
+                $(txtBatchNo).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Batch");
+                return false;
+            }
+            else {
+                $(txtBatchNo).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("ddlStLoc").value == "" || document.getElementById("ddlStLoc").value == 0) {
+                isValid = false;
+                $(ddlStLoc).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Work Center");
+                return false;
+            }
+            else {
+                $(ddlStLoc).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (isValid == false)
+                e.preventDefault();
+        });
+
+    });
 </script>
