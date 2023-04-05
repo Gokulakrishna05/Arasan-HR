@@ -29,6 +29,7 @@ namespace Arasan.Controllers
             ca.Suplst = BindSupplier();
             ca.Curlst = BindCurrency();
             ca.Loclst = GetLoc();
+            ca.DocDate = DateTime.Now.ToString("dd-MMM-yyyy");
             List<DirItem> TData = new List<DirItem>();
             DirItem tda = new DirItem();
             if (id == null)

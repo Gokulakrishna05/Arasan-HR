@@ -3,6 +3,16 @@
 @{
     ViewData["Title"] = "  Purchase Quotations";
 }
+<style>
+     
+
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
 
@@ -31,7 +41,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Branch<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.DropDownListFor(C => C.Branch, Model.Brlst, new { @id = "ddlBranch", @Class = "form-control chosen-select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.Branch, Model.Brlst, new { @id = "ddlBranch", @Class = "form-control _select", @TabIndex = 1 })
 
                                     </div>
                                 </div>
@@ -41,7 +51,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Supplier Name<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.DropDownListFor(C => C.Supplier, Model.Suplst, new { @id = "ddlSupplier", @Class = "form-control chosen-select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.Supplier, Model.Suplst, new { @id = "ddlSupplier", @Class = "form-control _select", @TabIndex = 1 })
 
                                     </div>
                                 </div>
@@ -53,7 +63,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Quotation No<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Quotation No<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.QuoId, new { @id = "txtQuoId", @class = "form-control", @TabIndex = 1,@readonly=true })<br />
                                                                                      @Html.HiddenFor(C => C.ID)
@@ -63,7 +73,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="inputName3" class="col-sm-4 control-label">Quotation Date<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Quotation Date<label class="mandatory">*</label></label>
 
                                     <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                             @Html.TextBoxFor(C => C.DocDate, new { @id = "DocDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
@@ -93,7 +103,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Currency<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.DropDownListFor(C => C.Currency, Model.Curlst, new { @id = "ddlCurrency", @Class = "form-control chosen-select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.Currency, Model.Curlst, new { @id = "ddlCurrency", @Class = "form-control _select", @TabIndex = 1 })
 
                                     </div>
                                 </div>
@@ -115,7 +125,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Enquiry No<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Enquiry No<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.EnqNo, new { @id = "txtEnqNo", @class = "form-control", @TabIndex = 1,@readonly=true })<br />
                                             @Html.HiddenFor(C => C.ID)
@@ -177,10 +187,10 @@
                                                             {
                                                             <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
                                                                 <td>
-                                                                    @Html.DropDownListFor(o => o.QoLst[i].ItemGroupId, Model.QoLst[i].ItemGrouplst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItemGrp" + i, style = "width: 200px;", onchange = "Grup_Change(this.value," + i + ")",disabled="disabled"})
+                                                            @Html.DropDownListFor(o => o.QoLst[i].ItemGroupId, Model.QoLst[i].ItemGrouplst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItemGrp" + i, style = "width: 200px;", onchange = "Grup_Change(this.value," + i + ")",disabled="disabled"})
                                                                 </td>
                                                                     <td>
-                                                                    @Html.DropDownListFor(o => o.QoLst[i].ItemId, Model.QoLst[i].Ilst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItem" + i, style = "width: 200px;", onchange = "changeItem(this.value," + i + ")",disabled="disabled"})
+                                                            @Html.DropDownListFor(o => o.QoLst[i].ItemId, Model.QoLst[i].Ilst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 200px;", onchange = "changeItem(this.value," + i + ")",disabled="disabled"})
                                                             @Html.HiddenFor(o => o.QoLst[i].saveItemId)
                                                                 </td>
                                                                 <td>
@@ -238,7 +248,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Quot. Sent By<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                       		 @Html.DropDownListFor(C => C.assignid, Model.assignList, new { @id = "ddlPosent", @Class = "form-control chosen-select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.assignid, Model.assignList, new { @id = "ddlPosent", @Class = "form-control _select", @TabIndex = 1 })
 
                                     </div>
                                 </div>
@@ -248,7 +258,7 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Quot. Recd By<label class="Mandatory"></label></label>
 
                                     <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Recid, Model.RecList, new { @id = "ddlEnqRec", @Class = "form-control chosen-select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.Recid, Model.RecList, new { @id = "ddlEnqRec", @Class = "form-control _select", @TabIndex = 1 })
 
                                     </div>
 
@@ -258,8 +268,10 @@
 
                         <div style="height:30px;"></div>
                             <div class="col-lg-10"></div>
-                            <button type="submit" name="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" value="Save" tabindex="18">Save</button>
-                        <a button class="btn btn-danger" type="submit" href="@Url.Action("ListPurchaseQuo", "PurchaseQuo")">Cancel</a>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+
+                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("LisPurchaseQuotation", "PurchaseQuotation")'">Cancel</button>
+
 
 
                     </form>
@@ -271,8 +283,9 @@
     </div>
 </div>
 <script>
-    $(".chosen-select").chosen();
-  
+    $(function () {
+        $('._select').select2();
+    });
     function changeQty(_this, i) {
         try {
             var qty = document.getElementById("txtQuantity" + i).value;
@@ -333,6 +346,64 @@
         minView: 2,
         forceParse: 0
     });
-  
 
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+            
+            if (document.getElementById("txtQuoId").value == "") {
+                isValid = false;
+                $(txtQuoId).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select  ID");
+                return false;
+            }
+            else {
+                $(txtQuoId).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("DocDate").value == "") {
+                isValid = false;
+                $(DocDate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select  Date");
+                return false;
+            }
+            else {
+                $(DocDate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtEnqNo").value == "") {
+                isValid = false;
+                $(txtEnqNo).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select  Enquiry Id");
+                return false;
+            }
+            else {
+                $(txtEnqNo).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            
+
+            if (isValid == false)
+                e.preventDefault();
+        });
+
+    });
 </script> 

@@ -79,7 +79,7 @@
                                 </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="inputName3" class="col-sm-4 control-label">Shift<label class="Mandatory"></label></label>
+                                            <label for="inputName3" class="col-sm-4 control-label">Shift<label class="mandatory"></label>*</label>
 
                                             <div class="col-sm-8">
                                                 @Html.DropDownListFor(C => C.Shift, Model.Shiftlst," -- Please Select -- ", new { @id = "ddlShift", @Class = "form-control _select", @TabIndex = 1 ,onchange = "changesdrumS(this.value)"})<br />
@@ -105,7 +105,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
 
-                                            <br />   <label for="inputName3" class="col-sm-4 control-label">Packing Item<label class="Mandatory"></label></label>
+                                            <br />   <label for="inputName3" class="col-sm-4 control-label">Packing Item<label class="mandatory">*</label></label>
                                             <div class="col-sm-8">
 
                                                 @Html.DropDownListFor(C => C.ItemId, Model.Itemlst," -- Please Select -- ", new { @id = "ddlItemId", @Class = "form-control _select", @TabIndex = 1 })<br />
@@ -145,7 +145,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                       <br /> <label for="inputName3" class="col-sm-4 control-label">Start Date/Time<label class="Mandatory"></label></label>
+                                       <br /> <label for="inputName3" class="col-sm-4 control-label">Start Date/Time<label class="mandatory">*</label></label>
                                        
 													<div class="input-group date form_datetime col-sm-8" data-date="" data-date-format="dd-M-yyyy - HH:ii p" >
                                                          @Html.TextBoxFor(C => C.startdate, new { @id = "startdate", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })
@@ -159,7 +159,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                      <br />  <label for="inputName3" class="col-sm-4 control-label">End Date/Time<label class="Mandatory"></label></label>
+                                            <br />  <label for="inputName3" class="col-sm-4 control-label">End Date/Time<label class="mandatory">*</label></label>
                                        
 													<div class="input-group date form_datetime col-sm-8" data-date="" data-date-format="dd-M-yyyy - HH:ii p" >
                                                          @Html.TextBoxFor(C => C.enddate, new { @id = "startdate", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })
@@ -491,59 +491,143 @@
     $(document).ready(function () {
         $('#btnSave').click(function (e) {
             var isValid = true;
-            if (document.getElementById("DocDate").value == "") {
+
+            if (document.getElementById("Docdate").value == "") {
                 isValid = false;
-                $(DocDate).css({
+                $(Docdate).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select  Date");
+                alert("Please Select Doc Date");
                 return false;
             }
             else {
-                $(DocDate).css({
+                $(Docdate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("ddlWorkCenter").value == "" || document.getElementById("ddlWorkCenter").value == 0) {
+                ddlWorkCenter = false;
+                $(ddlPackingNote).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Work Center");
+                return false;
+            }
+            else {
+                $(ddlWorkCenter).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("ddlShift").value == "" || document.getElementById("ddlShift").value == 0) {
+                isValid = false;
+                $(ddlShift).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Shift");
+                return false;
+            }
+            else {
+                $(ddlShift).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("ddlDrumLoc").value == "" || document.getElementById("ddlDrumLoc").value == 0) {
+                isValid = false;
+                $(ddlDrumLoc).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Drum Location");
+                return false;
+            }
+            else {
+                $(ddlDrumLoc).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("ddlItemId").value == "" || document.getElementById("ddlItemId").value == 0) {
+                isValid = false;
+                $(ddlItemId).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Packing Item");
+                return false;
+            }
+            else {
+                $(ddlItemId).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("ddlToWork").value == "" || document.getElementById("ddlToWork").value == 0) {
+                isValid = false;
+                $(ddlToWork).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select To Work Center");
+                return false;
+            }
+            else {
+                $(ddlToWork).css({
                     "border": "",
                     "background": ""
                 });
             }
            
-      
-            if (document.getElementById("ddlDrumLoc").value == "" || document.getElementById("ddlDrumLoc").value == 0) {
-                isValid = false;
-                $(ddlDrumLoc_chzn).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
+           
 
-                alert("Please Select Customer Type");
+             if (document.getElementById("startdate").value == "") {
+                isValid = false;
+                $(startdate).css({
+                   "border": "1px solid red",
+                    "background": "#FFCECE"
+               });
+
+                alert("Please Select Start Date & Time");
                 return false;
             }
             else {
-                $(ddlDrumLoc_chzn).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-            if (document.getElementById("ddlWorkCenter").value == "" || document.getElementById("ddlWorkCenter").value == 0) {
-                isValid = false;
-                $(ddlWorkCenter_chzn).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Select Customer Name");
-                return false;
-            }
-            else {
-                $(ddlWorkCenter_chzn).css({
+                $(startdate).css({
                     "border": "",
                     "background": ""
                 });
             }
 
+            if (document.getElementById("enddate").value == "") {
+                isValid = false;
+                $(enddate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select End Date & Time");
+                return false;
+            }
+            else {
+                $(enddate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
             if (isValid == false)
                 e.preventDefault();
+
         });
 
     });

@@ -8,6 +8,13 @@
             .newwidth {
                 width: 90px;
             }
+
+            .mandatory {
+                color: red;
+                position: relative;
+                top: 2px;
+                left: 5px;
+            }
         </style>
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
@@ -32,9 +39,9 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Branch<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Branch<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
-                                        @Html.DropDownListFor(C => C.Branch, Model.Brlst, new { @id = "ddlBranch", @Class = "form-control chosen-select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.Branch, Model.Brlst, new { @id = "ddlBranch", @Class = "form-control _select", @TabIndex = 1 })
 
                                     </div>
                                 </div>
@@ -57,7 +64,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="inputName3" class="col-sm-4 control-label">Doc. Date<label class="Mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Doc. Date<label class="mandatory">*</label></label>
 
 
                                     <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
@@ -75,9 +82,9 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Currency<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Currency<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Currency, Model.Curlst, new { @id = "ddlCurrency", @Class = "form-control chosen-select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.Currency, Model.Curlst, new { @id = "ddlCurrency", @Class = "form-control _select", @TabIndex = 1 })
 
                                     </div>
                                 </div>
@@ -98,18 +105,18 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Location<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Location<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
-                                         @Html.DropDownListFor(C => C.Location, Model.Loclst, new { @id = "ddllocation", @Class = "form-control chosen-select", @TabIndex = 4 })
+                                            @Html.DropDownListFor(C => C.Location, Model.Loclst, new { @id = "ddllocation", @Class = "form-control _select", @TabIndex = 4 })
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="inputName3" class="col-sm-4 control-label">Suppliar <label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Suppliar <label class="mandatory">*</label></label>
 
                                     <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Supplier, Model.Suplst, new { @id = "ddlSupplier", @Class = "form-control chosen-select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.Supplier, Model.Suplst, new { @id = "ddlSupplier", @Class = "form-control _select", @TabIndex = 1 })
                                         </div>
 
                                 </div>
@@ -131,7 +138,7 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Ref. Date<label class="Mandatory"></label></label>
 
                                     <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                            @Html.TextBoxFor(C => C.RefDate, new { @id = "DocDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
+                                            @Html.TextBoxFor(C => C.RefDate, new { @id = "RefDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
                                         <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                     </div>                                 
                                     </div>
@@ -205,11 +212,11 @@
                                                             {
                                                                     <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
                                                                     <td>
-                                                                @Html.DropDownListFor(o => o.DirLst[i].ItemGroupId, Model.DirLst[i].ItemGrouplst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItemGrp" + i, style = "width: 200px;", onchange = "Grup_Change(this.value," + i + ")"})
+                                                            @Html.DropDownListFor(o => o.DirLst[i].ItemGroupId, Model.DirLst[i].ItemGrouplst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItemGrp" + i, style = "width: 200px;", onchange = "Grup_Change(this.value," + i + ")"})
 
                                                                     </td>
                                                                  <td>
-                                                                @Html.DropDownListFor(o => o.DirLst[i].ItemId, Model.DirLst[i].Itemlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItem" + i, style = "width: 200px;", onchange = "changeItem(this.value," + i + ")" })
+                                                            @Html.DropDownListFor(o => o.DirLst[i].ItemId, Model.DirLst[i].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 200px;", onchange = "changeItem(this.value," + i + ")" })
                                                                 @Html.HiddenFor(o => o.DirLst[i].saveItemId)
                                                                     </td>
                                                             <td>
@@ -310,7 +317,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Delivery Ch.<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.DelCh, new { @id = "txtDelCh", @class = "form-control", @TabIndex = 2 })
+                                            @Html.TextBoxFor(C => C.DelCh, new { @id = "txtDelCh", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                     </div>
                                 </div>
                             </div>
@@ -319,7 +326,7 @@
                                     <label for="inputName3" class="col-sm-4 control-label">3rd Party L.R. Charges<label class="Mandatory"></label></label>
 
                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.LRCha, new { @id = "txtLRCha", @class = "form-control", @TabIndex = 2 })
+                                            @Html.TextBoxFor(C => C.LRCha, new { @id = "txtLRCha", @class = "form-control", @TabIndex = 2 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
                                     </div>
 
                                 </div>
@@ -332,7 +339,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Other Charges<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Other, new { @id = "txtOther", @class = "form-control", @TabIndex = 2 })
+                                            @Html.TextBoxFor(C => C.Other, new { @id = "txtOther", @class = "form-control", @TabIndex = 2 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
                                     </div>
                                 </div>
                             </div>
@@ -341,7 +348,7 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Round Off<label class="Mandatory"></label></label>
 
                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Round, new { @id = "txtRound", @class = "form-control", @TabIndex = 2 })
+                                            @Html.TextBoxFor(C => C.Round, new { @id = "txtRound", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                     </div>
 
                                 </div>
@@ -354,7 +361,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Gross<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.Gross, new { @id = "gross", @class = "form-control", @TabIndex = 2 })
+                                        @Html.TextBoxFor(C => C.Gross, new { @id = "gross", @class = "form-control", @TabIndex = 2 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
                                     </div>
                                 </div>
                             </div>
@@ -363,7 +370,7 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Net<label class="Mandatory"></label></label>
 
                                     <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.net, new { @id = "net", @class = "form-control", @TabIndex = 2 })
+                                            @Html.TextBoxFor(C => C.net, new { @id = "net", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                     </div>
 
                                 </div>
@@ -383,7 +390,7 @@
 
                         </div>
                         <div style="height:30px;"></div>
-                            <button type="submit" class="btn aqua m-t-xs bottom15-xs">Submit</button>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
                             <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListDirectPurchase", "DirectPurchase")'">Cancel</button>
 
 
@@ -396,7 +403,115 @@
     </div>
 </div>
 <script>
-    $(".chosen-select").chosen();
+    $(function () {
+        $('._select').select2();
+    });
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+            if (document.getElementById("ddlBranch").value == "" || document.getElementById("ddlBranch").value == 0) {
+                isValid = false;
+                $(ddlBranch).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Branch");
+                return false;
+            }
+            else {
+                $(ddlBranch).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("DocDate").value == "") {
+                isValid = false;
+                $(DocDate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select  Date");
+                return false;
+            }
+            else {
+                $(DocDate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+          @*  if (document.getElementById("txtDocId").value == "") {
+                isValid = false;
+                $(txtDocId).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Doc Id");
+                return false;
+            }
+            else {
+                $(txtDocId).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+*@
+            if (document.getElementById("ddlCurrency").value == "" || document.getElementById("ddlCurrency").value == 0) {
+                isValid = false;
+                $(ddlCurrency).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Currency");
+                return false;
+            }
+            else {
+                $(ddlCurrency).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("ddllocation").value == "" || document.getElementById("ddllocation").value == 0) {
+                isValid = false;
+                $(ddllocation).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Loacation");
+                return false;
+            }
+            else {
+                $(ddllocation).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("ddlSupplier").value == "" || document.getElementById("ddlSupplier").value == 0) {
+                isValid = false;
+                $(ddlSupplier).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Suppliar");
+                return false;
+            }
+            else {
+                $(ddlSupplier).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+        
+            if (isValid == false)
+                e.preventDefault();
+        });
+
+    });
 </script>
 <script>
 
@@ -588,11 +703,11 @@
     function AppendRow(opt) {
         var index = $("#tbBooks").children("tr").length;
 
-        var ItemGrp = "<td><select style = 'width: 200px;' class='form-control chosen-select newcss' id='ddlItemGrp" + index + "' name='DirLst[" + index + "].ItemGroupId' onchange = 'Grup_Change(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
+        var ItemGrp = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItemGrp" + index + "' name='DirLst[" + index + "].ItemGroupId' onchange = 'Grup_Change(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
 
-       
-       
-       var Item = "<td><select style = 'width: 200px;' class='form-control chosen-select newcss' id='ddlItem" + index + "' name='Itemlst[" + index + "].ItemId' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option></select></td>";
+
+
+        var Item = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItem" + index + "' name='Itemlst[" + index + "].ItemId' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option></select></td>";
         var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='DirLst[" + index + "].Unit'  style='width: 80px;' type='text'  readonly='True' /></td>";
 
         var ConFac = "<td><input class='form-control' id='txtConFac" + index + "' name='DirLst[" + index + "].ConFac'  style='width: 80px;' type='text' readonly='True'  /></td>";
@@ -635,7 +750,10 @@
         //alert(Packing);
         $("#tbBooks").append(newRow);
 
-        $(".chosen-select").chosen();
+
+        $(function () {
+            $('._select').select2();
+        });
     }
 
 </script> 
