@@ -35,6 +35,10 @@ namespace Arasan.Controllers.Production
             PFCItem tda = new PFCItem();
             List<PFCDGItem> TData1 = new List<PFCDGItem>();
             PFCDGItem tda1 = new PFCDGItem();
+            List<PFCPYROItem> TData2 = new List<PFCPYROItem>();
+            PFCPYROItem tda2 = new PFCPYROItem();
+            List<PFCPOLIItem> TData3 = new List<PFCPOLIItem>();
+            PFCPOLIItem tda3 = new PFCPOLIItem();
             if (id == null)
             {
                 for (int i = 0; i < 3; i++)
@@ -50,6 +54,22 @@ namespace Arasan.Controllers.Production
                     tda1.PItemlst = BindItemlst("");
                     tda1.Isvalid = "Y";
                     TData1.Add(tda1);
+                }
+                for (int i = 0; i < 3; i++)
+                {
+                    tda2 = new PFCPYROItem();
+                    tda2.Worklst = BindWorkCenter();
+                    tda2.PYItemlst = BindItemlst("");
+                    tda2.Isvalid = "Y";
+                    TData2.Add(tda2);
+                }
+                for (int i = 0; i < 3; i++)
+                {
+                    tda3 = new PFCPOLIItem();
+                    tda3.POWorklst = BindWorkCenter();
+                    tda3.POItemlst = BindItemlst("");
+                    tda3.Isvalid = "Y";
+                    TData3.Add(tda3);
                 }
             }
             else
@@ -117,11 +137,84 @@ namespace Arasan.Controllers.Production
                     }
 
                 }
+                DataTable dt4 = new DataTable();
+
+                dt4 = ProductionForecastingService.GetProdForecastPyroDetail(id);
+                if (dt4.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt4.Rows.Count; i++)
+                    {
+                        tda2 = new PFCPYROItem();
+                        tda2.PYItemlst = BindItemlst(tda2.ItemId);
+                        tda2.ItemId = dt4.Rows[0]["PYITEMID"].ToString();
+
+                        tda2.Worklst = BindWorkCenter();
+                        tda2.WorkId = dt4.Rows[0]["PYWCID"].ToString();
+
+                        tda2.CDays = dt4.Rows[0]["WCDAYS"].ToString();
+                        tda2.MinStock = dt4.Rows[0]["PYMINSTK"].ToString();
+                        tda2.PasteRej = dt4.Rows[0]["PYALLREJ"].ToString();
+                        tda2.GradeChange = dt4.Rows[0]["PYGRCHG"].ToString();
+                        tda2.RejQty = dt4.Rows[0]["PYREJQTY"].ToString();
+                        tda2.Required = dt4.Rows[0]["PYREQQTY"].ToString();
+                        tda2.Target = dt4.Rows[0]["PYTARQTY"].ToString();
+                        tda2.ProdDays = dt4.Rows[0]["PYPRODCAPD"].ToString();
+                        tda2.ProdQty = dt4.Rows[0]["PYPRODQTY"].ToString();
+                        tda2.RejMat = dt4.Rows[0]["PYRAWREJMAT"].ToString();
+                        tda2.RejMatReq = dt4.Rows[0]["PYRAWREJMATPER"].ToString();
+                        tda2.BalanceQty = dt4.Rows[0]["PREBALQTY"].ToString();
+                        tda2.Additive = dt4.Rows[0]["PYADD1"].ToString();
+                        tda2.Per = dt4.Rows[0]["PYADDPER"].ToString();
+                        tda2.AllocAdditive = dt4.Rows[0]["ALLOCADD"].ToString();
+                        tda2.ReqPowder = dt4.Rows[0]["PYREQAP"].ToString();
+                        tda2.WStatus = dt4.Rows[0]["WSTATUS"].ToString();
+                        tda2.PowderRequired = dt4.Rows[0]["POWREQ"].ToString();
+                        tda2.ID = id;
+                        TData2.Add(tda2);
+                    }
+
+                }
+                DataTable dt5 = new DataTable();
+
+                dt5 = ProductionForecastingService.GetProdForecastPolishDetail(id);
+                if (dt5.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt5.Rows.Count; i++)
+                    {
+                        tda3 = new PFCPOLIItem();
+                        tda3.POItemlst = BindItemlst(tda3.ItemId);
+                        tda3.ItemId = dt5.Rows[0]["PIGWCID"].ToString();
+
+                        tda3.POWorklst = BindWorkCenter();
+                        tda3.WorkId = dt5.Rows[0]["PIGITEMID"].ToString();
+
+                        tda3.WCDays = dt5.Rows[0]["PIGWCDAYS"].ToString();
+                        tda3.Target = dt5.Rows[0]["PIGTARGET"].ToString();
+                        tda3.Capacity = dt5.Rows[0]["PIGCAP"].ToString();
+                        tda3.Stock = dt5.Rows[0]["PIGSTOCK"].ToString();
+                        tda3.MinStock = dt5.Rows[0]["PIGMINSTK"].ToString();
+                        tda3.Required = dt5.Rows[0]["PIGRAWREQ"].ToString();
+                        tda3.Days = dt5.Rows[0]["PIGDAYS"].ToString();
+                        tda3.Additive = dt5.Rows[0]["PIGADDIT"].ToString();
+                        tda3.Add = dt5.Rows[0]["PIGADDPER"].ToString();
+                        tda3.RejMat = dt5.Rows[0]["PIGRAWMAT"].ToString();
+                        tda3.ReqPer = dt5.Rows[0]["PIGRAWREQPER"].ToString();
+                        tda3.RvdQty = dt5.Rows[0]["PIGRVDQTY"].ToString();
+                        tda3.PyroPowder = dt5.Rows[0]["PIGPYPO"].ToString();
+                        tda3.PyroQty = dt5.Rows[0]["PIGPYQTY"].ToString();
+                        tda3.PowderRequired = dt5.Rows[0]["PIGPOWREQ"].ToString();
+                        tda3.ID = id;
+                        TData3.Add(tda3);
+                    }
+
+                }
 
             }
 
             ca.PFCILst = TData;
             ca.PFCDGILst = TData1;
+            ca.PFCPYROILst = TData2;
+            ca.PFCPOLILst = TData3;
             return View(ca);
         }
         [HttpPost]
@@ -199,6 +292,23 @@ namespace Arasan.Controllers.Production
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEMMASTERID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindWorkCenter()
+        {
+            try
+            {
+                DataTable dtDesg = ProductionForecastingService.GetWorkCenter();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["WCID"].ToString(), Value = dtDesg.Rows[i]["WCBASICID"].ToString() });
                 }
                 return lstdesg;
             }

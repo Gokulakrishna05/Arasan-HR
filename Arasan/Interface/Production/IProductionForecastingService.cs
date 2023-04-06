@@ -10,6 +10,9 @@ namespace Arasan.Interface.Production
         DataTable GetPFDeatils(string id);
         DataTable GetProdForecastDetail(string id);
         DataTable GetProdForecastDGPasteDetail(string id);
+        DataTable GetProdForecastPolishDetail(string id);
+        DataTable GetProdForecastPyroDetail(string id);
+        DataTable GetWorkCenter();
         string ProductionForecastingCRUD(ProductionForecasting cy);
     }
 }
