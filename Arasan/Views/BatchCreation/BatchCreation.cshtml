@@ -180,7 +180,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Prod.Sch.No<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                                                                @Html.TextBoxFor(C => C.Prod, new { @id = "txtProd", @class = "form-control", @TabIndex = 2 })
+                                            @Html.TextBoxFor(C => C.Prod, new { @id = "txtProd", @class = "form-control", @TabIndex = 2 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
 <br />
 
                                     </div>
@@ -193,7 +193,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Input/Output Radio From<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
-                                                                             @Html.TextBoxFor(C => C.IOFrom, new { @id = "txtIOFrom", @class = "form-control", @TabIndex = 2 })
+                                            @Html.TextBoxFor(C => C.IOFrom, new { @id = "txtIOFrom", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
 <br />
 
                                     </div>
@@ -209,7 +209,7 @@
                                     <label for="inputName3" class="col-sm-4 control-label"> To<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
 
-                                                                                @Html.TextBoxFor(C => C.IOTo, new { @id = "txtIOTo", @class = "form-control", @TabIndex = 2 })
+                                                                                @Html.TextBoxFor(C => C.IOTo, new { @id = "txtIOTo", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
 <br />
 
                                     </div>
@@ -222,7 +222,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">MTO Circulation No.<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.MTO, new { @id = "txtMTO", @class = "form-control", @TabIndex = 2 })
+                                            @Html.TextBoxFor(C => C.MTO, new { @id = "txtMTO", @class = "form-control", @TabIndex = 2 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
 <br />
 
                                     </div>
@@ -287,7 +287,7 @@
                                                                                    
                                                                                 </td>
                                                                                 <td>
-                                                                                    @Html.TextBoxFor(o => o.BatchLst[i].Seq, new { @id = "txtSeq" + i, @class = "form-control", style = "width: 120px;" })
+                                                                                @Html.TextBoxFor(o => o.BatchLst[i].Seq, new { @id = "txtSeq" + i, @class = "form-control", style = "width: 120px;",onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                                                                 </td>
                                                                                 <td>
                                                                                     @Html.TextBoxFor(o => o.BatchLst[i].Req, new { @id = "txtReq" + i, @class = "form-control", style = "width: 120px;" })
@@ -356,7 +356,7 @@
                                                                                     @Html.TextBoxFor(o => o.BatchInLst[j].Unit, new { @id = "txtUnit" + j, @class = "form-control", style = "width: 120px;" ,@readonly="readonly"})
                                                                                 </td>
                                                                                 <td>
-                                                                                    @Html.TextBoxFor(o => o.BatchInLst[j].Qty, new { @id = "txtQty" + j, @class = "form-control", style = "width: 120px;" })
+                                                                                @Html.TextBoxFor(o => o.BatchInLst[j].Qty, new { @id = "txtQty" + j, @class = "form-control", style = "width: 120px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
                                                                                 </td>
                                                                                
                                                                                 <td>
@@ -430,16 +430,16 @@
                                                                                     @Html.TextBoxFor(o => o.BatchOutLst[g].OutType, new { @id = "txtOutType" + g, @class = "form-control", style = "width: 120px;" })
                                                                                 </td>
                                                                                 <td>
-                                                                                    @Html.TextBoxFor(o => o.BatchOutLst[g].OQty, new { @id = "txtOQty" +g, @class = "form-control", style = "width: 120px;" })
+                                                                                @Html.TextBoxFor(o => o.BatchOutLst[g].OQty, new { @id = "txtOQty" +g, @class = "form-control", style = "width: 120px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
                                                                                 </td>
                                                                                 <td>
-                                                                                    @Html.TextBoxFor(o => o.BatchOutLst[g].Waste, new { @id = "txtWaste" + g, @class = "form-control", style = "width: 120px;" })
+                                                                                    @Html.TextBoxFor(o => o.BatchOutLst[g].Waste, new { @id = "txtWaste" + g, @class = "form-control", style = "width: 120px;",onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                                                                 </td>
                                                                                 <td>
-                                                                                    @Html.TextBoxFor(o => o.BatchOutLst[g].Vmper, new { @id = "txtVmper" +g, @class = "form-control", style = "width: 120px;" })
+                                                                                    @Html.TextBoxFor(o => o.BatchOutLst[g].Vmper, new { @id = "txtVmper" +g, @class = "form-control", style = "width: 120px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
                                                                                 </td>
                                                                                 <td>
-                                                                                    @Html.TextBoxFor(o => o.BatchOutLst[g].Greas, new { @id = "txtGreas" + g, @class = "form-control", style = "width: 120px;" })
+                                                                                @Html.TextBoxFor(o => o.BatchOutLst[g].Greas, new { @id = "txtGreas" + g, @class = "form-control", style = "width: 120px;",onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                                                                 </td>
                                                                                
                                                                                 <td>
@@ -504,7 +504,7 @@
                                                                                        
                                                                                 </td>
                                                                                  <td>
-                                                                                    @Html.TextBoxFor(o => o.BatchOtherLst[k].Seqe, new { @id = "txtSeqe" + k, @class = "form-control", style = "width: 120px;" })
+                                                                                @Html.TextBoxFor(o => o.BatchOtherLst[k].Seqe, new { @id = "txtSeqe" + k, @class = "form-control", style = "width: 120px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
                                                                                 </td>
                                                                                 <td>
                                                                                 <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
@@ -529,13 +529,13 @@
                                                                                       
                                                                                 </td>
                                                                                 <td>
-                                                                                    @Html.TextBoxFor(o => o.BatchOtherLst[k].Total, new { @id = "txtTotal" +k, @class = "form-control", style = "width: 120px;" })
+                                                                                @Html.TextBoxFor(o => o.BatchOtherLst[k].Total, new { @id = "txtTotal" +k, @class = "form-control", style = "width: 120px;",onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                                                                 </td>
                                                                                 <td>
-                                                                                    @Html.TextBoxFor(o => o.BatchOtherLst[k].Break, new { @id = "txtBreak" + k, @class = "form-control", style = "width: 120px;" })
+                                                                                    @Html.TextBoxFor(o => o.BatchOtherLst[k].Break, new { @id = "txtBreak" + k, @class = "form-control", style = "width: 120px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
                                                                                 </td>
                                                                                 <td>
-                                                                                    @Html.TextBoxFor(o => o.BatchOtherLst[k].RunHrs, new { @id = "txtRunHrs" +k, @class = "form-control", style = "width: 120px;" })
+                                                                                @Html.TextBoxFor(o => o.BatchOtherLst[k].RunHrs, new { @id = "txtRunHrs" +k, @class = "form-control", style = "width: 120px;",onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                                                                 </td>
                                                                                 <td>
                                                                                     @Html.TextBoxFor(o => o.BatchOtherLst[k].Remark, new { @id = "txtRemark" + k, @class = "form-control", style = "width: 120px;" })
@@ -1066,7 +1066,7 @@
             }
             if (document.getElementById("ddlBranch").value == "" || document.getElementById("ddlBranch").value == 0) {
                 isValid = false;
-                $(ddlBranch_chzn).css({
+                $(ddlBranch ).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
@@ -1075,14 +1075,14 @@
                 return false;
             }
             else {
-                $(ddlBranch_chzn).css({
+                $(ddlBranch ).css({
                     "border": "",
                     "background": ""
                 });
             }
             if (document.getElementById("ddlWorkCenter").value == "" || document.getElementById("ddlWorkCenter").value == 0) {
                 isValid = false;
-                $(ddlWorkCenter_chzn).css({
+                $(ddlWorkCenter ).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
@@ -1091,7 +1091,7 @@
                 return false;
             }
             else {
-                $(ddlWorkCenter_chzn).css({
+                $(ddlWorkCenter ).css({
                     "border": "",
                     "background": ""
                 });

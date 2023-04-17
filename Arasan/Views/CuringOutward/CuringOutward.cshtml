@@ -69,8 +69,8 @@
                                                <label for="inputName3" class="col-sm-4 control-label">Doc Id<label class="Mandatory"></label></label>
                                             <div class="col-sm-8">
 
-                                                @Html.TextBoxFor(C => C.ProdSchNo, new { @id = "txtProdSchNo", @class = "form-control", @TabIndex = 1 })<br />
-
+                                                @Html.TextBoxFor(C => C.DocId, new { @id = "txtDocId", @class = "form-control", @TabIndex = 1 })<br />
+                                                     @Html.HiddenFor(C => C.ID)
 
                                             </div>
                                         </div>
@@ -80,7 +80,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
 
-                                               <label for="inputName3" class="col-sm-4 control-label">Packing Note<label class="Mandatory"></label></label>
+                                            <label for="inputName3" class="col-sm-4 control-label">Packing Note<label class="mandatory">*</label></label>
                                             <div class="col-sm-8">
 
                                                 @Html.DropDownListFor(C => C.PackingNote, Model.Notelst," -- Please Select -- ", new { @id = "ddlPackingNote", @Class = "form-control _select", @TabIndex = 1, @onchange = "changeItem(this.value," + 0 + ")" })<br />
@@ -94,10 +94,10 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">From Work Center<label class="Mandatory"></label></label>
+                                            <label for="inputName3" class="col-sm-4 control-label">From Work Center<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                                 @Html.DropDownListFor(C => C.FromWork, Model.FromWorklst, new { @id = "ddlFromWork", @Class = "form-control _select", @TabIndex = 1 })<br />
-                                              @Html.HiddenFor(C => C.ID)
+                                 
                                         </div>
 
                                     </div>
@@ -106,10 +106,10 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">To Work Center<label class="Mandatory"></label></label>
+                                            <label for="inputName3" class="col-sm-4 control-label">To Work Center<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                                 @Html.DropDownListFor(C => C.ToWork, Model.ToWorklst, new { @id = "ddlToWork", @Class = "form-control _select", @TabIndex = 1 })<br />
-                                              @Html.HiddenFor(C => C.ID)
+                                         
                                         </div>
 
                                     </div>
@@ -119,10 +119,10 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputName3" class="col-sm-4 control-label">Shift<label class="Mandatory"></label></label>
+                                            <label for="inputName3" class="col-sm-4 control-label">Shift<label class="mandatory">*</label></label>
 
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Shift, Model.Shiftlst," -- Please Select -- ", new { @id = "ddlShift", @Class = "form-control _select", @TabIndex = 1 ,onchange = "changeshift(this.value)"})<br />
+                                            @Html.DropDownListFor(C => C.Shift, Model.Shiftlst," -- Please Select -- ", new { @id = "ddlShift", @Class = "form-control _select", @TabIndex = 1  })<br />
 
 
 
@@ -158,7 +158,7 @@
                                 <div class="row">
 
 
-                                    <br />   <br />  <div class="col-lg-12" style=" overflow-y:scroll; min-width:800px; min-height:500px;">
+                                    <br />   <br />  <div class="col-lg-12" style=" overflow-y:scroll; min-width:800px; min-height:400px;">
 
                                         <br />   <br />  <table class="table table-striped table-hover" id="dataTable">
                                                         <thead>
@@ -194,7 +194,7 @@
                                     <div class="form-group">
                                             <br />   <label for="inputName3" class="col-sm-4 control-label">Remarks<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                                                                                                         @Html.TextAreaFor(C => C.Remark, new { @id = "txtRemark", @class = "form-control", @TabIndex = 1 })<br />
+                                            @Html.TextAreaFor(C => C.Remark, new { @id = "txtRemark", @class = "form-control", @TabIndex = 1 })<br />
 
                                         </div>
                                     </div>
@@ -206,7 +206,7 @@
                                         <div class="form-group">
 
                                          <label for="inputName3" class="col-sm-4 control-label">End Date<label class="Mandatory"></label></label>
-                                            <div class="col-sm-8">
+                                        
 
                                                 <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                                     @Html.TextBoxFor(C => C.enddate, new { @id = "enddate", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })
@@ -216,7 +216,7 @@
                                                 <br />
 
 
-                                            </div>
+                                            
                                         </div>
                                     </div>
 
@@ -227,7 +227,7 @@
                                             <label for="inputName3" class="col-sm-4 control-label">Total Qty<label class="Mandatory"></label></label>
                                             <div class="col-sm-8">
 
-                                                @Html.TextBoxFor(C => C.TotalQty, new { @id = "txtLotNo", @class = "form-control", @TabIndex = 1 })<br />
+                                                @Html.TextBoxFor(C => C.TotalQty, new { @id = "txtTotalQty", @class = "form-control", @TabIndex = 1 })<br />
 
                                             </div>
                                         </div>
@@ -237,7 +237,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
 
-                                            <br />    <label for="inputName3" class="col-sm-4 control-label">Total Value<label class="Mandatory"></label></label>
+                                                <label for="inputName3" class="col-sm-4 control-label">Total Value<label class="Mandatory"></label></label>
                                             <div class="col-sm-8">
 
                                                 @Html.TextBoxFor(C => C.TotalValue, new { @id = "txtProdSchNo", @class = "form-control", @TabIndex = 1 })<br />
@@ -251,7 +251,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
 
-                                            <br />  <label for="inputName3" class="col-sm-4 control-label">FRate<label class="Mandatory"></label></label>
+                                               <label for="inputName3" class="col-sm-4 control-label">FRate<label class="Mandatory"></label></label>
                                             <div class="col-sm-8">
 
                                                 @Html.TextBoxFor(C => C.FRate, new { @id = "txtLotNo", @class = "form-control", @TabIndex = 1 })<br />
@@ -348,8 +348,8 @@
          var Drum = "<td><input class='form-control' id='txtdrum" + index + "' name='Curinglst[" + index + "].drum'  style='width: 100px;' type='text'  readonly='True'  value=" + item.drum + " /></td>";
 
          var Batch = "<td><label>" + item.batch + "</label></td>";
-        
-         var Qty = "<td><input class='form-control' id='txtqty" + index + "' name='Curinglst[" + index + "].qty'  style='width: 80px;' type='text' readonly='True' value=" + item.qty + "  /></td>";
+
+                    var Qty = "<td><input class='form-control' id='txtqty" + index + "' name='Curinglst[" + index + "].qty'  style='width: 80px;' type='text' readonly='True' value=" + item.qty + " , onkeyup = 'changeQty(this, "  + index + ")'  /></td>";
 
          var Comp = "<td><input class='form-control' id='txtcomp" + index + "' name='Curinglst[" + index + "].comp'  style='width: 60px;' type='text' readonly='True'  value=" + item.comp + " /></td>";
 
@@ -367,6 +367,28 @@
             }
         });
         }
+          function changeQty(_this, i) {
+                 try {
+
+                        var j = 0;
+                     var qty = 0;
+                     var tot = 0;
+                     $('tr.chkitemlst').each(function () {
+                         if ($(this).css('display') !== 'none') {
+                              qty = $(this).find('#txtqty' + j.toString()).val();
+                             if (qty == "")
+                         qty = 0;
+
+                          tot += eval(qty);
+                               }
+                         j += 1;
+                     });
+            document.getElementById("txtTotalQty").value = tot.toFixed(2);
+                 }
+                 catch (ex) {
+                     alert(ex.message);
+                 }
+             }
     @* function changeBatch(ItemId,i)
         {
 
@@ -457,4 +479,128 @@
 
         $('._select').select2();
     }*@
+       $(document).ready(function () {
+                 $('#btnSave').click(function (e) {
+                     var isValid = true;
+              
+                if (document.getElementById("Docdate").value == "") {
+                         isValid = false;
+                    $(Docdate).css({
+                             "border": "1px solid red",
+                             "background": "#FFCECE"
+                         });
+
+                    alert("Please Select Doc Date");
+                         return false;
+                     }
+                     else {
+                    $(Docdate).css({
+                             "border": "",
+                             "background": ""
+                         });
+                     }
+                             
+                 if (document.getElementById("ddlPackingNote").value == "" || document.getElementById("ddlPackingNote").value == 0) {
+                          isValid = false;
+                     $(ddlPackingNote).css({
+                              "border": "1px solid red",
+                              "background": "#FFCECE"
+                          });
+
+                          alert("Please Select Packing Note");
+                          return false;
+                      }
+                      else {
+                          $(ddlPackingNote).css({
+                              "border": "",
+                              "background": ""
+                          });
+                      }
+                       if (document.getElementById("ddlFromWork").value == "" || document.getElementById("ddlFromWork").value == 0) {
+                           isValid = false;
+                      $(ddlFromWork).css({
+                               "border": "1px solid red",
+                               "background": "#FFCECE"
+                           });
+
+                    alert("Please Select From Work Center");
+                           return false;
+                       }
+                       else {
+                    $(ddlFromWork).css({
+                               "border": "",
+                               "background": ""
+                           });
+                       }
+                        if (document.getElementById("ddlToWork").value == "" || document.getElementById("ddlToWork").value == 0) {
+                           isValid = false;
+                      $(ddlToWork).css({
+                               "border": "1px solid red",
+                               "background": "#FFCECE"
+                           });
+
+                           alert("Please Select To Work Center");
+                           return false;
+                       }
+                       else {
+                    $(ddlToWork).css({
+                               "border": "",
+                               "background": ""
+                           });
+                       }
+                          if (document.getElementById("ddlShift").value == "" || document.getElementById("ddlShift").value == 0) {
+                            isValid = false;
+                       $(ddlShift).css({
+                                "border": "1px solid red",
+                                "background": "#FFCECE"
+                            });
+
+                            alert("Please Select Shift");
+                            return false;
+                        }
+                        else {
+                    $(ddlShift).css({
+                                "border": "",
+                                "background": ""
+                            });
+                        }
+                if (document.getElementById("ddlItemId").value == "" || document.getElementById("ddlItemId").value == 0) {
+                    isValid = false;
+                    $(ddlItemId).css({
+                        "border": "1px solid red",
+                        "background": "#FFCECE"
+                    });
+
+                    alert("Please Select Packing Item");
+                    return false;
+                }
+                else {
+                    $(ddlItemId).css({
+                        "border": "",
+                        "background": ""
+                    });
+                }
+
+                     // if (document.getElementById("RefDate").value == "") {
+                     //    isValid = false;
+                     //    $(RefDate).css({
+                     //        "border": "1px solid red",
+                     //        "background": "#FFCECE"
+                     //    });
+
+                     //    alert("Please Select Ref. Date");
+                     //    return false;
+                     //}
+                     //else {
+                     //    $(RefDate).css({
+                     //        "border": "",
+                     //        "background": ""
+                     //    });
+                     //}
+                if (isValid == false)
+                    e.preventDefault();
+
+            });
+
+        });
 </script>

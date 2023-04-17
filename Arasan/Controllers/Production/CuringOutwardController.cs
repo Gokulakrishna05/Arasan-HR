@@ -39,20 +39,76 @@ namespace Arasan.Controllers
             ca.DrumLoclst = BindDrumLoc();
             ca.Itemlst = BindItemlst("");
             ca.Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
-            //List<CuringDrumDetail> TData = new List<CuringDrumDetail>();
-            //CuringDrumDetail tda = new CuringDrumDetail();
-            //if (id == null)
-            //{
-            //    for (int i = 0; i < 3; i++)
-            //    {
-            //        tda = new CuringDrumDetail();
-            //        tda.DrumNolst = BindDrumNo("");
-            //        tda.Batchlst = BindBatch("");
-            //        tda.Isvalid = "Y";
-            //        TData.Add(tda);
-            //    }
-            //}
-            //ca.DrumDetlst = TData;
+            List<CuringDetail> TData = new List<CuringDetail>();
+            CuringDetail tda = new CuringDetail();
+            if (id == null)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    tda = new CuringDetail();
+                   
+                    tda.Isvalid = "Y";
+                    TData.Add(tda);
+                }
+            }
+            else
+            {
+
+                // ca = directPurchase.GetDirectPurById(id);
+
+
+                DataTable dt = new DataTable();
+
+                dt = curingoutward.Getcuringoutward(id);
+                if (dt.Rows.Count > 0)
+                {
+                    ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+
+                    ca.PackingNote = dt.Rows[0]["PACKNOTE"].ToString();
+                    ca.Shiftlst = BindShift(ca.PackingNote);
+
+                    ca.Shift = dt.Rows[0]["SHIFT"].ToString();
+                    ca.Itemlst = BindItemlst(ca.PackingNote);
+                    ca.ItemId = dt.Rows[0]["ITEM"].ToString();
+                    ca.TotalQty = dt.Rows[0]["TOTQTY"].ToString();
+                    ca.ID = id;
+                    ca.TotalValue = dt.Rows[0]["TOTVALUE"].ToString();
+                    ca.Enterd = dt.Rows[0]["ENTEREDBY"].ToString();
+                    ca.Docdate = dt.Rows[0]["DOCDATE"].ToString();
+                    ca.DocId = dt.Rows[0]["DOCID"].ToString();
+                    ca.FRate = dt.Rows[0]["FRATE"].ToString();
+                    ca.FromWork = dt.Rows[0]["WCID"].ToString();
+                    ca.ToWork = dt.Rows[0]["TOWCID"].ToString();
+                    ca.enddate = dt.Rows[0]["ENTDATE"].ToString();
+                    ca.Remark = dt.Rows[0]["REMARKS"].ToString();
+
+                }
+                DataTable dt2 = new DataTable();
+
+                dt2 = curingoutward.GetCuringDetail(id);
+                if (dt2.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt2.Rows.Count; i++)
+                    {
+                        tda = new CuringDetail();
+                      
+                        tda.drum = dt2.Rows[i]["DRUMNO"].ToString();
+                         
+
+
+
+                        tda.batch = dt2.Rows[i]["BATCHNO"].ToString();
+                        tda.qty = dt2.Rows[i]["BATCHQTY"].ToString();
+                        tda.comp = dt2.Rows[i]["COMBNO"].ToString();
+
+
+                        tda.ID = id;
+                        TData.Add(tda);
+                    }
+
+                }
+            }
+                ca.Curinglst = TData;
             return View(ca);
         }
         [HttpPost]

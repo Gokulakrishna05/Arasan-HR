@@ -170,18 +170,17 @@ namespace Arasan.Controllers
                 for (int i = 0; i < dt4.Rows.Count; i++)
                 {
                     tda2 = new BatchOutItem();
-                        tda2.OProcesslst = BindProcessid();
-                        tda2.OProcess = dt4.Rows[0]["OPROCESSID"].ToString();
+                    tda2.OProcesslst = BindProcessid();
+                    tda2.OProcess = dt4.Rows[0]["OPROCESSID"].ToString();
                     tda2.OItemlst = BindItemlst(tda2.OProcess);
                     tda2.OItem = dt4.Rows[0]["OITEMID"].ToString();
                     tda2.OUnit = dt4.Rows[0]["OUNIT"].ToString();
-                        tda2.OutType = dt4.Rows[0]["OTYPE"].ToString();
-                        tda2.OQty = dt4.Rows[0]["OQTY"].ToString();
-                       
-                        tda2.Waste = dt4.Rows[0]["OWPER"].ToString();
-                        tda2.Vmper = dt4.Rows[0]["VMPER"].ToString();
-                        tda2.Greas = dt4.Rows[0]["GPER"].ToString();
-                        tda2.ID = id;
+                    tda2.OutType = dt4.Rows[0]["OTYPE"].ToString();
+                    tda2.OQty = dt4.Rows[0]["OQTY"].ToString();
+                    tda2.Waste = dt4.Rows[0]["OWPER"].ToString();
+                    tda2.Vmper = dt4.Rows[0]["VMPER"].ToString();
+                    tda2.Greas = dt4.Rows[0]["GPER"].ToString();
+                    tda2.ID = id;
                     TData2.Add(tda2);
                 }
 

@@ -2,6 +2,15 @@
 @{
     ViewData["Title"] = "Material Requisition";
 }
+<style>
+    
+      .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
 
@@ -27,7 +36,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Branch <label class="Mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Branch <label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.Branch, Model.Brlst, new { @id = "ddlBranch", @Class = "form-control chosen-select", @TabIndex = 1 })
                                              @Html.HiddenFor(C => C.ID)
@@ -37,7 +46,7 @@
                              <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Location<label class="Mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Location<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                          @Html.DropDownListFor(C => C.Location, Model.Loclst, new { @id = "ddllocation", @Class = "form-control chosen-select", @TabIndex = 4 })
                                     </div>
@@ -60,7 +69,7 @@
                             </div>*@
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="inputName3" class="col-sm-4 control-label">Doc. Date<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Doc. Date<label class="mandatory">*</label></label>
 
                                     <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                             @Html.TextBoxFor(C => C.DocDa, new { @id = "txtDocDa", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
