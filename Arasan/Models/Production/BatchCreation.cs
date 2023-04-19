@@ -9,8 +9,14 @@ namespace Arasan.Models
             this.Worklst = new List<SelectListItem>();
             this.Processlst = new List<SelectListItem>();
             this.RecList = new List<SelectListItem>();
-           
+            this.Prodlst = new List<SelectListItem>();
+
         }
+        public List<SelectListItem> Prodlst;
+        public string Prod { get; set; }
+
+      
+
         public List<SelectListItem> Brlst;
         public string ID { get; set; }
 
@@ -27,7 +33,6 @@ namespace Arasan.Models
         public double IOTo { get; set; }
         public double MTO { get; set; }
         public string Leaf { get; set; }
-        public string Prod { get; set; }
         public string BatchNo { get; set; }
         public string Shall { get; set; }
         public string Narr { get; set; }

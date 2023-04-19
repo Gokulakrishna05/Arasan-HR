@@ -180,7 +180,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Prod.Sch.No<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Prod, new { @id = "txtProd", @class = "form-control", @TabIndex = 2 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
+                                            @Html.DropDownListFor(C => C.Prod, Model.Prodlst, new { @id = "ddlProd", @Class = "form-control _select", @TabIndex = 1 })
 <br />
 
                                     </div>
