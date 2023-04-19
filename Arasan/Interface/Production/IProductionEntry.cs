@@ -21,5 +21,10 @@ namespace Arasan.Interface
         string CuringInwardEntryCRUD(ProductionEntry id);
         DataTable GetInwardItem(string inid);
         DataTable GetInward();
+        DataTable GetProduction(string id);
+        DataTable GetProInpDet(string id);
+        DataTable GetProConsDet(string id);
+        DataTable GetProOutDet(string id);
+        DataTable GetProWasteDet(string id);
     }
 }

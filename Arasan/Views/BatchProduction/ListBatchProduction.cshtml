@@ -67,7 +67,7 @@
                                                                     <td>@Html.DisplayFor(modelItem => item.ProcessId)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.DocId)</td>
 
-                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ApproveProEntry", "BatchProduction",new { PROID=item.ID })"><img src='../Images/view_icon.png' alt='Waiting for approval' /></a></div></td>
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ApproveProEntry", "BatchProduction",new { PROID=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Waiting for approval' /></a></div></td>
                                                                     @*<td> <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("PurchaseFollowup", "PurchaseEnq")"><img src='../Images/followup.png' alt='FollowUp' /> - (1)</a></div></td>*@
 
                                                                     <td>

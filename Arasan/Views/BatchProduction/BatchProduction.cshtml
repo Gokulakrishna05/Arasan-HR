@@ -226,7 +226,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Batch<label class="mandatory"> *</label></label>
                                     <div class="col-sm-8">
-                                         @Html.TextBoxFor(C => C.BatchNo, new { @id = "txtBatchNo", @class = "form-control", @TabIndex = 1 })<br />
+                                         @Html.DropDownListFor(C => C.BatchNo, Model.Batchlst, new { @id = "ddlBatchNo", @Class = "form-control _select", @TabIndex = 1})<br/>
                                     </div>
                                 </div>
                             </div>
@@ -828,6 +828,9 @@
         });
                
             }
+              $(function() {
+              var entry = '@ViewBag.entrytype';
+                changeentry(entry);
             function changeentry(typeid){
                 if(typeid=="INPUT"){
                     document.getElementById("ainp").click();
@@ -854,6 +857,7 @@
                     document.getElementById("lioutW").style.display = "block";
                 }
             }
+              });
    function AddRow() {
           var opt = "";
           var remopt = "";

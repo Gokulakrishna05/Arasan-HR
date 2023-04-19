@@ -572,4 +572,59 @@ public class ProductionEntryService : IProductionEntry
         adapter.Fill(dtt);
         return dtt;
     }
+
+
+    public DataTable GetProInpDet(string id)
+    {
+        string SvSql = string.Empty;
+        SvSql = "Select NPRODBASICID,IITEMID,IBINID,IDRUMNO,IBATCHNO,IBATCHQTY,IQTY from NPRODINPDET where NPRODBASICID ='" + id + "'";
+        DataTable dtt = new DataTable();
+        OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        adapter.Fill(dtt);
+        return dtt;
+    }
+    public DataTable GetProConsDet(string id)
+    {
+        string SvSql = string.Empty;
+        SvSql = "Select NPRODBASICID ,CITEMID,CBINID,CUNIT,CONSQTY,CVALUE from NPRODCONSDET where NPRODBASICID ='" + id + "'";
+        DataTable dtt = new DataTable();
+        OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        adapter.Fill(dtt);
+        return dtt;
+    }
+    public DataTable GetProOutDet(string id)
+    {
+        string SvSql = string.Empty;
+        SvSql = "Select NPRODBASICID ,OITEMID,to_char(NPRODOUTDET.DSDT,'dd-MON-yyyy')DSDT,to_char(NPRODOUTDET.DEDT,'dd-MON-yyyy')DEDT,STIME,ETIME,OBATCHNO,ODRUMNO,OSTOCK,OQTY,OXQTY,STATUS,TOLOCATION from NPRODOUTDET where NPRODBASICID ='" + id + "'";
+        DataTable dtt = new DataTable();
+        OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        adapter.Fill(dtt);
+        return dtt;
+    }
+    public DataTable GetProWasteDet(string id)
+    {
+        string SvSql = string.Empty;
+        SvSql = "Select NPRODBASICID ,WITEMID,WBINID,WLOCATION,WQTY,WBATCHNO from NPRODWASTEDET where NPRODBASICID ='" + id + "'";
+        DataTable dtt = new DataTable();
+        OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        adapter.Fill(dtt);
+        return dtt;
+    }
+
+    public DataTable GetProduction(string id)
+    {
+        string SvSql = string.Empty;
+        SvSql = "Select BRANCH,PROCESSID,WCID,SHIFT,to_char(NPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,ETYPE,DOCID,ENTEREDBY,SCHQTY,PRODQTY,PRODLOGID,PSCHNO,TOTALINPUT,TOTALOUTPUT,TOTCONSQTY,TOTRMQTY,TOTRMVALUE,TOTALWASTAGE,TOTMACHINEVALUE,TOTCONSVALUE from NPRODBASIC  where NPRODBASICID ='" + id + "' ";
+        DataTable dtt = new DataTable();
+        OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        adapter.Fill(dtt);
+        return dtt;
+
+    }
+
 }
