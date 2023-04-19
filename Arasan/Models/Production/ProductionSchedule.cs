@@ -41,7 +41,8 @@ namespace Arasan.Models
         public string Proddt { get; set; }
        
         public string Unit { get; set; }
-        public string Qty { get; set; }
+        public double Qty { get; set; }
+        public double ProdQty { get; set; }
         public string Exprunhrs { get; set; }
         public string Refno { get; set; }
         public string Amdno { get; set; }

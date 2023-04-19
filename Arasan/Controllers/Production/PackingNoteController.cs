@@ -33,6 +33,7 @@ namespace Arasan.Controllers
             ca.Shiftlst = BindShift();
             ca.RecList = BindEmp();
             ca.DrumLoclst = BindDrumLoc();
+            ca.Schlst = BindSche();
             ca.Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
             List<DrumDetail> TData = new List<DrumDetail>();
             DrumDetail tda = new DrumDetail();
@@ -168,6 +169,23 @@ namespace Arasan.Controllers
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["WCID"].ToString(), Value = dtDesg.Rows[i]["WCBASICID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindSche()
+        {
+            try
+            {
+                DataTable dtDesg = Packing.GetSchedule();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DOCID"].ToString(), Value = dtDesg.Rows[i]["PSBASICID"].ToString() });
                 }
                 return lstdesg;
             }

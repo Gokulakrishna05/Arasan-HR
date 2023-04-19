@@ -34,21 +34,19 @@
                             @Html.AntiForgeryToken()
                         <form>
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
 
-                                            <br />  <label for="inputName3" class="col-sm-4 control-label">Doc ID<label class="Mandatory"></label></label>
-                                        <div class="col-sm-8">
-
-                                                @Html.TextBoxFor(C => C.Docid, new { @id = "txtDocid", @class = "form-control", @TabIndex = 1 })
+                                            <br /><label for="inputName3" class="col-sm-4 control-label">Branch<label class="mandatory">*</label></label>
+                                            <div class="col-sm-8">
+                                                @Html.DropDownListFor(C => C.Branch, Model.Brlst, new { @id = "ddlBranch", @Class = "form-control _select", @TabIndex = 1 })
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
+                                    </div> <div class="col-md-6">
                                     <div class="form-group">
 
 
-                                        <br />  <label for="inputName3" class="col-sm-4 control-label">DOC Date<label class="Mandatory"></label></label>
+                                            <br />  <label for="inputName3" class="col-sm-4 control-label">DOC Date<label class="mandatory">*</label></label>
                                             <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                                 @Html.TextBoxFor(C => C.Docdate, new { @id = "Docdate", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })
                                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -58,21 +56,13 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-
-                                        <br /><label for="inputName3" class="col-sm-4 control-label">Branch<label class="Mandatory"></label></label>
-                                        <div class="col-sm-8">
-                                                @Html.DropDownListFor(C => C.Branch, Model.Brlst, new { @id = "ddlBranch", @Class = "form-control _select", @TabIndex = 1 })
-                                        </div>
-                                    </div>
-                                </div>
+                              
                                 <div class="col-md-6">
                                     <div class="form-group">
 
                                       <br />  <label for="inputName3" class="col-sm-4 control-label">Item ID<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                                @Html.DropDownListFor(C => C.Itemid, Model.Itemlst, new { @id = "ddlItemid", @Class = "form-control _select", @TabIndex = 1 ,onchange = "changeItem(value)" })
+                                                @Html.DropDownListFor(C => C.Itemid, Model.Itemlst," -- Please Select -- ", new { @id = "ddlItemid", @Class = "form-control _select", @TabIndex = 1 ,onchange = "changeItem(value)" })
                                         </div>
 
 
@@ -80,6 +70,16 @@
 
                                     </div>
                                 </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+                                            <br /> <label for="inputName3" class="col-sm-4 control-label">Unit<label class="mandatory"> </label></label>
+                                            <div class="col-sm-8">
+
+                                                @Html.TextBoxFor(C => C.Unit, new { @id = "txtUnit", @class = "form-control", @TabIndex = 1,@readonly="readonly" })<br />
+                                            </div>
+                                        </div>
+                                    </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
@@ -87,7 +87,7 @@
 
                                        <br /> <label for="inputName3" class="col-sm-4 control-label">From Location<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                                @Html.DropDownListFor(C => C.FromLoc, Model.Loc, new { @id = "ddlFromLoc", @Class = "form-control _select", @TabIndex = 1 })
+                                                @Html.DropDownListFor(C => C.FromLoc, Model.Loc," -- Please Select -- ", new { @id = "ddlFromLoc", @Class = "form-control _select", @TabIndex = 1 })
 
                                         </div>
                                     </div>
@@ -98,7 +98,7 @@
                                         <br /><label for="inputName3" class="col-sm-4 control-label">To Location<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
 
-                                                @Html.DropDownListFor(C => C.Toloc, Model.ToLoc, new { @id = "ddlToloc", @Class = "form-control _select", @TabIndex = 1 })
+                                                @Html.DropDownListFor(C => C.Toloc, Model.ToLoc," -- Please Select -- ", new { @id = "ddlToloc", @Class = "form-control _select", @TabIndex = 1 })
 
                                         </div>
                                     </div>
@@ -129,16 +129,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-
-                                            <br /> <label for="inputName3" class="col-sm-4 control-label">Unit<label class="mandatory">*</label></label>
-                                        <div class="col-sm-8">
-
-                                                @Html.TextBoxFor(C => C.Unit, new { @id = "txtUnit", @class = "form-control", @TabIndex = 1,@readonly="readonly" })<br />
-                                        </div>
-                                    </div>
-                                </div>
+                                
                                 <div class="col-md-6">
                                     <div class="form-group">
 
@@ -149,18 +140,19 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
+                           
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                         <br /><label for="inputName3" class="col-sm-4 control-label">Type<label class="Mandatory"></label></label>
+                                            <br /><label for="inputName3" class="col-sm-4 control-label">Type<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
 
-                                                @Html.DropDownListFor(C => C.type, Model.Type, new { @id = "ddltype", @Class = "form-control _select", @TabIndex = 1 })
+                                                @Html.DropDownListFor(C => C.type, Model.Type," -- Please Select -- ", new { @id = "ddltype", @Class = "form-control _select", @TabIndex = 1 })
                                         </div>
                                     </div>
                                 </div>
+                                </div>
+                                <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
 
@@ -424,5 +416,178 @@
     }
     $(function () {
         $('._select').select2();
+    });
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+            if (document.getElementById("ddlBranch").value == "" || document.getElementById("ddlBranch").value == 0) {
+                isValid = false;
+                $(ddlBranch).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Branch");
+                return false;
+            }
+            else {
+                $(ddlBranch).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("Docdate").value == "") {
+                isValid = false;
+                $(Docdate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select  Date");
+                return false;
+            }
+            else {
+                $(Docdate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("ddlItemid").value == "" || document.getElementById("ddlItemid").value == 0) {
+                isValid = false;
+                $(ddlItemid).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Item");
+                return false;
+            }
+            else {
+                $(ddlItemid).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+          
+            if (document.getElementById("ddlFromLoc").value == "" || document.getElementById("ddlFromLoc").value == 0) {
+                isValid = false;
+                $(ddlFromLoc).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select From Location");
+                return false;
+            }
+            else {
+                $(ddlFromLoc).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("ddlToloc").value == "" || document.getElementById("ddlToloc").value == 0) {
+                isValid = false;
+                $(ddlToloc).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select To Location");
+                return false;
+            }
+            else {
+                $(ddlToloc).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("ddltype").value == "" || document.getElementById("ddltype").value == 0) {
+                isValid = false;
+                $(ddltype).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Type");
+                return false;
+            }
+            else {
+                $(ddltype).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            @*if (document.getElementById("Schdate").value == "") {
+                isValid = false;
+                $(Schdate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Schedule Date");
+                return false;
+            }
+            else {
+                $(Schdate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            *@
+          @*  if (document.getElementById("txtQty").value == "") {
+                isValid = false;
+                $(txtQty).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select  Output Qty");
+                return false;
+            }
+            else {
+                $(txtQty).css({
+                    "border": "",
+                    "background": ""
+                });
+            }*@
+         @*   if (document.getElementById("txtProdQty").value == "") {
+                isValid = false;
+                $(txtProdQty).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select ProdQty");
+                return false;
+            }
+            else {
+                $(txtProdQty).css({
+                    "border": "",
+                    "background": ""
+                });
+            }*@
+    @* if (document.getElementById("txtMTO").value == "") {
+                isValid = false;
+                $(txtMTO).css({
+                "border": "1px solid red",
+                "background": "#FFCECE"
+                });
+
+                alert("Please Select MTO");
+                return false;
+                }
+                else {
+                $(txtMTO).css({
+                "border": "",
+                "background": ""
+                });
+                }*@
+
+
+
+                if (isValid == false)
+                e.preventDefault();
+        });
+
     });
 </script>

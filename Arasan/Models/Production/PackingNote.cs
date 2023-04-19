@@ -12,11 +12,13 @@ namespace Arasan.Models
             this.DrumLoclst = new List<SelectListItem>();
             this.RecList = new List<SelectListItem>();
             this.Itemlst = new List<SelectListItem>();
+            this.Schlst = new List<SelectListItem>();
         }
         public string Branch { get; set; }
         public List<SelectListItem> Brlst;
         public List<SelectListItem> Worklst;
         public List<SelectListItem> Itemlst;
+        public List<SelectListItem> Schlst;
         public string ItemId { get; set; }
         public string WorkId { get; set; }
         public string ID { get; set; }
