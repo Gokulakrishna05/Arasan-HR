@@ -35,6 +35,7 @@ namespace Arasan.Controllers.Production
             ca.Entered = Request.Cookies["UserId"];
             ca.Applst = BindEmp();
             ca.Itemlst = BindItemlst("");
+            ca.Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
             List<DrumIssueEntryItem> TData = new List<DrumIssueEntryItem>();
             DrumIssueEntryItem tda = new DrumIssueEntryItem();
             if (id == null)

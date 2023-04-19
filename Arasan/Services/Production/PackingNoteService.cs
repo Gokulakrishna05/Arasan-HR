@@ -42,58 +42,58 @@ namespace Arasan.Services
             }
             return cmpList;
         }
-        public DataTable GetData(string sql)
-        {
-            DataTable _Dt = new DataTable();
-            try
-            {
-                OracleDataAdapter adapter = new OracleDataAdapter(sql, _connectionString);
-                OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-                adapter.Fill(_Dt);
-            }
-            catch (Exception ex)
-            {
+        //public DataTable GetData(string sql)
+        //{
+        //    DataTable _Dt = new DataTable();
+        //    try
+        //    {
+        //        OracleDataAdapter adapter = new OracleDataAdapter(sql, _connectionString);
+        //        OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //        adapter.Fill(_Dt);
+        //    }
+        //    catch (Exception ex)
+        //    {
 
-            }
-            return _Dt;
-        }
-        public int GetDataId(String sql)
-        {
-            DataTable _dt = new DataTable();
-            int Id = 0;
-            try
-            {
-                _dt = GetData(sql);
-                if (_dt.Rows.Count > 0)
-                {
-                    Id = Convert.ToInt32(_dt.Rows[0][0].ToString() == string.Empty ? "0" : _dt.Rows[0][0].ToString());
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            return Id;
-        }
+        //    }
+        //    return _Dt;
+        //}
+        //public int GetDataId(String sql)
+        //{
+        //    DataTable _dt = new DataTable();
+        //    int Id = 0;
+        //    try
+        //    {
+        //        _dt = GetData(sql);
+        //        if (_dt.Rows.Count > 0)
+        //        {
+        //            Id = Convert.ToInt32(_dt.Rows[0][0].ToString() == string.Empty ? "0" : _dt.Rows[0][0].ToString());
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //    return Id;
+        //}
 
-        public bool UpdateStatus(string query)
-        {
-            bool Saved = true;
-            try
-            {
-                OracleConnection objConn = new OracleConnection(_connectionString);
-                OracleCommand objCmd = new OracleCommand(query, objConn);
-                objCmd.Connection.Open();
-                objCmd.ExecuteNonQuery();
-                objCmd.Connection.Close();
-            }
-            catch (Exception ex)
-            {
+        //public bool UpdateStatus(string query)
+        //{
+        //    bool Saved = true;
+        //    try
+        //    {
+        //        OracleConnection objConn = new OracleConnection(_connectionString);
+        //        OracleCommand objCmd = new OracleCommand(query, objConn);
+        //        objCmd.Connection.Open();
+        //        objCmd.ExecuteNonQuery();
+        //        objCmd.Connection.Close();
+        //    }
+        //    catch (Exception ex)
+        //    {
 
-                Saved = false;
-            }
-            return Saved;
-        }
+        //        Saved = false;
+        //    }
+        //    return Saved;
+        //}
         public string PackingNoteCRUD(PackingNote cy)
         {
 
@@ -103,44 +103,44 @@ namespace Arasan.Services
 
                 string StatementType = string.Empty; string svSQL = "";
 
-                if (cy.ID == null)
-                {
-                    DateTime theDate = DateTime.Now;
-                    DateTime todate; DateTime fromdate;
-                    string t; string f;
-                    if (DateTime.Now.Month >= 4)
-                    {
-                        todate = theDate.AddYears(1);
-                    }
-                    else
-                    {
-                        todate = theDate;
-                    }
-                    if (DateTime.Now.Month >= 4)
-                    {
-                        fromdate = theDate;
-                    }
-                    else
-                    {
-                        fromdate = theDate.AddYears(-1);
-                    }
-                    t = todate.ToString("yy");
-                    f = fromdate.ToString("yy");
-                    string disp = string.Format("{0}-{1}", f, t);
+                //if (cy.ID == null)
+                //{
+                //    DateTime theDate = DateTime.Now;
+                //    DateTime todate; DateTime fromdate;
+                //    string t; string f;
+                //    if (DateTime.Now.Month >= 4)
+                //    {
+                //        todate = theDate.AddYears(1);
+                //    }
+                //    else
+                //    {
+                //        todate = theDate;
+                //    }
+                //    if (DateTime.Now.Month >= 4)
+                //    {
+                //        fromdate = theDate;
+                //    }
+                //    else
+                //    {
+                //        fromdate = theDate.AddYears(-1);
+                //    }
+                //    t = todate.ToString("yy");
+                //    f = fromdate.ToString("yy");
+                //    string disp = string.Format("{0}-{1}", f, t);
 
-                    int idc = GetDataId(" SELECT COMMON_TEXT FROM COMMON_MASTER WHERE COMMON_TYPE = 'PN' AND IS_ACTIVE = 'Y'");
-                    cy.DocId = string.Format("{0}/{3}/{1} - {2} ", "TAAI", "PacN", (idc + 1).ToString(), disp);
+                //    int idc = GetDataId(" SELECT COMMON_TEXT FROM COMMON_MASTER WHERE COMMON_TYPE = 'PN' AND IS_ACTIVE = 'Y'");
+                //    cy.DocId = string.Format("{0}/{3}/{1} - {2} ", "TAAI", "PacN", (idc + 1).ToString(), disp);
 
-                    string updateCMd = " UPDATE COMMON_MASTER SET COMMON_TEXT ='" + (idc + 1).ToString() + "' WHERE COMMON_TYPE ='PN' AND IS_ACTIVE ='Y'";
-                    try
-                    {
-                        UpdateStatus(updateCMd);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw ex;
-                    }
-                }
+                //    string updateCMd = " UPDATE COMMON_MASTER SET COMMON_TEXT ='" + (idc + 1).ToString() + "' WHERE COMMON_TYPE ='PN' AND IS_ACTIVE ='Y'";
+                //    try
+                //    {
+                //        UpdateStatus(updateCMd);
+                //    }
+                //    catch (Exception ex)
+                //    {
+                //        throw ex;
+                //    }
+                //}
               
                 string[] sdateList = cy.startdate.Split(" - ");
                 string sdate = "";
@@ -269,6 +269,16 @@ return msg;
         {
             string SvSql = string.Empty;
             SvSql = "Select WCID,WCBASICID from WCBASIC ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetSchedule()
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select DOCID,PSBASICID from PSBASIC ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

@@ -43,7 +43,20 @@
                                         </div>
                                     </div>
                                 </div>
+                                </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
 
+                                                <br />    <label for="inputName3" class="col-sm-4 control-label">Doc No<label class="Mandatory"></label></label>
+                                                <div class="col-sm-8">
+
+                                                @Html.TextBoxFor(C => C.DocId, new { @id = "DocId", @class = "form-control", @TabIndex = 1 })<br />
+
+
+                                                </div>
+                                            </div>
+                                        </div>
 
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -68,7 +81,7 @@
 
                                             <label for="inputName3" class="col-sm-4 control-label">Work Center<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.WorkId, Model.Worklst, new { @id = "ddlWorkCenter", @Class = "form-control _select", @TabIndex = 1,onchange = "changesdrum(this.value)" })<br />
+                                                @Html.DropDownListFor(C => C.WorkId, Model.Worklst," -- Please Select -- ", new { @id = "ddlWorkCenter", @Class = "form-control _select", @TabIndex = 1,onchange = "changesdrum(this.value)" })<br />
                                               @Html.HiddenFor(C => C.ID)
                                         </div>
 
@@ -79,7 +92,7 @@
                                 </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="inputName3" class="col-sm-4 control-label">Shift<label class="mandatory"></label>*</label>
+                                            <label for="inputName3" class="col-sm-4 control-label">Shift<label class="mandatory">*</label></label>
 
                                             <div class="col-sm-8">
                                                 @Html.DropDownListFor(C => C.Shift, Model.Shiftlst," -- Please Select -- ", new { @id = "ddlShift", @Class = "form-control _select", @TabIndex = 1 ,onchange = "changesdrumS(this.value)"})<br />
@@ -97,7 +110,7 @@
 
                                             <br /> <label for="inputName3" class="col-sm-4 control-label">Drum Location<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.DrumLoc, Model.DrumLoclst, new { @id = "ddlDrumLoc", @Class = "form-control _select", @TabIndex = 1, @onchange = "changeItem(this.value," + 0 + ")" })<br />
+                                                @Html.DropDownListFor(C => C.DrumLoc, Model.DrumLoclst, " -- Please Select -- ",new { @id = "ddlDrumLoc", @Class = "form-control _select", @TabIndex = 1, @onchange = "changeItem(this.value," + 0 + ")" })<br />
 
                                         </div>
                                     </div>
@@ -118,10 +131,11 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
 
-                                        <br />    <label for="inputName3" class="col-sm-4 control-label">Sch.No<label class="Mandatory"></label></label>
+                                        <br />    <label for="inputName3" class="col-sm-4 control-label">Sch.No<label class="mandatory">*</label></label>
                                             <div class="col-sm-8">
 
-                                                @Html.TextBoxFor(C => C.ProdSchNo, new { @id = "txtProdSchNo", @class = "form-control", @TabIndex = 1 })<br />
+                                                @Html.DropDownListFor(C => C.ProdSchNo, Model.Schlst," -- Please Select -- ", new { @id = "ddlProdSchNo", @Class = "form-control _select", @TabIndex = 1 })<br />
+
 
 
                                             </div>
@@ -569,6 +583,22 @@
             }
             else {
                 $(ddlItemId).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("ddlProdSchNo").value == "" || document.getElementById("ddlProdSchNo").value == 0) {
+                isValid = false;
+                $(ddlProdSchNo).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Production Schedule");
+                return false;
+            }
+            else {
+                $(ddlProdSchNo).css({
                     "border": "",
                     "background": ""
                 });

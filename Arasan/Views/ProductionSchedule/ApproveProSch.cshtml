@@ -1,0 +1,662 @@
+﻿@model Arasan.Models.ProductionSchedule
+@{
+    ViewData["Title"] = "Production Schedule";
+}
+<style>
+    .newwidth {
+        width: 120px;
+    }
+
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a>Production</a> </li>
+            <li class="active"> <strong>Production Schedule</strong> </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    <h5 style="font-size:14px">Production Schedule</h5>
+                    <hr>
+                    @using (Html.BeginForm("ApproveProSch", "ProductionSchedule", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <form>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-gro2up">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Branch<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.Branch)<br>
+                                            @Html.HiddenFor(C => C.ID)
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Plan Type<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.Type)<br>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br />   <label for="inputName3" class="col-sm-4 control-label">Prod.Schedule.No<label class="Mandatory"></label></label>
+
+                                        <div class="col-sm-8">
+                                                            @Html.DisplayFor(C => C.DocId)<br>                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br />   <label for="inputName3" class="col-sm-4 control-label">Date<label class="mandatory"></label></label>
+
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.Docdate)<br>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Work Center<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.WorkCenter)<br>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Process<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.Process)<br>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br />   <label for="inputName3" class="col-sm-4 control-label">Amd.Sch.No<label class="Mandatory"></label></label>
+
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.Amdno)<br>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Sch.Date<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.Schdate)<br>
+
+                                        </div>
+                                </div>
+                            </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Formula<label class="Mandatory"></label></label>
+
+                                        <div class="col-sm-8">
+                                                @Html.DisplayFor(C => C.Formula)<br>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Prod.Due.Dt<label class="Mandatory"></label></label>
+
+                                            <div class="col-sm-8">
+                                                @Html.DisplayFor(C => C.Proddt)<br>
+
+                                            </div>
+                                </div>
+
+                            </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                             <br /><label for="inputName3" class="col-sm-4 control-label">Output Item<label class="mandatory"></label></label>
+
+                                        <div class="col-sm-8">
+                                                    @Html.DisplayFor(C => C.Itemid)<br>
+                                            <br />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                             <br /><label for="inputName3" class="col-sm-4 control-label">Unit<label class="Mandatory"></label></label>
+
+                                        <div class="col-sm-8">
+                                                    @Html.DisplayFor(C => C.Unit)<br>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                            <br /> <label for="inputName3" class="col-sm-4 control-label">Output Qty<label class="mandatory"></label></label>
+
+                                        <div class="col-sm-8">
+                                                    @Html.DisplayFor(C => C.Qty)<br>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                            <br /> <label for="inputName3" class="col-sm-4 control-label">Exp.Run Hrs<label class="Mandatory"></label></label>
+
+                                        <div class="col-sm-8">
+                                              @Html.DisplayFor(C => C.Exprunhrs)<br>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                            <br /> <label for="inputName3" class="col-sm-4 control-label">Ref.Sch.No<label class="Mandatory"></label></label>
+
+                                        <div class="col-sm-8">
+                                                    @Html.DisplayFor(C => C.Refno)<br>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Prod Qty<label class="mandatory"></label></label>
+
+                                        <div class="col-sm-8">
+                                                    @Html.DisplayFor(C => C.ProdQty)<br>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            
+                            <div style="height:30px;"></div>
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                    <div class="tabs-container">
+                                        <ul class="nav nav-tabs">
+                                            <li class="active"><a href="#tab-1" data-toggle="tab">Input Items</a></li>
+                                            <li><a href="#tab-2" data-toggle="tab">Output Items </a></li>
+                                            <li><a href="#tab-3" data-toggle="tab">Process Parameters </a></li>
+                                            <li><a href="#tab-4" data-toggle="tab">Output Details Day Wise </a></li>
+                                            <li><a href="#tab-5" data-toggle="tab">Pack Meterials </a></li>
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div class="tab-pane active" id="tab-1">
+                                                <!-- 1st tab  -->
+                                               
+
+                                                <div class="row">
+                                                    <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
+
+                                                        <table class="table table-striped table-hover" id="dataTable">
+                                                            <thead>
+                                                                <tr>
+
+ 
+                                                                    <th> Input Item </th>
+                                                                    <th> Item Desc </th>
+                                                                    <th> Unit </th>
+                                                                    <th> Input %</th>
+                                                                    <th>Required Qty </th>
+
+
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="tbBooks">
+
+                                                                @{
+
+                                                                    int i = 0;
+
+                                                                    foreach (var item in Model.PrsLst.ToList())
+                                                                    {
+                                                                        <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                           
+                                                                            <td>
+
+                                                                                        @Html.DisplayFor(o => o.PrsLst[i].ItemId)
+                                                                            </td>
+                                                                            <td>
+                                                                                        @Html.DisplayFor(o => o.PrsLst[i].Desc)
+
+                                                                                    </td>
+                                                                            <td>
+                                                                                       @Html.DisplayFor(o => o.PrsLst[i].Unit)
+
+                                                                                    </td>
+                                                                            <td>
+                                                                                        @Html.DisplayFor(o => o.PrsLst[i].Input)
+
+                                                                                    </td>
+                                                                            <td>
+                                                                                        @Html.DisplayFor(o => o.PrsLst[i].Qty)
+
+                                                                                    </td>
+
+                                                                            
+
+                                                                        </tr>
+
+
+                                                                        i = i + 1;
+
+                                                                    }
+                                                                }
+
+
+
+                                                            </tbody>
+                                                        </table>
+
+
+                                                    </div>
+                                                </div>
+                                                <!-- 1st tab  -->
+                                            </div>
+                                            <div class="tab-pane" id="tab-2">
+                                                <!-- 2nd tab  -->
+                                                
+
+                                                <div class="row">
+                                                    <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
+
+                                                        <table class="table table-striped table-hover" id="dataTableOut">
+                                                            <thead>
+                                                                <tr>
+
+                                                                    
+                                                                    <th>Output Item</th>
+                                                                    <th> Item Desc </th>
+                                                                    <th> Unit </th>
+                                                                    <th> Output % </th>
+                                                                    <th>Alam %</th>
+                                                                    <th> Output Type </th>
+                                                                    <th> Sch Qty </th>
+                                                                    <th> Produced Qty </th>
+                                                                </tr>
+                                                            </thead>
+
+
+                                                            <tbody id="tbBooks1">
+
+                                                                @{
+
+
+                                                                    int j = 0;
+
+                                                                    foreach (var item in Model.ProLst.ToList())
+                                                                    {
+                                                                        <tr id="trBookOut@(j)" class="chkOutitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                             
+                                                                            <td>
+
+                                                                                        @Html.DisplayFor(o => o.ProLst[j].Item)
+
+                                                                                    </td>
+                                                                            <td>
+                                                                                       @Html.DisplayFor(o => o.ProLst[j].Des)
+
+                                                                                    </td>
+                                                                            <td>
+                                                                                        @Html.DisplayFor(o => o.ProLst[j].Unit)
+
+                                                                                    </td>
+                                                                            <td>
+                                                                                        @Html.DisplayFor(o => o.ProLst[j].Output)
+
+                                                                                    </td>
+                                                                            <td>
+                                                                                       @Html.DisplayFor(o => o.ProLst[j].Alam)
+
+                                                                                    </td>
+                                                                            <td>
+                                                                                        @Html.DisplayFor(o => o.ProLst[j].OutputType)
+
+                                                                                    </td>
+                                                                            <td>
+                                                                                        @Html.DisplayFor(o => o.ProLst[j].Sch)
+
+                                                                            </td>
+                                                                            <td>
+                                                                                        @Html.DisplayFor(o => o.ProLst[j].Produced)
+
+                                                                                    </td>
+
+                                                                            
+
+                                                                        </tr>
+
+
+
+                                                                        j = j + 1;
+                                                                    }
+                                                                }
+
+
+
+                                                            </tbody>
+
+
+
+
+                                                        </table>
+
+                                                    </div>
+                                                </div>
+
+                                                <!-- 2nd tab  -->
+                                            </div>
+                                            <div class="tab-pane" id="tab-3">
+                                                <!-- 3rd tab  -->
+                                                
+
+
+                                                <div class="row">
+                                                    <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
+                                                        <table class="table table-striped table-hover" id="dataTableParem">
+                                                            <thead>
+                                                                <tr>
+
+                                                                    <th>Parameters</th>
+                                                                    <th>Unit</th>
+                                                                    <th> Initial Values </th>
+                                                                    <th> Final Value </th>
+                                                                    <th>Remarks</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="tbBooks2">
+
+                                                                        @{
+
+
+                                                                            int g = 0;
+
+                                                                            foreach (var item in Model.Prlst.ToList())
+                                                                            {
+                                                                                <tr id="trBookParem@(g)" class="chkParemitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+
+                                                                            <td>
+                                                                               @Html.DisplayFor(o => o.Prlst[g].Parameters)
+                                                                            </td>
+                                                                            <td>
+                                                                               @Html.DisplayFor(o => o.Prlst[g].Unit)
+                                                                            </td>
+                                                                            <td>
+                                                                             @Html.DisplayFor(o => o.Prlst[g].Initial)
+                                                                            </td>
+                                                                            <td>
+                                                                              @Html.DisplayFor(o => o.Prlst[g].Final)
+                                                                            </td>
+                                                                            <td>
+                                                                                        @Html.DisplayFor(o => o.Prlst[g].Remarks)
+                                                                            </td>
+
+                                                                           
+
+                                                                        </tr>
+
+
+
+                                                                        g = g + 1;
+                                                                    }
+                                                                }
+
+
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+
+
+
+                                                </div>
+                                                <!-- 3rd tab  -->
+                                            </div>
+                                            <div class="tab-pane" id="tab-4">
+                                                <!-- 4th tab  -->
+                                               
+                                                <div class="row">
+                                                    <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
+                                                        <table class="table table-striped table-hover" id="dataTableOutput">
+                                                            <thead>
+                                                                <tr>
+
+                                                                    <th>Sch.Date </th>
+                                                                    <th>Run Hrs </th>
+                                                                    
+                                                                    <th>Item ID </th>
+                                                                    <th>Sch.Qty </th>
+                                                                    <th>No.Of Change </th>
+
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="tbBooks3">
+
+                                                                @{
+
+
+                                                                    int a = 0;
+
+                                                                    foreach (var item in Model.ProscLst.ToList())
+                                                                    {
+                                                                        <tr id="trBookOutput@(a)" class="chkOutputitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+
+                                                                            <td>
+                                                                                        @Html.DisplayFor(o => o.ProscLst[a].SchDate)
+                                                                            </td>
+                                                                            <td>
+                                                                                        @Html.DisplayFor(o => o.ProscLst[a].Hrs)
+                                                                            </td>
+                                                                             
+                                                                            <td>
+
+                                                                                        @Html.DisplayFor(o => o.ProscLst[a].Itemd)
+                                                                            </td>
+                                                                            <td>
+                                                                                        @Html.DisplayFor(o => o.ProscLst[a].Qty)
+                                                                            </td>
+                                                                            <td>
+                                                                                        @Html.DisplayFor(o => o.ProscLst[a].Change)
+                                                                            </td>
+
+                                                                            
+
+                                                                        </tr>
+
+
+
+                                                                        a = a + 1;
+                                                                    }
+                                                                }
+
+
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+
+                                                <!-- 4th tab  -->
+                                            </div>
+                                            <div class="tab-pane " id="tab-5">
+                                                <!-- 5th tab  -->
+                                               
+
+                                                <div class="row">
+                                                    <div class="col-md-6" style="overflow-x:scroll; min-width:300px; min-height:300px;">
+                                                        <table class="table table-striped table-hover" id="dataTablePack">
+                                                            <thead>
+                                                                <tr>
+
+                                                                    <th>Pack Item</th>
+                                                                    <th>Qty</th>
+
+
+
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="tbBooks4">
+
+                                                                @{
+
+
+                                                                    int k = 0;
+
+                                                                    foreach (var item in Model.ProschedLst.ToList())
+                                                                    {
+                                                                        <tr id="trBookPack@(k)" class="chkPackitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+
+
+                                                                            <td>
+                                                                                        @Html.DisplayFor(o => o.ProschedLst[k].Pack)
+                                                                            </td>
+                                                                            <td>
+                                                                                        @Html.DisplayFor(o => o.ProschedLst[k].Qty)
+                                                                            </td>
+
+                                                                           
+
+                                                                        </tr>
+
+
+
+                                                                        k = k + 1;
+                                                                    }
+                                                                }
+
+
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+
+
+                                                <!-- 5th tab  -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div style="height:30px;"></div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Entered By<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.Entered)<br>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                              @*  <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Other Detail<label class="Mandatory"></label></label>
+
+                                        <div class="col-sm-8">
+                                          
+                                        </div>
+
+                                    </div>
+                            </div>*@
+                            </div>
+
+
+
+
+                            <div style="height:30px;"></div>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListProductionSchedule", "ProductionSchedule")'">Cancel</button>
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+@*<script>
+    $(function () {
+        var entry = '@ViewBag.entrytype';
+        changeentry(entry);
+        function changeentry(typeid) {
+            if (typeid == "INPUT") {
+                document.getElementById("ainp").click();
+    @*window.location.href = href 
+                    document.getElementById("liinp").style.display = "block";
+                document.getElementById("liinpC").style.display = "block";
+                document.getElementById("liout").style.display = "none";
+                document.getElementById("lioutW").style.display = "none";
+            }
+            else if (typeid == "OUTPUT") {
+                document.getElementById("aout").click();;
+    @*  window.location.href = href 
+                    document.getElementById("liinp").style.display = "none";
+                document.getElementById("liinpC").style.display = "none";
+                document.getElementById("liout").style.display = "block";
+                document.getElementById("lioutW").style.display = "block";
+            }
+            else {
+                document.getElementById("ainp").click();
+    @*window.location.href = href 
+                    document.getElementById("liinp").style.display = "block";
+                document.getElementById("liinpC").style.display = "block";
+                document.getElementById("liout").style.display = "block";
+                document.getElementById("lioutW").style.display = "block";
+            }
+        }
+    });
+</script>*@

@@ -23,5 +23,12 @@ namespace Arasan.Interface.Production
         DataTable GetOutputDetailsDayWiseDetail(string id);
         DataTable GetPackDetail(string id);
         DataTable GetProcess();
+        DataTable EditProSche(string id);
+        DataTable ProIndetail(string id);
+        DataTable ProOutDetail(string id);
+        DataTable ProParmDetail(string id);
+        DataTable ProDailyDatDetail(string id);
+        DataTable ProPackDetail(string id);
+         
     }
 }

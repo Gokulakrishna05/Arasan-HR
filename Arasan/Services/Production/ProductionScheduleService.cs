@@ -80,7 +80,7 @@ namespace Arasan.Services.Production
         public DataTable GetProductionSchedule(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select BRANCHID,SCHPLANTYPE,DOCID,to_char(DOCDATE,'dd-MON-yyyy')DOCDATE,WCID,PROCESSID,to_char(SCHDATE,'dd-MON-yyyy') SCHDATE,FORMULA,to_char(PDOCDT,'dd-MON-yyyy') PDOCDT,OPITEMID,OPUNIT,EXPRUNHRS,REFSCHNO,AMDSCHNO,ENTEREDBY from PSBASIC Where PSBASICID='" + id + "'";
+            SvSql = "Select BRANCHID,SCHPLANTYPE,DOCID,to_char(DOCDATE,'dd-MON-yyyy')DOCDATE,WCID,PROCESSID,to_char(SCHDATE,'dd-MON-yyyy') SCHDATE,OPQTY,PRODQTY,FORMULA,to_char(PDOCDT,'dd-MON-yyyy') PDOCDT,OPITEMID,OPUNIT,EXPRUNHRS,REFSCHNO,AMDSCHNO,ENTEREDBY from PSBASIC Where PSBASICID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -88,9 +88,57 @@ namespace Arasan.Services.Production
             return dtt;
         }
 
-        //public DataTable GetProductionScheduleServiceDetail(string id)
+        //public DataTable GetData(string sql)
         //{
-        //    throw new NotImplementedException();
+        //    DataTable _Dt = new DataTable();
+        //    try
+        //    {
+        //        OracleDataAdapter adapter = new OracleDataAdapter(sql, _connectionString);
+        //        OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //        adapter.Fill(_Dt);
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //    }
+        //    return _Dt;
+        //}
+        //public int GetDataId(String sql)
+        //{
+        //    DataTable _dt = new DataTable();
+        //    int Id = 0;
+        //    try
+        //    {
+        //        _dt = GetData(sql);
+        //        if (_dt.Rows.Count > 0)
+        //        {
+        //            Id = Convert.ToInt32(_dt.Rows[0][0].ToString() == string.Empty ? "0" : _dt.Rows[0][0].ToString());
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //    return Id;
+        //}
+
+        //public bool UpdateStatus(string query)
+        //{
+        //    bool Saved = true;
+        //    try
+        //    {
+        //        OracleConnection objConn = new OracleConnection(_connectionString);
+        //        OracleCommand objCmd = new OracleCommand(query, objConn);
+        //        objCmd.Connection.Open();
+        //        objCmd.ExecuteNonQuery();
+        //        objCmd.Connection.Close();
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        Saved = false;
+        //    }
+        //    return Saved;
         //}
 
         public string ProductionScheduleCRUD(ProductionSchedule cy)
@@ -99,6 +147,45 @@ namespace Arasan.Services.Production
             try
             {
                 string StatementType = string.Empty; string svSQL = "";
+
+                //if (cy.ID == null)
+                //{
+                //    DateTime theDate = DateTime.Now;
+                //    DateTime todate; DateTime fromdate;
+                //    string t; string f;
+                //    if (DateTime.Now.Month >= 4)
+                //    {
+                //        todate = theDate.AddYears(1);
+                //    }
+                //    else
+                //    {
+                //        todate = theDate;
+                //    }
+                //    if (DateTime.Now.Month >= 4)
+                //    {
+                //        fromdate = theDate;
+                //    }
+                //    else
+                //    {
+                //        fromdate = theDate.AddYears(-1);
+                //    }
+                //    t = todate.ToString("yy");
+                //    f = fromdate.ToString("yy");
+                //    string disp = string.Format("{0}-{1}", f, t);
+
+                //    int idc = GetDataId(" SELECT COMMON_TEXT FROM COMMON_MASTER WHERE COMMON_TYPE = 'PSch' AND IS_ACTIVE = 'Y'");
+                //    cy.DocId = string.Format("{0}/{3}/{1} - {2} ", "TAAI", "PSch", (idc + 1).ToString(), disp);
+
+                //    string updateCMd = " UPDATE COMMON_MASTER SET COMMON_TEXT ='" + (idc + 1).ToString() + "' WHERE COMMON_TYPE ='PSch' AND IS_ACTIVE ='Y'";
+                //    try
+                //    {
+                //        UpdateStatus(updateCMd);
+                //    }
+                //    catch (Exception ex)
+                //    {
+                //        throw ex;
+                //    }
+                //}
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
@@ -135,6 +222,7 @@ namespace Arasan.Services.Production
                     objCmd.Parameters.Add("REFSCHNO", OracleDbType.NVarchar2).Value = cy.Refno;
                     objCmd.Parameters.Add("AMDSCHNO", OracleDbType.NVarchar2).Value = cy.Amdno;
                     objCmd.Parameters.Add("ENTEREDBY", OracleDbType.NVarchar2).Value = cy.Entered;
+                    objCmd.Parameters.Add("PRODQTY", OracleDbType.NVarchar2).Value = cy.ProdQty;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
@@ -256,7 +344,7 @@ namespace Arasan.Services.Production
                         }
                         foreach (ProScItem cp in cy.ProscLst)
                         {
-                            if (cp.Isvalid == "Y" && cp.Itemd != "0")
+                            if (cp.Isvalid == "Y" && cp.Itemd != null)
                             {
                                 using (OracleConnection objConns = new OracleConnection(_connectionString))
                                 {
@@ -273,7 +361,7 @@ namespace Arasan.Services.Production
                                     }
                                     objCmds.CommandType = CommandType.StoredProcedure;
                                     objCmds.Parameters.Add("PSBASICID", OracleDbType.NVarchar2).Value = Pid;
-                                    objCmds.Parameters.Add("ODDATE", OracleDbType.Date).Value = cp.SchDate;
+                                    objCmds.Parameters.Add("ODDATE", OracleDbType.Date).Value = DateTime.Parse(cp.SchDate);
                                     objCmds.Parameters.Add("ODRUNHRS", OracleDbType.NVarchar2).Value = cp.Hrs;
                                     objCmds.Parameters.Add("ODITEMID", OracleDbType.NVarchar2).Value = cp.Itemd;
                                     objCmds.Parameters.Add("ODQTY", OracleDbType.NVarchar2).Value = cp.Qty;
@@ -290,7 +378,7 @@ namespace Arasan.Services.Production
                         }
                         foreach (ProSchItem cp in cy.ProschedLst)
                         {
-                            if (cp.Isvalid == "Y" && cp.Pack != "0")
+                            if (cp.Isvalid == "Y" && cp.Pack != null)
                             {
                                 using (OracleConnection objConns = new OracleConnection(_connectionString))
                                 {
@@ -371,7 +459,7 @@ namespace Arasan.Services.Production
         public DataTable GetOutputDetailsDayWiseDetail(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select PSBASICID,ODDATE,ODRUNHRS,ODITEMID,ODQTY,NOOFCHARGE from PSOUTDAYDETAIL  where PSBASICID='" + id + "' ";
+            SvSql = "select PSBASICID,to_char(ODDATE,'dd-MON-yyyy')ODDATE,ODRUNHRS,ODITEMID,ODQTY,NOOFCHARGE from PSOUTDAYDETAIL  where PSBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -420,6 +508,7 @@ namespace Arasan.Services.Production
                             WorkCenter = rdr["WCID"].ToString(),
                             Process = rdr["PROCESSID"].ToString(),
                             Docdate = rdr["DOCDATE"].ToString(),
+                            DocId = rdr["DOCID"].ToString(),
 
 
                         };
@@ -428,6 +517,66 @@ namespace Arasan.Services.Production
                 }
             }
             return cmpList;
+        }
+        public DataTable EditProSche(string PROID)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select BRANCHMAST.BRANCHID,SCHPLANTYPE,DOCID,to_char(PSBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,WCBASIC.WCID,PROCESSMAST.PROCESSID,to_char(PSBASIC.SCHDATE,'dd-MON-yyyy') SCHDATE,OPQTY,PRODQTY,FORMULA,to_char(PSBASIC.PDOCDT,'dd-MON-yyyy') PDOCDT,ITEMMASTER.ITEMID,OPUNIT,EXPRUNHRS,REFSCHNO,AMDSCHNO,ENTEREDBY from PSBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PSBASIC.BRANCHID LEFT OUTER JOIN WCBASIC ON PSBASIC.WCID=WCBASIC.WCBASICID LEFT OUTER JOIN PROCESSMAST ON PROCESSMAST.PROCESSMASTID=PSBASIC.PROCESSID LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=PSBASIC.OPITEMID Where PSBASICID='" + PROID + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable ProPackDetail(string PROID)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select PSBASICID,PKITEMID ,PKQTY from PSPACKDETAIL   where PSBASICID='" + PROID + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable ProDailyDatDetail(string PROID)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select PSBASICID,to_char(PSOUTDAYDETAIL.ODDATE,'dd-MON-yyyy')ODDATE,ODRUNHRS,ITEMMASTER.ITEMID ,ODQTY,NOOFCHARGE from PSOUTDAYDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=PSOUTDAYDETAIL.ODITEMID  where PSBASICID='" + PROID + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable ProParmDetail(string PROID)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select PSBASICID,PARAMETERS,UNIT,IPARAMVALUE,FPARAMVALUE,REMARKS from PSPARAMDETAIL  where PSBASICID='" + PROID + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable ProOutDetail(string PROID)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select PSBASICID,ITEMMASTER.ITEMID ,OITEMDESC,OUNIT,OPER,ALPER,OTYPE,SCHQTY,PQTY from PSOUTDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=PSOUTDETAIL.OITEMID where PSBASICID='" + PROID + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable ProIndetail(string PROID)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select PSBASICID,ITEMMASTER.ITEMID ,RUNIT,RITEMDESC,IPER,RQTY from PSINPDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=PSINPDETAIL.RITEMID  where PSBASICID='" + PROID + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
         }
     }
 }
