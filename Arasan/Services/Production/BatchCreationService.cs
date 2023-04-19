@@ -134,7 +134,7 @@ namespace Arasan.Services
 
                             }
                         }
-                        foreach (BatchInItem cp in cy.BatchInLst)
+                        foreach ( BatchInItem cp in cy.BatchInLst)
                         {
                             if (cp.Isvalid == "Y" && cp.Item != "0")
                             {
@@ -305,6 +305,17 @@ namespace Arasan.Services
 
             return msg;
         }
+        public  DataTable GetBatchCreationByName(string name)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select BRANCHMAST.BRANCHID,PSBASIC.DOCID,to_char(BCPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,REFDOCID,BCPRODBASIC.ENTEREDBY,BCPRODBASIC.NARR,SEQYN,PTYPE,BTYPE,IORATIOFROM,IORATIOTO,MTONO,PROCESSMAST.PROCESSID,WCBASIC.WCID,BCPRODBASICID from BCPRODBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=BCPRODBASIC.BRANCHID  LEFT OUTER JOIN PROCESSMAST ON PROCESSMASTID=BCPRODBASIC.WPROCESSID  LEFT OUTER JOIN WCBASIC ON WCBASICID=BCPRODBASIC.WCID LEFT OUTER JOIN PSBASIC ON PSBASIC.PSBASICID=BCPRODBASIC.PSCHNO Where  BCPRODBASIC.BCPRODBASICID='" + name + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+
+        }
         public DataTable GetWorkCenter()
         {
             string SvSql = string.Empty;
@@ -325,16 +336,16 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        //public DataTable GetProcessid(string id)
-        //{
-        //    string SvSql = string.Empty;
-        //    SvSql = "Select PROCESSID ,PROCESSMASTID from PROCESSMAST";
-        //    DataTable dtt = new DataTable();
-        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-        //    adapter.Fill(dtt);
-        //    return dtt;
-        //}
+        public DataTable GetProd()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select DOCID,PSBASICID from PSBASIC";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetProcessid()
         {
             string SvSql = string.Empty;
@@ -409,6 +420,61 @@ namespace Arasan.Services
         {
             string SvSql = string.Empty;
             SvSql = "select BCPRODBASICID,PROCPARAM,to_char(BCPARAMDETAIL.PSDT,'dd-MON-yyyy')PSDT,to_char(BCPARAMDETAIL.PEDT,'dd-MON-yyyy')PEDT,PSTIME,PETIME,PARAMUNIT,PARAMVALUE from BCPARAMDETAIL where BCPRODBASICID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable BatchDetail(string name)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select BCPRODBASICID,WCBASIC.WCID,PROCESSMAST.PROCESSID,PSEQ,INSREQ from BCPRODDETAIL LEFT OUTER JOIN PROCESSMAST ON PROCESSMASTID=BCPRODDETAIL.PROCESSID LEFT OUTER JOIN WCBASIC ON WCBASICID=BCPRODDETAIL.BWCID where BCPRODBASICID='" + name + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable BatchInDetail(string name)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select BCPRODBASICID,PROCESSMAST.PROCESSID,ITEMMASTER.ITEMID,IUNIT,IQTY from BCINPUTDETAIL LEFT OUTER JOIN PROCESSMAST ON PROCESSMASTID=BCINPUTDETAIL.IPROCESSID LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=BCINPUTDETAIL.IITEMID where BCPRODBASICID='" + name + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable BatchOutDetail(string name)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select BCPRODBASICID,PROCESSMAST.PROCESSID,ITEMMASTER.ITEMID,OUNIT,OQTY,OTYPE,GPER,VMPER,OWPER from BCOUTPUTDETAIL LEFT OUTER JOIN PROCESSMAST ON PROCESSMASTID=BCOUTPUTDETAIL.OPROCESSID LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=BCOUTPUTDETAIL.OITEMID where BCPRODBASICID='" + name + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable BatchOtherDetail(string name)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select BCPRODBASICID,PROCESSMAST.PROCESSID,to_char(BCOTHERDETAIL.ESDT,'dd-MON-yyyy')ESDT,to_char(BCOTHERDETAIL.EEDT,'dd-MON-yyyy')EEDT,EST,EET,EPSEQ,ETOTHRS,EBRHRS,ERUNHRS,ENARR from BCOTHERDETAIL LEFT OUTER JOIN PROCESSMAST ON PROCESSMASTID=BCOTHERDETAIL.EPROCESSID where BCPRODBASICID='" + name + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable BatchParemItemDetail(string name)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select BCPRODBASICID,PROCPARAM,to_char(BCPARAMDETAIL.PSDT,'dd-MON-yyyy')PSDT,to_char(BCPARAMDETAIL.PEDT,'dd-MON-yyyy')PEDT,PSTIME,PETIME,PARAMUNIT,PARAMVALUE from BCPARAMDETAIL where BCPRODBASICID='" + name + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

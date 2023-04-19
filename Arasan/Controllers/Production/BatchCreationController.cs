@@ -33,6 +33,7 @@ namespace Arasan.Controllers
             ca.Processlst = BindProcess("");
             ca.Enterd = Request.Cookies["UserId"];
             ca.RecList = BindEmp();
+            ca.Prodlst = BindProd();
             ca.DocDate = DateTime.Now.ToString("dd-MMM-yyyy");
             List<BatchItem> TData = new List<BatchItem>();
             BatchItem tda = new BatchItem();
@@ -123,12 +124,6 @@ namespace Arasan.Controllers
                     {
                         tda = new BatchItem();
                         tda.WorkCenterlst = BindWorkCenter();
-                        //DataTable dt3 = new DataTable();
-                        //dt3 = Batch.GetWorkCenterGr(dt2.Rows[i]["PROCESSID"].ToString());
-                        //if (dt3.Rows.Count > 0)
-                        //{
-                        //    tda.WorkId = dt3.Rows[0]["WCID"].ToString();
-                        //}
                         tda.Processidlst = BindProcess(tda.WorkId);
                         tda.WorkId = dt2.Rows[i]["BWCID"].ToString();
                         tda.ProcessId = dt2.Rows[i]["PROCESSID"].ToString();
@@ -149,14 +144,10 @@ namespace Arasan.Controllers
                         tda1 = new BatchInItem();
                         tda1.IProcesslst = BindProcessid();
                         tda1.Process = dt3.Rows[0]["IPROCESSID"].ToString();
-  
                         tda1.Itemlst = BindItemlst(tda1.Process);
- 
-                        tda1.Item = dt3.Rows[0]["IITEMID"].ToString();
-                        tda1.Unit = dt3.Rows[0]["IUNIT"].ToString();
-                        tda1.Qty = dt3.Rows[0]["IQTY"].ToString();
-
-
+                        tda1.Item = dt3.Rows[i]["IITEMID"].ToString();
+                        tda1.Unit = dt3.Rows[i]["IUNIT"].ToString();
+                        tda1.Qty = dt3.Rows[i]["IQTY"].ToString();
                         tda1.ID = id;
                         TData1.Add(tda1);
                     }
@@ -171,15 +162,15 @@ namespace Arasan.Controllers
                 {
                     tda2 = new BatchOutItem();
                     tda2.OProcesslst = BindProcessid();
-                    tda2.OProcess = dt4.Rows[0]["OPROCESSID"].ToString();
+                    tda2.OProcess = dt4.Rows[i]["OPROCESSID"].ToString();
                     tda2.OItemlst = BindItemlst(tda2.OProcess);
-                    tda2.OItem = dt4.Rows[0]["OITEMID"].ToString();
-                    tda2.OUnit = dt4.Rows[0]["OUNIT"].ToString();
-                    tda2.OutType = dt4.Rows[0]["OTYPE"].ToString();
-                    tda2.OQty = dt4.Rows[0]["OQTY"].ToString();
-                    tda2.Waste = dt4.Rows[0]["OWPER"].ToString();
-                    tda2.Vmper = dt4.Rows[0]["VMPER"].ToString();
-                    tda2.Greas = dt4.Rows[0]["GPER"].ToString();
+                    tda2.OItem = dt4.Rows[i]["OITEMID"].ToString();
+                    tda2.OUnit = dt4.Rows[i]["OUNIT"].ToString();
+                    tda2.OutType = dt4.Rows[i]["OTYPE"].ToString();
+                    tda2.OQty = dt4.Rows[i]["OQTY"].ToString();
+                    tda2.Waste = dt4.Rows[i]["OWPER"].ToString();
+                    tda2.Vmper = dt4.Rows[i]["VMPER"].ToString();
+                    tda2.Greas = dt4.Rows[i]["GPER"].ToString();
                     tda2.ID = id;
                     TData2.Add(tda2);
                 }
@@ -193,18 +184,18 @@ namespace Arasan.Controllers
                     {
                         tda3 = new BatchOtherItem();
                         tda3.OProcessidlst = BindProcessid();
-                        tda3.OtProcessId = dt5.Rows[0]["EPROCESSID"].ToString();
+                        tda3.OtProcessId = dt5.Rows[i]["EPROCESSID"].ToString();
 
-                        tda3.Seqe = dt5.Rows[0]["EPSEQ"].ToString();
-                        tda3.Start = dt5.Rows[0]["ESDT"].ToString();
-                        tda3.StartT = dt5.Rows[0]["EST"].ToString();
-                        tda3.End = dt5.Rows[0]["EEDT"].ToString();
+                        tda3.Seqe = dt5.Rows[i]["EPSEQ"].ToString();
+                        tda3.Start = dt5.Rows[i]["ESDT"].ToString();
+                        tda3.StartT = dt5.Rows[i]["EST"].ToString();
+                        tda3.End = dt5.Rows[i]["EEDT"].ToString();
 
-                        tda3.EndT = dt5.Rows[0]["EET"].ToString();
-                        tda3.Total = dt5.Rows[0]["ETOTHRS"].ToString();
-                        tda3.Break = dt5.Rows[0]["EBRHRS"].ToString();
-                        tda3.RunHrs = dt5.Rows[0]["ERUNHRS"].ToString();
-                        tda3.Remark = dt5.Rows[0]["ENARR"].ToString();
+                        tda3.EndT = dt5.Rows[i]["EET"].ToString();
+                        tda3.Total = dt5.Rows[i]["ETOTHRS"].ToString();
+                        tda3.Break = dt5.Rows[i]["EBRHRS"].ToString();
+                        tda3.RunHrs = dt5.Rows[i]["ERUNHRS"].ToString();
+                        tda3.Remark = dt5.Rows[i]["ENARR"].ToString();
                         tda3.ID = id;
                         TData3.Add(tda3);
                     }
@@ -218,15 +209,15 @@ namespace Arasan.Controllers
                     {
                         tda4 = new BatchParemItem();
 
-                        tda4.Param = dt6.Rows[0]["PROCPARAM"].ToString();
+                        tda4.Param = dt6.Rows[i]["PROCPARAM"].ToString();
 
-                        tda4.PUnit = dt6.Rows[0]["PARAMUNIT"].ToString();
-                        tda4.StartDate = dt6.Rows[0]["PSDT"].ToString();
-                        tda4.StartTime = dt6.Rows[0]["PSTIME"].ToString();
-                        tda4.EndDate = dt6.Rows[0]["PEDT"].ToString();
+                        tda4.PUnit = dt6.Rows[i]["PARAMUNIT"].ToString();
+                        tda4.StartDate = dt6.Rows[i]["PSDT"].ToString();
+                        tda4.StartTime = dt6.Rows[i]["PSTIME"].ToString();
+                        tda4.EndDate = dt6.Rows[i]["PEDT"].ToString();
 
-                        tda4.EndTime = dt6.Rows[0]["PETIME"].ToString();
-                        tda4.Value = dt6.Rows[0]["PARAMVALUE"].ToString();
+                        tda4.EndTime = dt6.Rows[i]["PETIME"].ToString();
+                        tda4.Value = dt6.Rows[i]["PARAMVALUE"].ToString();
 
                         tda4.ID = id;
                         TData4.Add(tda4);
@@ -280,7 +271,128 @@ namespace Arasan.Controllers
 
             return View(Cy);
         }
-        public List<SelectListItem> BindBranch()
+        public IActionResult ViewBatch(string id)
+        {
+            BatchCreation ca = new BatchCreation();
+            DataTable dt = new DataTable();
+            //DataTable dtt = new DataTable();
+            dt = Batch.GetBatchCreationByName(id);
+            if (dt.Rows.Count > 0)
+            {
+                ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                ca.BatchNo = dt.Rows[0]["DOCID"].ToString();
+                ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
+                ca.Process = dt.Rows[0]["PROCESSID"].ToString();
+                ca.WorkCenter = dt.Rows[0]["WCID"].ToString();
+                ca.ID = id;
+                ca.Prod = dt.Rows[0]["DOCID"].ToString();
+                ca.RefBatch = dt.Rows[0]["REFDOCID"].ToString();
+                ca.Enterd = dt.Rows[0]["ENTEREDBY"].ToString();
+                ca.Narr = dt.Rows[0]["NARR"].ToString();
+                ca.Seq = dt.Rows[0]["SEQYN"].ToString();
+                ca.Shall = dt.Rows[0]["PTYPE"].ToString();
+                ca.Leaf = dt.Rows[0]["BTYPE"].ToString();
+                ca.IOFrom = Convert.ToDouble(dt.Rows[0]["IORATIOFROM"].ToString() == "" ? "0" : dt.Rows[0]["IORATIOFROM"].ToString());
+                ca.IOTo = Convert.ToDouble(dt.Rows[0]["IORATIOTO"].ToString() == "" ? "0" : dt.Rows[0]["IORATIOTO"].ToString());
+                ca.MTO = Convert.ToDouble(dt.Rows[0]["MTONO"].ToString() == "" ? "0" : dt.Rows[0]["MTONO"].ToString());
+
+
+                List<BatchItem> TData = new List<BatchItem>();
+                BatchItem tda = new BatchItem();
+                DataTable dt2 = Batch.BatchDetail(id);
+                for (int i = 0; i < dt2.Rows.Count; i++)
+                {
+                    tda = new BatchItem();
+                    tda.WorkCenterlst = BindWorkCenter();
+                    tda.Processidlst = BindProcess(tda.WorkId);
+                    tda.WorkId = dt2.Rows[i]["WCID"].ToString();
+                    tda.ProcessId = dt2.Rows[i]["PROCESSID"].ToString();
+                    tda.saveItemId = dt2.Rows[i]["PROCESSID"].ToString();
+                    tda.Seq = dt2.Rows[i]["PSEQ"].ToString();
+                    tda.Req = dt2.Rows[i]["INSREQ"].ToString();
+                    tda.ID = id;
+                    TData.Add(tda);
+                }
+                List<BatchInItem> TData1 = new List<BatchInItem>();
+                BatchInItem tda1 = new BatchInItem();
+                DataTable dt3 = Batch.BatchInDetail(id);
+                for (int i = 0; i < dt3.Rows.Count; i++)
+                {
+                    tda1 = new BatchInItem();
+                    tda1.IProcesslst = BindProcessid();
+                    tda1.Process = dt3.Rows[i]["PROCESSID"].ToString();
+                    tda1.Itemlst = BindItemlst(tda1.Process);
+                    tda1.Item = dt3.Rows[i]["ITEMID"].ToString();
+                    tda1.Unit = dt3.Rows[i]["IUNIT"].ToString();
+                    tda1.Qty = dt3.Rows[i]["IQTY"].ToString();
+                    tda1.ID = id;
+                    TData1.Add(tda1);
+                }
+                List<BatchOutItem> TData2 = new List<BatchOutItem>();
+                BatchOutItem tda2 = new BatchOutItem();
+                DataTable dt4 = Batch.BatchOutDetail(id);
+                for (int i = 0; i < dt4.Rows.Count; i++)
+                {
+                    tda2 = new BatchOutItem();
+                    tda2.OProcesslst = BindProcessid();
+                    tda2.OProcess = dt4.Rows[i]["PROCESSID"].ToString();
+                    tda2.OItemlst = BindItemlst(tda2.OProcess);
+                    tda2.OItem = dt4.Rows[i]["ITEMID"].ToString();
+                    tda2.OUnit = dt4.Rows[i]["OUNIT"].ToString();
+                    tda2.OutType = dt4.Rows[i]["OTYPE"].ToString();
+                    tda2.OQty = dt4.Rows[i]["OQTY"].ToString();
+                    tda2.Waste = dt4.Rows[i]["OWPER"].ToString();
+                    tda2.Vmper = dt4.Rows[i]["VMPER"].ToString();
+                    tda2.Greas = dt4.Rows[i]["GPER"].ToString();
+                    tda2.ID = id;
+                    TData2.Add(tda2);
+                }
+                List<BatchOtherItem> TData3 = new List<BatchOtherItem>();
+                BatchOtherItem tda3 = new BatchOtherItem();
+                DataTable dt5 = Batch.BatchOtherDetail(id);
+                for (int i = 0; i < dt5.Rows.Count; i++)
+                {
+                    tda3 = new BatchOtherItem();
+                    tda3.OProcessidlst = BindProcessid();
+                    tda3.OtProcessId = dt5.Rows[i]["EPROCESSID"].ToString();
+                    tda3.Seqe = dt5.Rows[i]["EPSEQ"].ToString();
+                    tda3.Start = dt5.Rows[i]["ESDT"].ToString();
+                    tda3.StartT = dt5.Rows[i]["EST"].ToString();
+                    tda3.End = dt5.Rows[i]["EEDT"].ToString();
+                    tda3.EndT = dt5.Rows[i]["EET"].ToString();
+                    tda3.Total = dt5.Rows[i]["ETOTHRS"].ToString();
+                    tda3.Break = dt5.Rows[i]["EBRHRS"].ToString();
+                    tda3.RunHrs = dt5.Rows[i]["ERUNHRS"].ToString();
+                    tda3.Remark = dt5.Rows[i]["ENARR"].ToString();
+                    tda3.ID = id;
+                    TData3.Add(tda3);
+                }
+                List<BatchParemItem> TData4 = new List<BatchParemItem>();
+                BatchParemItem tda4 = new BatchParemItem();
+                DataTable dt6 = Batch.BatchParemItemDetail(id);
+                for (int i = 0; i < dt6.Rows.Count; i++)
+                {
+                    tda4 = new BatchParemItem();
+                    tda4.Param = dt6.Rows[i]["PROCPARAM"].ToString();
+                    tda4.PUnit = dt6.Rows[i]["PARAMUNIT"].ToString();
+                    tda4.StartDate = dt6.Rows[i]["PSDT"].ToString();
+                    tda4.StartTime = dt6.Rows[i]["PSTIME"].ToString();
+                    tda4.EndDate = dt6.Rows[i]["PEDT"].ToString();
+                    tda4.EndTime = dt6.Rows[i]["PETIME"].ToString();
+                    tda4.Value = dt6.Rows[i]["PARAMVALUE"].ToString();
+
+                    tda4.ID = id;
+                    TData4.Add(tda4);
+                }
+                ca.BatchLst = TData;
+                ca.BatchInLst = TData1;
+                ca.BatchOutLst = TData2;
+                ca.BatchOtherLst = TData3;
+                ca.BatchParemLst = TData4;
+            }
+            return View(ca);
+        }
+            public List<SelectListItem> BindBranch()
         {
             try
             {
@@ -306,6 +418,23 @@ namespace Arasan.Controllers
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["EMPNAME"].ToString(), Value = dtDesg.Rows[i]["EMPNAME"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindProd()
+        {
+            try
+            {
+                DataTable dtDesg = Batch.GetProd();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DOCID"].ToString(), Value = dtDesg.Rows[i]["PSBASICID"].ToString() });
                 }
                 return lstdesg;
             }

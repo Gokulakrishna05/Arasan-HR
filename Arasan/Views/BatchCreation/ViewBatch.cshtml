@@ -1,0 +1,692 @@
+﻿@model Arasan.Models.BatchCreation
+
+@{
+    
+    ViewData["Title"] = "Batch Creation";
+}
+<style>
+    .newwidth {
+        width: 120px;
+    }
+    .mandatory{
+	color: red;
+	position:relative;
+	top:2px;
+	left:5px;
+}
+</style>
+
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a>Production</a> </li>
+            <li class="active"> <strong>Batch Creation</strong> </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    <h5 style="font-size:14px">Batch - Creation</h5>
+                    <hr>
+                    @using (Html.BeginForm("ViewBatch", "BatchCreation", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <form>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                       <br> <label for="inputName3" class="col-sm-4 control-label">Branch <label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.HiddenFor(C => C.ID)
+                                            @Html.DisplayFor(C => C.Branch)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                       <br> <label for="inputName3" class="col-sm-4 control-label">Work Center<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+
+                                            @Html.DisplayFor(C => C.WorkCenter)
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="height:15px;"></div>
+
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                       <br> <label for="inputName3" class="col-sm-4 control-label">Processer ID<label class="Mandatory"></label></label>
+
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.Process)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                       <br> <label for="inputName3" class="col-sm-4 control-label">Auto Seq.Y/N<label class="Mandatory"></label></label>
+
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.Seq)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                      <br>  <label for="inputName3" class="col-sm-4 control-label">Doc Date<label class="Mandatory"></label></label>
+
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.DocDate)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br><label for="inputName3" class="col-sm-4 control-label">Ref.Batch.No<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.RefBatch)
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div style="height:15px;"></div>
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br><label for="inputName3" class="col-sm-4 control-label">Shell Cleaning?<label class="mandatory"> *</label></label>
+
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.Shall)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br><label for="inputName3" class="col-sm-4 control-label">Batch No.<label class="Mandatory"></label></label>
+
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.BatchNo)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="height:15px;"></div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                       <br> <label for="inputName3" class="col-sm-4 control-label">Leafing<label class="mandatory"> *</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.Leaf)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br><label for="inputName3" class="col-sm-4 control-label">Prod.Sch.No<label class="mandatory"> *</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.Prod)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br><label for="inputName3" class="col-sm-4 control-label">Input/Output Radio From<label class="mandatory"> </label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.IOFrom)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                       <br> <label for="inputName3" class="col-sm-4 control-label">To<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.IOTo)
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br> <label for="inputName3" class="col-sm-4 control-label">MTO Circulation No.<label class="mandatory"> </label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.MTO)
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+
+                            <div style="height:30px;"></div>
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                    <div class="tabs-container">
+                                        <ul class="nav nav-tabs">
+                                            <li class="active"><a href="#tab-1" data-toggle="tab">Production Details</a></li>
+                                            <li><a href="#tab-2" data-toggle="tab">Input Details </a></li>
+                                            <li><a href="#tab-3" data-toggle="tab">Output Details </a></li>
+                                            <li><a href="#tab-4" data-toggle="tab">Other Process Details </a></li>
+                                            <li><a href="#tab-5" data-toggle="tab"> Process Parameters </a></li>
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div class="tab-pane active" id="tab-1">
+                                                <!-- 1st tab  -->
+                                                <div style="height:30px;"></div>
+                                                
+
+                                                <div class="row">
+                                                    <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
+
+                                                        <table class="table table-striped table-hover" id="dataTable">
+                                                            <thead>
+                                                                <tr>
+
+                                                                    <th>Work Center</th>
+                                                                    <th>Process ID</th>
+                                                                    <th> Seq </th>
+                                                                    <th> Insp.Req.? </th>
+
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="tbBooks">
+
+                                                                @{
+
+                                                                    int i = 0;
+
+
+                                                                    foreach (var item in Model.BatchLst.ToList())
+                                                                    {
+                                                                        <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                            <td>
+                                                                                
+                                                                                @Html.DisplayFor(o => o.BatchLst[i].WorkId)
+                                                                            </td>
+                                                                            <td>
+                                                                               
+                                                                                @Html.DisplayFor(o => o.BatchLst[i].ProcessId)
+                                                                            </td>
+                                                                            <td>
+                                                                                
+                                                                                @Html.DisplayFor(o => o.BatchLst[i].Seq)
+                                                                            </td>
+                                                                            <td>
+                                                                               
+                                                                                 @Html.DisplayFor(o => o.BatchLst[i].Req)
+                                                                            </td>
+                                                                        </tr>
+                                                                        i = i + 1;
+
+
+                                                                    }
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+
+
+                                                </div>
+                                                <!-- 1st tab  -->
+                                            </div>
+                                            <div class="tab-pane" id="tab-2">
+                                                <!-- 2nd tab  -->
+                                                <div style="height:30px;"></div>
+                                                
+
+                                                <div class="row">
+                                                    <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
+
+                                                        <table class="table table-striped table-hover" id="dataTable">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Process Id</th>
+                                                                    <th> Input Items </th>
+                                                                    <th>Unit </th>
+
+                                                                    <th>Input Qty  </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="tbBooks1">
+
+                                                                @{
+
+                                                                    int j = 0;
+
+                                                                    foreach (var item in Model.BatchInLst.ToList())
+                                                                    {
+                                                                        <tr id="trBook1@(j)" class="chkitemlst1" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                            <td>
+                                                                                 @Html.DisplayFor(o => o.BatchInLst[j].Process)
+                                                                            </td>
+                                                                            <td>
+                                                                                 @Html.DisplayFor(o => o.BatchInLst[j].Item)
+
+                                                                            </td>
+                                                                            <td>
+                                                                                 @Html.DisplayFor(o => o.BatchInLst[j].Unit)
+                                                                            </td>
+                                                                            <td>
+                                                                                 @Html.DisplayFor(o => o.BatchInLst[j].Qty)
+                                                                            </td>
+
+                                                                           
+                                                                        </tr>
+
+                                                                        j = j + 1;
+
+                                                                    }
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+
+                                                <!-- 2nd tab  -->
+                                            </div>
+                                            <div class="tab-pane" id="tab-3">
+                                                <!-- 3rd tab  -->
+                                                <div style="height:30px;"></div>
+                                                
+
+                                                <div class="row">
+                                                    <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
+
+                                                        <table class="table table-striped table-hover" id="dataTableOut">
+                                                            <thead>
+                                                                <tr>
+
+                                                                    <th>Process ID</th>
+                                                                    <th>Output Items</th>
+                                                                    <th> Unit </th>
+                                                                    <th> Output Type </th>
+                                                                    <th> Output Qty</th>
+                                                                    <th> Waste %</th>
+                                                                    <th> VM Per % </th>
+                                                                    <th> Grease %</th>
+
+
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="tbBooksout">
+
+                                                                @{
+
+                                                                    int g = 0;
+
+                                                                    foreach (var item in Model.BatchOutLst.ToList())
+                                                                    {
+                                                                        <tr id="trBookout@(g)" class="chkitemlstout" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                            <td>
+                                                                                
+                                                                                  @Html.DisplayFor(o => o.BatchOutLst[g].OProcess)
+                                                                            </td>
+                                                                            <td>
+                                                                                
+                                                                                  @Html.DisplayFor(o => o.BatchOutLst[g].OItem)
+                                                                            </td>
+                                                                            <td>
+                                                                               
+                                                                                  @Html.DisplayFor(o => o.BatchOutLst[g].OUnit)
+                                                                            </td>
+                                                                            <td>
+                                                                               
+                                                                                  @Html.DisplayFor(o => o.BatchOutLst[g].OutType)
+                                                                            </td>
+                                                                            <td>
+                                                                              
+                                                                                  @Html.DisplayFor(o => o.BatchOutLst[g].OQty)
+                                                                            </td>
+                                                                            <td>
+                                                                                
+                                                                                @Html.DisplayFor(o => o.BatchOutLst[g].Waste)
+                                                                            </td>
+                                                                            <td>
+                                                                               
+                                                                                @Html.DisplayFor(o => o.BatchOutLst[g].Vmper)
+
+                                                                            </td>
+                                                                            <td>
+
+                                                                                @Html.DisplayFor(o => o.BatchOutLst[g].Greas)
+
+                                                                            </td>
+
+                                                                           
+                                                                        </tr>
+
+                                                                        g = g + 1;
+
+                                                                    }
+                                                                }
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+
+                                                <!-- 3rd tab  -->
+                                            </div>
+                                            <div class="tab-pane" id="tab-4">
+                                                <!-- 4th tab  -->
+                                                <div style="height:30px;"></div>
+                                                
+
+                                                <div class="row">
+                                                    <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
+
+                                                        <table class="table table-striped table-hover" id="dataTableOther">
+                                                            <thead>
+                                                                <tr>
+
+                                                                    <th>Process ID </th>
+                                                                    <th>Seq</th>
+                                                                    <th> Start Date </th>
+                                                                    <th> Start Time </th>
+                                                                    <th>End Date</th>
+                                                                    <th> End Time </th>
+                                                                    <th>Tot Hrs </th>
+                                                                    <th> Break Down(Hrs)</th>
+                                                                    <th> Run Hrs </th>
+                                                                    <th> Remarks </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="tbBooksOther">
+
+                                                                @{
+
+                                                                    int k = 0;
+
+                                                                    foreach (var item in Model.BatchOtherLst.ToList())
+                                                                    {
+                                                                        <tr id="trBookOther@(k)" class="chkitemlstOther" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                            <td>
+                                                                                 @Html.DisplayFor(o => o.BatchOtherLst[k].OtProcessId)
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.DisplayFor(o => o.BatchOtherLst[k].Seqe)
+                                                                            </td>
+                                                                            <td>
+                                                                                    @Html.DisplayFor(o => o.BatchOtherLst[k].Start)
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.DisplayFor(o => o.BatchOtherLst[k].StartT)
+                                                                            </td>
+                                                                            <td>
+                                                                             @Html.DisplayFor(o => o.BatchOtherLst[k].End)
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.DisplayFor(o => o.BatchOtherLst[k].EndT)
+                                                                            </td>
+                                                                            <td>
+                                                                                 @Html.DisplayFor(o => o.BatchOtherLst[k].Total)
+                                                                            </td>
+                                                                            <td>
+                                                                                 @Html.DisplayFor(o => o.BatchOtherLst[k].Break)
+                                                                            </td>
+                                                                            <td>
+                                                                                 @Html.DisplayFor(o => o.BatchOtherLst[k].RunHrs)
+                                                                            </td>
+                                                                            <td>
+                                                                                 @Html.DisplayFor(o => o.BatchOtherLst[k].Remark)
+                                                                            </td>
+                                                                        </tr>
+
+                                                                        k = k + 1;
+
+                                                                    }
+                                                                }
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+
+                                                <!-- 4th tab  -->
+                                            </div>
+                                            <div class="tab-pane" id="tab-5">
+                                                <!-- 5th tab  -->
+                                                <div style="height:30px;"></div>
+                                               
+
+                                                <div class="row">
+                                                    <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
+
+                                                        <table class="table table-striped table-hover" id="dataTableParam">
+                                                            <thead>
+                                                                <tr>
+
+                                                                    <th>Parameter </th>
+                                                                    <th>Unit</th>
+                                                                    <th> Start Date </th>
+                                                                    <th> Start Time </th>
+                                                                    <th>End Date</th>
+                                                                    <th> End Time </th>
+                                                                    <th>Param Value </th>
+
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="tbBooks">
+
+                                                                @{
+
+                                                                    int a = 0;
+
+                                                                    foreach (var item in Model.BatchParemLst.ToList())
+                                                                    {
+                                                                        <tr id="trBookParam@(a)" class="chkitemlstParam" style="height: 30px;border-bottom: 1px dashed #ddd;">
+
+                                                                            <td>
+                                                                                 @Html.DisplayFor(o => o.BatchParemLst[a].Param)
+
+                                                                            </td>
+                                                                            <td>
+                                                                                 @Html.DisplayFor(o => o.BatchParemLst[a].PUnit)
+                                                                            </td>
+                                                                            <td>
+                                                                                 @Html.DisplayFor(o => o.BatchParemLst[a].StartDate)
+                                                                            </td>
+                                                                            <td>
+                                                                                 @Html.DisplayFor(o => o.BatchParemLst[a].StartTime)
+                                                                            </td>
+                                                                            <td>
+                                                                                 @Html.DisplayFor(o => o.BatchParemLst[a].EndDate)
+                                                                            </td>
+                                                                            <td>
+                                                                                 @Html.DisplayFor(o => o.BatchParemLst[a].EndTime)
+                                                                            </td>
+
+                                                                            <td>
+                                                                                 @Html.DisplayFor(o => o.BatchParemLst[a].Value)
+                                                                            </td>
+
+
+                                                                            
+                                                                        </tr>
+
+                                                                        a = a + 1;
+
+                                                                    }
+                                                                }
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+
+                                                </div>
+                                                <!-- 5th tab  -->
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                            <div style="height:30px;"></div>
+
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                       <br> <label for="inputName3" class="col-sm-4 control-label">Entered By<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                        @Html.DisplayFor(C => C.Enterd)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                       <br> <label for="inputName3" class="col-sm-4 control-label">Narration<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                        @Html.DisplayFor(C => C.Narr)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                           @* <div class="row">
+
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Total Output Qty<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.totaloutqty)<br />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Total Waste<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.wastageqty)<br />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Total RM Value<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.totalRmValue)<br />
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Machine Value<label class="Mandatory"></label></label>
+
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.Machine)<br />
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Cons.Value<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.CosValue)<br />
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Total RM Qty<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.totaRmqty)<br />
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>*@
+
+
+
+
+                            <div style="height:30px;"></div>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListBatchCreation", "BatchCreation")'">Cancel</button>
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    $(function () {
+        var entry = '@ViewBag.entrytype';
+        changeentry(entry);
+        function changeentry(typeid) {
+            if (typeid == "INPUT") {
+                document.getElementById("ainp").click();
+    @*window.location.href = href*@
+                    document.getElementById("liinp").style.display = "block";
+                document.getElementById("liinpC").style.display = "block";
+                document.getElementById("liout").style.display = "none";
+                document.getElementById("lioutW").style.display = "none";
+            }
+            else if (typeid == "OUTPUT") {
+                document.getElementById("aout").click();;
+    @*  window.location.href = href*@
+                    document.getElementById("liinp").style.display = "none";
+                document.getElementById("liinpC").style.display = "none";
+                document.getElementById("liout").style.display = "block";
+                document.getElementById("lioutW").style.display = "block";
+            }
+            else {
+                document.getElementById("ainp").click();
+    @*window.location.href = href*@
+                    document.getElementById("liinp").style.display = "block";
+                document.getElementById("liinpC").style.display = "block";
+                document.getElementById("liout").style.display = "block";
+                document.getElementById("lioutW").style.display = "block";
+            }
+        }
+    });
+</script>
+

@@ -20,5 +20,12 @@ namespace Arasan.Interface
         DataTable GetBatchCreationOutputDetail(string id);
         DataTable GetBatchCreationOtherDetail(string id);
         DataTable GetBatchCreationParmDetail(string id);
+        DataTable GetBatchCreationByName(string name);
+        DataTable BatchDetail(string name);
+        DataTable BatchInDetail(string name);
+        DataTable BatchOutDetail(string name);
+        DataTable BatchOtherDetail(string name);
+        DataTable BatchParemItemDetail(string name);
+        DataTable GetProd();
     }
 }
