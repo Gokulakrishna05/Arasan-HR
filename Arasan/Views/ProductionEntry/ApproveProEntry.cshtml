@@ -1,5 +1,6 @@
 ﻿@model Arasan.Models.ProductionEntry
 @{
+     Layout = "_PopupLayout";
     ViewData["Title"] = "Production Entry";
 }
 <style>
@@ -209,23 +210,23 @@
                                                             int i = 0;
                                                             foreach (var item in Model.inputlst.ToList())
                                                             {
-                                                                                                                                                  <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
-                                                                                                                                                    
-                                                                                                                                                                                                <td>
-                                                                                                @Html.DisplayFor(o => o.inputlst[i].ItemId)
-                                                                                                                                                                                                </td>
-                                                                                                                                                        <td>@Html.DisplayFor(o => o.inputlst[i].BinId)</td> 
-                                                                                                                                                         <td>@Html.DisplayFor(o => o.inputlst[i].drumno)
-                                                                                                                                                          </td>
-                                                                                                                                                         <td>@Html.DisplayFor(o => o.inputlst[i].batchno)</td> 
-                                                                                                                                                        <td> @Html.DisplayFor(o => o.inputlst[i].batchqty)</td>
-                                                                                                                                                        <td>@Html.DisplayFor(o => o.inputlst[i].StockAvailable)</td>
-                                                                                                                                                        <td>@Html.TextBoxFor(o => o.inputlst[i].IssueQty, new { @id = "txtIssueQty" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")" })</td>
-                                                                                                                                                        <td>@Html.DisplayFor(o => o.inputlst[i].MillLoadAdd)</td>
-                                                                                                                                                        <td> @Html.DisplayFor(o => o.inputlst[i].Output)</td>
+                                                                                                                                                      <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
                                                                                                                                                         
+                                                                                                                                                                                                    <td>
+                                                                                                    @Html.DisplayFor(o => o.inputlst[i].ItemId)
+                                                                                                                                                                                                    </td>
+                                                                                                                                                            <td>@Html.DisplayFor(o => o.inputlst[i].BinId)</td> 
+                                                                                                                                                             <td>@Html.DisplayFor(o => o.inputlst[i].drumno)
+                                                                                                                                                              </td>
+                                                                                                                                                             <td>@Html.DisplayFor(o => o.inputlst[i].batchno)</td> 
+                                                                                                                                                            <td> @Html.DisplayFor(o => o.inputlst[i].batchqty)</td>
+                                                                                                                                                            <td>@Html.DisplayFor(o => o.inputlst[i].StockAvailable)</td>
+                                                                                                                                                            <td>@Html.TextBoxFor(o => o.inputlst[i].IssueQty, new { @id = "txtIssueQty" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")" })</td>
+                                                                                                                                                            <td>@Html.DisplayFor(o => o.inputlst[i].MillLoadAdd)</td>
+                                                                                                                                                            <td> @Html.DisplayFor(o => o.inputlst[i].Output)</td>
+                                                                                                                                                            
 
-                                                                                                                                                    </tr>
+                                                                                                                                                        </tr>
                                                       
                                                           i = i + 1;
                                                             }
@@ -259,20 +260,20 @@
                                                             int j = 0;
                                                             foreach (var item in Model.inconslst.ToList())
                                                             {
-                                                                                                                                                  <tr id="trBookinc@(j)" class="chkitemlstinc" style="height: 30px;border-bottom: 1px dashed #ddd;">
-                                                                                                                                                    
-                                                                                                                                                                                                <td>
-                                                                                                                                                                                                    @Html.DisplayFor(o => o.inconslst[j].ItemId)
-                                                                                                                                                                                                </td>
-                                                                                                                                                                                                <td>@Html.DisplayFor(o => o.inconslst[j].consunit)</td> 
-                                                                                                                                                        <td>@Html.DisplayFor(o => o.inconslst[j].BinId)</td> 
-                                                                                                                                                        <td>@Html.DisplayFor(o => o.inconslst[j].ConsStock)</td>
-                                                                                                                                                        <td>@Html.DisplayFor(o => o.inconslst[j].consQty)</td>
-                                                                                                                                                       
-                                                                                                                                                         
+                                                                                                                                                      <tr id="trBookinc@(j)" class="chkitemlstinc" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                                                                                                        
+                                                                                                                                                                                                    <td>
+                                                                                                                                                                                                        @Html.DisplayFor(o => o.inconslst[j].ItemId)
+                                                                                                                                                                                                    </td>
+                                                                                                                                                                                                    <td>@Html.DisplayFor(o => o.inconslst[j].consunit)</td> 
+                                                                                                                                                            <td>@Html.DisplayFor(o => o.inconslst[j].BinId)</td> 
+                                                                                                                                                            <td>@Html.DisplayFor(o => o.inconslst[j].ConsStock)</td>
+                                                                                                                                                            <td>@Html.DisplayFor(o => o.inconslst[j].consQty)</td>
+                                                                                                                                                           
+                                                                                                                                                             
 
 
-                                                                                                                                                    </tr>
+                                                                                                                                                        </tr>
                                                       
                                                           j = j + 1;
                                                             }
@@ -315,30 +316,30 @@
                                                             int k = 0;
                                                             foreach (var item in Model.outlst.ToList())
                                                             {
-                                                                                                                                                  <tr id="trBookout@(k)" class="chkitemlstout" style="height: 30px;border-bottom: 1px dashed #ddd;">
-                                                                                                                                                    
-                                                                                                                                                                                                <td>
-                                                                                                                                                                                                    @Html.DisplayFor(o => o.outlst[k].ItemId)
-                                                                                                                                                                                                </td>
-                                                                                                                                                                                                 <td>@Html.DisplayFor(o => o.outlst[k].startdate)</td>
-                                                                                                                                                                                               
-                                                                                                                                 <td>@Html.DisplayFor(o => o.outlst[k].starttime)</td>
-                                                                                                                                  <td>@Html.DisplayFor(o => o.outlst[k].enddate)</td>
-                                                                                                                                
-                                                                                                                                 <td>@Html.DisplayFor(o => o.outlst[k].endtime)</td>
-                                                                                            <td>
-                                                                                                @Html.DisplayFor(o => o.outlst[k].drumno)
-                                                                                                                                                          </td>
-                                                                                                                                <td>@Html.DisplayFor(o => o.outlst[k].batchno)</td> 
-                                                                                                                                                        <td>@Html.DisplayFor(o => o.outlst[k].OutStock)</td>
-                                                                                                                                                        <td>@Html.DisplayFor(o => o.outlst[k].OutQty)</td>
-                                                                                                                                                       <td>@Html.DisplayFor(o => o.outlst[k].ExcessQty)</td>
-                                                                                                                                                           <td>@Html.DisplayFor(o => o.outlst[k].status)</td>
-                                                                                                                                                            <td>@Html.DisplayFor(o => o.outlst[k].toloc)</td>
-                                                                                                                                                     
+                                                                                                                                                      <tr id="trBookout@(k)" class="chkitemlstout" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                                                                                                        
+                                                                                                                                                                                                    <td>
+                                                                                                                                                                                                        @Html.DisplayFor(o => o.outlst[k].ItemId)
+                                                                                                                                                                                                    </td>
+                                                                                                                                                                                                     <td>@Html.DisplayFor(o => o.outlst[k].startdate)</td>
+                                                                                                                                                                                                   
+                                                                                                                                     <td>@Html.DisplayFor(o => o.outlst[k].starttime)</td>
+                                                                                                                                      <td>@Html.DisplayFor(o => o.outlst[k].enddate)</td>
+                                                                                                                                    
+                                                                                                                                     <td>@Html.DisplayFor(o => o.outlst[k].endtime)</td>
+                                                                                                <td>
+                                                                                                    @Html.DisplayFor(o => o.outlst[k].drumno)
+                                                                                                                                                              </td>
+                                                                                                                                    <td>@Html.DisplayFor(o => o.outlst[k].batchno)</td> 
+                                                                                                                                                            <td>@Html.DisplayFor(o => o.outlst[k].OutStock)</td>
+                                                                                                                                                            <td>@Html.DisplayFor(o => o.outlst[k].OutQty)</td>
+                                                                                                                                                           <td>@Html.DisplayFor(o => o.outlst[k].ExcessQty)</td>
+                                                                                                                                                               <td>@Html.DisplayFor(o => o.outlst[k].status)</td>
+                                                                                                                                                                <td>@Html.DisplayFor(o => o.outlst[k].toloc)</td>
+                                                                                                                                                         
 
 
-                                                                                                                                                    </tr>
+                                                                                                                                                        </tr>
                                                       
                                                           k = k + 1;
                                                             }
@@ -373,19 +374,19 @@
                                                             int m = 0;
                                                             foreach (var item in Model.wastelst.ToList())
                                                             {
-                                                                                                                                                  <tr id="trBookinc@(m)" class="chkitemlstinc" style="height: 30px;border-bottom: 1px dashed #ddd;">
-                                                                                                                                                    
-                                                                                                                                                                                                <td>
-                                                                                                                                                                                                    @Html.DisplayFor(o => o.wastelst[m].ItemId)
-                                                                                                                                                                                                </td>
-                                                                                                                                                                                                <td>@Html.DisplayFor(o => o.wastelst[m].batchno)</td> 
-                                                                                                                                                        <td>@Html.DisplayFor(o => o.wastelst[m].wastageQty)</td>
-                                                                                                                                                        <td>@Html.DisplayFor(o => o.wastelst[m].toloc)</td>
-                                                                                                                                                        <td>@Html.DisplayFor(o => o.wastelst[m].BinId)</td>
-                                                                                                                                                           
+                                                                                                                                                      <tr id="trBookinc@(m)" class="chkitemlstinc" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                                                                                                        
+                                                                                                                                                                                                    <td>
+                                                                                                                                                                                                        @Html.DisplayFor(o => o.wastelst[m].ItemId)
+                                                                                                                                                                                                    </td>
+                                                                                                                                                                                                    <td>@Html.DisplayFor(o => o.wastelst[m].batchno)</td> 
+                                                                                                                                                            <td>@Html.DisplayFor(o => o.wastelst[m].wastageQty)</td>
+                                                                                                                                                            <td>@Html.DisplayFor(o => o.wastelst[m].toloc)</td>
+                                                                                                                                                            <td>@Html.DisplayFor(o => o.wastelst[m].BinId)</td>
+                                                                                                                                                               
 
 
-                                                                                                                                                    </tr>
+                                                                                                                                                        </tr>
                                                       
                                                           m = m + 1;
                                                             }
@@ -541,5 +542,20 @@
                     document.getElementById("lioutW").style.display = "block";
                 }
             }
+             var shift = '@ViewBag.shift';
+                changeshift(shift);
+       function changeshift(Shiftid) {
+           $.ajax({
+               url: 'GetshiftDetail',
+               data: { "Shiftid": Shiftid },
+               type: "GET",
+               success: function(result) {
+                   document.getElementById("shiftdetails").innerHTML = result.fromtime + " to " + result.totime + "  Total Hours : " + result.tothrs;
+               },
+               error: function() {
+                   alert("Data Not Found");
+               }
+           });
+       }
   });
 </script>

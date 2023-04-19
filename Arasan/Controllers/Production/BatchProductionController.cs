@@ -35,6 +35,7 @@ namespace Arasan.Controllers
             ca.RecList = BindEmp();
             ca.ProdLoglst = BindProdLog();
             ca.ProdSchlst = BindProdSch();
+            ca.Batchlst = BindBatch();
             List<ProInputItem> TData = new List<ProInputItem>();
             ProInputItem tda = new ProInputItem();
 
@@ -46,7 +47,7 @@ namespace Arasan.Controllers
 
             List<Bwastage> TData3 = new List<Bwastage>();
             Bwastage tda3 = new Bwastage();
-            if (id != null)
+            if (id == null)
             {
                 for (int i = 0; i < 1; i++)
                 {
@@ -119,7 +120,7 @@ namespace Arasan.Controllers
                     ca.totaRmqty = Convert.ToDouble(dt.Rows[0]["TOTRMQTY"].ToString() == "" ? "0" : dt.Rows[0]["TOTRMQTY"].ToString());
                     ca.totalRmValue = Convert.ToDouble(dt.Rows[0]["TOTRMVALUE"].ToString() == "" ? "0" : dt.Rows[0]["TOTRMVALUE"].ToString());
                     ca.CosValue = Convert.ToDouble(dt.Rows[0]["TOTCONSVALUE"].ToString() == "" ? "0" : dt.Rows[0]["TOTCONSVALUE"].ToString());
-
+                    ViewBag.entrytype = ca.EntryType;
                     ca.Machine = Convert.ToDouble(dt.Rows[0]["TOTMACHINEVALUE"].ToString() == "" ? "0" : dt.Rows[0]["TOTMACHINEVALUE"].ToString());
                 }
                 DataTable dt2 = new DataTable();
@@ -137,8 +138,8 @@ namespace Arasan.Controllers
                         tda.drumno = dt2.Rows[i]["IDRUMNO"].ToString();
                         tda.BinId = dt2.Rows[i]["IBINID"].ToString();
                         tda.batchno = dt2.Rows[i]["IBATCHNO"].ToString();
-                        tda.batchqty = Convert.ToDouble(dt2.Rows[0]["IBATCHQTY"].ToString() == "" ? "0" : dt2.Rows[0]["IBATCHQTY"].ToString());
-                        tda.IssueQty = Convert.ToDouble(dt2.Rows[0]["IQTY"].ToString() == "" ? "0" : dt2.Rows[0]["IQTY"].ToString());
+                        tda.batchqty = Convert.ToDouble(dt2.Rows[i]["IBATCHQTY"].ToString() == "" ? "0" : dt2.Rows[i]["IBATCHQTY"].ToString());
+                        tda.IssueQty = Convert.ToDouble(dt2.Rows[i]["IQTY"].ToString() == "" ? "0" : dt2.Rows[i]["IQTY"].ToString());
                         tda.ID = id;
                         TData.Add(tda);
                     }
@@ -159,8 +160,8 @@ namespace Arasan.Controllers
                       
                         tda1.BinId = dt3.Rows[i]["CBINID"].ToString();
                         tda1.consunit = dt3.Rows[i]["CUNIT"].ToString();
-                        tda1.consQty = Convert.ToDouble(dt3.Rows[0]["CONSQTY"].ToString() == "" ? "0" : dt3.Rows[0]["CONSQTY"].ToString());
-                        tda1.ConsStock = Convert.ToDouble(dt3.Rows[0]["CVALUE"].ToString() == "" ? "0" : dt3.Rows[0]["CVALUE"].ToString());
+                        tda1.consQty = Convert.ToDouble(dt3.Rows[i]["CONSQTY"].ToString() == "" ? "0" : dt3.Rows[i]["CONSQTY"].ToString());
+                        tda1.ConsStock = Convert.ToDouble(dt3.Rows[i]["CVALUE"].ToString() == "" ? "0" : dt3.Rows[i]["CVALUE"].ToString());
                         tda1.ID = id;
                         TData1.Add(tda1);
                     }
@@ -188,10 +189,10 @@ namespace Arasan.Controllers
                         tda2.endtime = dt4.Rows[i]["ETIME"].ToString();
                         tda2.toloc = dt4.Rows[i]["TOLOCATION"].ToString();
                         tda2.status = dt4.Rows[i]["STATUS"].ToString();
-                        tda2.OutStock = Convert.ToDouble(dt4.Rows[0]["OSTOCK"].ToString() == "" ? "0" : dt4.Rows[0]["OSTOCK"].ToString());
+                        tda2.OutStock = Convert.ToDouble(dt4.Rows[i]["OSTOCK"].ToString() == "" ? "0" : dt4.Rows[i]["OSTOCK"].ToString());
                        
-                        tda2.ExcessQty = Convert.ToDouble(dt4.Rows[0]["OXQTY"].ToString() == "" ? "0" : dt4.Rows[0]["OXQTY"].ToString());
-                        tda2.OutQty = Convert.ToDouble(dt4.Rows[0]["OQTY"].ToString() == "" ? "0" : dt4.Rows[0]["OQTY"].ToString());
+                        tda2.ExcessQty = Convert.ToDouble(dt4.Rows[i]["OXQTY"].ToString() == "" ? "0" : dt4.Rows[i]["OXQTY"].ToString());
+                        tda2.OutQty = Convert.ToDouble(dt4.Rows[i]["OQTY"].ToString() == "" ? "0" : dt4.Rows[i]["OQTY"].ToString());
                         tda2.ID = id;
                         TData2.Add(tda2);
                     }
@@ -212,7 +213,7 @@ namespace Arasan.Controllers
 
                         tda3.BinId = dt5.Rows[i]["WBINID"].ToString();
                         tda3.batchno = dt5.Rows[i]["WBATCHNO"].ToString();
-                        tda3.wastageQty = Convert.ToDouble(dt5.Rows[0]["WQTY"].ToString() == "" ? "0" : dt3.Rows[0]["WQTY"].ToString());
+                        tda3.wastageQty = Convert.ToDouble(dt5.Rows[i]["WQTY"].ToString() == "" ? "0" : dt3.Rows[i]["WQTY"].ToString());
                         tda3.toloc = dt5.Rows[i]["WLOCATION"].ToString();
                         tda3.ID = id;
                         TData3.Add(tda3);
@@ -287,6 +288,13 @@ namespace Arasan.Controllers
                 ca.CosValue = dt.Rows[0]["TOTCONSVALUE"].ToString() != "" ? Convert.ToDouble(dt.Rows[0]["TOTCONSVALUE"].ToString()) : 0;
                 ca.totaRmqty = dt.Rows[0]["TOTRMQTY"].ToString() != "" ? Convert.ToDouble(dt.Rows[0]["TOTRMQTY"].ToString()) : 0;
                 ViewBag.entrytype = ca.EntryType;
+                ViewBag.shift = ca.Shift;
+                ca.BatchNo= dt.Rows[0]["BATCH"].ToString();
+                ca.batchcomplete= dt.Rows[0]["BATCHCOMP"].ToString();
+                ca.ProdQty = Convert.ToDouble(dt.Rows[0]["PRODQTY"].ToString() == "" ? "0" : dt.Rows[0]["PRODQTY"].ToString());
+                ca.SchQty = Convert.ToDouble(dt.Rows[0]["SCHQTY"].ToString() == "" ? "0" : dt.Rows[0]["SCHQTY"].ToString());
+                ca.ProdLogId= dt.Rows[0]["prodlog"].ToString();
+                ca.ProdSchNo= dt.Rows[0]["Prodsch"].ToString();
                 List<ProIn> TData = new List<ProIn>();
                 ProIn tda = new ProIn();
                 DataTable dtproin = IProductionEntry.ProIndetail(PROID);
@@ -401,6 +409,23 @@ namespace Arasan.Controllers
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DOCID"].ToString(), Value = dtDesg.Rows[i]["PSBASICID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindBatch()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetBatch();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DOCID"].ToString(), Value = dtDesg.Rows[i]["DOCID"].ToString() });
                 }
                 return lstdesg;
             }

@@ -22,7 +22,7 @@ namespace Arasan.Controllers
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public IActionResult ProductionEntry()
+        public IActionResult ProductionEntry(string id)
         {
             ProductionEntry ca = new ProductionEntry();
             ca.Brlst = BindBranch();
@@ -37,51 +37,189 @@ namespace Arasan.Controllers
             ca.ProdLoglst= BindProdLog();
             ca.ProdSchlst= BindProdSch();
             ca.Shiftdate = DateTime.Now.ToString("dd-MMM-yyyy");
+
             List<ProIn> TData = new List<ProIn>();
             ProIn tda = new ProIn();
-            for (int i = 0; i < 1; i++)
-            {
-                tda = new ProIn();
-               // tda.ItemGrouplst = BindItemGrplst();
-                tda.Itemlst = BindItemlst("");
-                tda.drumlst = Binddrum();
-                tda.outputlst = Bindoutput();
-                tda.Isvalid = "Y";
-                TData.Add(tda);
-            }
 
             List<ProInCons> TData1 = new List<ProInCons>();
             ProInCons tda1 = new ProInCons();
-            for (int i = 0; i < 1; i++)
-            {
-                tda1 = new ProInCons();
-                tda1.Itemlst = BindItemlst("");
-                tda1.Isvalid = "Y";
-                TData1.Add(tda1);
-            }
 
             List<output> TData2 = new List<output>();
             output tda2 = new output();
-            for (int i = 0; i < 1; i++)
-            {
-                tda2 = new output();
-                tda2.Itemlst = BindItemlst("");
-                tda2.drumlst = BinddrumOut();
-                tda2.statuslst = BindStatus();
-                tda2.loclst = BindLocation();
-                tda2.Isvalid = "Y";
-                TData2.Add(tda2);
-            }
 
             List<wastage> TData3 = new List<wastage>();
             wastage tda3 = new wastage();
-            for (int i = 0; i < 1; i++)
+            if (id == null)
             {
-                tda3 = new wastage();
-                tda3.Itemlst = BindItemlst("");
-                tda3.loclst= BindLocation();
-                tda3.Isvalid = "Y";
-                TData3.Add(tda3);
+                for (int i = 0; i < 1; i++)
+                {
+                     tda = new ProIn();
+                     tda.Itemlst = BindItemlst("");
+                     tda.drumlst = Binddrum();
+                     tda.outputlst = Bindoutput();
+                     tda.Isvalid = "Y";
+                     TData.Add(tda);
+                }
+
+           
+                for (int i = 0; i < 1; i++)
+                {
+                    tda1 = new ProInCons();
+                    tda1.Itemlst = BindItemlst("");
+                    tda1.Isvalid = "Y";
+                    TData1.Add(tda1);
+                }
+
+            
+                for (int i = 0; i < 1; i++)
+                {
+                    tda2 = new output();
+                    tda2.Itemlst = BindItemlst("");
+                    tda2.drumlst = BinddrumOut();
+                    tda2.statuslst = BindStatus();
+                    tda2.loclst = BindLocation();
+                    tda2.Isvalid = "Y";
+                    TData2.Add(tda2);
+                }
+
+           
+                for (int i = 0; i < 1; i++)
+                {
+                    tda3 = new wastage();
+                    tda3.Itemlst = BindItemlst("");
+                    tda3.loclst= BindLocation();
+                    tda3.Isvalid = "Y";
+                    TData3.Add(tda3);
+                }
+           
+            }
+            else
+            {
+                DataTable dt = new DataTable();
+                double total = 0;
+                dt = IProductionEntry.GetProduction(id);
+                if (dt.Rows.Count > 0)
+                {
+                    ca.Branch = dt.Rows[0]["BRANCH"].ToString();
+                    ca.Shiftdate = dt.Rows[0]["DOCDATE"].ToString();
+                    ca.Location = dt.Rows[0]["WCID"].ToString();
+                    ca.ID = id;
+                    ca.ProcessId = dt.Rows[0]["PROCESSID"].ToString();
+                    ca.DocId = dt.Rows[0]["DOCID"].ToString();
+                    ca.Enterd = dt.Rows[0]["ENTEREDBY"].ToString();
+                    ca.ProdLogId = dt.Rows[0]["PRODLOGID"].ToString();
+                    ca.ProdSchNo = dt.Rows[0]["PSCHNO"].ToString();
+                    ca.Shift = dt.Rows[0]["SHIFT"].ToString();
+                    ca.EntryType = dt.Rows[0]["ETYPE"].ToString();
+                    ca.ProdQty = Convert.ToDouble(dt.Rows[0]["PRODQTY"].ToString() == "" ? "0" : dt.Rows[0]["PRODQTY"].ToString());
+                    ca.SchQty = Convert.ToDouble(dt.Rows[0]["SCHQTY"].ToString() == "" ? "0" : dt.Rows[0]["SCHQTY"].ToString());
+                    ca.totalinqty = Convert.ToDouble(dt.Rows[0]["TOTALINPUT"].ToString() == "" ? "0" : dt.Rows[0]["TOTALINPUT"].ToString());
+                    ca.totaloutqty = Convert.ToDouble(dt.Rows[0]["TOTALOUTPUT"].ToString() == "" ? "0" : dt.Rows[0]["TOTALOUTPUT"].ToString());
+                    ca.wastageqty = Convert.ToDouble(dt.Rows[0]["TOTALWASTAGE"].ToString() == "" ? "0" : dt.Rows[0]["TOTALWASTAGE"].ToString());
+                    ca.totalconsqty = Convert.ToDouble(dt.Rows[0]["TOTCONSQTY"].ToString() == "" ? "0" : dt.Rows[0]["TOTCONSQTY"].ToString());
+                    ca.totaRmqty = Convert.ToDouble(dt.Rows[0]["TOTRMQTY"].ToString() == "" ? "0" : dt.Rows[0]["TOTRMQTY"].ToString());
+                    ca.totalRmValue = Convert.ToDouble(dt.Rows[0]["TOTRMVALUE"].ToString() == "" ? "0" : dt.Rows[0]["TOTRMVALUE"].ToString());
+                    ca.CosValue = Convert.ToDouble(dt.Rows[0]["TOTCONSVALUE"].ToString() == "" ? "0" : dt.Rows[0]["TOTCONSVALUE"].ToString());
+                    ViewBag.entrytype = ca.EntryType;
+                    ca.Machine = Convert.ToDouble(dt.Rows[0]["TOTMACHINEVALUE"].ToString() == "" ? "0" : dt.Rows[0]["TOTMACHINEVALUE"].ToString());
+                }
+                DataTable dt2 = new DataTable();
+
+                dt2 = IProductionEntry.GetProInpDet(id);
+                if (dt2.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt2.Rows.Count; i++)
+                    {
+                        tda = new ProIn();
+                        tda.Itemlst = BindItemlst("");
+
+                        tda.drumlst = Binddrum();
+                        tda.ItemId = dt2.Rows[i]["IITEMID"].ToString();
+                        tda.drumno = dt2.Rows[i]["IDRUMNO"].ToString();
+                        tda.BinId = dt2.Rows[i]["IBINID"].ToString();
+                        tda.batchno = dt2.Rows[i]["IBATCHNO"].ToString();
+                        tda.batchqty = Convert.ToDouble(dt2.Rows[i]["IBATCHQTY"].ToString() == "" ? "0" : dt2.Rows[i]["IBATCHQTY"].ToString());
+                        tda.IssueQty = Convert.ToDouble(dt2.Rows[i]["IQTY"].ToString() == "" ? "0" : dt2.Rows[i]["IQTY"].ToString());
+                        //tda.ID = id;
+                        TData.Add(tda);
+                    }
+
+                }
+                DataTable dt3 = new DataTable();
+
+                dt3 = IProductionEntry.GetProConsDet(id);
+                if (dt3.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt3.Rows.Count; i++)
+                    {
+                        tda1 = new ProInCons();
+                        tda1.Itemlst = BindItemlst("");
+
+
+                        tda1.ItemId = dt3.Rows[i]["CITEMID"].ToString();
+
+                        tda1.BinId = dt3.Rows[i]["CBINID"].ToString();
+                        tda1.consunit = dt3.Rows[i]["CUNIT"].ToString();
+                        tda1.consQty = Convert.ToDouble(dt3.Rows[i]["CONSQTY"].ToString() == "" ? "0" : dt3.Rows[i]["CONSQTY"].ToString());
+                        tda1.ConsStock = Convert.ToDouble(dt3.Rows[i]["CVALUE"].ToString() == "" ? "0" : dt3.Rows[i]["CVALUE"].ToString());
+                        //tda1.ID = id;
+                        TData1.Add(tda1);
+                    }
+
+                }
+                DataTable dt4 = new DataTable();
+
+                dt4 = IProductionEntry.GetProOutDet(id);
+                if (dt4.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt4.Rows.Count; i++)
+                    {
+                        tda2 = new output();
+                        tda2.Itemlst = BindItemlst("");
+
+                        tda2.drumlst = Binddrum();
+                        tda2.loclst = BindLocation();
+                        tda2.statuslst = BindStatus();
+                        tda2.ItemId = dt4.Rows[i]["OITEMID"].ToString();
+                        tda2.drumno = dt4.Rows[i]["ODRUMNO"].ToString();
+                        tda2.startdate = dt4.Rows[i]["DSDT"].ToString();
+                        tda2.batchno = dt4.Rows[i]["OBATCHNO"].ToString();
+                        tda2.enddate = dt4.Rows[i]["DEDT"].ToString();
+                        tda2.starttime = dt4.Rows[i]["STIME"].ToString();
+                        tda2.endtime = dt4.Rows[i]["ETIME"].ToString();
+                        tda2.toloc = dt4.Rows[i]["TOLOCATION"].ToString();
+                        tda2.status = dt4.Rows[i]["STATUS"].ToString();
+                        tda2.OutStock = Convert.ToDouble(dt4.Rows[i]["OSTOCK"].ToString() == "" ? "0" : dt4.Rows[i]["OSTOCK"].ToString());
+
+                        tda2.ExcessQty = Convert.ToDouble(dt4.Rows[i]["OXQTY"].ToString() == "" ? "0" : dt4.Rows[i]["OXQTY"].ToString());
+                        tda2.OutQty = Convert.ToDouble(dt4.Rows[i]["OQTY"].ToString() == "" ? "0" : dt4.Rows[i]["OQTY"].ToString());
+                        //tda2.ID = id;
+                        TData2.Add(tda2);
+                    }
+
+                }
+                DataTable dt5 = new DataTable();
+
+                dt5 = IProductionEntry.GetProWasteDet(id);
+                if (dt5.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt5.Rows.Count; i++)
+                    {
+                        tda3 = new wastage();
+                        tda3.Itemlst = BindItemlst("");
+                        tda3.loclst = BindLocation();
+
+                        tda3.ItemId = dt5.Rows[i]["WITEMID"].ToString();
+
+                        tda3.BinId = dt5.Rows[i]["WBINID"].ToString();
+                        tda3.batchno = dt5.Rows[i]["WBATCHNO"].ToString();
+                        tda3.wastageQty = Convert.ToDouble(dt5.Rows[i]["WQTY"].ToString() == "" ? "0" : dt3.Rows[i]["WQTY"].ToString());
+                        tda3.toloc = dt5.Rows[i]["WLOCATION"].ToString();
+                        //tda3.ID = id;
+                        TData3.Add(tda3);
+                    }
+
+                }
             }
 
             ca.inputlst = TData;
@@ -156,6 +294,7 @@ namespace Arasan.Controllers
                 ca.CosValue= dt.Rows[0]["TOTCONSVALUE"].ToString() != "" ? Convert.ToDouble(dt.Rows[0]["TOTCONSVALUE"].ToString()) : 0;
                 ca.totaRmqty= dt.Rows[0]["TOTRMQTY"].ToString() != "" ? Convert.ToDouble(dt.Rows[0]["TOTRMQTY"].ToString()) : 0;
                 ViewBag.entrytype = ca.EntryType;
+                ViewBag.shift = ca.Shift;
                 List<ProIn> TData = new List<ProIn>();
                 ProIn tda = new ProIn();
                 DataTable dtproin = IProductionEntry.ProIndetail(PROID);

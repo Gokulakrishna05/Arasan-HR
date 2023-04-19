@@ -175,6 +175,16 @@ namespace Arasan.Models
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetBatch()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select BCPRODBASICID,DOCID from BCPRODBASIC where BATCH_COMPLETED='N'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetItem(string value)
         {
             string SvSql = string.Empty;

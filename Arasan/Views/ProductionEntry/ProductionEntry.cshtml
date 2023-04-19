@@ -821,6 +821,9 @@
         });
                
             }
+             $(function() {
+            var entry = '@ViewBag.entrytype';
+                changeentry(entry);
             function changeentry(typeid){
                 if(typeid=="INPUT"){
                     document.getElementById("ainp").click();
@@ -847,6 +850,7 @@
                     document.getElementById("lioutW").style.display = "block";
                 }
             }
+             });
    function AddRow() {
           var opt = "";
           var remopt = "";

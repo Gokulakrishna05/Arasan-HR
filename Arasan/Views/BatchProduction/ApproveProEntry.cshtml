@@ -1,5 +1,6 @@
 ﻿@model Arasan.Models.ProductionEntry
 @{
+     Layout = "_PopupLayout";
     ViewData["Title"] = "Batch Production Entry";
 }
 <style>
@@ -57,7 +58,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div style="height:15px;"></div>
+                        <div style="height:10px;"></div>
 
                         <div class="row">
                           
@@ -80,6 +81,7 @@
                                 </div>
                             </div>
                         </div>
+                        <div style="height:10px;"></div>
                         <div class="row">
                              <div class="col-md-6">
                                 <div class="form-group">
@@ -101,14 +103,34 @@
                                 </div>
                             </div>
                         </div>
+                        <div style="height:10px;"></div>
+                 <div class="row">
+                             <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Prod.Log ID<label class="Mandatory"></label></label>
 
-                 
-                        <div style="height:15px;"></div>
+                                    <div class="col-sm-8">
+                                        @Html.DisplayFor(C => C.ProdLogId)<br>
+                                    </div>
+                                </div>
+                            </div>
+                                          <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Prod.Sch.No<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                       @Html.DisplayFor(C => C.ProdSchNo)<br>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                      <div style="height:10px;"></div>
                         <div class="row">
                           
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="inputName3" class="col-sm-4 control-label">Shift<label class="mandatory"> *</label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Shift<label class="mandatory"> </label></label>
 
                                     <div class="col-sm-8">
                                         @Html.DisplayFor(C => C.Shift)<br>
@@ -125,28 +147,28 @@
                                 </div>
                             </div>
                         </div>
-                         <div style="height:15px;"></div>
+                        <div style="height:10px;"></div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Sch Qty<label class="mandatory"> *</label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Sch Qty<label class="mandatory"> </label></label>
                                     <div class="col-sm-8">
-                                          @Html.DisplayFor(C => C.EntryType)<br>
+                                          @Html.DisplayFor(C => C.SchQty)<br>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Prod Qty<label class="mandatory"> *</label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Prod Qty<label class="mandatory"> </label></label>
                                     <div class="col-sm-8">
-                                          @Html.DisplayFor(C => C.EntryType)<br>
+                                          @Html.DisplayFor(C => C.ProdQty)<br>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
+                        <div style="height:10px;"></div>
                         <div class="row">
                                <div class="col-md-6">
                                 <div class="form-group">
@@ -163,6 +185,28 @@
                                     <label for="inputName3" class="col-sm-4 control-label">End Date / Time<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
                                           @Html.DisplayFor(C => C.enddate)<br>
+                                    </div>
+                                </div>
+                            </div>
+                           
+                        </div>
+                        <div style="height:10px;"></div>
+                         <div class="row">
+                               <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Batch Completed<label class="mandatory"> </label></label>
+                                    <div class="col-sm-8">
+                                          @Html.DisplayFor(C => C.batchcomplete)<br>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Batch no.<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                          @Html.DisplayFor(C => C.BatchNo)<br>
                                     </div>
                                 </div>
                             </div>
@@ -531,5 +575,20 @@
                     document.getElementById("lioutW").style.display = "block";
                 }
             }
+              var shift = '@ViewBag.shift';
+                changeshift(shift);
+       function changeshift(Shiftid) {
+           $.ajax({
+               url: 'GetshiftDetail',
+               data: { "Shiftid": Shiftid },
+               type: "GET",
+               success: function(result) {
+                   document.getElementById("shiftdetails").innerHTML = result.fromtime + " to " + result.totime + "  Total Hours : " + result.tothrs;
+               },
+               error: function() {
+                   alert("Data Not Found");
+               }
+           });
+       }
   });
 </script>
