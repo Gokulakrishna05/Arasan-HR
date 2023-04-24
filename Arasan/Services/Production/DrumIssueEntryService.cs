@@ -71,7 +71,7 @@ namespace Arasan.Services.Production
         public DataTable GetDrumIssuseDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select DOCID,to_char(DIEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,BRANCH,ITEMID,FROMLOC,TOLOC,FROMBINID,TOBINID,UNIT,LOTSTOCK,TYPE,STOCK,ENTEREDBY,APPROVEDBY,TOTQTY,REMARKS,DIEBASICID from DIEBASIC Where DIEBASICID='" + id + "' ";
+            SvSql = "select DOCID,to_char(DIEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,BRANCH,ITEMID,FROMLOC,TOLOC,FROMBINID,TOBINID,UNIT,LOTSTOCK,TYPE,STOCK,ENTEREDBY,APPROVEDBY,TOTQTY,REMARKS,ISSRATE,ISSVALUE,DIEBASICID from DIEBASIC Where DIEBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -116,6 +116,8 @@ namespace Arasan.Services.Production
                     objCmd.Parameters.Add("APPROVEDBY", OracleDbType.NVarchar2).Value = cy.Approved;
                     objCmd.Parameters.Add("TOTQTY", OracleDbType.NVarchar2).Value = cy.Qty;
                     objCmd.Parameters.Add("REMARKS", OracleDbType.NVarchar2).Value = cy.Purpose;
+                    objCmd.Parameters.Add("ISSRATE", OracleDbType.NVarchar2).Value = cy.IRate;
+                    objCmd.Parameters.Add("ISSVALUE", OracleDbType.NVarchar2).Value = cy.IValue;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
@@ -152,6 +154,8 @@ namespace Arasan.Services.Production
                                     objCmds.Parameters.Add("DRUMNO", OracleDbType.NVarchar2).Value = ca.Drum;
                                     objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = ca.Qty;
                                     objCmds.Parameters.Add("BATCHNO", OracleDbType.NVarchar2).Value = ca.Batch;
+                                    objCmds.Parameters.Add("BATCHRATE", OracleDbType.NVarchar2).Value = ca.Rate;
+                                    objCmds.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = ca.Amount;
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                     objConns.Open();
                                     objCmds.ExecuteNonQuery();
@@ -179,7 +183,7 @@ namespace Arasan.Services.Production
         public DataTable GetDIEDetail(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select DIEBASICID,FBINID,TBINID,DRUMNO,QTY,BATCHNO from DIEDETAIL where DIEBASICID='" + id + "' ";
+            SvSql = "select DIEBASICID,FBINID,TBINID,DRUMNO,QTY,BATCHNO,BATCHRATE,AMOUNT from DIEDETAIL where DIEBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -196,7 +200,7 @@ namespace Arasan.Services.Production
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "select LOCDETAILS.LOCID,TYPE,BRANCHMAST.BRANCHID,DIEBASICID FROM DIEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=DIEBASIC.BRANCH  LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID=DIEBASIC.FROMLOC";
+                    cmd.CommandText = "select DOCID,to_char(DIEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,LOCDETAILS.LOCID,TYPE,BRANCHMAST.BRANCHID,DIEBASICID FROM DIEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=DIEBASIC.BRANCH  LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID=DIEBASIC.FROMLOC";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -207,13 +211,35 @@ namespace Arasan.Services.Production
                             FromLoc = rdr["LOCID"].ToString(),
                             Branch = rdr["BRANCHID"].ToString(),
                             type = rdr["TYPE"].ToString(),
-                           
+                            Docid = rdr["DOCID"].ToString(),
+                            Docdate = rdr["DOCDATE"].ToString(),
+
                         };
                         cmpList.Add(cmp);
                     }
                 }
             }
             return cmpList;
+        }
+        public DataTable EditDrumIssue(string DRUM)
+        {
+            string SvSql = string.Empty; 
+            SvSql = " select DOCID,to_char(DIEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,BRANCHMAST.BRANCHID,ITEMMASTER.ITEMID,LOCDETAILS.LOCID ,tol.LOCID loc ,FROMBINID,TOBINID,UNIT,LOTSTOCK,TYPE,STOCK,ENTEREDBY,APPROVEDBY,TOTQTY,REMARKS,ISSRATE,ISSVALUE,DIEBASICID from DIEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMAST.BRANCHMASTID=DIEBASIC.BRANCH LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=DIEBASIC.ITEMID  LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=DIEBASIC.FROMLOC LEFT OUTER JOIN LOCDETAILS tol ON tol.LOCDETAILSID=DIEBASIC.TOLOC where DIEBASICID='" + DRUM + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable EditDrumDetail(string DRUM)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select DIEBASICID,FBINID,TBINID,DRUMNO,QTY,BATCHNO,BATCHRATE,AMOUNT from DIEDETAIL where DIEBASICID='" + DRUM + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
         }
     }
 }

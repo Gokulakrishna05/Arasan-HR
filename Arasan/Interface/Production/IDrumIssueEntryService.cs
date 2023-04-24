@@ -15,5 +15,7 @@ namespace Arasan.Interface.Production
         DataTable GetDIEDetail(string id);
         DataTable GetDrumIssuseDetails(string id);
         DataTable GetItem();
+        DataTable EditDrumIssue(string DRUM);
+        DataTable EditDrumDetail(string DRUM);
     }
 }

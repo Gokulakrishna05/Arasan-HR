@@ -38,10 +38,12 @@
                                                 <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
                                                     <thead>
                                                         <tr>
-
+                                                            <th>Branch</th>
+                                                            <th>Doc Id</th>
+                                                            <th>Doc Date</th>
                                                             <th>From Location</th>
                                                             <th>Type</th>
-                                                            <th>Branch</th>
+                                                            <th>View</th>
                                                             <th>Edit</th>
                                                             <th>Delete</th>
                                                         </tr>
@@ -55,9 +57,13 @@
                                                             foreach (var item in Model)
                                                             {
                                                                 <tr>
+                                                                <td>@Html.DisplayFor(modelItem => item.Branch)</td>
+                                                                <td>@Html.DisplayFor(modelItem => item.Docid)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Docdate)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.FromLoc)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.type)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.Branch)</td>
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ApproveDrumIssue", "DrumIssueEntry",new { DRUM=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Waiting for approval' /></a></div></td>
+
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("DrumIssueEntry", "DrumIssueEntry",new { id=item.ID })"></a></div></td>
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("DrumIssueEntry", "DrumIssueEntry",new { id=item.ID })"></a></div></td>
                                                                 </tr>
