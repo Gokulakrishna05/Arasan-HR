@@ -63,12 +63,10 @@ namespace Arasan.Controllers
                 if (dt.Rows.Count > 0)
                 {
                     ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
-
                     ca.PackingNote = dt.Rows[0]["PACKNOTE"].ToString();
-                    ca.Shiftlst = BindShift(ca.PackingNote);
-
+                    //ca.Shiftlst = BindShift(ca.PackingNote);
                     ca.Shift = dt.Rows[0]["SHIFT"].ToString();
-                    ca.Itemlst = BindItemlst(ca.PackingNote);
+                    //ca.Itemlst = BindItemlst(ca.PackingNote);
                     ca.ItemId = dt.Rows[0]["ITEM"].ToString();
                     ca.TotalQty = dt.Rows[0]["TOTQTY"].ToString();
                     ca.ID = id;
@@ -81,6 +79,7 @@ namespace Arasan.Controllers
                     ca.ToWork = dt.Rows[0]["TOWCID"].ToString();
                     ca.enddate = dt.Rows[0]["ENTDATE"].ToString();
                     ca.Remark = dt.Rows[0]["REMARKS"].ToString();
+                    ca.Enterd = dt.Rows[0]["ENTEREDBY"].ToString();
 
                 }
                 DataTable dt2 = new DataTable();
@@ -93,15 +92,9 @@ namespace Arasan.Controllers
                         tda = new CuringDetail();
                       
                         tda.drum = dt2.Rows[i]["DRUMNO"].ToString();
-                         
-
-
-
                         tda.batch = dt2.Rows[i]["BATCHNO"].ToString();
                         tda.qty = dt2.Rows[i]["BATCHQTY"].ToString();
                         tda.comp = dt2.Rows[i]["COMBNO"].ToString();
-
-
                         tda.ID = id;
                         TData.Add(tda);
                     }
@@ -147,6 +140,50 @@ namespace Arasan.Controllers
             }
 
             return View(Cy);
+        }
+        public IActionResult ViewCuringOutward(string id)
+        {
+            CuringOutward ca = new CuringOutward();
+            DataTable dt = new DataTable();
+            //DataTable dtt = new DataTable();
+            dt = curingoutward.GetCuringOutwardByName(id);
+            if (dt.Rows.Count > 0)
+            {
+                ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                ca.PackingNote = dt.Rows[0]["PSN"].ToString();
+                //ca.Shiftlst = BindShift(ca.PackingNote);
+                ca.Shift = dt.Rows[0]["SHIFTNO"].ToString();
+                //ca.Itemlst = BindItemlst(ca.PackingNote);
+                ca.ItemId = dt.Rows[0]["ITEMID"].ToString();
+                ca.TotalQty = dt.Rows[0]["TOTQTY"].ToString();
+                ca.ID = id;
+                ca.TotalValue = dt.Rows[0]["TOTVALUE"].ToString();
+                ca.Enterd = dt.Rows[0]["ENTEREDBY"].ToString();
+                ca.Docdate = dt.Rows[0]["DOCDATE"].ToString();
+                ca.DocId = dt.Rows[0]["DOCID"].ToString();
+                ca.FRate = dt.Rows[0]["FRATE"].ToString();
+                ca.FromWork = dt.Rows[0]["WCID"].ToString();
+                ca.ToWork = dt.Rows[0]["wc"].ToString();
+                ca.enddate = dt.Rows[0]["ENTDATE"].ToString();
+                ca.Remark = dt.Rows[0]["REMARKS"].ToString();
+                ca.Enterd = dt.Rows[0]["ENTEREDBY"].ToString();
+
+                List<CuringDetail> TData = new List<CuringDetail>();
+                CuringDetail tda = new CuringDetail();
+                DataTable dt2 = curingoutward.CuringOutwardDetail(id);
+                for (int i = 0; i < dt2.Rows.Count; i++)
+                {
+                    tda = new CuringDetail();
+                    tda.drum = dt2.Rows[i]["DRUMNO"].ToString();
+                    tda.batch = dt2.Rows[i]["BATCHNO"].ToString();
+                    tda.qty = dt2.Rows[i]["BATCHQTY"].ToString();
+                    tda.comp = dt2.Rows[i]["COMBNO"].ToString();
+                    tda.ID = id;
+                    TData.Add(tda);
+                }
+                ca.Curinglst = TData;
+            }
+            return View(ca);
         }
         public List<SelectListItem> BindWorkCenter()
         {

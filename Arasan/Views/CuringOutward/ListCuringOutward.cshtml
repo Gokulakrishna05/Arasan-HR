@@ -49,6 +49,7 @@
                                                             <th>Doc Date</th>
                                                             <th>Item</th>
                                                             <th>Shift</th>
+                                                            <th>View</th>
                                                             <th>Edit</th>
                                                             <th>Delete</th>
                                                         </tr>
@@ -67,7 +68,7 @@
                                                                     <td>@Html.DisplayFor(modelItem => item.Docdate)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.ItemId)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.Shift)</td>
-
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewCuringOutward", "CuringOutward",new { id=item.ID })"><img src='../Images/view_icon.png' alt='Waiting for approval' /></a></div></td>
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("CuringOutward", "CuringOutward",new { id=item.ID })"></a></div></td>
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("CuringOutward", "CuringOutward",new { id=item.ID })"></a></div></td>
                                                                 </tr>
