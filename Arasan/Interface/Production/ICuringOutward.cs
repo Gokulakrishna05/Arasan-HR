@@ -19,5 +19,7 @@ namespace Arasan.Interface
         string  CuringOutwardCRUD(CuringOutward Cy);
         DataTable Getcuringoutward(string id);
         DataTable GetCuringDetail(string id);
+        DataTable GetCuringOutwardByName(string name); 
+        DataTable CuringOutwardDetail(string name);
     }
 }
