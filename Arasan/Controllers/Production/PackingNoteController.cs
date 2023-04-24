@@ -5,6 +5,7 @@ using System.Xml.Linq;
 using Arasan.Interface;
 using Arasan.Models;
 using Arasan.Services;
+using Arasan.Services.Production;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -68,6 +69,9 @@ namespace Arasan.Controllers
                     //}
                     ca.Itemlst = BindItemlst(ca.DrumLoc);
                     ca.ItemId = dt.Rows[0]["OITEMID"].ToString();
+                    ca.startdate = dt.Rows[0]["STARTDATE"].ToString() + " & " + dt.Rows[0]["STARTTIME"].ToString();
+                    ca.enddate = dt.Rows[0]["ENDDATE"].ToString() + " & " + dt.Rows[0]["ENDTIME"].ToString();
+
                     ca.DocId = dt.Rows[0]["DOCID"].ToString();
                     ca.LotNo = dt.Rows[0]["PACLOTNO"].ToString();
                     ca.PackYN = dt.Rows[0]["PACKCONSYN"].ToString();
@@ -355,6 +359,83 @@ namespace Arasan.Controllers
         {
             IEnumerable<PackingNote> cmp = Packing.GetAllPackingNote();
             return View(cmp);
+        }
+        public IActionResult ApprovePacking(string NOTE)
+        {
+            PackingNote ca = new PackingNote();
+            DataTable dt = Packing.EditNote(NOTE);
+            if (dt.Rows.Count > 0)
+            {
+                ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                ca.Docdate = dt.Rows[0]["DOCDATE"].ToString();
+                ca.WorkId = dt.Rows[0]["WCID"].ToString();
+
+ 
+                ca.DrumLoc = dt.Rows[0]["DRUMLOCATION"].ToString();
+                ca.startdate = dt.Rows[0]["STARTDATE"].ToString() + " & " + dt.Rows[0]["STARTTIME"].ToString();
+                ca.enddate = dt.Rows[0]["ENDDATE"].ToString() + " & " + dt.Rows[0]["ENDTIME"].ToString();
+
+                ca.ItemId = dt.Rows[0]["ITEMID"].ToString();
+                ca.DocId = dt.Rows[0]["DOCID"].ToString();
+                ca.LotNo = dt.Rows[0]["PACLOTNO"].ToString();
+                ca.PackYN = dt.Rows[0]["PACKCONSYN"].ToString();
+                ca.ProdSchNo = dt.Rows[0]["PS"].ToString();
+                ca.Shift = dt.Rows[0]["SHIFTNO"].ToString();
+                ca.Enterd = dt.Rows[0]["ENTEREDBY"].ToString();
+
+                ca.Remark = dt.Rows[0]["REMARKS"].ToString();
+
+                //ViewBag.entrytype = ca.EntryType;
+                List<DrumDetail> TData = new List<DrumDetail>();
+                DrumDetail tda = new DrumDetail();
+                DataTable dtDrum = Packing.EditDrumDetail(NOTE);
+                for (int i = 0; i < dtDrum.Rows.Count; i++)
+                {
+                    tda = new DrumDetail();
+                    tda.DrumNolst = BindDrumNo(ca.DrumLoc);
+                    tda.DrumNo = dtDrum.Rows[i]["IDRUMNO"].ToString();
+                    tda.Batchlst = BindBatch(tda.DrumNo);
+
+
+
+                    tda.BatchNo = dtDrum.Rows[i]["IBATCHNO"].ToString();
+                    tda.BatchQty = dtDrum.Rows[i]["IBATCHQTY"].ToString();
+                    tda.Comp = dtDrum.Rows[i]["COMBNO"].ToString();
+
+
+                   
+                    TData.Add(tda);
+                }
+
+
+                ca.DrumDetlst = TData;
+            }
+            return View(ca);
+        }
+        public ActionResult GetshiftDetail(string Shiftid)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                string fromtime = "";
+                string totime = "";
+                string tothrs = "";
+                dt = datatrans.GetData("Select FROMTIME,TOTIME,SHIFTHRS from SHIFTMAST where SHIFTMASTID='" + Shiftid + "'");
+                if (dt.Rows.Count > 0)
+                {
+
+                    fromtime = dt.Rows[0]["FROMTIME"].ToString();
+                    totime = dt.Rows[0]["TOTIME"].ToString();
+                    tothrs = dt.Rows[0]["SHIFTHRS"].ToString();
+                }
+
+                var result = new { fromtime = fromtime, totime = totime, tothrs = tothrs };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

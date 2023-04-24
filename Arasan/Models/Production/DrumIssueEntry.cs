@@ -57,8 +57,10 @@ namespace Arasan.Models
 
         public List<SelectListItem> Applst;
         public String Approved { get; set; }
-        public String Qty { get; set; }
+        public Double Qty { get; set; }
         public String Purpose { get; set; }
+        public Double IRate { get; set; }
+        public Double IValue { get; set; }
 
         public List<DrumIssueEntryItem> Drumlst { get; set; }
     }
@@ -75,6 +77,8 @@ namespace Arasan.Models
 
         public string Qty { get; set; }
         public string Batch { get; set; }
+        public Double Rate { get; set; }
+        public Double Amount { get; set; }
         public string Isvalid { get; set; }
 
     }

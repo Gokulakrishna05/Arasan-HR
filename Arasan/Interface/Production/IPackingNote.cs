@@ -19,6 +19,7 @@ namespace Arasan.Interface
         //DataTable GetItemDet(string id); 
         DataTable GetDrumItem(string id);
         DataTable GetSchedule( );
-
+        DataTable EditNote(string id);
+        DataTable EditDrumDetail(string id);
     }
 }
