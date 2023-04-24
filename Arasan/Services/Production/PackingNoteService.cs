@@ -328,7 +328,7 @@ return msg;
         public DataTable GetDrumDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select   NBATCHNO,OQTY,NPRODBASICID from NPRODOUTDET    where NBATCHNO= '" + id + "'";
+            SvSql = "select   NBATCHNO,OQTY,NPRODBASICID from NPRODOUTDET   where NBATCHNO= '" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -348,7 +348,7 @@ return msg;
         public DataTable GetPackingNote(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select  BRANCH, WCID,SHIFT,to_char(PACKNOTEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,DRUMLOCATION,DOCID,PACKCONSYN,ENTEREDBY,PACLOTNO,REMARKS,PSCHNO,OITEMID from PACKNOTEBASIC    where PACKNOTEBASICID= '" + id + "'";
+            SvSql = "select  BRANCH, WCID,SHIFT,to_char(PACKNOTEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,DRUMLOCATION,DOCID,PACKCONSYN,ENTEREDBY,PACLOTNO,REMARKS,PSCHNO,OITEMID,to_char(PACKNOTEBASIC.STARTDATE,'dd-MON-yyyy')STARTDATE,STARTTIME,to_char(PACKNOTEBASIC.ENDDATE,'dd-MON-yyyy')ENDDATE,ENDTIME from PACKNOTEBASIC    where PACKNOTEBASICID= '" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -366,6 +366,26 @@ return msg;
         //    return dtt;
         //}
         public DataTable GetDrumItem(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select  PACKNOTEBASICID,IDRUMNO,IBATCHNO,IBATCHQTY,COMBNO from PACKNOTEINPDETAIL    where PACKNOTEBASICID= '" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable EditNote(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select  BRANCHMAST.BRANCHID, WCBASIC.WCID,SHIFTMAST.SHIFTNO,to_char(PACKNOTEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE, DRUMLOCATION,PACKNOTEBASIC.DOCID,PACKNOTEBASIC.PACKCONSYN,PACKNOTEBASIC.ENTEREDBY,PACLOTNO,PACKNOTEBASIC.REMARKS,PSBASIC.DOCID PS,ITEMMASTER.ITEMID,to_char(PACKNOTEBASIC.STARTDATE,'dd-MON-yyyy')STARTDATE,STARTTIME,to_char(PACKNOTEBASIC.ENDDATE,'dd-MON-yyyy')ENDDATE,ENDTIME from PACKNOTEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMAST.BRANCHMASTID=PACKNOTEBASIC.BRANCH LEFT OUTER JOIN WCBASIC ON WCBASIC.WCBASICID=PACKNOTEBASIC.WCID LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PACKNOTEBASIC.OITEMID LEFT OUTER JOIN SHIFTMAST ON SHIFTMAST.SHIFTMASTID=PACKNOTEBASIC.SHIFT LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PACKNOTEBASIC.DRUMLOCATION LEFT OUTER JOIN PSBASIC ON PSBASIC.PSBASICID=PACKNOTEBASIC.PSCHNO where PACKNOTEBASICID= '" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable EditDrumDetail(string id)
         {
             string SvSql = string.Empty;
             SvSql = "select  PACKNOTEBASICID,IDRUMNO,IBATCHNO,IBATCHQTY,COMBNO from PACKNOTEINPDETAIL    where PACKNOTEBASICID= '" + id + "'";
