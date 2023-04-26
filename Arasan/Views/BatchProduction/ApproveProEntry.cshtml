@@ -1,6 +1,6 @@
 ﻿@model Arasan.Models.ProductionEntry
 @{
-     Layout = "_PopupLayout";
+     //Layout = "_PopupLayout";
     ViewData["Title"] = "Batch Production Entry";
 }
 <style>
@@ -42,6 +42,9 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Branch <label class="mandatory"></label></label>
                                     <div class="col-sm-8">
                                         @Html.HiddenFor(C => C.ID)
+                                        @Html.HiddenFor(C => C.BranchId)
+                                        @Html.HiddenFor(C => C.LOCID)
+                                      @Html.HiddenFor(C => C.WCID)  
                                             @Html.DisplayFor(C => C.Branch)<br>
                                     </div>
                                 </div>
@@ -240,6 +243,7 @@
                                                                                 <th> Drum No </th>
                                                                                 <th> Batch No </th>
                                                                                 <th> Batch Qty </th>
+                                                                                <th>Stock Available</th>
                                                                                 <th> Issue Qty </th>
                                                                                
                                                                             </tr>
@@ -252,11 +256,15 @@
                                                             {
                                                                                                                                                   <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
                                                                                                                                                     
-                                                                                                                                                       <td> @Html.DisplayFor(o => o.inputlst[i].ItemId) </td>
+                                                                                                                                                       <td> @Html.DisplayFor(o => o.inputlst[i].ItemId) 
+                                                                                                                                                       @Html.HiddenFor(o => o.inputlst[i].Purchasestock)
+                                                                                                                                                       @Html.HiddenFor(o => o.inputlst[i].saveitemId)
+                                                                                                                                                       </td>
                                                                                                                                                         <td>@Html.DisplayFor(o => o.inputlst[i].BinId)</td> 
                                                                                                                                                          <td>@Html.DisplayFor(o => o.inputlst[i].drumno)</td>
                                                                                                                                                          <td>@Html.DisplayFor(o => o.inputlst[i].batchno)</td> 
                                                                                                                                                         <td> @Html.DisplayFor(o => o.inputlst[i].batchqty)</td>
+                                                                                                                                                        <td> <span style="color:darkslategray;font-size: 14px;"><b>@Html.DisplayFor(o => o.inputlst[i].StockAvailable)</b></span></td>
                                                                                                                                                         <td>@Html.TextBoxFor(o => o.inputlst[i].IssueQty, new { @id = "txtIssueQty" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")" })</td>
                                                           
                                                                                                                                                     </tr>
@@ -283,7 +291,7 @@
                                                                                 <th>Item Id</th>
                                                                                 <th> Unit </th>
                                                                                 <th> Bin Id </th>
-                                                                                <th> Stock </th>
+                                                                               <th>Stock Available</th>
                                                                                 <th>Cons.Qty  </th>
                                                                             </tr>
                                                                         </thead>
@@ -297,11 +305,14 @@
                                                                                                                                                     
                                                                                                                                                                                                 <td>
                                                                                                                                                                                                     @Html.DisplayFor(o => o.inconslst[j].ItemId)
+                                                                                                                                                                                                      @Html.HiddenFor(o => o.inconslst[j].Purchasestock)
+                                                                                                                                                       @Html.HiddenFor(o => o.inconslst[j].saveitemId)
                                                                                                                                                                                                 </td>
                                                                                                                                                                                                 <td>@Html.DisplayFor(o => o.inconslst[j].consunit)</td> 
                                                                                                                                                         <td>@Html.DisplayFor(o => o.inconslst[j].BinId)</td> 
-                                                                                                                                                        <td>@Html.DisplayFor(o => o.inconslst[j].ConsStock)</td>
-                                                                                                                                                        <td>@Html.DisplayFor(o => o.inconslst[j].consQty)</td>
+                                                                                                                                                        <td><span style="color:darkslategray;font-size: 14px;"><b>@Html.DisplayFor(o => o.inconslst[j].ConsStock)</b></span></td>
+                                                                                                                                                         <td>@Html.TextBoxFor(o => o.inconslst[j].consQty, new { @id = "txtconsQty" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right" })</td>
+                                                                                                                                                        
                                                                                                                                                        
                                                                                                                                                          
 

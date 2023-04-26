@@ -30,5 +30,20 @@ namespace Arasan.Interface
         DataTable GetMachineDetails(string id);
         IEnumerable<ProductionLog> GetAllProductionLog();
         string ProductionLogCRUD(ProductionLog id);
+        DataTable GetProductionLogByName(string name);
+        DataTable ProWorkCenterDet(string name);
+        DataTable ProMachineDet(string name);
+        DataTable ProEmpDet(string name);
+        DataTable ProBreakDet(string name);
+        DataTable ProInpDet(string name);
+        DataTable ProConsDet(string name);
+
+        DataTable ProOutDet(string name);
+        DataTable ProWasteDet(string name);
+        DataTable ProOutsDet(string name);
+        DataTable ProBunkDet(string name);
+        DataTable ProParamDet(string name);
+        DataTable ProProcessDet(string name);
+        
     }
 }

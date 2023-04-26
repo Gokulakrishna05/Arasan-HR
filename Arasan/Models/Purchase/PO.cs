@@ -73,6 +73,9 @@ namespace Arasan.Models
         public string POID { get; set; }
         public string RefNo { get; set; }
         public string RefDate { get; set; }
+
+        public string BranchId { get; set; }
+        public string SuppId { get; set; }
     }
     public class GateInward
     {

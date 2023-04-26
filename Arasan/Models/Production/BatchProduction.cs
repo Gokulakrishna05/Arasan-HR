@@ -60,6 +60,7 @@ namespace Arasan.Models
         public List<Boutput> Boutlst { get; set; }
         public List<Bwastage> Bwastelst { get; set; }
         public List<ProInputItem> inplst { get; set; }
+        public string IsInv { get; set; }
     }
     public class ProInputItem
     {
@@ -79,6 +80,7 @@ namespace Arasan.Models
         public string MillLoadAdd { get; set; }
         //public string Output { get; set; }
         public string Isvalid { get; set; }
+        public string saveitemId { get; set; }
         //public List<SelectListItem> outputlst;
 
     }
@@ -92,6 +94,8 @@ namespace Arasan.Models
         public double consQty { get; set; }
         public string Isvalid { get; set; }
         public string BinId { get; set; }
+
+        public string saveitemId { get; set; }
 
     }
     public class Boutput
@@ -114,6 +118,7 @@ namespace Arasan.Models
         public List<SelectListItem> statuslst { get; set; }
         public string toloc { get; set; }
         public List<SelectListItem> loclst { get; set; }
+        public string saveitemId { get; set; }
     }
     public class Bwastage
     {
@@ -126,5 +131,6 @@ namespace Arasan.Models
         public string toloc { get; set; }
         public List<SelectListItem> loclst { get; set; }
         public string BinId { get; set; }
+        public string saveitemId { get; set; }
     }
 }

@@ -249,7 +249,7 @@ return msg;
         public DataTable Getcuringoutward(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select BRANCHID, DOCID,ITEM,PACKNOTE,to_char(CUROPBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,WCID,TOWCID,to_char(CUROPBASIC.DOCDATE,'dd-MON-yyyy')ENTDATE,SHIFT,ENTEREDBY,TOTQTY,TOTVALUE,REMARKS,FRATE from CUROPBASIC   where CUROPBASICID= '" + id + "'";
+            SvSql = "select BRANCHID,DOCID,ITEM,PACKNOTE,to_char(CUROPBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,WCID,TOWCID,to_char(CUROPBASIC.DOCDATE,'dd-MON-yyyy')ENTDATE,SHIFT,ENTEREDBY,TOTQTY,TOTVALUE,REMARKS,FRATE from CUROPBASIC   where CUROPBASICID= '" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -260,6 +260,28 @@ return msg;
         {
             string SvSql = string.Empty;
             SvSql = "select DRUMNO,BATCHNO,BATCHQTY,COMBNO from CUROPDETAIL   where CUROPBASICID= '" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetCuringOutwardByName(string name)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select BRANCHMAST.BRANCHID,CUROPBASIC.DOCID,ITEMMASTER.ITEMID,Pack.DOCID PSN,to_char(CUROPBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,WCBASIC.WCID,twc.WCID wc,to_char(CUROPBASIC.DOCDATE,'dd-MON-yyyy')ENTDATE,SHIFTMAST.SHIFTNO,CUROPBASIC.ENTEREDBY,TOTQTY,TOTVALUE,CUROPBASIC.REMARKS,FRATE from CUROPBASIC left outer join ITEMMASTER on ITEMMASTERID =CUROPBASIC.ITEM left outer join SHIFTMAST on SHIFTMASTID=CUROPBASIC.SHIFT LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=CUROPBASIC.BRANCHID LEFT OUTER JOIN PACKNOTEBASIC Pack ON Pack.PACKNOTEBASICID=CUROPBASIC.PACKNOTE LEFT OUTER JOIN WCBASIC ON WCBASIC.WCBASICID=CUROPBASIC.WCID LEFT OUTER JOIN WCBASIC twc ON twc.WCBASICID=CUROPBASIC.TOWCID  where CUROPBASICID= '" + name + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable CuringOutwardDetail(string name)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select DRUMNO,BATCHNO,BATCHQTY,COMBNO from CUROPDETAIL   where CUROPBASICID= '" + name + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

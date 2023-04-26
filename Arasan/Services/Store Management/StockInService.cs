@@ -133,6 +133,9 @@ namespace Arasan.Services
                                         objCmdI.Parameters.Add("BRANCH_ID", OracleDbType.NVarchar2).Value = cy.Branch;
                                         objCmdI.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = "Insert";
                                         objCmdI.Parameters.Add("INV_OUT_ID", OracleDbType.NVarchar2).Value = dt.Rows[i]["INVENTORY_ITEM_ID"].ToString();
+                                        objCmdI.Parameters.Add("DRUM_NO", OracleDbType.NVarchar2).Value = "";
+                                        objCmdI.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = "0";
+                                        objCmdI.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = "0";
                                         objCmdI.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                                         objConnI.Open();
                                         objCmdI.ExecuteNonQuery();
@@ -156,6 +159,9 @@ namespace Arasan.Services
                                             objCmdIn.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
                                             objCmdIn.Parameters.Add("LOCATION_ID", OracleDbType.NVarchar2).Value = cp.LocationID;
                                             objCmdIn.Parameters.Add("BRANCH_ID", OracleDbType.NVarchar2).Value = cy.Branch;
+                                            objCmdIn.Parameters.Add("DRUM_NO", OracleDbType.NVarchar2).Value = "";
+                                            objCmdIn.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = "0";
+                                            objCmdIn.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = "0";
                                             objCmdIn.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = "Insert";
                                             objConnIn.Open();
                                             objCmdIn.ExecuteNonQuery();
@@ -210,6 +216,9 @@ namespace Arasan.Services
                                         objCmdI.Parameters.Add("BRANCH_ID", OracleDbType.NVarchar2).Value = cy.Branch;
                                         objCmdI.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = "Insert";
                                         objCmdI.Parameters.Add("INV_OUT_ID", OracleDbType.NVarchar2).Value = dt.Rows[i]["INVENTORY_ITEM_ID"].ToString();
+                                        objCmdI.Parameters.Add("DRUM_NO", OracleDbType.NVarchar2).Value = "";
+                                        objCmdI.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = "0";
+                                        objCmdI.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = "0";
                                         objCmdI.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                                         objConnI.Open();
                                         objCmdI.ExecuteNonQuery();
@@ -233,6 +242,9 @@ namespace Arasan.Services
                                             objCmdIn.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
                                             objCmdIn.Parameters.Add("LOCATION_ID", OracleDbType.NVarchar2).Value = cy.Location;
                                             objCmdIn.Parameters.Add("BRANCH_ID", OracleDbType.NVarchar2).Value = cy.Branch;
+                                            objCmdIn.Parameters.Add("DRUM_NO", OracleDbType.NVarchar2).Value = "";
+                                            objCmdIn.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = "0";
+                                            objCmdIn.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = "0";
                                             objCmdIn.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = "Insert";
                                             objConnIn.Open();
                                             objCmdIn.ExecuteNonQuery();
