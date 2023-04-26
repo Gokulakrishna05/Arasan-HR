@@ -140,7 +140,14 @@ namespace Arasan.Services
                      StatementType = "Update";
                     objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.GRNID;
                     objCmd.Parameters.Add("REFNO", OracleDbType.NVarchar2).Value = cy.RefNo;
-                    objCmd.Parameters.Add("REFDT", OracleDbType.Date).Value = DateTime.Parse(cy.RefDate);
+                    if (!string.IsNullOrEmpty(cy.RefDate))
+                    {
+                        objCmd.Parameters.Add("REFDT", OracleDbType.Date).Value = DateTime.Parse(cy.RefDate);
+                    }
+                    else
+                    {
+                        objCmd.Parameters.Add("REFDT", OracleDbType.Date).Value = DBNull.Value;
+                    }
                     objCmd.Parameters.Add("GROSS", OracleDbType.NVarchar2).Value = cy.Gross;
                     objCmd.Parameters.Add("NET", OracleDbType.NVarchar2).Value = cy.Net;
                     objCmd.Parameters.Add("FREIGHT", OracleDbType.NVarchar2).Value = cy.Frieghtcharge;
@@ -208,6 +215,9 @@ namespace Arasan.Services
                                     objCmdI.Parameters.Add("BRANCH_ID", OracleDbType.NVarchar2).Value = cy.BranchID;
                                     objCmdI.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = "Insert";
                                     objCmdI.Parameters.Add("INV_OUT_ID", OracleDbType.NVarchar2).Value = "0";
+                                    objCmdI.Parameters.Add("DRUM_NO", OracleDbType.NVarchar2).Value = "";
+                                    objCmdI.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = "0";
+                                    objCmdI.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = "0";
                                     objCmdI.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                                     objConnI.Open();
                                     objCmdI.ExecuteNonQuery();
@@ -231,6 +241,9 @@ namespace Arasan.Services
                                         objCmdIn.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
                                         objCmdIn.Parameters.Add("LOCATION_ID", OracleDbType.NVarchar2).Value = "10001000000827";
                                         objCmdIn.Parameters.Add("BRANCH_ID", OracleDbType.NVarchar2).Value = cy.BranchID;
+                                        objCmdIn.Parameters.Add("DRUM_NO", OracleDbType.NVarchar2).Value = "";
+                                        objCmdIn.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = "0";
+                                        objCmdIn.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = "0";
                                         objCmdIn.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = "Insert";
                                         objConnIn.Open();
                                         objCmdIn.ExecuteNonQuery();
