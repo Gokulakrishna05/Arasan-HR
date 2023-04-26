@@ -48,9 +48,9 @@
                                                             <th>Work Center</th>
                                                             <th>Doc No</th>
                                                             <th>Doc Date</th>
-                                                            
                                                             @* <th>Followup</th>
                                                             <th>Move To Quote</th>*@
+                                                            <th>View</th>
                                                             <th>Edit</th>
                                                             <th>Delete</th>
                                                         </tr>
@@ -71,7 +71,7 @@
                                                                    
                                                                     @*<td><div class="fa-hover col-md-2 col-sm-4"> <a href="#"><img src='../Images/checklist.png' alt='Waiting for approval' /></a></div></td>*@
                                                                     @*<td> <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("PurchaseFollowup", "PurchaseEnq")"><img src='../Images/followup.png' alt='FollowUp' /> - (1)</a></div></td>*@
-
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewProductionLog", "ProductionLog",new { id=item.ID })"><img src='../Images/view_icon.png' /></a></div></td>
                                                                     <td>
 
                                                                         <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("ProductionLog", "ProductionLog",new { id=item.ID })"></a></div>
