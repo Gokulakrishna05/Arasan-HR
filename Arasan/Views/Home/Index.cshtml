@@ -155,14 +155,55 @@
                                                         }
                                  </tbody>
                               </table>
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Doc Id</th>
+                                    <th>Date</th>
+                                    <th>Type</th>
+                                    <th>Item Name</th>
+                                    <th>Drum No</th>
+                                    <th> </th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+
+                                    int j = 0;
+
+                                    foreach (var item in Model.Notifies.ToList())
+                                    {
+                                        <tr>
+                                            <td>@Html.DisplayFor(o => o.Notifies[j].Doc)</td>
+                                            <td>@Html.DisplayFor(o => o.Notifies[j].Date)</td>
+                                            <td>@Html.DisplayFor(o => o.Notifies[j].Type)</td>
+                                            <td>@Html.DisplayFor(o => o.Notifies[j].Item)</td>
+                                            <td>@Html.DisplayFor(o => o.Notifies[j].Drum)</td>
+                                            <td> <a class="nav-link" href="@Url.Action("QCFinalValueEntry", "QCFinalValueEntry")"> <span class="title">Go To QC </span> </a></td>
+
+                                        </tr>
+                                        j = j + 1;
+
+                                    }
+                                }
+                            </tbody>
+                        </table>
                              
                            </div>
+                </div>
+              
 									</div>
 								</div>
-							</div>
+	
 						</div>
 
-</div>
+ 
+								
+							 
+						 
+
+ 
 
 
 

@@ -95,8 +95,8 @@ namespace Arasan.Controllers.Production
                         tda.TBinid = dt2.Rows[i]["TBINID"].ToString();
 
                        tda.drumlst = Binddrum();
-                        tda.Drum = dt2.Rows[i]["DRUMNO"].ToString();
-
+                        tda.Drum = dt2.Rows[i]["NDRUMNO"].ToString();
+                        tda.Isvalid = "Y";
                         tda.Qty = dt2.Rows[i]["QTY"].ToString();
                         tda.Batch = dt2.Rows[i]["BATCHNO"].ToString();
                         tda.Rate = Convert.ToDouble(dt2.Rows[0]["BATCHRATE"].ToString() == "" ? "0" : dt2.Rows[0]["BATCHRATE"].ToString());
@@ -203,7 +203,7 @@ namespace Arasan.Controllers.Production
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DRUMNO"].ToString(), Value = dtDesg.Rows[i]["DRUMNO"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DRUMNO"].ToString(), Value = dtDesg.Rows[i]["DRUMMASTID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -221,8 +221,8 @@ namespace Arasan.Controllers.Production
         }
         public JsonResult GetItemGrpJSON()
         {
-            //DrumIssueEntryItem model = new DrumIssueEntryItem();
-            //  model.ItemGrouplst = BindItemGrplst(value);
+            DrumIssueEntryItem model = new DrumIssueEntryItem();
+              model.drumlst = Binddrum();
             return Json(Binddrum());
         }
         public List<SelectListItem> BindType()
@@ -346,7 +346,7 @@ namespace Arasan.Controllers.Production
  
                     tda.TBinid = dtDrum.Rows[i]["TBINID"].ToString();
  
-                    tda.Drum = dtDrum.Rows[i]["DRUMNO"].ToString();
+                    tda.Drum = dtDrum.Rows[i]["NDRUMNO"].ToString();
 
                     tda.Qty = dtDrum.Rows[i]["QTY"].ToString();
                     tda.Batch = dtDrum.Rows[i]["BATCHNO"].ToString();
