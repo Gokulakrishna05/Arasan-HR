@@ -869,5 +869,146 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetProductionLogByName(string name)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select BRANCH,PROCESSID,WCID,SHIFT,to_char(LPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,TBMELT,DOCID,SUPERBY,ENTEREDBY,EBUNITSCONS,FUELQTY,PROCLOTNO,PSCHNO,PROCLOTYN,TOTALINPUT,TOTALOUTPUT,TOTCONSQTY,TOTRMVALUE,TOTALWASTAGE,TOTALDUST,TOTALPOWDER,COMPLETEDYN,LPRODBASICID from LPRODBASIC where LPRODBASICID='" + name + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable ProWorkCenterDet(string name)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select LPRODBASICID,WORKCENTER,WSTATUS,PTYPE,to_char(LPRODWCDET.WSTARTDATE,'dd-MON-yyyy')WSTARTDATE,to_char(LPRODWCDET.WENDDATE,'dd-MON-yyyy')WENDDATE,WSTARTTIME,WENDTIME,WTOTHRS,WREASON from LPRODWCDET where LPRODBASICID='" + name + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable ProMachineDet(string name)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select LPRODBASICID,MACHINEID,MACHINENAME,RSTATUS,to_char(LPRODMACDET.FROMDATE,'dd-MON-yyyy')FROMDATE,to_char(LPRODMACDET.TODATE,'dd-MON-yyyy')TODATE,FROMTIME,TOTIME,MTOTMINS,MTOTHRS,MACHINECOST,MREASON from LPRODMACDET where LPRODBASICID='" + name + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable ProEmpDet(string name)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select LPRODBASICID,EMPNAME,EMPCODE1,DEPARTMENT,to_char(LPRODEMPDET.ESTARTDATE,'dd-MON-yyyy')ESTARTDATE,to_char(LPRODEMPDET.EENDDATE,'dd-MON-yyyy')EENDDATE,ESTARTTIME,EENDTIME,OTHRS,ETOTHRS,NORMHRS,NATOFW from LPRODEMPDET where LPRODBASICID='" + name + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable ProBreakDet(string name)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select LPRODBASICID,BMACNO,BMACHINEDESC,DTYPE,BFROMTIME,BTOTIME,PREORBRE,ALLOTEDTO,MTYPE,ACTDESC from LPRODBRKDWN where LPRODBASICID='" + name + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable ProInpDet(string name)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select LPRODBASICID,IITEMID,LOTYN,DRUMYN,IDRUMNO,IBATCHNO,IBATCHQTY,ICSTOCK,IQTY,IBRATE from LPRODINPDET where LPRODBASICID='" + name + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable ProConsDet(string name)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select LPRODBASICID,CITEMID,CUNIT,CLOTYN,CONSQTY,CSUBQTY,CVALUE,CRATE from LPRODCONSDET where LPRODBASICID='" + name + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable ProOutDet(string name)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select LPRODBASICID,OITEMID,OLOTYN,ODRUMYN,ODRUMNO,NBATCHNO,OQTY,to_char(LPRODOUTDET.DSDT,'dd-MON-yyyy')DSDT,to_char(LPRODOUTDET.DEDT,'dd-MON-yyyy')DEDT,STDTTIME,EDTTIME,RHRS from LPRODOUTDET where LPRODBASICID='" + name + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable ProWasteDet(string name)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select LPRODBASICID,WITEMID,WBATCHNO,WQTY,WRATE from LPRODWASTEDET where LPRODBASICID='" + name + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable ProOutsDet(string name)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select LPRODBASICID,NOOFEMP,EMPWHRS,EMPPAY,MANPOWEXP,ONATOFW,to_char(LPRODOUTS.OWSTDT,'dd-MON-yyyy')OWSTDT, OWEDDT,OWSTT,OWEDT from LPRODOUTS where LPRODBASICID='" + name + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable ProBunkDet(string name)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select LPRODBASICID,OPBBAL,TOTPINP,TOTGINP,CLBBAL,MLOPBAL,MLADD,MLDED,MLCLBAL from LPRODBUNK where LPRODBASICID='" + name + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable ProParamDet(string name)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select LPRODBASICID,PARAMETERS,PARAMUNIT,PARAMVALUE,to_char(LPRODPARAMDETAIL.PSDT,'dd-MON-yyyy')PSDT,to_char(LPRODPARAMDETAIL.PEDT,'dd-MON-yyyy')PEDT,PSTIME,PETIME from LPRODPARAMDETAIL where LPRODBASICID='" + name + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable ProProcessDet(string name)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select LPRODBASICID,BATCH,DISTNO,DISTNO2,EPROCESSID,EPSEQ,PETOTHRS,to_char(LPRODPROCDETAIL.ESDT,'dd-MON-yyyy')ESDT,to_char(LPRODPROCDETAIL.EEDT,'dd-MON-yyyy')EEDT,EST,EET,EBRHRS,ERUNHRS,ENARR from LPRODPROCDETAIL where LPRODBASICID='" + name + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
     }
 }
