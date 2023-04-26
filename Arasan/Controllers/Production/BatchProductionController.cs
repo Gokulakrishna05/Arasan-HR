@@ -266,7 +266,7 @@ namespace Arasan.Controllers
             return View(Cy);
         }
         [HttpPost]
-        public ActionResult ApproveProEntry(BatchProduction Cy, string id)
+        public ActionResult ApproveProEntry(ProductionEntry Cy, string id)
         {
 
             try
