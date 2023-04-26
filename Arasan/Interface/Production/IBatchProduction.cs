@@ -12,6 +12,7 @@ namespace Arasan.Interface
         DataTable BindProcess();
         DataTable SeacrhItem(string terms);
         string BatchProductionCRUD(BatchProduction cy);
+        string BPRODStock(ProductionEntry cy);
         IEnumerable<BatchProduction>  GetAllBatchProduction();
         DataTable GetWorkCenter();
         DataTable GetBatchProduction(string id);
@@ -24,5 +25,7 @@ namespace Arasan.Interface
         DataTable ProOutDetail(string PROID);
         DataTable ProConsDetail(string PROID);
         DataTable ProwasteDetail(string PROID);
+
+        double GetStockInQty(string Itemid, string barchid, string Locid); 
     }
 }
