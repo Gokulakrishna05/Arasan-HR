@@ -1,18 +1,22 @@
 ﻿@model Arasan.Models.ProductionLog
+
 @{
-    ViewData["Title"] = " Production Log";
+
+    ViewData["Title"] = "Production Log";
 }
 <style>
     .newwidth {
         width: 120px;
     }
-      .mandatory {
+
+    .mandatory {
         color: red;
         position: relative;
         top: 2px;
         left: 5px;
     }
 </style>
+
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
 
@@ -28,237 +32,180 @@
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="widgets-container">
-                    <h5 style="font-size:14px"> Production  Log</h5>
+                    <h5 style="font-size:14px">Batch - Creation</h5>
                     <hr>
+                    @using (Html.BeginForm("ViewProductionLog", "ProductionLog", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <form>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
 
-                    @using (Html.BeginForm("ProductionLog", "ProductionLog", FormMethod.Post))
-                        {
-                            @Html.AntiForgeryToken()
-                    <form>
-
-                       <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                    <label for="inputName3" class="col-sm-4 control-label">Branch<label class="mandatory">*</label></label>
-                                      <div class="col-sm-8">
-                                        @Html.HiddenFor(C => C.ID)
-                                            @Html.DropDownListFor(C => C.Branch, Model.Brlst," -- Please Select -- ", new { @id = "ddlBranch", @Class = "form-control _select", @TabIndex = 1 })<br />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                  <br />  <label for="inputName3" class="col-sm-4 control-label">Doc ID<label class="mandatory">*</label></label>
-                                    <div class="col-sm-8">
-                                                                              @Html.TextBoxFor(C => C.DocId, new { @id = "txtDocId", @class = "form-control", @TabIndex = 1 })<br />
-
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                   <br />  <label for="inputName3" class="col-sm-4 control-label">Doc Date<label class="mandatory">*</label></label>
-                                    <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                        @Html.TextBoxFor(C => C.Docdate, new { @id = "Docdate", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })
-                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                    </div>
-
-                                    <br />
-                                    </div>
-                                </div>
-                            </div>
-                         
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                    <label for="inputName3" class="col-sm-4 control-label">Work Center<label class="mandatory">*</label></label>
-
-
-                                    <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.WorkId, Model.Worklst, new { @id = "ddlWorkCenter", @Class = "form-control _select", @TabIndex = 1 })<br />
-
-                                    </div>
-
-
-
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="inputName3" class="col-sm-4 control-label">Process ID<label class="mandatory"></label></label>
-
-                                    <div class="col-sm-8">
-                                                              @Html.DropDownListFor(C => C.ProcessId, Model.Processlst," -- Please Select -- ", new { @id = "ddlProcess", @Class = "form-control _select", @TabIndex = 1 })<br/>
-
-                                    </div>
-                                </div>
-                            </div>
-
-
-                        </div>
-                        <div class="row">
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                  <br />  <label for="inputName3" class="col-sm-4 control-label">Process Lot No<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                                                              @Html.TextBoxFor(C => C.ProcessLot, new { @id = "txtProcessLot", @class = "form-control", @TabIndex = 1 })<br />
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                  <br />  <label for="inputName3" class="col-sm-4 control-label">Supervised By<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Supervised , Model.RecList," -- Please Select -- ", new { @id = "ddlSupervised ", @Class = "form-control _select", @TabIndex = 1 })<br />
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                    <label for="inputName3" class="col-sm-4 control-label">Shift<label class="mandatory">*</label> </label>
-                                    <div class="col-sm-8">
-                                             @Html.DropDownListFor(C => C.Shift, Model.Shiftlst," -- Please Select -- ", new { @id = "ddlShift", @Class = "form-control _select", @TabIndex = 1 ,onchange = "changeshift(this.value)"})<br/>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                    <label for="inputName3" class="col-sm-4 control-label">EB Unit Cons<label class="mandatory">*</label></label>
-                                    <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.EUnit, new { @id = "txtEUnit", @class = "form-control", @TabIndex = 1 })<br />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                          <div class="row">
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                    <label for="inputName3" class="col-sm-4 control-label">Start Date/Time<label class="mandatory">*</label></label>
-                                   <div class="input-group date form_datetime col-sm-8" data-date="" data-date-format="dd-M-yyyy - HH:ii p" >
-                                                         @Html.TextBoxFor(C => C.startdate, new { @id = "startdate", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })
-														<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-													</div>
-													
-													<br/>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                    <label for="inputName3" class="col-sm-4 control-label">End Date/Time<label class="mandatory">*</label></label>
-                                        <div class="input-group date form_datetime col-sm-8" data-date="" data-date-format="dd-M-yyyy - HH:ii p">
-                                            @Html.TextBoxFor(C => C.enddate, new { @id = "enddate", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })
-                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        <br> <label for="inputName3" class="col-sm-4 control-label">Branch <label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.HiddenFor(C => C.ID)
+                                            @Html.DisplayFor(C => C.Branch)
                                         </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
 
-                                        <br />
+                                        <br> <label for="inputName3" class="col-sm-4 control-label">Doc ID<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+
+                                            @Html.DisplayFor(C => C.DocId)
+
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                         <div class="row">
+                            <div style="height:15px;"></div>
 
-                            <div class="col-md-6">
-                                <div class="form-group">
+                            <div class="row">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Prod.Sieve<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                                                              @Html.TextBoxFor(C => C.ProdSieve, new { @id = "txtProdSieve", @class = "form-control", @TabIndex = 1 })<br />
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br> <label for="inputName3" class="col-sm-4 control-label">Doc Date<label class="Mandatory"></label></label>
+
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.Docdate)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br> <label for="inputName3" class="col-sm-4 control-label">Work Center<label class="Mandatory"></label></label>
+
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.WorkId)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br>  <label for="inputName3" class="col-sm-4 control-label">Process ID<label class="Mandatory"></label></label>
+
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.ProcessId)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br><label for="inputName3" class="col-sm-4 control-label">Process Lot No<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.ProcessLot)
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br>  <label for="inputName3" class="col-sm-4 control-label">Supervised By<label class="Mandatory"></label></label>
+
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.Supervised)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br><label for="inputName3" class="col-sm-4 control-label">Shift<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.Shift)
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br>  <label for="inputName3" class="col-sm-4 control-label">EB Unit Cons<label class="Mandatory"></label></label>
+
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.EUnit)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br><label for="inputName3" class="col-sm-4 control-label">Start Date/Time<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.startdate)
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br>  <label for="inputName3" class="col-sm-4 control-label">End Date/Time<label class="Mandatory"></label></label>
+
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.enddate)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br><label for="inputName3" class="col-sm-4 control-label">Prod.Sieve<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.ProdSieve)
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br>  <label for="inputName3" class="col-sm-4 control-label">Fuel Qty<label class="Mandatory"></label></label>
+
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.FuelQty)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br><label for="inputName3" class="col-sm-4 control-label">Meting Target<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.Melting)
+
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
-                                <div class="form-group">
+                            
+                            <div class="row">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Fuel Qty<label class="Mandatory">*</label></label>
-                                    <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.FuelQty, new { @id = "txtFuelQty", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br><label for="inputName3" class="col-sm-4 control-label">ProcLocY/N<label class="mandatory"> *</label></label>
+
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.ProdLog)
+                                        </div>
                                     </div>
                                 </div>
+                               
                             </div>
-                        </div>
-                          <div class="row">
 
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                    <label for="inputName3" class="col-sm-4 control-label">Meting Target<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Melting, new { @id = "txtMelting", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
-                                    </div>
-                                </div>
-                            </div>
-                            </div>
-                          @*<div class="row">
-                                 <div class="col-lg-3"></div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                    <br /><br />   <label for="inputName3" class="col-sm-4 control-label">ProcessMastID<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                      <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
-                                    </div>
-                                </div>
-                            </div>
-                               </div>
-                             <div class="row">
-                                    <div class="col-lg-3"></div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                    <label for="inputName3" class="col-sm-4 control-label">WCMastID<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>*@
-                         <div class="row">
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                    <label for="inputName3" class="col-sm-4 control-label">ProcLocY/N<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                     <div class="input-group">
-
-                                                        @Html.RadioButtonFor(C => C.ProdLog, "YES", new { @TabIndex = 2 })
-                                                        <label id="mt-radio">YES</label>
-                                            @Html.RadioButtonFor(C => C.ProdLog, "NO", new { @TabIndex = 3 })
-                                                        <label id="mt-radio">NO</label>
-
-
-                                                    </div><br />
-                                    </div>
-                                </div>
-                            </div>
-                                  </div>
-                        <div style="height:30px;"></div>
+                            <div style="height:30px;"></div>
                         <div class="row">
                             <div class="col-md-12">
 
@@ -278,16 +225,16 @@
                                               <li><a href="#tab-12" data-toggle="tab">Process Details</a></li>
                                                 <li><a href="#tab-13" data-toggle="tab">Remarks</a></li>
                                     </ul>
-                                    <div class="tab-content">
+                                     <div class="tab-content">
                                         <div class="tab-pane active" id="tab-1">
                                             <!-- 1st tab  -->
-                                             <div class="row">
+                                             @*<div class="row">
                                                 <div class="col-md-12">
                                                     <div class="btn-group">
                                                         <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" />
                                                     </div>
                                                 </div>
-                                                 </div>
+                                             </div>*@
 
                                                <div class="row">
            <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:200px;">
@@ -306,7 +253,7 @@
                                                                                 <th>Total Hrs </th>
                                                                                @* <th>WRun Hrs </th>*@
                                                                                 <th>Reason </th>
-                                                                                <th>Remove </th>
+                                                                                
                                                                             </tr>
                                                                         </thead>
                                                                          <tbody id="tbBooks">
@@ -318,26 +265,36 @@
                                                                  <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
                                                                                                                                     
                                                                <td>
-                                                                       @Html.DropDownListFor(o => o.WorkLst[i].WorkId, Model.WorkLst[i].WorkCenterlst, "Please Select", new { @class = "form-control _select   newcss", @id = "ddlWorkId" + i, style = "width: 170px;"})
+                                                                      
+                                                                        @Html.DisplayFor(o => o.WorkLst[i].WorkId)
                                                               </td>
-                                                               <td>@Html.DropDownListFor(o => o.WorkLst[i].Status, Model.WorkLst[i].Statuslst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlStatus" + i, style = "width: 140px;" })
+                                                               <td>
+                                                                @Html.DisplayFor(o => o.WorkLst[i].Status)
                                                                       </td>
-                                                                       <td>@Html.DropDownListFor(o => o.WorkLst[i].PType, Model.WorkLst[i].PTypelst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlPType" + i, style = "width: 140px;" })
+                                                                       <td>
+                                                                                @Html.DisplayFor(o => o.WorkLst[i].PType)
                                                                       </td>
-                                                                    <td><div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy" >@Html.TextBoxFor(o => o.WorkLst[i].StartDate, new { @id = "txtStartDate" + i, @class = "form-control", style = "width: 100px;",@readonly="readonly"})<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                                                                                                </div> </td> 
+                                                                    <td> 
+                                                                    @Html.DisplayFor(o => o.WorkLst[i].StartDate)
+                                                                    </td> 
                                                                    
-                                                                    <td>@Html.TextBoxFor(o => o.WorkLst[i].StartTime, new { @id = "txtStartTime" + i, @class = "form-control", style = "width: 120px;", @Type="time"})</td> 
-                                                                        <td><div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy"> @Html.TextBoxFor(o => o.WorkLst[i].EndDate, new { @id = "txtEndDate" + i, @class = "form-control",  style = "width: 100px;" ,@readonly="readonly"})<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                                                                                                </div> </td>
-                                                                <td>@Html.TextBoxFor(o => o.WorkLst[i].EndTime, new { @id = "txtEndTime" + i, @class = "form-control" , style = "width: 120px; ",@Type="time" })</td>
-                                                              <td>@Html.TextBoxFor(o => o.WorkLst[i].TotalHrs, new { @id = "txtTotalHrs" + i, @class = "form-control" , style = "width: 100px;" })</td>
-                                                           @* <td>@Html.TextBoxFor(o => o.inputlst[i].MillLoadAdd, new { @id = "txtMillLoadAdd" + i, @class = "form-control", style = "width: 100px;"})</td>*@
-                                                                        <td> @Html.DropDownListFor(o => o.WorkLst[i].Reason, Model.WorkLst[i].Reasonlst, new { @class = "form-control _select newcss", @id = "ddlReason" + i, style = "width: 200px;" })</td>
+                                                                    <td>
+                                                                     @Html.DisplayFor(o => o.WorkLst[i].StartTime)
+                                                                    </td> 
                                                                         <td>
-                                                      @Html.HiddenFor(o => o.WorkLst[i].Isvalid, new { @id = "Isvalid" + i })
-                                                                  <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> 
+                                                                         @Html.DisplayFor(o => o.WorkLst[i].EndDate)
+                                                                    </td>
+                                                                <td>
+                                                                 @Html.DisplayFor(o => o.WorkLst[i].EndTime)
                                                                  </td>
+                                                              <td>
+                                                               @Html.DisplayFor(o => o.WorkLst[i].TotalHrs)
+                                                               </td>
+                                                         
+                                                                        <td> 
+                                                                         @Html.DisplayFor(o => o.WorkLst[i].Reason)
+                                                                         </td>
+                                                                       
 
 
                                                                                                                                     </tr>
@@ -348,21 +305,21 @@
                                                                         </tbody>
                                                                     </table>
                                                                 </div>
-                                                            </div>
+                                              </div>
                                                       
                                                     
                                             <!-- 1st tab  -->
                                         </div>
                                         <div class="tab-pane" id="tab-2">
                                             <!-- 2nd tab  -->
-                                           <div class="row">
+                                           @*<div class="row">
                                                 <div class="col-md-12">
                                                     <div class="btn-group">
                                                         <input type="button" value="Add Row" onclick="AddMachineRow()" class="btn sbold green" />
                                                     </div>
                                                 </div>
                                                  </div>
-
+*@
                                                <div class="row">
            <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:200px;">
                                                
@@ -391,29 +348,49 @@
                                                             {
                                                                  <tr id="trBookMachine@(j)" class="chkMachineitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
                                                                                                                                     
-                                                      <td>@Html.TextBoxFor(o => o.MachineLst[j].MachineId, new { @id = "txtMachineId" + j, @class = "form-control" , style = "width: 100px; "  })</td>
+                                                      <td>
+                                                                                @Html.DisplayFor(o => o.MachineLst[j].MachineId)
+                                                      </td>
 
-                                                               <td>@Html.DropDownListFor(o => o.MachineLst[j].Machine, Model.MachineLst[j].Maclst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlMachine" + j, style = "width: 170px;" })
-                                                                      </td>
-                                                              <td>@Html.TextBoxFor(o => o.MachineLst[j].Status, new { @id = "txtStatus" + j, @class = "form-control" , style = "width: 120px; "  })</td>
+                                                                    <td>
+                                                                           @Html.DisplayFor(o => o.MachineLst[j].Machine)
+                                                               
+                                                                    </td>
+                                                                    <td>
+                                                                            @Html.DisplayFor(o => o.MachineLst[j].Status)
+                                                                    </td>
 
-                                                                    <td><div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy" >@Html.TextBoxFor(o => o.MachineLst[j].StartDate, new { @id = "txtStartDate" + j, @class = "form-control", style = "width: 100px;",@readonly="readonly"})<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                                                                                                </div> </td> 
-                                                                   
-                                                                    <td>@Html.TextBoxFor(o => o.MachineLst[j].StartTime, new { @id = "txtStartTime" + j, @class = "form-control", style = "width: 110px;", @Type="time"})</td> 
-                                                                        <td><div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy"> @Html.TextBoxFor(o => o.MachineLst[j].EndDate, new { @id = "txtEndDate" + j, @class = "form-control",  style = "width: 100px;" ,@readonly="readonly"})<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                                                                                                </div> </td>
-                                                                <td>@Html.TextBoxFor(o => o.MachineLst[j].EndTime, new { @id = "txtEndTime" + j, @class = "form-control" , style = "width: 110px; ",@Type="time" })</td>
-                                                              <td>@Html.TextBoxFor(o => o.MachineLst[j].TotalMins, new { @id = "txtTotalMins" + j, @class = "form-control" , style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)" })</td>
-                                                           @* <td>@Html.TextBoxFor(o => o.inputlst[i].MillLoadAdd, new { @id = "txtMillLoadAdd" + i, @class = "form-control", style = "width: 100px;"})</td>*@
-                                                                <td>@Html.TextBoxFor(o => o.MachineLst[j].TotalHrs, new { @id = "txtTotalHrs" + j, @class = "form-control" , style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)" })</td>
-                                                              <td>@Html.TextBoxFor(o => o.MachineLst[j].TotalMachineCost, new { @id = "txtTotalMachineCost" + j, @class = "form-control" , style = "width: 70px; " ,onkeydown = "return isNumeric2(event.keyCode,this.value)" })</td>
-                                                                     <td>@Html.TextBoxFor(o => o.MachineLst[j].Reason, new { @id = "txtReason" + j, @class = "form-control" , style = "width: 120px; "  })</td>
+                                                                    <td>
+                                                                            @Html.DisplayFor(o => o.MachineLst[j].StartDate)
+                                                                    </td>
 
-                                                                <td>
-                                                                                @Html.HiddenFor(o => o.MachineLst[j].Isvalid, new { @id = "MachineIsvalid" + j })
-                                                                  <img onclick="removeMachineRow(@(j));" src="../Images/delete.png" style="cursor:pointer" /> 
-                                                                 </td>
+                                                                    <td>
+                                                                            @Html.DisplayFor(o => o.MachineLst[j].StartTime)
+                                                                    </td> 
+                                                                    <td>
+                                                                            @Html.DisplayFor(o => o.MachineLst[j].EndDate)
+                                                                    </td>
+
+                                                                    <td>
+                                                                            @Html.DisplayFor(o => o.MachineLst[j].EndTime)
+                                                                    </td>
+
+                                                                    <td>
+                                                                            @Html.DisplayFor(o => o.MachineLst[j].TotalMins)
+                                                                    </td>
+                                                          
+                                                                    <td>
+                                                                            @Html.DisplayFor(o => o.MachineLst[j].TotalHrs)
+                                                               
+                                                                    </td>
+                                                                    <td>
+                                                                                @Html.DisplayFor(o => o.MachineLst[j].TotalMachineCost)
+                                                                    </td>
+                                                                    <td>
+                                                                                @Html.DisplayFor(o => o.MachineLst[j].Reason)
+                                                                    </td>
+
+                                                                
 
 
                                                                                                                                     </tr>
@@ -431,13 +408,13 @@
                                         </div>
                                         <div class="tab-pane" id="tab-3">
                                             <!-- 3rd tab  -->
-                                          <div class="row">
+                                         @* <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="btn-group">
                                                         <input type="button" value="Add Row" onclick="AddEmpRow()" class="btn sbold green" />
                                                     </div>
                                                 </div>
-                                                 </div>
+                                                 </div>*@
 
                                                <div class="row">
            <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:200px;">
@@ -471,28 +448,35 @@
                                                                                                                                     
                                                   
 
-                                                               <td>@Html.DropDownListFor(o => o.EmpLst[k].Employee, Model.EmpLst[k].Employeelst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlEmployee" + k, style = "width: 170px;",onchange = "changeEmployeeItem(this.value," + k + ")" })
+                                                                      <td>
+                                                                                @Html.DisplayFor(o => o.EmpLst[k].Employee)
                                                                       </td>
-                                                                          <td>@Html.TextBoxFor(o => o.EmpLst[k].EmpCode, new { @id = "txtEmpCode" +k, @class = "form-control" , style = "width: 100px; "  })</td>
-                                                              <td>@Html.TextBoxFor(o => o.EmpLst[k].Depart, new { @id = "txtDepart" + k, @class = "form-control" , style = "width: 120px; "  })</td>
+                                                                      <td>
+                                                                         @Html.DisplayFor(o => o.EmpLst[k].EmpCode)
+                                                                      </td>
 
-                                                                    <td><div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy" >@Html.TextBoxFor(o => o.EmpLst[k].StartDate, new { @id = "txtStartDate" + k, @class = "form-control", style = "width: 100px;",@readonly="readonly"})<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                                                                                                </div> </td> 
-                                                                   
-                                                                    <td>@Html.TextBoxFor(o => o.EmpLst[k].StartTime, new { @id = "txtStartTime" +k, @class = "form-control", style = "width: 110px;", @Type="time"})</td> 
-                                                                        <td><div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy"> @Html.TextBoxFor(o => o.EmpLst[k].EndDate, new { @id = "txtEndDate" + k, @class = "form-control",  style = "width: 100px;" ,@readonly="readonly"})<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                                                                                                </div> </td>
-                                                                <td>@Html.TextBoxFor(o => o.EmpLst[k].EndTime, new { @id = "txtEndTime" + k, @class = "form-control" , style = "width: 110px; ",@Type="time" })</td>
-                                                              <td>@Html.TextBoxFor(o => o.EmpLst[k].OTHrs, new { @id = "txtOTHrs" + k, @class = "form-control" , style = "width: 80px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})</td>
-                                                           @* <td>@Html.TextBoxFor(o => o.inputlst[i].MillLoadAdd, new { @id = "txtMillLoadAdd" + i, @class = "form-control", style = "width: 100px;"})</td>*@
-                                                                <td>@Html.TextBoxFor(o => o.EmpLst[k].ETOther, new { @id = "txtETOther" + k, @class = "form-control" , style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)" })</td>
-                                                                            <td>@Html.TextBoxFor(o => o.EmpLst[k].Normal, new { @id = "txtNormal" + k, @class = "form-control" , style = "width: 70px; " ,onkeydown = "return isNumeric2(event.keyCode,this.value)" })</td>
-                                                                     <td>@Html.TextBoxFor(o => o.EmpLst[k].NOW, new { @id = "txtNOW" + k, @class = "form-control" , style = "width: 120px; "  })</td>
+                                                                            <td>   
+                                                                            @Html.DisplayFor(o => o.EmpLst[k].Depart)
+                                                                            </td>
 
-                                                                <td>
-                                                                                @Html.HiddenFor(o => o.EmpLst[k].Isvalid, new { @id = "EmpIsvalid" + k})
-                                                                  <img onclick="removeEmpRow(@(k));" src="../Images/delete.png" style="cursor:pointer" /> 
-                                                                 </td>
+                                                                            <td>
+                                                                            @Html.DisplayFor(o => o.EmpLst[k].StartDate)
+                                                                            </td>
+
+                                                                            <td>  @Html.DisplayFor(o => o.EmpLst[k].StartTime) </td>
+
+                                                                            <td> @Html.DisplayFor(o => o.EmpLst[k].EndDate) </td>
+
+                                                                <td> @Html.DisplayFor(o => o.EmpLst[k].EndTime) </td>
+
+                                                              <td> @Html.DisplayFor(o => o.EmpLst[k].OTHrs)</td>
+                                                          
+                                                                            <td>  @Html.DisplayFor(o => o.EmpLst[k].ETOther)</td>
+
+                                                                            <td> @Html.DisplayFor(o => o.EmpLst[k].Normal)</td>
+
+                                                                            <td> @Html.DisplayFor(o => o.EmpLst[k].NOW)</td>
+
 
 
                                                                                                                                     </tr>
@@ -507,7 +491,7 @@
                                                        
                                             <!-- 3rd tab  -->
                                         </div>
-                                        <div class="tab-pane" id="tab-4">
+                                      @*  <div class="tab-pane" id="tab-4">
                                             <!-- 4th tab  -->
                                            <div class="row">
                                                 <div class="col-md-12">
@@ -557,7 +541,7 @@
                                                                         
                                                                 <td>@Html.TextBoxFor(o => o.BreakLst[a].EndTime, new { @id = "txtEndTime" + a, @class = "form-control" , style = "width: 110px; "  })</td>
                                                             
-                                                           @* <td>@Html.TextBoxFor(o => o.inputlst[i].MillLoadAdd, new { @id = "txtMillLoadAdd" + i, @class = "form-control", style = "width: 100px;"})</td>*@
+                                                           
                                                                 <td>@Html.TextBoxFor(o => o.BreakLst[a].PB, new { @id = "txtPB" + a, @class = "form-control" , style = "width: 80px;" })</td>
                                                                <td>@Html.DropDownListFor(o => o.BreakLst[a].Alloted, Model.BreakLst[a].Emplst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlAlloted" + a, style = "width: 140px;" })
                                                                       </td>
@@ -581,8 +565,8 @@
                                                             </div>
                                                         
                                             <!-- 4th tab  -->
-                                        </div>
-                                        <div class="tab-pane" id="tab-5">
+                                        </div>*@
+                                       @* <div class="tab-pane" id="tab-5">
                                             <!-- 5th tab  -->
                                             <div class="row">
                                                 <div class="col-md-12">
@@ -633,7 +617,7 @@
                                                                         
                                                                 <td>@Html.TextBoxFor(o => o.InputLst[b].BatchQty, new { @id = "txtBatchQty" + b, @class = "form-control" , style = "width: 110px; "  ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})</td>
                                                             
-                                                           @* <td>@Html.TextBoxFor(o => o.inputlst[i].MillLoadAdd, new { @id = "txtMillLoadAdd" + i, @class = "form-control", style = "width: 100px;"})</td>*@
+                                                          
                                                                 <td>@Html.TextBoxFor(o => o.InputLst[b].Stock, new { @id = "txtStock" + b, @class = "form-control" , style = "width: 80px;" })</td>
                                                               <td>@Html.TextBoxFor(o => o.InputLst[b].IQty, new { @id = "txtIQty" + b, @class = "form-control" , style = "width: 80px;",@onkeyup = "changeQty(this," + b + ")",onkeydown = "return isNumeric2(event.keyCode,this.value)" })</td>
 
@@ -658,8 +642,8 @@
                                                             </div>
                                                        
                                             <!-- 5th tab  -->
-                                        </div>
-                                        <div class="tab-pane" id="tab-6">
+                                        </div>*@
+                                       @* <div class="tab-pane" id="tab-6">
                                             <!-- 6th tab  -->
                                            <div class="row">
                                                 <div class="col-md-12">
@@ -728,8 +712,8 @@
                                                             </div>
                                                          
                                             <!-- 6th tab  -->
-                                        </div>
-                                         <div class="tab-pane" id="tab-7">
+                                        </div>*@
+                                        @* <div class="tab-pane" id="tab-7">
                                             <!-- 7th tab  -->
                                             <div class="row">
                                                 <div class="col-md-12">
@@ -810,9 +794,9 @@
                                                             </div>
                                                         
                                             <!-- 7th tab  -->
-                                        </div>
+                                        </div>*@
 
-                                         <div class="tab-pane " id="tab-8">
+                                        @* <div class="tab-pane " id="tab-8">
                                             <!-- 8th tab  -->
                                              <div class="row">
                                                 <div class="col-md-12">
@@ -874,8 +858,8 @@
                                                             </div>
                                                         
                                             <!-- 8th tab  -->
-                                        </div>
-                                        <div class="tab-pane" id="tab-9">
+                                        </div>*@
+                                       @* <div class="tab-pane" id="tab-9">
                                             <!-- 9th tab  -->
                                               <div class="row">
                                                 <div class="col-md-12">
@@ -947,15 +931,15 @@
                                                             </div>
                                                         
                                             <!-- 9th tab  -->
-                                        </div>
-                                         <div class="tab-pane " id="tab-10">
+                                        </div>*@
+                                       @*  <div class="tab-pane " id="tab-10">
                                         <!-- 10th tab  -->
                                              @{
                        int n = 0;
                                   foreach (var item in Model.BunkLst.ToList())
                                          {     
    <div class="row">
-                                                    @*<div class="col-md-1"></div>*@
+                                                   
                           <div class="col-lg-3"></div>
                              <div class="col-md-6">
                                   <div class="form-group">
@@ -1066,7 +1050,7 @@
                                  </div>
 
                                    <div class="row">
-                                                    @*<div class="col-md-1"></div>*@
+                                                   
                                                 <div class="col-lg-3"></div>
                              <div class="col-md-6">
                                   <div class="form-group">
@@ -1126,9 +1110,9 @@
                               n = n + 1;
                                                             }
                                                         }
-                        </div>
+                        </div>*@
 
-                          <div class="tab-pane " id="tab-11">
+                          @*<div class="tab-pane " id="tab-11">
                                             <!-- 11th tab  -->
                                              <div class="row">
                                                 <div class="col-md-12">
@@ -1198,8 +1182,8 @@
                                                                 </div>
                                                          </div>
                                             <!-- 11th tab  -->
-                                        </div>
-                                         <div class="tab-pane" id="tab-12">
+                                        </div>*@
+                                        @* <div class="tab-pane" id="tab-12">
                                             <!-- 12th tab  -->
                                                 <div class="row">
                                                 <div class="col-md-12">
@@ -1279,8 +1263,8 @@
                                                             </div>
                                                         
                                             <!-- 12th tab  -->
-                                        </div>
-                                          <div class="tab-pane " id="tab-13">
+                                        </div>*@
+                                         @* <div class="tab-pane " id="tab-13">
                                         <!-- 13th tab  -->
                                             <div class="row">
                                                 <div class="col-md-12">
@@ -1302,157 +1286,139 @@
                                 </div>
                                 </div>
                                 </div>
+                                </div>*@
                                 </div>
                                 </div>
                                 </div>
                                 </div>
-                                </div>
-
-                        <div style="height:30px;"></div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                    <label for="inputName3" class="col-sm-4 control-label">Total Input Qty<label class="Mandatory"></label></label>
 
 
-                                    <div class="col-sm-8">
+                            <div style="height:30px;"></div>
+                            <div class="row">
 
-                                                                              @Html.TextBoxFor(C => C.InputQty, new { @id = "txtInpuyQty", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br> <label for="inputName3" class="col-sm-4 control-label">Total Input Qty<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.InputQty)
+                                        </div>
                                     </div>
-
-
-
                                 </div>
-                            </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
 
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="inputName3" class="col-sm-4 control-label">Total Cons Qty<label class="Mandatory"></label></label>
-
-                                    <div class="col-sm-8">
-                                                                              @Html.TextBoxFor(C => C.ConsQty, new { @id = "txtConsQty", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)" })<br />
+                                        <br> <label for="inputName3" class="col-sm-4 control-label">Total Cons Qty<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.ConsQty)
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
 
+                                <div class="col-md-6">
+                                    <div class="form-group">
 
-                        </div>
-                        <div class="row">
+                                        <br> <label for="inputName3" class="col-sm-4 control-label">Total Powder<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.TotalPowder)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
 
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                    <label for="inputName3" class="col-sm-4 control-label">Total Powder<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                                                              @Html.TextBoxFor(C => C.TotalPowder, new { @id = "txtTotalPowder", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)" })<br />
+                                        <br> <label for="inputName3" class="col-sm-4 control-label">Total Dust<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.TotalDust)
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Total Dust<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                                                              @Html.TextBoxFor(C => C.TotalDust, new { @id = "txtTotalDust", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
+                                        <br>  <label for="inputName3" class="col-sm-4 control-label">Total Output Qty<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+
+                                            @Html.DisplayFor(C => C.OutputQty)
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br>   <label for="inputName3" class="col-sm-4 control-label">Total Waste<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+
+                                            @Html.DisplayFor(C => C.TotalWaste)
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
 
-                          <div class="row">
+                                        <br>  <label for="inputName3" class="col-sm-4 control-label">Completed YN<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
 
-                            <div class="col-md-6">
-                                <div class="form-group">
+                                            @Html.DisplayFor(C => C.ComplYN)
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Total Output Qty<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                                                              @Html.TextBoxFor(C => C.OutputQty, new { @id = "txtOutputQty", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br>   <label for="inputName3" class="col-sm-4 control-label">Entered By<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+
+                                            @Html.DisplayFor(C => C.Entered)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br>  <label for="inputName3" class="col-sm-4 control-label">RM Value<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+
+                                            @Html.DisplayFor(C => C.Rmvalue)
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br>   <label for="inputName3" class="col-sm-4 control-label">Main Value<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+
+                                            @Html.DisplayFor(C => C.MainValue)
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                    <label for="inputName3" class="col-sm-4 control-label">Total Waste<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                                                              @Html.TextBoxFor(C => C.TotalWaste, new { @id = "txtTotalWaste", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)" })<br />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                          <div class="row">
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                    <label for="inputName3" class="col-sm-4 control-label">Completed YN<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                        <div class="input-group">
-
-                                            @Html.RadioButtonFor(C => C.ComplYN, "Y", new { @TabIndex = 2 })
-                                            <label id="mt-radio">YES</label>
-                                                @Html.RadioButtonFor(C => C.ComplYN, "N", new { @TabIndex = 3 })
-                                            <label id="mt-radio">NO</label>
 
 
-                                        </div><br />
-                                    </div>
-                                </div>
-                            </div>
-                               </div>
-                             <div class="row">
+                            <div style="height:30px;"></div>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListProductionLog", "ProductionLog")'">Cancel</button>
 
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                    <label for="inputName3" class="col-sm-4 control-label">Entered By<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Entered , Model.EmpList," -- Please Select -- ", new { @id = "ddlEntered ", @Class = "form-control _select", @TabIndex = 1 })<br />
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                    <label for="inputName3" class="col-sm-4 control-label">Verified By<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="" type="text">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                    <br /> <br /><label for="inputName3" class="col-sm-4 control-label">RM Value<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.Rmvalue, new { @id = "txtRmvalue", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                    <br /> <br /><label for="inputName3" class="col-sm-4 control-label">Main Value<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.MainValue, new { @id = "txtMainValue", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
-                                    </div>
-                                </div>
-                            </div>
-                            </div>
-                        <div style="height:30px;"></div>
-                           <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" >Submit</button>
-                        <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListProductionLog", "ProductionLog")'">Cancel</button>
-
-
-
-                    </form>
+                        </form>
                     }
                 </div>
             </div>
@@ -1461,671 +1427,35 @@
     </div>
 </div>
 <script>
-    $(function() {
-            $('._select').select2();
-        });
-    $('.form_date').datetimepicker({
-        //   language:  'fr',
-        weekStart: 1,
-        todayBtn: 1,
-        autoclose: 1,
-        todayHighlight: 1,
-        startView: 2,
-        minView: 2,
-        forceParse: 0
+    $(function () {
+        var entry = '@ViewBag.entrytype';
+        changeentry(entry);
+        function changeentry(typeid) {
+            if (typeid == "INPUT") {
+                document.getElementById("ainp").click();
+    @*window.location.href = href*@
+                    document.getElementById("liinp").style.display = "block";
+                document.getElementById("liinpC").style.display = "block";
+                document.getElementById("liout").style.display = "none";
+                document.getElementById("lioutW").style.display = "none";
+            }
+            else if (typeid == "OUTPUT") {
+                document.getElementById("aout").click();;
+    @*  window.location.href = href*@
+                    document.getElementById("liinp").style.display = "none";
+                document.getElementById("liinpC").style.display = "none";
+                document.getElementById("liout").style.display = "block";
+                document.getElementById("lioutW").style.display = "block";
+            }
+            else {
+                document.getElementById("ainp").click();
+    @*window.location.href = href*@
+                    document.getElementById("liinp").style.display = "block";
+                document.getElementById("liinpC").style.display = "block";
+                document.getElementById("liout").style.display = "block";
+                document.getElementById("lioutW").style.display = "block";
+            }
+        }
     });
-    $(document).ready(function () {
-        $('#btnSave').click(function (e) {
-            var isValid = true;
-            if (document.getElementById("ddlBranch").value == "" || document.getElementById("ddlBranch").value == 0) {
-                isValid = false;
-                $(ddlBranch ).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
+</script>
 
-                alert("Please Select Branch");
-                return false;
-            }
-            else {
-                $(ddlBranch ).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-            if (document.getElementById("Docdate").value == "") {
-                isValid = false;
-                $(Docdate).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Select  Date");
-                return false;
-            }
-            else {
-                $(Docdate).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-            if (document.getElementById("txtDocId").value == "") {
-                isValid = false;
-                $(txtDocId).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Select Doc Id");
-                return false;
-            }
-            else {
-                $(txtDocId).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-            
-            if (document.getElementById("ddlWorkCenter").value == "" || document.getElementById("ddlWorkCenter").value == 0) {
-                isValid = false;
-                $(ddlWorkCenter ).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Select Work Center");
-                return false;
-            }
-            else {
-                $(ddlWorkCenter ).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-            if (document.getElementById("ddlShift").value == "" || document.getElementById("ddlShift").value == 0) {
-                isValid = false;
-                $(ddlShiftr ).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Select Shift");
-                return false;
-            }
-            else {
-                $(ddlShift ).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-            if (document.getElementById("txtEUnit").value == "") {
-                isValid = false;
-                $(txtEUnit).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Select EB Unit");
-                return false;
-            }
-            else {
-                $(txtEUnit).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-            if (document.getElementById("startdate").value == "") {
-                isValid = false;
-                $(startdate).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Select  Start Date & Time");
-                return false;
-            }
-            else {
-                $(startdate).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-            if (document.getElementById("enddate").value == "") {
-                isValid = false;
-                $(enddate).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Select End Date & Time");
-                return false;
-            }
-            else {
-                $(enddate).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-            if (document.getElementById("txtFuelQty").value == "") {
-                isValid = false;
-                $(txtFuelQty).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Select Fual Qty");
-                return false;
-            }
-            else {
-                $(txtFuelQty).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-            if (isValid == false)
-                e.preventDefault();
-        });
-
-    });
-     function changeMachineItem(ItemId, i) {
-        $.ajax({
-            url: 'GetMachineDetail',
-            data: { "ItemId": ItemId },
-            type: "GET",
-            success: function (result) {
-                
-                document.getElementById("txtMachineDes" + i).value = result.name;
-              
-                document.getElementById("txtMType" + i).value = result.type;
-                
-            },
-            error: function () {
-                alert("Data Not Found");
-            }
-        });
-    }
-       function changeEmployeeItem(ItemId, i) {
-        $.ajax({
-            url: 'GetEmployeeDetail',
-            data: { "ItemId": ItemId },
-            type: "GET",
-            success: function (result) {
-                
-                document.getElementById("txtEmpCode" + i).value = result.code;
-              
-                
-                
-            },
-            error: function () {
-                alert("Data Not Found");
-            }
-        });
-    }
-       function changeItem(ItemId, i) {
-        $.ajax({
-            url: 'GetItemDetail',
-            data: { "ItemId": ItemId },
-            type: "GET",
-            success: function (result) {
-                
-                document.getElementById("txtUnit" + i).value = result.unit;
-              
-                 
-            },
-            error: function () {
-                alert("Data Not Found");
-            }
-        });
-    }
-       function changeQty(_this, i) {
-        try {
-
-            var j = 0;
-            var qty = 0;
-            var tot = 0;
-            $('tr.chkInputitemlst').each(function () {
-                if ($(this).css('display') !== 'none') {
-                    qty = $(this).find('#txtIQty' + j.toString()).val();
-                    if (qty == "")
-                        qty = 0;
-
-                    tot += eval(qty);
-                }
-                j += 1;
-            });
-            document.getElementById("txtInpuyQty").value = tot.toFixed(2);
-        }
-        catch (ex) {
-            alert(ex.message);
-        }
-    }
-     function changeConsQty(_this, i) {
-        try {
-
-            var j = 0;
-            var qty = 0;
-            var tot = 0;
-            $('tr.chkConsitemlst').each(function () {
-                if ($(this).css('display') !== 'none') {
-                    qty = $(this).find('#txtConsQty' + j.toString()).val();
-                    if (qty == "")
-                        qty = 0;
-
-                    tot += eval(qty);
-                }
-                j += 1;
-            });
-            document.getElementById("txtConsQty").value = tot.toFixed(2);
-        }
-        catch (ex) {
-            alert(ex.message);
-        }
-    }
-      function changeOutQty(_this, i) {
-        try {
-
-            var j = 0;
-            var qty = 0;
-            var tot = 0;
-            $('tr.chkOutputitemlst').each(function () {
-                if ($(this).css('display') !== 'none') {
-                    qty = $(this).find('#txtOQty' + j.toString()).val();
-                    if (qty == "")
-                        qty = 0;
-
-                    tot += eval(qty);
-                }
-                j += 1;
-            });
-            document.getElementById("txtOutputQty").value = tot.toFixed(2);
-        }
-        catch (ex) {
-            alert(ex.message);
-        }
-    }
-      function changeWasteQty(_this, i) {
-        try {
-
-            var j = 0;
-            var qty = 0;
-            var tot = 0;
-            $('tr.chkWasteitemlst').each(function () {
-                if ($(this).css('display') !== 'none') {
-                    qty = $(this).find('#txtWQty' + j.toString()).val();
-                    if (qty == "")
-                        qty = 0;
-
-                    tot += eval(qty);
-                }
-                j += 1;
-            });
-            document.getElementById("txtTotalWaste").value = tot.toFixed(2);
-        }
-        catch (ex) {
-            alert(ex.message);
-        }
-    }
-    function removeRow(id) {
-       var table = document.getElementById("dataTable");
-      var rowCount = table.rows.length;
-       var row = document.getElementById('trBook' + id);
-       var j = 0;
-       $('tr.chkitemlst').each(function () {
-            if ($(this).css('display') !== 'none') {
-                j += 1;
-            }
-        });
-       if (j > 1) {
-           row.style.display = "none";
-         document.getElementById('Isvalid' + id).value = "N";
-     }
-       else {
-            alert("Cannot delete all the rows.")
-        }
-    }
-     function removeMachineRow(id) {
-       var table = document.getElementById("dataTableMachine");
-      var rowCount = table.rows.length;
-       var row = document.getElementById('trBookMachine' + id);
-       var j = 0;
-       $('tr.chkMachineitemlst').each(function () {
-            if ($(this).css('display') !== 'none') {
-                j += 1;
-            }
-        });
-       if (j > 1) {
-           row.style.display = "none";
-         document.getElementById('MachineIsvalid' + id).value = "N";
-     }
-       else {
-            alert("Cannot delete all the rows.")
-        }
-    }
-     function removeEmpRow(id) {
-       var table = document.getElementById("dataTableEmp");
-      var rowCount = table.rows.length;
-       var row = document.getElementById('trBookEmp' + id);
-       var j = 0;
-       $('tr.chkEmpitemlst').each(function () {
-            if ($(this).css('display') !== 'none') {
-                j += 1;
-            }
-        });
-       if (j > 1) {
-           row.style.display = "none";
-         document.getElementById('EmpIsvalid' + id).value = "N";
-     }
-       else {
-            alert("Cannot delete all the rows.")
-        }
-    }
-     function removeBreakRow(id) {
-       var table = document.getElementById("dataTableBreak");
-      var rowCount = table.rows.length;
-       var row = document.getElementById('trBookBreak' + id);
-       var j = 0;
-       $('tr.chkBreakitemlst').each(function () {
-            if ($(this).css('display') !== 'none') {
-                j += 1;
-            }
-        });
-       if (j > 1) {
-           row.style.display = "none";
-         document.getElementById('BreakIsvalid' + id).value = "N";
-     }
-       else {
-            alert("Cannot delete all the rows.")
-        }
-    }
-     function removeInputRow(id) {
-       var table = document.getElementById("dataTableInput");
-      var rowCount = table.rows.length;
-       var row = document.getElementById('trBookInput' + id);
-       var j = 0;
-       $('tr.chkInputitemlst').each(function () {
-            if ($(this).css('display') !== 'none') {
-                j += 1;
-            }
-        });
-       if (j > 1) {
-           row.style.display = "none";
-         document.getElementById('InputIsvalid' + id).value = "N";
-     }
-       else {
-            alert("Cannot delete all the rows.")
-        }
-    }
-     function removeConsRow(id) {
-       var table = document.getElementById("dataTableCons");
-      var rowCount = table.rows.length;
-       var row = document.getElementById('trBookCons' + id);
-       var j = 0;
-       $('tr.chkConsitemlst').each(function () {
-            if ($(this).css('display') !== 'none') {
-                j += 1;
-            }
-        });
-       if (j > 1) {
-           row.style.display = "none";
-         document.getElementById('ConsIsvalid' + id).value = "N";
-     }
-       else {
-            alert("Cannot delete all the rows.")
-        }
-    }
-       function removeOutputRow(id) {
-       var table = document.getElementById("dataTableOutput");
-      var rowCount = table.rows.length;
-       var row = document.getElementById('trBookOutput' + id);
-       var j = 0;
-       $('tr.chkOutputitemlst').each(function () {
-            if ($(this).css('display') !== 'none') {
-                j += 1;
-            }
-        });
-       if (j > 1) {
-           row.style.display = "none";
-         document.getElementById('OutputIsvalid' + id).value = "N";
-     }
-       else {
-            alert("Cannot delete all the rows.")
-        }
-    }
-     function removeWasteRow(id) {
-       var table = document.getElementById("dataTableWaste");
-      var rowCount = table.rows.length;
-       var row = document.getElementById('trBookWaste' + id);
-       var j = 0;
-       $('tr.chkWasteitemlst').each(function () {
-            if ($(this).css('display') !== 'none') {
-                j += 1;
-            }
-        });
-       if (j > 1) {
-           row.style.display = "none";
-         document.getElementById('WasteIsvalid' + id).value = "N";
-     }
-       else {
-            alert("Cannot delete all the rows.")
-        }
-    }
-     function removeOutsRow(id) {
-       var table = document.getElementById("dataTableOuts");
-      var rowCount = table.rows.length;
-       var row = document.getElementById('trBookOuts' + id);
-       var j = 0;
-       $('tr.chkOutsitemlst').each(function () {
-            if ($(this).css('display') !== 'none') {
-                j += 1;
-            }
-        });
-       if (j > 1) {
-           row.style.display = "none";
-         document.getElementById('OutsIsvalid' + id).value = "N";
-     }
-       else {
-            alert("Cannot delete all the rows.")
-        }
-    }
-     function removeParamRow(id) {
-       var table = document.getElementById("dataTableParam");
-      var rowCount = table.rows.length;
-       var row = document.getElementById('trBookParam' + id);
-       var j = 0;
-       $('tr.chkParamitemlst').each(function () {
-            if ($(this).css('display') !== 'none') {
-                j += 1;
-            }
-        });
-       if (j > 1) {
-           row.style.display = "none";
-         document.getElementById('ParamIsvalid' + id).value = "N";
-     }
-       else {
-            alert("Cannot delete all the rows.")
-        }
-    }
-    function removeProcessRow(id) {
-       var table = document.getElementById("dataTableProcess");
-      var rowCount = table.rows.length;
-       var row = document.getElementById('trBookProcess' + id);
-       var j = 0;
-       $('tr.chkProcessitemlst').each(function () {
-            if ($(this).css('display') !== 'none') {
-                j += 1;
-            }
-        });
-       if (j > 1) {
-           row.style.display = "none";
-         document.getElementById('ProcessIsvalid' + id).value = "N";
-     }
-       else {
-            alert("Cannot delete all the rows.")
-        }
-    }
-       function AddRow() {
-        var opt = "";
-        $.ajax({
-            type: "POST",
-            url: 'GetItemJSON',
-            success: function (data) {
-                $.each(data, function () {
-                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
-                });
-                AppendRow(opt);
-            }
-        })
-    }
-     function AddMachineRow() {
-        var opt = "";
-        $.ajax({
-            type: "POST",
-            url: 'GetMachineJSON',
-            success: function (data) {
-                $.each(data, function () {
-                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
-                });
-                AppendMachineRow(opt);
-            }
-        })
-    }
-     function AddEmpRow() {
-        var opt = "";
-        $.ajax({
-            type: "POST",
-            url: 'GetEmpJSON',
-            success: function (data) {
-                $.each(data, function () {
-                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
-                });
-                AppendEmpRow(opt);
-            }
-        })
-    }
-      function AddBreakRow() {
-     var opt = "";
-          var remopt = "";
-        $.ajax({
-            type: "POST",
-            url: 'GetBreakJSON',
-            success: function (data) {
-                $.each(data, function () {
-                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
-                });
-                $.ajax({
-                            type: "POST",
-                            url: 'GetBreakEmpJSON',
-                            success: function (data) {
-                                $.each(data, function () {
-                                    remopt += "<option value=" + this.value + ">" + this.text + "</option>";
-                                });
-                                AppendBreakRow(opt, remopt);
-                            }
-                        })
-                     
-                    }
-                })
-    } 
-       function AppendRow(opt ) {
-        var index = $("#tbBooks").children("tr").length;
-
-        var Work = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlWorkId" + index + "' name='WorkLst[" + index + "].WorkId' ><option value=''>Please select</option>" + opt + "</select></td>";
-            var Status = "<td> <select style = 'width: 140px;' class='form-control _select newcss' id = 'ddlStatus" + index + "' name = 'WorkLst[" + index + "].Status' > <option value='Run' > Run </option><option value='Stop'>Stop</option > </select></td > ";
-            var type = "<td><select style = 'width: 140px;' class='form-control _select newcss' id='ddlWType" + index + "' name='WorkLst[" + index + "].WType' > <option value='None' > None </option><option value='EB'>EB</option > </select></td>";
-        var startdate = "<td><div class='input-group date form_date col-sm-8'  data-date-format='dd-M-yyyy'><input class='form-control'  id='txStartDate" + index + "' name='WorkLst[" + index + "].StartDate' style='width: 100px;' type='text' value=''readonly='readonly'><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div></td>";
-        var starttime="<td><input class='form-control'  id='txtStartTime" + index + "' name='WorkLst[" + index + "].StartTime' style='width: 120px;' type='time' value=''></td>";
-            var enddate = "<td><div class='input-group date form_date col-sm-8'  data-date-format='dd-M-yyyy'><input class='form-control'  id='txtEndDate" + index + "' name='WorkLst[" + index + "].EndDate' style='width: 100px;' type='text' value='' readonly='readonly'><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div></td>";
-        var endtime="<td><input class='form-control'  id='txtEndTime" + index + "' name='WorkLst[" + index + "].EndTime' style='width: 120px;' type='time' value=''></td>";
-        var totalhrs="<td><input class='form-control'  id='txtTotalHrs" + index + "' name='WorkLst[" + index + "].TotalHrs' style='width: 100px;' type='text' value=''></td>";
-        var reason = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlReason" + index + "' name='Reasonlst[" + index + "].Reason' ><option value=''>Please select</option>" + opt + "</select> </td>";
-            var removeCell = "<td><input id='Isvalid" + index + "' name='WorkLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='inputlst.Index' type='hidden' value='" + index + "'  /></td>";
-        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Work + Status + type + startdate + starttime + enddate + endtime + totalhrs + reason + removeCell + "</tr>";
-        $("#tbBooks").append(newRow);
-       
-         
-       $(function() {
-            $('._select').select2();
-        });
-          
-      
-    } 
-      function AppendMachineRow(opt ) {
-        var index = $("#tbBooksMach").children("tr").length;
-        var Machid="<td><input class='form-control'  id='txtMachineId" + index + "' name='MachineLst[" + index + "].MachineId' style='width: 100px;'   value=''></td>";
-
-        var name = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlMachine" + index + "' name='MachineLst[" + index + "].Machine' ><option value=''>Please select</option>" + opt + "</select></td>";
-        var status="<td><input class='form-control'  id='txtStatus" + index + "' name='MachineLst[" + index + "].Status' style='width: 120px;'   value=''></td>";
-        
-        var startdate = "<td><div class='input-group date form_date col-sm-8'  data-date-format='dd-M-yyyy'><input class='form-control'  id='txStartDate" + index + "' name='MachineLst[" + index + "].StartDate' style='width: 100px;' type='text' value=''readonly='readonly'><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div></td>";
-        var starttime="<td><input class='form-control'  id='txtStartTime" + index + "' name='MachineLst[" + index + "].StartTime' style='width: 110px;' type='time' value=''></td>";
-            var enddate = "<td><div class='input-group date form_date col-sm-8'  data-date-format='dd-M-yyyy'><input class='form-control'  id='txtEndDate" + index + "' name='MachineLst[" + index + "].EndDate' style='width: 100px;' type='text' value='' readonly='readonly'><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div></td>";
-        var endtime="<td><input class='form-control'  id='txtEndTime" + index + "' name='MachineLst[" + index + "].EndTime' style='width: 110px;' type='time' value=''></td>";
-        var totalmin="<td><input class='form-control'  id='txtTotalMins" + index + "' name='MachineLst[" + index + "].TotalMins' style='width: 80px;' type='text' value=''></td>";
-        var totalhrs="<td><input class='form-control'  id='txtTotalHrs" + index + "' name='MachineLst[" + index + "].TotalHrs' style='width: 80px;'   value=''></td>";
-        var cost="<td><input class='form-control'  id='txtTotalMachineCost" + index + "' name='MachineLst[" + index + "].TotalMachineCost' style='width: 70px;'   value=''></td>";
-        var reason="<td><input class='form-control'  id='txtReason" + index + "' name='MachineLst[" + index + "].Reason' style='width: 120px;'   value=''></td>";
-
-            var removeCell = "<td><input id='IsMachinevalid" + index + "' name='MachineLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeMachineRow(" + index + ");'  style='cursor:pointer' /><input name='inputlst.Index' type='hidden' value='" + index + "'  /></td>";
-        var newRow = "<tr class='chkMachineitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookMachine" + index + "'>" + Machid + name + status + startdate + starttime + enddate + endtime + totalmin + totalhrs + cost + reason + removeCell + "</tr>";
-        $("#tbBooksMach").append(newRow);
-       
-         
-       $(function() {
-            $('._select').select2();
-        });
-          
-      
-    } 
-       function AppendEmpRow(opt ) {
-        var index = $("#tbBooksEmp").children("tr").length;
-                var empname = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlEmployee" + index + "' name='EmpLst[" + index + "].Employee' onchange = 'changeEmployeeItem(this.value," + index + ")' ><option value=''>Please select</option>" + opt + "</select></td>";
-
-        var code="<td><input class='form-control'  id='txtEmpCode" + index + "' name='EmpLst[" + index + "].EmpCode' style='width: 100px;'   value=''></td>";
-
-        var Department="<td><input class='form-control'  id='txtDepart" + index + "' name='EmpLst[" + index + "].Depart' style='width: 120px;'   value=''></td>";
-        
-        var startdate = "<td><div class='input-group date form_date col-sm-8'  data-date-format='dd-M-yyyy'><input class='form-control'  id='txStartDate" + index + "' name='EmpLst[" + index + "].StartDate' style='width: 100px;' type='text' value=''readonly='readonly'><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div></td>";
-        var starttime="<td><input class='form-control'  id='txtStartTime" + index + "' name='EmpLst[" + index + "].StartTime' style='width: 110px;' type='time' value=''></td>";
-            var enddate = "<td><div class='input-group date form_date col-sm-8'  data-date-format='dd-M-yyyy'><input class='form-control'  id='txtEndDate" + index + "' name='EmpLst[" + index + "].EndDate' style='width: 100px;' type='text' value='' readonly='readonly'><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div></td>";
-        var endtime="<td><input class='form-control'  id='txtEndTime" + index + "' name='EmpLst[" + index + "].EndTime' style='width: 110px;' type='time' value=''></td>";
-        var othrs="<td><input class='form-control'  id='txtOTHrs" + index + "' name='EmpLst[" + index + "].OTHrs' style='width: 80px;' type='text' value=''></td>";
-        var ethrs="<td><input class='form-control'  id='txtETOther" + index + "' name='EmpLst[" + index + "].ETOther' style='width: 80px;'   value=''></td>";
-        var nhr="<td><input class='form-control'  id='txtNormal" + index + "' name='EmpLst[" + index + "].Normal' style='width: 70px;'   value=''></td>";
-        var now="<td><input class='form-control'  id='txtReason" + index + "' name='EmpLst[" + index + "].Reason' style='width: 120px;'   value=''></td>";
-
-            var removeCell = "<td><input id='IsEmpvalid" + index + "' name='EmpLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeEmpRow(" + index + ");'  style='cursor:pointer' /><input name='inputlst.Index' type='hidden' value='" + index + "'  /></td>";
-        var newRow = "<tr class='chkEmpitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookEmp" + index + "'>" + empname + code + Department + startdate + starttime + enddate + endtime + othrs + ethrs + nhr + now + removeCell + "</tr>";
-        $("#tbBooksEmp").append(newRow);
-       
-         
-       $(function() {
-            $('._select').select2();
-        });
-          
-      
-    } 
-     function AppendBreakRow(opt,remopt ) {
-        var index = $("#tbBooksBreak").children("tr").length;
-
-        var Code = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlMachineId" + index + "' name='BreakLst[" + index + "].MachineId' onchange = 'changeMachineItem(this.value," + index + ")' ><option value=''>Please select</option>" + opt + "</select></td>";
-        var Des="<td><input class='form-control'  id='txtMachineDes" + index + "' name='BreakLst[" + index + "].MachineDes' style='width: 120px;'   value=''></td>";
-        var DType="<td><input class='form-control'  id='txtDType" + index + "' name='BreakLst[" + index + "].DType' style='width: 120px;'   value=''></td>";
-        var MType="<td><input class='form-control'  id='txtMType" + index + "' name='BreakLst[" + index + "].MType' style='width: 100px;' type='text' value=''></td>";
-        var starttime="<td><input class='form-control'  id='txtStartTime" + index + "' name='BreakLst[" + index + "].StartTime' style='width: 120px;'   value=''></td>";
-        var endtime="<td><input class='form-control'  id='txtEndTime" + index + "' name='BreakLst[" + index + "].EndTime' style='width: 120px;'   value=''></td>";
-        var PB="<td><input class='form-control'  id='txtPB" + index + "' name='BreakLst[" + index + "].PB' style='width: 100px;' type='text' value=''></td>";
-                var Enterd = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlAlloted" + index + "' name='BreakLst[" + index + "].Alloted' ><option value=''>Please select</option>" + remopt + "</select> </td>";
-
-        var Reason="<td><input class='form-control'  id='txtReason" + index + "' name='BreakLst[" + index + "].Reason' style='width: 100px;' type='text' value=''></td>";
-            var removeCell = "<td><input id='IsBreakvalid" + index + "' name='BreakLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeBreakRow(" + index + ");'  style='cursor:pointer' /><input name='inputlst.Index' type='hidden' value='" + index + "'  /></td>";
-        var newRow = "<tr class='chkBreakitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookBreak" + index + "'>" + Code + Des + Dtype + MType + starttime +   endtime + PB + reason +Enterd + Reason + removeCell + "</tr>";
-        $("#tbBooksBreak").append(newRow);
-       
-         
-       $(function() {
-            $('._select').select2();
-        });
-          
-      
-    } 
-    </script>

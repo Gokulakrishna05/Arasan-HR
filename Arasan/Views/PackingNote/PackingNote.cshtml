@@ -36,19 +36,17 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputName3" class="col-sm-4 control-label">Branch<label class="Mandatory"></label></label>
+                                            <label for="inputName3" class="col-sm-4 control-label">Branch<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                             @Html.HiddenFor(C => C.ID)
                                             @Html.DropDownListFor(C => C.Branch, Model.Brlst," -- Please Select -- ", new { @id = "ddlBranch", @Class = "form-control _select", @TabIndex = 1 })<br />
                                         </div>
                                     </div>
                                 </div>
-                                </div>
-                                    <div class="row">
+                              
                                         <div class="col-md-6">
                                             <div class="form-group">
-
-                                                <br />    <label for="inputName3" class="col-sm-4 control-label">Doc No<label class="Mandatory"></label></label>
+                                                    <label for="inputName3" class="col-sm-4 control-label">Doc No<label class="mandatory">*</label></label>
                                                 <div class="col-sm-8">
 
                                                 @Html.TextBoxFor(C => C.DocId, new { @id = "DocId", @class = "form-control", @TabIndex = 1 })<br />
@@ -57,7 +55,8 @@
                                                 </div>
                                             </div>
                                         </div>
-
+                                </div>
+                                <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
 
@@ -73,8 +72,7 @@
                                     </div>
 
                                 </div>
-                            </div>
-                            <div class="row">
+                        
                                 
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -90,12 +88,14 @@
 
                                     </div>
                                 </div>
+                                    </div>
+                            <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="inputName3" class="col-sm-4 control-label">Shift<label class="mandatory">*</label></label>
 
                                             <div class="col-sm-8">
-                                                @Html.DropDownListFor(C => C.Shift, Model.Shiftlst," -- Please Select -- ", new { @id = "ddlShift", @Class = "form-control _select", @TabIndex = 1 ,onchange = "changesdrumS(this.value)"})<br />
+                                                @Html.DropDownListFor(C => C.Shift, Model.Shiftlst," -- Please Select -- ", new { @id = "ddlShift", @Class = "form-control _select", @TabIndex = 1 ,onchange = "changeshift(this.value)"})<br />
 
 
 
@@ -103,18 +103,28 @@
 
                                         </div>
                                     </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="inputName3" class="col-sm-4 control-label">Shift Details<label class="Mandatory"></label></label>
 
-                                            <br /> <label for="inputName3" class="col-sm-4 control-label">Drum Location<label class="mandatory">*</label></label>
-                                        <div class="col-sm-8">
-                                                @Html.DropDownListFor(C => C.DrumLoc, Model.DrumLoclst, " -- Please Select -- ",new { @id = "ddlDrumLoc", @Class = "form-control _select", @TabIndex = 1, @onchange = "changeItem(this.value," + 0 + ")" })<br />
-
+                                            <div class="col-sm-8">
+                                                <span style="color:green;font-size: 14px;"> <label id="shiftdetails"></label></span><br />
+                                            </div>
                                         </div>
                                     </div>
+                               
                                 </div>
+                            <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+                                            <br />  <label for="inputName3" class="col-sm-4 control-label">Drum Location<label class="mandatory">*</label></label>
+                                            <div class="col-sm-8">
+                                                @Html.DropDownListFor(C => C.DrumLoc, Model.DrumLoclst, " -- Please Select -- ",new { @id = "ddlDrumLoc", @Class = "form-control _select", @TabIndex = 1, @onchange = "changeItem(this.value," + 0 + ")" })<br />
+
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
 
@@ -126,12 +136,14 @@
                                             </div>
                                         </div>
                                     </div>
-                            </div>
-                            <div class="row">
+                           
+                                </div>
+                                <div class="row">
+
                                     <div class="col-md-6">
                                         <div class="form-group">
 
-                                        <br />    <label for="inputName3" class="col-sm-4 control-label">Sch.No<label class="mandatory">*</label></label>
+                                            <br />    <label for="inputName3" class="col-sm-4 control-label">Sch.No<label class="mandatory">*</label></label>
                                             <div class="col-sm-8">
 
                                                 @Html.DropDownListFor(C => C.ProdSchNo, Model.Schlst," -- Please Select -- ", new { @id = "ddlProdSchNo", @Class = "form-control _select", @TabIndex = 1 })<br />
@@ -141,7 +153,6 @@
                                             </div>
                                         </div>
                                     </div>
-
 
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -154,9 +165,11 @@
                                             </div>
                                         </div>
                                     </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
+                            
+                             
+                                </div>
+                                <div class="row">
+                                       <div class="col-md-6">
                                     <div class="form-group">
 
                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Start Date/Time<label class="mandatory">*</label></label>
@@ -176,7 +189,7 @@
                                             <br />  <label for="inputName3" class="col-sm-4 control-label">End Date/Time<label class="mandatory">*</label></label>
                                        
 													<div class="input-group date form_datetime col-sm-8" data-date="" data-date-format="dd-M-yyyy - HH:ii p" >
-                                                         @Html.TextBoxFor(C => C.enddate, new { @id = "startdate", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })
+                                                @Html.TextBoxFor(C => C.enddate, new { @id = "enddate", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })
 														<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 													</div>
 													
@@ -184,8 +197,8 @@
 												
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
+                                </div>
+                                    <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
 
@@ -447,6 +460,19 @@
             }
         });
     }
+    function changeshift(Shiftid) {
+        $.ajax({
+            url: 'GetshiftDetail',
+            data: { "Shiftid": Shiftid },
+            type: "GET",
+            success: function (result) {
+                document.getElementById("shiftdetails").innerHTML = result.fromtime + " to " + result.totime + "  Total Hours : " + result.tothrs;
+            },
+            error: function () {
+                alert("Data Not Found");
+            }
+        });
+    }
      function removeRow(id) {
         var table = document.getElementById("dataTable");
         var rowCount = table.rows.length;
@@ -505,7 +531,38 @@
     $(document).ready(function () {
         $('#btnSave').click(function (e) {
             var isValid = true;
+            if (document.getElementById("ddlBranch").value == "" || document.getElementById("ddlBranch").value == 0) {
+                isValid = false;
+                $(ddlBranch).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
 
+                alert("Please Select Branch");
+                return false;
+            }
+            else {
+                $(ddlBranch).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("DocId").value == "") {
+                isValid = false;
+                $(DocId).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Doc No");
+                return false;
+            }
+            else {
+                $(DocId).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
             if (document.getElementById("Docdate").value == "") {
                 isValid = false;
                 $(Docdate).css({

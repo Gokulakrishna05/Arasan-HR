@@ -73,8 +73,10 @@ namespace Arasan.Controllers.Production
                     ca.Drum = dt.Rows[0]["STOCK"].ToString();
                     ca.Entered = dt.Rows[0]["ENTEREDBY"].ToString();
                     ca.Approved = dt.Rows[0]["APPROVEDBY"].ToString();
-                    ca.Qty = dt.Rows[0]["TOTQTY"].ToString();
+                    ca.Qty = Convert.ToDouble(dt.Rows[0]["TOTQTY"].ToString() == "" ? "0" : dt.Rows[0]["TOTQTY"].ToString());
                     ca.Purpose = dt.Rows[0]["REMARKS"].ToString();
+                    ca.IRate = Convert.ToDouble(dt.Rows[0]["ISSRATE"].ToString() == "" ? "0" : dt.Rows[0]["ISSRATE"].ToString());
+                    ca.IValue = Convert.ToDouble(dt.Rows[0]["ISSVALUE"].ToString() == "" ? "0" : dt.Rows[0]["ISSVALUE"].ToString());
 
                 }
                 DataTable dt2 = new DataTable();
@@ -86,17 +88,19 @@ namespace Arasan.Controllers.Production
                     {
                         tda = new DrumIssueEntryItem();
 
-                        tda.FBinlst = BindBinID();
-                        tda.FBinId = dt2.Rows[0]["FBINID"].ToString();
+                       // tda.FBinlst = BindBinID();
+                        tda.FBinId = dt2.Rows[i]["FBINID"].ToString();
 
-                        tda.TBinlst = BindBinID();
-                        tda.TBinid = dt2.Rows[0]["TBINID"].ToString();
+                      //  tda.TBinlst = BindBinID();
+                        tda.TBinid = dt2.Rows[i]["TBINID"].ToString();
 
-                        tda.drumlst = Binddrum();
-                        tda.Drum = dt2.Rows[0]["DRUMNO"].ToString();
+                       tda.drumlst = Binddrum();
+                        tda.Drum = dt2.Rows[i]["DRUMNO"].ToString();
 
                         tda.Qty = dt2.Rows[i]["QTY"].ToString();
                         tda.Batch = dt2.Rows[i]["BATCHNO"].ToString();
+                        tda.Rate = Convert.ToDouble(dt2.Rows[0]["BATCHRATE"].ToString() == "" ? "0" : dt2.Rows[0]["BATCHRATE"].ToString());
+                        tda.Amount = Convert.ToDouble(dt2.Rows[0]["AMOUNT"].ToString() == "" ? "0" : dt2.Rows[0]["AMOUNT"].ToString());
                         tda.ID = id;
                         TData.Add(tda);
                     }
@@ -217,9 +221,9 @@ namespace Arasan.Controllers.Production
         }
         public JsonResult GetItemGrpJSON()
         {
-            DrumIssueEntryItem model = new DrumIssueEntryItem();
+            //DrumIssueEntryItem model = new DrumIssueEntryItem();
             //  model.ItemGrouplst = BindItemGrplst(value);
-            return Json(BindBinID());
+            return Json(Binddrum());
         }
         public List<SelectListItem> BindType()
         {
@@ -304,6 +308,58 @@ namespace Arasan.Controllers.Production
             {
                 throw ex;
             }
+        }
+        public IActionResult ApproveDrumIssue(string DRUM)
+        {
+            DrumIssueEntry ca = new DrumIssueEntry();
+            DataTable dt = DrumIssueEntryService.EditDrumIssue(DRUM);
+            if (dt.Rows.Count > 0)
+            {
+                ca.Docid = dt.Rows[0]["DOCID"].ToString();
+                ca.Docdate = dt.Rows[0]["DOCDATE"].ToString();
+                ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                ca.Itemid = dt.Rows[0]["ITEMID"].ToString();
+                ca.FromLoc = dt.Rows[0]["LOCID"].ToString();
+                ca.Toloc = dt.Rows[0]["loc"].ToString();
+                ca.Frombin = dt.Rows[0]["FROMBINID"].ToString();
+                ca.Tobin = dt.Rows[0]["TOBINID"].ToString();
+                ca.Unit = dt.Rows[0]["UNIT"].ToString();
+                ca.Stock = dt.Rows[0]["LOTSTOCK"].ToString();
+                ca.type = dt.Rows[0]["TYPE"].ToString();
+                ca.Drum = dt.Rows[0]["STOCK"].ToString();
+                ca.Entered = dt.Rows[0]["ENTEREDBY"].ToString();
+                ca.Approved = dt.Rows[0]["APPROVEDBY"].ToString();
+                ca.Qty = Convert.ToDouble(dt.Rows[0]["TOTQTY"].ToString() == "" ? "0" : dt.Rows[0]["TOTQTY"].ToString());
+                ca.IRate = Convert.ToDouble(dt.Rows[0]["ISSRATE"].ToString() == "" ? "0" : dt.Rows[0]["ISSRATE"].ToString());
+                ca.IValue = Convert.ToDouble(dt.Rows[0]["ISSVALUE"].ToString() == "" ? "0" : dt.Rows[0]["ISSVALUE"].ToString());
+                ca.Purpose = dt.Rows[0]["REMARKS"].ToString();
+                //ViewBag.entrytype = ca.EntryType;
+                List<DrumIssueEntryItem> TData = new List<DrumIssueEntryItem>();
+                DrumIssueEntryItem tda = new DrumIssueEntryItem();
+                DataTable dtDrum = DrumIssueEntryService.EditDrumDetail(DRUM);
+                for (int i = 0; i < dtDrum.Rows.Count; i++)
+                {
+                    tda = new DrumIssueEntryItem();
+
+                    
+                    tda.FBinId = dtDrum.Rows[i]["FBINID"].ToString();
+ 
+                    tda.TBinid = dtDrum.Rows[i]["TBINID"].ToString();
+ 
+                    tda.Drum = dtDrum.Rows[i]["DRUMNO"].ToString();
+
+                    tda.Qty = dtDrum.Rows[i]["QTY"].ToString();
+                    tda.Batch = dtDrum.Rows[i]["BATCHNO"].ToString();
+                    tda.Rate = Convert.ToDouble(dtDrum.Rows[0]["BATCHRATE"].ToString() == "" ? "0" : dtDrum.Rows[0]["BATCHRATE"].ToString());
+                    tda.Amount = Convert.ToDouble(dtDrum.Rows[0]["AMOUNT"].ToString() == "" ? "0" : dtDrum.Rows[0]["AMOUNT"].ToString());
+
+                    TData.Add(tda);
+                }
+
+
+                ca.Drumlst = TData;
+            }
+            return View(ca);
         }
     }
 }
