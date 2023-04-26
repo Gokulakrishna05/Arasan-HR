@@ -79,7 +79,7 @@
 
                                             <label for="inputName3" class="col-sm-4 control-label">Work Center<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                                @Html.DropDownListFor(C => C.WorkId, Model.Worklst," -- Please Select -- ", new { @id = "ddlWorkCenter", @Class = "form-control _select", @TabIndex = 1,onchange = "changesdrum(this.value)" })<br />
+                                                @Html.DropDownListFor(C => C.WorkId, Model.Worklst," -- Please Select -- ", new { @id = "ddlWorkCenter", @Class = "form-control _select", @TabIndex = 1, @onchange = "changeSche(value)"  })<br />
                                               @Html.HiddenFor(C => C.ID)
                                         </div>
 
@@ -146,7 +146,7 @@
                                             <br />    <label for="inputName3" class="col-sm-4 control-label">Sch.No<label class="mandatory">*</label></label>
                                             <div class="col-sm-8">
 
-                                                @Html.DropDownListFor(C => C.ProdSchNo, Model.Schlst," -- Please Select -- ", new { @id = "ddlProdSchNo", @Class = "form-control _select", @TabIndex = 1 })<br />
+                                                @Html.DropDownListFor(C => C.ProdSchNo, Model.Schlst," -- Please Select -- ", new { @id = "ddlProdSchNo", @Class = "form-control _select", @TabIndex = 1, @onchange = "changeItemid(value)" })<br />
 
 
 
@@ -375,6 +375,25 @@
             }
         });
     }
+      function changeItemid(ItemId ) {
+        
+
+        $.ajax({
+            url: "GetItemJSON",
+            type: "post",
+            data: { 'supid': ItemId },
+            cache: false,
+            success: function (response) {
+                var newlist;
+                newlist = response.Itemlst;
+                PopulateDropDown("#ddlItemId", response);
+            },
+            error: function () {
+                debugger;
+                alert("Please Select Drum Location");
+            }
+        });
+        }
     function changeItem(ItemId,i) {
         
 
@@ -431,7 +450,25 @@
         });
 
     }
-     
+      function changeSche(ItemId) {
+        
+
+        $.ajax({
+            url: "GetShedJSON",
+            type: "post",
+            data: { 'supid': ItemId },
+            cache: false,
+            success: function (response) {
+                var newlist;
+                newlist = response.Itemlst;
+                PopulateDropDown("#ddlProdSchNo", response);
+            },
+            error: function () {
+                debugger;
+                alert("Please Select Work Center");
+            }
+        });
+      }
    function PopulateDropDown(dropDownId, list) {
         //alert(list);
         $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');

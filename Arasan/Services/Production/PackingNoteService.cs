@@ -275,10 +275,10 @@ return msg;
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetSchedule()
+        public DataTable GetSchedule(string v)
         {
             string SvSql = string.Empty;
-            SvSql = "Select DOCID,PSBASICID from PSBASIC ";
+            SvSql = "Select DOCID,PSBASICID from PSBASIC Where WCID='"+ v +"' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -295,10 +295,20 @@ return msg;
             adapter.Fill(dtt);
             return dtt;
         }
+        //public DataTable GetDrumLocation()
+        //{
+        //    string SvSql = string.Empty;
+        //    SvSql = "select LOCDETAILS.LOCID,NPRODBASICID,TOLOCATION,NPRODOUTDETID from NPRODOUTDET left outer join LOCDETAILS on LOCDETAILSID = NPRODOUTDET.TOLOCATION ";
+        //    DataTable dtt = new DataTable();
+        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
+        //}
         public DataTable GetDrumLocation()
         {
             string SvSql = string.Empty;
-            SvSql = "select LOCDETAILS.LOCID,NPRODBASICID,TOLOCATION,NPRODOUTDETID from NPRODOUTDET left outer join LOCDETAILS on LOCDETAILSID = NPRODOUTDET.TOLOCATION ";
+            SvSql = "select  LOCID,LOCDETAILSID from LOCDETAILS  ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -308,7 +318,7 @@ return msg;
         public DataTable GetItembyId(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select ITEMMASTER.ITEMID,OITEMID,NPRODBASICID from NPRODOUTDET left outer join ITEMMASTER on ITEMMASTERID =NPRODOUTDET.OITEMID  where TOLOCATION= '" + id +"'";
+            SvSql = "select ITEMMASTER.ITEMID,OPITEMID,PSBASICID from PSBASIC left outer join ITEMMASTER on ITEMMASTERID =PSBASIC.OPITEMID  where PSBASICID= '" + id +"'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -318,7 +328,7 @@ return msg;
         public DataTable GetDrumNo(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select DRUMMAST.DRUMNO,ODRUMNO,NPRODBASICID from NPRODOUTDET left outer join DRUMMAST on DRUMMASTID=NPRODOUTDET.ODRUMNO  where TOLOCATION= '" + id + "'";
+            SvSql = "select DRUMMAST.DRUMNO,ODRUMNO,NPRODBASICID from NPRODOUTDET left outer join DRUMMAST on DRUMMASTID=NPRODOUTDET.ODRUMNO  where OITEMID= '" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -378,7 +388,7 @@ return msg;
         public DataTable EditNote(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select  BRANCHMAST.BRANCHID, WCBASIC.WCID,SHIFTMAST.SHIFTNO,to_char(PACKNOTEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE, DRUMLOCATION,PACKNOTEBASIC.DOCID,PACKNOTEBASIC.PACKCONSYN,PACKNOTEBASIC.ENTEREDBY,PACLOTNO,PACKNOTEBASIC.REMARKS,PSBASIC.DOCID PS,ITEMMASTER.ITEMID,to_char(PACKNOTEBASIC.STARTDATE,'dd-MON-yyyy')STARTDATE,STARTTIME,to_char(PACKNOTEBASIC.ENDDATE,'dd-MON-yyyy')ENDDATE,ENDTIME from PACKNOTEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMAST.BRANCHMASTID=PACKNOTEBASIC.BRANCH LEFT OUTER JOIN WCBASIC ON WCBASIC.WCBASICID=PACKNOTEBASIC.WCID LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PACKNOTEBASIC.OITEMID LEFT OUTER JOIN SHIFTMAST ON SHIFTMAST.SHIFTMASTID=PACKNOTEBASIC.SHIFT LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PACKNOTEBASIC.DRUMLOCATION LEFT OUTER JOIN PSBASIC ON PSBASIC.PSBASICID=PACKNOTEBASIC.PSCHNO where PACKNOTEBASICID= '" + id + "'";
+            SvSql = "select  BRANCHMAST.BRANCHID, WCBASIC.WCID,SHIFTMAST.SHIFTNO,to_char(PACKNOTEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE, LOCDETAILS.LOCID,PACKNOTEBASIC.DOCID,PACKNOTEBASIC.PACKCONSYN,PACKNOTEBASIC.ENTEREDBY,PACLOTNO,PACKNOTEBASIC.REMARKS,PSBASIC.DOCID PS,ITEMMASTER.ITEMID,to_char(PACKNOTEBASIC.STARTDATE,'dd-MON-yyyy')STARTDATE,STARTTIME,to_char(PACKNOTEBASIC.ENDDATE,'dd-MON-yyyy')ENDDATE,ENDTIME from PACKNOTEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMAST.BRANCHMASTID=PACKNOTEBASIC.BRANCH LEFT OUTER JOIN WCBASIC ON WCBASIC.WCBASICID=PACKNOTEBASIC.WCID LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PACKNOTEBASIC.OITEMID LEFT OUTER JOIN SHIFTMAST ON SHIFTMAST.SHIFTMASTID=PACKNOTEBASIC.SHIFT LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PACKNOTEBASIC.DRUMLOCATION LEFT OUTER JOIN PSBASIC ON PSBASIC.PSBASICID=PACKNOTEBASIC.PSCHNO left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID=PACKNOTEBASIC.DRUMLOCATION  where PACKNOTEBASICID= '" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -388,7 +398,7 @@ return msg;
         public DataTable EditDrumDetail(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select  PACKNOTEBASICID,IDRUMNO,IBATCHNO,IBATCHQTY,COMBNO from PACKNOTEINPDETAIL    where PACKNOTEBASICID= '" + id + "'";
+            SvSql = "select  PACKNOTEBASICID,DRUMMAST.DRUMNO,IBATCHNO,IBATCHQTY,COMBNO from PACKNOTEINPDETAIL left outer join DRUMMAST ON DRUMMAST.DRUMMASTID=PACKNOTEINPDETAIL.IDRUMNO    where PACKNOTEBASICID= '" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

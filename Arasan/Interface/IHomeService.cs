@@ -7,5 +7,6 @@ namespace Arasan.Interface
     public interface IHomeService
     {
         DataTable IsQCNotify();
+        DataTable GetQCNotify();
     }
 }

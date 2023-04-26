@@ -106,8 +106,8 @@ namespace Arasan.Services.Production
                     objCmd.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cy.Itemid;
                     objCmd.Parameters.Add("FROMLOC", OracleDbType.NVarchar2).Value = cy.FromLoc;
                     objCmd.Parameters.Add("TOLOC", OracleDbType.NVarchar2).Value = cy.Toloc;
-                    objCmd.Parameters.Add("FROMBINID", OracleDbType.NVarchar2).Value = cy.Frombin;
-                    objCmd.Parameters.Add("TOBINID", OracleDbType.NVarchar2).Value = cy.Tobin;
+                    //objCmd.Parameters.Add("FROMBINID", OracleDbType.NVarchar2).Value = cy.Frombin;
+                    //objCmd.Parameters.Add("TOBINID", OracleDbType.NVarchar2).Value = cy.Tobin;
                     objCmd.Parameters.Add("UNIT", OracleDbType.NVarchar2).Value = cy.Unit;
                     objCmd.Parameters.Add("LOTSTOCK", OracleDbType.NVarchar2).Value = cy.Stock;
                     objCmd.Parameters.Add("TYPE", OracleDbType.NVarchar2).Value = cy.type;
@@ -132,7 +132,7 @@ namespace Arasan.Services.Production
                         }
                         foreach (DrumIssueEntryItem ca in cy.Drumlst)
                         {
-                            if (ca.Isvalid == "Y" && ca.FBinId != "0")
+                            if (ca.Isvalid == "Y" && ca.Drum != "0")
                             {
                                 using (OracleConnection objConns = new OracleConnection(_connectionString))
                                 {
@@ -149,9 +149,9 @@ namespace Arasan.Services.Production
                                     }
                                     objCmds.CommandType = CommandType.StoredProcedure;
                                     objCmds.Parameters.Add("DIEBASICID", OracleDbType.NVarchar2).Value = Pid;
-                                    objCmds.Parameters.Add("FBINID", OracleDbType.NVarchar2).Value = ca.FBinId;
-                                    objCmds.Parameters.Add("TBINID", OracleDbType.NVarchar2).Value = ca.TBinid;
-                                    objCmds.Parameters.Add("DRUMNO", OracleDbType.NVarchar2).Value = ca.Drum;
+                                    //objCmds.Parameters.Add("FBINID", OracleDbType.NVarchar2).Value = ca.FBinId;
+                                    //objCmds.Parameters.Add("TBINID", OracleDbType.NVarchar2).Value = ca.TBinid;
+                                    objCmds.Parameters.Add("NDRUMNO", OracleDbType.NVarchar2).Value = ca.Drum;
                                     objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = ca.Qty;
                                     objCmds.Parameters.Add("BATCHNO", OracleDbType.NVarchar2).Value = ca.Batch;
                                     objCmds.Parameters.Add("BATCHRATE", OracleDbType.NVarchar2).Value = ca.Rate;
@@ -162,8 +162,42 @@ namespace Arasan.Services.Production
                                     objConns.Close();
                                 }
 
+                        
+                        
+                                using (OracleConnection objConns = new OracleConnection(_connectionString))
+
+                                {
+                              
+                                    OracleCommand objCmds = new OracleCommand("QCNOTIFICATIONPROC", objConns);
+                                objCmds.CommandType = CommandType.StoredProcedure;
+                                    if (cy.ID == null)
+                                    {
+                                        StatementType = "Insert";
+                                    objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                    }
+                                    else
+                                    {
+                                        StatementType = "Update";
+                                    objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                                    }
+                                objCmds.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.Docid;
+                                objCmds.Parameters.Add("TYPE", OracleDbType.NVarchar2).Value = "Drum Issue";
+                                objCmds.Parameters.Add("DRUMNO", OracleDbType.NVarchar2).Value = ca.Drum;
+                                objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cy.Itemid;
+                                objCmds.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                                objCmds.Parameters.Add("IS_COMPLETED", OracleDbType.NVarchar2).Value = "NO";
+
+                                    objCmds.Parameters.Add("QC_STATUS", OracleDbType.NVarchar2).Value = "Raised";
+
+                                objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                                objConns.Open();
+                                objCmds.ExecuteNonQuery();
+                                objConns.Close();
+                            }
                             }
                         }
+
+
                     }
                     catch (Exception ex)
                     {
@@ -183,7 +217,7 @@ namespace Arasan.Services.Production
         public DataTable GetDIEDetail(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select DIEBASICID,FBINID,TBINID,DRUMNO,QTY,BATCHNO,BATCHRATE,AMOUNT from DIEDETAIL where DIEBASICID='" + id + "' ";
+            SvSql = "select DIEBASICID,FBINID,TBINID,NDRUMNO,QTY,BATCHNO,BATCHRATE,AMOUNT from DIEDETAIL where DIEBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -234,7 +268,7 @@ namespace Arasan.Services.Production
         public DataTable EditDrumDetail(string DRUM)
         {
             string SvSql = string.Empty;
-            SvSql = "select DIEBASICID,FBINID,TBINID,DRUMNO,QTY,BATCHNO,BATCHRATE,AMOUNT from DIEDETAIL where DIEBASICID='" + DRUM + "' ";
+            SvSql = "select DIEBASICID,FBINID,TBINID,DRUMMAST.DRUMNO,QTY,BATCHNO,BATCHRATE,AMOUNT from DIEDETAIL left outer join DRUMMAST ON DRUMMAST.DRUMMASTID=DIEDETAIL.NDRUMNO where DIEBASICID='" + DRUM + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

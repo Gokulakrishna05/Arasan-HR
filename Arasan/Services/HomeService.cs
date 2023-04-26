@@ -26,5 +26,15 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetQCNotify()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select to_char(CREATED_ON,'dd-MON-yyyy')CREATED_ON,DOCID,TYPE,DRUMMAST.DRUMNO,ITEMMASTER.ITEMID from QCNOTIFICATION  LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=QCNOTIFICATION.ITEMID LEFT OUTER JOIN DRUMMAST ON DRUMMAST.DRUMMASTID=QCNOTIFICATION.DRUMNO WHERE QCNOTIFICATION.IS_COMPLETED='NO'  ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
     }
 }
