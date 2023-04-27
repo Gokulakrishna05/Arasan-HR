@@ -10,9 +10,11 @@ namespace Arasan.Services
     public class CuringOutwardService :ICuringOutward
     {
         private readonly string _connectionString;
+        DataTransactions datatrans;
         public CuringOutwardService(IConfiguration _configuratio)
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
+            datatrans = new DataTransactions(_connectionString);
         }
         public IEnumerable<CuringOutward> GetAllCuringOutward()
         {
@@ -50,7 +52,7 @@ namespace Arasan.Services
             try
             {
                 string StatementType = string.Empty; string svSQL = "";
-                
+
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("CURINGOUTWARDPROC", objConn);
@@ -84,7 +86,7 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("REMARKS", OracleDbType.NVarchar2).Value = cy.Remark;
 
                     objCmd.Parameters.Add("FRATE", OracleDbType.NVarchar2).Value = cy.FRate;
-                  
+
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
@@ -131,33 +133,71 @@ namespace Arasan.Services
                                 //objCmds.Parameters.Add("IGSTPER", OracleDbType.NVarchar2).Value = cp.igstper;
                                 //objCmds.Parameters.Add("IGSTAMT", OracleDbType.NVarchar2).Value = cp.igstamt;
                                 objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
-                                
+
                                 objConns.Open();
                                 objCmds.ExecuteNonQuery();
-                             
+
                                 objConns.Close();
 
                             }
-                        }
-                    }
+                           
+                            string drumid = datatrans.GetDataString("select DRUMMASTID from DRUMMAST where DRUMNO='" + cp.drum + "'  ");
+                            using (OracleConnection objConns = new OracleConnection(_connectionString))
+                            {
+                                OracleCommand objCmds = new OracleCommand("QCNOTIFICATIONPROC", objConns);
+                                /*objCmds.Connection = objConns;
+                                objCmds.CommandText = "QCNOTIFICATIONPROC";*/
 
+                                objCmds.CommandType = CommandType.StoredProcedure;
+                                if (cy.ID == null)
+                                {
+                                    StatementType = "Insert";
+                                    objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                }
+                                else
+                                {
+                                    StatementType = "Update";
+                                    objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+
+                                }
+                                objCmds.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.DocId;
+                                objCmds.Parameters.Add("TYPE", OracleDbType.NVarchar2).Value = "Curing Outward";
+                                objCmds.Parameters.Add("DRUMNO", OracleDbType.NVarchar2).Value = drumid;
+                                objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cy.ItemId;
+                                objCmds.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                                objCmds.Parameters.Add("IS_COMPLETED", OracleDbType.NVarchar2).Value = "No";
+                                objCmds.Parameters.Add("QC_STATUS", OracleDbType.NVarchar2).Value = "Raised";
+
+                                objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+
+                                objConns.Open();
+
+                                objCmds.ExecuteNonQuery();
+
+                                objConns.Close();
+                            }
+                        }
+
+                    }
                     catch (Exception ex)
                     {
                         //System.Console.WriteLine("Exception: {0}", ex.ToString());
                     }
-            objConn.Close();
-        }
-    }
+                         objConn.Close();
+                }
+            }           
+                
+            
             catch (Exception ex)
             {
                 msg = "Error Occurs, While inserting / updating Data";
                 throw ex;
             }
 
-return msg;
+            return msg;
         }
-                        public DataTable GetWorkCenter()
-        {
+         public DataTable GetWorkCenter()
+         {
             string SvSql = string.Empty;
             SvSql = "Select WCID,WCBASICID from WCBASIC ";
             DataTable dtt = new DataTable();
@@ -165,7 +205,7 @@ return msg;
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
-        }
+         }
         public DataTable GetPackingNote()
         {
             string SvSql = string.Empty;
