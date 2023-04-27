@@ -160,12 +160,13 @@ namespace Arasan.Services
                                     objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
 
                                 }
+                                objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
                                 objCmds.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.DocId;
                                 objCmds.Parameters.Add("TYPE", OracleDbType.NVarchar2).Value = "Curing Outward";
                                 objCmds.Parameters.Add("DRUMNO", OracleDbType.NVarchar2).Value = drumid;
                                 objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cy.ItemId;
                                 objCmds.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
-                                objCmds.Parameters.Add("IS_COMPLETED", OracleDbType.NVarchar2).Value = "No";
+                                objCmds.Parameters.Add("IS_COMPLETED", OracleDbType.NVarchar2).Value = "NO";
                                 objCmds.Parameters.Add("QC_STATUS", OracleDbType.NVarchar2).Value = "Raised";
 
                                 objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
