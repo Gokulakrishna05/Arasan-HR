@@ -3,8 +3,7 @@ using System.Data;
 using Arasan.Interface;
  
 using Arasan.Interface.Sales;
-using Arasan.Models;
- 
+using  Arasan.Models;
 using Arasan.Services.Production;
 using Arasan.Services.Qualitycontrol;
 using Arasan.Services.Sales;
@@ -26,12 +25,12 @@ namespace Arasan.Controllers
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public IActionResult CuringOutward(string id)
+        public IActionResult  CuringOutward(string id)
         {
             CuringOutward ca = new CuringOutward();
             ca.Brlst = BindBranch();
             ca.FromWorklst = BindWorkCenterID();
-            ca.ToWorklst = BindWorkCenter();
+            ca.ToWorklst =BindWorkCenter();
             ca.Notelst = BindPackingNote();
             ca.Branch = Request.Cookies["BranchId"];
             ca.Shiftlst = BindShift("");
