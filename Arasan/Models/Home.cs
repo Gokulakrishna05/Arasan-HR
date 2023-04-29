@@ -18,8 +18,8 @@ namespace Arasan.Models
     }
     public class Notify
     {
-        
-        public string Doc { get; set; }
+		public string ID { get; set; }
+		public string Doc { get; set; }
         public string Item { get; set; }
         public string Drum { get; set; }
         public string Type { get; set; }

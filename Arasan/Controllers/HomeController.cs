@@ -52,8 +52,9 @@ namespace Arasan.Controllers
                 for (int i = 0; i < dt3.Rows.Count; i++)
                 {
                     tda1 = new Notify();
-                    
-                    tda1.Doc = dt3.Rows[i]["DOCID"].ToString();
+					tda1.ID = dt3.Rows[i]["QCNOTIFICATIONID"].ToString();
+
+					tda1.Doc = dt3.Rows[i]["DOCID"].ToString();
                     tda1.Date = dt3.Rows[i]["CREATED_ON"].ToString();
                     tda1.Drum = dt3.Rows[i]["DRUMNO"].ToString();
                     tda1.Item = dt3.Rows[i]["ITEMID"].ToString();
