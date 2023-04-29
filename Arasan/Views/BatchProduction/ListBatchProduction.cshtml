@@ -48,6 +48,8 @@
                                                             <th>Work Center</th>
                                                             <th>Process</th>
                                                             <th>Doc Id</th>
+                                                            <th>Entry Type</th>
+                                                             <th>Output</th>
                                                              <th>View</th>
                                                               <th>Approve</th>
                                                             <th>Edit</th>
@@ -67,7 +69,15 @@
                                                                             <td>@Html.DisplayFor(modelItem => item.Location)</td>
                                                                             <td>@Html.DisplayFor(modelItem => item.ProcessId)</td>
                                                                             <td>@Html.DisplayFor(modelItem => item.DocId)</td>
-                                                                             <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewProEntry", "BatchProduction",new { PROID=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View' /></a></div></td>
+                                                                            <td>@Html.DisplayFor(modelItem => item.EntryType)</td>
+                                                                    @if (item.IsInv == "N" && item.EntryType=="INPUT")
+                                                                    {
+                                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("BatchProductionOUT", "BatchProduction",new { PROID=item.ID })" ><img src='../Images/plus.png' alt='Output' /></a></div></td>
+                                                                    }
+                                                                    else{
+                                                                                 <td></td>
+                                                                             }
+                                                                             <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewProductionEntry", "BatchProduction",new { PROID=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View' /></a></div></td>
                                                                              @if(item.IsInv=="N"){
                                                                                  <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ApproveProEntry", "BatchProduction",new { PROID=item.ID })" ><img src='../Images/checklist.png' alt='Waiting for approval' /></a></div></td>
                                                                             <td>
@@ -77,6 +87,7 @@
          </td>
                                                                              }
                                                                              else{
+                                                                                 <td></td>
                                                                                  <td></td>
                                                                                  <td></td>
                                                                                  <td></td>
