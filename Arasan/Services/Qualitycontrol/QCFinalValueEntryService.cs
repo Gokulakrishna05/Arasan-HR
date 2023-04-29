@@ -247,7 +247,9 @@ namespace Arasan.Services.Qualitycontrol
 
                             }
                         }
-                    
+                        string updateCMd = " UPDATE QCNOTIFICATION SET IS_COMPLETED ='YES' , FINALRESULT='" + cy.FResult + "' WHERE DOCID ='" + cy.ProNo + "' ";
+                        datatrans.UpdateStatus(updateCMd);
+
                     }
                     catch (Exception ex)
                     {
@@ -256,8 +258,7 @@ namespace Arasan.Services.Qualitycontrol
                     objConn.Close();
                 }
 
-                string updateCMd = " UPDATE QCNOTIFICATION SET IS_COMPLETED ='Y' WHERE QCNOTIFICATIONID ='"+ cy.ID + "' ";
-                 datatrans.UpdateStatus(updateCMd);
+              
               
             }
             catch (Exception ex)

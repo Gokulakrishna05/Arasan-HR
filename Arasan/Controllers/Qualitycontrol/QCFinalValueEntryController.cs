@@ -109,8 +109,8 @@ namespace Arasan.Controllers.Qualitycontrol
                         ca.BatchNo = dtt2.Rows[0]["OBATCHNO"].ToString();
                     }       
                     //ca.Branch = dt.Rows[0]["BRANCH"].ToString();
-                    ////ca.DocId = dt.Rows[0]["DOCID"].ToString();
-                    ////ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
+                    //ca.DocId = dt.Rows[0]["DOCID"].ToString();
+                    //ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
                     //ca.WorkCenter = dt.Rows[0]["WCID"].ToString();
                     //ca.Process = dt.Rows[0]["PROCESSID"].ToString();
                     //ca.ID = id;
