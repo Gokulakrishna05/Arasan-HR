@@ -53,7 +53,8 @@ namespace Arasan.Models
         public string FResult { get; set; }
         public string RType { get; set; }
         public string Reamarks { get; set; }
-
+        public string Type { get; set; }
+        public string QCID { get; set; }
         public List<QCFVItem> QCFVLst { get; set; }
 
         public List<QCFVItemDeatils> QCFVDLst { get; set; }

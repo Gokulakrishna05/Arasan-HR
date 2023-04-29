@@ -86,6 +86,53 @@ namespace Arasan.Controllers.Qualitycontrol
                     ca.Reamarks = dt.Rows[0]["REMARKS"].ToString();
 
                 }
+
+                DataTable dtt = new DataTable();
+                dtt = QCFinalValueEntryService.GetQC(id);
+                if (dtt.Rows.Count > 0)
+                {
+                    ca.Type = dtt.Rows[0]["TYPE"].ToString();
+                    if (ca.Type == "Production Entry")
+                    {
+                        ca.ProNo = dtt.Rows[0]["DOCID"].ToString();
+                        ca.DocDate = dtt.Rows[0]["CREATED_ON"].ToString();
+                        ca.QCID = dtt.Rows[0]["ID"].ToString();
+                        DataTable dtt1 = new DataTable();
+                        dtt1 = QCFinalValueEntryService.GetQCDetails(ca.QCID);
+                        ca.ProDate = dtt1.Rows[0]["DOCDATE"].ToString();
+                        ca.WorkCenter = dtt1.Rows[0]["WCID"].ToString();
+                        ca.Process = dtt1.Rows[0]["PROCESSID"].ToString();
+                        DataTable dtt2 = new DataTable();
+                        dtt2 = QCFinalValueEntryService.GetQCOutDeatil(ca.QCID);
+                        ca.DrumNo = dtt2.Rows[0]["ODRUMNO"].ToString();
+                        ca.Itemid = dtt2.Rows[0]["ITEMID"].ToString();
+                        ca.BatchNo = dtt2.Rows[0]["OBATCHNO"].ToString();
+                    }       
+                    //ca.Branch = dt.Rows[0]["BRANCH"].ToString();
+                    ////ca.DocId = dt.Rows[0]["DOCID"].ToString();
+                    ////ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
+                    //ca.WorkCenter = dt.Rows[0]["WCID"].ToString();
+                    //ca.Process = dt.Rows[0]["PROCESSID"].ToString();
+                    //ca.ID = id;
+                    //ca.DrumNo = dt.Rows[0]["DRUMNO"].ToString();
+                    //ca.Batch = dt.Rows[0]["BATCH"].ToString();
+                    //ca.BatchNo = dt.Rows[0]["BATCHNO"].ToString();
+                    //ca.Itemid = dt.Rows[0]["ITEMID"].ToString();
+                    //ca.ProNo = dt.Rows[0]["PRODID"].ToString();
+                    //ca.Rate = dt.Rows[0]["RATEPHR"].ToString();
+                    //ca.ProDate = dt.Rows[0]["PRODDATE"].ToString();
+                    //ca.SampleNo = dt.Rows[0]["SAMPLENO"].ToString();
+                    //ca.NozzleNo = dt.Rows[0]["NOZZLENO"].ToString();
+                    //ca.AirPress = dt.Rows[0]["AIRPRESS"].ToString();
+                    //ca.Additive = dt.Rows[0]["ADDCH"].ToString();
+                    //ca.Stime = dt.Rows[0]["STIME"].ToString();
+                    //ca.CTemp = dt.Rows[0]["BCT"].ToString();
+                    //ca.FResult = dt.Rows[0]["FINALRESULT"].ToString();
+                    //ca.RType = dt.Rows[0]["RESULTTYPE"].ToString();
+                    //ca.Enterd = dt.Rows[0]["ENTEREDBY"].ToString();
+                    //ca.Reamarks = dt.Rows[0]["REMARKS"].ToString();
+
+                }
                 DataTable dt2 = new DataTable();
                 dt2 = QCFinalValueEntryService.GetQCFVResultDetail(id);
                 if (dt2.Rows.Count > 0)
@@ -103,6 +150,15 @@ namespace Arasan.Controllers.Qualitycontrol
                         tda.Manual = dt2.Rows[0]["MANUALVALUE"].ToString();
                         tda.Actual = dt2.Rows[0]["ACTTESTVALUE"].ToString();
                         tda.Result = dt2.Rows[0]["TESTRESULT"].ToString();
+                        TData.Add(tda);
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < 1; i++)
+                    {
+                        tda = new QCFVItem();
+                        tda.Isvalid = "Y";
                         TData.Add(tda);
                     }
                 }

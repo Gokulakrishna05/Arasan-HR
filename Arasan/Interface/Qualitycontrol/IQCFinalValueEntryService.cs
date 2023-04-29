@@ -17,5 +17,8 @@ namespace Arasan.Interface.Qualitycontrol
         DataTable GetQCFVDeatil(string id);
         DataTable GetQCFVResultDetail(string id);
         DataTable GetQCFVGasDetail(string id);
+        DataTable GetQC (string id);
+        DataTable GetQCDetails(string id);
+        DataTable GetQCOutDeatil(string id);
     }
 }
