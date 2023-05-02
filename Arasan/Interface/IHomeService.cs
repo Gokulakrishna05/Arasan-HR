@@ -8,5 +8,7 @@ namespace Arasan.Interface
     {
         DataTable IsQCNotify();
         DataTable GetQCNotify();
+        DataTable CuringGroup();
+        DataTable curingsubgroup(string curingset);
     }
 }

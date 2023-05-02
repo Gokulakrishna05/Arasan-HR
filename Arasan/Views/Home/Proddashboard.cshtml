@@ -1,0 +1,219 @@
+﻿@model Arasan.Models.Home
+@{
+    ViewData["Title"] = "Home Page";
+}
+  <style>
+.rounwded10 {
+  border-radius: 10px !important; }
+      </style>
+<!-- Vendors Style-->
+	<link rel="stylesheet" href="~/dash/css/bootstrap.css">
+
+	<!-- Style-->  
+	<link rel="stylesheet" href="~/dash/css/style.css">
+
+	<div class="row">
+					<div class="col-xl-9 col-12" style="margin-top: 20px !important;">
+						<div class="box position-static">
+							<div class="box-header">
+								<h4 class="box-title">Curing Set</h4>
+								<!--<div class="box-controls pull-right">
+									<input class="form-control no-border bg-lightest" id="e" type="date">
+								</div>-->
+							</div>
+							<div class="box-body">
+								                 @{
+
+                                                            int i = 0;
+                                                            foreach (var item in Model.curgroups.ToList())
+                                                            {
+																		  	<div class="row mb-20">
+											
+												
+												<div><span style="color:green"> <b>@Html.DisplayFor(o => o.curgroups[i].curinggroup)</b></span></div>
+											 	@{ int j = 0;
+                                                            foreach (var curitme in item.curset.ToList())
+                                                            {
+
+				@if(curitme.status=="Occupied"){
+					<div class="col">
+																<div class="section-bx">
+																	<a href="#" class="w-40 h-40 m-5 bg-warning d-block rounded10">
+																		<div class="bx-dec">
+																			<div class="section-dec d-flex align-items-center">
+																				<div class="box-img">
+																					<img src="~/dash/images/box.png" class="img-fluid" alt="" />
+																				</div>
+																				<div class="dec">
+																					<h4 class="text-white my-0">@Html.DisplayFor(modelItem => curitme.Roomno)</h4>
+																					<p class="text-white">Occupied : @Html.DisplayFor(modelItem => curitme.Occupied)</p>
+																					<p class="mb-0 text-white-50">Delivered : 06:15PM</p>
+																				</div>
+																			</div>
+																		</div>
+																	</a>
+																</div>
+														</div>
+
+									}
+									else if (curitme.status=="blocked")
+									{
+										
+															<div class="col">
+																<div class="section-bx">
+																	<a href="#" class="w-40 h-40 m-5 bg-danger d-block rounwded10">
+																		<div class="bx-dec">
+																			<div class="section-dec d-flex align-items-center">
+																				<div class="box-img">
+																					<img src="~/dash/images/box.png" class="img-fluid" alt="" />
+																				</div>
+																				<div class="dec">
+																					<h4 class="text-white my-0">Blocked</h4>
+																					<p class="text-white">@Html.DisplayFor(modelItem => curitme.Roomno)</p>
+																				</div>
+																			</div>
+																		</div>
+																	</a>
+																</div>
+															</div>
+									}
+									else if (curitme.status=="Waiting")
+									{
+										
+										
+															<div class="col">
+																<div class="section-bx">
+																	<a href="#" class="w-40 h-40 m-5 bg-success d-block rounded10">
+																		<div class="bx-dec">
+																			<div class="section-dec d-flex align-items-center">
+																				<div class="box-img">
+																					<img src="~/dash/images/box.png" class="img-fluid" alt="" />
+																				</div>
+																				<div class="dec">
+																					<h4 class="text-white my-0">@Html.DisplayFor(modelItem => curitme.Roomno)</h4>
+																					<p class="text-white">Occupied : @Html.DisplayFor(modelItem => curitme.Occupied)</p>
+																					<p class="mb-0 text-white-50">Delivered : 06:15PM</p>
+																				</div>
+																			</div>
+																		</div>
+																	</a>
+																</div>
+														</div>
+										
+									}
+									else
+									{
+										
+									
+													<div class="col">
+																<div class="section-bx">
+																	<a href="#" class="w-40 h-40 m-5 bg-warning-light d-block rounwded10">
+																		<div class="bx-dec">
+																			<div class="section-dec d-flex align-items-center">
+																				<div class="box-img">
+																					<img src="~/dash/images/box.png" class="img-fluid" alt="" />
+																				</div>
+																				<div class="dec">
+																					<h4 class="text-white my-0">Empty</h4>
+																					<p class="text-white">@Html.DisplayFor(modelItem => curitme.Roomno)</p>
+																				</div>
+																			</div>
+																		</div>
+																	</a>
+																</div>
+															</div>
+											}
+										 j = j + 1;
+                                                            }
+																}
+												</div>
+									
+									
+								                         
+                                                      
+                                                          i = i + 1;
+                                                            }
+                                                        }
+
+							
+							
+								<div class="d-flex mt-20">
+									<div class="d-flex">
+										<div class="w-20 h-20 bg-warning-light rounded"></div>
+										<h5 class="mx-15 my-0">Free Place</h5>
+									</div>
+									<div class="d-flex">
+										<div class="w-20 h-20 bg-warning rounded"></div>
+										<h5 class="mx-15 my-0">Loaded Place</h5>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+
+					<div class="col-xl-3 col-12" style="margin-top: 20px !important;">
+					<div class="box bg-success">
+						<div class="box-header">
+							<h4 class="box-title text-white">Section 5 usage</h4>
+						</div>
+						<div class="box-body">
+							<div id="progressbar4" class="text-center position-relative"><span class="text-white"><span class="fs-36">@Html.DisplayFor(C => C.res) %</span><br>Location used</span></div>
+							<div class="mt-50 d-flex justify-content-evenly">
+								<div class="text-center">
+									<p class="mb-0 text-white-50">Loaded</p>
+									<h4 class="mb-0 text-white">@Html.DisplayFor(C => C.loaded) Shelves</h4>@Html.HiddenFor(C => C.rem,new { @id = "hdrem"})
+								</div>
+								<div class="text-center">
+									<p class="mb-0 text-white-50">Empty</p>
+									<h4 class="mb-0 text-white">@Html.DisplayFor(C => C.empty) Shelves</h4>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+          </div>
+
+	<!-- Page Content overlay -->
+	<script src="~/dash/js/progressbar.js"></script>
+<script>
+var res = document.getElementById("hdrem").value;
+alert(res);
+	var bar = new ProgressBar.Circle(progressbar4, {
+		  color: '#ffb550',
+		  // This has to be the same size as the maximum width to
+		  // prevent clipping
+		  strokeWidth: 10,
+		  trailWidth: 2,
+		  trailColor: '#73bda4',
+		  easing: 'easeInOut',
+		  duration: 1400,
+		  text: {
+			autoStyleContainer: false
+		  },
+		  from: { color: '#ffb550', width: 5 },
+		  to: { color: '#ffb550', width: 5 },
+		  // Set default step function for all animate calls
+		  step: function(state, circle) {
+			circle.path.setAttribute('stroke', state.color);
+			circle.path.setAttribute('stroke-width', state.width);
+
+			var value = Math.round(circle.value() * 150);
+			if (value === 0) {
+			  circle.setText('');
+			} else {
+			  circle.setText(value);
+			}
+
+		  }
+		});
+		bar.text.style.fontFamily = '"Raleway", Helvetica, sans-serif';
+		bar.text.style.fontSize = '2rem';
+
+		bar.animate(res);
+</script>	
+	
+	
+		
+
