@@ -3,6 +3,14 @@
 @{
     ViewData["Title"] = "Curing";
 }
+<style>
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
 
@@ -28,12 +36,12 @@
                         @Html.AntiForgeryToken()
                         <form>
 
-                            <div class="row">
+                           @* <div class="row">
                                 <div class="col-lg-3"></div>
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Location Name<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Location Name<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.Location, Model.Cur, new { @id = "ddlLocation", @Class = "form-control chosen-select", @TabIndex = 1 })
                                            
@@ -47,10 +55,9 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <br /><label for="inputName3" class="col-sm-4 control-label">SubGroup<label class="Mandatory"></label></label>
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Shed Number<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.Sub, Model.STypelst, new { @id = "ddlSub", @Class = "form-control chosen-select", @TabIndex = 1 })
-
                                         </div>
                                     </div>
                                 </div>
@@ -60,9 +67,9 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Shed Number<label class="Mandatory"></label></label>
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Drum Number<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Shed, new { @id = "txtShed", @class = "form-control", @TabIndex = 1 })
+                                            @Html.TextBoxFor(C => C.Shed, new { @id = "txtShed", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
 
                                         </div>
                                     </div>
@@ -72,16 +79,15 @@
                                 <div class="col-lg-3"></div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Number Of Days<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Days, new { @id = "txtDays", @class = "form-control", @TabIndex = 1 })
+                                            @Html.TextBoxFor(C => C.Days, new { @id = "txtDays", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
 
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
+                            </div>*@
+                            @*<div class="row">
                                 <div class="col-lg-3"></div>
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -93,7 +99,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
                             <div style="height:30px;"></div>
                             <div class="col-lg-8"></div>
 
@@ -111,4 +117,60 @@
 </div>
 <script>
     $(".chosen-select").chosen();
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+            if (document.getElementById("Location").value == "") {
+                isValid = false;
+                $(Location).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select  Location");
+                return false;
+            }
+            else {
+                $(Location).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("Sub").value == "") {
+                isValid = false;
+                $(Sub).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select  ShedNumber");
+                return false;
+            }
+            else {
+                $(Sub).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("Shed").value == "") {
+                isValid = false;
+                $(Shed).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select  Shed");
+                return false;
+            }
+            else {
+                $(Shed).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (isValid == false)
+                e.preventDefault();
+        });
+
+    });
 </script>

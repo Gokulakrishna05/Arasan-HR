@@ -1,5 +1,5 @@
 ﻿using Arasan.Interface;
-using Arasan.Interface;
+//using Arasan.Interface;
 using Arasan.Models;
 using Microsoft.Extensions.Configuration;
 using Oracle.ManagedDataAccess.Client;
@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Arasan.Services
 {
-    public class SectionService : ISectionService
+    public class SectionService : ISectionService 
     {
     }
 }
