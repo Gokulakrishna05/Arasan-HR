@@ -194,7 +194,7 @@ public class ProductionEntryService : IProductionEntry
                                 else
                                 {
                                     StatementType = "Update";
-                                    objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                                    objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                                 }
                                 objCmds.CommandType = CommandType.StoredProcedure;
                                 objCmds.Parameters.Add("NPRODBASICID", OracleDbType.NVarchar2).Value = Pid;
@@ -292,7 +292,37 @@ public class ProductionEntryService : IProductionEntry
                                 objConns.Close();
                             }
 
+                            using (OracleConnection objConns = new OracleConnection(_connectionString))
 
+                            {
+
+                                OracleCommand objCmds = new OracleCommand("QCNOTIFICATIONPROC", objConns);
+                                objCmds.CommandType = CommandType.StoredProcedure;
+                                if (cy.ID == null)
+                                {
+                                    StatementType = "Insert";
+                                    objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                }
+                                else
+                                {
+                                    StatementType = "Update";
+                                    objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                                }
+                                objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = Pid;
+                                objCmds.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.DocId;
+                                objCmds.Parameters.Add("TYPE", OracleDbType.NVarchar2).Value = "Production Entry";
+                                objCmds.Parameters.Add("DRUMNO", OracleDbType.NVarchar2).Value = cp.drumno;
+                                objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cp.ItemId;
+                                objCmds.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                                objCmds.Parameters.Add("IS_COMPLETED", OracleDbType.NVarchar2).Value = "NO";
+
+                                objCmds.Parameters.Add("QC_STATUS", OracleDbType.NVarchar2).Value = "Raised";
+
+                                objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                                objConns.Open();
+                                objCmds.ExecuteNonQuery();
+                                objConns.Close();
+                            }
 
                         }
                     }

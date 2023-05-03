@@ -171,7 +171,7 @@ namespace Arasan.Controllers.Production
                         tda1.OutputType = dt3.Rows[i]["OTYPE"].ToString();
                         tda1.Sch = dt3.Rows[i]["SCHQTY"].ToString();
                         tda1.Produced = dt3.Rows[i]["PQTY"].ToString();
-
+                        tda1.Isvalid = "Y";
 
                         tda1.ID = id;
                         TData1.Add(tda1);
@@ -191,6 +191,7 @@ namespace Arasan.Controllers.Production
                         tda2.Initial = dt4.Rows[i]["IPARAMVALUE"].ToString();
                         tda2.Final = dt4.Rows[i]["FPARAMVALUE"].ToString();
                         tda2.Remarks = dt4.Rows[i]["REMARKS"].ToString();
+                        tda2.Isvalid = "Y";
                         tda2.ID = id;
                         TData2.Add(tda2);
                     }
@@ -212,7 +213,7 @@ namespace Arasan.Controllers.Production
                         }
                         tda3.SItemlst = BindItemlst(tda3.ItemGrp);
                         tda3.Itemd = dt5.Rows[i]["ODITEMID"].ToString();
-
+                        tda3.Isvalid = "Y";
                         tda3.SchDate = dt5.Rows[i]["ODDATE"].ToString();
                         tda3.Hrs = dt5.Rows[i]["ODRUNHRS"].ToString();
                         tda3.Qty = dt5.Rows[i]["ODQTY"].ToString();
@@ -232,7 +233,7 @@ namespace Arasan.Controllers.Production
 
                         tda4.Pack = dt6.Rows[i]["PKITEMID"].ToString();
                         tda4.Qty = dt6.Rows[i]["PKQTY"].ToString();
-
+                        tda4.Isvalid = "Y";
                         tda4.ID = id;
                         TData4.Add(tda4);
                     }

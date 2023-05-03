@@ -31,7 +31,7 @@ namespace Arasan.Services.Production
         public DataTable DrumDeatils()
         {
             string SvSql = string.Empty;
-            SvSql = "select DRUMMASTID,DRUMNO from DRUMMAST where DRUMTYPE='PRODUCTION'";
+            SvSql = "select DRUM_NO  from DRUM_STOCK where BALANCE_QTY  > 0";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -148,7 +148,7 @@ namespace Arasan.Services.Production
                                         objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                                     }
                                     objCmds.CommandType = CommandType.StoredProcedure;
-									objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+									
 									objCmds.Parameters.Add("DIEBASICID", OracleDbType.NVarchar2).Value = Pid;
                                     //objCmds.Parameters.Add("FBINID", OracleDbType.NVarchar2).Value = ca.FBinId;
                                     //objCmds.Parameters.Add("TBINID", OracleDbType.NVarchar2).Value = ca.TBinid;
@@ -181,7 +181,8 @@ namespace Arasan.Services.Production
                                         StatementType = "Update";
                                     objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                                     }
-                                objCmds.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.Docid;
+                                    objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = Pid;
+                                    objCmds.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.Docid;
                                 objCmds.Parameters.Add("TYPE", OracleDbType.NVarchar2).Value = "Drum Issue";
                                 objCmds.Parameters.Add("DRUMNO", OracleDbType.NVarchar2).Value = ca.Drum;
                                 objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cy.Itemid;
