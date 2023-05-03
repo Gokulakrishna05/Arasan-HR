@@ -210,7 +210,7 @@ namespace Arasan.Controllers
                         tda3.loclst = BindLocation();
 
                         tda3.ItemId = dt5.Rows[i]["WITEMID"].ToString();
-
+                        tda3.Isvalid = "Y";
                         tda3.BinId = dt5.Rows[i]["WBINID"].ToString();
                         tda3.batchno = dt5.Rows[i]["WBATCHNO"].ToString();
                         tda3.wastageQty = Convert.ToDouble(dt5.Rows[i]["WQTY"].ToString() == "" ? "0" : dt3.Rows[i]["WQTY"].ToString());
