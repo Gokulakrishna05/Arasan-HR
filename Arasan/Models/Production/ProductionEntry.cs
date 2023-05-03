@@ -63,6 +63,8 @@ namespace Arasan.Models
         public string shiftid { get; set; }
         public string starttime { get; set; }
         public string endtime { get; set; }
+
+        public string OutEntryType { get; set; }
     }
     public class ProIn
     {
@@ -85,8 +87,8 @@ namespace Arasan.Models
         public string Isvalid { get; set; }
         public List<SelectListItem> outputlst;
         public string Purchasestock { get; set; }
-
-
+        public string drumid { get; set; }
+        public string Proinid { get; set; }
     }
     public class ProInCons
     {
@@ -99,6 +101,7 @@ namespace Arasan.Models
         public string BinId { get; set; }
         public string Purchasestock { get; set; }
         public string saveitemId { get; set; }
+        public string Proinconsid { get; set; }
 
     }
     public class output

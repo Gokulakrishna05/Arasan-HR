@@ -148,7 +148,8 @@ namespace Arasan.Services.Production
                                         objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                                     }
                                     objCmds.CommandType = CommandType.StoredProcedure;
-                                    objCmds.Parameters.Add("DIEBASICID", OracleDbType.NVarchar2).Value = Pid;
+									objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+									objCmds.Parameters.Add("DIEBASICID", OracleDbType.NVarchar2).Value = Pid;
                                     //objCmds.Parameters.Add("FBINID", OracleDbType.NVarchar2).Value = ca.FBinId;
                                     //objCmds.Parameters.Add("TBINID", OracleDbType.NVarchar2).Value = ca.TBinid;
                                     objCmds.Parameters.Add("NDRUMNO", OracleDbType.NVarchar2).Value = ca.Drum;

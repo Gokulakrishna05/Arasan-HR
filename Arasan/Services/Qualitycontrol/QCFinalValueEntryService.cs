@@ -15,6 +15,7 @@ namespace Arasan.Services.Qualitycontrol
         public QCFinalValueEntryService(IConfiguration _configuratio)
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
+            datatrans = new DataTransactions(_connectionString);
         }
         public DataTable GetWorkCenter()
         {
@@ -67,13 +68,67 @@ namespace Arasan.Services.Qualitycontrol
             adapter.Fill(dtt);
             return dtt;
         }
-
+        public DataTable GetQC(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select DOCID,TYPE,to_char(QCNOTIFICATION.CREATED_ON,'dd-MON-yyyy')CREATED_ON,ID from QCNOTIFICATION where QCNOTIFICATIONID= '" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetQCDetails(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select WCID,PROCESSID,to_char(NPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE from NPRODBASIC where NPRODBASICID= '" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetQCOutDeatil(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select ITEMMASTER.ITEMID,ODRUMNO,OBATCHNO from NPRODOUTDET LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=NPRODOUTDET.OITEMID where NPRODBASICID= '" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public string QCFinalValueEntryCRUD(QCFinalValueEntry cy)
         {
             string msg = "";
             try
             {
                 string StatementType = string.Empty; string svSQL = "";
+                datatrans = new DataTransactions(_connectionString);
+             
+
+                if(cy.ID !=null)
+                {
+                   cy.ID = null;
+                }
+                //string[] sdateList = cy.startdate.Split(" - ");
+                //string sdate = "";
+                //string stime = "";
+                //if (sdateList.Length > 0)
+                //{
+                //    sdate = sdateList[0];
+                //    stime = sdateList[1];
+                //}
+                //string[] edateList = cy.enddate.Split(" - ");
+                //string endate = "";
+                //string endtime = "";
+                //if (sdateList.Length > 0)
+                //{
+                //    endate = edateList[0];
+                //    endtime = edateList[1];
+                //}
+                //string StatementType = string.Empty; string svSQL = "";
+                string ITEMID = datatrans.GetDataString("Select ITEMMASTERID from ITEMMASTER where ITEMID='" + cy.Itemid +"' ");
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("FQTVEBASICPROC", objConn);
@@ -96,7 +151,7 @@ namespace Arasan.Services.Qualitycontrol
                     objCmd.Parameters.Add("DRUMNO", OracleDbType.NVarchar2).Value = cy.DrumNo;
                     objCmd.Parameters.Add("BATCH", OracleDbType.NVarchar2).Value = cy.Batch;
                     objCmd.Parameters.Add("BATCHNO", OracleDbType.NVarchar2).Value = cy.BatchNo;
-                    objCmd.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cy.Itemid;
+                    objCmd.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = ITEMID;
                     objCmd.Parameters.Add("PRODID", OracleDbType.NVarchar2).Value = cy.ProNo;
                     objCmd.Parameters.Add("RATEPHR", OracleDbType.NVarchar2).Value = cy.Rate;
                     objCmd.Parameters.Add("PRODDATE", OracleDbType.Date).Value = DateTime.Parse(cy.ProDate);
@@ -192,7 +247,9 @@ namespace Arasan.Services.Qualitycontrol
 
                             }
                         }
-                    
+                        string updateCMd = " UPDATE QCNOTIFICATION SET IS_COMPLETED ='YES' , FINALRESULT='" + cy.FResult + "' WHERE DOCID ='" + cy.ProNo + "' ";
+                        datatrans.UpdateStatus(updateCMd);
+
                     }
                     catch (Exception ex)
                     {
@@ -200,6 +257,9 @@ namespace Arasan.Services.Qualitycontrol
                     }
                     objConn.Close();
                 }
+
+              
+              
             }
             catch (Exception ex)
             {

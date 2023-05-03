@@ -180,7 +180,7 @@
                                             <td>@Html.DisplayFor(o => o.Notifies[j].Type)</td>
                                             <td>@Html.DisplayFor(o => o.Notifies[j].Item)</td>
                                             <td>@Html.DisplayFor(o => o.Notifies[j].Drum)</td>
-                                            <td> <a class="nav-link" href="@Url.Action("QCFinalValueEntry", "QCFinalValueEntry")"> <span class="title">Go To QC </span> </a></td>
+                                            <td> <a class="nav-link" href="@Url.Action("QCFinalValueEntry", "QCFinalValueEntry",new { id=item.ID })"> <span class="title">Go To QC </span> </a></td>
 
                                         </tr>
                                         j = j + 1;
@@ -390,6 +390,6 @@
     </div>
 </div>
           
-
+</div>
 		
 

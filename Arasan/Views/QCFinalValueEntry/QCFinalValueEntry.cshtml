@@ -114,7 +114,10 @@
 
                                     <br />   <label for="inputName3" class="col-sm-4 control-label">Batch No<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.BatchNo, Model.Batchlst," -- Please Select -- " ,new { @id = "ddlBatchNo", @Class = "form-control _select", @TabIndex = 1 })
+                                          @*  @Html.DropDownListFor(C => C.BatchNo, Model.Batchlst," -- Please Select -- " ,new { @id = "ddlBatchNo", @Class = "form-control _select", @TabIndex = 1 })*@
+
+                                            @Html.TextBoxFor(C => C.BatchNo, new { @id = "txtBatchNo", @class = "form-control", @TabIndex = 1 })
+
                                     </div>
                                 </div>
                             </div>
@@ -123,7 +126,9 @@
 
                                            <br /> <label for="inputName3" class="col-sm-4 control-label">Item ID<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Itemid, Model.Itemlst, " -- Please Select -- ",new { @id = "ddlItemid", @Class = "form-control _select", @TabIndex = 1 })
+                                           @* @Html.DropDownListFor(C => C.Itemid, Model.Itemlst, " -- Please Select -- ",new { @id = "ddlItemid", @Class = "form-control _select", @TabIndex = 1 })*@
+
+                                            @Html.TextBoxFor(C => C.Itemid, new { @id = "txtItemid", @class = "form-control", @TabIndex = 1 })
                                     </div>
                                 </div>
                             </div>
@@ -308,8 +313,7 @@
                                                     
                                                     <td>
                                                                 @Html.HiddenFor(o => o.QCFVLst[i].Isvalid, new { @id = "Isvalid" + i })
-                                                                <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(i)" />
-                                                    </td>
+  <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" />                                                     </td>
 
                                                             </tr>
                                                         i = i + 1;

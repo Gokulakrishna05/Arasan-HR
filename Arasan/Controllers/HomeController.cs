@@ -52,8 +52,9 @@ namespace Arasan.Controllers
                 for (int i = 0; i < dt3.Rows.Count; i++)
                 {
                     tda1 = new Notify();
-                    
-                    tda1.Doc = dt3.Rows[i]["DOCID"].ToString();
+					tda1.ID = dt3.Rows[i]["QCNOTIFICATIONID"].ToString();
+
+					tda1.Doc = dt3.Rows[i]["DOCID"].ToString();
                     tda1.Date = dt3.Rows[i]["CREATED_ON"].ToString();
                     tda1.Drum = dt3.Rows[i]["DRUMNO"].ToString();
                     tda1.Item = dt3.Rows[i]["ITEMID"].ToString();
@@ -65,7 +66,52 @@ namespace Arasan.Controllers
             H.Notifies = TData1;
             return View(H);
         }
-
+        public ActionResult Proddashboard()
+        {
+            Home H = new Home();
+            List<CuringGroup> TData = new List<CuringGroup>();
+            CuringGroup tda = new CuringGroup();
+           
+            CuringSet tda1 = new CuringSet();
+            DataTable dt2 = new DataTable();
+            dt2 = HomeService.CuringGroup();
+            int empty = datatrans.GetDataId("select count(*) as cunt from curingmaster where STATUS='Active'");
+            double loaded = datatrans.GetDataId("select count(*) as cunt from curingmaster where STATUS!='Active'");
+            double rem = loaded - empty;
+            double remain = rem / loaded;
+            int res =Convert.ToInt32( (rem / loaded) * 100);
+            if (dt2.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt2.Rows.Count; i++)
+                {
+                    tda = new CuringGroup();
+                    tda.curinggroup = dt2.Rows[i]["SUBGROUP"].ToString();
+                    DataTable dt3 = new DataTable();
+                    dt3 = HomeService.curingsubgroup(tda.curinggroup);
+                    if (dt3.Rows.Count > 0)
+                    {
+                        List<CuringSet> TData1 = new List<CuringSet>();
+                        for (int j = 0; j < dt3.Rows.Count; j++)
+                        {
+                            tda1 = new CuringSet();
+                            tda1.Roomno = dt3.Rows[j]["SHEDNUMBER"].ToString();
+                            tda1.Capacity = dt3.Rows[j]["CAPACITY"].ToString();
+                            tda1.status= dt3.Rows[j]["STATUS"].ToString();
+                            tda1.Occupied= dt3.Rows[j]["OCCUPIED"].ToString();
+                            TData1.Add(tda1);
+                        }
+                        tda.curset = TData1;
+                    }
+                    TData.Add(tda);
+                }
+            }
+            H.curgroups = TData;
+            H.loaded = loaded;
+            H.empty = empty;
+            H.res = res;
+            H.rem = remain;
+            return View(H);
+        }
         public IActionResult Privacy()
         {
             return View();
