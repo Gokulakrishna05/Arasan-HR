@@ -47,7 +47,7 @@ namespace Arasan.Services
 
                     cmd.CommandText = "Select LOCDETAILS.LOCID,SUBGROUP,SHEDNUMBER,NOFDAYS,CURINGMASTERID  from CURINGMASTER LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID = CURINGMASTER.LOCATIONID";
 
-                    cmd.CommandText = "Select LOCDETAILS.LOCID,SUBGROUP,SHEDNUMBER,CAPACITY,STATUS,CURINGMASTERID  from CURINGMASTER LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID = CURINGMASTER.LOCATIONID";
+                    //cmd.CommandText = "Select LOCDETAILS.LOCID,SUBGROUP,SHEDNUMBER,CAPACITY,STATUS,CURINGMASTERID  from CURINGMASTER LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID = CURINGMASTER.LOCATIONID";
 
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
@@ -62,7 +62,7 @@ namespace Arasan.Services
                             Days = rdr["NOFDAYS"].ToString(),
                             //Status = rdr["STATUS"].ToString()
 
-                            Days = rdr["CAPACITY"].ToString(),
+                            //Days = rdr["CAPACITY"].ToString(),
                             Status = rdr["STATUS"].ToString()
 
                         };
