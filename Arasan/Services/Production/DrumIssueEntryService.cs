@@ -17,6 +17,7 @@ namespace Arasan.Services.Production
         public DrumIssueEntryService(IConfiguration _configuratio)
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
+            datatrans = new DataTransactions(_connectionString);
         }
         public DataTable BindBinID()
         {
@@ -28,10 +29,20 @@ namespace Arasan.Services.Production
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable DrumDeatils()
+        public DataTable DrumDeatils(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select DRUM_NO  from DRUM_STOCK where BALANCE_QTY  > 0";
+            SvSql = "select DRUM_NO,DRUM_ID  from DRUM_STOCK where BALANCE_QTY  > 0 AND LOCID= '" + id +"'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetDrumDetails(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select BATCHNO,QTY from DRUM_STOCK where DRUM_NO= '" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -68,6 +79,16 @@ namespace Arasan.Services.Production
             adapter.Fill(dtt);
             return dtt;
         }
+        //public DataTable GetItemDetails(string value)
+        //{
+        //    string SvSql = string.Empty;
+        //    SvSql = "select ITEMID from DRUM_STOCK";
+        //    DataTable dtt = new DataTable();
+        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
+        //}
         public DataTable GetDrumIssuseDetails(string id)
         {
             string SvSql = string.Empty;
@@ -164,42 +185,48 @@ namespace Arasan.Services.Production
                                 }
 
                         
-                        
+                         
+                                string DrumID = datatrans.GetDataString("Select DRUM_NO from DRUM_STOCK where DRUM_ID='" + ca.Drum + "' ");
+
                                 using (OracleConnection objConns = new OracleConnection(_connectionString))
 
                                 {
-                              
-                                    OracleCommand objCmds = new OracleCommand("QCNOTIFICATIONPROC", objConns);
-                                objCmds.CommandType = CommandType.StoredProcedure;
+
+                                    OracleCommand objCmds = new OracleCommand("DRUMSTKPROC", objConns);
+                                    objCmds.CommandType = CommandType.StoredProcedure;
                                     if (cy.ID == null)
                                     {
                                         StatementType = "Insert";
-                                    objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
                                     }
-                                    else
-                                    {
-                                        StatementType = "Update";
-                                    objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
-                                    }
-                                    objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = Pid;
-                                    objCmds.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.Docid;
-                                objCmds.Parameters.Add("TYPE", OracleDbType.NVarchar2).Value = "Drum Issue";
-                                objCmds.Parameters.Add("DRUMNO", OracleDbType.NVarchar2).Value = ca.Drum;
-                                objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cy.Itemid;
-                                objCmds.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
-                                objCmds.Parameters.Add("IS_COMPLETED", OracleDbType.NVarchar2).Value = "NO";
+                                   
 
-                                    objCmds.Parameters.Add("QC_STATUS", OracleDbType.NVarchar2).Value = "Raised";
-
-                                objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
-                                objConns.Open();
-                                objCmds.ExecuteNonQuery();
-                                objConns.Close();
-                            }
+                                    objCmds.Parameters.Add("INVENTORY_ITEM_ID", OracleDbType.NVarchar2).Value = "0";
+                                    objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cy.Itemid;
+                                    objCmds.Parameters.Add("IN_DATE", OracleDbType.Date).Value = DateTime.Now;
+                                    objCmds.Parameters.Add("DRUM_ID", OracleDbType.NVarchar2).Value = ca.Drum;
+                                    objCmds.Parameters.Add("DRUM_NO", OracleDbType.NVarchar2).Value = DrumID;
+                                    objCmds.Parameters.Add("TSOURCEID", OracleDbType.NVarchar2).Value ="0";
+                                    objCmds.Parameters.Add("STOCKTRANSTYPE", OracleDbType.NVarchar2).Value ="DRUMISSUE";
+                                    objCmds.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = cy.Toloc;
+                                    objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = ca.Qty;
+                                    objCmds.Parameters.Add("BALANCE_QTY", OracleDbType.NVarchar2).Value = ca.Qty;
+                                    objCmds.Parameters.Add("OUT_ID", OracleDbType.NVarchar2).Value ="0";
+                                    objCmds.Parameters.Add("BATCHNO", OracleDbType.NVarchar2).Value = ca.Batch;
+                                    objCmds.Parameters.Add("BATCH_QTY", OracleDbType.NVarchar2).Value ="0";
+                                    objCmds.Parameters.Add("ISPRODINV", OracleDbType.NVarchar2).Value = "Y";
+                                    
+                                    objConns.Open();
+                                    objCmds.ExecuteNonQuery();
+                                  
+                                    objConns.Close();
+                                   
+                                }
                             }
                         }
 
-
+                        string updateCMd = " UPDATE DRUM_STOCK SET BALANCE_QTY ='0' WHERE DRUM_ID ='" + cy.Drum + "' ";
+                        datatrans.UpdateStatus(updateCMd);
                     }
                     catch (Exception ex)
                     {
