@@ -8,7 +8,7 @@ namespace Arasan.Interface.Production
     public interface IDrumIssueEntryService
     {
         DataTable BindBinID();
-        DataTable DrumDeatils();
+        DataTable DrumDeatils(string id);
         string DrumIssueEntryCRUD(DrumIssueEntry cy);
         IEnumerable<DrumIssueEntry> GetAllDrumIssueEntry();
         DataTable GetBranch();
@@ -17,5 +17,7 @@ namespace Arasan.Interface.Production
         DataTable GetItem();
         DataTable EditDrumIssue(string DRUM);
         DataTable EditDrumDetail(string DRUM);
+        DataTable GetDrumDetails(string DRUM);
+        //DataTable GetItemDetails(string id);
     }
 }

@@ -303,11 +303,7 @@ public class ProductionEntryService : IProductionEntry
                                     StatementType = "Insert";
                                     objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
                                 }
-                                else
-                                {
-                                    StatementType = "Update";
-                                    objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
-                                }
+                                
                                 objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = Pid;
                                 objCmds.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.DocId;
                                 objCmds.Parameters.Add("TYPE", OracleDbType.NVarchar2).Value = "Production Entry";

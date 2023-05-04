@@ -45,7 +45,7 @@ namespace Arasan.Controllers.Production
                     tda = new DrumIssueEntryItem();
                     tda.FBinlst = BindBinID();
                     tda.TBinlst = BindBinID();
-                    tda.drumlst = Binddrum();
+                    tda.drumlst = Binddrum("");
                     tda.Isvalid = "Y";
                     TData.Add(tda);
                 }
@@ -94,7 +94,7 @@ namespace Arasan.Controllers.Production
                       //  tda.TBinlst = BindBinID();
                         tda.TBinid = dt2.Rows[i]["TBINID"].ToString();
 
-                       tda.drumlst = Binddrum();
+                       //tda.drumlst = Binddrum();
                         tda.Drum = dt2.Rows[i]["NDRUMNO"].ToString();
                         tda.Isvalid = "Y";
                         tda.Qty = dt2.Rows[i]["QTY"].ToString();
@@ -195,15 +195,21 @@ namespace Arasan.Controllers.Production
                 throw ex;
             }
         }
-        public List<SelectListItem> Binddrum()
+        public JsonResult GetDrumJSON(string id)
+        {
+            DrumIssueEntryItem model = new DrumIssueEntryItem();
+            model.drumlst = Binddrum(id);
+            return Json(Binddrum(id));
+        }
+        public List<SelectListItem> Binddrum(string value)
         {
             try
             {
-                DataTable dtDesg = DrumIssueEntryService.DrumDeatils();
+                DataTable dtDesg = DrumIssueEntryService.DrumDeatils(value);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DRUM_NO"].ToString(), Value = dtDesg.Rows[i]["DRUM_NO"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DRUM_NO"].ToString(), Value = dtDesg.Rows[i]["DRUM_ID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -219,11 +225,11 @@ namespace Arasan.Controllers.Production
             return Json(model);
 
         }
-        public JsonResult GetItemGrpJSON()
+        public JsonResult GetItemGrpJSON(string id)
         {
             DrumIssueEntryItem model = new DrumIssueEntryItem();
-              model.drumlst = Binddrum();
-            return Json(Binddrum());
+              model.drumlst = Binddrum(id);
+            return Json(Binddrum(id));
         }
         public List<SelectListItem> BindType()
         {
@@ -309,6 +315,66 @@ namespace Arasan.Controllers.Production
                 throw ex;
             }
         }
+        public ActionResult GetDrumDetail(string ItemId)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+
+                string batch = "";
+                string qty = "";
+
+                dt = DrumIssueEntryService.GetDrumDetails(ItemId);
+
+                if (dt.Rows.Count > 0)
+                {
+
+                    batch = dt.Rows[0]["BATCHNO"].ToString();
+                    qty = dt.Rows[0]["QTY"].ToString();
+
+
+
+                }
+
+                var result = new { batch = batch , qty= qty };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        //public ActionResult GetItemJSON(string ItemId)
+        //{
+        //    try
+        //    {
+        //        DataTable dt = new DataTable();
+        //        DataTable dt1 = new DataTable();
+        //        string item = "";
+        //        string unit = "";
+
+        //        dt = DrumIssueEntryService.GetItemDetails(ItemId);
+
+        //        if (dt.Rows.Count > 0)
+        //        {
+
+        //            item = dt.Rows[0]["ITEMID"].ToString();
+        //            dt1 = datatrans.GetItemDetails(item);
+        //            unit = dt1.Rows[0]["QTY"].ToString();
+
+
+
+        //        }
+
+        //        var result = new { item = item, qty = unit };
+        //        return Json(result);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
+
         public IActionResult ApproveDrumIssue(string DRUM)
         {
             DrumIssueEntry ca = new DrumIssueEntry();
