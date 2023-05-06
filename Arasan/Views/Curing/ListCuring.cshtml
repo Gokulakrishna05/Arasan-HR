@@ -13,7 +13,6 @@
         </ol>
     </div>
 </div>
-
 <div class="wrapper-content ">
     <div class="row">
         <div class="col-lg-12">
@@ -45,8 +44,10 @@
                                                            
                                                             <th>Location Name</th>
                                                             <th>Shed Number</th>
+                                                            <th>Status</th>
                                                             <th>Edit</th>
                                                             <th>Delete</th>
+
                                                         </tr>
                                                     </thead>
 
@@ -59,7 +60,7 @@
                                                                         <td>@i</td>
                                                                         <td>@Html.DisplayFor(modelItem => item.Location) </td>
                                                                        <td>@Html.DisplayFor(modelItem => item.Shed)</td>
-
+                                                                    <td> <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("Status", "Curing",new { id=item.ID })"><img src='../Images/view_icon.png' alt='Waiting for approval' /></a></div></td>
 
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Curing", "Curing",new { id=item.ID })"></a></div></td>
                                                                         <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("Curing", "Curing",new { id=item.ID })"></a></div></td>
