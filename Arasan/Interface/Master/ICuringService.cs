@@ -9,9 +9,9 @@ namespace Arasan.Interface
     {
         string CuringCRUD(Curing cy);
         IEnumerable<Curing> GetAllCuring();
-        Curing GetCuringById(string id);
-
         DataTable GetCuring();
-        //DataTable GetSubgroup();
+        Curing GetCuringById(string id);
+        DataTable GetCuringDeatil(string id);
+        DataTable GetSubgroup();
     }
 }

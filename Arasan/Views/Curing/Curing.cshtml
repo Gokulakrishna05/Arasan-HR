@@ -36,7 +36,7 @@
                         @Html.AntiForgeryToken()
                         <form>
 
-                           @* <div class="row">
+                            <div class="row">
                                 <div class="col-lg-3"></div>
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -55,9 +55,9 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <br /><label for="inputName3" class="col-sm-4 control-label">Shed Number<label class="mandatory">*</label></label>
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Sub Group<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Sub, Model.STypelst, new { @id = "ddlSub", @Class = "form-control chosen-select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.Sub, Model.Sublst, new { @id = "ddlSub", @Class = "form-control chosen-select", @TabIndex = 1 })
                                         </div>
                                     </div>
                                 </div>
@@ -67,10 +67,9 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Drum Number<label class="mandatory">*</label></label>
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Shed Number<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Shed, new { @id = "txtShed", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
-
+                                            @Html.TextBoxFor(C => C.Shed, new { @id = "txtShed", @class = "form-control", @TabIndex = 1})
                                         </div>
                                     </div>
                                 </div>
@@ -79,20 +78,20 @@
                                 <div class="col-lg-3"></div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Number Of Days<label class="Mandatory"></label></label>
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Capacity<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Days, new { @id = "txtDays", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
+                                            @Html.TextBoxFor(C => C.Cap, new { @id = "txtCap", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
 
                                         </div>
                                     </div>
                                 </div>
-                            </div>*@
-                            @*<div class="row">
+                            </div>
+                          @*  <div class="row">
                                 <div class="col-lg-3"></div>
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Status<label class="Mandatory"></label></label>
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Capacity<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.Status, Model.statuslst, new { @id = "ddlStatus", @Class = "form-control chosen-select", @TabIndex = 1 })
 

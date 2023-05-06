@@ -20,9 +20,9 @@ namespace Arasan.Controllers
         {
             Curing ic = new Curing();
             ic.Cur = BindCuring();
-            ic.STypelst = BindSType();
-            ic.statuslst = BindStatus();
-            //ic.Sublst = BindSubgroup();
+            //ic.STypelst = BindSType();
+            //ic.statuslst = BindStatus();
+            ic.Sublst = BindSubgroup();
             if (id == null)
             {
 
@@ -76,6 +76,22 @@ namespace Arasan.Controllers
             IEnumerable<Curing> ic = CuringService.GetAllCuring();
             return View(ic);
         }
+        public IActionResult Status(string id)
+        {
+            Curing ic = new Curing();
+            ic.statuslst = BindStatus();
+            DataTable dt = new DataTable();
+            dt = CuringService.GetCuringDeatil(id);
+            if (dt.Rows.Count > 0)
+            {
+                ic.Location = dt.Rows[0]["LOCID"].ToString();
+                ic.Sub = dt.Rows[0]["SUBGROUP"].ToString();
+                ic.Shed = dt.Rows[0]["SHEDNUMBER"].ToString();
+                ic.Cap = dt.Rows[0]["CAPACITY"].ToString();
+                ic.ID = id;
+            }
+            return View(ic);
+        }
         public List<SelectListItem> BindCuring()
         {
             try
@@ -93,46 +109,14 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public List<SelectListItem> BindSType()
-        {
-            try
-            {
-                List<SelectListItem> lstdesg = new List<SelectListItem>();
-                lstdesg.Add(new SelectListItem() { Text = "Curing Set 1", Value = "ADD1" });
-                lstdesg.Add(new SelectListItem() { Text = "Curing Set 2", Value = "ADD2" });
-                lstdesg.Add(new SelectListItem() { Text = "Curing Set 3", Value = "ADD3" });
-                return lstdesg;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        public List<SelectListItem> BindStatus()
-        {
-            try
-            {
-                List<SelectListItem> lstdesg = new List<SelectListItem>();
-                lstdesg.Add(new SelectListItem() { Text = "PENDING", Value = "PENDING" });
-                lstdesg.Add(new SelectListItem() { Text = "COMPLETED", Value = "COMPLETED" });
-                lstdesg.Add(new SelectListItem() { Text = "APPROVED", Value = "APPROVED" });
-                return lstdesg;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        //public List<SelectListItem> BindSubgroup()
+        //public List<SelectListItem> BindSType()
         //{
         //    try
         //    {
-        //        DataTable dtDesg = CuringService.GetSubgroup();
         //        List<SelectListItem> lstdesg = new List<SelectListItem>();
-        //        for (int i = 0; i < dtDesg.Rows.Count; i++)
-        //        {
-        //            lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["SUBGROUP"].ToString(), Value = dtDesg.Rows[i]["LOCDETAILSID"].ToString() });
-        //        }
+        //        lstdesg.Add(new SelectListItem() { Text = "Curing Set 1", Value = "ADD1" });
+        //        lstdesg.Add(new SelectListItem() { Text = "Curing Set 2", Value = "ADD2" });
+        //        lstdesg.Add(new SelectListItem() { Text = "Curing Set 3", Value = "ADD3" });
         //        return lstdesg;
         //    }
         //    catch (Exception ex)
@@ -140,5 +124,38 @@ namespace Arasan.Controllers
         //        throw ex;
         //    }
         //}
+        public List<SelectListItem> BindStatus()
+        {
+            try
+            {
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                lstdesg.Add(new SelectListItem() { Text = "Occupied", Value = "Occupied" });
+                lstdesg.Add(new SelectListItem() { Text = "blocked", Value = "blocked" });
+                lstdesg.Add(new SelectListItem() { Text = "Active", Value = "Active" });
+                lstdesg.Add(new SelectListItem() { Text = "Waiting", Value = "Waiting" });
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindSubgroup()
+        {
+            try
+            {
+                DataTable dtDesg = CuringService.GetSubgroup();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["SUBGROUP"].ToString(), Value = dtDesg.Rows[i]["CURINGMASTERID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

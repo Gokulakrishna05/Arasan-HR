@@ -7,8 +7,7 @@ namespace Arasan.Models
         public Curing()
         {
             this.Cur = new List<SelectListItem>();
-            //this.Sublst = new List<SelectListItem>();
-            this.STypelst = new List<SelectListItem>();
+            this.Sublst = new List<SelectListItem>();
             this.statuslst = new List<SelectListItem>();
 
         }
@@ -16,11 +15,12 @@ namespace Arasan.Models
         public List<SelectListItem> Cur;
         public string Location { get; set; }
 
-        //public List<SelectListItem> Sublst;
-        public List<SelectListItem> STypelst;
+        public List<SelectListItem> Sublst;
+
         public string Sub { get; set; }
         public string Shed { get; set; }
-        public string Days { get; set; }
+
+        public string Cap { get; set; }
 
         public List<SelectListItem> statuslst;
         public string Status { get; set; }
