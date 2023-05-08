@@ -29,7 +29,17 @@ namespace Arasan.Controllers
             }
             else
             {
-                ic = CuringService.GetCuringById(id);
+                //ic = CuringService.GetCuringById(id);
+                DataTable dt = new DataTable();
+                dt = CuringService.GetCuringDetails(id);
+                if (dt.Rows.Count > 0)
+                {
+                    ic.Location = dt.Rows[0]["LOCATIONID"].ToString();
+                    ic.Sub = dt.Rows[0]["SUBGROUP"].ToString();
+                    ic.Shed = dt.Rows[0]["SHEDNUMBER"].ToString();
+                    ic.Cap = dt.Rows[0]["CAPACITY"].ToString();
+                    ic.ID = id;
+                }
 
             }
             return View(ic);
