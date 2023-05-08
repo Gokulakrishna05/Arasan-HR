@@ -12,6 +12,7 @@ namespace Arasan.Interface
         DataTable GetCuring();
         Curing GetCuringById(string id);
         DataTable GetCuringDeatil(string id);
+        DataTable GetCuringDetails(string id);
         DataTable GetSubgroup();
     }
 }

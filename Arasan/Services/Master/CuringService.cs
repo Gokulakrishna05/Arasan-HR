@@ -158,5 +158,16 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
+
+        public DataTable GetCuringDetails(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select CURINGMASTERID,LOCATIONID,SUBGROUP,SHEDNUMBER,CAPACITY from CURINGMASTER where CURINGMASTERID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
     }
 }

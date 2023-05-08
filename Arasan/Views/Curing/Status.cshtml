@@ -23,7 +23,7 @@
                 <div class="widgets-container">
                     <h5 style="font-size:14px">Status</h5>
                     <hr>
-                    @using (Html.BeginForm("Status", "Curing", FormMethod.Post))
+                    @using (Html.BeginForm("Curing", "Curing", FormMethod.Post))
                     {
                         @Html.AntiForgeryToken()
                         <form>
@@ -33,6 +33,8 @@
                                         <label for="inputName3" class="col-sm-4 control-label">Location Name <label class="Mandatory"></label></label>
                                         <div class="col-sm-8 bootstrap-timepicker">
                                             @Html.DisplayFor(C=>C.Location)
+                                            @Html.HiddenFor(C => C.ID)
+                                           @* @Html.TextBoxFor(C => C.Location, new { @id = "txtLocation", @class = "form-control", @TabIndex = 1})*@
                                         </div>
                                     </div>
                                 </div>
@@ -41,6 +43,7 @@
                                         <label for="inputName3" class="col-sm-4 control-label">Sub Group <label class="Mandatory"></label></label>
                                         <div class="col-sm-8 bootstrap-timepicker">
                                             @Html.DisplayFor(C=>C.Sub)
+                                           @* @Html.TextBoxFor(C => C.Sub, new { @id = "txtSub", @class = "form-control", @TabIndex = 1})*@
                                         </div>
                                     </div>
                                 </div>
@@ -52,6 +55,7 @@
                                         <label for="inputName3" class="col-sm-4 control-label">Shed Number<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.DisplayFor(C=>C.Shed)
+                                           @* @Html.TextBoxFor(C => C.Shed, new { @id = "txtShed", @class = "form-control", @TabIndex = 1})*@
                                         </div>
                                     </div>
                                 </div>
@@ -60,6 +64,7 @@
                                         <label for="inputName3" class="col-sm-4 control-label">Capacity<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.DisplayFor(C=>C.Cap)
+                                           @* @Html.TextBoxFor(C => C.Cap, new { @id = "txtCap", @class = "form-control", @TabIndex = 1})*@
                                         </div>
                                     </div>
                                 </div>
@@ -72,7 +77,7 @@
 
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Status<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Status, Model.statuslst, new { @id = "ddlStatus", @Class = "form-control chosen-select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.Status, Model.statuslst, new { @id = "ddlStatus", @Class = "form-control _select", @TabIndex = 1 })
 
                                         </div>
                                     </div>
@@ -80,7 +85,7 @@
                             </div>
                             <div style="height:30px;"></div>
                             <button type="submit" class="btn aqua m-t-xs bottom15-xs">Submit</button>
-                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("Status", "Curing")'">Cancel</button>
+                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListCuring", "Curing")'">Cancel</button>
 
 
                         </form>
@@ -92,7 +97,9 @@
     </div>
 </div>
 <script>
-    $(".chosen-select").chosen();
+    $(function () {
+        $('._select').select2();
+    });
     $('.form_date').datetimepicker({
         //   language:  'fr',
         weekStart: 1,
