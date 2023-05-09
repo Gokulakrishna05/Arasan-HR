@@ -692,6 +692,25 @@ namespace Arasan.Controllers.Production
             }
             return View(ca);
         }
+        //public ActionResult DeleteCustomer(string tag, int id)
+        //{
+        //    ProductionSchedule rgl = new ProductionSchedule();
+        //    //rgl.StatusChange(tag, id);
+        //    //return RedirectToAction("ListCustomer");
 
+
+        //    string Strout = ProductionScheduleService.StatusChange(tag,id);
+
+        //    if (string.IsNullOrEmpty(Strout))
+        //    {
+
+        //        return RedirectToAction("ListCustomer");
+        //    }
+        //    else
+        //    {
+        //        TempData["notice"] = Strout;
+        //        return RedirectToAction("ListCustomer");
+        //    }
+        //}
     }
 }

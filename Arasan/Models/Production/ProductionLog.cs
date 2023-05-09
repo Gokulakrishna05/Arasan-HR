@@ -47,6 +47,7 @@ namespace Arasan.Models
         public string ComplYN { get; set; }
         public string MainValue { get; set; }
         public string ProdSieve { get; set; }
+        public string Remark { get; set; }
         public double EUnit { get; set; }
         public double Melting { get; set; }
         public List<WorkCenter> WorkLst { get; set; }

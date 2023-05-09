@@ -172,7 +172,7 @@
                                           <br />   <label for="inputName3" class="col-sm-4 control-label">Available Stock<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
 
-                                                @Html.TextBoxFor(C => C.Stock, new { @id = "txtStock", @class = "form-control", @TabIndex = 1 })<br />
+                                                @Html.TextBoxFor(C => C.Stock, new { @id = "txtStock", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)" })<br />
                                         </div>
                                     </div>
                                 </div>
@@ -195,7 +195,7 @@
                                            <label for="inputName3" class="col-sm-4 control-label">Drum Stock<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
 
-                                                @Html.TextBoxFor(C => C.Drum, new { @id = "txtDrum", @class = "form-control", @TabIndex = 1 })
+                                                @Html.TextBoxFor(C => C.Drum, new { @id = "txtDrum", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                         </div>
                                     </div>
                                 </div>
@@ -386,12 +386,12 @@
         forceParse: 0
     });
      function changeDrum(ItemId,i) {
-        
+        var item = document.getElementById("ddlItemid").value;
 
         $.ajax({
             url: "GetDrumJSON",
             type: "post",
-            data: { 'id': ItemId },
+            data: { 'item' : item,'id': ItemId },
             cache: false,
             success: function (response) {
                 var newlist;
@@ -401,6 +401,21 @@
             error: function () {
                 debugger;
                 alert("Please Select From Location");
+            }
+        });
+        $.ajax({
+            url: 'GetStockDetail',
+            data: { 'items' : item ,"ItemId": ItemId },
+            type: "GET",
+            success: function (result) {
+
+                document.getElementById("txtDrum"  ).value = result.drum;
+
+                document.getElementById("txtStock"  ).value = result.stock;
+
+            },
+            error: function () {
+                alert("Data Not Found");
             }
         });
       }
