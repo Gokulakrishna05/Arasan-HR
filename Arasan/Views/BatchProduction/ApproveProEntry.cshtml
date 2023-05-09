@@ -365,7 +365,7 @@
                                                                                                                                                     
                                                                                                                                                                                                 <td>
                                                                                                                                                                                                     @Html.DisplayFor(o => o.outlst[k].ItemId)
-                                                                                                                                                                                                </td>
+                                                                                                                                                                                                </td> @Html.HiddenFor(o => o.outlst[k].saveitemId) @Html.HiddenFor(o => o.outlst[k].outid) @Html.HiddenFor(o => o.outlst[k].drumid)@Html.HiddenFor(o => o.outlst[k].locid)
                                                                                                                                                                                                  <td>@Html.DisplayFor(o => o.outlst[k].startdate)</td>
                                                                                                                                                                                                
                                                                                                                                  <td>@Html.DisplayFor(o => o.outlst[k].starttime)</td>
@@ -373,9 +373,9 @@
                                                                                                                                 
                                                                                                                                  <td>@Html.DisplayFor(o => o.outlst[k].endtime)</td>
                                                                                             <td>
-                                                                                                @Html.DisplayFor(o => o.outlst[k].drumno)
+                                                                                                @Html.DisplayFor(o => o.outlst[k].drumno)  @Html.HiddenFor(o => o.outlst[k].drumno)
                                                                                                                                                           </td>
-                                                                                                                                <td>@Html.DisplayFor(o => o.outlst[k].batchno)</td> 
+                                                                                                                                <td>@Html.DisplayFor(o => o.outlst[k].batchno) @Html.HiddenFor(o => o.outlst[k].batchno)</td> 
                                                                                                                                                         <td>@Html.DisplayFor(o => o.outlst[k].OutStock)</td>
                                                                                                                                                         <td>@Html.DisplayFor(o => o.outlst[k].OutQty)</td>
                                                                                                                                                        <td>@Html.DisplayFor(o => o.outlst[k].ExcessQty)</td>
@@ -423,7 +423,7 @@
                                                                                                                                                     
                                                                                                                                                                                                 <td>
                                                                                                                                                                                                     @Html.DisplayFor(o => o.wastelst[m].ItemId)
-                                                                                                                                                                                                </td>
+                                                                                                                                                                                                </td>@Html.HiddenFor(o => o.wastelst[m].saveitemId) @Html.HiddenFor(o => o.wastelst[m].wasteid)@Html.HiddenFor(o => o.wastelst[m].locid)
                                                                                                                                                                                                 <td>@Html.DisplayFor(o => o.wastelst[m].batchno)</td> 
                                                                                                                                                         <td>@Html.DisplayFor(o => o.wastelst[m].wastageQty)</td>
                                                                                                                                                         <td>@Html.DisplayFor(o => o.wastelst[m].toloc)</td>

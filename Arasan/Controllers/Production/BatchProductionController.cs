@@ -514,6 +514,10 @@ namespace Arasan.Controllers
                     tda2.ExcessQty = dtproOut.Rows[i]["OXQTY"].ToString() != "" ? Convert.ToDouble(dtproOut.Rows[i]["OXQTY"].ToString()) : 0;
                     tda2.status = dtproOut.Rows[i]["STATUS"].ToString();
                     tda2.toloc = dtproOut.Rows[i]["LOCID"].ToString();
+                    tda2.outid = dtproOut.Rows[i]["BPRODOUTDETID"].ToString(); 
+                    tda2.saveitemId= dtproOut.Rows[i]["OITEMID"].ToString();
+                    tda2.locid = dtproOut.Rows[i]["TOLOCATION"].ToString();
+                    tda2.drumid = dtproOut.Rows[i]["ODRUMNO"].ToString();
                     TData2.Add(tda2);
                 }
 
@@ -528,6 +532,9 @@ namespace Arasan.Controllers
                     tda3.toloc = dtprowaste.Rows[i]["LOCID"].ToString();
                     tda3.wastageQty = dtprowaste.Rows[i]["WQTY"].ToString() != "" ? Convert.ToDouble(dtprowaste.Rows[i]["WQTY"].ToString()) : 0;
                     tda3.batchno = dtprowaste.Rows[i]["WBATCHNO"].ToString();
+                    tda3.wasteid= dtprowaste.Rows[i]["BPRODWASTEDETID"].ToString();
+                    tda3.saveitemId = dtprowaste.Rows[i]["WITEMID"].ToString();
+                    tda3.locid= dtprowaste.Rows[i]["WLOCATION"].ToString();
                 }
                 ca.inputlst = TData;
                 ca.inconslst = TData1;
