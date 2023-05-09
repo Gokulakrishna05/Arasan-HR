@@ -167,7 +167,7 @@
                                   <th>SGST</th>
                                    <th>IGST</th>
                                     <th>Total Amount</th>
-                                   
+                                   <th>LOT NO.</th>
                                       <th>Purchase Type</th>
                         </tr>
                       </thead>
@@ -253,7 +253,7 @@
                                                                                                                                                          <td>
                                                                                                                                                             @Html.TextBoxFor(o => o.PoItem[i].TotalAmount, new { @id = "txtTotalAmount" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")" })
                                                                                                                                                         </td>
-                                                                                                                                                       
+                                                                                                                                                       <td> @Html.TextBoxFor(o => o.PoItem[i].Lotno, new { @id = "txtLotno" + i, @class = "form-control", style = "width: 150px;" })</td>
                                                                                                                          <td>
                                                                                                                                                             @Html.DropDownListFor(o => o.PoItem[i].Purtype, Model.PoItem[i].PURLst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlPurtype" + i, style = "width: 170px;"})
                                                                                                                                                         </td>

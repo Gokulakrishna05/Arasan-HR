@@ -160,6 +160,7 @@ namespace Arasan.Models
         public double IGSTAmt { get; set; }
         public double TotalAmount { get; set; }
         public string Duedate { get; set; }
+        public string Lotno { get; set; }
 
     }
     public class POGateItem
