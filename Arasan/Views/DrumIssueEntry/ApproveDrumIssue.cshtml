@@ -115,7 +115,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                          @*  <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
 
@@ -137,7 +137,7 @@
                                     </div>
                                 </div>
                                 
-                            </div>
+                            </div>*@
                             <div class="row">
 
                                 <div class="col-md-6">
@@ -190,8 +190,8 @@
                                                 <th>Qty</th>
                                                 <th>Rate</th>
                                                 <th>Amount</th>
-                                                <th>From BinId </th>
-                                                <th>To BinId</th>
+                                              @*  <th>From BinId </th>
+                                                <th>To BinId</th>*@
                                             </tr>
                                         </thead>
                                         <tbody id="tbBooks">
@@ -223,12 +223,12 @@
 
                                                             @Html.DisplayFor(o => o.Drumlst[i].Amount)
                                                         </td>
-                                                        <td>
+                                                        @*<td>
                                                             @Html.DisplayFor(o => o.Drumlst[i].FBinId)
                                                         </td>
                                                         <td>
                                                             @Html.DisplayFor(o => o.Drumlst[i].TBinid)
-                                                        </td>
+                                                        </td>*@
 
                                                     </tr>
                                                     i = i + 1;

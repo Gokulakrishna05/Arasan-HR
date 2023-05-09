@@ -29,6 +29,8 @@ namespace Arasan.Interface.Production
         DataTable ProParmDetail(string id);
         DataTable ProDailyDatDetail(string id);
         DataTable ProPackDetail(string id);
-         
+          //string StatusChange(string id, int tag);
+
+
     }
 }

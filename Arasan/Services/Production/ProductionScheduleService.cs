@@ -80,7 +80,7 @@ namespace Arasan.Services.Production
         public DataTable GetProductionSchedule(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select BRANCHID,SCHPLANTYPE,DOCID,to_char(DOCDATE,'dd-MON-yyyy')DOCDATE,WCID,PROCESSID,to_char(SCHDATE,'dd-MON-yyyy') SCHDATE,OPQTY,PRODQTY,FORMULA,to_char(PDOCDT,'dd-MON-yyyy') PDOCDT,OPITEMID,OPUNIT,EXPRUNHRS,REFSCHNO,AMDSCHNO,ENTEREDBY from PSBASIC Where PSBASICID='" + id + "'";
+            SvSql = "Select BRANCHID,SCHPLANTYPE,DOCID,to_char(DOCDATE,'dd-MON-yyyy')DOCDATE,WCID,PROCESSID,to_char(SCHDATE,'dd-MON-yyyy') SCHDATE,OPQTY,PRODQTY,FORMULA,to_char(PDUEDATE,'dd-MON-yyyy') PDUEDATE,OPITEMID,OPUNIT,EXPRUNHRS,REFSCHNO,AMDSCHNO,ENTEREDBY from PSBASIC Where PSBASICID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -214,7 +214,7 @@ namespace Arasan.Services.Production
                     objCmd.Parameters.Add("PROCESSID", OracleDbType.NVarchar2).Value = cy.Process;
                     objCmd.Parameters.Add("SCHDATE", OracleDbType.Date).Value = DateTime.Parse(cy.Schdate);
                     objCmd.Parameters.Add("FORMULA", OracleDbType.NVarchar2).Value = cy.Formula;
-                    objCmd.Parameters.Add("PDOCDT", OracleDbType.Date).Value = DateTime.Parse(cy.Proddt);
+                    objCmd.Parameters.Add("PDUEDATE", OracleDbType.Date).Value = DateTime.Parse(cy.Proddt);
                     objCmd.Parameters.Add("OPITEMID", OracleDbType.NVarchar2).Value = cy.Itemid;
                     objCmd.Parameters.Add("OPUNIT", OracleDbType.NVarchar2).Value = cy.Unit;
                     objCmd.Parameters.Add("OPQTY", OracleDbType.NVarchar2).Value = cy.Qty;
@@ -578,5 +578,46 @@ namespace Arasan.Services.Production
             adapter.Fill(dtt);
             return dtt;
         }
+        //public string StatusChange(string tag, int id)
+        //{
+
+        //    try
+        //    {
+
+        //        string StatementType = string.Empty; string svSQL = "";
+        //        using (OracleConnection objConn = new OracleConnection(_connectionString))
+        //        {
+        //            string Sql = string.Empty;
+        //            //Sql = "UPDATE DRUM_STOCK SET BALANCE_QTY ='0' WHERE DRUM_STOCK_ID='" + dt.Rows[i]["DRUM_STOCK_ID"].ToString() + "'";
+        //            OracleCommand objCmds = new OracleCommand(Sql, objConn);
+        //            objConn.Open();
+        //            objCmds.ExecuteNonQuery();
+        //            objConn.Close();
+        //        }
+              
+
+                
+        //        //dbcommand = new SqlCommand(svSQL, conn);
+        //        //dbcommand.CommandType = CommandType.StoredProcedure;
+        //        //dbcommand.Parameters.Add("@id", SqlDbType.Int).Value = id;
+        //        //dbcommand.Parameters.Add("@isactive", SqlDbType.Char, 1).Value = tag == "Del" ? "N" : "Y";
+        //        //dbcommand.Parameters.Add("@StatementType", SqlDbType.NVarChar, 50).Value = "Delete";
+        //        //if (dbcommand.Connection.State == ConnectionState.Open)
+        //        //{
+        //        //    dbcommand.Connection.Close();
+        //        //}
+        //        //if (_dtransactions.InsUpateCMD(dbcommand) == true)
+        //        //{
+
+        //        //}
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //    return "";
+
+        //}
     }
 }

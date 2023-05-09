@@ -116,6 +116,7 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("TOTALDUST", OracleDbType.NVarchar2).Value = cy.TotalDust;
                     objCmd.Parameters.Add("TOTALPOWDER", OracleDbType.NVarchar2).Value = cy.TotalPowder;
                     objCmd.Parameters.Add("COMPLETEDYN", OracleDbType.NVarchar2).Value = cy.ComplYN;
+                    objCmd.Parameters.Add("REMARKS", OracleDbType.NVarchar2).Value = cy.Remark;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try

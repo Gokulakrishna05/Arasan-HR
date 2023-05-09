@@ -26,7 +26,7 @@ namespace Arasan.Services.Production
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "select BRANCHMAST.BRANCHID,DOCID,PLANTYPE,PRODFCBASICID FROM PRODFCBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PRODFCBASIC.BRANCHID;";
+                    cmd.CommandText = "select BRANCHMAST.BRANCHID,DOCID,PLANTYPE,PRODFCBASICID FROM PRODFCBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PRODFCBASIC.BRANCHID";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
