@@ -383,6 +383,10 @@ namespace Arasan.Controllers
         {
             return Json(Binddrum());
         }
+        public JsonResult GetLocationJSON()
+        {
+            return Json(BindLocation());
+        }
 
         public List<SelectListItem> BindItemlst(string value)
         {
