@@ -271,8 +271,8 @@
                                                             </td>*@
                                                     <td>
                                                                 @Html.HiddenFor(o => o.Drumlst[i].Isvalid, new { @id = "Isvalid" + i })
-                                                                <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(i)" />
-                                                    </td>
+                                                                <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" />
+                                                            </td>
 
                                                             </tr>
                                                         i = i + 1;
@@ -574,6 +574,20 @@
         else {
             alert("Cannot delete all the rows.")
         }
+        var i = 0;
+        var qty = 0;
+        var tot = 0;
+        $('tr.chkitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+                qty = $(this).find('#txtQty' + i.toString()).val();
+                if (qty == "")
+                    qty = 0;
+
+                tot += eval(qty);
+            }
+            i += 1;
+        });
+        document.getElementById("txttotalinqty").value = tot.toFixed(2);
     }
      function AppendRow(opt) {
         var index = $("#tbBooks").children("tr").length;
