@@ -28,7 +28,7 @@ namespace Arasan.Services
         public DataTable GetSubgroup()
         {
             string SvSql = string.Empty;
-            SvSql = "Select SUBGROUP,CURINGMASTERID from CURINGMASTER";
+            SvSql = "Select SUBGROUP from CURINGSUBGROUPMAST";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
