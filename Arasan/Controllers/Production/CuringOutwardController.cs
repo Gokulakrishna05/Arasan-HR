@@ -63,9 +63,9 @@ namespace Arasan.Controllers
                 {
                     ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
                     ca.PackingNote = dt.Rows[0]["PACKNOTE"].ToString();
-                    //ca.Shiftlst = BindShift(ca.PackingNote);
+                    ca.Shiftlst = BindShift(ca.PackingNote);
                     ca.Shift = dt.Rows[0]["SHIFT"].ToString();
-                    //ca.Itemlst = BindItemlst(ca.PackingNote);
+                    ca.Itemlst = BindItemlst(ca.PackingNote);
                     ca.ItemId = dt.Rows[0]["ITEM"].ToString();
                     ca.TotalQty = dt.Rows[0]["TOTQTY"].ToString();
                     ca.ID = id;
@@ -91,6 +91,7 @@ namespace Arasan.Controllers
                         tda = new CuringDetail();
                       
                         tda.drum = dt2.Rows[i]["DRUMNO"].ToString();
+                        //ca.DrumLoclst = BindShift(ca.drum);
                         tda.batch = dt2.Rows[i]["BATCHNO"].ToString();
                         tda.qty = dt2.Rows[i]["BATCHQTY"].ToString();
                         tda.comp = dt2.Rows[i]["COMBNO"].ToString();

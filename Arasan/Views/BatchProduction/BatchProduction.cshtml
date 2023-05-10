@@ -340,7 +340,7 @@
                                                                                                                                                                                                 <td>
                                                                                                                                                                                                     @Html.DropDownListFor(o => o.Binconslst[j].ItemId, Model.Binconslst[j].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlConsItem" + j, style = "width: 170px;", onchange = "changeconsItem(this.value," + j + ")" })
                                                                                                                                                                                                 </td>
-                                                                                                                                                                                                <td>@Html.TextBoxFor(o => o.Binconslst[j].consunit, new { @id = "txtconsunit" + j, @class = "form-control", style = "width: 100px;"})</td> 
+                                                                                                                                                                                                <td>@Html.TextBoxFor(o => o.Binconslst[j].consunit, new { @id = "txtconsunit" + j, @class = "form-control", style = "width: 100px;",@readonly=true})</td> 
                                                                                                                                                         <td>@Html.TextBoxFor(o => o.Binconslst[j].BinId, new { @id = "txtConsBinId" + j, @class = "form-control", style = "width: 100px;"})</td> 
                                                                                                                                                         <td>@Html.TextBoxFor(o => o.Binconslst[j].ConsStock, new { @id = "txtConsStock" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;text-align:right" })</td>
                                                                                                                                                         <td>@Html.TextBoxFor(o => o.Binconslst[j].consQty, new { @id = "txtconsQty" + j, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeConsQty(this," + j + ")" })</td>
@@ -937,9 +937,9 @@
         var binid = "<td><input class='form-control'  id='txtBinId" + index + "' name='inputlst[" + index + "].BinId' style='width: 100px;' type='text' value=''></td>";
         var drumno = "<td><select style = 'width: 120px;' class='form-control _select newcss' id='drumno" + index + "' name='inputlst[" + index + "].drumno' ><option value=''>Please select</option>" + remopt + "</select></td>";
         var batchno = "<td><input class='form-control'  id='txtbatchno" + index + "' name='inputlst[" + index + "].batchno' style='width: 200px;' type='text' value=''></td>";
-        var batchqty="<td><input class='form-control'  id='txtbatchqty" + index + "' name='inputlst[" + index + "].batchqty' style='width: 80px;' type='text' value=''></td>";
-        var stock="<td><input class='form-control'  id='txtStockAvailable" + index + "' name='inputlst[" + index + "].StockAvailable' style='width: 80px;' type='text' value=''></td>";
-        var issueqty="<td><input class='form-control'  id='txtIssueQty" + index + "' name='inputlst[" + index + "].IssueQty' style='width: 100px;' type='text' value=''></td>";
+        var batchqty="<td><input class='form-control'  id='txtbatchqty" + index + "' name='inputlst[" + index + "].batchqty' style='width: 80px;' type='text' onkeydown = 'return isNumeric2(event.keyCode,this.value)' value=''></td>";
+        var stock="<td><input class='form-control'  id='txtStockAvailable" + index + "' name='inputlst[" + index + "].StockAvailable' style='width: 80px;'type='text' onkeydown = 'return isNumeric2(event.keyCode,this.value)' value=''></td>";
+        var issueqty="<td><input class='form-control'  id='txtIssueQty" + index + "' name='inputlst[" + index + "].IssueQty' style='width: 100px;' type='text' onkeydown = 'return isNumeric2(event.keyCode,this.value)' value=''></td>";
        
         var removeCell = "<td><input id='Isvalid" + index + "' name='inputlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='inputlst.Index' type='hidden' value='" + index + "'  /></td>";
         var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + itemid + binid + drumno + batchno + batchqty + stock + issueqty  + removeCell + "</tr>";
@@ -950,10 +950,10 @@
         var index = $("#tbBooksinc").children("tr").length;
 
         var itemid = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlConsItem" + index + "' name='inconslst[" + index + "].ItemId' onchange='changeconsItem(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
-        var unitid = "<td><input class='form-control'  id='txtconsunit" + index + "' name='inconslst[" + index + "].consunit' style='width: 100px;' type='text' value=''></td>";
+        var unitid = "<td><input class='form-control'  id='txtconsunit" + index + "' name='inconslst[" + index + "].consunit' style='width: 100px;' type='text' readonly='True' value=''></td>";
         var binid = "<td><input class='form-control'  id='txtConsBinId" + index + "' name='inconslst[" + index + "].BinId' style='width: 100px;' type='text' value=''></td>";
-        var stock="<td><input class='form-control'  id='txtConsStock" + index + "' name='inconslst[" + index + "].ConsStock' style='width: 80px;' type='text' value=''></td>";
-        var issueqty="<td><input class='form-control'  id='txtconsQty" + index + "' name='inconslst[" + index + "].consQty' style='width: 100px;' type='text' value='' onkeyup='changeConsQty(this," + index + ")'></td>";
+        var stock="<td><input class='form-control'  id='txtConsStock" + index + "' name='inconslst[" + index + "].ConsStock' style='width: 80px;' type='text' onkeydown = 'return isNumeric2(event.keyCode,this.value)' value=''></td>";
+        var issueqty = "<td><input class='form-control'  id='txtconsQty" + index + "' name='inconslst[" + index + "].consQty' style='width: 100px;' type='text' onkeydown = 'return isNumeric2(event.keyCode,this.value)' value='' onkeyup='changeConsQty(this," + index + ")'></td>";
         var removeCell = "<td><input id='Isvalid" + index + "' name='inconslst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeConsRow(" + index + ");'  style='cursor:pointer' /><input name='inconslst.Index' type='hidden' value='" + index + "'  /></td>";
         var newRow = "<tr class='chkitemlstinc'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookinc" + index + "'>" + itemid + unitid + binid +  stock + issueqty + removeCell + "</tr>";
         $("#tbBooksinc").append(newRow);
@@ -1000,7 +1000,7 @@
                     alert(ex.message);
                 }
             }
-function changeConsQty(_this, i) {
+    function changeConsQty(_this, i) {
                 try {
 
                        var j = 0;
@@ -1016,7 +1016,7 @@ function changeConsQty(_this, i) {
                               }
                         j += 1;
                     });
-                  document.getElementById("txttotalconsqty").value = tot.toFixed(2);
+            document.getElementById("txttotalconsqty").value = tot.toFixed(2);
                 }
                 catch (ex) {
                     alert(ex.message);
@@ -1075,7 +1075,7 @@ function changeConsQty(_this, i) {
                               }
                         i += 1;
                     });
-                  document.getElementById("txttotalconsqty").value = tot.toFixed(2);
+        document.getElementById("txttotalconsqty").value = tot.toFixed(2);
 
     }
      function changeconsItem (ItemId, i) {
