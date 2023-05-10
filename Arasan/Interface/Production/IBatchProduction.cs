@@ -9,6 +9,7 @@ namespace Arasan.Interface
         DataTable ShiftDeatils();
         DataTable DrumDeatils();
         DataTable Getstkqty(string branch, string loc, string ItemId);
+        DataTable GetLotstkqty(string branch, string loc, string ItemId,string LotNo);
         DataTable BindProcess();
         DataTable SeacrhItem(string terms);
         string BatchProductionCRUD(BatchProduction cy);
@@ -25,7 +26,7 @@ namespace Arasan.Interface
         DataTable ProOutDetail(string PROID);
         DataTable ProConsDetail(string PROID);
         DataTable ProwasteDetail(string PROID);
-
-        double GetStockInQty(string Itemid, string barchid, string Locid); 
+        double GetStockInQty(string Itemid, string barchid, string Locid);
+        DataTable Getlot(string Itemid, string barchid, string Locid);
     }
 }

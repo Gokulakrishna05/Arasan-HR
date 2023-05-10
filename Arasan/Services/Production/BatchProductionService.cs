@@ -521,20 +521,20 @@ namespace Arasan.Services;
                                                 OracleCommand objCmdIn = new OracleCommand("DRUMSTKPROC", objConnIn);
                                                 objCmdIn.CommandType = CommandType.StoredProcedure;
                                                 objCmdIn.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-                                                objCmdIn.Parameters.Add("INVENTORY_ITEM_ID", OracleDbType.NVarchar2).Value = dt.Rows[i]["INVENTORY_ITEM_ID"].ToString();
+                                                objCmdIn.Parameters.Add("INVENTORY_ITEM_ID", OracleDbType.NVarchar2).Value = 0;
                                                 objCmdIn.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cp.saveitemId;
                                                 objCmdIn.Parameters.Add("IN_DATE", OracleDbType.Date).Value = DateTime.Now;
                                                 objCmdIn.Parameters.Add("DRUM_ID", OracleDbType.NVarchar2).Value = 0;
                                                 objCmdIn.Parameters.Add("DRUM_NO", OracleDbType.NVarchar2).Value = "";
                                                 objCmdIn.Parameters.Add("TSOURCEID", OracleDbType.NVarchar2).Value = cp.Proinid;
                                                 objCmdIn.Parameters.Add("STOCKTRANSTYPE", OracleDbType.NVarchar2).Value = "BPRODINCONS";
-                                                objCmdIn.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = cy.WCID;
+                                                objCmdIn.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = cy.LOCID;
                                                 objCmdIn.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = qty;
                                                 objCmdIn.Parameters.Add("BALANCE_QTY", OracleDbType.NVarchar2).Value = qty;
                                                 objCmdIn.Parameters.Add("OUT_ID", OracleDbType.NVarchar2).Value = dt.Rows[i]["DRUM_STOCK_ID"].ToString();
                                                 objCmdIn.Parameters.Add("BATCHNO", OracleDbType.NVarchar2).Value = "";
                                                 objCmdIn.Parameters.Add("BATCH_QTY", OracleDbType.NVarchar2).Value = 0;
-                                                objCmdIn.Parameters.Add("ISPRODINV", OracleDbType.NVarchar2).Value = "Y";
+                                                objCmdIn.Parameters.Add("ISPRODINV", OracleDbType.NVarchar2).Value = "N";
                                                 objConnIn.Open();
                                                 objCmdIn.ExecuteNonQuery();
                                                 objConnIn.Close();
@@ -765,7 +765,7 @@ namespace Arasan.Services;
                                     objCmdIn.Parameters.Add("OUT_ID", OracleDbType.NVarchar2).Value = 0;
                                     objCmdIn.Parameters.Add("BATCHNO", OracleDbType.NVarchar2).Value = cp.batchno;
                                     objCmdIn.Parameters.Add("BATCH_QTY", OracleDbType.NVarchar2).Value = 0;
-                                    objCmdIn.Parameters.Add("ISPRODINV", OracleDbType.NVarchar2).Value = "Y";
+                                    objCmdIn.Parameters.Add("ISPRODINV", OracleDbType.NVarchar2).Value = "N";
                                     objConnIn.Open();
                                     objCmdIn.ExecuteNonQuery();
                                     objConnIn.Close();
@@ -801,7 +801,7 @@ namespace Arasan.Services;
                                     objCmdIn.Parameters.Add("OUT_ID", OracleDbType.NVarchar2).Value = 0;
                                     objCmdIn.Parameters.Add("BATCHNO", OracleDbType.NVarchar2).Value = cp.batchno;
                                     objCmdIn.Parameters.Add("BATCH_QTY", OracleDbType.NVarchar2).Value = 0;
-                                    objCmdIn.Parameters.Add("ISPRODINV", OracleDbType.NVarchar2).Value = "Y";
+                                    objCmdIn.Parameters.Add("ISPRODINV", OracleDbType.NVarchar2).Value = "N";
                                     objConnIn.Open();
                                     objCmdIn.ExecuteNonQuery();
                                     objConnIn.Close();
@@ -1009,5 +1009,26 @@ namespace Arasan.Services;
         adapter.Fill(dtt);
         return dtt;
     }
+    public DataTable Getlot(string Itemid, string barchid, string Locid)
+    {
+        string SvSql = string.Empty;
+        SvSql = "select LOT_NO,INVENTORY_ITEM_ID from INVENTORY_ITEM where BALANCE_QTY > 0 AND LOCATION_ID='" + Locid + "' AND BRANCH_ID='" + barchid + "' AND ITEM_ID='" + Itemid + "'";
+        DataTable dtt = new DataTable();
+        OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        adapter.Fill(dtt);
+        return dtt;
+    }
+    public DataTable GetLotstkqty(string branch, string loc, string ItemId,string Lotno)
+    {
+        string SvSql = string.Empty;
+        SvSql = "select SUM(BALANCE_QTY) as QTY from INVENTORY_ITEM where BALANCE_QTY > 0 AND LOCATION_ID='" + loc + "' AND BRANCH_ID='" + branch + "' AND ITEM_ID='" + ItemId + "' AND LOT_NO='" + Lotno + "'";
+        DataTable dtt = new DataTable();
+        OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        adapter.Fill(dtt);
+        return dtt;
+    }
+    
 }
 

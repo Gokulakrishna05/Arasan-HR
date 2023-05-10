@@ -89,6 +89,9 @@ namespace Arasan.Models
         public string Purchasestock { get; set; }
         public string drumid { get; set; }
         public string Proinid { get; set; }
+        public List<SelectListItem> lotlist { get; set; }
+        public string Lotno { get; set; }
+        public double totalqty { get; set; }
     }
     public class ProInCons
     {

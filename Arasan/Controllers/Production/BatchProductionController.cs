@@ -465,8 +465,9 @@ namespace Arasan.Controllers
                     string Itemgroup = datatrans.GetDataString("select ITEMGROUP.GROUPCODE from ITEMMASTER LEFT OUTER JOIN ITEMGROUP ON ITEMGROUP.ITEMGROUPID=ITEMMASTER.ITEMGROUP WHERE ITEMMASTERID='" + dtproin.Rows[i]["IITEMID"].ToString() + "'");
                     if (Itemgroup == "RAW MATERIAL" || Itemgroup == "Consumables" || Itemgroup == "Other Consumables")
                     {
-                        stock = IProductionEntry.GetStockInQty(dtproin.Rows[i]["IITEMID"].ToString(), ca.BranchId, ca.LOCID);
+                       // stock = IProductionEntry.GetStockInQty(dtproin.Rows[i]["IITEMID"].ToString(), ca.BranchId, ca.LOCID);
                         tda.Purchasestock = "Yes";
+                        tda.lotlist = BindLot(dtproin.Rows[i]["IITEMID"].ToString(), ca.BranchId, ca.LOCID);
                     }
                     tda.StockAvailable = stock;
                     TData.Add(tda);
@@ -699,6 +700,25 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+        public List<SelectListItem> BindLot(string Itemid,string branchid,string locid)
+        {
+            try
+            {
+                DataTable dtDesg = IProductionEntry.Getlot(Itemid,branchid,locid);
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                lstdesg.Add(new SelectListItem() { Text = "--- Select ----", Value = "0" });
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["LOT_NO"].ToString(), Value = dtDesg.Rows[i]["LOT_NO"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        
         public List<SelectListItem> BindProdSch()
         {
             try
@@ -953,6 +973,29 @@ namespace Arasan.Controllers
                 DataTable dt = new DataTable();
                 string stkqty = "0";
                 dt = IProductionEntry.Getstkqty(branch, loc, ItemId);
+                if (dt.Rows.Count > 0)
+                {
+                    stkqty = dt.Rows[0]["QTY"].ToString();
+                }
+                if (stkqty == "")
+                {
+                    stkqty = "0";
+                }
+                var result = new { stkqty = stkqty };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult GetLotStkqty(string branch, string loc, string ItemId,string Lotno)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                string stkqty = "0";
+                dt = IProductionEntry.GetLotstkqty(branch, loc, ItemId, Lotno);
                 if (dt.Rows.Count > 0)
                 {
                     stkqty = dt.Rows[0]["QTY"].ToString();

@@ -218,6 +218,7 @@ namespace Arasan.Services
                                     objCmdI.Parameters.Add("DRUM_NO", OracleDbType.NVarchar2).Value = "";
                                     objCmdI.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = "0";
                                     objCmdI.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = "0";
+                                    objCmdI.Parameters.Add("LOT_NO", OracleDbType.NVarchar2).Value = cp.Lotno;
                                     objCmdI.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                                     objConnI.Open();
                                     objCmdI.ExecuteNonQuery();
