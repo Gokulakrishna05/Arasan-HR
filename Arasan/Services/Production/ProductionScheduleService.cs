@@ -578,46 +578,46 @@ namespace Arasan.Services.Production
             adapter.Fill(dtt);
             return dtt;
         }
-        //public string StatusChange(string tag, int id)
-        //{
+        public string StatusChange(string tag )
+        {
 
-        //    try
-        //    {
+            try
+            {
 
-        //        string StatementType = string.Empty; string svSQL = "";
-        //        using (OracleConnection objConn = new OracleConnection(_connectionString))
-        //        {
-        //            string Sql = string.Empty;
-        //            //Sql = "UPDATE DRUM_STOCK SET BALANCE_QTY ='0' WHERE DRUM_STOCK_ID='" + dt.Rows[i]["DRUM_STOCK_ID"].ToString() + "'";
-        //            OracleCommand objCmds = new OracleCommand(Sql, objConn);
-        //            objConn.Open();
-        //            objCmds.ExecuteNonQuery();
-        //            objConn.Close();
-        //        }
-              
+                string StatementType = string.Empty; string svSQL = "";
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    string Sql = string.Empty;
+                    Sql = "UPDATE PSBASIC SET PSCHSTATUS ='INACTIVE' WHERE PSBASICID='" + tag + "'";
+                    OracleCommand objCmds = new OracleCommand(Sql, objConn);
+                    objConn.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConn.Close();
+                }
 
-                
-        //        //dbcommand = new SqlCommand(svSQL, conn);
-        //        //dbcommand.CommandType = CommandType.StoredProcedure;
-        //        //dbcommand.Parameters.Add("@id", SqlDbType.Int).Value = id;
-        //        //dbcommand.Parameters.Add("@isactive", SqlDbType.Char, 1).Value = tag == "Del" ? "N" : "Y";
-        //        //dbcommand.Parameters.Add("@StatementType", SqlDbType.NVarChar, 50).Value = "Delete";
-        //        //if (dbcommand.Connection.State == ConnectionState.Open)
-        //        //{
-        //        //    dbcommand.Connection.Close();
-        //        //}
-        //        //if (_dtransactions.InsUpateCMD(dbcommand) == true)
-        //        //{
 
-        //        //}
 
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //    return "";
+                //dbcommand = new SqlCommand(svSQL, conn);
+                //dbcommand.CommandType = CommandType.StoredProcedure;
+                //dbcommand.Parameters.Add("@id", SqlDbType.Int).Value = id;
+                //dbcommand.Parameters.Add("@isactive", SqlDbType.Char, 1).Value = tag == "Del" ? "N" : "Y";
+                //dbcommand.Parameters.Add("@StatementType", SqlDbType.NVarChar, 50).Value = "Delete";
+                //if (dbcommand.Connection.State == ConnectionState.Open)
+                //{
+                //    dbcommand.Connection.Close();
+                //}
+                //if (_dtransactions.InsUpateCMD(dbcommand) == true)
+                //{
 
-        //}
+                //}
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
+        }
     }
 }

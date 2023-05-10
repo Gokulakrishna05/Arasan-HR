@@ -24,7 +24,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select   BRANCHMAST.BRANCHID,DOCID,LOCDETAILS.LOCID,WCBASIC.WCID,PACKNOTEBASICID from PACKNOTEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PACKNOTEBASIC.BRANCH  LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PACKNOTEBASIC.DRUMLOCATION  LEFT OUTER JOIN WCBASIC ON WCBASIC.WCBASICID=PACKNOTEBASIC.WCID";
+                    cmd.CommandText = "Select   BRANCHMAST.BRANCHID,DOCID,LOCDETAILS.LOCID,WCBASIC.WCID,ITEMMASTER.ITEMID,PACKNOTEBASICID from PACKNOTEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PACKNOTEBASIC.BRANCH LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PACKNOTEBASIC.OITEMID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PACKNOTEBASIC.DRUMLOCATION  LEFT OUTER JOIN WCBASIC ON WCBASIC.WCBASICID=PACKNOTEBASIC.WCID";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -32,7 +32,7 @@ namespace Arasan.Services
                         {
                             ID = rdr["PACKNOTEBASICID"].ToString(),
                             Branch = rdr["BRANCHID"].ToString(),
-                            WorkId = rdr["WCID"].ToString(),
+                            ItemId = rdr["ITEMID"].ToString(),
                             DrumLoc = rdr["LOCID"].ToString(),
                             DocId = rdr["DOCID"].ToString(),
                         };
@@ -179,7 +179,7 @@ namespace Arasan.Services
 
                     }
                     objCmd.Parameters.Add("BRANCH", OracleDbType.NVarchar2).Value = cy.Branch;
-                    objCmd.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = cy.WorkId;
+                    objCmd.Parameters.Add("TOLOCDETAILSID", OracleDbType.NVarchar2).Value = cy.WorkId;
             
                     objCmd.Parameters.Add("SHIFT", OracleDbType.NVarchar2).Value = cy.Shift;
                     objCmd.Parameters.Add("DOCDATE", OracleDbType.Date).Value = DateTime.Parse(cy.Docdate);
@@ -238,6 +238,58 @@ namespace Arasan.Services
                                     objCmds.ExecuteNonQuery();
                                     objConns.Close();
                                 }
+                                DataTable dt = datatrans.GetData("Select INVENTORY_ITEM_ID,ITEMID,IN_DATE,DRUM_ID,DRUM_NO,TSOURCEID,STOCKTRANSTYPE,LOCID,QTY,BALANCE_QTY,OUT_ID,BATCHNO,BATCH_QTY,ISPRODINV,DRUM_STOCK_ID from DRUM_STOCK where DRUM_STOCK.DRUM_ID='" + cp.DrumNo + "'");
+
+                                string DrumID = datatrans.GetDataString("Select DRUM_NO from DRUM_STOCK where DRUM_ID='" + cp.DrumNo + "' ");
+
+                                //double qty = ca.Qty;
+
+                                //double rqty = Convert.ToDouble(dt.Rows[0]["BALANCE_QTY"].ToString());
+                                if (dt.Rows.Count > 0)
+                                {
+                                    for (int i = 0; i < dt.Rows.Count; i++)
+                                    {
+                                        using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                                        {
+                                            string Sql = string.Empty;
+                                            Sql = "UPDATE DRUM_STOCK SET BALANCE_QTY ='0' WHERE DRUM_STOCK_ID='" + dt.Rows[i]["DRUM_STOCK_ID"].ToString() + "'";
+                                            OracleCommand objCmds = new OracleCommand(Sql, objConnT);
+                                            objConnT.Open();
+                                            objCmds.ExecuteNonQuery();
+                                            objConnT.Close();
+                                        }
+
+                                        using (OracleConnection objConns = new OracleConnection(_connectionString))
+
+                                        {
+
+                                            OracleCommand objCmds = new OracleCommand("DRUMSTKPROC", objConns);
+                                            objCmds.CommandType = CommandType.StoredProcedure;
+
+                                            objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                            objCmds.Parameters.Add("INVENTORY_ITEM_ID", OracleDbType.NVarchar2).Value = "0";
+                                            objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cy.ItemId;
+                                            objCmds.Parameters.Add("IN_DATE", OracleDbType.Date).Value = DateTime.Now;
+                                            objCmds.Parameters.Add("DRUM_ID", OracleDbType.NVarchar2).Value = cp.DrumNo;
+                                            objCmds.Parameters.Add("DRUM_NO", OracleDbType.NVarchar2).Value = DrumID;
+                                            objCmds.Parameters.Add("TSOURCEID", OracleDbType.NVarchar2).Value = "0";
+                                            objCmds.Parameters.Add("STOCKTRANSTYPE", OracleDbType.NVarchar2).Value = "PACKNOTE";
+                                            objCmds.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = cy.WorkId;
+                                            objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = cp.BatchQty;
+                                            objCmds.Parameters.Add("BALANCE_QTY", OracleDbType.NVarchar2).Value = cp.BatchQty;
+                                            objCmds.Parameters.Add("OUT_ID", OracleDbType.NVarchar2).Value = dt.Rows[i]["DRUM_STOCK_ID"].ToString();
+                                            objCmds.Parameters.Add("BATCHNO", OracleDbType.NVarchar2).Value = cp.BatchNo;
+                                            objCmds.Parameters.Add("BATCH_QTY", OracleDbType.NVarchar2).Value = "0";
+                                            objCmds.Parameters.Add("ISPRODINV", OracleDbType.NVarchar2).Value = "Y";
+                                            objConns.Open();
+                                            objCmds.ExecuteNonQuery();
+
+                                            objConns.Close();
+
+                                        }
+                                    }
+                                }
+
 
                             }
 
@@ -275,10 +327,10 @@ return msg;
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetSchedule(string v)
+        public DataTable GetSchedule( )
         {
             string SvSql = string.Empty;
-            SvSql = "Select DOCID,PSBASICID from PSBASIC Where WCID='"+ v +"' ";
+            SvSql = "Select DOCID,PSBASICID from PSBASIC ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -318,17 +370,17 @@ return msg;
         public DataTable GetItembyId(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select ITEMMASTER.ITEMID,OPITEMID,PSBASICID from PSBASIC left outer join ITEMMASTER on ITEMMASTERID =PSBASIC.OPITEMID  where PSBASICID= '" + id +"'";
+            SvSql = "select ITEMMASTER.ITEMID from DRUM_STOCK left outer join ITEMMASTER on ITEMMASTERID =DRUM_STOCK.ITEMID  where LOCID= '" + id + "' GROUP BY ITEMMASTER.ITEMID";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetDrumNo(string id)
+        public DataTable DrumDeatils(string id, string item)
         {
             string SvSql = string.Empty;
-            SvSql = "select DRUMMAST.DRUMNO,ODRUMNO,NPRODBASICID from NPRODOUTDET left outer join DRUMMAST on DRUMMASTID=NPRODOUTDET.ODRUMNO  where OITEMID= '" + id + "'";
+            SvSql = "select DRUM_NO,DRUM_ID  from DRUM_STOCK where BALANCE_QTY  > 0 AND ITEMID= '" + id + "' AND LOCID ='" + item + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -338,7 +390,7 @@ return msg;
         public DataTable GetDrumDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select   NBATCHNO,OQTY,NPRODBASICID from NPRODOUTDET   where NBATCHNO= '" + id + "'";
+            SvSql = "select BATCHNO,QTY from DRUM_STOCK where DRUM_ID= '" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -358,7 +410,7 @@ return msg;
         public DataTable GetPackingNote(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select  BRANCH, WCID,SHIFT,to_char(PACKNOTEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,DRUMLOCATION,DOCID,PACKCONSYN,ENTEREDBY,PACLOTNO,REMARKS,PSCHNO,OITEMID,to_char(PACKNOTEBASIC.STARTDATE,'dd-MON-yyyy')STARTDATE,STARTTIME,to_char(PACKNOTEBASIC.ENDDATE,'dd-MON-yyyy')ENDDATE,ENDTIME from PACKNOTEBASIC    where PACKNOTEBASICID= '" + id + "'";
+            SvSql = "select  BRANCH, TOLOCDETAILSID,SHIFT,to_char(PACKNOTEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,DRUMLOCATION,DOCID,PACKCONSYN,ENTEREDBY,PACLOTNO,REMARKS,PSCHNO,OITEMID,to_char(PACKNOTEBASIC.STARTDATE,'dd-MON-yyyy')STARTDATE,STARTTIME,to_char(PACKNOTEBASIC.ENDDATE,'dd-MON-yyyy')ENDDATE,ENDTIME from PACKNOTEBASIC    where PACKNOTEBASICID= '" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -388,7 +440,7 @@ return msg;
         public DataTable EditNote(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select  BRANCHMAST.BRANCHID, WCBASIC.WCID,SHIFTMAST.SHIFTNO,to_char(PACKNOTEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE, LOCDETAILS.LOCID,PACKNOTEBASIC.DOCID,PACKNOTEBASIC.PACKCONSYN,PACKNOTEBASIC.ENTEREDBY,PACLOTNO,PACKNOTEBASIC.REMARKS,PSBASIC.DOCID PS,ITEMMASTER.ITEMID,to_char(PACKNOTEBASIC.STARTDATE,'dd-MON-yyyy')STARTDATE,STARTTIME,to_char(PACKNOTEBASIC.ENDDATE,'dd-MON-yyyy')ENDDATE,ENDTIME from PACKNOTEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMAST.BRANCHMASTID=PACKNOTEBASIC.BRANCH LEFT OUTER JOIN WCBASIC ON WCBASIC.WCBASICID=PACKNOTEBASIC.WCID LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PACKNOTEBASIC.OITEMID LEFT OUTER JOIN SHIFTMAST ON SHIFTMAST.SHIFTMASTID=PACKNOTEBASIC.SHIFT LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PACKNOTEBASIC.DRUMLOCATION LEFT OUTER JOIN PSBASIC ON PSBASIC.PSBASICID=PACKNOTEBASIC.PSCHNO left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID=PACKNOTEBASIC.DRUMLOCATION  where PACKNOTEBASICID= '" + id + "'";
+            SvSql = "select  BRANCHMAST.BRANCHID, tol.LOCID loc,SHIFTMAST.SHIFTNO,to_char(PACKNOTEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE, LOCDETAILS.LOCID,PACKNOTEBASIC.DOCID,PACKNOTEBASIC.PACKCONSYN,PACKNOTEBASIC.ENTEREDBY,PACLOTNO,PACKNOTEBASIC.REMARKS,PSBASIC.DOCID PS,ITEMMASTER.ITEMID,to_char(PACKNOTEBASIC.STARTDATE,'dd-MON-yyyy')STARTDATE,STARTTIME,to_char(PACKNOTEBASIC.ENDDATE,'dd-MON-yyyy')ENDDATE,ENDTIME from PACKNOTEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMAST.BRANCHMASTID=PACKNOTEBASIC.BRANCH LEFT OUTER JOIN WCBASIC ON WCBASIC.WCBASICID=PACKNOTEBASIC.WCID LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PACKNOTEBASIC.OITEMID LEFT OUTER JOIN SHIFTMAST ON SHIFTMAST.SHIFTMASTID=PACKNOTEBASIC.SHIFT LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PACKNOTEBASIC.DRUMLOCATION LEFT OUTER JOIN PSBASIC ON PSBASIC.PSBASICID=PACKNOTEBASIC.PSCHNO left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID=PACKNOTEBASIC.DRUMLOCATION LEFT OUTER JOIN LOCDETAILS tol ON tol.LOCDETAILSID=PACKNOTEBASIC.TOLOCDETAILSID  where PACKNOTEBASICID= '" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

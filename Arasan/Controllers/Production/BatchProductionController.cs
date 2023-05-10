@@ -671,6 +671,10 @@ namespace Arasan.Controllers
         {
             return Json(Binddrum());
         }
+        public JsonResult GetLocJSON()
+        {
+            return Json(BindLocation());
+        }
         public List<SelectListItem> BindProdLog()
         {
             try

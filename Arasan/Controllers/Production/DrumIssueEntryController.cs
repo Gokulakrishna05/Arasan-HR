@@ -429,7 +429,7 @@ namespace Arasan.Controllers.Production
                 ca.Qty = Convert.ToDouble(dt.Rows[0]["TOTQTY"].ToString() == "" ? "0" : dt.Rows[0]["TOTQTY"].ToString());
                 ca.IRate = Convert.ToDouble(dt.Rows[0]["ISSRATE"].ToString() == "" ? "0" : dt.Rows[0]["ISSRATE"].ToString());
                 ca.IValue = Convert.ToDouble(dt.Rows[0]["ISSVALUE"].ToString() == "" ? "0" : dt.Rows[0]["ISSVALUE"].ToString());
-                ca.Purpose = dt.Rows[0]["REMARKS"].ToString();
+                //ca.Purpose = dt.Rows[0]["REMARKS"].ToString();
                 //ViewBag.entrytype = ca.EntryType;
                 List<DrumIssueEntryItem> TData = new List<DrumIssueEntryItem>();
                 DrumIssueEntryItem tda = new DrumIssueEntryItem();
