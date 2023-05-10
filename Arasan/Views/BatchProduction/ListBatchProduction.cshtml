@@ -49,9 +49,8 @@
                                                             <th>Process</th>
                                                             <th>Doc Id</th>
                                                             <th>Entry Type</th>
-                                                          @*   <th>Output</th>*@
                                                              <th>View</th>
-                                                              <th>Approve</th>
+                                                             <th>Approve</th>
                                                             <th>Edit</th>
                                                             <th>Delete</th>
                                                         </tr>
@@ -70,13 +69,7 @@
                                                                             <td>@Html.DisplayFor(modelItem => item.ProcessId)</td>
                                                                             <td>@Html.DisplayFor(modelItem => item.DocId)</td>
                                                                             <td>@Html.DisplayFor(modelItem => item.EntryType)</td>
-                                                                 @*    @if (item.IsInv == "N" && item.EntryType=="INPUT")
-                                                                    {
-                                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("BatchProductionOUT", "BatchProduction",new { PROID=item.ID })" ><img src='../Images/plus.png' alt='Output' /></a></div></td>
-                                                                    }
-                                                                    else{
-                                                                                 <td></td>
-                                                                             }*@
+                                                              
                                                                              <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewProductionEntry", "BatchProduction",new { PROID=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View' /></a></div></td>
                                                                              @if(item.IsInv=="N"){
                                                                                  <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ApproveProEntry", "BatchProduction",new { PROID=item.ID })" ><img src='../Images/checklist.png' alt='Waiting for approval' /></a></div></td>
@@ -98,39 +91,7 @@
                                                                 i++;
                                                             }
                                                         }
-                                                        @*<tr>
-                                                        <td>(TAAI)SVK - FACTORY</td>
-                                                        <td>Supplier 2</td>
-                                                        <td>ENQ-000002/22-23</td>
-                                                        <td>26-Aug-2022</td>
-                                                        <td>₹</td>
-                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a href="#"><img src='../Images/mail2.png' alt='Email Sent' /></a></div></td>
-                                                        <td> <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("PurchaseFollowup", "PurchaseEnq")"><img src='../Images/followup.png' alt='FollowUp' /> - (1)</a></div></td>
-                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("PurchaseEnquiry", "PurchaseEnq")"></a></div></td>
-                                                        <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("PurchaseEnquiry", "PurchaseEnq")"></a></div></td>
-                                                        </tr>
-                                                        <tr>
-                                                        <td>(TAAI)SVK - FACTORY</td>
-                                                        <td>Supplier 1</td>
-                                                        <td>ENQ-000003/22-23</td>
-                                                        <td>09-Sep-2022</td>
-                                                        <td>₹</td>
-                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a href="#"><img src='../Images/mail_icon.png' alt='Send Email' /></a></div></td>
-                                                        <td> <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("PurchaseFollowup", "PurchaseEnq")"><img src='../Images/followup.png' alt='FollowUp' /> - (1)</a></div></td>
-                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("PurchaseEnquiry", "PurchaseEnq")"></a></div></td>
-                                                        <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("PurchaseEnquiry", "PurchaseEnq")"></a></div></td>
-                                                        </tr>
-                                                        <tr>
-                                                        <td>(TAAI)SVK - FACTORY</td>
-                                                        <td>Supplier 3</td>
-                                                        <td>ENQ-000004/22-23</td>
-                                                        <td>12-Sep-2022</td>
-                                                        <td>₹</td>
-                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a href="#"><img src='../Images/mail_icon.png' alt='Send Email' /></a></div></td>
-                                                        <td> <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("PurchaseFollowup", "PurchaseEnq")"><img src='../Images/followup.png' alt='FollowUp' /> - (1)</a></div></td>
-                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("PurchaseEnquiry", "PurchaseEnq")"></a></div></td>
-                                                        <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("PurchaseEnquiry", "PurchaseEnq")"></a></div></td>
-                                                        </tr>*@
+                                                       
                                                     </tbody>
                                                 </table>
                                             </div>
