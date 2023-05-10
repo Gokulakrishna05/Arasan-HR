@@ -140,6 +140,7 @@
                                                                 <th>Item ID </th>
                                                                 <th>Drum No</th>
                                                                 <th> Batch No</th>
+                                                                <th>To Location</th>
                                                                 <th> Batch Qty </th>
                                                                 <th>Shed No </th>
 
@@ -159,6 +160,7 @@
                                                            
                                                             <td>@Html.DisplayFor(o => o.outlst[i].drumno) </td>
                                                             <td>@Html.TextBoxFor(o => o.outlst[i].batchno, new { @id = "txtbatchno" + i, @class = "form-control", style = "width: 350px;"})</td>
+                                                            <td>@Html.DisplayFor(o => o.outlst[i].toloc)</td>
                                                             <td> @Html.DisplayFor(o => o.outlst[i].OutQty)</td>
                                                              <td> @Html.DropDownListFor(o => o.outlst[i].Shed, Model.outlst[i].Shedlst, new { @class = "form-control _select newcss", @id = "ddlShed" + i, style = "width: 100px;" })</td>
                                                     

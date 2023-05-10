@@ -46,7 +46,7 @@
                                                         <tr>
                                                             <th>Branch</th>
                                                             <th>Doc No</th>
-                                                            <th>Work Center</th>
+                                                            <th>Item</th>
                                                             
                                                             <th>Drum Location</th>
                                                             <th>View</th>
@@ -67,7 +67,7 @@
                                                                 <tr>
                                                                     <td>@Html.DisplayFor(modelItem => item.Branch)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.DocId)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.WorkId)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.ItemId)</td>
                                                                    
                                                                     <td>@Html.DisplayFor(modelItem => item.DrumLoc)</td>
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ApprovePacking", "PackingNote",new { NOTE=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Waiting for approval' /></a></div></td>

@@ -22,8 +22,8 @@ namespace Arasan.Controllers
             {
                 Packing = _Packing;
                 _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
-                datatrans = new DataTransactions(_connectionString);
-            }
+            datatrans = new DataTransactions(_connectionString);
+        }
             public IActionResult PackingNote(string id)
         {
             PackingNote ca = new PackingNote();
@@ -34,7 +34,7 @@ namespace Arasan.Controllers
             ca.Shiftlst = BindShift();
             ca.RecList = BindEmp();
             ca.DrumLoclst = BindDrumLoc();
-            ca.Schlst = BindSche("");
+            ca.Schlst = BindSche( );
             ca.Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
             List<DrumDetail> TData = new List<DrumDetail>();
             DrumDetail tda = new DrumDetail();
@@ -43,8 +43,8 @@ namespace Arasan.Controllers
                 for (int i = 0; i < 3; i++)
                 {
                     tda = new DrumDetail();
-                    tda.DrumNolst = BindDrumNo("");
-                    tda.Batchlst = BindBatch("");
+                    tda.DrumNolst = Binddrum("","");
+                    
                     tda.Isvalid = "Y";
                     TData.Add(tda);
                 }
@@ -57,7 +57,7 @@ namespace Arasan.Controllers
                 {
                     ca.Branch = dt.Rows[0]["BRANCH"].ToString();
                     ca.Docdate = dt.Rows[0]["DOCDATE"].ToString();
-                    ca.WorkId = dt.Rows[0]["WCID"].ToString();
+                    ca.WorkId = dt.Rows[0]["TOLOCDETAISID"].ToString();
                   
                     ca.ID = id;
                     ca.DrumLoc = dt.Rows[0]["DRUMLOCATION"].ToString();
@@ -67,7 +67,7 @@ namespace Arasan.Controllers
                     //{
                     //    ca.DrumLoc = dt3.Rows[0]["SUBGROUPCODE"].ToString();
                     //}
-                    ca.Schlst = BindSche(ca.WorkId);
+                    
                     ca.ProdSchNo = dt.Rows[0]["PSCHNO"].ToString();
                     ca.Itemlst = BindItemlst(ca.ProdSchNo);
                     ca.ItemId = dt.Rows[0]["OITEMID"].ToString();
@@ -92,9 +92,9 @@ namespace Arasan.Controllers
                     for (int i = 0; i < dt2.Rows.Count; i++)
                     {
                         tda = new DrumDetail();
-                        tda.DrumNolst = BindDrumNo(ca.DrumLoc);
+                        //tda.DrumNolst = BindDrumNo(ca.DrumLoc);
                         tda.DrumNo = dt2.Rows[i]["IDRUMNO"].ToString();
-                        tda.Batchlst = BindBatch(tda.DrumNo);
+                        //tda.Batchlst = BindBatch(tda.DrumNo);
 
 
                         tda.Isvalid = "Y";
@@ -235,15 +235,22 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public List<SelectListItem> BindDrumNo(string id)
+        public JsonResult GetDrumJSON(string id, string item)
+        {
+            string DrumID = datatrans.GetDataString("Select ITEMMASTERID from ITEMMASTER where ITEMID='" + id + "' ");
+            DrumIssueEntryItem model = new DrumIssueEntryItem();
+            model.drumlst = Binddrum(DrumID, item);
+            return Json(Binddrum(DrumID, item));
+        }
+        public List<SelectListItem> Binddrum(string value, string item)
         {
             try
             {
-                DataTable dtDesg = Packing.GetDrumNo(id);
+                DataTable dtDesg = Packing.DrumDeatils(value, item);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DRUMNO"].ToString(), Value = dtDesg.Rows[i]["DRUMMASTID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DRUM_NO"].ToString(), Value = dtDesg.Rows[i]["DRUM_ID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -259,18 +266,18 @@ namespace Arasan.Controllers
             return Json(BindItemlst(supid));
 
         }
-        public JsonResult GetShedJSON(string supid)
-        {
-            PackingNote model = new PackingNote();
-            model.Itemlst = BindSche(supid);
-            return Json(BindSche(supid));
+        //public JsonResult GetShedJSON(string supid)
+        //{
+        //    PackingNote model = new PackingNote();
+        //    model.Itemlst = BindSche(supid);
+        //    return Json(BindSche(supid));
 
-        }
-        public List<SelectListItem> BindSche(string value)
+        //}
+        public List<SelectListItem> BindSche( )
         {
             try
             {
-                DataTable dtDesg = Packing.GetSchedule(value);
+                DataTable dtDesg = Packing.GetSchedule( );
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -283,13 +290,7 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public JsonResult GetDrumJSON(string Drmid)
-        {
-            DrumDetail model = new DrumDetail();
-            model.DrumNolst = BindDrumNo(Drmid);
-            return Json(BindDrumNo(Drmid));
-
-        }
+      
         public List<SelectListItem> BindItemlst(string value )
         {
             try
@@ -298,35 +299,7 @@ namespace Arasan.Controllers
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["OPITEMID"].ToString() });
-
-                }
-
-
-                return lstdesg;
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        public JsonResult GetBatchJSON(string Batchid)
-        {
-            DrumDetail model = new DrumDetail();
-            model.DrumNolst = BindBatch(Batchid);
-            return Json(BindBatch(Batchid));
-
-        }
-        public List<SelectListItem> BindBatch(string value)
-        {
-            try
-            {
-                DataTable dtDesg = Packing.GetBatch(value);
-                List<SelectListItem> lstdesg = new List<SelectListItem>();
-                for (int i = 0; i < dtDesg.Rows.Count; i++)
-                {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["NBATCHNO"].ToString(), Value = dtDesg.Rows[i]["NBATCHNO"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEMID"].ToString() });
 
                 }
 
@@ -344,20 +317,23 @@ namespace Arasan.Controllers
             try
             {
                 DataTable dt = new DataTable();
-                
- 
+
+                string batch = "";
                 string qty = "";
-                
+
                 dt = Packing.GetDrumDetails(ItemId);
 
                 if (dt.Rows.Count > 0)
                 {
- 
-                    qty = dt.Rows[0]["OQTY"].ToString();
-                    
+
+                    batch = dt.Rows[0]["BATCHNO"].ToString();
+                    qty = dt.Rows[0]["QTY"].ToString();
+
+
+
                 }
 
-                var result = new {  qty = qty };
+                var result = new { batch = batch, qty = qty };
                 return Json(result);
             }
             catch (Exception ex)
@@ -365,6 +341,32 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+        //public ActionResult GetDrumDetail(string ItemId)
+        //{
+        //    try
+        //    {
+        //        DataTable dt = new DataTable();
+                
+ 
+        //        string qty = "";
+                
+        //        dt = Packing.GetDrumDetails(ItemId);
+
+        //        if (dt.Rows.Count > 0)
+        //        {
+ 
+        //            qty = dt.Rows[0]["OQTY"].ToString();
+                    
+        //        }
+
+        //        var result = new {  qty = qty };
+        //        return Json(result);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
         public IActionResult ListPackingNote()
         {
             IEnumerable<PackingNote> cmp = Packing.GetAllPackingNote();
@@ -378,7 +380,7 @@ namespace Arasan.Controllers
             {
                 ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
                 ca.Docdate = dt.Rows[0]["DOCDATE"].ToString();
-                ca.WorkId = dt.Rows[0]["WCID"].ToString();
+                ca.WorkId = dt.Rows[0]["loc"].ToString();
 
  
                 ca.DrumLoc = dt.Rows[0]["LOCID"].ToString();

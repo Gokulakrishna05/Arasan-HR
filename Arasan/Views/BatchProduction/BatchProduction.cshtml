@@ -900,7 +900,7 @@
    function AddoutRow() {
           var opt = "";
           var remopt = "";
-
+        var locopt = "";
         $.ajax({
                     type: "POST",
                     url: 'GetItemJSON',
@@ -915,8 +915,15 @@
                             success: function (data) {
                                 $.each(data, function () {
                                     remopt += "<option value=" + this.value + ">" + this.text + "</option>";
-                                });
-                                AppendOutRow(opt, remopt);
+                           });
+    @*  $.ajax({
+                            type: "POST",
+                            url: 'GetLocJSON',
+                            success: function (data) {
+                                $.each(data, function () {
+                                    locopt += "<option value=" + this.value + ">" + this.text + "</option>";
+                                }); *@
+                        AppendOutRow(opt, remopt, locopt);
                             }
                         })
                      

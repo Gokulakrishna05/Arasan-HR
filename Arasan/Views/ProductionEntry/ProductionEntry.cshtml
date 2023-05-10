@@ -461,7 +461,7 @@
                                                             int m = 0;
                                                             foreach (var item in Model.wastelst.ToList())
                                                             {
-                                                                                                                                  <tr id="trBookinc@(m)" class="chkitemlstinc" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                                                                                  <tr id="trBookinc@(m)" class="chkitemlstwaste" style="height: 30px;border-bottom: 1px dashed #ddd;">
                                                                                                                                     
                                                                                                                                                                                 <td>
                                                                                                                                                                                     @Html.DropDownListFor(o => o.wastelst[m].ItemId, Model.wastelst[m].Itemlst, "Please Select", new { @class = "form-control _select  newcss", @id = "ddlWasteItem" + m, style = "width: 170px;" })
@@ -923,9 +923,9 @@
         var binid = "<td><input class='form-control'  id='txtBinId" + index + "' name='inputlst[" + index + "].BinId' style='width: 100px;' type='text' value=''></td>";
         var drumno = "<td><select style = 'width: 120px;' class='form-control _select newcss' id='drumno" + index + "' name='inputlst[" + index + "].drumno' ><option value=''>Please select</option>" + remopt + "</select></td>";
         var batchno = "<td><input class='form-control'  id='txtbatchno" + index + "' name='inputlst[" + index + "].batchno' style='width: 200px;' type='text' value=''></td>";
-        var batchqty="<td><input class='form-control'  id='txtbatchqty" + index + "' name='inputlst[" + index + "].batchqty' style='width: 80px;' type='text' value=''></td>";
-        var stock="<td><input class='form-control'  id='txtStockAvailable" + index + "' name='inputlst[" + index + "].StockAvailable' style='width: 80px;' type='text' value=''></td>";
-        var issueqty="<td><input class='form-control'  id='txtIssueQty" + index + "' name='inputlst[" + index + "].IssueQty' style='width: 100px;' type='text' value=''></td>";
+        var batchqty="<td><input class='form-control'  id='txtbatchqty" + index + "' name='inputlst[" + index + "].batchqty' style='width: 80px;' type='text' value='' onkeydown = 'return isNumeric2(event.keyCode,this.value)'></td>";
+        var stock="<td><input class='form-control'  id='txtStockAvailable" + index + "' name='inputlst[" + index + "].StockAvailable' style='width: 80px;' type='text' value='' onkeydown = 'return isNumeric2(event.keyCode,this.value)'></td>";
+        var issueqty = "<td><input class='form-control'  id='txtIssueQty" + index + "' name='inputlst[" + index + "].IssueQty'  type='text' value='' style = 'width: 100px;text-align:right' onkeydown = 'return isNumeric2(event.keyCode,this.value)' onkeyup = 'changeQty(this, " + index + ")'></td>";
         var MillLoadAdd="<td><input class='form-control'  id='txtMillLoadAdd" + index + "' name='inputlst[" + index + "].MillLoadAdd' style='width: 100px;' type='text' value=''></td>";
         var output = "<td><select style = 'width: 100px;' class='form-control _select newcss' id='ddlOutput" + index + "' name='inputlst[" + index + "].Output' ><option value='YES'>YES</option><option value='NO'>NO</option></select></td>";
         var removeCell = "<td><input id='Isvalid" + index + "' name='inputlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='inputlst.Index' type='hidden' value='" + index + "'  /></td>";
@@ -943,7 +943,7 @@
         var unitid = "<td><input class='form-control'  id='txtconsunit" + index + "' name='inconslst[" + index + "].consunit' style='width: 100px;' type='text' value=''></td>";
         var binid = "<td><input class='form-control'  id='txtConsBinId" + index + "' name='inconslst[" + index + "].BinId' style='width: 100px;' type='text' value=''></td>";
         var stock="<td><input class='form-control'  id='txtConsStock" + index + "' name='inconslst[" + index + "].ConsStock' style='width: 80px;' type='text' value=''></td>";
-        var issueqty="<td><input class='form-control'  id='txtconsQty" + index + "' name='inconslst[" + index + "].consQty' style='width: 100px;' type='text' value='' onkeyup='changeConsQty(this," + index + ")'></td>";
+        var issueqty = "<td><input class='form-control'  id='txtconsQty" + index + "' name='inconslst[" + index + "].consQty' style='width: 100px;' onkeydown = 'return isNumeric2(event.keyCode,this.value)' type='text' value='' onkeyup='changeConsQty(this," + index + ")'></td>";
         var removeCell = "<td><input id='Isvalid" + index + "' name='inconslst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeConsRow(" + index + ");'  style='cursor:pointer' /><input name='inconslst.Index' type='hidden' value='" + index + "'  /></td>";
         var newRow = "<tr class='chkitemlstinc'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookinc" + index + "'>" + itemid + unitid + binid +  stock + issueqty + removeCell + "</tr>";
         $("#tbBooksinc").append(newRow);
@@ -962,7 +962,7 @@
         var drumno = "<td><select style = 'width: 120px;' class='form-control chosen-select newcss' id='ddloutdrumno" + index + "' name='outlst[" + index + "].drumno' ><option value=''>Please select</option>" + remopt + "</select></td>";
         var batchno = "<td><input class='form-control'  id='txtbatchno" + index + "' name='outlst[" + index + "].batchno' style='width: 200px;' type='text' value=''></td>";
         var stock="<td><input class='form-control'  id='txtOutStock" + index + "' name='outlst[" + index + "].OutStock' style='width: 80px;text-align:right' type='text' value='' onkeydown='return isNumeric2(event.keyCode,this.value)'></td>";
-        var outqty="<td><input class='form-control'  id='txtOutQty" + index + "' name='outlst[" + index + "].OutQty' style='width: 100px;text-align:right' type='text' value='' onkeyup='changeOutQty(this," + index + ")' onkeydown='return isNumeric2(event.keyCode,this.value)'></td>";
+        var outqty="<td><input class='form-control'  id='txtOutQty" + index + "' name='outlst[" + index + "].OutQty'  style='width: 100px;text-align:right' type='text' value='' onkeyup='changeOutQty(this," + index + ")' onkeydown='return isNumeric2(event.keyCode,this.value)'></td>";
         var excessqty="<td><input class='form-control'  id='txtExcessQty" + index + "' name='outlst[" + index + "].ExcessQty' style='width: 80px;text-align:right' type='text' value='' onkeydown='return isNumeric2(event.keyCode,this.value)'></td>";
         var status="<td><select style = 'width: 120px;' class='form-control _select newcss' id='ddlstatus" + index + "' name='outlst[" + index + "].status' ><option value=''>Please select</option><option value='PENDING'>PENDING</option><option value='COMPLETED'>COMPLETED</option></select></td>";
         var loc = "<td><select style = 'width: 120px;' class='form-control _select newcss' id='ddltoloc" + index + "' name='outlst[" + index + "].toloc' ><option value=''>Please select</option>" + locopt + "</select></td>";
@@ -996,7 +996,7 @@
                     alert(ex.message);
                 }
             }
-function changeConsQty(_this, i) {
+            function changeConsQty(_this, i) {
                 try {
 
                        var j = 0;
@@ -1040,6 +1040,28 @@ function changeConsQty(_this, i) {
                     alert(ex.message);
                 }
             }
+    function changeWasteQty(_this, i) {
+        try {
+
+            var j = 0;
+            var qty = 0;
+            var tot = 0;
+            $('tr.chkitemlstwaste').each(function () {
+                if ($(this).css('display') !== 'none') {
+                    qty = $(this).find('#txtwasteQty' + j.toString()).val();
+                    if (qty == "")
+                        qty = 0;
+
+                    tot += eval(qty);
+                }
+                j += 1;
+            });
+            document.getElementById("totalwastageqty").value = tot.toFixed(2);
+        }
+        catch (ex) {
+            alert(ex.message);
+        }
+    }
              function removeConsRow(id) {
         var table = document.getElementById("dataTableinc");
         var rowCount = table.rows.length;

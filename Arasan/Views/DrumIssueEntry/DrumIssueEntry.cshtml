@@ -253,7 +253,7 @@
                                                     </td>
                                                     <td>
 
-                                                                @Html.TextBoxFor(o => o.Drumlst[i].Rate, new { @id = "txtRate" + i, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)" })
+                                                                @Html.TextBoxFor(o => o.Drumlst[i].Rate, new { @id = "txtRate" + i, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)",@onkeyup = "changeRate(this," + i + ")" })
                                                                
                                                     </td>
                                                       <td>
@@ -510,6 +510,28 @@
             alert(ex.message);
         }
     }
+    function changeRate(_this, i) {
+        try {
+
+            var j = 0;
+            var amt = 0;
+            var tot = 0;
+            $('tr.chkitemlst').each(function () {
+                if ($(this).css('display') !== 'none') {
+                    amt = $(this).find('#txtRate' + j.toString()).val();
+                    if (amt == "")
+                        amt = 0;
+
+                    tot += eval(amt);
+                }
+                j += 1;
+            });
+            document.getElementById("txtIRate").value = tot.toFixed(2);
+        }
+        catch (ex) {
+            alert(ex.message);
+        }
+    }
     function PopulateDropDown(dropDownId, list) {
         //alert(list);
         $(dropDownId).empty().append();
@@ -562,9 +584,9 @@
         var Qty = "<td><input class='form-control' id='txtQty" + index + "' name='Drumlst[" + index + "].Qty'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text' onkeyup = 'changeQty(this," + index + ")'    /></td>";
 
        
-        var Rate = "<td><input class='form-control' id='txtRate" + index + "' name='Drumlst[" + index + "].Rate'  style='width: 80px;' type='text'  onkeydown='return isNumeric2(event.keyCode,this.value)' /></td>";
+        var Rate = "<td><input class='form-control' id='txtRate" + index + "' name='Drumlst[" + index + "].Rate'  style='width: 80px;' type='text'  onkeydown='return isNumeric2(event.keyCode,this.value)' onkeyup = 'changeRate(this," + index + ")' /></td>";
 
-        var Amount = "<td><input class='form-control' id='txtAmount" + index + "' name='Drumlst[" + index + "].Amount'  style='width: 80px;' type='text' onkeydown='return isNumeric2(event.keyCode,this.value)' /></td>";
+        var Amount = "<td><input class='form-control' id='txtAmount" + index + "' name='Drumlst[" + index + "].Amount'  style='width: 80px;' type='text' onkeydown='return isNumeric2(event.keyCode,this.value)' onkeyup = 'changeAmount(this," + index + ")'/></td>";
 
         
 
