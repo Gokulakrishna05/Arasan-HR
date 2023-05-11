@@ -30,7 +30,7 @@ namespace Arasan.Controllers.Production
             ca.Brlst = BindBranch();
             ca.Branch = Request.Cookies["BranchId"];
             ca.Worklst = BindWorkCenter();
-            ca.Enterd = Request.Cookies["UserId"];
+            ca.Enterd = Request.Cookies["UserName"];
             ca.RecList = BindEmp();
             ca.Planlst = BindPType();
             ca.Itemlst = BindItemlst();

@@ -32,9 +32,9 @@
                 <div class="widgets-container">
                     <h5 style="font-size:14px">Production Schedule</h5>
                     <hr>
-                    @using (Html.BeginForm("ApproveProSch", "ProductionSchedule", FormMethod.Post))
+                  @*  @using (Html.BeginForm("ApproveProSch", "ProductionSchedule", FormMethod.Post))
                     {
-                        @Html.AntiForgeryToken()
+                        @Html.AntiForgeryToken()*@
                         <form>
                             <div class="row">
                                 <div class="col-md-6">
@@ -619,10 +619,10 @@
 
 
                             <div style="height:30px;"></div>
-                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" onclick="location.href='@Url.Action("ListProductionSchedule", "ProductionSchedule")'">Submit</button>
                             <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListProductionSchedule", "ProductionSchedule")'">Cancel</button>
                         </form>
-                    }
+                   @* }*@
                 </div>
             </div>
         </div>

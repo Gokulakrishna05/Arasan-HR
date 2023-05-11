@@ -333,7 +333,7 @@
                                                                 <td>@Html.TextBoxFor(o => o.WorkLst[i].EndTime, new { @id = "txtEndTime" + i, @class = "form-control" , style = "width: 120px; ",@Type="time" })</td>
                                                               <td>@Html.TextBoxFor(o => o.WorkLst[i].TotalHrs, new { @id = "txtTotalHrs" + i, @class = "form-control" , style = "width: 100px;" })</td>
                                                            @* <td>@Html.TextBoxFor(o => o.inputlst[i].MillLoadAdd, new { @id = "txtMillLoadAdd" + i, @class = "form-control", style = "width: 100px;"})</td>*@
-                                                                        <td> @Html.DropDownListFor(o => o.WorkLst[i].Reason, Model.WorkLst[i].Reasonlst, new { @class = "form-control _select newcss", @id = "ddlReason" + i, style = "width: 200px;" })</td>
+                                                                            <td> @Html.DropDownListFor(o => o.WorkLst[i].Reason, Model.WorkLst[i].Reasonlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlReason" + i, style = "width: 200px;" })</td>
                                                                         <td>
                                                       @Html.HiddenFor(o => o.WorkLst[i].Isvalid, new { @id = "Isvalid" + i })
                                                                   <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> 
@@ -532,7 +532,7 @@
 
                                                                                 <th> To Time </th>
                                                                                 <th>P/B </th>
-                                                                                <th>Alloted To</th>
+                                                                                <th>Allotted To</th>
                                                                                 <th>Reason </th>
                                                                             </tr>
                                                                         </thead>
@@ -624,8 +624,8 @@
 
                                                                <td>@Html.DropDownListFor(o => o.InputLst[b].Item, Model.InputLst[b].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + b, style = "width: 170px;" })
                                                                       </td>
-                                                                  <td>@Html.DropDownListFor(o => o.InputLst[b].LotYN, Model.InputLst[b].Lotlst, new { @class = "form-control _select newcss", @id = "ddlLotYN" + b, style = "width: 120px;" })
-                                                                  <td>@Html.DropDownListFor(o => o.InputLst[b].Drumyn, Model.InputLst[b].DrumYNlst, new { @class = "form-control _select newcss", @id = "ddlDrumyn" + b, style = "width: 120px;" })
+                                                                  <td>@Html.DropDownListFor(o => o.InputLst[b].LotYN, Model.InputLst[b].Lotlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlLotYN" + b, style = "width: 120px;" })
+                                                                  <td>@Html.DropDownListFor(o => o.InputLst[b].Drumyn, Model.InputLst[b].DrumYNlst,  "Please Select",new { @class = "form-control _select newcss", @id = "ddlDrumyn" + b, style = "width: 120px;" })
                                                                       </td>
                                                                  <td>@Html.DropDownListFor(o => o.InputLst[b].DrumNo, Model.InputLst[b].Drumlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlDrumNo" + b, style = "width: 130px;" })
                                                                       </td>                                                                   
@@ -699,7 +699,7 @@
                                                                       </td>
                                                                          <td>@Html.TextBoxFor(o => o.ConsLst[c].Unit, new { @id = "txtUnit" + c, @class = "form-control" , style = "width: 110px; " ,@readonly="readonly"  })</td>
 
-                                                                  <td>@Html.DropDownListFor(o => o.ConsLst[c].LotYN, Model.ConsLst[c].Lotlst, new { @class = "form-control _select newcss", @id = "ddlLotYN" + c, style = "width: 120px;" })
+                                                                  <td>@Html.DropDownListFor(o => o.ConsLst[c].LotYN, Model.ConsLst[c].Lotlst,  "Please Select",new { @class = "form-control _select newcss", @id = "ddlLotYN" + c, style = "width: 120px;" })
                                                                    
                                                                                                                                 
                                                                          
@@ -772,9 +772,9 @@
 
                                                                <td>@Html.DropDownListFor(o => o.OutLst[g].Item, Model.OutLst[g].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlOItem" + g, style = "width: 170px;" })
                                                                       </td>
-                                                                        <td>@Html.DropDownListFor(o => o.OutLst[g].Drumyn, Model.OutLst[g].DrumYNlst, new { @class = "form-control _select newcss", @id = "ddlODrumyn" + g, style = "width: 120px;" })
+                                                                        <td>@Html.DropDownListFor(o => o.OutLst[g].Drumyn, Model.OutLst[g].DrumYNlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlODrumyn" + g, style = "width: 120px;" })
                                                                       </td>
-                                                                  <td>@Html.DropDownListFor(o => o.OutLst[g].LotYN, Model.OutLst[g].Lotlst, new { @class = "form-control _select newcss", @id = "ddlOLotYN" + g, style = "width: 120px;" })
+                                                                            <td>@Html.DropDownListFor(o => o.OutLst[g].LotYN, Model.OutLst[g].Lotlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlOLotYN" + g, style = "width: 120px;" })
                                                                 
                                                                  <td>@Html.DropDownListFor(o => o.OutLst[g].DrumNo, Model.OutLst[g].Drumlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlODrumNo" + g, style = "width: 130px;" })
                                                                       </td>                                                                   
@@ -1289,7 +1289,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Remarks<label class="Mandatory"></label></label>
+                                        <br /> <br /><label for="inputName3" class="col-sm-4 control-label">Remarks<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
                                                                               @Html.TextAreaFor(C => C.Remark, new { @id = "txtRemark", @class = "form-control", @TabIndex = 1 })<br />
                                         </div>
@@ -2035,8 +2035,8 @@
         var index = $("#tbBooks").children("tr").length;
 
         var Work = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlWorkId" + index + "' name='WorkLst[" + index + "].WorkId' ><option value=''>Please select</option>" + opt + "</select></td>";
-            var Status = "<td> <select style = 'width: 140px;' class='form-control _select newcss' id = 'ddlStatus" + index + "' name = 'WorkLst[" + index + "].Status' > <option value='Run' > Run </option><option value='Stop'>Stop</option > </select></td > ";
-            var type = "<td><select style = 'width: 140px;' class='form-control _select newcss' id='ddlWType" + index + "' name='WorkLst[" + index + "].WType' > <option value='None' > None </option><option value='EB'>EB</option > </select></td>";
+            var Status = "<td> <select style = 'width: 140px;' class='form-control _select newcss' id = 'ddlStatus" + index + "' name = 'WorkLst[" + index + "].Status' > <option value=''>Please select</option> <option value='Run' > Run </option><option value='Stop'>Stop</option > </select></td > ";
+            var type = "<td><select style = 'width: 140px;' class='form-control _select newcss' id='ddlWType" + index + "' name='WorkLst[" + index + "].WType' > <option value=''>Please select</option><option value='None' > None </option><option value='EB'>EB</option > </select></td>";
         var startdate = "<td><div class='input-group date form_date col-sm-8'  data-date-format='dd-M-yyyy'><input class='form-control'  id='txStartDate" + index + "' name='WorkLst[" + index + "].StartDate' style='width: 100px;' type='text' value=''readonly='readonly'><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div></td>";
         var starttime="<td><input class='form-control'  id='txtStartTime" + index + "' name='WorkLst[" + index + "].StartTime' style='width: 120px;' type='time' value=''></td>";
             var enddate = "<td><div class='input-group date form_date col-sm-8'  data-date-format='dd-M-yyyy'><input class='form-control'  id='txtEndDate" + index + "' name='WorkLst[" + index + "].EndDate' style='width: 100px;' type='text' value='' readonly='readonly'><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div></td>";
@@ -2051,15 +2051,24 @@
        $(function() {
             $('._select').select2();
         });
-          
+        $('.form_date').datetimepicker({
+            //   language:  'fr',
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0
+        });
       
     } 
       function AppendMachineRow(opt ) {
         var index = $("#tbBooksMach").children("tr").length;
         var Machid="<td><input class='form-control'  id='txtMachineId" + index + "' name='MachineLst[" + index + "].MachineId' style='width: 100px;'   value=''></td>";
+        var Machinename = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlMachine" + index + "' name='MachineLst[" + index + "].Machine' ><option value=''>Please select</option>" + opt + "</select></td>";
 
-        var name = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlMachine" + index + "' name='MachineLst[" + index + "].Machine' ><option value=''>Please select</option>" + opt + "</select></td>";
-        var status="<td><input class='form-control'  id='txtStatus" + index + "' name='MachineLst[" + index + "].Status' style='width: 120px;'   value=''></td>";
+         var status="<td><input class='form-control'  id='txtStatus" + index + "' name='MachineLst[" + index + "].Status' style='width: 120px;'   value=''></td>";
         
         var startdate = "<td><div class='input-group date form_date col-sm-8'  data-date-format='dd-M-yyyy'><input class='form-control'  id='txStartDate" + index + "' name='MachineLst[" + index + "].StartDate' style='width: 100px;' type='text' value=''readonly='readonly'><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div></td>";
         var starttime="<td><input class='form-control'  id='txtStartTime" + index + "' name='MachineLst[" + index + "].StartTime' style='width: 110px;' type='time' value=''></td>";
@@ -2071,14 +2080,23 @@
         var reason="<td><input class='form-control'  id='txtReason" + index + "' name='MachineLst[" + index + "].Reason' style='width: 120px;'   value=''></td>";
 
             var removeCell = "<td><input id='IsMachinevalid" + index + "' name='MachineLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeMachineRow(" + index + ");'  style='cursor:pointer' /><input name='inputlst.Index' type='hidden' value='" + index + "'  /></td>";
-        var newRow = "<tr class='chkMachineitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookMachine" + index + "'>" + Machid + name + status + startdate + starttime + enddate + endtime + totalmin + totalhrs + cost + reason + removeCell + "</tr>";
+        var newRow = "<tr class='chkMachineitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookMachine" + index + "'>" + Machid + Machinename + status + startdate + starttime + enddate + endtime + totalmin + totalhrs + cost + reason + removeCell + "</tr>";
         $("#tbBooksMach").append(newRow);
        
          
        $(function() {
             $('._select').select2();
         });
-          
+           $('.form_date').datetimepicker({
+            //   language:  'fr',
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0
+        });
       
     } 
        function AppendEmpRow(opt ) {
@@ -2107,7 +2125,16 @@
             $('._select').select2();
         });
           
-      
+       $('.form_date').datetimepicker({
+            //   language:  'fr',
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0
+        });
     } 
      function AppendBreakRow(opt,remopt ) {
         var index = $("#tbBooksBreak").children("tr").length;
