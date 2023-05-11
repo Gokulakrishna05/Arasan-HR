@@ -836,7 +836,7 @@
         document.getElementById("totalwastageqty").value = tot.toFixed(2);
 
     }
-    function changeItem(ItemId, i) {
+   @* function changeItem(ItemId, i) {
          var loc = document.getElementById("ddlStLoc").value;
          var branch = document.getElementById("ddlBranch").value;
            $.ajax({
@@ -845,8 +845,23 @@
             type: "post",
               success: function (result) {
                   document.getElementById('txtStockAvailable' + i).value=result.stkqty;
-                 @* document.getElementById("txtBinId" + i).value = result.qc;*@
-                  
+            },
+            error: function () {
+                debugger;
+                alert("Please Select State");
+            }
+        });
+               
+            }*@
+             function changeItem(ItemId, i) {
+         var loc = document.getElementById("ddlStLoc").value;
+         var branch = document.getElementById("ddlBranch").value;
+           $.ajax({
+            url: 'GetDrumStk',
+             data: {'branch' : branch ,'loc' : loc,'ItemId' : ItemId},
+            type: "post",
+              success: function (result) {
+                  PopulateDropDown("#ddldrumno" + i, result);
             },
             error: function () {
                 debugger;
@@ -1056,7 +1071,7 @@
         var index = $("#tbBooksoutw").children("tr").length;
 
         var itemid = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlWasteItem" + index + "' name='wastelst[" + index + "].ItemId'  ><option value=''>Please select</option>" + opt + "</select></td>";
-        var Batch = "<td><input class='form-control'  id='txtbatchno" + index + "' name='wastelst[" + index + "].batchno' style='width: 100px;' type='text' value=''></td>";
+        var Batch = "<td><input class='form-control'  id='txtbatchno" + index + "' name='wastelst[" + index + "].batchno' style='width: 200px;' type='text' value=''></td>";
         var Waste = "<td><input class='form-control'  id='txtwasteQty" + index + "' name='wastelst[" + index + "].wasteQty' style = 'width: 100px;text-align:right' onkeyup = 'changeWasteQty(this," + index + ")' type='text' value='' onkeydown = 'return isNumeric2(event.keyCode,this.value)'></td>";
         var Location = "<td><select style = 'width: 120px;' class='form-control _select newcss' id='ddlwastetoloc" + index + "' name='wastelst[" + index + "].toloc'  ><option value=''>Please select</option>" + remopt + "</select></td>";
         var bin = "<td><input class='form-control'  id='txtWasteBinId" + index + "' name='wastelst[" + index + "].BinId' style='width: 100px;'  type='text' value='' onkeyup='changeWasteQty(this," + index + ")'></td>";
