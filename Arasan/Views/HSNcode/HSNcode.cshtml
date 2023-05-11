@@ -3,6 +3,15 @@
 @{
     ViewData["Title"] = "Index";
 }
+
+<style>
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
 
@@ -31,9 +40,9 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">HSN Code<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">HSN Code<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.HCode, new { @id = "txtHCode", @class = "form-control", @TabIndex = 1 })<br />
+                                            @Html.TextBoxFor(C => C.HCode, new { @id = "txtHCode",onkeydown = "return isNumeric2(event.keyCode,this.value)", @class = "form-control", @TabIndex = 1 })<br />
                                     </div>
                                 </div>
                             </div>
@@ -43,7 +52,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Description<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Description<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.Dec, new { @id = "txtDec", @class = "form-control", @TabIndex = 1 })<br />
                                     </div>
@@ -55,9 +64,9 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">GST%<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">GST%<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Gt, new { @id = "txtGt", @class = "form-control", @TabIndex = 1 })<br />
+                                            @Html.TextBoxFor(C => C.Gt, new { @id = "txtGt",onkeydown = "return isNumeric2(event.keyCode,this.value)",@maxlength="3", @class = "form-control", @TabIndex = 1 })<br />
                                     </div>
                                 </div>
                             </div>
@@ -80,3 +89,65 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+
+            if (document.getElementById("txtHCode").value == "") {
+                isValid = false;
+                $(txtHCode).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select HSN Code");
+                return false;
+            }
+            else {
+                $(txtHCode).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtDec").value == "") {
+                isValid = false;
+                $(txtDec).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Description");
+                return false;
+            }
+            else {
+                $(txtDec).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtGt").value == "") {
+                isValid = false;
+                $(txtGt).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select GST");
+                return false;
+            }
+            else {
+                $(txtGt).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (isValid == false)
+                e.preventDefault();
+
+        });
+
+    });
+</script>

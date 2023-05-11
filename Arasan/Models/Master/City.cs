@@ -8,6 +8,8 @@ namespace Arasan.Models
             this.sta = new List<SelectListItem>();
             this.cuntylst = new List<SelectListItem>();
         }
+
+        
         public string ID { get; set; }
        
         public string Cit { get; set; }

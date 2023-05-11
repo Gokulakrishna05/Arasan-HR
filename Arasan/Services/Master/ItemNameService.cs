@@ -55,7 +55,7 @@ namespace Arasan.Services.Master
                             Batch = rdr["BSTATEMENTYN"].ToString(),
                             QCTemplate = rdr["QCT"].ToString(),
                             QCRequired = rdr["QCCOMPFLAG"].ToString(),
-                            Latast = rdr["LATPURPRICE"].ToString(),
+                            Latest = rdr["LATPURPRICE"].ToString(),
                             SubHeading = rdr["TARIFFHEADING"].ToString(),
                             Rejection = rdr["REJRAWMATPER"].ToString(),
                             Percentage = rdr["RAWMATPER"].ToString(),
@@ -164,7 +164,7 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("BSTATEMENTYN", OracleDbType.NVarchar2).Value = ss.Batch;
                     objCmd.Parameters.Add("QCT", OracleDbType.NVarchar2).Value = ss.QCTemplate;
                     objCmd.Parameters.Add("QCCOMPFLAG", OracleDbType.NVarchar2).Value = ss.QCRequired;
-                    objCmd.Parameters.Add("LATPURPRICE", OracleDbType.NVarchar2).Value = ss.Latast;
+                    objCmd.Parameters.Add("LATPURPRICE", OracleDbType.NVarchar2).Value = ss.Latest;
                     objCmd.Parameters.Add("TARIFFHEADING", OracleDbType.NVarchar2).Value = ss.SubHeading;
                     objCmd.Parameters.Add("REJRAWMATPER", OracleDbType.NVarchar2).Value = ss.Rejection;
                     objCmd.Parameters.Add("RAWMATPER", OracleDbType.NVarchar2).Value = ss.Percentage;

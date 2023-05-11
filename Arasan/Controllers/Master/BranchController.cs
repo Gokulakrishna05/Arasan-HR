@@ -7,7 +7,7 @@ using Arasan.Services.Master;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Arasan.Controllers.Master
+namespace Arasan.Controllers
 {
     public class BranchController : Controller
     {
@@ -16,6 +16,7 @@ namespace Arasan.Controllers.Master
         {
             BranchService = _BranchService;
         }
+
         public IActionResult Branch(string id)
         {
             Branch br = new Branch();
@@ -78,9 +79,48 @@ namespace Arasan.Controllers.Master
                 throw ex;
             }
         }
+
+        [HttpPost]
+        public ActionResult Branch(Branch Cy, string id)
+        {
+
+            try
+            {
+                Cy.ID = id;
+                string Strout = BranchService.BranchCRUD(Cy);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Cy.ID == null)
+                    {
+                        TempData["notice"] = "Branch Inserted Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "Branch Updated Successfully...!";
+                    }
+                    return RedirectToAction("ListBranch");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit Branch";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(Cy);
+        }
         public IActionResult ListBranch()
         {
-            return View();
+            IEnumerable<Branch> br = BranchService.GetAllBranch();
+            return View(br);
         }
 
     }

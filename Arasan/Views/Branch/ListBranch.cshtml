@@ -1,7 +1,7 @@
-﻿@model Arasan.Models.Branch
+﻿@model IEnumerable<Arasan.Models.Branch>
 
 @{
-    ViewData["Title"] = "Branch Master";
+    ViewData["Title"] = "Branch";
 }
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
@@ -9,7 +9,7 @@
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Master</a> </li>
-            <li class="active"> <strong>Branch </strong> </li>
+            <li class="active"> <strong>Branch</strong> </li>
         </ol>
     </div>
 </div>
@@ -24,7 +24,14 @@
                         <div class="row">
                             <div class="col-md-12 ">
                                 <div class=" textalignright">
+
                                     <a href="@Url.Action("Branch", "Branch")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Branch</a>
+
+
+
+
+
+
                                     <br>
                                 </div>
 
@@ -42,9 +49,10 @@
                                                 <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
                                                     <thead>
                                                         <tr>
-                                                            <td>S.No</td>
-                                                            <th>Company  Name </th>
+                                                            <th>S.No</th>
+                                                            <th>Company Name</th>
                                                             <th>Branch Name</th>
+                                                            <th>State Name</th>
 
                                                             <th>Edit</th>
                                                             <th>Delete</th>
@@ -52,30 +60,24 @@
                                                     </thead>
 
                                                     <tbody>
-                                                        <tr>
-                                                            <td>1</td>
-                                                            <td>TAAI</td>
-                                                            <td>(TAAI)CHENNAI-DEPOT</td>
+                                                        @{
+                                                            int i = 1;
+                                                            foreach (var item in Model)
+                                                            {
+                                                                <tr>
+                                                                    <td>@i</td>
+                                                                    
+                                                                    <td>@Html.DisplayFor(modelItem => item.CompanyName)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.BranchName)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.StateName)</td>
 
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Branch", "Branch")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("Branch", "Branch")"></a></div></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>2</td>
-                                                            <td>TAAI</td>
-                                                            <td>(TAAI)KOLKATA-DEPOT</td>
-
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Branch", "Branch")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("Branch", "Branch")"></a></div></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>3</td>
-                                                            <td>TAAI</td>
-                                                            <td>(TAAI)SVK-FACTORY</td>
-
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Branch", "Branch")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("Branch", "Branch")"></a></div></td>
-                                                        </tr>
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Branch", "Branch", new { id=item.ID })"></a></div></td>
+                                                                    <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("Branch", "Branch", new { id=item.ID })"></a></div></td>
+                                                                </tr>
+                                                                i++;
+                                                            }
+                                                        }
+                                                        
                                                     </tbody>
                                                 </table>
                                             </div>

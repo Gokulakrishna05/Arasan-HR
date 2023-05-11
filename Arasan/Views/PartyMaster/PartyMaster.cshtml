@@ -133,7 +133,7 @@
                                                     <div class="input-group">
 
                                                         @Html.RadioButtonFor(C => C.Regular, "YES", new { @TabIndex = 2 })
-                                                        <label id="mt-radio">YES</label>
+                                                            <label id="mt-radio">YES</label>&emsp;
                                                         @Html.RadioButtonFor(C => C.Regular, "NO", new { @TabIndex = 3 })
                                                         <label id="mt-radio">NO</label>
 
@@ -288,7 +288,7 @@
                                                      <div class="input-group">
 
                                                             @Html.RadioButtonFor(C => C.Active, "YES", new { @TabIndex = 2 })
-                                                        <label id="mt-radio">YES</label>
+                                                        <label id="mt-radio">YES</label>&emsp;
                                                             @Html.RadioButtonFor(C => C.Active, "NO", new { @TabIndex = 3 })
                                                         <label id="mt-radio">NO</label>
 
@@ -303,7 +303,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">OurRighr Rate Code<label class="Mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label"> Rate Code<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
                                                     @Html.TextBoxFor(C => C.RateCode, new { @id = "RateCode", @class = "form-control", @TabIndex = 1})
                                                     </div>
@@ -430,7 +430,7 @@
 
                                                     <br />   <label for="inputName3" class="col-sm-4 control-label">Country Code<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                        @Html.TextBoxFor(C => C.CountryCode, new { @id = "txtCountryCode ", @class = "form-control", @TabIndex = 1})   <br />
+                                                        @Html.TextBoxFor(C => C.CountryCode, new { @id = "txtCountryCode ",onkeydown = "return isNumeric2(event.keyCode,this.value)", @class = "form-control", @TabIndex = 1})   <br />
 
                                                 </div>
 
@@ -511,7 +511,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
 
-                                                <label for="inputName3" class="col-sm-4 control-label">Commisionerate<label class="Mandatory"></label></label>
+                                                <label for="inputName3" class="col-sm-4 control-label">Commissionerate<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
                               @Html.TextBoxFor(C => C.Commisionerate, new { @id = "Commisionerate", @class = "form-control", @TabIndex = 1})<br/>
 
@@ -598,7 +598,7 @@
 
                                                 <label for="inputName3" class="col-sm-4 control-label">Over Due Int%<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                        @Html.TextBoxFor(C => C.OverDueInterest, new { @id = "OverDueInterest", @class = "form-control", @TabIndex = 1})<br />
+                                                        @Html.TextBoxFor(C => C.OverDueInterest, new { @id = "OverDueInterest",@maxlength="3", onkeydown = "return isNumeric2(event.keyCode,this.value)", @class = "form-control", @TabIndex = 1})<br />
                                                 </div>
 
                                             </div>
@@ -716,6 +716,7 @@
                         </div>
 
                         <div style="height:30px;"></div>
+                            <div class="col-lg-10"></div>
                           <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
                             <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListParty", "PartyMaster")'">Cancel</button>
  

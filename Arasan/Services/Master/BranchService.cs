@@ -1,4 +1,4 @@
-﻿using Arasan.Interface.Master;
+﻿using Arasan.Interface;
 using Arasan.Models;
 
 using Microsoft.Extensions.Configuration;
@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 
-namespace Arasan.Services.Master
+namespace Arasan.Services
 {
     public class BranchService : IBranchService
     {
@@ -16,6 +16,9 @@ namespace Arasan.Services.Master
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
         }
+
+
+
         public DataTable GetCompany()
         {
             string SvSql = string.Empty;
@@ -46,5 +49,99 @@ namespace Arasan.Services.Master
             adapter.Fill(dtt);
             return dtt;
         }
+    
+
+    public IEnumerable<Branch> GetAllBranch()
+    {
+        List<Branch> brList = new List<Branch>();
+        using (OracleConnection con = new OracleConnection(_connectionString))
+        {
+
+            using (OracleCommand cmd = con.CreateCommand())
+            {
+                con.Open();
+                cmd.CommandText = "Select BRANCHMASTID,COMPANYID,BRANCHID,ADDRESS1,STATE,CITY,PINCODE,CSTNO, CSTDATE from BRANCHMAST";
+                OracleDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    Branch br = new Branch
+                    {
+                        ID = rdr["BRANCHMASTID"].ToString(),
+                        CompanyName = rdr["COMPANYID"].ToString(),
+                        BranchName = rdr["BRANCHID"].ToString(),
+                        Address = rdr["ADDRESS1"].ToString(),
+                        StateName = rdr["STATE"].ToString(),
+                        City = rdr["CITY"].ToString(),
+                        PinCode = rdr["PINCODE"].ToString(),
+                        GSTNo = rdr["CSTNO"].ToString(),
+                        GSTDate = rdr["CSTDATE"].ToString()
+
+                    };
+                    brList.Add(br);
+                }
+            }
+        }
+        return brList;
     }
+
+
+
+    public string BranchCRUD(Branch cy)
+    {
+        string msg = "";
+        try
+        {
+            string StatementType = string.Empty;
+            //string svSQL = "";
+
+            using (OracleConnection objConn = new OracleConnection(_connectionString))
+            {
+                OracleCommand objCmd = new OracleCommand("BRANCHPROC", objConn);
+
+
+                objCmd.CommandType = CommandType.StoredProcedure;
+                if (cy.ID == null)
+                {
+                    StatementType = "Insert";
+                    objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                }
+                else
+                {
+                    StatementType = "Update";
+                    objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                }
+
+                objCmd.Parameters.Add("COMPANYID", OracleDbType.NVarchar2).Value = cy.CompanyName;
+                objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.BranchName;
+                objCmd.Parameters.Add("ADDRESS1", OracleDbType.NVarchar2).Value = cy.Address;
+                objCmd.Parameters.Add("STATE", OracleDbType.NVarchar2).Value = cy.StateName;
+                objCmd.Parameters.Add("CITY", OracleDbType.NVarchar2).Value = cy.City;
+                objCmd.Parameters.Add("PINCODE", OracleDbType.NVarchar2).Value = cy.PinCode;
+                objCmd.Parameters.Add("CSTNO", OracleDbType.NVarchar2).Value = cy.GSTNo;
+                objCmd.Parameters.Add("CSTDATE", OracleDbType.Date).Value = DateTime.Parse(cy.GSTDate);
+                objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                try
+                {
+                    objConn.Open();
+                    objCmd.ExecuteNonQuery();
+                    //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
+                }
+                catch (Exception ex)
+                {
+                    System.Console.WriteLine("Exception: {0}", ex.ToString());
+                }
+                objConn.Close();
+            }
+        }
+        catch (Exception ex)
+        {
+            msg = "Error Occurs, While inserting / updating Data";
+            throw ex;
+        }
+
+        return msg;
+    }
+
+  }
 }
+   
