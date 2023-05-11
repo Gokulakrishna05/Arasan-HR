@@ -51,7 +51,7 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Work Center<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
 
-                                            @Html.DropDownListFor(C => C.Location, Model.Loclst," -- Please Select -- ", new { @id = "ddlStLoc", @Class = "form-control _select", @TabIndex = 1 })<br />
+                                            @Html.DropDownListFor(C => C.Location, Model.Loclst," -- Please Select -- ", new { @id = "ddlStLoc", @Class = "form-control _select", @TabIndex = 1 , @onchange = "Stk_Change(this.value)" })<br />
 
                                     </div>
                                 </div>
@@ -836,7 +836,7 @@
         document.getElementById("totalwastageqty").value = tot.toFixed(2);
 
     }
-    function changeItem(ItemId, i) {
+   @* function changeItem(ItemId, i) {
          var loc = document.getElementById("ddlStLoc").value;
          var branch = document.getElementById("ddlBranch").value;
            $.ajax({
@@ -845,8 +845,23 @@
             type: "post",
               success: function (result) {
                   document.getElementById('txtStockAvailable' + i).value=result.stkqty;
-                 @* document.getElementById("txtBinId" + i).value = result.qc;*@
-                  
+            },
+            error: function () {
+                debugger;
+                alert("Please Select State");
+            }
+        });
+               
+            }*@
+             function changeItem(ItemId, i) {
+         var loc = document.getElementById("ddlStLoc").value;
+         var branch = document.getElementById("ddlBranch").value;
+           $.ajax({
+            url: 'GetDrumStk',
+             data: {'branch' : branch ,'loc' : loc,'ItemId' : ItemId},
+            type: "post",
+              success: function (result) {
+                  PopulateDropDown("#ddldrumno" + i, result);
             },
             error: function () {
                 debugger;
@@ -858,7 +873,9 @@
              $(function() {
             var entry = '@ViewBag.entrytype';
                 changeentry(entry);
-            function changeentry(typeid){
+             });
+
+             function changeentry(typeid){
                 if(typeid=="INPUT"){
                     document.getElementById("ainp").click();
                     @*window.location.href = href*@
@@ -884,7 +901,6 @@
                     document.getElementById("lioutW").style.display = "block";
                 }
             }
-             });
    function AddRow() {
           var opt = "";
           var remopt = "";
@@ -953,7 +969,11 @@
     function AddoutRow() {
         var opt = "";
         var remopt = "";
+ 
         var loc="";
+ 
+        var locopt = "";
+ 
         $.ajax({
             type: "POST",
             url: 'GetItemJSON',
@@ -969,6 +989,7 @@
                         $.each(data, function () {
                             remopt += "<option value=" + this.value + ">" + this.text + "</option>";
                         });
+ 
                            $.ajax({
                                 type: "POST",
                                 url: 'GetLocationJSON',
@@ -980,11 +1001,23 @@
                     }
 
                 })
-                    }
+ 
+                          $.ajax({
+                            type: "POST",
+                            url: 'GetLocJSON',
+                            success: function (data) {
+                                $.each(data, function () {
+                                    locopt += "<option value=" + this.value + ">" + this.text + "</option>";
+                                }); 
+                        AppendOutRow(opt, remopt, locopt);
+      }
 
                 })
 
             }
+        })
+
+        }
         })
     }
     function AppendRow(opt, remopt) {
@@ -1030,7 +1063,7 @@
         var starttime = "<td><input class='form-control'  id='txtstarttime" + index + "' name='outlst[" + index + "].starttime' style='width: 100px;' type='time' value=''></td>";
         var enddate="<td><div class='input-group date form_date col-sm-8'  data-date-format='dd-M-yyyy'><input class='form-control' id='txtenddate" + index + "' name='outlst[" + index + "].enddate' readonly='True' style='width: 100px;' type='text' value=''> <span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div> </td>";
         var endtime = "<td><input class='form-control'  id='txtendtime" + index + "' name='outlst[" + index + "].endtime' style='width: 100px;' type='time' value=''></td>";
-        var drumno = "<td><select style = 'width: 120px;' class='form-control chosen-select newcss' id='ddloutdrumno" + index + "' name='outlst[" + index + "].drumno' ><option value=''>Please select</option>" + remopt + "</select></td>";
+        var drumno = "<td><select style = 'width: 120px;' class='form-control _select newcss' id='ddloutdrumno" + index + "' name='outlst[" + index + "].drumno' ><option value=''>Please select</option>" + remopt + "</select></td>";
         var batchno = "<td><input class='form-control'  id='txtbatchno" + index + "' name='outlst[" + index + "].batchno' style='width: 200px;' type='text' value=''></td>";
         var stock="<td><input class='form-control'  id='txtOutStock" + index + "' name='outlst[" + index + "].OutStock' style='width: 80px;text-align:right' type='text' value='' onkeydown='return isNumeric2(event.keyCode,this.value)'></td>";
         var outqty="<td><input class='form-control'  id='txtOutQty" + index + "' name='outlst[" + index + "].OutQty'  style='width: 100px;text-align:right' type='text' value='' onkeyup='changeOutQty(this," + index + ")' onkeydown='return isNumeric2(event.keyCode,this.value)'></td>";
@@ -1040,6 +1073,7 @@
         var removeCell = "<td><input id='IsOutvalid" + index + "' name='outlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeOutRow(" + index + ");'  style='cursor:pointer' /><input name='outlst.Index' type='hidden' value='" + index + "'  /></td>";
         var newRow = "<tr class='chkitemlstout'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookout" + index + "'>" + itemid + startdate + starttime +  enddate + endtime + drumno + batchno + stock + outqty + excessqty +status + loc + removeCell + "</tr>";
         $("#tbBooksout").append(newRow);
+ 
       
        $(function() {
             $('._select').select2();
@@ -1055,13 +1089,30 @@
             minView: 2,
             forceParse: 0
         });
+ 
+        $('._select').select2();
+         $('.form_date').datetimepicker({
+     //   language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 2,
+    minView: 2,
+    forceParse: 0
+    });
+ 
     }
     function AppendwasteRow(opt, remopt) {
         var index = $("#tbBooksoutw").children("tr").length;
 
         var itemid = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlWasteItem" + index + "' name='wastelst[" + index + "].ItemId'  ><option value=''>Please select</option>" + opt + "</select></td>";
         var Batch = "<td><input class='form-control'  id='txtbatchno" + index + "' name='wastelst[" + index + "].batchno' style='width: 200px;' type='text' value=''></td>";
+ 
         var Waste = "<td><input class='form-control'  id='txtwasteQty" + index + "' name='wastelst[" + index + "].wasteQty' style='width: 100px;' type='text' value='' onkeydown = 'return isNumeric2(event.keyCode,this.value)'></td>";
+ 
+        var Waste = "<td><input class='form-control'  id='txtwasteQty" + index + "' name='wastelst[" + index + "].wasteQty' style = 'width: 100px;text-align:right' onkeyup = 'changeWasteQty(this," + index + ")' type='text' value='' onkeydown = 'return isNumeric2(event.keyCode,this.value)'></td>";
+ 
         var Location = "<td><select style = 'width: 120px;' class='form-control _select newcss' id='ddlwastetoloc" + index + "' name='wastelst[" + index + "].toloc'  ><option value=''>Please select</option>" + remopt + "</select></td>";
         var bin = "<td><input class='form-control'  id='txtWasteBinId" + index + "' name='wastelst[" + index + "].BinId' style='width: 100px;'  type='text' value='' onkeyup='changeWasteQty(this," + index + ")'></td>";
         var removeCell = "<td><input id='Isvalid" + index + "' name='wastelst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeWasteRow(" + index + ");'  style='cursor:pointer' /><input name='wastelst.Index' type='hidden' value='" + index + "'  /></td>";
@@ -1245,6 +1296,28 @@
              $(function() {
             $('._select').select2();
         });
+          function Stk_Change (wcid) {
+               $.ajax({
+            url: 'GetStkItem',
+             data: {'wcid' : wcid },
+            type: "post",
+              success: function (result) {
+                    var newlist;
+                        newlist = result.Itemlst;
+                        var j = 0;
+                  $('tr.chkitemlst').each(function () {
+                        if ($(this).css('display') !== 'none') {
+                        PopulateDropDown("#ddlItem" + j, result);
+                              }
+                        j += 1;
+                    });
+            },
+            error: function () {
+                debugger;
+                alert("Please Select State");
+            }
+        });
+          }
     $(document).ready(function () {
         $('#btnSave').click(function (e) {
             var isValid = true;

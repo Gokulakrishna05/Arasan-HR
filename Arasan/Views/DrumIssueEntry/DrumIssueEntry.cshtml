@@ -102,7 +102,7 @@
                                         <div class="col-sm-8">
                                            @{
                                             int k=0;
-                                                    @Html.DropDownListFor(C => C.FromLoc, Model.Loc," -- Please Select -- ", new { @id = "ddlFromLoc", @Class = "form-control _select", @TabIndex = 1, @onchange = "changeDrum(this.value," + k + ")" })
+                                                    @Html.DropDownListFor(C => C.FromLoc, Model.Loc," -- Please Select -- ", new { @id = "ddlFromLoc", @Class = "form-control _select", @TabIndex = 1, @onchange = "changeDrum(this.value)" })
                                                     k = k + 1;     
                                                 }
                                         </div>
@@ -385,7 +385,7 @@
         minView: 2,
         forceParse: 0
     });
-     function changeDrum(ItemId,i) {
+     function changeDrum(ItemId) {
         var item = document.getElementById("ddlItemid").value;
 
         $.ajax({
@@ -394,9 +394,13 @@
             data: { 'item' : item,'id': ItemId },
             cache: false,
             success: function (response) {
-                var newlist;
-                newlist = response.drumlst;
-                PopulateDropDown("#ddlDrum" + i, response);
+                var j = 0;
+                  $('tr.chkitemlst').each(function () {
+                        if ($(this).css('display') !== 'none') {
+                        PopulateDropDown("#ddlDrum" + j, response);
+                              }
+                        j += 1;
+                    }); 
             },
             error: function () {
                 debugger;
