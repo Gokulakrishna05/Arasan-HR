@@ -28,5 +28,7 @@ namespace Arasan.Interface
         DataTable GetProWasteDet(string id);
         string PRODStock(ProductionEntry cy);
         DataTable GetStockItem(string id);
+
+        DataTable GetDrumStock(string branch, string loc, string ItemId);
     }
 }

@@ -829,7 +829,16 @@ public class ProductionEntryService : IProductionEntry
         adapter.Fill(dtt);
         return dtt;
     }
-
+    public  DataTable GetDrumStock(string branch, string loc, string ItemId)
+    {
+        string SvSql = string.Empty;
+        SvSql = "select drum_stock.DRUM_NO,DRUM_ID  from drum_stock  where drum_stock.LOCID=(select ILOCATION from WCBASIC where WCBASICID='"+ loc  + "') AND BALANCE_QTY >0 AND drum_stock.ITEMID='"+ ItemId + "'";
+        DataTable dtt = new DataTable();
+        OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        adapter.Fill(dtt);
+        return dtt;
+    }
 
     public DataTable GetProInpDet(string id)
     {

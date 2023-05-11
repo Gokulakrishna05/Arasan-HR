@@ -527,6 +527,28 @@ namespace Arasan.Controllers
         {
             return Json(BindstkItemlst(wcid));
         }
+        public JsonResult GetDrumStk(string branch,string loc,string ItemId)
+        {
+            return Json(Binddrumstklst(branch, loc, ItemId));
+        }
+
+        public List<SelectListItem> Binddrumstklst(string branch, string loc, string ItemId)
+        {
+            try
+            {
+                DataTable dtDesg = IProductionEntry.GetDrumStock(branch, loc, ItemId);
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DRUM_NO"].ToString(), Value = dtDesg.Rows[i]["DRUM_ID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<SelectListItem> BindstkItemlst(string wcid)
         {
             try
