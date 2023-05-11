@@ -54,8 +54,8 @@ namespace Arasan.Controllers
                 for (int i = 0; i < 1; i++)
                 {
                      tda = new ProIn();
-                     tda.Itemlst = BindItemlst("");
-                     tda.drumlst = Binddrum();
+                     tda.Itemlst = BindStockItemlst();
+                     tda.drumlst = BindStockItemlst();
                      tda.outputlst = Bindoutput();
                      tda.Isvalid = "Y";
                      TData.Add(tda);
@@ -523,7 +523,27 @@ namespace Arasan.Controllers
         {
             return Json(BindLocation());
         }
-
+        public JsonResult GetStkItem(string wcid)
+        {
+            return Json(BindstkItemlst(wcid));
+        }
+        public List<SelectListItem> BindstkItemlst(string wcid)
+        {
+            try
+            {
+                DataTable dtDesg = IProductionEntry.GetStockItem(wcid);
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEM_NAME"].ToString(), Value = dtDesg.Rows[i]["ITEMID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<SelectListItem> BindItemlst(string value)
         {
             try
@@ -540,6 +560,26 @@ namespace Arasan.Controllers
             {
                 throw ex;
             }
+        }
+
+        public List<SelectListItem> BindStockItemlst()
+        {
+            try
+            {
+             List<SelectListItem> lstdesg = new List<SelectListItem>();
+            lstdesg.Add(new SelectListItem() { Text = "--- Select ----", Value = "0" });
+              
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        
+        public JsonResult GetLocJSON()
+        {
+            return Json(BindLocation());
         }
         public List<SelectListItem> BindItemGrplst()
         {

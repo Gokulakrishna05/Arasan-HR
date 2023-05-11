@@ -27,5 +27,6 @@ namespace Arasan.Interface
         DataTable GetProOutDet(string id);
         DataTable GetProWasteDet(string id);
         string PRODStock(ProductionEntry cy);
+        DataTable GetStockItem(string id);
     }
 }
