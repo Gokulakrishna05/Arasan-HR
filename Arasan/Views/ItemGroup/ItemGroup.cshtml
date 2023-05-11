@@ -4,7 +4,14 @@
     ViewData["Title"] = "Item Group";
 
 }
-
+<style>
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
      <div class="row wrapper border-bottom page-heading">
       <div class="col-lg-12">
 
@@ -32,7 +39,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Item Group<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Item Group<label class="mandatory">*</label></label>
                                                 <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.itemGroup, new { @id = "txtItemGroups", @class = "form-control", @TabIndex = 1 })<br />
                                             @Html.HiddenFor(C => C.ID)
@@ -45,7 +52,7 @@
                             <div class="col-lg-3"></div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                        <label for="inputName3" class="col-sm-4 control-label">Item Group Description<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Item Group Description<label class="mandatory"></label></label>
                                                 <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.ItemGroupDescription, new { @id = "txtItemGroupDescription", @class = "form-control", @TabIndex = 1 })<br />
                                     </div>
@@ -53,8 +60,9 @@
                                         </div>
                                         </div>
                                         <div class="row">
+
                             <div class="col-lg-8"></div>
-                                                        <button type="submit" class="btn aqua m-t-xs bottom15-xs">Submit</button>
+                                <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
                                 <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListItemGroup", "ItemGroup")'">Cancel</button>
 
                         </div>
@@ -66,3 +74,50 @@
 </div>
 </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+
+            if (document.getElementById("txtItemGroups").value == "") {
+                isValid = false;
+                $(txtItemGroups).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Item Group");
+                return false;
+            }
+            else {
+                $(txtItemGroups).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtItemGroupDescription").value == "") {
+                isValid = false;
+                $(txtItemGroupDescription).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Description");
+                return false;
+            }
+            else {
+                $(txtItemGroupDescription).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+
+            if (isValid == false)
+                e.preventDefault();
+
+        });
+
+    });
+</script>

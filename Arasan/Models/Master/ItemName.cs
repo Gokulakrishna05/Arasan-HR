@@ -72,7 +72,7 @@ namespace Arasan.Models
         public string Batch { get; set; }
         public string QCTemplate { get; set; }
         public string QCRequired { get; set; }
-        public string  Latast   { get; set; }
+        public string Latest { get; set; }
         public string SubHeading { get; set; }
         public string Rejection { get; set; }
         public string Percentage { get; set; }

@@ -12,6 +12,15 @@ namespace Arasan.Models
             this.cuntylst = new List<SelectListItem>();
             this.statlst = new List<SelectListItem>();
         }
+
+        public string ID { get; set; }
+        public string BranchName { get; set; }
+        public string PinCode { get; set; }
+        public string City { get; set; }
+        public string GSTDate { get; set; }
+        public string Address { get; set; }
+        public string GSTNo { get; set; }
+
         public List<SelectListItem> Compalst;
         public string CompanyName { get; set; }
 
@@ -23,6 +32,10 @@ namespace Arasan.Models
         public String StateName { get; set; }
 
 
+    }
+
+    internal class RegularExpressionAttribute : Attribute
+    {
     }
 }
 

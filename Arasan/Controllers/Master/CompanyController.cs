@@ -19,11 +19,12 @@ namespace Arasan.Controllers
             Company ca = new Company();
             if (id == null) 
             {
-               
+                
             }
-            else {
+            else
+            {
                 ca = CompanyService.GetCompanyById(id);
-              
+
             }
             return View(ca);
         }

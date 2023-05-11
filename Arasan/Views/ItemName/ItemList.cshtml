@@ -53,7 +53,7 @@
                       </thead>
                    
                       <tbody>
-                            @{
+                             @{
                                                  int i = 1;
 
                                                  foreach (var item in Model)
@@ -69,10 +69,10 @@
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("ItemName", "ItemName",new { id=item.ID })"></a></div></td>
                         </tr>
                                                                 i++;
-                                                            }
                                                  }
+                               }
 
-                                   s                     
+                                                        
                         @*<tr>
                           <td>Mechanical</td>
                           <td>Hose ( Metalic, Hydralic)</td>

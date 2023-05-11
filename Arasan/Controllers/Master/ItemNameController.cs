@@ -79,7 +79,7 @@ namespace Arasan.Controllers.Master
                         ca.Batch = dt.Rows[0]["BSTATEMENTYN"].ToString();
                         ca.QCTemplate = dt.Rows[0]["QCT"].ToString();
                         ca.QCRequired = dt.Rows[0]["QCCOMPFLAG"].ToString();
-                        ca.Latast = dt.Rows[0]["LATPURPRICE"].ToString();
+                        ca.Latest = dt.Rows[0]["LATPURPRICE"].ToString();
                         ca.SubHeading = dt.Rows[0]["TARIFFHEADING"].ToString();
                         ca.Rejection = dt.Rows[0]["REJRAWMATPER"].ToString();
                         ca.Percentage = dt.Rows[0]["RAWMATPER"].ToString();

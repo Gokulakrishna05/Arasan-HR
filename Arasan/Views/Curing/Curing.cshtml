@@ -43,7 +43,7 @@
 
                                         <label for="inputName3" class="col-sm-4 control-label">Location Name<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Location, Model.Cur, new { @id = "ddlLocation", @Class = "form-control chosen-select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.Location, Model.Cur,"Please Select", new { @id = "ddlLocation", @Class = "form-control _select", @TabIndex = 1 })
                                            
                                         </div>
 
@@ -57,7 +57,7 @@
 
                                         <br /><label for="inputName3" class="col-sm-4 control-label">Sub Group<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Sub, Model.Sublst, new { @id = "ddlSub", @Class = "form-control chosen-select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.Sub, Model.Sublst,"Please Select", new { @id = "ddlSub", @Class = "form-control _select", @TabIndex = 1 })
                                         </div>
                                     </div>
                                 </div>
@@ -115,61 +115,86 @@
     </div>
 </div>
 <script>
-    $(".chosen-select").chosen();
+     $(function () {
+        $('._select').select2();
+    });
+
     $(document).ready(function () {
         $('#btnSave').click(function (e) {
             var isValid = true;
-            if (document.getElementById("Location").value == "") {
+
+            if (document.getElementById("ddlLocation").value == "" || document.getElementById("ddlLocation").value == 0) {
                 isValid = false;
-                $(Location).css({
+                $(ddlLocation).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select  Location");
+                alert("Please Select Location Name");
                 return false;
             }
             else {
-                $(Location).css({
+                $(ddlLocation).css({
                     "border": "",
                     "background": ""
                 });
             }
-            if (document.getElementById("Sub").value == "") {
+            if (document.getElementById("ddlSub").value == "" || document.getElementById("ddlSub").value == 0) {
                 isValid = false;
-                $(Sub).css({
+                $(ddlSub).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select  ShedNumber");
+                alert("Please Select Sub Group");
                 return false;
             }
             else {
-                $(Sub).css({
+                $(ddlSub).css({
                     "border": "",
                     "background": ""
                 });
             }
-            if (document.getElementById("Shed").value == "") {
+            if (document.getElementById("txtShed").value == "") {
                 isValid = false;
-                $(Shed).css({
+                $(txtShed).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select  Shed");
+                alert("Please Select Shed Number");
                 return false;
             }
             else {
-                $(Shed).css({
+                $(txtShed).css({
                     "border": "",
                     "background": ""
                 });
             }
+            if (document.getElementById("txtCap").value == "") {
+                isValid = false;
+                $(txtCap).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Capacity");
+                return false;
+            }
+            else {
+                $(txtCap).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
             if (isValid == false)
                 e.preventDefault();
+
         });
 
     });
+
+
 </script>
+

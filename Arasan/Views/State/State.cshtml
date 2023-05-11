@@ -3,6 +3,14 @@
 @{
     ViewData["Title"] = "State";
 }
+<style>
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
 
@@ -34,7 +42,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Country<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Country<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.countryid, Model.cuntylst, new { @id = "ddlcountry", @Class = "form-control chosen-select", @TabIndex = 1 })<br />
                                         </div>
@@ -48,7 +56,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">StateName<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">StateName<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.StateName, new { @id = "txtStateName", @class = "form-control", @TabIndex = 1 })<br />
                                         </div>
@@ -63,7 +71,7 @@
 
                                         <label for="inputName3" class="col-sm-4 control-label">StateCode<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.StateCode, new { @id = "txtStateCode", @class = "form-control", @TabIndex = 1 })<br />
+                                            @Html.TextBoxFor(C => C.StateCode, new { @id = "txtStateCode", onkeydown = "return isNumeric2(event.keyCode,this.value)", @class = "form-control", @TabIndex = 1 })<br />
                                         </div>
 
                                     </div>
@@ -83,5 +91,64 @@
 </div>
 
 <script>
-    $(".chosen-select").chosen();
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+
+            if (document.getElementById("ddlcountry").value == "") {
+                isValid = false;
+                $(ddlcountry).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Country");
+                return false;
+            }
+            else {
+                $(ddlcountry).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtStateName").value == "") {
+                isValid = false;
+                $(txtStateName).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Doc State Name");
+                return false;
+            }
+            else {
+                $(txtStateName).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtStateCode").value == "") {
+                isValid = false;
+                $(txtStateCode).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select State Code");
+                return false;
+            }
+            else {
+                $(txtStateCode).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+
+            if (isValid == false)
+                e.preventDefault();
+
+        });
+
+    });
 </script>
