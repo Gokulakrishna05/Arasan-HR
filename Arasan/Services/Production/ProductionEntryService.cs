@@ -102,6 +102,17 @@ public class ProductionEntryService : IProductionEntry
         adapter.Fill(dtt);
         return dtt;
     }
+    public DataTable GetStockItem(string wcid)
+    {
+        string SvSql = string.Empty;
+        SvSql = "select ITEMMASTER.ITEMID as ITEM_NAME,drum_stock.ITEMID  from drum_stock LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=drum_stock.ITEMID  where drum_stock.LOCID=(select ILOCATION from WCBASIC where WCBASICID='"+ wcid  + "') AND BALANCE_QTY >0 GROUP BY ITEMMASTER.ITEMID,drum_stock.ITEMID ";
+        DataTable dtt = new DataTable();
+        OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        adapter.Fill(dtt);
+        return dtt;
+    }
+    
     public string ProductionEntryCRUD(ProductionEntry cy)
     {
         string msg = "";
@@ -181,21 +192,21 @@ public class ProductionEntryService : IProductionEntry
                     }
                     foreach (ProIn cp in cy.inputlst)
                     {
-                        if (cp.Isvalid == "Y" && cp.ItemId != "0")
+                        if (cp.Isvalid == "Y" && cp.ItemId != "0" && cp.ItemId != null)
                         {
                             using (OracleConnection objConns = new OracleConnection(_connectionString))
                             {
                                 OracleCommand objCmds = new OracleCommand("PRODINPUTDETAILPROC", objConns);
-                                if (cy.ID == null)
-                                {
+                                //if (cy.ID == null)
+                                //{
                                     StatementType = "Insert";
                                     objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-                                }
-                                else
-                                {
-                                    StatementType = "Update";
-                                    objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
-                                }
+                                //}
+                                //else
+                                //{
+                                //    StatementType = "Update";
+                                //    objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                                //}
                                 objCmds.CommandType = CommandType.StoredProcedure;
                                 objCmds.Parameters.Add("NPRODBASICID", OracleDbType.NVarchar2).Value = Pid;
                                 objCmds.Parameters.Add("IITEMID", OracleDbType.NVarchar2).Value = cp.ItemId;
@@ -220,21 +231,21 @@ public class ProductionEntryService : IProductionEntry
                     }
                     foreach (ProInCons cp in cy.inconslst)
                     {
-                        if (cp.Isvalid == "Y" && cp.ItemId != "0")
+                        if (cp.Isvalid == "Y" && cp.ItemId != "0" && cp.ItemId != null)
                         {
                             using (OracleConnection objConns = new OracleConnection(_connectionString))
                             {
                                 OracleCommand objCmds = new OracleCommand("PRODCONSDETAILPROC", objConns);
-                                if (cy.ID == null)
-                                {
+                                //if (cy.ID == null)
+                                //{
                                     StatementType = "Insert";
                                     objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-                                }
-                                else
-                                {
-                                    StatementType = "Update";
-                                    objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
-                                }
+                                //}
+                                //else
+                                //{
+                                //    StatementType = "Update";
+                                //    objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                                //}
                                 objCmds.CommandType = CommandType.StoredProcedure;
                                 objCmds.Parameters.Add("NPRODBASICID", OracleDbType.NVarchar2).Value = Pid;
                                 objCmds.Parameters.Add("CITEMID", OracleDbType.NVarchar2).Value = cp.ItemId;
@@ -254,23 +265,24 @@ public class ProductionEntryService : IProductionEntry
 
                         }
                     }
+                    string IS_CURING = "N";
                     foreach (output cp in cy.outlst)
                     {
-                        if (cp.Isvalid == "Y" && cp.ItemId != "0")
+                        if (cp.Isvalid == "Y" && cp.ItemId != "0" && cp.ItemId != null)
                         {
                             using (OracleConnection objConns = new OracleConnection(_connectionString))
                             {
                                 OracleCommand objCmds = new OracleCommand("PRODOUTPUTDETAILPROC", objConns);
-                                if (cy.ID == null)
-                                {
+                                //if (cy.ID == null)
+                                //{
                                     StatementType = "Insert";
                                     objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-                                }
-                                else
-                                {
-                                    StatementType = "Update";
-                                    objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
-                                }
+                                //}
+                                //else
+                                //{
+                                //    StatementType = "Update";
+                                //    objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                                //}
                                 objCmds.CommandType = CommandType.StoredProcedure;
                                 objCmds.Parameters.Add("NPRODBASICID", OracleDbType.NVarchar2).Value = Pid;
                                 objCmds.Parameters.Add("OITEMID", OracleDbType.NVarchar2).Value = cp.ItemId;
@@ -290,6 +302,12 @@ public class ProductionEntryService : IProductionEntry
                                 objConns.Open();
                                 objCmds.ExecuteNonQuery();
                                 objConns.Close();
+                                if (cp.toloc == "")
+                                {
+                                    IS_CURING = "Y";
+                                }
+
+
                             }
 
                             using (OracleConnection objConns = new OracleConnection(_connectionString))
@@ -311,9 +329,7 @@ public class ProductionEntryService : IProductionEntry
                                 objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cp.ItemId;
                                 objCmds.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
                                 objCmds.Parameters.Add("IS_COMPLETED", OracleDbType.NVarchar2).Value = "NO";
-
                                 objCmds.Parameters.Add("QC_STATUS", OracleDbType.NVarchar2).Value = "Raised";
-
                                 objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                 objConns.Open();
                                 objCmds.ExecuteNonQuery();
@@ -324,21 +340,21 @@ public class ProductionEntryService : IProductionEntry
                     }
                     foreach (wastage cp in cy.wastelst)
                     {
-                        if (cp.Isvalid == "Y" && cp.ItemId != "0")
+                        if (cp.Isvalid == "Y" && cp.ItemId != "0" && cp.ItemId != null)
                         {
                             using (OracleConnection objConns = new OracleConnection(_connectionString))
                             {
                                 OracleCommand objCmds = new OracleCommand("PRODWASTEDETAILPROC", objConns);
-                                if (cy.ID == null)
-                                {
+                                //if (cy.ID == null)
+                                //{
                                     StatementType = "Insert";
                                     objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-                                }
-                                else
-                                {
-                                    StatementType = "Update";
-                                    objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
-                                }
+                                //}
+                                //else
+                                //{
+                                //    StatementType = "Update";
+                                //    objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                                //}
                                 objCmds.CommandType = CommandType.StoredProcedure;
                                 objCmds.Parameters.Add("NPRODBASICID", OracleDbType.NVarchar2).Value = Pid;
                                 objCmds.Parameters.Add("WITEMID", OracleDbType.NVarchar2).Value = cp.ItemId;
@@ -358,6 +374,20 @@ public class ProductionEntryService : IProductionEntry
 
                         }
                     }
+
+
+
+                    using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                    {
+                        string Sql = string.Empty;
+                        Sql = "UPDATE NPRODBASIC SET ISCURING='"+ IS_CURING + "' WHERE NPRODBASICID='" + Pid + "'";
+                        OracleCommand objCmds = new OracleCommand(Sql, objConnT);
+                        objConnT.Open();
+                        objCmds.ExecuteNonQuery();
+                        objConnT.Close();
+                    }
+
+
                 }
                 catch (Exception ex)
                 {
