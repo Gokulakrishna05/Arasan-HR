@@ -28,7 +28,7 @@ namespace Arasan.Services
         public DataTable GetSubgroup()
         {
             string SvSql = string.Empty;
-            SvSql = "Select SUBGROUP,CURINGMASTERID from CURINGMASTER";
+            SvSql = "Select SUBGROUP from CURINGSUBGROUPMAST";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -152,6 +152,17 @@ namespace Arasan.Services
         {
             string SvSql = string.Empty;
             SvSql = "select CURINGMASTERID,LOCDETAILS.LOCID,SUBGROUP,SHEDNUMBER,CAPACITY from CURINGMASTER LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID = CURINGMASTER.LOCATIONID where CURINGMASTERID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetCuringDetails(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select CURINGMASTERID,LOCATIONID,SUBGROUP,SHEDNUMBER,CAPACITY from CURINGMASTER where CURINGMASTERID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

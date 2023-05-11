@@ -437,6 +437,23 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+        public List<SelectListItem> BindEmpFolw()
+        {
+            try
+            {
+                DataTable dtDesg = PurenqService.GetEmp();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["EMPNAME"].ToString(), Value = dtDesg.Rows[i]["EMPNAME"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         public JsonResult GetItemJSON(string itemid)
         {
@@ -490,7 +507,7 @@ namespace Arasan.Controllers
         public IActionResult Followup(string id)
         {
             PurchaseFollowup cmp = new PurchaseFollowup();
-            cmp.EnqassignList = BindEmp();
+            cmp.EnqassignList = BindEmpFolw();
             List<PurchaseFollowupDetails> TData = new List<PurchaseFollowupDetails>();
             if (id == null)
             {

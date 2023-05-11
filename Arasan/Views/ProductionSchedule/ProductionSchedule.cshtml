@@ -108,7 +108,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
+                           @* <div class="col-md-6">
                                 <div class="form-group">
                                    <br /> <label for="inputName3" class="col-sm-4 control-label">Prod.Planning<label class="Mandatory"></label></label>
 
@@ -116,7 +116,7 @@
                                         <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
                             
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -145,7 +145,7 @@
                            
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="inputName3" class="col-sm-4 control-label">Prod.Due.Dt<label class="Mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Prod.Due.Dt<label class="mandatory">*</label></label>
 
                                     <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                             @Html.TextBoxFor(C => C.Proddt, new { @id = "Proddt", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
@@ -224,7 +224,7 @@
                             </div>
 
                        </div>
-                            <div class="row">
+                          @*  <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-4 control-label">Fresh/Amend?<label class="Mandatory"></label></label>
@@ -246,7 +246,7 @@
                                 </div>
                             </div>
 
-                        </div>
+                        </div>*@
                         <div style="height:30px;"></div>
                         <div class="row">
                             <div class="col-md-12">
@@ -257,7 +257,7 @@
                                         <li><a href="#tab-2" data-toggle="tab">Output Items </a></li>
                                         <li><a href="#tab-3" data-toggle="tab">Process Parameters </a></li>
                                         <li><a href="#tab-4" data-toggle="tab">Output Details Day Wise </a></li>
-                                        <li><a href="#tab-5" data-toggle="tab">Pack Meterials </a></li>
+                                        <li><a href="#tab-5" data-toggle="tab">Pack Materials </a></li>
                                     </ul>
                                     <div class="tab-content">
                                         <div class="tab-pane active" id="tab-1">
@@ -281,7 +281,7 @@
 
                                                                                 <th>Item Group</th>
                                                                                 <th> Input Item </th>
-                                                                                <th> Item Desc </th>
+                                                                                <th> Item Description </th>
                                                                                 <th> Unit </th>
                                                                                 <th> Input %</th>
                                                                                 <th>Required Qty </th>
@@ -362,7 +362,7 @@
                                                                                 
                                                                                 <th>Item Group</th>
                                                                                 <th>Output Item</th>
-                                                                                <th> Item Desc </th>
+                                                                                <th> Item Description </th>
                                                                                 <th> Unit </th>
                                                                                 <th> Output % </th>
                                                                                 <th>Alam %</th>
@@ -687,7 +687,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="inputName3" class="col-sm-4 control-label">Other Detail<label class="Mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Other Details<label class="Mandatory"></label></label>
 
                                     <div class="col-sm-8">
                                         <textarea class="form-control" id="inputEmail3" placeholder="" type="text"></textarea><br />
@@ -1236,6 +1236,22 @@
             }
             else {
                 $(Schdate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+              if (document.getElementById("Proddt").value == "") {
+                isValid = false;
+                $(Proddt).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Due Date");
+                return false;
+            }
+            else {
+                $(Proddt).css({
                     "border": "",
                     "background": ""
                 });

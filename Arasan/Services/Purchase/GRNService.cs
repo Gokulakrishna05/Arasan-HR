@@ -182,7 +182,7 @@ namespace Arasan.Services
                                     string Sql = string.Empty;
                                     if (StatementType == "Update")
                                     {
-                                        Sql = "Update GRNBLDETAIL SET  QTY= '" + cp.BillQty + "',RATE= '" + cp.rate + "',CF='" + cp.Conversionfactor + "',AMOUNT='" + cp.Amount + "',DISCPER='" + cp.DiscPer + "',DISC='" + cp.DiscAmt + "',PURTYPE='" + cp.Purtype + "',CGSTPER='" + cp.CGSTPer + "',CGSTAMT='" + cp.CGSTAmt + "',SGSTPER='" + cp.SGSTPer + "',SGSTAMT='" + cp.SGSTAmt + "',IGSTPER='" + cp.IGSTPer + "',IGSTAMT='" + cp.IGSTAmt + "',TOTAMT='" + cp.TotalAmount + "',COSTRATE='" + cp.CostRate + "',ORDQTY='" + cp.Quantity + "',GOOD_QTY='" + cp.Goodqty + "',DAMAGE_QTY='" + cp.DamageQty + "' where GRNBLBASICID='" + cy.GRNID + "'  AND ITEMID='" + cp.saveItemId + "' ";
+                                        Sql = "Update GRNBLDETAIL SET  QTY= '" + cp.BillQty + "',RATE= '" + cp.rate + "',CF='" + cp.Conversionfactor + "',AMOUNT='" + cp.Amount + "',DISCPER='" + cp.DiscPer + "',DISC='" + cp.DiscAmt + "',PURTYPE='" + cp.Purtype + "',CGSTPER='" + cp.CGSTPer + "',CGSTAMT='" + cp.CGSTAmt + "',SGSTPER='" + cp.SGSTPer + "',SGSTAMT='" + cp.SGSTAmt + "',IGSTPER='" + cp.IGSTPer + "',IGSTAMT='" + cp.IGSTAmt + "',TOTAMT='" + cp.TotalAmount + "',COSTRATE='" + cp.CostRate + "',ORDQTY='" + cp.Quantity + "',GOOD_QTY='" + cp.Goodqty + "',DAMAGE_QTY='" + cp.DamageQty + "',LOT_NO='"+ cp.Lotno +"' where GRNBLBASICID='" + cy.GRNID + "'  AND ITEMID='" + cp.saveItemId + "' ";
                                     }
                                     else
                                     {
@@ -218,6 +218,7 @@ namespace Arasan.Services
                                     objCmdI.Parameters.Add("DRUM_NO", OracleDbType.NVarchar2).Value = "";
                                     objCmdI.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = "0";
                                     objCmdI.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = "0";
+                                    objCmdI.Parameters.Add("LOT_NO", OracleDbType.NVarchar2).Value = cp.Lotno;
                                     objCmdI.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                                     objConnI.Open();
                                     objCmdI.ExecuteNonQuery();

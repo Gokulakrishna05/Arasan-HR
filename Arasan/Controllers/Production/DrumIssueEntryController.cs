@@ -5,6 +5,7 @@ using System.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Arasan.Services.Production;
+using System.Collections.Specialized;
 
 namespace Arasan.Controllers.Production
 {
@@ -45,7 +46,7 @@ namespace Arasan.Controllers.Production
                     tda = new DrumIssueEntryItem();
                     tda.FBinlst = BindBinID();
                     tda.TBinlst = BindBinID();
-                    tda.drumlst = Binddrum("");
+                    tda.drumlst = Binddrum("","");
                     tda.Isvalid = "Y";
                     TData.Add(tda);
                 }
@@ -94,7 +95,8 @@ namespace Arasan.Controllers.Production
                       //  tda.TBinlst = BindBinID();
                         tda.TBinid = dt2.Rows[i]["TBINID"].ToString();
 
-                       //tda.drumlst = Binddrum();
+                        //tda.drumlst = Binddrum();
+                        tda.drumlst = Binddrum(ca.FromLoc,ca.Itemid);
                         tda.Drum = dt2.Rows[i]["NDRUMNO"].ToString();
                         tda.Isvalid = "Y";
                         tda.Qty = dt2.Rows[i]["QTY"].ToString();
@@ -195,17 +197,17 @@ namespace Arasan.Controllers.Production
                 throw ex;
             }
         }
-        public JsonResult GetDrumJSON(string id)
+        public JsonResult GetDrumJSON(string id, string item)
         {
             DrumIssueEntryItem model = new DrumIssueEntryItem();
-            model.drumlst = Binddrum(id);
-            return Json(Binddrum(id));
+            model.drumlst = Binddrum(id, item);
+            return Json(Binddrum(id, item));
         }
-        public List<SelectListItem> Binddrum(string value)
+        public List<SelectListItem> Binddrum(string value,string item)
         {
             try
             {
-                DataTable dtDesg = DrumIssueEntryService.DrumDeatils(value);
+                DataTable dtDesg = DrumIssueEntryService.DrumDeatils(value, item);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -225,11 +227,11 @@ namespace Arasan.Controllers.Production
             return Json(model);
 
         }
-        public JsonResult GetItemGrpJSON(string id)
+        public JsonResult GetItemGrpJSON(string id, string item)
         {
             DrumIssueEntryItem model = new DrumIssueEntryItem();
-              model.drumlst = Binddrum(id);
-            return Json(Binddrum(id));
+              model.drumlst = Binddrum(id, item);
+            return Json(Binddrum(id , item));
         }
         public List<SelectListItem> BindType()
         {
@@ -344,6 +346,35 @@ namespace Arasan.Controllers.Production
                 throw ex;
             }
         }
+        public ActionResult GetStockDetail(string ItemId ,string items)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+
+                string drum = "";
+                string stock = "";
+
+                dt = DrumIssueEntryService.GetStockDetails(ItemId, items);
+
+                if (dt.Rows.Count > 0)
+                {
+
+                    drum = dt.Rows[0]["SUM_QTY"].ToString();
+                    stock = dt.Rows[0]["SUM_QTY"].ToString();
+
+
+
+                }
+
+                var result = new { drum = drum, stock = stock };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         //public ActionResult GetItemJSON(string ItemId)
         //{
         //    try
@@ -398,7 +429,7 @@ namespace Arasan.Controllers.Production
                 ca.Qty = Convert.ToDouble(dt.Rows[0]["TOTQTY"].ToString() == "" ? "0" : dt.Rows[0]["TOTQTY"].ToString());
                 ca.IRate = Convert.ToDouble(dt.Rows[0]["ISSRATE"].ToString() == "" ? "0" : dt.Rows[0]["ISSRATE"].ToString());
                 ca.IValue = Convert.ToDouble(dt.Rows[0]["ISSVALUE"].ToString() == "" ? "0" : dt.Rows[0]["ISSVALUE"].ToString());
-                ca.Purpose = dt.Rows[0]["REMARKS"].ToString();
+                //ca.Purpose = dt.Rows[0]["REMARKS"].ToString();
                 //ViewBag.entrytype = ca.EntryType;
                 List<DrumIssueEntryItem> TData = new List<DrumIssueEntryItem>();
                 DrumIssueEntryItem tda = new DrumIssueEntryItem();
@@ -412,7 +443,7 @@ namespace Arasan.Controllers.Production
  
                     tda.TBinid = dtDrum.Rows[i]["TBINID"].ToString();
  
-                    tda.Drum = dtDrum.Rows[i]["NDRUMNO"].ToString();
+                    tda.Drum = dtDrum.Rows[i]["DRUMNO"].ToString();
 
                     tda.Qty = dtDrum.Rows[i]["QTY"].ToString();
                     tda.Batch = dtDrum.Rows[i]["BATCHNO"].ToString();

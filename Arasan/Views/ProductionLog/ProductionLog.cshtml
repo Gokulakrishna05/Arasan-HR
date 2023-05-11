@@ -207,7 +207,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Meting Target<label class="Mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Melting Target<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.Melting, new { @id = "txtMelting", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
                                     </div>
@@ -243,7 +243,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">ProcLocY/N<label class="Mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">ProcLotY/N<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
                                      <div class="input-group">
 
@@ -1282,12 +1282,7 @@
                                         </div>
                                           <div class="tab-pane " id="tab-13">
                                         <!-- 13th tab  -->
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="btn-group">
-                                                        <button class="btn sbold green" id="addRow"> Add New <i class="fa fa-plus"></i> </button>
-                                                    </div>
-                                                </div>
+                                          
 
                             <div class="row">
                                                     <div class="col-lg-3"></div>
@@ -1296,9 +1291,9 @@
 
                                         <label for="inputName3" class="col-sm-4 control-label">Remarks<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                             <textarea class="form-control" id="inputEmail3" rows="5" type="text"></textarea>
+                                                                              @Html.TextAreaFor(C => C.Remark, new { @id = "txtRemark", @class = "form-control", @TabIndex = 1 })<br />
                                         </div>
-                                    </div>
+                                    
                                 </div>
                                 </div>
                                 </div>
@@ -1473,6 +1468,16 @@
         startView: 2,
         minView: 2,
         forceParse: 0
+    });
+    $('.form_datetime').datetimepicker({
+        //language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        forceParse: 0,
+        showMeridian: 1
     });
     $(document).ready(function () {
         $('#btnSave').click(function (e) {

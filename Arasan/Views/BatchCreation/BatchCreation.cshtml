@@ -927,8 +927,8 @@
 
         var WorkId = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlWorkId" + index + "' name='BatchLst[" + index + "].WorkId' onchange = 'Grup_Change(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
         var ProcessId = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlProcessId" + index + "' name='Processidlst[" + index + "].ProcessId' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option></select></td>";
-        var Seq = "<td><input class='form-control' id='txtSeq" + index + "' name='BatchLst[" + index + "].Unit'  style='width: 120px;' type='text'   /></td>";
-        var Req = "<td><input class='form-control' id='txtReq" + index + "' name='BatchLst[" + index + "].ConFac'  style='width: 120px;' type='text'  /></td>";     
+        var Seq = "<td><input class='form-control' id='txtSeq" + index + "' name='BatchLst[" + index + "].Unit'  style='width: 120px;' type='text'onkeydown = 'return isNumeric2(event.keyCode,this.value)'   /></td>";
+        var Req = "<td><input class='form-control' id='txtReq" + index + "' name='BatchLst[" + index + "].ConFac'  style='width: 120px;' type='text'onkeydown = 'return isNumeric2(event.keyCode, this.value)'  /></td>";
         var removeCell = "<td><input id='Isvalid" + index + "' name='Processidlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='BatchLst.Index' type='hidden' value='" + index + "'  /></td>";
         var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + WorkId + ProcessId + Seq + Req  + removeCell + "</tr>";
         //alert(Packing);
@@ -942,7 +942,7 @@
         var Process = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlProcess" + index + "' name='BatchInLst[" + index + "].Process' ><option value=''>Please select</option>" + opt + "</select></td>";
         var Item = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItem" + index + "' name='Itemlst[" + index + "].Item' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option></select></td>";
         var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='BatchLst[" + index + "].Unit'  style='width: 120px;' type='text' ReadOnly='readonly'  /></td>";
-        var qty = "<td><input class='form-control' id='txtqty" + index + "' name='BatchLst[" + index + "].qty'  style='width: 120px;' type='text'  /></td>";
+        var qty = "<td><input class='form-control' id='txtqty" + index + "' name='BatchLst[" + index + "].qty'  style='width: 120px;' type='text' onkeydown = 'return isNumeric2(event.keyCode,this.value)' /></td>";
         var removeCell = "<td><input id='Isvalid" + index + "' name='Itemlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow1(" + index + ");'  style='cursor:pointer' /><input name='BatchInLst.Index' type='hidden' value='" + index + "'  /></td>";
         var newRow = "<tr class='chkitemlst1'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook1" + index + "'>" + Process + Item + Unit + qty  + removeCell + "</tr>";
         //alert(Packing);
@@ -960,17 +960,17 @@
 
         var Unit = "<td><input class='form-control' id='txtOUnit" + index + "' name='BatchOutLst[" + index + "].OUnit'  style='width: 120px;' type='text'   ReadOnly='readonly' /></td>";
         var Type = "<td><input class='form-control' id='txtOutType" + index + "' name='BatchOutLst[" + index + "].OutType'  style='width: 120px;' type='text'   /></td>";
-        var qty = "<td><input class='form-control' id='txtOQty" + index + "' name='BatchOutLst[" + index + "].OQty'  style='width: 120px;' type='text'  /></td>";      
-        var Waste = "<td><input class='form-control' id='txtWaste" + index + "' name='BatchOutLst[" + index + "].Waste'  style='width: 120px;' type='text'  /></td>";    
-        var Vm = "<td><input class='form-control' id='txtVmper" + index + "' name='BatchOutLst[" + index + "].Vmper'  style='width: 120px;' type='text'  /></td>";
+        var qty = "<td><input class='form-control' id='txtOQty" + index + "' name='BatchOutLst[" + index + "].OQty'  style='width: 120px;' type='text'onkeydown = 'return isNumeric2(event.keyCode,this.value)' /></td>";      
+        var Waste = "<td><input class='form-control' id='txtWaste" + index + "' name='BatchOutLst[" + index + "].Waste'  style='width: 120px;' type='text'onkeydown = 'return isNumeric2(event.keyCode,this.value)'  /></td>";    
+        var Vm = "<td><input class='form-control' id='txtVmper" + index + "' name='BatchOutLst[" + index + "].Vmper'  style='width: 120px;' type='text' onkeydown = 'return isNumeric2(event.keyCode,this.value)' /></td>";
 
-        var Grase = "<td><input class='form-control' id='txtGreas" + index + "' name='BatchOutLst[" + index + "].Greas'  style='width: 120px;' type='text'  /></td>";
+        var Grase = "<td><input class='form-control' id='txtGreas" + index + "' name='BatchOutLst[" + index + "].Greas'  style='width: 120px;' type='text'onkeydown = 'return isNumeric2(event.keyCode, this.value)'  /></td>";
         var removeCell = "<td><input id='Isvalid" + index + "' name='OItemlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow2(" + index + ");'  style='cursor:pointer' /><input name='BatchInLst.Index' type='hidden' value='" + index + "'  /></td>";
 
 
         var newRow = "<tr class='chkitemlst2'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook2" + index + "'>" + Process + Item + Unit + Type + qty + Waste+ Vm + Grase + removeCell + "</tr>";
 
-        var Grase = "<td><input class='form-control' id='txtGreas" + index + "' name='BatchOutLst[" + index + "].Greas'  style='width: 120px;' type='text'  /></td>";    
+        var Grase = "<td><input class='form-control' id='txtGreas" + index + "' name='BatchOutLst[" + index + "].Greas'  style='width: 120px;' type='text' onkeydown = 'return isNumeric2(event.keyCode,this.value)'  /></td>";
         var removeCell = "<td><input id='IsOutvalid" + index + "' name='OItemlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeOutRow(" + index + ");'  style='cursor:pointer' /><input name='BatchInLst.Index' type='hidden' value='" + index + "'  /></td>";
         var newRow = "<tr class='chkitemlstout'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookout" + index + "'>" + Process + Item + Unit + Type + qty + Waste + Vm + Grase + removeCell + "</tr>";
 
@@ -1087,7 +1087,7 @@
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select Customer Name");
+                alert("Please Select Work Center");
                 return false;
             }
             else {
@@ -1124,7 +1124,7 @@
       function AppendOtherRow(opt) {
         var index = $("#tbBooksOther").children("tr").length;
         var Process = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlOtProcessId" + index + "' name='BatchOtherLst[" + index + "].OtProcessId' ><option value=''>Please select</option>" + opt + "</select></td>";
-        var seq = "<td><input class='form-control' id='txtSeqe" + index + "' name='BatchOtherLst[" + index + "].Seqe'  style='width: 120px;' type='text'  /></td>";
+        var seq = "<td><input class='form-control' id='txtSeqe" + index + "' name='BatchOtherLst[" + index + "].Seqe'  style='width: 120px;' type='text'onkeydown = 'return isNumeric2(event.keyCode,this.value)'  /></td>";
         var start = "<td><div class="input-group date form_date col - sm - 8" data-date="" data-date-format="dd - M - yyyy">
                          <input class='form-control' id = 'txtStart" + index + "' name = 'BatchOtherLst[" + index + "].Start'  style = 'width: 120px;' type = 'text' ReadOnly='readonly'/>
                          <span class="input-group-addon" > <span class="glyphicon glyphicon-remove" > </span></span > <span class="input-group-addon" > <span class="glyphicon glyphicon-calendar" > </span></span >
@@ -1134,9 +1134,9 @@
                        <input class='form-control' id='txtEnd" + index + "' name='BatchOtherLst[" + index + "].End'  style='width: 120px;' type='text'  ReadOnly='readonly' />
                        <span class="input-group-addon" > <span class="glyphicon glyphicon-remove" > </span></span > <span class="input-group-addon" > <span class="glyphicon glyphicon-calendar" > </span></span ></div></td>";
         var endtime = "<td><input class='form-control' id='txtEndT" + index + "' name='BatchOtherLst[" + index + "].EndT'  style='width: 120px;' type='time'  /></td>";      
-        var total = "<td><input class='form-control' id='txtTotal" + index + "' name='BatchOtherLst[" + index + "].Total'  style='width: 120px;' type='text'  /></td>";    
-        var break = "<td><input class='form-control' id='txtBreak" + index + "' name='BatchOtherLst[" + index + "].Break'  style='width: 120px;' type='text'  /></td>";
-        var run = "<td><input class='form-control' id='txtRunHrs" + index + "' name='BatchOtherLst[" + index + "].RunHrs'  style='width: 120px;' type='text'  /></td>";
+        var total = "<td><input class='form-control' id='txtTotal" + index + "' name='BatchOtherLst[" + index + "].Total'  style='width: 120px;' type='text' onkeydown = 'return isNumeric2(event.keyCode,this.value)'  /></td>";    
+        var break = "<td><input class='form-control' id='txtBreak" + index + "' name='BatchOtherLst[" + index + "].Break'  style='width: 120px;' type='text' onkeydown = 'return isNumeric2(event.keyCode,this.value)' /></td>";
+        var run = "<td><input class='form-control' id='txtRunHrs" + index + "' name='BatchOtherLst[" + index + "].RunHrs'  style='width: 120px;' type='text' onkeydown = 'return isNumeric2(event.keyCode,this.value)'/></td>";
         var remark = "<td><input class='form-control' id='txtRemark" + index + "' name='BatchOtherLst[" + index + "].Remark'  style='width: 120px;' type='text'  /></td>";
         var removeCell = "<td><input id='IsOthervalid" + index + "' name='OProcessidlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeOtherRow(" + index + ");'  style='cursor:pointer' /><input name='BatchOtherLst.Index' type='hidden' value='" + index + "'  /></td>";
         var newRow = "<tr class='chkitemlstOther'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookOther" + index + "'>" + Process + seq + start + starttime + end + endtime + total + break + run + remark + removeCell + "</tr>";

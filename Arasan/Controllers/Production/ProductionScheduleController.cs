@@ -105,7 +105,7 @@ namespace Arasan.Controllers.Production
                     ca.ID = id;
                     ca.Schdate = dt.Rows[0]["SCHDATE"].ToString();
                     ca.Formula = dt.Rows[0]["FORMULA"].ToString();
-                    ca.Proddt = dt.Rows[0]["PDOCDT"].ToString();
+                    ca.Proddt = dt.Rows[0]["PDUEDATE"].ToString();
                     ca.Itemid = dt.Rows[0]["OPITEMID"].ToString();
                     ca.Unit = dt.Rows[0]["OPUNIT"].ToString();
                     ca.Exprunhrs = dt.Rows[0]["EXPRUNHRS"].ToString();
@@ -692,6 +692,25 @@ namespace Arasan.Controllers.Production
             }
             return View(ca);
         }
+        public ActionResult DeleteCustomer(string tag )
+        {
+            ProductionSchedule rgl = new ProductionSchedule();
+            //rgl.StatusChange(tag, id);
+            //return RedirectToAction("ListCustomer");
 
+
+            string Strout = ProductionScheduleService.StatusChange(tag );
+
+            if (string.IsNullOrEmpty(Strout))
+            {
+
+                return RedirectToAction("ListProductionSchedule");
+            }
+            else
+            {
+                TempData["notice"] = Strout;
+                return RedirectToAction("ListProductionSchedule");
+            }
+        }
     }
 }

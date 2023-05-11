@@ -84,7 +84,7 @@ namespace Arasan.Services
                             if (cp.ItemId != "0")
                             {
                         double qty = Convert.ToDouble(cp.StockQty);
-                        DataTable dt = datatrans.GetData("Select INVENTORY_ITEM.BALANCE_QTY,INVENTORY_ITEM.ITEM_ID,INVENTORY_ITEM.LOCATION_ID,INVENTORY_ITEM.BRANCH_ID,INVENTORY_ITEM_ID,GRN_ID,GRN_DATE from INVENTORY_ITEM where INVENTORY_ITEM.ITEM_ID='" + cy.ItemID + "' AND INVENTORY_ITEM.LOCATION_ID='" + cy.Location + "' and INVENTORY_ITEM.BRANCH_ID='" + cy.Branch + "' and BALANCE_QTY!=0 order by GRN_DATE ASC");
+                        DataTable dt = datatrans.GetData("Select INVENTORY_ITEM.BALANCE_QTY,INVENTORY_ITEM.ITEM_ID,INVENTORY_ITEM.LOCATION_ID,INVENTORY_ITEM.BRANCH_ID,INVENTORY_ITEM_ID,GRN_ID,GRN_DATE,LOT_NO from INVENTORY_ITEM where INVENTORY_ITEM.ITEM_ID='" + cy.ItemID + "' AND INVENTORY_ITEM.LOCATION_ID='" + cy.Location + "' and INVENTORY_ITEM.BRANCH_ID='" + cy.Branch + "' and BALANCE_QTY!=0 order by GRN_DATE ASC");
                         if (dt.Rows.Count > 0)
                         {
                             for (int i = 0; i < dt.Rows.Count; i++)
@@ -136,6 +136,7 @@ namespace Arasan.Services
                                         objCmdI.Parameters.Add("DRUM_NO", OracleDbType.NVarchar2).Value = "";
                                         objCmdI.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = "0";
                                         objCmdI.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = "0";
+                                        objCmdI.Parameters.Add("LOT_NO", OracleDbType.NVarchar2).Value = dt.Rows[i]["LOT_NO"].ToString();
                                         objCmdI.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                                         objConnI.Open();
                                         objCmdI.ExecuteNonQuery();
@@ -219,6 +220,7 @@ namespace Arasan.Services
                                         objCmdI.Parameters.Add("DRUM_NO", OracleDbType.NVarchar2).Value = "";
                                         objCmdI.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = "0";
                                         objCmdI.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = "0";
+                                        objCmdI.Parameters.Add("LOT_NO", OracleDbType.NVarchar2).Value = "";
                                         objCmdI.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                                         objConnI.Open();
                                         objCmdI.ExecuteNonQuery();

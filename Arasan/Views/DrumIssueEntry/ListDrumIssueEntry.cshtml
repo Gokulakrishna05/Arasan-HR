@@ -44,8 +44,8 @@
                                                             <th>From Location</th>
                                                             <th>Type</th>
                                                             <th>View</th>
-                                                            <th>Edit</th>
-                                                            <th>Delete</th>
+                                                            @*<th>Edit</th>
+                                                            <th>Delete</th>*@
                                                         </tr>
                                                     </thead>
 
@@ -64,8 +64,8 @@
                                                                     <td>@Html.DisplayFor(modelItem => item.type)</td>
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ApproveDrumIssue", "DrumIssueEntry",new { DRUM=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Waiting for approval' /></a></div></td>
 
-                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("DrumIssueEntry", "DrumIssueEntry",new { id=item.ID })"></a></div></td>
-                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("DrumIssueEntry", "DrumIssueEntry",new { id=item.ID })"></a></div></td>
+                                                                   @* <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("DrumIssueEntry", "DrumIssueEntry",new { id=item.ID })"></a></div></td>
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("DrumIssueEntry", "DrumIssueEntry",new { id=item.ID })"></a></div></td>*@
                                                                 </tr>
                                                                 i++;
                                                             }

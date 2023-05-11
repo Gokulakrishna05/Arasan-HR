@@ -89,6 +89,9 @@ namespace Arasan.Models
         public string Purchasestock { get; set; }
         public string drumid { get; set; }
         public string Proinid { get; set; }
+        public List<SelectListItem> lotlist { get; set; }
+        public string Lotno { get; set; }
+        public double totalqty { get; set; }
     }
     public class ProInCons
     {
@@ -126,6 +129,9 @@ namespace Arasan.Models
         public string Shed { get; set; }
         public List<SelectListItem> Shedlst { get; set; }
         public string saveitemId { get; set; }
+        public string outid { get; set; }
+        public string locid { get; set; }
+        public string drumid { get; set; }
     }
     public class wastage
     {
@@ -138,6 +144,8 @@ namespace Arasan.Models
         public List<SelectListItem> loclst { get; set; }
         public string BinId { get; set; }
         public string saveitemId { get; set; }
+        public string wasteid { get; set; }
+        public string locid { get; set; }
     }
     public class InwardItemBindList
     {

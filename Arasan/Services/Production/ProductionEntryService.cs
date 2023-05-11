@@ -374,7 +374,208 @@ public class ProductionEntryService : IProductionEntry
 
         return msg;
     }
+    public string PRODStock(ProductionEntry cy)
+    {
+        string msg = "";
+        try
+        {
+            string StatementType = string.Empty; string svSQL = "";
 
+            using (OracleConnection objConn = new OracleConnection(_connectionString))
+            {
+
+                try
+                {
+                    if ((cy.inputlst?.Count ?? 0) != 0)
+                    {
+                        foreach (ProIn cp in cy.inputlst)
+                        {
+                            if (cp.saveitemId != "0")
+                            {
+                                //////////////////////Inventory Input Item /////////////////////
+                                double qty = cp.IssueQty;
+
+                                    ///////////////////Drum Inventory
+
+                                    DataTable dt = datatrans.GetData("select DRUM_STOCK_ID from DRUM_STOCK where DRUM_ID='" + cp.drumid + "' and BALANCE_QTY!=0 AND LOCID='" + cy.LOCID + "' ");
+                                    if (dt.Rows.Count > 0)
+                                    {
+                                        for (int i = 0; i < dt.Rows.Count; i++)
+                                        {
+
+
+                                            using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                                            {
+                                                string Sql = string.Empty;
+                                                Sql = "Update DRUM_STOCK SET  BALANCE_QTY='0' WHERE DRUM_STOCK_ID='" + dt.Rows[i]["DRUM_STOCK_ID"].ToString() + "'";
+                                                OracleCommand objCmds = new OracleCommand(Sql, objConnT);
+                                                objConnT.Open();
+                                                objCmds.ExecuteNonQuery();
+                                                objConnT.Close();
+                                            }
+
+
+
+                                            using (OracleConnection objConnIn = new OracleConnection(_connectionString))
+                                            {
+                                                OracleCommand objCmdIn = new OracleCommand("DRUMSTKPROC", objConnIn);
+                                                objCmdIn.CommandType = CommandType.StoredProcedure;
+                                                objCmdIn.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                                objCmdIn.Parameters.Add("INVENTORY_ITEM_ID", OracleDbType.NVarchar2).Value = 0;
+                                                objCmdIn.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cp.saveitemId;
+                                                objCmdIn.Parameters.Add("IN_DATE", OracleDbType.Date).Value = DateTime.Now;
+                                                objCmdIn.Parameters.Add("DRUM_ID", OracleDbType.NVarchar2).Value = 0;
+                                                objCmdIn.Parameters.Add("DRUM_NO", OracleDbType.NVarchar2).Value = "";
+                                                objCmdIn.Parameters.Add("TSOURCEID", OracleDbType.NVarchar2).Value = cp.Proinid;
+                                                objCmdIn.Parameters.Add("STOCKTRANSTYPE", OracleDbType.NVarchar2).Value = "PRODINCONS";
+                                                objCmdIn.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = cy.LOCID;
+                                                objCmdIn.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = qty;
+                                                objCmdIn.Parameters.Add("BALANCE_QTY", OracleDbType.NVarchar2).Value = qty;
+                                                objCmdIn.Parameters.Add("OUT_ID", OracleDbType.NVarchar2).Value = dt.Rows[i]["DRUM_STOCK_ID"].ToString();
+                                                objCmdIn.Parameters.Add("BATCHNO", OracleDbType.NVarchar2).Value = "";
+                                                objCmdIn.Parameters.Add("BATCH_QTY", OracleDbType.NVarchar2).Value = 0;
+                                                objCmdIn.Parameters.Add("ISPRODINV", OracleDbType.NVarchar2).Value = "N";
+                                                objConnIn.Open();
+                                                objCmdIn.ExecuteNonQuery();
+                                                objConnIn.Close();
+
+                                            }
+
+                                        }
+
+                                    }
+                                    ///////////////////Drum Inventory
+                                
+
+
+
+                                //////////////////////Inventory Input Item /////////////////////
+                            }
+                        }
+                    }
+                    if ((cy.inconslst?.Count ?? 0) != 0)
+                    {
+                        foreach (ProInCons cp in cy.inconslst)
+                        {
+                            if (cp.saveitemId != "0")
+                            {
+
+                                //////////////////////Inventory Input Item /////////////////////
+                                double qty = cp.consQty;
+
+
+                               
+
+
+                                //////////////////////Inventory Input Item /////////////////////
+
+                            }
+                        }
+                    }
+                    if ((cy.outlst?.Count ?? 0) != 0)
+                    {
+                        foreach (output cp in cy.outlst)
+                        {
+                            if (cp.saveitemId != "0")
+                            {
+
+                                double qty = cp.OutQty;
+                                using (OracleConnection objConnIn = new OracleConnection(_connectionString))
+                                {
+                                    OracleCommand objCmdIn = new OracleCommand("DRUMSTKPROC", objConnIn);
+                                    objCmdIn.CommandType = CommandType.StoredProcedure;
+                                    objCmdIn.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                    objCmdIn.Parameters.Add("INVENTORY_ITEM_ID", OracleDbType.NVarchar2).Value = 0;
+                                    objCmdIn.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cp.saveitemId;
+                                    objCmdIn.Parameters.Add("IN_DATE", OracleDbType.Date).Value = DateTime.Now;
+                                    objCmdIn.Parameters.Add("DRUM_ID", OracleDbType.NVarchar2).Value = cp.drumid;
+                                    objCmdIn.Parameters.Add("DRUM_NO", OracleDbType.NVarchar2).Value = cp.drumno;
+                                    objCmdIn.Parameters.Add("TSOURCEID", OracleDbType.NVarchar2).Value = cp.outid;
+                                    objCmdIn.Parameters.Add("STOCKTRANSTYPE", OracleDbType.NVarchar2).Value = "PRODOUT";
+                                    objCmdIn.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = cp.locid;
+                                    objCmdIn.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = qty;
+                                    objCmdIn.Parameters.Add("BALANCE_QTY", OracleDbType.NVarchar2).Value = qty;
+                                    objCmdIn.Parameters.Add("OUT_ID", OracleDbType.NVarchar2).Value = 0;
+                                    objCmdIn.Parameters.Add("BATCHNO", OracleDbType.NVarchar2).Value = cp.batchno;
+                                    objCmdIn.Parameters.Add("BATCH_QTY", OracleDbType.NVarchar2).Value = 0;
+                                    objCmdIn.Parameters.Add("ISPRODINV", OracleDbType.NVarchar2).Value = "N";
+                                    objConnIn.Open();
+                                    objCmdIn.ExecuteNonQuery();
+                                    objConnIn.Close();
+
+                                }
+
+                            }
+                        }
+                    }
+                    if ((cy.wastelst?.Count ?? 0) != 0)
+                    {
+                        foreach (wastage cp in cy.wastelst)
+                        {
+                            if (cp.saveitemId != "0")
+                            {
+
+                                double qty = cp.wastageQty;
+                                using (OracleConnection objConnIn = new OracleConnection(_connectionString))
+                                {
+                                    OracleCommand objCmdIn = new OracleCommand("DRUMSTKPROC", objConnIn);
+                                    objCmdIn.CommandType = CommandType.StoredProcedure;
+                                    objCmdIn.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                    objCmdIn.Parameters.Add("INVENTORY_ITEM_ID", OracleDbType.NVarchar2).Value = 0;
+                                    objCmdIn.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cp.saveitemId;
+                                    objCmdIn.Parameters.Add("IN_DATE", OracleDbType.Date).Value = DateTime.Now;
+                                    objCmdIn.Parameters.Add("DRUM_ID", OracleDbType.NVarchar2).Value = 0;
+                                    objCmdIn.Parameters.Add("DRUM_NO", OracleDbType.NVarchar2).Value = "";
+                                    objCmdIn.Parameters.Add("TSOURCEID", OracleDbType.NVarchar2).Value = cp.wasteid;
+                                    objCmdIn.Parameters.Add("STOCKTRANSTYPE", OracleDbType.NVarchar2).Value = "PRODWASTE";
+                                    objCmdIn.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = cp.locid;
+                                    objCmdIn.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = qty;
+                                    objCmdIn.Parameters.Add("BALANCE_QTY", OracleDbType.NVarchar2).Value = qty;
+                                    objCmdIn.Parameters.Add("OUT_ID", OracleDbType.NVarchar2).Value = 0;
+                                    objCmdIn.Parameters.Add("BATCHNO", OracleDbType.NVarchar2).Value = cp.batchno;
+                                    objCmdIn.Parameters.Add("BATCH_QTY", OracleDbType.NVarchar2).Value = 0;
+                                    objCmdIn.Parameters.Add("ISPRODINV", OracleDbType.NVarchar2).Value = "N";
+                                    objConnIn.Open();
+                                    objCmdIn.ExecuteNonQuery();
+                                    objConnIn.Close();
+
+                                }
+
+
+                            }
+                        }
+                    }
+
+
+                    using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                    {
+                        string Sql = string.Empty;
+                        Sql = "UPDATE NPRODBASIC SET IS_INV='Y' WHERE NPRODBASICID='" + cy.ID + "'";
+                        OracleCommand objCmds = new OracleCommand(Sql, objConnT);
+                        objConnT.Open();
+                        objCmds.ExecuteNonQuery();
+                        objConnT.Close();
+                    }
+
+
+
+                }
+                catch (Exception ex)
+                {
+                    //System.Console.WriteLine("Exception: {0}", ex.ToString());
+                }
+                objConn.Close();
+            }
+        }
+        catch (Exception ex)
+        {
+            msg = "Error Occurs, While inserting / updating Data";
+            throw ex;
+        }
+
+        return msg;
+
+    }
     public string CuringInwardEntryCRUD(ProductionEntry cy)
     {
         string msg = "";
@@ -509,7 +710,7 @@ public class ProductionEntryService : IProductionEntry
     public DataTable ProIndetail(string PROID)
     {
         string SvSql = string.Empty;
-        SvSql = "select ITEMMASTER.ITEMID,IBINID,ICDRUMNO,IBATCHNO,IBATCHQTY,ICSOCTKBUP,IQTY,MLOADADD,IOUTPUTYN from NPRODINPDET LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=NPRODINPDET.IITEMID  WHERE NPRODBASICID =" + PROID + "";
+        SvSql = "select NPRODINPDETID,IITEMID,IDRUMNO,ITEMMASTER.ITEMID,IBINID,ICDRUMNO,IBATCHNO,IBATCHQTY,ICSOCTKBUP,IQTY,MLOADADD,IOUTPUTYN from NPRODINPDET LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=NPRODINPDET.IITEMID  WHERE NPRODBASICID =" + PROID + "";
         DataTable dtt = new DataTable();
         OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
         OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -519,7 +720,7 @@ public class ProductionEntryService : IProductionEntry
     public DataTable ProOutDetail(string PROID)
     {
         string SvSql = string.Empty;
-        SvSql = "select ITEMMASTER.ITEMID,to_char(DSDT,'dd-MON-yyyy') DSDT,to_char(DEDT,'dd-MON-yyyy') DEDT,STIME,ETIME,OBATCHNO,DRUMMAST.DRUMNO,OSTOCK,OQTY,OXQTY,STATUS,LOCDETAILS.LOCID from NPRODOUTDET LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=NPRODOUTDET.OITEMID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=NPRODOUTDET.TOLOCATION LEFT OUTER JOIN DRUMMAST ON DRUMMAST.DRUMMASTID=NPRODOUTDET.ODRUMNO  WHERE NPRODBASICID =" + PROID + "";
+        SvSql = "select NPRODOUTDETID,OITEMID,ODRUMNO,TOLOCATION,ITEMMASTER.ITEMID,to_char(DSDT,'dd-MON-yyyy') DSDT,to_char(DEDT,'dd-MON-yyyy') DEDT,STIME,ETIME,OBATCHNO,DRUMMAST.DRUMNO,OSTOCK,OQTY,OXQTY,STATUS,LOCDETAILS.LOCID from NPRODOUTDET LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=NPRODOUTDET.OITEMID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=NPRODOUTDET.TOLOCATION LEFT OUTER JOIN DRUMMAST ON DRUMMAST.DRUMMASTID=NPRODOUTDET.ODRUMNO  WHERE NPRODBASICID =" + PROID + "";
         DataTable dtt = new DataTable();
         OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
         OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -550,7 +751,7 @@ public class ProductionEntryService : IProductionEntry
     public DataTable ProwasteDetail(string PROID)
     {
         string SvSql = string.Empty;
-        SvSql = "select ITEMMASTER.ITEMID,WBINID,LOCDETAILS.LOCID,WQTY,WBATCHNO from NPRODWASTEDET LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=NPRODWASTEDET.WITEMID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=NPRODWASTEDET.WLOCATION   WHERE NPRODBASICID =" + PROID + "";
+        SvSql = "select WLOCATION,NPRODWASTEDETID,ITEMMASTER.ITEMID,WBINID,LOCDETAILS.LOCID,WQTY,WBATCHNO from NPRODWASTEDET LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=NPRODWASTEDET.WITEMID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=NPRODWASTEDET.WLOCATION   WHERE NPRODBASICID =" + PROID + "";
         DataTable dtt = new DataTable();
         OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
         OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
