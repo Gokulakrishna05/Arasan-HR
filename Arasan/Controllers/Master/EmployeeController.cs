@@ -12,9 +12,14 @@ namespace Arasan.Controllers.Master
     public class EmployeeController : Controller
     {
         IEmployee EmployeeService;
-        public EmployeeController(IEmployee _EmployeeService)
+        IConfiguration? _configuratio;
+        private string? _connectionString;
+        DataTransactions datatrans;
+        public EmployeeController(IEmployee _EmployeeService, IConfiguration _configuratio)
         {
             EmployeeService = _EmployeeService;
+            _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
+            datatrans = new DataTransactions(_connectionString);
         }
         public IActionResult Employee(string id)
         {
@@ -68,23 +73,23 @@ namespace Arasan.Controllers.Master
                 dt2 = EmployeeService.GetEmpEduDeatils(id);
                 if (dt2.Rows.Count > 0)
                 {
-                   
-                      
-                        E.Education = dt2.Rows[0]["EDUCATION"].ToString();
-                        E.College = dt2.Rows[0]["UC"].ToString();
-                        E.EcPlace = dt2.Rows[0]["ECPLACE"].ToString();
-                        E.MPercentage = Convert.ToDouble(dt2.Rows[0]["MPER"].ToString());
-                        E.YearPassing = dt2.Rows[0]["YRPASSING"].ToString();
 
-                        
-                    
+
+                    E.Education = dt2.Rows[0]["EDUCATION"].ToString();
+                    E.College = dt2.Rows[0]["UC"].ToString();
+                    E.EcPlace = dt2.Rows[0]["ECPLACE"].ToString();
+                    E.MPercentage = Convert.ToDouble(dt2.Rows[0]["MPER"].ToString());
+                    E.YearPassing = dt2.Rows[0]["YRPASSING"].ToString();
+
+
+
                 }
                 DataTable dt3 = new DataTable();
                 dt3 = EmployeeService.GetEmpPersonalDeatils(id);
                 if (dt3.Rows.Count > 0)
                 {
 
-                   
+
                     E.MaterialStatus = dt3.Rows[0]["MARITALSTATUS"].ToString();
                     E.BloodGroup = dt3.Rows[0]["BLOODGROUP"].ToString();
                     E.Community = dt3.Rows[0]["COMMUNITY"].ToString();
@@ -101,12 +106,12 @@ namespace Arasan.Controllers.Master
 
 
                     E.SkillSet = dt4.Rows[0]["SKILL"].ToString();
-                 
+
 
 
                 }
             }
-           
+
             return View(E);
 
         }
@@ -116,7 +121,7 @@ namespace Arasan.Controllers.Master
 
             try
             {
-               emp.ID = id;
+                emp.ID = id;
                 string Strout = EmployeeService.EmployeeCRUD(emp);
                 if (string.IsNullOrEmpty(Strout))
                 {
@@ -147,7 +152,84 @@ namespace Arasan.Controllers.Master
 
             return View(emp);
         }
+        public List<SelectListItem> BindLocation()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetLocation();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["LOCID"].ToString(), Value = dtDesg.Rows[i]["LOCDETAILSID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult MultipleLocationSelect(string id)
+        {
+            MultipleLocation E = new MultipleLocation();
+            E.Loclst = BindLocation();
+            if (id == null)
+            {
 
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(id))
+                {
+                    DataTable dt = new DataTable();
+                    dt = EmployeeService.GetCurrentUser(id);
+                    if (dt.Rows.Count > 0)
+                    {
+                        E.EmpName = dt.Rows[0]["EMPNAME"].ToString();
+                    }
+                }
+                E.EmpName = id;
+                //E.Location = PopulateRegion(id);
+            }
+
+            return View(E);
+        }
+        [HttpPost]
+        public ActionResult MultipleLocationSelect(MultipleLocation mp, string id)
+        {
+
+            try
+            {
+                mp.ID = id;
+                string Strout = EmployeeService.GetMultipleLocation(mp);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (mp.ID == null)
+                    {
+                        TempData["notice"] = "Multiple Location Inserted Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "Multiple Location Updated Successfully...!";
+                    }
+                    return RedirectToAction("ListEmployee");
+                }
+                else
+                {
+                    TempData["notice"] = Strout;
+                    ViewBag.PageTitle = "Edit MultipleLocation";
+
+                    return View(mp);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(mp);
+
+        }
 
 
         public List<SelectListItem> BindState()
@@ -184,7 +266,7 @@ namespace Arasan.Controllers.Master
                 throw ex;
             }
         }
-     
+
         public IActionResult ListEmployee()
         {
             IEnumerable<Employee> cmp = EmployeeService.GetAllEmployee();
