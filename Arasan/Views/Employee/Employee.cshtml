@@ -85,7 +85,7 @@
                                                  <div class="input-group">
 
                                                                     @Html.RadioButtonFor(C => C.Gender, "MALE", new { @TabIndex = 2 })
-                                                                    <label id="mt-radio">MALE</label>
+                                                                    <label id="mt-radio">MALE</label>&emsp;
                                                                     @Html.RadioButtonFor(C => C.Gender, "FEMALE", new { @TabIndex = 3 })
                                                             <label id="mt-radio">FEMALE</label>
                                                                     
@@ -531,7 +531,7 @@
                                                         <div class="input-group">
 
                                                             @Html.RadioButtonFor(C => C.MaterialStatus, "Single", new { @TabIndex = 2 })
-                                                            <label id="mt-radio">Single</label>
+                                                            <label id="mt-radio">Single</label>&emsp;
                                                             @Html.RadioButtonFor(C => C.MaterialStatus, "Married", new { @TabIndex = 3 })
                                                             <label id="mt-radio">Married</label>
 
@@ -617,6 +617,7 @@
 
         
                             <div style="height:30px;"></div>
+                                <div class="col-lg-10"></div>
                                 <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
                             <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListEmployee", "Employee")'">Cancel</button>
   </div>

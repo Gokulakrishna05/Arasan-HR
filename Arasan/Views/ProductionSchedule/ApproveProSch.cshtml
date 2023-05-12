@@ -1,5 +1,6 @@
 ﻿@model Arasan.Models.ProductionSchedule
 @{
+    Layout = "_PopupLayout";
     ViewData["Title"] = "Production Schedule";
 }
 <style>
@@ -31,13 +32,13 @@
                 <div class="widgets-container">
                     <h5 style="font-size:14px">Production Schedule</h5>
                     <hr>
-                    @using (Html.BeginForm("ApproveProSch", "ProductionSchedule", FormMethod.Post))
+                  @*  @using (Html.BeginForm("ApproveProSch", "ProductionSchedule", FormMethod.Post))
                     {
-                        @Html.AntiForgeryToken()
+                        @Html.AntiForgeryToken()*@
                         <form>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div class="form-gro2up">
+                                    <div class="form-group">
 
                                         <label for="inputName3" class="col-sm-4 control-label">Branch<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
@@ -226,7 +227,7 @@
                                             <li><a href="#tab-2" data-toggle="tab">Output Items </a></li>
                                             <li><a href="#tab-3" data-toggle="tab">Process Parameters </a></li>
                                             <li><a href="#tab-4" data-toggle="tab">Output Details Day Wise </a></li>
-                                            <li><a href="#tab-5" data-toggle="tab">Pack Meterials </a></li>
+                                            <li><a href="#tab-5" data-toggle="tab">Pack Materials </a></li>
                                         </ul>
                                         <div class="tab-content">
                                             <div class="tab-pane active" id="tab-1">
@@ -618,10 +619,10 @@
 
 
                             <div style="height:30px;"></div>
-                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" onclick="location.href='@Url.Action("ListProductionSchedule", "ProductionSchedule")'">Submit</button>
                             <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListProductionSchedule", "ProductionSchedule")'">Cancel</button>
                         </form>
-                    }
+                   @* }*@
                 </div>
             </div>
         </div>

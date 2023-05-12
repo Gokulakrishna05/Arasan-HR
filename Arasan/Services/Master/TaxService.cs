@@ -1,13 +1,21 @@
-﻿using Arasan.Interface.Master;
+﻿using Arasan.Interface;
+using Arasan.Interface.Master;
 using Arasan.Models;
-
 using Microsoft.Extensions.Configuration;
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
+using System.Data;
+
 namespace Arasan.Services.Master
 {
     public class TaxService : ITaxService
     {
+
+        private readonly string _connectionString;
+        public TaxService(IConfiguration _configuration)
+        {
+            _connectionString = _configuration.GetConnectionString("OracleDBConnection");
+        }
     }
 }

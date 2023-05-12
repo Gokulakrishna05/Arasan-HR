@@ -913,7 +913,7 @@ namespace Arasan.Controllers
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 lstdesg.Add(new SelectListItem() { Text = "BOTH", Value = "BOTH" });
                 lstdesg.Add(new SelectListItem() { Text = "INPUT", Value = "INPUT" });
-                //lstdesg.Add(new SelectListItem() { Text = "OUTPUT", Value = "OUTPUT" });
+                lstdesg.Add(new SelectListItem() { Text = "OUTPUT", Value = "OUTPUT" });
                 return lstdesg;
             }
             catch (Exception ex)

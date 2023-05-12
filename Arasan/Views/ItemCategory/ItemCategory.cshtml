@@ -3,6 +3,14 @@
 @{
     ViewData["Title"] = "Category";
 }
+<style>
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
 
@@ -28,12 +36,12 @@
                         
                             <div class="row">
 
-                                <div class="col-lg-3"></div>
-                                <div class="col-md-6">
+                                <div class="col-lg-4"></div>
+                                <div class="col-md-5">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Category<label class="Mandatory"></label></label>
-                                        <div class="col-sm-8">
+                                        <label for="inputName3" class="col-sm-4 control-label">Category<label class="mandatory">*</label></label>
+                                        <div class="col-sm-7">
                                             @Html.TextBoxFor(C => C.Category, new { @id = "txtCategory", @class = "form-control", @TabIndex = 1 })<br />
                                             @Html.HiddenFor(C => C.ID)
 
@@ -42,10 +50,10 @@
                                 </div>
                             </div>
                             <div style="height:30px;"></div>
-                        <div class="col-lg-8"></div>
-                                                         <button type="submit" class="btn aqua m-t-xs bottom15-xs">Submit</button>
+                        <div class="col-lg-6"></div>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnsave">Submit</button>
                             <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListItemCategoy", "ItemCategoy")'">Cancel</button>
-
+                            
                       
                     </form>
                     }
@@ -54,3 +62,32 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+
+            if (document.getElementById("txtCategory").value == "") {
+                isValid = false;
+                $(txtCategory).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Category");
+                return false;
+            }
+            else {
+                $(txtCategory).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (isValid == false)
+                e.preventDefault();
+
+        });
+
+    });
+</script>

@@ -43,8 +43,13 @@
 
                                         <label for="inputName3" class="col-sm-4 control-label">Location Name<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
+ 
+                                            @Html.DropDownListFor(C => C.Location, Model.Cur,"Please Select", new { @id = "ddlLocation", @Class = "form-control _select", @TabIndex = 1 })
+                                           
+ 
                                             @Html.DropDownListFor(C => C.Location, Model.Cur, new { @id = "ddlLocation", @Class = "form-control _select", @TabIndex = 1 })
                                             @Html.HiddenFor(C => C.ID)
+ 
                                         </div>
 
                                     </div>
@@ -57,7 +62,11 @@
 
                                         <br /><label for="inputName3" class="col-sm-4 control-label">Sub Group<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
+
+                                            @Html.DropDownListFor(C => C.Sub, Model.Sublst,"Please Select", new { @id = "ddlSub", @Class = "form-control _select", @TabIndex = 1 })
+
                                             @Html.DropDownListFor(C => C.Sub, Model.Sublst, new { @id = "ddlSub", @Class = "form-control _select", @TabIndex = 1 })
+
                                         </div>
                                     </div>
                                 </div>
@@ -115,6 +124,35 @@
     </div>
 </div>
 <script>
+
+     $(function () {
+        $('._select').select2();
+    });
+
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+
+            if (document.getElementById("ddlLocation").value == "" || document.getElementById("ddlLocation").value == 0) {
+                isValid = false;
+                $(ddlLocation).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Location Name");
+                return false;
+            }
+            else {
+                $(ddlLocation).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("ddlSub").value == "" || document.getElementById("ddlSub").value == 0) {
+                isValid = false;
+                $(ddlSub).css({
+
     $(function () {
         $('._select').select2();
     });
@@ -124,54 +162,91 @@
             if (document.getElementById("ddlLocation").value == "") {
                 isValid = false;
                 $(ddlLocation).css({
+
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
+
+                alert("Please Select Sub Group");
+                return false;
+            }
+            else {
+                $(ddlSub).css({
 
                 alert("Please Select  ddlLocation");
                 return false;
             }
             else {
                 $(ddlLocation).css({
+
                     "border": "",
                     "background": ""
                 });
             }
+
+            if (document.getElementById("txtShed").value == "") {
+                isValid = false;
+                $(txtShed).css({
+
             if (document.getElementById("ddlSub").value == "") {
                 isValid = false;
                 $(ddlSub).css({
+
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
+
+
+                alert("Please Select Shed Number");
+                return false;
+            }
+            else {
+                $(txtShed).css({
 
                 alert("Please Select  ddlSub");
                 return false;
             }
             else {
                 $(ddlSub).css({
+
                     "border": "",
                     "background": ""
                 });
             }
+
+            if (document.getElementById("txtCap").value == "") {
+                isValid = false;
+                $(txtCap).css({
+
             if (document.getElementById("txtShed").value == "") {
                 isValid = false;
                 $(txtShed).css({
+
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select  Shed");
+                alert("Please Select Capacity");
                 return false;
             }
             else {
+
+                $(txtCap).css({
+
                 $(txtShed).css({
+
                     "border": "",
                     "background": ""
                 });
             }
+
             if (isValid == false)
                 e.preventDefault();
+
         });
 
     });
+
+
 </script>
+
