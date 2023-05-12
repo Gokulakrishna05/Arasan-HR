@@ -11,10 +11,12 @@ namespace Arasan.Services.Master
     public class EmployeeService : IEmployee
     {
         private readonly string _connectionString;
-
+        DataTransactions datatrans;
         public EmployeeService(IConfiguration _configuratio)
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
+            datatrans = new DataTransactions(_connectionString);
+
         }
         public IEnumerable<Employee> GetAllEmployee()
         {
@@ -44,7 +46,7 @@ namespace Arasan.Services.Master
                             PhoneNo = rdr["ECPHNO"].ToString(),
                             FatherName = rdr["FATHERNAME"].ToString(),
                             MotherName = rdr["MOTHERNAME"].ToString(),
-                           
+
 
                         };
                         cmpList.Add(cmp);
@@ -121,36 +123,36 @@ namespace Arasan.Services.Master
 
                         //foreach (EduDeatils cp in cy.EduLst)
                         //{
-                          
-                                using (OracleConnection objConns = new OracleConnection(_connectionString))
-                                {
-                                    OracleCommand objCmds = new OracleCommand("EMPEDUCATIONPROC", objConns);
-                                    if (cy.ID == null)
-                                    {
-                                        StatementType = "Insert";
-                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
 
-                                    }
-                                    else
-                                    {
-                                        StatementType = "Update";
-                                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                        using (OracleConnection objConns = new OracleConnection(_connectionString))
+                        {
+                            OracleCommand objCmds = new OracleCommand("EMPEDUCATIONPROC", objConns);
+                            if (cy.ID == null)
+                            {
+                                StatementType = "Insert";
+                                objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
 
-                                    }
-                                    objCmds.CommandType = CommandType.StoredProcedure;
-                                    objCmds.Parameters.Add("EMPMASTID", OracleDbType.NVarchar2).Value = Pid;
-                                    objCmds.Parameters.Add("EDUCATION", OracleDbType.NVarchar2).Value = cy.Education;
-                                    objCmds.Parameters.Add("UC", OracleDbType.NVarchar2).Value = cy.College;
-                                    objCmds.Parameters.Add("ECPLACE", OracleDbType.NVarchar2).Value = cy.EcPlace;
-                                    objCmds.Parameters.Add("MPER", OracleDbType.NVarchar2).Value = cy.MPercentage;
-                                    objCmds.Parameters.Add("YRPASSING", OracleDbType.NVarchar2).Value = cy.YearPassing;
-                                
-                                    objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
-                           
+                            }
+                            else
+                            {
+                                StatementType = "Update";
+                                objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+
+                            }
+                            objCmds.CommandType = CommandType.StoredProcedure;
+                            objCmds.Parameters.Add("EMPMASTID", OracleDbType.NVarchar2).Value = Pid;
+                            objCmds.Parameters.Add("EDUCATION", OracleDbType.NVarchar2).Value = cy.Education;
+                            objCmds.Parameters.Add("UC", OracleDbType.NVarchar2).Value = cy.College;
+                            objCmds.Parameters.Add("ECPLACE", OracleDbType.NVarchar2).Value = cy.EcPlace;
+                            objCmds.Parameters.Add("MPER", OracleDbType.NVarchar2).Value = cy.MPercentage;
+                            objCmds.Parameters.Add("YRPASSING", OracleDbType.NVarchar2).Value = cy.YearPassing;
+
+                            objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+
                             objConns.Open();
-                                    objCmds.ExecuteNonQuery();
-                                    objConns.Close();
-                                }
+                            objCmds.ExecuteNonQuery();
+                            objConns.Close();
+                        }
                         using (OracleConnection objConns = new OracleConnection(_connectionString))
                         {
                             OracleCommand objCmds = new OracleCommand("EMPOTHERINFOPROC", objConns);
@@ -182,7 +184,7 @@ namespace Arasan.Services.Master
                         }
                         using (OracleConnection objConns = new OracleConnection(_connectionString))
                         {
-                            
+
                             OracleCommand objCmds = new OracleCommand("EMPSKILLPROC", objConns);
                             if (cy.ID == null)
                             {
@@ -205,7 +207,7 @@ namespace Arasan.Services.Master
                         }
 
 
-                        
+
                     }
                     catch (Exception ex)
                     {
@@ -287,6 +289,70 @@ namespace Arasan.Services.Master
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
+        }
+
+        public DataTable GetCurrentUser(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select EMPNAME  from EMPMAST where  EMPMASTID=" + id + "";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public string GetMultipleLocation(MultipleLocation mp)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty;
+                //string svSQL = "";
+                if (mp.Location != null)
+                {
+                    for (int i = 0; i < mp.Location.Length; i++)
+                    {
+                        using (OracleConnection objConn = new OracleConnection(_connectionString))
+                        {
+                            OracleCommand objCmd = new OracleCommand("EMPLOCATIONPROC", objConn);
+                            /*objCmd.Connection = objConn;
+                            objCmd.CommandText = "MULTIPLELOCATIONPROC";*/
+
+                            objCmd.CommandType = CommandType.StoredProcedure;
+
+                            StatementType = "Insert";
+                            objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+
+
+                            objCmd.Parameters.Add("EMPID", OracleDbType.NVarchar2).Value = mp.EmpName;
+                            objCmd.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = mp.Location;
+                            objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+
+
+
+                            try
+                            {
+                                objConn.Open();
+                                objCmd.ExecuteNonQuery();
+                                //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
+                            }
+                            catch (Exception ex)
+                            {
+                                //System.Console.WriteLine("Exception: {0}", ex.ToString());
+                            }
+                            objConn.Close();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
         }
     }
 }
