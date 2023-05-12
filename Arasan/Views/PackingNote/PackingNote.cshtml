@@ -405,9 +405,13 @@
             data: { 'item' : item,'id': ItemId },
             cache: false,
             success: function (response) {
-                var newlist;
-                newlist = response.drumlst;
-                PopulateDropDown("#ddlDrumNo" + i, response);
+               var j = 0;
+                  $('tr.chkitemlst').each(function () {
+                        if ($(this).css('display') !== 'none') {
+                        PopulateDropDown("#ddlDrumNo" + j, response);
+                              }
+                        j += 1;
+                    }); 
             },
             error: function () {
                 debugger;

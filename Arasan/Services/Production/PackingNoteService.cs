@@ -14,6 +14,7 @@ namespace Arasan.Services
         public PackingNoteService(IConfiguration _configuratio)
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
+            datatrans = new DataTransactions(_connectionString);
         }
         public IEnumerable<PackingNote> GetAllPackingNote()
         {
@@ -159,9 +160,11 @@ namespace Arasan.Services
                     endtime = edateList[1];
                 }
 
+                string Item = datatrans.GetDataString("Select ITEMMASTERID from ITEMMASTER where ITEMID='" + cy.ItemId + "' ");
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
+
                     OracleCommand objCmd = new OracleCommand("PACKINGNOTEPROC", objConn);
                     /*objCmd.Connection = objConn;
                     objCmd.CommandText = "DIRECTPURCHASEPROC";*/
@@ -195,7 +198,7 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("REMARKS", OracleDbType.NVarchar2).Value = cy.Remark;
                   
                     objCmd.Parameters.Add("PSCHNO", OracleDbType.NVarchar2).Value = cy.ProdSchNo;
-                    objCmd.Parameters.Add("OITEMID", OracleDbType.NVarchar2).Value = cy.ItemId;
+                    objCmd.Parameters.Add("OITEMID", OracleDbType.NVarchar2).Value = Item;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
