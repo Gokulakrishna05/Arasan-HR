@@ -73,10 +73,10 @@ namespace Arasan.Models
         public List<SelectListItem> TBinlst { get; set; }
         public string TBinid { get; set; }
         public List<SelectListItem> drumlst { get; set; }
-        public string Drum { get; set; }
+        public string drum { get; set; }
 
-        public string Qty { get; set; }
-        public string Batch { get; set; }
+        public string qty { get; set; }
+        public string batch { get; set; }
         public Double Rate { get; set; }
         public Double Amount { get; set; }
         public string Isvalid { get; set; }

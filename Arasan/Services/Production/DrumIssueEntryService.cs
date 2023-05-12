@@ -163,9 +163,9 @@ namespace Arasan.Services.Production
                         }
                         foreach (DrumIssueEntryItem ca in cy.Drumlst)
                         {
-                            if (ca.Isvalid == "Y" && ca.Drum != "0")
+                            if (ca.Isvalid == "Y" && ca.drum != "0")
                             {
-                                string DrumID = datatrans.GetDataString("Select DRUM_NO from DRUM_STOCK where DRUM_ID='" + ca.Drum + "' ");
+                                string DrumID = datatrans.GetDataString("Select DRUM_ID from DRUM_STOCK where DRUM_NO='" + ca.drum + "' ");
                                 using (OracleConnection objConns = new OracleConnection(_connectionString))
                                 {
                                     OracleCommand objCmds = new OracleCommand("DIEDETAILPROC", objConns);
@@ -184,12 +184,12 @@ namespace Arasan.Services.Production
 									objCmds.Parameters.Add("DIEBASICID", OracleDbType.NVarchar2).Value = Pid;
                                     //objCmds.Parameters.Add("FBINID", OracleDbType.NVarchar2).Value = ca.FBinId;
                                     //objCmds.Parameters.Add("TBINID", OracleDbType.NVarchar2).Value = ca.TBinid;
-                                    objCmds.Parameters.Add("NDRUMNO", OracleDbType.NVarchar2).Value = ca.Drum;
-                                    objCmds.Parameters.Add("DRUMNO", OracleDbType.NVarchar2).Value = DrumID;
-                                    objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = ca.Qty;
-                                    objCmds.Parameters.Add("BATCHNO", OracleDbType.NVarchar2).Value = ca.Batch;
-                                    objCmds.Parameters.Add("BATCHRATE", OracleDbType.NVarchar2).Value = ca.Rate;
-                                    objCmds.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = ca.Amount;
+                                    objCmds.Parameters.Add("NDRUMNO", OracleDbType.NVarchar2).Value = DrumID;
+                                    objCmds.Parameters.Add("DRUMNO", OracleDbType.NVarchar2).Value = ca.drum;
+                                    objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = ca.qty;
+                                    objCmds.Parameters.Add("BATCHNO", OracleDbType.NVarchar2).Value = ca.batch;
+                                    //objCmds.Parameters.Add("BATCHRATE", OracleDbType.NVarchar2).Value = ca.Rate;
+                                    //objCmds.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = ca.Amount;
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                     objConns.Open();
                                     objCmds.ExecuteNonQuery();
@@ -197,7 +197,7 @@ namespace Arasan.Services.Production
                                 }
 
 
-                                DataTable dt = datatrans.GetData("Select INVENTORY_ITEM_ID,ITEMID,IN_DATE,DRUM_ID,DRUM_NO,TSOURCEID,STOCKTRANSTYPE,LOCID,QTY,BALANCE_QTY,OUT_ID,BATCHNO,BATCH_QTY,ISPRODINV,DRUM_STOCK_ID from DRUM_STOCK where DRUM_STOCK.DRUM_ID='" + ca.Drum + "'");
+                                DataTable dt = datatrans.GetData("Select INVENTORY_ITEM_ID,ITEMID,IN_DATE,DRUM_ID,DRUM_NO,TSOURCEID,STOCKTRANSTYPE,LOCID,QTY,BALANCE_QTY,OUT_ID,BATCHNO,BATCH_QTY,ISPRODINV,DRUM_STOCK_ID from DRUM_STOCK where DRUM_STOCK.DRUM_ID='" + ca.drum + "'");
 
                               
                                 //double qty = ca.Qty;
@@ -228,15 +228,15 @@ namespace Arasan.Services.Production
                                             objCmds.Parameters.Add("INVENTORY_ITEM_ID", OracleDbType.NVarchar2).Value = "0";
                                             objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cy.Itemid;
                                             objCmds.Parameters.Add("IN_DATE", OracleDbType.Date).Value = DateTime.Now;
-                                            objCmds.Parameters.Add("DRUM_ID", OracleDbType.NVarchar2).Value = ca.Drum;
-                                            objCmds.Parameters.Add("DRUM_NO", OracleDbType.NVarchar2).Value = DrumID;
-                                            objCmds.Parameters.Add("TSOURCEID", OracleDbType.NVarchar2).Value = "0";
+                                            objCmds.Parameters.Add("DRUM_ID", OracleDbType.NVarchar2).Value = DrumID;
+                                            objCmds.Parameters.Add("DRUM_NO", OracleDbType.NVarchar2).Value = ca.drum;
+                                            objCmds.Parameters.Add("TSOURCEID", OracleDbType.NVarchar2).Value = Pid;
                                             objCmds.Parameters.Add("STOCKTRANSTYPE", OracleDbType.NVarchar2).Value = "DRUMISSUE";
                                             objCmds.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = cy.Toloc;
-                                            objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = ca.Qty;
-                                            objCmds.Parameters.Add("BALANCE_QTY", OracleDbType.NVarchar2).Value = ca.Qty;
+                                            objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = ca.qty;
+                                            objCmds.Parameters.Add("BALANCE_QTY", OracleDbType.NVarchar2).Value = ca.qty;
                                             objCmds.Parameters.Add("OUT_ID", OracleDbType.NVarchar2).Value = dt.Rows[i]["DRUM_STOCK_ID"].ToString();
-                                            objCmds.Parameters.Add("BATCHNO", OracleDbType.NVarchar2).Value = ca.Batch;
+                                            objCmds.Parameters.Add("BATCHNO", OracleDbType.NVarchar2).Value = ca.batch;
                                             objCmds.Parameters.Add("BATCH_QTY", OracleDbType.NVarchar2).Value = "0";
                                             objCmds.Parameters.Add("ISPRODINV", OracleDbType.NVarchar2).Value = "Y";
                                             objConns.Open();
@@ -324,6 +324,16 @@ namespace Arasan.Services.Production
         {
             string SvSql = string.Empty;
             SvSql = "select DIEBASICID,FBINID,TBINID,DRUMMAST.DRUMNO,QTY,BATCHNO,BATCHRATE,AMOUNT from DIEDETAIL left outer join DRUMMAST ON DRUMMAST.DRUMMASTID=DIEDETAIL.NDRUMNO where DIEBASICID='" + DRUM + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetDrumStockDetail(string id,string item)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select DRUM_NO,DRUM_ID ,BATCHNO,QTY from DRUM_STOCK where BALANCE_QTY  > 0 AND LOCID= '" + id + "' AND ITEMID ='" + item + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
