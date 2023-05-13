@@ -10,5 +10,6 @@ namespace Arasan.Interface
         DataTable GetQCNotify();
         DataTable CuringGroup();
         DataTable curingsubgroup(string curingset);
+        DataTable GetMaterialnot();
     }
 }

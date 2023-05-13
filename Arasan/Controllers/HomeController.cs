@@ -62,8 +62,29 @@ namespace Arasan.Controllers
                     TData1.Add(tda1);
                 }
             }
+            DataTable dt4 = new DataTable();
+            dt4 = HomeService.GetMaterialnot();
+
+            List<MatNotify> TDatan = new List<MatNotify>();
+            MatNotify tdan = new MatNotify();
+
+            if (dt4.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt4.Rows.Count; i++)
+                {
+                    tdan = new MatNotify();
+                    tdan.Date = dt4.Rows[i]["DOCDATE"].ToString();
+                    tdan.LocationName = dt4.Rows[i]["LOCID"].ToString();
+                    tdan.ItemName = dt4.Rows[i]["ITEMID"].ToString();
+                    tdan.TotalQty = dt4.Rows[i]["QTY"].ToString();
+                    tdan.Unit = dt4.Rows[i]["UNITID"].ToString();
+                    tdan.stockQty = dt4.Rows[i]["STOCK"].ToString();
+                    TDatan.Add(tdan);
+                }
+            }
             H.qcNotifies=TData;
             H.Notifies = TData1;
+            H.Materialnotification = TDatan;
             return View(H);
         }
         public ActionResult Proddashboard()

@@ -10,6 +10,7 @@ namespace Arasan.Models
         public double empty { get; set; }
         public int res { get; set; }
         public double rem { get; set; }
+        public List<MatNotify> Materialnotification { get; set; }
     }
     public class QcNotify
     {
@@ -18,8 +19,16 @@ namespace Arasan.Models
         public string ItemName { get; set; }
         public string TotalQty { get; set; }
         public string Unit { get; set; }
-         
-      
+
+    }
+    public class MatNotify
+    {
+        public string Date { get; set; }
+        public string LocationName { get; set; }
+        public string ItemName { get; set; }
+        public string TotalQty { get; set; }
+        public string Unit { get; set; }
+        public string stockQty { get; set; }
     }
     public class Notify
     {
