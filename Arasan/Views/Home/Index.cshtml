@@ -205,7 +205,7 @@
 								<div class="ibox-content top10" id="demo2">
 									<div class="demo-container">
 										<div class="table-responsive">
-											<h3><span style="color:brown">Out of Stock</span></h3><br />
+											<h3><span style="color:brown">Out of Stock in Store</span></h3><br />
                               <table class="table table-bordered table-hover">
                                  <thead>
                                      <tr>
@@ -222,14 +222,15 @@
 
                                                             int k = 0;
                                                            
-                                                            foreach (var item in Model.qcNotifies.ToList())
+                                                            foreach (var item in Model.Materialnotification.ToList())
                                                             {
                                                                 <tr>
-                                                                <td>@Html.DisplayFor(o => o.qcNotifies[k].GateDate)</td>
-                                                                <td>@Html.DisplayFor(o => o.qcNotifies[k].PartyName)</td>
-                                                                <td>@Html.DisplayFor(o => o.qcNotifies[k].ItemName)</td>
-                                                                <td>@Html.DisplayFor(o => o.qcNotifies[k].TotalQty)</td>
-                                                                <td>@Html.DisplayFor(o => o.qcNotifies[k].Unit)</td>
+                                                                <td>@Html.DisplayFor(o => o.Materialnotification[k].Date)</td>
+                                                                <td>@Html.DisplayFor(o => o.Materialnotification[k].LocationName)</td>
+                                                                <td>@Html.DisplayFor(o => o.Materialnotification[k].ItemName)</td>
+                                                                <td><span style="color:red">@Html.DisplayFor(o => o.Materialnotification[k].stockQty)</span></td>
+                                                                <td>@Html.DisplayFor(o => o.Materialnotification[k].TotalQty)</td>
+                                                                <td>@Html.DisplayFor(o => o.Materialnotification[k].Unit)</td>
                                                                 </tr>
 															k = k + 1;
                                                            
