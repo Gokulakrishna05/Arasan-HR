@@ -313,6 +313,8 @@ namespace Arasan.Services.Master
                 {
                     for (int i = 0; i < mp.Location.Length; i++)
                     {
+                        string EmpID = datatrans.GetDataString("Select EMPMASTID from EMPMAST where EMPNAME='" + mp.EmpName + "' ");
+
                         using (OracleConnection objConn = new OracleConnection(_connectionString))
                         {
                             OracleCommand objCmd = new OracleCommand("EMPLOCATIONPROC", objConn);
@@ -323,12 +325,9 @@ namespace Arasan.Services.Master
 
                             StatementType = "Insert";
                             objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-
-
-                            objCmd.Parameters.Add("EMPID", OracleDbType.NVarchar2).Value = mp.EmpName;
-                            objCmd.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = mp.Location;
+                            objCmd.Parameters.Add("EMPID", OracleDbType.NVarchar2).Value = EmpID;
+                            objCmd.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = mp.Location[i];
                             objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
-
 
 
                             try
