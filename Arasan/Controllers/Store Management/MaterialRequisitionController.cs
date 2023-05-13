@@ -39,7 +39,8 @@ namespace Arasan.Controllers.Store_Management
                 for (int i = 0; i < 3; i++)
                 {
                     tda = new MaterialRequistionItem();
-                    tda.Itemlst = BindItemlst();
+                    tda.ItemGrouplst = BindItemGrplst();
+                    tda.Itemlst = BindItemlst("");
                     tda.Isvalid = "Y";
                     TData.Add(tda);
                 }
@@ -67,15 +68,33 @@ namespace Arasan.Controllers.Store_Management
             return View(MR);
         }
 
-        public List<SelectListItem> BindItemlst()
+        public List<SelectListItem> BindItemlst(string value)
         {
             try
             {
-                DataTable dtDesg = materialReq.GetItem();
+                DataTable dtDesg = datatrans.GetItem(value);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEMMASTERID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<SelectListItem> BindItemGrplst()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetItemSubGrp();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["SGCODE"].ToString(), Value = dtDesg.Rows[i]["ITEMSUBGROUPID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -436,9 +455,16 @@ namespace Arasan.Controllers.Store_Management
         }
         public JsonResult GetItemJSON(string itemid)
         {
-            MaterialRequistionItem model = new MaterialRequistionItem();
-            model.Itemlst = BindItemlst();
-            return Json(BindItemlst());
+            DirItem model = new DirItem();
+            model.Itemlst = BindItemlst(itemid);
+            return Json(BindItemlst(itemid));
+
+        }
+        public JsonResult GetItemGrpJSON()
+        {
+            //EnqItem model = new EnqItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(BindItemGrplst());
         }
     }
 }

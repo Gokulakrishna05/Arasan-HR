@@ -41,8 +41,9 @@ namespace Arasan.Models
 
     public class MaterialRequistionItem
     {
-        public int ItemGroupId { get; set; }
-        public string ItemGroup { get; set; }
+        public List<SelectListItem> ItemGrouplst { get; set; }
+
+        public string ItemGroupId { get; set; }
         public string ItemId { get; set; }
         public string Item { get; set; }
         public string UnitID { get; set; }
