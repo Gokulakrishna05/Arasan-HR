@@ -30,8 +30,11 @@ namespace Arasan.Controllers.Store_Management
         {
             MaterialRequisition MR = new MaterialRequisition();
             MR.Brlst = BindBranch();
-            MR.Loclst = GetLoc();
+            MR.Loclst = GetLoc( );
             MR.assignList = BindEmp();
+            MR.Branch = Request.Cookies["BranchId"];
+            MR.Entered= Request.Cookies["UserId"];
+            MR.DocDa = DateTime.Now.ToString("dd-MMM-yyyy");
             List<MaterialRequistionItem> TData = new List<MaterialRequistionItem>();
             MaterialRequistionItem tda = new MaterialRequistionItem();
             if (id == null)
@@ -56,13 +59,44 @@ namespace Arasan.Controllers.Store_Management
                 {
                     MR.Branch = dt.Rows[0]["BRANCHID"].ToString();
                     MR.Location = dt.Rows[0]["FROMLOCID"].ToString();
-                    MR.Process = dt.Rows[0]["PROCESSID"].ToString();
-                    MR.RequestType = dt.Rows[0]["REQTYPE"].ToString();
-                    MR.DocId = dt.Rows[0]["DOCID"].ToString();
+                    //MR.Process = dt.Rows[0]["PROCESSID"].ToString();
+                    //MR.RequestType = dt.Rows[0]["REQTYPE"].ToString();
+                    //MR.DocId = dt.Rows[0]["DOCID"].ToString();
                     MR.DocDa = dt.Rows[0]["DOCDATE"].ToString();
 
                 }
-                
+
+                DataTable dtt = new DataTable();
+                dtt = materialReq.GetmaterialReqItemDetails(id);
+                if (dt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dtt.Rows.Count; i++)
+                    {
+                        tda = new MaterialRequistionItem();
+                         
+                        tda.ItemGrouplst = BindItemGrplst();
+                        DataTable dt3 = new DataTable();
+                        dt3 = datatrans.GetItemSubGroup(dtt.Rows[i]["ITEMID"].ToString());
+                        if (dt3.Rows.Count > 0)
+                        {
+                            tda.ItemGroupId = dt3.Rows[0]["SUBGROUPCODE"].ToString();
+                        }
+                        tda.Itemlst = BindItemlst(tda.ItemGroupId);
+                        tda.ItemId = dtt.Rows[i]["ITEMID"].ToString();
+                        tda.Unit = dtt.Rows[i]["UNITID"].ToString();
+                        tda.ReqQty = dtt.Rows[i]["QTY"].ToString();
+                        DataTable dt1 = materialReq.Getstkqty(dtt.Rows[i]["ITEMMASTERID"].ToString(), dt.Rows[0]["FROMLOCID"].ToString(), dt.Rows[0]["BRANCHID"].ToString());
+                        if (dt1.Rows.Count > 0)
+                        {
+                            tda.ClosingStock = dt1.Rows[0]["QTY"].ToString();
+                        }
+                        
+                        
+                        tda.Isvalid = "Y";
+                        TData.Add(tda);
+                    }
+
+                }
             }
             MR.MRlst = TData;
             return View(MR);
@@ -212,17 +246,22 @@ namespace Arasan.Controllers.Store_Management
                 throw ex;
             }
         }
+        //public JsonResult GetLocJSON(string itemid)
+        //{
+        //    MaterialRequisition model = new MaterialRequisition();
+        //    model.Loclst = GetLoc(itemid);
+        //    return Json(GetLoc(itemid));
+
+        //}
         public List<SelectListItem> GetLoc()
         {
             try
             {
-                DataTable dt = new DataTable();
-                datatrans = new DataTransactions(_connectionString);
-                dt = datatrans.GetLocation();
+                DataTable dtDesg = materialReq.GetLocation();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
-                for (int i = 0; i < dt.Rows.Count; i++)
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dt.Rows[i]["LOCID"].ToString(), Value = dt.Rows[i]["LOCDETAILSID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["LOCID"].ToString(), Value = dtDesg.Rows[i]["LOCID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -455,11 +494,12 @@ namespace Arasan.Controllers.Store_Management
         }
         public JsonResult GetItemJSON(string itemid)
         {
-            DirItem model = new DirItem();
+            MaterialRequistionItem model = new MaterialRequistionItem();
             model.Itemlst = BindItemlst(itemid);
             return Json(BindItemlst(itemid));
 
         }
+       
         public JsonResult GetItemGrpJSON()
         {
             //EnqItem model = new EnqItem();

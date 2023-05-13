@@ -19,10 +19,11 @@ namespace Arasan.Interface
         IEnumerable<MaterialRequisition> GetAllMaterial();
        // MaterialRequisition GetMaterialById(string id);
         DataTable GetmaterialReqDetails(string id);
+        DataTable GetmaterialReqItemDetails(string id);
         DataTable Getstkqty(string ItemId,string locid, string brid);
         DataTable GetMatbyID(string MatId);
         DataTable GetMatItemByID(string MatId);
-
+        DataTable GetLocation( );
         string IssuetoIndent(MaterialRequisition cy);
         string ApproveMaterial(MaterialRequisition cy);
 

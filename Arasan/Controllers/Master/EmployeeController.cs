@@ -172,67 +172,90 @@ namespace Arasan.Controllers.Master
         public ActionResult MultipleLocationSelect(string id)
         {
             MultipleLocation E = new MultipleLocation();
+          
+            DataTable dt = new DataTable();
+            dt = EmployeeService.GetCurrentUser(id);
+            if (dt.Rows.Count > 0)
+              {
+                  E.EmpName = dt.Rows[0]["EMPNAME"].ToString();
+              }
+                 
+                E.ID = id;
             E.Loclst = BindLocation();
-            if (id == null)
-            {
 
-            }
-            else
-            {
-                if (!string.IsNullOrEmpty(id))
-                {
-                    DataTable dt = new DataTable();
-                    dt = EmployeeService.GetCurrentUser(id);
-                    if (dt.Rows.Count > 0)
-                    {
-                        E.EmpName = dt.Rows[0]["EMPNAME"].ToString();
-                    }
-                }
-                E.EmpName = id;
-                //E.Location = PopulateRegion(id);
-            }
 
             return View(E);
         }
         [HttpPost]
         public ActionResult MultipleLocationSelect(MultipleLocation mp, string id)
         {
-
-            try
+            if (ModelState.IsValid)
             {
-                mp.ID = id;
-                string Strout = EmployeeService.GetMultipleLocation(mp);
-                if (string.IsNullOrEmpty(Strout))
+                id = id != null ? id : "0";
+                try
                 {
-                    if (mp.ID == null)
+                    mp.ID = id;
+                    string Strout = EmployeeService.GetMultipleLocation(mp);
+                    if (string.IsNullOrEmpty(Strout))
                     {
-                        TempData["notice"] = "Multiple Location Inserted Successfully...!";
+                        if (mp.ID == null)
+                        {
+                            TempData["notice"] = "Multiple Location Inserted Successfully...!";
+                        }
+                        else
+                        {
+                            TempData["notice"] = "Multiple Location Updated Successfully...!";
+                        }
+                        return RedirectToAction("ListEmployee");
                     }
                     else
                     {
-                        TempData["notice"] = "Multiple Location Updated Successfully...!";
+                        TempData["notice"] = Strout;
+                        ViewBag.PageTitle = "Edit MultipleLocation";
+
+                        return View(mp);
                     }
-                    return RedirectToAction("ListEmployee");
                 }
-                else
+                catch (Exception ex)
                 {
-                    TempData["notice"] = Strout;
-                    ViewBag.PageTitle = "Edit MultipleLocation";
-
-                    return View(mp);
+                    throw ex;
                 }
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-
             return View(mp);
 
         }
 
-
-        public List<SelectListItem> BindState()
+            //private static List<SelectListItem> PopulateRegion(string id)
+            //{
+            //    List<SelectListItem> items = new List<SelectListItem>();
+            //MultipleLocation Cy = new MultipleLocation();
+            //    DataTable dtCity = new DataTable();
+            //    dtCity = Cy.GetRegion();
+            //    if (dtCity.Rows.Count > 0)
+            //    {
+            //        for (int i = 0; i < dtCity.Rows.Count; i++)
+            //        {
+            //            bool sel = false;
+            //            int Region_id = Cy.GetMregion(dtCity.Rows[i]["ID"].ToString(), id);
+            //            if (Region_id == 0)
+            //            {
+            //                sel = false;
+            //            }
+            //            else
+            //            {
+            //                sel = true;
+            //            }
+            //            items.Add(new SelectListItem
+            //            {
+            //                Text = dtCity.Rows[i]["STATE_NAME"].ToString(),
+            //                Value = dtCity.Rows[i]["ID"].ToString(),
+            //                Selected = sel
+            //            });
+            //        }
+            //    }
+            //    return items;
+            //}
+            public List<SelectListItem> BindState()
         {
             try
             {
