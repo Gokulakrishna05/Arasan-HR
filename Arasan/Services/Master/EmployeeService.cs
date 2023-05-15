@@ -270,7 +270,7 @@ namespace Arasan.Services.Master
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetEmpPersonalDeatils(string data)
+        public DataTable GetEmpPersonalDeatils(string  data)
         {
             string SvSql = string.Empty;
             SvSql = "Select EMPMOI.MARITALSTATUS,EMPMOI.BLOODGROUP,EMPMOI.COMMUNITY,EMPMOI.PAYTYPE,EMPMOI.EMPTYPE,EMPMOI.DISP,EMPMOIID  from EMPMOI where EMPMOI.EMPMASTID=" + data + "";
@@ -289,6 +289,7 @@ namespace Arasan.Services.Master
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
+
         }
 
         public DataTable GetCurrentUser(string id)
