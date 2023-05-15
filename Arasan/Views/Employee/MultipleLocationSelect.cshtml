@@ -32,8 +32,8 @@
 
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
-            <li> <a>Production</a> </li>
-            <li class="active"> <strong>Batch Creation</strong> </li>
+            <li> <a>Master</a> </li>
+            <li class="active"> <strong>Multiple Location</strong> </li>
         </ol>
     </div>
 </div>
@@ -42,7 +42,7 @@
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="widgets-container">
-                    <h5 style="font-size:14px">Batch - Creation</h5>
+                    <h5 style="font-size:14px">Multiple Location</h5>
                     <hr>
                     @using (Html.BeginForm("MultipleLocationSelect", "Employee", FormMethod.Post))
                     {
@@ -79,7 +79,6 @@
                                 </div>
                             </div>
 
-                            <div style="height:30px;"></div>
                             <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
                             <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListEmployee", "Employee")'">Cancel</button>
                         </form>

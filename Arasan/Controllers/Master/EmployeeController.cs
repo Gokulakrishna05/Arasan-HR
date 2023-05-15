@@ -152,17 +152,49 @@ namespace Arasan.Controllers.Master
 
             return View(emp);
         }
-        public List<SelectListItem> BindLocation()
+        public List<SelectListItem> BindLocation(string id)
         {
             try
             {
-                DataTable dtDesg = datatrans.GetLocation();
-                List<SelectListItem> lstdesg = new List<SelectListItem>();
-                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                List<SelectListItem> items = new List<SelectListItem>();
+                DataTable dtCity = new DataTable();
+                dtCity = datatrans.GetLocation();
+                if (dtCity.Rows.Count > 0)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["LOCID"].ToString(), Value = dtDesg.Rows[i]["LOCDETAILSID"].ToString() });
+                    for (int i = 0; i < dtCity.Rows.Count; i++)
+                    {
+                        bool sel = false;
+                        long Region_id = EmployeeService.GetMregion(dtCity.Rows[i]["LOCDETAILSID"].ToString(), id);
+                        if (Region_id == 0)
+                        {
+                            sel = false;
+                        }
+                        else
+                        {
+                            sel = true;
+                        }
+                        items.Add(new SelectListItem
+                        {
+                            Text = dtCity.Rows[i]["LOCID"].ToString(),
+                            Value = dtCity.Rows[i]["LOCDETAILSID"].ToString(),
+                            Selected = sel
+                        });
+                    }
                 }
-                return lstdesg;
+                return items;
+
+
+
+
+
+
+                //DataTable dtDesg = datatrans.GetLocation();
+                //List<SelectListItem> lstdesg = new List<SelectListItem>();
+                //for (int i = 0; i < dtDesg.Rows.Count; i++)
+                //{
+                //    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["LOCID"].ToString(), Value = dtDesg.Rows[i]["LOCDETAILSID"].ToString() });
+                //}
+                //return lstdesg;
             }
             catch (Exception ex)
             {
@@ -176,12 +208,12 @@ namespace Arasan.Controllers.Master
             DataTable dt = new DataTable();
             dt = EmployeeService.GetCurrentUser(id);
             if (dt.Rows.Count > 0)
-              {
+            {
                   E.EmpName = dt.Rows[0]["EMPNAME"].ToString();
-              }
+            }
                  
                 E.ID = id;
-            E.Loclst = BindLocation();
+            E.Loclst = BindLocation(id);
 
 
             return View(E);

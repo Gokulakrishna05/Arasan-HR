@@ -19,5 +19,6 @@ namespace Arasan.Interface.Master
         DataTable GetEmpSkillDeatils(string id);
         DataTable GetCurrentUser(string id);
         string GetMultipleLocation(MultipleLocation mp);
+        long GetMregion(string regionid, string id);
     }
 }

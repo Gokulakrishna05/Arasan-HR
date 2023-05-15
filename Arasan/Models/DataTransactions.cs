@@ -73,6 +73,25 @@ namespace Arasan.Models
             }
             return Id;
         }
+
+        public long GetDataIdlong(String sql)
+        {
+            DataTable _dt = new DataTable();
+            long Id = 0;
+            try
+            {
+                _dt = GetData(sql);
+                if (_dt.Rows.Count > 0)
+                {
+                    Id = Convert.ToInt64(_dt.Rows[0][0].ToString() == string.Empty ? "0" : _dt.Rows[0][0].ToString());
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return Id;
+        }
         public DataTable GetBranch()
         {
             string SvSql = string.Empty;

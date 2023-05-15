@@ -42,11 +42,10 @@
                                                 <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
                                                     <thead>
                                                         <tr>
-                                                            <th>S.No</th>
                                                             <th>Branch</th>
                                                             <th>Location</th>
-                                                            <th>Process</th>
-                                                            <th>Reg Type</th>
+                                                            <th>Doc date</th>
+                                                            <th>Doc No.</th>
                                                             <th>Issue Quantity</th>
                                                             <th>Indent Creation</th>
                                                             <th>Edit</th>
@@ -61,11 +60,10 @@
                                                             foreach (var item in Model)
                                                             {
                                                         <tr>
-                                                            <td>@i</td>
                                                             <td>@Html.DisplayFor(modelItem => item.Branch)</td>
                                                             <td>@Html.DisplayFor(modelItem => item.Location)</td>          
-                                                            <td>@Html.DisplayFor(modelItem => item.Process)</td>
-                                                              <td>@Html.DisplayFor(modelItem => item.RequestType)</td>
+                                                            <td>@Html.DisplayFor(modelItem => item.DocDa)</td>
+                                                            <td>@Html.DisplayFor(modelItem => item.DocId)</td>          
 
                                                                 @if(item.status == "Approved"){
                                                                 <td><div class="fa-hover col-md-2 col-sm-4"> <img src='../Images/tick.png' alt='Moved to Quote' width='20' /></div></td>

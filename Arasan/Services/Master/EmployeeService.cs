@@ -55,6 +55,14 @@ namespace Arasan.Services.Master
             }
             return cmpList;
         }
+
+        public long GetMregion(string regionid, string id)
+        {
+            string SvSql = "SELECT LOCID from EMPLOYEELOCATION where LOCID=" + regionid + " and EMPID=" + id + "";
+            DataTable dtCity = new DataTable();
+            long user_id = datatrans.GetDataIdlong(SvSql);
+            return user_id;
+        }
         public string EmployeeCRUD(Employee cy)
         {
             string msg = "";
