@@ -47,7 +47,7 @@
                                                             <th>DOB</th>
                                                             <th>Phone No</th>
                                                             <th>Email</th>
-                                                            <th>Location Select</th>
+                                                            <th>Multiple Location</th>
                                                             <th>Edit</th>
                                                             <th>Delete</th>
                                                         </tr>
@@ -66,7 +66,7 @@
                                                                     <td>@Html.DisplayFor(modelItem => item.DOB)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.PhoneNo)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.EmailId)</td>
-                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("MultipleLocationSelect", "Employee",new { id=item.ID })"></a></div></td>
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a  href="@Url.Action("MultipleLocationSelect", "Employee",new { id=item.ID })"><img src='../Images/plus.png' alt='Add Location' /></a></div></td>
 
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Employee", "Employee",new { id=item.ID })"></a></div></td>
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("Employee", "Employee",new { id=item.ID })"></a></div></td>
