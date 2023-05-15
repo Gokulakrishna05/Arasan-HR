@@ -1,41 +1,88 @@
 ﻿using System.Collections.Generic;
+using System.Data;
+using Arasan.Interface;
 using Arasan.Interface.Master;
 using Arasan.Models;
+using Arasan.Services;
 using Arasan.Services.Master;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 
-namespace Arasan.Controllers.Master
+
+namespace Arasan.Controllers
 {
     public class TaxController : Controller
     {
-        ITaxService taxService;
-        public TaxController(ITaxService _taxService)
+        ITaxService TaxService;
+        IConfiguration? _configuration;
+        private string? _connectionString;
+        public TaxController(ITaxService _TaxService, IConfiguration _configuration)
         {
-            taxService = _taxService;
+        TaxService = _TaxService;
         }
-        public IActionResult Company(string id)
+        public IActionResult Tax(string id)
         {
-            Company ca = new Company();
-            if (id == null)
+            Tax ca = new Tax();
+            if (id != null)
             {
-
+                
             }
             else
             {
-                //ca = TaxService.GetTaxById(id);
+                DataTable dt = new DataTable();
+                double total = 0;
+                dt = TaxService.GetTax(id);
+                if (dt.Rows.Count > 0)
+                {
+                    ca.Taxtype = dt.Rows[0]["Tax"].ToString();
 
+                }
             }
             return View(ca);
         }
-
-        public IActionResult Tax()
+        [HttpPost]
+        public ActionResult Tax(Tax Cy, string id)
         {
-            return View();
+
+            try
+            {
+                Cy.ID = id;
+                string Strout = TaxService.TaxCRUD(Cy);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Cy.ID == null)
+                    {
+                        TempData["notice"] = "Tax Inserted Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "Tax Updated Successfully...!";
+                    }
+                    return RedirectToAction("ListTax");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit Tax";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(Cy);
         }
         public IActionResult ListTax()
         {
-            return View();
+            IEnumerable<Tax> cmp = TaxService.GetAllTax();
+            return View(cmp);
         }
+
     }
 }

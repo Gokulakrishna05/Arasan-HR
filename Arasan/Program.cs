@@ -100,6 +100,8 @@ internal class Program
         builder.Services.TryAddSingleton<IQCFinalValueEntryService, QCFinalValueEntryService>(); 
         builder.Services.TryAddSingleton<IProductionForecastingService, ProductionForecastingService>();
         builder.Services.TryAddSingleton<ISectionService, SectionService>();
+        builder.Services.TryAddSingleton<IDrumMaster, DrumMasterService>();
+        builder.Services.TryAddSingleton<IDrumCategory, DrumCategoryService>();
 
 
         builder.Services.AddSession();

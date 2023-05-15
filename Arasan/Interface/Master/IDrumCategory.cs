@@ -5,11 +5,11 @@ using System.Data;
 
 namespace Arasan.Interface
 {
-    public interface ITaxService
+    public interface IDrumCategory
     {
-        string TaxCRUD(Tax cy);
-        IEnumerable<Tax> GetAllTax();
 
-        DataTable GetTax(string id);
+        string DrumCategoryCRUD(DrumCategory ss);
+        IEnumerable<DrumCategory> GetAllDrumCategory();
+
     }
 }

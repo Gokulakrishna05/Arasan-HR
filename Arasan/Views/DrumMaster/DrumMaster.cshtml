@@ -1,0 +1,195 @@
+﻿@model Arasan.Models.DrumMaster
+
+@{
+    ViewData["Title"] = "DrumMaster";
+}
+<style>
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
+
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a>Master</a> </li>
+            <li class="active"> <strong> DrumMaster </strong> </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+
+                    <hr>
+                    @using (Html.BeginForm("DrumMaster", "DrumMaster", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <form>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">DrumNo<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+
+                                            @Html.TextBoxFor(C => C.DrumNo, new { @id = "txDrum", @class = "form-control",autocomplete="off" , @TabIndex = 2, @size="30" })
+
+                                            @* for edit & delete*@
+                                            @Html.HiddenFor(C => C.ID)
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">DocDate<label class="Mandatory"></label></label>
+
+                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                            @Html.TextBoxFor(C => C.DocDate, new { @id = "DocDate", @class = "form-control", @TabIndex = 2,@size="30",@readonly=true })
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                            <br />
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Category<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.Category, Model.Categorylst,"Please Select", new { @id = "ddlCategory", @Class = "form-control _select", @TabIndex = 1 })<br />
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Location<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.Location, Model.Locationlst,"Please Select", new { @id = "ddlLocation", @Class = "form-control _select", @TabIndex = 1 })<br /><br>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">DrumType<label class="Mandatory"></label></label>
+
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.DrumType, Model.DrumTypelst,"Please Select", new { @id = "ddlDrumType", @Class = "form-control _select", @TabIndex = 1 })<br /><br>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Target Weight<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @*@Html.EditorFor(model => model.TargetWeight, new { @type = "number", @min = "0", @step = "0.01", @value = "0" })*@
+
+                                            @Html.TextBoxFor(C => C.TargetWeight, new { @id = "txtTarget", @type = "number", @class = "form-control", @TabIndex = 2,@size="30" })
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="height:30px;"></div>
+                            <div class="col-lg-10"></div>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+                            <a button class="btn btn-danger" type="submit" href="@Url.Action("ListDrumMaster", "DrumMaster")">Cancel</a>
+
+                        </form>
+                    }
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<script>
+    $('.form_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+ </script>
+
+<script>
+
+    $(function () {
+        $('._select').select2();
+    });
+   
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+
+            if (document.getElementById("txDrum").value == "") {
+                isValid = false;
+                $(txDrum).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select DrumNo");
+                return false;
+            }
+            else {
+                $(txDrum).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtTarget").value == "") {
+                isValid = false;
+                $(txtTarget).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Target Weight");
+                return false;
+            }
+            else {
+                $(txtTarget).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+
+            if (isValid == false)
+                e.preventDefault();
+
+        });
+
+    });
+
+</script>

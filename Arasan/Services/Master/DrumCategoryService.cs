@@ -8,34 +8,37 @@ using System.Collections.Generic;
 using System.Data;
 
 namespace Arasan.Services
-
 {
-    public class UnitService : IUnitService
+    public class DrumCategoryService : IDrumCategory
     {
         private readonly string _connectionString;
-        public UnitService(IConfiguration _configuration)
+        public DrumCategoryService(IConfiguration _configuration)
         {
             _connectionString = _configuration.GetConnectionString("OracleDBConnection");
         }
 
-        public IEnumerable<Unit> GetAllUnit()
+         public IEnumerable<DrumCategory> GetAllDrumCategory()
         {
-            List<Unit> cmpList = new List<Unit>();
+            List<DrumCategory> cmpList = new List<DrumCategory>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
 
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select UNITMASTID,UNITID from UNITMAST";
+                    cmd.CommandText = "Select DRUMMASTID,CATEGORY from  DRUMMAST";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
-                        Unit cmp = new Unit
+                        DrumCategory cmp = new DrumCategory
                         {
-                            ID = rdr["UNITMASTID"].ToString(),
-                            UnitName = rdr["UNITID"].ToString()
-                            
+                            ID = rdr["DRUMMASTID"].ToString(),
+                            CategoryType = rdr["CATEGORY"].ToString()
+
+                            //Description = rdr["DESCRIPTION"].ToString(),
+                            //Status = rdr["STATUS"].ToString(),
+                           
+
                         };
                         cmpList.Add(cmp);
                     }
@@ -44,44 +47,44 @@ namespace Arasan.Services
             return cmpList;
         }
 
-       
 
-        public string UnitCRUD(Unit cy)
+        public string DrumCategoryCRUD(DrumCategory ss)
         {
             string msg = "";
             try
             {
                 string StatementType = string.Empty;
+
                 //string svSQL = "";
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
-                    OracleCommand objCmd = new OracleCommand("UNIT_PROC", objConn);
-                   
+                    OracleCommand objCmd = new OracleCommand("DRUMCATE_PRO", objConn);
 
                     objCmd.CommandType = CommandType.StoredProcedure;
-                    if (cy.ID == null)
-                    {
+                    if (ss.ID == null) 
+                    { 
                         StatementType = "Insert";
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
                     }
                     else
                     {
                         StatementType = "Update";
-                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = ss.ID;
                     }
-
-                    objCmd.Parameters.Add("UNITID", OracleDbType.NVarchar2).Value = cy.UnitName;                                
+                    objCmd.Parameters.Add("CATEGORYTYPE", OracleDbType.NVarchar2).Value = ss.CategoryType;
+                    objCmd.Parameters.Add("DESCRIPTION", OracleDbType.NVarchar2).Value = ss.Description;
+                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = ss.Status;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+
                     try
                     {
                         objConn.Open();
                         objCmd.ExecuteNonQuery();
-                        //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
                     }
                     catch (Exception ex)
                     {
-                        
+                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
                     }
                     objConn.Close();
                 }
@@ -95,17 +98,6 @@ namespace Arasan.Services
             return msg;
         }
 
-        public DataTable GetUnit(string id)
-        {
-            string SvSql = string.Empty;
-            SvSql = "Select UNITMASTID,UNITID from UNITMAST where UNITMASTID = '" + id + "' ";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
-
-
+      
     }
 }

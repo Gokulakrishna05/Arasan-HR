@@ -31,7 +31,7 @@ namespace Arasan.Controllers
                 dt = Customer.GetCustomerType(id);
                 if (dt.Rows.Count > 0)
                 {
-                    cu.Type = dt.Rows[0]["CUTSYOMER_TYPE"].ToString();
+                    cu.Type = dt.Rows[0]["CUSTOMER_TYPE"].ToString();
                     cu.Des = dt.Rows[0]["DESCRIPTION"].ToString();
 
                     cu.ID = id;
