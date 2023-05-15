@@ -1,13 +1,13 @@
-﻿@model IEnumerable<Arasan.Models.DrumIssueEntry>
+﻿@model IEnumerable<Arasan.Models.DrumLocation>
 @{
-    ViewData["Title"] = "Drum Issue Entry";
+    ViewData["Title"] = " Drum Location";
 }
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Production</a> </li>
-            <li class="active"> <strong> Drum Issue Entry</strong> </li>
+            <li class="active"> <strong> Drum Location</strong> </li>
         </ol>
     </div>
 </div>
@@ -19,15 +19,15 @@
                 <div class="widgets-container">
 
                     <form>
-                        <div class="row">
+                       @* <div class="row">
                             <div class="col-md-12 ">
                                 <div class=" textalignright">
-                                    <a href="@Url.Action("DrumIssueEntry","DrumIssueEntry")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add </a>
+                                    <a href="@Url.Action("DrumIssueEntry","DrumIssueEntry")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add DrumIssueEntry</a>
                                     <br>
                                 </div>
 
                             </div>
-                        </div>
+                        </div>*@
 
                         <div class="row">
                             <div class="col-lg-12">
@@ -38,14 +38,10 @@
                                                 <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
                                                     <thead>
                                                         <tr>
-                                                            <th>Branch</th>
-                                                            <th>Doc Id</th>
-                                                            <th>Doc Date</th>
-                                                            <th>From Location</th>
-                                                            <th>Type</th>
-                                                            <th>View</th>
-                                                            @*<th>Edit</th>
-                                                            <th>Delete</th>*@
+                                                            <th>Drum No</th>
+                                                            <th>Item</th>
+                                                            <th>Drum Location</th>
+                                                           
                                                         </tr>
                                                     </thead>
 
@@ -57,16 +53,10 @@
                                                             foreach (var item in Model)
                                                             {
                                                                 <tr>
-                                                                <td>@Html.DisplayFor(modelItem => item.Branch)</td>
-                                                                <td>@Html.DisplayFor(modelItem => item.Docid)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.Docdate)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.FromLoc)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.type)</td>
-                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ApproveDrumIssue", "DrumIssueEntry",new { DRUM=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Waiting for approval' /></a></div></td>
-
-                                                                   @* <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("DrumIssueEntry", "DrumIssueEntry",new { id=item.ID })"></a></div></td>
-                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("DrumIssueEntry", "DrumIssueEntry",new { id=item.ID })"></a></div></td>*@
-                                                                </tr>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Drum)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Item)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Location)</td>
+                                                                    </tr>
                                                                 i++;
                                                             }
                                                         }

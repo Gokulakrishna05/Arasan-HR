@@ -79,29 +79,29 @@ namespace Arasan.Controllers
                     ca.enddate = dt.Rows[0]["ENTDATE"].ToString();
                     ca.Remark = dt.Rows[0]["REMARKS"].ToString();
                     ca.Enterd = dt.Rows[0]["ENTEREDBY"].ToString();
-
+                    ViewBag.PackingNote = dt.Rows[0]["PACKNOTE"].ToString();
                 }
-                DataTable dt2 = new DataTable();
+                //DataTable dt2 = new DataTable();
 
-                dt2 = curingoutward.GetCuringDetail(id);
-                if (dt2.Rows.Count > 0)
-                {
-                    for (int i = 0; i < dt2.Rows.Count; i++)
-                    {
-                        tda = new CuringDetail();
+                //dt2 = curingoutward.GetCuringDetail(id);
+                //if (dt2.Rows.Count > 0)
+                //{
+                //    for (int i = 0; i < dt2.Rows.Count; i++)
+                //    {
+                //        tda = new CuringDetail();
                       
-                        tda.drum = dt2.Rows[i]["DRUMNO"].ToString();
-                        //ca.DrumLoclst = BindShift(ca.drum);
-                        tda.batch = dt2.Rows[i]["BATCHNO"].ToString();
-                        tda.qty = dt2.Rows[i]["BATCHQTY"].ToString();
-                        tda.comp = dt2.Rows[i]["COMBNO"].ToString();
-                        tda.ID = id;
-                        TData.Add(tda);
-                    }
+                //        tda.drum = dt2.Rows[i]["DRUMNO"].ToString();
+                //        //ca.DrumLoclst = BindShift(ca.drum);
+                //        tda.batch = dt2.Rows[i]["BATCHNO"].ToString();
+                //        tda.qty = dt2.Rows[i]["BATCHQTY"].ToString();
+                //        tda.comp = dt2.Rows[i]["COMBNO"].ToString();
+                //        tda.ID = id;
+                //        TData.Add(tda);
+                //    }
 
-                }
+                //}
             }
-                ca.Curinglst = TData;
+               // ca.Curinglst = TData;
             return View(ca);
         }
         [HttpPost]

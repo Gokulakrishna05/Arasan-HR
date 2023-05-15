@@ -109,8 +109,8 @@ namespace Arasan.Services;
                 objCmd.Parameters.Add("ETYPE", OracleDbType.NVarchar2).Value = cy.EntryType;
                 objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.DocId;
                 objCmd.Parameters.Add("BATCH", OracleDbType.NVarchar2).Value = cy.BatchNo;
-                objCmd.Parameters.Add("STARTDATE", OracleDbType.Date).Value = DateTime.Parse(cy.startdate);
-                objCmd.Parameters.Add("ENDDATE", OracleDbType.Date).Value = DateTime.Parse(cy.enddate);
+                objCmd.Parameters.Add("STARTDATE", OracleDbType.Date).Value = DateTime.Parse(sdate);
+                objCmd.Parameters.Add("ENDDATE", OracleDbType.Date).Value = DateTime.Parse(endate);
                 objCmd.Parameters.Add("STARTTIME", OracleDbType.NVarchar2).Value = stime;
                 objCmd.Parameters.Add("ENDTIME", OracleDbType.NVarchar2).Value = endtime;
                 objCmd.Parameters.Add("ENTEREDBY", OracleDbType.NVarchar2).Value = cy.Enterd;
@@ -141,7 +141,7 @@ namespace Arasan.Services;
                     }
                     foreach (ProInputItem cp in cy.inplst)
                     {
-                        if (cp.Isvalid == "Y" && cp.ItemId != "0")
+                        if (cp.Isvalid == "Y" && cp.ItemId != "0" && cp.ItemId != null)
                         {
                             using (OracleConnection objConns = new OracleConnection(_connectionString))
                             {
@@ -180,7 +180,7 @@ namespace Arasan.Services;
                     }
                     foreach (BProInCons cp in cy.Binconslst)
                     {
-                        if (cp.Isvalid == "Y" && cp.ItemId != "0")
+                        if (cp.Isvalid == "Y" && cp.ItemId != "0" && cp.ItemId != null)
                         {
                             using (OracleConnection objConns = new OracleConnection(_connectionString))
                             {
@@ -216,7 +216,7 @@ namespace Arasan.Services;
                     }
                     foreach (Boutput cp in cy.Boutlst)
                     {
-                        if (cp.Isvalid == "Y" && cp.ItemId != "0")
+                        if (cp.Isvalid == "Y" && cp.ItemId != "0" && cp.ItemId != null)
                         {
                             using (OracleConnection objConns = new OracleConnection(_connectionString))
                             {
@@ -258,7 +258,7 @@ namespace Arasan.Services;
                     }
                     foreach (Bwastage cp in cy.Bwastelst)
                     {
-                        if (cp.Isvalid == "Y" && cp.ItemId != "0")
+                        if (cp.Isvalid == "Y" && cp.ItemId != "0" && cp.ItemId != null)
                         {
                             using (OracleConnection objConns = new OracleConnection(_connectionString))
                             {
@@ -530,7 +530,7 @@ namespace Arasan.Services;
                                                 objCmdIn.Parameters.Add("STOCKTRANSTYPE", OracleDbType.NVarchar2).Value = "BPRODINCONS";
                                                 objCmdIn.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = cy.LOCID;
                                                 objCmdIn.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = qty;
-                                                objCmdIn.Parameters.Add("BALANCE_QTY", OracleDbType.NVarchar2).Value = qty;
+                                                objCmdIn.Parameters.Add("BALANCE_QTY", OracleDbType.NVarchar2).Value = 0;
                                                 objCmdIn.Parameters.Add("OUT_ID", OracleDbType.NVarchar2).Value = dt.Rows[i]["DRUM_STOCK_ID"].ToString();
                                                 objCmdIn.Parameters.Add("BATCHNO", OracleDbType.NVarchar2).Value = "";
                                                 objCmdIn.Parameters.Add("BATCH_QTY", OracleDbType.NVarchar2).Value = 0;

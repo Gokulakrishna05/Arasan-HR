@@ -1,5 +1,6 @@
 ﻿@model Arasan.Models.DrumIssueEntry
 @{
+ 
     ViewData["Title"] = "Drum Issue Entry";
 }
 <style>
@@ -31,9 +32,9 @@
                 <div class="widgets-container">
                     <h5 style="font-size:14px">Production Schedule</h5>
                     <hr>
-                    @using (Html.BeginForm("ApproveDrumIssue", "DrumIssueEntry", FormMethod.Post))
+                 @*   @using (Html.BeginForm("ApproveDrumIssue", "DrumIssueEntry", FormMethod.Post))
                     {
-                        @Html.AntiForgeryToken()
+                        @Html.AntiForgeryToken()*@
                         <form>
                             <div class="row">
                                 <div class="col-md-6">
@@ -188,9 +189,9 @@
                                                 <th> Drum No</th>
                                                 <th>Batch No</th>
                                                 <th>Qty</th>
-                                                <th>Rate</th>
+                                            @* <th>Rate</th>
                                                 <th>Amount</th>
-                                              @*  <th>From BinId </th>
+                                                <th>From BinId </th>
                                                 <th>To BinId</th>*@
                                             </tr>
                                         </thead>
@@ -207,15 +208,15 @@
 
                                                      
                                                         <td>
-                                                            @Html.DisplayFor(o => o.Drumlst[i].Drum)
+                                                            @Html.DisplayFor(o => o.Drumlst[i].drum)
                                                         </td>
                                                         <td>
-                                                            @Html.DisplayFor(o => o.Drumlst[i].Batch)
+                                                            @Html.DisplayFor(o => o.Drumlst[i].batch)
                                                         </td>
                                                         <td>
-                                                            @Html.DisplayFor(o => o.Drumlst[i].Qty)
+                                                            @Html.DisplayFor(o => o.Drumlst[i].qty)
                                                         </td>
-                                                        <td>
+                                                    @* <td>
 
                                                            @Html.DisplayFor(o => o.Drumlst[i].Rate)
                                                         </td>
@@ -223,7 +224,7 @@
 
                                                             @Html.DisplayFor(o => o.Drumlst[i].Amount)
                                                         </td>
-                                                        @*<td>
+                                                        <td>
                                                             @Html.DisplayFor(o => o.Drumlst[i].FBinId)
                                                         </td>
                                                         <td>
@@ -299,10 +300,10 @@
                                 </div>
                             </div>
                             <div style="height:30px;"></div>
-                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+                        <button   class="btn aqua m-t-xs bottom15-xs"  type="button" id="btnSave" onclick="location.href='@Url.Action("ListDrumIssueEntry", "DrumIssueEntry")'">Submit</button>
                             <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListDrumIssueEntry", "DrumIssueEntry")'">Cancel</button>
                         </form>
-                    }
+                   @* }*@
                 </div>
             </div>
         </div>

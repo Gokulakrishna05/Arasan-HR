@@ -1,0 +1,105 @@
+﻿@model Arasan.Models.MultipleLocation
+
+@{
+
+    ViewData["Title"] = "Multiple Location";
+}
+<style>
+    .newwidth {
+        width: 120px;
+    }
+
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+
+    div.scroll {
+        width: 100 %;
+        height: 400px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        /* text-align: center;*/
+        /*padding: 20px;*/
+    }
+
+</style>
+
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a>Production</a> </li>
+            <li class="active"> <strong>Batch Creation</strong> </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    <h5 style="font-size:14px">Batch - Creation</h5>
+                    <hr>
+                    @using (Html.BeginForm("MultipleLocationSelect", "Employee", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <form>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br> <label for="inputName3" class="col-sm-4 control-label">Employee Name <label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.HiddenFor(C => C.ID)
+                                            @Html.TextBoxFor(C => C.EmpName, new { @id = "txtDocId", @class = "form-control", @TabIndex = 2,@readonly="readonly" })
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br> <label for="inputName3" class="col-sm-4 control-label">Location<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+
+                                            <div class="scroll">
+                                                @*                                     @Html.DropDownListFor(C => C.Location, Model.Loclst, new { @id = "ddlLoc", @Class = "form-control _select", @TabIndex = 1 })<br />
+                                            *@
+                                                @Html.ListBoxFor(C => C.Location, Model.Loclst, new { @class = "listbox" })
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="height:30px;"></div>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListEmployee", "Employee")'">Cancel</button>
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<link href="@Url.Content("~/assets/js/bootstrap-multiselect.css")" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="@Url.Content("~/assets/js/bootstrap.multiselect.js")"></script>
+
+<script type="text/javascript">
+    $(function () {
+        $('.listbox').multiselect({
+            includeSelectAllOption: true
+        });
+    });
+</script>
+
+
+

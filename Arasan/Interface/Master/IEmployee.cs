@@ -9,7 +9,7 @@ namespace Arasan.Interface.Master
     public interface IEmployee
     {
 
-       string EmployeeCRUD(Employee emp);
+        string EmployeeCRUD(Employee emp);
         DataTable GetState();
         DataTable GetCity();
         IEnumerable<Employee> GetAllEmployee();
@@ -17,5 +17,7 @@ namespace Arasan.Interface.Master
         DataTable GetEmpEduDeatils(string data);
         DataTable GetEmpPersonalDeatils(string id);
         DataTable GetEmpSkillDeatils(string id);
+        DataTable GetCurrentUser(string id);
+        string GetMultipleLocation(MultipleLocation mp);
     }
 }

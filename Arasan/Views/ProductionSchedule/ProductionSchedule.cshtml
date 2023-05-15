@@ -313,7 +313,7 @@
                                                                                     @Html.TextBoxFor(o => o.PrsLst[i].Unit, new { @id = "txtUnit" + i, @class = "form-control", style = "width: 100px;" , @readonly = "readonly"})
                                                                                 </td>
                                                                             <td>
-                                                                                @Html.TextBoxFor(o => o.PrsLst[i].Input, new { @id = "txtInput" + i, @class = "form-control", style = "width: 120px;" })
+                                                                                @Html.TextBoxFor(o => o.PrsLst[i].Input, new { @id = "txtInput" + i, @class = "form-control", style = "width: 120px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
                                                                             </td>
                                                                             <td>
                                                                                 @Html.TextBoxFor(o => o.PrsLst[i].Qty, new { @id = "txtQty" + i, @class = "form-control", style = "width: 120px;",onkeydown = "return isNumeric2(event.keyCode,this.value)" })
@@ -685,7 +685,7 @@
                             </div>
 
 
-                            <div class="col-md-6">
+                         @*   <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-4 control-label">Other Details<label class="Mandatory"></label></label>
 
@@ -694,7 +694,7 @@
                                     </div>
 
                                 </div>
-                            </div>
+                            </div>*@
                         </div>
 
 
@@ -1119,6 +1119,16 @@
        {
             $('._select').select2();
        });
+        $('.form_date').datetimepicker({
+            //   language:  'fr',
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0
+        });
     }
      function AppendRow4(opt) {
         var index = $("#tbBooks4").children("tr").length;

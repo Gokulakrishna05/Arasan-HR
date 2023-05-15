@@ -142,13 +142,13 @@
                                                            
                                                             foreach (var item in Model.qcNotifies.ToList())
                                                             {
-															<tr>
-															<td>@Html.DisplayFor(o => o.qcNotifies[i].GateDate)</td>
-															<td>@Html.DisplayFor(o => o.qcNotifies[i].PartyName)</td>
-															<td>@Html.DisplayFor(o => o.qcNotifies[i].ItemName)</td>
-															<td>@Html.DisplayFor(o => o.qcNotifies[i].TotalQty)</td>
-															<td>@Html.DisplayFor(o => o.qcNotifies[i].Unit)</td>
-															</tr>
+                                                                <tr>
+                                                                <td>@Html.DisplayFor(o => o.qcNotifies[i].GateDate)</td>
+                                                                <td>@Html.DisplayFor(o => o.qcNotifies[i].PartyName)</td>
+                                                                <td>@Html.DisplayFor(o => o.qcNotifies[i].ItemName)</td>
+                                                                <td>@Html.DisplayFor(o => o.qcNotifies[i].TotalQty)</td>
+                                                                <td>@Html.DisplayFor(o => o.qcNotifies[i].Unit)</td>
+                                                                </tr>
 															i = i + 1;
                                                            
                                                             }
@@ -174,15 +174,15 @@
 
                                     foreach (var item in Model.Notifies.ToList())
                                     {
-                                        <tr>
-                                            <td>@Html.DisplayFor(o => o.Notifies[j].Doc)</td>
-                                            <td>@Html.DisplayFor(o => o.Notifies[j].Date)</td>
-                                            <td>@Html.DisplayFor(o => o.Notifies[j].Type)</td>
-                                            <td>@Html.DisplayFor(o => o.Notifies[j].Item)</td>
-                                            <td>@Html.DisplayFor(o => o.Notifies[j].Drum)</td>
-                                            <td> <a class="nav-link" href="@Url.Action("QCFinalValueEntry", "QCFinalValueEntry",new { id=item.ID })"> <span class="title">Go To QC </span> </a></td>
+                                            <tr>
+                                                <td>@Html.DisplayFor(o => o.Notifies[j].Doc)</td>
+                                                <td>@Html.DisplayFor(o => o.Notifies[j].Date)</td>
+                                                <td>@Html.DisplayFor(o => o.Notifies[j].Type)</td>
+                                                <td>@Html.DisplayFor(o => o.Notifies[j].Item)</td>
+                                                <td>@Html.DisplayFor(o => o.Notifies[j].Drum)</td>
+                                                <td> <a class="nav-link" href="@Url.Action("QCFinalValueEntry", "QCFinalValueEntry",new { id=item.ID })"> <span class="title">Go To QC </span> </a></td>
 
-                                        </tr>
+                                            </tr>
                                         j = j + 1;
 
                                     }
@@ -198,11 +198,60 @@
 	
 						</div>
 
- 
+ <div class="row" >
+     <div class="col-lg-6 top5">
+							<div class="ibox float-e-margins " style="padding-left : 20px;">
+								
+								<div class="ibox-content top10" id="demo2">
+									<div class="demo-container">
+										<div class="table-responsive">
+											<h3><span style="color:brown">Out of Stock in Store</span></h3><br />
+                              <table class="table table-bordered table-hover">
+                                 <thead>
+                                     <tr>
+                                       <th>Location Name</th>
+                                       <th>Date</th>
+                                       <th>Item Name</th>
+                                       <th>Available Stock</th>
+                                       <th>Rquested Qty</th>
+									   <th>Unit</th>
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                                   @{
+
+                                                            int k = 0;
+                                                           
+                                                            foreach (var item in Model.Materialnotification.ToList())
+                                                            {
+                                                                <tr>
+                                                                <td>@Html.DisplayFor(o => o.Materialnotification[k].Date)</td>
+                                                                <td>@Html.DisplayFor(o => o.Materialnotification[k].LocationName)</td>
+                                                                <td>@Html.DisplayFor(o => o.Materialnotification[k].ItemName)</td>
+                                                                <td><span style="color:red">@Html.DisplayFor(o => o.Materialnotification[k].stockQty)</span></td>
+                                                                <td>@Html.DisplayFor(o => o.Materialnotification[k].TotalQty)</td>
+                                                                <td>@Html.DisplayFor(o => o.Materialnotification[k].Unit)</td>
+                                                                </tr>
+															k = k + 1;
+                                                           
+                                                            }
+                                                        }
+                                 </tbody>
+                              </table>
+                       
+                             
+                           </div>
+                </div>
+              
+									</div>
+								</div>
+	
+						</div>
+ </div>
 								
 							 
 						 
-
+</div>
  
 
 
@@ -211,7 +260,7 @@
 
 
           <!-- tabs -->
-          <div class="col-lg-8 top20">
+       @*   <div class="col-lg-8 top20">
             <div class="tabs-container">
               <ul class="nav nav-tabs">
                 <li class="active"><a href="#tab-1" data-toggle="tab"><i class="fa fa-money" aria-hidden="true"></i> Transactions Panel  </a></li>
@@ -390,6 +439,6 @@
     </div>
 </div>
           
-</div>
+</div>*@
 		
 
