@@ -1,7 +1,7 @@
 ﻿@model Arasan.Models.Tax
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Tax";
 }
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
@@ -21,7 +21,11 @@
             <div class="ibox float-e-margins">
                 <div class="widgets-container">
                   
+                     
                     <hr>
+                    @using (Html.BeginForm("Tax", "Tax", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
                     <form>
                         <div class="row">
                               <div class="col-lg-3"></div>
@@ -30,7 +34,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Tax Type<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
+                                        @Html.TextBoxFor(C => C.Taxtype, new { @id = "txtTaxType", @class = "form-control", @TabIndex = 1 })<br />
                                     </div>
                                 </div>
                             </div>
@@ -42,7 +46,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Tax Percentage %<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="" type="text" ,@maxlength="3" , onkeydown="return isNumeric2(event.keyCode,this.value)"><br />
+                                            @Html.TextBoxFor(C => C.Percentage, new { @id = "txtPercentage", @class = "form-control",onkeydown = "return isNumeric2(event.keyCode,this.value)", @TabIndex = 1 })<br />
                                     </div>
 
                                 </div>
@@ -51,12 +55,60 @@
                        
                         <div style="height:30px;"></div>
                         <div class="col-lg-8"></div>
-                        <a button type="submit" class="btn aqua m-t-xs bottom15-xs" href="@Url.Action("ListTax", "Tax")">Submit</a>
-                        <a button class="btn btn-danger" type="submit" href="@Url.Action("ListTax", "Tax")">Cancel</a>
+                        <button type="submit" class="btn aqua m-t-xs bottom15-xs " id="btnSave">Submit</button>
+                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListTax", "Tax")'">Cancel</button>
 
-                    </form>
+                    </form> 
+                    }
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+
+            if (document.getElementById("txtTaxType").value == "") {
+                isValid = false;
+                $(txtTaxType).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Tax Type");
+                return false;
+            }
+            else {
+                $(txtTaxType).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtPercentage").value == "") {
+                isValid = false;
+                $(txtPercentage).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Percentage");
+                return false;
+            }
+            else {
+                $(txtPercentage).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+
+            if (isValid == false)
+                e.preventDefault();
+
+        });
+
+    });
+</script>

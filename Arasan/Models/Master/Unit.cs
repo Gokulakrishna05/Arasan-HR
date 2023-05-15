@@ -2,8 +2,9 @@
 {
     public class Unit
     {
-        public int Id { get; set; }
-        public string UnitId { get; set; }
+        public string ID { get; set; }
+        public string UnitName { get; set; }
+        public string UnitCode { get; set; }
        
 
     }

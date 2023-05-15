@@ -100,7 +100,13 @@ internal class Program
         builder.Services.TryAddSingleton<IQCFinalValueEntryService, QCFinalValueEntryService>(); 
         builder.Services.TryAddSingleton<IProductionForecastingService, ProductionForecastingService>();
         builder.Services.TryAddSingleton<ISectionService, SectionService>();
+      
+        builder.Services.TryAddSingleton<IDrumMaster, DrumMasterService>();
+        builder.Services.TryAddSingleton<IDrumCategory, DrumCategoryService>();
+
+
         builder.Services.TryAddSingleton<IDrumLocation, DrumLocationService>();
+
 
         builder.Services.AddSession();
         var emailConfig = builder.Configuration.GetSection("MailSettings").Get<MailSettings>();

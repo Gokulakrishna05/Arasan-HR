@@ -1,7 +1,7 @@
-﻿@model IEnumerable<Arasan.Models.Tax>
+﻿@model IEnumerable<Arasan.Models.DrumCategory>
 
 @{
-    ViewData["Title"] = "Tax";
+    ViewData["Title"] = "DrumCategory";
 }
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
@@ -9,7 +9,7 @@
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Master</a> </li>
-            <li class="active"> <strong>Tax</strong> </li>
+            <li class="active"> <strong>DrumCategory</strong> </li>
         </ol>
     </div>
 </div>
@@ -25,9 +25,9 @@
                             <div class="col-md-12 ">
                                 <div class=" textalignright">
 
-                                    <a href="@Url.Action("Tax", "Tax")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Unit</a>
+                                    <a href="@Url.Action("NewCategory", "DrumCategory")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add DrumCategory</a>
 
-                                    <br>
+                                   <br>
                                 </div>
 
 
@@ -45,8 +45,9 @@
                                                     <thead>
                                                         <tr>
                                                             <th>S.No</th>
-                                                            <th>Tax Type</th>
-                                                            <th>TaxPercentage</th>
+                                                            <th>Category Type</th>
+                                                            <th>Description</th>
+                                                            <th>Status</th>
 
                                                             <th>Edit</th>
                                                             <th>Delete</th>
@@ -60,16 +61,17 @@
                                                             {
                                                                 <tr>
                                                                     <td>@i</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.Taxtype)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.Percentage)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.CategoryType)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Status)</td>
 
-
-                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Tax", "Tax", new { id=item.ID })"></a></div></td>
-                                                                    <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("Tax", "Tax", new { id=item.ID })"></a></div></td>
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("DrumCategory", "DrumCategory", new { id=item.ID })"></a></div></td>
+                                                                    <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("DrumCategory", "DrumCategory", new { id=item.ID })"></a></div></td>
                                                                 </tr>
                                                                 i++;
                                                             }
                                                         }
+                                                       
                                                     </tbody>
                                                 </table>
                                             </div>

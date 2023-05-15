@@ -12,9 +12,9 @@ namespace Arasan.Services.Master
     public class CompanyService : ICompanyService
     {
         private readonly string _connectionString;
-        public CompanyService(IConfiguration _configuratio)
+        public CompanyService(IConfiguration _configuration)
         {
-            _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
+            _connectionString = _configuration.GetConnectionString("OracleDBConnection");
         }
         public IEnumerable<Company> GetAllCompany()
         {
