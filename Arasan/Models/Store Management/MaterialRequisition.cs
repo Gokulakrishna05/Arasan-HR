@@ -9,6 +9,7 @@ namespace Arasan.Models
             this.Brlst = new List<SelectListItem>();
             this.Loclst = new List<SelectListItem>();
             this.Worklst = new List<SelectListItem>();
+            this.Processlst = new List<SelectListItem>();
             //this.MRlst = new List<MaterialRequistionItem>();
             this.assignList = new List<SelectListItem>();
         }
@@ -34,6 +35,7 @@ namespace Arasan.Models
         public List<SelectListItem> Brlst;
         public List<SelectListItem> Loclst;
         public List<SelectListItem> Worklst;
+        public List<SelectListItem> Processlst;
         public List<MaterialRequistionItem> MRlst { get; set; }
         public List<SelectListItem> assignList;
     }

@@ -41,7 +41,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Location Name<label class="mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Location Name<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
  
                                             @Html.DropDownListFor(C => C.Location, Model.Cur,"Please Select", new { @id = "ddlLocation", @Class = "form-control _select", @TabIndex = 1 })
@@ -60,7 +60,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <br /><label for="inputName3" class="col-sm-4 control-label">Sub Group<label class="mandatory"></label></label>
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Sub Group<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
 
                                             @Html.DropDownListFor(C => C.Sub, Model.Sublst,"Please Select", new { @id = "ddlSub", @Class = "form-control _select", @TabIndex = 1 })
@@ -76,7 +76,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Shed Number<label class="mandatory"></label></label>
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Shed Number<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.Shed, new { @id = "txtShed", @class = "form-control", @TabIndex = 1})
                                         </div>
@@ -87,7 +87,7 @@
                                 <div class="col-lg-3"></div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Capacity<label class="Mandatory"></label></label>
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Capacity<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.Cap, new { @id = "txtCap", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
 
@@ -133,7 +133,38 @@
         $(document).ready(function () {
             $('#btnSave').click(function (e) {
                 var isValid = true;
+            if (document.getElementById("ddlLocation").value == "" || document.getElementById("ddlLocation").value == 0) {
+                isValid = false;
+                $(ddlLocation).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
 
+                alert("Please Select Location");
+                return false;
+            }
+            else {
+                $(ddlLocation).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("ddlSub").value == "" || document.getElementById("ddlSub").value == 0) {
+                isValid = false;
+                $(ddlSub).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Sub Group");
+                return false;
+            }
+            else {
+                $(ddlSub).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
             if (document.getElementById("txtShed").value == "") {
                     isValid = false;
                 $(txtShed).css({

@@ -31,6 +31,8 @@ namespace Arasan.Controllers.Store_Management
             MaterialRequisition MR = new MaterialRequisition();
             MR.Brlst = BindBranch();
             MR.Loclst = GetLoc( );
+            MR.Worklst = BindWorkCenter();
+            MR.Processlst = BindProcess("");
             MR.assignList = BindEmp();
             MR.Branch = Request.Cookies["BranchId"];
             MR.Entered= Request.Cookies["UserId"];
@@ -59,8 +61,10 @@ namespace Arasan.Controllers.Store_Management
                 {
                     MR.Branch = dt.Rows[0]["BRANCHID"].ToString();
                     MR.Location = dt.Rows[0]["FROMLOCID"].ToString();
-                    //MR.Process = dt.Rows[0]["PROCESSID"].ToString();
-                    //MR.RequestType = dt.Rows[0]["REQTYPE"].ToString();
+                    MR.WorkCenter = dt.Rows[0]["WCID"].ToString();
+                    MR.Processlst = BindProcess(MR.WorkCenter);
+                    MR.Process = dt.Rows[0]["PROCESSID"].ToString();
+                    MR.RequestType = dt.Rows[0]["REQTYPE"].ToString();
                     //MR.DocId = dt.Rows[0]["DOCID"].ToString();
                     MR.DocDa = dt.Rows[0]["DOCDATE"].ToString();
 
@@ -209,6 +213,47 @@ namespace Arasan.Controllers.Store_Management
 
             return View(Cy);
         }
+        public List<SelectListItem> BindWorkCenter()
+        {
+            try
+            {
+                DataTable dtDesg = materialReq.GetWorkCenter();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["WCID"].ToString(), Value = dtDesg.Rows[i]["WCBASICID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public JsonResult GetProcessJSON(string supid)
+        {
+            MaterialRequisition model = new MaterialRequisition();
+            model.Processlst = BindProcess(supid);
+            return Json(BindProcess(supid));
+
+        }
+        public List<SelectListItem> BindProcess(string id)
+        {
+            try
+            {
+                DataTable dtDesg = materialReq.BindProcess(id);
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PROCESSNAME"].ToString(), Value = dtDesg.Rows[i]["PROCESSID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<SelectListItem> BindBranch()
         {
             try
@@ -320,6 +365,9 @@ namespace Arasan.Controllers.Store_Management
                 MR.Branch = dt.Rows[0]["BRANCHID"].ToString();
                 MR.DocId= dt.Rows[0]["DOCID"].ToString();
                 MR.DocDa= dt.Rows[0]["DOCDATE"].ToString();
+                MR.WorkCenter = dt.Rows[0]["WCID"].ToString();
+                MR.Process = dt.Rows[0]["PROCESSNAME"].ToString();
+
                 MR.RequestType = dt.Rows[0]["REQTYPE"].ToString();
                 MR.BranchId = dt.Rows[0]["BRANCHIDS"].ToString();
                 MR.LocationId= dt.Rows[0]["FROMLOCID"].ToString();

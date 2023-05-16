@@ -17,10 +17,20 @@ namespace Arasan.Services
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public DataTable GetWorkCenter(string LocationId)
+        public DataTable GetWorkCenter( )
         {
             string SvSql = string.Empty;
-            SvSql = "Select WCBASIC.ILOCATION,WCID LOCDETAILS from WCBASIC LEFT OUTER JOIN LOCDETAILS on LOCDETAILS.LOCDETAILSID = WCBASIC.ILOCATION where LOCDETAILS.LOCDETAILSID = '" + LocationId + "'";
+            SvSql = "Select WCID,WCBASICID from WCBASIC ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable BindProcess(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select PROCESSMAST.PROCESSNAME,WCBASIC.PROCESSID from WCBASIC left outer join PROCESSMAST on PROCESSMASTID=WCBASIC.PROCESSID where WCBASICID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -30,7 +40,7 @@ namespace Arasan.Services
         public DataTable GetmaterialReqDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select BRANCHID ,FROMLOCID,PROCESSID,REQTYPE,DOCID,to_char(STORESREQBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,STORESREQBASICID  from STORESREQBASIC where STORESREQBASICID=" + id + "";
+            SvSql = "Select BRANCHID ,FROMLOCID,PROCESSID,WCID,DOCID,to_char(STORESREQBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,REQTYPE,STORESREQBASICID  from STORESREQBASIC where STORESREQBASICID=" + id + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -70,7 +80,7 @@ namespace Arasan.Services
         public DataTable GetMatbyID(string MatId)
         {
             string SvSql = string.Empty;
-            SvSql = "Select STORESREQBASIC.BRANCHID as BRANCHIDS,STORESREQBASIC.FROMLOCID,BRANCHMAST.BRANCHID,LOCDETAILS.LOCID,PROCESSID,REQTYPE,DOCID,to_char(STORESREQBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,STORESREQBASICID  from STORESREQBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=STORESREQBASIC.BRANCHID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=STORESREQBASIC.FROMLOCID where STORESREQBASICID='" + MatId +"'";
+            SvSql = "Select STORESREQBASIC.BRANCHID as BRANCHIDS,STORESREQBASIC.FROMLOCID,BRANCHMAST.BRANCHID,LOCDETAILS.LOCID,PROCESSMAST.PROCESSNAME,WCBASIC.WCID,REQTYPE,DOCID,to_char(STORESREQBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,STOCK,STORESREQBASICID  from STORESREQBASIC LEFT OUTER JOIN WCBASIC ON WCBASICID=STORESREQBASIC.WCID  LEFT OUTER JOIN PROCESSMAST ON PROCESSMASTID=STORESREQBASIC.PROCESSID LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=STORESREQBASIC.BRANCHID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=STORESREQBASIC.FROMLOCID where STORESREQBASICID='" + MatId +"'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -465,8 +475,9 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = MATNo;
                     objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = cy.DocDa;
                     objCmd.Parameters.Add("FROMLOCID", OracleDbType.NVarchar2).Value = EmpID;
-                    //objCmd.Parameters.Add("PROCESSID", OracleDbType.NVarchar2).Value = cy.Process;
-                    //objCmd.Parameters.Add("REQTYPE", OracleDbType.NVarchar2).Value = cy.RequestType;
+                    objCmd.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = cy.WorkCenter;
+                    objCmd.Parameters.Add("PROCESSID", OracleDbType.NVarchar2).Value = cy.Process;
+                    objCmd.Parameters.Add("REQTYPE", OracleDbType.NVarchar2).Value = cy.RequestType;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     objConn.Open();
