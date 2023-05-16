@@ -110,7 +110,7 @@
                                                             {
                                                                 
                                         <tr>
-                                                                                    <td>@Html.DisplayFor(o => o.MRlst[i].Item)</td>
+                                                                                    <td>@Html.DisplayFor(o => o.MRlst[i].Item)@Html.HiddenFor(o => o.MRlst[i].ItemId) </td>
                                                                                     <td>@Html.DisplayFor(o => o.MRlst[i].ReqQty)</td>
                                                                                     <td>@Html.DisplayFor(o => o.MRlst[i].ClosingStock)</td>
                                                                                     <td>@Html.DisplayFor(o => o.MRlst[i].Unit)@Html.HiddenFor(o => o.MRlst[i].UnitID)</td>
