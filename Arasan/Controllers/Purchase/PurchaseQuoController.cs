@@ -151,20 +151,20 @@ namespace Arasan.Controllers
                 string Content = "";
                 IEnumerable<QoItem> cmp = PurquoService.GetAllPurQuotationItem(id);
                 Content = @"<html> 
-                < head >
-    < style >
+                <head>
+    <style>
                 table, th, td {
                 border: 1px solid black;
                     border - collapse: collapse;
                 }
-    </ style >
-</ head >
-< body >
+    </style>
+</head>
+<body>
 <p>Dear Sir,</p>
 </br>
   <p> Kindly arrange to send your lowest price offer for the following items through our email immediately.</p>
 </br>
-< table style = 'border: 1px solid black;border-collapse: collapse;' > ";
+<table style = 'border: 1px solid black;border-collapse: collapse;'> ";
 
 
 
