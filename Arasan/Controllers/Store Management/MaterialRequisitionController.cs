@@ -381,6 +381,7 @@ namespace Arasan.Controllers.Store_Management
                 {
                     tda = new MaterialRequistionItem();
                     tda.Item = dtt.Rows[i]["ITEMID"].ToString();
+                    tda.ItemId =  dtt.Rows[i]["ITEMMASTERID"].ToString();
                     tda.UnitID = dtt.Rows[i]["UNIT"].ToString();
                     tda.Unit = dtt.Rows[i]["UNITID"].ToString();
                     tda.ReqQty = dtt.Rows[i]["QTY"].ToString();
@@ -388,7 +389,14 @@ namespace Arasan.Controllers.Store_Management
                     DataTable dt1 = materialReq.Getstkqty(dtt.Rows[i]["ITEMMASTERID"].ToString(), dt.Rows[0]["FROMLOCID"].ToString(), dt.Rows[0]["BRANCHIDS"].ToString());
                     if (dt1.Rows.Count > 0)
                     {
-                        tda.ClosingStock = dt1.Rows[0]["QTY"].ToString();
+                        if (string.IsNullOrEmpty(dt1.Rows[0]["QTY"].ToString()))
+                        {
+                            tda.ClosingStock = "0";
+                        }
+                        else
+                        {
+                            tda.ClosingStock = dt1.Rows[0]["QTY"].ToString();
+                        }
                     }
                     double stkqty = 0;
                     if(!string.IsNullOrEmpty(tda.ClosingStock))
@@ -438,6 +446,7 @@ namespace Arasan.Controllers.Store_Management
                 {
                     tda = new MaterialRequistionItem();
                     tda.Item = dtt.Rows[i]["ITEMID"].ToString();
+                    tda.ItemId = dtt.Rows[i]["ITEMMASTERID"].ToString();
                     tda.UnitID = dtt.Rows[i]["UNIT"].ToString();
                     tda.Unit = dtt.Rows[i]["UNITID"].ToString();
                     tda.ReqQty = dtt.Rows[i]["QTY"].ToString();
@@ -445,7 +454,15 @@ namespace Arasan.Controllers.Store_Management
                     DataTable dt1 = materialReq.Getstkqty(dtt.Rows[i]["ITEMMASTERID"].ToString(), dt.Rows[0]["FROMLOCID"].ToString(), dt.Rows[0]["BRANCHIDS"].ToString());
                     if (dt1.Rows.Count > 0)
                     {
-                        tda.ClosingStock = dt1.Rows[0]["QTY"].ToString();
+                        if (string.IsNullOrEmpty(dt1.Rows[0]["QTY"].ToString()))
+                        {
+                            tda.ClosingStock = "0";
+                        }
+                        else
+                        {
+                            tda.ClosingStock = dt1.Rows[0]["QTY"].ToString();
+                        }
+
                     }
                     double stkqty = 0;
                     if (!string.IsNullOrEmpty(tda.ClosingStock))

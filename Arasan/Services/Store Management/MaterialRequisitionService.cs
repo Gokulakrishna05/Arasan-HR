@@ -193,7 +193,7 @@ namespace Arasan.Services
                 {
                     foreach (MaterialRequistionItem cp in cy.MRlst)
                     {
-                        if (cp.Isvalid == "Y" && cp.ItemId != "0")
+                        if (cp.ItemId != "0")
                         {
                             if (cp.IndQty > 0)
                             {
