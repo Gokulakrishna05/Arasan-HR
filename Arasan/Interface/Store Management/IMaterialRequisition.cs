@@ -12,7 +12,8 @@ namespace Arasan.Interface
        //DataTable GetWorkCenter(string LocationId);
         //   DataTable GetItem(string value);
         //  DataTable GetItemGrp();
-        DataTable GetItem();
+        DataTable GetItem(string id);
+        DataTable GetItemGrp();
         DataTable GetItemDetails(string ItemId);
        //  string MaterialRequestCRUD(MaterialRequisition mr);
         string MaterialCRUD(MaterialRequisition cy);
@@ -29,6 +30,8 @@ namespace Arasan.Interface
         string IssuetoIndent(MaterialRequisition cy);
         string ApproveMaterial(MaterialRequisition cy);
 
-
+         string MaterialStatus(MaterialRequisition cy);
+        DataTable GetMatStabyID(string MatId);
+        DataTable GetMatStaItemByID(string MatId);
     }
 }

@@ -32,7 +32,7 @@
 
                                         <label for="inputName3" class="col-sm-4 control-label">Company Name<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.CompanyName, Model.Compalst, new { @id = "ddlCompany", @Class = "form-control chosen-select", @TabIndex = 1 })<br />
+                                            @Html.DropDownListFor(C => C.CompanyName, Model.Compalst, new { @id = "ddlCompany", @Class = "form-control _select", @TabIndex = 1 })<br />
                                         </div>
                                     </div>
                                 </div>
@@ -68,7 +68,7 @@
 
                                         <label for="inputName3" class="col-sm-4 control-label">Country<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.countryid, Model.cuntylst, new { @id = "ddlcountry", @Class = "form-control chosen-select", @TabIndex = 1 })<br />
+                                            @Html.DropDownListFor(C => C.countryid, Model.cuntylst, new { @id = "ddlcountry", @Class = "form-control _select", @TabIndex = 1,onchange = "StateChange(value)" })<br />
                                         </div>
 
                                     </div>
@@ -78,9 +78,9 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">State<label class="Mandatory"></label></label>
+                                        <br />  <label for="inputName3" class="col-sm-4 control-label">State<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C. StateName , Model.statlst, new { @id = "ddlState", @Class = "form-control chosen-select", @TabIndex = 1 })<br />
+                                            @Html.DropDownListFor(C => C. StateName , Model.statlst, new { @id = "ddlState", @Class = "form-control _select", @TabIndex = 1 })<br />
                                         </div>
 
                                     </div>
@@ -88,7 +88,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">City<label class="Mandatory"></label></label>
+                                        <br />  <label for="inputName3" class="col-sm-4 control-label">City<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
                                            @* <input class="form-control" id="inputEmail3" placeholder="" type="text" ><br />*@
                                             @Html.TextBoxFor(C => C.City, new { @id = "City",@class = "form-control", @TabIndex = 1 })
@@ -101,7 +101,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Pin Code<label class="Mandatory"></label></label>
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Pin Code<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
 
                                             @Html.TextBoxFor(C => C.PinCode, new { @id = "PinCode",@maxlength="6",onkeydown = "return isNumeric2(event.keyCode,this.value)", @class = "form-control", @TabIndex = 2,@size="30" })
@@ -112,7 +112,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">GST No<label class="Mandatory"></label></label>
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">GST No<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
                                            @* <input type="text" class="numericOnly" placeholder="Search" id="txtSearch">*@
 
@@ -165,5 +165,39 @@
         minView: 2,
         forceParse: 0
     });
-    $(".chosen-select").chosen();
+
+    $(function () {
+        $('._select').select2();
+    });
+    function StateChange(itemid) {
+        //alert(itemid);
+        //debugger;
+        $.ajax({
+            url: "GetStateJSON",
+            type: "post",
+            data: { 'supid': itemid },
+            cache: false,
+            success: function (response) {
+                var newlist;
+                //alert(JSON.stringify(response));
+                newlist = response.Ilst;
+                PopulateDropDown("#ddlState", response);
+            },
+            error: function () {
+                debugger;
+                alert("Please Select Country");
+            }
+        });
+    }
+    function PopulateDropDown(dropDownId, list) {
+        //alert(list);
+        $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
+        if (list != null && list.length > 0) {
+            $(dropDownId).removeAttr("disabled");
+            $.each(list, function () {
+                $(dropDownId).append($("<option></option>").val(this['value']).html(this['text']));
+            });
+        }
+        $(dropDownId).trigger("liszt:updated");
+    }
 </script>
