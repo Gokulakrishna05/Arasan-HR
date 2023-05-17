@@ -222,38 +222,37 @@ namespace Arasan.Controllers.Master
         [HttpPost]
         public ActionResult MultipleLocationSelect(MultipleLocation mp, string id)
         {
-            if (ModelState.IsValid)
-            {
+            
                 id = id != null ? id : "0";
-                try
+            try
+            {
+                mp.ID = id;
+                string Strout = EmployeeService.GetMultipleLocation(mp);
+                if (string.IsNullOrEmpty(Strout))
                 {
-                    mp.ID = id;
-                    string Strout = EmployeeService.GetMultipleLocation(mp);
-                    if (string.IsNullOrEmpty(Strout))
+                    if (mp.ID == null)
                     {
-                        if (mp.ID == null)
-                        {
-                            TempData["notice"] = "Multiple Location Inserted Successfully...!";
-                        }
-                        else
-                        {
-                            TempData["notice"] = "Multiple Location Updated Successfully...!";
-                        }
-                        return RedirectToAction("ListEmployee");
+                        TempData["notice"] = "Multiple Location Inserted Successfully...!";
                     }
                     else
                     {
-                        TempData["notice"] = Strout;
-                        ViewBag.PageTitle = "Edit MultipleLocation";
-
-                        return View(mp);
+                        TempData["notice"] = "Multiple Location Updated Successfully...!";
                     }
+                    return RedirectToAction("ListEmployee");
                 }
-                catch (Exception ex)
+                else
                 {
-                    throw ex;
+                    TempData["notice"] = Strout;
+                    ViewBag.PageTitle = "Edit MultipleLocation";
+
+                    return View(mp);
                 }
             }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            
             return View(mp);
 
         }
