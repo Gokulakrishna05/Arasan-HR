@@ -67,6 +67,16 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetItemGroup(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select ITEMID,ITEMGROUP FROM ITEMMASTER where ITEMMASTERID='"+ id +"' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetItem(string value)
         {
             string SvSql = string.Empty;

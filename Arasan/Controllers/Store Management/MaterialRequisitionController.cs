@@ -84,11 +84,11 @@ namespace Arasan.Controllers.Store_Management
                          
                         tda.ItemGrouplst = BindItemGrplst();
                         DataTable dt3 = new DataTable();
-                        //dt3 = datatrans.GetItemSubGroup(dtt.Rows[i]["ITEMID"].ToString());
-                        //if (dt3.Rows.Count > 0)
-                        //{
-                        //    tda.ItemGroupId = dt3.Rows[0]["SUBGROUPCODE"].ToString();
-                        //}
+                       dt3 = materialReq.GetItemGroup(dtt.Rows[i]["ITEMID"].ToString());
+                        if (dt3.Rows.Count > 0)
+                        {
+                            tda.ItemGroupId = dt3.Rows[0]["ITEMGROUP"].ToString();
+                        }
                         tda.Itemlst = BindItemlst(tda.ItemGroupId);
                         tda.ItemId = dtt.Rows[i]["ITEMID"].ToString();
                         tda.Unit = dtt.Rows[i]["UNITID"].ToString();
