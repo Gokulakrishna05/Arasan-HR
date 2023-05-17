@@ -104,7 +104,7 @@ namespace Arasan.Services
         public DataTable GetMatItemByID(string MatId)
         {
             string SvSql = string.Empty;
-            SvSql = "Select STORESREQDETAIL.UNIT,ITEMMASTER.ITEMMASTERID,UNITMAST.UNITID,ITEMMASTER.ITEMID,STORESREQDETAIL.QTY from STORESREQDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=STORESREQDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=STORESREQDETAIL.UNIT WHERE STORESREQDETAIL.STORESREQBASICID='" + MatId + "'";
+            SvSql = "Select STORESREQDETAILID,STORESREQDETAIL.UNIT,ITEMMASTER.ITEMMASTERID,UNITMAST.UNITID,ITEMMASTER.ITEMID,STORESREQDETAIL.QTY from STORESREQDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=STORESREQDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=STORESREQDETAIL.UNIT WHERE STORESREQDETAIL.STORESREQBASICID='" + MatId + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -250,18 +250,18 @@ namespace Arasan.Services
                                 OracleCommand objCmd = new OracleCommand("PIPROC", objConn);
 
                                 objCmd.CommandType = CommandType.StoredProcedure;
-                                if (cy.ID == null)
-                                {
+                                //if (cy.ID == null)
+                                //{
                                     StatementType = "Insert";
                                     objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-                                }
-                                else
-                                {
-                                    StatementType = "Update";
-                                    objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
-                                }
+                                //}
+                                //else
+                                //{
+                                //    StatementType = "Update";
+                                //    objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                                //}
 
-                                objCmd.Parameters.Add("Branch", OracleDbType.NVarchar2).Value = cy.Branch;
+                                objCmd.Parameters.Add("Branch", OracleDbType.NVarchar2).Value = cy.BranchId;
                                 objCmd.Parameters.Add("Location", OracleDbType.NVarchar2).Value = cy.LocationId;
                                 objCmd.Parameters.Add("IndentNo", OracleDbType.NVarchar2).Value = Indentno;
                                 objCmd.Parameters.Add("IndentDate", OracleDbType.Date).Value = DateTime.Now;
@@ -272,8 +272,8 @@ namespace Arasan.Services
                                 objCmd.Parameters.Add("EnterDate", OracleDbType.Date).Value = DateTime.Now;
                                 objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                 objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
-                                objCmd.ExecuteNonQuery();
                                 objConn.Open();
+                                objCmd.ExecuteNonQuery();
                                 Object Pid = objCmd.Parameters["OUTID"].Value;
 
                                 OracleCommand objCmds = new OracleCommand("PIDETAILPROC", objConn);
@@ -297,6 +297,13 @@ namespace Arasan.Services
 
                         }
                     }
+
+                    svSQL = "UPDATE STORESREQBASIC SET STATUS ='CLOSE' WHERE STORESREQBASICID='" + cy.MaterialReqId + "'";
+                    OracleCommand objCmdst = new OracleCommand(svSQL, objConn);
+                    objCmdst.ExecuteNonQuery();
+                    objConn.Close();
+
+
                 }
             }
             catch (Exception ex)
@@ -411,9 +418,20 @@ namespace Arasan.Services
                                 }
                                 /////////////////////////Inventory Update
                             }
-                           
+                            if (cp.IndQty > 0)
+                            {
+                                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                                {
+                                    string Sql = string.Empty;
+                                    svSQL = "UPDATE STORESREQDETAIL SET PENDING_QTY ='" + cp.IndQty + "' WHERE STORESREQDETAILID='" + cp.indentid + "'";
+                                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                                    objConnT.Open();
+                                    objCmds.ExecuteNonQuery();
+                                    objConnT.Close();
+                                }
+                            }
 
-                        }
+                            }
                     }
                 }
             }

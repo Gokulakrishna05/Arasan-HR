@@ -119,6 +119,7 @@
                           <th>Quantity</th>
                           <th>Stock Quantity</th>
                           <th>Unit</th>
+                           <th>Pending Quantity</th>
                         <th>Issue Quantity</th>
                         </tr>
                       </thead>
@@ -134,8 +135,10 @@
                                                                                     <td>@Html.DisplayFor(o => o.MRlst[i].Item)@Html.HiddenFor(o => o.MRlst[i].ItemId)</td>
                                                                                     <td>@Html.DisplayFor(o => o.MRlst[i].ReqQty)</td>
                                                                                     <td>@Html.DisplayFor(o => o.MRlst[i].ClosingStock)</td>
-                                                                                    <td>@Html.DisplayFor(o => o.MRlst[i].Unit)@Html.HiddenFor(o => o.MRlst[i].UnitID)@Html.HiddenFor(o => o.MRlst[i].Isvalid)</td>
+                                                                                    <td>@Html.DisplayFor(o => o.MRlst[i].Unit)@Html.HiddenFor(o => o.MRlst[i].UnitID)@Html.HiddenFor(o => o.MRlst[i].Isvalid)@Html.HiddenFor(o => o.MRlst[i].UnitID)@Html.HiddenFor(o => o.MRlst[i].indentid)</td>
+                                                                                     <td>@Html.TextBoxFor(o => o.MRlst[i].IndQty, new { @id = "PendingQty" + i, @class = "form-control", style = "width: 80px;color:red;" ,@readonly=true})</td> 
                                                                            <td>@Html.TextBoxFor(o => o.MRlst[i].InvQty, new { @id = "InvQty" + i, @class = "form-control",@readonly=true , style = "width: 80px;"})</td>
+                                                                            
                                          </tr>
                                                                 i++;
                                                             }

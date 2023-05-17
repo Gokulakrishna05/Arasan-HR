@@ -24,7 +24,7 @@ namespace Arasan.Models
         public string Process { get; set; }
         public string WorkCenter { get; set; }
 
-        public int MaterialReqId { get; set; }
+        public string MaterialReqId { get; set; }
         public DateTime MaterialReqDate { get; set; }
 
         public string RequestType { get; set; }
@@ -57,7 +57,7 @@ namespace Arasan.Models
         public double IndQty { get; set; }
         public double InvQty { get; set; }
         public string Isvalid { get; set; }
-
+        public string indentid { get; set; }
         public List<SelectListItem> Itemlst { get; set; }
 
        
