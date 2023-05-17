@@ -26,6 +26,7 @@ namespace Arasan.Controllers.Master
             Employee E = new Employee();
             E.Statelst = BindState();
             E.Citylst = BindCity();
+
             //List<EduDeatils> TData = new List<EduDeatils>();
             //EduDeatils tda = new EduDeatils();
             if (id == null)
@@ -204,8 +205,8 @@ namespace Arasan.Controllers.Master
         public ActionResult MultipleLocationSelect(string id)
         {
             MultipleLocation E = new MultipleLocation();
-          
-            DataTable dt = new DataTable();
+			E.CreadtedBy = Request.Cookies["UserId"];
+			DataTable dt = new DataTable();
             dt = EmployeeService.GetCurrentUser(id);
             if (dt.Rows.Count > 0)
             {

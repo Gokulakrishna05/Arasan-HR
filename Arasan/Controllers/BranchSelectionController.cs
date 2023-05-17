@@ -24,9 +24,10 @@ namespace Arasan.Controllers
         public IActionResult BranchSelection(string id)
         {
             BranchSelection br = new BranchSelection();
-            br.Loclst = BindLocation("10001000000001");
+			var userId = Request.Cookies["UserId"];
+			br.Loclst = BindLocation(userId);
             br.Brlst = BindBranch();
-
+            //br.User = Request.Cookies["UserId"];
 
             return View(br);
         }
@@ -52,11 +53,11 @@ namespace Arasan.Controllers
             return Json(BindLocation(branch));
 
         }
-        public List<SelectListItem> BindBranch()
+        public List<SelectListItem> BindBranch( )
         {
             try
             {
-                DataTable dtDesg = BranchSelectionService.GetBranch();
+                DataTable dtDesg = BranchSelectionService.GetBranch( );
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -77,7 +78,7 @@ namespace Arasan.Controllers
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["LOCID"].ToString(), Value = dtDesg.Rows[i]["LOCDETAILSID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["LOCID"].ToString(), Value = dtDesg.Rows[i]["LOCID"].ToString() });
                 }
                 return lstdesg;
             }
