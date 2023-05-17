@@ -64,6 +64,7 @@ namespace Arasan.Controllers.Store_Management
                 {
                     MR.Branch = dt.Rows[0]["BRANCHID"].ToString();
                     MR.Location = dt.Rows[0]["FROMLOCID"].ToString();
+                    MR.Worklst = BindWorkCenter(MR.Location);
                     MR.WorkCenter = dt.Rows[0]["WCID"].ToString();
                     MR.Processlst = BindProcess(MR.WorkCenter);
                     MR.Process = dt.Rows[0]["PROCESSID"].ToString();

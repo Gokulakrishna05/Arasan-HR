@@ -488,7 +488,7 @@ namespace Arasan.Services
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                {
-                    string EmpID = datatrans.GetDataString("Select LOCDETAILSID from LOCDETAILS where LOCID='" + cy.Location + "' ");
+                    
 
                     OracleCommand objCmd = new OracleCommand("MATERIALREQPROC", objConn);
                 
@@ -506,7 +506,7 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
                     objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = MATNo;
                     objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = cy.DocDa;
-                    objCmd.Parameters.Add("FROMLOCID", OracleDbType.NVarchar2).Value = EmpID;
+                    objCmd.Parameters.Add("FROMLOCID", OracleDbType.NVarchar2).Value = cy.Location;
                     objCmd.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = cy.WorkCenter;
                     objCmd.Parameters.Add("PROCESSID", OracleDbType.NVarchar2).Value = cy.Process;
                     objCmd.Parameters.Add("REQTYPE", OracleDbType.NVarchar2).Value = cy.RequestType;
