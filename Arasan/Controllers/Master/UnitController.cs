@@ -18,8 +18,7 @@ namespace Arasan.Controllers
         public UnitController(IUnitService _UnitService, IConfiguration _configuration)
         {
             UnitService = _UnitService;
-            //_connectionString = _configuration.GetConnectionString("OracleDBConnection");
-            //datatrans = new DataTransactions(_connectionString);
+          
         }
         public IActionResult Unit(string id)
         {
@@ -40,8 +39,7 @@ namespace Arasan.Controllers
         [HttpPost]
         public ActionResult Unit(Unit Cy, string id)
         {
-
-            try
+           try
             {
                 Cy.ID = id;
                 string Strout = UnitService.UnitCRUD(Cy);

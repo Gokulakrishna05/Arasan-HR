@@ -65,8 +65,8 @@
                                                                     <td>@Html.DisplayFor(modelItem => item.Description)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.Status)</td>
 
-                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("DrumCategory", "DrumCategory", new { id=item.ID })"></a></div></td>
-                                                                    <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("DrumCategory", "DrumCategory", new { id=item.ID })"></a></div></td>
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("NewCategory", "DrumCategory", new { id=item.ID })"></a></div></td>
+                                                                    <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("NewCategory", "DrumCategory", new { id=item.ID })"></a></div></td>
                                                                 </tr>
                                                                 i++;
                                                             }

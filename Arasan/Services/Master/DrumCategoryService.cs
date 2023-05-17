@@ -26,18 +26,14 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select DRUMMASTID,CATEGORY from  DRUMMAST";
+                    cmd.CommandText = "Select CATEGORYID,CATEGORYTYPE from DRUMMASTER_CATEGORY";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
                         DrumCategory cmp = new DrumCategory
                         {
-                            ID = rdr["DRUMMASTID"].ToString(),
-                            CategoryType = rdr["CATEGORY"].ToString()
-
-                            //Description = rdr["DESCRIPTION"].ToString(),
-                            //Status = rdr["STATUS"].ToString(),
-                           
+                            ID = rdr["CATEGORYID"].ToString(),
+                            CategoryType = rdr["CATEGORYTYPE"].ToString()
 
                         };
                         cmpList.Add(cmp);
@@ -46,16 +42,13 @@ namespace Arasan.Services
             }
             return cmpList;
         }
-
-
+          
         public string DrumCategoryCRUD(DrumCategory ss)
         {
             string msg = "";
             try
             {
                 string StatementType = string.Empty;
-
-                //string svSQL = "";
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
@@ -84,7 +77,7 @@ namespace Arasan.Services
                     }
                     catch (Exception ex)
                     {
-                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
+                       
                     }
                     objConn.Close();
                 }
@@ -98,6 +91,16 @@ namespace Arasan.Services
             return msg;
         }
 
-      
+        public DataTable GetDrumCategory(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select CATEGORYID,CATEGORYTYPE from DRUMMASTER_CATEGORY where CATEGORYID = '" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
     }
 }
