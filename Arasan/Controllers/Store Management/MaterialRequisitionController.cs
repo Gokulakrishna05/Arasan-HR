@@ -30,13 +30,15 @@ namespace Arasan.Controllers.Store_Management
         {
             MaterialRequisition MR = new MaterialRequisition();
             MR.Brlst = BindBranch();
-            MR.Loclst = GetLoc( );
-            MR.Worklst = BindWorkCenter();
+            var userId = Request.Cookies["UserId"];
+            MR.Loclst = GetLoc(userId);
+            MR.Worklst = BindWorkCenter("");
             MR.Processlst = BindProcess("");
             MR.assignList = BindEmp();
             MR.Statuslst = BindStatus();
             MR.Branch = Request.Cookies["BranchId"];
             MR.Entered= Request.Cookies["UserId"];
+            MR.Location= Request.Cookies["LocationName"];
             MR.DocDa = DateTime.Now.ToString("dd-MMM-yyyy");
             List<MaterialRequistionItem> TData = new List<MaterialRequistionItem>();
             MaterialRequistionItem tda = new MaterialRequistionItem();
@@ -214,11 +216,18 @@ namespace Arasan.Controllers.Store_Management
 
             return View(Cy);
         }
-        public List<SelectListItem> BindWorkCenter()
+        public JsonResult GetWorkJSON(string supid)
+        {
+            MaterialRequisition model = new MaterialRequisition();
+            model.Worklst = BindWorkCenter(supid);
+            return Json(BindWorkCenter(supid));
+
+        }
+        public List<SelectListItem> BindWorkCenter(string value)
         {
             try
             {
-                DataTable dtDesg = materialReq.GetWorkCenter();
+                DataTable dtDesg = materialReq.GetWorkCenter(value);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -299,15 +308,15 @@ namespace Arasan.Controllers.Store_Management
         //    return Json(GetLoc(itemid));
 
         //}
-        public List<SelectListItem> GetLoc()
+        public List<SelectListItem> GetLoc(string id)
         {
             try
             {
-                DataTable dtDesg = materialReq.GetLocation();
+                DataTable dtDesg = materialReq.GetLocation(id);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["LOCID"].ToString(), Value = dtDesg.Rows[i]["LOCID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["LOCID"].ToString(), Value = dtDesg.Rows[i]["loc"].ToString() });
                 }
                 return lstdesg;
             }

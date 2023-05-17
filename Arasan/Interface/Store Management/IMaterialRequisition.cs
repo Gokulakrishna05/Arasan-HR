@@ -24,8 +24,8 @@ namespace Arasan.Interface
         DataTable Getstkqty(string ItemId,string locid, string brid);
         DataTable GetMatbyID(string MatId);
         DataTable GetMatItemByID(string MatId);
-        DataTable GetLocation( );
-        DataTable GetWorkCenter();
+        DataTable GetLocation(string id );
+        DataTable GetWorkCenter(string id);
         DataTable BindProcess(string id);
         string IssuetoIndent(MaterialRequisition cy);
         string ApproveMaterial(MaterialRequisition cy);
