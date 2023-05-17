@@ -22,7 +22,7 @@ namespace Arasan.Controllers
             Branch br = new Branch();
             br.Compalst = BindCompany();
             br.cuntylst = BindCountry();
-            br.statlst = BindState();
+            br.statlst = BindState("");
 
 
             return View(br);
@@ -62,11 +62,11 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public List<SelectListItem> BindState()
+        public List<SelectListItem> BindState(string id)
         {
             try
             {
-                DataTable dtDesg = BranchService.GetState();
+                DataTable dtDesg = BranchService.GetState(id);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -116,6 +116,13 @@ namespace Arasan.Controllers
             }
 
             return View(Cy);
+        }
+        public JsonResult GetStateJSON(string supid)
+        {
+            Branch model = new Branch();
+            model.statlst = BindState(supid);
+            return Json(BindState(supid));
+
         }
         public IActionResult ListBranch()
         {

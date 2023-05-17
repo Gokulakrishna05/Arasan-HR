@@ -34,6 +34,7 @@ namespace Arasan.Controllers.Store_Management
             MR.Worklst = BindWorkCenter();
             MR.Processlst = BindProcess("");
             MR.assignList = BindEmp();
+            MR.Statuslst = BindStatus();
             MR.Branch = Request.Cookies["BranchId"];
             MR.Entered= Request.Cookies["UserId"];
             MR.DocDa = DateTime.Now.ToString("dd-MMM-yyyy");
@@ -80,11 +81,11 @@ namespace Arasan.Controllers.Store_Management
                          
                         tda.ItemGrouplst = BindItemGrplst();
                         DataTable dt3 = new DataTable();
-                        dt3 = datatrans.GetItemSubGroup(dtt.Rows[i]["ITEMID"].ToString());
-                        if (dt3.Rows.Count > 0)
-                        {
-                            tda.ItemGroupId = dt3.Rows[0]["SUBGROUPCODE"].ToString();
-                        }
+                        //dt3 = datatrans.GetItemSubGroup(dtt.Rows[i]["ITEMID"].ToString());
+                        //if (dt3.Rows.Count > 0)
+                        //{
+                        //    tda.ItemGroupId = dt3.Rows[0]["SUBGROUPCODE"].ToString();
+                        //}
                         tda.Itemlst = BindItemlst(tda.ItemGroupId);
                         tda.ItemId = dtt.Rows[i]["ITEMID"].ToString();
                         tda.Unit = dtt.Rows[i]["UNITID"].ToString();
@@ -110,7 +111,7 @@ namespace Arasan.Controllers.Store_Management
         {
             try
             {
-                DataTable dtDesg = datatrans.GetItem(value);
+                DataTable dtDesg = materialReq.GetItem(value);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -128,11 +129,11 @@ namespace Arasan.Controllers.Store_Management
         {
             try
             {
-                DataTable dtDesg = datatrans.GetItemSubGrp();
+                DataTable dtDesg = materialReq.GetItemGrp();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["SGCODE"].ToString(), Value = dtDesg.Rows[i]["ITEMSUBGROUPID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["GROUPTYPE"].ToString(), Value = dtDesg.Rows[i]["ITEMGROUPID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -385,6 +386,7 @@ namespace Arasan.Controllers.Store_Management
                     tda.UnitID = dtt.Rows[i]["UNIT"].ToString();
                     tda.Unit = dtt.Rows[i]["UNITID"].ToString();
                     tda.ReqQty = dtt.Rows[i]["QTY"].ToString();
+                    tda.Isvalid = "Y";
                     double reqqty = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString()); 
                     DataTable dt1 = materialReq.Getstkqty(dtt.Rows[i]["ITEMMASTERID"].ToString(), dt.Rows[0]["FROMLOCID"].ToString(), dt.Rows[0]["BRANCHIDS"].ToString());
                     if (dt1.Rows.Count > 0)
@@ -414,7 +416,7 @@ namespace Arasan.Controllers.Store_Management
                         tda.IndQty = (reqqty- stkqty);
                     }
                     //tda.Itemlst = BindItemlst();
-                    tda.Isvalid = "Y";
+                  
                     TData.Add(tda);
                 }
             }
@@ -570,6 +572,119 @@ namespace Arasan.Controllers.Store_Management
             //EnqItem model = new EnqItem();
             //  model.ItemGrouplst = BindItemGrplst(value);
             return Json(BindItemGrplst());
+        }
+        public List<SelectListItem> BindStatus()
+        {
+            try
+            {
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                lstdesg.Add(new SelectListItem() { Text = "OPEN", Value = "OPEN" });
+                lstdesg.Add(new SelectListItem() { Text = "CLOSE", Value = "CLOSE" });
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+ 
+        public IActionResult MaterialStatus(string id)
+        {
+            MaterialRequisition MR = new MaterialRequisition();
+            DataTable dt = new DataTable();
+            DataTable dtt = new DataTable();
+            dt = materialReq.GetMatStabyID(id);
+            if (dt.Rows.Count > 0)
+            {
+                MR.Location = dt.Rows[0]["LOCID"].ToString();
+                MR.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                MR.DocId = dt.Rows[0]["DOCID"].ToString();
+                MR.DocDa = dt.Rows[0]["DOCDATE"].ToString();
+                MR.WorkCenter = dt.Rows[0]["WCID"].ToString();
+                MR.Process = dt.Rows[0]["PROCESSNAME"].ToString();
+
+                MR.RequestType = dt.Rows[0]["REQTYPE"].ToString();
+                MR.BranchId = dt.Rows[0]["BRANCHIDS"].ToString();
+                MR.LocationId = dt.Rows[0]["FROMLOCID"].ToString();
+            }
+            List<MaterialRequistionItem> TData = new List<MaterialRequistionItem>();
+            MaterialRequistionItem tda = new MaterialRequistionItem();
+            dtt = materialReq.GetMatStaItemByID(id);
+            if (dtt.Rows.Count > 0)
+            {
+                for (int i = 0; i < dtt.Rows.Count; i++)
+                {
+                    tda = new MaterialRequistionItem();
+                    tda.Item = dtt.Rows[i]["ITEMID"].ToString();
+                    tda.UnitID = dtt.Rows[i]["UNIT"].ToString();
+                    tda.Unit = dtt.Rows[i]["UNITID"].ToString();
+                    tda.ReqQty = dtt.Rows[i]["QTY"].ToString();
+                    tda.Isvalid = "Y";
+                    double reqqty = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString());
+                    DataTable dt1 = materialReq.Getstkqty(dtt.Rows[i]["ITEMMASTERID"].ToString(), dt.Rows[0]["FROMLOCID"].ToString(), dt.Rows[0]["BRANCHIDS"].ToString());
+                    if (dt1.Rows.Count > 0)
+                    {
+                        tda.ClosingStock = dt1.Rows[0]["QTY"].ToString();
+                    }
+                    double stkqty = 0;
+                    if (!string.IsNullOrEmpty(tda.ClosingStock))
+                    {
+                        stkqty = Convert.ToDouble(tda.ClosingStock);
+                    }
+                    if (stkqty > reqqty)
+                    {
+                        tda.InvQty = reqqty;
+                        tda.IndQty = 0;
+                    }
+                    else
+                    {
+                        tda.InvQty = stkqty;
+                        tda.IndQty = (reqqty - stkqty);
+                    }
+                    //tda.Itemlst = BindItemlst();
+
+                    TData.Add(tda);
+                }
+            }
+            MR.MRlst = TData;
+            return View(MR);
+        }
+        [HttpPost]
+        public ActionResult MaterialStatus(MaterialRequisition Cy, string id)
+        {
+
+            try
+            {
+                Cy.ID = id;
+                string Strout = materialReq.MaterialStatus(Cy);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Cy.ID == null)
+                    {
+                        TempData["notice"] = "MaterialRequisition Inserted Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "MaterialRequisition Updated Successfully...!";
+                    }
+                    return RedirectToAction("ListMaterialRequisition");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit MaterialStatus";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(Cy);
         }
     }
 }

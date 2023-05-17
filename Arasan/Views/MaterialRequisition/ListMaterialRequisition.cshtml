@@ -48,6 +48,7 @@
                                                             <th>Doc No.</th>
                                                             <th>Issue Quantity</th>
                                                             <th>Indent Creation</th>
+                                                            <th>Status</th>
                                                             <th>Edit</th>
                                                             <th>Delete</th>
                                                         </tr>
@@ -73,7 +74,9 @@
                                                                  }
                                                                     else{
                                                                          <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ApproveMaterial", "MaterialRequisition",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/issue_icon.png' alt='View Details' width='20'/></a></div></td>  
-                                                                         <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("IssueToindent", "MaterialRequisition",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20'/></a></div></td>  
+                                                                         <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("IssueToindent", "MaterialRequisition",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20'/></a></div></td>
+                                                                        <td> <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("MaterialStatus", "MaterialRequisition",new { id=item.ID })"><img src='../Images/view_icon.png' alt='Waiting for approval' /></a></div></td>
+
                                                             <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("MaterialRequisition", "MaterialRequisition",new { id=item.ID })"></a></div></td>
                                                             <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("MaterialRequisition", "MaterialRequisition",new { id=item.ID })"></a></div></td>
                                                                 

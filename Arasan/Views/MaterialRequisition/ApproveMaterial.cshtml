@@ -134,7 +134,7 @@
                                                                                     <td>@Html.DisplayFor(o => o.MRlst[i].Item)@Html.HiddenFor(o => o.MRlst[i].ItemId)</td>
                                                                                     <td>@Html.DisplayFor(o => o.MRlst[i].ReqQty)</td>
                                                                                     <td>@Html.DisplayFor(o => o.MRlst[i].ClosingStock)</td>
-                                                                                    <td>@Html.DisplayFor(o => o.MRlst[i].Unit)@Html.HiddenFor(o => o.MRlst[i].UnitID)</td>
+                                                                                    <td>@Html.DisplayFor(o => o.MRlst[i].Unit)@Html.HiddenFor(o => o.MRlst[i].UnitID)@Html.HiddenFor(o => o.MRlst[i].Isvalid)</td>
                                                                            <td>@Html.TextBoxFor(o => o.MRlst[i].InvQty, new { @id = "InvQty" + i, @class = "form-control",@readonly=true , style = "width: 80px;"})</td>
                                          </tr>
                                                                 i++;
