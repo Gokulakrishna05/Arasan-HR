@@ -11,7 +11,7 @@ namespace Arasan.Services
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
         }
-        public DataTable GetBranch()
+        public DataTable GetBranch( )
         {
             string SvSql = string.Empty;
             SvSql = "select BRANCHMASTID,BRANCHID from BRANCHMAST order by BRANCHMASTID asc";
@@ -24,11 +24,11 @@ namespace Arasan.Services
         public DataTable GetLocation(string branch)
         {
             string SvSql = string.Empty;
-            SvSql = "Select LOCID,LOCDETAILSID from LOCDETAILS";
-            if(branch != "" || branch != "0")
-            {
-                SvSql += " Where BRANCHID='" + branch + "'";
-            }
+            SvSql = "Select LOCDETAILS.LOCID from EMPLOYEELOCATION left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID=EMPLOYEELOCATION.LOCID  Where EMPID='" + branch + "'";
+            //if(branch != "" || branch != "0")
+            //{
+            //    SvSql += " Where BRANCHID='" + branch + "'";
+            //}
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

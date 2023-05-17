@@ -88,20 +88,24 @@ namespace Arasan.Models
         public string EmpName { get; set; }
         public List<SelectListItem> Loclst;
         public string[] Location { get; set; }
+		public string CreatedOn { get; set; }
+	 
+		public string CreadtedBy { get; set; }
+		public string Status { get; set; }
 
-        //public class EduDeatils
-        //{
+		//public class EduDeatils
+		//{
 
-        //    //Education Details
-        //    public string ID { get; set; }
-        //    public string Education { get; set; }
-        //    public string College { get; set; }
-        //    public string EcPlace { get; set; }
-        //    public string YearPassing { get; set; }
-        //    public double MPercentage { get; set; }
-        //    public string EmpId { get; set; }
-        //    public string SkillSet { get; set; }
-        //}
+		//    //Education Details
+		//    public string ID { get; set; }
+		//    public string Education { get; set; }
+		//    public string College { get; set; }
+		//    public string EcPlace { get; set; }
+		//    public string YearPassing { get; set; }
+		//    public double MPercentage { get; set; }
+		//    public string EmpId { get; set; }
+		//    public string SkillSet { get; set; }
+		//}
 
-    }
+	}
 }

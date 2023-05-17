@@ -84,7 +84,7 @@ namespace Arasan.Services
         public DataTable GetLocation()
         {
             string SvSql = string.Empty;
-            SvSql = " select locdetails.LOCID ,emplocid from EMPLOYEELOCATION  left outer join locdetails on locdetails.locdetailsid=EMPLOYEELOCATION.LOCID\r\n ";
+            SvSql = " select locdetails.LOCID ,id from EMPLOYEELOCATION  left outer join locdetails on locdetails.locdetailsid=EMPLOYEELOCATION.LOCID\r\n ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
