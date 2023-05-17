@@ -86,6 +86,7 @@ namespace Arasan.Models
 
         public string ID { get; set; }
         public string EmpName { get; set; }
+
         public List<SelectListItem> Loclst;
         public string[] Location { get; set; }
 		public string CreatedOn { get; set; }
