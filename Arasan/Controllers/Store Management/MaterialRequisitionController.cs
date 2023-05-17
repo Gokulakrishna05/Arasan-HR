@@ -386,6 +386,7 @@ namespace Arasan.Controllers.Store_Management
                     tda.UnitID = dtt.Rows[i]["UNIT"].ToString();
                     tda.Unit = dtt.Rows[i]["UNITID"].ToString();
                     tda.ReqQty = dtt.Rows[i]["QTY"].ToString();
+                    tda.indentid= dtt.Rows[i]["STORESREQDETAILID"].ToString();
                     tda.Isvalid = "Y";
                     double reqqty = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString()); 
                     DataTable dt1 = materialReq.Getstkqty(dtt.Rows[i]["ITEMMASTERID"].ToString(), dt.Rows[0]["FROMLOCID"].ToString(), dt.Rows[0]["BRANCHIDS"].ToString());
@@ -438,6 +439,7 @@ namespace Arasan.Controllers.Store_Management
                 MR.RequestType = dt.Rows[0]["REQTYPE"].ToString();
                 MR.BranchId = dt.Rows[0]["BRANCHIDS"].ToString();
                 MR.LocationId = dt.Rows[0]["FROMLOCID"].ToString();
+                MR.MaterialReqId = id;
             }
             List<MaterialRequistionItem> TData = new List<MaterialRequistionItem>();
             MaterialRequistionItem tda = new MaterialRequistionItem();
