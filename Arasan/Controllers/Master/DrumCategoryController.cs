@@ -26,10 +26,19 @@ namespace Arasan.Controllers
             {
 
             }
+            else
+            {
+                DataTable dt = new DataTable();
+                double total = 0;
+                dt = DrumCategoryService.GetDrumCategory(id);
+                if (dt.Rows.Count > 0)
+                {
+                    DM.CateType = dt.Rows[0]["CATEGORYTYPE"].ToString();
 
+                }
+            }
             return View(DM);
         }
-
 
         [HttpPost]
         public ActionResult NewCategory(DrumCategory Dm, string id)

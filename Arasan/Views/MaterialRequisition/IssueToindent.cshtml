@@ -29,6 +29,7 @@
                                                     @Html.HiddenFor(C => C.ID)
                                            @Html.DisplayFor(C => C.Branch)
                                            @Html.HiddenFor(C => C.BranchId)
+                                           @Html.HiddenFor(C => C.MaterialReqId)
                                                 </div>
                                             </div>
                                         </div>
@@ -98,6 +99,7 @@
                           <th>Quantity</th>
                           <th>Stock Quantity</th>
                           <th>Unit</th>
+                         
                         <th>Indent Quantity</th>
                         </tr>
                       </thead>
@@ -110,11 +112,12 @@
                                                             {
                                                                 
                                         <tr>
-                                                                                    <td>@Html.DisplayFor(o => o.MRlst[i].Item)</td>
+                                                                                    <td>@Html.DisplayFor(o => o.MRlst[i].Item)@Html.HiddenFor(o => o.MRlst[i].ItemId) </td>
                                                                                     <td>@Html.DisplayFor(o => o.MRlst[i].ReqQty)</td>
                                                                                     <td>@Html.DisplayFor(o => o.MRlst[i].ClosingStock)</td>
                                                                                     <td>@Html.DisplayFor(o => o.MRlst[i].Unit)@Html.HiddenFor(o => o.MRlst[i].UnitID)</td>
-                                                                                  <td>@Html.TextBoxFor(o => o.MRlst[i].IndQty, new { @id = "IndQty" + i, @class = "form-control", style = "width: 100px;" })</td>  
+                                                                                    <td>@Html.TextBoxFor(o => o.MRlst[i].IndQty, new { @id = "IndQty" + i, @class = "form-control", style = "width: 100px;" })</td>  
+                                                                                 
                                          </tr>
                                                                 i++;
                                                             }

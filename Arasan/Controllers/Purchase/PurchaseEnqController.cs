@@ -194,34 +194,36 @@ namespace Arasan.Controllers
 
                 requestwer.ToEmail = "deepa@icand.in";
                 requestwer.Subject = "Enquiry";
-                string Content = "";
+                //string Content = "";
                 IEnumerable<EnqItem> cmp = PurenqService.GetAllPurenquriyItem(id);
-                Content = @"<html> 
-                < head >
-    < style >
+                string Content = @"<html> 
+                <head>
+    <style>
                 table, th, td {
                 border: 1px solid black;
                     border - collapse: collapse;
                 }
-    </ style >
-</ head >
-< body >
+    </style>
+</head>
+<body>
 <p>Dear Sir,</p>
 </br>
   <p> Kindly arrange to send your lowest price offer for the following items through our email immediately.</p>
-</br>
-< table style = 'border: 1px solid black;border-collapse: collapse;' > ";
+</br>";
 
-                
+
+ 
 
                 foreach (EnqItem item in cmp)
                 {
-                    Content += " <tr><td>" + item.Desc + "</td>";
-                    Content += " <td>" + item.Quantity + "</td>";
-                    Content += " <td>" + item.Unit + "</td></tr>";
-                }
-                Content += "</table>";
+                     
 
+                    Content += "<table><tr><td>" + item.ItemId +"-" +"</td>";
+                    Content += "  <td>" + item.Quantity + "-"+"</td>";
+                    Content += "  <td>" + item.Unit + "</td></tr></table>";
+                }
+
+                 
                 Content += @" </br> 
 <p style='padding-left:30px;font-style:italic;'>With Regards,
 </br><img src='../assets/images/Arasan_Logo.png' alt='Arasan Logo'/>
@@ -231,12 +233,12 @@ namespace Arasan.Controllers
 
 </br>
 </p> ";
-                Content += @" </body> 
+                Content += @"</body> 
 </html> ";
 
                 requestwer.Body = Content;
                 //request.Attachments = "No";
-                datatrans.sendemail("Test mail", Content, "kesavanmoorthi81@gmail.com", "kesavanmoorthi70@gmail.com", "aqhfevhczfrnbtgz", "587", "true", "smtp.gmail.com", "IcanD");
+                datatrans.sendemail("Test mail", Content, "gokulakrishna76@gmail.com", "kesavanmoorthi70@gmail.com", "mlyakjnecuzeosdx", "587", "true", "smtp.gmail.com", "IcanD");
                 return Ok();
 
             }

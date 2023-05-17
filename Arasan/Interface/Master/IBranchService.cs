@@ -14,7 +14,7 @@ namespace Arasan.Interface
         IEnumerable<Branch> GetAllBranch();
         DataTable GetCompany();
         DataTable Getcountry();
-        DataTable GetState();
+        DataTable GetState(string id);
     }
 }
 

@@ -7,7 +7,7 @@ namespace Arasan.Interface
     public interface IBranchSelectionService
     {
         DataTable GetLocation(string branch);
-        DataTable GetBranch();
+        DataTable GetBranch( );
        
     }
 }

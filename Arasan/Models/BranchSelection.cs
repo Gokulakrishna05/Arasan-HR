@@ -10,7 +10,7 @@ namespace Arasan.Models
         }
         public string Branch { get; set; }
         public string Location { get; set; }
-
+        public string User { get; set; }
         public List<SelectListItem> Brlst;
 
         public List<SelectListItem> Loclst;

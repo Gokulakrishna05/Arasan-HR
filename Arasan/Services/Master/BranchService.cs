@@ -39,10 +39,10 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetState()
+        public DataTable GetState(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select STATE,STATEMASTID from  STATEMAST order by STATEMASTID asc";
+            SvSql = "select STATE,STATEMASTID from  STATEMAST  where COUNTRYMASTID='" + id +"'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -60,14 +60,14 @@ namespace Arasan.Services
             using (OracleCommand cmd = con.CreateCommand())
             {
                 con.Open();
-                cmd.CommandText = "Select BRANCHMASTID,COMPANYID,BRANCHID,ADDRESS1,STATE,CITY,PINCODE,CSTNO, CSTDATE from BRANCHMAST";
+                cmd.CommandText = "Select BRANCHMASTID,COMPANYMAST.COMPANYDESC,BRANCHID,ADDRESS1,STATE,CITY,PINCODE,CSTNO, CSTDATE from BRANCHMAST left outer join COMPANYMAST on COMPANYMASTID=BRANCHMAST.COMPANYID";
                 OracleDataReader rdr = cmd.ExecuteReader();
                 while (rdr.Read())
                 {
                     Branch br = new Branch
                     {
                         ID = rdr["BRANCHMASTID"].ToString(),
-                        CompanyName = rdr["COMPANYID"].ToString(),
+                        CompanyName = rdr["COMPANYDESC"].ToString(),
                         BranchName = rdr["BRANCHID"].ToString(),
                         Address = rdr["ADDRESS1"].ToString(),
                         StateName = rdr["STATE"].ToString(),

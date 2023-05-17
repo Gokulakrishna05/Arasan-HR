@@ -9,6 +9,8 @@ namespace Arasan.Models
             this.Brlst = new List<SelectListItem>();
             this.Loclst = new List<SelectListItem>();
             this.Worklst = new List<SelectListItem>();
+            this.Statuslst = new List<SelectListItem>();
+            this.Processlst = new List<SelectListItem>();
             //this.MRlst = new List<MaterialRequistionItem>();
             this.assignList = new List<SelectListItem>();
         }
@@ -22,7 +24,7 @@ namespace Arasan.Models
         public string Process { get; set; }
         public string WorkCenter { get; set; }
 
-        public int MaterialReqId { get; set; }
+        public string MaterialReqId { get; set; }
         public DateTime MaterialReqDate { get; set; }
 
         public string RequestType { get; set; }
@@ -30,10 +32,12 @@ namespace Arasan.Models
         public string Amount { get; set; }
         public string Narration { get; set; }
         public string Entered { get; set; }
+        public List<SelectListItem> Statuslst;
         public string status { get; set; }
         public List<SelectListItem> Brlst;
         public List<SelectListItem> Loclst;
         public List<SelectListItem> Worklst;
+        public List<SelectListItem> Processlst;
         public List<MaterialRequistionItem> MRlst { get; set; }
         public List<SelectListItem> assignList;
     }
@@ -53,7 +57,7 @@ namespace Arasan.Models
         public double IndQty { get; set; }
         public double InvQty { get; set; }
         public string Isvalid { get; set; }
-
+        public string indentid { get; set; }
         public List<SelectListItem> Itemlst { get; set; }
 
        

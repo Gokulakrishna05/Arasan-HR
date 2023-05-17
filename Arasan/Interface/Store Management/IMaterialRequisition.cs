@@ -9,10 +9,11 @@ namespace Arasan.Interface
     {
          // DataTable GetLocation();
          // DataTable GetBranch();
-       DataTable GetWorkCenter(string LocationId);
+       //DataTable GetWorkCenter(string LocationId);
         //   DataTable GetItem(string value);
         //  DataTable GetItemGrp();
-        DataTable GetItem();
+        DataTable GetItem(string id);
+        DataTable GetItemGrp();
         DataTable GetItemDetails(string ItemId);
        //  string MaterialRequestCRUD(MaterialRequisition mr);
         string MaterialCRUD(MaterialRequisition cy);
@@ -23,10 +24,14 @@ namespace Arasan.Interface
         DataTable Getstkqty(string ItemId,string locid, string brid);
         DataTable GetMatbyID(string MatId);
         DataTable GetMatItemByID(string MatId);
-        DataTable GetLocation( );
+        DataTable GetLocation(string id );
+        DataTable GetWorkCenter(string id);
+        DataTable BindProcess(string id);
         string IssuetoIndent(MaterialRequisition cy);
         string ApproveMaterial(MaterialRequisition cy);
 
-
+         string MaterialStatus(MaterialRequisition cy);
+        DataTable GetMatStabyID(string MatId);
+        DataTable GetMatStaItemByID(string MatId);
     }
 }

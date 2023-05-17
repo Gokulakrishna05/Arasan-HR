@@ -26,6 +26,7 @@ namespace Arasan.Controllers.Master
             Employee E = new Employee();
             E.Statelst = BindState();
             E.Citylst = BindCity();
+
             //List<EduDeatils> TData = new List<EduDeatils>();
             //EduDeatils tda = new EduDeatils();
             if (id == null)
@@ -204,8 +205,8 @@ namespace Arasan.Controllers.Master
         public ActionResult MultipleLocationSelect(string id)
         {
             MultipleLocation E = new MultipleLocation();
-          
-            DataTable dt = new DataTable();
+			E.CreadtedBy = Request.Cookies["UserId"];
+			DataTable dt = new DataTable();
             dt = EmployeeService.GetCurrentUser(id);
             if (dt.Rows.Count > 0)
             {
@@ -221,38 +222,37 @@ namespace Arasan.Controllers.Master
         [HttpPost]
         public ActionResult MultipleLocationSelect(MultipleLocation mp, string id)
         {
-            if (ModelState.IsValid)
-            {
+            
                 id = id != null ? id : "0";
-                try
+            try
+            {
+                mp.ID = id;
+                string Strout = EmployeeService.GetMultipleLocation(mp);
+                if (string.IsNullOrEmpty(Strout))
                 {
-                    mp.ID = id;
-                    string Strout = EmployeeService.GetMultipleLocation(mp);
-                    if (string.IsNullOrEmpty(Strout))
+                    if (mp.ID == null)
                     {
-                        if (mp.ID == null)
-                        {
-                            TempData["notice"] = "Multiple Location Inserted Successfully...!";
-                        }
-                        else
-                        {
-                            TempData["notice"] = "Multiple Location Updated Successfully...!";
-                        }
-                        return RedirectToAction("ListEmployee");
+                        TempData["notice"] = "Multiple Location Inserted Successfully...!";
                     }
                     else
                     {
-                        TempData["notice"] = Strout;
-                        ViewBag.PageTitle = "Edit MultipleLocation";
-
-                        return View(mp);
+                        TempData["notice"] = "Multiple Location Updated Successfully...!";
                     }
+                    return RedirectToAction("ListEmployee");
                 }
-                catch (Exception ex)
+                else
                 {
-                    throw ex;
+                    TempData["notice"] = Strout;
+                    ViewBag.PageTitle = "Edit MultipleLocation";
+
+                    return View(mp);
                 }
             }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            
             return View(mp);
 
         }

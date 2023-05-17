@@ -49,10 +49,10 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Location<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Location, Model.Loclst, new { @id = "ddllocation", @Class = "form-control _select", @TabIndex = 4 })
+                                            @Html.DropDownListFor(C => C.Location, Model.Loclst, new { @id = "ddllocation", @Class = "form-control _select", @TabIndex = 4,onchange = "WorkChange(value)" })
                                             @Html.HiddenFor(C => C.ID)
                                             @Html.HiddenFor(C => C.Branch ,new {@id="hdbranch"})
-                                            @Html.HiddenFor(C => C.Entered ,new {@id="hdbranch"})
+                                            @Html.HiddenFor(C => C.Entered  )
                                     </div>
                                 </div>
                             </div>
@@ -70,53 +70,43 @@
                                 </div>
                         </div>
 
-                            @* <div style="height:20px;"></div>
+                            
 
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                    <label for="inputName3" class="col-sm-4 control-label">DocumentNo<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.DocId, new { @id = "txtDocId", @class = "form-control", @TabIndex = 2 })
-                                           
-                                </div>
-                            </div>
-                            </div>*@
+                             
                          
-                                @* <div class="col-md-6">
+                                <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="inputName3" class="col-sm-4 control-label">Work Center<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Work Center<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.WorkCenter, Model.Worklst, new { @id = "ddlworkcenter", @Class = "form-control _select", @TabIndex = 5 })
+                                            @Html.DropDownListFor(C => C.WorkCenter, Model.Worklst,"---Please Select---", new { @id = "ddlworkcenter", @Class = "form-control _select", @TabIndex = 5 ,onchange = "ProcessChange(value)"})
                                     </div>
                                 </div>
                             </div>
-                        </div>*@
-
-                        
-                     @*   <div class="row">
-                                             
+                       
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="inputName3" class="col-sm-4 control-label">Process<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Process<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Process, new { @id = "Process", @class = "form-control", @TabIndex = 2 })
+                                            @Html.DropDownListFor(C => C.Process, Model.Processlst,"---Please Select---", new { @id = "Process", @Class = "form-control _select", @TabIndex = 5  })
+
 
                                     </div>
                                 </div>
                             </div>
-                             <div class="col-md-6">
+                              </div>
+                            <div class="row">
+                               <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Reg Type <label class="Mandatory"></label></label>
+                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Reg Type <label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.RequestType, new { @id = "RequestType", @class = "form-control", @TabIndex = 2 })<br />
                                     </div>
                                 </div>
                             </div>
 
-                        </div>*@
+                        </div>
 
 
 
@@ -278,6 +268,22 @@
                     "background": ""
                 });
             }
+            if (document.getElementById("ddlworkcenter").value == "" || document.getElementById("ddlworkcenter").value == 0) {
+                isValid = false;
+                $(ddlworkcenter).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Work Center");
+                return false;
+            }
+            else {
+                $(ddlworkcenter).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
                     // if (document.getElementById("RefDate").value == "") {
                 
                     //var j = 0;
@@ -396,6 +402,46 @@
             }
         });
     }
+    function ProcessChange(itemid) {
+        //alert(itemid);
+        //debugger;
+        $.ajax({
+            url: "GetProcessJSON",
+            type: "post",
+            data: { 'supid': itemid },
+            cache: false,
+            success: function (response) {
+                var newlist;
+                //alert(JSON.stringify(response));
+                newlist = response.Ilst;
+                PopulateDropDown("#Process"  , response);
+            },
+            error: function () {
+                debugger;
+                alert("Please Select Work Center");
+            }
+        });
+    }
+    function WorkChange(itemid) {
+        //alert(itemid);
+        //debugger;
+        $.ajax({
+            url: "GetWorkJSON",
+            type: "post",
+            data: { 'supid': itemid },
+            cache: false,
+            success: function (response) {
+                var newlist;
+                //alert(JSON.stringify(response));
+                newlist = response.Ilst;
+                PopulateDropDown("#ddlworkcenter", response);
+            },
+            error: function () {
+                debugger;
+                alert("Please Select Location");
+            }
+        });
+    }
    
     $('.form_date').datetimepicker({
         //   language:  'fr',
@@ -405,6 +451,7 @@
         todayHighlight: 1,
         startView: 2,
         minView: 2,
+         
         forceParse: 0
     });
 
