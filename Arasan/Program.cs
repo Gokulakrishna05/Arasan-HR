@@ -106,6 +106,7 @@ internal class Program
 
 
         builder.Services.TryAddSingleton<IDrumLocation, DrumLocationService>();
+        builder.Services.TryAddSingleton<IDepartment, DepartmentService>();
 
 
         builder.Services.AddSession();

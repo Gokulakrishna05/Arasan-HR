@@ -21,54 +21,132 @@
                 <div class="widgets-container">
                     
                     <hr>
-              <form>
+                    @using (Html.BeginForm("ExchangeRate", "ExchangeRate", FormMethod.Post))
+                   {
+                        @Html.AntiForgeryToken()
+                       <form>
 
-                        <div class="row">
-                            <div class="col-lg-3"></div>
-                            <div class="col-md-7">
-                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-lg-3"></div>
+                                        <div class="col-md-7">
+                                            <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Currency Name<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
+                                                <label for="inputName3" class="col-sm-4 control-label">Currency Name<label class="Mandatory"></label></label>
+                                                <div class="col-sm-8">
+                                                    @Html.TextBoxFor(C => C.CurrencyName, new { @id = "txtCurrencyName", @class = "form-control", @TabIndex = 1 })<br />
+                                                    @Html.HiddenFor(C => C.ID)
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            </div>
-                            <div class="row">
-                            <div class="col-lg-3"></div>
-                            <div class="col-md-7">
-                                <div class="form-group">
-                                    <label for="inputName3" class="col-sm-4 control-label">Exchange Rate<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
-                                    </div>
-                                </div>
-                            </div>
-                      </div>
-                      <div class="row">
-                            <div class="col-lg-3"></div>
-                            <div class="col-md-7">
-                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-lg-3"></div>
+                                        <div class="col-md-7">
+                                           <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Exchange Date<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="" type="Date"><br />
-                                       <br />
-                                                 </div>
-                                </div>
-                            </div>
-                            </div>
-                       
+
+                                            <label for="inputName3" class="col-sm-4 control-label">Exchange Rate<label class="Mandatory"></label></label>
+                                            <div class="col-sm-8">
+                                                @Html.TextBoxFor(C => C.Exchange, new { @id = "txtExchange", @type = "number", @class = "form-control", @TabIndex = 2,@size="30" })
+                                                <br>
+                                            </div>
+                                           </div>
+
+                                         </div>
+                                    </div>
                             
-                      
+
+                            <div class="row">
+                                <div class="col-lg-3"></div>
+                                <div class="col-md-7">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Exchange Date<label class="Mandatory"></label></label>
+                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                                @Html.TextBoxFor(C => C.ExchangeDate, new { @id = "ExchangeDate", @class = "form-control", @TabIndex = 2,@size="30",@readonly=true })
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                            <br />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
                             <div style="height:30px;"></div>
-                        <div class="col-lg-8"></div>
-                        <a button type="submit" class="btn aqua m-t-xs bottom15-xs" href="@Url.Action("ListExchangeRate", "ExchangeRate")">Submit</a>
-                        <a button class="btn btn-danger" type="submit" href="@Url.Action("ListExchangeRate", "ExchangeRate")">Cancel</a>
-                       
-                    </form>
-         </div>
-         </div></div>
+                            <div class="col-lg-8"></div>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+                            <a button class="btn btn-danger" type="submit" href="@Url.Action("ListExchangeRate", "ExchangeRate")">Cancel</a>
+
+
+                           
+                       </form>
+
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-</div>
+
+<script>
+    $('.form_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+
+            if (document.getElementById("txtCurrencyName").value == "") {
+                isValid = false;
+                $(txtCurrencyName).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Currency Name");
+                return false;
+            }
+            else {
+                $(txtCurrencyName).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtExchange").value == "") {
+                isValid = false;
+                $(txtExchange).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Exchange Rate");
+                return false;
+            }
+            else {
+                $(txtExchange).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+
+
+
+            if (isValid == false)
+                e.preventDefault();
+
+        });
+
+    });
+</script>

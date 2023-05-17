@@ -11,5 +11,7 @@ namespace Arasan.Interface
         string DrumCategoryCRUD(DrumCategory ss);
         IEnumerable<DrumCategory> GetAllDrumCategory();
 
+        DataTable GetDrumCategory(string id);
+
     }
 }

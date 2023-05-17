@@ -43,9 +43,6 @@ namespace Arasan.Services
             }
             return cmpList;
         }
-
-       
-
         public string UnitCRUD(Unit cy)
         {
             string msg = "";

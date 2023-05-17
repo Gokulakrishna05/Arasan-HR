@@ -1,16 +1,15 @@
-﻿@model Arasan.Models.ExchangeRate
-
-
+﻿@model IEnumerable<Arasan.Models.Department>
 @{
-    ViewData["Title"] = "ExchangeRate";
+    ViewData["Title"] = "ListDepartment";
 }
+
+
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
-
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Master</a> </li>
-            <li class="active"> <strong>Exchange Rate</strong> </li>
+            <li class="active"> <strong> Department </strong> </li>
         </ol>
     </div>
 </div>
@@ -25,10 +24,9 @@
                         <div class="row">
                             <div class="col-md-12 ">
                                 <div class=" textalignright">
-                                    <a href="@Url.Action("ExchangeRate", "ExchangeRate")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Item</a>
+                                    <a href="@Url.Action("Departments","Departments")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Department</a>
                                     <br>
                                 </div>
-
 
                             </div>
                         </div>
@@ -36,24 +34,45 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="ibox float-e-margins">
-
                                     <div class="ibox-content collapse in">
                                         <div class="widgets-container">
                                             <div>
                                                 <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
                                                     <thead>
                                                         <tr>
-                                                            <th>S.No</th>
-                                                            <th>Currency Name </th>
-                                                            <th>Exchange Rate</th>
-                                                            <th>Exchange Date</th>
+
+                                                            <th>Departmentcode</th>
+                                                            <th>DepartmentName</th>
+                                                            <th>Description</th>
+                                                            
+
                                                             <th>Edit</th>
                                                             <th>Delete</th>
                                                         </tr>
                                                     </thead>
+                                                    <tbody>
+                                                        @{
+                                                            int i = 1;
+
+                                                            foreach (var item in Model)
+                                                            {
+                                                                <tr>
 
 
-                                                   
+                                                                    <td>@Html.DisplayFor(modelItem => item.Departmentcode)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.DepartmentName)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                                                                    
+
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Departments", "Departments",new { id=item.ID })"></a></div></td>
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("Departments", "Departments",new { id=item.ID })"></a></div></td>
+                                                                </tr>
+                                                                i++;
+                                                            }
+                                                        }
+
+
+                                                    </tbody>
                                                 </table>
                                             </div>
                                         </div>
@@ -61,10 +80,8 @@
                                 </div>
                             </div>
                         </div>
-
-
-
                     </form>
+
                 </div>
             </div>
         </div>

@@ -193,7 +193,9 @@
                           	<li class="nav-item">
                                 <a class="nav-link" href="javascript:;"> <span class="arrow nav-toggle">Item </span> </a>
                                         <ul class="sub-menu">
-                           
+                                    <li class="nav-item active">
+                                        <a class="nav-link" href="@Url.Action("ListItem", "ItemName")"> <span class="title">Item</span> </a>
+                                    </li>
                              <li class="nav-item">
                                 <a class="nav-link" href="@Url.Action("ListItemCategory", "ItemCategory")"> <span class="title">Item Category</span> </a>
                             </li>
@@ -205,9 +207,7 @@
                             <li class="nav-item active">
                                 <a class="nav-link" href="@Url.Action("ListItemSubGroup", "ItemSubGroup")"> <span class="title">Item SubGroup</span> </a>
                             </li>
-							 <li class="nav-item active">
-                                <a class="nav-link" href="@Url.Action("ListItem", "ItemName")"> <span class="title">Item</span> </a>
-                            </li>
+							 
                            </ul></li>
                                  <li class="nav-item"> <a class="nav-link" href="javascript:;"> Common <span class="arrow nav-toggle"></span> </a>  
                                       <ul class="sub-menu">
@@ -230,8 +230,10 @@
                                     <li class="nav-item">
                                         <a class="nav-link" href="@Url.Action("ListCustomerType", "CustomerType")"> <span class="title">Customer Type</span> </a>
                                     </li>
-                                    
-                            <li class="nav-item">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="@Url.Action("ListDepartment", "Departments")"> <span class="title">Department</span> </a>
+                                    </li>
+                                    <li class="nav-item">
                                 <a class="nav-link" href="@Url.Action("ListNewCategory", "DrumCategory")"> <span class="title">Drum Category</span> </a>
                             </li>
                             <li class="nav-item">
