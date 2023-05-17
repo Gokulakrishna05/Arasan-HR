@@ -17,10 +17,10 @@ namespace Arasan.Services
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public DataTable GetWorkCenter( )
+        public DataTable GetWorkCenter(string value)
         {
             string SvSql = string.Empty;
-            SvSql = "Select WCID,WCBASICID from WCBASIC ";
+            SvSql = "Select WCID,WCBASICID from WCBASIC where ILOCATION='" + value +"' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -81,10 +81,10 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetLocation()
+        public DataTable GetLocation(string id)
         {
             string SvSql = string.Empty;
-            SvSql = " select locdetails.LOCID ,id from EMPLOYEELOCATION  left outer join locdetails on locdetails.locdetailsid=EMPLOYEELOCATION.LOCID\r\n ";
+            SvSql = " select locdetails.LOCID ,EMPLOYEELOCATION.LOCID loc from EMPLOYEELOCATION  left outer join locdetails on locdetails.locdetailsid=EMPLOYEELOCATION.LOCID where EMPID='" + id +"' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

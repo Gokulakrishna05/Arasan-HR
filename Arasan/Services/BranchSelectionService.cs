@@ -24,7 +24,7 @@ namespace Arasan.Services
         public DataTable GetLocation(string branch)
         {
             string SvSql = string.Empty;
-            SvSql = "Select LOCDETAILS.LOCID from EMPLOYEELOCATION left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID=EMPLOYEELOCATION.LOCID  Where EMPID='" + branch + "'";
+            SvSql = "Select LOCDETAILS.LOCID ,EMPLOYEELOCATION.LOCID loc from EMPLOYEELOCATION left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID=EMPLOYEELOCATION.LOCID  Where EMPID='" + branch + "'";
             //if(branch != "" || branch != "0")
             //{
             //    SvSql += " Where BRANCHID='" + branch + "'";
