@@ -104,8 +104,8 @@ internal class Program
         builder.Services.TryAddSingleton<IDrumMaster, DrumMasterService>();
         builder.Services.TryAddSingleton<IDrumCategory, DrumCategoryService>();
 
-
-        builder.Services.TryAddSingleton<IDrumLocation, DrumLocationService>();
+        builder.Services.TryAddSingleton<IDrumCategory, DrumCategoryService>();
+        builder.Services.TryAddSingleton<IWorkCentersService, WorkCentersService>();
 
 
         builder.Services.AddSession();
