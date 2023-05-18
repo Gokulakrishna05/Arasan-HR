@@ -174,6 +174,17 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
+        //public DataTable Getstkstoreqty(string ItemId,  string brid,string locid)
+        //{
+        //    string SvSql = string.Empty;
+        //    SvSql = "select SUM(BALANCE_QTY) as QTY from INVENTORY_ITEM where BALANCE_QTY > 0 AND LOCATION_ID='" + locid + "' AND BRANCH_ID='" + brid + "' AND ITEM_ID='" + ItemId + "'";
+        //    DataTable dtt = new DataTable();
+        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
+        //}
+        
         //public MaterialRequisition GetMaterialById(string eid)
         //{
         //    MaterialRequisition Material = new MaterialRequisition();
