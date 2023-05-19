@@ -19,18 +19,46 @@ namespace Arasan.Controllers.Master
         public IActionResult HSNcode(string id)
         {
             HSNcode st = new HSNcode();
-           
+            st.GSTlst = BindGST();
+
             if (id == null)
             {
-
+               
             }
             else
             {
-                st = HSNcodeService.GetHSNcodeById(id);
+                DataTable dt = new DataTable();
+                double total = 0;
+                dt = HSNcodeService.GetHSNcode(id);
+                if (dt.Rows.Count > 0)
+                {
+                    st.HCode = dt.Rows[0]["HSNCODE"].ToString();
+                    st.Dec = dt.Rows[0]["DESCRIPTION"].ToString();
+                    st.Gt = dt.Rows[0]["GST"].ToString();
+
+                }
 
             }
             return View(st);
         }
+
+        public List<SelectListItem> BindGST()
+        {
+            try
+            {
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                lstdesg.Add(new SelectListItem() { Text = "CGST", Value = "CGST" });
+                lstdesg.Add(new SelectListItem() { Text = "SGST", Value = "SGST" });
+                lstdesg.Add(new SelectListItem() { Text = "IGST", Value = "IGST" });
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
         [HttpPost]
         public ActionResult HSNcode(HSNcode ss, string id)
         {
