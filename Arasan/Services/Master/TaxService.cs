@@ -27,14 +27,15 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select TAXMASTID,Tax from TAXMAST";
+                    cmd.CommandText = "Select TAXMASTID,Tax,PERCENTAGE from TAXMAST";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
                         Tax cmp = new Tax
                         {
                             ID = rdr["TAXMASTID"].ToString(),
-                            Taxtype = rdr["TAX"].ToString()
+                            Taxtype = rdr["TAX"].ToString(),
+                            Percentage = rdr["PERCENTAGE"].ToString()
 
                         };
                         cmpList.Add(cmp);
@@ -70,6 +71,7 @@ namespace Arasan.Services
                     }
 
                     objCmd.Parameters.Add("TAX", OracleDbType.NVarchar2).Value = cy.Taxtype;
+                    objCmd.Parameters.Add("PERCENTAGE", OracleDbType.NVarchar2).Value = cy.Percentage;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     try
                     {
@@ -96,7 +98,7 @@ namespace Arasan.Services
         public DataTable GetTax(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select TaxMASTID,Tax from TAXMAST where TAXMASTID = '" + id + "' ";
+            SvSql = "Select TaxMASTID,TAX,PERCENTAGE from TAXMAST where TAXMASTID = '" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
