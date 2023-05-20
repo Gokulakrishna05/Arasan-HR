@@ -3,7 +3,14 @@
 @{
     ViewData["Title"] = "Unit";
 }
-
+<style>
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
 
@@ -32,9 +39,10 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Unit Name<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Unit Name<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                         @Html.TextBoxFor(C => C.UnitName, new { @id = "txtUnit", @class = "form-control", @TabIndex = 1 })<br />
+                                            @Html.HiddenFor(C => C.ID)
                                     </div>
                                 </div>
                             </div>

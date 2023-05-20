@@ -53,7 +53,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Currency Name<label class="mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Currency Name<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.CurrencyName, new { @id = "txtCurrencyName", @class = "form-control", @TabIndex = 1 })<br />
                                            
@@ -93,7 +93,7 @@
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select Symbol");
+                alert("Please Enter Symbol");
                 return false;
             }
             else {
@@ -109,7 +109,7 @@
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select Currency Name");
+                alert("Please Enter Currency Name");
                 return false;
             }
             else {
