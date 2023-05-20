@@ -699,5 +699,22 @@ namespace Arasan.Controllers.Store_Management
 
             return View(Cy);
         }
+
+        public ActionResult DeleteMR(string tag, int id)
+        {
+         
+            string flag = materialReq.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListCustomer");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListCustomer");
+            }
+        }
+        
     }
 }

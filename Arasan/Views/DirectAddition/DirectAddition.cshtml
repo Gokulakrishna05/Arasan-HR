@@ -456,6 +456,7 @@
             alert("Cannot delete all the rows.")
         }
     }
+
     $('.form_date').datetimepicker({
         //   language:  'fr',
         weekStart: 1,
@@ -464,7 +465,10 @@
         todayHighlight: 1,
         startView: 2,
         minView: 2,
-        forceParse: 0
+        forceParse: 0,
+       @*  defaultDate: $.now(),*@
+   @*   minDate: new Date(),
+      maxDate:maxdate,*@
     });
     function AppendRow(opt) {
         var index = $("#tbBooks").children("tr").length;
