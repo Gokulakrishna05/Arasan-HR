@@ -41,9 +41,9 @@
                                 <div class="form-group">
 
                                         <label for="inputName3" class="col-sm-4 control-label">HSN Code<label class="mandatory">*</label></label>
-                                    <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.HCode, new { @id = "txtHCode",onkeydown = "return isNumeric2(event.keyCode,this.value)", @class = "form-control", @TabIndex = 1 })<br />
-                                    </div>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.HCode, new { @id = "txtHCode",autocomplete="off", @class = "form-control", @TabIndex = 1,@onkeydown = "return isNumeric2(event.keyCode,this.value)" })<br />
+                                        </div>
                                 </div>
                             </div>
                         </div>
@@ -54,7 +54,7 @@
 
                                         <label for="inputName3" class="col-sm-4 control-label">Description<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Dec, new { @id = "txtDec", @class = "form-control", @TabIndex = 1 })<br />
+                                            @Html.TextBoxFor(C => C.Dec, new { @id = "txtDec", @class = "form-control", @TabIndex = 1,autocomplete="off" })<br />
                                     </div>
                                 </div>
                             </div>
@@ -65,9 +65,9 @@
                                 <div class="form-group">
 
                                         <label for="inputName3" class="col-sm-4 control-label">GST%<label class="mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Gt, new { @id = "txtGt",onkeydown = "return isNumeric2(event.keyCode,this.value)",@maxlength="3", @class = "form-control", @TabIndex = 1 })<br />
-                                    </div>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.Gt, Model.GSTlst,"Please Select", new { @id = "ddlGST", @Class = "form-control _select", @TabIndex = 1 })<br /><br>
+                                        </div>
                                 </div>
                             </div>
                         </div>
@@ -127,22 +127,7 @@
                     "background": ""
                 });
             }
-            if (document.getElementById("txtGt").value == "") {
-                isValid = false;
-                $(txtGt).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Select GST");
-                return false;
-            }
-            else {
-                $(txtGt).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
+            
 
             if (isValid == false)
                 e.preventDefault();

@@ -121,7 +121,16 @@ namespace Arasan.Services.Master
             return msg;
         }
 
-       
+        public DataTable GetHSNcode(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select HSNCODEID,HSNCODE,DESCRIPTION,GST from HSNCODE where HSNCODEID = '" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
     }
 
 }

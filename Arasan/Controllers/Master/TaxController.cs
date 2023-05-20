@@ -8,8 +8,6 @@ using Arasan.Services.Master;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-
-
 namespace Arasan.Controllers
 {
     public class TaxController : Controller
@@ -24,11 +22,9 @@ namespace Arasan.Controllers
         public IActionResult Tax(string id)
         {
             Tax ca = new Tax();
+            ca.Taxtypelst = BindTaxtype();
+
             if (id != null)
-            {
-                
-            }
-            else
             {
                 DataTable dt = new DataTable();
                 double total = 0;
@@ -36,11 +32,30 @@ namespace Arasan.Controllers
                 if (dt.Rows.Count > 0)
                 {
                     ca.Taxtype = dt.Rows[0]["Tax"].ToString();
+                    ca.Percentage = dt.Rows[0]["PERCENTAGE"].ToString();
 
                 }
             }
+    
             return View(ca);
         }
+
+        public List<SelectListItem> BindTaxtype()
+        {
+            try
+            {
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                lstdesg.Add(new SelectListItem() { Text = "CGST", Value = "CGST" });
+                lstdesg.Add(new SelectListItem() { Text = "SGST", Value = "SGST" });
+                lstdesg.Add(new SelectListItem() { Text = "IGST", Value = "IGST" });
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         [HttpPost]
         public ActionResult Tax(Tax Cy, string id)
         {
