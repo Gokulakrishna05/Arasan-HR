@@ -50,7 +50,7 @@
                                                             <th>Indent Creation</th>
                                                             <th>Status</th>
                                                             <th>Edit</th>
-                                                            <th>Delete</th>
+                                                            <th>Close</th>
                                                         </tr>
                                                     </thead>
 
@@ -78,8 +78,10 @@
                                                                         <td> <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("MaterialStatus", "MaterialRequisition",new { id=item.ID })"><img src='../Images/view_icon.png' alt='Waiting for approval' /></a></div></td>
 
                                                             <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("MaterialRequisition", "MaterialRequisition",new { id=item.ID })"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("MaterialRequisition", "MaterialRequisition",new { id=item.ID })"></a></div></td>
-                                                                
+                                                            <td> <a href="@Url.Action("DeleteMR","MaterialRequisition",new {tag="Del",id=item.ID})"   onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
+                                                            
+                                                               
+
                                                                 }
 
                                                              
