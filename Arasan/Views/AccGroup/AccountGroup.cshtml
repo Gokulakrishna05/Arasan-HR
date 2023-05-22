@@ -38,7 +38,7 @@
 
                                         <label for="inputName3" class="col-sm-4 control-label">Branch<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Branch, Model.Brlst, new { @id = "ddlBranch", @Class = "form-control chosen-select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.Branch, Model.Brlst,"Please Select", new { @id = "ddlBranch", @Class = "form-control _select", @TabIndex = 1 })
                                         </div>
                                     </div>
                                 </div>
@@ -107,6 +107,11 @@
     </div>
 </div>
 <script>
+
+    $(function () {
+        $('._select').select2();
+
+    });
     $(".chosen-select").chosen();
     $(document).ready(function () {
         $('#btnSave').click(function (e) {
@@ -118,7 +123,7 @@
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select Doc No");
+                alert("Please Enter Document ID");
                 return false;
             }
             else {
@@ -134,7 +139,7 @@
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select CPM Name");
+                alert("Please Enter CPM Name");
                 return false;
             }
             else {
@@ -150,7 +155,7 @@
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select Unique Id");
+                alert("Please Enter Unique Id");
                 return false;
             }
             else {
@@ -159,7 +164,8 @@
                     "background": ""
                 });
             }
-
+            if (isValid == false)
+                e.preventDefault();
         });
 
     });

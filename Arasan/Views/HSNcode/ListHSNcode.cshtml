@@ -40,7 +40,9 @@
                                                             <th>S.No</th>
                                                             <th>HSN Code</th>
                                                             <th>Description</th>
-                                                            <th>GST%</th>
+                                                            <th>CGST%</th>
+                                                            <th>SGST%</th>
+                                                            <th>IGST%</th>
                                                             <th>Edit</th>
                                                             <th>Delete</th>
                                                         </tr>
@@ -55,7 +57,9 @@
                                                                     <td>@i</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.HCode)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.Dec)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.Gt)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.CGst)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.SGst)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.IGst)</td>
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("HSNcode", "HSNcode",new { id=item.ID })"></a></div></td>
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("HSNcode", "HSNcode",new { id=item.ID })"></a></div></td>
                                                            
