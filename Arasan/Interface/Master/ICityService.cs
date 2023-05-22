@@ -9,9 +9,9 @@ namespace Arasan.Interface.Master
     {
         string CityCRUD(City by);
         IEnumerable<City> GetAllCity();
-        City GetCityById(string id);
+        DataTable GetCity(string id);
 
-        DataTable GetState();
+        DataTable GetState(string id);
         DataTable Getcountry();
     }
 }

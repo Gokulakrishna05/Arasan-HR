@@ -5,7 +5,7 @@ namespace Arasan.Models
     public class MaterialRequisition
     {
         public MaterialRequisition()
-            {
+        {
             this.Brlst = new List<SelectListItem>();
             this.Loclst = new List<SelectListItem>();
             this.Worklst = new List<SelectListItem>();
@@ -18,7 +18,7 @@ namespace Arasan.Models
         public string Branch { get; set; }
         public string BranchId { get; set; }
         public string DocDa { get; set; }
-        public string  DocId { get; set; }
+        public string DocId { get; set; }
         public string LocationId { get; set; }
         public string Location { get; set; }
         public string Process { get; set; }
@@ -28,7 +28,7 @@ namespace Arasan.Models
         public DateTime MaterialReqDate { get; set; }
 
         public string RequestType { get; set; }
-       
+
         public string Amount { get; set; }
         public string Narration { get; set; }
         public string Entered { get; set; }
@@ -57,9 +57,11 @@ namespace Arasan.Models
         public double IndQty { get; set; }
         public double InvQty { get; set; }
         public string Isvalid { get; set; }
+        public string Narration { get; set; }
+
         public string indentid { get; set; }
         public List<SelectListItem> Itemlst { get; set; }
 
-       
+
     }
 }

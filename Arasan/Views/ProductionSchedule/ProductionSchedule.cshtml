@@ -1087,7 +1087,7 @@
         
         var removeCell = "<td><input id='IsParemvalid" + index + "' name='Prlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRowParem(" + index + ");'  style='cursor:pointer' /><input name='EnqLst.Index' type='hidden' value='" + index + "'  /></td>";
 
-        var newRow = "<tr class='chkParemitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookParem" + index + "'>" + Parameters + Unit + Desc + Unit + Initial + Final + Remarks + removeCell + "</tr>";
+        var newRow = "<tr class='chkParemitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookParem" + index + "'>" + Parameters + Unit  + Initial + Final + Remarks + removeCell + "</tr>";
         //alert(Packing);
         $("#tbBooks2").append(newRow);
        $(function() 
@@ -1141,7 +1141,7 @@
 
 
         var newRow = "<tr class='chkPackitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookPack" + index + "'>" + Pack + Qty + removeCell + "</tr>";
-        //alert(Packing);
+        //alert(Packing);                                                                                                        
         $("#tbBooks4").append(newRow);
         $(function() 
        {
@@ -1186,6 +1186,22 @@
                     "background": ""
                 });
             }
+            if (document.getElementById("txtDocId").value == "") {
+                isValid = false;
+                $(txtDocId).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter  Production Schedule No");
+                return false;
+            }
+            else {
+                $(txtDocId).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
             if (document.getElementById("Docdate").value == "") {
                 isValid = false;
                 $(Docdate).css({
@@ -1202,6 +1218,7 @@
                     "background": ""
                 });
             }
+            
              if (document.getElementById("ddlWorkCenter").value == "" || document.getElementById("ddlWorkCenter").value == 0) {
                 isValid = false;
                 $(ddlWorkCenter).css({
@@ -1289,7 +1306,7 @@
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select  Output Qty");
+                alert("Please Enter  Output Qty");
                 return false;
             }
             else {
@@ -1305,7 +1322,7 @@
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select ProdQty");
+                alert("Please Enter ProdQty");
                 return false;
             }
             else {

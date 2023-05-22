@@ -11,16 +11,17 @@ namespace Arasan.Controllers.Master
 {
     public class CityController : Controller
     {
-        ICityService CityService;
-        public CityController(ICityService _CityService)
+        ICityService city;
+        public CityController(ICityService _city)
         {
-            CityService = _CityService;
+            city = _city;
         }
         public IActionResult City(string id)
         {
             City st = new City();
-            st.sta = BindState();
+          
             st.cuntylst = BindCountry();
+            st.sta = BindState("");
 
             if (id == null)
             {
@@ -28,7 +29,20 @@ namespace Arasan.Controllers.Master
             }
             else
             {
-                st = CityService.GetCityById(id);
+
+                DataTable dt = new DataTable();
+
+                dt = city.GetCity(id);
+                if (dt.Rows.Count > 0)
+                {
+                    st.Cit = dt.Rows[0]["CITYNAME"].ToString();
+                    st.countryid = dt.Rows[0]["COUNTRYID"].ToString();
+                    st.sta = BindState(st.countryid);
+                    st.State = dt.Rows[0]["STATEID"].ToString();
+                    
+                    st.ID = id;
+
+                }
 
             }
             return View(st);
@@ -40,7 +54,7 @@ namespace Arasan.Controllers.Master
             try
             {
                 ss.ID = id;
-                string Strout = CityService.CityCRUD(ss);
+                string Strout = city.CityCRUD(ss);
                 if (string.IsNullOrEmpty(Strout))
                 {
                     if (ss.ID == null)
@@ -72,31 +86,15 @@ namespace Arasan.Controllers.Master
         }
         public IActionResult ListCity()
         {
-            IEnumerable<City> sta = CityService.GetAllCity();
+            IEnumerable<City> sta = city.GetAllCity();
             return View(sta);
         }
-        public List<SelectListItem> BindState()
-        {
-            try
-            {
-                DataTable dtDesg = CityService.GetState();
-                List<SelectListItem> lstdesg = new List<SelectListItem>();
-                for (int i = 0; i < dtDesg.Rows.Count; i++)
-                {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["STATE"].ToString(), Value = dtDesg.Rows[i]["STATEMASTID"].ToString() });
-                }
-                return lstdesg;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+       
         public List<SelectListItem> BindCountry()
         {
             try
             {
-                DataTable dtDesg = CityService.Getcountry();
+                DataTable dtDesg = city.Getcountry();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -109,7 +107,29 @@ namespace Arasan.Controllers.Master
                 throw ex;
             }
         }
+        public JsonResult GetStateJSON(string supid)
+        {
+            City model = new City();
+            model.sta = BindState(supid);
+            return Json(BindState(supid));
 
-
+        }
+        public List<SelectListItem> BindState(string id)
+        {
+            try
+            {
+                DataTable dtDesg = city.GetState(id);
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["STATE"].ToString(), Value = dtDesg.Rows[i]["STATEMASTID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
