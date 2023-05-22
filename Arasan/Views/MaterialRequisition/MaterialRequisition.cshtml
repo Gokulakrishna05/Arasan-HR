@@ -548,7 +548,11 @@
         var loc = document.getElementById("ddllocation").value;
         $.ajax({
             url: 'GetItemDetail',
+
             data: { 'ItemId': ItemId, 'branch': branch, 'loc': loc },
+
+            data: { 'ItemId' : ItemId ,'branch' : branch },
+
             type: "GET",
             success: function (result) {
                 document.getElementById("txtUnit" + i).value = result.unit;

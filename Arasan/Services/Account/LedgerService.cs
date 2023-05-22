@@ -1,41 +1,41 @@
 ﻿using Arasan.Interface;
-using Arasan.Interface.Master;
 using Arasan.Models;
 using Microsoft.Extensions.Configuration;
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Data;
-
 namespace Arasan.Services
 {
-    public class TaxService : ITaxService
+    public class LedgerService : ILedger
     {
-
         private readonly string _connectionString;
-        public TaxService(IConfiguration _configuration)
+        public LedgerService(IConfiguration _configuratio)
         {
-            _connectionString = _configuration.GetConnectionString("OracleDBConnection");
+            _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
         }
-
-        public IEnumerable<Tax> GetAllTax()
+        public IEnumerable<Ledger> GetAllLedger()
         {
-            List<Tax> cmpList = new List<Tax>();
+            List<Ledger> cmpList = new List<Ledger>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
 
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select TAXMASTID,Tax,PERCENTAGE from TAXMAST";
+                    cmd.CommandText = "Select MNAME,DISPNAME,CATEGORY,GROUPORACCOUNT,to_char(DOCDT,'dd-MON-yyyy')DOCDT,MASTERID from MASTER";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
-                        Tax cmp = new Tax
+                        Ledger cmp = new Ledger
                         {
-                            ID = rdr["TAXMASTID"].ToString(),
-                            Taxtype = rdr["TAX"].ToString(),
-                            Percentage = rdr["PERCENTAGE"].ToString()
+                            ID = rdr["MASTERID"].ToString(),
+                            MName = rdr["MNAME"].ToString(),
+                            DispName = rdr["DISPNAME"].ToString(),
+                            Date = rdr["DOCDT"].ToString(),
+                            GrpAccount = rdr["GROUPORACCOUNT"].ToString(),
+                            Category = rdr["CATEGORY"].ToString(),
+
 
                         };
                         cmpList.Add(cmp);
@@ -44,18 +44,16 @@ namespace Arasan.Services
             }
             return cmpList;
         }
-
-        public string TaxCRUD(Tax cy)
+        public string LedgerCRUD(Ledger cy)
         {
             string msg = "";
             try
             {
-                string StatementType = string.Empty;
-                //string svSQL = "";
+                string StatementType = string.Empty; string svSQL = "";
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
-                    OracleCommand objCmd = new OracleCommand("Tax_PROC", objConn);
+                    OracleCommand objCmd = new OracleCommand("LEDGERPROC", objConn);
 
 
                     objCmd.CommandType = CommandType.StoredProcedure;
@@ -70,9 +68,14 @@ namespace Arasan.Services
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                     }
 
-                    objCmd.Parameters.Add("TAX", OracleDbType.NVarchar2).Value = cy.Taxtype;
-                    objCmd.Parameters.Add("PERCENTAGE", OracleDbType.NVarchar2).Value = cy.Percentage;
+                    objCmd.Parameters.Add("MNAME", OracleDbType.NVarchar2).Value = cy.MName;
+                    objCmd.Parameters.Add("DISPNAME", OracleDbType.NVarchar2).Value = cy.DispName;
+                    objCmd.Parameters.Add("GROUPORACCOUNT", OracleDbType.NVarchar2).Value = cy.GrpAccount;
+                    objCmd.Parameters.Add("CATEGORY", OracleDbType.NVarchar2).Value = cy.Category;
+                    objCmd.Parameters.Add("DOCDT", OracleDbType.Date).Value = DateTime.Parse(cy.Date);
+
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                     
                     try
                     {
                         objConn.Open();
@@ -81,7 +84,7 @@ namespace Arasan.Services
                     }
                     catch (Exception ex)
                     {
-
+                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
                     }
                     objConn.Close();
                 }
@@ -94,18 +97,15 @@ namespace Arasan.Services
 
             return msg;
         }
-
-        public DataTable GetTax(string id)
+        public DataTable GetLedger(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select TaxMASTID,TAX,PERCENTAGE from TAXMAST where TAXMASTID = '" + id + "' ";
+            SvSql = "Select MNAME,DISPNAME,CATEGORY,GROUPORACCOUNT,to_char(DOCDT,'dd-MON-yyyy')DOCDT,MASTERID from MASTER where MASTERID=" + id + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
         }
-
-     
     }
 }

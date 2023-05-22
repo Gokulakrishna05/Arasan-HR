@@ -1,0 +1,39 @@
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Data;
+namespace Arasan.Models
+{
+    public class PaymentVoucher
+    {
+        public PaymentVoucher()
+        {
+            this.Brlst = new List<SelectListItem>();
+            this.Curlst = new List<SelectListItem>();
+            this.Loclst = new List<SelectListItem>();
+        }
+        public string Currency { get; set; }
+
+        public List<SelectListItem> Curlst;
+        public List<SelectListItem> Brlst;
+       
+        public string ID { get; set; }
+        public string Branch { get; set; }
+
+        public string RefNo { get; set; }
+
+        public string Vdate { get; set; }
+        public string VoucherNo { get; set; }
+        public string ExRate { get; set; }
+        public string RefDate { get; set; }
+
+        public List<SelectListItem> Loclst;
+        public string Location { get; set; }
+        public string PType { get; set; }
+
+        public string VType { get; set; }
+
+        //public string Enqdate { get; set; }
+        //public string EnqNo { get; set; }
+        //public string ExRate { get; set; }
+        //public string ParNo { get; set; }
+    }
+}

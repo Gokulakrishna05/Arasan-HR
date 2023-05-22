@@ -1,41 +1,41 @@
 ﻿using Arasan.Interface;
-using Arasan.Interface.Master;
 using Arasan.Models;
 using Microsoft.Extensions.Configuration;
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Data;
-
 namespace Arasan.Services
 {
-    public class TaxService : ITaxService
+    public class SequenceService : ISequence
     {
-
         private readonly string _connectionString;
-        public TaxService(IConfiguration _configuration)
+        public SequenceService(IConfiguration _configuratio)
         {
-            _connectionString = _configuration.GetConnectionString("OracleDBConnection");
+            _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
         }
-
-        public IEnumerable<Tax> GetAllTax()
+        public IEnumerable<Sequence> GetAllSequence()
         {
-            List<Tax> cmpList = new List<Tax>();
+            List<Sequence> cmpList = new List<Sequence>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
 
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select TAXMASTID,Tax,PERCENTAGE from TAXMAST";
+                    cmd.CommandText = "Select PREFIX,TRANSTYPE,DESCRIPTION,LASTNO,to_char(STDT,'dd-MON-yyyy')STDT,to_char(EDDT,'dd-MON-yyyy')EDDT,SEQUENCEID from SEQUENCE";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
-                        Tax cmp = new Tax
+                        Sequence cmp = new Sequence
                         {
-                            ID = rdr["TAXMASTID"].ToString(),
-                            Taxtype = rdr["TAX"].ToString(),
-                            Percentage = rdr["PERCENTAGE"].ToString()
+                            ID = rdr["SEQUENCEID"].ToString(),
+                            Prefix = rdr["PREFIX"].ToString(),
+                            Trans = rdr["TRANSTYPE"].ToString(),
+                            Des = rdr["DESCRIPTION"].ToString(),
+                            Start = rdr["STDT"].ToString(),
+                            End = rdr["EDDT"].ToString(),
+                            Last = rdr["LASTNO"].ToString(),
 
                         };
                         cmpList.Add(cmp);
@@ -44,18 +44,16 @@ namespace Arasan.Services
             }
             return cmpList;
         }
-
-        public string TaxCRUD(Tax cy)
+        public string SequenceCRUD(Sequence cy)
         {
             string msg = "";
             try
             {
-                string StatementType = string.Empty;
-                //string svSQL = "";
+                string StatementType = string.Empty; string svSQL = "";
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
-                    OracleCommand objCmd = new OracleCommand("Tax_PROC", objConn);
+                    OracleCommand objCmd = new OracleCommand("SEQUENCEPROC", objConn);
 
 
                     objCmd.CommandType = CommandType.StoredProcedure;
@@ -70,9 +68,15 @@ namespace Arasan.Services
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                     }
 
-                    objCmd.Parameters.Add("TAX", OracleDbType.NVarchar2).Value = cy.Taxtype;
-                    objCmd.Parameters.Add("PERCENTAGE", OracleDbType.NVarchar2).Value = cy.Percentage;
+                    objCmd.Parameters.Add("PREFIX", OracleDbType.NVarchar2).Value = cy.Prefix;
+                    objCmd.Parameters.Add("TRANSTYPE", OracleDbType.NVarchar2).Value = cy.Trans;
+                    objCmd.Parameters.Add("DESCRIPTION", OracleDbType.NVarchar2).Value = cy.Des;
+                    objCmd.Parameters.Add("LASTNO", OracleDbType.NVarchar2).Value = cy.Last;
+                    objCmd.Parameters.Add("STDT", OracleDbType.Date).Value = DateTime.Parse(cy.Start);
+                    objCmd.Parameters.Add("EDDT", OracleDbType.Date).Value = DateTime.Parse(cy.End);
+                    objCmd.Parameters.Add("ACTIVESEQUENCE", OracleDbType.NVarchar2).Value = "T";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+
                     try
                     {
                         objConn.Open();
@@ -81,7 +85,7 @@ namespace Arasan.Services
                     }
                     catch (Exception ex)
                     {
-
+                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
                     }
                     objConn.Close();
                 }
@@ -94,18 +98,15 @@ namespace Arasan.Services
 
             return msg;
         }
-
-        public DataTable GetTax(string id)
+        public DataTable GetSequence(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select TaxMASTID,TAX,PERCENTAGE from TAXMAST where TAXMASTID = '" + id + "' ";
+            SvSql = "Select PREFIX,TRANSTYPE,DESCRIPTION,LASTNO,to_char(STDT,'dd-MON-yyyy')STDT,to_char(EDDT,'dd-MON-yyyy')EDDT,SEQUENCEID from SEQUENCE where SEQUENCEID=" + id + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
         }
-
-     
     }
 }

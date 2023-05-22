@@ -34,5 +34,6 @@ namespace Arasan.Interface
          string MaterialStatus(MaterialRequisition cy);
         DataTable GetMatStabyID(string MatId);
         DataTable GetMatStaItemByID(string MatId);
+        string StatusChange(string tag, int id);
     }
 }

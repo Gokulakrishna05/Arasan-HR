@@ -19,12 +19,13 @@ namespace Arasan.Controllers.Store_Management
         private string? _connectionString;
         IConfiguration? _configuratio;
         DataTransactions datatrans;
+        private string storeid;
         public MaterialRequisitionController(IMaterialRequisition _MatreqService, IConfiguration _configuratio)
         {
             materialReq = _MatreqService;
-
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
+            storeid = datatrans.GetDataString("select LOCDETAILSID from locdetails where locid = 'STORES'");
         }
         public IActionResult MaterialRequisition(string id)
         {
@@ -93,7 +94,7 @@ namespace Arasan.Controllers.Store_Management
                         tda.ItemId = dtt.Rows[i]["ITEMID"].ToString();
                         tda.Unit = dtt.Rows[i]["UNITID"].ToString();
                         tda.ReqQty = dtt.Rows[i]["QTY"].ToString();
-                        DataTable dt1 = materialReq.Getstkqty(dtt.Rows[i]["ITEMMASTERID"].ToString(), dt.Rows[0]["FROMLOCID"].ToString(), dt.Rows[0]["BRANCHID"].ToString());
+                        DataTable dt1 = materialReq.Getstkqty(dtt.Rows[i]["ITEMMASTERID"].ToString(), storeid, dt.Rows[0]["BRANCHID"].ToString());
                         if (dt1.Rows.Count > 0)
                         {
                             tda.ClosingStock = dt1.Rows[0]["QTY"].ToString();
@@ -145,7 +146,7 @@ namespace Arasan.Controllers.Store_Management
                 throw ex;
             }
         }
-        public ActionResult GetItemDetail(string ItemId,string branch,string loc)
+        public ActionResult GetItemDetail(string ItemId,string branch)
         {
             try
             {
@@ -163,7 +164,7 @@ namespace Arasan.Controllers.Store_Management
                     unit = dt.Rows[0]["UNITID"].ToString();
                     unitid= dt.Rows[0]["UNITMASTID"].ToString();
                 }
-                dt1 = materialReq.Getstkqty(ItemId,loc, branch);
+                dt1 = materialReq.Getstkqty(ItemId, storeid,branch);
                 if(dt1.Rows.Count > 0)
                 {
                     stk= dt1.Rows[0]["QTY"].ToString();
@@ -399,7 +400,7 @@ namespace Arasan.Controllers.Store_Management
                     tda.indentid= dtt.Rows[i]["STORESREQDETAILID"].ToString();
                     tda.Isvalid = "Y";
                     double reqqty = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString()); 
-                    DataTable dt1 = materialReq.Getstkqty(dtt.Rows[i]["ITEMMASTERID"].ToString(), dt.Rows[0]["FROMLOCID"].ToString(), dt.Rows[0]["BRANCHIDS"].ToString());
+                    DataTable dt1 = materialReq.Getstkqty(dtt.Rows[i]["ITEMMASTERID"].ToString(), storeid, dt.Rows[0]["BRANCHIDS"].ToString());
                     if (dt1.Rows.Count > 0)
                     {
                         if (string.IsNullOrEmpty(dt1.Rows[0]["QTY"].ToString()))
@@ -465,7 +466,7 @@ namespace Arasan.Controllers.Store_Management
                     tda.Unit = dtt.Rows[i]["UNITID"].ToString();
                     tda.ReqQty = dtt.Rows[i]["QTY"].ToString();
                     double reqqty = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString());
-                    DataTable dt1 = materialReq.Getstkqty(dtt.Rows[i]["ITEMMASTERID"].ToString(), dt.Rows[0]["FROMLOCID"].ToString(), dt.Rows[0]["BRANCHIDS"].ToString());
+                    DataTable dt1 = materialReq.Getstkqty(dtt.Rows[i]["ITEMMASTERID"].ToString(), storeid, dt.Rows[0]["BRANCHIDS"].ToString());
                     if (dt1.Rows.Count > 0)
                     {
                         if (string.IsNullOrEmpty(dt1.Rows[0]["QTY"].ToString()))
@@ -698,5 +699,22 @@ namespace Arasan.Controllers.Store_Management
 
             return View(Cy);
         }
+
+        public ActionResult DeleteMR(string tag, int id)
+        {
+         
+            string flag = materialReq.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListCustomer");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListCustomer");
+            }
+        }
+        
     }
 }

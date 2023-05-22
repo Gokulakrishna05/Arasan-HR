@@ -204,13 +204,13 @@ function changeCRDR(type, i) {
 
         var Name = "<td><input class='form-control' id='TypeName" + index + "' name='Acclst[" + index + "].TypeName'  style='width: 180px;' type='text'  /></td>";
 
-        var symbol = "<td><input class='form-control' id='symbol" + index + "' name='Acclst[" + index + "].symbol'  style='width: 50px;' type='text'  readonly='True'/> </td>";
+        var cramount = "<td><input class='form-control' id='txtCRAmount" + index + "' name='Acclst[" + index + "].CRAmount'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 100px;text-align:right' type='text' value='0' onkeyup='changecramt(this," + index + ")'/> </td>";
        
-        var Amount = "<td><input class='form-control' id='txtAmount" + index + "' name='Acclst[" + index + "].Amount'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 100px;text-align:right' type='text' value='0'  /></td>";
+        var drAmount = "<td><input class='form-control' id='txtDRAmount" + index + "' name='Acclst[" + index + "].DRAmount'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 100px;text-align:right' type='text' value='0' onkeyup='changedramt(this," + index + ")' /></td>";
 
         var removeCell = "<td><input id='Isvalid" + index + "' name='Acclst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='Acclst.Index' type='hidden' value='" + index + "'  /></td>";
        
-        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Name + ledgrlst + drcrlst +  symbol + Amount +  removeCell + "</tr>";
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Name + ledgrlst + drcrlst +  cramount + drAmount +  removeCell + "</tr>";
         //alert(Packing);
         $("#tbBooks").append(newRow);
 

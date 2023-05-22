@@ -114,7 +114,7 @@ namespace Arasan.Services
                                     objCmds.Parameters.Add("DEPT_ID", OracleDbType.NVarchar2).Value = Pid;
 
                                     objCmds.Parameters.Add("DESIGNATION", OracleDbType.NVarchar2).Value = ca.Design;
-                                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
+                                    objCmds.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                     objConns.Open();
                                     objCmds.ExecuteNonQuery();
