@@ -112,9 +112,14 @@ internal class Program
         builder.Services.TryAddSingleton<IDrumLocation, DrumLocationService>();
         builder.Services.TryAddSingleton<IDepartment, DepartmentService>();
 
+
+        builder.Services.TryAddSingleton<IAccTreeView, AccTreeviewService>();
+
+
         builder.Services.TryAddSingleton<ILedger, LedgerService>();
         builder.Services.TryAddSingleton<IPaymentVoucher, PaymentVoucherService>();
         builder.Services.TryAddSingleton<ISequence, SequenceService>();
+
         builder.Services.AddSession();
         var emailConfig = builder.Configuration.GetSection("MailSettings").Get<MailSettings>();
         builder.Services.TryAddSingleton(emailConfig);
