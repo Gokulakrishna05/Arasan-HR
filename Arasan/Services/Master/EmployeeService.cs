@@ -3,6 +3,7 @@ using Arasan.Interface.Master;
 using Arasan.Models;
 using Microsoft.Extensions.Configuration;
 using Oracle.ManagedDataAccess.Client;
+using Org.BouncyCastle.Ocsp;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -313,49 +314,61 @@ namespace Arasan.Services.Master
 
         public string GetMultipleLocation(MultipleLocation mp)
         {
-            string msg = "";
+                string msg = "";
             try
             {
                 string StatementType = string.Empty;
                 //string svSQL = "";
-                if (mp.Location != null)
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
-                    for (int i = 0; i < mp.Location.Length; i++)
-                    {
-                        string EmpID = datatrans.GetDataString("Select EMPMASTID from EMPMAST where EMPNAME='" + mp.EmpName + "' ");
-
-                        using (OracleConnection objConn = new OracleConnection(_connectionString))
+                    if (mp.Location != null)
+                {
+                    string EmpID = datatrans.GetDataString("Select EMPMASTID from EMPMAST where EMPNAME='" + mp.EmpName + "' ");
+                        string dt = datatrans.GetDataString("Select EMPID from EMPLOYEELOCATION WHERE EMPID='" + EmpID + "'");
+                    //string loc = dt.Rows[0]["LOCID"].ToString();
+                        if (EmpID==dt)
                         {
-                            OracleCommand objCmd = new OracleCommand("EMPLOCATIONPROC", objConn);
-                            /*objCmd.Connection = objConn;
-                            objCmd.CommandText = "MULTIPLELOCATIONPROC";*/
-
-                            objCmd.CommandType = CommandType.StoredProcedure;
-
-                            StatementType = "Insert";
-                            objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-                            objCmd.Parameters.Add("EMPID", OracleDbType.NVarchar2).Value = EmpID;
-                            objCmd.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = mp.Location[i];
-							objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
-							objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = mp.CreadtedBy;
-							objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
-							 
-							objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
-
-
-                            try
-                            {
-                                objConn.Open();
-                                objCmd.ExecuteNonQuery();
-                                //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
-                            }
-                            catch (Exception ex)
-                            {
-                                //System.Console.WriteLine("Exception: {0}", ex.ToString());
-                            }
+                            string Sql = string.Empty;
+                            Sql="DELETE FROM employeelocation WHERE empid = '" + EmpID +"'";
+                            OracleCommand objCmds = new OracleCommand(Sql, objConn);
+                            objConn.Open();
+                            objCmds.ExecuteNonQuery();
                             objConn.Close();
                         }
-                    }
+                        for (int i = 0; i < mp.Location.Length; i++)
+                            
+                        {               
+                                OracleCommand objCmd = new OracleCommand("EMPLOCATIONPROC", objConn);
+                                /*objCmd.Connection = objConn;
+                                objCmd.CommandText = "MULTIPLELOCATIONPROC";*/
+
+                                objCmd.CommandType = CommandType.StoredProcedure;
+
+                                StatementType = "Insert";
+                                objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                objCmd.Parameters.Add("EMPID", OracleDbType.NVarchar2).Value = EmpID;
+                                objCmd.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = mp.Location[i];
+                                objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                                objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = mp.CreadtedBy;
+                                objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
+
+                                objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+
+
+                                try
+                                {
+                                    objConn.Open();
+                                    objCmd.ExecuteNonQuery();
+                                    //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
+                                }
+                                catch (Exception ex)
+                                {
+                                    //System.Console.WriteLine("Exception: {0}", ex.ToString());
+                                }
+                                objConn.Close();
+                            }
+                        }
+                    
                 }
             }
             catch (Exception ex)

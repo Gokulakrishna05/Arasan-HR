@@ -11,7 +11,10 @@ namespace Arasan.Models
         public string HCode { get; set; }
         public string Dec { get; set; }
 
-        public List<SelectListItem> GSTlst;
-        public string Gt { get; set; }
+       
+
+        public string CGst { get; set; }
+        public string SGst { get; set; }
+        public string IGst { get; set; }
     }
 }

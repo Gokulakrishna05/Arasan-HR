@@ -57,7 +57,7 @@
 
                                         <label for="inputName3" class="col-sm-4 control-label">Country code<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.ConCode, new { @id = "txtConCode", @class = "form-control", @TabIndex = 1 })<br />
+                                            @Html.TextBoxFor(C => C.ConCode, new { @id = "txtConCode", @class = "form-control", @TabIndex = 1 , onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
 
                                         </div>
                                     </div>
@@ -91,7 +91,7 @@
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select Country Name");
+                alert("Please Enter Country Name");
                 return false;
             }
             else {
@@ -107,7 +107,7 @@
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select Country code");
+                alert("Please Enter Country code");
                 return false;
             }
             else {

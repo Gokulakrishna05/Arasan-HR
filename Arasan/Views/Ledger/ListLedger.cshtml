@@ -1,16 +1,16 @@
-﻿@model IEnumerable<Arasan.Models.HSNcode>
+﻿@model IEnumerable<Arasan.Models.Ledger>
 
 @{
-    ViewData["Title"] = "HSN Code ";
+    ViewData["Title"] = "Ledger";
 }
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
 
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
-            <li> <a>Master</a> </li>
-    <li class="active"> <strong>HSN code</strong> </li>
-    </ol>
+            <li> <a>Account</a> </li>
+            <li class="active"> <strong>Ledger</strong> </li>
+        </ol>
     </div>
 </div>
 
@@ -19,64 +19,61 @@
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="widgets-container">
-                 <form>
+
+                    <form>
                         <div class="row">
                             <div class="col-md-12 ">
                                 <div class=" textalignright">
-                                    <a href="@Url.Action("HSNcode", "HSNcode")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add HSN Code</a>
+                                    <a href="@Url.Action("Ledger", "Ledger")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Ledger</a>
                                     <br>
                                 </div>
+
+
                             </div>
                         </div>
+
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="ibox float-e-margins">
+
                                     <div class="ibox-content collapse in">
                                         <div class="widgets-container">
                                             <div>
                                                 <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
                                                     <thead>
                                                         <tr>
-                                                            <th>S.No</th>
-                                                            <th>HSN Code</th>
-                                                            <th>Description</th>
-                                                            <th>CGST%</th>
-                                                            <th>SGST%</th>
-                                                            <th>IGST%</th>
+                                                            <th>MName</th>
+                                                            <th>Disp Name</th>
+                                                            <th>Date</th>
+                                                            <th>Group Or Account</th>
+                                                            <th>Category</th>
+                                                             
                                                             <th>Edit</th>
                                                             <th>Delete</th>
                                                         </tr>
                                                     </thead>
+
                                                     <tbody>
-                                                         @{
+                                                        @{
                                                             int i = 1;
 
                                                             foreach (var item in Model)
                                                             {
-                                                        <tr>
-                                                                    <td>@i</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.HCode)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.Dec)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.CGst)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.SGst)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.IGst)</td>
-                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("HSNcode", "HSNcode",new { id=item.ID })"></a></div></td>
-                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("HSNcode", "HSNcode",new { id=item.ID })"></a></div></td>
-                                                           
-                                                        </tr>
-                                                           i++;
+                                                                <tr>
+
+                                                                    <td>@Html.DisplayFor(modelItem => item.MName)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.DispName)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Date)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.GrpAccount)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Category)</td>
+
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Ledger", "Ledger",new { id=item.ID })"></a></div></td>
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("Ledger", "Ledger",new { id=item.ID })"></a></div></td>
+                                                                </tr>
+                                                                i++;
                                                             }
                                                         }
 
-                                                        @*
-                                                        <tr>
-                                                            <td>2</td>
-                                                            <td>560TY</td>
-                                                            <td>Code</td>
-                                                            <td>14%</td>
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Unit", "Unit")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("Unit", "Unit")"></a></div></td>
-                                                        </tr>*@
 
                                                     </tbody>
                                                 </table>
@@ -86,6 +83,9 @@
                                 </div>
                             </div>
                         </div>
+
+
+
                     </form>
                 </div>
             </div>

@@ -1,0 +1,307 @@
+﻿@model Arasan.Models.PaymentVoucher
+@{
+    ViewData["Title"] = "Payment Voucher";
+}
+<style>
+
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a>Account</a> </li>
+            <li class="active"> <strong>  Payment Voucher</strong> </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    <h5 style="font-size:14px"> Payment Voucher </h5>
+                    <hr>
+                    @using (Html.BeginForm("PaymentVoucher", "PaymentVoucher", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <form>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Branch <label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.HiddenFor(C => C.ID)
+                                            @Html.DropDownListFor(C => C.Branch, Model.Brlst," -- Please Select -- ", new { @id = "ddlBranch", @Class = "form-control _select", @TabIndex = 1 })<br />
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Location<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.Location, Model.Loclst," -- Please Select -- ", new { @id = "ddllocation", @Class = "form-control _select", @TabIndex = 4 } )
+                                            @Html.HiddenFor(C => C.ID)
+                                            @*@Html.HiddenFor(C => C.Branch ,new {@id="hdbranch"})*@
+                                            @*@Html.HiddenFor(C => C.Entered  )*@
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+
+                                        <br />     <label for="inputName3" class="col-sm-4 control-label">Voucher No<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+
+                                            @Html.TextBoxFor(C => C.VoucherNo, new { @id = "txtVoucherNo", @class = "form-control", @TabIndex = 1   })
+                                            <br />
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br />     <label for="inputName3" class="col-sm-4 control-label">Payment Type<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group">
+
+                                                @Html.RadioButtonFor(C => C.PType, "CASH", new { @id = "txtPType",@TabIndex = 2 })
+                                                <label id="mt-radio">CASH</label>
+                                                @Html.RadioButtonFor(C => C.PType, "BANK", new { @id = "txtPType",@TabIndex = 3 })
+                                                <label id="mt-radio">BANK</label>
+
+
+                                            </div><br />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Voucher Date<label class="mandatory">*</label></label>
+                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                            @Html.TextBoxFor(C => C.Vdate, new { @id = "txtVdate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
+
+                                        <br />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+
+                                             <label for="inputName3" class="col-sm-4 control-label">VType<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+
+                                            @Html.TextBoxFor(C => C.VType, new { @id = "txtVType", @class = "form-control", @TabIndex = 1   })
+                                            <br />
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Reference No<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+
+                                            @Html.TextBoxFor(C => C.RefNo, new { @id = "txtRefNo", @class = "form-control", @TabIndex = 1   })
+                                            <br />
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Currency<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.Currency, Model.Curlst," -- Please Select -- ", new { @id = "ddlCur", @Class = "form-control _select", @TabIndex = 1 })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Reference Date<label class="mandatory">*</label></label>
+                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                            @Html.TextBoxFor(C => C.RefDate, new { @id = "txtRefDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
+
+                                        <br />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+
+                                      <label for="inputName3" class="col-sm-4 control-label">Exchange Rate<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+
+                                            @Html.TextBoxFor(C => C.ExRate, new { @id = "txtExRate", @class = "form-control", @TabIndex = 1   })
+                                            <br />
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="height:30px;"></div>
+                            <div class="col-lg-10"></div>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListPaymentVoucher", "PaymentVoucher")'">Cancel</button>
+
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    $(function () {
+        $('._select').select2();
+    });
+
+    $('.form_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+
+        forceParse: 0
+    });
+    $(".chosen-select").chosen();
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+            if (document.getElementById("ddlBranch").value == "" || document.getElementById("ddlBranch").value == 0) {
+                isValid = false;
+                $(ddlBranch).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Branch");
+                return false;
+            }
+            else {
+                $(ddlBranch).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("ddllocation").value == "" || document.getElementById("ddllocation").value == 0) {
+                isValid = false;
+                $(ddllocation).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Location ");
+                return false; Center
+            }
+            else {
+                $(ddllocation).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtVoucherNo").value == "") {
+                isValid = false;
+                $(txtVoucherNo).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Voucher No");
+                return false;
+            }
+            else {
+                $(txtVoucherNo).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtPType").value == "") {
+                isValid = false;
+                $(txtPType).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Choose Payment Type");
+                return false;
+            }
+            else {
+                $(txtPType).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtVdate").value == "") {
+                isValid = false;
+                $(txtVdate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Voucher Date");
+                return false;
+            }
+            else {
+                $(txtVdate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtRefDate").value == "") {
+                isValid = false;
+                $(txtRefDate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Reference Date");
+                return false;
+            }
+            else {
+                $(txtRefDate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+        });
+
+    });
+</script>

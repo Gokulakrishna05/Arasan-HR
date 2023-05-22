@@ -3,7 +3,15 @@
 @{
     ViewData["Title"] = "City";
 }
+<style>
 
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
 
@@ -31,9 +39,9 @@
                                 
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Country Name<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Country Name<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.countryid, Model.cuntylst, new { @id = "ddlcountry", @Class = "form-control chosen-select", @TabIndex = 1 })<br />
+                                            @Html.DropDownListFor(C => C.countryid, Model.cuntylst,"---Please Select---", new { @id = "ddlcountry", @Class = "form-control _select", @TabIndex = 1,onchange = "StateChange(value)"  })<br />
                                         </div>
 
                                     </div>
@@ -44,38 +52,167 @@
 
                                 <div class="col-md-7">
                                     <div class="form-group">
-                                        
-                                        <label for="inputName3" class="col-sm-4 control-label">State Name<label class="Mandatory"></label></label>
+
+                                        <br />   <label for="inputName3" class="col-sm-4 control-label">State Name<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.State, Model.sta, new { @id = "ddlsta", @Class = "form-control chosen-select", @TabIndex = 1 })<br />
+                                            @Html.DropDownListFor(C => C.State, Model.sta,"---Please Select---", new { @id = "ddlsta", @Class = "form-control _select", @TabIndex = 1 })<br />
                                         </div>
 
                                     </div>
                                 </div>
                             </div>
                 
-			  <div class="row">
+			              <div class="row">
                                         
                             <div class="col-md-7">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">City Name<label class="Mandatory"></label></label>
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">City Name<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.Cit, new { @id = "txtCitName", @class = "form-control", @TabIndex = 2  })<br />
+                                        @Html.TextBoxFor(C => C.Cit, new { @id = "txtCityName", @class = "form-control", @TabIndex = 2  })<br />
                                     </div>
 
                                 </div>
                             </div>
                             </div>
                             <div style="height:30px;"></div>
-                            <button type="submit" name="submit" class="btn btn-success" id="btnSave" value="Save" tabindex="18">Insert</button>
-                            <input type="reset" class="btn btn-primary" value="Reset">
+                            <button type="submit"  class="btn btn-success" id="btnSave" value="Save" tabindex="18">Insert</button>
+                         @*   <input type="reset" class="btn btn-primary" value="Reset">*@
                             <a button class="btn btn-danger" type="submit" href="@Url.Action("ListCity", "City")"> Cancel </a>
                       
-                    </form>
+              </form>
                     }
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script>
+
+    $(".chosen-select").chosen();
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+            if (document.getElementById("txtCityName").value == "") {
+                isValid = false;
+                $(txtCityName).css({
+
+    $(function () {
+        $('._select').select2();
+    });
+    function StateChange(itemid) {
+        //alert(itemid);
+        //debugger;
+        $.ajax({
+            url: "GetStateJSON",
+            type: "post",
+            data: { 'supid': itemid },
+            cache: false,
+            success: function (response) {
+                var newlist;
+                //alert(JSON.stringify(response));
+                newlist = response.Ilst;
+                PopulateDropDown("#ddlsta", response);
+            },
+            error: function () {
+                debugger;
+                alert("Please Select Country");
+            }
+        });
+    }
+    function PopulateDropDown(dropDownId, list) {
+        //alert(list);
+        $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
+        if (list != null && list.length > 0) {
+            $(dropDownId).removeAttr("disabled");
+            $.each(list, function () {
+                $(dropDownId).append($("<option></option>").val(this['value']).html(this['text']));
+            });
+        }
+        $(dropDownId).trigger("liszt:updated");
+    }
+    $('.form_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+
+        forceParse: 0
+    });
+     
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+            if (document.getElementById("ddlcountry").value == "" || document.getElementById("ddlcountry").value == 0) {
+                isValid = false;
+                $(ddlcountry).css({
+
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+
+                alert("Please Enter City");
+                return false;
+            }
+            else {
+                $(txtCityName).css({
+
+                alert("Please Select Country Name");
+                return false;
+            }
+            else {
+                $(ddlcountry).css({
+
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            
+            if (isValid == false)
+                e.preventDefault();
+
+
+            if (document.getElementById("ddlsta").value == "" || document.getElementById("ddlsta").value == 0) {
+                isValid = false;
+                $(ddlsta).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select State Name");
+                return false; Center
+            }
+            else {
+                $(ddlsta).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtCitName").value == "") {
+                isValid = false;
+                $(txtCitName).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter City Name");
+                return false;
+            }
+            else {
+                $(txtCitName).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            
+
+
+        });
+
+    });
+</script>

@@ -59,18 +59,42 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-lg-3"></div>
-                            <div class="col-md-6">
-                                <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-3"></div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">GST%<label class="mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">CGST%<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Gt, Model.GSTlst,"Please Select", new { @id = "ddlGST", @Class = "form-control _select", @TabIndex = 1 })<br /><br>
+                                            @Html.TextBoxFor(C => C.CGst, new { @id = "txtCGST", @class = "form-control", @TabIndex = 1,autocomplete="off" })<br />
                                         </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                              <div class="row">
+                                <div class="col-lg-3"></div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">SGST%<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.SGst, new { @id = "txtSGST", @class = "form-control", @TabIndex = 1,autocomplete="off" })<br />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3"></div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">IGST%<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.IGst, new { @id = "txtIGST", @class = "form-control", @TabIndex = 1,autocomplete="off" })<br />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         <div class="row">
                             <div class="col-lg-3"></div>
                             <div class="form-group">
@@ -102,7 +126,7 @@
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select HSN Code");
+                alert("Please Enter HSN Code");
                 return false;
             }
             else {
@@ -118,7 +142,7 @@
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select Description");
+                alert("Please Enter Description");
                 return false;
             }
             else {
@@ -127,7 +151,56 @@
                     "background": ""
                 });
             }
+            if (document.getElementById("txtCGST").value == "") {
+                isValid = false;
+                $(txtCGST).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter CGST");
+                return false;
+            }
+            else {
+                $(txtCGST).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
             
+            if (document.getElementById("txtSGST").value == "") {
+                isValid = false;
+                $(txtSGST).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter SGST");
+                return false;
+            }
+            else {
+                $(txtSGST).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtIGST").value == "") {
+                isValid = false;
+                $(txtIGST).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter IGST");
+                return false;
+            }
+            else {
+                $(txtIGST).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
 
             if (isValid == false)
                 e.preventDefault();
