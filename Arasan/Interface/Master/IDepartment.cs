@@ -9,7 +9,8 @@ namespace Arasan.Interface
         string DepartmentCRUD(Department ss);
         IEnumerable<Department> GetAllDepartment();
 
-        DataTable GetDepartment(string id); 
+        DataTable GetDepartment(string id);
+        string StatusChange(string tag, int id);
 
     }
 }

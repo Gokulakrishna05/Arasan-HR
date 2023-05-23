@@ -15,6 +15,9 @@ namespace Arasan.Interface
         DataTable GetCompany();
         DataTable Getcountry();
         DataTable GetState(string id);
+
+        string StatusChange(string tag, int id);
+
     }
 }
 
