@@ -115,6 +115,8 @@ internal class Program
         builder.Services.TryAddSingleton<ILedger, LedgerService>();
         builder.Services.TryAddSingleton<IPaymentVoucher, PaymentVoucherService>();
         builder.Services.TryAddSingleton<ISequence, SequenceService>();
+        builder.Services.TryAddSingleton<IPaymentRequest, PaymentRequestService>();
+
         builder.Services.AddSession();
         var emailConfig = builder.Configuration.GetSection("MailSettings").Get<MailSettings>();
         builder.Services.TryAddSingleton(emailConfig);

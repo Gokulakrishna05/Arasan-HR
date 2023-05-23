@@ -10,5 +10,6 @@ namespace Arasan.Interface
         IEnumerable<Sequence>  GetAllSequence();
         string SequenceCRUD(Sequence Cy);
         DataTable GetSequence(string id);
+        string StatusChange(string tag, int id);
     }
 }
