@@ -19,7 +19,7 @@ namespace Arasan.Controllers.Master
         public IActionResult HSNcode(string id)
         {
             HSNcode st = new HSNcode();
-            st.GSTlst = BindGST();
+           
 
             if (id == null)
             {
@@ -34,30 +34,15 @@ namespace Arasan.Controllers.Master
                 {
                     st.HCode = dt.Rows[0]["HSNCODE"].ToString();
                     st.Dec = dt.Rows[0]["DESCRIPTION"].ToString();
-                    st.Gt = dt.Rows[0]["GST"].ToString();
+                    st.CGst = dt.Rows[0]["CGST"].ToString();
+                    st.SGst = dt.Rows[0]["SGST"].ToString();
+                    st.IGst = dt.Rows[0]["IGST"].ToString();
 
                 }
 
             }
             return View(st);
         }
-
-        public List<SelectListItem> BindGST()
-        {
-            try
-            {
-                List<SelectListItem> lstdesg = new List<SelectListItem>();
-                lstdesg.Add(new SelectListItem() { Text = "CGST", Value = "CGST" });
-                lstdesg.Add(new SelectListItem() { Text = "SGST", Value = "SGST" });
-                lstdesg.Add(new SelectListItem() { Text = "IGST", Value = "IGST" });
-                return lstdesg;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
 
         [HttpPost]
         public ActionResult HSNcode(HSNcode ss, string id)

@@ -731,5 +731,22 @@ namespace Arasan.Controllers
                 EnqChkItem
             });
         }
+
+        public ActionResult DeleteMR(string tag, int id)
+        {
+
+            string flag = PurenqService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListEnquiry");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListEnquiry");
+            }
+        }
+
     }
 }

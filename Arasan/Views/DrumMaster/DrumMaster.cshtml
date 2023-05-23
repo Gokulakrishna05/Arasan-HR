@@ -113,7 +113,7 @@
                             </div>
 
                             <div style="height:30px;"></div>
-                            <div class="col-lg-10"></div>
+                            <div class="col-lg-8"></div>
                             <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
                             <a button class="btn btn-danger" type="submit" href="@Url.Action("ListDrumMaster", "DrumMaster")">Cancel</a>
 
@@ -147,7 +147,7 @@
         $('._select').select2();
     });
    
-    $(document).ready(function () {
+     $(document).ready(function () {
         $('#btnSave').click(function (e) {
             var isValid = true;
 
@@ -158,7 +158,7 @@
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select DrumNo");
+                alert("Please Enter DrumNo");
                 return false;
             }
             else {
@@ -174,7 +174,7 @@
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select Target Weight");
+                alert("Please Enter Target Weight");
                 return false;
             }
             else {

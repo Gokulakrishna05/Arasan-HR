@@ -1102,26 +1102,21 @@
         });
 
     });
-     
-</script>
-<script>
     function AddotherRow() {
         var opt = "";
         $.ajax({
             type: "POST",
-            url: 'GetProcessidJSON',
+            url: 'GetItemGrpJSON',
             success: function (data) {
                 $.each(data, function () {
                     opt += "<option value=" + this.value + ">" + this.text + "</option>";
                 });
-
-
-                AppendOtherRow(opt);
+                AppendotherRow(opt);
             }
 
         })
     }
-      function AppendOtherRow(opt) {
+    function AppendotherRow(opt) {
         var index = $("#tbBooksOther").children("tr").length;
         var Process = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlOtProcessId" + index + "' name='BatchOtherLst[" + index + "].OtProcessId' ><option value=''>Please select</option>" + opt + "</select></td>";
         var seq = "<td><input class='form-control' id='txtSeqe" + index + "' name='BatchOtherLst[" + index + "].Seqe'  style='width: 120px;' type='text'onkeydown = 'return isNumeric2(event.keyCode,this.value)'  /></td>";
