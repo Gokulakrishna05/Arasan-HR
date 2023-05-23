@@ -13,5 +13,8 @@ namespace Arasan.Interface
 
         DataTable GetDrumCategory(string id);
 
+        string StatusChange(string tag, int id);
+
+
     }
 }

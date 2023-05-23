@@ -26,7 +26,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select DEPARTMENTMASTID,DEPARTMENT_CODE,DEPARTMENT_NAME,DESCRIPTION from DEPARTMENTMAST";
+                    cmd.CommandText = "Select DEPARTMENTMASTID,DEPARTMENT_CODE,DEPARTMENT_NAME,DESCRIPTION, STATUS from DEPARTMENTMAST WHERE STATUS= 'ACTIVE'";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -75,6 +75,8 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = ss.CreatedBy;
                     objCmd.Parameters.Add("UPDATED_ON", OracleDbType.Date).Value = DateTime.Now;
                     objCmd.Parameters.Add("UPDATED_BY", OracleDbType.NVarchar2).Value = ss.UpdatedBy;
+                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE"; ;
+
 
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
@@ -123,10 +125,7 @@ namespace Arasan.Services
                             }
                         }
                     }
-
-
-
-                    catch (Exception ex)
+                   catch (Exception ex)
                     {
                         msg = "Error Occurs, While inserting / updating Data";
                         throw ex;
@@ -151,7 +150,30 @@ namespace Arasan.Services
                     return dtt;
                  }
 
-        
+        public string StatusChange(string tag, int id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE DEPARTMENTMAST SET STATUS ='CLOSE' WHERE DEPARTMENTMASTID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
+        }
+
     }
 
         

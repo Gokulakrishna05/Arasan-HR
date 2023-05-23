@@ -83,5 +83,21 @@ namespace Arasan.Controllers
             return View(cmp);
         }
 
+        public ActionResult DeleteMR(string tag, int id)
+        {
+
+            string flag = DrumCategoryService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListNewCategory");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListNewCategory");
+            }
+        }
+
     }
 }

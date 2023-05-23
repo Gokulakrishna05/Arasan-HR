@@ -130,6 +130,22 @@ namespace Arasan.Controllers
             return View(br);
         }
 
+        public ActionResult DeleteMR(string tag, int id)
+        {
+
+            string flag = BranchService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListBranch");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListBranch");
+            }
+        }
+
     }
 }
 

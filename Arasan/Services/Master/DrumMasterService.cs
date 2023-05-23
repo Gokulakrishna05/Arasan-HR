@@ -26,7 +26,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select DRUMMASTID,DRUMNO,to_char(DRUMMAST.DOCDATE,'dd-MON-yyyy') DOCDATE,CATEGORY,LOCDETAILS.LOCID,DRUMTYPE,TAREWT from DRUMMAST LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID=DRUMMAST.LOCATION";
+                    cmd.CommandText = "Select DRUMMASTID,DRUMNO,to_char(DRUMMAST.DOCDATE,'dd-MON-yyyy') DOCDATE,CATEGORY,LOCDETAILS.LOCID,DRUMTYPE,TAREWT,STATUS from DRUMMAST LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID=DRUMMAST.LOCATION WHERE STATUS='ACTIVE'";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -103,6 +103,7 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("LOCATION", OracleDbType.NVarchar2).Value = ss.Location;
                     objCmd.Parameters.Add("DRUMTYPE", OracleDbType.NVarchar2).Value = ss.DrumType;
                     objCmd.Parameters.Add("TAREWT", OracleDbType.NVarchar2).Value = ss.TargetWeight;
+                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
 
                     try
@@ -138,5 +139,28 @@ namespace Arasan.Services
             return dtt;
         }
 
+        public string StatusChange(string tag, int id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE DRUMMAST SET STATUS ='INACTIVE' WHERE DRUMMASTID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
+        }
     }
 }
