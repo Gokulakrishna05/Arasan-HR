@@ -8,5 +8,7 @@ namespace Arasan.Interface
     public interface IPaymentVoucher
     {
         DataTable GetLocation(string id);
+        string  PaymentCRUD(PaymentVoucher Cy);
+        DataTable EditVoucher(string id);
     }
 }

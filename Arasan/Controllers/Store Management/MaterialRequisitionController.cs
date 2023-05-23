@@ -707,12 +707,12 @@ namespace Arasan.Controllers.Store_Management
             if (string.IsNullOrEmpty(flag))
             {
 
-                return RedirectToAction("ListCustomer");
+                return RedirectToAction("ListMaterialRequisition");
             }
             else
             {
                 TempData["notice"] = flag;
-                return RedirectToAction("ListCustomer");
+                return RedirectToAction("ListMaterialRequisition");
             }
         }
         
