@@ -113,5 +113,23 @@ namespace Arasan.Controllers.Master
             IEnumerable<Department> cmp = DepartmentService.GetAllDepartment();
             return View(cmp);
         }
+
+
+        public ActionResult DeleteMR(string tag, int id)
+        {
+
+            string flag = DepartmentService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListDepartment");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListDepartment");
+            }
+        }
+
     }
 }

@@ -6,5 +6,6 @@ namespace Arasan.Interface
 {
     public interface ISectionService
     {
+            
     }
 }

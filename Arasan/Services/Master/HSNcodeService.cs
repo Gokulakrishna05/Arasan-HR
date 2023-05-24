@@ -25,7 +25,7 @@ namespace Arasan.Services.Master
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select HSNCODE,DESCRIPTION,GST,HSNCODEID from HSNCODE";
+                    cmd.CommandText = "Select HSNCODEID,HSNCODE,DESCRIPTION,CGST,SGST,IGST from HSNCODE";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -34,7 +34,9 @@ namespace Arasan.Services.Master
                             ID = rdr["HSNCODEID"].ToString(),
                             HCode = rdr["HSNCODE"].ToString(),
                             Dec = rdr["DESCRIPTION"].ToString(),
-                            Gt = rdr["GST"].ToString()
+                            CGst = rdr["CGST"].ToString(),
+                            SGst = rdr["SGST"].ToString(),
+                            IGst = rdr["IGST"].ToString() 
                         };
                         staList.Add(sta);
                     }
@@ -51,7 +53,7 @@ namespace Arasan.Services.Master
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select HSNCODE,DESCRIPTION,GST,HSNCODEID from HSNCODE where HSNCODEID=" + eid + "";
+                    cmd.CommandText = "Select HSNCODEID,HSNCODE,DESCRIPTION,CGST,SGST,IGST from HSNCODE where HSNCODEID=" + eid + "";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -60,7 +62,9 @@ namespace Arasan.Services.Master
                             ID = rdr["HSNCODEID"].ToString(),
                             HCode = rdr["HSNCODE"].ToString(),
                             Dec = rdr["DESCRIPTION"].ToString(),
-                            Gt = rdr["GST"].ToString()
+                            CGst = rdr["CGST"].ToString(),
+                            SGst = rdr["SGST"].ToString(),
+                            IGst = rdr["IGST"].ToString()
                         };
                         HSNcode = sta;
                     }
@@ -97,7 +101,9 @@ namespace Arasan.Services.Master
 
                     objCmd.Parameters.Add("HSNCODE", OracleDbType.NVarchar2).Value = ss.HCode;
                     objCmd.Parameters.Add("DESCRIPTION", OracleDbType.NVarchar2).Value = ss.Dec;
-                    objCmd.Parameters.Add("GST", OracleDbType.NVarchar2).Value = ss.Gt;
+                    objCmd.Parameters.Add("CGST", OracleDbType.NVarchar2).Value = ss.CGst;
+                    objCmd.Parameters.Add("SGST", OracleDbType.NVarchar2).Value = ss.SGst;
+                    objCmd.Parameters.Add("IGST", OracleDbType.NVarchar2).Value = ss.IGst;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     try
                     {
@@ -124,7 +130,7 @@ namespace Arasan.Services.Master
         public DataTable GetHSNcode(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select HSNCODEID,HSNCODE,DESCRIPTION,GST from HSNCODE where HSNCODEID = '" + id + "' ";
+            SvSql = "Select HSNCODEID,HSNCODE,DESCRIPTION,CGST,SGST,IGST from HSNCODE where HSNCODEID = '" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

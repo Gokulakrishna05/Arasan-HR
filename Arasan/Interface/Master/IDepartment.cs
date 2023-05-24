@@ -10,6 +10,11 @@ namespace Arasan.Interface
         IEnumerable<Department> GetAllDepartment();
 
         DataTable GetDepartment(string id);
+
         DataTable GetDepartmentDetail(string id);
+
+        string StatusChange(string tag, int id);
+
+
     }
 }

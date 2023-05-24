@@ -30,10 +30,24 @@ namespace Arasan.Models
         public string PType { get; set; }
 
         public string VType { get; set; }
-
+        public List<VoucherItem> VoucherLst { get; set; }
         //public string Enqdate { get; set; }
         //public string EnqNo { get; set; }
         //public string ExRate { get; set; }
         //public string ParNo { get; set; }
+    }
+    public class VoucherItem
+    {
+        public string Credit { get; set; }
+        public string Account { get; set; }
+        public List<SelectListItem> Creditlst { get; set; }
+
+
+
+        public string CreditAmount { get; set; }
+        public string DepitAmount { get; set; }
+
+        public string Isvalid { get; set; }
+
     }
 }

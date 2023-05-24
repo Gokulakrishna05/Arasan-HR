@@ -26,14 +26,15 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select CATEGORYID,CATEGORYTYPE from DRUMMASTER_CATEGORY";
+                    cmd.CommandText = "Select CATEGORYID,CATEGORYTYPE,DESCRIPTION,STATUS from DRUMMASTER_CATEGORY WHERE STATUS='ACTIVE'";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
                         DrumCategory cmp = new DrumCategory
                         {
                             ID = rdr["CATEGORYID"].ToString(),
-                            CategoryType = rdr["CATEGORYTYPE"].ToString()
+                            CategoryType = rdr["CATEGORYTYPE"].ToString(),
+                            Description = rdr["DESCRIPTION"].ToString()
 
                         };
                         cmpList.Add(cmp);
@@ -67,7 +68,7 @@ namespace Arasan.Services
                     }
                     objCmd.Parameters.Add("CATEGORYTYPE", OracleDbType.NVarchar2).Value = ss.CategoryType;
                     objCmd.Parameters.Add("DESCRIPTION", OracleDbType.NVarchar2).Value = ss.Description;
-                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = ss.Status;
+                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
 
                     try
@@ -102,5 +103,28 @@ namespace Arasan.Services
             return dtt;
         }
 
+        public string StatusChange(string tag, int id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE DRUMMASTER_CATEGORY SET STATUS ='INACTIVE' WHERE CATEGORYID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
+        }
     }
 }

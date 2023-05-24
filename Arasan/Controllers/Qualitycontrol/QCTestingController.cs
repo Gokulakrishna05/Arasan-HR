@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Arasan.Services;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Data;
-using PdfSharp.Pdf;
+//using PdfSharp.Pdf;
 
 namespace Arasan.Controllers
 {

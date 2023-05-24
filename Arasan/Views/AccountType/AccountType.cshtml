@@ -1,0 +1,172 @@
+﻿@model Arasan.Models.AccountType
+
+@{
+    ViewData["Title"] = "AccountType";
+}
+<style>
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
+
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a>Master</a> </li>
+            <li class="active"> <strong> AccountType </strong> </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+
+                    <hr>
+                    @using (Html.BeginForm("AccountType", "AccountType", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <form>
+
+                            <div class="row">
+                                <div class="col-lg-3"></div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Account Code<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+
+                                            @Html.TextBoxFor(C => C.AccountCode, new { @id = "txtAccountCode", @class = "form-control",autocomplete="off" , @TabIndex = 2, @size="30" })<br>
+
+                                            @* for edit & delete*@
+                                            @Html.HiddenFor(C => C.ID)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3"></div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Account Type<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.Accounttype, new { @id = "txtAccounttype", @class = "form-control",autocomplete="off" , @TabIndex = 2, @size="30" })<br>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            
+
+                            <div style="height:30px;"></div>
+                            <div class="col-lg-8"></div>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+                            <a button class="btn btn-danger" type="submit" href="@Url.Action("ListAccountType", "AccountType")">Cancel</a>
+
+
+
+
+                        </form>       
+
+                        
+                    }
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<script>
+    $('.form_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+</script>
+
+<script>
+
+    $(function () {
+        $('._select').select2();
+    });
+
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+
+
+            if (document.getElementById("txtAccountCode").value == "") {
+                isValid = false;
+                $(txtAccountCode).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Account Code");
+                return false;
+            }
+            else {
+                $(txtAccountCode).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtAccounttype").value == "") {
+                isValid = false;
+                $(txtAccounttype).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Account Type");
+                return false;
+            }
+            else {
+                $(txtAccounttype).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtStatus").value == "") {
+                isValid = false;
+                $(txtStatus).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Status");
+                return false;
+            }
+            else {
+                $(txtStatus).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+
+            if (isValid == false)
+                e.preventDefault();
+
+        });
+
+    });
+
+</script>

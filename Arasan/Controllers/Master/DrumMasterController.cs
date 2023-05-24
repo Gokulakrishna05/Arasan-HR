@@ -155,5 +155,20 @@ namespace Arasan.Controllers
             return View(cmp);
         }
 
+        public ActionResult DeleteMR(string tag, int id)
+        {
+
+            string flag = DrumMasterService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListDrumMaster");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListDrumMaster");
+            }
+        }
     }
 }
