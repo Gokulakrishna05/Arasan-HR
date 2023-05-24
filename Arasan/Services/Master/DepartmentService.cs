@@ -44,6 +44,16 @@ namespace Arasan.Services
             }
             return cmpList;
         }
+        public DataTable GetDepartmentDetail(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT DESIGNATIONMASTID,DESIGNATION FROM DESIGNATIONMAST where DESIGNATIONMASTID= '" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
 
         public string DepartmentCRUD(Department ss)
         {
@@ -112,7 +122,6 @@ namespace Arasan.Services
                                     objCmds.CommandType = CommandType.StoredProcedure;
 
                                     objCmds.Parameters.Add("DEPT_ID", OracleDbType.NVarchar2).Value = Pid;
-
                                     objCmds.Parameters.Add("DESIGNATION", OracleDbType.NVarchar2).Value = ca.Design;
                                     objCmds.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;

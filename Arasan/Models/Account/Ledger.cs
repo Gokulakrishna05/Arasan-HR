@@ -3,15 +3,24 @@ namespace Arasan.Models
 {
     public class Ledger
     {
+        public Ledger()
+        {
+            
+            this.Typelst = new List<SelectListItem>();
+
+        }
 
         public string ID { get; set; }
 
-        public string MName { get; set; }
-        public string DispName { get; set; }
+        public List<SelectListItem> Typelst;
+        public string AType { get; set; }
+        public string AccGroup { get; set; }
 
 
-        public string GrpAccount { get; set; }
-        public string Category { get; set; }
-        public string Date { get; set; }
+        public string LedName { get; set; }
+        public string DocDate { get; set; }
+        public string OpStock { get; set; }
+        public string ClStock { get; set; }
+        public string Status { get; set; }
     }
 }

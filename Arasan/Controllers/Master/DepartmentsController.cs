@@ -45,9 +45,24 @@ namespace Arasan.Controllers.Master
                 dt = DepartmentService.GetDepartment(id);
                 if (dt.Rows.Count > 0)
                 {
-                    Dp.Departmentcode = dt.Rows[0]["DEPARTMENT_CODE"].ToString();
+                    Dp.DepartmentCode = dt.Rows[0]["DEPARTMENT_CODE"].ToString();
                     Dp.DepartmentName = dt.Rows[0]["DEPARTMENT_NAME"].ToString();
                     Dp.Description = dt.Rows[0]["DESCRIPTION"].ToString();
+
+                }
+                DataTable dt2 = new DataTable();
+
+                dt2 = DepartmentService.GetDepartmentDetail(id);
+                if (dt2.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt2.Rows.Count; i++)
+                    {
+                        tda = new Designation();
+
+                        tda.Design = dt2.Rows[i]["DESIGNATION"].ToString();
+                        tda.ID = id;
+                        TData.Add(tda);
+                    }
 
                 }
             }

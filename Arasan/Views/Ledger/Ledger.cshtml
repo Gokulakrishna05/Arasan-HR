@@ -36,9 +36,9 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">MName<label class="mandatory">*</label></label>
+                                         <br />  <label for="inputName3" class="col-sm-4 control-label">Account Type<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.MName, new { @id = "txtMName", @class = "form-control", @TabIndex = 1  })
+                                            @Html.DropDownListFor(C => C.AType, Model.Typelst," -- Please Select -- ", new { @id = "ddlAType", @Class = "form-control _select", @TabIndex = 1,onchange = "changeGroup(this.value)" })
                                         </div>
                                     </div>
                                 </div>
@@ -47,9 +47,9 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputName3" class="col-sm-4 control-label">Display Name<label class="mandatory">*</label></label>
+                                         <br />  <label for="inputName3" class="col-sm-4 control-label">Account Group<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.DispName, new { @id = "txtDispName", @class = "form-control", @TabIndex = 1  })
+                                            @Html.TextBoxFor(C => C.AccGroup, new { @id = "txtAccGroup", @class = "form-control", @TabIndex = 1  })
                                             @Html.HiddenFor(C => C.ID)
                                         </div>
                                     </div>
@@ -60,48 +60,44 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <br />     <label for="inputName3" class="col-sm-4 control-label">Group Account<label class="mandatory">*</label></label>
-                                        <div class="col-sm-8">
-                                            <div class="input-group">
-
-                                                @Html.RadioButtonFor(C => C.GrpAccount, "ACCOUNT", new { @TabIndex = 2,@id = "txtGrpAccount" })
-                                                <label id="mt-radio">ACCOUNT</label>
-                                                @Html.RadioButtonFor(C => C.GrpAccount, "GROUP", new { @TabIndex = 3,@id = "txtGrpAccount" })
-                                                <label id="mt-radio">GROUP</label>
-
-
-                                            </div><br />
+                                        <br />     <label for="inputName3" class="col-sm-4 control-label">Ledger Name<label class="mandatory">*</label></label>
+                                         <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.LedName, new { @id = "txtLedName", @class = "form-control", @TabIndex = 1  })
+                                            @Html.HiddenFor(C => C.ID)
                                         </div>
-                                    </div>
-                                </div>
+                                      </div>
+                                  </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
 
 
-                                        <br />     <label for="inputName3" class="col-sm-4 control-label">Category<label class="Mandatory"></label></label>
-                                        <div class="col-sm-8">
-
-                                            @Html.TextBoxFor(C => C.Category, new { @id = "txtCategory", @class = "form-control", @TabIndex = 1   })
-                                            <br />
-
+                                        <br />   <label for="inputName3" class="col-sm-4 control-label">Doc Date<label class="mandatory">*</label></label>
+                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-mm-yy">
+                                            @Html.TextBoxFor(C => C.DocDate, new { @id = "txtDocDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                         </div>
-                                    </div>
-                                </div>
+                                     </div>
+                                  </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Doc Date<label class="mandatory">*</label></label>
-                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-mm-yy">
-                                            @Html.TextBoxFor(C => C.Date, new { @id = "txtDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
-                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                         <br />  <label for="inputName3" class="col-sm-4 control-label">Opening Stock<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.OpStock, new { @id = "txtOpStock", @class = "form-control", @TabIndex = 1  })
                                         </div>
-
-                                        <br />
                                     </div>
                                 </div>
-
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br />   <label for="inputName3" class="col-sm-4 control-label">Closing Stock<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.ClStock, new { @id = "txtClStock", @class = "form-control", @TabIndex = 1  })
+                                            @Html.HiddenFor(C => C.ID)
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <div style="height:30px;"></div>
@@ -129,6 +125,23 @@
        
         forceParse: 0
     });
+    function changeGroup(ItemId, i) {
+        $.ajax({
+            url: 'GetGroupDetail',
+            data: { "ItemId": ItemId },
+            type: "GET",
+            success: function (result) {
+
+                document.getElementById("txtAccGroup").value = result.accgroup;
+
+                
+
+            },
+            error: function () {
+                alert("Data Not Found");
+            }
+        });
+    }
     $(".chosen-select").chosen();
     $(document).ready(function () {
         $('#btnSave').click(function (e) {
