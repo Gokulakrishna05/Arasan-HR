@@ -39,7 +39,7 @@ namespace Arasan.Services
         public DataTable GetAccLedger(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select ACCGROUPID,ACCOUNTGROUP from ACCGROUP where STATUS='Active' AND ACCTYPE='" + id + "'";
+            SvSql = "select LEDGERID,LEDNAME from LEDGER Where STATUS='Active' AND ACCGROUP='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
