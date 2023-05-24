@@ -1,5 +1,5 @@
-﻿@model Arasan.Models.HSNcode
-
+﻿
+ 
 @{
     ViewData["Title"] = "Index";
 }
@@ -17,8 +17,8 @@
 
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
-            <li> <a>Master</a> </li>
-            <li class="active"> <strong>HSN Code </strong> </li>
+            <li> <a>Account</a> </li>
+            <li class="active"> <strong>Tree View</strong> </li>
         </ol>
     </div>
 </div>
@@ -38,7 +38,9 @@
                         <div class="row">
                         
                             <div class="col-md-12">
-                               
+                               <div id="jstree">  
+    
+    </div>  
                             </div>
                         </div>
                       
@@ -52,4 +54,23 @@
     </div>
 </div>
 
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+    <script type="text/javascript">
+       $(function () {
+            $('#jstree').on('changed.jstree', function (e, data) {
+              
+               
+            }).jstree({
+                "core": {
+                    "themes": {
+                        "variant": "large"
+                    },
+                    "data": @Html.Raw(ViewBag.Json)
+                    },
+             
+                "plugins": ["wholerow"],
+            });
+        });
+    </script>

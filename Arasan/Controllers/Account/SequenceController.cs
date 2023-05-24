@@ -8,7 +8,7 @@ using System.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 using Newtonsoft.Json.Linq;
-using PdfSharp.Pdf.Content.Objects;
+//using PdfSharp.Pdf.Content.Objects;
 
 
 namespace Arasan.Controllers 
@@ -37,7 +37,6 @@ namespace Arasan.Controllers
             }
             else
             {
-
 
                 DataTable dt = new DataTable();
 
