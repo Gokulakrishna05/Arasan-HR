@@ -238,6 +238,36 @@ namespace Arasan.Models
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetAccType(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select ACCOUNTTYPE,ACCOUNTCODE from ACCTYPE where ACCOUNTTYPEID='"+ id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetAccGroup(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select ACCGROUP.ACCOUNTGROUP,ACCGROUP.GROUPCODE,ACCTYPE.ACCOUNTTYPE,ACCTYPE.ACCOUNTCODE from ACCGROUP LEFT OUTER JOIN ACCTYPE on ACCTYPE.ACCOUNTTYPEID=ACCGROUP.ACCTYPE  Where ACCGROUP.STATUS='Active' AND ACCGROUPID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetAccLedger(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select ACCGROUP.ACCOUNTGROUP,ACCGROUP.GROUPCODE,ACCTYPE.ACCOUNTTYPE,ACCTYPE.ACCOUNTCODE,LEDGER.LEDNAME,LEDGER.DISPLAY_NAME,LEDGER.CATEGORY from LEDGER LEFT OUTER JOIN ACCGROUP ON LEDGER.ACCGROUP=ACCGROUP.ACCGROUPID LEFT OUTER JOIN ACCTYPE on ACCTYPE.ACCOUNTTYPEID=ACCGROUP.ACCTYPE  Where ACCGROUP.STATUS='Active' AND LEDGERID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public string GetDataString(String sql)
         {
             DataTable _dt = new DataTable();

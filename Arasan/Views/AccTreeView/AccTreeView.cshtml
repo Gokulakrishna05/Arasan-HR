@@ -37,15 +37,102 @@
                     <form>
                         <div class="row">
                         
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                <div id="jstree">  
     
     </div>  
                             </div>
-                        </div>
-                      
-                      
+                        
+                      <div class="col-md-6" id="divresult" style="display:none;">
+                          <div class="row">
+                               <div class="col-md-12" style="text-align:center;"><span style="color:green;"><h3><b>Account type</b></h3></span></div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
 
+                                    <label for="inputName3" class="col-sm-4 control-label">Account type <label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                      <label id="lblacctype" style="font-weight:200px;color:#FF5733"></label><br>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                            <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Account Type Code<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+
+                                           <label id="lblacctypecode" style="font-weight:200px;color:#FF5733"></label><br>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="accresult">
+                           <div class="row">
+                               <div class="col-md-12" style="text-align:center;"><span style="color:green;"><h3><b>Account Group</b></h3></span></div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Account Group <label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                      <label id="lblaccgrp" style="font-weight:200px;color:#FF5733"></label><br>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                            <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Account Group Code<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+
+                                           <label id="lblaccgrpcode" style="font-weight:200px;color:#FF5733"></label><br>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        </div>
+                         <div id="accledresult">
+                           <div class="row">
+                               <div class="col-md-12" style="text-align:center;"><span style="color:green;"><h3><b>Account Ledger</b></h3></span></div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Ledger Name<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                      <label id="lblledger" style="font-weight:200px;color:#FF5733"></label><br>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                            <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Display Name<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+
+                                           <label id="lbldispledger" style="font-weight:200px;color:#FF5733"></label><br>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        </div>
+                      </div>
+                      </div>
                     </form>
                     }
                 </div>
@@ -59,10 +146,50 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
     <script type="text/javascript">
        $(function () {
-            $('#jstree').on('changed.jstree', function (e, data) {
-              
+            $('#jstree').on('activate_node.jstree', function (e, data) {
+                var nodeid = "";
+                var nodename = "";
+                var parent = "";
+     if (data == undefined || data.node == undefined || data.node.id == undefined)
+                return;
+                nodeid = data.node.id;
+    if(data.instance.is_leaf(data.node)) {
+        nodename = data.node.text;
+        parent = data.instance.get_node(data.node.parent).id;
+  }
+                document.getElementById("divresult").style.display = "block";
+   $.ajax({
+            url: 'AcctreeViewResult',
+            data: { "id": nodeid,"text" : nodename,"parentid":parent},
+            type: "GET",
+            success: function (result) {
+
+                document.getElementById("lblacctype").innerHTML = result.acctype;
+                document.getElementById("lblacctypecode").innerHTML = result.acccode;
                
-            }).jstree({
+                if (result.accgrp=="") {
+                    document.getElementById("accresult").style.display = "none";
+                }
+                else {
+                    document.getElementById("accresult").style.display = "block";
+                }
+                document.getElementById("lblaccgrp").innerHTML = result.accgrp;
+                document.getElementById("lblaccgrpcode").innerHTML = result.accgrpcode;
+                 if (result.ledgername=="") {
+                    document.getElementById("accledresult").style.display = "none";
+                }
+                else {
+                    document.getElementById("accledresult").style.display = "block";
+                }
+                 document.getElementById("lblledger").innerHTML = result.ledgername;
+                document.getElementById("lbldispledger").innerHTML = result.displayname;
+            },
+            error: function () {
+                alert("Data Not Found");
+            }
+        });
+
+}).jstree({
                 "core": {
                     "themes": {
                         "variant": "large"

@@ -39,14 +39,14 @@ namespace Arasan.Controllers
                     {
                         nodes.Add(new TreeViewNode { id = dt1.Rows[j]["ACCGROUPID"].ToString(), parent = dt.Rows[i]["ACCOUNTTYPEID"].ToString(), text = dt1.Rows[j]["ACCOUNTGROUP"].ToString() });
 
-                        //dt2 = Accgroup.GetAccLedger(dt1.Rows[j]["ACCGROUPID"].ToString());
-                        //if (dt2.Rows.Count > 0)
-                        //{
-                        //    for (int k = 0; k < dt2.Rows.Count; k++)
-                        //    {
-                        //        nodes.Add(new TreeViewNode { id = dt2.Rows[k]["ACCGROUPID"].ToString(), parent = dt1.Rows[j]["ACCGROUPID"].ToString(), text = dt2.Rows[k]["ACCOUNTGROUP"].ToString() });
-                        //    }
-                        //}
+                        dt2 = Accgroup.GetAccLedger(dt1.Rows[j]["ACCGROUPID"].ToString());
+                        if (dt2.Rows.Count > 0)
+                        {
+                            for (int k = 0; k < dt2.Rows.Count; k++)
+                            {
+                                nodes.Add(new TreeViewNode { id = dt2.Rows[k]["LEDGERID"].ToString(), parent = dt1.Rows[j]["ACCGROUPID"].ToString(), text = dt2.Rows[k]["LEDNAME"].ToString() });
+                            }
+                        }
                     }
                 }
                 
@@ -56,5 +56,64 @@ namespace Arasan.Controllers
             return View();
         }
 
+        public ActionResult AcctreeViewResult(string id,string text,string parentid)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                DataTable dt1 = new DataTable();
+                DataTable dt2=new DataTable();
+                string acctype = "";
+                string acccode = "";
+                string accgrp = "";
+                string accgrpcode = "";
+                string ledgername = "";
+                string displayname = "";
+                string ledgercode = "";
+                if (string.IsNullOrEmpty(parentid) || parentid=="#")
+                {
+                    dt = datatrans.GetAccType(id);
+                    if (dt.Rows.Count > 0)
+                    {
+                        acctype = dt.Rows[0]["ACCOUNTTYPE"].ToString();
+                        acccode = dt.Rows[0]["ACCOUNTCODE"].ToString();
+                    }
+                }
+                else
+                {
+                    if(Convert.ToInt32(parentid) < 10)
+                    {
+                        dt1 = datatrans.GetAccGroup(id);
+                        if (dt1.Rows.Count > 0)
+                        {
+                            acctype = dt1.Rows[0]["ACCOUNTTYPE"].ToString();
+                            acccode = dt1.Rows[0]["ACCOUNTCODE"].ToString();
+                            accgrp = dt1.Rows[0]["ACCOUNTGROUP"].ToString();
+                            accgrpcode = dt1.Rows[0]["GROUPCODE"].ToString();
+                        }
+                    }
+                    else
+                    {
+                        dt2 = datatrans.GetAccLedger(id);
+                        if (dt2.Rows.Count > 0)
+                        {
+                            acctype = dt2.Rows[0]["ACCOUNTTYPE"].ToString();
+                            acccode = dt2.Rows[0]["ACCOUNTCODE"].ToString();
+                            accgrp = dt2.Rows[0]["ACCOUNTGROUP"].ToString();
+                            accgrpcode = dt2.Rows[0]["GROUPCODE"].ToString();
+                            ledgername= dt2.Rows[0]["LEDNAME"].ToString();
+                            displayname = dt2.Rows[0]["DISPLAY_NAME"].ToString();
+                        }
+                    }
+                }
+                var result = new { acctype = acctype, acccode = acccode , accgrp = accgrp , accgrpcode = accgrpcode , ledgername = ledgername , displayname = displayname };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
+
+    }
 }
