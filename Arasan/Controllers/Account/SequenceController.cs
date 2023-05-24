@@ -98,7 +98,21 @@ namespace Arasan.Controllers
             IEnumerable<Sequence> cmp = sequence.GetAllSequence();
             return View(cmp);
         }
-            
-        
+        public ActionResult DeleteSeq(string tag, int id)
+        {
+
+            string flag = sequence.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListSequence");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListSequence");
+            }
+        }
+
     }
 }

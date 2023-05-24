@@ -1,6 +1,6 @@
-﻿@model IEnumerable<Arasan.Models.DrumMaster>
+﻿@model IEnumerable<Arasan.Models.AccountType>
 @{
-    ViewData["Title"] = "ListDrumMaster";
+    ViewData["Title"] = "ListAccountType";
 }
 
 
@@ -9,7 +9,7 @@
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Master</a> </li>
-            <li class="active"> <strong> DrumMaster </strong> </li>
+            <li class="active"> <strong> AccountType </strong> </li>
         </ol>
     </div>
 </div>
@@ -24,7 +24,7 @@
                         <div class="row">
                             <div class="col-md-12 ">
                                 <div class=" textalignright">
-                                    <a href="@Url.Action("DrumMaster","DrumMaster")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add DrumMaster</a>
+                                    <a href="@Url.Action("AccountType","AccountType")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add AccountType</a>
                                     <br>
                                 </div>
 
@@ -41,12 +41,10 @@
                                                     <thead>
                                                         <tr>
 
-                                                            <td>DrumNo</td>
-                                                            <th>DocDate</th>
-                                                            <th>Category</th>
-                                                            <th>Location</th>
-                                                            <th>DrumType</th>
-                                                            <th>TargetWeight</th>
+                                                            <th>AccountCode</th>
+                                                            <th>AccountType</th>
+                                                            <th>Status</th>
+
 
                                                             <th>Edit</th>
                                                             <th>Close</th>
@@ -61,15 +59,15 @@
                                                                 <tr>
 
 
-                                                                    <td>@Html.DisplayFor(modelItem => item.DrumNo)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.DocDate)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.Category)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.Location)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.DrumType)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.TargetWeight)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.AccountCode)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Accounttype)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Status)</td>
 
-                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("DrumMaster", "DrumMaster",new { id=item.ID })"></a></div></td>
-                                                                    <td> <a href="@Url.Action("DeleteMR","DrumMaster",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
+
+
+
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("AccountType", "AccountType",new { id=item.ID })"></a></div></td>
+                                                                    <td> <a href="@Url.Action("DeleteMR","AccountType",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
                                                                 </tr>
                                                                 i++;
                                                             }
