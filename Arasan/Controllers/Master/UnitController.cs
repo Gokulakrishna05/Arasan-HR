@@ -77,6 +77,20 @@ namespace Arasan.Controllers
             IEnumerable<Unit> cmp = UnitService.GetAllUnit();
             return View(cmp);
         }
+        public ActionResult DeleteMR(string tag, int id)
+        {
 
+            string flag = UnitService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListUnit");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListUnit");
+            }
+        }
     }
 }

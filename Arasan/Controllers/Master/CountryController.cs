@@ -72,5 +72,21 @@ namespace Arasan.Controllers.Master
             IEnumerable<Country> ic = CountryService.GetAllCountry();
             return View(ic);
         }
+
+        public ActionResult DeleteMR(string tag, int id)
+        {
+
+            string flag = CountryService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListCountry");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListCountry");
+            }
+        }
     }
 }

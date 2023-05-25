@@ -8,5 +8,7 @@ namespace Arasan.Interface.Master
         string CurrencyCRUD(Currency cy);
         IEnumerable<Currency> GetAllCurrency();
         Currency GetCurrencyById(string id);
+
+        string StatusChange(string tag, int id);
     }
 }

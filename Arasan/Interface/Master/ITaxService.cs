@@ -11,5 +11,6 @@ namespace Arasan.Interface
         IEnumerable<Tax> GetAllTax();
 
         DataTable GetTax(string id);
+        string StatusChange(string tag, int id);
     }
 }

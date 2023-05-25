@@ -13,5 +13,6 @@ namespace Arasan.Interface.Master
 
         DataTable GetState(string id);
         DataTable Getcountry();
+
     }
 }

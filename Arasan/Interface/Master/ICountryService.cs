@@ -8,5 +8,6 @@ namespace Arasan.Interface.Master
         string CountryCRUD(Country cy);
         IEnumerable<Country> GetAllCountry();
         Country GetCountryById(string id);
+        string StatusChange(string tag, int id);
     }
 }

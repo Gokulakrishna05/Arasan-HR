@@ -20,5 +20,6 @@ namespace Arasan.Interface.Master
         DataTable GetCurrentUser(string id);
         string GetMultipleLocation(MultipleLocation mp);
         long GetMregion(string regionid, string id);
+        string StatusChange(string tag, int id);
     }
 }

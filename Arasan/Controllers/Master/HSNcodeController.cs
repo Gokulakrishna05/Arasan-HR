@@ -87,7 +87,22 @@ namespace Arasan.Controllers.Master
             return View(sta);
         }
 
-       
+        public ActionResult DeleteMR(string tag, int id)
+        {
+
+            string flag = HSNcodeService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListHSNcode");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListHSNcode");
+            }
+        }
+
 
     }
 }

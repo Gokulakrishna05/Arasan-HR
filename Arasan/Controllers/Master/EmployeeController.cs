@@ -327,5 +327,21 @@ namespace Arasan.Controllers.Master
             IEnumerable<Employee> cmp = EmployeeService.GetAllEmployee();
             return View(cmp);
         }
+
+        public ActionResult DeleteMR(string tag, int id)
+        {
+
+            string flag = EmployeeService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListEmployee");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListEmployee");
+            }
+        }
     }
 }

@@ -9,5 +9,8 @@ namespace Arasan.Interface
         string CustomerCRUD(CustomerType by);
         IEnumerable<CustomerType> GetAllCustomerType();
         DataTable GetCustomerType(string id);
+
+        string StatusChange(string tag, int id);
+
     }
 }

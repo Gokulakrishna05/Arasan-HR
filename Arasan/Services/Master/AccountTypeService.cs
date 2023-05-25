@@ -75,7 +75,7 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("ACCOUNTTYPE", OracleDbType.NVarchar2).Value = ss.Accounttype;
                     objCmd.Parameters.Add("CREATEDON", OracleDbType.Date).Value = DateTime.Now;
                     objCmd.Parameters.Add("CREATEDBY", OracleDbType.NVarchar2).Value = ss.CreatedBy;
-                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE"; ;
+                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE"; 
                     
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
 

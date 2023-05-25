@@ -54,7 +54,7 @@
                                                             <th>Description</th>
 
                                                             <th>Edit</th>
-                                                            <th>Delete</th>
+                                                            <th>Close</th>
                                                         </tr>
                                                     </thead>
 
@@ -67,28 +67,13 @@
                                                                 <td>@Html.DisplayFor(modelItem => item.CompanyId)</td>
                                                                 <td>@Html.DisplayFor(modelItem => item.CompanyName)</td>
 
-                                                                <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Company", "Company", new { id=item.ID })"></a></div></td>
-                                                                <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("Company", "Company", new { id=item.ID })"></a></div></td>
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Company", "Company",new { id=item.ID })"></a></div></td>
+                                                                    <td> <a href="@Url.Action("DeleteMR","Company",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
                                                                 </tr>
-                                                            i++;
+                                                                i++;
                                                         }
                                                         }
-                                                     @*   <tr>
-                                                            <td>2</td>
-                                                            <td>002</td>
-                                                            <td>USA</td>
-
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Company", "Company")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("Company", "Company")"></a></div></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>3</td>
-                                                            <td>003</td>
-                                                            <td>Singapore</td>
-
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Company", "Company")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("Company", "Company")"></a></div></td>
-                                                        </tr>*@
+                                                    
                                                     </tbody>
                                                 </table>
                                             </div>

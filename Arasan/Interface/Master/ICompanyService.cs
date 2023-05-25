@@ -8,5 +8,7 @@ namespace Arasan.Interface.Master
         string CompanyCRUD(Company cy);
         IEnumerable<Company> GetAllCompany();
         Company GetCompanyById(string id);
+        string StatusChange(string tag, int id);
+
     }
 }
