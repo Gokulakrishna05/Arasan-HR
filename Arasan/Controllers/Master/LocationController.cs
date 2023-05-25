@@ -4,6 +4,7 @@ using Arasan.Interface;
 
 using Arasan.Models;
 using Arasan.Services;
+using Arasan.Services.Master;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -89,6 +90,22 @@ namespace Arasan.Controllers
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+
+        public ActionResult DeleteMR(string tag, int id)
+        {
+
+            string flag = LocationService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListLocation");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListLocation");
             }
         }
 

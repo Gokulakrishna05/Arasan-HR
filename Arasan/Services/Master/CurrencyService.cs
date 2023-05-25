@@ -25,7 +25,7 @@ namespace Arasan.Services.Master
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select SYMBOL,MAINCURR,CURRENCYID from CURRENCY";
+                    cmd.CommandText = "Select SYMBOL,MAINCURR,CURRENCYID,STATUS from CURRENCY WHERE STATUS= 'ACTIVE'";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -96,6 +96,7 @@ namespace Arasan.Services.Master
 
                     objCmd.Parameters.Add("CurrencyCode", OracleDbType.NVarchar2).Value = cy.CurrencyCode;
                     objCmd.Parameters.Add("CurrencyName", OracleDbType.NVarchar2).Value = cy.CurrencyName;
+                    objCmd.Parameters.Add("status", OracleDbType.NVarchar2).Value = "ACTIVE";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     try
                     {
@@ -119,6 +120,28 @@ namespace Arasan.Services.Master
             return msg;
         }
 
+        public string StatusChange(string tag, int id)
+        {
 
+            try
+            {
+                string svSQL = string.Empty; 
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE CURRENCY SET STATUS ='INACTIVE' WHERE CURRENCYID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
+        }
     }
 }

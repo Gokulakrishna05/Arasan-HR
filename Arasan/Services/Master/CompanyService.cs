@@ -25,7 +25,7 @@ namespace Arasan.Services.Master
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select COMPANYID,COMPANYDESC,COMPANYMASTID from COMPANYMAST";
+                    cmd.CommandText = "Select COMPANYID,COMPANYDESC,COMPANYMASTID,STATUS from COMPANYMAST WHERE STATUS='ACTIVE'";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -96,6 +96,7 @@ namespace Arasan.Services.Master
                     
                     objCmd.Parameters.Add("Company", OracleDbType.NVarchar2).Value = cy.CompanyId;
                     objCmd.Parameters.Add("CompanyName", OracleDbType.NVarchar2).Value = cy.CompanyName;
+                    objCmd.Parameters.Add("Status", OracleDbType.NVarchar2).Value = "ACTIVE";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     try
                     {
@@ -119,7 +120,29 @@ namespace Arasan.Services.Master
             return msg;
         }
 
+        public string StatusChange(string tag, int id)
+        {
 
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE COMPANYMAST SET STATUS ='INACTIVE' WHERE COMPANYMASTID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
 
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
+        }
+        
     }
 }

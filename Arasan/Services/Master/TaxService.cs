@@ -27,7 +27,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select TAXMASTID,Tax,PERCENTAGE from TAXMAST";
+                    cmd.CommandText = "Select TAXMASTID,Tax,PERCENTAGE,STATUS from TAXMAST WHERE STATUS='ACTIVE'";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -72,6 +72,7 @@ namespace Arasan.Services
 
                     objCmd.Parameters.Add("TAX", OracleDbType.NVarchar2).Value = cy.Taxtype;
                     objCmd.Parameters.Add("PERCENTAGE", OracleDbType.NVarchar2).Value = cy.Percentage;
+                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     try
                     {
@@ -106,6 +107,29 @@ namespace Arasan.Services
             return dtt;
         }
 
-     
+        public string StatusChange(string tag, int id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE TAXMAST SET STATUS ='INACTIVE' WHERE TAXMASTID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
+        }
+
     }
 }

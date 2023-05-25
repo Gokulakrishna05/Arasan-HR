@@ -55,7 +55,11 @@
                                     <div class="col-md-6">
                                       <div class="form-group">
 
+ 
+                                        <label for="inputName3" class="col-sm-4 control-label">Department Name<label class="mandatory"></label></label>
+
                                         <label for="inputName3" class="col-sm-4 control-label">Department Name<label class="mandatory">*</label></label>
+
                                         <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.DepartmentName, new { @id = "txtDepartmentName", @class = "form-control",autocomplete="off",@TabIndex = 2, @size="30" })<br>
                                         </div>
@@ -70,7 +74,7 @@
                                     <div class="col-md-6">
                                        <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Description<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Description<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
                                            @Html.TextBoxFor(C => C.Description, new { @id = "txtDescription", @class = "form-control",autocomplete="off" , @TabIndex = 2, @size="30" })<br><br><br>
                                         </div>

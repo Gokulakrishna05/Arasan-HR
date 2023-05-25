@@ -53,7 +53,7 @@
                                                             <th>Phone No</th>
                                                             <th>E-Mail</th>
                                                             <th>Edit</th>
-                                                            <th>Delete</th>
+                                                            <th>Close</th>
                                                         </tr>
                                                     </thead>
 
@@ -70,28 +70,14 @@
                                                                     <td>@Html.DisplayFor(modelItem => item.ContactPer)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.PhoneNo)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.EmailId)</td>
+
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Location", "Location",new { id=item.ID })"></a></div></td>
-                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("Location", "Location", new { id=item.ID })"></a></div></td>
+                                                                    <td> <a href="@Url.Action("DeleteMR","Location",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
                                                                 </tr>
                                                                 i++;
                                                             }
                                                         }
-                                                        @* <tr>
-                                                        <td>2</td>
-                                                        <td>Mechanical</td>
-                                                        <td>Hose ( Metalic, Hydralic)</td>
-
-                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("ItemGroup", "ItemGroup")"></a></div></td>
-                                                        <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("ItemGroup", "ItemGroup")"></a></div></td>
-                                                        </tr>
-                                                        <tr>
-                                                        <td>3</td>
-                                                        <td>Mechanical</td>
-                                                        <td>Oilseal</td>
-
-                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("ItemGroup", "ItemGroup")"></a></div></td>
-                                                        <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("ItemGroup", "ItemGroup")"></a></div></td>
-                                                        </tr>*@
+                                                        
                                                     </tbody>
                                                 </table>
                                             </div>
