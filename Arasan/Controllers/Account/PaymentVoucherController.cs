@@ -40,14 +40,14 @@ namespace Arasan.Controllers
 
             if (id == null)
             {
-                for (int i = 0; i < 3; i++)
-                {
-                    tda = new VoucherItem();
-                    tda.Creditlst = BindCredit();
+                //for (int i = 0; i < 3; i++)
+                //{
+                //    tda = new VoucherItem();
+                //    tda.Creditlst = BindCredit();
                   
-                    tda.Isvalid = "Y";
-                    TData.Add(tda);
-                }
+                //    tda.Isvalid = "Y";
+                //    TData.Add(tda);
+                //}
                 
             }
             else
@@ -65,10 +65,33 @@ namespace Arasan.Controllers
                 {
                    
                     pv.Branch = dt.Rows[0]["BRANCHID"].ToString();
-                    
+                    pv.ReqAmount = Convert.ToDouble(dt.Rows[0]["FINAL_AMOUNT"].ToString() == "" ? "0" : dt.Rows[0]["FINAL_AMOUNT"].ToString());
 
 
 
+
+                }
+                DataTable dt2 = new DataTable();
+                dt2 = Voucher.GetVoucherDet(id);
+                if (dt2.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt2.Rows.Count; i++)
+                    {
+                        tda = new VoucherItem();
+                        //tda.DrumNolst = BindDrumNo(ca.DrumLoc);
+                        tda.Credit = dt2.Rows[i]["ACCTYPE"].ToString();
+                        tda.Account = dt2.Rows[i]["ACCNAME"].ToString();
+                        //tda.Batchlst = BindBatch(tda.DrumNo);
+
+
+                        tda.Isvalid = "Y";
+                        tda.CreditAmount = Convert.ToDouble(dt2.Rows[0]["CREDIT_AMOUNT"].ToString() == "" ? "0" : dt2.Rows[0]["CREDIT_AMOUNT"].ToString());
+                        tda.DepitAmount = Convert.ToDouble(dt2.Rows[0]["DEPIT_AMOUNT"].ToString() == "" ? "0" : dt2.Rows[0]["DEPIT_AMOUNT"].ToString());
+                     
+
+                        tda.ID = id;
+                        TData.Add(tda);
+                    }
 
                 }
             }
@@ -93,7 +116,7 @@ namespace Arasan.Controllers
                     {
                         TempData["notice"] = "PaymentVoucher Updated Successfully...!";
                     }
-                    return RedirectToAction("PaymentVoucher");
+                    return RedirectToAction("ListPaymentVoucher");
                 }
 
                 else
@@ -177,6 +200,18 @@ namespace Arasan.Controllers
             {
                 throw ex;
             }
+        }
+        public JsonResult GetTypeJSON()
+        {
+            VoucherItem model = new VoucherItem();
+            model.Creditlst = BindCredit();
+            return Json(BindCredit());
+
+        }
+        public IActionResult ListPaymentVoucher()
+        {
+            IEnumerable<PaymentVoucher> cmp = Voucher.GetAllVoucher();
+            return View(cmp);
         }
     }
 }

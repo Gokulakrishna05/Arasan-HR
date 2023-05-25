@@ -10,5 +10,7 @@ namespace Arasan.Interface
         DataTable GetLocation(string id);
         string  PaymentCRUD(PaymentVoucher Cy);
         DataTable EditVoucher(string id);
+        IEnumerable<PaymentVoucher>  GetAllVoucher();
+        DataTable GetVoucherDet(string id);
     }
 }

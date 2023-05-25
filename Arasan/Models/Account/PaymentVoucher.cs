@@ -28,7 +28,9 @@ namespace Arasan.Models
         public List<SelectListItem> Loclst;
         public string Location { get; set; }
         public string PType { get; set; }
-
+        public double ReqAmount { get; set; }
+        public double TotalDeAmount { get; set; }
+        public double TotalCrAmount { get; set; }
         public string VType { get; set; }
         public List<VoucherItem> VoucherLst { get; set; }
         //public string Enqdate { get; set; }
@@ -43,9 +45,9 @@ namespace Arasan.Models
         public List<SelectListItem> Creditlst { get; set; }
 
 
-
-        public string CreditAmount { get; set; }
-        public string DepitAmount { get; set; }
+        public string ID { get; set; }
+        public double CreditAmount { get; set; }
+        public double DepitAmount { get; set; }
 
         public string Isvalid { get; set; }
 

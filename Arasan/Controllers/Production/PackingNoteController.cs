@@ -57,7 +57,7 @@ namespace Arasan.Controllers
                 {
                     ca.Branch = dt.Rows[0]["BRANCH"].ToString();
                     ca.Docdate = dt.Rows[0]["DOCDATE"].ToString();
-                    ca.WorkId = dt.Rows[0]["TOLOCDETAISID"].ToString();
+                    ca.WorkId = dt.Rows[0]["TOLOCDETAILSID"].ToString();
                   
                     ca.ID = id;
                     ca.DrumLoc = dt.Rows[0]["DRUMLOCATION"].ToString();
@@ -69,7 +69,7 @@ namespace Arasan.Controllers
                     //}
                     
                     ca.ProdSchNo = dt.Rows[0]["PSCHNO"].ToString();
-                    ca.Itemlst = BindItemlst(ca.ProdSchNo);
+                    ca.Itemlst = BindItemlst(ca.DrumLoc);
                     ca.ItemId = dt.Rows[0]["OITEMID"].ToString();
                     ca.startdate = dt.Rows[0]["STARTDATE"].ToString() + " - " + dt.Rows[0]["STARTTIME"].ToString();
                     ca.enddate = dt.Rows[0]["ENDDATE"].ToString() + " - " + dt.Rows[0]["ENDTIME"].ToString();
@@ -93,6 +93,7 @@ namespace Arasan.Controllers
                     {
                         tda = new DrumDetail();
                         //tda.DrumNolst = BindDrumNo(ca.DrumLoc);
+                        tda.DrumNolst = Binddrum(ca.ItemId, ca.DrumLoc);
                         tda.DrumNo = dt2.Rows[i]["IDRUMNO"].ToString();
                         //tda.Batchlst = BindBatch(tda.DrumNo);
 
