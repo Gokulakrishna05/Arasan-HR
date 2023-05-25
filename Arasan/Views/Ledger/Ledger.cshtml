@@ -49,7 +49,7 @@
                                     <div class="form-group">
                                          <br />  <label for="inputName3" class="col-sm-4 control-label">Account Group<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.AccGroup, new { @id = "txtAccGroup", @class = "form-control", @TabIndex = 1  })
+                                            @Html.TextBoxFor(C => C.AccGroup, new { @id = "txtAccGroup", @class = "form-control", @TabIndex = 1,@readonly=true })
                                             @Html.HiddenFor(C => C.ID)
                                         </div>
                                     </div>
@@ -85,7 +85,7 @@
 
                                          <br />  <label for="inputName3" class="col-sm-4 control-label">Opening Stock<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.OpStock, new { @id = "txtOpStock", @class = "form-control", @TabIndex = 1  })
+                                            @Html.TextBoxFor(C => C.OpStock, new { @id = "txtOpStock", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)"  })
                                         </div>
                                     </div>
                                 </div>
@@ -93,13 +93,32 @@
                                     <div class="form-group">
                                         <br />   <label for="inputName3" class="col-sm-4 control-label">Closing Stock<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.ClStock, new { @id = "txtClStock", @class = "form-control", @TabIndex = 1  })
+                                            @Html.TextBoxFor(C => C.ClStock, new { @id = "txtClStock", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                             @Html.HiddenFor(C => C.ID)
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                             <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
 
+                                         <br />  <label for="inputName3" class="col-sm-4 control-label">Display Name<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.DisplayName, new { @id = "txtDisplayName", @class = "form-control", @TabIndex = 1  })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Category<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.Category, new { @id = "txtCategory", @class = "form-control", @TabIndex = 1  })
+                                        </div>
+                                    </div>
+                                </div>
+                             </div>
                             <div style="height:30px;"></div>
                             <div class="col-lg-10"></div>
                             <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
@@ -114,6 +133,20 @@
     </div>
 </div>
 <script>
+    $(function () {
+        $('._select').select2();
+    });
+    function PopulateDropDown(dropDownId, list) {
+        //alert(list);
+        $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
+        if (list != null && list.length > 0) {
+            $(dropDownId).removeAttr("disabled");
+            $.each(list, function () {
+                $(dropDownId).append($("<option></option>").val(this['value']).html(this['text']));
+            });
+        }
+        $(dropDownId).trigger("liszt:updated");
+    }
     $('.form_date').datetimepicker({
         //   language:  'fr',
         weekStart: 1,
@@ -146,66 +179,114 @@
     $(document).ready(function () {
         $('#btnSave').click(function (e) {
             var isValid = true;
-            if (document.getElementById("txtMName").value == "") {
+            if (document.getElementById("ddlAType").value == "") {
                 isValid = false;
-                $(txtMName).css({
+                $(ddlAType).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Enter Name");
+                alert("Please Select Account Type");
                 return false;
             }
             else {
-                $(txtMName).css({
+                $(ddlAType).css({
                     "border": "",
                     "background": ""
                 });
             }
-            if (document.getElementById("txtDispName").value == "") {
+            if (document.getElementById("txtLedName").value == "") {
                 isValid = false;
-                $(txtDispName).css({
+                $(txtLedName).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Enter Display Name");
+                alert("Please Enter Ledger Name");
                 return false;
             }
             else {
-                $(txtDispName).css({
+                $(txtLedName).css({
                     "border": "",
                     "background": ""
                 });
             }
-            if (document.getElementById("txtGrpAccount").value == "") {
+            if (document.getElementById("txtDocDate").value == "") {
                 isValid = false;
-                $(txtGrpAccount).css({
+                $(txtDocDate).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Choose Group Or Account");
+                alert("Please Select DocDate ");
                 return false;
             }
             else {
-                $(txtGrpAccount).css({
+                $(txtDocDate).css({
                     "border": "",
                     "background": ""
                 });
             }
-            if (document.getElementById("txtDate").value == "") {
+            if (document.getElementById("txtOpStock").value == "") {
                 isValid = false;
-                $(txtDate).css({
+                $(txtOpStock).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select Date");
+                alert("Please Enter Opening Stock");
                 return false;
             }
             else {
-                $(txtDate).css({
+                $(txtOpStock).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtClStock").value == "") {
+                isValid = false;
+                $(txtClStock).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Closing Stock ");
+                return false;
+            }
+            else {
+                $(txtClStock).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtDisplayName").value == "") {
+                isValid = false;
+                $(txtDisplayName).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter DisplayName ");
+                return false;
+            }
+            else {
+                $(txtDisplayName).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtCategory").value == "") {
+                isValid = false;
+                $(txtCategory).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Category ");
+                return false;
+            }
+            else {
+                $(txtCategory).css({
                     "border": "",
                     "background": ""
                 });
