@@ -57,7 +57,7 @@ namespace Arasan.Services
                     svSQL = " SELECT Count(*) as cnt FROM ACCGROUP WHERE ACCOUNTGROUP =LTRIM(RTRIM('" + cy.AccGroup + "')) and GROUPCODE =LTRIM(RTRIM('" + cy.GCode + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
-                        msg = " Enquiry Type Already Existed";
+                        msg = "Account Group Already Existed";
                         return msg;
                     }
                 }

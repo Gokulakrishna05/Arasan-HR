@@ -12,6 +12,8 @@ namespace Arasan.Interface
         DataTable GetLedger(string id);
         DataTable GetAccType();
 
+        string StatusChange(string tag, int id);
+
         DataTable GetGroupDetails(string id);
 
     }

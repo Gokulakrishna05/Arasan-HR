@@ -15,12 +15,14 @@ namespace Arasan.Models
         public List<SelectListItem> Typelst;
         public string AType { get; set; }
         public string AccGroup { get; set; }
+        public string DisplayName { get; set; }
 
 
         public string LedName { get; set; }
         public string DocDate { get; set; }
         public string OpStock { get; set; }
         public string ClStock { get; set; }
+        public string Category { get; set; }
         public string Status { get; set; }
     }
 }
