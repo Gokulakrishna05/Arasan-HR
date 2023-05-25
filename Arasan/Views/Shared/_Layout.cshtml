@@ -207,8 +207,12 @@
                             @* <li class="nav-item">
                                         <a class="nav-link" href="@Url.Action("PaymentVoucher", "PaymentVoucher")"> <span class="title">Payment Voucher</span> </a>
                                     </li>*@
-                             <li class="nav-item">
+                           @*  <li class="nav-item">
                                         <a class="nav-link" href="@Url.Action("ListSequence", "Sequence")"> <span class="title">Sequence</span> </a>
+ 
+                                    </li>*@
+                            @* <li class="nav-item">
+ 
                                     </li>
 
                             
@@ -216,12 +220,16 @@
                                         <a class="nav-link" href="@Url.Action("ListAccountGroup", "AccountGroup")"> <span class="title">Account Group</span> </a>
 
                              <li class="nav-item">
+ 
                                         <a class="nav-link" href="@Url.Action("ListPaymentRequest", "PaymentRequest")"> <span class="title">Payment Request</span> </a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="@Url.Action("ListApprovedPaymentRequest", "PaymentRequest")"> <span class="title">View Payment Request</span> </a>
-
+ 
+                                    </li>*@
+ 
                                     </li>
+ 
                            
                             </ul> </li>
 
@@ -249,6 +257,9 @@
                                    
                                     <li class="nav-item">
                                         <a class="nav-link" href="@Url.Action("ListAccountType", "AccountType")"> <span class="title">AccountType </span> </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="@Url.Action("ListSequence", "Sequence")"> <span class="title">Sequence</span> </a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="@Url.Action("ListCity", "City")"> <span class="title">City </span> </a>
@@ -454,8 +465,19 @@
                   
                         </ul>
                     </li>
+                    <li class="nav-item">
 
-                    
+                        <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-database"></i> <span class="title">Account</span> <span class="arrow"></span> </a>
+                        <ul class="sub-menu">
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("ListPaymentRequest", "PaymentRequest")"> <span class="title">Payment Request</span> </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("ListApprovedPaymentRequest", "PaymentRequest")"> <span class="title">View Payment Request</span> </a>
+                            </li>
+
+                        </ul>
+                    </li>
 
                      <li class="nav-item"> <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-address-card"></i> <span class="title">StoreManagement</span> <span class="arrow"></span> </a>
 
