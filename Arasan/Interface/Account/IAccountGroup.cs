@@ -5,17 +5,12 @@ using System.Data;
 
 namespace Arasan.Interface
 {
-    public interface ILedger
+    public interface IAccountGroup
     {
-        string  LedgerCRUD(Ledger Cy);
-        IEnumerable<Ledger> GetAllLedger();
-        DataTable GetLedger(string id);
+        string AccountGroupCRUD(AccountGroup cy);
+        DataTable GetAccountGroup(string id);
         DataTable GetAccType();
-
+        IEnumerable<AccountGroup> GetAllAccountGroup();
         string StatusChange(string tag, int id);
-
-        DataTable GetGroupDetails(string id);
-
     }
-
 }

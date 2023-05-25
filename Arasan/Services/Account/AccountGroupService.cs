@@ -5,38 +5,38 @@ using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Data;
+
 namespace Arasan.Services
 {
-    public class LedgerService : ILedger
+    public class AccountGroupService : IAccountGroup
     {
         private readonly string _connectionString;
         DataTransactions datatrans;
-        public LedgerService(IConfiguration _configuratio)
+        public AccountGroupService(IConfiguration _configuratio)
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public IEnumerable<Ledger> GetAllLedger()
+        public IEnumerable<AccountGroup> GetAllAccountGroup()
         {
-            List<Ledger> cmpList = new List<Ledger>();
+            List<AccountGroup> cmpList = new List<AccountGroup>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
 
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select ACCTYPE.ACCOUNTTYPE,ACCGROUP.ACCOUNTGROUP,LEDNAME,to_char(LEDGER.DOCDATE,'dd-MON-yyyy')DOCDATE,LEDGERID from LEDGER LEFT OUTER JOIN ACCTYPE ON ACCOUNTTYPEID=LEDGER.ACCTYPE LEFT OUTER JOIN ACCGROUP ON ACCGROUPID =LEDGER.ACCGROUP where LEDGER.STATUS='Active'";
+                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,ACCOUNTGROUP,GROUPCODE,ACCGROUP.STATUS,ACCGROUPID from ACCGROUP LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=ACCGROUP.BRANCHID where ACCGROUP.STATUS='Active'";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
-                        Ledger cmp = new Ledger
+                        AccountGroup cmp = new AccountGroup
                         {
-                            ID = rdr["LEDGERID"].ToString(),
-                            AType = rdr["ACCOUNTTYPE"].ToString(),
+                            ID = rdr["ACCGROUPID"].ToString(),
+                            Branch = rdr["BRANCHID"].ToString(),
                             AccGroup = rdr["ACCOUNTGROUP"].ToString(),
-                            LedName = rdr["LEDNAME"].ToString(),
-                            DocDate = rdr["DOCDATE"].ToString(),
-                            
+                            GCode = rdr["GROUPCODE"].ToString(),
+                            Status = rdr["STATUS"].ToString(),
 
                         };
                         cmpList.Add(cmp);
@@ -45,28 +45,26 @@ namespace Arasan.Services
             }
             return cmpList;
         }
-        public string LedgerCRUD(Ledger cy)
+        public string AccountGroupCRUD(AccountGroup cy)
         {
             string msg = "";
             try
             {
                 string StatementType = string.Empty; string svSQL = "";
-                //if (cy.ID == null)
-                //{
+                if (cy.ID == null)
+                {
 
-                //    svSQL = " SELECT Count(*) as cnt FROM ACCGROUP WHERE ACCOUNTGROUP =LTRIM(RTRIM('" + cy.AccGroup + "')) and GROUPCODE =LTRIM(RTRIM('" + cy.GCode + "'))";
-                //    if (datatrans.GetDataId(svSQL) > 0)
-                //    {
-                //        msg = " Enquiry Type Already Existed";
-                //        return msg;
-                //    }
-                //}
-                string AccGroupID = datatrans.GetDataString("Select ACCGROUPID from ACCGROUP where ACCOUNTGROUP='" + cy.AccGroup + "' ");
+                    svSQL = " SELECT Count(*) as cnt FROM ACCGROUP WHERE ACCOUNTGROUP =LTRIM(RTRIM('" + cy.AccGroup + "')) and GROUPCODE =LTRIM(RTRIM('" + cy.GCode + "'))";
+                    if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "Account Group Already Existed";
+                        return msg;
+                    }
+                }
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
-                    OracleCommand objCmd = new OracleCommand("ALEDGERPROC", objConn);
-
-
+                    OracleCommand objCmd = new OracleCommand("ACCGROPROC", objConn);
+                   
                     objCmd.CommandType = CommandType.StoredProcedure;
                     if (cy.ID == null)
                     {
@@ -79,17 +77,14 @@ namespace Arasan.Services
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                     }
 
+                    objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
+                    objCmd.Parameters.Add("ACCOUNTGROUP", OracleDbType.NVarchar2).Value = cy.AccGroup;
                     objCmd.Parameters.Add("ACCTYPE", OracleDbType.NVarchar2).Value = cy.AType;
-                    objCmd.Parameters.Add("ACCGROUP", OracleDbType.NVarchar2).Value = AccGroupID;
-                    objCmd.Parameters.Add("LEDNAME", OracleDbType.NVarchar2).Value = cy.LedName;
-                    objCmd.Parameters.Add("DOCDATE", OracleDbType.Date).Value = DateTime.Parse(cy.DocDate);
-                    objCmd.Parameters.Add("OPSTOCK", OracleDbType.NVarchar2).Value = cy.OpStock;
-                    objCmd.Parameters.Add("CLSTOCK", OracleDbType.NVarchar2).Value = cy.ClStock;
-                    objCmd.Parameters.Add("DISPLAY_NAME", OracleDbType.NVarchar2).Value = cy.DisplayName;
-                    objCmd.Parameters.Add("CATEGORY", OracleDbType.NVarchar2).Value = cy.Category;
+                    objCmd.Parameters.Add("GROUPCODE", OracleDbType.NVarchar2).Value = cy.GCode;
+                    objCmd.Parameters.Add("DISPLAY_NAME", OracleDbType.NVarchar2).Value = cy.Display;
                     objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "Active";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
-                     
+
                     try
                     {
                         objConn.Open();
@@ -111,26 +106,6 @@ namespace Arasan.Services
 
             return msg;
         }
-        public DataTable GetAccType()
-        {
-            string SvSql = string.Empty;
-            SvSql = "SELECT  ACCOUNTTYPEID,ACCOUNTTYPE FROM ACCTYPE";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
-        public DataTable GetGroupDetails(string id)
-        {
-            string SvSql = string.Empty;
-            SvSql = "select ACCOUNTGROUP,ACCGROUPID from ACCGROUP where ACCTYPE= '" + id + "'";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
         public string StatusChange(string tag, int id)
         {
 
@@ -140,7 +115,7 @@ namespace Arasan.Services
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE LEDGER SET STATUS ='InActive' WHERE LEDGERID='" + id + "'";
+                    svSQL = "UPDATE ACCGROUP SET STATUS ='InActive' WHERE ACCGROUPID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -155,10 +130,20 @@ namespace Arasan.Services
             return "";
 
         }
-        public DataTable GetLedger(string id)
+        public DataTable GetAccountGroup(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select ACCTYPE,ACCGROUP,LEDNAME,to_char(DOCDATE,'dd-MON-yyyy')DOCDATE,OPSTOCK,CLSTOCK,DISPLAY_NAME,CATEGORY,LEDGERID from LEDGER where LEDGERID=" + id + "";
+            SvSql = "Select ACCGROUPID,BRANCHID,ACCOUNTGROUP,ACCTYPE,GROUPCODE,DISPLAY_NAME FROM ACCGROUP where ACCGROUPID=" + id + "";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetAccType()
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT  ACCOUNTTYPEID,ACCOUNTTYPE FROM ACCTYPE";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

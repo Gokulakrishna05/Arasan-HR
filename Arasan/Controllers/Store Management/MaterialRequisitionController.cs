@@ -399,7 +399,7 @@ namespace Arasan.Controllers.Store_Management
                     tda.ReqQty = dtt.Rows[i]["QTY"].ToString();
                     tda.indentid= dtt.Rows[i]["STORESREQDETAILID"].ToString();
                     tda.Isvalid = "Y";
-                    double reqqty = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString()); 
+                    double reqqty = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString() == "" ? "0" : dtt.Rows[i]["QTY"].ToString()); 
                     DataTable dt1 = materialReq.Getstkqty(dtt.Rows[i]["ITEMMASTERID"].ToString(), storeid, dt.Rows[0]["BRANCHIDS"].ToString());
                     if (dt1.Rows.Count > 0)
                     {
@@ -465,7 +465,7 @@ namespace Arasan.Controllers.Store_Management
                     tda.UnitID = dtt.Rows[i]["UNIT"].ToString();
                     tda.Unit = dtt.Rows[i]["UNITID"].ToString();
                     tda.ReqQty = dtt.Rows[i]["QTY"].ToString();
-                    double reqqty = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString());
+                    double reqqty = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString() == "" ? "0" : dtt.Rows[i]["QTY"].ToString());
                     DataTable dt1 = materialReq.Getstkqty(dtt.Rows[i]["ITEMMASTERID"].ToString(), storeid, dt.Rows[0]["BRANCHIDS"].ToString());
                     if (dt1.Rows.Count > 0)
                     {
@@ -707,12 +707,12 @@ namespace Arasan.Controllers.Store_Management
             if (string.IsNullOrEmpty(flag))
             {
 
-                return RedirectToAction("ListCustomer");
+                return RedirectToAction("ListMaterialRequisition");
             }
             else
             {
                 TempData["notice"] = flag;
-                return RedirectToAction("ListCustomer");
+                return RedirectToAction("ListMaterialRequisition");
             }
         }
         

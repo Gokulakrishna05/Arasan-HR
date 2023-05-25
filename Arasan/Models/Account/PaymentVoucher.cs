@@ -28,12 +28,28 @@ namespace Arasan.Models
         public List<SelectListItem> Loclst;
         public string Location { get; set; }
         public string PType { get; set; }
-
+        public double ReqAmount { get; set; }
+        public double TotalDeAmount { get; set; }
+        public double TotalCrAmount { get; set; }
         public string VType { get; set; }
-
+        public List<VoucherItem> VoucherLst { get; set; }
         //public string Enqdate { get; set; }
         //public string EnqNo { get; set; }
         //public string ExRate { get; set; }
         //public string ParNo { get; set; }
+    }
+    public class VoucherItem
+    {
+        public string Credit { get; set; }
+        public string Account { get; set; }
+        public List<SelectListItem> Creditlst { get; set; }
+
+
+        public string ID { get; set; }
+        public double CreditAmount { get; set; }
+        public double DepitAmount { get; set; }
+
+        public string Isvalid { get; set; }
+
     }
 }

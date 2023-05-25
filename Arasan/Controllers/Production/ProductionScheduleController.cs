@@ -6,7 +6,7 @@ using System.Data;
 using System.Security.Cryptography.Pkcs;
 using System.Xml.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using PdfSharp.Pdf;
+//using PdfSharp.Pdf;
 
 namespace Arasan.Controllers.Production
 {

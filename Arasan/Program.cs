@@ -120,7 +120,15 @@ internal class Program
         builder.Services.TryAddSingleton<IPaymentVoucher, PaymentVoucherService>();
         builder.Services.TryAddSingleton<ISequence, SequenceService>();
 
+        builder.Services.TryAddSingleton<IAccountGroup, AccountGroupService>();
+
+
+        builder.Services.TryAddSingleton<IPaymentRequest, PaymentRequestService>();
+
+
         builder.Services.TryAddSingleton<IAccountType, AccountTypeService>();
+
+
 
 
 

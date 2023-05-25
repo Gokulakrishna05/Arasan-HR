@@ -27,7 +27,8 @@ namespace Arasan.Controllers
         public IActionResult Ledger(string id)
         {
             Ledger ca = new Ledger();
-            ca.Date = DateTime.Now.ToString("dd-MMM-yyyy");
+            ca.Typelst = BindAccType();
+            //ca.Date = DateTime.Now.ToString("dd-MMM-yyyy");
             if (id == null)
             {
 
@@ -42,11 +43,14 @@ namespace Arasan.Controllers
                 dt = ledger.GetLedger(id);
                 if (dt.Rows.Count > 0)
                 {
-                    ca.MName = dt.Rows[0]["MNAME"].ToString();
-                    ca.Date = dt.Rows[0]["DOCDT"].ToString();
-                    ca.DispName = dt.Rows[0]["DISPNAME"].ToString();
+                    ca.AType = dt.Rows[0]["ACCTYPE"].ToString();
+                    ca.AccGroup = dt.Rows[0]["ACCGROUP"].ToString();
+                    ca.LedName = dt.Rows[0]["LEDNAME"].ToString();
+                    ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
+                    ca.OpStock = dt.Rows[0]["OPSTOCK"].ToString();
+                    ca.ClStock = dt.Rows[0]["CLSTOCK"].ToString();
+                    ca.DisplayName = dt.Rows[0]["DISPLAY_NAME"].ToString();
                     ca.Category = dt.Rows[0]["CATEGORY"].ToString();
-                    ca.GrpAccount = dt.Rows[0]["GROUPORACCOUNT"].ToString();
                     ca.ID = id;
 
                 }
@@ -91,10 +95,74 @@ namespace Arasan.Controllers
 
             return View(Cy);
         }
+        //public JsonResult GetItemJSON(string supid)
+        //{
+        //    Ledger model = new Ledger();
+        //    model.Itemlst = BindItemlst(supid);
+        //    return Json(BindItemlst(supid));
+
+        //}
         public IActionResult ListLedger()
         {
             IEnumerable<Ledger> cmp = ledger.GetAllLedger();
             return View(cmp);
+        }
+        public ActionResult GetGroupDetail(string ItemId)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+
+                string accgroup = "";
+              
+
+                dt = ledger.GetGroupDetails(ItemId);
+
+                if (dt.Rows.Count > 0)
+                {
+                    accgroup = dt.Rows[0]["ACCOUNTGROUP"].ToString();
+
+                }
+
+                var result = new { accgroup = accgroup };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult DeleteMR(string tag, int id)
+        {
+
+            string flag = ledger.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListLedger");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListLedger");
+            }
+        }
+        public List<SelectListItem> BindAccType()
+        {
+            try
+            {
+                DataTable dtDesg = ledger.GetAccType();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ACCOUNTTYPE"].ToString(), Value = dtDesg.Rows[i]["ACCOUNTTYPEID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
     }

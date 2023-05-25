@@ -55,9 +55,13 @@
                                     <div class="col-md-6">
                                       <div class="form-group">
 
+ 
                                         <label for="inputName3" class="col-sm-4 control-label">Department Name<label class="mandatory"></label></label>
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Department Name<label class="mandatory">*</label></label>
+
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.DepartmentName, new { @id = "txtDepartmentName", @class = "form-control",autocomplete="off" , @TabIndex = 2, @size="30" })<br>
+                                            @Html.TextBoxFor(C => C.DepartmentName, new { @id = "txtDepartmentName", @class = "form-control",autocomplete="off",@TabIndex = 2, @size="30" })<br>
                                         </div>
                                     
 
@@ -101,7 +105,7 @@
                                                             {
                                                                 <tr id="trBook@(j)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
                                                                     <td> @i</td>
-                                                        <td>@Html.TextBoxFor(o => o.Designationlst[j].Design, new { @id = "txtDesignation" + j, @class = "form-control", style = "width: 200px;text-align:right",autocomplete="off" , @onkeyup = "changeConsQty(this," + j + ")" })</td>
+                                                        <td>@Html.TextBoxFor(o => o.Designationlst[j].Design, new { @id = "txtDesignation" + j, @class = "form-control", style = "width: 200px;text-align:right" })</td>
                                                                     <td>
                                                                         @Html.HiddenFor(o => o.Designationlst[j].Isvalid, new { @id = "Isvalid" + j })
                                                                           <img onclick="removeRow(@(j));" src="../Images/delete.png" style="cursor:pointer" /> 

@@ -8,7 +8,7 @@ using System.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 using Newtonsoft.Json.Linq;
-using PdfSharp.Pdf.Content.Objects;
+//using PdfSharp.Pdf.Content.Objects;
 
 
 namespace Arasan.Controllers 
@@ -37,7 +37,6 @@ namespace Arasan.Controllers
             }
             else
             {
-
 
                 DataTable dt = new DataTable();
 
@@ -99,7 +98,21 @@ namespace Arasan.Controllers
             IEnumerable<Sequence> cmp = sequence.GetAllSequence();
             return View(cmp);
         }
-            
-        
+        public ActionResult DeleteSeq(string tag, int id)
+        {
+
+            string flag = sequence.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListSequence");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListSequence");
+            }
+        }
+
     }
 }
