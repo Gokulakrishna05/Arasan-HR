@@ -6,10 +6,10 @@ using Oracle.ManagedDataAccess.Client;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
- 
+
 using Newtonsoft.Json.Linq;
 
-namespace Arasan.Controllers 
+namespace Arasan.Controllers
 {
     public class LedgerController : Controller
     {
@@ -28,6 +28,7 @@ namespace Arasan.Controllers
         {
             Ledger ca = new Ledger();
             ca.Typelst = BindAccType();
+            ca.AccGrouplst = BindAccGroup("");
             //ca.Date = DateTime.Now.ToString("dd-MMM-yyyy");
             if (id == null)
             {
@@ -107,25 +108,25 @@ namespace Arasan.Controllers
             IEnumerable<Ledger> cmp = ledger.GetAllLedger();
             return View(cmp);
         }
-        public ActionResult GetGroupDetail(string ItemId)
+        public JsonResult GetItemJSON(string itemid)
+        {
+            Ledger model = new Ledger();
+            model.AccGrouplst = BindAccGroup(itemid);
+            return Json(BindAccGroup(itemid));
+        }
+
+
+        public List<SelectListItem> BindAccGroup(string value)
         {
             try
             {
-                DataTable dt = new DataTable();
-
-                string accgroup = "";
-              
-
-                dt = ledger.GetGroupDetails(ItemId);
-
-                if (dt.Rows.Count > 0)
+                DataTable dtDesg = ledger.GetAccGroup(value);
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    accgroup = dt.Rows[0]["ACCOUNTGROUP"].ToString();
-
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ACCOUNTGROUP"].ToString(), Value = dtDesg.Rows[i]["ACCGROUPID"].ToString() });
                 }
-
-                var result = new { accgroup = accgroup };
-                return Json(result);
+                return lstdesg;
             }
             catch (Exception ex)
             {
@@ -165,5 +166,5 @@ namespace Arasan.Controllers
             }
         }
     }
-    }
+}
 

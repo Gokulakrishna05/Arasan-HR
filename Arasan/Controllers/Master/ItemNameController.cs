@@ -26,6 +26,7 @@ namespace Arasan.Controllers.Master
             ca.Isglst = BindItemSubGroup ();
             ca.Hsn = BindHSNcode();
             ca.Bin = BindBinID();
+            ca.Ledgerlst = BindLedger();
             List<SupItem> TData = new List<SupItem>();
             SupItem tda = new SupItem();
 
@@ -166,6 +167,23 @@ namespace Arasan.Controllers.Master
                 {
                     throw ex;
                 }
+        }
+        public List<SelectListItem> BindLedger()
+        {
+            try
+            {
+                DataTable dtDesg = ItemNameService.GetLedger();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["LEDNAME"].ToString(), Value = dtDesg.Rows[i]["LEDGERID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public List<SelectListItem> BindItemGroup()
         {

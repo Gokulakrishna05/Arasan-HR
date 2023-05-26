@@ -7,15 +7,15 @@ namespace Arasan.Interface
 {
     public interface ILedger
     {
-        string  LedgerCRUD(Ledger Cy);
+        string LedgerCRUD(Ledger Cy);
         IEnumerable<Ledger> GetAllLedger();
         DataTable GetLedger(string id);
         DataTable GetAccType();
 
         string StatusChange(string tag, int id);
 
-        DataTable GetGroupDetails(string id);
-
+        //DataTable GetGroupDetails(string id);
+        DataTable GetAccGroup(string id);
     }
 
 }
