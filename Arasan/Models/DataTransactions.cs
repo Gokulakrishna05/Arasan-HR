@@ -102,6 +102,28 @@ namespace Arasan.Models
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetSequence(string vtype)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select * from sequence where TRANSTYPE='"+ vtype  + "' AND ACTIVESEQUENCE='T'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetLedger()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select DISPLAY_NAME, LEDGERID from ledger where STATUs = 'Active'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        
+
 
         public DataTable GetLocation()
         {
