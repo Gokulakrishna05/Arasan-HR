@@ -456,7 +456,7 @@ namespace Arasan.Controllers
                         for (int i = 0; i < dtt.Rows.Count; i++)
                         {
                             tda = new QuotationFollowupDetails();
-                            tda.Followby = dtt.Rows[i]["FOLLOWED_BY"].ToString();
+                            tda.Followby = dtt.Rows[i]["EMPNAME"].ToString();
                             tda.Followdate = dtt.Rows[i]["FOLLOW_DATE"].ToString();
                             tda.Nfdate = dtt.Rows[i]["NEXT_FOLLOW_DATE"].ToString();
                             tda.Rmarks = dtt.Rows[i]["REMARKS"].ToString();
