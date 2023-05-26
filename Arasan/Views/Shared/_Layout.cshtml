@@ -192,10 +192,16 @@
                              <li class="nav-item"> <a class="nav-link" href="javascript:;"> Account <span class="arrow nav-toggle"></span> </a>
                                         <ul class="sub-menu">
 
-                                   <li class="nav-item">
+                                 
 
                                              <li class="nav-item">
                                         <a class="nav-link" href="@Url.Action("AccTreeView", "AccTreeView")"> <span class="title">Account Tree</span> </a>
+                                    </li>
+                                     <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("AccConfig", "AccConfig")"> <span class="title">Account Config</span> </a>
+                            </li>
+                                     <li class="nav-item">
+                                        <a class="nav-link" href="@Url.Action("ListAccountType", "AccountType")"> <span class="title">Account Type </span> </a>
                                     </li>
                                     <li class="nav-item">
 
@@ -228,7 +234,7 @@
  
                                     </li>*@
  
-                                    </li>
+                                   
  
                            
                             </ul> </li>
@@ -255,9 +261,7 @@
                                  <li class="nav-item"> <a class="nav-link" href="javascript:;"> Common <span class="arrow nav-toggle"></span> </a>  
                                       <ul class="sub-menu">
                                    
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="@Url.Action("ListAccountType", "AccountType")"> <span class="title">AccountType </span> </a>
-                                    </li>
+                                   
                                     <li class="nav-item">
                                         <a class="nav-link" href="@Url.Action("ListSequence", "Sequence")"> <span class="title">Sequence</span> </a>
                                     </li>
@@ -475,9 +479,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="@Url.Action("ListApprovedPaymentRequest", "PaymentRequest")"> <span class="title">Payment Voucher</span> </a>
                             </li>
-                             <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("AccConfig", "AccConfig")"> <span class="title">Account Config</span> </a>
-                            </li>
+                            
 
                         </ul>
                     </li>
