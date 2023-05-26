@@ -3,6 +3,7 @@ using System.Data;
 using Arasan.Interface;
 using Arasan.Interface.Master;
 using Arasan.Models;
+using Arasan.Services;
 using Arasan.Services.Master;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -80,6 +81,22 @@ namespace Arasan.Controllers
         {
             IEnumerable<CustomerType> ic = Customer.GetAllCustomerType();
             return View(ic);
+        }
+
+        public ActionResult DeleteMR(string tag, int id)
+        {
+
+            string flag = Customer.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListCustomerType");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListCustomerType");
+            }
         }
     }
 }

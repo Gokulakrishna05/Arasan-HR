@@ -49,6 +49,8 @@ namespace Arasan.Controllers
                     ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
                     ca.OpStock = dt.Rows[0]["OPSTOCK"].ToString();
                     ca.ClStock = dt.Rows[0]["CLSTOCK"].ToString();
+                    ca.DisplayName = dt.Rows[0]["DISPLAY_NAME"].ToString();
+                    ca.Category = dt.Rows[0]["CATEGORY"].ToString();
                     ca.ID = id;
 
                 }
@@ -118,7 +120,7 @@ namespace Arasan.Controllers
 
                 if (dt.Rows.Count > 0)
                 {
-                    accgroup = dt.Rows[0]["ACCGROUP"].ToString();
+                    accgroup = dt.Rows[0]["ACCOUNTGROUP"].ToString();
 
                 }
 
@@ -128,6 +130,21 @@ namespace Arasan.Controllers
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+        public ActionResult DeleteMR(string tag, int id)
+        {
+
+            string flag = ledger.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListLedger");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListLedger");
             }
         }
         public List<SelectListItem> BindAccType()

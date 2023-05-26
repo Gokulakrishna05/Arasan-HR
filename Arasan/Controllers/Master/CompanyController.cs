@@ -2,6 +2,7 @@
 using Arasan.Interface;
 using Arasan.Interface.Master;
 using Arasan.Models;
+using Arasan.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Arasan.Controllers
@@ -24,15 +25,14 @@ namespace Arasan.Controllers
             else
             {
                 ca = CompanyService.GetCompanyById(id);
-
+                 
             }
             return View(ca);
         }
         [HttpPost]
         public ActionResult Company(Company Cy, string id)
         {
-
-            try
+          try
             {
                 Cy.ID = id;
                 string Strout = CompanyService.CompanyCRUD(Cy);
@@ -71,6 +71,21 @@ namespace Arasan.Controllers
             return View(cmp);
         }
 
+        public ActionResult DeleteMR(string tag, int id)
+        {
+
+            string flag = CompanyService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListCompany");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListCompany");
+            }
+        }
     }
 }
 

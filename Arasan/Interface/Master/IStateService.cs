@@ -12,6 +12,6 @@ namespace Arasan.Interface.Master
         State GetStateById(string id);
 
         DataTable Getcountry();
-
+        string StatusChange(string tag, int id);
     }
 }

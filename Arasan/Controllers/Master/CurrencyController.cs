@@ -72,6 +72,21 @@ namespace Arasan.Controllers.Master
             return View(cmp);
         }
 
-       
+        public ActionResult DeleteMR(string tag, int id)
+        {
+
+            string flag = CurrencyService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListCurrency");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListCurrency");
+            }
+        }
+
     }
 }

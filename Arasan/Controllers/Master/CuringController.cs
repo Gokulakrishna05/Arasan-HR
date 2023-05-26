@@ -167,5 +167,22 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+
+        public ActionResult DeleteMR(string tag, int id)
+        {
+
+            string flag = CuringService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListCuring");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListCuring");
+            }
+        }
+
     }
 }

@@ -20,6 +20,7 @@ namespace Arasan.Models
 
         public List<SelectListItem> Typelst;
         public string Wid { get; set; }
+        public string status { get; set; }
         public string WType { get; set; }
         public string Docdate { get; set; }
 

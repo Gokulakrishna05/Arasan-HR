@@ -28,7 +28,7 @@ namespace Arasan.Services.Master
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select  EMPMAST. EMPNAME, EMPMAST.EMPID, EMPMAST.EMPSEX,to_char( EMPMAST.EMPDOB,'dd-MON-yyyy')EMPDOB,ECADD1, ECCITY,ECSTATE,ECMAILID,ECPHNO,FATHERNAME,MOTHERNAME,EMPPAYCAT,EMPBASIC,PFNO,ESINO,EMPCOST,to_char( EMPMAST.PFDT,'dd-MON-yyyy')PFDT,to_char( EMPMAST.ESIDT,'dd-MON-yyyy')ESIDT,USERNAME,PASSWORD,EMPDEPT,EMPDESIGN,EMPDEPTCODE,to_char( EMPMAST.JOINDATE,'dd-MON-yyyy')JOINDATE,to_char( EMPMAST.RESIGNDATE,'dd-MON-yyyy')RESIGNDATE,EMPMASTID from EMPMAST";
+                    cmd.CommandText = "Select  EMPMAST. EMPNAME, EMPMAST.EMPID, EMPMAST.EMPSEX,to_char( EMPMAST.EMPDOB,'dd-MON-yyyy')EMPDOB,ECADD1, ECCITY,ECSTATE,ECMAILID,ECPHNO,FATHERNAME,MOTHERNAME,EMPPAYCAT,EMPBASIC,PFNO,ESINO,EMPCOST,to_char( EMPMAST.PFDT,'dd-MON-yyyy')PFDT,to_char( EMPMAST.ESIDT,'dd-MON-yyyy')ESIDT,USERNAME,PASSWORD,EMPDEPT,EMPDESIGN,EMPDEPTCODE,to_char( EMPMAST.JOINDATE,'dd-MON-yyyy')JOINDATE,to_char( EMPMAST.RESIGNDATE,'dd-MON-yyyy')RESIGNDATE,EMPMASTID from EMPMAST WHERE STATUS='ACTION'";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -66,7 +66,7 @@ namespace Arasan.Services.Master
         }
         public string EmployeeCRUD(Employee cy)
         {
-            string msg = "";
+            string msg = ""; 
             try
             {
                 string StatementType = string.Empty; string svSQL = "";
@@ -94,7 +94,6 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("EMPSEX", OracleDbType.NVarchar2).Value = cy.Gender;
                     objCmd.Parameters.Add("EMPDOB", OracleDbType.Date).Value = DateTime.Parse(cy.DOB);
                     objCmd.Parameters.Add("ECADD1", OracleDbType.NVarchar2).Value = cy.Address;
-                    //objCmd.Parameters.Add("REFDT", OracleDbType.Date).Value = DateTime.Parse(cy.RefDate);
                     objCmd.Parameters.Add("ECCITY", OracleDbType.NVarchar2).Value = cy.CityId;
                     objCmd.Parameters.Add("ECSTATE", OracleDbType.NVarchar2).Value = cy.StateId;
                     objCmd.Parameters.Add("ECMAILID", OracleDbType.NVarchar2).Value = cy.EmailId;
@@ -115,6 +114,8 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("EMPDEPTCODE", OracleDbType.NVarchar2).Value = cy.EMPDeptCode;
                     objCmd.Parameters.Add("JOINDATE", OracleDbType.Date).Value = DateTime.Parse(cy.JoinDate);
                     objCmd.Parameters.Add("RESIGNDATE", OracleDbType.Date).Value = DateTime.Parse(cy.ResignDate);
+                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
+
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
@@ -379,5 +380,30 @@ namespace Arasan.Services.Master
 
             return msg;
         }
+
+        public string StatusChange(string tag, int id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE EMPMAST SET STATUS ='INACTIVE' WHERE EMPMASTID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
+        }
+
     }
 }

@@ -13,5 +13,7 @@ namespace Arasan.Interface.Master
         HSNcode GetHSNcodeById(string id);
 
         DataTable GetHSNcode(string id);
+        string StatusChange(string tag, int id);
+
     }
 }

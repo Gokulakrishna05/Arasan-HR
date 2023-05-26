@@ -32,6 +32,7 @@ namespace Arasan.Models
         public double TotalDeAmount { get; set; }
         public double TotalCrAmount { get; set; }
         public string VType { get; set; }
+        public double TotalAmount { get; set; }
         public List<VoucherItem> VoucherLst { get; set; }
         public double ClaimAmount { get; set; }
         //public string Enqdate { get; set; }
@@ -44,7 +45,9 @@ namespace Arasan.Models
         public string Credit { get; set; }
         public string Account { get; set; }
         public List<SelectListItem> Creditlst { get; set; }
+
         public List<SelectListItem> Acclst { get; set; }
+
         public string ID { get; set; }
         public double CreditAmount { get; set; }
         public double DepitAmount { get; set; }

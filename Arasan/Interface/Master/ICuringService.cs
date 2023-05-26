@@ -14,5 +14,8 @@ namespace Arasan.Interface
         DataTable GetCuringDeatil(string id);
         DataTable GetCuringDetails(string id);
         DataTable GetSubgroup();
+
+        string StatusChange(string tag, int id);
+
     }
 }

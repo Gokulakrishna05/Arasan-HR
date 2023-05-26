@@ -99,5 +99,20 @@ namespace Arasan.Controllers
             return View(cmp);
         }
 
+        public ActionResult DeleteMR(string tag, int id)
+        {
+
+            string flag = TaxService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListTax");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListTax");
+            }
+        }
     }
 }

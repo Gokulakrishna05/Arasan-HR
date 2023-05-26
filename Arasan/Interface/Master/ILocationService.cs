@@ -11,6 +11,7 @@ namespace Arasan.Interface
         string LocationsCRUD(Location cy);
         IEnumerable<Location> GetAllLocations();
         Location GetLocationsById(string id);
+        string StatusChange(string tag, int id);
 
     }
 }

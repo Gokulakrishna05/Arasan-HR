@@ -38,7 +38,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">DrumNo<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">DrumNo<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
 
                                             @Html.TextBoxFor(C => C.DrumNo, new { @id = "txDrum", @class = "form-control",autocomplete="off" , @TabIndex = 2, @size="30" })
@@ -53,7 +53,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">DocDate<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">DocDate<label class="mandatory"></label></label>
 
                                         <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                             @Html.TextBoxFor(C => C.DocDate, new { @id = "DocDate", @class = "form-control", @TabIndex = 2,@size="30",@readonly=true })
@@ -68,7 +68,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Category<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Category<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.Category, Model.Categorylst,"Please Select", new { @id = "ddlCategory", @Class = "form-control _select", @TabIndex = 1 })<br />
                                         </div>
@@ -78,7 +78,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Location<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Location<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.Location, Model.Locationlst,"Please Select", new { @id = "ddlLocation", @Class = "form-control _select", @TabIndex = 1 })<br /><br>
                                         </div>
@@ -90,7 +90,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">DrumType<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">DrumType<label class="mandatory"></label></label>
 
                                         <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.DrumType, Model.DrumTypelst,"Please Select", new { @id = "ddlDrumType", @Class = "form-control _select", @TabIndex = 1 })<br /><br>
@@ -101,7 +101,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Target Weight<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Target Weight<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @*@Html.EditorFor(model => model.TargetWeight, new { @type = "number", @min = "0", @step = "0.01", @value = "0" })*@
 
@@ -113,7 +113,7 @@
                             </div>
 
                             <div style="height:30px;"></div>
-                            <div class="col-lg-8"></div>
+                            <div class="col-lg-10"></div>
                             <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
                             <a button class="btn btn-danger" type="submit" href="@Url.Action("ListDrumMaster", "DrumMaster")">Cancel</a>
 
