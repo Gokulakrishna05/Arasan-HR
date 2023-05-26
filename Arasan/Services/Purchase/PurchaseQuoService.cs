@@ -448,7 +448,7 @@ namespace Arasan.Services
         public DataTable GetFolowup(string enqid)
         {
             string SvSql = string.Empty;
-            SvSql = "Select QUOTATION_FOLLOW_UP.QUO_ID,QUOTATION_FOLLOW_UP.FOLLOWED_BY,to_char(QUOTATION_FOLLOW_UP.FOLLOW_DATE,'dd-MON-yyyy')FOLLOW_DATE,to_char(QUOTATION_FOLLOW_UP.NEXT_FOLLOW_DATE,'dd-MON-yyyy')NEXT_FOLLOW_DATE,QUOTATION_FOLLOW_UP.REMARKS,QUOTATION_FOLLOW_UP.FOLLOW_STATUS,QUO_FOLLOW_ID from QUOTATION_FOLLOW_UP WHERE QUO_ID='" + enqid + "'";
+            SvSql = "Select QUOTATION_FOLLOW_UP.QUO_ID,EMPMAST.EMPNAME,to_char(QUOTATION_FOLLOW_UP.FOLLOW_DATE,'dd-MON-yyyy')FOLLOW_DATE,to_char(QUOTATION_FOLLOW_UP.NEXT_FOLLOW_DATE,'dd-MON-yyyy')NEXT_FOLLOW_DATE,QUOTATION_FOLLOW_UP.REMARKS,QUOTATION_FOLLOW_UP.FOLLOW_STATUS,QUO_FOLLOW_ID from QUOTATION_FOLLOW_UP left outer join EMPMAST on EMPMASTID=QUOTATION_FOLLOW_UP.FOLLOWED_BY WHERE QUO_ID='" + enqid + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

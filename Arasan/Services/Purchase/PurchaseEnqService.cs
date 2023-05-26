@@ -363,7 +363,7 @@ namespace Arasan.Services
         public DataTable GetFollowupDetail(string enqid)
         {
             string SvSql = string.Empty;
-            SvSql = "Select ENQUIRY_FOLLOW_UP.ENQ_ID,ENQUIRY_FOLLOW_UP.FOLLOWED_BY,to_char(ENQUIRY_FOLLOW_UP.FOLLOW_DATE,'dd-MON-yyyy')FOLLOW_DATE,to_char(ENQUIRY_FOLLOW_UP.NEXT_FOLLOW_DATE,'dd-MON-yyyy')NEXT_FOLLOW_DATE,ENQUIRY_FOLLOW_UP.REMARKS,ENQUIRY_FOLLOW_UP.FOLLOW_STATUS,ENQ_FOLLOW_ID from ENQUIRY_FOLLOW_UP   WHERE ENQ_ID='" + enqid + "'";
+            SvSql = "Select ENQUIRY_FOLLOW_UP.ENQ_ID,EMPMAST.EMPNAME,to_char(ENQUIRY_FOLLOW_UP.FOLLOW_DATE,'dd-MON-yyyy')FOLLOW_DATE,to_char(ENQUIRY_FOLLOW_UP.NEXT_FOLLOW_DATE,'dd-MON-yyyy')NEXT_FOLLOW_DATE,ENQUIRY_FOLLOW_UP.REMARKS,ENQUIRY_FOLLOW_UP.FOLLOW_STATUS,ENQ_FOLLOW_ID from ENQUIRY_FOLLOW_UP left outer join EMPMAST on EMPMASTID=ENQUIRY_FOLLOW_UP.FOLLOWED_BY  WHERE ENQ_ID='" + enqid + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
