@@ -40,6 +40,7 @@ namespace Arasan.Controllers.Store_Management
             MR.Branch = Request.Cookies["BranchId"];
             MR.Entered= Request.Cookies["UserId"];
             MR.Location= Request.Cookies["LocationName"];
+            MR.Storeid = storeid;
             MR.DocDa = DateTime.Now.ToString("dd-MMM-yyyy");
             List<MaterialRequistionItem> TData = new List<MaterialRequistionItem>();
             MaterialRequistionItem tda = new MaterialRequistionItem();
@@ -379,10 +380,11 @@ namespace Arasan.Controllers.Store_Management
                 MR.DocDa= dt.Rows[0]["DOCDATE"].ToString();
                 MR.WorkCenter = dt.Rows[0]["WCID"].ToString();
                 MR.Process = dt.Rows[0]["PROCESSNAME"].ToString();
-
+                MR.Storeid = storeid;
                 MR.RequestType = dt.Rows[0]["REQTYPE"].ToString();
                 MR.BranchId = dt.Rows[0]["BRANCHIDS"].ToString();
                 MR.LocationId= dt.Rows[0]["FROMLOCID"].ToString();
+                MR.ID = id;
             }
             List<MaterialRequistionItem> TData = new List<MaterialRequistionItem>();
             MaterialRequistionItem tda = new MaterialRequistionItem();
@@ -451,6 +453,7 @@ namespace Arasan.Controllers.Store_Management
                 MR.BranchId = dt.Rows[0]["BRANCHIDS"].ToString();
                 MR.LocationId = dt.Rows[0]["FROMLOCID"].ToString();
                 MR.MaterialReqId = id;
+                MR.Storeid = storeid;
             }
             List<MaterialRequistionItem> TData = new List<MaterialRequistionItem>();
             MaterialRequistionItem tda = new MaterialRequistionItem();
