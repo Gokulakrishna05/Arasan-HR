@@ -30,46 +30,43 @@ namespace Arasan.Controllers
             PaymentVoucher pv = new PaymentVoucher();
             var userId = Request.Cookies["UserId"];
             pv.Branch = Request.Cookies["BranchId"];
-             
+            DataTable dtv = datatrans.GetSequence("vchpr"); 
             pv.Brlst = BindBranch();
             pv.Loclst = GetLoc(userId);
             pv.Curlst = BindCurrency();
-            pv.Vdate = DateTime.Now.ToString("dd-MMM-yyyy");
+            
             List<VoucherItem> TData = new List<VoucherItem>();
             VoucherItem tda = new VoucherItem();
-
+            pv.Vdate = DateTime.Now.ToString("dd-MMM-yyyy");
+            pv.Currency = "1";
+            pv.ExRate = "1";
+            pv.PType = "CASH";
+            if(dtv.Rows.Count > 0)
+            {
+                pv.VoucherNo = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["LASTNO"].ToString();
+            }
             if (id == null)
             {
+               
                 //for (int i = 0; i < 3; i++)
                 //{
                 //    tda = new VoucherItem();
                 //    tda.Creditlst = BindCredit();
-                  
+
                 //    tda.Isvalid = "Y";
                 //    TData.Add(tda);
                 //}
-                
+
             }
             else
             {
-                for (int i = 0; i < 3; i++)
-                {
-                    tda = new VoucherItem();
-                    tda.Creditlst = BindCredit();
-
-                    tda.Isvalid = "Y";
-                    TData.Add(tda);
-                }
+                
                 DataTable dt = Voucher.EditVoucher(id);
                 if (dt.Rows.Count > 0)
                 {
                    
                     pv.Branch = dt.Rows[0]["BRANCHID"].ToString();
                     pv.ReqAmount = Convert.ToDouble(dt.Rows[0]["FINAL_AMOUNT"].ToString() == "" ? "0" : dt.Rows[0]["FINAL_AMOUNT"].ToString());
-
-
-
-
                 }
                 DataTable dt2 = new DataTable();
                 dt2 = Voucher.GetVoucherDet(id);
@@ -78,6 +75,8 @@ namespace Arasan.Controllers
                     for (int i = 0; i < dt2.Rows.Count; i++)
                     {
                         tda = new VoucherItem();
+                        tda.Creditlst = BindCredit();
+                        tda.Acclst = BindLedger();
                         //tda.DrumNolst = BindDrumNo(ca.DrumLoc);
                         tda.Credit = dt2.Rows[i]["ACCTYPE"].ToString();
                         tda.Account = dt2.Rows[i]["ACCNAME"].ToString();
@@ -93,6 +92,17 @@ namespace Arasan.Controllers
                         TData.Add(tda);
                     }
 
+                }
+                else
+                {
+                    for (int i = 0; i < 3; i++)
+                    {
+                        tda = new VoucherItem();
+                        tda.Creditlst = BindCredit();
+                        tda.Acclst = BindLedger();
+                        tda.Isvalid = "Y";
+                        TData.Add(tda);
+                    }
                 }
             }
             pv.VoucherLst=TData;
@@ -143,6 +153,23 @@ namespace Arasan.Controllers
                 lstdesg.Add(new SelectListItem() { Text = "Dr", Value = "Dr" });
                 lstdesg.Add(new SelectListItem() { Text = "Cr", Value = "Cr" });
 
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindLedger()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetLedger();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DISPLAY_NAME"].ToString(), Value = dtDesg.Rows[i]["LEDGERID"].ToString() });
+                }
                 return lstdesg;
             }
             catch (Exception ex)
@@ -201,11 +228,10 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public JsonResult GetTypeJSON()
+        public JsonResult GetAccountJSON()
         {
-            VoucherItem model = new VoucherItem();
-            model.Creditlst = BindCredit();
-            return Json(BindCredit());
+           
+            return Json(BindLedger());
 
         }
         public IActionResult ListPaymentVoucher()
