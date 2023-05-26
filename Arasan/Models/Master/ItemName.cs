@@ -16,8 +16,12 @@ namespace Arasan.Models
             this.Isglst = new List<SelectListItem>();
             this.Hsn =  new List<SelectListItem>();
             this.Bin = new List<SelectListItem>();
+            this.Ledgerlst = new List<SelectListItem>();
 
         }
+        public List<SelectListItem> Ledgerlst;
+
+        public string Ledger { get; set; }
         public List<SelectListItem> IgLst;
         public string ItemGroup { get; set; }
         public string ItemCategory { get; set; }

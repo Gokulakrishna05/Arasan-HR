@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
-namespace Arasan.Models 
+namespace Arasan.Models
 {
     public class Ledger
     {
         public Ledger()
         {
-            
+
             this.Typelst = new List<SelectListItem>();
+            this.AccGrouplst = new List<SelectListItem>();
 
         }
 
@@ -14,6 +15,7 @@ namespace Arasan.Models
 
         public List<SelectListItem> Typelst;
         public string AType { get; set; }
+        public List<SelectListItem> AccGrouplst;
         public string AccGroup { get; set; }
         public string DisplayName { get; set; }
 
