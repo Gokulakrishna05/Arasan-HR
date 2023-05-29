@@ -71,6 +71,20 @@ namespace Arasan.Controllers.Master
             IEnumerable<ItemGroup> itg = itemGroupService.GetAllItemGroup();
             return View(itg);
         }
+        public ActionResult DeleteMR(string tag, int id)
+        {
 
+            string flag = itemGroupService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListItemGroup");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListItemGroup");
+            }
+        }
     }
 }

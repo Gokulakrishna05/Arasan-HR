@@ -19,7 +19,10 @@ namespace Arasan.Controllers.Master
         public IActionResult HSNcode(string id)
         {
             HSNcode st = new HSNcode();
-           
+            st.CGstlst = BindCGst();
+            st.SGstlst = BindSGst();
+            st.IGstlst = BindIGst();
+            
 
             if (id == null)
             {
@@ -43,6 +46,7 @@ namespace Arasan.Controllers.Master
             }
             return View(st);
         }
+
 
         [HttpPost]
         public ActionResult HSNcode(HSNcode ss, string id)
@@ -80,6 +84,58 @@ namespace Arasan.Controllers.Master
             }
 
             return View(ss);
+        }
+
+        public List<SelectListItem> BindCGst()
+        {
+            try
+            {
+                DataTable dtDesg = HSNcodeService.GetCGst();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PERCENTAGE"].ToString(), Value = dtDesg.Rows[i]["TAXMASTID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindSGst()
+        {
+            try
+            {
+                DataTable dtDesg = HSNcodeService.GetSGst();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PERCENTAGE"].ToString(), Value = dtDesg.Rows[i]["TAXMASTID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindIGst()
+        {
+            try
+            {
+                DataTable dtDesg = HSNcodeService.GetIGst();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PERCENTAGE"].ToString(), Value = dtDesg.Rows[i]["TAXMASTID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public IActionResult ListHSNcode()
         {

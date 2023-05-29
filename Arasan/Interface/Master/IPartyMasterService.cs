@@ -16,6 +16,9 @@ namespace Arasan.Interface.Master
        DataTable GetParty(string id);
         DataTable GetCountryDetails(string id);
         DataTable GetPartyContact(string id);
+        string StatusChange(string tag, int id);
+
+
         //DataTable GetEmpEduDeatils(string data);
         //DataTable GetEmpPersonalDeatils(string id);
         //DataTable GetEmpSkillDeatils(string id);

@@ -75,7 +75,7 @@
                                         <br />     <label for="inputName3" class="col-sm-4 control-label">Voucher No<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
 
-                                            @Html.TextBoxFor(C => C.VoucherNo, new { @id = "txtVoucherNo", @class = "form-control", @TabIndex = 1   })
+                                            @Html.TextBoxFor(C => C.VoucherNo, new { @id = "txtVoucherNo", @class = "form-control", @TabIndex = 1 ,@readonly=true  })
                                             <br />
 
                                         </div>
@@ -116,7 +116,7 @@
                                     <div class="form-group">
 
 
-                                             <label for="inputName3" class="col-sm-4 control-label">VType<label class="Mandatory"></label></label>
+                                             <label for="inputName3" class="col-sm-4 control-label">Voucher Type<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
 
                                             @Html.TextBoxFor(C => C.VType, new { @id = "txtVType", @class = "form-control", @TabIndex = 1   })
@@ -183,7 +183,7 @@
                                     <div class="form-group">
 
 
-                                      <label for="inputName3" class="col-sm-4 control-label">Request Amount<label class="Mandatory"></label></label>
+                                      <label for="inputName3" class="col-sm-4 control-label">Requested Amount<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
 
                                             @Html.TextBoxFor(C => C.ReqAmount, new { @id = "txtReqAmount", @class = "form-control", @TabIndex = 1 ,@readonly="readonly"  })
@@ -192,7 +192,19 @@
                                         </div>
                                     </div>
                                 </div>
-                            
+                            <div class="col-md-6">
+                                    <div class="form-group">
+
+
+                                      <label for="inputName3" class="col-sm-4 control-label">Total Claim Amount<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+
+                                            @Html.TextBoxFor(C => C.ClaimAmount, new { @id = "txtClaimAmount", @class = "form-control", @TabIndex = 1 ,@readonly="readonly"  })
+                                            <br />
+
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div style="height:30px;"></div>
                             <div class="row">
@@ -223,25 +235,23 @@
                                                 int i = 0;
                                                 foreach (var item in Model.VoucherLst.ToList())
                                                 {
-                                                    <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                    <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
-                                                        <td>
-                                                            @Html.DropDownListFor(o => o.VoucherLst[i].Credit, Model.VoucherLst[i].Creditlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlCredit" + i, style = "width: 100px;" })
+                                                                        <td>
+                                                                            @Html.DropDownListFor(o => o.VoucherLst[i].Credit, Model.VoucherLst[i].Creditlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlCredit" + i, style = "width: 100px;",@onchange="changeentry(this.value," + i + ")" })
+                                                                        </td>
+                                                                        <td>@Html.DropDownListFor(o => o.VoucherLst[i].Account, Model.VoucherLst[i].Acclst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlAccount" + i, style = "width: 250px;" })
+                                                                        </td>
+                                                                        <td> @Html.TextBoxFor(o => o.VoucherLst[i].DepitAmount, new { @id = "txtDepitAmount" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right" , @onkeyup = "changeDeAmount(this," + i + ")" })</td>
 
-                                                        </td>
-
-
-                                                        <td>@Html.TextBoxFor(o => o.VoucherLst[i].Account, new { @id = "txtAccount" + i, @class = "form-control", style = "width: 200px;" })</td>
-                                                        <td> @Html.TextBoxFor(o => o.VoucherLst[i].DepitAmount, new { @id = "txtDepitAmount" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right" , @onkeyup = "changeDeAmount(this," + i + ")" })</td>
-
-                                                        <td>@Html.TextBoxFor(o => o.VoucherLst[i].CreditAmount, new { @id = "txtCreditAmount" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeCrAmount(this," + i + ")"})</td>
-                                                        <td>
-                                                            @Html.HiddenFor(o => o.VoucherLst[i].Isvalid, new { @id = "Isvalid" + i })
-                                                            <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="MRlst.Index" type="hidden" value="@(i)" />
-                                                        </td>
+                                                                        <td>@Html.TextBoxFor(o => o.VoucherLst[i].CreditAmount, new { @id = "txtCreditAmount" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeCrAmount(this," + i + ")"})</td>
+                                                                        <td>
+                                                                            @Html.HiddenFor(o => o.VoucherLst[i].Isvalid, new { @id = "Isvalid" + i })
+                                                                            <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="MRlst.Index" type="hidden" value="@(i)" />
+                                                                        </td>
 
 
-                                                    </tr>
+                                                                    </tr>
 
                                                     i = i + 1;
                                                 }
@@ -325,6 +335,11 @@
                 j += 1;
             });
             document.getElementById("txtTotalDeAmount").value = tot.toFixed(2);
+            var dtot = document.getElementById("txtTotalCrAmount").value;
+            if (dtot == "")
+                        dtot = 0;
+              var totclaim = eval(tot) - eval(dtot);
+        document.getElementById("txtClaimAmount").value=totclaim.toFixed(2);
         }
         catch (ex) {
             alert(ex.message);
@@ -347,6 +362,11 @@
                 j += 1;
             });
             document.getElementById("txtTotalCrAmount").value = tot.toFixed(2);
+             var dtot = document.getElementById("txtTotalDeAmount").value;
+            if (dtot == "")
+                        dtot = 0;
+              var totclaim = eval(dtot) - eval(tot);
+ document.getElementById("txtClaimAmount").value=totclaim.toFixed(2);
         }
         catch (ex) {
             alert(ex.message);
@@ -476,6 +496,20 @@
                     "background": ""
                 });
             }
+           
+            var reqamt = document.getElementById("txtReqAmount").value;
+            var claimamt=document.getElementById("txtClaimAmount").value;
+            
+             if (eval(reqamt)!= eval(claimamt)) {
+                        alert("Requested Amount and Calim amount does not match.");
+
+                         $(txtClaimAmount).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                        return false;
+                    }
 
         });
 
@@ -498,7 +532,7 @@
         var opt = "";
         $.ajax({
             type: "POST",
-            url: 'GetTypeJSON',
+            url: 'GetAccountJSON',
             success: function (data) {
 
                 $.each(data, function () {
@@ -510,20 +544,12 @@
     }
       function AppendRow(opt) {
         var index = $("#tbBooks").children("tr").length;
-
-        var Type = "<td><select style = 'width: 100px;' class='form-control _select newcss' id='ddlCredit" + index + "' name='VoucherLst[" + index + "].Credit' ><option value=''>Please select</option><option value='Dr'>Dr</option><option value='Cr'>Cr</option></select></td>";
-
-
-
-        var Account = "<td><input class='form-control' id='txtAccount" + index + "' name='VoucherLst[" + index + "].Account'  style='width: 200px;' type='text'   /></td>";
-        var depit = "<td><input class='form-control' id='txtDepitAmount" + index + "' name='VoucherLst[" + index + "].DepitAmount'  style='width: 100px;' type='text'  onkeydown = 'return isNumeric2(event.keyCode,this.value)'  /></td>";
-
-        var credit = "<td><input class='form-control' id='txtVoucherLst" + index + "' name='VoucherLst[" + index + "].VoucherLst'  style='width: 100px;' type='text' onkeydown = 'return isNumeric2(event.keyCode,this.value)'   /></td>";
-       
-    
+        var Type = "<td><select style = 'width: 100px;' class='form-control _select newcss' id='ddlCredit" + index + "' name='VoucherLst[" + index + "].Credit' onchange='changeentry(this.value," + index + ")'><option value=''>Please select</option><option value='Dr'>Dr</option><option value='Cr'>Cr</option></select></td>";
+        var Account = "<td><select style = 'width: 250px;' class='form-control _select newcss' id='ddlAccount" + index + "' name='VoucherLst[" + index + "].Account' >"+ opt +"</select></td>";
+        var depit = "<td><input class='form-control' id='txtDepitAmount" + index + "' name='VoucherLst[" + index + "].DepitAmount'  style='width: 100px;text-align:right' type='text'  onkeydown = 'return isNumeric2(event.keyCode,this.value)' value='0' /></td>";
+        var credit = "<td><input class='form-control' id='txtCreditAmount" + index + "' name='VoucherLst[" + index + "].VoucherLst'  style='width: 100px;text-align:right' type='text' onkeydown = 'return isNumeric2(event.keyCode,this.value)'  value='0' /></td>";
 
         var removeCell = "<td><input id='Isvalid" + index + "' name='VoucherLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='DrumDetlst.Index' type='hidden' value='" + index + "'  /></td>";
-
 
         var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Type + Account + depit + credit + removeCell + "</tr>";
         //alert(Packing);
@@ -562,30 +588,32 @@
             j += 1;
         });
         document.getElementById("txtTotalDeAmount").value = tot.toFixed(2);
-        var j = 0;
-        var qty = 0;
-        var tot = 0;
+        var k = 0;
+        var cqty = 0;
+        var dtot = 0;
         $('tr.chkitemlst').each(function () {
             if ($(this).css('display') !== 'none') {
-                qty = $(this).find('#txtCreditAmount' + j.toString()).val();
-                if (qty == "")
-                    qty = 0;
+                cqty = $(this).find('#txtCreditAmount' + k.toString()).val();
+                if (cqty == "")
+                    cqty = 0;
 
-                tot += eval(qty);
+                dtot += eval(cqty);
             }
-            j += 1;
+            k += 1;
         });
-        document.getElementById("txtTotalCrAmount").value = tot.toFixed(2);
+        document.getElementById("txtTotalCrAmount").value = dtot.toFixed(2);
+        var totclaim = eval(tot) - eval(dtot);
+        document.getElementById("txtClaimAmount").value=totclaim.toFixed(2);
     }
-    //function changeentry(typeid) {
-    //    if (typeid == "Dr") {
-
-    //        document.getElementById("txtDepitAmount").readOnly = true;
-    //    }
+    function changeentry(typeid,i) {
+        if (typeid == "Dr") {
+            document.getElementById("txtCreditAmount" + i).readOnly = true;
+            document.getElementById("txtDepitAmount" + i).readOnly = false;
+        }
         
-    //    else {
-
-    //        document.getElementById("txtCreditAmount").readOnly = true;
-    //    }
-    //}
+        else {
+            document.getElementById("txtDepitAmount" + i).readOnly = true;
+            document.getElementById("txtCreditAmount" + i).readOnly = false;
+        }
+    }
 </script>

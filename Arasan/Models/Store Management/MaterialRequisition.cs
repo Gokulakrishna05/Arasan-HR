@@ -40,6 +40,7 @@ namespace Arasan.Models
         public List<SelectListItem> Processlst;
         public List<MaterialRequistionItem> MRlst { get; set; }
         public List<SelectListItem> assignList;
+        public string Storeid { get; set; }
     }
 
 
