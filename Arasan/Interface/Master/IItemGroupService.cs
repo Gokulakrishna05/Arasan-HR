@@ -8,6 +8,6 @@ namespace Arasan.Interface.Master
         string ItemGroupCRUD(ItemGroup by);
         IEnumerable<ItemGroup> GetAllItemGroup();
         ItemGroup GetItemGroupById(string id);
-
+        string StatusChange(string tag, int id);
     }
 }

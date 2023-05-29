@@ -12,6 +12,10 @@ namespace Arasan.Interface.Master
         IEnumerable<HSNcode> GetAllHSNcode();
         HSNcode GetHSNcodeById(string id);
 
+        DataTable GetCGst();
+        DataTable GetSGst();
+        DataTable GetIGst();
+
         DataTable GetHSNcode(string id);
         string StatusChange(string tag, int id);
 

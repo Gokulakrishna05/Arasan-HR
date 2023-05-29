@@ -228,7 +228,7 @@
 
                                                 <label for="inputName3" class="col-sm-4 control-label"> EMP Deptment<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                         @Html.TextBoxFor(C => C.EMPDeptment, new { @id = "EMPDeptment ", @class = "form-control", @TabIndex = 12})<br />
+                                                        @Html.TextBoxFor(C => C.EMPDeptment, new { @id = "EMPDeptment ", @class = "form-control", @TabIndex = 12,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
 
                                     </div>
 
@@ -399,7 +399,7 @@
 
                                                 <label for="inputName3" class="col-sm-4 control-label"> EMP Pay Category <label class="Mandatory"></label></label>
                                              <div class="col-sm-8">
-                                                    @Html.TextBoxFor(C => C.EMPPayCategory, new { @id = "EMPPayCategory ", @class = "form-control", @TabIndex = 12})<br />
+                                                    @Html.TextBoxFor(C => C.EMPPayCategory, new { @id = "EMPPayCategory ", @class = "form-control", @TabIndex = 12 ,onkeydown = "return isNumeric2(event.keyCode,this.value)" })<br />
 
                                                 </div>
 
@@ -410,7 +410,7 @@
 
                                                 <label for="inputName3" class="col-sm-4 control-label">EMP Basic<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                    @Html.TextBoxFor(C => C.EMPBasic, new { @id = "EMPBasic ", @class = "form-control", @TabIndex = 13})<br />
+                                                    @Html.TextBoxFor(C => C.EMPBasic, new { @id = "EMPBasic ", @class = "form-control", @TabIndex = 13,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
 
 
                                                 </div>
@@ -481,7 +481,7 @@
 
                                                 <label for="inputName3" class="col-sm-4 control-label"> EMP Cost<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                    @Html.TextBoxFor(C => C.EMPCost, new { @id = "EMPCost ", @class = "form-control", @TabIndex = 14})<br />
+                                                        @Html.TextBoxFor(C => C.EMPCost, new { @id = "EMPCost ", @class = "form-control", @TabIndex = 14 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
 
                                                 </div>
 

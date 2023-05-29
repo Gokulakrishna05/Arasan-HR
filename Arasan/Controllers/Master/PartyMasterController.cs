@@ -270,5 +270,21 @@ namespace Arasan.Controllers.Master
                 throw ex;
             }
         }
+
+        public ActionResult DeleteMR(string tag, int id)
+        {
+
+            string flag = PartyMasterService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListParty");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListParty");
+            }
+        }
     }
 }

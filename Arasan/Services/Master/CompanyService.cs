@@ -94,9 +94,9 @@ namespace Arasan.Services.Master
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                     }
                     
-                    objCmd.Parameters.Add("Company", OracleDbType.NVarchar2).Value = cy.CompanyId;
-                    objCmd.Parameters.Add("CompanyName", OracleDbType.NVarchar2).Value = cy.CompanyName;
-                    objCmd.Parameters.Add("Status", OracleDbType.NVarchar2).Value = "ACTIVE";
+                    objCmd.Parameters.Add("COMPANYID", OracleDbType.NVarchar2).Value = cy.CompanyId;
+                    objCmd.Parameters.Add("COMPANYDESC", OracleDbType.NVarchar2).Value = cy.CompanyName;
+                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     try
                     {

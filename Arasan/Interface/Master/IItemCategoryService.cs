@@ -9,5 +9,6 @@ namespace Arasan.Interface.Master
         string CategoryCRUD(ItemCategory iy);
         IEnumerable<ItemCategory> GetAllItemCategory();
         ItemCategory GetCategoryById(string id);
+        string StatusChange(string tag, int id);
     }
 }
