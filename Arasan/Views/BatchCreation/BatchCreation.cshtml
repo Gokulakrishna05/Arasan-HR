@@ -54,7 +54,7 @@
                                         <label for="inputName3" class="col-sm-4 control-label">Work Center<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
 
-                                            @Html.DropDownListFor(C => C.WorkCenter, Model.Worklst," -- Please Select -- ", new { @id = "ddlWorkCenter", @Class = "form-control _select", @TabIndex = 1, @onchange = "changeProcess(this.value)" })
+                                            @Html.DropDownListFor(C => C.WorkCenter, Model.Worklst," -- Please Select -- ", new { @id = "ddlWorkCenter", @Class = "form-control _select", @TabIndex = 1 })
 <br />
                                         </div>
                                     </div>
@@ -68,7 +68,7 @@
 
                                   <br/>  <label for="inputName3" class="col-sm-4 control-label">Process ID<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                 @Html.DropDownListFor(C => C.Process, Model.Processlst, new { @id = "ddlProcess", @Class = "form-control _select", @TabIndex = 1 })
+                                 @Html.DropDownListFor(C => C.Process, Model.Processlst," -- Please Select -- ", new { @id = "ddlProcess", @Class = "form-control _select", @TabIndex = 1 })
 <br />
                                           @Html.HiddenFor(C => C.ID)
 
@@ -180,7 +180,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Prod.Sch.No<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Prod, Model.Prodlst, new { @id = "ddlProd", @Class = "form-control _select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.Prod, Model.Prodlst," -- Please Select -- ", new { @id = "ddlProd", @Class = "form-control _select", @TabIndex = 1 })
 <br />
 
                                     </div>
@@ -291,6 +291,7 @@
                                                                                 </td>
                                                                                 <td>
                                                                                     @Html.TextBoxFor(o => o.BatchLst[i].Req, new { @id = "txtReq" + i, @class = "form-control", style = "width: 120px;" })
+                                                                                @Html.HiddenFor(o => o.BatchLst[i].Isvalid)
                                                                                 </td>
                                                                                
                                                                                 <td>
@@ -360,7 +361,7 @@
                                                                                 </td>
                                                                                
                                                                                 <td>
-                                                                                    @Html.HiddenFor(o => o.BatchInLst[j].Isvalid, new { @id = "Isvalid" + j })
+                                                                                    @Html.HiddenFor(o => o.BatchInLst[j].Isvalid, new { @id = "IsInvalid" + j })
                                                                                     <img onclick="removeRow1(@(j));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(j)" />
                                                                                 </td>
                                                                             </tr>
@@ -565,7 +566,7 @@
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="btn-group">
-                                                            <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" /></p>
+                                                            <p style="float:right;"> <input type="button" value="Add Row" onclick="AddParamRow()" class="btn sbold green" /></p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -587,7 +588,7 @@
 
                                                                             </tr>
                                                                         </thead>
-                                                                          <tbody id="tbBooks">
+                                                                          <tbody id="tbBooksParm">
 
                                                                 @{
 
@@ -630,7 +631,7 @@
                                                                                 
                                                                                
                                                                                 <td>
-                                                                                    @Html.HiddenFor(o => o.BatchOtherLst[a].Isvalid, new { @id = "IsParamvalid" + a })
+                                                                                @Html.HiddenFor(o => o.BatchOtherLst[a].Isvalid, new { @id = "IsParmvalid" + a })
                                                                                     <img onclick="removeRowParam(@(a));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(a)" />
                                                                                 </td>
                                                                             </tr>
@@ -803,6 +804,7 @@
     }
      function AddRow1() {
         var opt = "";
+        var it="";
         $.ajax({
             type: "POST",
             url: 'GetProcessidJSON',
@@ -811,12 +813,22 @@
                 $.each(data, function () {
                     opt += "<option value=" + this.value + ">" + this.text + "</option>";
                 });
-                AppendRow1(opt);
+                  $.ajax({
+                            type: "POST",
+                            url: 'GetItemidJSON',
+                            success: function (data) {
+                                $.each(data, function () {
+                                    it += "<option value=" + this.value + ">" + this.text + "</option>";
+                                });
+                                AppendRow1(opt, it);
+                    }
+                })
             }
         })
     }
     function AddoutRow() {
         var opt = "";
+        var it = "";
             $.ajax({
             type: "POST",
             url: 'GetProcessidJSON',
@@ -824,9 +836,17 @@
                 $.each(data, function () {
                     opt += "<option value=" + this.value + ">" + this.text + "</option>";
                 });
-
+                  $.ajax({
+                            type: "POST",
+                            url: 'GetItemidJSON',
+                            success: function (data) {
+                                $.each(data, function () {
+                                    it += "<option value=" + this.value + ">" + this.text + "</option>";
+                                });
                
-                        AppendOutRow(opt );
+                        AppendOutRow(opt,it);
+                          }
+                })
                     }
                           
         })
@@ -862,7 +882,7 @@
         });
         if (j > 1) {
             row.style.display = "none";
-            document.getElementById('IsOutvalid' + id).value = "N";
+            document.getElementById('IsInvalid' + id).value = "N";
         }
         else {
             alert("Cannot delete all the rows.")
@@ -916,7 +936,7 @@
         });
         if (j > 1) {
             row.style.display = "none";
-            document.getElementById('IsParamvalid' + id).value = "N";
+            document.getElementById('IsParmvalid' + id).value = "N";
         }
         else {
             alert("Cannot delete all the rows.")
@@ -937,13 +957,13 @@
             $('._select').select2();
         });
     }
-     function AppendRow1(opt) {
+    function AppendRow1(opt, it) {
         var index = $("#tbBooks1").children("tr").length;
         var Process = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlProcess" + index + "' name='BatchInLst[" + index + "].Process' ><option value=''>Please select</option>" + opt + "</select></td>";
-        var Item = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItem" + index + "' name='Itemlst[" + index + "].Item' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option></select></td>";
+        var Item = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItem" + index + "' name='BatchInLst[" + index + "].Item' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option>"+ it +"</select></td>";
         var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='BatchLst[" + index + "].Unit'  style='width: 120px;' type='text' ReadOnly='readonly'  /></td>";
         var qty = "<td><input class='form-control' id='txtqty" + index + "' name='BatchLst[" + index + "].qty'  style='width: 120px;' type='text' onkeydown = 'return isNumeric2(event.keyCode,this.value)' /></td>";
-        var removeCell = "<td><input id='Isvalid" + index + "' name='Itemlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow1(" + index + ");'  style='cursor:pointer' /><input name='BatchInLst.Index' type='hidden' value='" + index + "'  /></td>";
+        var removeCell = "<td><input id='IsInvalid" + index + "' name='Itemlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow1(" + index + ");'  style='cursor:pointer' /><input name='BatchInLst.Index' type='hidden' value='" + index + "'  /></td>";
         var newRow = "<tr class='chkitemlst1'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook1" + index + "'>" + Process + Item + Unit + qty  + removeCell + "</tr>";
         //alert(Packing);
         $("#tbBooks1").append(newRow);
@@ -953,10 +973,10 @@
     }
 
 
-    function AppendOutRow(opt) {
+    function AppendOutRow(opt,it) {
         var index = $("#tbBooksout").children("tr").length;
         var Process = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlOProcess" + index + "' name='BatchOutLst[" + index + "].OProcess' ><option value=''>Please select</option>" + opt + "</select></td>";
-        var Item = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlOItem" + index + "' name='OItemlst[" + index + "].OItem' onchange = 'changeOutItem(this.value," + index + ")'><option value=''>Please select</option></select></td>";
+        var Item = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlOItem" + index + "' name='BatchOutLst[" + index + "].OItem' onchange = 'changeOutItem(this.value," + index + ")'><option value=''>Please select</option>" + it +"</select></td>";
 
         var Unit = "<td><input class='form-control' id='txtOUnit" + index + "' name='BatchOutLst[" + index + "].OUnit'  style='width: 120px;' type='text'   ReadOnly='readonly' /></td>";
         var Type = "<td><input class='form-control' id='txtOutType" + index + "' name='BatchOutLst[" + index + "].OutType'  style='width: 120px;' type='text'   /></td>";
@@ -965,13 +985,8 @@
         var Vm = "<td><input class='form-control' id='txtVmper" + index + "' name='BatchOutLst[" + index + "].Vmper'  style='width: 120px;' type='text' onkeydown = 'return isNumeric2(event.keyCode,this.value)' /></td>";
 
         var Grase = "<td><input class='form-control' id='txtGreas" + index + "' name='BatchOutLst[" + index + "].Greas'  style='width: 120px;' type='text'onkeydown = 'return isNumeric2(event.keyCode, this.value)'  /></td>";
-        var removeCell = "<td><input id='Isvalid" + index + "' name='OItemlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow2(" + index + ");'  style='cursor:pointer' /><input name='BatchInLst.Index' type='hidden' value='" + index + "'  /></td>";
-
-
-        var newRow = "<tr class='chkitemlst2'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook2" + index + "'>" + Process + Item + Unit + Type + qty + Waste+ Vm + Grase + removeCell + "</tr>";
-
-        var Grase = "<td><input class='form-control' id='txtGreas" + index + "' name='BatchOutLst[" + index + "].Greas'  style='width: 120px;' type='text' onkeydown = 'return isNumeric2(event.keyCode,this.value)'  /></td>";
-        var removeCell = "<td><input id='IsOutvalid" + index + "' name='OItemlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeOutRow(" + index + ");'  style='cursor:pointer' /><input name='BatchInLst.Index' type='hidden' value='" + index + "'  /></td>";
+ 
+         var removeCell = "<td><input id='IsOutvalid" + index + "' name='OItemlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeOutRow(" + index + ");'  style='cursor:pointer' /><input name='BatchInLst.Index' type='hidden' value='" + index + "'  /></td>";
         var newRow = "<tr class='chkitemlstout'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookout" + index + "'>" + Process + Item + Unit + Type + qty + Waste + Vm + Grase + removeCell + "</tr>";
 
         //alert(Packing);
@@ -984,87 +999,7 @@
     $(document).ready(function () {
         $('#btnSave').click(function (e) {
             var isValid = true;
-            if (document.getElementById("DocDate").value == "") {
-                isValid = false;
-                $(DocDate).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Select  Date");
-                return false;
-            }
-            else {
-                $(DocDate).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-            if (document.getElementById("txtBatchNo").value == "") {
-                isValid = false;
-                $(txtBatchNo).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Select Batch Number");
-                return false;
-            }
-            else {
-                $(txtBatchNo).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-             if (document.getElementById("txtIOFrom").value == "") {
-                isValid = false;
-                $(txtIOFrom).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Select  IOFrom");
-                return false;
-            }
-            else {
-                $(txtIOFrom).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-            if (document.getElementById("txtIOTo").value == "") {
-                isValid = false;
-                $(txtIOTo).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Select IOTo");
-                return false;
-            }
-            else {
-                $(txtIOTo).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-            if (document.getElementById("txtMTO").value == "") {
-                isValid = false;
-                $(txtMTO).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Select MTO");
-                return false;
-            }
-            else {
-                $(txtMTO).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-            if (document.getElementById("ddlBranch").value == "" || document.getElementById("ddlBranch").value == 0) {
+              if (document.getElementById("ddlBranch").value == "" || document.getElementById("ddlBranch").value == 0) {
                 isValid = false;
                 $(ddlBranch ).css({
                     "border": "1px solid red",
@@ -1096,49 +1031,193 @@
                     "background": ""
                 });
             }
+            if (document.getElementById("DocDate").value == "") {
+                isValid = false;
+                $(DocDate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select  Date");
+                return false;
+            }
+            else {
+                $(DocDate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtBatchNo").value == "") {
+                isValid = false;
+                $(txtBatchNo).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Batch Number");
+                return false;
+            }
+            else {
+                $(txtBatchNo).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+             if (document.getElementById("txtIOFrom").value == "") {
+                isValid = false;
+                $(txtIOFrom).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter  IOFrom");
+                return false;
+            }
+            else {
+                $(txtIOFrom).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtIOTo").value == "") {
+                isValid = false;
+                $(txtIOTo).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter IOTo");
+                return false;
+            }
+            else {
+                $(txtIOTo).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtMTO").value == "") {
+                isValid = false;
+                $(txtMTO).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter MTO");
+                return false;
+            }
+            else {
+                $(txtMTO).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+          
           
             if (isValid == false)
                 e.preventDefault();
         });
 
     });
-    function AddotherRow() {
+  function AddotherRow() {
         var opt = "";
-        $.ajax({
+            $.ajax({
             type: "POST",
-            url: 'GetItemGrpJSON',
+            url: 'GetProcessidJSON',
             success: function (data) {
                 $.each(data, function () {
                     opt += "<option value=" + this.value + ">" + this.text + "</option>";
                 });
-                AppendotherRow(opt);
-            }
 
+               
+                        AppendotherRow(opt );
+                    }
+                          
         })
     }
     function AppendotherRow(opt) {
         var index = $("#tbBooksOther").children("tr").length;
         var Process = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlOtProcessId" + index + "' name='BatchOtherLst[" + index + "].OtProcessId' ><option value=''>Please select</option>" + opt + "</select></td>";
-        var seq = "<td><input class='form-control' id='txtSeqe" + index + "' name='BatchOtherLst[" + index + "].Seqe'  style='width: 120px;' type='text'onkeydown = 'return isNumeric2(event.keyCode,this.value)'  /></td>";
-        var start = "<td><div class="input-group date form_date col - sm - 8" data-date="" data-date-format="dd - M - yyyy">
-                         <input class='form-control' id = 'txtStart" + index + "' name = 'BatchOtherLst[" + index + "].Start'  style = 'width: 120px;' type = 'text' ReadOnly='readonly'/>
-                         <span class="input-group-addon" > <span class="glyphicon glyphicon-remove" > </span></span > <span class="input-group-addon" > <span class="glyphicon glyphicon-calendar" > </span></span >
-                         </div></td > ";
-        var starttime = "<td><input class='form-control' id='txtStartT" + index + "' name='BatchOtherLst[" + index + "].StartT'  style='width: 120px;' type='time'    /></td>";
-        var end = "<td><div class="input-group date form_date col - sm - 8" data-date="" data-date-format="dd - M - yyyy">
-                       <input class='form-control' id='txtEnd" + index + "' name='BatchOtherLst[" + index + "].End'  style='width: 120px;' type='text'  ReadOnly='readonly' />
-                       <span class="input-group-addon" > <span class="glyphicon glyphicon-remove" > </span></span > <span class="input-group-addon" > <span class="glyphicon glyphicon-calendar" > </span></span ></div></td>";
-        var endtime = "<td><input class='form-control' id='txtEndT" + index + "' name='BatchOtherLst[" + index + "].EndT'  style='width: 120px;' type='time'  /></td>";      
-        var total = "<td><input class='form-control' id='txtTotal" + index + "' name='BatchOtherLst[" + index + "].Total'  style='width: 120px;' type='text' onkeydown = 'return isNumeric2(event.keyCode,this.value)'  /></td>";    
-        var break = "<td><input class='form-control' id='txtBreak" + index + "' name='BatchOtherLst[" + index + "].Break'  style='width: 120px;' type='text' onkeydown = 'return isNumeric2(event.keyCode,this.value)' /></td>";
-        var run = "<td><input class='form-control' id='txtRunHrs" + index + "' name='BatchOtherLst[" + index + "].RunHrs'  style='width: 120px;' type='text' onkeydown = 'return isNumeric2(event.keyCode,this.value)'/></td>";
-        var remark = "<td><input class='form-control' id='txtRemark" + index + "' name='BatchOtherLst[" + index + "].Remark'  style='width: 120px;' type='text'  /></td>";
+        var seq = "<td><input class='form-control' id='txtSeqe" + index + "' name='BatchOtherLst[" + index + "].Seqe'  style='width: 120px;' type='text'   onkeydown = 'return isNumeric2(event.keyCode,this.value)'  /></td>";
+
+        var start = "<td><div class='input-group date form_date col-sm-8'  data-date-format='dd-M-yyyy'><input class='form-control' id='txtStart" + index + "' name='BatchOtherLst[" + index + "].Start'  style='width: 120px;' type='text'   ReadOnly='readonly' /><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div></td>";
+        var sttime = "<td><input class='form-control' id='txtStartT" + index + "' name='BatchOtherLst[" + index + "].StartT'  style='width: 120px;' type='time'   /></td>";
+        var end = "<td><div class='input-group date form_date col-sm-8'  data-date-format='dd-M-yyyy'><input class='form-control' id='txtEnd" + index + "' name='BatchOtherLst[" + index + "].End'  style='width: 120px;' type='text'  ReadOnly='readonly' /><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div></td>";
+        var endtime = "<td><input class='form-control' id='txtEndT" + index + "' name='BatchOtherLst[" + index + "].EndT'  style='width: 120px;' type='Time'   /></td>";
+        var tot = "<td><input class='form-control' id='txtTotal" + index + "' name='BatchOtherLst[" + index + "].Total'  style='width: 120px;' type='text'  onkeydown = 'return isNumeric2(event.keyCode,this.value)' /></td>";
+
+        var breakHr = "<td><input class='form-control' id='txtBreak" + index + "' name='BatchOtherLst[" + index + "].Break'  style='width: 120px;' type='text' onkeydown = 'return isNumeric2(event.keyCode, this.value)'  /></td>";
+
+        var run = "<td><input class='form-control' id='txtRunHrs" + index + "' name='BatchOtherLst[" + index + "].RunHrs'  style='width: 120px;' type='text' onkeydown = 'return isNumeric2(event.keyCode, this.value)'  /></td>";
+        var remark = "<td><input class='form-control' id='txtRemark" + index + "' name='BatchOtherLst[" + index + "].Remark'  style='width: 120px;' type='text'/></td>";
+
+
         var removeCell = "<td><input id='IsOthervalid" + index + "' name='OProcessidlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeOtherRow(" + index + ");'  style='cursor:pointer' /><input name='BatchOtherLst.Index' type='hidden' value='" + index + "'  /></td>";
-        var newRow = "<tr class='chkitemlstOther'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookOther" + index + "'>" + Process + seq + start + starttime + end + endtime + total + break + run + remark + removeCell + "</tr>";
+        var newRow = "<tr class='chkitemlstOther'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookOther" + index + "'>" + Process + seq + start + sttime + end + endtime + tot + breakHr + run + remark + removeCell + "</tr>";
+
         //alert(Packing);
         $("#tbBooksOther").append(newRow);
-         $(function() {
+        $(function () {
             $('._select').select2();
         });
+        $('.form_date').datetimepicker({
+            //   language:  'fr',
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0
+        });
     }
+   
+    function AddParamRow() {
+        var opt = "";
+        $.ajax({
+            type: "POST",
+            url: 'GetParamJSON',
+            success: function (data) {
+                $.each(data, function () {
+                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
+                });
+
+
+                AppendParamRow(opt);
+            }
+
+        })
+    }
+     function AppendParamRow(opt) {
+        var index = $("#tbBooksParm").children("tr").length;
+         var Param = "<td><input class='form-control' id='txtParam" + index + "' name='BatchParemLst[" + index + "].Param'  style='width: 120px;' type='text'   onkeydown = 'return isNumeric2(event.keyCode,this.value)'  /></td>";
+        var unit = "<td><input class='form-control' id='txtPUnit" + index + "' name='BatchParemLst[" + index + "].PUnit'  style='width: 120px;' type='text'      /></td>";
+
+        var start = "<td><div class='input-group date form_date col-sm-8'  data-date-format='dd-M-yyyy'><input class='form-control' id='txtStartDate" + index + "' name='BatchParemLst[" + index + "].StartDate'  style='width: 120px;' type='text'   ReadOnly='readonly' /><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div></td>";
+        var sttime = "<td><input class='form-control' id='txtStartTime" + index + "' name='BatchParemLst[" + index + "].StartTime'  style='width: 120px;' type='time'   /></td>";
+        var end = "<td><div class='input-group date form_date col-sm-8'  data-date-format='dd-M-yyyy'><input class='form-control' id='txtEndDate" + index + "' name='BatchParemLst[" + index + "].EndDate'  style='width: 120px;' type='text'  ReadOnly='readonly' /><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div></td>";
+        var endtime = "<td><input class='form-control' id='txtEndTime" + index + "' name='BatchParemLst[" + index + "].EndTime'  style='width: 120px;' type='Time'   /></td>";
+        var value = "<td><input class='form-control' id='txtValue" + index + "' name='BatchParemLst[" + index + "].Value'  style='width: 120px;' type='text'    /></td>";
+
+       
+
+        var removeCell = "<td><input id='IsParmvalid" + index + "' name='OProcessidlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRowParam(" + index + ");'  style='cursor:pointer' /><input name='BatchOtherLst.Index' type='hidden' value='" + index + "'  /></td>";
+        var newRow = "<tr class='chkitemlstParam'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookParam" + index + "'>" + Param + unit + start + sttime + end + endtime + value + removeCell + "</tr>";
+
+        //alert(Packing);
+        $("#tbBooksParm").append(newRow);
+        $(function () {
+            $('._select').select2();
+        });
+        $('.form_date').datetimepicker({
+            //   language:  'fr',
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0
+        });
+    }
+    
 </script>
