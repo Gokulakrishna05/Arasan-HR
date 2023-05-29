@@ -541,9 +541,18 @@ namespace Arasan.Services
                     {
                         if (cp.Isvalid == "Y" && cp.ItemId != "0")
                         {
-                            svSQL = "Insert into STORESREQDETAIL (STORESREQBASICID,ITEMID,UNIT,QTY,STOCK,NARR) VALUES ('" + reqid + "','" + cp.ItemId + "','" + cp.UnitID + "','" + cp.ReqQty + "','" + cp.ClosingStock + "','" + cy.Narration + "')";
-                            OracleCommand objCmds = new OracleCommand(svSQL, objConn);
-                            objCmds.ExecuteNonQuery();
+                            if (cy.ID == null)
+                            {
+                                svSQL = "Insert into STORESREQDETAIL (STORESREQBASICID,ITEMID,UNIT,QTY,STOCK,NARR) VALUES ('" + reqid + "','" + cp.ItemId + "','" + cp.UnitID + "','" + cp.ReqQty + "','" + cp.ClosingStock + "','" + cy.Narration + "')";
+                                OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                objCmds.ExecuteNonQuery();
+                            }
+                            else
+                            {
+                                svSQL = "Update STORESREQDETAIL SET  ITEMID= '" + cp.ItemId + "',UNIT= '" + cp.UnitID + "',QTY='" + cp.ReqQty + "',STOCK='" + cp.ClosingStock + "',NARR='" + cp.Narration + "'  where STORESREQBASICID='" + cy.ID + "'  ";
+                                OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                objCmds.ExecuteNonQuery();
+                            }
                         }
                     }
 

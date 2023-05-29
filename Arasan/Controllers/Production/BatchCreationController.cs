@@ -59,7 +59,7 @@ namespace Arasan.Controllers
                 {
                     tda1 = new BatchInItem();
                     tda1.IProcesslst = BindProcessid();
-                    tda1.Itemlst = BindItemlst("");
+                    tda1.Itemlst = BindItemlst();
                     tda1.Isvalid = "Y";
                     TData1.Add(tda1);
                 }
@@ -67,7 +67,7 @@ namespace Arasan.Controllers
                 {
                     tda2 = new BatchOutItem();
                     tda2.OProcesslst = BindProcessid();
-                    tda2.OItemlst = BindItemlst("");
+                    tda2.OItemlst = BindItemlst();
                     tda2.Isvalid = "Y";
                     TData2.Add(tda2);
                 }
@@ -132,6 +132,7 @@ namespace Arasan.Controllers
                         tda.Req = dt2.Rows[i]["INSREQ"].ToString();
                         tda.ID = id;
                         TData.Add(tda);
+                        tda.Isvalid = "Y";
                     }
 
                 }
@@ -144,11 +145,12 @@ namespace Arasan.Controllers
                         tda1 = new BatchInItem();
                         tda1.IProcesslst = BindProcessid();
                         tda1.Process = dt3.Rows[0]["IPROCESSID"].ToString();
-                        tda1.Itemlst = BindItemlst(tda1.Process);
+                        tda1.Itemlst = BindItemlst();
                         tda1.Item = dt3.Rows[i]["IITEMID"].ToString();
                         tda1.Unit = dt3.Rows[i]["IUNIT"].ToString();
                         tda1.Qty = dt3.Rows[i]["IQTY"].ToString();
                         tda1.ID = id;
+                        tda1.Isvalid = "Y";
                         TData1.Add(tda1);
                     }
 
@@ -163,7 +165,7 @@ namespace Arasan.Controllers
                     tda2 = new BatchOutItem();
                     tda2.OProcesslst = BindProcessid();
                     tda2.OProcess = dt4.Rows[i]["OPROCESSID"].ToString();
-                    tda2.OItemlst = BindItemlst(tda2.OProcess);
+                    tda2.OItemlst = BindItemlst();
                     tda2.OItem = dt4.Rows[i]["OITEMID"].ToString();
                     tda2.OUnit = dt4.Rows[i]["OUNIT"].ToString();
                     tda2.OutType = dt4.Rows[i]["OTYPE"].ToString();
@@ -173,7 +175,8 @@ namespace Arasan.Controllers
                     tda2.Greas = dt4.Rows[i]["GPER"].ToString();
                     tda2.ID = id;
                     TData2.Add(tda2);
-                }
+                        tda2.Isvalid = "Y";
+                    }
 
             }
                 DataTable dt5 = new DataTable();
@@ -190,7 +193,7 @@ namespace Arasan.Controllers
                         tda3.Start = dt5.Rows[i]["ESDT"].ToString();
                         tda3.StartT = dt5.Rows[i]["EST"].ToString();
                         tda3.End = dt5.Rows[i]["EEDT"].ToString();
-
+                        tda3.Isvalid = "Y";
                         tda3.EndT = dt5.Rows[i]["EET"].ToString();
                         tda3.Total = dt5.Rows[i]["ETOTHRS"].ToString();
                         tda3.Break = dt5.Rows[i]["EBRHRS"].ToString();
@@ -215,7 +218,7 @@ namespace Arasan.Controllers
                         tda4.StartDate = dt6.Rows[i]["PSDT"].ToString();
                         tda4.StartTime = dt6.Rows[i]["PSTIME"].ToString();
                         tda4.EndDate = dt6.Rows[i]["PEDT"].ToString();
-
+                        tda4.Isvalid = "Y";
                         tda4.EndTime = dt6.Rows[i]["PETIME"].ToString();
                         tda4.Value = dt6.Rows[i]["PARAMVALUE"].ToString();
 
@@ -321,7 +324,7 @@ namespace Arasan.Controllers
                     tda1 = new BatchInItem();
                     tda1.IProcesslst = BindProcessid();
                     tda1.Process = dt3.Rows[i]["PROCESSID"].ToString();
-                    tda1.Itemlst = BindItemlst(tda1.Process);
+                    tda1.Itemlst = BindItemlst();
                     tda1.Item = dt3.Rows[i]["ITEMID"].ToString();
                     tda1.Unit = dt3.Rows[i]["IUNIT"].ToString();
                     tda1.Qty = dt3.Rows[i]["IQTY"].ToString();
@@ -336,7 +339,7 @@ namespace Arasan.Controllers
                     tda2 = new BatchOutItem();
                     tda2.OProcesslst = BindProcessid();
                     tda2.OProcess = dt4.Rows[i]["PROCESSID"].ToString();
-                    tda2.OItemlst = BindItemlst(tda2.OProcess);
+                    tda2.OItemlst = BindItemlst();
                     tda2.OItem = dt4.Rows[i]["ITEMID"].ToString();
                     tda2.OUnit = dt4.Rows[i]["OUNIT"].ToString();
                     tda2.OutType = dt4.Rows[i]["OTYPE"].ToString();
@@ -354,7 +357,7 @@ namespace Arasan.Controllers
                 {
                     tda3 = new BatchOtherItem();
                     tda3.OProcessidlst = BindProcessid();
-                    tda3.OtProcessId = dt5.Rows[i]["EPROCESSID"].ToString();
+                    tda3.OtProcessId = dt5.Rows[i]["PROCESSID"].ToString();
                     tda3.Seqe = dt5.Rows[i]["EPSEQ"].ToString();
                     tda3.Start = dt5.Rows[i]["ESDT"].ToString();
                     tda3.StartT = dt5.Rows[i]["EST"].ToString();
@@ -531,7 +534,7 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public List<SelectListItem> BindItemlst(string id)
+        public List<SelectListItem> BindItemlst()
         {
             try
             {
@@ -599,6 +602,18 @@ namespace Arasan.Controllers
             //EnqItem model = new EnqItem();
             //  model.ItemGrouplst = BindItemGrplst(value);
             return Json(BindProcessid());
+        }
+        public JsonResult GetItemidJSON()
+        {
+            //EnqItem model = new EnqItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(BindItemlst());
+        }
+        public JsonResult GetParamJSON()
+        {
+            BatchParemItem model = new BatchParemItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(model.Param);
         }
         public IActionResult ListBatchCreation()
         {
