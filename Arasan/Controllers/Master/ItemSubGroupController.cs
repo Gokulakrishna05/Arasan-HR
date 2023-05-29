@@ -73,7 +73,21 @@ namespace Arasan.Controllers.Master
             return View(itg);
         }
 
+        public ActionResult DeleteMR(string tag, int id)
+        {
 
+            string flag = ItemSubGroupService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListItemSubGroup");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListItemSubGroup");
+            }
+        }
 
     }
 }
