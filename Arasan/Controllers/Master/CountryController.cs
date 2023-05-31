@@ -22,7 +22,7 @@ namespace Arasan.Controllers.Master
             {
 
             }
-            else
+            else  
             {
                 ic = CountryService.GetCountryById(id);
 

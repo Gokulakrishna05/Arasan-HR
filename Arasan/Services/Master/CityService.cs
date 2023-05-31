@@ -12,9 +12,11 @@ namespace Arasan.Services.Master
     public class CityService : ICityService
     {
         private readonly string _connectionString;
+        DataTransactions datatrans;
         public CityService(IConfiguration _configuratio)
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
+            datatrans = new DataTransactions(_connectionString);
         }
         public IEnumerable<City> GetAllCity()
         {
@@ -95,7 +97,18 @@ namespace Arasan.Services.Master
             try
             {
                 string StatementType = string.Empty; 
-                //string svSQL = "";
+                string svSQL = "";
+
+                if (ss.ID == null)
+                {
+
+                    svSQL = " SELECT Count(*) as cnt FROM CITYMASTER WHERE CITYNAME = LTRIM(RTRIM('" + ss.Cit + "')) and STATEMAST.STATE = LTRIM(RTRIM('" + ss.State + "'))";
+                    if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "CITY Already Existed";
+                        return msg;
+                    }
+                }
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {

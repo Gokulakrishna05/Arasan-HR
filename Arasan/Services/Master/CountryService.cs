@@ -12,9 +12,11 @@ namespace Arasan.Services.Master
     public class CountryService : ICountryService
     {
         private readonly string _connectionString;
+        DataTransactions datatrans;
         public CountryService(IConfiguration _configuratio)
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
+            datatrans = new DataTransactions(_connectionString);
         }
         public IEnumerable<Country> GetAllCountry()
         {
@@ -51,7 +53,7 @@ namespace Arasan.Services.Master
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select COUNTRYNAME,COUNTRYCODE,COUNTRYMASTID  from CONMAST where COUNTRYMASTID=" + eid + "";
+                    cmd.CommandText = "Select COUNTRYNAME,COUNTRYCODE,COUNTRYMASTID from CONMAST where COUNTRYMASTID=" + eid + "";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -73,10 +75,20 @@ namespace Arasan.Services.Master
             string msg = "";
             try
             {
-                string StatementType = string.Empty; 
+                string StatementType = string.Empty;
 
-                //string svSQL = "";
+                string svSQL = "";
 
+                if (cy.ID == null)
+                {
+
+                    svSQL = " SELECT Count(*) as cnt FROM CONMAST WHERE COUNTRYNAME = LTRIM(RTRIM('" + cy.ConName + "')) and COUNTRYCODE = LTRIM(RTRIM('" + cy.ConCode + "'))";
+                    if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "COUNTRYNAME Already Existed";
+                        return msg;
+                    }
+                }
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("COUNTRYPROC", objConn);
