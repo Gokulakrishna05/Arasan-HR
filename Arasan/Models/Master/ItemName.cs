@@ -14,9 +14,10 @@ namespace Arasan.Models
             this.IgLst = new List<SelectListItem>();
             this.Iclst = new List<SelectListItem>();
             this.Isglst = new List<SelectListItem>();
-            this.Hsn =  new List<SelectListItem>();
+            this.Hsn = new List<SelectListItem>();
             this.Bin = new List<SelectListItem>();
             this.Ledgerlst = new List<SelectListItem>();
+            //this.Itemlst = new List<SelectListItem>();
 
         }
         public List<SelectListItem> Ledgerlst;
@@ -46,6 +47,7 @@ namespace Arasan.Models
         public string ItemSub { get; set; }
         public string SubCat { get; set; }
         public string ItemCode { get; set; }
+        //public List<SelectListItem> Itemlst;
         public string Item { get; set; }
         public string ItemDes { get; set; }
         public string Reorderqu { get; set; }
@@ -90,7 +92,7 @@ namespace Arasan.Models
     public class SupItem
     {
 
-        public List<SelectListItem> Suplst { get; set; }
+        public List<SelectListItem> Suplierlst { get; set; }
         public string SupName { get; set; }
         public string SupplierPart { get; set; }
         public string PurchasePrice { get; set; }
@@ -101,7 +103,7 @@ namespace Arasan.Models
         public string ID { get; set; }
         //public string BinID { get; set; }
         //public string BinYN { get; set; }
-       // public string ItemMas { get; set; }
+        // public string ItemMas { get; set; }
 
 
     }
@@ -114,7 +116,7 @@ namespace Arasan.Models
 
     public class ItemList
     {
-        public string id  { get;set;}
+        public string id { get; set; }
         public string itemgroup { get; set; }
         public string itemsubgroup { get; set; }
         public string itemname { get; set; }
@@ -124,8 +126,8 @@ namespace Arasan.Models
         public string hsncode { get; set; }
         public string editrow { get; set; }
         public string delrow { get; set; }
-        public string itemcode { get; set; }    
+        public string itemcode { get; set; }
 
     }
-    
+
 }
