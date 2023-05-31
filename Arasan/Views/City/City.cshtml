@@ -95,13 +95,8 @@
 </div>
 <script>
 
-    $(".chosen-select").chosen();
-    $(document).ready(function () {
-        $('#btnSave').click(function (e) {
-            var isValid = true;
-            if (document.getElementById("txtCityName").value == "") {
-                isValid = false;
-                $(txtCityName).css({
+    
+    
 
     $(function () {
         $('._select').select2();
@@ -137,88 +132,67 @@
         }
         $(dropDownId).trigger("liszt:updated");
     }
-    $('.form_date').datetimepicker({
-        //   language:  'fr',
-        weekStart: 1,
-        todayBtn: 1,
-        autoclose: 1,
-        todayHighlight: 1,
-        startView: 2,
-        minView: 2,
 
-        forceParse: 0
-    });
-     
-    $(document).ready(function () {
-        $('#btnSave').click(function (e) {
-            var isValid = true;
-            if (document.getElementById("ddlcountry").value == "" || document.getElementById("ddlcountry").value == 0) {
-                isValid = false;
-                $(ddlcountry).css({
 
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
+                $(document).ready(function () {
+                    $('#btnSave').click(function (e) {
+                        var isValid = true;
+                        if (document.getElementById("ddlcountry").value == "" || document.getElementById("ddlcountry").value == 0) {
+                            isValid = false;
+                            $(ddlBranch).css({
+                                "border": "1px solid red",
+                                "background": "#FFCECE"
+                            });
+
+                            alert("Please Select Country");
+                            return false;
+                        }
+                        else {
+                            $(ddlcountry).css({
+                                "border": "",
+                                "background": ""
+                            });
+                        }
+                        if (document.getElementById("ddlsta").value == "") {
+                            isValid = false;
+                            $(ddlsta).css({
+                                "border": "1px solid red",
+                                "background": "#FFCECE"
+                            });
+
+                            alert("Please Enter  State");
+                            return false;
+                        }
+                        else {
+                            $(ddlsta).css({
+                                "border": "",
+                                "background": ""
+                            });
+                        }
+                        if (document.getElementById("txtCityName").value == "") {
+                            isValid = false;
+                            $(txtCityName).css({
+                                "border": "1px solid red",
+                                "background": "#FFCECE"
+                            });
+
+                            alert("Please Enter  City Name");
+                            return false;
+                        }
+                        else {
+                            $(txtCityName).css({
+                                "border": "",
+                                "background": ""
+                            });
+                        }
+                       
+   
+
+
+
+                    if (isValid == false)
+                            e.preventDefault();
+                    });
+
                 });
-
-
-                alert("Please Enter City");
-                return false;
-            }
-            else {
-                $(txtCityName).css({
-
-                alert("Please Select Country Name");
-                return false;
-            }
-            else {
-                $(ddlcountry).css({
-
-                    "border": "",
-                    "background": ""
-                });
-            }
-
-            
-            if (isValid == false)
-                e.preventDefault();
-
-
-            if (document.getElementById("ddlsta").value == "" || document.getElementById("ddlsta").value == 0) {
-                isValid = false;
-                $(ddlsta).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Select State Name");
-                return false; Center
-            }
-            else {
-                $(ddlsta).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-                if (document.getElementById("txtCityName").value == "") {
-                isValid = false;
-                $(txtCityName).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Enter City Name");
-                return false;
-            }
-            else {
-                  $(txtCityName).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-            
-
-
-        });
-
-    });
 </script>

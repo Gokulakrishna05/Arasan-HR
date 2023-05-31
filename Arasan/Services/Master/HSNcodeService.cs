@@ -139,6 +139,37 @@ namespace Arasan.Services.Master
             return dtt;
         }
 
+        public DataTable GetCGst()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select * from TAXMAST where TAX='CGST' AND STATUS= 'ACTIVE'  ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetSGst()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select * from TAXMAST where TAX='SGST' AND STATUS= 'ACTIVE'  ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetIGst()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select * from TAXMAST where TAX='IGST' AND STATUS= 'ACTIVE'  ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
         public string StatusChange(string tag, int id)
         {
 

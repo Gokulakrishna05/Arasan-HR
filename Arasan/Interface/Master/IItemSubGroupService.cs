@@ -8,5 +8,6 @@ namespace Arasan.Interface.Master
         string ItemSubGroupCRUD(ItemSubGroup by);
         IEnumerable<ItemSubGroup> GetAllItemSubGroup();
         ItemSubGroup GetItemSubGroupById(string id);
+        string StatusChange(string tag, int id);
     }
 }

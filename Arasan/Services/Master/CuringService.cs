@@ -45,7 +45,7 @@ namespace Arasan.Services
                 {
                     con.Open();
 
-                    cmd.CommandText = "Select LOCDETAILS.LOCID,SUBGROUP,SHEDNUMBER,CAPACITY,STATUS,CURINGMASTERID  from CURINGMASTER LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID = CURINGMASTER.LOCATIONID WHERE STATUS='ACTIVE'";
+                    cmd.CommandText = "Select LOCDETAILS.LOCID,SUBGROUP,SHEDNUMBER,CAPACITY,CURINGMASTER.STATUS,CURINGMASTERID  from CURINGMASTER LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID = CURINGMASTER.LOCATIONID  ";
 
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())

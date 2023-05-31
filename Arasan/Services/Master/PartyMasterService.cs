@@ -24,7 +24,7 @@ namespace Arasan.Services.Master
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select  PARTYID,PARTYNAME,PARTYCAT,ACCOUNTNAME,PARTYGROUP,COMMCODE,REGULARYN,LUTNO,to_char(PARTYMAST.LUTDT,'dd-MON-yyyy')LUTDT,to_char(PARTYMAST.PJOINDATE,'dd-MON-yyyy')PJOINDATE,TYPE,CREDITLIMIT,CREDITDAYS,SECTIONID,CSGNPARTYID,TRANSLMT,GSTNO,ACTIVE,RATECODE,MOBILE,PHONENO,PANNO,CITY,STATE,COUNTRY,PINCODE,COUNTRYCODE,EMAIL,FAX,COMMISIONERATE,RANGEDIVISION,ECCNO,EXCISEAPPLICABLE,PARTYTYPE,HTTP,OVERDUEINTEREST,ADD1,REMARKS,INTRODUCEDBY,PARTYMASTID from PARTYMAST";
+                    cmd.CommandText = "Select  PARTYID,PARTYNAME,PARTYCAT,ACCOUNTNAME,PARTYGROUP,COMMCODE,REGULARYN,LUTNO,to_char(PARTYMAST.LUTDT,'dd-MON-yyyy')LUTDT,to_char(PARTYMAST.PJOINDATE,'dd-MON-yyyy')PJOINDATE,TYPE,CREDITLIMIT,CREDITDAYS,SECTIONID,CSGNPARTYID,TRANSLMT,GSTNO,ACTIVE,RATECODE,MOBILE,PHONENO,PANNO,CITY,STATE,COUNTRY,PINCODE,COUNTRYCODE,EMAIL,FAX,COMMISIONERATE,RANGEDIVISION,ECCNO,EXCISEAPPLICABLE,PARTYTYPE,HTTP,OVERDUEINTEREST,ADD1,REMARKS,INTRODUCEDBY,STATUS,PARTYMASTID from PARTYMAST WHERE STATUS= 'ACTIVE'";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -51,13 +51,13 @@ namespace Arasan.Services.Master
                           
 
                         };
-                        cmpList.Add(cmp);
+                        cmpList.Add(cmp); 
                     }
                 }
             }
             return cmpList;
         }
-        public string PartyCRUD(PartyMaster cy)
+        public string PartyCRUD(PartyMaster cy)  
         {
             string msg = "";
             try
@@ -121,6 +121,7 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("ADD1", OracleDbType.NVarchar2).Value = cy.Address;
                     objCmd.Parameters.Add("REMARKS", OracleDbType.NVarchar2).Value = cy.Remark;
                     objCmd.Parameters.Add("INTRODUCEDBY", OracleDbType.NVarchar2).Value = cy.Intred;
+                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
 
@@ -242,6 +243,30 @@ namespace Arasan.Services.Master
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
+        }
+
+        public string StatusChange(string tag, int id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE PARTYMAST SET STATUS ='INACTIVE' WHERE PARTYMASTID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
         }
     }
 }

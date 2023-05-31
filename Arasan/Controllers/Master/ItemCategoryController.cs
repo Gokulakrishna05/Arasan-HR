@@ -71,5 +71,21 @@ namespace Arasan.Controllers.Master
             IEnumerable<ItemCategory> ic = ItemCategoryService.GetAllItemCategory();
             return View(ic);
         }
+
+        public ActionResult DeleteMR(string tag, int id)
+        {
+
+            string flag = ItemCategoryService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListItemCategory");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListItemCategory");
+            }
+        }
     }
 }

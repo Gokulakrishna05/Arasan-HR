@@ -36,7 +36,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                         <br />  <label for="inputName3" class="col-sm-4 control-label">Account Type<label class="mandatory">*</label></label>
+                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Account Type<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.AType, Model.Typelst," -- Please Select -- ", new { @id = "ddlAType", @Class = "form-control _select", @TabIndex = 1,onchange = "changeGroup(this.value)" })
                                         </div>
@@ -47,9 +47,9 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                         <br />  <label for="inputName3" class="col-sm-4 control-label">Account Group<label class="mandatory">*</label></label>
+                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Account Group<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.AccGroup, new { @id = "txtAccGroup", @class = "form-control", @TabIndex = 1,@readonly=true })
+                                            @Html.DropDownListFor(C => C.AccGroup, Model.AccGrouplst, new { @id = "ddlAccGroup", @Class = "form-control _select", @TabIndex = 1})
                                             @Html.HiddenFor(C => C.ID)
                                         </div>
                                     </div>
@@ -61,29 +61,28 @@
                                     <div class="form-group">
 
                                         <br />     <label for="inputName3" class="col-sm-4 control-label">Ledger Name<label class="mandatory">*</label></label>
-                                         <div class="col-sm-8">
+                                        <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.LedName, new { @id = "txtLedName", @class = "form-control", @TabIndex = 1  })
                                             @Html.HiddenFor(C => C.ID)
                                         </div>
-                                      </div>
-                                  </div>
+                                    </div>
+                                </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-
-                                        <br />   <label for="inputName3" class="col-sm-4 control-label">Doc Date<label class="mandatory">*</label></label>
-                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-mm-yy">
-                                            @Html.TextBoxFor(C => C.DocDate, new { @id = "txtDocDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
-                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Display Name<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.DisplayName, new { @id = "txtDisplayName", @class = "form-control", @TabIndex = 1  })
                                         </div>
-                                     </div>
-                                  </div>
+
+                                    </div>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                         <br />  <label for="inputName3" class="col-sm-4 control-label">Opening Stock<label class="mandatory">*</label></label>
+                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Opening Stock<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.OpStock, new { @id = "txtOpStock", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)"  })
                                         </div>
@@ -91,7 +90,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <br />   <label for="inputName3" class="col-sm-4 control-label">Closing Stock<label class="mandatory">*</label></label>
+                                        <br />   <label for="inputName3" class="col-sm-4 control-label">Closing Stock<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.ClStock, new { @id = "txtClStock", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                             @Html.HiddenFor(C => C.ID)
@@ -99,26 +98,27 @@
                                     </div>
                                 </div>
                             </div>
-                             <div class="row">
+                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                         <br />  <label for="inputName3" class="col-sm-4 control-label">Display Name<label class="mandatory">*</label></label>
-                                        <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.DisplayName, new { @id = "txtDisplayName", @class = "form-control", @TabIndex = 1  })
+                                        <br />   <label for="inputName3" class="col-sm-4 control-label">Doc Date<label class="Mandatory"></label></label>
+                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-mm-yy">
+                                            @Html.TextBoxFor(C => C.DocDate, new { @id = "txtDocDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Category<label class="mandatory">*</label></label>
+                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Category<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.Category, new { @id = "txtCategory", @class = "form-control", @TabIndex = 1  })
                                         </div>
                                     </div>
                                 </div>
-                             </div>
+                            </div>
                             <div style="height:30px;"></div>
                             <div class="col-lg-10"></div>
                             <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
@@ -147,6 +147,26 @@
         }
         $(dropDownId).trigger("liszt:updated");
     }
+    function changeGroup(itemid) {
+        //alert(itemid);
+        //debugger;
+        $.ajax({
+            url: "GetItemJSON",
+            type: "post",
+            data: { 'itemid': itemid },
+            cache: false,
+            success: function (response) {
+                var newlist;
+                //alert(JSON.stringify(response));
+                newlist = response.Ilst;
+                PopulateDropDown("#ddlAccGroup", response);
+            },
+            error: function () {
+                debugger;
+                alert("Please Select Account Group");
+            }
+        });
+    }
     $('.form_date').datetimepicker({
         //   language:  'fr',
         weekStart: 1,
@@ -155,26 +175,26 @@
         todayHighlight: 1,
         startView: 2,
         minView: 2,
-       
+
         forceParse: 0
     });
-    function changeGroup(ItemId, i) {
-        $.ajax({
-            url: 'GetGroupDetail',
-            data: { "ItemId": ItemId },
-            type: "GET",
-            success: function (result) {
+    //function changeGroup(ItemId, i) {
+    //    $.ajax({
+    //        url: 'GetGroupDetail',
+    //        data: { "ItemId": ItemId },
+    //        type: "GET",
+    //        success: function (result) {
 
-                document.getElementById("txtAccGroup").value = result.accgroup;
+    //            document.getElementById("txtAccGroup").value = result.accgroup;
 
-                
 
-            },
-            error: function () {
-                alert("Data Not Found");
-            }
-        });
-    }
+
+    //        },
+    //        error: function () {
+    //            alert("Data Not Found");
+    //        }
+    //    });
+    //}
     $(".chosen-select").chosen();
     $(document).ready(function () {
         $('#btnSave').click(function (e) {

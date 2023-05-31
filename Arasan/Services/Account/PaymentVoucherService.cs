@@ -77,18 +77,18 @@ namespace Arasan.Services
                         return msg;
                     }
                 }
-                if (cy.ID == null)
-                {
-                    double depit = cy.TotalDeAmount;
-                    double credit = cy.TotalCrAmount;
-                    double amount = depit - credit;
-                    if (cy.ReqAmount!=amount)
-                    {
-                        msg = "Please enter correct Amount";
-                        return msg;
-                    }
+                //if (cy.ID == null)
+                //{
+                //    double depit = cy.TotalDeAmount;
+                //    double credit = cy.TotalCrAmount;
+                //    double amount = depit - credit;
+                //    if (cy.ReqAmount!=amount)
+                //    {
+                //        msg = "Please enter correct Amount";
+                //        return msg;
+                //    }
                    
-                }
+                //}
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("PAYVOUCHERPROC", objConn);
