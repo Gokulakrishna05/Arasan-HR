@@ -60,7 +60,7 @@ namespace Arasan.Services
             using (OracleCommand cmd = con.CreateCommand())
             {
                 con.Open();
-                cmd.CommandText = "Select BRANCHMASTID,COMPANYMAST.COMPANYDESC,BRANCHID,ADDRESS1,STATE,CITY,PINCODE,CSTNO, CSTDATE,STATUS from BRANCHMAST left outer join COMPANYMAST on COMPANYMASTID=BRANCHMAST.COMPANYID WHERE STATUS = 'ACTIVE' ";
+                cmd.CommandText = "Select BRANCHMASTID,COMPANYMAST.COMPANYDESC,BRANCHID,ADDRESS1,STATE,CITY,PINCODE,CSTNO, CSTDATE,BRANCHMAST.STATUS from BRANCHMAST left outer join COMPANYMAST on COMPANYMASTID=BRANCHMAST.COMPANYID WHERE BRANCHMAST.STATUS = 'ACTIVE' ";
                 OracleDataReader rdr = cmd.ExecuteReader();
                 while (rdr.Read())
                 {
@@ -83,10 +83,7 @@ namespace Arasan.Services
         }
         return brList;
     }
-
-
-
-    public string BranchCRUD(Branch cy)
+  public string BranchCRUD(Branch cy)
     {
         string msg = "";
         try
