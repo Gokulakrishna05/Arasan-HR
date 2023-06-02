@@ -41,6 +41,7 @@
                                         <label for="inputName3" class="col-sm-4 control-label">Company Name<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.CompanyName, Model.Compalst,"Please Select", new { @id = "ddlCompany", @Class = "form-control _select", @TabIndex = 1 })<br />
+                                            @Html.HiddenFor(C => C.ID)
                                         </div>
                                     </div>
                                 </div>

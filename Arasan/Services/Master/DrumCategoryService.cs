@@ -66,7 +66,7 @@ namespace Arasan.Services
                         StatementType = "Update";
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = ss.ID;
                     }
-                    objCmd.Parameters.Add("CATEGORYTYPE", OracleDbType.NVarchar2).Value = ss.CategoryType;
+                    objCmd.Parameters.Add("CATEGORYTYPE", OracleDbType.NVarchar2).Value = ss.CateType;
                     objCmd.Parameters.Add("DESCRIPTION", OracleDbType.NVarchar2).Value = ss.Description;
                     objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
@@ -95,7 +95,7 @@ namespace Arasan.Services
         public DataTable GetDrumCategory(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select CATEGORYID,CATEGORYTYPE from DRUMMASTER_CATEGORY where CATEGORYID = '" + id + "' ";
+            SvSql = "Select CATEGORYID,CATEGORYTYPE,DESCRIPTION from DRUMMASTER_CATEGORY where CATEGORYID = '" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

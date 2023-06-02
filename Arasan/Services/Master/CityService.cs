@@ -27,7 +27,7 @@ namespace Arasan.Services.Master
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select CITYNAME,STATEMAST.STATE,CITYID,CONMAST.COUNTRYNAME from CITYMASTER left outer join CONMAST on COUNTRYMASTID=CITYMASTER.COUNTRYID left outer join STATEMAST on STATEMASTID=CITYMASTER.STATEID";
+                    cmd.CommandText = "Select CITYNAME,STATEMAST.STATE,CITYID,CONMAST.COUNTRYNAME,CITYMASTER.STATUS from CITYMASTER left outer join CONMAST on COUNTRYMASTID=CITYMASTER.COUNTRYID left outer join STATEMAST on STATEMASTID=CITYMASTER.STATEID WHERE CITYMASTER.STATUS='ACTIVE'";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -131,6 +131,7 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("CITYNAME", OracleDbType.NVarchar2).Value = ss.Cit;
                     objCmd.Parameters.Add("STATEID", OracleDbType.NVarchar2).Value = ss.State;
                     objCmd.Parameters.Add("COUNTRYID", OracleDbType.NVarchar2).Value = ss.countryid;
+                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     try
                     {
@@ -156,7 +157,7 @@ namespace Arasan.Services.Master
         public DataTable GetCity(string id)
         {
             string SvSql = string.Empty;
-            SvSql = " select CITYNAME,STATEID,CITYID,COUNTRYID from CITYMASTER where CITYID=" + id + "";
+            SvSql = " select CITYNAME,STATEID,CITYID,COUNTRYID from CITYMASTER where CITYID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -164,7 +165,29 @@ namespace Arasan.Services.Master
             return dtt;
         }
 
+        public string StatusChange(string tag, int id)
+        {
 
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE CITYMASTER SET STATUS ='INACTIVE' WHERE CITYID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
+        }
     }
 
 }

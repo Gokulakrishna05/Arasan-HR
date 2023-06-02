@@ -257,10 +257,10 @@
                                                                                    <td>@Html.TextBoxFor(C => C.TANDClst[j].TANDC, new { @id = "txtTANDC" + j, @class = "form-control", style = "width: 500px;"})</td>
                                                                                    
                                                                                        <td>
-                                                                                                                                @Html.HiddenFor(C => C.TANDClst[j].Isvalid, new { @id = "IsvalidT" + j })
-                                                                                                                                <img onclick="removeRowT(@(j));" src="../Images/delete.png" style="cursor:pointer" /> <input name="TANDClst.Index" type="hidden" value="@(j)" />
-                                                                                                                            </td>
-                                                                                   </tr>
+                                                                                             @Html.HiddenFor(C => C.TANDClst[j].Isvalid, new { @id = "IsvalidT" + j })
+                                                                                             <img onclick="removeRowT(@(j));" src="../Images/delete.png" style="cursor:pointer" /> <input name="TANDClst.Index" type="hidden" value="@(j)" />
+                                                                                      </td>                                   
+                                                                              </tr>
                                                               j = j + 1;
                                                             }
                                                         }

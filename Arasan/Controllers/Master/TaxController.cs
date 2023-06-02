@@ -32,8 +32,8 @@ namespace Arasan.Controllers
                 if (dt.Rows.Count > 0)
                 {
                     ca.Taxtype = dt.Rows[0]["Tax"].ToString();
-                    ca.Percentage = dt.Rows[0]["PERCENTAGE"].ToString();
-
+                    ca.Percentage = dt.Rows[0]["PERCENTAGE"].ToString();  
+                    ca.ID = id;
                 }
             }
     
