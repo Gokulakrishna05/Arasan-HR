@@ -67,7 +67,7 @@
                                         <label for="inputName3" class="col-sm-4 control-label">CGST%<label class="mandatory"></label></label>
                                        
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.CGst, Model.CGstlst,"Please Select", new { @id = "txtCGst", @Class = "form-control _select", @TabIndex = 1 })<br />
+                                            @Html.DropDownListFor(C => C.CGst, Model.CGstlst,"Please Select", new { @id = "ddlCGst", @Class = "form-control _select", @TabIndex = 1 })<br />
                                         </div>
                                     </div>
                                 </div>
@@ -79,7 +79,7 @@
 
                                         <label for="inputName3" class="col-sm-4 control-label">SGST%<label class="mandatory"></label></label>
                                           <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.SGst, Model.SGstlst,"Please Select", new { @id = "txtSGst", @Class = "form-control _select", @TabIndex = 1 })<br />
+                                            @Html.DropDownListFor(C => C.SGst, Model.SGstlst,"Please Select", new { @id = "ddlSGst", @Class = "form-control _select", @TabIndex = 1 })<br />
                                         </div>
                                     </div>
                                 </div>
@@ -91,7 +91,7 @@
 
                                         <label for="inputName3" class="col-sm-4 control-label">IGST%<label class="mandatory"></label></label>
                                           <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.IGst, Model.IGstlst,"Please Select", new { @id = "txtIGst", @Class = "form-control _select", @TabIndex = 1 })<br />
+                                            @Html.DropDownListFor(C => C.IGst, Model.IGstlst,"Please Select", new { @id = "ddlIGst", @Class = "form-control _select", @TabIndex = 1 })<br />
                                         </div>
                                     </div>
                                 </div>
@@ -152,51 +152,53 @@
                     "background": ""
                 });
             }
-            //if (document.getElementById("txtCGST").value == "") {
-            //    isValid = false;
-            //    $(txtCGST).css({
-            //        "border": "1px solid red",
-            //        "background": "#FFCECE"
-            //    });
 
-            //    alert("Please Enter CGST");
-            //    return false;
-            //}
-            //else {
-            //    $(txtCGST).css({
-            //        "border": "",
-            //        "background": ""
-            //    });
-            //}
-            
-            //if (document.getElementById("txtSGST").value == "") {
-            //    isValid = false;
-            //    $(txtSGST).css({
-            //        "border": "1px solid red",
-            //        "background": "#FFCECE"
-            //    });
+            if (document.getElementById("ddlCGst").value == "" || document.getElementById("ddlCGst").value == 0) {
+                isValid = false;
+                $(ddlCGst).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
 
-            //    alert("Please Enter SGST");
-            //    return false;
-            //}
-            //else {
-            //    $(txtSGST).css({
-            //        "border": "",
-            //        "background": ""
-            //    });
-            //}
-            //if (document.getElementById("txtIGST").value == "") {
-            //    isValid = false;
-            //    $(txtIGST).css({
-            //        "border": "1px solid red",
-            //        "background": "#FFCECE"
-            //    });
-
-            //    alert("Please Enter IGST");
-            //    return false;
-            //}
+                alert("Please Select CGst");
+                return false;
+            }
             else {
-                $(txtIGST).css({
+                $(ddlCGst).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("ddlSGst").value == "" || document.getElementById("ddlSGst").value == 0) {
+                isValid = false;
+                $(ddlSGst).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select SGst");
+                return false;
+            }
+            else {
+                $(ddlSGst).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("ddlIGst").value == "" || document.getElementById("ddlIGst").value == 0) {
+                isValid = false;
+                $(ddlIGst).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select IGst");
+                return false;
+            }
+            else {
+                $(ddlIGst).css({
                     "border": "",
                     "background": ""
                 });

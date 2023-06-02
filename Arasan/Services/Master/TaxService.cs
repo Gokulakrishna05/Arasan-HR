@@ -99,7 +99,7 @@ namespace Arasan.Services
         public DataTable GetTax(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select TaxMASTID,TAX,PERCENTAGE from TAXMAST where TAXMASTID = '" + id + "' ";
+            SvSql = "Select TAXMASTID,TAX,PERCENTAGE from TAXMAST where TAXMASTID = '" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

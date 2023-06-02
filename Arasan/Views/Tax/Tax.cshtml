@@ -35,6 +35,7 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Tax Type<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.Taxtype, Model.Taxtypelst,"Please Select", new { @id = "ddlTaxtype", @Class = "form-control _select", @TabIndex = 1 })<br />
+                                            @Html.HiddenFor(C => C.ID)
                                         </div>
                                 </div>
                             </div>

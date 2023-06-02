@@ -26,7 +26,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select DRUMMASTID,DRUMNO,to_char(DRUMMAST.DOCDATE,'dd-MON-yyyy') DOCDATE,CATEGORY,LOCDETAILS.LOCID,DRUMTYPE,TAREWT,STATUS from DRUMMAST LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID=DRUMMAST.LOCATION WHERE STATUS='ACTIVE'";
+                    cmd.CommandText = "Select DRUMMASTID,DRUMNO,to_char(DRUMMAST.DOCDATE,'dd-MON-yyyy') DOCDATE,CATEGORY,LOCDETAILS.LOCID,DRUMTYPE,TAREWT,DRUMMAST.STATUS from DRUMMAST LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID=DRUMMAST.LOCATION WHERE DRUMMAST.STATUS='ACTIVE'";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {

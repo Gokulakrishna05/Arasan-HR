@@ -167,6 +167,22 @@
                     "background": ""
                 });
             }
+            if (document.getElementById("DocDate").value == "") {
+                isValid = false;
+                $(DocDate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select DocDate");
+                return false;
+            }
+            else {
+                $(DocDate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
             if (document.getElementById("txtTarget").value == "") {
                 isValid = false;
                 $(txtTarget).css({
@@ -183,7 +199,56 @@
                     "background": ""
                 });
             }
+            if (document.getElementById("ddlCategory").value == "" || document.getElementById("ddlCategory").value == 0) {
+                isValid = false;
+                $(ddlCategory).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
 
+                alert("Please Select Category");
+                return false;
+            }
+            else {
+                $(ddlCategory).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("ddlLocation").value == "" || document.getElementById("ddlLocation").value == 0) {
+                isValid = false;
+                $(ddlLocation).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Location");
+                return false;
+            }
+            else {
+                $(ddlLocation).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("ddlDrumType").value == "" || document.getElementById("ddlDrumType").value == 0) {
+                isValid = false;
+                $(ddlDrumType).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select DrumType");
+                return false;
+            }
+            else {
+                $(ddlDrumType).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
 
             if (isValid == false)
                 e.preventDefault();

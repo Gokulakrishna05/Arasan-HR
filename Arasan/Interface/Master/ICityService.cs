@@ -13,6 +13,7 @@ namespace Arasan.Interface.Master
 
         DataTable GetState(string id);
         DataTable Getcountry();
+        string StatusChange(string tag, int id);
 
     }
 }

@@ -47,7 +47,7 @@ namespace Arasan.Services
         public DataTable GetDepartmentDetail(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "SELECT DESIGNATIONMASTID,DESIGNATION FROM DESIGNATIONMAST where DESIGNATIONMASTID= '" + id + "'";
+            SvSql = "SELECT DESIGNATIONMASTID,DESIGNATION FROM DESIGNATIONMAST where DEPT_ID = '" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -85,7 +85,7 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = ss.CreatedBy;
                     objCmd.Parameters.Add("UPDATED_ON", OracleDbType.Date).Value = DateTime.Now;
                     objCmd.Parameters.Add("UPDATED_BY", OracleDbType.NVarchar2).Value = ss.UpdatedBy;
-                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE"; ;
+                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE"; 
 
 
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
