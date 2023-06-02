@@ -45,7 +45,8 @@
                                         <label for="inputName3" class="col-sm-4 control-label">Location ID<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                         @Html.TextBoxFor(C => C.LocationId, new { @id = "txtLocationId", @class = "form-control", @TabIndex = 1 })<br />
-                                        </div>
+                                            @Html.HiddenFor(C => C.ID)
+                                    </div>
 
                                     </div>
                                 </div>
@@ -205,23 +206,7 @@
                     "background": ""
                 });
             }
-            if (document.getElementById("ddlBranch").value == "" || document.getElementById("ddlBranch").value == 0) {
-                isValid = false;
-                $(ddlBranch).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Enter Branch");
-                return false;
-            }
-            else {
-                $(ddlBranch).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-            //if (document.getElementById("ddlBranch").value == "") {
+            //if (document.getElementById("ddlBranch").value == "" || document.getElementById("ddlBranch").value == 0) {
             //    isValid = false;
             //    $(ddlBranch).css({
             //        "border": "1px solid red",
@@ -237,6 +222,7 @@
             //        "background": ""
             //    });
             //}
+           
             if (document.getElementById("txtLocationType").value == "") {
                 isValid = false;
                 $(txtLocationType).css({

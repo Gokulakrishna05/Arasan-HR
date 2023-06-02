@@ -81,7 +81,7 @@ namespace Arasan.Services
                     }
                     catch (Exception ex)
                     {
-                        System.Console.WriteLine("Exception: {0}", ex.ToString());
+                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
                     }
                     objConn.Close();
                 }
@@ -97,7 +97,7 @@ namespace Arasan.Services
         public DataTable GetCustomerType(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select CUSTOMER_TYPE,DESCRIPTION,CUSTOMERTYPE.ID  from CUSTOMERTYPE where CUSTOMERTYPE.ID=" + id + "";
+            SvSql = "Select CUSTOMER_TYPE,DESCRIPTION,CUSTOMERTYPE.ID  from CUSTOMERTYPE where CUSTOMERTYPE.ID= '" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

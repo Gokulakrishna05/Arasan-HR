@@ -132,6 +132,20 @@ namespace Arasan.Controllers.Master
             }
         }
 
-       
+        public ActionResult DeleteMR(string tag, int id)
+        {
+
+            string flag = city.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListCity");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListCity");
+            }
+        }
     }
 }

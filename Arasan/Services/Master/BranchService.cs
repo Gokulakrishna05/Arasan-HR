@@ -139,7 +139,17 @@ namespace Arasan.Services
         }
 
         return msg;
-    }
+  }
+        public DataTable GetBranch(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select BRANCHMASTID,COMPANYMAST.COMPANYDESC,BRANCHID,ADDRESS1,STATE,CITY,PINCODE,CSTNO, CSTDATE,BRANCHMAST.STATUS from BRANCHMAST left outer join COMPANYMAST on COMPANYMASTID=BRANCHMAST.COMPANYID  ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
 
         public string StatusChange(string tag, int id)
         {

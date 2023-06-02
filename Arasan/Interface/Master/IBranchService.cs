@@ -16,7 +16,7 @@ namespace Arasan.Interface
         DataTable Getcountry();
         DataTable GetEditBranch(string id);
         DataTable GetState(string id);
-
+        DataTable GetBranch(string id);
         string StatusChange(string tag, int id);
 
     }
