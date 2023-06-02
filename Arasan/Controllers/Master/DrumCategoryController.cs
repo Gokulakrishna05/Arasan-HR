@@ -29,12 +29,14 @@ namespace Arasan.Controllers
             else
             {
                 DataTable dt = new DataTable();
-                double total = 0;
+                //double total = 0;
                 dt = DrumCategoryService.GetDrumCategory(id);
                 if (dt.Rows.Count > 0)
                 {
                     DM.CateType = dt.Rows[0]["CATEGORYTYPE"].ToString();
-
+                    DM.Description = dt.Rows[0]["DESCRIPTION"].ToString();
+                    
+                    DM.ID = id;
                 }
             }
             return View(DM);

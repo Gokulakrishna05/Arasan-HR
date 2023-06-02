@@ -5,12 +5,13 @@ using Arasan.Models;
 
 using Microsoft.AspNetCore.Mvc;
 
-namespace Arasan.Controllers.Master
+namespace Arasan.Controllers
 {
     public class CountryController : Controller
     {
 
         ICountryService CountryService;
+        
         public CountryController(ICountryService _CountryService)
         {
             CountryService = _CountryService;
@@ -22,7 +23,7 @@ namespace Arasan.Controllers.Master
             {
 
             }
-            else
+            else  
             {
                 ic = CountryService.GetCountryById(id);
 

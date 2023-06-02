@@ -12,6 +12,12 @@
         left: 5px;
     }
 </style>
+<script type="text/javascript">
+    @if (TempData["notice"] != null)
+    {
+        @:alert('@TempData["notice"]');
+    }
+</script>
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
 
@@ -41,6 +47,7 @@
 
                                         <label for="inputName3" class="col-sm-4 control-label">Country Name<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
+                                            @Html.HiddenFor(C => C.ID)
                                             @Html.DropDownListFor(C => C.countryid, Model.cuntylst,"---Please Select---", new { @id = "ddlcountry", @Class = "form-control _select", @TabIndex = 1,onchange = "StateChange(value)"  })<br />
                                         </div>
 

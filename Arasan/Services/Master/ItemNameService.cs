@@ -17,6 +17,7 @@ namespace Arasan.Services.Master
         public ItemNameService(IConfiguration _configuratio)
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
+            datatrans = new DataTransactions(_connectionString);
         }
         public IEnumerable<ItemName> GetAllItemName()
         {
@@ -48,7 +49,7 @@ namespace Arasan.Services.Master
                             Uom = rdr["UOM"].ToString(),
                             Hcode = rdr["HSN"].ToString(),
                             Selling = rdr["SELLINGPRI"].ToString(),
-                            StackAccount  = rdr["ITEMACC"].ToString(),
+                            StackAccount = rdr["ITEMACC"].ToString(),
                             Expiry = rdr["EXPYN"].ToString(),
                             ValuationMethod = rdr["VALMETHOD"].ToString(),
                             Serial = rdr["SERIALYN"].ToString(),
@@ -61,7 +62,7 @@ namespace Arasan.Services.Master
                             Percentage = rdr["RAWMATPER"].ToString(),
                             PercentageAdd = rdr["ADD1PER"].ToString(),
                             Additive = rdr["ADD1"].ToString(),
-                            RawMaterial  = rdr["RAWMATCAT"].ToString(),
+                            RawMaterial = rdr["RAWMATCAT"].ToString(),
 
 
                         };
@@ -110,7 +111,7 @@ namespace Arasan.Services.Master
         //                    Uom = rdr["UOM"].ToString(),
         //                    Hcode = rdr["HSN"].ToString(),
         //                    Selling = rdr["SELLINGPRI"].ToString(),
-                           
+
         //                };
         //                ItemName = sta;
         //            }
@@ -120,11 +121,21 @@ namespace Arasan.Services.Master
         //}
         public string ItemNameCRUD(ItemName ss)
         {
-            string msg = " ";
+            string msg = "";
             try
             {
-                string StatementType = string.Empty;  string svSQL = "";
-                
+                string StatementType = string.Empty; string svSQL = "";
+                if (ss.ID == null)
+                {
+
+                    svSQL = " SELECT Count(*) as cnt FROM ITEMMASTER WHERE ITEMID =LTRIM(RTRIM('" + ss.Item + "')) and ITEMCODE =LTRIM(RTRIM('" + ss.ItemCode + "'))";
+                    if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "Item Already Existed";
+                        return msg;
+                    }
+                }
+
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
@@ -144,7 +155,8 @@ namespace Arasan.Services.Master
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = ss.ID;
                     }
 
-                   
+                    objCmd.Parameters.Add("IGROUP", OracleDbType.NVarchar2).Value = ss.ItemG;
+                    objCmd.Parameters.Add("ISUBGROUP", OracleDbType.NVarchar2).Value = ss.ItemSub;
                     objCmd.Parameters.Add("SUBCATEGORY", OracleDbType.NVarchar2).Value = ss.SubCat;
                     objCmd.Parameters.Add("ITEMCODE", OracleDbType.NVarchar2).Value = ss.ItemCode;
                     objCmd.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = ss.Item;
@@ -171,6 +183,7 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("ADD1PER ", OracleDbType.NVarchar2).Value = ss.PercentageAdd;
                     objCmd.Parameters.Add("ADD1", OracleDbType.NVarchar2).Value = ss.Additive;
                     objCmd.Parameters.Add("RAWMATCAT", OracleDbType.NVarchar2).Value = ss.RawMaterial;
+                    objCmd.Parameters.Add("LEDGERNAME", OracleDbType.NVarchar2).Value = ss.Ledger;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
@@ -187,21 +200,21 @@ namespace Arasan.Services.Master
                         string latestbin = datatrans.GetDataString("Select BINID from BINMASTER where ITEMID='" + Pid + "' AND ISUPDATED='Y'");
                         if (latestbin != ss.BinID)
                         {
-                        bool resultsds = datatrans.UpdateStatus("UPDATE BINMASTER SET ISUPDATED='N' Where ITEMID='" + Pid + "'");
-                        using (OracleConnection objConns = new OracleConnection(_connectionString))
-                        {
-                            OracleCommand objCmds = new OracleCommand("BINMASTEPROC", objConns);
-                            StatementType = "Insert";
-                            objCmds.CommandType = CommandType.StoredProcedure;
-                            objCmds.Parameters.Add("BINMASTERID", OracleDbType.NVarchar2).Value = DBNull.Value;
-                            objCmds.Parameters.Add("BINID", OracleDbType.NVarchar2).Value = ss.BinID;
-                            objCmds.Parameters.Add("BINYN", OracleDbType.NVarchar2).Value = ss.BinYN;
-                            objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = Pid;
-                            objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
-                            objConns.Open();
-                            objCmds.ExecuteNonQuery();
-                            objConns.Close();
-                        }
+                            bool resultsds = datatrans.UpdateStatus("UPDATE BINMASTER SET ISUPDATED='N' Where ITEMID='" + Pid + "'");
+                            using (OracleConnection objConns = new OracleConnection(_connectionString))
+                            {
+                                OracleCommand objCmds = new OracleCommand("BINMASTEPROC", objConns);
+                                StatementType = "Insert";
+                                objCmds.CommandType = CommandType.StoredProcedure;
+                                objCmds.Parameters.Add("BINMASTERID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                objCmds.Parameters.Add("BINID", OracleDbType.NVarchar2).Value = ss.BinID;
+                                objCmds.Parameters.Add("BINYN", OracleDbType.NVarchar2).Value = ss.BinYN;
+                                objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = Pid;
+                                objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                                objConns.Open();
+                                objCmds.ExecuteNonQuery();
+                                objConns.Close();
+                            }
                         }
                         bool result = datatrans.UpdateStatus("DELETE SUPPLIERPARTNO  Where ITEMMASTERID='" + Pid + "'");
                         foreach (SupItem cp in ss.Suplst)
@@ -233,7 +246,7 @@ namespace Arasan.Services.Master
                             }
 
                         }
-                       
+
 
 
                     }
@@ -255,7 +268,7 @@ namespace Arasan.Services.Master
         public DataTable GetItemNameDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMCODE,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MAXSTOCKLVL,MINSTOCKLVL,CONVERAT,UOM,HSN,SELLINGPRI,ITEMACC,EXPYN,VALMETHOD,SERIALYN,BSTATEMENTYN,QCT,QCCOMPFLAG,LATPURPRICE,TARIFFHEADING,REJRAWMATPER,RAWMATPER,ADD1PER,ADD1,RAWMATCAT,ITEMMASTERID  from ITEMMASTER where ITEMMASTERID=" + id + "";
+            SvSql = "Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMCODE,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MAXSTOCKLVL,MINSTOCKLVL,CONVERAT,UOM,HSN,SELLINGPRI,ITEMACC,EXPYN,VALMETHOD,SERIALYN,BSTATEMENTYN,QCT,QCCOMPFLAG,LATPURPRICE,TARIFFHEADING,REJRAWMATPER,RAWMATPER,ADD1PER,ADD1,RAWMATCAT,LEDGERNAME,ITEMMASTERID  from ITEMMASTER where ITEMMASTERID=" + id + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -275,13 +288,13 @@ namespace Arasan.Services.Master
         public DataTable GetItemGroup()
         {
             string SvSql = string.Empty;
-            SvSql = "Select ITEMGROUPID,GROUPCODE from ITEMGROUP where APPROVALSTATUS='Y'";
+            SvSql = "Select ITEMGROUPID,GROUPCODE from ITEMGROUP where STATUS='ACTIVE'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
-         }
+        }
         public DataTable BindBinID()
         {
             string SvSql = string.Empty;
@@ -292,6 +305,16 @@ namespace Arasan.Services.Master
             adapter.Fill(dtt);
             return dtt;
         }
+        //public DataTable GetItem()
+        //{
+        //    string SvSql = string.Empty;
+        //    SvSql = "Select ITEMMASTERID,ITEMID from ITEMMASTER";
+        //    DataTable dtt = new DataTable();
+        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
+        //}
         public DataTable GetLedger()
         {
             string SvSql = string.Empty;
@@ -345,7 +368,7 @@ namespace Arasan.Services.Master
         public DataTable GetSupplierName(string subid)
         {
             string SvSql = string.Empty;
-            SvSql = "Select SUPPLIERID,SUPPLIERPARTNO,SPURPRICE,DELDAYS,SUPPLIERPARTNOID from SUPPLIERPARTNO WHERE SUPPLIERPARTNOID='"+ subid + "'";
+            SvSql = "Select SUPPLIERID,SUPPLIERPARTNO,SPURPRICE,DELDAYS,SUPPLIERPARTNOID from SUPPLIERPARTNO WHERE SUPPLIERPARTNOID='" + subid + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -383,7 +406,7 @@ namespace Arasan.Services.Master
         public DataTable GetAllSupplier(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select SUPPLIERID,SUPPLIERPARTNO,SPURPRICE,DELDAYS,SUPPLIERPARTNOID from SUPPLIERPARTNO where ITEMMASTERID='"+ id  + "'";
+            SvSql = "Select SUPPLIERID,SUPPLIERPARTNO,SPURPRICE,DELDAYS,SUPPLIERPARTNOID from SUPPLIERPARTNO where ITEMMASTERID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -426,7 +449,7 @@ namespace Arasan.Services.Master
             {
                 string StatementType = string.Empty; string svSQL = "";
 
-               
+
             }
             catch (Exception ex)
             {
@@ -437,7 +460,7 @@ namespace Arasan.Services.Master
             return msg;
         }
 
-       
+
     }
 
 }

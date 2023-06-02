@@ -24,6 +24,32 @@ namespace Arasan.Controllers
             br.cuntylst = BindCountry();
             br.statlst = BindState("");
 
+            if (id == null)
+            {
+
+
+            }
+            else
+            {
+
+                DataTable dt = new DataTable();
+
+                dt = BranchService.GetEditBranch(id);
+                if (dt.Rows.Count > 0)
+                {
+                    br.CompanyName = dt.Rows[0]["COMPANYID"].ToString();
+                    br.BranchName = dt.Rows[0]["BRANCHID"].ToString();
+                    br.Address = dt.Rows[0]["ADDRESS1"].ToString();
+                    br.StateName = dt.Rows[0]["STATE"].ToString();
+                    br.City = dt.Rows[0]["CITY"].ToString();
+                    br.PinCode = dt.Rows[0]["PINCODE"].ToString();
+                    br.GSTNo = dt.Rows[0]["CSTNO"].ToString();
+                    br.GSTDate = dt.Rows[0]["CSTDATE"].ToString();
+                    br.ID = id;
+
+
+                }
+            }
 
             return View(br);
         }

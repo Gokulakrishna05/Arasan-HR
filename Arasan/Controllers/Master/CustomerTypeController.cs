@@ -34,10 +34,9 @@ namespace Arasan.Controllers
                 {
                     cu.Type = dt.Rows[0]["CUSTOMER_TYPE"].ToString();
                     cu.Des = dt.Rows[0]["DESCRIPTION"].ToString();
-
                     cu.ID = id;
                 }
-                }
+            }
             return View(cu);
         }
         [HttpPost]

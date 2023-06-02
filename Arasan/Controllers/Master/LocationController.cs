@@ -28,7 +28,22 @@ namespace Arasan.Controllers
             }
             else
             {
-                ca = LocationService.GetLocationsById(id);
+                //ca = LocationService.GetLocationsById(id);
+                DataTable dt = new DataTable();
+
+                dt = LocationService.GetEditLocation(id);
+                if (dt.Rows.Count > 0)
+                {
+                    ca.LocationId = dt.Rows[0]["LOCID"].ToString();
+                    ca.LocType = dt.Rows[0]["LOCATIONTYPE"].ToString();
+                    ca.ContactPer = dt.Rows[0]["CPNAME"].ToString();
+                    ca.PhoneNo = dt.Rows[0]["PHNO"].ToString();
+                    ca.EmailId = dt.Rows[0]["EMAIL"].ToString();
+                    ca.Address = dt.Rows[0]["ADD1"].ToString();
+                    ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                    ca.ID = id;
+
+                }
 
             }
             return View(ca);

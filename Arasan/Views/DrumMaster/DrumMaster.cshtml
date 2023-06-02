@@ -68,7 +68,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Category<label class="mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Category<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.Category, Model.Categorylst,"Please Select", new { @id = "ddlCategory", @Class = "form-control _select", @TabIndex = 1 })<br />
                                         </div>
@@ -78,7 +78,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Location<label class="mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Location<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.Location, Model.Locationlst,"Please Select", new { @id = "ddlLocation", @Class = "form-control _select", @TabIndex = 1 })<br /><br>
                                         </div>
@@ -90,7 +90,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">DrumType<label class="mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">DrumType<label class="mandatory">*</label></label>
 
                                         <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.DrumType, Model.DrumTypelst,"Please Select", new { @id = "ddlDrumType", @Class = "form-control _select", @TabIndex = 1 })<br /><br>
@@ -167,6 +167,22 @@
                     "background": ""
                 });
             }
+            if (document.getElementById("DocDate").value == "") {
+                isValid = false;
+                $(DocDate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select DocDate");
+                return false;
+            }
+            else {
+                $(DocDate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
             if (document.getElementById("txtTarget").value == "") {
                 isValid = false;
                 $(txtTarget).css({
@@ -182,8 +198,105 @@
                     "border": "",
                     "background": ""
                 });
+            } 
+            if (document.getElementById("ddlCategory").value == "") {
+                isValid = false;
+                $(ddlCategory).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Category"); 
+                return false;
+            }
+            else {
+                $(ddlCategory).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("ddlLocation").value == "") {
+                isValid = false;
+                $(ddlLocation).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Location"); ddlLocation
+                return false;
+            }
+            else {
+                $(ddlLocation).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("ddlDrumType").value == "") {
+                isValid = false;
+                $(ddlDrumType).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select DrumType"); ddlLocation
+                return false;
+            }
+            else {
+                $(ddlDrumType).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("ddlCategory").value == "" || document.getElementById("ddlCategory").value == 0) {
+                isValid = false;
+                $(ddlCategory).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Category");
+                return false;
+            }
+            else {
+                $(ddlCategory).css({
+                    "border": "",
+                    "background": ""
+                });
             }
 
+            if (document.getElementById("ddlLocation").value == "" || document.getElementById("ddlLocation").value == 0) {
+                isValid = false;
+                $(ddlLocation).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Location");
+                return false;
+            }
+            else {
+                $(ddlLocation).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("ddlDrumType").value == "" || document.getElementById("ddlDrumType").value == 0) {
+                isValid = false;
+                $(ddlDrumType).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select DrumType");
+                return false;
+            }
+            else {
+                $(ddlDrumType).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
 
             if (isValid == false)
                 e.preventDefault();

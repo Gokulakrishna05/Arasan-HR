@@ -101,7 +101,8 @@
 
                                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Item Code<label class="mandatory">*</label></label>
                                                         <div class="col-sm-8">
-                                                            @Html.TextBoxFor(C => C.ItemCode, new { @id = "txtItemCode",onkeydown = "return isNumeric2(event.keyCode,this.value)", @class = "form-control", @TabIndex = 1 })
+                                                            @Html.TextBoxFor(C => C.ItemCode, new { @id = "txtItemCode", @class = "form-control", @TabIndex = 1 })
+                                                            @Html.HiddenFor(C => C.ID)
                                                         </div>
 
                                                     </div>
@@ -113,7 +114,7 @@
 
                                                         <br />   <label for="inputName3" class="col-sm-4 control-label">Item<label class="mandatory">*</label></label>
                                                         <div class="col-sm-8">
-                                                            @Html.TextBoxFor(C => C.Item, new { @id = "txtItem", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
+                                                              @Html.TextBoxFor(C => C.Item, new { @id = "txtItem", @class = "form-control", @TabIndex = 1 })
                                                         </div>
 
                                                     </div>
@@ -124,7 +125,7 @@
 
                                                         <br />  <label for="inputName3" class="col-sm-4 control-label">Item Description<label class="mandatory">*</label></label>
                                                         <div class="col-sm-8">
-                                                            @Html.TextBoxFor(C => C.ItemDes, new { @id = "txtItemDes", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
+                                                            @Html.TextBoxFor(C => C.ItemDes, new { @id = "txtItemDes", @class = "form-control", @TabIndex = 1 })
                                                         </div>
 
                                                     </div>
@@ -137,7 +138,7 @@
 
                                                         <br />   <label for="inputName3" class="col-sm-4 control-label">Reorder Quantity<label class="Mandatory"></label></label>
                                                         <div class="col-sm-8">
-                                                            @Html.TextBoxFor(C => C.Reorderqu, new { @id = "txtReorderqu", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
+                                                            @Html.TextBoxFor(C => C.Reorderqu, new { @id = "txtReorderqu", @class = "form-control", @TabIndex = 1 })
                                                         </div>
 
                                                     </div>
@@ -148,7 +149,7 @@
 
                                                         <br />  <label for="inputName3" class="col-sm-4 control-label">Reorder Level<label class="mandatory">*</label></label>
                                                         <div class="col-sm-8">
-                                                            @Html.TextBoxFor(C => C.Reorderlvl, new { @id = "txtReorderlvl", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
+                                                            @Html.TextBoxFor(C => C.Reorderlvl, new { @id = "txtReorderlvl", @class = "form-control", @TabIndex = 1})
                                                         </div>
 
                                                     </div>
@@ -161,7 +162,7 @@
 
                                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Maximum Stock Level <label class="mandatory">*</label></label>
                                                         <div class="col-sm-8">
-                                                            @Html.TextBoxFor(C => C.Maxlvl, new { @id = "txtMaxlvl", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
+                                                            @Html.TextBoxFor(C => C.Maxlvl, new { @id = "txtMaxlvl", @class = "form-control", @TabIndex = 1 })
                                                         </div>
 
                                                     </div>
@@ -172,7 +173,7 @@
 
                                                         <br />  <label for="inputName3" class="col-sm-4 control-label">Minimum Stock Level<label class="mandatory">*</label></label>
                                                         <div class="col-sm-8">
-                                                            @Html.TextBoxFor(C => C.Minlvl, new { @id = "txtMinlvl", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
+                                                            @Html.TextBoxFor(C => C.Minlvl, new { @id = "txtMinlvl", @class = "form-control", @TabIndex = 1 })
                                                         </div>
 
                                                     </div>
@@ -248,7 +249,7 @@
 
                                                     <label for="inputName3" class="col-sm-4 control-label">Stack Account <label class="mandatory">*</label></label>
                                                     <div class="col-sm-8">
-                                                        @Html.TextBoxFor(C => C.StackAccount , new { @id = "txtStackAccount", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
+                                                        @Html.TextBoxFor(C => C.StackAccount , new { @id = "txtStackAccount", @class = "form-control", @TabIndex = 1 })
                                                     </div>
 
                                                 </div>
@@ -359,7 +360,7 @@
 
                                                     <br />  <label for="inputName3" class="col-sm-4 control-label">Sub Heading No<label class="Mandatory"></label></label>
                                                     <div class="col-sm-8">
-                                                        @Html.TextBoxFor(C => C.SubHeading , new { @id = "txtSubHeading", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
+                                                        @Html.TextBoxFor(C => C.SubHeading , new { @id = "txtSubHeading", @class = "form-control", @TabIndex = 1 })
 
                                                     </div>
 
@@ -481,7 +482,7 @@
 
                                                     <br /><label for="inputName3" class="col-sm-4 control-label">Rejection Input%<label class="Mandatory"></label></label>
                                                     <div class="col-sm-8">
-                                                        @Html.TextBoxFor(C => C.Rejection , new { @id = "txtRejection", @class = "form-control", @TabIndex = 1 })
+                                                        @Html.TextBoxFor(C => C.Rejection , new { @id = "txtRejection", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
 
                                                     </div>
 
@@ -494,7 +495,7 @@
 
                                                     <br /> <label for="inputName3" class="col-sm-4 control-label">Additive 1<label class="Mandatory"></label></label>
                                                     <div class="col-sm-8">
-                                                        @Html.TextBoxFor(C => C.Additive , new { @id = "txtAdditive", @class = "form-control", @TabIndex = 1 })
+                                                        @Html.TextBoxFor(C => C.Additive , new { @id = "txtAdditive", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
 
                                                     </div>
 
@@ -625,7 +626,7 @@
                                                             <th>Supplier Name </th>
                                                             <th>Supplier Part No.</th>
                                                             <th>Purchase Price </th>
-                                                            <th> Pref. order </th>
+                                                           @* <th> Pref. order </th>*@
                                                             <th> Delivery in days </th>
                                                         </tr>
                                                     </thead>
@@ -640,7 +641,7 @@
                                                                 <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
                                                                     <td>
-                                                                        @Html.DropDownListFor(o => o.Suplst[i].SupName, Model.Suplst[i].Suplst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlSuplst" + i, style = "width: 200px;", onchange = "Grup_Change(this.value," + i + ")"})
+                                                                        @Html.DropDownListFor(o => o.Suplst[i].SupName, Model.Suplst[i].Suplierlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlSuplierlst" + i, style = "width: 200px;", onchange = "Grup_Change(this.value," + i + ")"})
 
                                                                     </td>
                                                                     <td>
@@ -649,16 +650,17 @@
                                                                     <td>
                                                                         @Html.TextBoxFor(o => o.Suplst[i].PurchasePrice, new { @id = "txtPurchasePrice" + i, @class = "form-control", style = "width: 90px;" })
                                                                     </td>
-                                                                    <td>
+                                                                   @* <td>
                                                                         @Html.TextBoxFor(o => o.Suplst[i].Preforder, new { @id = "txtPreforder" + i, @class = "form-control", style = "width: 90px;" })
-                                                                    </td>
+                                                                    </td>*@
                                                                     <td>
                                                                         @Html.TextBoxFor(o => o.Suplst[i].Delivery, new { @id = "txtDelivery" + i, @class = "form-control", style = "width: 90px;" })
                                                                     </td>
                                                                     <td>
                                                                         @Html.HiddenFor(o => o.Suplst[i].Isvalid, new { @id = "Isvalid" + i })
-                                                                        <img onclick="removeRow(@(i));" src="../Images/.png" style="cursor:pointer" /> <input name="Suplst.Index" type="hidden" value="@(i)" />
+                                                                        <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="Suplst.Index" type="hidden" value="@(i)" />
                                                                     </td>
+                                                                    
                                                                 </tr>
                                                                 i = i + 1;
 
@@ -704,24 +706,7 @@
         $(dropDownId).trigger("liszt:updated");
     }
     $(".chosen-select").chosen();
-    function removeRow(id) {
-        var table = document.getElementById("dataTable");
-        var rowCount = table.rows.length;
-        var row = document.getElementById('trBook' + id);
-        var j = 0;
-        $('tr.chkitemlst').each(function () {
-            if ($(this).css('display') !== 'none') {
-                j += 1;
-            }
-        });
-        if (j > 1) {
-            row.style.display = "none";
-            document.getElementById('Isvalid' + id).value = "N";
-        }
-        else {
-            alert("Cannot delete all the rows.")
-        }
-    }
+   
     function AddRow() {
         var opt = "";
         $.ajax({
@@ -758,7 +743,7 @@
     function AppendRow(opt) {
         var index = $("#tbBooks").children("tr").length;
 
-        var Suplst = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='Suplst" + index + "' name='Suplst[" + index + "].Suplst' onchange = 'Grup_Change(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
+        var Suplst = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='Suplst" + index + "' name='Suplst[" + index + "].Suplierlst' onchange = 'Grup_Change(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
 
 
 
@@ -766,14 +751,16 @@
 
         var PurchasePrice = "<td><input class='form-control' id='txtPurchasePrice" + index + "' name='Suplst[" + index + "].PurchasePrice'  style='width: 90px;' type='text'  /></td>";
 
-        var Preforder = "<td><input class='form-control' id='txtPreforder" + index + "' name='Suplst[" + index + "].Preforder'  style='width: 90px;' type='text'   /></td>";
-
+       @* var Preforder = "<td><input class='form-control' id='txtPreforder" + index + "' name='Suplst[" + index + "].Preforder'  style='width: 90px;' type='text'   /></td>";
+*@
 
         var Delivery = "<td><input class='form-control' id='txtDelivery" + index + "' name='Suplst[" + index + "].Delivery'  style='width: 90px;' type='text'   /></td>";
 
-        var removeCell = "<td><input id='Isvalid" + index + "' name='Suplst[" + index + "].Isvalid' type='hidden' value='Y'><images src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='Suplst.Index' type='hidden' value='" + index + "'  /></td>";
 
-        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Suplst + SupplierPart + PurchasePrice + Preforder + Delivery + removeCell + "</tr>";
+        var removeCell = "<td><input id='Isvalid" + index + "' name='Purpose[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='Suplst.Index' type='hidden' value='" + index + "'  /></td>";
+
+     
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Suplst + SupplierPart + PurchasePrice + Delivery + removeCell + "</tr>";
         //alert(Packing);
         $("#tbBooks").append(newRow);
 
@@ -895,6 +882,22 @@
             }
             else {
                 $(ddlHcode).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("ddlLedger").value == "") {
+                isValid = false;
+                $(ddlLedger).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Ledger ");
+                return false;
+            }
+            else {
+                $(ddlLedger).css({
                     "border": "",
                     "background": ""
                 });

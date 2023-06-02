@@ -23,10 +23,11 @@ namespace Arasan.Controllers.Master
             ItemName ca = new ItemName();
             ca.IgLst = BindItemGroup();
             ca.Iclst = BindItemCategory();
-            ca.Isglst = BindItemSubGroup ();
+            ca.Isglst = BindItemSubGroup();
             ca.Hsn = BindHSNcode();
             ca.Bin = BindBinID();
             ca.Ledgerlst = BindLedger();
+            //ca.Itemlst = BindItem();
             List<SupItem> TData = new List<SupItem>();
             SupItem tda = new SupItem();
 
@@ -34,12 +35,12 @@ namespace Arasan.Controllers.Master
             BinItem tdaB = new BinItem();
 
             if (id == null)
-           
+
             {
                 for (int i = 0; i < 3; i++)
                 {
                     tda = new SupItem();
-                    tda.Suplst = BindSupplier();
+                    tda.Suplierlst = BindSupplier();
                     tda.Isvalid = "Y";
                     TData.Add(tda);
                 }
@@ -54,41 +55,40 @@ namespace Arasan.Controllers.Master
             else
             {
                 // ca = ItemNameService.GetSupplierDetailById(id);
-                
-                    DataTable dt = new DataTable();
-                    dt = ItemNameService.GetItemNameDetails(id);
-                    if (dt.Rows.Count > 0)
-                    {
-                        ca.ItemG = dt.Rows[0]["IGROUP"].ToString();
-                        ca.ItemSub = dt.Rows[0]["ISUBGROUP"].ToString();
-                        ca.SubCat = dt.Rows[0]["SUBCATEGORY"].ToString();
-                        ca.ItemCode = dt.Rows[0]["ITEMCODE"].ToString();
-                        ca.Item = dt.Rows[0]["ITEMID"].ToString();
-                        ca.ItemDes = dt.Rows[0]["ITEMDESC"].ToString();
-                        ca.Reorderqu = dt.Rows[0]["REORDERQTY"].ToString();
-                        ca.Reorderlvl = dt.Rows[0]["REORDERLVL"].ToString();
-                        ca.Maxlvl = dt.Rows[0]["MAXSTOCKLVL"].ToString();
-                        ca.Minlvl = dt.Rows[0]["MINSTOCKLVL"].ToString();
-                        ca.Con = dt.Rows[0]["CONVERAT"].ToString();
-                        ca.Uom = dt.Rows[0]["UOM"].ToString();
-                        ca.Hcode = dt.Rows[0]["HSN"].ToString();
-                        ca.Selling = dt.Rows[0]["SELLINGPRI"].ToString();
-                        ca.StackAccount = dt.Rows[0]["ITEMACC"].ToString();
-                        ca.Expiry = dt.Rows[0]["EXPYN"].ToString();
-                        ca.ValuationMethod = dt.Rows[0]["VALMETHOD"].ToString();
-                        ca.Serial = dt.Rows[0]["SERIALYN"].ToString();
-                        ca.Batch = dt.Rows[0]["BSTATEMENTYN"].ToString();
-                        ca.QCTemplate = dt.Rows[0]["QCT"].ToString();
-                        ca.QCRequired = dt.Rows[0]["QCCOMPFLAG"].ToString();
-                        ca.Latest = dt.Rows[0]["LATPURPRICE"].ToString();
-                        ca.SubHeading = dt.Rows[0]["TARIFFHEADING"].ToString();
-                        ca.Rejection = dt.Rows[0]["REJRAWMATPER"].ToString();
-                        ca.Percentage = dt.Rows[0]["RAWMATPER"].ToString();
-                        ca.PercentageAdd = dt.Rows[0]["ADD1PER"].ToString();
-                        ca.Additive = dt.Rows[0]["RAWMATCAT"].ToString();
-                        ca.RawMaterial = dt.Rows[0]["SELLINGPRI"].ToString();
-                        
-                        
+
+                DataTable dt = new DataTable();
+                dt = ItemNameService.GetItemNameDetails(id);
+                if (dt.Rows.Count > 0)
+                {
+                    ca.ItemG = dt.Rows[0]["IGROUP"].ToString();
+                    ca.ItemSub = dt.Rows[0]["ISUBGROUP"].ToString();
+                    ca.SubCat = dt.Rows[0]["SUBCATEGORY"].ToString();
+                    ca.ItemCode = dt.Rows[0]["ITEMCODE"].ToString();
+                    ca.Item = dt.Rows[0]["ITEMID"].ToString();
+                    ca.ItemDes = dt.Rows[0]["ITEMDESC"].ToString();
+                    ca.Reorderqu = dt.Rows[0]["REORDERQTY"].ToString();
+                    ca.Reorderlvl = dt.Rows[0]["REORDERLVL"].ToString();
+                    ca.Maxlvl = dt.Rows[0]["MAXSTOCKLVL"].ToString();
+                    ca.Minlvl = dt.Rows[0]["MINSTOCKLVL"].ToString();
+                    ca.Con = dt.Rows[0]["CONVERAT"].ToString();
+                    ca.Uom = dt.Rows[0]["UOM"].ToString();
+                    ca.Hcode = dt.Rows[0]["HSN"].ToString();
+                    ca.Selling = dt.Rows[0]["SELLINGPRI"].ToString();
+                    ca.StackAccount = dt.Rows[0]["ITEMACC"].ToString();
+                    ca.Expiry = dt.Rows[0]["EXPYN"].ToString();
+                    ca.ValuationMethod = dt.Rows[0]["VALMETHOD"].ToString();
+                    ca.Serial = dt.Rows[0]["SERIALYN"].ToString();
+                    ca.Batch = dt.Rows[0]["BSTATEMENTYN"].ToString();
+                    ca.QCTemplate = dt.Rows[0]["QCT"].ToString();
+                    ca.QCRequired = dt.Rows[0]["QCCOMPFLAG"].ToString();
+                    ca.Latest = dt.Rows[0]["LATPURPRICE"].ToString();
+                    ca.SubHeading = dt.Rows[0]["TARIFFHEADING"].ToString();
+                    ca.Rejection = dt.Rows[0]["REJRAWMATPER"].ToString();
+                    ca.Percentage = dt.Rows[0]["RAWMATPER"].ToString();
+                    ca.PercentageAdd = dt.Rows[0]["ADD1PER"].ToString();
+                    ca.Additive = dt.Rows[0]["ADD1"].ToString();
+                    ca.RawMaterial = dt.Rows[0]["RAWMATCAT"].ToString();
+                    ca.Ledger = dt.Rows[0]["LEDGERNAME"].ToString();
                 }
                 DataTable dt2 = new DataTable();
                 dt2 = ItemNameService.GetBinDeatils(id);
@@ -106,13 +106,13 @@ namespace Arasan.Controllers.Master
 
                 DataTable dtt = new DataTable();
                 dtt = ItemNameService.GetAllSupplier(id);
-             
+
                 if (dtt.Rows.Count > 0)
                 {
                     for (int i = 0; i < dtt.Rows.Count; i++)
                     {
                         tda = new SupItem();
-                        tda.Suplst = BindSupplier();
+                        tda.Suplierlst = BindSupplier();
                         tda.SupName = dtt.Rows[i]["SUPPLIERID"].ToString();
                         tda.SupplierPart = dtt.Rows[i]["SUPPLIERPARTNO"].ToString();
                         tda.PurchasePrice = dtt.Rows[i]["SPURPRICE"].ToString();
@@ -153,20 +153,20 @@ namespace Arasan.Controllers.Master
         }
         public List<SelectListItem> BindBinID()
         {
-                try
+            try
+            {
+                DataTable dtDesg = ItemNameService.BindBinID();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    DataTable dtDesg = ItemNameService.BindBinID();
-                    List<SelectListItem> lstdesg = new List<SelectListItem>();
-                    for (int i = 0; i < dtDesg.Rows.Count; i++)
-                    {
-                        lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["BINID"].ToString(), Value = dtDesg.Rows[i]["BINBASICID"].ToString() });
-                    }
-                    return lstdesg;
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["BINID"].ToString(), Value = dtDesg.Rows[i]["BINBASICID"].ToString() });
                 }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public List<SelectListItem> BindLedger()
         {
@@ -185,6 +185,23 @@ namespace Arasan.Controllers.Master
                 throw ex;
             }
         }
+        //public List<SelectListItem> BindItem()
+        //{
+        //    try
+        //    {
+        //        DataTable dtDesg = ItemNameService.GetItem();
+        //        List<SelectListItem> lstdesg = new List<SelectListItem>();
+        //        for (int i = 0; i < dtDesg.Rows.Count; i++)
+        //        {
+        //            lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEMID"].ToString() });
+        //        }
+        //        return lstdesg;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
         public List<SelectListItem> BindItemGroup()
         {
             try
@@ -193,7 +210,7 @@ namespace Arasan.Controllers.Master
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["GROUPCODE"].ToString(), Value = dtDesg.Rows[i]["ITEMGROUPID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["GROUPCODE"].ToString(), Value = dtDesg.Rows[i]["GROUPCODE"].ToString() });
                 }
                 return lstdesg;
             }
@@ -202,6 +219,21 @@ namespace Arasan.Controllers.Master
                 throw ex;
             }
         }
+        //public ActionResult DeleteMR(string tag, int id)
+        //{
+
+        //    string flag = ItemNameService.StatusChange(tag, id);
+        //    if (string.IsNullOrEmpty(flag))
+        //    {
+
+        //        return RedirectToAction("ListLedger");
+        //    }
+        //    else
+        //    {
+        //        TempData["notice"] = flag;
+        //        return RedirectToAction("ListLedger");
+        //    }
+        //}
         public List<SelectListItem> BindSupplier()
         {
             try
@@ -227,7 +259,7 @@ namespace Arasan.Controllers.Master
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["CATEGORY"].ToString(), Value = dtDesg.Rows[i]["ITEMCATEGORYID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["CATEGORY"].ToString(), Value = dtDesg.Rows[i]["CATEGORY"].ToString() });
                 }
                 return lstdesg;
             }
@@ -244,7 +276,7 @@ namespace Arasan.Controllers.Master
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["SGCODE"].ToString(), Value = dtDesg.Rows[i]["ITEMSUBGROUPID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["SGCODE"].ToString(), Value = dtDesg.Rows[i]["SGCODE"].ToString() });
                 }
                 return lstdesg;
             }
@@ -280,7 +312,7 @@ namespace Arasan.Controllers.Master
                     TempData["notice"] = Strout;
                     //return View();
                 }
-                
+
 
                 // }
             }
@@ -299,7 +331,7 @@ namespace Arasan.Controllers.Master
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["HSNCODE"].ToString(), Value = dtDesg.Rows[i]["HSNCODEID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["HSNCODE"].ToString(), Value = dtDesg.Rows[i]["HSNCODE"].ToString() });
                 }
                 return lstdesg;
             }
@@ -308,7 +340,7 @@ namespace Arasan.Controllers.Master
                 throw ex;
             }
         }
-        
+
         public IActionResult ItemList()
         {
 
@@ -377,10 +409,10 @@ namespace Arasan.Controllers.Master
         //    }
         //    else
         //    {
-               
+
         //        //ca = ItemNameService.GetSupplierById(id);
 
-               
+
         //    }
 
         //    return View(ca);
@@ -407,7 +439,7 @@ namespace Arasan.Controllers.Master
                     }
                 }
                 cmp.pflst = TData;
-               
+
             }
             //IEnumerable<PurchaseFollowup> cmp = PurenqService.GetAllPurchaseFollowup();
             return View(cmp);
