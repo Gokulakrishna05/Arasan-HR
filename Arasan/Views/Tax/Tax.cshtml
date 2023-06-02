@@ -59,6 +59,7 @@
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Tax Percentage %<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.Percentage, new { @id = "txtPercentage", @class = "form-control",onkeydown = "return isNumeric2(event.keyCode,this.value)", @TabIndex = 1 ,step="0.01" ,type = "number", min = 0, max = 100})
+                                            @Html.HiddenFor(C => C.ID)
                                     </div>
 
                                 </div>
