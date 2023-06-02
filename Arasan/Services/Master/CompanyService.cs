@@ -11,10 +11,12 @@ namespace Arasan.Services.Master
 {
     public class CompanyService : ICompanyService
     {
+        DataTransactions datatrans;
         private readonly string _connectionString;
         public CompanyService(IConfiguration _configuration)
         {
             _connectionString = _configuration.GetConnectionString("OracleDBConnection");
+            datatrans = new DataTransactions(_connectionString);
         }
         public IEnumerable<Company> GetAllCompany()
         {
@@ -74,8 +76,19 @@ namespace Arasan.Services.Master
             try
             {
                 string StatementType = string.Empty; 
+                string svSQL = "";
                 //string svSQL = "";
-                
+
+                if (cy.ID == null)
+                {
+
+                    svSQL = " SELECT Count(*) as cnt FROM COMPANYMAST WHERE COMPANYID =LTRIM(RTRIM('" + cy.CompanyId + "')) and COMPANYDESC =LTRIM(RTRIM('" + cy.CompanyName + "'))";
+                    if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "Company Name Already Existed";
+                        return msg;
+                    }
+                }
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("COMPANYPROC", objConn);

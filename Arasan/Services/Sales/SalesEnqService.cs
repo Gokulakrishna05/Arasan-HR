@@ -25,7 +25,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select  PARTYRCODE.PARTY,ENQ_NO,to_char(ENQ_DATE,'dd-MON-yyyy')ENQ_DATE, ENQ_TYPE,CUSTOMER_TYPE,STATUS,SALES_ENQUIRY.ID from SALES_ENQUIRY LEFT OUTER JOIN  PARTYMAST on SALES_ENQUIRY.CUSTOMER_NAME=PARTYMAST.PARTYMASTID  LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Customer','BOTH')";
+                    cmd.CommandText = "Select  PARTYRCODE.PARTY,ENQ_NO,to_char(SALES_ENQUIRY.ENQ_DATE,'dd-MON-yyyy')ENQ_DATE, ENQ_TYPE,CUSTOMER_TYPE,SALES_ENQUIRY.STATUS,SALES_ENQUIRY.ID from SALES_ENQUIRY LEFT OUTER JOIN  PARTYMAST on SALES_ENQUIRY.CUSTOMER_NAME=PARTYMAST.PARTYMASTID  LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Customer','BOTH')";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
