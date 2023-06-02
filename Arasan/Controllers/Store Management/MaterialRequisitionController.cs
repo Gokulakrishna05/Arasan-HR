@@ -42,6 +42,7 @@ namespace Arasan.Controllers.Store_Management
             MR.Location= Request.Cookies["LocationName"];
             MR.Storeid = storeid;
             MR.DocDa = DateTime.Now.ToString("dd-MMM-yyyy");
+            
             List<MaterialRequistionItem> TData = new List<MaterialRequistionItem>();
             MaterialRequistionItem tda = new MaterialRequistionItem();
             if (id == null)
@@ -71,14 +72,14 @@ namespace Arasan.Controllers.Store_Management
                     MR.Processlst = BindProcess(MR.WorkCenter);
                     MR.Process = dt.Rows[0]["PROCESSID"].ToString();
                     MR.RequestType = dt.Rows[0]["REQTYPE"].ToString();
-                    //MR.DocId = dt.Rows[0]["DOCID"].ToString();
+                    MR.DocId = dt.Rows[0]["DOCID"].ToString();
                     MR.DocDa = dt.Rows[0]["DOCDATE"].ToString();
-
+                    MR.matno = dt.Rows[0]["DOCID"].ToString();
                 }
 
                 DataTable dtt = new DataTable();
                 dtt = materialReq.GetmaterialReqItemDetails(id);
-                if (dt.Rows.Count > 0)
+                if (dtt.Rows.Count > 0)
                 {
                     for (int i = 0; i < dtt.Rows.Count; i++)
                     {
@@ -93,7 +94,8 @@ namespace Arasan.Controllers.Store_Management
                         }
                         tda.Itemlst = BindItemlst(tda.ItemGroupId);
                         tda.ItemId = dtt.Rows[i]["ITEMID"].ToString();
-                        tda.Unit = dtt.Rows[i]["UNITID"].ToString();
+                        tda.UnitID = dtt.Rows[i]["UNITID"].ToString();
+                        MR.Narration = dtt.Rows[i]["NARR"].ToString();
                         tda.ReqQty = dtt.Rows[i]["QTY"].ToString();
                         DataTable dt1 = materialReq.Getstkqty(dtt.Rows[i]["ITEMMASTERID"].ToString(), storeid, dt.Rows[0]["BRANCHID"].ToString());
                         if (dt1.Rows.Count > 0)
@@ -399,6 +401,7 @@ namespace Arasan.Controllers.Store_Management
                     tda.UnitID = dtt.Rows[i]["UNIT"].ToString();
                     tda.Unit = dtt.Rows[i]["UNITID"].ToString();
                     tda.ReqQty = dtt.Rows[i]["QTY"].ToString();
+
                     tda.indentid= dtt.Rows[i]["STORESREQDETAILID"].ToString();
                     tda.Isvalid = "Y";
                     double reqqty = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString() == "" ? "0" : dtt.Rows[i]["QTY"].ToString()); 
@@ -635,28 +638,29 @@ namespace Arasan.Controllers.Store_Management
                     tda.UnitID = dtt.Rows[i]["UNIT"].ToString();
                     tda.Unit = dtt.Rows[i]["UNITID"].ToString();
                     tda.ReqQty = dtt.Rows[i]["QTY"].ToString();
+                    tda.ClosingStock = dtt.Rows[i]["STOCK"].ToString();
                     tda.Isvalid = "Y";
-                    double reqqty = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString());
-                    DataTable dt1 = materialReq.Getstkqty(dtt.Rows[i]["ITEMMASTERID"].ToString(), dt.Rows[0]["FROMLOCID"].ToString(), dt.Rows[0]["BRANCHIDS"].ToString());
-                    if (dt1.Rows.Count > 0)
-                    {
-                        tda.ClosingStock = dt1.Rows[0]["QTY"].ToString();
-                    }
-                    double stkqty = 0;
-                    if (!string.IsNullOrEmpty(tda.ClosingStock))
-                    {
-                        stkqty = Convert.ToDouble(tda.ClosingStock);
-                    }
-                    if (stkqty > reqqty)
-                    {
-                        tda.InvQty = reqqty;
-                        tda.IndQty = 0;
-                    }
-                    else
-                    {
-                        tda.InvQty = stkqty;
-                        tda.IndQty = (reqqty - stkqty);
-                    }
+                    //double reqqty = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString());
+                    //DataTable dt1 = materialReq.Getstkqty(dtt.Rows[i]["ITEMMASTERID"].ToString(), dt.Rows[0]["FROMLOCID"].ToString(), dt.Rows[0]["BRANCHIDS"].ToString());
+                    //if (dt1.Rows.Count > 0)
+                    //{
+                    //    tda.ClosingStock = dt1.Rows[0]["QTY"].ToString();
+                    //}
+                    //double stkqty = 0;
+                    //if (!string.IsNullOrEmpty(tda.ClosingStock))
+                    //{
+                    //    stkqty = Convert.ToDouble(tda.ClosingStock);
+                    //}
+                    //if (stkqty > reqqty)
+                    //{
+                    //    tda.InvQty = reqqty;
+                    //    tda.IndQty = 0;
+                    //}
+                    //else
+                    //{
+                    //    tda.InvQty = stkqty;
+                    //    tda.IndQty = (reqqty - stkqty);
+                    //}
                     //tda.Itemlst = BindItemlst();
 
                     TData.Add(tda);

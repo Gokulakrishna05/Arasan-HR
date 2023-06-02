@@ -26,7 +26,7 @@ namespace Arasan.Models
 
         public string MaterialReqId { get; set; }
         public DateTime MaterialReqDate { get; set; }
-
+        public string matno { get; set; }
         public string RequestType { get; set; }
 
         public string Amount { get; set; }

@@ -47,7 +47,7 @@ namespace Arasan.Controllers
             BatchParemItem tda4 = new BatchParemItem();                                                                          
             if (id == null)
             {
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < 1; i++)
                 {
                     tda = new BatchItem();
                     tda.WorkCenterlst = BindWorkCenterid();                                                                                                                                                                                          
@@ -55,7 +55,7 @@ namespace Arasan.Controllers
                     tda.Isvalid = "Y";
                     TData.Add(tda);
                 }
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < 1; i++)
                 {
                     tda1 = new BatchInItem();
                     tda1.IProcesslst = BindProcessid();
@@ -63,7 +63,7 @@ namespace Arasan.Controllers
                     tda1.Isvalid = "Y";
                     TData1.Add(tda1);
                 }
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < 1; i++)
                 {
                     tda2 = new BatchOutItem();
                     tda2.OProcesslst = BindProcessid();
@@ -71,14 +71,14 @@ namespace Arasan.Controllers
                     tda2.Isvalid = "Y";
                     TData2.Add(tda2);
                 }
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < 1; i++)
                 {
                     tda3 = new BatchOtherItem();
                     tda3.OProcessidlst = BindProcessid();
                     tda3.Isvalid = "Y";
                     TData3.Add(tda3);
                 }
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < 1; i++)
                 {
                     tda4 = new BatchParemItem();
                     tda4.Isvalid = "Y";
@@ -228,13 +228,15 @@ namespace Arasan.Controllers
 
                 }
             }
-            
-            ca.BatchParemLst = TData4;
-            ca.BatchOtherLst = TData3;
-            ca.BatchOutLst = TData2;
-            ca.BatchInLst = TData1;
+
+
+
             ca.BatchLst = TData;
-            
+            ca.BatchInLst = TData1;
+            ca.BatchOutLst = TData2;
+          
+                 ca.BatchOtherLst = TData3;
+            ca.BatchParemLst = TData4;
             return View(ca);
         }
         [HttpPost]
