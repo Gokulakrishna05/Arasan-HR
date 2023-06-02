@@ -40,9 +40,9 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">HSN Code<label class="mandatory">*</label></label>
+                                        <br />  <label for="inputName3" class="col-sm-4 control-label">HSN Code<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.HCode, new { @id = "txtHCode",autocomplete="off", @class = "form-control", @TabIndex = 1,@onkeydown = "return isNumeric2(event.keyCode,this.value)" })<br />
+                                            @Html.TextBoxFor(C => C.HCode, new { @id = "txtHCode",autocomplete="off", @class = "form-control", @TabIndex = 1,@onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                         </div>
                                 </div>
                             </div>
@@ -52,9 +52,9 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Description<label class="mandatory"></label></label>
+                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Description<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Dec, new { @id = "txtDec", @class = "form-control", @TabIndex = 1,autocomplete="off" })<br />
+                                            @Html.TextBoxFor(C => C.Dec, new { @id = "txtDec", @class = "form-control", @TabIndex = 1,autocomplete="off" })
                                     </div>
                                 </div>
                             </div>
@@ -64,10 +64,14 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">CGST%<label class="mandatory"></label></label>
+                                        <br />  <label for="inputName3" class="col-sm-4 control-label">CGST%<label class="mandatory"></label></label>
                                        
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.CGst, Model.CGstlst,"Please Select", new { @id = "ddlCGst", @Class = "form-control _select", @TabIndex = 1 })<br />
+
+                                            @Html.DropDownListFor(C => C.CGst, Model.CGstlst,"Please Select", new { @id = "txtCGst", @Class = "form-control _select", @TabIndex = 1 })
+
+                                           
+
                                         </div>
                                     </div>
                                 </div>
@@ -77,9 +81,12 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">SGST%<label class="mandatory"></label></label>
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">SGST%<label class="mandatory"></label></label>
                                           <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.SGst, Model.SGstlst,"Please Select", new { @id = "ddlSGst", @Class = "form-control _select", @TabIndex = 1 })<br />
+
+                                            @Html.DropDownListFor(C => C.SGst, Model.SGstlst,"Please Select", new { @id = "txtSGst", @Class = "form-control _select", @TabIndex = 1 })
+
+                                           
                                         </div>
                                     </div>
                                 </div>
@@ -89,24 +96,22 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">IGST%<label class="mandatory"></label></label>
+                                      <br />  <label for="inputName3" class="col-sm-4 control-label">IGST%<label class="mandatory"></label></label>
                                           <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.IGst, Model.IGstlst,"Please Select", new { @id = "ddlIGst", @Class = "form-control _select", @TabIndex = 1 })<br />
+
+                                            @Html.DropDownListFor(C => C.IGst, Model.IGstlst,"Please Select", new { @id = "txtIGst", @Class = "form-control _select", @TabIndex = 1 })
+
+                                         
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        <div class="row">
-                            <div class="col-lg-3"></div>
-                            <div class="form-group">
-                                <div class="col-sm-4 col-sm-offset-2">
-                                        <button type="submit" name="submit" class="btn btn-success" id="btnSave" value="Save" tabindex="18">Insert</button>
-                                        <input type="reset" class="btn btn-primary" value="Reset">
-                                    <a button class="btn btn-danger" type="submit"  href="@Url.Action("ListHSNcode", "HSNcode")"> Cancel </a>
-                                </div>
-                            </div>
-                        </div>
 
+                            <div style="height:30px;"></div>
+                            <div class="col-lg-10"></div>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListHSNcode", "HSNcode")'">Cancel</button>
+                              
                     </form>
                     }
                 </div>
@@ -116,6 +121,10 @@
 </div>
 
 <script>
+    $(function () {
+        $('._select').select2(); 
+
+    });
     $(document).ready(function () {
         $('#btnSave').click(function (e) {
             var isValid = true;
@@ -153,48 +162,87 @@
                 });
             }
 
+            if (document.getElementById("txtCGST").value == "") {
+                isValid = false;
+                $(txtCGST).css({
+
+
             if (document.getElementById("ddlCGst").value == "" || document.getElementById("ddlCGst").value == 0) {
                 isValid = false;
                 $(ddlCGst).css({
+
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
+
+
+                alert("Please Enter CGST");
+                return false;
+            }
+            else {
+                $(txtCGST).css({
 
                 alert("Please Select CGst");
                 return false;
             }
             else {
                 $(ddlCGst).css({
+
                     "border": "",
                     "background": ""
                 });
             }
 
+            
+            if (document.getElementById("txtSGST").value == "") {
+                isValid = false;
+                $(txtSGST).css({
+
+
             if (document.getElementById("ddlSGst").value == "" || document.getElementById("ddlSGst").value == 0) {
                 isValid = false;
                 $(ddlSGst).css({
+
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
+
+
+                alert("Please Enter SGST");
+                return false;
+            }
+            else {
+                $(txtSGST).css({
 
                 alert("Please Select SGst");
                 return false;
             }
             else {
                 $(ddlSGst).css({
+
                     "border": "",
                     "background": ""
                 });
             }
 
+            if (document.getElementById("txtIGST").value == "") {
+                isValid = false;
+                $(txtIGST).css({
+
+
             if (document.getElementById("ddlIGst").value == "" || document.getElementById("ddlIGst").value == 0) {
                 isValid = false;
                 $(ddlIGst).css({
+
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
+
+                alert("Please Enter IGST");
+
                 alert("Please Select IGst");
+
                 return false;
             }
             else {

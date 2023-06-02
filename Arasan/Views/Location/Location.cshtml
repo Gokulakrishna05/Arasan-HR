@@ -56,6 +56,7 @@
                                         <label for="inputName3" class="col-sm-4 control-label">Branch<label class="mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.Branch, Model.Brlst,"Please select", new { @id = "ddlBranch", @Class = "form-control _select", @TabIndex = 1 })<br /><br />
+                                             @Html.HiddenFor(C => C.ID)
                                         </div>
 
                                     </div>
@@ -69,6 +70,7 @@
                                         <label for="inputName3" class="col-sm-4 control-label">Location Type<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
                                         @Html.TextBoxFor(C => C.LocType, new { @id = "txtLocationType", @class = "form-control", @TabIndex = 1 })<br />
+                                            @Html.HiddenFor(C => C.ID)
                                         </div>
 
                                     </div>

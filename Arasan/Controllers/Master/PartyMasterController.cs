@@ -33,6 +33,7 @@ namespace Arasan.Controllers.Master
             ca.Citylst = BindCity();
             ca.assignList = BindEmp();
             ca.Categorylst = BindCategory();
+            ca.Ledgerlst = BindLedger();
             //List<PartyItem> TData = new List<PartyItem>();
             //PartyItem tda = new PartyItem();
             if (id == null)
@@ -88,6 +89,7 @@ namespace Arasan.Controllers.Master
                     ca.Address = dt.Rows[0]["ADD1"].ToString();
                     ca.Remark = dt.Rows[0]["REMARKS"].ToString();
                     ca.Intred = dt.Rows[0]["INTRODUCEDBY"].ToString();
+                    ca.Ledger = dt.Rows[0]["LEDGERNAME"].ToString();
 
                 }
                 DataTable dt2 = new DataTable();
@@ -147,7 +149,23 @@ namespace Arasan.Controllers.Master
 
             return View(emp);
         }
-
+        public List<SelectListItem> BindLedger()
+        {
+            try
+            {
+                DataTable dtDesg = PartyMasterService.GetLedger();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["LEDNAME"].ToString(), Value = dtDesg.Rows[i]["LEDGERID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         public List<SelectListItem> BindCategory()
         {

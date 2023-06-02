@@ -3,6 +3,14 @@
 @{
     ViewData["Title"] = "Tax";
 }
+<style>
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
 
@@ -32,9 +40,12 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Tax Type<label class="Mandatory"></label></label>
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Tax Type<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Taxtype, Model.Taxtypelst,"Please Select", new { @id = "ddlTaxtype", @Class = "form-control _select", @TabIndex = 1 })<br />
+
+                                            @Html.DropDownListFor(C => C.Taxtype, Model.Taxtypelst,"Please Select", new { @id = "ddlTaxtype", @Class = "form-control _select", @TabIndex = 1 })
+
+                                           
                                             @Html.HiddenFor(C => C.ID)
                                         </div>
                                 </div>
@@ -45,9 +56,9 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Tax Percentage %<label class="Mandatory"></label></label>
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Tax Percentage %<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Percentage, new { @id = "txtPercentage", @class = "form-control",onkeydown = "return isNumeric2(event.keyCode,this.value)", @TabIndex = 1 ,step="0.01" ,type = "number", min = 0, max = 100})<br />
+                                            @Html.TextBoxFor(C => C.Percentage, new { @id = "txtPercentage", @class = "form-control",onkeydown = "return isNumeric2(event.keyCode,this.value)", @TabIndex = 1 ,step="0.01" ,type = "number", min = 0, max = 100})
                                     </div>
 
                                 </div>
@@ -69,6 +80,10 @@
 </div>
 
 <script>
+    $(function () {
+        $('._select').select2();
+
+    });
     $(document).ready(function () {
         $('#btnSave').click(function (e) {
             var isValid = true;

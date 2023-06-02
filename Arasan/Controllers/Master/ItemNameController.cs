@@ -86,10 +86,9 @@ namespace Arasan.Controllers.Master
                     ca.Rejection = dt.Rows[0]["REJRAWMATPER"].ToString();
                     ca.Percentage = dt.Rows[0]["RAWMATPER"].ToString();
                     ca.PercentageAdd = dt.Rows[0]["ADD1PER"].ToString();
-                    ca.Additive = dt.Rows[0]["RAWMATCAT"].ToString();
-                    ca.RawMaterial = dt.Rows[0]["SELLINGPRI"].ToString();
-
-
+                    ca.Additive = dt.Rows[0]["ADD1"].ToString();
+                    ca.RawMaterial = dt.Rows[0]["RAWMATCAT"].ToString();
+                    ca.Ledger = dt.Rows[0]["LEDGERNAME"].ToString();
                 }
                 DataTable dt2 = new DataTable();
                 dt2 = ItemNameService.GetBinDeatils(id);
@@ -220,6 +219,21 @@ namespace Arasan.Controllers.Master
                 throw ex;
             }
         }
+        //public ActionResult DeleteMR(string tag, int id)
+        //{
+
+        //    string flag = ItemNameService.StatusChange(tag, id);
+        //    if (string.IsNullOrEmpty(flag))
+        //    {
+
+        //        return RedirectToAction("ListLedger");
+        //    }
+        //    else
+        //    {
+        //        TempData["notice"] = flag;
+        //        return RedirectToAction("ListLedger");
+        //    }
+        //}
         public List<SelectListItem> BindSupplier()
         {
             try

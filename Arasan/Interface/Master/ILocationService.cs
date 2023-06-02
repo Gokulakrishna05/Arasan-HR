@@ -12,6 +12,6 @@ namespace Arasan.Interface
         IEnumerable<Location> GetAllLocations();
         Location GetLocationsById(string id);
         string StatusChange(string tag, int id);
-
+        DataTable GetEditLocation(string id);
     }
 }

@@ -96,11 +96,11 @@ namespace Arasan.Services.Master
                     }
 
 
-                    objCmd.Parameters.Add("ItemCategory", OracleDbType.NVarchar2).Value = iy.Category;
+                    objCmd.Parameters.Add("CATEGORY", OracleDbType.NVarchar2).Value = iy.Category;
  
-                    objCmd.Parameters.Add("CANCEL", OracleDbType.NVarchar2).Value ="F";
+                    //objCmd.Parameters.Add("CANCEL", OracleDbType.NVarchar2).Value ="F";
  
-                    objCmd.Parameters.Add("status", OracleDbType.NVarchar2).Value = "ACTIVE";
+                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
  
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     try

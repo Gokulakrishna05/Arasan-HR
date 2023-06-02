@@ -11,7 +11,11 @@ namespace Arasan.Models
             this.Countrylst = new List<SelectListItem>();
             this.assignList = new List<SelectListItem>();
             this.Categorylst = new List<SelectListItem>();
+            this.Ledgerlst = new List<SelectListItem>();
         }
+        public List<SelectListItem> Ledgerlst;
+
+        public string Ledger { get; set; }
         public string ID { get; set; }
         public List<SelectListItem> Categorylst;
 

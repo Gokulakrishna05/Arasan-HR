@@ -25,7 +25,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select ACCTYPE.ACCOUNTTYPE,ACCGROUP.ACCOUNTGROUP,LEDNAME,to_char(LEDGER.DOCDATE,'dd-MON-yyyy')DOCDATE,LEDGERID from LEDGER LEFT OUTER JOIN ACCTYPE ON ACCOUNTTYPEID=LEDGER.ACCTYPE LEFT OUTER JOIN ACCGROUP ON ACCGROUPID =LEDGER.ACCGROUP where LEDGER.STATUS='Active'";
+                    cmd.CommandText = "Select ACCTYPE.ACCOUNTTYPE,LEDNAME,to_char(LEDGER.DOCDATE,'dd-MON-yyyy')DOCDATE,LEDGERID from LEDGER LEFT OUTER JOIN ACCTYPE ON ACCOUNTTYPEID=LEDGER.ACCTYPE  where LEDGER.STATUS='Active'";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -33,7 +33,7 @@ namespace Arasan.Services
                         {
                             ID = rdr["LEDGERID"].ToString(),
                             AType = rdr["ACCOUNTTYPE"].ToString(),
-                            AccGroup = rdr["ACCOUNTGROUP"].ToString(),
+                            //AccGroup = rdr["ACCOUNTGROUP"].ToString(),
                             LedName = rdr["LEDNAME"].ToString(),
                             DocDate = rdr["DOCDATE"].ToString(),
 
