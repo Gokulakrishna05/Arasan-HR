@@ -25,7 +25,7 @@ namespace Arasan.Controllers.Master
         {
             Employee E = new Employee();
             E.Statelst = BindState();
-            E.Citylst = BindCity();
+            E.Citylst = BindCity("");
 
             //List<EduDeatils> TData = new List<EduDeatils>();
             //EduDeatils tda = new EduDeatils();
@@ -152,6 +152,13 @@ namespace Arasan.Controllers.Master
             }
 
             return View(emp);
+        }
+        public JsonResult GetStateJSON(string supid)
+        {
+            Employee model = new Employee();
+            model.Citylst = BindCity(supid);
+            return Json(BindCity(supid));
+
         }
         public List<SelectListItem> BindLocation(string id)
         {
@@ -304,11 +311,11 @@ namespace Arasan.Controllers.Master
                 throw ex;
             }
         }
-        public List<SelectListItem> BindCity()
+        public List<SelectListItem> BindCity(string id)
         {
             try
             {
-                DataTable dtDesg = EmployeeService.GetCity();
+                DataTable dtDesg = EmployeeService.GetCity(id);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {

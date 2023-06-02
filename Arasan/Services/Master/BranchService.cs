@@ -60,15 +60,7 @@ namespace Arasan.Services
             using (OracleCommand cmd = con.CreateCommand())
             {
                 con.Open();
-
                 cmd.CommandText = "Select BRANCHMASTID,COMPANYMAST.COMPANYDESC,BRANCHID,ADDRESS1,STATE,CITY,PINCODE,CSTNO, CSTDATE,BRANCHMAST.STATUS from BRANCHMAST left outer join COMPANYMAST on COMPANYMASTID=BRANCHMAST.COMPANYID WHERE BRANCHMAST.STATUS = 'ACTIVE' ";
-
- 
-                cmd.CommandText = "Select BRANCHMASTID,COMPANYMAST.COMPANYDESC,BRANCHID,ADDRESS1,STATE,CITY,PINCODE,CSTNO, CSTDATE,BRANCHMAST.STATUS from BRANCHMAST left outer join COMPANYMAST on COMPANYMASTID=BRANCHMAST.COMPANYID WHERE BRANCHMAST.STATUS = 'ACTIVE' ";
- 
-                cmd.CommandText = "Select BRANCHMASTID,COMPANYMAST.COMPANYDESC,BRANCHID,ADDRESS1,STATE,CITY,PINCODE,CSTNO, CSTDATE,BRANCHMAST.STATUS from BRANCHMAST left outer join COMPANYMAST on COMPANYMASTID=BRANCHMAST.COMPANYID WHERE BRANCHMAST.STATUS = 'ACTIVE'  ";
- 
-
                 OracleDataReader rdr = cmd.ExecuteReader();
                 while (rdr.Read())
                 {
@@ -124,7 +116,7 @@ namespace Arasan.Services
                 objCmd.Parameters.Add("PINCODE", OracleDbType.NVarchar2).Value = cy.PinCode;
                 objCmd.Parameters.Add("CSTNO", OracleDbType.NVarchar2).Value = cy.GSTNo;
                 objCmd.Parameters.Add("CSTDATE", OracleDbType.Date).Value = DateTime.Parse(cy.GSTDate);
-                objCmd.Parameters.Add("CSTNO", OracleDbType.NVarchar2).Value = "ACTIVE";
+                objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
 
                 objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                 try
@@ -173,6 +165,16 @@ namespace Arasan.Services
 
         }
 
+        public DataTable GetEditBranch(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select COMPANYID,BRANCHID,ADDRESS1,STATE,CITY,PINCODE,CSTNO,CSTDATE,BRANCHMASTID from  BRANCHMAST  where BRANCHMASTID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
     }
 }
    

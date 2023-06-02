@@ -22,7 +22,7 @@ namespace Arasan.Models
         public String Type { get; set; }
         public String Weight { get; set; }
 
-
+        public string Status { get; set; }
         public string DrumNo { get; set; }
         public string DocDate { get; set; }
 
