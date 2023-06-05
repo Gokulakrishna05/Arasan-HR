@@ -51,16 +51,16 @@ namespace Arasan.Services
             try
             {
                 string StatementType = string.Empty; string svSQL = "";
-                //if (cy.ID == null)
-                //{
+                if (cy.ID == null)
+                {
 
-                //    svSQL = " SELECT Count(*) as cnt FROM ACCGROUP WHERE ACCOUNTGROUP =LTRIM(RTRIM('" + cy.AccGroup + "')) and GROUPCODE =LTRIM(RTRIM('" + cy.GCode + "'))";
-                //    if (datatrans.GetDataId(svSQL) > 0)
-                //    {
-                //        msg = " Enquiry Type Already Existed";
-                //        return msg;
-                //    }
-                //}
+                    svSQL = " SELECT Count(*) as cnt FROM LEDGER WHERE ACCTYPE =LTRIM(RTRIM('" + cy.AType + "')) and LEDNAME =LTRIM(RTRIM('" + cy.LedName + "'))";
+                    if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "LEDGER Already Existed";
+                        return msg;
+                    }
+                }
                 string AccGroupID = datatrans.GetDataString("Select ACCGROUPID from ACCGROUP where ACCOUNTGROUP='" + cy.AccGroup + "' ");
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {

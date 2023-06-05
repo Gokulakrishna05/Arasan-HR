@@ -12,9 +12,11 @@ namespace Arasan.Services
     public class DepartmentService : IDepartment
     {
         private readonly string _connectionString;
+        DataTransactions datatrans;
         public DepartmentService(IConfiguration _configuration)
         {
             _connectionString = _configuration.GetConnectionString("OracleDBConnection");
+            datatrans = new DataTransactions(_connectionString);
         }
 
         public IEnumerable<Department> GetAllDepartment()
@@ -61,7 +63,17 @@ namespace Arasan.Services
             try
             {
                 string StatementType = string.Empty;
+                string svSQL = "";
+                if (ss.ID == null)
+                {
 
+                    svSQL = " SELECT Count(*) as cnt FROM DEPARTMENTMAST WHERE DEPARTMENT_CODE = LTRIM(RTRIM('" + ss.Departmentcode + "')) and DEPARTMENT_NAME = LTRIM(RTRIM('" + ss.DepartmentName + "'))";
+                    if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "Department Already Existed";
+                        return msg;
+                    }
+                }
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("DEPARTMENTPROC", objConn);

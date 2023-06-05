@@ -12,9 +12,11 @@ namespace Arasan.Services.Master
     public class CurrencyService : ICurrencyService
     {
         private readonly string _connectionString;
+        DataTransactions datatrans;
         public CurrencyService(IConfiguration _configuratio)
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
+            datatrans = new DataTransactions(_connectionString);
         }
         public IEnumerable<Currency> GetAllCurrency()
         {
@@ -74,8 +76,17 @@ namespace Arasan.Services.Master
             try
             {
                 string StatementType = string.Empty;
-                //string svSQL = "";
+                string svSQL = "";
+                if (cy.ID == null)
+                {
 
+                    svSQL = " SELECT Count(*) as cnt FROM CURRENCY WHERE MAINCURR = LTRIM(RTRIM('" + cy.CurrencyName + "')) and SYMBOL = LTRIM(RTRIM('" + cy.CurrencyCode + "'))";
+                    if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "Currency Already Existed";
+                        return msg;
+                    }
+                }
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("CURRENCYPROC", objConn);
@@ -94,8 +105,8 @@ namespace Arasan.Services.Master
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                     }
 
-                    objCmd.Parameters.Add("CurrencyCode", OracleDbType.NVarchar2).Value = cy.CurrencyCode;
-                    objCmd.Parameters.Add("CurrencyName", OracleDbType.NVarchar2).Value = cy.CurrencyName;
+                    objCmd.Parameters.Add("SYMBOL", OracleDbType.NVarchar2).Value = cy.CurrencyCode;
+                    objCmd.Parameters.Add("MAINCURR", OracleDbType.NVarchar2).Value = cy.CurrencyName;
                     objCmd.Parameters.Add("status", OracleDbType.NVarchar2).Value = "ACTIVE";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     try

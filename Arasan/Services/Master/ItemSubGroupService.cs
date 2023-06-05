@@ -13,9 +13,11 @@ namespace Arasan.Services.Master
     public class ItemSubGroupService : IItemSubGroupService
     {
         private readonly string _connectionString;
+        DataTransactions datatrans;
         public ItemSubGroupService(IConfiguration _configuratio)
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
+            datatrans = new DataTransactions(_connectionString);
         }
         public IEnumerable<ItemSubGroup> GetAllItemSubGroup()
         {
@@ -76,7 +78,16 @@ namespace Arasan.Services.Master
             try
             {
                 string StatementType = string.Empty; string svSQL = "";
+                if (sg.ID == null)
+                {
 
+                    svSQL = " SELECT Count(*) as cnt FROM ITEMSUBGROUP WHERE SGCODE = LTRIM(RTRIM('" + sg.itemSubGroup + "'))";
+                    if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "ItemSubGroup Already Existed";
+                        return msg;
+                    }
+                }
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("ITEMSUBGROUPPROC", objConn);

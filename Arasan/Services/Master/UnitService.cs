@@ -13,9 +13,11 @@ namespace Arasan.Services
     public class UnitService : IUnitService
     {
         private readonly string _connectionString;
+        DataTransactions datatrans;
         public UnitService(IConfiguration _configuration)
         {
             _connectionString = _configuration.GetConnectionString("OracleDBConnection");
+            datatrans = new DataTransactions(_connectionString);
         }
 
         public IEnumerable<Unit> GetAllUnit()
@@ -49,7 +51,17 @@ namespace Arasan.Services
             try
             {
                 string StatementType = string.Empty;
-                //string svSQL = "";
+                string svSQL = "";
+                if (cy.ID == null)
+                {
+
+                    svSQL = " SELECT Count(*) as cnt FROM UNITMAST WHERE UNITID = LTRIM(RTRIM('" + cy.UnitName + "'))";
+                    if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "Unit Already Existed";
+                        return msg;
+                    }
+                }
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {

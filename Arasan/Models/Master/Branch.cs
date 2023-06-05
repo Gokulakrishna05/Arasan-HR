@@ -9,13 +9,15 @@ namespace Arasan.Models
         public Branch()
         {
             this.Compalst = new List<SelectListItem>();
-            this.cuntylst = new List<SelectListItem>();
+            //this.cuntylst = new List<SelectListItem>();
             this.statlst = new List<SelectListItem>();
+            this.Citylst = new List<SelectListItem>();
         }
 
         public string ID { get; set; }
         public string BranchName { get; set; }
         public string PinCode { get; set; }
+        public List<SelectListItem> Citylst;
         public string City { get; set; }
         public string GSTDate { get; set; }
         public string Address { get; set; }
@@ -24,8 +26,8 @@ namespace Arasan.Models
         public List<SelectListItem> Compalst;
         public string CompanyName { get; set; }
 
-        public List<SelectListItem> cuntylst;
-        public String countryid { get; set; }
+        //public List<SelectListItem> cuntylst;
+        //public String countryid { get; set; }
 
         public List<SelectListItem> statlst;
 

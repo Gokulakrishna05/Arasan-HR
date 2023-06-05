@@ -12,9 +12,11 @@ namespace Arasan.Services.Master
     public class StateService : IStateService
     {
         private readonly string _connectionString;
+        DataTransactions datatrans;
         public StateService(IConfiguration _configuratio)
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
+            datatrans = new DataTransactions(_connectionString);
         }
         public IEnumerable<State> GetAllState()
         {
@@ -25,7 +27,7 @@ namespace Arasan.Services.Master
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select STATE,STATE_CODE,COUNTRYMASTID,STATEMASTID,STATUS from STATEMAST WHERE STATUS ='ACTIVE'";
+                    cmd.CommandText = "select STATE,STATE_CODE,CONMAST.COUNTRYNAME,STATEMASTID from  STATEMAST LEFT OUTER JOIN CONMAST ON CONMAST.COUNTRYMASTID=STATEMAST.COUNTRYMASTID WHERE STATEMAST.STATUS ='ACTIVE'";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -34,7 +36,7 @@ namespace Arasan.Services.Master
                             ID = rdr["STATEMASTID"].ToString(),
                             StateName = rdr["STATE"].ToString(),
                             StateCode = rdr["STATE_CODE"].ToString(),
-                            countryid = rdr["COUNTRYMASTID"].ToString()
+                            countryid = rdr["COUNTRYNAME"].ToString()
                         };
                         staList.Add(sta);
                     }
@@ -52,7 +54,16 @@ namespace Arasan.Services.Master
             adapter.Fill(dtt);
             return dtt;
         }
-
+        public DataTable GetEditState(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select STATE,STATE_CODE,COUNTRYMASTID,STATEMASTID from  STATEMAST  where STATEMASTID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public State GetStateById(string eid)
         {
             State State = new State();
@@ -85,6 +96,16 @@ namespace Arasan.Services.Master
             try
             {
                 string StatementType = string.Empty; string svSQL = "";
+                if (ss.ID == null)
+                {
+
+                    svSQL = " SELECT Count(*) as cnt FROM STATEMAST WHERE STATE =LTRIM(RTRIM('" + ss.StateName + "'))";
+                    if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "State Already Existed";
+                        return msg;
+                    }
+                }
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {

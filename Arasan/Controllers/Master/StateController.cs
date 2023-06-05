@@ -26,7 +26,18 @@ namespace Arasan.Controllers.Master
             }
             else
             {
-                st = StateService.GetStateById(id);
+                DataTable dt = new DataTable();
+
+                dt = StateService.GetEditState(id);
+                if (dt.Rows.Count > 0)
+                {
+                    st.StateName = dt.Rows[0]["STATE"].ToString();
+                    st.StateCode = dt.Rows[0]["STATE_CODE"].ToString();
+                    st.countryid = dt.Rows[0]["COUNTRYMASTID"].ToString();
+                    st.ID = id;
+
+
+                }
 
             }
             return View(st);

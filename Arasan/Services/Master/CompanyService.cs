@@ -13,6 +13,7 @@ namespace Arasan.Services.Master
     {
         DataTransactions datatrans;
         private readonly string _connectionString;
+        DataTransactions datatrans;
         public CompanyService(IConfiguration _configuration)
         {
             _connectionString = _configuration.GetConnectionString("OracleDBConnection");
@@ -75,20 +76,22 @@ namespace Arasan.Services.Master
             string msg = "";
             try
             {
-                string StatementType = string.Empty; 
-                string svSQL = "";
-                //string svSQL = "";
 
+                string StatementType = string.Empty;  string svSQL = "";
                 if (cy.ID == null)
                 {
 
-                    svSQL = " SELECT Count(*) as cnt FROM COMPANYMAST WHERE COMPANYID =LTRIM(RTRIM('" + cy.CompanyId + "')) and COMPANYDESC =LTRIM(RTRIM('" + cy.CompanyName + "'))";
+                    svSQL = " SELECT Count(*) as cnt FROM COMPANYMAST WHERE COMPANYID =LTRIM(RTRIM('" + cy.CompanyId + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
-                        msg = "Company Name Already Existed";
+                        msg = "Company Already Existed";
                         return msg;
                     }
                 }
+
+
+               
+
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("COMPANYPROC", objConn);

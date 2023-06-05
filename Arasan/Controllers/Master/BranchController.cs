@@ -12,17 +12,23 @@ namespace Arasan.Controllers
     public class BranchController : Controller
     {
         IBranchService BranchService;
-        public BranchController(IBranchService _BranchService)
+        IConfiguration? _configuratio;
+        private string? _connectionString;
+        DataTransactions datatrans;
+        public BranchController(IBranchService _BranchService, IConfiguration _configuratio)
         {
             BranchService = _BranchService;
+            _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
+            datatrans = new DataTransactions(_connectionString);
         }
 
         public IActionResult Branch(string id)
         {
             Branch br = new Branch();
             br.Compalst = BindCompany();
-            br.cuntylst = BindCountry();
-            br.statlst = BindState("");
+            //br.cuntylst = BindCountry();
+            br.statlst = BindState();
+            br.Citylst = BindCity("");
 
             if (id == null)
             {
@@ -41,6 +47,7 @@ namespace Arasan.Controllers
                     br.BranchName = dt.Rows[0]["BRANCHID"].ToString();
                     br.Address = dt.Rows[0]["ADDRESS1"].ToString();
                     br.StateName = dt.Rows[0]["STATE"].ToString();
+                    //br.Citylst = BindCity(br.StateName);
                     br.City = dt.Rows[0]["CITY"].ToString();
                     br.PinCode = dt.Rows[0]["PINCODE"].ToString();
                     br.GSTNo = dt.Rows[0]["CSTNO"].ToString();
@@ -71,15 +78,32 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public List<SelectListItem> BindCountry()
+        //public List<SelectListItem> BindCountry()
+        //{
+        //    try
+        //    {
+        //        DataTable dtDesg = BranchService.Getcountry();
+        //        List<SelectListItem> lstdesg = new List<SelectListItem>();
+        //        for (int i = 0; i < dtDesg.Rows.Count; i++)
+        //        {
+        //            lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COUNTRYNAME"].ToString(), Value = dtDesg.Rows[i]["COUNTRYMASTID"].ToString() });
+        //        }
+        //        return lstdesg;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
+        public List<SelectListItem> BindState()
         {
             try
             {
-                DataTable dtDesg = BranchService.Getcountry();
+                DataTable dtDesg = BranchService.GetState();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COUNTRYNAME"].ToString(), Value = dtDesg.Rows[i]["COUNTRYMASTID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["STATE"].ToString(), Value = dtDesg.Rows[i]["STATE"].ToString() });
                 }
                 return lstdesg;
             }
@@ -88,15 +112,15 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public List<SelectListItem> BindState(string id)
+        public List<SelectListItem> BindCity(String id)
         {
             try
             {
-                DataTable dtDesg = BranchService.GetState(id);
+                DataTable dtDesg = BranchService.GetCity(id);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["STATE"].ToString(), Value = dtDesg.Rows[i]["STATE"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["CITYNAME"].ToString(), Value = dtDesg.Rows[i]["CITYNAME"].ToString() });
                 }
                 return lstdesg;
             }
@@ -143,11 +167,12 @@ namespace Arasan.Controllers
 
             return View(Cy);
         }
-        public JsonResult GetStateJSON(string supid)
+        public JsonResult GetCityJSON(string supid)
         {
+            string CityID = datatrans.GetDataString("Select STATEMASTID from STATEMAST where STATE='" + supid + "' ");
             Branch model = new Branch();
-            model.statlst = BindState(supid);
-            return Json(BindState(supid));
+            model.Citylst = BindCity(CityID);
+            return Json(BindCity(CityID));
 
         }
         public IActionResult ListBranch()

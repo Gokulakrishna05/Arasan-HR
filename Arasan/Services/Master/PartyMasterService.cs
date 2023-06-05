@@ -65,16 +65,16 @@ namespace Arasan.Services.Master
             try
             {
                 string StatementType = string.Empty; string svSQL = "";
-                if (cy.ID == null)
-                {
+                //if (cy.ID == null)
+                //{
 
-                    svSQL = " SELECT Count(*) as cnt FROM PARTYMAST WHERE ACCOUNTNAME =LTRIM(RTRIM('" + cy.AccName + "')) and PARTYID =LTRIM(RTRIM('" + cy.PartyCode + "'))";
-                    if (datatrans.GetDataId(svSQL) > 0)
-                    {
-                        msg = "Party Already Existed";
-                        return msg;
-                    }
-                }
+                //    svSQL = " SELECT Count(*) as cnt FROM PARTYMAST WHERE ACCOUNTNAME =LTRIM(RTRIM('" + cy.AccName + "')) and PARTYID =LTRIM(RTRIM('" + cy.PartyCode + "'))";
+                //    if (datatrans.GetDataId(svSQL) > 0)
+                //    {
+                //        msg = "Party Already Existed";
+                //        return msg;
+                //    }
+                //}
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
