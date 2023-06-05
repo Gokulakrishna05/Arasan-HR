@@ -3,6 +3,12 @@
     ViewData["Title"] = "ListAccountType";
 }
 
+<script type="text/javascript">
+    @if (TempData["notice"] != null)
+    {
+        @:alert('@TempData["notice"]');
+    }
+</script>
 
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
