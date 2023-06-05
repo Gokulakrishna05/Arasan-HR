@@ -732,21 +732,21 @@ namespace Arasan.Controllers
             });
         }
 
-        //public ActionResult DeleteMR(string tag, int id)
-        //{
+        public ActionResult DeleteMR(string tag, int id)
+        {
 
-        //    string flag = PurenqService.StatusChange(tag, id);
-        //    if (string.IsNullOrEmpty(flag))
-        //    {
+            string flag = PurenqService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
 
-        //        return RedirectToAction("ListEnquiry");
-        //    }
-        //    else
-        //    {
-        //        TempData["notice"] = flag;
-        //        return RedirectToAction("ListEnquiry");
-        //    }
-        //}
+                return RedirectToAction("ListEnquiry");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListEnquiry");
+            }
+        }
 
     }
 }

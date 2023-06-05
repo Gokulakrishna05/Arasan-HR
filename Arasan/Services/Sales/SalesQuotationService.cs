@@ -27,7 +27,7 @@ namespace Arasan.Services.Sales
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select BRANCHID,QUOTE_NO,to_char(QUOTE_DATE,'dd-MON-yyyy')QUOTE_DATE,ENQNO,to_char(ENQDATE,'dd-MON-yyyy')ENQDATE,CURRENCY_TYPE,CUSTOMER,CUSTOMER_TYPE,ADDRESS,CITY,CONTACT_PERSON_MOBILE,CONTACT_PERSON_MAIL,PINCODE,PRIORITY,ASSIGNED_TO,ID from SALES_QUOTE";
+                    cmd.CommandText = "Select BRANCHID,QUOTE_NO,to_char(QUOTE_DATE,'dd-MON-yyyy')QUOTE_DATE,ENQNO,to_char(ENQDATE,'dd-MON-yyyy')ENQDATE,CURRENCY_TYPE,SQ.CUSTOMER,SQ.CUSTOMER_TYPE,SQ.ADDRESS,SQ.CITY,SQ.CONTACT_PERSON_MOBILE,SQ.CONTACT_PERSON_MAIL,SQ.PINCODE,SQ.PRIORITY,SQ.ASSIGNED_TO,SQ.ID,PARTYRCODE.PARTY from SALES_QUOTE SQ LEFT OUTER JOIN  PARTYMAST on SQ.CUSTOMER=PARTYMAST.PARTYMASTID  LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Customer','BOTH')  order by SQ.ID DESC ";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -40,7 +40,7 @@ namespace Arasan.Services.Sales
                             EnNo = rdr["ENQNO"].ToString(),
                             EnDate = rdr["ENQDATE"].ToString(),
                             Currency = rdr["CURRENCY_TYPE"].ToString(),
-                            Customer = rdr["CUSTOMER"].ToString(),
+                            Customer = rdr["PARTY"].ToString(),
                             CustomerType = rdr["CUSTOMER_TYPE"].ToString(),
                             Address = rdr["ADDRESS"].ToString(),
                             City = rdr["CITY"].ToString(),
@@ -269,7 +269,15 @@ namespace Arasan.Services.Sales
             adapter.Fill(dtt);
             return dtt;
         }
-
+        public DataTable GetEnquiry()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select ENQ_NO,ID from SALES_ENQUIRY where STATUS='Generated'";
+            DataTable dtt = new DataTable(); OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
 
         public IEnumerable<QuoItem> GetAllSalesQuotationItem(string id)
         {

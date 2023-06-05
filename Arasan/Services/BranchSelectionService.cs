@@ -14,7 +14,7 @@ namespace Arasan.Services
         public DataTable GetBranch( )
         {
             string SvSql = string.Empty;
-            SvSql = "select BRANCHMASTID,BRANCHID from BRANCHMAST order by BRANCHMASTID asc";
+            SvSql = "select BRANCHMASTID,BRANCHID from BRANCHMAST where STATUS='ACTIVE'   order by BRANCHMASTID asc";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

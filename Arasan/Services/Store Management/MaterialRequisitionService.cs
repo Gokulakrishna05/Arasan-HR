@@ -50,7 +50,7 @@ namespace Arasan.Services
         public DataTable GetmaterialReqItemDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select STORESREQDETAIL.UNIT,ITEMMASTER.ITEMMASTERID,UNITMAST.UNITID,STORESREQDETAIL.ITEMID,STORESREQDETAIL.QTY from STORESREQDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=STORESREQDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=STORESREQDETAIL.UNIT WHERE STORESREQDETAIL.STORESREQBASICID='" + id + "'";
+            SvSql = "Select STORESREQDETAIL.UNIT,ITEMMASTER.ITEMMASTERID,UNITMAST.UNITID,STORESREQDETAIL.ITEMID,STORESREQDETAIL.QTY,NARR from STORESREQDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=STORESREQDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=STORESREQDETAIL.UNIT WHERE STORESREQDETAIL.STORESREQBASICID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -140,7 +140,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,STORESREQBASIC.DOCID,to_char(STORESREQBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,LOCDETAILS.LOCID,PROCESSID,REQTYPE,STORESREQBASICID,STORESREQBASIC.STATUS from STORESREQBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=STORESREQBASIC.BRANCHID LEFT OUTER JOIN  LOCDETAILS on STORESREQBASIC.FROMLOCID=LOCDETAILS.LOCDETAILSID where STORESREQBASIC.STATUS='OPEN'";
+                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,STORESREQBASIC.DOCID,to_char(STORESREQBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,LOCDETAILS.LOCID,PROCESSID,REQTYPE,STORESREQBASICID,STORESREQBASIC.STATUS from STORESREQBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=STORESREQBASIC.BRANCHID LEFT OUTER JOIN  LOCDETAILS on STORESREQBASIC.FROMLOCID=LOCDETAILS.LOCDETAILSID where STORESREQBASIC.STATUS='OPEN' order by STORESREQBASICID desc";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -545,20 +545,23 @@ namespace Arasan.Services
                 t = todate.ToString("yy");
                 f = fromdate.ToString("yy");
                 string disp = string.Format("{0}-{1}", f, t);
-
-                int idc = datatrans.GetDataId(" SELECT COMMON_TEXT FROM COMMON_MASTER WHERE COMMON_TYPE = 'MAT' AND IS_ACTIVE = 'Y'");
-                string MATNo = string.Format("{0} - {1} / {2}", "MAT", (idc + 1).ToString(), disp);
-
-                string updateCMd = " UPDATE COMMON_MASTER SET COMMON_TEXT ='" + (idc + 1).ToString() + "' WHERE COMMON_TYPE ='MAT' AND IS_ACTIVE ='Y'";
-                try
+                if (cy.ID == null)
                 {
-                    datatrans.UpdateStatus(updateCMd);
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
+                    int idc = datatrans.GetDataId(" SELECT COMMON_TEXT FROM COMMON_MASTER WHERE COMMON_TYPE = 'MAT' AND IS_ACTIVE = 'Y'");
+                    string MATNo = string.Format("{0} - {1} / {2}", "MAT", (idc + 1).ToString(), disp);
 
+                    string updateCMd = " UPDATE COMMON_MASTER SET COMMON_TEXT ='" + (idc + 1).ToString() + "' WHERE COMMON_TYPE ='MAT' AND IS_ACTIVE ='Y'";
+                    try
+                    {
+                        datatrans.UpdateStatus(updateCMd);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                    cy.matno = MATNo;
+                }
+              
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
 
@@ -577,7 +580,7 @@ namespace Arasan.Services
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                     }
                     objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
-                    objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = MATNo;
+                    objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.matno;
                     objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = cy.DocDa;
                     objCmd.Parameters.Add("FROMLOCID", OracleDbType.NVarchar2).Value = cy.Location;
                     objCmd.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = cy.WorkCenter;
@@ -589,25 +592,46 @@ namespace Arasan.Services
                     objConn.Open();
                     objCmd.ExecuteNonQuery();
                     Object reqid = objCmd.Parameters["OUTID"].Value;
-                    foreach (MaterialRequistionItem cp in cy.MRlst)
+                    if (cy.ID == null)
                     {
-                        if (cp.Isvalid == "Y" && cp.ItemId != "0")
+                        foreach (MaterialRequistionItem cp in cy.MRlst)
                         {
-                            if (cy.ID == null)
+
+                            if (cp.Isvalid == "Y" && cp.ItemId != "0")
                             {
-                                svSQL = "Insert into STORESREQDETAIL (STORESREQBASICID,ITEMID,UNIT,QTY,STOCK,NARR) VALUES ('" + reqid + "','" + cp.ItemId + "','" + cp.UnitID + "','" + cp.ReqQty + "','" + cp.ClosingStock + "','" + cy.Narration + "')";
+                                string unitID = datatrans.GetDataString("Select UNITMASTID from UNITMAST where UNITID='" + cp.UnitID + "' ");
+
+
+                                svSQL = "Insert into STORESREQDETAIL (STORESREQBASICID,ITEMID,UNIT,QTY,STOCK,NARR) VALUES ('" + reqid + "','" + cp.ItemId + "','" + unitID + "','" + cp.ReqQty + "','" + cp.ClosingStock + "','" + cy.Narration + "')";
                                 OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                 objCmds.ExecuteNonQuery();
-                            }
-                            else
-                            {
-                                svSQL = "Update STORESREQDETAIL SET  ITEMID= '" + cp.ItemId + "',UNIT= '" + cp.UnitID + "',QTY='" + cp.ReqQty + "',STOCK='" + cp.ClosingStock + "',NARR='" + cp.Narration + "'  where STORESREQBASICID='" + cy.ID + "'  ";
-                                OracleCommand objCmds = new OracleCommand(svSQL, objConn);
-                                objCmds.ExecuteNonQuery();
+
                             }
                         }
                     }
+                    else
+                    {
 
+                        svSQL = "Delete STORESREQDETAIL WHERE STORESREQBASICID='" + cy.ID + "'";
+                        OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
+                        objCmdd.ExecuteNonQuery();
+
+                        foreach (MaterialRequistionItem cp in cy.MRlst)
+                        {
+                            
+
+                            if (cp.Isvalid == "Y" && cp.ItemId != "0")
+                            {
+                                string unitID = datatrans.GetDataString("Select UNITMASTID from UNITMAST where UNITID='" + cp.UnitID + "' ");
+
+
+                                svSQL = "Insert into STORESREQDETAIL (STORESREQBASICID,ITEMID,UNIT,QTY,STOCK,NARR) VALUES ('" + cy.ID + "','" + cp.ItemId + "','" + unitID + "','" + cp.ReqQty + "','" + cp.ClosingStock + "','" + cy.Narration + "')";
+                                OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                objCmds.ExecuteNonQuery();
+
+                            }
+                        }
+                    }
                     objConn.Close();
                 }
             }
@@ -627,7 +651,7 @@ namespace Arasan.Services
                 string StatementType = string.Empty; string svSQL = "";
                 datatrans = new DataTransactions(_connectionString);
 
-
+                   
                 if (cy.status == "CLOSE")
                 {
                     using (OracleConnection objConnT = new OracleConnection(_connectionString))
@@ -665,7 +689,7 @@ namespace Arasan.Services
         public DataTable GetMatStaItemByID(string MatId)
         {
             string SvSql = string.Empty;
-            SvSql = "Select STORESREQDETAIL.UNIT,ITEMMASTER.ITEMMASTERID,UNITMAST.UNITID,ITEMMASTER.ITEMID,STORESREQDETAIL.QTY from STORESREQDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=STORESREQDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=STORESREQDETAIL.UNIT WHERE STORESREQDETAIL.STORESREQBASICID='" + MatId + "'";
+            SvSql = "Select STORESREQDETAIL.UNIT,ITEMMASTER.ITEMMASTERID,UNITMAST.UNITID,ITEMMASTER.ITEMID,STORESREQDETAIL.QTY,STOCK from STORESREQDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=STORESREQDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=STORESREQDETAIL.UNIT WHERE STORESREQDETAIL.STORESREQBASICID='" + MatId + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

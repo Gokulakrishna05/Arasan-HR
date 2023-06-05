@@ -543,7 +543,7 @@ namespace Arasan.Controllers
                     {
                         TempData["notice"] = "Followup Updated Successfully...!";
                     }
-                    return RedirectToAction("Followup");
+                    
                 }
 
                 else
@@ -560,7 +560,7 @@ namespace Arasan.Controllers
                 throw ex;
             }
 
-            return View(Pf);
+            return RedirectToAction("Followup", new { id = id });
         }
         public List<SelectListItem> BindEmpl()
         {
