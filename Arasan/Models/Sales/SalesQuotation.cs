@@ -68,6 +68,10 @@ namespace Arasan.Models
         public double Net { get; set; }
 
         public List<QuoItem> QuoLst { get; set; }
+        public string QuoteFormatId { get; set; }
+        public List<SelectListItem> QuoteFormatList { get; set; }   
+        public string EnquiryId { get; set; }
+        public List<SelectListItem> EnquiryList { get; set; }
     }
     public class QuoItem 
     {
@@ -112,8 +116,7 @@ namespace Arasan.Models
         public string Nfdate { get; set; }
         public string Rmarks { get; set; }
         public List<SelectListItem> EnqassignList;
-
-
+        public string Quoteid { get; set; }
         public List<QuotationFollowupDetail> qflst { get; set; }
 
     }

@@ -33,7 +33,7 @@
                                     <div class="form-group">
                                         <label for="inputName3" class="col-sm-4 control-label">Quotation ID <label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-
+                                            @Html.HiddenFor(C => C.Quoteid)
                                             @Html.TextBoxFor(C => C.QuoId, new { @id = "QuoId", @class = "form-control", @TabIndex = 2,@readonly="readonly" })  <br />
 
                                         </div>
@@ -48,7 +48,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div style="height:30px;"></div>
+                           @* <div style="height:30px;"></div>*@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -70,7 +70,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div style="height:30px;"></div>
+                           @* <div style="height:30px;"></div>*@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -109,7 +109,7 @@
                             </div>
 
                             <button type="submit" class="btn aqua m-t-xs bottom15-xs">Submit</button>
-                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("Followup","SalesQuotation")'">Cancel</button>
+                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListSalesQuotation","SalesQuotation")'">Cancel</button>
 
 
 

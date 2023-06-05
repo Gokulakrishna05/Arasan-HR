@@ -35,6 +35,8 @@ namespace Arasan.Controllers.Sales
             ca.cuntylst = BindCountry();
             ca.Enqlst = BindEnqType();
             ca.Typelst = BindCusType();
+            ca.QuoteFormatList = BindQuoteFormat();
+            ca.EnquiryList = BindEnquiry();
             List<QuoItem> TData = new List<QuoItem>();
             QuoItem tda = new QuoItem();
             if (id == null)
@@ -382,7 +384,23 @@ namespace Arasan.Controllers.Sales
                 throw ex;
             }
         }
-      
+        public List<SelectListItem> BindEnquiry()
+        {
+            try
+            {
+                DataTable dtDesg = SalesQuotationService.GetEnquiry();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ENQ_NO"].ToString(), Value = dtDesg.Rows[i]["ID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<SelectListItem> BindCurrency()
         {
             try
@@ -433,6 +451,22 @@ namespace Arasan.Controllers.Sales
                 throw ex;
             }
         }
+        public List<SelectListItem> BindQuoteFormat()
+        {
+            try
+            {
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                lstdesg.Add(new SelectListItem() { Text = "New", Value = "new" });
+                lstdesg.Add(new SelectListItem() { Text = "Existing", Value = "existing" });
+
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        
         public List<SelectListItem> BindCountry()
         {
             try
@@ -524,6 +558,7 @@ namespace Arasan.Controllers.Sales
             {
                 if (!string.IsNullOrEmpty(id))
                 {
+                    cmp.Quoteid = id;
                     DataTable dt = new DataTable();
                     dt = SalesQuotationService.GetPurchaseQuotationDetails(id);
                     if (dt.Rows.Count > 0)
@@ -576,7 +611,7 @@ namespace Arasan.Controllers.Sales
                     {
                         TempData["notice"] = "Followup Updated Successfully...!";
                     }
-                    return RedirectToAction("Followup");
+                   
                 }
 
                 else
@@ -593,7 +628,7 @@ namespace Arasan.Controllers.Sales
                 throw ex;
             }
 
-            return View(Pf);
+            return RedirectToAction("Followup", new { id = Pf.Quoteid });
         }
         public JsonResult GetItemJSON(string itemid)
         {
