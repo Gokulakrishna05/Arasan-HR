@@ -14,9 +14,11 @@ namespace Arasan.Services.Master
     {
 
         private readonly string _connectionString;
+        DataTransactions datatrans;
         public ItemCategoryService(IConfiguration _configuratio)
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
+            datatrans = new DataTransactions(_connectionString);
         }
         public IEnumerable<ItemCategory> GetAllItemCategory()
         {
@@ -77,6 +79,16 @@ namespace Arasan.Services.Master
             try
             {
                 string StatementType = string.Empty; string svSQL = "";
+                if (iy.ID == null)
+                {
+
+                    svSQL = " SELECT Count(*) as cnt FROM ITEMCATEGORY WHERE CATEGORY = LTRIM(RTRIM('" + iy.Category + "'))";
+                    if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "ItemCategory Already Existed";
+                        return msg;
+                    }
+                }
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("CATEGORYPROC", objConn);
@@ -97,11 +109,7 @@ namespace Arasan.Services.Master
 
 
                     objCmd.Parameters.Add("CATEGORY", OracleDbType.NVarchar2).Value = iy.Category;
- 
-                    //objCmd.Parameters.Add("CANCEL", OracleDbType.NVarchar2).Value ="F";
- 
                     objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
- 
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     try
                     {

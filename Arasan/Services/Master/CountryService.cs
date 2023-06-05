@@ -85,7 +85,7 @@ namespace Arasan.Services.Master
                     svSQL = " SELECT Count(*) as cnt FROM CONMAST WHERE COUNTRYNAME = LTRIM(RTRIM('" + cy.ConName + "')) and COUNTRYCODE = LTRIM(RTRIM('" + cy.ConCode + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
-                        msg = "COUNTRYNAME Already Existed";
+                        msg = "Country Already Existed";
                         return msg;
                     }
                 }

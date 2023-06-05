@@ -12,9 +12,11 @@ namespace Arasan.Services
     public class DrumMasterService : IDrumMaster
     {
         private readonly string _connectionString;
+        DataTransactions datatrans;
         public DrumMasterService(IConfiguration _configuration)
         {
             _connectionString = _configuration.GetConnectionString("OracleDBConnection");
+            datatrans = new DataTransactions(_connectionString);
         }
 
         public IEnumerable<DrumMaster> GetAllDrumMaster()
@@ -26,11 +28,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-
                     cmd.CommandText = "Select DRUMMASTID,DRUMMAST.DRUMNO,DRUMMAST.CATEGORY,LOCDETAILS.LOCID,DRUMMAST.DRUMTYPE from DRUMMAST LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID=DRUMMAST.LOCATION WHERE DRUMMAST.STATUS='ACTIVE'";
-
-                    cmd.CommandText = "Select DRUMMASTID,DRUMNO,to_char(DRUMMAST.DOCDATE,'dd-MON-yyyy') DOCDATE,CATEGORY,LOCDETAILS.LOCID,DRUMTYPE,TAREWT,DRUMMAST.STATUS from DRUMMAST LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID=DRUMMAST.LOCATION WHERE DRUMMAST.STATUS='ACTIVE'";
-
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -81,7 +79,17 @@ namespace Arasan.Services
             try
             {
                 string StatementType = string.Empty;
-                //string svSQL = "";
+                string svSQL = "";
+                if (ss.ID == null)
+                {
+
+                    svSQL = " SELECT Count(*) as cnt FROM DRUMMAST WHERE DRUMNO = LTRIM(RTRIM('" + ss.DrumNo + "'))";
+                    if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "Drum Already Existed";
+                        return msg;
+                    }
+                }
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
@@ -102,7 +110,7 @@ namespace Arasan.Services
                     }
 
                     objCmd.Parameters.Add("DRUMNO", OracleDbType.NVarchar2).Value = ss.DrumNo;
-                    objCmd.Parameters.Add("DOCDATE", OracleDbType.Date).Value = DateTime.Parse(ss.DocDate);
+                    objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value =ss.DocDate;
                     objCmd.Parameters.Add("CATEGORY", OracleDbType.NVarchar2).Value = ss.Category;
                     objCmd.Parameters.Add("LOCATION", OracleDbType.NVarchar2).Value = ss.Location;
                     objCmd.Parameters.Add("DRUMTYPE", OracleDbType.NVarchar2).Value = ss.DrumType;

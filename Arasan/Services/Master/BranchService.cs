@@ -12,13 +12,12 @@ namespace Arasan.Services
     public class BranchService : IBranchService
     {
         private readonly string _connectionString;
+        DataTransactions datatrans;
         public BranchService(IConfiguration _configuratio)
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
+            datatrans = new DataTransactions(_connectionString);
         }
-
-
-
         public DataTable GetCompany()
         {
             string SvSql = string.Empty;
@@ -29,29 +28,39 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable Getcountry()
+        //public DataTable Getcountry()
+        //{
+        //    string SvSql = string.Empty;
+        //    SvSql = "select COUNTRYNAME,COUNTRYMASTID from CONMAST order by COUNTRYMASTID asc";
+        //    DataTable dtt = new DataTable();
+        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
+        //}
+        public DataTable GetState()
         {
             string SvSql = string.Empty;
-            SvSql = "select COUNTRYNAME,COUNTRYMASTID from CONMAST order by COUNTRYMASTID asc";
+            SvSql = "select STATE,STATEMASTID from  STATEMAST  order by STATEMASTID asc";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetState(string id)
+        public DataTable GetCity(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select STATE,STATEMASTID from  STATEMAST  where COUNTRYMASTID='" + id +"'";
+            SvSql = "select CITYNAME,CITYID from  CITYMASTER  where STATEID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
         }
-    
 
-    public IEnumerable<Branch> GetAllBranch()
+
+        public IEnumerable<Branch> GetAllBranch()
     {
         List<Branch> brList = new List<Branch>();
         using (OracleConnection con = new OracleConnection(_connectionString))
@@ -88,10 +97,19 @@ namespace Arasan.Services
         string msg = "";
         try
         {
-            string StatementType = string.Empty;
-            //string svSQL = "";
+            string StatementType = string.Empty;string svSQL = "";
+                if (cy.ID == null)
+                {
 
-            using (OracleConnection objConn = new OracleConnection(_connectionString))
+                    svSQL = " SELECT Count(*) as cnt FROM BRANCHMAST WHERE BRANCHID =LTRIM(RTRIM('" + cy.BranchName + "'))";
+                    if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "Branch Already Existed";
+                        return msg;
+                    }
+                }
+
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
             {
                 OracleCommand objCmd = new OracleCommand("BRANCHPROC", objConn);
 
@@ -115,9 +133,8 @@ namespace Arasan.Services
                 objCmd.Parameters.Add("CITY", OracleDbType.NVarchar2).Value = cy.City;
                 objCmd.Parameters.Add("PINCODE", OracleDbType.NVarchar2).Value = cy.PinCode;
                 objCmd.Parameters.Add("CSTNO", OracleDbType.NVarchar2).Value = cy.GSTNo;
-                objCmd.Parameters.Add("CSTDATE", OracleDbType.Date).Value = DateTime.Parse(cy.GSTDate);
+                objCmd.Parameters.Add("CSTDATE", OracleDbType.NVarchar2).Value = cy.GSTDate;
                 objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
-
                 objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                 try
                 {

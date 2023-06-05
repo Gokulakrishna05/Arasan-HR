@@ -100,7 +100,16 @@ namespace Arasan.Services
             try
             {
                 string StatementType = string.Empty; string svSQL = "";
+                if (cy.ID == null)
+                {
 
+                    svSQL = " SELECT Count(*) as cnt FROM LOCDETAILS WHERE LOCID = LTRIM(RTRIM('" + cy.LocationId + "')) and LOCATIONTYPE = LTRIM(RTRIM('" + cy.LocType + "'))";
+                    if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "Location Already Existed";
+                        return msg;
+                    }
+                }
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("LOCATIONPROC", objConn);

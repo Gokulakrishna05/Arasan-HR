@@ -13,9 +13,11 @@ namespace Arasan.Services
     {
 
         private readonly string _connectionString;
+        DataTransactions datatrans;
         public TaxService(IConfiguration _configuration)
         {
             _connectionString = _configuration.GetConnectionString("OracleDBConnection");
+            datatrans = new DataTransactions(_connectionString);
         }
 
         public IEnumerable<Tax> GetAllTax()
@@ -51,7 +53,17 @@ namespace Arasan.Services
             try
             {
                 string StatementType = string.Empty;
-                //string svSQL = "";
+                string svSQL = "";
+                if (cy.ID == null)
+                {
+
+                    svSQL = " SELECT Count(*) as cnt FROM TAXMAST WHERE TAX = LTRIM(RTRIM('" + cy.Taxtype + "'))";
+                    if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "Tax Already Existed";
+                        return msg;
+                    }
+                }
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {

@@ -12,9 +12,11 @@ namespace Arasan.Services
     public class CustomerTypeService : ICustomerType
     {
         private readonly string _connectionString;
+        DataTransactions datatrans;
         public CustomerTypeService(IConfiguration _configuratio)
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
+            datatrans = new DataTransactions(_connectionString);
         }
         public IEnumerable<CustomerType> GetAllCustomerType()
         {
@@ -47,8 +49,17 @@ namespace Arasan.Services
             string msg = "";
             try
             {
-                string StatementType = string.Empty;
-                //string svSQL = "";
+                string StatementType = string.Empty;string svSQL = "";
+                if (cy.ID == null)
+                {
+
+                    svSQL = " SELECT Count(*) as cnt FROM CUSTOMERTYPE WHERE CUSTOMER_TYPE =LTRIM(RTRIM('" + cy.Type + "'))";
+                    if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "CustomerType Already Existed";
+                        return msg;
+                    }
+                }
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {

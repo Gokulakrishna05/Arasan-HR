@@ -3,7 +3,12 @@
 @{
     ViewData["Title"] = "Item Group ";
 }
-
+<script type="text/javascript">
+    @if (TempData["notice"] != null)
+    {
+        @:alert('@TempData["notice"]');
+    }
+</script>
     
      
 

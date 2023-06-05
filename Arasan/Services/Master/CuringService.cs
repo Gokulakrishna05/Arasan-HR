@@ -11,9 +11,11 @@ namespace Arasan.Services
     public class CuringService : ICuringService
     {
         private readonly string _connectionString;
+        DataTransactions datatrans;
         public CuringService(IConfiguration _configuratio)
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
+            datatrans = new DataTransactions(_connectionString);
         }
         public DataTable GetCuring()
         {
@@ -100,7 +102,17 @@ namespace Arasan.Services
             {
                 string StatementType = string.Empty;
 
-                //string svSQL = "";
+                string svSQL = "";
+                if (cy.ID == null)
+                {
+
+                    svSQL = " SELECT Count(*) as cnt FROM CURINGMASTER WHERE SHEDNUMBER = LTRIM(RTRIM('" + cy.Shed + "'))";
+                    if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "Curing Already Existed";
+                        return msg;
+                    }
+                }
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {

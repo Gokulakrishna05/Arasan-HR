@@ -12,9 +12,11 @@ namespace Arasan.Services.Master
     public class ItemGroupService : IItemGroupService
     {
         private readonly string _connectionString;
+        DataTransactions datatrans;
         public ItemGroupService(IConfiguration _configuratio)
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
+            datatrans = new DataTransactions(_connectionString);
         }
         public IEnumerable<ItemGroup> GetAllItemGroup()
         {
@@ -32,7 +34,6 @@ namespace Arasan.Services.Master
                         ItemGroup itg = new ItemGroup
                         {
                             ID = rdr["ITEMGROUPID"].ToString(),
-                            
                             itemGroup = rdr["GROUPCODE"].ToString(),
                             ItemGroupDescription = rdr["GROUPDESC"].ToString()
                         };
@@ -59,7 +60,6 @@ namespace Arasan.Services.Master
                         ItemGroup itg = new ItemGroup
                         {
                             ID = rdr["ITEMGROUPID"].ToString(),
-                            
                             itemGroup = rdr["GROUPCODE"].ToString(),
                             ItemGroupDescription = rdr["GROUPDESC"].ToString()
                         };
@@ -76,7 +76,16 @@ namespace Arasan.Services.Master
             try
             {
                 string StatementType = string.Empty; string svSQL = "";
+                if (by.ID == null)
+                {
 
+                    svSQL = " SELECT Count(*) as cnt FROM ITEMGROUP WHERE GROUPCODE = LTRIM(RTRIM('" + by.itemGroup + "'))";
+                    if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "ItemGroup Already Existed";
+                        return msg;
+                    }
+                }
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("ITEMGROUPPROC", objConn);
@@ -96,9 +105,9 @@ namespace Arasan.Services.Master
                     }
                                                                       
                    
-                    objCmd.Parameters.Add("ItemGroups", OracleDbType.NVarchar2).Value = by.itemGroup;
-                    objCmd.Parameters.Add("ItemGroupDescription", OracleDbType.NVarchar2).Value = by.ItemGroupDescription;
-                    objCmd.Parameters.Add("status", OracleDbType.NVarchar2).Value = "ACTIVE";
+                    objCmd.Parameters.Add("GROUPCODE", OracleDbType.NVarchar2).Value = by.itemGroup;
+                    objCmd.Parameters.Add("GROUPDESC", OracleDbType.NVarchar2).Value = by.ItemGroupDescription;
+                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     try
                     {

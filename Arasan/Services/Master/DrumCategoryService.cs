@@ -12,9 +12,11 @@ namespace Arasan.Services
     public class DrumCategoryService : IDrumCategory
     {
         private readonly string _connectionString;
+        DataTransactions datatrans;
         public DrumCategoryService(IConfiguration _configuration)
         {
             _connectionString = _configuration.GetConnectionString("OracleDBConnection");
+            datatrans = new DataTransactions(_connectionString);
         }
 
          public IEnumerable<DrumCategory> GetAllDrumCategory()
@@ -50,7 +52,17 @@ namespace Arasan.Services
             try
             {
                 string StatementType = string.Empty;
+                string svSQL = "";
+                if (ss.ID == null)
+                {
 
+                    svSQL = " SELECT Count(*) as cnt FROM DRUMMASTER_CATEGORY WHERE CATEGORYTYPE = LTRIM(RTRIM('" + ss.CateType + "'))";
+                    if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "Drum Category Already Existed";
+                        return msg;
+                    }
+                }
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("DRUMCATE_PRO", objConn);

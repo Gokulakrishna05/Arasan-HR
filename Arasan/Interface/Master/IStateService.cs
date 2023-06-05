@@ -11,6 +11,8 @@ namespace Arasan.Interface.Master
         IEnumerable<State> GetAllState();
         State GetStateById(string id);
 
+        DataTable GetEditState(string id);
+
         DataTable Getcountry();
         string StatusChange(string tag, int id);
     }

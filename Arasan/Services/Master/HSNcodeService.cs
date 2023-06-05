@@ -12,9 +12,11 @@ namespace Arasan.Services.Master
     public class HSNcodeService : IHSNcodeService
     {
         private readonly string _connectionString;
+        DataTransactions datatrans;
         public HSNcodeService(IConfiguration _configuratio)
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
+            datatrans = new DataTransactions(_connectionString);
         }
         public IEnumerable<HSNcode> GetAllHSNcode()
         {
@@ -79,7 +81,17 @@ namespace Arasan.Services.Master
             try
             {
                 string StatementType = string.Empty;
-                //string svSQL = "";
+                string svSQL = "";
+                if (ss.ID == null)
+                {
+
+                    svSQL = " SELECT Count(*) as cnt FROM HSNCODE WHERE HSNCODE = LTRIM(RTRIM('" + ss.HCode + "'))";
+                    if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "HsnCode Already Existed";
+                        return msg;
+                    }
+                }
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
