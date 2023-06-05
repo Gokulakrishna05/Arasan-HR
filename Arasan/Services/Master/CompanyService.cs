@@ -11,6 +11,7 @@ namespace Arasan.Services.Master
 {
     public class CompanyService : ICompanyService
     {
+        DataTransactions datatrans;
         private readonly string _connectionString;
         DataTransactions datatrans;
         public CompanyService(IConfiguration _configuration)
@@ -75,6 +76,7 @@ namespace Arasan.Services.Master
             string msg = "";
             try
             {
+
                 string StatementType = string.Empty;  string svSQL = "";
                 if (cy.ID == null)
                 {
@@ -86,6 +88,9 @@ namespace Arasan.Services.Master
                         return msg;
                     }
                 }
+
+
+               
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {

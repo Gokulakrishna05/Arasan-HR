@@ -3,13 +3,14 @@
 @{
     ViewData["Title"] = "Item Group ";
 }
+
 <script type="text/javascript">
     @if (TempData["notice"] != null)
     {
         @:alert('@TempData["notice"]');
     }
 </script>
-    
+
      
 
 <div class="row wrapper border-bottom page-heading">
@@ -18,7 +19,7 @@
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Master</a> </li>
-            <li class="active"> <strong>Item Group </strong> </li>
+            <li class="active"> <strong>Item Group</strong> </li>
         </ol>
     </div>
 </div>
@@ -36,7 +37,7 @@
                     <div class="row">
                         <div class="col-md-12 ">
                             <div class=" textalignright">
-                                <a href="@Url.Action("ItemGroup", "ItemGroup")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Item Group</a>
+                                <a href="@Url.Action("ItemGroup","ItemGroup")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Item Group</a>
                                 <br>
                                 </div>
                                 </div>

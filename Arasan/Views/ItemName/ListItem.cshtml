@@ -6,6 +6,13 @@
   <partial name="JqxGridPartial" />
 @* @Html.Partial("~/Views/JqxGridPartial.cshtml")  *@
     
+<script type="text/javascript">
+    @if (TempData["notice"] != null)
+    {
+        @:alert('@TempData["notice"]');
+    }
+</script>
+
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
 

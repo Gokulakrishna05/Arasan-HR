@@ -70,6 +70,11 @@ namespace Arasan.Services
             {
                 con.Open();
                 cmd.CommandText = "Select BRANCHMASTID,COMPANYMAST.COMPANYDESC,BRANCHID,ADDRESS1,STATE,CITY,PINCODE,CSTNO, CSTDATE,BRANCHMAST.STATUS from BRANCHMAST left outer join COMPANYMAST on COMPANYMASTID=BRANCHMAST.COMPANYID WHERE BRANCHMAST.STATUS = 'ACTIVE' ";
+ 
+ 
+                //cmd.CommandText = "Select BRANCHMASTID,COMPANYMAST.COMPANYDESC,BRANCHID,ADDRESS1,STATE,CITY,PINCODE,CSTNO, CSTDATE,BRANCHMAST.STATUS from BRANCHMAST left outer join COMPANYMAST on COMPANYMASTID=BRANCHMAST.COMPANYID WHERE BRANCHMAST.STATUS = 'ACTIVE'  ";
+ 
+ 
                 OracleDataReader rdr = cmd.ExecuteReader();
                 while (rdr.Read())
                 {

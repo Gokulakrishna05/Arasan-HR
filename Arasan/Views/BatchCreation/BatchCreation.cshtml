@@ -291,7 +291,8 @@
                                                                                 </td>
                                                                                 <td>
                                                                                     @Html.TextBoxFor(o => o.BatchLst[i].Req, new { @id = "txtReq" + i, @class = "form-control", style = "width: 120px;" })
-                                                                                @Html.HiddenFor(o => o.BatchLst[i].Isvalid)
+                                                                                
+
                                                                                 </td>
                                                                                
                                                                                 <td>
@@ -357,6 +358,7 @@
                                                                                     @Html.TextBoxFor(o => o.BatchInLst[j].Unit, new { @id = "txtUnit" + j, @class = "form-control", style = "width: 120px;" ,@readonly="readonly"})
                                                                                 </td>
                                                                                 <td>
+                                                                                @Html.HiddenFor(o => o.BatchInLst[j].Isvalid, new { @id = "IsInvalid" + j })
                                                                                 @Html.TextBoxFor(o => o.BatchInLst[j].Qty, new { @id = "txtQty" + j, @class = "form-control", style = "width: 120px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
                                                                                 </td>
                                                                                
@@ -428,6 +430,8 @@
                                                                                     @Html.TextBoxFor(o => o.BatchOutLst[g].OUnit, new { @id = "txtOUnit" + g, @class = "form-control", style = "width: 120px;", @readonly="ReadOnly" })
                                                                                 </td>
                                                                                 <td>
+                                                                                                                                                                @Html.HiddenFor(o => o.BatchOutLst[g].Isvalid, new { @id = "IsOutvalid" + g })
+
                                                                                     @Html.TextBoxFor(o => o.BatchOutLst[g].OutType, new { @id = "txtOutType" + g, @class = "form-control", style = "width: 120px;" })
                                                                                 </td>
                                                                                 <td>
@@ -530,6 +534,8 @@
                                                                                       
                                                                                 </td>
                                                                                 <td>
+                                                                                                                                                                @Html.HiddenFor(o => o.BatchOtherLst[k].Isvalid, new { @id = "IsOthervalid" + k })
+
                                                                                 @Html.TextBoxFor(o => o.BatchOtherLst[k].Total, new { @id = "txtTotal" +k, @class = "form-control", style = "width: 120px;",onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                                                                 </td>
                                                                                 <td>
@@ -626,12 +632,14 @@
                                                                                 </td>
                                                                              
                                                                                 <td>
+                                                                                                                                                                
+
                                                                                     @Html.TextBoxFor(o => o.BatchParemLst[a].Value, new { @id = "txtValue" + a, @class = "form-control", style = "width: 120px;" })
                                                                                 </td>
                                                                                 
                                                                                
                                                                                 <td>
-                                                                                @Html.HiddenFor(o => o.BatchOtherLst[a].Isvalid, new { @id = "IsParmvalid" + a })
+                                                                                @Html.HiddenFor(o => o.BatchParemLst[a].Isvalid, new { @id = "IsParmvalid" + a })
                                                                                     <img onclick="removeRowParam(@(a));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(a)" />
                                                                                 </td>
                                                                             </tr>
@@ -889,7 +897,7 @@
         }
     }
      function removeOutRow(id) {
-        var table = document.getElementById("dataTableOut");
+        var table = document.getElementById("dataTable");
         var rowCount = table.rows.length;
         var row = document.getElementById('trBookout' + id);
         var j = 0;
@@ -907,7 +915,7 @@
         }
     }
      function removeOtherRow(id) {
-        var table = document.getElementById("dataTableOther");
+        var table = document.getElementById("dataTable");
         var rowCount = table.rows.length;
         var row = document.getElementById('trBookOther' + id);
         var j = 0;
@@ -925,7 +933,7 @@
         }
     }
     function removeRowParam(id) {
-        var table = document.getElementById("dataTableParam");
+        var table = document.getElementById("dataTable");
         var rowCount = table.rows.length;
         var row = document.getElementById('trBookParam' + id);
         var j = 0;
@@ -946,10 +954,10 @@
         var index = $("#tbBooks").children("tr").length;
 
         var WorkId = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlWorkId" + index + "' name='BatchLst[" + index + "].WorkId' onchange = 'Grup_Change(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
-        var ProcessId = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlProcessId" + index + "' name='Processidlst[" + index + "].ProcessId' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option></select></td>";
-        var Seq = "<td><input class='form-control' id='txtSeq" + index + "' name='BatchLst[" + index + "].Unit'  style='width: 120px;' type='text'onkeydown = 'return isNumeric2(event.keyCode,this.value)'   /></td>";
-        var Req = "<td><input class='form-control' id='txtReq" + index + "' name='BatchLst[" + index + "].ConFac'  style='width: 120px;' type='text'onkeydown = 'return isNumeric2(event.keyCode, this.value)'  /></td>";
-        var removeCell = "<td><input id='Isvalid" + index + "' name='Processidlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='BatchLst.Index' type='hidden' value='" + index + "'  /></td>";
+        var ProcessId = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlProcessId" + index + "' name='BatchLst[" + index + "].ProcessId' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option></select></td>";
+        var Seq = "<td><input class='form-control' id='txtSeq" + index + "' name='BatchLst[" + index + "].Seq'  style='width: 120px;' type='text'onkeydown = 'return isNumeric2(event.keyCode,this.value)'   /></td>";
+        var Req = "<td><input class='form-control' id='txtReq" + index + "' name='BatchLst[" + index + "].Req'  style='width: 120px;' type='text'   /></td>";
+        var removeCell = "<td><input id='Isvalid" + index + "' name='BatchLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='BatchLst.Index' type='hidden' value='" + index + "'  /></td>";
         var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + WorkId + ProcessId + Seq + Req  + removeCell + "</tr>";
         //alert(Packing);
         $("#tbBooks").append(newRow);
@@ -961,9 +969,9 @@
         var index = $("#tbBooks1").children("tr").length;
         var Process = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlProcess" + index + "' name='BatchInLst[" + index + "].Process' ><option value=''>Please select</option>" + opt + "</select></td>";
         var Item = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItem" + index + "' name='BatchInLst[" + index + "].Item' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option>"+ it +"</select></td>";
-        var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='BatchLst[" + index + "].Unit'  style='width: 120px;' type='text' ReadOnly='readonly'  /></td>";
-        var qty = "<td><input class='form-control' id='txtqty" + index + "' name='BatchLst[" + index + "].qty'  style='width: 120px;' type='text' onkeydown = 'return isNumeric2(event.keyCode,this.value)' /></td>";
-        var removeCell = "<td><input id='IsInvalid" + index + "' name='Itemlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow1(" + index + ");'  style='cursor:pointer' /><input name='BatchInLst.Index' type='hidden' value='" + index + "'  /></td>";
+        var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='BatchInLst[" + index + "].Unit'  style='width: 120px;' type='text' ReadOnly='readonly'  /></td>";
+        var qty = "<td><input class='form-control' id='txtqty" + index + "' name='BatchInLst[" + index + "].Qty'  style='width: 120px;' type='text' onkeydown = 'return isNumeric2(event.keyCode,this.value)' /></td>";
+        var removeCell = "<td><input id='IsInvalid" + index + "' name='BatchInLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow1(" + index + ");'  style='cursor:pointer' /><input name='BatchInLst.Index' type='hidden' value='" + index + "'  /></td>";
         var newRow = "<tr class='chkitemlst1'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook1" + index + "'>" + Process + Item + Unit + qty  + removeCell + "</tr>";
         //alert(Packing);
         $("#tbBooks1").append(newRow);
@@ -985,8 +993,8 @@
         var Vm = "<td><input class='form-control' id='txtVmper" + index + "' name='BatchOutLst[" + index + "].Vmper'  style='width: 120px;' type='text' onkeydown = 'return isNumeric2(event.keyCode,this.value)' /></td>";
 
         var Grase = "<td><input class='form-control' id='txtGreas" + index + "' name='BatchOutLst[" + index + "].Greas'  style='width: 120px;' type='text'onkeydown = 'return isNumeric2(event.keyCode, this.value)'  /></td>";
- 
-         var removeCell = "<td><input id='IsOutvalid" + index + "' name='OItemlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeOutRow(" + index + ");'  style='cursor:pointer' /><input name='BatchInLst.Index' type='hidden' value='" + index + "'  /></td>";
+
+        var removeCell = "<td><input id='IsOutvalid" + index + "' name='BatchOutLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeOutRow(" + index + ");'  style='cursor:pointer' /><input name='BatchInLst.Index' type='hidden' value='" + index + "'  /></td>";
         var newRow = "<tr class='chkitemlstout'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookout" + index + "'>" + Process + Item + Unit + Type + qty + Waste + Vm + Grase + removeCell + "</tr>";
 
         //alert(Packing);
@@ -1111,6 +1119,363 @@
                     "background": ""
                 });
             }
+            var j = 0;
+            $('tr.chkitemlst').each(function () {
+                if ($(this).css('display') !== 'none') {
+
+                   
+                     
+
+                        if ($(this).find('#ddlWorkId' + j.toString()).val() == "" || $(this).find('#ddlWorkId' + j.toString()).val() == 0) {
+                            isValid = false;
+                            $(this).find('#ddlWorkId' + j.toString()).css({
+                                "border": "1px solid red",
+                                "background": "#FFCECE"
+                            });
+                            alert("Please Select Work Center In Production Details");
+                            $(this).find('#ddlWorkId' + j.toString()).focus();
+                            return false;
+                        }
+                        else {
+                            $(this).find('#ddlWorkId' + j.toString()).css({
+                                "border": "",
+                                "background": ""
+                            });
+                        }
+                     
+                    if ($(this).find('#ddlProcessId' + j.toString()).val() == "" || $(this).find('#ddlProcessId' + j.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#ddlProcessId' + j.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Select Process In Production Details");
+                        $(this).find('#ddlProcessId' + j.toString()).focus();
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#ddlProcessId' + j.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+                     if ($(this).find('#txtSeq' + j.toString()).val() == "" || $(this).find('#txtSeq' + j.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#txtSeq' + j.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Enter Seq In Production Details");
+                        $(this).find('#txtSeq' + j.toString()).focus();
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#txtSeq' + j.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+                    if ($(this).find('#txtReq' + j.toString()).val() == "" || $(this).find('#txtReq' + j.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#txtReq' + j.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Enter Ins.Req In Production Details");
+                        $(this).find('#txtReq' + j.toString()).focus();
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#txtReq' + j.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+                     }
+                j += 1;
+            });
+            var k=0;
+                    $('tr.chkitemlst1').each(function () {
+                        if ($(this).css('display') !== 'none') {
+                    if ($(this).find('#ddlInProcess' + k.toString()).val() == "" || $(this).find('#ddlInProcess' + k.toString()).val() == 0) {
+                        isValid = false;
+                        $(this).find('#ddlInProcess' + k.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+                        alert("Please Select Process  In Input Details");
+                        $(this).find('#ddlInProcess' + k.toString()).focus();
+                        return false;
+                    }
+                    else {
+                        $(this).find('#ddlInProcess' + k.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+
+                    if ($(this).find('#ddlItem' + k.toString()).val() == "" || $(this).find('#ddlItem' + k.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#ddlItem' + k.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Select Item In Input Details");
+                        $(this).find('#ddlItem' + k.toString()).focus();
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#ddlItem' + k.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+                    if ($(this).find('#txtQty' + k.toString()).val() == "" || $(this).find('#txtQty' + k.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#txtQty' + k.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Enter Input Qty In Input Details");
+                        $(this).find('#txtQty' + k.toString()).focus();
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#txtQty' + k.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+                     }
+                k += 1;
+            });
+            var a= 0;
+                    $('tr.chkitemlstout').each(function () {
+                        if ($(this).css('display') !== 'none') {
+                    if ($(this).find('#ddlOProcess' + a.toString()).val() == "" || $(this).find('#ddlOProcess' + a.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#ddlOProcess' + a.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Enter Process In Output Details");
+                        $(this).find('#ddlOProcess' + a.toString()).focus(); 
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#ddlOProcess' + a.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+                     if ($(this).find('#ddlOItem' + a.toString()).val() == "" || $(this).find('#ddlOItem' + a.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#ddlOItem' + a.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Select Output Item In Output Details");
+                        $(this).find('#ddlOItem' + a.toString()).focus(); 
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#ddlOItem' + a.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+                          
+                    if ($(this).find('#txtOQty' + a.toString()).val() == "" || $(this).find('#txtOQty' + a.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#txtOQty' + a.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Enter Output Qty In Output Details");
+                        $(this).find('#txtOQty' + a.toString()).focus(); 
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#txtOQty' + a.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+                     
+                    if ($(this).find('#txtWaste' + a.toString()).val() == "" || $(this).find('#txtWaste' + a.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#txtWaste' + a.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Enter Watse In Output Details");
+                        $(this).find('#txtWaste' + a.toString()).focus(); 
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#txtWaste' + a.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+                    
+                    if ($(this).find('#txtGreas' + a.toString()).val() == "" || $(this).find('#txtGreas' + a.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#txtGreas' + a.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Enter Grease In Output Details");
+                        $(this).find('#txtGreas' + a.toString()).focus(); 
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#txtGreas' + a.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+                }
+                a += 1;
+            });
+            var q=0;
+                    $('tr.chkitemlstOther').each(function () {
+                        if ($(this).css('display') !== 'none') {
+                    if ($(this).find('#ddlOtProcessId' + q.toString()).val() == "" || $(this).find('#ddlOtProcessId' + q.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#ddlOtProcessId' + q.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Select Process In Other Details");
+                        $(this).find('#ddlOtProcessId' + q.toString()).focus(); 
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#ddlOtProcessId' + q.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+                    
+                    if ($(this).find('#txtSeqe' + q.toString()).val() == "" || $(this).find('#txtSeqe' + q.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#txtSeqe' + q.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Enter Seq In Other Details");
+                        $(this).find('#txtSeqe' + q.toString()).focus(); 
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#txtSeqe' + q.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+                    
+                                                                            if ($(this).find('#txtStart' + q.toString()).val() == "" || $(this).find('#txtStart' + q.toString()).val() == "0") {
+                                                                                isValid = false;
+                                                                                $(this).find('#txtStart' + q.toString()).css({
+                                                                                    "border": "1px solid red",
+                                                                                    "background": "#FFCECE"
+                                                                                });
+
+                                                                                alert("Please Select Start Date In Other Details");
+                                                                                $(this).find('#txtStart' + q.toString()).focus();
+                                                                                return false;
+
+                                                                            }
+                                                                            else {
+                                                                                $(this).find('#txtStart' + q.toString()).css({
+                                                                                    "border": "",
+                                                                                    "background": ""
+                                                                                });
+                                                                            }
+                                                                               if ($(this).find('#txtEnd' + q.toString()).val() == "" || $(this).find('#txtEnd' + q.toString()).val() == "0") {
+                                                                                isValid = false;
+                                                                                $(this).find('#txtEnd' + q.toString()).css({
+                                                                                    "border": "1px solid red",
+                                                                                    "background": "#FFCECE"
+                                                                                });
+
+                                                                                alert("Please Select End Date In Other Details");
+                                                                                $(this).find('#txtEnd' + q.toString()).focus();
+                                                                                return false;
+
+                                                                            }
+                                                                            else {
+                                                                                $(this).find('#txtEnd' + q.toString()).css({
+                                                                                    "border": "",
+                                                                                    "background": ""
+                                                                                });
+                                                                            }
+                                                                             if ($(this).find('#txtTotal' + q.toString()).val() == "" || $(this).find('#txtTotal' + q.toString()).val() == "0") {
+                                                                                isValid = false;
+                                                                                $(this).find('#txtTotal' + q.toString()).css({
+                                                                                    "border": "1px solid red",
+                                                                                    "background": "#FFCECE"
+                                                                                });
+
+                                                                                alert("Please Enter Total Hrs In Other Details");
+                                                                                $(this).find('#txtTotal' + q.toString()).focus();
+                                                                                return false;
+
+                                                                            }
+                                                                            else {
+                                                                                $(this).find('#txtTotal' + q.toString()).css({
+                                                                                    "border": "",
+                                                                                    "background": ""
+                                                                                });
+                                                                            }
+                                                                               if ($(this).find('#txtBreak' + q.toString()).val() == "" || $(this).find('#txtBreak' + q.toString()).val() == "0") {
+                                                                                isValid = false;
+                                                                                $(this).find('#txtBreak' + q.toString()).css({
+                                                                                    "border": "1px solid red",
+                                                                                    "background": "#FFCECE"
+                                                                                });
+
+                                                                                alert("Please Enter Break Hrs In Other Details");
+                                                                                $(this).find('#txtBreak' + q.toString()).focus();
+                                                                                return false;
+
+                                                                            }
+                                                                            else {
+                                                                                $(this).find('#txtBreak' + q.toString()).css({
+                                                                                    "border": "",
+                                                                                    "background": ""
+                                                                                });
+                                                                            }
+                    
+                                                             
+                }
+                j += 1;
+            });
           
           
             if (isValid == false)
@@ -1151,7 +1516,7 @@
         var remark = "<td><input class='form-control' id='txtRemark" + index + "' name='BatchOtherLst[" + index + "].Remark'  style='width: 120px;' type='text'/></td>";
 
 
-        var removeCell = "<td><input id='IsOthervalid" + index + "' name='OProcessidlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeOtherRow(" + index + ");'  style='cursor:pointer' /><input name='BatchOtherLst.Index' type='hidden' value='" + index + "'  /></td>";
+        var removeCell = "<td><input id='IsOthervalid" + index + "' name='BatchOtherLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeOtherRow(" + index + ");'  style='cursor:pointer' /><input name='BatchOtherLst.Index' type='hidden' value='" + index + "'  /></td>";
         var newRow = "<tr class='chkitemlstOther'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookOther" + index + "'>" + Process + seq + start + sttime + end + endtime + tot + breakHr + run + remark + removeCell + "</tr>";
 
         //alert(Packing);
@@ -1200,7 +1565,7 @@
 
        
 
-        var removeCell = "<td><input id='IsParmvalid" + index + "' name='OProcessidlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRowParam(" + index + ");'  style='cursor:pointer' /><input name='BatchOtherLst.Index' type='hidden' value='" + index + "'  /></td>";
+        var removeCell = "<td><input id='IsParmvalid" + index + "' name='BatchParemLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRowParam(" + index + ");'  style='cursor:pointer' /><input name='BatchOtherLst.Index' type='hidden' value='" + index + "'  /></td>";
         var newRow = "<tr class='chkitemlstParam'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookParam" + index + "'>" + Param + unit + start + sttime + end + endtime + value + removeCell + "</tr>";
 
         //alert(Packing);
