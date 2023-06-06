@@ -1048,7 +1048,7 @@
         var binid = "<td><input class='form-control'  id='txtConsBinId" + index + "' name='inconslst[" + index + "].BinId' style='width: 100px;' type='text' value=''></td>";
         var stock="<td><input class='form-control'  id='txtConsStock" + index + "' name='inconslst[" + index + "].ConsStock' style='width: 80px;' type='text' value=''></td>";
         var issueqty = "<td><input class='form-control'  id='txtconsQty" + index + "' name='inconslst[" + index + "].consQty' style='width: 100px;' onkeydown = 'return isNumeric2(event.keyCode,this.value)' type='text' value='' onkeyup='changeConsQty(this," + index + ")'></td>";
-        var removeCell = "<td><input id='Isvalid" + index + "' name='inconslst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeConsRow(" + index + ");'  style='cursor:pointer' /><input name='inconslst.Index' type='hidden' value='" + index + "'  /></td>";
+        var removeCell = "<td><input id='IsConsvalid" + index + "' name='inconslst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeConsRow(" + index + ");'  style='cursor:pointer' /><input name='inconslst.Index' type='hidden' value='" + index + "'  /></td>";
         var newRow = "<tr class='chkitemlstinc'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookinc" + index + "'>" + itemid + unitid + binid +  stock + issueqty + removeCell + "</tr>";
         $("#tbBooksinc").append(newRow);
       
@@ -1115,7 +1115,7 @@
  
         var Location = "<td><select style = 'width: 120px;' class='form-control _select newcss' id='ddlwastetoloc" + index + "' name='wastelst[" + index + "].toloc'  ><option value=''>Please select</option>" + remopt + "</select></td>";
         var bin = "<td><input class='form-control'  id='txtWasteBinId" + index + "' name='wastelst[" + index + "].BinId' style='width: 100px;'  type='text' value='' onkeyup='changeWasteQty(this," + index + ")'></td>";
-        var removeCell = "<td><input id='Isvalid" + index + "' name='wastelst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeWasteRow(" + index + ");'  style='cursor:pointer' /><input name='wastelst.Index' type='hidden' value='" + index + "'  /></td>";
+        var removeCell = "<td><input id='IsWastevalid" + index + "' name='wastelst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeWasteRow(" + index + ");'  style='cursor:pointer' /><input name='wastelst.Index' type='hidden' value='" + index + "'  /></td>";
         var newRow = "<tr class='chkitemlstwaste'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookwaste" + index + "'>" + itemid + Batch + Waste + Location + bin + removeCell + "</tr>";
         $("#tbBooksoutw").append(newRow);
 

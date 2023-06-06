@@ -22,6 +22,7 @@ namespace Arasan.Controllers
         {
             Location ca = new Location();
             ca.Brlst = BindBranch();
+            ca.Branch = Request.Cookies["BranchId"];
             if (id == null)
             {
 

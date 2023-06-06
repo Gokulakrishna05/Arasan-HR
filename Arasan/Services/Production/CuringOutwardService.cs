@@ -75,10 +75,10 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.DocId;
                     objCmd.Parameters.Add("ITEM", OracleDbType.NVarchar2).Value = cy.ItemId;
                     objCmd.Parameters.Add("PACKNOTE", OracleDbType.NVarchar2).Value = cy.PackingNote;
-                    objCmd.Parameters.Add("DOCDATE", OracleDbType.Date).Value = DateTime.Parse(cy.Docdate);
+                    objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value =cy.Docdate;
                     objCmd.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = cy.FromWork;
                     objCmd.Parameters.Add("TOWCID", OracleDbType.NVarchar2).Value = cy.ToWork;
-                    objCmd.Parameters.Add("ENTDATE", OracleDbType.Date).Value = DateTime.Parse(cy.enddate);
+                    objCmd.Parameters.Add("ENTDATE", OracleDbType.NVarchar2).Value = cy.enddate;
                     objCmd.Parameters.Add("SHIFT", OracleDbType.NVarchar2).Value = cy.Shift;
                     objCmd.Parameters.Add("ENTEREDBY", OracleDbType.NVarchar2).Value = cy.Enterd;
                     objCmd.Parameters.Add("TOTQTY", OracleDbType.NVarchar2).Value = cy.TotalQty;
@@ -101,6 +101,7 @@ namespace Arasan.Services
                         }
                         foreach (CuringDetail cp in cy.Curinglst)
                         {
+
 
                             using (OracleConnection objConns = new OracleConnection(_connectionString))
                             {
@@ -323,6 +324,16 @@ namespace Arasan.Services
         {
             string SvSql = string.Empty;
             SvSql = "select DRUMNO,BATCHNO,BATCHQTY,COMBNO from CUROPDETAIL   where CUROPBASICID= '" + name + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetQty(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select SUM(IBATCHQTY) as SUM_QTY  from PACKNOTEINPDETAIL   where PACKNOTEBASICID= '" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

@@ -90,7 +90,7 @@
                                                                     <td>
                                                                         @if (item.Status == "1")
                                                                         {
-                                                                            <a href="@Url.Action("DeleteMR"," PurchaseEnq",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a>
+                                                                            <a href="@Url.Action("DeleteMR","PurchaseEnq",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a>
                                                                         }
                                                                     </td>
 

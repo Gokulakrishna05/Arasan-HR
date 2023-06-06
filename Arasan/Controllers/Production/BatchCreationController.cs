@@ -47,7 +47,7 @@ namespace Arasan.Controllers
             BatchParemItem tda4 = new BatchParemItem();                                                                          
             if (id == null)
             {
-                for (int i = 0; i < 1; i++)
+                for (int i = 0; i < 3; i++)
                 {
                     tda = new BatchItem();
                     tda.WorkCenterlst = BindWorkCenterid();                                                                                                                                                                                          

@@ -303,7 +303,7 @@ namespace Arasan.Controllers.Master
                     {
                         TempData["notice"] = " ItemName Updated Successfully...!";
                     }
-                    return RedirectToAction("ItemList");
+                    return RedirectToAction("ListItem");
                 }
 
                 else
