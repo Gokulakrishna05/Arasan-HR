@@ -66,7 +66,7 @@ namespace Arasan.Models
         public string Gmail { get; set; }
         public string PinCode { get; set; }
         public double Net { get; set; }
-
+        public string status { get; set; }
         public List<QuoItem> QuoLst { get; set; }
         public string QuoteFormatId { get; set; }
         public List<SelectListItem> QuoteFormatList { get; set; }   
