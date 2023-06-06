@@ -27,11 +27,11 @@ namespace Arasan.Controllers
             if (id != null)
             {
                 DataTable dt = new DataTable();
-                double total = 0;
+                //double total = 0;
                 dt = TaxService.GetTax(id);
                 if (dt.Rows.Count > 0)
                 {
-                    ca.Taxtype = dt.Rows[0]["Tax"].ToString();
+                    ca.Taxtype = dt.Rows[0]["TAX"].ToString();
                     ca.Percentage = dt.Rows[0]["PERCENTAGE"].ToString();  
                     ca.ID = id;
                 }

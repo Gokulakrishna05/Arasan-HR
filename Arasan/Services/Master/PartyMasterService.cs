@@ -102,8 +102,8 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("COMMCODE", OracleDbType.NVarchar2).Value = cy.Comm;
                     objCmd.Parameters.Add("REGULARYN", OracleDbType.NVarchar2).Value = cy.Regular;
                     objCmd.Parameters.Add("LUTNO", OracleDbType.NVarchar2).Value = cy.LUTNumber;
-                    objCmd.Parameters.Add("LUTDT", OracleDbType.Date).Value = DateTime.Parse(cy.LUTDate);
-                    objCmd.Parameters.Add("PJOINDATE", OracleDbType.Date).Value = DateTime.Parse(cy.JoinDate);
+                    objCmd.Parameters.Add("LUTDT", OracleDbType.NVarchar2).Value = cy.LUTDate;
+                    objCmd.Parameters.Add("PJOINDATE", OracleDbType.NVarchar2).Value = cy.JoinDate;
                     objCmd.Parameters.Add("TYPE", OracleDbType.NVarchar2).Value = cy.PartyType;
                     objCmd.Parameters.Add("CREDITLIMIT", OracleDbType.NVarchar2).Value = cy.CreditLimit;
                     objCmd.Parameters.Add("CREDITDAYS", OracleDbType.NVarchar2).Value = cy.CreditDate;
