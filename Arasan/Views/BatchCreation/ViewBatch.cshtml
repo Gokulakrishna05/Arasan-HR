@@ -111,7 +111,7 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <br><label for="inputName3" class="col-sm-4 control-label">Shell Cleaning?<label class="mandatory"> *</label></label>
+                                        <br><label for="inputName3" class="col-sm-4 control-label">Shell Cleaning?<label class="mandatory"> </label></label>
 
                                         <div class="col-sm-8">
                                             @Html.DisplayFor(C => C.Shall)
@@ -133,7 +133,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                       <br> <label for="inputName3" class="col-sm-4 control-label">Leafing<label class="mandatory"> *</label></label>
+                                       <br> <label for="inputName3" class="col-sm-4 control-label">Leafing<label class="mandatory"> </label></label>
                                         <div class="col-sm-8">
                                             @Html.DisplayFor(C => C.Leaf)
                                         </div>
@@ -142,7 +142,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <br><label for="inputName3" class="col-sm-4 control-label">Prod.Sch.No<label class="mandatory"> *</label></label>
+                                        <br><label for="inputName3" class="col-sm-4 control-label">Prod.Sch.No<label class="mandatory"> </label></label>
                                         <div class="col-sm-8">
                                             @Html.DisplayFor(C => C.Prod)
                                         </div>
@@ -647,7 +647,8 @@
 
 
                             <div style="height:30px;"></div>
-                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+                            <button type="button" class="btn aqua m-t-xs bottom15-xs" id="btnSave" onclick="location.href='@Url.Action("ListBatchCreation", "BatchCreation")'">Submit</button>
+
                             <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListBatchCreation", "BatchCreation")'">Cancel</button>
                         </form>
                     }

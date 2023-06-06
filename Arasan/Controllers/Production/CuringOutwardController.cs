@@ -168,18 +168,22 @@ namespace Arasan.Controllers
                 ca.Remark = dt.Rows[0]["REMARKS"].ToString();
                 ca.Enterd = dt.Rows[0]["ENTEREDBY"].ToString();
 
+               
                 List<CuringDetail> TData = new List<CuringDetail>();
                 CuringDetail tda = new CuringDetail();
                 DataTable dt2 = curingoutward.CuringOutwardDetail(id);
-                for (int i = 0; i < dt2.Rows.Count; i++)
+                if (dt2.Rows.Count > 0)
                 {
-                    tda = new CuringDetail();
-                    tda.drum = dt2.Rows[i]["DRUMNO"].ToString();
-                    tda.batch = dt2.Rows[i]["BATCHNO"].ToString();
-                    tda.qty = dt2.Rows[i]["BATCHQTY"].ToString();
-                    tda.comp = dt2.Rows[i]["COMBNO"].ToString();
-                    tda.ID = id;
-                    TData.Add(tda);
+                    for (int i = 0; i < dt2.Rows.Count; i++)
+                    {
+                        tda = new CuringDetail();
+                        tda.drum = dt2.Rows[i]["DRUMNO"].ToString();
+                        tda.batch = dt2.Rows[i]["BATCHNO"].ToString();
+                        tda.qty = dt2.Rows[i]["BATCHQTY"].ToString();
+                        tda.comp = dt2.Rows[i]["COMBNO"].ToString();
+                        tda.ID = id;
+                        TData.Add(tda);
+                    }
                 }
                 ca.Curinglst = TData;
             }
@@ -406,6 +410,29 @@ namespace Arasan.Controllers
         {
             IEnumerable<CuringOutward> cmp = curingoutward.GetAllCuringOutward();
             return View(cmp);
+        }
+        public ActionResult GetItemDetail(string ItemId)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                string qty = "";
+                 
+                dt = curingoutward.GetQty(ItemId);
+
+                if (dt.Rows.Count > 0)
+                {
+                    qty = dt.Rows[0]["SUM_QTY"].ToString();
+                    
+                }
+
+                var result = new { qty = qty  };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
     }

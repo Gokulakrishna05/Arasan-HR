@@ -289,7 +289,7 @@ namespace Arasan.Services.Production
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "select DOCID,to_char(DIEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,LOCDETAILS.LOCID,TYPE,BRANCHMAST.BRANCHID,DIEBASICID FROM DIEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=DIEBASIC.BRANCH  LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID=DIEBASIC.FROMLOC";
+                    cmd.CommandText = "select DOCID,to_char(DIEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,LOCDETAILS.LOCID,TYPE,BRANCHMAST.BRANCHID,DIEBASICID FROM DIEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=DIEBASIC.BRANCH  LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID=DIEBASIC.FROMLOC order by DIEBASICID desc ";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {

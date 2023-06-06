@@ -25,13 +25,13 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select CUSTOMER_TYPE,DESCRIPTION,ID,STATUS  from CUSTOMERTYPE WHERE STATUS= 'ACTIVE'";
+                    cmd.CommandText = "Select CUSTOMER_TYPE,DESCRIPTION,CUSTOMERTYPEID,STATUS  from CUSTOMERTYPE WHERE STATUS= 'ACTIVE'";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
                         CustomerType sta = new CustomerType
                         {
-                            ID = rdr["ID"].ToString(),
+                            ID = rdr["CUSTOMERTYPEID"].ToString(),
                             Type = rdr["CUSTOMER_TYPE"].ToString(),
                             Des = rdr["DESCRIPTION"].ToString(),
                            
@@ -97,7 +97,7 @@ namespace Arasan.Services
         public DataTable GetCustomerType(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select CUSTOMER_TYPE,DESCRIPTION,CUSTOMERTYPE.ID  from CUSTOMERTYPE where CUSTOMERTYPE.ID= '" + id + "' ";
+            SvSql = "Select CUSTOMER_TYPE,DESCRIPTION,CUSTOMERTYPE.CUSTOMERTYPEID  from CUSTOMERTYPE where CUSTOMERTYPE.CUSTOMERTYPEID= '" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -113,7 +113,7 @@ namespace Arasan.Services
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE CUSTOMERTYPE SET STATUS ='INACTIVE' WHERE ID='" + id + "'";
+                    svSQL = "UPDATE CUSTOMERTYPE SET STATUS ='INACTIVE' WHERE CUSTOMERTYPEID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();

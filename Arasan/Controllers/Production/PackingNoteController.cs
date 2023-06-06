@@ -61,16 +61,17 @@ namespace Arasan.Controllers
                   
                     ca.ID = id;
                     ca.DrumLoc = dt.Rows[0]["DRUMLOCATION"].ToString();
+                    ca.Itemlst = BindItemlst(ca.DrumLoc);
+                    ca.ItemId = dt.Rows[0]["OITEMID"].ToString();
                     //DataTable dt3 = new DataTable();
                     //dt3 = Packing.GetItemDet(dt.Rows[0]["OITEMID"].ToString());
                     //if (dt3.Rows.Count > 0)
                     //{
                     //    ca.DrumLoc = dt3.Rows[0]["SUBGROUPCODE"].ToString();
                     //}
-                    
+
                     ca.ProdSchNo = dt.Rows[0]["PSCHNO"].ToString();
-                    ca.Itemlst = BindItemlst(ca.DrumLoc);
-                    ca.ItemId = dt.Rows[0]["OITEMID"].ToString();
+                   
                     ca.startdate = dt.Rows[0]["STARTDATE"].ToString() + " - " + dt.Rows[0]["STARTTIME"].ToString();
                     ca.enddate = dt.Rows[0]["ENDDATE"].ToString() + " - " + dt.Rows[0]["ENDTIME"].ToString();
 

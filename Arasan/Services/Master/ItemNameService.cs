@@ -217,37 +217,39 @@ namespace Arasan.Services.Master
                             }
                         }
                         bool result = datatrans.UpdateStatus("DELETE SUPPLIERPARTNO  Where ITEMMASTERID='" + Pid + "'");
-                        foreach (SupItem cp in ss.Suplst)
+                        if (ss.Suplst != null)
                         {
-                            using (OracleConnection objConnI = new OracleConnection(_connectionString))
+                            foreach (SupItem cp in ss.Suplst)
                             {
-                                OracleCommand objCmdI = new OracleCommand("SUPPLIERPROC", objConnI);
-
-                                objCmdI.CommandType = CommandType.StoredProcedure;
-                                StatementType = "Insert";
-                                objCmdI.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-                                objCmdI.Parameters.Add("SUPPLIERID", OracleDbType.NVarchar2).Value = cp.SupName;
-                                objCmdI.Parameters.Add("SUPPLIERPARTNO", OracleDbType.NVarchar2).Value = cp.SupplierPart;
-                                objCmdI.Parameters.Add("SPURPRICE", OracleDbType.NVarchar2).Value = cp.PurchasePrice;
-                                objCmdI.Parameters.Add("DELDAYS", OracleDbType.NVarchar2).Value = cp.Delivery;
-                                objCmdI.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
-                                try
+                                using (OracleConnection objConnI = new OracleConnection(_connectionString))
                                 {
-                                    objConnI.Open();
-                                    objCmdI.ExecuteNonQuery();
-                                    //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
-                                }
-                                catch (Exception ex)
-                                {
-                                    //System.Console.WriteLine("Exception: {0}", ex.ToString());
+                                    OracleCommand objCmdI = new OracleCommand("SUPPLIERPROC", objConnI);
+
+                                    objCmdI.CommandType = CommandType.StoredProcedure;
+                                    StatementType = "Insert";
+                                    objCmdI.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                    objCmdI.Parameters.Add("SUPPLIERID", OracleDbType.NVarchar2).Value = cp.SupName;
+                                    objCmdI.Parameters.Add("SUPPLIERPARTNO", OracleDbType.NVarchar2).Value = cp.SupplierPart;
+                                    objCmdI.Parameters.Add("SPURPRICE", OracleDbType.NVarchar2).Value = cp.PurchasePrice;
+                                    objCmdI.Parameters.Add("DELDAYS", OracleDbType.NVarchar2).Value = cp.Delivery;
+                                    objCmdI.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                                    try
+                                    {
+                                        objConnI.Open();
+                                        objCmdI.ExecuteNonQuery();
+                                        //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
+                                    }
+
+                                    objConnI.Close();
                                 }
 
-                                objConnI.Close();
                             }
 
                         }
-
-
 
                     }
                     catch (Exception ex)
