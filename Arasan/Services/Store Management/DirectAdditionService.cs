@@ -25,7 +25,7 @@ namespace Arasan.Services.Store_Management
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,LOCDETAILS.LOCID,DOCID,to_char(ADDBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,DCNO,REASON,GROSS,ENTBY,NARRATION,ADDBASICID from ADDBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=ADDBASIC.BRANCHID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=ADDBASIC.LOCID";
+                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,LOCDETAILS.LOCID,DOCID,to_char(ADDBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,DCNO,REASON,GROSS,ENTBY,NARRATION,ADDBASICID,ADDBASIC.STATUS from ADDBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=ADDBASIC.BRANCHID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=ADDBASIC.LOCID WHERE ADDBASIC.STATUS='ACTIVE'";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -122,6 +122,7 @@ namespace Arasan.Services.Store_Management
                     objCmd.Parameters.Add("NET", OracleDbType.NVarchar2).Value = ss.Net;
                     objCmd.Parameters.Add("ENTBY", OracleDbType.NVarchar2).Value = ss.Entered;
                     objCmd.Parameters.Add("NARRATION", OracleDbType.NVarchar2).Value = ss.Narr;
+                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
@@ -319,6 +320,29 @@ namespace Arasan.Services.Store_Management
             return cmpList;
         }
 
+        public string StatusChange(string tag, int id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE ADDBASIC SET STATUS ='ISACTIVE' WHERE ADDBASICID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
+        }
 
     }
    

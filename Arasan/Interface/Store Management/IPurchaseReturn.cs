@@ -22,5 +22,7 @@ namespace Arasan.Interface
         IEnumerable<PurchaseReturn> GetAllPurReturn();
         DataTable GetCity(string id);
         DataTable Getstkqty(string grnid,string locid,string brid);
+
+        string StatusChange(string tag, int id);
     }
 }

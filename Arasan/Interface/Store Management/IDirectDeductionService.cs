@@ -18,6 +18,8 @@ namespace Arasan.Interface.Store_Management
         DataTable GetItemCF(string ItemId, string unitid);
         DataTable GetDDItemDetails(string id);
         IEnumerable<DeductionItem> GetAllStoreIssueItem(string id);
+
+        string StatusChange(string tag, int id);
     }
 
 }

@@ -17,5 +17,7 @@ namespace Arasan.Interface
         string GateInwardCRUD(GateInward Cy);
         string POtoGRN(string POID);
         DataTable GetPObySuppID(string supid);
+
+        string StatusChange(string tag, int id);
     }
 }

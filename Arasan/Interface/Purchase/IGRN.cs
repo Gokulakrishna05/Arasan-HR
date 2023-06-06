@@ -12,5 +12,6 @@ namespace Arasan.Interface
         DataTable EditGRNbyID(string name);
         DataTable FetchAccountRec(string GRNId);
         DataTable LedgerList();
+        string StatusChange(string tag, int id);
     }
 }
