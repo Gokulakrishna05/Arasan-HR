@@ -66,9 +66,11 @@
                                                                     <td>@Html.DisplayFor(modelItem => item.Dcno)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.Gro)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.Reason)</td>
+
+
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("DirectDeduction", "DirectDeduction",new { id=item.ID })"></a></div></td>
-                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("DirectDeduction", "DirectDeduction",new { id=item.ID })"></a></div></td>
-                                                         
+                                                                    <td> <a href="@Url.Action("DeleteMR","DirectDeduction",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
+
                                                         </tr>
 
                                                               

@@ -355,5 +355,21 @@ namespace Arasan.Controllers
         {
             return View();
         }
+
+        public ActionResult DeleteMR(string tag, int id)
+        {
+
+            string flag = directPurchase.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListDirectPurchase");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListDirectPurchase");
+            }
+        }
     }
 }

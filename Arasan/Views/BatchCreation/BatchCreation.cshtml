@@ -1474,7 +1474,7 @@
                     
                                                              
                 }
-                j += 1;
+                q += 1;
             });
           
           
@@ -1506,7 +1506,7 @@
 
         var start = "<td><div class='input-group date form_date col-sm-8'  data-date-format='dd-M-yyyy'><input class='form-control' id='txtStart" + index + "' name='BatchOtherLst[" + index + "].Start'  style='width: 120px;' type='text'   ReadOnly='readonly' /><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div></td>";
         var sttime = "<td><input class='form-control' id='txtStartT" + index + "' name='BatchOtherLst[" + index + "].StartT'  style='width: 120px;' type='time'   /></td>";
-        var end = "<td><div class='input-group date form_date col-sm-8'  data-date-format='dd-M-yyyy'><input class='form-control' id='txtEnd" + index + "' name='BatchOtherLst[" + index + "].End'  style='width: 120px;' type='text'  ReadOnly='readonly' /><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div></td>";
+        var end = "<td><div class='input-group date form_dateend col-sm-8'  data-date-format='dd-M-yyyy'><input class='form-control' id='txtEnd" + index + "' name='BatchOtherLst[" + index + "].End'  style='width: 120px;' type='text'  ReadOnly='readonly' /><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div></td>";
         var endtime = "<td><input class='form-control' id='txtEndT" + index + "' name='BatchOtherLst[" + index + "].EndT'  style='width: 120px;' type='Time'   /></td>";
         var tot = "<td><input class='form-control' id='txtTotal" + index + "' name='BatchOtherLst[" + index + "].Total'  style='width: 120px;' type='text'  onkeydown = 'return isNumeric2(event.keyCode,this.value)' /></td>";
 
@@ -1534,8 +1534,19 @@
             minView: 2,
             forceParse: 0
         });
+          $('.form_dateend').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        startDate: new Date(),
+        forceParse: 0
+    });
     }
-   
+  
     function AddParamRow() {
         var opt = "";
         $.ajax({
@@ -1559,7 +1570,7 @@
 
         var start = "<td><div class='input-group date form_date col-sm-8'  data-date-format='dd-M-yyyy'><input class='form-control' id='txtStartDate" + index + "' name='BatchParemLst[" + index + "].StartDate'  style='width: 120px;' type='text'   ReadOnly='readonly' /><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div></td>";
         var sttime = "<td><input class='form-control' id='txtStartTime" + index + "' name='BatchParemLst[" + index + "].StartTime'  style='width: 120px;' type='time'   /></td>";
-        var end = "<td><div class='input-group date form_date col-sm-8'  data-date-format='dd-M-yyyy'><input class='form-control' id='txtEndDate" + index + "' name='BatchParemLst[" + index + "].EndDate'  style='width: 120px;' type='text'  ReadOnly='readonly' /><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div></td>";
+        var end = "<td><div class='input-group date form_dateend col-sm-8'  data-date-format='dd-M-yyyy'><input class='form-control' id='txtEndDate" + index + "' name='BatchParemLst[" + index + "].EndDate'  style='width: 120px;' type='text'  ReadOnly='readonly' /><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div></td>";
         var endtime = "<td><input class='form-control' id='txtEndTime" + index + "' name='BatchParemLst[" + index + "].EndTime'  style='width: 120px;' type='Time'   /></td>";
         var value = "<td><input class='form-control' id='txtValue" + index + "' name='BatchParemLst[" + index + "].Value'  style='width: 120px;' type='text'    /></td>";
 
@@ -1583,6 +1594,17 @@
             minView: 2,
             forceParse: 0
         });
+         $('.form_dateend').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        startDate: new Date(),
+        forceParse: 0
+    });
     }
     
 </script>

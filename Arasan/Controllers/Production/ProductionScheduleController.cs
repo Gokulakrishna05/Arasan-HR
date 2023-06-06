@@ -128,7 +128,10 @@ namespace Arasan.Controllers.Production
                         dtt1 = datatrans.GetItemSubGroup(dt2.Rows[i]["RITEMID"].ToString());
                         if (dtt1.Rows.Count > 0)
                         {
-                            tda.ItemGroupId = dtt1.Rows[i]["SUBGROUPCODE"].ToString();
+                            for (int j = 0; j < dtt1.Rows.Count; j++)
+                            {
+                                tda.ItemGroupId = dtt1.Rows[j]["SUBGROUPCODE"].ToString();
+                            }
                         }
                         tda.Itemlst = BindItemlst(tda.ItemGroupId);
                         tda.ItemId = dt2.Rows[i]["RITEMID"].ToString();
@@ -156,7 +159,10 @@ namespace Arasan.Controllers.Production
                         dtt2 = datatrans.GetItemSubGroup(dt3.Rows[i]["OITEMID"].ToString());
                         if (dtt2.Rows.Count > 0)
                         {
-                            tda1.ItemGroup = dtt2.Rows[i]["SUBGROUPCODE"].ToString();
+                            for (int j = 0; j < dtt2.Rows.Count; j++)
+                            {
+                                tda1.ItemGroup = dtt2.Rows[j]["SUBGROUPCODE"].ToString();
+                            }
                         }
                         tda1.PItemlst = BindItemlst(tda1.ItemGroup);
                         tda1.Item = dt3.Rows[i]["OITEMID"].ToString();

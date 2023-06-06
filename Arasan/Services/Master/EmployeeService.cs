@@ -28,7 +28,11 @@ namespace Arasan.Services.Master
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select  EMPMAST. EMPNAME, EMPMAST.EMPID, EMPMAST.EMPSEX,to_char( EMPMAST.EMPDOB,'dd-MON-yyyy')EMPDOB,ECADD1, ECCITY,ECSTATE,ECMAILID,ECPHNO,FATHERNAME,MOTHERNAME,EMPPAYCAT,EMPBASIC,PFNO,ESINO,EMPCOST,to_char( EMPMAST.PFDT,'dd-MON-yyyy')PFDT,to_char( EMPMAST.ESIDT,'dd-MON-yyyy')ESIDT,USERNAME,PASSWORD,EMPDEPT,EMPDESIGN,EMPDEPTCODE,to_char( EMPMAST.JOINDATE,'dd-MON-yyyy')JOINDATE,to_char( EMPMAST.RESIGNDATE,'dd-MON-yyyy')RESIGNDATE,EACTIVE,EMPMASTID from EMPMAST WHERE EMPMAST.EACTIVE='Yes'";
+
+                    
+
+                    cmd.CommandText = "Select  EMPMAST. EMPNAME, EMPMAST.EMPID, EMPMAST.EMPSEX,to_char( EMPMAST.EMPDOB,'dd-MON-yyyy')EMPDOB,ECADD1, ECCITY,ECSTATE,ECMAILID,ECPHNO,FATHERNAME,MOTHERNAME,EMPPAYCAT,EMPBASIC,PFNO,ESINO,EMPCOST,to_char( EMPMAST.PFDT,'dd-MON-yyyy')PFDT,to_char( EMPMAST.ESIDT,'dd-MON-yyyy')ESIDT,USERNAME,PASSWORD,EMPDEPT,EMPDESIGN,EMPDEPTCODE,to_char( EMPMAST.JOINDATE,'dd-MON-yyyy')JOINDATE,to_char( EMPMAST.RESIGNDATE,'dd-MON-yyyy')RESIGNDATE,EMPMASTID,EMPMAST.STATUS from EMPMAST WHERE EMPMAST.STATUS='ACTIVE'";
+
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -47,7 +51,7 @@ namespace Arasan.Services.Master
                             PhoneNo = rdr["ECPHNO"].ToString(),
                             FatherName = rdr["FATHERNAME"].ToString(),
                             MotherName = rdr["MOTHERNAME"].ToString(),
-                            eactive = rdr["EACTIVE"].ToString(),
+                            
 
 
                         };
@@ -125,7 +129,7 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("EMPDEPTCODE", OracleDbType.NVarchar2).Value = cy.EMPDeptCode;
                     objCmd.Parameters.Add("JOINDATE", OracleDbType.Date).Value = DateTime.Parse(cy.JoinDate);
                     objCmd.Parameters.Add("RESIGNDATE", OracleDbType.Date).Value = DateTime.Parse(cy.ResignDate);
-                    objCmd.Parameters.Add("EACTIVE", OracleDbType.NVarchar2).Value = "Yes";
+                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
 
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
@@ -400,7 +404,7 @@ namespace Arasan.Services.Master
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE EMPMAST SET EACTIVE ='No' WHERE EMPMASTID='" + id + "'";
+                    svSQL = "UPDATE EMPMAST SET STATUS ='ISACTIVE' WHERE EMPMASTID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();

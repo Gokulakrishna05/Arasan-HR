@@ -42,15 +42,16 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Location ID<label class="mandatory">*</label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Location Name<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                         @Html.TextBoxFor(C => C.LocationId, new { @id = "txtLocationId", @class = "form-control", @TabIndex = 1 })<br />
                                             @Html.HiddenFor(C => C.ID)
+                                            @Html.HiddenFor(C => C.Branch)
                                     </div>
 
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                              @*  <div class="col-md-6">
                                     <div class="form-group">
 
                                         <label for="inputName3" class="col-sm-4 control-label">Branch<label class="mandatory"></label></label>
@@ -60,7 +61,7 @@
                                         </div>
 
                                     </div>
-                                </div>
+                            </div>*@
                             </div>
                             <div class="row">
                                
@@ -70,7 +71,7 @@
                                         <label for="inputName3" class="col-sm-4 control-label">Location Type<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
                                         @Html.TextBoxFor(C => C.LocType, new { @id = "txtLocationType", @class = "form-control", @TabIndex = 1 })<br />
-                                            @Html.HiddenFor(C => C.ID)
+                                          
                                         </div>
 
                                     </div>

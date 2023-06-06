@@ -167,9 +167,11 @@ namespace Arasan.Controllers.Sales
 
             return View(Cy);
         }
-        public IActionResult ListSalesQuotation()
+        public IActionResult ListSalesQuotation(string status)
         {
-            IEnumerable<SalesQuotation> cmp = SalesQuotationService.GetAllSalesQuotation();
+
+            //HttpContext.Session.SetString("SalesStatus", "Y");
+            IEnumerable<SalesQuotation> cmp = SalesQuotationService.GetAllSalesQuotation(status);
             return View(cmp);
         }
         public List<SelectListItem> BindCusType()
@@ -332,6 +334,24 @@ namespace Arasan.Controllers.Sales
                 throw ex;
             }
         }
+        public ActionResult AssignSession(string status)
+        {
+            try
+            {
+                HttpContext.Session.SetString("SalesStatus", status);
+                string result = "";
+                if (!string.IsNullOrEmpty(status))
+                {
+                    result = status;
+                    //HttpContext.Session.SetString("SalesStatus", status);
+                }
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        } 
         public ActionResult GetItemDetail(string ItemId)
         {
             try
@@ -657,6 +677,20 @@ namespace Arasan.Controllers.Sales
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+        public ActionResult CloseQuote(string tag, int id)
+        {
+
+            string flag = SalesQuotationService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+                return RedirectToAction("ListSalesQuotation");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListSalesQuotation");
             }
         }
     }

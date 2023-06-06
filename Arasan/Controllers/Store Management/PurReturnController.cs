@@ -556,5 +556,20 @@ namespace Arasan.Controllers
             return Json(BindGRNlist());
         }
 
+        public ActionResult DeleteMR(string tag, int id)
+        {
+
+            string flag = PurReturn.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListPurchaseReturn");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListPurchaseReturn");
+            }
+        }
     }
 }

@@ -28,7 +28,7 @@ namespace Arasan.Services.Store_Management
                 {
                     con.Open();
 
-                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,LOCDETAILS.LOCID,DOCID,to_char(DEDBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,DCNO,REASON,GROSS,ENTBY,NARRATION,NOOFD,DEDBASICID from DEDBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=DEDBASIC.BRANCHID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=DEDBASIC.LOCID";
+                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,LOCDETAILS.LOCID,DOCID,to_char(DEDBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,DCNO,REASON,GROSS,ENTBY,NARRATION,NOOFD,DEDBASICID ,DEDBASIC.IS_ACTIVE from DEDBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=DEDBASIC.BRANCHID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=DEDBASIC.LOCID WHERE DEDBASIC.IS_ACTIVE= 'Yes'";
 
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
@@ -121,6 +121,7 @@ namespace Arasan.Services.Store_Management
                     objCmd.Parameters.Add("ENTBY", OracleDbType.NVarchar2).Value = ss.Entered;
                     objCmd.Parameters.Add("NARRATION", OracleDbType.NVarchar2).Value = ss.Narr;
                     objCmd.Parameters.Add("NOOFD", OracleDbType.NVarchar2).Value = ss.NoDurms;
+                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Yes";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
@@ -360,8 +361,31 @@ namespace Arasan.Services.Store_Management
             adapter.Fill(dtt);
             return dtt;
         }
-      
-      
+
+        public string StatusChange(string tag, int id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE DEDBASIC SET IS_ACTIVE ='No' WHERE DEDBASICID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
+        }
+
     }
 }
 

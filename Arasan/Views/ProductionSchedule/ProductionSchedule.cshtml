@@ -1347,9 +1347,348 @@
                     "background": ""
                 });
                 }*@
-           
-           
 
+                 var j = 0;
+            $('tr.chkitemlst').each(function () {
+                if ($(this).css('display') !== 'none') {
+
+
+
+
+                    if ($(this).find('#ddlItemGrp' + j.toString()).val() == "" || $(this).find('#ddlItemGrp' + j.toString()).val() == 0) {
+                        isValid = false;
+                        $(this).find('#ddlItemGrp' + j.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+                        alert("Please Select Item Group In Input Items");
+                        $(this).find('#ddlItemGrp' + j.toString()).focus();
+                        return false;
+                    }
+                    else {
+                        $(this).find('#ddlItemGrp' + j.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+
+                    if ($(this).find('#ddlItem' + j.toString()).val() == "" || $(this).find('#ddlItem' + j.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#ddlItem' + j.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Select Item In Input Items");
+                        $(this).find('#ddlItem' + j.toString()).focus();
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#ddlItem' + j.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+                    if ($(this).find('#txtInput' + j.toString()).val() == "" || $(this).find('#txtInput' + j.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#txtInput' + j.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Enter Input In Input Items");
+                        $(this).find('#txtInput' + j.toString()).focus();
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#txtInput' + j.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+                    if ($(this).find('#txtQty' + j.toString()).val() == "" || $(this).find('#txtQty' + j.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#txtQty' + j.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Enter Required Qty In Input Items");
+                        $(this).find('#txtQty' + j.toString()).focus();
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#txtQty' + j.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+                }
+                j += 1;
+            });
+            var a = 0;
+            $('tr.chkOutitemlst').each(function () {
+                if ($(this).css('display') !== 'none') {
+                    if ($(this).find('#ddlItemGroup' + a.toString()).val() == "" || $(this).find('#ddlItemGroup' + a.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#ddlItemGroup' + a.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Select Item Group In Output Items");
+                        $(this).find('#ddlItemGroup' + a.toString()).focus();
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#ddlItemGroup' + a.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+                    if ($(this).find('#ddlItemid' + a.toString()).val() == "" || $(this).find('#ddlItemid' + a.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#ddlItemid' + a.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Select  Item In Output Items");
+                        $(this).find('#ddlItemid' + a.toString()).focus();
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#ddlItemid' + a.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+
+                    if ($(this).find('#txtSch' + a.toString()).val() == "" || $(this).find('#txtSch' + a.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#txtSch' + a.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Enter Sch Qty  In Output Items");
+                        $(this).find('#txtSch' + a.toString()).focus();
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#txtSch' + a.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+
+                    if ($(this).find('#txtProduced' + a.toString()).val() == "" || $(this).find('#txtProduced' + a.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#txtProduced' + a.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Enter Produced Qty In Output Items");
+                        $(this).find('#txtProduced' + a.toString()).focus();
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#txtProduced' + a.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+
+                     
+                }
+                a += 1;
+            });
+            var q = 0;
+            $('tr.chkParmitemlst').each(function () {
+                if ($(this).css('display') !== 'none') {
+                    if ($(this).find('#txtParameters' + q.toString()).val() == "" || $(this).find('#txtParameters' + q.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#txtParameters' + q.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Enter Parameters In Process Parameters");
+                        $(this).find('#txtParameters' + q.toString()).focus();
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#txtParameters' + q.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+
+                    if ($(this).find('#txtUnit' + q.toString()).val() == "" || $(this).find('#txtUnit' + q.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#txtUnit' + q.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Enter Unit In Process Parameters");
+                        $(this).find('#txtUnit' + q.toString()).focus();
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#txtUnit' + q.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+
+                    if ($(this).find('#txtInitial' + q.toString()).val() == "" || $(this).find('#txtInitial' + q.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#txtInitial' + q.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Enter Initial Value In Process Parameters");
+                        $(this).find('#txtInitial' + q.toString()).focus();
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#txtInitial' + q.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+                    if ($(this).find('#txtFinal' + q.toString()).val() == "" || $(this).find('#txtFinal' + q.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#txtFinal' + q.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Enter Final Value In Process Parameter");
+                        $(this).find('#txtFinal' + q.toString()).focus();
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#txtFinal' + q.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+                   
+
+
+                }
+                q += 1;
+            });
+            var k = 0;
+            $('tr.chkOutputitemlst').each(function () {
+                if ($(this).css('display') !== 'none') {
+                    if ($(this).find('#txtSchDate' + k.toString()).val() == "" || $(this).find('#txtSchDate' + k.toString()).val() == 0) {
+                        isValid = false;
+                        $(this).find('#txtSchDate' + k.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+                        alert("Please Select Sch Date  In Output Details");
+                        $(this).find('#txtSchDate' + k.toString()).focus();
+                        return false;
+                    }
+                    else {
+                        $(this).find('#txtSchDate' + k.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+
+                    if ($(this).find('#txtHrs' + k.toString()).val() == "" || $(this).find('#txtHrs' + k.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#txtHrs' + k.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Enter Run Hrs In Output Details");
+                        $(this).find('#txtHrs' + k.toString()).focus();
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#txtHrs' + k.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+                    if ($(this).find('#ddlItemGp' + k.toString()).val() == "" || $(this).find('#ddlItemGp' + k.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#ddlItemGp' + k.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Select Item Group In Output Details");
+                        $(this).find('#ddlItemGp' + k.toString()).focus();
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#ddlItemGp' + k.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+                    if ($(this).find('#ddlItem1' + k.toString()).val() == "" || $(this).find('#ddlItem1' + k.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#ddlItem1' + k.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Select Item In Output Details");
+                        $(this).find('#ddlItem1' + k.toString()).focus();
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#ddlItem1' + k.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+                      if ($(this).find('#txtQty' + k.toString()).val() == "" || $(this).find('#txtQty' + k.toString()).val() == "0") {
+                        isValid = false;
+                        $(this).find('#txtQty' + k.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Enter Sch Qty In Output Details");
+                        $(this).find('#txtQty' + k.toString()).focus();
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#txtQty' + k.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+                }
+                k += 1;
+            });
             if (isValid == false)
                 e.preventDefault();
         });

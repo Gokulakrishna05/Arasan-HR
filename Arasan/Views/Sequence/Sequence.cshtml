@@ -89,7 +89,7 @@
                                     <div class="form-group">
 
                                         <label for="inputName3" class="col-sm-4 control-label">Start Date<label class="mandatory">*</label></label>
-                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-mm-yy">
+                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                             @Html.TextBoxFor(C => C.Start, new { @id = "txtStart", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                         </div>
@@ -101,7 +101,7 @@
                                     <div class="form-group">
 
                                         <label for="inputName3" class="col-sm-4 control-label">End Date<label class="mandatory">*</label></label>
-                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-mm-yy">
+                                        <div class="input-group date form_dateend col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                             @Html.TextBoxFor(C => C.End, new { @id = "txtEnd", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                         </div>
@@ -134,6 +134,17 @@
         startView: 2,
         minView: 2,
 
+        forceParse: 0
+    });
+    $('.form_dateend').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        startDate: new Date(),
         forceParse: 0
     });
     $(".chosen-select").chosen();

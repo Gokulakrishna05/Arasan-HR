@@ -26,7 +26,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select  BRANCHMAST.BRANCHID,PARTYRCODE.PARTY,DPBASIC. DOCID,to_char(DPBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,DPBASIC.VOUCHER, to_char(DPBASIC.REFDT,'dd-MON-yyyy')REFDT,LOCID,CURRENCY.MAINCURR,DPBASIC.GROSS,DPBASIC.NET,DPBASIC.FREIGHT,OTHERCH,RNDOFF,DPBASIC.OTHERDISC,DPBASIC.LRCH,DPBASIC.DELCH,DPBASIC.NARR,DPBASICID from DPBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=DPBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on DPBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=DPBASIC.MAINCURRENCY LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH') ORDER BY DPBASIC.DPBASICID DESC";
+                    cmd.CommandText = "Select  BRANCHMAST.BRANCHID,PARTYRCODE.PARTY,DPBASIC. DOCID,to_char(DPBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,DPBASIC.VOUCHER, to_char(DPBASIC.REFDT,'dd-MON-yyyy')REFDT,LOCID,CURRENCY.MAINCURR,DPBASIC.GROSS,DPBASIC.NET,DPBASIC.FREIGHT,OTHERCH,RNDOFF,DPBASIC.OTHERDISC,DPBASIC.LRCH,DPBASIC.DELCH,DPBASIC.NARR,DPBASICID,DPBASIC.IS_ACTIVE from DPBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=DPBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on DPBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=DPBASIC.MAINCURRENCY LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH') and DPBASIC.IS_ACTIVE= 'Yes' ORDER BY DPBASIC.DPBASICID DESC";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -151,6 +151,7 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("LRCH", OracleDbType.NVarchar2).Value = cy.LRCha;
                     objCmd.Parameters.Add("DELCH", OracleDbType.NVarchar2).Value = cy.DelCh;
                     objCmd.Parameters.Add("NARR", OracleDbType.NVarchar2).Value = cy.Narration;
+                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Yes";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
@@ -262,6 +263,30 @@ namespace Arasan.Services
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
+        }
+
+        public string StatusChange(string tag, int id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE DPBASIC SET IS_ACTIVE ='No' WHERE DPBASICID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
         }
     }
 }

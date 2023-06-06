@@ -32,5 +32,7 @@ namespace Arasan.Interface
         string PurchaseFollowupCRUD(QuoFollowup pf);
         IEnumerable<QuoFollowup> GetAllPurchaseFollowup();
 
+        string StatusChange(string tag, int id);
+
     }
 }

@@ -546,5 +546,21 @@ namespace Arasan.Controllers
                return Json(BindLedgerLst());
         }
 
+        public ActionResult DeleteMR(string tag, int id)
+        {
+
+            string flag = GRNService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListGRN");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListGRN");
+            }
+        }
+
     }
 }

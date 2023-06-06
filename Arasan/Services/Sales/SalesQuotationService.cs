@@ -18,8 +18,12 @@ namespace Arasan.Services.Sales
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
         }
 
-        public IEnumerable<SalesQuotation> GetAllSalesQuotation()
+        public IEnumerable<SalesQuotation> GetAllSalesQuotation(string status)
         {
+            if (string.IsNullOrEmpty(status))
+            {
+                status = "Active";
+            }
             List<SalesQuotation> cmpList = new List<SalesQuotation>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
@@ -27,7 +31,7 @@ namespace Arasan.Services.Sales
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select BRANCHID,QUOTE_NO,to_char(QUOTE_DATE,'dd-MON-yyyy')QUOTE_DATE,ENQNO,to_char(ENQDATE,'dd-MON-yyyy')ENQDATE,CURRENCY_TYPE,SQ.CUSTOMER,SQ.CUSTOMER_TYPE,SQ.ADDRESS,SQ.CITY,SQ.CONTACT_PERSON_MOBILE,SQ.CONTACT_PERSON_MAIL,SQ.PINCODE,SQ.PRIORITY,SQ.ASSIGNED_TO,SQ.ID,PARTYRCODE.PARTY from SALES_QUOTE SQ LEFT OUTER JOIN  PARTYMAST on SQ.CUSTOMER=PARTYMAST.PARTYMASTID  LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Customer','BOTH')  order by SQ.ID DESC ";
+                    cmd.CommandText = "Select SQ.STATUS,BRANCHID,QUOTE_NO,to_char(QUOTE_DATE,'dd-MON-yyyy')QUOTE_DATE,ENQNO,to_char(ENQDATE,'dd-MON-yyyy')ENQDATE,CURRENCY_TYPE,SQ.CUSTOMER,SQ.CUSTOMER_TYPE,SQ.ADDRESS,SQ.CITY,SQ.CONTACT_PERSON_MOBILE,SQ.CONTACT_PERSON_MAIL,SQ.PINCODE,SQ.PRIORITY,SQ.ASSIGNED_TO,SQ.ID,PARTYRCODE.PARTY from SALES_QUOTE SQ LEFT OUTER JOIN  PARTYMAST on SQ.CUSTOMER=PARTYMAST.PARTYMASTID  LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Customer','BOTH') AND  SQ.STATUS='" + status + "' order by SQ.ID DESC ";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -48,8 +52,8 @@ namespace Arasan.Services.Sales
                             Gmail = rdr["CONTACT_PERSON_MAIL"].ToString(),
                             PinCode = rdr["PINCODE"].ToString(),
                             Pro = rdr["PRIORITY"].ToString(),
-                            Assign = rdr["ASSIGNED_TO"].ToString()
-                           
+                            Assign = rdr["ASSIGNED_TO"].ToString(),
+                            status= rdr["STATUS"].ToString()
                         };
                         cmpList.Add(cmp);
                     }
@@ -391,6 +395,29 @@ namespace Arasan.Services.Sales
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
+
+        }
+
+        public string StatusChange(string tag, int id)
+        {
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE SALES_QUOTE SET STATUS ='CLOSE' WHERE ID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
 
         }
 

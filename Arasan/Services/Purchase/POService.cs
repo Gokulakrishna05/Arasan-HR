@@ -25,7 +25,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,POBASIC.DOCID,to_char(POBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,POBASIC.EXRATE,CURRENCY.MAINCURR,PARTYRCODE.PARTY,POBASICID,POBASIC.STATUS,PURQUOTBASIC.DOCID as Quotno from POBASIC LEFT OUTER JOIN PURQUOTBASIC ON PURQUOTBASIC.PURQUOTBASICID=POBASIC.QUOTNO LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=POBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on POBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=POBASIC.MAINCURRENCY LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH') ORDER BY POBASIC.POBASICID DESC";
+                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,POBASIC.DOCID,to_char(POBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,POBASIC.EXRATE,CURRENCY.MAINCURR,PARTYRCODE.PARTY,POBASICID,POBASIC.STATUS,PURQUOTBASIC.DOCID as Quotno,POBASIC.IS_ACTIVE from POBASIC LEFT OUTER JOIN PURQUOTBASIC ON PURQUOTBASIC.PURQUOTBASICID=POBASIC.QUOTNO LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=POBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on POBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=POBASIC.MAINCURRENCY LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH') and POBASIC.IS_ACTIVE='Yes' ORDER BY POBASIC.POBASICID DESC";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -205,7 +205,7 @@ namespace Arasan.Services
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
-                    svSQL = "Insert into GRNBLBASIC (PARTYID,BRANCHID,POBASICID,EXRATE,MAINCURRENCY,DOCID,DOCDATE,PACKING_CHRAGES,OTHER_CHARGES,OTHER_DEDUCTION,ROUND_OFF_PLUS,ROUND_OFF_MINUS,FREIGHT,GROSS,NET) (Select PARTYID,BRANCHID,'" + POID + "',EXRATE,MAINCURRENCY,'" + PONo + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "',PACKING_CHRAGES,OTHER_CHARGES,OTHER_DEDUCTION,ROUND_OFF_PLUS,ROUND_OFF_MINUS,FREIGHT,GROSS,NET  from POBASIC where POBASICID='" + POID + "')";
+                    svSQL = "Insert into GRNBLBASIC (PARTYID,BRANCHID,POBASICID,EXRATE,MAINCURRENCY,DOCID,DOCDATE,PACKING_CHRAGES,OTHER_CHARGES,OTHER_DEDUCTION,ROUND_OFF_PLUS,ROUND_OFF_MINUS,FREIGHT,GROSS,NET,IS_ACTIVE) (Select PARTYID,BRANCHID,'" + POID + "',EXRATE,MAINCURRENCY,'" + PONo + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "',PACKING_CHRAGES,OTHER_CHARGES,OTHER_DEDUCTION,ROUND_OFF_PLUS,ROUND_OFF_MINUS,FREIGHT,GROSS,NET ,'Yes' from POBASIC where POBASICID='" + POID + "')";
                     OracleCommand objCmd = new OracleCommand(svSQL, objConn);
                     try
                     {
@@ -469,6 +469,7 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("DESP", OracleDbType.NVarchar2).Value = cy.desp;
                     objCmd.Parameters.Add("WARRTERMS", OracleDbType.NVarchar2).Value = cy.warrantyterms;
                     objCmd.Parameters.Add("NARRATION", OracleDbType.NVarchar2).Value = cy.Narration;
+                   
                     objCmd.Parameters.Add("EMPNAME", OracleDbType.NVarchar2).Value = cy.Recid;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     try
@@ -515,7 +516,29 @@ namespace Arasan.Services
 
             return msg;
         }
+        public string StatusChange(string tag, int id)
+        {
 
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE POBASIC SET IS_ACTIVE ='No' WHERE POBASICID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
+        }
 
     }
 }
