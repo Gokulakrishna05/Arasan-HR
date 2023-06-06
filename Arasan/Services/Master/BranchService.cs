@@ -51,7 +51,7 @@ namespace Arasan.Services
         public DataTable GetCity(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select CITYNAME,CITYID from  CITYMASTER  where STATEID='" + id + "'";
+            SvSql = "select CITYNAME,CITYID from  CITYMASTER  where STATENAME='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -113,7 +113,7 @@ namespace Arasan.Services
                         return msg;
                     }
                 }
-
+                string StaName = datatrans.GetDataString("Select STATE from STATEMAST where STATEMASTID='" + cy.StateName + "' ");
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
             {
                 OracleCommand objCmd = new OracleCommand("BRANCHPROC", objConn);
@@ -134,7 +134,7 @@ namespace Arasan.Services
                 objCmd.Parameters.Add("COMPANYID", OracleDbType.NVarchar2).Value = cy.CompanyName;
                 objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.BranchName;
                 objCmd.Parameters.Add("ADDRESS1", OracleDbType.NVarchar2).Value = cy.Address;
-                objCmd.Parameters.Add("STATE", OracleDbType.NVarchar2).Value = cy.StateName;
+                objCmd.Parameters.Add("STATE", OracleDbType.NVarchar2).Value = StaName;
                 objCmd.Parameters.Add("CITY", OracleDbType.NVarchar2).Value = cy.City;
                 objCmd.Parameters.Add("PINCODE", OracleDbType.NVarchar2).Value = cy.PinCode;
                 objCmd.Parameters.Add("CSTNO", OracleDbType.NVarchar2).Value = cy.GSTNo;

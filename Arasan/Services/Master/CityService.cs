@@ -105,11 +105,11 @@ namespace Arasan.Services.Master
                     svSQL = " SELECT Count(*) as cnt FROM CITYMASTER WHERE CITYNAME = LTRIM(RTRIM('" + ss.Cit + "')) and STATEMAST.STATE = LTRIM(RTRIM('" + ss.State + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
-                        msg = "CITY Already Existed";
+                        msg = "City Already Existed";
                         return msg;
                     }
                 }
-
+                string StaName = datatrans.GetDataString("Select STATE from STATEMAST where STATEMASTID='" + ss.State + "' ");
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("CITYPROC", objConn);
@@ -130,6 +130,7 @@ namespace Arasan.Services.Master
 
                     objCmd.Parameters.Add("CITYNAME", OracleDbType.NVarchar2).Value = ss.Cit;
                     objCmd.Parameters.Add("STATEID", OracleDbType.NVarchar2).Value = ss.State;
+                    objCmd.Parameters.Add("STATENAME", OracleDbType.NVarchar2).Value = StaName;
                     objCmd.Parameters.Add("COUNTRYID", OracleDbType.NVarchar2).Value = ss.countryid;
                     objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;

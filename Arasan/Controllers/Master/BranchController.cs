@@ -32,7 +32,7 @@ namespace Arasan.Controllers
 
             if (id == null)
             {
-
+                
 
             }
             else
@@ -47,7 +47,7 @@ namespace Arasan.Controllers
                     br.BranchName = dt.Rows[0]["BRANCHID"].ToString();
                     br.Address = dt.Rows[0]["ADDRESS1"].ToString();
                     br.StateName = dt.Rows[0]["STATE"].ToString();
-                    //br.Citylst = BindCity(br.StateName);
+                    br.Citylst = BindCity(br.StateName);
                     br.City = dt.Rows[0]["CITY"].ToString();
                     br.PinCode = dt.Rows[0]["PINCODE"].ToString();
                     br.GSTNo = dt.Rows[0]["CSTNO"].ToString();
@@ -103,7 +103,7 @@ namespace Arasan.Controllers
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["STATE"].ToString(), Value = dtDesg.Rows[i]["STATE"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["STATE"].ToString(), Value = dtDesg.Rows[i]["STATEMASTID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -169,10 +169,10 @@ namespace Arasan.Controllers
         }
         public JsonResult GetCityJSON(string supid)
         {
-            string CityID = datatrans.GetDataString("Select STATEMASTID from STATEMAST where STATE='" + supid + "' ");
+            //string CityID = datatrans.GetDataString("Select STATEMASTID from STATEMAST where STATE='" + supid + "' ");
             Branch model = new Branch();
-            model.Citylst = BindCity(CityID);
-            return Json(BindCity(CityID));
+            model.Citylst = BindCity(supid);
+            return Json(BindCity(supid));
 
         }
         public IActionResult ListBranch()

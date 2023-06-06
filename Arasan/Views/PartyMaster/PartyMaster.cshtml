@@ -106,6 +106,7 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Party Group<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
                                          @Html.TextBoxFor(C => C.PartyGroup, new { @id = "PartyGroup", @class = "form-control", @TabIndex = 1})<br />
+                                          @Html.HiddenFor(C => C.ID)
                                     </div>
 
                                 </div>
@@ -150,6 +151,7 @@
                                     <label for="inputName3" class="col-sm-4 control-label">LUT No <label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
                                                     @Html.TextBoxFor(C => C.LUTNumber, new { @id = "LUTNumber", @class = "form-control", @TabIndex = 1})
+                                                        @Html.HiddenFor(C => C.ID)
                                                 </div>
 
                                 </div>
@@ -220,6 +222,7 @@
                                     <div class="col-sm-8">
 
                                                         @Html.TextBoxFor(C => C.CreditDate, new { @id = "CreditDate", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
+                                                        @Html.HiddenFor(C => C.ID)
 
                                     </div>
 
@@ -348,7 +351,7 @@
 
                                                 <label for="inputName3" class="col-sm-4 control-label">Phone Number<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                        @Html.TextBoxFor(C => C.Phone, new { @id = "Phone", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
+                                                        @Html.TextBoxFor(C => C.Phone, new { @id = "Phone", @class = "form-control", @TabIndex = 1,@maxlength="10",onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
                                                 </div>
 
                                             </div>
@@ -359,7 +362,7 @@
 
                                                     <label for="inputName3" class="col-sm-4 control-label">Mobile<label class="mandatory">*</label></label>
                                                 <div class="col-sm-8">
-                                                    @Html.TextBoxFor(C => C.Mobile, new { @id = "Mobile", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
+                                                    @Html.TextBoxFor(C => C.Mobile, new { @id = "Mobile", @class = "form-control", @TabIndex = 1,@maxlength="10",onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
                                                 </div>
 
                                             </div>

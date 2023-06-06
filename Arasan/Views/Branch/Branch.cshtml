@@ -89,7 +89,7 @@
 
                                         <br />  <label for="inputName3" class="col-sm-4 control-label">State<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C. StateName , Model.statlst,"Please Select",  new { @id = "ddlState", @Class = "form-control _select", @TabIndex = 1,onchange = "CityChange(value)" })<br />
+                                            @Html.DropDownListFor(C => C. StateName , Model.statlst,"---Please Select---",  new { @id = "ddlState", @Class = "form-control _select", @TabIndex = 1,onchange = "CityChange(value)" })<br />
                                         </div>
 
                                     </div>
@@ -100,7 +100,7 @@
                                         <br />  <label for="inputName3" class="col-sm-4 control-label">City<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                            @* <input class="form-control" id="inputEmail3" placeholder="" type="text" ><br />*@
-                                            @Html.DropDownListFor(C => C. City , Model.Citylst,"Please Select",  new { @id = "ddlCity", @Class = "form-control _select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C. City , Model.Citylst,"---Please Select---",  new { @id = "ddlCity", @Class = "form-control _select", @TabIndex = 1 })
                                         </div>
 
                                     </div>
@@ -182,70 +182,6 @@
         $('._select').select2();
     });
 
-
-    $(document).ready(function () {
-        $('#btnSave').click(function (e) {
-            var isValid = true;
-
-            if (document.getElementById("txtBranchName").value == "") {
-                isValid = false;
-                $(txtBranchName).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Enter BranchName");
-                return false;
-            }
-            else {
-                $(txtBranchName).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-            if (document.getElementById("txtAddress").value == "") {
-                isValid = false;
-                $(txtAddress).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Enter Address");
-                return false;
-            }
-            else {
-                $(txtAddress).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-
-            if (document.getElementById("txtCity").value == "") {
-                isValid = false;
-                $(txtCity).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Enter City");
-                return false;
-            }
-            else {
-                $(txtCity).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-
-
-            if (isValid == false)
-                e.preventDefault();
-
-        });
-
-    });
-    
-
     function CityChange(itemid) {
         //alert(itemid);
         //debugger;
@@ -277,6 +213,94 @@
         }
         $(dropDownId).trigger("liszt:updated");
     }
+    $(".chosen-select").chosen();
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+            if (document.getElementById("ddlCompany").value == "") {
+                isValid = false;
+                $(ddlCompany).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
 
+                alert("Please Select Company");
+                return false;
+            }
+            else {
+                $(ddlCompany).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtBranchName").value == "") {
+                isValid = false;
+                $(txtBranchName).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Branch Name");
+                return false;
+            }
+            else {
+                $(txtBranchName).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtAddress").value == "") {
+                isValid = false;
+                $(txtAddress).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Address ");
+                return false;
+            }
+            else {
+                $(txtAddress).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("ddlState").value == "" ) {
+                isValid = false;
+                $(ddlState).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select State");
+                return false;
+            }
+            else {
+                $(ddlState).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("ddlCity").value == "") {
+                isValid = false;
+                $(ddlCity).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select City ");
+                return false;
+            }
+            else {
+                $(ddlCity).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            
+
+        });
+
+    });
 
 </script>

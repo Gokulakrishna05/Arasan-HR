@@ -27,7 +27,7 @@ namespace Arasan.Models
         public string PhoneNo { get; set; }
 
         //PersonalDetails
-
+        public string eactive { get; set; }
 
         public string FatherName { get; set; }
         public string MotherName { get; set; }
