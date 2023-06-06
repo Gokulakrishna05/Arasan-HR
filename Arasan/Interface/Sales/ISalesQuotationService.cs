@@ -6,7 +6,7 @@ namespace Arasan.Interface.Sales
 {
     public interface ISalesQuotationService
     {
-        IEnumerable<SalesQuotation> GetAllSalesQuotation();
+        IEnumerable<SalesQuotation> GetAllSalesQuotation(string status);
         DataTable GetBranch();
         DataTable Getcountry();
         DataTable GetEnquiry();
@@ -24,5 +24,6 @@ namespace Arasan.Interface.Sales
         DataTable GetFolowup(string enqid);
         //DataTable GetSalesQuotationByName(string id);
         //DataTable GetSalesQuotationItem(string id);
+        string StatusChange(string tag, int id);
     }
 }
