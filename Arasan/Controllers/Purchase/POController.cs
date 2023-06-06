@@ -592,5 +592,21 @@ namespace Arasan.Controllers
 
             return RedirectToAction("ListPO");
         }
+
+        public ActionResult DeleteMR(string tag, int id)
+        {
+
+            string flag = PoService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListPO");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListPO");
+            }
+        }
     }
 }

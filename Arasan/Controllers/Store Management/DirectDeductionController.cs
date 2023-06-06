@@ -296,7 +296,26 @@ namespace Arasan.Controllers.Store_Management
             //  model.ItemGrouplst = BindItemGrplst(value);
             return Json(BindItemGrplst());
         }
+        public ActionResult DeleteMR(string tag, int id)
+        {
+
+            string flag = DirectDeductionService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListDirectDeduction");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListDirectDeduction");
+            }
+        }
+
+
     }
+
+
 
 }
 

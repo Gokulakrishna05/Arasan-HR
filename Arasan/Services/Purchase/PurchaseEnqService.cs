@@ -503,7 +503,7 @@ namespace Arasan.Services
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
-                    svSQL = "Insert into PURQUOTBASIC (ENQID,BRANCHID,EXRATE,MAINCURRENCY,PARTYID,DOCID,DOCDATE) (Select PURENQID,BRANCHID,EXCRATERATE,CURRENCYID,PARTYMASTID,'" + QuoNo + "','"+ DateTime.Now.ToString("dd-MMM-yyyy") + "'  from PURENQ where PURENQID='" + enqid + "')";
+                    svSQL = "Insert into PURQUOTBASIC (ENQID,BRANCHID,EXRATE,MAINCURRENCY,PARTYID,DOCID,DOCDATE,IS_ACTIVE) (Select PURENQID,BRANCHID,EXCRATERATE,CURRENCYID,PARTYMASTID'" + QuoNo + "','"+ DateTime.Now.ToString("dd-MMM-yyyy") + "' ,'yes' from PURENQ where PURENQID='" + enqid + "')";
                     OracleCommand objCmd = new OracleCommand(svSQL, objConn);
                     try
                     {

@@ -16,6 +16,9 @@ namespace Arasan.Models
             this.deltermlst = new List<SelectListItem>();
             this.warrantytermslst = new List<SelectListItem>();
         }
+
+        
+
         public List<SelectListItem> Brlst;
         public List<SelectListItem> desplst;
         public List<SelectListItem> Paymenttermslst;
@@ -66,6 +69,7 @@ namespace Arasan.Models
         public string  Narration { get; set; }
         public string Fax { get; set; }
 
+
         public string PhoneNo { get; set; }
         public string DespatchAddr { get; set; }
         public double Roundminus { get; set; }
@@ -76,6 +80,8 @@ namespace Arasan.Models
 
         public string BranchId { get; set; }
         public string SuppId { get; set; }
+
+        
     }
     public class GateInward
     {

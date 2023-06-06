@@ -473,13 +473,7 @@ namespace Arasan.Controllers
        
         }
 
-
-
-      
-
-
-
-        [HttpPost]
+      [HttpPost]
         public ActionResult Followup(QuoFollowup Pf, string id)
         {
 
@@ -523,5 +517,20 @@ namespace Arasan.Controllers
         //    return View(cmp);
         //}
 
+        public ActionResult DeleteMR(string tag, int id)
+        {
+
+            string flag = PurquoService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListPurchaseQuo");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListPurchaseQuo");
+            }
+        }
     }
 }
