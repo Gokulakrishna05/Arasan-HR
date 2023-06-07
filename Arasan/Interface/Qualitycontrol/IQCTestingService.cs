@@ -24,5 +24,6 @@ namespace Arasan.Interface
         DataTable GetQCTesting(string id);
         IEnumerable<QCTesting> GetAllQCTesting();
 
+        string StatusChange(string tag, int id);
     }
 }
