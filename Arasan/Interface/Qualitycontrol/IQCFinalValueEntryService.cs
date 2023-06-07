@@ -20,5 +20,7 @@ namespace Arasan.Interface.Qualitycontrol
         DataTable GetQC (string id);
         DataTable GetQCDetails(string id);
         DataTable GetQCOutDeatil(string id);
+
+        string StatusChange(string tag, int id);
     }
 }

@@ -525,6 +525,7 @@
                         </div>
 
                             <div style="height:30px;"></div>
+                            <div class="col-lg-10"></div>
                             <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
                             <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListQCFinalValueEntry", "QCFinalValueEntry")'">Cancel</button>
                     </form>
@@ -718,4 +719,179 @@
     $(function () {
         $('._select').select2();
     });
+</script>
+
+
+
+<script>
+
+    $(function () {
+        $('._select').select2();
+    });
+
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+
+            if (document.getElementById("ddlBranch").value == "" || document.getElementById("ddlBranch").value == 0) {
+                isValid = false;
+                $(ddlBranch).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Branch");
+                return false;
+            }
+            else {
+                $(ddlBranch).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("ddlWorkCenter").value == "" || document.getElementById("ddlWorkCenter").value == 0) {
+                isValid = false;
+                $(ddlWorkCenter).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select WorkCenter");
+                return false;
+            }
+            else {
+                $(ddlWorkCenter).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("ddlProcess").value == "" || document.getElementById("ddlProcess").value == 0) {
+                isValid = false;
+                $(ddlProcess).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Process ID");
+                return false;
+            }
+            else {
+                $(ddlProcess).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("ddlDrumNo").value == "" || document.getElementById("ddlDrumNo").value == 0) {
+                isValid = false;
+                $(ddlDrumNo).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select DrumNo");
+                return false;
+            }
+            else {
+                $(ddlDrumNo).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("txtBatchNo").value == "") {
+                isValid = false;
+                $(txtBatchNo).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter BatchNo");
+                return false;
+            }
+            else {
+                $(txtBatchNo).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("txtItemid").value == "") {
+                isValid = false;
+                $(txtItemid).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Item ID");
+                return false;
+            }
+            else {
+                $(txtItemid).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("txtRate").value == "") {
+                isValid = false;
+                $(txtRate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Rate/Hr");
+                return false;
+            }
+            else {
+                $(txtRate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            
+            if (document.getElementById("ProDate").value == "") {
+                isValid = false;
+                $(ProDate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Prod Date");
+                return false;
+            }
+            else {
+                $(ProDate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("txtFResult").value == "") {
+                isValid = false;
+                $(txtFResult).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Final Result");
+                return false;
+            }
+            else {
+                $(txtFResult).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (isValid == false)
+                e.preventDefault();
+
+        });
+
+    });
+
 </script>
