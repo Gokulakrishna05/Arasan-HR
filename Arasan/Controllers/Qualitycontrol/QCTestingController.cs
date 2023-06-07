@@ -59,7 +59,7 @@ namespace Arasan.Controllers
                     ca.SNo = dt.Rows[0]["SLNO"].ToString();
                     ca.LotNo = dt.Rows[0]["LOTSERIALNO"].ToString();
                     ca.TestResult = dt.Rows[0]["TESTRESULT"].ToString();
-                    ca.TestedBy = dt.Rows[0]["TESTEDBY"].ToString();
+                    ca.TestBy = dt.Rows[0]["TESTEDBY"].ToString();
                     ca.Remarks = dt.Rows[0]["REMARKS"].ToString();
                     ca.ClassCode = dt.Rows[0]["CLASSCODE"].ToString();
                 }

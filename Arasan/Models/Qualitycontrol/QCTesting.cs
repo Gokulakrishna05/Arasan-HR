@@ -33,7 +33,7 @@ namespace Arasan.Models
         public string ClassCode { get; set; }
         public string TestResult { get; set; }
         public List<SelectListItem> assignList;
-        public string TestedBy { get; set; }
+        public string TestBy { get; set; }
         public string Remarks { get; set; }
         public List<QCItem> QCLst;
   

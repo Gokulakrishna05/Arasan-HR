@@ -139,7 +139,7 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Class Code<label class="Mandatory"></label></label>
 
                                     <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.ClassCode, new { @id = "ClassCode", @class = "form-control", @TabIndex = 2})<br />
+                                        @Html.TextBoxFor(C => C.ClassCode, new { @id = "ClassCode", @class = "form-control", @TabIndex = 2,@maxlength = 1})<br />
                                     </div>
 
                                 </div>
@@ -272,8 +272,9 @@
                              <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-4 control-label">Tested By<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">     
-                                            @Html.DropDownListFor(C => C.TestedBy, Model.assignList, new { @id = "ddlTestedBy", @Class = "form-control chosen-select", @TabIndex = 1 })<br />
+                                    <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.LotNo, new { @id = "txtTestBy", @class = "form-control", @TabIndex = 2})<br />
+                                            
                                     </div>
                                 </div>
                             </div>
