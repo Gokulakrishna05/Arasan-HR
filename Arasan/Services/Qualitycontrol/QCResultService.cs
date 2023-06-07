@@ -58,7 +58,7 @@ namespace Arasan.Services.Qualitycontrol
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select QCRESULTBASIC.GRNNO,QCRESULTBASIC.DOCID,to_char(QCRESULTBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,to_char(QCRESULTBASIC.GRNDATE,'dd-MON-yyyy')GRNDATE,PARTYRCODE.PARTY,QCRESULTBASIC.TESTEDBY,LOCDETAILS.LOCID,QCRESULTBASIC.REMARKS,QCRESULTBASIC.QCLOCATION,QCRESULTBASICID from QCRESULTBASIC LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=QCRESULTBASIC.LOCATION LEFT OUTER JOIN  PARTYMAST on QCRESULTBASIC.PARTYID=PARTYMAST.PARTYMASTID  LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID";
+                    cmd.CommandText = "Select QCRESULTBASIC.GRNNO,QCRESULTBASIC.DOCID,to_char(QCRESULTBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,to_char(QCRESULTBASIC.GRNDATE,'dd-MON-yyyy')GRNDATE,PARTYRCODE.PARTY,QCRESULTBASIC.TESTEDBY,LOCDETAILS.LOCID,QCRESULTBASIC.REMARKS,QCRESULTBASIC.QCLOCATION,QCRESULTBASICID,QCRESULTBASIC.STATUS from QCRESULTBASIC LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=QCRESULTBASIC.LOCATION LEFT OUTER JOIN  PARTYMAST on QCRESULTBASIC.PARTYID=PARTYMAST.PARTYMASTID  LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID WHERE QCRESULTBASIC.STATUS='ACTIVE'";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -113,6 +113,7 @@ namespace Arasan.Services.Qualitycontrol
                     objCmd.Parameters.Add("LOCATION", OracleDbType.NVarchar2).Value = cy.Location;
                     objCmd.Parameters.Add("REMARKS", OracleDbType.NVarchar2).Value = cy.Remarks;
                     objCmd.Parameters.Add("QCLOCATION", OracleDbType.NVarchar2).Value = cy.QcLocation;
+                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
@@ -225,6 +226,29 @@ namespace Arasan.Services.Qualitycontrol
             return dtt;
         }
 
+        public string StatusChange(string tag, int id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE QCRESULTBASIC SET STATUS ='ISACTIVE' WHERE QCRESULTBASICID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
+        }
 
     }
 }
