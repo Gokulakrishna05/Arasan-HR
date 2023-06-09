@@ -25,7 +25,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,ITEMMASTER.ITEMID,DOCID,to_char(CUROPBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,SHIFTMAST.SHIFTNO,CUROPBASICID from CUROPBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=CUROPBASIC.BRANCHID left outer join SHIFTMAST on SHIFTMASTID=CUROPBASIC.SHIFT left outer join ITEMMASTER on ITEMMASTERID =CUROPBASIC.ITEM";
+                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,ITEMMASTER.ITEMID,DOCID,to_char(CUROPBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,SHIFTMAST.SHIFTNO,CUROPBASICID,CUROPBASIC.STATUS from CUROPBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=CUROPBASIC.BRANCHID left outer join SHIFTMAST on SHIFTMASTID=CUROPBASIC.SHIFT left outer join ITEMMASTER on ITEMMASTERID =CUROPBASIC.ITEM WHERE CUROPBASIC.STATUS='ACTIVE'";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -86,6 +86,7 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("REMARKS", OracleDbType.NVarchar2).Value = cy.Remark;
 
                     objCmd.Parameters.Add("FRATE", OracleDbType.NVarchar2).Value = cy.FRate;
+                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
 
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
@@ -339,6 +340,30 @@ namespace Arasan.Services
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
+        }
+
+        public string StatusChange(string tag, int id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE CUROPBASIC SET STATUS ='ISACTIVE' WHERE CUROPBASICID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
         }
     }
 }

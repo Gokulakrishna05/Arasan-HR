@@ -434,6 +434,20 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+        public ActionResult DeleteMR(string tag, int id)
+        {
 
+            string flag = curingoutward.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListCuringOutward");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListCuringOutward");
+            }
+        }
     }
 }

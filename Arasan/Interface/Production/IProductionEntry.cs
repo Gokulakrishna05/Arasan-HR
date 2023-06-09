@@ -30,5 +30,7 @@ namespace Arasan.Interface
         DataTable GetStockItem(string id);
 
         DataTable GetDrumStock(string branch, string loc, string ItemId);
+
+        string StatusChange(string tag, int id);
     }
 }

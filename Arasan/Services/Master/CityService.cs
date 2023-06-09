@@ -130,8 +130,9 @@ namespace Arasan.Services.Master
 
                     objCmd.Parameters.Add("CITYNAME", OracleDbType.NVarchar2).Value = ss.Cit;
                     objCmd.Parameters.Add("STATEID", OracleDbType.NVarchar2).Value = ss.State;
-                    objCmd.Parameters.Add("STATENAME", OracleDbType.NVarchar2).Value = StaName;
+                   
                     objCmd.Parameters.Add("COUNTRYID", OracleDbType.NVarchar2).Value = ss.countryid;
+                    objCmd.Parameters.Add("STATENAME", OracleDbType.NVarchar2).Value = StaName;
                     objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     try
