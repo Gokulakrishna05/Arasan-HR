@@ -718,5 +718,21 @@ namespace Arasan.Controllers.Production
                 return RedirectToAction("ListProductionSchedule");
             }
         }
+
+        public ActionResult DeleteMR(string tag, int id)
+        {
+
+            string flag = ProductionScheduleService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListProductionSchedule");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListProductionSchedule");
+            }
+        }
     }
 }

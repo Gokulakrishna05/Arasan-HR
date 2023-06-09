@@ -30,16 +30,13 @@ namespace Arasan.Controllers
             br.statlst = BindState();
             br.Citylst = BindCity("");
 
-            if (id == null)
-            {
-                
 
-            }
-            else
-            {
 
+            //for edit & delete
+            if (id != null)
+            {
                 DataTable dt = new DataTable();
-
+                double total = 0;
                 dt = BranchService.GetEditBranch(id);
                 if (dt.Rows.Count > 0)
                 {
@@ -54,11 +51,39 @@ namespace Arasan.Controllers
                     br.GSTDate = dt.Rows[0]["CSTDATE"].ToString();
                     br.ID = id;
 
-
                 }
             }
-
             return View(br);
+
+            //if (id == null)
+            //{
+
+
+            //}
+            //else
+            //{
+
+            //    DataTable dt = new DataTable();
+
+            //    dt = BranchService.GetEditBranch(id);
+            //    if (dt.Rows.Count > 0)
+            //    {
+            //        br.CompanyName = dt.Rows[0]["COMPANYID"].ToString();
+            //        br.BranchName = dt.Rows[0]["BRANCHID"].ToString();
+            //        br.Address = dt.Rows[0]["ADDRESS1"].ToString();
+            //        br.StateName = dt.Rows[0]["STATE"].ToString();
+            //        br.Citylst = BindCity(br.StateName);
+            //        br.City = dt.Rows[0]["CITY"].ToString();
+            //        br.PinCode = dt.Rows[0]["PINCODE"].ToString();
+            //        br.GSTNo = dt.Rows[0]["CSTNO"].ToString();
+            //        br.GSTDate = dt.Rows[0]["CSTDATE"].ToString();
+            //        br.ID = id;
+
+
+            //    }
+            //}
+
+            //return View(br);
         }
 
         public List<SelectListItem> BindCompany()

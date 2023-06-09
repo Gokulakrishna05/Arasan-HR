@@ -4,6 +4,7 @@ using System.Security.Cryptography.Pkcs;
 using System.Xml.Linq;
 using Arasan.Interface;
 using Arasan.Models;
+using Arasan.Services.Production;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -623,5 +624,20 @@ namespace Arasan.Controllers
             return View(cmp);
          }
 
+        public ActionResult DeleteMR(string tag, int id)
+        {
+
+            string flag = Batch.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListBatchCreation");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListBatchCreation");
+            }
+        }
     }
 }
