@@ -250,6 +250,17 @@ namespace Arasan.Models
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetVType()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select VCHTYPEID,DESCRIPTION from VCHTYPE";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        
         public DataTable GetItemDetails(string ItemId)
         {
             string SvSql = string.Empty;

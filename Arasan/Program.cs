@@ -129,7 +129,7 @@ internal class Program
         builder.Services.TryAddSingleton<IAccountType, AccountTypeService>();
 
         builder.Services.TryAddSingleton<IAccConfig, AccConfigService>();
-
+        builder.Services.TryAddSingleton<ISalesReturn, SalesReturnService>();
 
 
         builder.Services.AddSession();
