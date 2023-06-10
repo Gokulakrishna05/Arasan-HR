@@ -102,7 +102,7 @@ namespace Arasan.Services.Master
                 if (ss.ID == null)
                 {
 
-                    svSQL = " SELECT Count(*) as cnt FROM CITYMASTER WHERE CITYNAME = LTRIM(RTRIM('" + ss.Cit + "')) and STATEMAST.STATE = LTRIM(RTRIM('" + ss.State + "'))";
+                    svSQL = " SELECT Count(*) as cnt FROM CITYMASTER WHERE CITYNAME = LTRIM(RTRIM('" + ss.Cit + "')) ";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "City Already Existed";

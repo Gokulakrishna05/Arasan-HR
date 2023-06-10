@@ -52,7 +52,7 @@ namespace Arasan.Controllers.Master
                     ca.PartyCode = dt.Rows[0]["PARTYID"].ToString();
                     ca.PartyName = dt.Rows[0]["PARTYNAME"].ToString();
                     ca.PartyCategory = dt.Rows[0]["PARTYCAT"].ToString();
-                    ca.PartyType = dt.Rows[0]["TYPE"].ToString();
+                    //ca.PartyType = dt.Rows[0]["TYPE"].ToString();
                     ca.ID = id;
                     ca.ConPartyID = dt.Rows[0]["CSGNPARTYID"].ToString();
                     ca.Comm = dt.Rows[0]["COMMCODE"].ToString();
@@ -83,7 +83,7 @@ namespace Arasan.Controllers.Master
                     ca.Range = dt.Rows[0]["RANGEDIVISION"].ToString();
                     ca.EccID = dt.Rows[0]["ECCNO"].ToString();
                     ca.Excise = dt.Rows[0]["EXCISEAPPLICABLE"].ToString();
-                    ca.Type = dt.Rows[0]["PARTYTYPE"].ToString();
+                    //ca.Type = dt.Rows[0]["PARTYTYPE"].ToString();
                     ca.Http = dt.Rows[0]["HTTP"].ToString();
                     ca.OverDueInterest = dt.Rows[0]["OVERDUEINTEREST"].ToString();
                     ca.Address = dt.Rows[0]["ADD1"].ToString();

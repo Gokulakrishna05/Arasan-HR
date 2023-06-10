@@ -53,17 +53,17 @@ namespace Arasan.Services
             try
             {
                 string StatementType = string.Empty;
-                //string svSQL = "";
-                //if (cy.ID == null)
-                //{
+                string svSQL = "";
+                if (cy.ID == null)
+                {
 
-                //    svSQL = " SELECT Count(*) as cnt FROM TAXMAST WHERE TAX = LTRIM(RTRIM('" + cy.Taxtype + "'))";
-                //    if (datatrans.GetDataId(svSQL) > 0)
-                //    {
-                //        msg = "Tax Already Existed";
-                //        return msg;
-                //    }
-                //}
+                    svSQL = " SELECT Count(*) as cnt FROM TAXMAST WHERE TAX = LTRIM(RTRIM('" + cy.Taxtype + "'))";
+                    if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "Tax Already Existed";
+                        return msg;
+                    }
+                }
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
