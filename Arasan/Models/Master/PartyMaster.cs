@@ -25,7 +25,7 @@ namespace Arasan.Models
 
         public string PartyName { get; set; }
         public string PartyCode { get; set; }
-        public string PartyType { get; set; }
+        //public string PartyType { get; set; }
         public string PartyGroup { get; set; }
         public string Comm { get; set; }
         public string Address { get; set; }

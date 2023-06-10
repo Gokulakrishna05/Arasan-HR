@@ -26,7 +26,7 @@ namespace Arasan.Services.Master
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select  PARTYID,PARTYNAME,PARTYCAT,ACCOUNTNAME,PARTYGROUP,COMMCODE,REGULARYN,LUTNO,to_char(PARTYMAST.LUTDT,'dd-MON-yyyy')LUTDT,to_char(PARTYMAST.PJOINDATE,'dd-MON-yyyy')PJOINDATE,TYPE,CREDITLIMIT,CREDITDAYS,SECTIONID,CSGNPARTYID,TRANSLMT,GSTNO,ACTIVE,RATECODE,MOBILE,PHONENO,PANNO,CITY,STATE,COUNTRY,PINCODE,COUNTRYCODE,EMAIL,FAX,COMMISIONERATE,RANGEDIVISION,ECCNO,EXCISEAPPLICABLE,PARTYTYPE,HTTP,OVERDUEINTEREST,ADD1,REMARKS,INTRODUCEDBY,STATUS,PARTYMASTID from PARTYMAST WHERE STATUS= 'ACTIVE'";
+                    cmd.CommandText = "Select  PARTYID,PARTYNAME,PARTYCAT,ACCOUNTNAME,PARTYGROUP,COMMCODE,REGULARYN,LUTNO,to_char(PARTYMAST.LUTDT,'dd-MON-yyyy')LUTDT,to_char(PARTYMAST.PJOINDATE,'dd-MON-yyyy')PJOINDATE,TYPE,CREDITLIMIT,CREDITDAYS,SECTIONID,CSGNPARTYID,TRANSLMT,GSTNO,ACTIVE,RATECODE,MOBILE,PHONENO,PANNO,CITY,STATE,COUNTRY,PINCODE,COUNTRYCODE,EMAIL,FAX,COMMISIONERATE,RANGEDIVISION,ECCNO,EXCISEAPPLICABLE,HTTP,OVERDUEINTEREST,ADD1,REMARKS,INTRODUCEDBY,STATUS,PARTYMASTID from PARTYMAST WHERE STATUS= 'ACTIVE'";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -44,7 +44,7 @@ namespace Arasan.Services.Master
                             LUTNumber = rdr["LUTNO"].ToString(),
                             LUTDate = rdr["LUTDT"].ToString(),
                             JoinDate = rdr["PJOINDATE"].ToString(),
-                            PartyType = rdr["TYPE"].ToString(),
+                            //PartyType = rdr["TYPE"].ToString(),
                             CreditLimit = rdr["CREDITLIMIT"].ToString(),
                             CreditDate = rdr["CREDITDAYS"].ToString(),
                             TransationLimit = rdr["TRANSLMT"].ToString(),
@@ -104,7 +104,7 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("LUTNO", OracleDbType.NVarchar2).Value = cy.LUTNumber;
                     objCmd.Parameters.Add("LUTDT", OracleDbType.NVarchar2).Value = cy.LUTDate;
                     objCmd.Parameters.Add("PJOINDATE", OracleDbType.NVarchar2).Value = cy.JoinDate;
-                    objCmd.Parameters.Add("TYPE", OracleDbType.NVarchar2).Value = cy.PartyType;
+                    //objCmd.Parameters.Add("TYPE", OracleDbType.NVarchar2).Value = cy.PartyType;
                     objCmd.Parameters.Add("CREDITLIMIT", OracleDbType.NVarchar2).Value = cy.CreditLimit;
                     objCmd.Parameters.Add("CREDITDAYS", OracleDbType.NVarchar2).Value = cy.CreditDate;
                     objCmd.Parameters.Add("SECTIONID", OracleDbType.NVarchar2).Value = cy.SectionID;
@@ -127,7 +127,7 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("RANGEDIVISION", OracleDbType.NVarchar2).Value = cy.Range;
                     objCmd.Parameters.Add("ECCNO", OracleDbType.NVarchar2).Value = cy.EccID;
                     objCmd.Parameters.Add("EXCISEAPPLICABLE", OracleDbType.NVarchar2).Value = cy.Excise;
-                    objCmd.Parameters.Add("PARTYTYPE", OracleDbType.NVarchar2).Value = cy.Type;
+                    //objCmd.Parameters.Add("PARTYTYPE", OracleDbType.NVarchar2).Value = cy.Type;
                     objCmd.Parameters.Add("HTTP", OracleDbType.NVarchar2).Value = cy.Http;
                     objCmd.Parameters.Add("OVERDUEINTEREST", OracleDbType.NVarchar2).Value = cy.OverDueInterest;
                     objCmd.Parameters.Add("ADD1", OracleDbType.NVarchar2).Value = cy.Address;
@@ -199,7 +199,7 @@ namespace Arasan.Services.Master
         public DataTable GetParty(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select PARTYMAST.PARTYID,PARTYMAST.PARTYNAME,PARTYMAST.PARTYCAT,to_char(PARTYMAST.LUTDT,'dd-MON-yyyy')LUTDT,PARTYMAST.ACCOUNTNAME,PARTYMAST.PARTYGROUP,PARTYMAST.COMMCODE,PARTYMAST.REGULARYN,PARTYMAST.LUTNO,PARTYMAST.TYPE,PARTYMAST.CREDITLIMIT,PARTYMAST.CREDITDAYS,PARTYMAST.SECTIONID,PARTYMAST.CSGNPARTYID,PARTYMAST.TRANSLMT,PARTYMAST.GSTNO,to_char(PARTYMAST.PJOINDATE,'dd-MON-yyyy')PJOINDATE,ACTIVE,RATECODE,MOBILE,PHONENO,PANNO,CITY,STATE,COUNTRY,PINCODE,COUNTRYCODE,EMAIL,FAX,COMMISIONERATE,RANGEDIVISION,ECCNO,EXCISEAPPLICABLE,PARTYTYPE,HTTP,OVERDUEINTEREST,ADD1,REMARKS,INTRODUCEDBY,LEDGERNAME,PARTYMASTID  from PARTYMAST where PARTYMAST.PARTYMASTID=" + id + "";
+            SvSql = "Select PARTYMAST.PARTYID,PARTYMAST.PARTYNAME,PARTYMAST.PARTYCAT,to_char(PARTYMAST.LUTDT,'dd-MON-yyyy')LUTDT,PARTYMAST.ACCOUNTNAME,PARTYMAST.PARTYGROUP,PARTYMAST.COMMCODE,PARTYMAST.REGULARYN,PARTYMAST.LUTNO,PARTYMAST.TYPE,PARTYMAST.CREDITLIMIT,PARTYMAST.CREDITDAYS,PARTYMAST.SECTIONID,PARTYMAST.CSGNPARTYID,PARTYMAST.TRANSLMT,PARTYMAST.GSTNO,to_char(PARTYMAST.PJOINDATE,'dd-MON-yyyy')PJOINDATE,ACTIVE,RATECODE,MOBILE,PHONENO,PANNO,CITY,STATE,COUNTRY,PINCODE,COUNTRYCODE,EMAIL,FAX,COMMISIONERATE,RANGEDIVISION,ECCNO,EXCISEAPPLICABLE,HTTP,OVERDUEINTEREST,ADD1,REMARKS,INTRODUCEDBY,LEDGERNAME,PARTYMASTID  from PARTYMAST where PARTYMAST.PARTYMASTID=" + id + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
