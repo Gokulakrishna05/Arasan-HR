@@ -19,6 +19,7 @@ namespace Arasan.Services.Master
             datatrans = new DataTransactions(_connectionString);
 
         }
+
         public IEnumerable<Employee> GetAllEmployee()
         {
             List<Employee> cmpList = new List<Employee>();

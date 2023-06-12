@@ -5,6 +5,7 @@ using Arasan.Interface.Master;
 using Arasan.Interface.Stores_Management;
 using Arasan.Models;
 using Arasan.Services;
+using Arasan.Services.Production;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -1062,6 +1063,20 @@ namespace Arasan.Controllers
             return View();
         }
 
+        public ActionResult DeleteMR(string tag, int id)
+        {
 
+            string flag = IProductionEntry.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListProductionEntry");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListProductionEntry");
+            }
+        }
     }
 }

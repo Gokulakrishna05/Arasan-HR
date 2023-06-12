@@ -15,7 +15,6 @@ namespace Arasan.Controllers
             ISalesEnq Sales;
             IConfiguration? _configuratio;
             private string? _connectionString;
-
             DataTransactions datatrans;
             public SalesEnquiryController(ISalesEnq _Sales, IConfiguration _configuratio)
             {

@@ -320,7 +320,21 @@ namespace Arasan.Controllers.Qualitycontrol
             }
         }
 
+        public ActionResult DeleteMR(string tag, int id)
+        {
 
+            string flag = QCResultService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListQCResult");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListQCResult");
+            }
+        }
 
     }
 }

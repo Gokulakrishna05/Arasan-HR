@@ -165,7 +165,7 @@ namespace Arasan.Services
         public DataTable GetBranch(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select BRANCHMASTID,COMPANYMAST.COMPANYDESC,BRANCHID,ADDRESS1,STATE,CITY,PINCODE,CSTNO, CSTDATE,BRANCHMAST.STATUS from BRANCHMAST left outer join COMPANYMAST on COMPANYMASTID=BRANCHMAST.COMPANYID  ";
+            SvSql = "Select BRANCHMASTID,COMPANYMAST.COMPANYDESC,BRANCHID,ADDRESS1,STATE,CITY,PINCODE,CSTNO, to_char(CSTDATE,'dd-MON-yyyy')CSTDATE,BRANCHMAST.STATUS from BRANCHMAST left outer join COMPANYMAST on COMPANYMASTID=BRANCHMAST.COMPANYID  ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -200,7 +200,7 @@ namespace Arasan.Services
         public DataTable GetEditBranch(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select COMPANYID,BRANCHID,ADDRESS1,STATE,CITY,PINCODE,CSTNO,CSTDATE,BRANCHMASTID from  BRANCHMAST  where BRANCHMASTID='" + id + "'";
+            SvSql = "select COMPANYID,BRANCHID,ADDRESS1,STATE,CITY,PINCODE,CSTNO,to_char(CSTDATE,'dd-MON-yyyy')CSTDATE,BRANCHMASTID from  BRANCHMAST  where BRANCHMASTID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

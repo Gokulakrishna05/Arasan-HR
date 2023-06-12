@@ -20,5 +20,7 @@ namespace Arasan.Interface.Qualitycontrol
         DataTable GetGRN();
         DataTable GetQCResultDetail(string id);
         DataTable GetGRNItemDetails(string itemId);
+
+        string StatusChange(string tag, int id);
     }
 }

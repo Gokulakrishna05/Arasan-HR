@@ -451,5 +451,21 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+
+        public ActionResult DeleteMR(string tag, int id)
+        {
+
+            string flag = Packing.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListPackingNote");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListPackingNote");
+            }
+        }
     }
 }

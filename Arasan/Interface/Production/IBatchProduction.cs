@@ -28,5 +28,7 @@ namespace Arasan.Interface
         DataTable ProwasteDetail(string PROID);
         double GetStockInQty(string Itemid, string barchid, string Locid);
         DataTable Getlot(string Itemid, string barchid, string Locid);
+
+        string StatusChange(string tag, int id);
     }
 }
