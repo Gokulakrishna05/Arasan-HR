@@ -1044,5 +1044,20 @@ namespace Arasan.Controllers
             return View(cmp);
         }
 
+        public ActionResult DeleteMR(string tag, int id)
+        {
+
+            string flag = IProductionEntry.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListBatchProduction");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListBatchProduction");
+            }
+        }
     }
 }

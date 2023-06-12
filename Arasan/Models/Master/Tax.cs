@@ -4,6 +4,11 @@ namespace Arasan.Models
 {
     public class Tax
     {
+        public Tax()
+        {
+            this.Taxtypelst = new List<SelectListItem>();
+            
+        }
         public string ID { get; set; }
 
         public List<SelectListItem> Taxtypelst;

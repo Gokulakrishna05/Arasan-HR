@@ -24,7 +24,7 @@ public class ProductionEntryService : IProductionEntry
             using (OracleCommand cmd = con.CreateCommand())
             {
                 con.Open();
-                cmd.CommandText = "Select  BRANCHMAST.BRANCHID, ETYPE,NPRODBASIC. DOCID,to_char(NPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,NPRODBASICID,ISCURING from NPRODBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=NPRODBASIC.BRANCH ";
+                cmd.CommandText = "Select  BRANCHMAST.BRANCHID, ETYPE,NPRODBASIC. DOCID,to_char(NPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,NPRODBASICID,ISCURING,NPRODBASIC.STATUS from NPRODBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=NPRODBASIC.BRANCH WHERE NPRODBASIC.STATUS='ACTIVE' ";
                 OracleDataReader rdr = cmd.ExecuteReader();
                 while (rdr.Read())
                 {
@@ -178,6 +178,7 @@ public class ProductionEntryService : IProductionEntry
                 objCmd.Parameters.Add("TOTALWASTAGE", OracleDbType.NVarchar2).Value = cy.wastageqty;
                 objCmd.Parameters.Add("TOTMACHINEVALUE", OracleDbType.NVarchar2).Value = cy.Machine;
                 objCmd.Parameters.Add("TOTCONSVALUE", OracleDbType.NVarchar2).Value = cy.CosValue;
+                objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
                 objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                 objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                 try
@@ -903,4 +904,27 @@ public class ProductionEntryService : IProductionEntry
 
     }
 
+    public string StatusChange(string tag, int id)
+    {
+
+        try
+        {
+            string svSQL = string.Empty;
+            using (OracleConnection objConnT = new OracleConnection(_connectionString))
+            {
+                svSQL = "UPDATE NPRODBASIC SET STATUS ='ISACTIVE' WHERE NPRODBASICID='" + id + "'";
+                OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                objConnT.Open();
+                objCmds.ExecuteNonQuery();
+                objConnT.Close();
+            }
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return "";
+
+    }
 }

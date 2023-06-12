@@ -182,6 +182,7 @@ namespace Arasan.Controllers
                         tda.qty = dt2.Rows[i]["BATCHQTY"].ToString();
                         tda.comp = dt2.Rows[i]["COMBNO"].ToString();
                         tda.ID = id;
+                        tda.Isvalid = "Y";
                         TData.Add(tda);
                     }
                 }
@@ -434,6 +435,20 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+        public ActionResult DeleteMR(string tag, int id)
+        {
 
+            string flag = curingoutward.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListCuringOutward");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListCuringOutward");
+            }
+        }
     }
 }

@@ -25,7 +25,7 @@ namespace Arasan.Services;
             using (OracleCommand cmd = con.CreateCommand())
             {
                 con.Open();
-                cmd.CommandText = "Select ETYPE,BRANCHMAST.BRANCHID,DOCID,PROCESSMAST.PROCESSID,WCBASIC.WCID,BPRODBASICID,IS_INV from BPRODBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=BPRODBASIC.BRANCH  LEFT OUTER JOIN PROCESSMAST ON PROCESSMASTID=BPRODBASIC.PROCESSID  LEFT OUTER JOIN WCBASIC ON WCBASICID=BPRODBASIC.WCID";
+                cmd.CommandText = "Select ETYPE,BRANCHMAST.BRANCHID,DOCID,PROCESSMAST.PROCESSID,WCBASIC.WCID,BPRODBASICID,IS_INV ,BPRODBASIC.STATUS from BPRODBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=BPRODBASIC.BRANCH  LEFT OUTER JOIN PROCESSMAST ON PROCESSMASTID=BPRODBASIC.PROCESSID  LEFT OUTER JOIN WCBASIC ON WCBASICID=BPRODBASIC.WCID WHERE BPRODBASIC.STATUS='ACTIVE'";
                 OracleDataReader rdr = cmd.ExecuteReader();
                 while (rdr.Read())
                 {
@@ -127,6 +127,7 @@ namespace Arasan.Services;
                 objCmd.Parameters.Add("TOTALWASTAGE", OracleDbType.NVarchar2).Value = cy.wastageqty;
                 objCmd.Parameters.Add("TOTMACHINEVALUE", OracleDbType.NVarchar2).Value = cy.Machine;
                 objCmd.Parameters.Add("TOTCONSVALUE", OracleDbType.NVarchar2).Value = cy.CosValue;
+                objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
                 objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                 objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                 try
@@ -1029,6 +1030,30 @@ namespace Arasan.Services;
         adapter.Fill(dtt);
         return dtt;
     }
-    
+
+
+    public string StatusChange(string tag, int id)
+    {
+
+        try
+        {
+            string svSQL = string.Empty;
+            using (OracleConnection objConnT = new OracleConnection(_connectionString))
+            {
+                svSQL = "UPDATE BPRODBASIC SET STATUS ='ISACTIVE' WHERE BPRODBASICID='" + id + "'";
+                OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                objConnT.Open();
+                objCmds.ExecuteNonQuery();
+                objConnT.Close();
+            }
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return "";
+
+    }
 }
 

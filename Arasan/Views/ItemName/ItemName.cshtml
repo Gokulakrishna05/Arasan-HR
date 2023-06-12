@@ -197,7 +197,7 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
 
-                                                        <br />  <label for="inputName3" class="col-sm-4 control-label">UOM <label class="Mandatory"></label></label>
+                                                        <br />  <label for="inputName3" class="col-sm-4 control-label">UOM <label class="mandatory">*</label></label>
                                                         <div class="col-sm-8">
                                                             @Html.TextBoxFor(C => C.Uom, new { @id = "txtuom", @class = "form-control", @TabIndex = 1 })
                                                         </div>
@@ -229,7 +229,7 @@
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Ledger Name<label class="Mandatory"></label></label>
+                                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Ledger Name<label class="mandatory">*</label></label>
                                                         <div class="col-sm-8">
                                                             @Html.DropDownListFor(C => C.Ledger, Model.Ledgerlst," -- Please Select -- ", new { @id = "ddlLedger", @Class = "form-control _select", @TabIndex = 1 })
                                                         </div>
@@ -870,6 +870,23 @@
                     "background": ""
                 });
             }
+
+            if (document.getElementById("txtuom").value == "") {
+                isValid = false;
+                $(txtuom).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select UOM  ");
+                return false;
+            }
+            else {
+                $(txtuom).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
             if (document.getElementById("ddlHcode").value == "") {
                 isValid = false;
                 $(ddlHcode).css({
@@ -919,7 +936,92 @@
                 });
             }
 
+            if (document.getElementById("txtStackAccount").value == "") {  
+                isValid = false;
+                $(txtStackAccount).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Stack Account ");
+                return false;
+            }
+            else {
+                $(txtStackAccount).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtPercentage").value == "") {
+                isValid = false;
+                $(txtPercentage).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Percentage ");
+                return false;
+            }
+            else {
+                $(txtPercentage).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtRawMaterial").value == "") {
+                isValid = false;
+                $(txtRawMaterial).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter RawMaterial ");
+                return false;
+            }
+            else {
+                $(txtRawMaterial).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtPercentageAdd").value == "") {
+                isValid = false;
+                $(txtPercentageAdd).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Percentage(Add) ");
+                return false;
+            }
+            else {
+                $(txtPercentageAdd).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("ddlBinID").value == "") {
+                isValid = false;
+                $(ddlBinID).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select BinID ");
+                return false;
+            }
+            else {
+                $(ddlBinID).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            
+            if (isValid == false)
+                e.preventDefault();
         });
 
     });
+
 </script>

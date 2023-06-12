@@ -22,5 +22,7 @@ namespace Arasan.Interface
         DataTable GetCuringDetail(string id);
         DataTable GetCuringOutwardByName(string name); 
         DataTable CuringOutwardDetail(string name);
+
+        string StatusChange(string tag, int id);
     }
 }

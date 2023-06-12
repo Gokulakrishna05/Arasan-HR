@@ -223,6 +223,7 @@ namespace Arasan.Services.Production
                     objCmd.Parameters.Add("AMDSCHNO", OracleDbType.NVarchar2).Value = cy.Amdno;
                     objCmd.Parameters.Add("ENTEREDBY", OracleDbType.NVarchar2).Value = cy.Entered;
                     objCmd.Parameters.Add("PRODQTY", OracleDbType.NVarchar2).Value = cy.ProdQty;
+                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
@@ -280,10 +281,6 @@ namespace Arasan.Services.Production
                                         svSQL = "Insert into PSOUTDETAIL (PSBASICID,OITEMID,OITEMDESC,OUNIT,OPER,ALPER,OTYPE,SCHQTY,PQTY) VALUES ('" + Pid + "','" + cp.Item + "','" + cp.Des + "','" + cp.Unit + "','" + cp.Output + "','" + cp.Alam + "','" + cp.OutputType + "','" + cp.Sch + "','" + cp.Produced + "')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
-
-
-
-
                                     }
                                 }
                             }
@@ -493,7 +490,7 @@ namespace Arasan.Services.Production
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,DOCID,to_char(PSBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PROCESSMAST.PROCESSID,WCBASIC.WCID,PSBASICID from PSBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PSBASIC.BRANCHID  LEFT OUTER JOIN PROCESSMAST ON PROCESSMASTID=PSBASIC.PROCESSID  LEFT OUTER JOIN WCBASIC ON WCBASICID=PSBASIC.WCID";
+                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,DOCID,to_char(PSBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PROCESSMAST.PROCESSID,WCBASIC.WCID,PSBASICID,PSBASIC.STATUS from PSBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PSBASIC.BRANCHID  LEFT OUTER JOIN PROCESSMAST ON PROCESSMASTID=PSBASIC.PROCESSID  LEFT OUTER JOIN WCBASIC ON WCBASICID=PSBASIC.WCID WHERE PSBASIC.STATUS='ACTIVE'";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -607,6 +604,30 @@ namespace Arasan.Services.Production
                 //{
 
                 //}
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
+        }
+
+        public string StatusChange(string tag, int id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE PSBASIC SET STATUS ='ISACTIVE' WHERE PSBASICID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
 
             }
             catch (Exception ex)

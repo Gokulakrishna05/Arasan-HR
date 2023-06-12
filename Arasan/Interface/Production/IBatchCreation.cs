@@ -27,5 +27,7 @@ namespace Arasan.Interface
         DataTable BatchOtherDetail(string name);
         DataTable BatchParemItemDetail(string name);
         DataTable GetProd();
+
+        string StatusChange(string tag, int id);
     }
 }

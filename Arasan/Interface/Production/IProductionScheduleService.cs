@@ -31,6 +31,6 @@ namespace Arasan.Interface.Production
         DataTable ProPackDetail(string id);
           string StatusChange(string id );
 
-
+        string StatusChange(string tag, int id);
     }
 }

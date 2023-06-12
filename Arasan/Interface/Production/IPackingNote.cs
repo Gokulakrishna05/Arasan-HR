@@ -21,5 +21,7 @@ namespace Arasan.Interface
         DataTable GetSchedule(  );
         DataTable EditNote(string id);
         DataTable EditDrumDetail(string id);
+
+        string StatusChange(string tag, int id);
     }
 }
