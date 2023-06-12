@@ -1,4 +1,4 @@
-﻿@model Arasan.Models.WorkOrder
+﻿@model IEnumerable<Arasan.Models.WorkOrder>
 
 @{
     ViewData["Title"] = "WorkOrder";
@@ -38,37 +38,40 @@
                                                 <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
                                                     <thead>
                                                         <tr>
-                                                            <td>S.No</td>
+                                                           
                                                             <th>Branch </th>
+                                                             <th>Doc Id</th>
+                                                            <th>Doc Date</th>
                                                             <th>Location</th>
+                                                            <th>Customer</th>
+                                                            <th>Short Close</th>
                                                             <th>Edit</th>
                                                             <th>Delete</th>
                                                         </tr>
                                                     </thead>
 
                                                     <tbody>
-                                                        <tr>
-                                                            <td>1</td>
-                                                            <td>SVK</td>
-                                                            <td>Factory</td>
+                                                        @{
+                                                            int i = 1;
 
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("tax", "tax")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("tax", "tax")"></a></div></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>2</td>
-                                                            <td>SVK</td>
-                                                            <td>Factory</td>
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("tax", "tax")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("tax", "tax")"></a></div></td>
-                                                        </tr>
-@*                                                        <tr>
-                                                            <td>3</td>
-                                                            <td>IGST</td>
-                                                            <td>10%</td>
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("tax", "tax")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("tax", "tax")"></a></div></td>
-                                                        </tr>*@
+                                                            foreach (var item in Model)
+                                                            {
+                                                                <tr>
+
+                                                                    <td>@Html.DisplayFor(modelItem => item.Branch)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.JopId)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.JopDate)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Location)</td>
+
+                                                                    <td>@Html.DisplayFor(modelItem => item.Customer)</td>
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("WorkOrderShortClose", "WorkOrderShortClose",new { id=item.ID })"></a></div></td>
+
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("WorkOrder", "WorkOrder",new { id=item.ID })"></a></div></td>
+                                                                    <td> <a href="@Url.Action("DeleteOrder","WorkOrder",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
+                                                                </tr>
+                                                                i++;
+                                                            }
+                                                        }
                                                     </tbody>
                                                 </table>
                                             </div>

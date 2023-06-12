@@ -445,7 +445,7 @@
      
    function PopulateDropDown(dropDownId, list) {
         //alert(list);
-        $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
+        $(dropDownId).empty().append('<option selected="selected" value="0"></option>');
         if (list != null && list.length > 0) {
             $(dropDownId).removeAttr("disabled");
             $.each(list, function () {

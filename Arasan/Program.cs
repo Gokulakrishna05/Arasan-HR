@@ -129,7 +129,7 @@ internal class Program
         builder.Services.TryAddSingleton<IAccountType, AccountTypeService>();
 
         builder.Services.TryAddSingleton<IAccConfig, AccConfigService>();
-
+        builder.Services.TryAddSingleton<IWorkOrderShortClose, WorkOrderShortCloseService>();
 
 
         builder.Services.AddSession();
