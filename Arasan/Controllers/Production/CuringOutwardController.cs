@@ -182,6 +182,7 @@ namespace Arasan.Controllers
                         tda.qty = dt2.Rows[i]["BATCHQTY"].ToString();
                         tda.comp = dt2.Rows[i]["COMBNO"].ToString();
                         tda.ID = id;
+                        tda.Isvalid = "Y";
                         TData.Add(tda);
                     }
                 }

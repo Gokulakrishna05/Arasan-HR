@@ -27,7 +27,9 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
+  
                     cmd.CommandText = "Select ITEMMASTER.ITEMID,QCVALUEBASIC.GRNNO,QCVALUEBASIC.DOCID,to_char(QCVALUEBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,to_char(QCVALUEBASIC.GRNDATE,'dd-MON-yyyy')GRNDATE,QCVALUEBASIC.CLASSCODE,PARTYRCODE.PARTY,QCVALUEBASICID,QCVALUEBASIC.LOTSERIALNO,SLNO,QCVALUEBASIC.TESTRESULT,QCVALUEBASIC.TESTBY,QCVALUEBASIC.REMARKS, QCVALUEBASIC.STATUS from QCVALUEBASIC LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=QCVALUEBASIC.ITEMID LEFT OUTER JOIN  PARTYMAST on QCVALUEBASIC.PARTYID=PARTYMAST.PARTYMASTID  LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID WHERE QCVALUEBASIC.STATUS='ACTIVE'";
+ 
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -45,7 +47,9 @@ namespace Arasan.Services
                             Party = rdr["PARTY"].ToString(),
                             ItemId = rdr["ITEMID"].ToString(),
                             TestResult = rdr["TESTRESULT"].ToString(),
+ 
                             TestBy = rdr["TESTBY"].ToString(),
+ 
                             Remarks = rdr["REMARKS"].ToString()
                            
                         };
