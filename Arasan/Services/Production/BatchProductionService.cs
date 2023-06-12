@@ -193,9 +193,6 @@ namespace Arasan.Services;
                                     OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                     objCmds.ExecuteNonQuery();
 
-
-
-
                                 }
                             }
                         }
@@ -211,9 +208,6 @@ namespace Arasan.Services;
                                     svSQL = "Insert into BPRODCONSDET (BPRODBASICID,CITEMID,CBINID,CUNIT,CONSQTY,CVALUE) VALUES ('" + Pid + "','" + cp.ItemId + "','" + cp.BinId + "','" + cp.consunit + "','" + cp.consQty + "','" + cp.ConsStock + "')";
                                     OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                     objCmds.ExecuteNonQuery();
-
-
-
 
                                 }
                             }
@@ -285,9 +279,6 @@ namespace Arasan.Services;
                                     svSQL = "Insert into BPRODWASTEDET (BPRODBASICID,WITEMID,WBINID,WLOCATION,WQTY,WBATCHNO) VALUES ('" + Pid + "','" + cp.ItemId + "','" + cp.BinId + "','" + cp.toloc + "','" + cp.wastageQty + "','" + cp.batchno + "')";
                                     OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                     objCmds.ExecuteNonQuery();
-
-
-
 
                                 }
                             }
