@@ -12,6 +12,14 @@
         left: 5px;
     }
 </style>
+
+<script type="text/javascript">
+    @if (TempData["notice"] != null)
+    {
+        @:alert('@TempData["notice"]');
+    }
+</script>
+
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
 
@@ -69,7 +77,7 @@
                                        
                                         <div class="col-sm-8">
 
-                                            @Html.DropDownListFor(C => C.CGst, Model.CGstlst,"Please Select", new { @id = "txtCGst", @Class = "form-control _select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.CGst, Model.CGstlst,"Please Select", new { @id = "ddlCGst", @Class = "form-control _select", @TabIndex = 1 })
 
                                            
 
@@ -85,7 +93,7 @@
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">SGST%<label class="mandatory"></label></label>
                                           <div class="col-sm-8">
 
-                                            @Html.DropDownListFor(C => C.SGst, Model.SGstlst,"Please Select", new { @id = "txtSGst", @Class = "form-control _select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.SGst, Model.SGstlst,"Please Select", new { @id = "ddlSGst", @Class = "form-control _select", @TabIndex = 1 })
 
                                            
                                         </div>
@@ -100,7 +108,7 @@
                                       <br />  <label for="inputName3" class="col-sm-4 control-label">IGST%<label class="mandatory"></label></label>
                                           <div class="col-sm-8">
 
-                                            @Html.DropDownListFor(C => C.IGst, Model.IGstlst,"Please Select", new { @id = "txtIGst", @Class = "form-control _select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.IGst, Model.IGstlst,"Please Select", new { @id = "ddlIGst", @Class = "form-control _select", @TabIndex = 1 })
 
                                          
                                         </div>
@@ -122,10 +130,12 @@
 </div>
 
 <script>
-    $(function () {
-        $('._select').select2(); 
+   
+     $(function () {
+        $('._select').select2();
 
     });
+
     $(document).ready(function () {
         $('#btnSave').click(function (e) {
             var isValid = true;
@@ -162,6 +172,59 @@
                     "background": ""
                 });
             }
+
+            if (document.getElementById("ddlCGst").value == "" || document.getElementById("ddlCGst").value == 0) {
+                isValid = false;
+                $(ddlCGst).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select CGST");
+                return false;
+            }
+            else {
+                $(ddlCGst).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("ddlSGst").value == "" || document.getElementById("ddlSGst").value == 0) {
+                isValid = false;
+                $(ddlSGst).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select SGST");
+                return false;
+            }
+            else {
+                $(ddlSGst).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("ddlIGst").value == "" || document.getElementById("ddlIGst").value == 0) {
+                isValid = false;
+                $(ddlIGst).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select IGST");
+                return false;
+            }
+            else {
+                $(ddlIGst).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+
+
             if (isValid == false)
                 e.preventDefault();
 

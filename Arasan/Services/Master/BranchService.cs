@@ -200,7 +200,7 @@ namespace Arasan.Services
         public DataTable GetEditBranch(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select COMPANYID,BRANCHID,ADDRESS1,STATE,CITY,PINCODE,CSTNO,to_char(CSTDATE,'dd-MON-yyyy')CSTDATE,BRANCHMASTID from  BRANCHMAST  where BRANCHMASTID='" + id + "'";
+            SvSql = "select COMPANYID,BRANCHMAST.BRANCHID,ADDRESS1,STATE,CITY,PINCODE,CSTNO,to_char(CSTDATE,'dd-MON-yyyy')CSTDATE,BRANCHMASTID from  BRANCHMAST  where BRANCHMASTID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
