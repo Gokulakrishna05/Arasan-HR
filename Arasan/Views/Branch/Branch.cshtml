@@ -11,6 +11,12 @@
         left: 5px;
     }
 </style>
+<script type="text/javascript">
+    @if (TempData["notice"] != null)
+    {
+        @:alert('@TempData["notice"]');
+    }
+</script>
 
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
@@ -52,10 +58,9 @@
 
                                         <label for="inputName3" class="col-sm-4 control-label">Branch Name<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                           @* <input type="text" onkeypress="return allowOnlyLetters(event,this);" />*@
+                                           
                                             @Html.TextBoxFor(C => C.BranchName, new { @id = "txtBranchName", @class = "form-control", @TabIndex = 2,@size="30"})<br>
-                                           @* @Html.EditorFor(model => model.BranchName)
-                                            @Html.ValidationMessageFor(model => model.BranchName )*@
+                                          
                                         </div>
 
                                     </div>

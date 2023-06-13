@@ -27,6 +27,13 @@
         left: 5px;
     }
 </style>
+
+<script type="text/javascript">
+    @if (TempData["notice"] != null)
+    {
+        @:alert('@TempData["notice"]');
+    }
+</script>
 <div class="wrapper-content ">
     <div class="row">
         <div class="col-lg-12">
@@ -55,7 +62,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Party ID<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
-                                                    @Html.TextBoxFor(C => C.PartyCode, new { @id = "PartyCode", @class = "form-control", @TabIndex = 1})
+                                                    @Html.TextBoxFor(C => C.PartyCode, new { @id = "PartyCode", @class = "form-control",  autocomplete="off", @TabIndex = 1})
 <br />
                                                          @Html.HiddenFor(C => C.ID)
                                     </div>
@@ -66,7 +73,7 @@
 
                                                     <label for="inputName3" class="col-sm-4 control-label">Party Name<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
-                                         @Html.TextBoxFor(C => C.PartyName, new { @id = "PartyName", @class = "form-control", @TabIndex = 1})
+                                                        @Html.TextBoxFor(C => C.PartyName, new { @id = "PartyName", @class = "form-control", @TabIndex = 1})
                                     </div>
 
                                 </div>
@@ -80,7 +87,7 @@
 
                                                     <label for="inputName3" class="col-sm-4 control-label">Party Category<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
-                                                        @Html.DropDownListFor(C => C.PartyCategory, Model.Categorylst, new { @id = "ddlPartyCategory", @Class = "form-control _select", @TabIndex = 1 })<br />
+                                                        @Html.DropDownListFor(C => C.PartyCategory, Model.Categorylst, new { @id = "ddlPartyCategory", @Class = "form-control _select", autocomplete="off", @TabIndex = 1 })<br />
                                                     </div>
 
                                 </div>
@@ -92,7 +99,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Account Name<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                                    @Html.TextBoxFor(C => C.AccName, new { @id = "AccName", @class = "form-control", @TabIndex = 1})<br />
+                                                        @Html.TextBoxFor(C => C.AccName, new { @id = "AccName", @class = "form-control", @TabIndex = 1, autocomplete="off",@onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
                                                 </div>
 
                                 </div>
@@ -105,7 +112,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Party Group<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                         @Html.TextBoxFor(C => C.PartyGroup, new { @id = "PartyGroup", @class = "form-control", @TabIndex = 1})<br />
+                                                        @Html.TextBoxFor(C => C.PartyGroup, new { @id = "PartyGroup", @class = "form-control", autocomplete="off", @TabIndex = 1})<br />
                                           @Html.HiddenFor(C => C.ID)
                                     </div>
 
@@ -118,7 +125,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Comm.Code<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                                    @Html.TextBoxFor(C => C.Comm, new { @id = "Comm", @class = "form-control", @TabIndex = 1})
+                                                    @Html.TextBoxFor(C => C.Comm, new { @id = "Comm", autocomplete="off", @class = "form-control", @TabIndex = 1})
                                                 </div>
 
                                 </div>
@@ -274,7 +281,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">GST Number<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                                        @Html.TextBoxFor(C => C.GST, new { @id = "GST", @class = "form-control", @TabIndex = 1})<br />
+                                         @Html.TextBoxFor(C => C.GST, new { @id = "GST", @class = "form-control",@maxlength="15", @TabIndex = 1})<br />
                                     </div>
 
                                 </div>

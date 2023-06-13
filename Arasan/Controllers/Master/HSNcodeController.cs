@@ -22,17 +22,26 @@ namespace Arasan.Controllers.Master
             st.CGstlst = BindCGst();
             st.SGstlst = BindSGst();
             st.IGstlst = BindIGst();
-            
+
 
             if (id == null)
             {
-               
+
             }
+            //    else
+            //    {
+            //        st = HSNcodeService.GetHSNcodeById(id);
+
+            //    }
+            //    return View(st);
+            //}
+
             else
             {
                 DataTable dt = new DataTable();
                 double total = 0;
                 dt = HSNcodeService.GetHSNcode(id);
+
                 if (dt.Rows.Count > 0)
                 {
                     st.HCode = dt.Rows[0]["HSNCODE"].ToString();
@@ -44,6 +53,7 @@ namespace Arasan.Controllers.Master
                 }
 
             }
+
             return View(st);
         }
 

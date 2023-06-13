@@ -26,7 +26,7 @@ namespace Arasan.Services.Master
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select  PARTYID,PARTYNAME,PARTYCAT,ACCOUNTNAME,PARTYGROUP,COMMCODE,REGULARYN,LUTNO,to_char(PARTYMAST.LUTDT,'dd-MON-yyyy')LUTDT,to_char(PARTYMAST.PJOINDATE,'dd-MON-yyyy')PJOINDATE,TYPE,CREDITLIMIT,CREDITDAYS,SECTIONID,CSGNPARTYID,TRANSLMT,GSTNO,ACTIVE,RATECODE,MOBILE,PHONENO,PANNO,CITY,STATE,COUNTRY,PINCODE,COUNTRYCODE,EMAIL,FAX,COMMISIONERATE,RANGEDIVISION,ECCNO,EXCISEAPPLICABLE,HTTP,OVERDUEINTEREST,ADD1,REMARKS,INTRODUCEDBY,STATUS,PARTYMASTID from PARTYMAST WHERE STATUS= 'ACTIVE'";
+                    cmd.CommandText = "Select  PARTYID,PARTYNAME,PARTYCAT,ACCOUNTNAME,PARTYGROUP,COMMCODE,REGULARYN,LUTNO,to_char(PARTYMAST.LUTDT,'dd-MON-yyyy')LUTDT,to_char(PARTYMAST.PJOINDATE,'dd-MON-yyyy')PJOINDATE,TYPE,CREDITLIMIT,CREDITDAYS,SECTIONID,CSGNPARTYID,TRANSLMT,GSTNO,ACTIVE,RATECODE,MOBILE,PHONENO,PANNO,CITY,STATE,COUNTRY,PINCODE,COUNTRYCODE,EMAIL,FAX,COMMISIONERATE,RANGEDIVISION,ECCNO,EXCISEAPPLICABLE,HTTP,OVERDUEINTEREST,ADD1,REMARKS,INTRODUCEDBY,PARTYMAST.STATUS,PARTYMASTID from PARTYMAST WHERE PARTYMAST.STATUS= 'ACTIVE'";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -65,16 +65,16 @@ namespace Arasan.Services.Master
             try
             {
                 string StatementType = string.Empty; string svSQL = "";
-                //if (cy.ID == null)
-                //{
+                if (cy.ID == null)
+                {
 
-                //    svSQL = " SELECT Count(*) as cnt FROM PARTYMAST WHERE ACCOUNTNAME =LTRIM(RTRIM('" + cy.AccName + "')) and PARTYID =LTRIM(RTRIM('" + cy.PartyCode + "'))";
-                //    if (datatrans.GetDataId(svSQL) > 0)
-                //    {
-                //        msg = "Party Already Existed";
-                //        return msg;
-                //    }
-                //}
+                    svSQL = " SELECT Count(*) as cnt FROM PARTYMAST WHERE PARTYID =LTRIM(RTRIM('" + cy.PartyCode + "')) ";
+                    if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "Party Already Existed";
+                        return msg;
+                    }
+                }
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {

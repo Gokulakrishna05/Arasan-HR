@@ -10,9 +10,11 @@ namespace Arasan.Services
     public class SequenceService : ISequence
     {
         private readonly string _connectionString;
+       
         public SequenceService(IConfiguration _configuratio)
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
+           
         }
         public IEnumerable<Sequence> GetAllSequence()
         {
@@ -50,6 +52,7 @@ namespace Arasan.Services
             try
             {
                 string StatementType = string.Empty; string svSQL = "";
+               
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {

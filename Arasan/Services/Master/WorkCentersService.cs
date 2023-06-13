@@ -86,7 +86,19 @@ namespace Arasan.Services.Master
             string msg = "";
             try
             {
-                string StatementType = string.Empty; string svSQL = "";
+                string StatementType = string.Empty; 
+                string svSQL = "";
+
+                if (cy.ID == null)
+                {
+
+                    svSQL = " SELECT Count(*) as cnt FROM WCBASIC WHERE WCID = LTRIM(RTRIM('" + cy.Wid + "'))";
+                    if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "HsnCode Already Existed";
+                        return msg;
+                    }
+                }
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {

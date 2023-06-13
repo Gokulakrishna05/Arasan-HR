@@ -10,7 +10,7 @@ namespace Arasan.Interface.Master
     {
         string HSNcodeCRUD(HSNcode by);
         IEnumerable<HSNcode> GetAllHSNcode();
-        HSNcode GetHSNcodeById(string id);
+        //HSNcode GetHSNcodeById(string id);
 
         DataTable GetCGst();
         DataTable GetSGst();
