@@ -61,7 +61,7 @@
                                                         <tr>
                                                             <th>Branch</th>
                                                             <th>Pro.Inv.No</th>
-                                                            <th>Currency</th>
+                                                            <th>Ref.No</th>
                                                             <th>Edit</th>
                                                             <th>Delete</th>
                                                             <th>Close</th>
@@ -78,21 +78,11 @@
 
                                                                     <td>@Html.DisplayFor(modelItem => item.Branch)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.DocId)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.Currency)</td>
-                                                                     @if (item.status == "CLOSE")
-                                                                    {
-                                                                         <td></td>
-                                                                            <td> </td>
-                                                                            <td></td>
-                                                                            <td> </td>
-                                                                             <td> </td>
-                                                                    }
-                                                                    else
-                                                                    {
+                                                                    <td>@Html.DisplayFor(modelItem => item.RefNo)</td>
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("ProFormaInvoice", "ProFormaInvoice",new { id=item.ID })"></a></div></td>
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("ProFormaInvoice", "ProFormaInvoice",new { id=item.ID })"></a></div></td>
                                                                     <td> <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("CloseQuote", "ProFormaInvoice",new { id=item.ID })" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/close_icon.png' alt='close' /></a></div></td>
-                                                                    }
+                                                                   
                                                                 </tr>
                                                                 i++;
                                                             }

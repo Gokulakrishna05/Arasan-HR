@@ -137,6 +137,7 @@ internal class Program
         builder.Services.TryAddSingleton<IWorkOrderShortClose, WorkOrderShortCloseService>();
  
         builder.Services.TryAddSingleton<ISalesReturn, SalesReturnService>();
+        builder.Services.TryAddSingleton<IDepotInvoiceService, DepotInvoiceService>();
  
 
 
