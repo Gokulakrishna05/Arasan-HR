@@ -1,0 +1,47 @@
+﻿@model Arasan.Models.ProductionEntry
+@{
+    ViewData["Title"] = "AP Production  Entry";
+}
+<style>
+    .newwidth {
+        width: 120px;
+    }
+    .mandatory{
+	color: red;
+	position:relative;
+	top:2px;
+	left:5px;
+}
+</style>
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a>Production</a> </li>
+            <li class="active"> <strong>AP Production  Entry</strong> </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    <h5 style="font-size:14px">AP Production Entry</h5>
+                    <hr>
+                                                              @using (Html.BeginForm("APProductionentry", "ProductionEntry", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                             <form>
+
+
+
+</form>
+ }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

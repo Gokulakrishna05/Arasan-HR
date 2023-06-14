@@ -1078,5 +1078,10 @@ namespace Arasan.Controllers
                 return RedirectToAction("ListProductionEntry");
             }
         }
+
+        public ActionResult APProductionentry()
+        {
+            return View();
+        }
     }
 }
