@@ -14,5 +14,6 @@ namespace Arasan.Interface.Sales
         string StatusChange(string tag, int id);
         DataTable GetWorkOrderDetail(string id);
         DataTable GetProFormaInvoiceDetails(string id);
+        DataTable EditProFormaInvoiceDetails(string id);
     }
 }

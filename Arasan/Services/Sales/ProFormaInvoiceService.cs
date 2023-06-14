@@ -31,7 +31,7 @@ namespace Arasan.Services.Sales
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select  BRANCHID,DOCID,REFNO,STATUS,SPINVBASICID from SPINVBASIC WHERE STATUS= 'Active'";
+                    cmd.CommandText = "Select  BRANCHMAST.BRANCHID,DOCID,REFNO,SPINVBASIC.STATUS,SPINVBASICID from SPINVBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMAST.BRANCHMASTID=SPINVBASIC.BRANCHID WHERE SPINVBASIC.STATUS= 'Active'";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -68,51 +68,63 @@ namespace Arasan.Services.Sales
             adapter.Fill(dtt);
             return dtt;
         }
-
+        public DataTable EditProFormaInvoiceDetails(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select ITEMMASTER.ITEMID,ITEMSPEC,UNIT,QTY,RATE,AMOUNT,DISCOUNT,IDISC,CDISC,TDISC,ADISC,SDISC,FREIGHT,TARIFFID,CGST,SGST,IGST,TOTEXAMT,SPINVBASICID from SPINVDETAIL left outer join ITEMMASTER on ITEMMASTERID =SPINVDETAIL.ITEMID left outer join UNITMAST on UNITMASTID=SPINVDETAIL.UNIT where SPINVBASICID= '" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public string ProFormaInvoiceCRUD(ProFormaInvoice cy)
         {
             string msg = "";
             try
             {
                 string StatementType = string.Empty; string svSQL = "";
-                if (cy.ID == null)
-                {
-                    DateTime theDate = DateTime.Now;
-                    DateTime todate; DateTime fromdate;
-                    string t; string f;
-                    if (DateTime.Now.Month >= 4)
-                    {
-                        todate = theDate.AddYears(1);
-                    }
-                    else
-                    {
-                        todate = theDate;
-                    }
-                    if (DateTime.Now.Month >= 4)
-                    {
-                        fromdate = theDate;
-                    }
-                    else
-                    {
-                        fromdate = theDate.AddYears(-1);
-                    }
-                    t = todate.ToString("yy");
-                    f = fromdate.ToString("yy");
-                    string disp = string.Format("{0}-{1}", f, t);
+                string currency = datatrans.GetDataString("Select CURRENCYID from CURRENCY where MAINCURR='" + cy.Currency + "' ");
+                string party = datatrans.GetDataString("Select ID from PARTYRCODE where PARTY='" + cy.Party + "' ");
+                string partyid = datatrans.GetDataString("Select PARTYMASTID from PARTYMAST where PARTYNAME='" + party + "' ");
+                //if (cy.ID == null)
+                //{
+                //    DateTime theDate = DateTime.Now;
+                //    DateTime todate; DateTime fromdate;
+                //    string t; string f;
+                //    if (DateTime.Now.Month >= 4)
+                //    {
+                //        todate = theDate.AddYears(1);
+                //    }
+                //    else
+                //    {
+                //        todate = theDate;
+                //    }
+                //    if (DateTime.Now.Month >= 4)
+                //    {
+                //        fromdate = theDate;
+                //    }
+                //    else
+                //    {
+                //        fromdate = theDate.AddYears(-1);
+                //    }
+                //    t = todate.ToString("yy");
+                //    f = fromdate.ToString("yy");
+                //    string disp = string.Format("{0}-{1}", f, t);
 
-                    int idc = GetDataId(" SELECT COMMON_TEXT FROM COMMON_MASTER WHERE COMMON_TYPE = 'SE' AND IS_ACTIVE = 'Y'");
-                    cy.DocId = string.Format("{0}/{3}/{1} - {2} ", "TAAI", "SE", (idc + 1).ToString(), disp);
+                //    int idc = GetDataId(" SELECT COMMON_TEXT FROM COMMON_MASTER WHERE COMMON_TYPE = 'SE' AND IS_ACTIVE = 'Y'");
+                //    cy.DocId = string.Format("{0}/{3}/{1} - {2} ", "TAAI", "SE", (idc + 1).ToString(), disp);
 
-                    string updateCMd = " UPDATE COMMON_MASTER SET COMMON_TEXT ='" + (idc + 1).ToString() + "' WHERE COMMON_TYPE ='SE' AND IS_ACTIVE ='Y'";
-                    try
-                    {
-                        UpdateStatus(updateCMd);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw ex;
-                    }
-                }
+                //    string updateCMd = " UPDATE COMMON_MASTER SET COMMON_TEXT ='" + (idc + 1).ToString() + "' WHERE COMMON_TYPE ='SE' AND IS_ACTIVE ='Y'";
+                //    try
+                //    {
+                //        UpdateStatus(updateCMd);
+                //    }
+                //    catch (Exception ex)
+                //    {
+                //        throw ex;
+                //    }
+                //}
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("SPINVBASICPROC", objConn);
@@ -139,9 +151,10 @@ namespace Arasan.Services.Sales
                     objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = cy.Docdate;
                     objCmd.Parameters.Add("REFNO", OracleDbType.NVarchar2).Value = cy.RefNo;
                     objCmd.Parameters.Add("REFDATE", OracleDbType.NVarchar2).Value = cy.RefDate;
-                    objCmd.Parameters.Add("MAINCURRENCY", OracleDbType.NVarchar2).Value = cy.Currency;
+                    objCmd.Parameters.Add("MAINCURRENCY", OracleDbType.NVarchar2).Value = currency;
                     objCmd.Parameters.Add("EXRATE", OracleDbType.NVarchar2).Value = cy.ExRate;
-                    objCmd.Parameters.Add("PARTYID", OracleDbType.NVarchar2).Value = cy.Party;
+                    objCmd.Parameters.Add("PARTYID", OracleDbType.NVarchar2).Value = party;
+                    //objCmd.Parameters.Add("PARTYNAME", OracleDbType.NVarchar2).Value = party;
                     objCmd.Parameters.Add("SALESVALUE", OracleDbType.NVarchar2).Value = cy.SalesValue;
                     objCmd.Parameters.Add("GROSS", OracleDbType.NVarchar2).Value = cy.Gross;
                     objCmd.Parameters.Add("NET", OracleDbType.NVarchar2).Value = cy.Net;
@@ -152,7 +165,7 @@ namespace Arasan.Services.Sales
                     objCmd.Parameters.Add("NARRATION", OracleDbType.NVarchar2).Value = cy.Narration;
                     objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "Active";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
-                    //objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
+                    objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
                     {
                         objConn.Open();
@@ -169,10 +182,13 @@ namespace Arasan.Services.Sales
                             {
                                 foreach (ProFormaInvoiceDetail cp in cy.ProFormalst)
                                 {
-                                    if (cp.Isvalid == "Y" && cp.itemid != "0")
+                                    string UnitId = datatrans.GetDataString("Select UNITMASTID from UNITMAST where UNITID='" + cp.unit + "' ");
+                                    string ItemId = datatrans.GetDataString("Select ITEMMASTERID from ITEMMASTER where ITEMID='" + cp.itemid + "' ");
+
+                                    if (cp.Isvalid == "Y")
                                     {
 
-                                        svSQL = "Insert into SPINVDETAIL (SPINVBASICID,ITEMID,ITEMSPEC,UNIT,QTY,RATE,AMOUNT,DISCOUNT,IDISC,CDISC,TDISC,ADISC,SDISC,FREIGHT,TARIFFID,CGST,SGST,IGST,TOTEXAMT) VALUES ('" + Pid + "','" + cp.itemid + "','" + cp.itemdes + "','" + cp.unit + "','" + cp.qty + "','" + cp.rate + "','" + cp.discount + "','" + cp.amount + "','" + cp.cashdisc + "','" + cp.tradedis + "','" + cp.additionaldis + "','" + cp.dis + "','" + cp.frieght + "','" + cp.tariff + "','" + cp.CGST + "','" + cp.SGST + "','" + cp.IGST + "','" + cp.totamount + "')";
+                                        svSQL = "Insert into SPINVDETAIL (SPINVBASICID,ITEMID,ITEMSPEC,UNIT,QTY,RATE,AMOUNT,DISCOUNT,IDISC,CDISC,TDISC,ADISC,SDISC,FREIGHT,TARIFFID,CGST,SGST,IGST,TOTEXAMT) VALUES ('" + Pid + "','" + ItemId + "','" + cp.itemdes + "','" + UnitId + "','" + cp.qty + "','" + cp.rate + "','" + cp.amount + "','" + cp.discount + "','" + cp.itrodis + "''" + cp.cashdisc + "','" + cp.tradedis + "','" + cp.additionaldis + "','" + cp.dis + "','" + cp.frieght + "','" + cp.tariff + "','" + cp.CGST + "','" + cp.SGST + "','" + cp.IGST + "','" + cp.totamount + "')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
 
@@ -188,10 +204,12 @@ namespace Arasan.Services.Sales
                                 objCmdd.ExecuteNonQuery();
                                 foreach (ProFormaInvoiceDetail cp in cy.ProFormalst)
                                 {
+                                    string UnitId = datatrans.GetDataString("Select UNITMASTID from UNITMAST where UNITID='" + cp.unit + "' ");
+                                    string ItemId = datatrans.GetDataString("Select ITEMMASTERID from ITEMMASTER where ITEMID='" + cp.itemid + "' ");
 
-                                    if (cp.Isvalid == "Y" && cp.itemid != "0")
+                                    if (cp.Isvalid == "Y")
                                     {
-                                        svSQL = "Insert into SPINVDETAIL (SPINVBASICID,ITEMID,ITEMSPEC,UNIT,QTY,RATE,AMOUNT,DISCOUNT,IDISC,CDISC,TDISC,ADISC,SDISC,FREIGHT,TARIFFID,CGST,SGST,IGST,TOTEXAMT) VALUES ('" + Pid + "','" + cp.itemid + "','" + cp.itemdes + "','" + cp.unit + "','" + cp.qty + "','" + cp.rate + "','" + cp.discount + "','" + cp.amount + "','" + cp.cashdisc + "','" + cp.tradedis + "','" + cp.additionaldis + "','" + cp.dis + "','" + cp.frieght + "','" + cp.tariff + "','" + cp.CGST + "','" + cp.SGST + "','" + cp.IGST + "','" + cp.totamount + "')";
+                                        svSQL = "Insert into SPINVDETAIL (SPINVBASICID,ITEMID,ITEMSPEC,UNIT,QTY,RATE,AMOUNT,DISCOUNT,IDISC,CDISC,TDISC,ADISC,SDISC,FREIGHT,TARIFFID,CGST,SGST,IGST,TOTEXAMT) VALUES ('" + Pid + "','" + ItemId + "','" + cp.itemdes + "','" + UnitId + "','" + cp.qty + "','" + cp.rate + "','" + cp.amount + "','" + cp.discount + "','" + cp.itrodis + "''" + cp.cashdisc + "','" + cp.tradedis + "','" + cp.additionaldis + "','" + cp.dis + "','" + cp.frieght + "','" + cp.tariff + "','" + cp.CGST + "','" + cp.SGST + "','" + cp.IGST + "','" + cp.totamount + "')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
 
@@ -273,7 +291,7 @@ namespace Arasan.Services.Sales
         public DataTable GetEditProFormaInvoice(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select BRANCHID,WORKORDER,DOCID,DOCDATE,REFNO,REFDATE,MAINCURRENCY,EXRATE,PARTYID,SALESVALUE,GROSS,NET,AMTWORDS,BANKNAME,ACNO,SHIPADDRESS,NARRATION,SPINVBASICID  from SPINVBASIC where SPINVBASIC.SPINVBASICID=" + id + "";
+            SvSql = "Select BRANCHID,WORKORDER,DOCID,DOCDATE,REFNO,REFDATE,CURRENCY.MAINCURR,EXRATE,PARTYID,SALESVALUE,GROSS,NET,AMTWORDS,BANKNAME,ACNO,SHIPADDRESS,NARRATION,SPINVBASICID  from SPINVBASIC LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=SPINVBASIC.MAINCURRENCY Where SPINVBASIC.SPINVBASICID=" + id + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

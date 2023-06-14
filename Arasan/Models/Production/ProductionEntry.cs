@@ -165,4 +165,20 @@ namespace Arasan.Models
         public string duedate { get; set; }
         public long inwardid { get; set; }
     }
+    public class APProductionEntry
+    {
+        public APProductionEntry()
+        {
+            this.Loclst = new List<SelectListItem>();
+        }
+        public string ID { get; set; } 
+        public string Location { get; set; }
+        public List<SelectListItem> Loclst { get; set; }
+        public string DocId { get; set; }
+        public string Docdate { get; set; }
+        public string Eng { get; set; } 
+        public List<SelectListItem> Englst { get; set; }
+
+
+    }
 }

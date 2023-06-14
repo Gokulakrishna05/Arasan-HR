@@ -51,7 +51,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Work Center<label class="mandatory">*</label></label>
+                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Work Order<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.WorkCenter, Model.Joblst," -- Please Select -- ", new { @id = "ddlWorkCenter", @Class = "form-control _select", @TabIndex = 1, @onchange = "changeItem(this.value)" })
 
@@ -414,55 +414,53 @@
             }
         });
     }
-    function changeQty(_this, i) 
-    {
+    function changeQty(_this, i) {
         try {
             var GTot = 0;
             var j = 0;
-            var qty = 0;
+
             var tot = 0;
             var totfrieght = 0;
             var totamt = 0;
             var totamount = 0;
-            var qty = document.getElementById("txtqty" + i).value;
-            var up = document.getElementById("txtrate" + i).value;
-            var discount = document.getElementById("txtDisc" + i).value;
-            var itdis = document.getElementById("txtitrodis" + i).value;
-            var cdis = document.getElementById("txtcashdisc" + i).value;
-            var tdis = document.getElementById("txttradedis" + i).value;
-            var adis = document.getElementById("txtadditionaldis" + i).value;
-            var disc = document.getElementById("txtdis" + i).value;
+
+            var up = document.getElementById("txtamount" + i).value;
+
             var frieght = document.getElementById("txtfrieght" + i).value;
             var IGST = document.getElementById("txtIGSTP" + i).value;
 
             var CGST = document.getElementById("txtCGSTP" + i).value;
 
             var SGST = document.getElementById("txtSGSTP" + i).value;
-            
-            if (qty == "")
-                qty = 0;
+            var Disount = document.getElementById("txtdiscount" + i).value;
+            var ItroDiscount = document.getElementById("txtitrodis" + i).value;
+            var CashDiscount = document.getElementById("txttradedis" + i).value;
+            var TradeDiscount = document.getElementById("txtdiscount" + i).value;
+            var AdditionalDiscount = document.getElementById("txtadditionaldis" + i).value;
+            var Specialdiscount = document.getElementById("txtdis" + i).value;
+
 
             if (up == "")
                 up = 0;
 
-              if (discount == "")
-                discount = 0;
-           
-				
-            if (itdis == "")
-                itdis = 0;
-				
-            if (cdis == "")
-                cdis = 0;
-				
-            if (tdis == "")
-                tdis = 0;
-				
-            if (adis == "")
-                adis = 0;
-			
-			if (disc == "")
-                disc = 0;
+            if (Disount == "")
+                Disount = 0;
+
+            if (ItroDiscount == "")
+                ItroDiscount = 0;
+
+                if (CashDiscount == "")
+                CashDiscount = 0;
+
+                if (TradeDiscount == "")
+                TradeDiscount = 0;
+
+                if (AdditionalDiscount == "")
+                AdditionalDiscount = 0;
+
+
+            if (Specialdiscount == "")
+                Specialdiscount = 0;
 
             if (IGST == "")
                 IGST = 0;
@@ -475,66 +473,58 @@
             if (SGST == "")
                 SGST = 0;
 
-            
+
 
             if (frieght == "")
-                 frieght = 0;
+                frieght = 0;
 
-             var tot = eval(qty) * eval(up) ;
-             document.getElementById("txttotamount" + i).value = tot.toFixed(2);
-             var igstperc = (eval(tot) / 100) * eval(IGST);
-             var cgstperc = (eval(tot) / 100) * eval(CGST);
-             var sgstperc = (eval(tot) / 100) * eval(SGST);
-			 var Discperc = (eval(tot) / 100) * eval(discount);
-			 var itdiscount = (eval(tot) / 100) * eval(itdis);
-			 var cashdiscount = (eval(tot) / 100) * eval(cdis);
-			 var tradediscount = (eval(tot) / 100) * eval(tdis);
-			 var adddiscount = (eval(tot) / 100) * eval(adis);
-			 var idiscount = (eval(tot) / 100) * eval(disc);
-			
-            
+            var tot = eval(up);
+            //document.getElementById("txtamount" + i).value = tot.toFixed(2);
+            var igstperc = (eval(tot) / 100) * eval(IGST);
+            var cgstperc = (eval(tot) / 100) * eval(CGST);
+            var sgstperc = (eval(tot) / 100) * eval(SGST);
+         
+
+
+
 
             document.getElementById("txtCGST" + i).value = cgstperc.toFixed(2);
             document.getElementById("txtSGST" + i).value = sgstperc.toFixed(2);
-             document.getElementById("txtIGST" + i).value = igstperc.toFixed(2);
-            document.getElementById("txtdiscount" + i).value = Discperc.toFixed(2);
-            document.getElementById("txtitrodis" + i).value = itdiscount.toFixed(2);
-            document.getElementById("txtcashdisc" + i).value = cashdiscount.toFixed(2);
-            document.getElementById("txttradedis" + i).value = tradediscount.toFixed(2);
-            document.getElementById("txtadditionaldis" + i).value = adddiscount.toFixed(2);
-            document.getElementById("txtdis" + i).value = idiscount.toFixed(2);
+            document.getElementById("txtIGST" + i).value = igstperc.toFixed(2);
+            //document.getElementById("txtdiscount" + i).value = discountperc.toFixed(2);
+
 
             var tottax = eval(tot) + eval(igstperc) + eval(cgstperc) + eval(sgstperc) + eval(frieght);
-            var totdisc = eval(tottax) - eval(Discperc) - eval(itdiscount) - eval(cashdiscount) - eval(tradediscount) - eval(adddiscount) - eval(txtdis) ;
-          
+            var totdisc = eval(tottax) - eval(Disount)  - eval(ItroDiscount)  - eval(CashDiscount)  - eval(TradeDiscount)  - eval(AdditionalDiscount) - eval(Specialdiscount);
+
 
             document.getElementById("txttotamount" + i).value = totdisc.toFixed(2);
+          
+            
 
             $('tr.chkitemlst').each(function () {
                 if ($(this).css('display') !== 'none') {
                     frieght = $(this).find('#txtfrieght' + j.toString()).val();
                     if (frieght == "")
                         frieght = 0;
-                    var amt = $(this).find('#txttotamount' + j.toString()).val();
+                    var amt = $(this).find('#txtamount' + j.toString()).val();
                     if (amt == "")
                         amt = 0;
 
                     totamt += eval(amt);
-                     totfrieght += eval(frieght);
+                    totfrieght += eval(frieght);
                     var tamt = $(this).find('#txttotamount' + j.toString()).val();
-                            if (tamt == "")
+                    if (tamt == "")
                         tamt = 0;
 
-                        totamount += eval(tamt);
+                    totamount += eval(tamt);
 
-                              }
-                        j += 1;
-                    });
+                }
+                j += 1;
+            });
 
-            document.getElementById("txtFrig").value = totfrieght.toFixed(2);
-            document.getElementById("Gross").value = totamt.toFixed(2);
-            document.getElementById("Net").value = totamount.toFixed(2);
-            document.getElementById("hidnet").value = totamount.toFixed(2);
+            document.getElementById("txtGross").value = totamt.toFixed(2);
+            document.getElementById("txtNet").value = totamount.toFixed(2);
 
         }
         catch (ex) {
