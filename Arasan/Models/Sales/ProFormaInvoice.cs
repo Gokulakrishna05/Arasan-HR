@@ -34,6 +34,7 @@ namespace Arasan.Models
 
         //public List<SelectListItem> Curlst;
         public string Party { get; set; }
+        public string PartyName { get; set; }
 
         //public List<SelectListItem> Suplst;
 

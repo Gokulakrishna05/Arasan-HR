@@ -56,7 +56,7 @@ namespace Arasan.Controllers.Sales
                     ca.Docdate = dt.Rows[0]["DOCDATE"].ToString();
                     ca.RefNo = dt.Rows[0]["REFNO"].ToString();
                     ca.RefDate = dt.Rows[0]["REFDATE"].ToString();
-                    ca.Currency = dt.Rows[0]["MAINCURRENCY"].ToString();
+                    ca.Currency = dt.Rows[0]["MAINCURR"].ToString();
                     ca.ExRate = dt.Rows[0]["EXRATE"].ToString();
                     ca.Party = dt.Rows[0]["PARTYID"].ToString();
                     ca.SalesValue = dt.Rows[0]["SALESVALUE"].ToString();
@@ -171,16 +171,18 @@ namespace Arasan.Controllers.Sales
 
                 string  currency= "";
                 string  party = "";
-
-                dt = ProFormaInvoiceService.GetProFormaInvoiceDetails(ItemId);
-
-                if (dt.Rows.Count > 0)
+                if (ItemId != "edit")
                 {
+                    dt = ProFormaInvoiceService.GetProFormaInvoiceDetails(ItemId);
 
-                    currency = dt.Rows[0]["MAINCURR"].ToString();
-                    party = dt.Rows[0]["PARTY"].ToString();
+                    if (dt.Rows.Count > 0)
+                    {
+
+                        currency = dt.Rows[0]["MAINCURR"].ToString();
+                        party = dt.Rows[0]["PARTY"].ToString();
 
 
+                    }
                 }
 
                 var result = new { currency = currency, party = party};
@@ -191,37 +193,76 @@ namespace Arasan.Controllers.Sales
                 throw ex;
             }
         }
-        public ActionResult GetWorkOrderDetails(string id)
+        public ActionResult GetWorkOrderDetails(string id,string jobid)
         {
             ProFormaInvoice model = new ProFormaInvoice();
             DataTable dtt = new DataTable();
             List<ProFormaInvoiceDetail> Data = new List<ProFormaInvoiceDetail>();
             ProFormaInvoiceDetail tda = new ProFormaInvoiceDetail();
-            dtt = ProFormaInvoiceService.GetWorkOrderDetail(id);
-            if (dtt.Rows.Count > 0)
+            if (id == "edit")
             {
-                for (int i = 0; i < dtt.Rows.Count; i++)
+                DataTable dtt1 = new DataTable();
+                dtt1 = ProFormaInvoiceService.EditProFormaInvoiceDetails(jobid);
+                if (dtt1.Rows.Count > 0)
                 {
-                    tda = new ProFormaInvoiceDetail();
+                    for (int i = 0; i < dtt1.Rows.Count; i++)
+                    {
+                        tda = new ProFormaInvoiceDetail();
+                        tda.itemid = dtt1.Rows[i]["ITEMID"].ToString();
+                        tda.itemdes = dtt1.Rows[i]["ITEMSPEC"].ToString();
+                        tda.unit = dtt1.Rows[i]["UNIT"].ToString();
+                        tda.qty = dtt1.Rows[i]["QTY"].ToString();
 
-                    tda.itemid = dtt.Rows[i]["ITEMID"].ToString();
-                    tda.itemdes = dtt.Rows[i]["ITEMSPEC"].ToString();
-                    tda.unit = dtt.Rows[i]["UNITID"].ToString();
-                    tda.qty = dtt.Rows[i]["QTY"].ToString();
-                    tda.rate = dtt.Rows[i]["RATE"].ToString();
-                    tda.amount = dtt.Rows[i]["AMOUNT"].ToString();
-                    tda.discount = dtt.Rows[i]["DISCOUNT"].ToString();
-                    tda.itrodis = dtt.Rows[i]["IDISC"].ToString();
-                    tda.cashdisc = dtt.Rows[i]["CDISC"].ToString();
-                    tda.tradedis = dtt.Rows[i]["TDISC"].ToString();
-                    tda.additionaldis = dtt.Rows[i]["ADISC"].ToString();
-                    tda.dis = dtt.Rows[i]["SDISC"].ToString();
-                    tda.frieght = dtt.Rows[i]["FREIGHT"].ToString();
-                    //tda.tariff = dtt.Rows[i]["TARIFFID"].ToString();
-                    //tda.totamount = dtt.Rows[i]["TOTEXAMT"].ToString();
-                    tda.ID = id;
+                        tda.rate = dtt1.Rows[i]["RATE"].ToString();
+                        tda.amount = dtt1.Rows[i]["AMOUNT"].ToString();
+                        tda.discount = dtt1.Rows[i]["DISCOUNT"].ToString();
+                        tda.itrodis = dtt1.Rows[i]["IDISC"].ToString();
+                        tda.tradedis = dtt1.Rows[i]["TDISC"].ToString();
+                        tda.cashdisc = dtt1.Rows[i]["CDISC"].ToString();
+                        tda.tradedis = dtt1.Rows[i]["TDISC"].ToString();
 
-                    Data.Add(tda);
+                        tda.additionaldis = dtt1.Rows[i]["ADISC"].ToString();
+                        tda.dis = dtt1.Rows[i]["SDISC"].ToString();
+                        tda.frieght = dtt1.Rows[i]["FREIGHT"].ToString();
+                        tda.tariff = dtt1.Rows[i]["TARIFFID"].ToString();
+                        tda.CGST = dtt1.Rows[i]["CGST"].ToString();
+                        tda.Isvalid = "Y";
+                        tda.SGST = dtt1.Rows[i]["SGST"].ToString();
+                        tda.IGST = dtt1.Rows[i]["IGST"].ToString();
+                        tda.totamount = dtt1.Rows[i]["TOTEXAMT"].ToString();
+
+                        Data.Add(tda);
+                    }
+                }
+            }
+            else
+            {
+                dtt = ProFormaInvoiceService.GetWorkOrderDetail(id);
+                if (dtt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dtt.Rows.Count; i++)
+                    {
+                        tda = new ProFormaInvoiceDetail();
+
+                        tda.itemid = dtt.Rows[i]["ITEMID"].ToString();
+                        tda.itemdes = dtt.Rows[i]["ITEMSPEC"].ToString();
+                        tda.unit = dtt.Rows[i]["UNITID"].ToString();
+                        tda.qty = dtt.Rows[i]["QTY"].ToString();
+                        tda.rate = dtt.Rows[i]["RATE"].ToString();
+                        tda.amount = dtt.Rows[i]["AMOUNT"].ToString();
+                        tda.discount = dtt.Rows[i]["DISCOUNT"].ToString();
+                        tda.itrodis = dtt.Rows[i]["IDISC"].ToString();
+                        tda.cashdisc = dtt.Rows[i]["CDISC"].ToString();
+                        tda.tradedis = dtt.Rows[i]["TDISC"].ToString();
+                        tda.additionaldis = dtt.Rows[i]["ADISC"].ToString();
+                        tda.dis = dtt.Rows[i]["SDISC"].ToString();
+                        tda.frieght = dtt.Rows[i]["FREIGHT"].ToString();
+                        //tda.tariff = dtt.Rows[i]["TARIFFID"].ToString();
+                        //tda.totamount = dtt.Rows[i]["TOTEXAMT"].ToString();
+                        tda.ID = id;
+
+                        Data.Add(tda);
+                    }
                 }
             }
             model.ProFormalst = Data;
