@@ -835,6 +835,23 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+        public List<SelectListItem> BindAPWorkCenter()
+        {
+            try
+            {
+                DataTable dtDesg = IProductionEntry.GetWorkCenter();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["WCID"].ToString(), Value = dtDesg.Rows[i]["WCBASICID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<SelectListItem> BindEmp()
         {
             try
@@ -1081,6 +1098,8 @@ namespace Arasan.Controllers
 
         public ActionResult APProductionentry()
         {
+            APProductionEntry ca = new APProductionEntry();
+            ca.Loclst = BindAPWorkCenter();
             return View();
         }
     }

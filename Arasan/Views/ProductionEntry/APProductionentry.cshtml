@@ -1,4 +1,4 @@
-﻿@model Arasan.Models.ProductionEntry
+﻿@model Arasan.Models.APProductionEntry
 @{
     ViewData["Title"] = "AP Production  Entry";
 }
@@ -35,8 +35,60 @@
                             @Html.AntiForgeryToken()
                              <form>
 
+  <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
 
+                                    <label for="inputName3" class="col-sm-4 control-label">Work Center <label class="mandatory">*</label></label>
+                                    <div class="col-sm-8">
+                                        @Html.HiddenFor(C => C.ID)
+                                             @Html.DropDownListFor(C => C.Location, Model.Loclst," -- Please Select -- ", new { @id = "ddlStLoc", @Class = "form-control _select", @TabIndex = 1 , @onchange = "Stk_Change(this.value)" })<br />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
 
+                                    <label for="inputName3" class="col-sm-4 control-label">Assign Engineer<label class="mandatory">*</label></label>
+                                    <div class="col-sm-8">
+
+                                            @Html.DropDownListFor(C => C.Eng, Model.Englst," -- Please Select -- ", new { @id = "ddlStLoc", @Class = "form-control _select", @TabIndex = 1 , @onchange = "Stk_Change(this.value)" })<br />
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">DOC ID <label class="mandatory">*</label></label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(C => C.DocId, new { @id = "txtDocId", @class = "form-control", @TabIndex = 1 })<br />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="form-group">
+                                                <label for="inputName3" class="col-sm-4 control-label">Doc Date <label class="mandatory">*</label></label>
+                                              
+													<div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy" >
+                                                         @Html.TextBoxFor(C => C.Docdate, new { @id = "Docdate", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })
+														<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+													</div>
+													
+													<br/>
+												
+                                            </div>
+                                </div>
+                            </div>
+                        </div>
+
+                         <div style="height:30px;" id="divstart">
+                          <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Start</button>
+                        </div>
 </form>
  }
                 </div>
