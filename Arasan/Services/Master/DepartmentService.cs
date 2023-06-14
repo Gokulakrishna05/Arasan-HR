@@ -46,16 +46,16 @@ namespace Arasan.Services
             }
             return cmpList;
         }
-        public DataTable GetDepartmentDetail(string id)
-        {
-            string SvSql = string.Empty;
-            SvSql = "SELECT DESIGNATIONMASTID,DESIGNATION FROM DESIGNATIONMAST where DEPT_ID = '" + id + "'";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
+        //public DataTable GetDepartmentDetail(string id)
+        //{
+        //    string SvSql = string.Empty;
+        //    SvSql = "SELECT DESIGNATIONMASTID,DESIGNATION FROM DESIGNATIONMAST where DEPT_ID = '" + id + "'";
+        //    DataTable dtt = new DataTable();
+        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
+        //}
 
         public string DepartmentCRUD(Department ss)
         {
@@ -103,54 +103,17 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
 
-
-
                     try
                     {
                         objConn.Open();
                         objCmd.ExecuteNonQuery();
-                        Object Pid = objCmd.Parameters["OUTID"].Value;
-                        //string Pid = "0";
-                        if (ss.ID != null)
-                        {
-                            Pid = ss.ID;
-                        }
-                        foreach (Designation ca in ss.Designationlst)
-                        {
-                            if (ca.Isvalid == "Y" && ca.Design != "0")
-                            {
 
-                                using (OracleConnection objConns = new OracleConnection(_connectionString))
-                                {
-                                    OracleCommand objCmds = new OracleCommand("DESIGNATIONPROC", objConns);
-                                    if (ss.ID == null)
-                                    {
-                                        StatementType = "Insert";
-                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-                                    }
-                                    else
-                                    {
-                                        StatementType = "Update";
-                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = ss.ID;
-                                    }
-                                    objCmds.CommandType = CommandType.StoredProcedure;
-
-                                    objCmds.Parameters.Add("DEPT_ID", OracleDbType.NVarchar2).Value = Pid;
-                                    objCmds.Parameters.Add("DESIGNATION", OracleDbType.NVarchar2).Value = ca.Design;
-                                    objCmds.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
-                                    objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
-                                    objConns.Open();
-                                    objCmds.ExecuteNonQuery();
-                                    objConns.Close();
-                                }
-                            }
-                        }
                     }
-                   catch (Exception ex)
+                    catch (Exception ex)
                     {
-                        msg = "Error Occurs, While inserting / updating Data";
-                        throw ex;
+
                     }
+                    objConn.Close();
                 }
             }
             catch (Exception ex)
@@ -158,9 +121,66 @@ namespace Arasan.Services
                 msg = "Error Occurs, While inserting / updating Data";
                 throw ex;
             }
+
             return msg;
-        }        
-                 public DataTable GetDepartment(string id)
+        }
+
+        //try
+        //{
+        //    objConn.Open();
+        //    objCmd.ExecuteNonQuery();
+        //Object Pid = objCmd.Parameters["OUTID"].Value;
+        ////string Pid = "0";
+        //if (ss.ID != null)
+        //{
+        //    Pid = ss.ID;
+        //}
+        //foreach (Designation ca in ss.Designationlst)
+        //{
+        //    if (ca.Isvalid == "Y" && ca.Design != "0")
+        //    {
+
+        //        using (OracleConnection objConns = new OracleConnection(_connectionString))
+        //        {
+        //            OracleCommand objCmds = new OracleCommand("DESIGNATIONPROC", objConns);
+        //            if (ss.ID == null)
+        //            {
+        //                StatementType = "Insert";
+        //                objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+        //            }
+        //            else
+        //            {
+        //                StatementType = "Update";
+        //                objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = ss.ID;
+        //            }
+        //            objCmds.CommandType = CommandType.StoredProcedure;
+
+        //            objCmds.Parameters.Add("DEPT_ID", OracleDbType.NVarchar2).Value = Pid;
+        //            objCmds.Parameters.Add("DESIGNATION", OracleDbType.NVarchar2).Value = ca.Design;
+        //            objCmds.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
+        //            objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+        //            objConns.Open();
+        //            objCmds.ExecuteNonQuery();
+        //            objConns.Close();
+        //        }
+        //    }
+        //}
+        //            }
+        //           catch (Exception ex)
+        //            {
+        //                msg = "Error Occurs, While inserting / updating Data";
+        //                throw ex;
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        msg = "Error Occurs, While inserting / updating Data";
+        //        throw ex;
+        //    }
+        //    return msg;
+        //}        
+        public DataTable GetDepartment(string id)
                  {
                     string SvSql = string.Empty;
                     SvSql = "Select DEPARTMENTMASTID,DEPARTMENT_CODE,DEPARTMENT_NAME,DESCRIPTION from DEPARTMENTMAST where DEPARTMENTMASTID = '" + id + "' ";
@@ -179,7 +199,7 @@ namespace Arasan.Services
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE DEPARTMENTMAST SET STATUS ='CLOSE' WHERE DEPARTMENTMASTID='" + id + "'";
+                    svSQL = "UPDATE DEPARTMENTMAST SET STATUS ='ISACTIVE' WHERE DEPARTMENTMASTID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();

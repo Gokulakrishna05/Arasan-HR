@@ -11,7 +11,7 @@ namespace Arasan.Interface
 
         DataTable GetDepartment(string id);
 
-        DataTable GetDepartmentDetail(string id);
+        //DataTable GetDepartmentDetail(string id);
 
         string StatusChange(string tag, int id);
 

@@ -16,13 +16,13 @@ namespace Arasan.Models
         public string UpdatedOn { get; set; }
         public string UpdatedBy { get; set; }
 
-        public List<Designation> Designationlst { get; set; }
+        //public List<Designation> Designationlst { get; set; }
     }
- public class Designation
-    {
-        public string ID { get; set; }
-        public string Isvalid { get; set; }
-        public string Design { get; set; }
-    }
+ //public class Designation
+ //   {
+ //       public string ID { get; set; }
+ //       public string Isvalid { get; set; }
+ //       public string Design { get; set; }
+ //   }
 }
 
