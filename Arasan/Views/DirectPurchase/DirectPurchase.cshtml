@@ -113,7 +113,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                        <label for="inputName3" class="col-sm-4 control-label">Suppliar <label class="mandatory">*</label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Supplier <label class="mandatory">*</label></label>
 
                                     <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.Supplier, Model.Suplst, new { @id = "ddlSupplier", @Class = "form-control _select", @TabIndex = 1 })
@@ -188,7 +188,7 @@
                                                             <th> Amount</th>
                                                             <th> Disc %</th>
                                                             <th> Disc amount</th>
-                                                            <th> Frieght charges</th>
+                                                            <th> Freight charges</th>
                                                            @* <th> Cost Rate</th>
                                                             <th>Assessable Value</th>
                                                             <th>Tariff Id</th>*@
@@ -301,7 +301,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="inputName3" class="col-sm-4 control-label">Frieght<label class="Mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Freight<label class="Mandatory"></label></label>
 
                                     <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.Frig, new { @id = "txtFrig", @class = "form-control", @TabIndex = 2 })
@@ -390,6 +390,7 @@
 
                         </div>
                         <div style="height:30px;"></div>
+                        <div class="col-lg-10"></div>
                             <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
                             <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListDirectPurchase", "DirectPurchase")'">Cancel</button>
 
@@ -497,7 +498,7 @@
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select Suppliar");
+                alert("Please Select Supplier");
                 return false;
             }
             else {

@@ -23,19 +23,19 @@ namespace Arasan.Controllers.Master
             Department Dp = new Department();
             Dp.CreatedBy = Request.Cookies["UserId"];
             Dp.UpdatedBy = Request.Cookies["UserId"];
-            List<Designation> TData = new List<Designation>();
-            Designation tda = new Designation();
+            //List<Designation> TData = new List<Designation>();
+            //Designation tda = new Designation();
 
             if (id == null)
             {
-                for (int i = 0; i < 3; i++)
-                {
-                    tda = new Designation();
+                //for (int i = 0; i < 3; i++)
+                //{
+                //    tda = new Designation();
                    
-                    //tda.drumlst = Binddrum("","");
-                    tda.Isvalid = "Y";
-                    TData.Add(tda);
-                }
+                //    
+                //    tda.Isvalid = "Y";
+                //    TData.Add(tda);
+                //}
 
             }
             else
@@ -50,23 +50,24 @@ namespace Arasan.Controllers.Master
                     Dp.Description = dt.Rows[0]["DESCRIPTION"].ToString();
 
                 }
-                DataTable dt2 = new DataTable();
 
-                dt2 = DepartmentService.GetDepartmentDetail(id);
-                if (dt2.Rows.Count > 0)
-                {
-                    for (int i = 0; i < dt2.Rows.Count; i++)
-                    {
-                        tda = new Designation();
+                //DataTable dt2 = new DataTable();
 
-                        tda.Design = dt2.Rows[i]["DESIGNATION"].ToString();
-                        tda.ID = id;
-                        TData.Add(tda);
-                    }
+                //dt2 = DepartmentService.GetDepartmentDetail(id);
+                //if (dt2.Rows.Count > 0)
+                //{
+                //    for (int i = 0; i < dt2.Rows.Count; i++)
+                //    {
+                //        tda = new Designation();
 
-                }
+                //        tda.Design = dt2.Rows[i]["DESIGNATION"].ToString();
+                //        tda.ID = id;
+                //        TData.Add(tda);
+                //    }
+
+                //}
             }
-            Dp.Designationlst = TData;
+            //Dp.Designationlst = TData;
             return View(Dp);
         }
         

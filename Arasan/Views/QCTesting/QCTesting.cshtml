@@ -254,15 +254,16 @@
                                                     </tbody>
                                                 </table>
                                  </div>
-                             </div>
+                             </div> 
                                     
-                               
+                              
+
                         <div style="height:30px;"></div>
                         <div class="row">
                             <div class="col-md-6"> 
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Test Reasult<label class="Mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Test Result<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
                                         @Html.TextBoxFor(C => C.TestResult, new { @id = "TestResult", @class = "form-control", @TabIndex = 2})
                                     </div>
@@ -297,6 +298,7 @@
                         </div>
                        
                         <div style="height:30px;"></div>
+                        <div class="col-lg-10"></div>
                       <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
                         <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListQCTesting", "QCTesting")'">Cancel</button>
  
