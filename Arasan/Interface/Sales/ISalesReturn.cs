@@ -8,5 +8,10 @@ namespace Arasan.Interface
         DataTable GetInvoice();
         DataTable GetInvoiceDetails(string invoiceid);
         DataTable GetInvoiceItem(string invoiceid);
+        string SalesReturnCRUD(SalesReturn Cy);
+        IEnumerable<SalesReturn> GetAllSalesReturn();
+        DataTable GetSalesRetDetails(string invoiceid);
+        DataTable GetSalesRet (string invoiceid);
+        //DataTable GetSalesReturn(string invoiceid);
     }
 }

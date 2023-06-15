@@ -21,6 +21,7 @@
 
                     <form>
                         <div class="row">
+
                             <div class="col-md-12 ">
                                 <div class=" textalignright">
                                     <a href="@Url.Action("WorkOrder","WorkOrder")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add WorkOrder</a>
@@ -64,7 +65,7 @@
                                                                     <td>@Html.DisplayFor(modelItem => item.Location)</td>
 
                                                                     <td>@Html.DisplayFor(modelItem => item.Customer)</td>
-                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("WorkOrderShortClose", "WorkOrderShortClose",new { id=item.ID })"></a></div></td>
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a aria-hidden="true" href="@Url.Action("WorkOrderShortClose", "WorkOrderShortClose",new { id=item.ID })"><img src='../Images/close_icon.png' alt='close' /></a></div></td>
 
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("WorkOrder", "WorkOrder",new { id=item.ID })"></a></div></td>
                                                                     <td> <a href="@Url.Action("DeleteOrder","WorkOrder",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>

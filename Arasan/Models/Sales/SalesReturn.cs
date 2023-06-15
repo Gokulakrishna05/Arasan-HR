@@ -8,7 +8,7 @@ namespace Arasan.Models
         {
             this.invoicelst = new List<SelectListItem>();
             this.vlst = new List<SelectListItem>();
-
+            this.Loc = new List<SelectListItem>();
         }
         public string ID { get; set; }
         public string DocId { get; set; }
@@ -17,12 +17,15 @@ namespace Arasan.Models
         public string RefDate { get; set; }
         public string Narr { get; set; }
         public string Vtype { get; set; }
+        public List<SelectListItem> Loc;
         public string location { get; set; }
         public string returnfrom { get; set; }
         public string transitlocation { get; set; }
         public string custname { get; set; }
+        public string Branch { get; set; }
         public string invoiceid { get; set; }
         public string invoicedate { get; set; }
+        public string status { get; set; }
         public List<SelectListItem> invoicelst { get; set; }
         public List<SelectListItem> vlst { get; set; }
         public List<SalesReturnItem> returnlist { get; set; }
@@ -55,6 +58,6 @@ namespace Arasan.Models
         public double recdqty { get; set; }
         public string exicetype { get; set; }
         public string traiffid { get; set; }
-        public string isvalid { get; set; }
+        public string Isvalid { get; set; }
     }
 }

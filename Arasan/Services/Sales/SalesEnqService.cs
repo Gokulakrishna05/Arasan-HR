@@ -456,7 +456,7 @@ namespace Arasan.Services
         public DataTable GetCusType()
         {
             string SvSql = string.Empty;
-            SvSql = "Select CUSTOMER_TYPE,ID From CUSTOMERTYPE";
+            SvSql = "Select CUSTOMER_TYPE,CUSTOMERTYPEID From CUSTOMERTYPE";
             DataTable dtt = new DataTable(); OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
 
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

@@ -8,5 +8,7 @@ namespace Arasan.Interface
     public interface IWorkOrderShortClose
     {
         DataTable GetWorkOrder(string id);
+        DataTable GetWorkOrderDetails(string id);
+        string  WorkShortCRUD(WorkOrderShortClose Cy);
     }
 }

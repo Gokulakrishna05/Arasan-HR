@@ -105,7 +105,7 @@ namespace Arasan.Models
         public DataTable GetSequence(string vtype)
         {
             string SvSql = string.Empty;
-            SvSql = "select * from sequence where TRANSTYPE='"+ vtype  + "' AND ACTIVESEQUENCE='T'";
+            SvSql = "select PREFIX,LASTNO+1 as last from sequence where TRANSTYPE='" + vtype  + "' AND ACTIVESEQUENCE='T'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

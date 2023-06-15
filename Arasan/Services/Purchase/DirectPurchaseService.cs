@@ -164,49 +164,40 @@ namespace Arasan.Services
                         {
                             Pid = cy.ID;
                         }
-                        foreach (DirItem cp in cy.DirLst)
+                        if (cy.DirLst != null)
                         {
-                            if (cp.Isvalid == "Y" && cp.ItemId != "0")
+                            if (cy.ID == null)
                             {
-                                using (OracleConnection objConns = new OracleConnection(_connectionString))
+                                foreach (DirItem cp in cy.DirLst)
                                 {
-                                    OracleCommand objCmds = new OracleCommand("DPDETAILPROC", objConns);
-                                    if (cy.ID == null)
+                                    if (cp.Isvalid == "Y" && cp.ItemId != "0")
                                     {
-                                        StatementType = "Insert";
-                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                        svSQL = "Insert into DPDETAIL (DPBASICID,ITEMID,QTY,PUNIT,RATE,RATE,AMOUNT,TOTAMT,CF,DISC,DISCAMOUNT,IFREIGHTCH,CGSTPER,SGSTPER,IGSTPER,CGSTAMT,SGSTAMT,IGSTAMT) VALUES ('" + Pid + "','" + cp.ItemId + "','" + cp.Quantity + "','" + cp.Unit + "','" + cp.rate + "','" + cp.Amount + "','" + cp.TotalAmount + "','" + cp.ConFac + "','" + cp.Disc + "','" + cp.DiscAmount + "','" + cp.FrigCharge + "','" + cp.CGSTP + "','" + cp.SGSTP + "','" + cp.IGSTP + "','" + cp.CGST + "','" + cp.SGST + "','" + cp.IGST + "')";
+                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                        objCmds.ExecuteNonQuery();
+
+
                                     }
-                                    else
-                                    {
-                                        StatementType = "Update";
-                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
-                                    }
-                                    objCmds.CommandType = CommandType.StoredProcedure;
-                                    objCmds.Parameters.Add("DPBASICID", OracleDbType.NVarchar2).Value = Pid;
-                                    objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cp.ItemId;
-                                    objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = cp.Quantity;
-                                    objCmds.Parameters.Add("PUNIT", OracleDbType.NVarchar2).Value = cp.Unit;
-                                    objCmds.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = cp.rate;
-                                    objCmds.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = cp.Amount;
-                                    objCmds.Parameters.Add("TOTAMT", OracleDbType.NVarchar2).Value = cp.TotalAmount;
-                                    objCmds.Parameters.Add("CF", OracleDbType.NVarchar2).Value = cp.ConFac;
-                                    objCmds.Parameters.Add("DISC", OracleDbType.NVarchar2).Value = cp.Disc;
-                                    objCmds.Parameters.Add("DISCAMOUNT", OracleDbType.NVarchar2).Value = cp.DiscAmount;           
-                                    objCmds.Parameters.Add("IFREIGHTCH", OracleDbType.NVarchar2).Value = cp.FrigCharge;
-                                    objCmds.Parameters.Add("CGSTPER", OracleDbType.NVarchar2).Value = cp.CGSTP;
-                                    objCmds.Parameters.Add("SGSTPER", OracleDbType.NVarchar2).Value = cp.SGSTP;
-                                    objCmds.Parameters.Add("IGSTPER", OracleDbType.NVarchar2).Value = cp.IGSTP;
-                                    objCmds.Parameters.Add("CGSTAMT", OracleDbType.NVarchar2).Value = cp.CGST;
-                                    objCmds.Parameters.Add("SGSTAMT", OracleDbType.NVarchar2).Value = cp.SGST;
-                                    objCmds.Parameters.Add("IGSTAMT", OracleDbType.NVarchar2).Value = cp.IGST;
-                                    objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
-                                    objConns.Open();
-                                    objCmds.ExecuteNonQuery();
-                                    objConns.Close();
+
                                 }
+                            }
+                            else
+                            {
+                                svSQL = "Delete DPDETAIL WHERE DPBASICID='" + cy.ID + "'";
+                                OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
+                                objCmdd.ExecuteNonQuery();
+                                foreach (DirItem cp in cy.DirLst)
+                                {
+                                    if (cp.Isvalid == "Y" && cp.ItemId != "0")
+                                    {
+                                        svSQL = "Insert into DPDETAIL (DPBASICID,ITEMID,QTY,PUNIT,RATE,RATE,AMOUNT,TOTAMT,CF,DISC,DISCAMOUNT,IFREIGHTCH,CGSTPER,SGSTPER,IGSTPER,CGSTAMT,SGSTAMT,IGSTAMT) VALUES ('" + Pid + "','" + cp.ItemId + "','" + cp.Quantity + "','" + cp.Unit + "','" + cp.rate + "','" + cp.Amount + "','" + cp.TotalAmount + "','" + cp.ConFac + "','" + cp.Disc + "','" + cp.DiscAmount + "','" + cp.FrigCharge + "','" + cp.CGSTP + "','" + cp.SGSTP + "','" + cp.IGSTP + "','" + cp.CGST + "','" + cp.SGST + "','" + cp.IGST + "')";
+                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                        objCmds.ExecuteNonQuery();
 
 
+                                    }
 
+                                }
                             }
                         }
                         //foreach (DirItem cp in cy.DirLst)
