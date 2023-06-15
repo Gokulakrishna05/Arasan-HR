@@ -30,7 +30,7 @@ namespace Arasan.Models
         public string JopDate { get; set; }
         public string ExRate { get; set; }
         public string RateType { get; set; }
-        public string SalesLimit { get; set; }
+        public string status { get; set; }
         public string SalesValue { get; set; }
         public string CreditLimit { get; set; }
         public string TransAmount { get; set; }
@@ -75,7 +75,7 @@ namespace Arasan.Models
         public string taxtype { get; set; }
         public string matsupply { get; set; }
         public string packind { get; set; }
-
+        public List<SelectListItem> taxlst;
         public string tax { get; set; }
 
         

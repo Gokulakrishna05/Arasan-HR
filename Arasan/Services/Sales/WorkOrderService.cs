@@ -20,14 +20,15 @@ namespace Arasan.Services.Sales
         }
         public IEnumerable<WorkOrder> GetAllWorkOrder()
 		{
-			List<WorkOrder> cmpList = new List<WorkOrder>();
+          
+            List<WorkOrder> cmpList = new List<WorkOrder>();
 			using (OracleConnection con = new OracleConnection(_connectionString))
 			{
 
 				using (OracleCommand cmd = con.CreateCommand())
 				{
 					con.Open();
-					cmd.CommandText = "Select JOBASIC.DOCID,to_char(JOBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PARTYRCODE.PARTY,LOCDETAILS.LOCID,BRANCHMAST.BRANCHID,JOBASICID from JOBASIC  left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID=JOBASIC.LOCID  left outer join BRANCHMAST on BRANCHMAST.BRANCHMASTID=JOBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on JOBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Customer','BOTH')";
+					cmd.CommandText = "Select JOBASIC.DOCID,to_char(JOBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PARTYRCODE.PARTY,LOCDETAILS.LOCID,BRANCHMAST.BRANCHID,JOBASICID,JOBASIC.STATUS from JOBASIC  left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID=JOBASIC.LOCID  left outer join BRANCHMAST on BRANCHMAST.BRANCHMASTID=JOBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on JOBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Customer','BOTH') AND JOBASIC.STATUS='ACTIVE' order by JOBASIC.JOBASICID DESC ";
 					OracleDataReader rdr = cmd.ExecuteReader();
 					while (rdr.Read())
 					{
@@ -39,9 +40,9 @@ namespace Arasan.Services.Sales
 							JopDate = rdr["DOCDATE"].ToString(),
 							Location = rdr["LOCID"].ToString(),
 							 
-							Branch = rdr["BRANCHID"].ToString()
-
-						};
+							Branch = rdr["BRANCHID"].ToString(),
+                            status = rdr["STATUS"].ToString()
+                        };
 						cmpList.Add(cmp);
 					}
 				}
@@ -58,7 +59,16 @@ namespace Arasan.Services.Sales
             adapter.Fill(dtt);
             return dtt;
         }
-
+        public DataTable GetTax()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select TAX,PERCENTAGE,TAXMASTID from TAXMAST ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetQuoDetails(string id)
         {
             string SvSql = string.Empty;
@@ -72,9 +82,27 @@ namespace Arasan.Services.Sales
         public string WorkOrderCRUD(WorkOrder cy)
         {
 			string msg = "";
-			try
-			{
-				string StatementType = string.Empty; string svSQL = "";
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
+                datatrans = new DataTransactions(_connectionString);
+
+
+                int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'JOB#' AND ACTIVESEQUENCE = 'T'");
+                string docid = string.Format("{0}{1}", "JOB#", (idc + 1).ToString());
+
+                string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='JOB#' AND ACTIVESEQUENCE ='T'";
+                try
+                {
+                    datatrans.UpdateStatus(updateCMd);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                cy.JopId = docid;
+
+                
                 string party = datatrans.GetDataString("Select ID from PARTYRCODE where PARTY='" + cy.Customer + "' ");
                 string partyid = datatrans.GetDataString("Select PARTYMASTID from PARTYMAST where PARTYNAME='" + party + "' ");
 
@@ -122,7 +150,8 @@ namespace Arasan.Services.Sales
 					objCmd.Parameters.Add("ORDTYPE", OracleDbType.NVarchar2).Value = cy.OrderType;
 					objCmd.Parameters.Add("RATETYPE", OracleDbType.NVarchar2).Value = cy.RateType;
 					objCmd.Parameters.Add("RATECODE", OracleDbType.NVarchar2).Value = cy.RateCode;
-					objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value ="ACTIVE";
+                    objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
 					objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
 					try
 					{
@@ -143,7 +172,7 @@ namespace Arasan.Services.Sales
                                      
                                     string UnitId = datatrans.GetDataString("Select UNITMASTID from UNITMAST where UNITID='" + cp.unit + "' ");
 
-                                    if (cp.Isvalid == "Y"  )
+                                    if (cp.Isvalid == "Y" && cp.itemid != "0")
                                     {
                                         svSQL = "Insert into JODETAIL (JOBASICID,QTY,MATSUPP,ITEMID,DCQTY,RATE,AMOUNT,UNIT,ITEMSPEC,PACKSPEC,DISCOUNT,FREIGHTAMT,QDISC,CDISC,IDISC,TDISC,ADISC,SDISC,FREIGHT,TAXTYPE) VALUES ('" + Pid + "','" + cp.orderqty + "','" + cp.matsupply + "','" + cp.itemid + "','" + cp.disqty + "','" + cp.rate + "','" + cp.amount + "','" + UnitId + "','" + cp.itemspec + "','" + cp.packind + "','" + cp.discount + "','" + cp.freightamt + "','" + cp.qtydis + "','" + cp.cashdis + "','" + cp.introdis + "','" + cp.tradedis + "','" + cp.additiondis + "','" + cp.spldis + "','" + cp.freight + "','" + cp.taxtype + "')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
@@ -160,7 +189,7 @@ namespace Arasan.Services.Sales
                                 {
                                    
                                     string UnitId = datatrans.GetDataString("Select UNITMASTID from UNITMAST where UNITID='" + cp.unit + "' ");
-                                    if (cp.Isvalid == "Y"  )
+                                    if (cp.Isvalid == "Y" && cp.itemid != "0")
                                     {
                                         svSQL = "Insert into JODETAIL (JOBASICID,QTY,MATSUPP,ITEMID,DCQTY,RATE,AMOUNT,UNIT,ITEMSPEC,PACKSPEC,DISCOUNT,FREIGHTAMT,QDISC,CDISC,IDISC,TDISC,ADISC,SDISC,FREIGHT,TAXTYPE) VALUES ('" + Pid + "','" + cp.orderqty + "','" + cp.matsupply + "','" + cp.itemid + "','" + cp.disqty + "','" + cp.rate + "','" + cp.amount + "','" + UnitId + "','" + cp.itemspec + "','" + cp.packind + "','" + cp.discount + "','" + cp.freightamt + "','" + cp.qtydis + "','" + cp.cashdis + "','" + cp.introdis + "','" + cp.tradedis + "','" + cp.additiondis + "','" + cp.spldis + "','" + cp.freight + "','" + cp.taxtype + "')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
@@ -212,7 +241,7 @@ namespace Arasan.Services.Sales
         public DataTable GetWorkOrderDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select JOBASICID,QTY,MATSUPP,ITEMMASTER.ITEMID,DCQTY,RATE,AMOUNT,UNITMAST.UNITID,ITEMSPEC,PACKSPEC,DISCOUNT,FREIGHTAMT,QDISC,CDISC,IDISC,TDISC,ADISC,SDISC,FREIGHT,TAXTYPE from JODETAIL left outer join ITEMMASTER ON ITEMMASTER.ITEMMASTERID=JODETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT Where JOBASICID='" + id + "' ";
+            SvSql = "select JOBASICID,QTY,MATSUPP,JODETAIL.ITEMID as item,ITEMMASTER.ITEMID,DCQTY,RATE,AMOUNT,UNITMAST.UNITID,ITEMSPEC,PACKSPEC,DISCOUNT,FREIGHTAMT,QDISC,CDISC,IDISC,TDISC,ADISC,SDISC,FREIGHT,TAXTYPE from JODETAIL left outer join ITEMMASTER ON ITEMMASTER.ITEMMASTERID=JODETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT Where JOBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

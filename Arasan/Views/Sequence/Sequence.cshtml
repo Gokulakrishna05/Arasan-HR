@@ -88,7 +88,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Start Date<label class="mandatory">*</label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Start Date<label class="mandatory"> </label></label>
                                         <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                             @Html.TextBoxFor(C => C.Start, new { @id = "txtStart", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -100,7 +100,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">End Date<label class="mandatory">*</label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">End Date<label class="mandatory"> </label></label>
                                         <div class="input-group date form_dateend col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                             @Html.TextBoxFor(C => C.End, new { @id = "txtEnd", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -199,38 +199,38 @@
                     "background": ""
                 });
             }
-            if (document.getElementById("txtStart").value == "") {
-                isValid = false;
-                $(txtStart).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
+            //if (document.getElementById("txtStart").value == "") {
+            //    isValid = false;
+            //    $(txtStart).css({
+            //        "border": "1px solid red",
+            //        "background": "#FFCECE"
+            //    });
 
-                alert("Please Select Start Date");
-                return false;
-            }
-            else {
-                $(txtStart).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-            if (document.getElementById("txtEnd").value == "") {
-                isValid = false;
-                $(txtEnd).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
+            //    alert("Please Select Start Date");
+            //    return false;
+            //}
+            //else {
+            //    $(txtStart).css({
+            //        "border": "",
+            //        "background": ""
+            //    });
+            //}
+            //if (document.getElementById("txtEnd").value == "") {
+            //    isValid = false;
+            //    $(txtEnd).css({
+            //        "border": "1px solid red",
+            //        "background": "#FFCECE"
+            //    });
 
-                alert("Please Select End Date");
-                return false;
-            }
-            else {
-                $(txtEnd).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
+            //    alert("Please Select End Date");
+            //    return false;
+            //}
+            //else {
+            //    $(txtEnd).css({
+            //        "border": "",
+            //        "background": ""
+            //    });
+            //}
 
         });
 

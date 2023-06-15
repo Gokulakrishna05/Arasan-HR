@@ -14,5 +14,6 @@ namespace Arasan.Interface.Sales
         DataTable GetSatesQuoDetails(string id);
         DataTable GetWorkOrder(string id);
         DataTable GetWorkOrderDetails(string id);
+        DataTable GetTax();
     }
 }

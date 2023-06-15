@@ -32,6 +32,11 @@ namespace Arasan.Controllers.Sales
             ca.Loc = BindLocation();
             ca.Qolst = BindQuotation();
             ca.JopDate = DateTime.Now.ToString("dd-MMM-yyyy");
+            DataTable dtv = datatrans.GetSequence("er");
+            if (dtv.Rows.Count > 0)
+            {
+                ca.JopId = dtv.Rows[0]["PREFIX"].ToString() + "" + dtv.Rows[0]["last"].ToString();
+            }
             List<WorkItem> TData = new List<WorkItem>();
             WorkItem tda = new WorkItem();
             if (id == null)
@@ -39,7 +44,7 @@ namespace Arasan.Controllers.Sales
                 for (int i = 0; i < 3; i++)
                 {
                     tda = new WorkItem();
-
+                    tda.taxlst = BindTax();
                     tda.Isvalid = "Y";
                     TData.Add(tda);
                 }
@@ -135,6 +140,23 @@ namespace Arasan.Controllers.Sales
                     throw ex;
                 }
             }
+        public List<SelectListItem> BindTax()
+        {
+            try
+            {
+                DataTable dtDesg = WorkOrderService.GetTax();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["TAX"].ToString(), Value = dtDesg.Rows[i]["TAXMASTID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<SelectListItem> BindQuotation()
         {
             try
@@ -213,6 +235,7 @@ namespace Arasan.Controllers.Sales
                     {
                         tda = new WorkItem();
                         tda.items = dtt1.Rows[i]["ITEMID"].ToString();
+                        tda.itemid = dtt1.Rows[i]["item"].ToString();
                         tda.unit = dtt1.Rows[i]["UNITID"].ToString();
                         tda.orderqty = dtt1.Rows[i]["QTY"].ToString();
 
@@ -257,7 +280,7 @@ namespace Arasan.Controllers.Sales
                         tda.amount = dtt.Rows[i]["TOTAMT"].ToString();
                         tda.discount = dtt.Rows[i]["DISCAMOUNT"].ToString();
 
-                        tda.itemspec =  " ";
+                        
                         tda.Isvalid = "Y";
                         Data.Add(tda);
                     }
