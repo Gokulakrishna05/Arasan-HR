@@ -17,7 +17,7 @@ namespace Arasan.Controllers
     {
         IProductionLog productionLog;
         IConfiguration? _configuratio;
-        private string? _connectionString;
+        private string? _connectionString; 
 
         DataTransactions datatrans;
         public ProductionLogController(IProductionLog _productionLog, IConfiguration _configuratio)
