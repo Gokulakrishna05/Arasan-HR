@@ -47,6 +47,24 @@
                                     </div>
                                 </div>
                             </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">ProcLotY/N<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group">
+
+                                                @Html.RadioButtonFor(C => C.ProdLog, "YES", new { @TabIndex = 2 })
+                                                <label id="mt-radio">YES</label>&emsp;
+                                                @Html.RadioButtonFor(C => C.ProdLog, "NO", new { @TabIndex = 3 })
+                                                <label id="mt-radio">NO</label>
+
+
+                                            </div><br />
+                                        </div>
+                                    </div>
+                                </div>
                         </div>
 
 
@@ -56,7 +74,7 @@
 
                                   <br />  <label for="inputName3" class="col-sm-4 control-label">Doc ID<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
-                                                                              @Html.TextBoxFor(C => C.DocId, new { @id = "txtDocId", @class = "form-control", @TabIndex = 1 })<br />
+                                      @Html.TextBoxFor(C => C.DocId, new { @id = "txtDocId", @class = "form-control", @TabIndex = 1 })<br />
 
                                     </div>
                                 </div>
@@ -238,26 +256,26 @@
                                 </div>
                             </div>
                         </div>*@
-                         <div class="row">
+                        @* <div class="row">
 
                             <div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">ProcLotY/N<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                     <div class="input-group">
+                                        <div class="input-group">
 
                                                         @Html.RadioButtonFor(C => C.ProdLog, "YES", new { @TabIndex = 2 })
-                                                        <label id="mt-radio">YES</label>
+                                                        <label id="mt-radio">YES</label>&emsp;
                                             @Html.RadioButtonFor(C => C.ProdLog, "NO", new { @TabIndex = 3 })
                                                         <label id="mt-radio">NO</label>
 
 
-                                                    </div><br />
+                                        </div><br />
                                     </div>
                                 </div>
                             </div>
-                                  </div>
+                                  </div>*@
                         <div style="height:30px;"></div>
                         <div class="row">
                             <div class="col-md-12">
@@ -1388,17 +1406,28 @@
                                         <div class="input-group">
 
                                             @Html.RadioButtonFor(C => C.ComplYN, "Y", new { @TabIndex = 2 })
-                                            <label id="mt-radio">YES</label>
+                                            <label id="mt-radio">YES</label>&emsp;
                                                 @Html.RadioButtonFor(C => C.ComplYN, "N", new { @TabIndex = 3 })
                                             <label id="mt-radio">NO</label>
 
 
-                                        </div><br />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                               </div>
-                             <div class="row">
+
+                               <div class="col-md-6">
+                                <div class="form-group">
+
+                                     <label for="inputName3" class="col-sm-4 control-label">Main Value<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.MainValue, new { @id = "txtMainValue", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
+                                    </div>
+                                </div>
+                             </div>
+                          </div>
+                             
+                         <div class="row">
 
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -1419,7 +1448,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                         </div>
                         <div class="row">
 
                             <div class="col-md-6">
@@ -1431,7 +1460,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                        </div>
+                            @*<div class="col-md-6">
                                 <div class="form-group">
 
                                     <br /> <br /><label for="inputName3" class="col-sm-4 control-label">Main Value<label class="Mandatory"></label></label>
@@ -1440,7 +1470,7 @@
                                     </div>
                                 </div>
                             </div>
-                            </div>
+                            </div>*@
                         <div style="height:30px;"></div>
                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" >Submit</button>
                         <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListProductionLog", "ProductionLog")'">Cancel</button>

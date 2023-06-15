@@ -442,23 +442,23 @@
                     "background": ""
                 });
             }
-          @*  if (document.getElementById("txtDocId").value == "") {
+            if (document.getElementById("txtDocNo").value == "") {
                 isValid = false;
-                $(txtDocId).css({
+                $(txtDocNo).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select Doc Id");
+                alert("Please Select Doc No");
                 return false;
             }
             else {
-                $(txtDocId).css({
+                $(txtDocNo).css({
                     "border": "",
                     "background": ""
                 });
             }
-*@
+
             if (document.getElementById("ddlCurrency").value == "" || document.getElementById("ddlCurrency").value == 0) {
                 isValid = false;
                 $(ddlCurrency).css({
@@ -514,6 +514,7 @@
 
     });
 </script>
+
 <script>
 
     function Grup_Change(itemid, i) {
@@ -666,7 +667,7 @@
 
                               }
                         j += 1;
-                    });
+                 });
 
             document.getElementById("txtFrig").value = totfrieght.toFixed(2);
             document.getElementById("gross").value = totamt.toFixed(2);
