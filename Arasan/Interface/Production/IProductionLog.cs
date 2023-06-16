@@ -44,6 +44,8 @@ namespace Arasan.Interface
         DataTable ProBunkDet(string name);
         DataTable ProParamDet(string name);
         DataTable ProProcessDet(string name);
-        
+
+        string StatusChange(string tag, int id);
+
     }
 }
