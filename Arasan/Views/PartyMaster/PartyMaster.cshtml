@@ -85,7 +85,7 @@
                              <div class="col-md-6">
                                 <div class="form-group">
 
-                                                    <label for="inputName3" class="col-sm-4 control-label">Party Category<label class="mandatory"></label></label>
+                                                    <label for="inputName3" class="col-sm-4 control-label">Party Category<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                                         @Html.DropDownListFor(C => C.PartyCategory, Model.Categorylst, new { @id = "ddlPartyCategory", @Class = "form-control _select", autocomplete="off", @TabIndex = 1 })<br />
                                                     </div>
@@ -185,7 +185,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Join Date<label class="Mandatory"></label></label>
+                                                    <label for="inputName3" class="col-sm-4 control-label">Join Date<label class="mandatory">*</label></label>
                                     
                                          <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                                         @Html.TextBoxFor(C => C.JoinDate, new { @id = "JoinDate", @class = "form-control", @TabIndex = 2,@size="30",@readonly=true })
@@ -313,7 +313,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label"> Rate Code<label class="Mandatory"></label></label>
+                                                    <label for="inputName3" class="col-sm-4 control-label"> Rate Code<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                                     @Html.TextBoxFor(C => C.RateCode, new { @id = "RateCode", @class = "form-control", @TabIndex = 1})
                                                     </div>
@@ -324,7 +324,7 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <br /> <label for="inputName3" class="col-sm-4 control-label">Ledger Name<label class="Mandatory"></label></label>
+                                                    <br /> <label for="inputName3" class="col-sm-4 control-label">Ledger Name<label class="mandatory">*</label></label>
                                                     <div class="col-sm-8">
                                                         @Html.DropDownListFor(C => C.Ledger, Model.Ledgerlst," -- Please Select -- ", new { @id = "ddlLedger", @Class = "form-control _select", @TabIndex = 1 })
                                                     </div>

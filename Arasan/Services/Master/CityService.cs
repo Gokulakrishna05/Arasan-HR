@@ -57,7 +57,7 @@ namespace Arasan.Services.Master
         public DataTable Getcountry()
         {
             string SvSql = string.Empty;
-            SvSql = "select COUNTRYNAME,COUNTRYMASTID from CONMAST order by COUNTRYMASTID asc";
+            SvSql = "select COUNTRYNAME,COUNTRYMASTID,CONMAST.STATUS from CONMAST  WHERE CONMAST.STATUS='ACTIVE' order by COUNTRYMASTID ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
