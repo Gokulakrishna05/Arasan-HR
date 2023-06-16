@@ -122,8 +122,17 @@ namespace Arasan.Models
             adapter.Fill(dtt);
             return dtt;
         }
-        
 
+        public DataTable GetMachine()
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select MNAME,MCODE,MACHINEINFOBASICID from MACHINEINFOBASIC ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
 
         public DataTable GetLocation()
         {
@@ -295,6 +304,17 @@ namespace Arasan.Models
         {
             string SvSql = string.Empty;
             SvSql = "select ACCGROUP.ACCOUNTGROUP,ACCGROUP.GROUPCODE,ACCTYPE.ACCOUNTTYPE,ACCTYPE.ACCOUNTCODE,LEDGER.LEDNAME,LEDGER.DISPLAY_NAME,LEDGER.CATEGORY from LEDGER LEFT OUTER JOIN ACCGROUP ON LEDGER.ACCGROUP=ACCGROUP.ACCGROUPID LEFT OUTER JOIN ACCTYPE on ACCTYPE.ACCOUNTTYPEID=ACCGROUP.ACCTYPE  Where ACCGROUP.STATUS='Active' AND LEDGERID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable ShiftDeatils()
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select SHIFTMASTID,SHIFTNO from SHIFTMAST";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
