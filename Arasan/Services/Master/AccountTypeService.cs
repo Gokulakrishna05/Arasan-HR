@@ -64,6 +64,15 @@ namespace Arasan.Services
                         return msg;
                     }
                 }
+                else
+                {
+                    svSQL = " SELECT Count(*) as cnt FROM ACCTYPE WHERE ACCOUNTCODE =LTRIM(RTRIM('" + ss.AccountCode + "')) and ACCOUNTTYPE =LTRIM(RTRIM('" + ss.Accounttype + "'))";
+                    if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "AccountType Already Existed";
+                        return msg;
+                    }
+                }
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {

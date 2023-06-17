@@ -35,7 +35,7 @@ namespace Arasan.Controllers.Master
                 dt = DesignationService.GetDesignation(id);
                 if (dt.Rows.Count > 0)
                 {
-                    //Dp.DeptID = dt.Rows[0]["DeptID"].ToString();
+                    
                     Dp.Design = dt.Rows[0]["DESIGNATION"].ToString();
                     Dp.DeptName = dt.Rows[0]["DEPARTMENT_NAME"].ToString();
 
@@ -69,7 +69,7 @@ namespace Arasan.Controllers.Master
                 {
                     ViewBag.PageTitle = "Edit Designation";
                     TempData["notice"] = Strout;
-                    //return View();
+                   
                 }
 
             }

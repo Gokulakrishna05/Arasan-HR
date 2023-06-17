@@ -88,6 +88,15 @@ namespace Arasan.Services.Master
                         return msg;
                     }
                 }
+                else
+                {
+                    svSQL = " SELECT Count(*) as cnt FROM ITEMSUBGROUP WHERE SGCODE = LTRIM(RTRIM('" + sg.itemSubGroup + "'))";
+                    if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "ItemSubGroup Already Existed";
+                        return msg;
+                    }
+                }
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("ITEMSUBGROUPPROC", objConn);

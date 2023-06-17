@@ -64,6 +64,15 @@ namespace Arasan.Services.Master
                         return msg;
                     }
                 }
+                else
+                {
+                    svSQL = " SELECT Count(*) as cnt FROM DESIGNATIONMAST WHERE DESIGNATION = LTRIM(RTRIM('" + ss.Design + "'))";
+                    if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "Designation Already Existed";
+                        return msg;
+                    }
+                }
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("DesignationPROC", objConn);
@@ -140,7 +149,7 @@ namespace Arasan.Services.Master
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE DESIGNATIONMAST SET STATUS ='ISACTIVE' WHERE DEPT_ID='" + id + "'";
+                    svSQL = "UPDATE DESIGNATIONMAST SET STATUS ='ISACTIVE' WHERE DESIGNATIONMASTID ='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();

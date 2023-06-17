@@ -99,7 +99,15 @@ namespace Arasan.Services.Master
                         return msg;
                     }
                 }
-
+                else
+                {
+                    svSQL = " SELECT Count(*) as cnt FROM WCBASIC WHERE WCID = LTRIM(RTRIM('" + cy.Wid + "'))";
+                    if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "HsnCode Already Existed";
+                        return msg;
+                    }
+                }
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("WCBASICPROC", objConn);

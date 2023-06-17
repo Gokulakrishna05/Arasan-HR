@@ -70,7 +70,16 @@ namespace Arasan.Services
                     svSQL = " SELECT Count(*) as cnt FROM DEPARTMENTMAST WHERE DEPARTMENT_CODE = LTRIM(RTRIM('" + ss.Departmentcode + "')) and DEPARTMENT_NAME = LTRIM(RTRIM('" + ss.DepartmentName + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
-                        msg = "Department Already Existed";
+                        msg = "DEPARTMENT_CODE Already Existed";
+                        return msg;
+                    }
+                }
+                else
+                {
+                    svSQL = " SELECT Count(*) as cnt FROM DEPARTMENTMAST WHERE DEPARTMENT_CODE = LTRIM(RTRIM('" + ss.Departmentcode + "')) and DEPARTMENT_NAME = LTRIM(RTRIM('" + ss.DepartmentName + "'))";
+                    if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "DEPARTMENT_CODE Already Existed";
                         return msg;
                     }
                 }
