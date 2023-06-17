@@ -47,10 +47,8 @@ namespace Arasan.Services.Master
                             EmailId = rdr["ECMAILID"].ToString(),
                             PhoneNo = rdr["ECPHNO"].ToString(),
                             FatherName = rdr["FATHERNAME"].ToString(),
-                            MotherName = rdr["MOTHERNAME"].ToString(),
+                            MotherName = rdr["MOTHERNAME"].ToString()
                             
-
-
                         };
                         cmpList.Add(cmp);
                     }
@@ -75,7 +73,19 @@ namespace Arasan.Services.Master
                 if (cy.ID == null)
                 {
 
+ 
                     svSQL = " SELECT Count(*) as cnt FROM EMPMAST WHERE EMPNAME = LTRIM(RTRIM('" + cy.EmpNo + "')) ";
+ 
+                     if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "Employee Already Existed";
+                        return msg;
+                    }
+                }
+                else
+                {
+                    svSQL = " SELECT Count(EMPNAME) as cnt FROM EMPMAST WHERE EMPNAME = LTRIM(RTRIM('" + cy.EmpNo + "'))  ";
+ 
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "Employee Already Existed";

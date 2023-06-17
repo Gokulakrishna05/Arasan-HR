@@ -48,7 +48,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Location Name<label class="mandatory">*</label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Location ID<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                         @Html.TextBoxFor(C => C.LocationId, new { @id = "txtLocationId", @class = "form-control", @TabIndex = 1 })<br />
                                             @Html.HiddenFor(C => C.ID)
@@ -57,6 +57,17 @@
 
                                     </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">E-mail <label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.EmailId, new { @id = "txtEmailId", @class = "form-control", @TabIndex = 1 ,@Type="email"})<br />
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
                               @*  <div class="col-md-6">
                                     <div class="form-group">
 
@@ -68,13 +79,13 @@
 
                                     </div>
                             </div>*@
-                            </div>
+                          
                             <div class="row">
                                
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Location Type<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Location Type<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                         @Html.TextBoxFor(C => C.LocType, new { @id = "txtLocationType", @class = "form-control", @TabIndex = 1 })<br />
                                           
@@ -82,7 +93,17 @@
 
                                     </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Phone No <label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.PhoneNo, new { @id = "txtPhoneNo",onkeydown = "return isNumeric2(event.keyCode,this.value)", @maxlength="10", @class = "form-control", @TabIndex = 1 })<br />
+                                        </div>
+
+                                    </div>
                                 </div>
+                            </div>
                               @*  <div class="col-md-6">
                                     <div class="form-group">
 
@@ -112,7 +133,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Contact Person<label class="Mandatory"></label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Contact Person<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                         @Html.TextBoxFor(C => C.ContactPer, new { @id = "txtContactPer", @class = "form-control", @TabIndex = 1 })<br />
                                         </div>
@@ -122,15 +143,25 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
+                                        <label for="inputName3" class="col-sm-4 control-label">Address<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextAreaFor(C => C.Address, new { @id = "txtAddress", @class = "form-control", @TabIndex = 1 })<br />
+                                        </div>
+
+                                    </div>
+                                </div>
+                               @* <div class="col-md-6">
+                                    <div class="form-group">
+
                                         <label for="inputName3" class="col-sm-4 control-label">Phone No <label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.PhoneNo, new { @id = "txtPhoneNo",onkeydown = "return isNumeric2(event.keyCode,this.value)", @maxlength="10", @class = "form-control", @TabIndex = 1 })<br />
                                         </div>
 
                                     </div>
-                                </div>
+                                </div>*@
                             </div>
-                            <div class="row">
+                           @* <div class="row">
 
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -152,7 +183,7 @@
 
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
                             @* <div class="row">
 
                                 <div class="col-md-6">

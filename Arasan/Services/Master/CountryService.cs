@@ -89,6 +89,15 @@ namespace Arasan.Services.Master
                         return msg;
                     }
                 }
+                else
+                {
+                    svSQL = " SELECT Count(*) as cnt FROM CONMAST WHERE COUNTRYNAME = LTRIM(RTRIM('" + cy.ConName + "')) and COUNTRYCODE = LTRIM(RTRIM('" + cy.ConCode + "'))";
+                    if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "Country Already Existed";
+                        return msg;
+                    }
+                }
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("COUNTRYPROC", objConn);

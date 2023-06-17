@@ -6,6 +6,7 @@ using System.Xml.Linq;
 using Arasan.Interface;
 using Arasan.Interface.Production;
 using Arasan.Models;
+using Arasan.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -17,7 +18,7 @@ namespace Arasan.Controllers
     {
         IProductionLog productionLog;
         IConfiguration? _configuratio;
-        private string? _connectionString;
+        private string? _connectionString; 
 
         DataTransactions datatrans;
         public ProductionLogController(IProductionLog _productionLog, IConfiguration _configuratio)
@@ -1294,6 +1295,22 @@ namespace Arasan.Controllers
         {
             IEnumerable<ProductionLog> cmp = productionLog.GetAllProductionLog();
             return View(cmp);
+        }
+
+        public ActionResult DeleteMR(string tag, int id)
+        {
+
+            string flag = productionLog.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListProductionLog");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListProductionLog");
+            }
         }
     }
 }

@@ -738,6 +738,16 @@ public class ProductionEntryService : IProductionEntry
         adapter.Fill(dtt);
         return dtt;
     }
+    public DataTable GetAPWorkCenter()
+    {
+        string SvSql = string.Empty;
+        SvSql = "select * from WCBASIC where WCID like 'AP %' AND ACTIVE='Yes'";
+        DataTable dtt = new DataTable();
+        OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        adapter.Fill(dtt);
+        return dtt;
+    }
     public DataTable EditProEntry(string PROID)
     {
         string SvSql = string.Empty;
@@ -793,6 +803,16 @@ public class ProductionEntryService : IProductionEntry
     {
         string SvSql = string.Empty;
         SvSql = "select WLOCATION,NPRODWASTEDETID,ITEMMASTER.ITEMID,WBINID,LOCDETAILS.LOCID,WQTY,WBATCHNO from NPRODWASTEDET LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=NPRODWASTEDET.WITEMID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=NPRODWASTEDET.WLOCATION   WHERE NPRODBASICID =" + PROID + "";
+        DataTable dtt = new DataTable();
+        OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        adapter.Fill(dtt);
+        return dtt;
+    }
+    public DataTable GetMachineDetails(string id)
+    {
+        string SvSql = string.Empty;
+        SvSql = "Select MNAME,MCODE,MTYPE,MACHINEINFOBASICID from MACHINEINFOBASIC where MACHINEINFOBASICID='" + id + "' ";
         DataTable dtt = new DataTable();
         OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
         OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

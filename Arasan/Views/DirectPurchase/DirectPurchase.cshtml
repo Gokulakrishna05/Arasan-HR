@@ -46,7 +46,21 @@
                                     </div>
                                 </div>
                             </div>
-                           </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Ref. Date<label class="Mandatory"></label></label>
+
+                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                            @Html.TextBoxFor(C => C.RefDate, new { @id = "RefDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                        </div>
+
+                           
 
                         <div style="height:30px;"></div>
                         <div class="row">
@@ -122,9 +136,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div style="height:30px;"></div>
+                            @*  <div style="height:30px;"></div>
                         <div class="row">
-                         @*   <div class="col-md-6">
+                           <div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">Ref. No<label class="Mandatory"></label></label>
@@ -133,7 +147,7 @@
                                     </div>
                                 </div>
                             </div>*@
-                            <div class="col-md-6">
+                            @*<div class="col-md-6">
                                 <div class="form-group">
                                     <label for="inputName3" class="col-sm-4 control-label">Ref. Date<label class="Mandatory"></label></label>
 
@@ -145,7 +159,7 @@
 
                               
                             </div>
-                        </div>
+                        </div>*@
 
                         <div style="height:30px;"></div>
                         <div class="row">
@@ -404,9 +418,11 @@
     </div>
 </div>
 <script>
+
     $(function () {
         $('._select').select2();
     });
+
     $(document).ready(function () {
         $('#btnSave').click(function (e) {
             var isValid = true;
@@ -442,23 +458,23 @@
                     "background": ""
                 });
             }
-          @*  if (document.getElementById("txtDocId").value == "") {
+            if (document.getElementById("txtDocNo").value == "") {
                 isValid = false;
-                $(txtDocId).css({
+                $(txtDocNo).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select Doc Id");
+                alert("Please Select Doc No");
                 return false;
             }
             else {
-                $(txtDocId).css({
+                $(txtDocNo).css({
                     "border": "",
                     "background": ""
                 });
             }
-*@
+
             if (document.getElementById("ddlCurrency").value == "" || document.getElementById("ddlCurrency").value == 0) {
                 isValid = false;
                 $(ddlCurrency).css({
@@ -514,6 +530,7 @@
 
     });
 </script>
+
 <script>
 
     function Grup_Change(itemid, i) {
@@ -666,7 +683,7 @@
 
                               }
                         j += 1;
-                    });
+                 });
 
             document.getElementById("txtFrig").value = totfrieght.toFixed(2);
             document.getElementById("gross").value = totamt.toFixed(2);

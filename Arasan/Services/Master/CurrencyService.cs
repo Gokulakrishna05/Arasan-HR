@@ -83,9 +83,19 @@ namespace Arasan.Services.Master
                     svSQL = " SELECT Count(*) as cnt FROM CURRENCY WHERE MAINCURR = LTRIM(RTRIM('" + cy.CurrencyName + "')) and SYMBOL = LTRIM(RTRIM('" + cy.CurrencyCode + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
-                        msg = "Currency Already Existed";
+                        msg = "Currency or Symbol Already Existed";
                         return msg;
                     }
+                }
+                else
+                {
+                    svSQL = " SELECT Count(*) as cnt FROM CURRENCY WHERE MAINCURR = LTRIM(RTRIM('" + cy.CurrencyName + "')) and SYMBOL = LTRIM(RTRIM('" + cy.CurrencyCode + "'))";
+                    if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "Currency or Symbol Already Existed";
+                        return msg;
+                    }
+
                 }
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {

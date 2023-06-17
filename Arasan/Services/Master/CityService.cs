@@ -57,7 +57,7 @@ namespace Arasan.Services.Master
         public DataTable Getcountry()
         {
             string SvSql = string.Empty;
-            SvSql = "select COUNTRYNAME,COUNTRYMASTID from CONMAST order by COUNTRYMASTID asc";
+            SvSql = "select COUNTRYNAME,COUNTRYMASTID,CONMAST.STATUS from CONMAST  WHERE CONMAST.STATUS='ACTIVE' order by COUNTRYMASTID ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -108,6 +108,16 @@ namespace Arasan.Services.Master
                         msg = "City Already Existed";
                         return msg;
                     }
+                }
+                else
+                {
+                    svSQL = " SELECT Count(*) as cnt FROM CITYMASTER WHERE CITYNAME = LTRIM(RTRIM('" + ss.Cit + "')) ";
+                    if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "City Already Existed";
+                        return msg;
+                    }
+
                 }
                 string StaName = datatrans.GetDataString("Select STATE from STATEMAST where STATEMASTID='" + ss.State + "' ");
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
