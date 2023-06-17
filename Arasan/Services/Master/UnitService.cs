@@ -62,7 +62,15 @@ namespace Arasan.Services
                         return msg;
                     }
                 }
-
+                else
+                {
+                    svSQL = " SELECT Count(*) as cnt FROM UNITMAST WHERE UNITID = LTRIM(RTRIM('" + cy.UnitName + "'))";
+                    if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "Unit Already Existed";
+                        return msg;
+                    }
+                }
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("UNIT_PROC", objConn);
