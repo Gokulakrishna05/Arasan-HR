@@ -8,7 +8,7 @@ namespace Arasan.Interface.Store_Management
     public interface IDirectAddition
     {
         string DirectAdditionCRUD(DirectAddition by);
-        IEnumerable<DirectAddition> GetAllDirectAddition();
+        IEnumerable<DirectAddition> GetAllDirectAddition(string status);
         //DirectAddition GetDirectAdditionById(string id);
         DataTable GetLocation();
         DataTable GetBranch();

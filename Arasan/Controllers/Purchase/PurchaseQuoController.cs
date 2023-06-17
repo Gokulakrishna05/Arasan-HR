@@ -134,9 +134,9 @@ namespace Arasan.Controllers
 
             return View(Cy);
         }
-        public IActionResult ListPurchaseQuo()
+        public IActionResult ListPurchaseQuo(string status)
         {
-            IEnumerable<PurchaseQuo> cmp = PurquoService.GetAllPurQuotation();
+            IEnumerable<PurchaseQuo> cmp = PurquoService.GetAllPurQuotation(status);
             return View(cmp);
         }
         public ActionResult SendMail(string id)
@@ -311,6 +311,23 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+        public List<SelectListItem> BindEmployee()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetEmp();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["EMPNAME"].ToString(), Value = dtDesg.Rows[i]["EMPNAME"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<SelectListItem> BindSupplier()
         {
             try
@@ -429,7 +446,7 @@ namespace Arasan.Controllers
         public IActionResult Followup(string id)
         {
             QuoFollowup cmp = new QuoFollowup();
-            cmp.EnqassignList = BindEmp();
+            cmp.EnqassignList = BindEmployee();
             List<QuotationFollowupDetails> TData = new List<QuotationFollowupDetails>();
             if (id == null)
             {
@@ -439,6 +456,7 @@ namespace Arasan.Controllers
             {
                 if (!string.IsNullOrEmpty(id))
                 {
+                    cmp.Quoteid = id;
                     DataTable dt = new DataTable();
                      dt = PurquoService.GetPurchaseQuoDetails(id);
                     if (dt.Rows.Count > 0)
@@ -456,7 +474,7 @@ namespace Arasan.Controllers
                         for (int i = 0; i < dtt.Rows.Count; i++)
                         {
                             tda = new QuotationFollowupDetails();
-                            tda.Followby = dtt.Rows[i]["EMPNAME"].ToString();
+                            tda.Followby = dtt.Rows[i]["FOLLOWED_BY"].ToString();
                             tda.Followdate = dtt.Rows[i]["FOLLOW_DATE"].ToString();
                             tda.Nfdate = dtt.Rows[i]["NEXT_FOLLOW_DATE"].ToString();
                             tda.Rmarks = dtt.Rows[i]["REMARKS"].ToString();
@@ -492,7 +510,7 @@ namespace Arasan.Controllers
                     {
                         TempData["notice"] = "Followup Updated Successfully...!";
                     }
-                    return RedirectToAction("Followup");
+                    
                 }
 
                 else
@@ -501,8 +519,8 @@ namespace Arasan.Controllers
                     TempData["notice"] = Strout;
                     //return View();
                 }
+                return RedirectToAction("Followup", new { id = Pf.Quoteid });
 
-            
             }
             catch (Exception ex)
             {

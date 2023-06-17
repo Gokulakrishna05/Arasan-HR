@@ -323,9 +323,9 @@ namespace Arasan.Controllers
 
             return RedirectToAction("ListPurchaseQuo");
         }
-        public IActionResult ListEnquiry()
+        public IActionResult ListEnquiry(string status)
         {
-            IEnumerable<PurchaseEnquiry> cmp = PurenqService.GetAllPurenquriy();
+            IEnumerable<PurchaseEnquiry> cmp = PurenqService.GetAllPurenquriy(status);
             return View(cmp);
         }
         public List<SelectListItem> BindBranch()
@@ -519,6 +519,7 @@ namespace Arasan.Controllers
             {
                 if (!string.IsNullOrEmpty(id))
                 {
+                    cmp.Enqid = id;
                     DataTable dt = new DataTable();
                     dt = PurenqService.GetPurchaseEnqFolwDetails(id);
                     if (dt.Rows.Count > 0)
@@ -526,17 +527,17 @@ namespace Arasan.Controllers
                         cmp.Enqno = dt.Rows[0]["ENQNO"].ToString();
                         cmp.Supname = dt.Rows[0]["PARTY"].ToString();
                     }
-                    DataTable dt1 = new DataTable();
-                    dt1 = PurenqService.GetFollowupDetail(id);
-                    if (dt1.Rows.Count > 0)
-                    {
-                        cmp.Enqno = dt1.Rows[0]["ENQNO"].ToString();
-                        cmp.Followby = dt1.Rows[0]["FOLLOWED_BY"].ToString();
-                        cmp.Followdate = dt1.Rows[0]["FOLLOW_DATE"].ToString();
-                        cmp.Nfdate = dt1.Rows[0]["NEXT_FOLLOW_DATE"].ToString();
-                        cmp.Rmarks = dt1.Rows[0]["REMARKS"].ToString();
-                        cmp.Enquiryst = dt1.Rows[0]["FOLLOW_STATUS"].ToString();
-                    }
+                    //DataTable dt1 = new DataTable();
+                    //dt1 = PurenqService.GetFollowupDetail(id);
+                    //if (dt1.Rows.Count > 0)
+                    //{
+                    //    cmp.Enqno = dt1.Rows[0]["ENQNO"].ToString();
+                    //    cmp.Followby = dt1.Rows[0]["EMPNAME"].ToString();
+                    //    cmp.Followdate = dt1.Rows[0]["FOLLOW_DATE"].ToString();
+                    //    cmp.Nfdate = dt1.Rows[0]["NEXT_FOLLOW_DATE"].ToString();
+                    //    cmp.Rmarks = dt1.Rows[0]["REMARKS"].ToString();
+                    //    cmp.Enquiryst = dt1.Rows[0]["FOLLOW_STATUS"].ToString();
+                    //}
                     DataTable dtt = new DataTable();
                     string e = cmp.Enqno;
                     dtt = PurenqService.GetFolowup(e);
@@ -576,11 +577,11 @@ namespace Arasan.Controllers
 
             try
             {
-                Pf.ID = id;
+                Pf.FoID = id;
                 string Strout = PurenqService.PurchaseFollowupCRUD(Pf);
                 if (string.IsNullOrEmpty(Strout))
                 {
-                    if (Pf.ID == null)
+                    if (Pf.FoID == null)
                     {
                         TempData["notice"] = "Followup Inserted Successfully...!";
                     }
@@ -588,7 +589,7 @@ namespace Arasan.Controllers
                     {
                         TempData["notice"] = "Followup Updated Successfully...!";
                     }
-                    return RedirectToAction("Followup");
+                    
                 }
 
                 else
@@ -605,7 +606,7 @@ namespace Arasan.Controllers
                 throw ex;
             }
 
-            return View(Pf);
+            return RedirectToAction("Followup", new { id = Pf.Enqid });
         }
 
         public IActionResult POFollowup()

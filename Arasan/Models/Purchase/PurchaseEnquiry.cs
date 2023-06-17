@@ -31,6 +31,7 @@ namespace Arasan.Models
 
         public string Supplier { get; set; }
         public string Status { get; set; }
+        public string Active { get; set; }
 
         public List<SelectListItem> Suplst;
 
@@ -54,7 +55,7 @@ namespace Arasan.Models
     }
     public class PurchaseFollowup
     {
-        public string ID { get; set; }
+        public string FoID { get; set; }
         public string Enqno { get; set; }
         public string Supname { get; set; }
         public string Enqdate { get; set; }
@@ -62,6 +63,7 @@ namespace Arasan.Models
         public string Enquiryst { get; set; }
         public string Followdate { get; set; }
         public string Nfdate { get; set; }
+        public string Enqid { get; set; }
         public string Rmarks { get; set; }
         public List<SelectListItem> EnqassignList;
 

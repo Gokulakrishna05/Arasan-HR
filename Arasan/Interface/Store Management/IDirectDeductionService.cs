@@ -8,7 +8,7 @@ namespace Arasan.Interface.Store_Management
     {
 
         string DirectDeductionCRUD(DirectDeduction by);
-        IEnumerable<DirectDeduction> GetAllDirectDeduction();
+        IEnumerable<DirectDeduction> GetAllDirectDeduction(string status);
         //DirectDeduction GetDirectDeductionById(string id);
         DataTable GetLocation();
         DataTable GetBranch();

@@ -2,6 +2,9 @@
 
 @{
     ViewData["Title"] = "DirectAddition";
+    string query = ViewContext.HttpContext.Request.Query["status"];
+    string Pid = string.Empty;
+    if (!string.IsNullOrEmpty(query)) { Pid = ViewContext.HttpContext.Request.Query["status"]; }
 }
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
@@ -21,6 +24,13 @@
 
                     <form>
                         <div class="row">
+                            <div class="col-md-6">
+                                <select style='width: 200px;' class='form-control  newcss' id="dllstatus" onchange="changeStatus(this.value)">
+                                    <option value='ACTIVE'>Open</option>
+                                    <option value='ISACTIVE'>Close</option>
+                                    @*<option value='InActive'>Disabled</option>*@
+                                </select>
+                            </div>
                             <div class="col-md-12 ">
                                 <div class=" textalignright">
                                     <a href="@Url.Action("DirectAddition","DirectAddition")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add DirectAddition</a>
@@ -60,10 +70,20 @@
                                                                     
                                                                     <td>@Html.DisplayFor(modelItem => item.DocId)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.Docdate)</td>
+                                                                    @if (item.status == "ISACTIVE")
+                                                                    {
+                                                                        <td></td>
+                                                                        <td> </td> 
 
+
+
+                                                                    }
+                                                                    else
+                                                                    {
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("DirectAddition", "DirectAddition",new { id=item.ID })"></a></div></td>
-                                                                    <td> <a href="@Url.Action("DeleteMR","DirectAddition",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
-                                                               </tr>
+                                                                      <td> <a href="@Url.Action("DeleteMR","DirectAddition",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
+                                                                     }         
+                                                                    </tr>
                                                                 i++;
                                                             }
                                                         }
@@ -127,5 +147,26 @@
 
 
 
+    });
+    function changeStatus(status) {
+        var url = "/DirectAddition/ListDirectAddition?status=" + status;
+        window.location.href = url;
+        //$.ajax({
+        //    url: 'AssignSession',
+        //    data: { "status": status },
+        //    type: "GET",
+        //    success: function (result) {
+        //        document.getElementById("hdstatus").value = result;
+        //    },
+        //    error: function () {
+        //        alert("Data Not Found");
+        //    }
+        //});
+        //window.location.reload();
+
+    }
+    $(document).ready(function () {
+        var val2 = "@Pid";
+        $('#dllstatus').val(val2);
     });
 </script>

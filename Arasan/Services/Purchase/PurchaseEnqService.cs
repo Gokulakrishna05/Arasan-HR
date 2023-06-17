@@ -100,8 +100,13 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        public IEnumerable<PurchaseEnquiry> GetAllPurenquriy()
+        public IEnumerable<PurchaseEnquiry> GetAllPurenquriy(string status)
         {
+
+            if (string.IsNullOrEmpty(status))
+            {
+                status = "YES";
+            }
             List<PurchaseEnquiry> cmpList = new List<PurchaseEnquiry>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
@@ -109,7 +114,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,ENQNO,to_char(ENQDATE,'dd-MON-yyyy') ENQDATE,EXCRATERATE,PARTYREFNO,CURRENCYID,PARTYRCODE.PARTY,PURENQID,PURENQ.STATUS from PURENQ LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PURENQ.BRANCHID LEFT OUTER JOIN  PARTYMAST on PURENQ.PARTYMASTID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH') ORDER BY PURENQID DESC";
+                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,ENQNO,to_char(ENQDATE,'dd-MON-yyyy') ENQDATE,EXCRATERATE,PARTYREFNO,CURRENCYID,PARTYRCODE.PARTY,PURENQID,PURENQ.STATUS,PURENQ.ACTIVE from PURENQ LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PURENQ.BRANCHID LEFT OUTER JOIN  PARTYMAST on PURENQ.PARTYMASTID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND PURENQ.ACTIVE='" + status + "' ORDER BY PURENQID DESC";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -123,7 +128,9 @@ namespace Arasan.Services
                             ParNo = rdr["PARTYREFNO"].ToString(),
                             Cur = rdr["CURRENCYID"].ToString(),
                             Supplier = rdr["PARTY"].ToString(),
-                            Status= rdr["STATUS"].ToString()
+                            Status= rdr["STATUS"].ToString(),
+                              Active = rdr["ACTIVE"].ToString()
+
 
                         };
                         cmpList.Add(cmp);
@@ -320,39 +327,39 @@ namespace Arasan.Services
 
             return msg;
         }
-        public IEnumerable<PurchaseFollowup> GetAllPurchaseFollowup()
-        {
-            List<PurchaseFollowup> cmpList = new List<PurchaseFollowup>();
-            using (OracleConnection con = new OracleConnection(_connectionString))
-            {
+        //public IEnumerable<PurchaseFollowup> GetAllPurchaseFollowup()
+        //{
+        //    List<PurchaseFollowup> cmpList = new List<PurchaseFollowup>();
+        //    using (OracleConnection con = new OracleConnection(_connectionString))
+        //    {
 
-                using (OracleCommand cmd = con.CreateCommand())
-                {
-                    con.Open();
-                    cmd.CommandText = "Select ENQ_ID,EMPMAST.EMPNAME,to_char(FOLLOW_DATE,'dd-MON-yyyy')FOLLOW_DATE,to_char(NEXT_FOLLOW_DATE,'dd-MON-yyyy')NEXT_FOLLOW_DATE,REMARKS,FOLLOW_STATUS,ENQ_FOLLOW_ID from ENQUIRY_FOLLOW_UP LEFT OUTER JOIN EMPMAST ON EMPMASTID=ENQUIRY_FOLLOW_UP.FOLLOWED_BY";
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
-                    {
-                        PurchaseFollowup cmp = new PurchaseFollowup
-                        {
-                            ID = rdr["ENQ_FOLLOW_ID"].ToString(),
-                            Enqno = rdr["ENQ_ID"].ToString(),
-                            Followby = rdr["EMPNAME"].ToString(),
-                            Followdate = rdr["FOLLOW_DATE"].ToString(),
-                            Nfdate = rdr["NEXT_FOLLOW_DATE"].ToString(),
-                            Rmarks = rdr["REMARKS"].ToString(),
-                            Enquiryst = rdr["FOLLOW_STATUS"].ToString()
-                        };
-                        cmpList.Add(cmp);
-                    }
-                }
-            }
-            return cmpList;
-        }
+        //        using (OracleCommand cmd = con.CreateCommand())
+        //        {
+        //            con.Open();
+        //            cmd.CommandText = "Select ENQ_ID,EMPMAST.EMPNAME,to_char(FOLLOW_DATE,'dd-MON-yyyy')FOLLOW_DATE,to_char(NEXT_FOLLOW_DATE,'dd-MON-yyyy')NEXT_FOLLOW_DATE,REMARKS,FOLLOW_STATUS,ENQ_FOLLOW_ID from ENQUIRY_FOLLOW_UP LEFT OUTER JOIN EMPMAST ON EMPMASTID=ENQUIRY_FOLLOW_UP.FOLLOWED_BY";
+        //            OracleDataReader rdr = cmd.ExecuteReader();
+        //            while (rdr.Read())
+        //            {
+        //                PurchaseFollowup cmp = new PurchaseFollowup
+        //                {
+        //                    FoID = rdr["ENQ_FOLLOW_ID"].ToString(),
+        //                    Enqno = rdr["ENQ_ID"].ToString(),
+        //                    Followby = rdr["EMPNAME"].ToString(),
+        //                    Followdate = rdr["FOLLOW_DATE"].ToString(),
+        //                    Nfdate = rdr["NEXT_FOLLOW_DATE"].ToString(),
+        //                    Rmarks = rdr["REMARKS"].ToString(),
+        //                    Enquiryst = rdr["FOLLOW_STATUS"].ToString()
+        //                };
+        //                cmpList.Add(cmp);
+        //            }
+        //        }
+        //    }
+        //    return cmpList;
+        //}
         public DataTable GetFolowup(string enqid)
         {
             string SvSql = string.Empty;
-            SvSql = "Select ENQUIRY_FOLLOW_UP.ENQ_ID,ENQUIRY_FOLLOW_UP.FOLLOWED_BY,to_char(ENQUIRY_FOLLOW_UP.FOLLOW_DATE,'dd-MON-yyyy')FOLLOW_DATE,to_char(ENQUIRY_FOLLOW_UP.NEXT_FOLLOW_DATE,'dd-MON-yyyy')NEXT_FOLLOW_DATE,ENQUIRY_FOLLOW_UP.REMARKS,ENQUIRY_FOLLOW_UP.FOLLOW_STATUS,ENQ_FOLLOW_ID from ENQUIRY_FOLLOW_UP LEFT OUTER JOIN EMPMAST ON EMPNAME=ENQUIRY_FOLLOW_UP.FOLLOWED_BY  WHERE ENQ_ID='" + enqid + "'";
+            SvSql = "Select ENQUIRY_FOLLOW_UP.ENQ_ID,EMPMAST.EMPNAME,to_char(ENQUIRY_FOLLOW_UP.FOLLOW_DATE,'dd-MON-yyyy')FOLLOW_DATE,to_char(ENQUIRY_FOLLOW_UP.NEXT_FOLLOW_DATE,'dd-MON-yyyy')NEXT_FOLLOW_DATE,ENQUIRY_FOLLOW_UP.REMARKS,ENQUIRY_FOLLOW_UP.FOLLOW_STATUS,ENQ_FOLLOW_ID from ENQUIRY_FOLLOW_UP LEFT OUTER JOIN EMPMAST ON EMPNAME=ENQUIRY_FOLLOW_UP.FOLLOWED_BY  WHERE ENQ_ID='" + enqid + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -360,17 +367,17 @@ namespace Arasan.Services
             return dtt;
         
         }
-        public DataTable GetFollowupDetail(string enqid)
-        {
-            string SvSql = string.Empty;
-            SvSql = "Select ENQUIRY_FOLLOW_UP.ENQ_ID,EMPMAST.EMPNAME,to_char(ENQUIRY_FOLLOW_UP.FOLLOW_DATE,'dd-MON-yyyy')FOLLOW_DATE,to_char(ENQUIRY_FOLLOW_UP.NEXT_FOLLOW_DATE,'dd-MON-yyyy')NEXT_FOLLOW_DATE,ENQUIRY_FOLLOW_UP.REMARKS,ENQUIRY_FOLLOW_UP.FOLLOW_STATUS,ENQ_FOLLOW_ID from ENQUIRY_FOLLOW_UP left outer join EMPMAST on EMPMASTID=ENQUIRY_FOLLOW_UP.FOLLOWED_BY  WHERE ENQ_ID='" + enqid + "'";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
+        //public DataTable GetFollowupDetail(string enqid)
+        //{
+        //    string SvSql = string.Empty;
+        //    SvSql = "Select ENQUIRY_FOLLOW_UP.ENQ_ID,EMPMAST.EMPNAME,to_char(ENQUIRY_FOLLOW_UP.FOLLOW_DATE,'dd-MON-yyyy')FOLLOW_DATE,to_char(ENQUIRY_FOLLOW_UP.NEXT_FOLLOW_DATE,'dd-MON-yyyy')NEXT_FOLLOW_DATE,ENQUIRY_FOLLOW_UP.REMARKS,ENQUIRY_FOLLOW_UP.FOLLOW_STATUS,ENQ_FOLLOW_ID from ENQUIRY_FOLLOW_UP left outer join EMPMAST on EMPMASTID=ENQUIRY_FOLLOW_UP.FOLLOWED_BY  WHERE ENQ_ID='" + enqid + "'";
+        //    DataTable dtt = new DataTable();
+        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
 
-        }
+        //}
         //public PurchaseFollowup GetPurchaseFollowupById(string eid)
         //{
         //    PurchaseFollowup PurchaseFollowup = new PurchaseFollowup();
@@ -416,7 +423,7 @@ namespace Arasan.Services
                     objCmd.CommandText = "PURCHASEFOLLOWPROC";*/
 
                     objCmd.CommandType = CommandType.StoredProcedure;
-                    if (cy.ID == null)
+                    if (cy.FoID == null)
                     {
                         StatementType = "Insert";
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
@@ -424,7 +431,7 @@ namespace Arasan.Services
                     else
                     {
                         StatementType = "Update";
-                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.FoID;
                     }
 
                     objCmd.Parameters.Add("ENQ_ID", OracleDbType.NVarchar2).Value = cy.Enqno;
@@ -554,7 +561,7 @@ namespace Arasan.Services
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE PURENQ SET STATUS ='2' WHERE PURENQID='" + id + "'";
+                    svSQL = "UPDATE PURENQ SET ACTIVE ='NO' WHERE PURENQID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();

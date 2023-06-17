@@ -77,6 +77,7 @@ namespace Arasan.Models
 
         public string qty { get; set; }
         public string batch { get; set; }
+        public string batchno { get; set; }
         public Double Rate { get; set; }
         public Double Amount { get; set; }
         public string Isvalid { get; set; }

@@ -2,6 +2,9 @@
 
 @{
     ViewData["Title"] = "Purchase Order";
+    string query = ViewContext.HttpContext.Request.Query["status"];
+    string Pid = string.Empty;
+    if (!string.IsNullOrEmpty(query)) { Pid = ViewContext.HttpContext.Request.Query["status"]; }
 }
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
@@ -21,7 +24,15 @@
                 <div class="widgets-container">
                   
                     <form>
-
+                        <div class="row">
+                            <div class="col-md-6">
+                                <select style='width: 200px;' class='form-control  newcss' id="dllstatus" onchange="changeStatus(this.value)">
+                                    <option value='Yes'>Open</option>
+                                    <option value='No'>Close</option>
+                                    @*<option value='InActive'>Disabled</option>*@
+                                </select>
+                            </div>
+                            </div>
 
 <div class="row">
           <div class="col-lg-12">
@@ -62,6 +73,17 @@
                                                                             <td>@Html.DisplayFor(modelItem => item.POdate)</td>
                                                                             <td>@Html.DisplayFor(modelItem => item.QuoteNo)</td>
                                                                             <td>@Html.DisplayFor(modelItem => item.Cur)</td>
+
+                                                                    @if (item.Active == "No")
+                                                                    {
+                                                                        <td></td>
+                                                                        <td> </td>
+                                                                        <td></td>
+                                                                        <td> </td>
+                                                                        
+                                                                    }
+                                                                    else
+                                                                    {
                                                                             <td><div class="fa-hover col-md-2 col-sm-4"> <a href="#"><img src='../Images/pdf.png' alt='Generate PO' width='20'/></a></div></td>  
                                                                             @if(string.IsNullOrEmpty(item.Status))
                                                                         {
@@ -77,6 +99,7 @@
 
                                                                 <td></td>
                                                                 <td></td>
+                                                                 }
                                                                  }
                                                                    
 
@@ -162,4 +185,26 @@
                                 });
                                 $(".fancybox1").eq(0).trigger('click');
                             }
+                                                          
+    function changeStatus(status) {
+        var url = "/PO/ListPO?status=" + status;
+        window.location.href = url;
+        //$.ajax({
+        //    url: 'AssignSession',
+        //    data: { "status": status },
+        //    type: "GET",
+        //    success: function (result) {
+        //        document.getElementById("hdstatus").value = result;
+        //    },
+        //    error: function () {
+        //        alert("Data Not Found");
+        //    }
+        //});
+        //window.location.reload();
+
+    }
+    $(document).ready(function () {
+        var val2 = "@Pid";
+        $('#dllstatus').val(val2);
+    });
                         </script>

@@ -2,6 +2,9 @@
 
 @{
     ViewData["Title"] = "WorkOrder";
+    string query = ViewContext.HttpContext.Request.Query["status"];
+    string Pid = string.Empty;
+    if (!string.IsNullOrEmpty(query)) { Pid = ViewContext.HttpContext.Request.Query["status"]; }
 }
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
@@ -20,8 +23,15 @@
                 <div class="widgets-container">
 
                     <form>
-                        <div class="row">
-
+                      
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <select style='width: 200px;' class='form-control  newcss' id="dllstatus" onchange="changeStatus(this.value)">
+                                        <option value='ACTIVE'>Open</option>
+                                        <option value='IS_ACTIVE'>Close</option>
+                                        @*<option value='InActive'>Disabled</option>*@
+                                    </select>
+                                </div>
                             <div class="col-md-12 ">
                                 <div class=" textalignright">
                                     <a href="@Url.Action("WorkOrder","WorkOrder")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add WorkOrder</a>
@@ -47,7 +57,7 @@
                                                             <th>Customer</th>
                                                             <th>Short Close</th>
                                                             <th>Edit</th>
-                                                            <th>Delete</th>
+                                                            <th>Close</th>
                                                         </tr>
                                                     </thead>
 
@@ -65,11 +75,23 @@
                                                                     <td>@Html.DisplayFor(modelItem => item.Location)</td>
 
                                                                     <td>@Html.DisplayFor(modelItem => item.Customer)</td>
+                                                                        @if (item.status == "IS_ACTIVE")
+                                                                        {
+                                                                            <td></td>
+                                                                            <td> </td>
+                                                                            <td></td>
+                                                                           
+
+
+                                                                        }
+                                                                        else
+                                                                        {
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a aria-hidden="true" href="@Url.Action("WorkOrderShortClose", "WorkOrderShortClose",new { id=item.ID })"><img src='../Images/close_icon.png' alt='close' /></a></div></td>
 
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("WorkOrder", "WorkOrder",new { id=item.ID })"></a></div></td>
                                                                     <td> <a href="@Url.Action("DeleteOrder","WorkOrder",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
-                                                                </tr>
+                                                                        }
+                                                                    </tr>
                                                                 i++;
                                                             }
                                                         }
@@ -117,5 +139,26 @@
 
 
 
+    });
+    function changeStatus(status) {
+        var url = "/WorkOrder/ListWorkOrder?status=" + status;
+        window.location.href = url;
+        //$.ajax({
+        //    url: 'AssignSession',
+        //    data: { "status": status },
+        //    type: "GET",
+        //    success: function (result) {
+        //        document.getElementById("hdstatus").value = result;
+        //    },
+        //    error: function () {
+        //        alert("Data Not Found");
+        //    }
+        //});
+        //window.location.reload();
+
+    }
+    $(document).ready(function () {
+        var val2 = "@Pid";
+        $('#dllstatus').val(val2);
     });
 </script>

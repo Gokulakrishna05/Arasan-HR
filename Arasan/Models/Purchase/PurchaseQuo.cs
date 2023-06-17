@@ -28,6 +28,7 @@ namespace Arasan.Models
         public string assignid { get; set; }
         public string Currency { get; set; }
         public string ExRate { get; set; }
+        public string Active { get; set; }
 
         public List<SelectListItem> Curlst;
         public List<QoItem> QoLst;
@@ -80,7 +81,7 @@ namespace Arasan.Models
         public string Rmarks { get; set; }
         public List<SelectListItem> EnqassignList;
 
-
+        public string Quoteid { get; set; }
         public List<QuotationFollowupDetails> qflst { get; set; }
 
     }

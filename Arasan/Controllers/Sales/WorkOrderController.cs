@@ -118,9 +118,9 @@ namespace Arasan.Controllers.Sales
 
             return View(Cy);
         }
-        public IActionResult ListWorkOrder()
+        public IActionResult ListWorkOrder(string status)
         {
-            IEnumerable<WorkOrder> cmp = WorkOrderService.GetAllWorkOrder();
+            IEnumerable<WorkOrder> cmp = WorkOrderService.GetAllWorkOrder(status);
             return View(cmp);
         }
         public List<SelectListItem> BindCurrency()
@@ -278,9 +278,21 @@ namespace Arasan.Controllers.Sales
 
                         tda.rate = dtt.Rows[i]["RATE"].ToString();
                         tda.amount = dtt.Rows[i]["TOTAMT"].ToString();
-                        tda.discount = dtt.Rows[i]["DISCAMOUNT"].ToString();
-
-                        
+                        tda.discount ="0";
+                        tda.itemspec ="0";
+                        tda.freight = "0";
+                        tda.freightamt ="0";
+                        tda.disqty =  "0";
+                        tda.packind = "0";
+                        tda.matsupply = "0";
+                       
+                        tda.introdis = "0";
+                        tda.cashdis = "0";
+                        tda.spldis = "0";
+                        tda.taxtype = "0'";
+                        tda.tradedis ="0";
+                        tda.qtydis = "0";
+                        tda.additiondis = "0";
                         tda.Isvalid = "Y";
                         Data.Add(tda);
                     }
@@ -292,5 +304,6 @@ namespace Arasan.Controllers.Sales
             return Json(model.Worklst);
 
         }
+       
     }
 }

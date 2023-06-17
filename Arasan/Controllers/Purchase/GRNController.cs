@@ -292,9 +292,9 @@ namespace Arasan.Controllers
             IEnumerable<POItem> cmp = GRNService.GetAllGRNItem(id);
             return View(cmp);
         }
-        public IActionResult ListGRN()
+        public IActionResult ListGRN(string status)
         {
-            IEnumerable<GRN> cmp = GRNService.GetAllGRN();
+            IEnumerable<GRN> cmp = GRNService.GetAllGRN(status);
             return View(cmp);
         }
         public IActionResult GRNAccount(string id)

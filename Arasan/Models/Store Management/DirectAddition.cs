@@ -14,7 +14,7 @@ namespace Arasan.Models
         public List<SelectListItem> assignList;
         public string Entered { get; set; }
         public string Narr { get; set; }
-
+        public string status { get; set; }
 
         public DirectAddition()
         {

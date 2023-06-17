@@ -362,9 +362,9 @@ namespace Arasan.Controllers.Store_Management
         //    return items;
 
         //}
-        public IActionResult ListMaterialRequisition()
+        public IActionResult ListMaterialRequisition(string status)
         {
-            IEnumerable<MaterialRequisition> cmp = materialReq.GetAllMaterial();
+            IEnumerable<MaterialRequisition> cmp = materialReq.GetAllMaterial(status);
             return View(cmp);
         }
 
