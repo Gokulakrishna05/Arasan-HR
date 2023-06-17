@@ -131,8 +131,12 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        public IEnumerable<MaterialRequisition> GetAllMaterial()
+        public IEnumerable<MaterialRequisition> GetAllMaterial(string status)
         {
+            if (string.IsNullOrEmpty(status))
+            {
+                status = "OPEN";
+            }
             List<MaterialRequisition> cmpList = new List<MaterialRequisition>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
@@ -140,7 +144,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,STORESREQBASIC.DOCID,to_char(STORESREQBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,LOCDETAILS.LOCID,PROCESSID,REQTYPE,STORESREQBASICID,STORESREQBASIC.STATUS from STORESREQBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=STORESREQBASIC.BRANCHID LEFT OUTER JOIN  LOCDETAILS on STORESREQBASIC.FROMLOCID=LOCDETAILS.LOCDETAILSID where STORESREQBASIC.STATUS='OPEN' order by STORESREQBASICID desc";
+                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,STORESREQBASIC.DOCID,to_char(STORESREQBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,LOCDETAILS.LOCID,PROCESSID,REQTYPE,STORESREQBASICID,STORESREQBASIC.STATUS from STORESREQBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=STORESREQBASIC.BRANCHID LEFT OUTER JOIN  LOCDETAILS on STORESREQBASIC.FROMLOCID=LOCDETAILS.LOCDETAILSID where STORESREQBASIC.STATUS='"+ status +"' order by STORESREQBASICID desc";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {

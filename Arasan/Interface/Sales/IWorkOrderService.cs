@@ -7,7 +7,7 @@ namespace Arasan.Interface.Sales
 {
     public interface IWorkOrderService
     {
-        IEnumerable<WorkOrder> GetAllWorkOrder();
+        IEnumerable<WorkOrder> GetAllWorkOrder(string status);
         DataTable GetQuo();
         string WorkOrderCRUD(WorkOrder cy);
         DataTable GetQuoDetails(string id);

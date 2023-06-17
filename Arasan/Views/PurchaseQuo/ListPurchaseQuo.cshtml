@@ -2,6 +2,9 @@
 
 @{
     ViewData["Title"] = "Purchase Quotation";
+    string query = ViewContext.HttpContext.Request.Query["status"];
+    string Qid = string.Empty;
+    if (!string.IsNullOrEmpty(query)) { Qid = ViewContext.HttpContext.Request.Query["status"]; }
 }
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
@@ -21,6 +24,15 @@
                 <div class="widgets-container">
 
                     <form>
+                        <div class="row">
+                        <div class="col-md-6">
+                            <select style='width: 200px;' class='form-control  newcss' id="dllstatus" onchange="changeStatus(this.value)">
+                                <option value='Yes'>Open</option>
+                                <option value='No'>Close</option>
+                          @*  <option value='InActive'>Disabled</option>*@
+                            </select>
+                        </div>
+                        </div>
                         @*<div class="row">
                             <div class="col-md-12 ">
                                 <div class=" textalignright">
@@ -70,9 +82,17 @@
                                                                     <td>@Html.DisplayFor(modelItem => item.EnqNo)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.QuoId)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.DocDate)</td>
+                                                                    @if (item.Active == "No")
+                                                                    {
+                                                                        <td></td>
+                                                                        <td> </td>
+                                                                        <td></td>
+                                                                        <td> </td>
+                                                                        <td> </td>
+                                                                    }
                                                                    
-                                                                   
-                                                            @* <td>₹</td>*@
+                                                          else
+                                                          {
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("SendMail", "PurchaseQuo",new { id=item.ID })"><img src='../Images/mail_icon.png' alt='Send Email' /></a></div></td>
                                                                     <td> <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("Followup", "PurchaseQuo",new { id=item.ID })"><img src='../Images/followup.png' alt='FollowUp' /> - (1)</a></div></td>
                                                             @if(item.status == "Generated")
@@ -83,50 +103,16 @@
                                                                  }
                                                                     else{
                                                                          <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewQuote", "PurchaseQuo",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20'/></a></div></td>
-                                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("PurchaseQuo", "PurchaseQuo",new { id=item.ID })"></a></div></td>
+                                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("PurchaseQuotation", "PurchaseQuo",new { id=item.ID })"></a></div></td>
                                                                         <td> <a href="@Url.Action("DeleteMR","PurchaseQuo",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
+                                                                 }
                                                                  }
                                                             
                                                         </tr>
                                                                 i++; 
                                                             }
                                                         }
-                                                      @*  <tr>
-                                                            <td>(TAAI)SVK - FACTORY</td>
-                                                            <td>Supplier 2</td>
-                                                            <td>ENQ-000002/22-23</td>
-                                                            <td>QUOT-000002/22-23</td>
-                                                            <td>26-Aug-2022</td>
-                                                            @* <td>₹</td>
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a href="#"><img src='../Images/mail2.png' alt='Email Sent' /></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("PurchaseQuotationFollowup", "PurchaseEnq")"><img src='../Images/followup.png' alt='FollowUp' /> - (1)</a></div></td>
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Purchase_Quotations", "PurchaseEnq")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("Purchase_Quotations", "PurchaseEnq")"></a></div></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>(TAAI)SVK - FACTORY</td>
-                                                            <td>Supplier 1</td>
-                                                            <td>ENQ-000003/22-23</td>
-                                                            <td>QUOT-000003/22-23</td>
-                                                            <td>09-Sep-2022</td>
-                                                            @* <td>₹</td>
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a href="#"><img src='../Images/mail_icon.png' alt='Send Email' /></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("PurchaseQuotationFollowup", "PurchaseEnq")"><img src='../Images/followup.png' alt='FollowUp' /> - (1)</a></div></td>
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Purchase_Quotations", "PurchaseEnq")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("Purchase_Quotations", "PurchaseEnq")"></a></div></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>(TAAI)SVK - FACTORY</td>
-                                                            <td>Supplier 3</td>
-                                                            <td>ENQ-000004/22-23</td>
-                                                            <td>QUOT-000004/22-23</td>
-                                                            <td>12-Sep-2022</td>
-                                                            @* <td>₹</td>
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a href="#"><img src='../Images/mail_icon.png' alt='Send Email' /></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("PurchaseQuotationFollowup", "PurchaseEnq")"><img src='../Images/followup.png' alt='FollowUp' /> - (1)</a></div></td>
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Purchase_Quotations", "PurchaseEnq")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("Purchase_Quotations", "PurchaseEnq")"></a></div></td>
-                                                    </tr>*@
+                                                     
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -204,4 +190,25 @@ afterClose : function() {
                                 });
                                 $(".fancybox1").eq(0).trigger('click');
                             }
+    function changeStatus(status) {
+        var url = "/PurchaseQuo/ListPurchaseQuo?status=" + status;
+        window.location.href = url;
+        //$.ajax({
+        //    url: 'AssignSession',
+        //    data: { "status": status },
+        //    type: "GET",
+        //    success: function (result) {
+        //        document.getElementById("hdstatus").value = result;
+        //    },
+        //    error: function () {
+        //        alert("Data Not Found");
+        //    }
+        //});
+        //window.location.reload();
+
+    }
+    $(document).ready(function () {
+        var val2 = "@Qid";
+        $('#dllstatus').val(val2);
+    });
                         </script>

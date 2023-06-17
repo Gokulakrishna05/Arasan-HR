@@ -159,9 +159,9 @@ namespace Arasan.Controllers.Store_Management
 
             return View(ss);
         }
-        public IActionResult ListDirectAddition()
+        public IActionResult ListDirectAddition(string status)
         {
-            IEnumerable<DirectAddition> sta = DirectAdditionService.GetAllDirectAddition();
+            IEnumerable<DirectAddition> sta = DirectAdditionService.GetAllDirectAddition(status);
             return View(sta);
         }
         public List<SelectListItem> BindLocation()

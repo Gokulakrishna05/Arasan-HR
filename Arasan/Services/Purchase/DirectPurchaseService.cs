@@ -43,15 +43,7 @@ namespace Arasan.Services
                             Location = rdr["LOCID"].ToString(),
                             Currency = rdr["MAINCURR"].ToString(),
                             Narration = rdr["NARR"].ToString()
-                            // Gross = rdr["GROSS"].ToString(),
-                            // net = rdr["NET"].ToString(),
-                            // Frig = rdr["FREIGHT"].ToString(),
-                            // Other = rdr["OTHERCH"].ToString(),
-                            // Round = rdr["RNDOFF"].ToString(),
-                            // SpDisc = rdr["OTHERDISC"].ToString(),
-                            // LRCha = rdr["LRCH"].ToString(),
-                            // DelCh = rdr["DELCH"].ToString()
-
+                            
 
 
                         };
@@ -137,9 +129,9 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
                     objCmd.Parameters.Add("PARTYID", OracleDbType.NVarchar2).Value = cy.Supplier;
                     objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.DocNo;
-                    objCmd.Parameters.Add("DOCDATE", OracleDbType.Date).Value = DateTime.Parse(cy.DocDate);
+                    objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = cy.DocDate;
                     objCmd.Parameters.Add("VOUCHER", OracleDbType.NVarchar2).Value = cy.Voucher;
-                    objCmd.Parameters.Add("REFDT", OracleDbType.Date).Value = DateTime.Parse(cy.RefDate);
+                    objCmd.Parameters.Add("REFDT", OracleDbType.NVarchar2).Value = cy.RefDate;
                     objCmd.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = cy.Location;
                     objCmd.Parameters.Add("MAINCURRENCY", OracleDbType.NVarchar2).Value = cy.Currency;
                     objCmd.Parameters.Add("GROSS", OracleDbType.NVarchar2).Value = cy.Gross;
@@ -200,30 +192,7 @@ namespace Arasan.Services
                                 }
                             }
                         }
-                        //foreach (DirItem cp in cy.DirLst)
-                        //{
-                        //    if (cp.Isvalid == "Y" && cp.saveItemId != "0")
-                        //    {
-                        //        using (OracleConnection objConnT = new OracleConnection(_connectionString))
-                        //        {
-                        //            string Sql = string.Empty;
-                        //            if (StatementType == "Update")
-                        //            {
-                        //                Sql = "Update DPDETAIL SET  QTY= '" + cp.Quantity + "',RATE= '" + cp.rate + "',CF='" + cp.ConFac + "',AMOUNT='" + cp.Amount + "',DISCAMOUNT='" + cp.DiscAmount + "',PURTYPE='" + cp.PurType + "',IFREIGHTCH='" + cp.FrigCharge + "',TOTAMT='" + cp.TotalAmount + "'  where DPBASICID='" + cy.ID + "'  AND ITEMID='" + cp.saveItemId + "' ";
-                        //            }
-                        //            else
-                        //            {
-                        //                Sql = "";
-                        //            }
-                        //            OracleCommand objCmds = new OracleCommand(Sql, objConnT);
-                        //            objConnT.Open();
-                        //            objCmds.ExecuteNonQuery();
-                        //            objConnT.Close();
-                        //        }
-                        //    }
-
-
-                        //}
+                       
                     }
                     catch (Exception ex)
                     {

@@ -62,7 +62,7 @@
 
                                                     <tbody>
                                                         @{
-                                                            int i = 1;
+                                                            
 
                                                             foreach (var item in Model)
                                                             {
@@ -78,7 +78,7 @@
                                                                     <td> <a href="@Url.Action("DeleteMR","Employee",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
 
                                                                 </tr>
-                                                                i++;
+                                                                
                                                             }
                                                          }
 

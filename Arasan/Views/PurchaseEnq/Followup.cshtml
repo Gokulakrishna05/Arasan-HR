@@ -33,7 +33,7 @@
                                                 <label for="inputName3" class="col-sm-4 control-label">Enquiry ID <label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
                                                   @Html.TextBoxFor(C => C.Enqno, new { @id = "Enqno", @class = "form-control", @TabIndex = 2,@readonly="readonly" })
-                                                  @Html.HiddenFor(C => C.ID)
+                                            @Html.HiddenFor(C => C.Enqid)
                                                 </div>
                                             </div>
                                         </div>
@@ -53,6 +53,7 @@
                                                 <label for="inputName3" class="col-sm-4 control-label">Followed By<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.Followby,Model.EnqassignList, new { @id = "Followby", @Class = "form-control chosen-select", @TabIndex = 2 })
+                                            @Html.HiddenFor(C => C.FoID)
                                                 </div>
                                             </div>
                                         </div>
@@ -105,7 +106,7 @@
                                     </div>
                             <div style="height:30px;"></div>
                             <button type="submit" class="btn aqua m-t-xs bottom15-xs">Submit</button>
-                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("Followup", "PurchaseEnq")'">Cancel</button>
+                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListEnquiry", "PurchaseEnq")'">Cancel</button>
 
 
                             <div class="row">
@@ -124,8 +125,8 @@
                                                                 <th>Next Follow Date</th>
                                                                 <th>Enquiry Status</th>
                                                                 <th>Remarks</th>
-                                                                <th>Edit</th>
-                                                                <th>Delete</th>
+                                                              @*  <th>Edit</th>
+                                                                <th>Delete</th>*@
 
                                                             </tr>
                                                         </thead>
@@ -138,41 +139,25 @@
                                                                 {
                                                                     <tr>
 
-                                                                        <td>@Html.DisplayFor(modelItem => item.Followby)
-                                                                            @Html.HiddenFor(C => C.ID)
+                                                                        <td>
+                                                                            @Html.HiddenFor(C => C.FoID)
+                                                                        @Html.DisplayFor(modelItem => item.Followby)
+                                                                          
                                                                         </td>
                                                                         <td>@Html.DisplayFor(modelItem => item.Followdate)</td>
                                                                         <td>@Html.DisplayFor(modelItem => item.Nfdate)</td>
                                                                        
                                                                         <td>@Html.DisplayFor(modelItem => item.Enquiryst)</td>
                                                                         <td>@Html.DisplayFor(modelItem => item.Rmarks)</td>
-                                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Followup", "PurchaseEnq", new { id=item.ID })"></a></div></td>
-                                                                        <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("Followup", "PurchaseEnq", new { id=item.ID })"></a></div></td>
+                                                                        @*<td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Followup", "PurchaseEnq", new { id=item.ID })"></a></div></td>
+                                                                        <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("Followup", "PurchaseEnq", new { id=item.ID })"></a></div></td>*@
 
                                                                     </tr>
                                                                     i++;
                                                                 }
                                                             }
 
-                                                            @*
-                                                        <tr>
-                                                        <td>2</td>
-                                                        <td>Anitha</td>
-                                                        <td>09-Sep-2022</td>
-                                                        <td>22-Sep-2022</td>
-                                                        <td>Remarks</td>s
-                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("PurchaseFollowup", "PurchaseEnq")"></a></div></td>
-                                                        <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("PurchaseFollowup", "PurchaseEnq")"></a></div></td>
-                                                        </tr>
-                                                        <tr>
-                                                        <td>3</td>
-                                                        <td>Anitha</td>
-                                                        <td>09-Sep-2022</td>
-                                                        <td>22-Sep-2022</td>
-                                                        <td>Remarks</td>
-                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("PurchaseFollowup", "PurchaseEnq")"></a></div></td>
-                                                        <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("PurchaseFollowup", "PurchaseEnq")"></a></div></td>
-                                                        </tr>*@
+                                                          
                                                         </tbody>
                                                     </table>
                                                 </div>

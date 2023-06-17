@@ -38,6 +38,11 @@ namespace Arasan.Controllers.Production
             ca.Applst = BindEmp();
             ca.Itemlst = BindItemlst("");
             ca.Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
+            DataTable dtv = datatrans.GetSequence("DIE");
+            if (dtv.Rows.Count > 0)
+            {
+                ca.Docid = dtv.Rows[0]["PREFIX"].ToString() + "" + dtv.Rows[0]["last"].ToString();
+            }
             List<DrumIssueEntryItem> TData = new List<DrumIssueEntryItem>();
             DrumIssueEntryItem tda = new DrumIssueEntryItem();
             if (id == null)
@@ -448,6 +453,7 @@ namespace Arasan.Controllers.Production
 
                     tda.qty = dtDrum.Rows[i]["QTY"].ToString();
                     tda.batch = dtDrum.Rows[i]["BATCHNO"].ToString();
+                    
                     tda.Rate = Convert.ToDouble(dtDrum.Rows[0]["BATCHRATE"].ToString() == "" ? "0" : dtDrum.Rows[0]["BATCHRATE"].ToString());
                     tda.Amount = Convert.ToDouble(dtDrum.Rows[0]["AMOUNT"].ToString() == "" ? "0" : dtDrum.Rows[0]["AMOUNT"].ToString());
 
@@ -474,6 +480,7 @@ namespace Arasan.Controllers.Production
 
                     tda.drum = dtt.Rows[i]["DRUM_NO"].ToString();
                     tda.batch = dtt.Rows[i]["BATCHNO"].ToString();
+                    tda.batchno = dtt.Rows[i]["batch"].ToString();
                     tda.qty = dtt.Rows[i]["QTY"].ToString();
                    
 

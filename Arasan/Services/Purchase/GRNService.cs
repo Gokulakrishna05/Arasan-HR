@@ -16,8 +16,12 @@ namespace Arasan.Services
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
         }
 
-        public IEnumerable<GRN> GetAllGRN()
+        public IEnumerable<GRN> GetAllGRN(string status)
         {
+            if (string.IsNullOrEmpty(status))
+            {
+                status = "Yes";
+            }
             List<GRN> cmpList = new List<GRN>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
@@ -25,7 +29,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,GRNBLBASIC.DOCID,to_char(GRNBLBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,GRNBLBASIC.EXRATE,CURRENCY.MAINCURR,PARTYRCODE.PARTY,GRNBLBASIC.GRNBLBASICID,GRNBLBASIC.STATUS,POBASIC.DOCID as PONO,GRNBLBASIC.IS_ACTIVE from GRNBLBASIC LEFT OUTER JOIN POBASIC ON POBASIC.POBASICID=GRNBLBASIC.POBASICID LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=GRNBLBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on POBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=GRNBLBASIC.MAINCURRENCY LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND GRNBLBASIC.IS_ACTIVE='Yes' ORDER BY GRNBLBASIC.GRNBLBASICID DESC";
+                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,GRNBLBASIC.DOCID,to_char(GRNBLBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,GRNBLBASIC.EXRATE,CURRENCY.MAINCURR,PARTYRCODE.PARTY,GRNBLBASIC.GRNBLBASICID,GRNBLBASIC.STATUS,POBASIC.DOCID as PONO,GRNBLBASIC.IS_ACTIVE from GRNBLBASIC LEFT OUTER JOIN POBASIC ON POBASIC.POBASICID=GRNBLBASIC.POBASICID LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=GRNBLBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on POBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=GRNBLBASIC.MAINCURRENCY LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND GRNBLBASIC.IS_ACTIVE='" + status +"' ORDER BY GRNBLBASIC.GRNBLBASICID DESC";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -39,7 +43,8 @@ namespace Arasan.Services
                             ExRate = rdr["EXRATE"].ToString(),
                             Cur = rdr["MAINCURR"].ToString(),
                             Supplier = rdr["PARTY"].ToString(),
-                            Status = rdr["STATUS"].ToString()
+                            Status = rdr["STATUS"].ToString(),
+                            Active = rdr["IS_ACTIVE"].ToString()
 
                         };
                         cmpList.Add(cmp);

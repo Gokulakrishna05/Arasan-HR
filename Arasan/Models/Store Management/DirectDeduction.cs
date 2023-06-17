@@ -21,10 +21,10 @@ namespace Arasan.Models
         public string Entered { get; set; }
         public string Narr { get; set; }
         public string NoDurms { get; set; }
-       
+
+        public string status { get; set; }
 
 
-       
         public string Branch { get; set; }
 
         public List<SelectListItem> Brlst;

@@ -47,6 +47,7 @@ namespace Arasan.Models
 
         public string Supplier { get; set; }
         public string Status { get; set; }
+        public string Active { get; set; }
 
         public List<SelectListItem> Suplst;
 

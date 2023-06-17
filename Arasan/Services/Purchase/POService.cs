@@ -16,8 +16,12 @@ namespace Arasan.Services
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
         }
-        public IEnumerable<PO> GetAllPO()
+        public IEnumerable<PO> GetAllPO(string status)
         {
+            if (string.IsNullOrEmpty(status))
+            {
+                status = "Yes";
+            }
             List<PO> cmpList = new List<PO>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
@@ -25,7 +29,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,POBASIC.DOCID,to_char(POBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,POBASIC.EXRATE,CURRENCY.MAINCURR,PARTYRCODE.PARTY,POBASICID,POBASIC.STATUS,PURQUOTBASIC.DOCID as Quotno,POBASIC.IS_ACTIVE from POBASIC LEFT OUTER JOIN PURQUOTBASIC ON PURQUOTBASIC.PURQUOTBASICID=POBASIC.QUOTNO LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=POBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on POBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=POBASIC.MAINCURRENCY LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH') and POBASIC.IS_ACTIVE='Yes' ORDER BY POBASIC.POBASICID DESC";
+                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,POBASIC.DOCID,to_char(POBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,POBASIC.EXRATE,CURRENCY.MAINCURR,PARTYRCODE.PARTY,POBASICID,POBASIC.STATUS,PURQUOTBASIC.DOCID as Quotno,POBASIC.IS_ACTIVE from POBASIC LEFT OUTER JOIN PURQUOTBASIC ON PURQUOTBASIC.PURQUOTBASICID=POBASIC.QUOTNO LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=POBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on POBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=POBASIC.MAINCURRENCY LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH') and POBASIC.IS_ACTIVE='"+ status +"' ORDER BY POBASIC.POBASICID DESC";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -39,8 +43,8 @@ namespace Arasan.Services
                             ExRate = rdr["EXRATE"].ToString(),
                             Cur = rdr["MAINCURR"].ToString(),
                             Supplier = rdr["PARTY"].ToString(),
-                            Status = rdr["STATUS"].ToString()
-
+                            Status = rdr["STATUS"].ToString(),
+                               Active = rdr["IS_ACTIVE"].ToString(),
                         };
                         cmpList.Add(cmp);
                     }

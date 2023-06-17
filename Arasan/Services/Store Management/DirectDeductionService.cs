@@ -18,8 +18,12 @@ namespace Arasan.Services.Store_Management
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
         }
-        public IEnumerable<DirectDeduction> GetAllDirectDeduction()
+        public IEnumerable<DirectDeduction> GetAllDirectDeduction(string status)
         {
+            if (string.IsNullOrEmpty(status))
+            {
+                status = "Yes";
+            }
             List<DirectDeduction> staList = new List<DirectDeduction>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
@@ -28,7 +32,7 @@ namespace Arasan.Services.Store_Management
                 {
                     con.Open();
 
-                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,LOCDETAILS.LOCID,DOCID,to_char(DEDBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,DCNO,REASON,GROSS,ENTBY,NARRATION,NOOFD,DEDBASICID ,DEDBASIC.IS_ACTIVE from DEDBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=DEDBASIC.BRANCHID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=DEDBASIC.LOCID WHERE DEDBASIC.IS_ACTIVE= 'Yes'";
+                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,LOCDETAILS.LOCID,DOCID,to_char(DEDBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,DCNO,REASON,GROSS,ENTBY,NARRATION,NOOFD,DEDBASICID ,DEDBASIC.IS_ACTIVE from DEDBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=DEDBASIC.BRANCHID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=DEDBASIC.LOCID WHERE DEDBASIC.IS_ACTIVE= '"+ status +"'";
 
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
@@ -46,6 +50,7 @@ namespace Arasan.Services.Store_Management
                             Entered = rdr["ENTBY"].ToString(),
                             Narr = rdr["NARRATION"].ToString(),
                             NoDurms = rdr["NOOFD"].ToString(),
+                            status = rdr["IS_ACTIVE"].ToString(),
                         };
                         staList.Add(sta);
                     }
