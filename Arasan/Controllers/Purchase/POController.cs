@@ -170,9 +170,9 @@ namespace Arasan.Controllers
 
             return View(Cy);
         }
-        public IActionResult ListPO()
+        public IActionResult ListPO(string status)
         {
-            IEnumerable<PO> cmp = PoService.GetAllPO();
+            IEnumerable<PO> cmp = PoService.GetAllPO(status);
             return View(cmp);
         }
         public IActionResult ListGateInWard(string fromdate,string todate)

@@ -135,6 +135,15 @@ namespace Arasan.Services.Master
                         return msg;
                     }
                 }
+                else
+                {
+                    svSQL = " SELECT Count(*) as cnt FROM ITEMMASTER WHERE ITEMID =LTRIM(RTRIM('" + ss.Item + "')) and ITEMCODE =LTRIM(RTRIM('" + ss.ItemCode + "'))";
+                    if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "Item Already Existed";
+                        return msg;
+                    }
+                }
 
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))

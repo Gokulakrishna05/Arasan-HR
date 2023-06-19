@@ -52,7 +52,7 @@ namespace Arasan.Services.Production
         public DataTable GetStockDetails(string id,string item)
         {
             string SvSql = string.Empty;
-            SvSql = "select  SUM(QTY) as SUM_QTY  from DRUM_STOCK where LOCID= '" + id + "' AND ITEMID = '" + item + "'";
+            SvSql = "select  SUM(QTY) as SUM_QTY  from DRUM_STOCK where BALANCE_QTY  > 0 AND LOCID= '" + id + "' AND ITEMID = '" + item + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -117,6 +117,22 @@ namespace Arasan.Services.Production
             try
             {
                 string StatementType = string.Empty; string svSQL = "";
+                datatrans = new DataTransactions(_connectionString);
+
+
+                int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'DIE#' AND ACTIVESEQUENCE = 'T'");
+                string docid = string.Format("{0}{1}", "DIE#", (idc + 1).ToString());
+
+                string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='DIE#' AND ACTIVESEQUENCE ='T'";
+                try
+                {
+                    datatrans.UpdateStatus(updateCMd);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                cy.Docid = docid;
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("DIEBASICPROC", objConn);
@@ -132,7 +148,7 @@ namespace Arasan.Services.Production
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                     }
                     objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.Docid;
-                    objCmd.Parameters.Add("DOCDATE", OracleDbType.Date).Value = DateTime.Parse(cy.Docdate);
+                    objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = cy.Docdate;
                     objCmd.Parameters.Add("BRANCH", OracleDbType.NVarchar2).Value = cy.Branch;
                     objCmd.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cy.Itemid;
                     objCmd.Parameters.Add("FROMLOC", OracleDbType.NVarchar2).Value = cy.FromLoc;
@@ -187,7 +203,7 @@ namespace Arasan.Services.Production
                                     objCmds.Parameters.Add("NDRUMNO", OracleDbType.NVarchar2).Value = DrumID;
                                     objCmds.Parameters.Add("DRUMNO", OracleDbType.NVarchar2).Value = ca.drum;
                                     objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = ca.qty;
-                                    objCmds.Parameters.Add("BATCHNO", OracleDbType.NVarchar2).Value = ca.batch;
+                                    objCmds.Parameters.Add("BATCHNO", OracleDbType.NVarchar2).Value = ca.batchno;
                                     //objCmds.Parameters.Add("BATCHRATE", OracleDbType.NVarchar2).Value = ca.Rate;
                                     //objCmds.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = ca.Amount;
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
@@ -197,7 +213,7 @@ namespace Arasan.Services.Production
                                 }
 
 
-                                DataTable dt = datatrans.GetData("Select INVENTORY_ITEM_ID,ITEMID,IN_DATE,DRUM_ID,DRUM_NO,TSOURCEID,STOCKTRANSTYPE,LOCID,QTY,BALANCE_QTY,OUT_ID,BATCHNO,BATCH_QTY,ISPRODINV,DRUM_STOCK_ID from DRUM_STOCK where DRUM_STOCK.DRUM_ID='" + ca.drum + "'");
+                                DataTable dt = datatrans.GetData("Select INVENTORY_ITEM_ID,ITEMID,IN_DATE,DRUM_ID,DRUM_NO,TSOURCEID,STOCKTRANSTYPE,LOCID,QTY,BALANCE_QTY,OUT_ID,BATCHNO,BATCH_QTY,ISPRODINV,DRUM_STOCK_ID from DRUM_STOCK where DRUM_STOCK.DRUM_NO='" + ca.drum + "'");
 
                               
                                 //double qty = ca.Qty;
@@ -333,7 +349,7 @@ namespace Arasan.Services.Production
         public DataTable GetDrumStockDetail(string id,string item)
         {
             string SvSql = string.Empty;
-            SvSql = "select DRUM_NO,DRUM_ID ,BATCHNO,QTY from DRUM_STOCK where BALANCE_QTY  > 0 AND LOCID= '" + id + "' AND ITEMID ='" + item + "'";
+            SvSql = "select DRUM_NO,DRUM_ID ,DRUM_STOCK.BATCHNO,BATCHNO as batch,QTY from DRUM_STOCK where BALANCE_QTY  > 0 AND LOCID= '" + id + "' AND ITEMID ='" + item + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

@@ -160,9 +160,9 @@ namespace Arasan.Controllers.Store_Management
 
             return View(ss);
         } 
-        public IActionResult ListDirectDeduction()
+        public IActionResult ListDirectDeduction(string status)
         {
-            IEnumerable<DirectDeduction> sta = DirectDeductionService.GetAllDirectDeduction();
+            IEnumerable<DirectDeduction> sta = DirectDeductionService.GetAllDirectDeduction(status);
             return View(sta);
         }
         public List<SelectListItem> BindLocation()

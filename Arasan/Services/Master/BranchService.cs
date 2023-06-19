@@ -116,7 +116,20 @@ namespace Arasan.Services
                         return msg;
                     }
                 }
+
                 //string StaName = datatrans.GetDataString("Select STATE from STATEMAST where STATEMASTID='" + cy.StateName + "' ");
+
+                else
+                {
+                    svSQL = " SELECT Count(*) as cnt FROM BRANCHMAST WHERE BRANCHID =LTRIM(RTRIM('" + cy.BranchName + "'))";
+                    if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "Branch Already Existed";
+                        return msg;
+                    }
+                }
+                string StaName = datatrans.GetDataString("Select STATE from STATEMAST where STATEMASTID='" + cy.StateName + "' ");
+
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
             {
                 OracleCommand objCmd = new OracleCommand("BRANCHPROC", objConn);

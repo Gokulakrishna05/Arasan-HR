@@ -18,9 +18,13 @@ namespace Arasan.Services.Sales
             datatrans = new DataTransactions(_connectionString);
 
         }
-        public IEnumerable<WorkOrder> GetAllWorkOrder()
-		{
-          
+        public IEnumerable<WorkOrder> GetAllWorkOrder(string status)
+        {
+            if (string.IsNullOrEmpty(status))
+            {
+                status = "ACTIVE";
+            }
+
             List<WorkOrder> cmpList = new List<WorkOrder>();
 			using (OracleConnection con = new OracleConnection(_connectionString))
 			{
@@ -28,7 +32,7 @@ namespace Arasan.Services.Sales
 				using (OracleCommand cmd = con.CreateCommand())
 				{
 					con.Open();
-					cmd.CommandText = "Select JOBASIC.DOCID,to_char(JOBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PARTYRCODE.PARTY,LOCDETAILS.LOCID,BRANCHMAST.BRANCHID,JOBASICID,JOBASIC.STATUS from JOBASIC  left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID=JOBASIC.LOCID  left outer join BRANCHMAST on BRANCHMAST.BRANCHMASTID=JOBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on JOBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Customer','BOTH') AND JOBASIC.STATUS='ACTIVE' order by JOBASIC.JOBASICID DESC ";
+					cmd.CommandText = "Select JOBASIC.DOCID,to_char(JOBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PARTYRCODE.PARTY,LOCDETAILS.LOCID,BRANCHMAST.BRANCHID,JOBASICID,JOBASIC.STATUS from JOBASIC  left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID=JOBASIC.LOCID  left outer join BRANCHMAST on BRANCHMAST.BRANCHMASTID=JOBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on JOBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Customer','BOTH') AND JOBASIC.STATUS='"+ status +"' order by JOBASIC.JOBASICID DESC ";
 					OracleDataReader rdr = cmd.ExecuteReader();
 					while (rdr.Read())
 					{

@@ -16,8 +16,12 @@ namespace Arasan.Services.Store_Management
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
         }
-        public IEnumerable<DirectAddition> GetAllDirectAddition()
+        public IEnumerable<DirectAddition> GetAllDirectAddition(string status)
         {
+            if (string.IsNullOrEmpty(status))
+            {
+                status = "ACTIVE";
+            }
             List<DirectAddition> staList = new List<DirectAddition>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
@@ -25,7 +29,7 @@ namespace Arasan.Services.Store_Management
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,LOCDETAILS.LOCID,DOCID,to_char(ADDBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,DCNO,REASON,GROSS,ENTBY,NARRATION,ADDBASICID,ADDBASIC.STATUS from ADDBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=ADDBASIC.BRANCHID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=ADDBASIC.LOCID WHERE ADDBASIC.STATUS='ACTIVE'";
+                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,LOCDETAILS.LOCID,DOCID,to_char(ADDBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,DCNO,REASON,GROSS,ENTBY,NARRATION,ADDBASICID,ADDBASIC.STATUS from ADDBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=ADDBASIC.BRANCHID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=ADDBASIC.LOCID WHERE ADDBASIC.STATUS='"+ status +"'";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -42,8 +46,8 @@ namespace Arasan.Services.Store_Management
                             //Net = rdr["NET"].ToString(),
                             Entered = rdr["ENTBY"].ToString(),
                             Narr = rdr["NARRATION"].ToString(),
-                           
 
+                            status = rdr["STATUS"].ToString(),
 
 
                         };
@@ -54,38 +58,7 @@ namespace Arasan.Services.Store_Management
             return staList;
         }
 
-        //public DirectAddition GetDirectAdditionById(string eid)
-        //{
-        //    DirectAddition DirectAddition = new DirectAddition();
-        //    using (OracleConnection con = new OracleConnection(_connectionString))
-        //    {
-        //        using (OracleCommand cmd = con.CreateCommand())
-        //        {
-        //            con.Open();
-        //            cmd.CommandText = "Select BRANCHID,LOCID,DOCID,DOCDATE,DCNO,REASON,GROSS,ENTBY,NARRATION,ADDBASICID  from ADDBASIC where ADDBASICID=" + eid + "";
-        //            OracleDataReader rdr = cmd.ExecuteReader();
-        //            while (rdr.Read())
-        //            {
-        //                DirectAddition sta = new DirectAddition
-        //                {
-
-        //                    ID = rdr["ADDBASICID"].ToString(),
-        //                    Branch = rdr["BRANCHID"].ToString(),
-        //                    Location = rdr["LOCID"].ToString(),
-        //                    DocId = rdr["DOCID"].ToString(),
-        //                    Docdate = rdr["DOCDATE"].ToString(),
-        //                    ChellanNo = rdr["DCNO"].ToString(),
-        //                    Reason = rdr["REASON"].ToString(),
-        //                    Gro = rdr["GROSS"].ToString(),
-        //                    Entered = rdr["ENTBY"].ToString(),
-        //                    Narr = rdr["NARRATION"].ToString(),
-        //                };
-        //                DirectAddition = sta;
-        //            }
-        //        }
-        //    }
-        //    return DirectAddition;
-        //}
+       
 
         public string DirectAdditionCRUD(DirectAddition ss)
         {

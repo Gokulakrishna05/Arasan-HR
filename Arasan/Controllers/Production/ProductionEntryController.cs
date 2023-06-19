@@ -839,7 +839,7 @@ namespace Arasan.Controllers
         {
             try
             {
-                DataTable dtDesg = IProductionEntry.GetWorkCenter();
+                DataTable dtDesg = IProductionEntry.GetAPWorkCenter();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -1096,11 +1096,94 @@ namespace Arasan.Controllers
             }
         }
 
-        public ActionResult APProductionentry()
+        public List<SelectListItem> BindBatch()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetBatch();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DOCID"].ToString(), Value = dtDesg.Rows[i]["DOCID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+            public ActionResult APProductionentry()
         {
             APProductionEntry ca = new APProductionEntry();
+            DataTable dtv = datatrans.GetSequence("vchpr");
             ca.Loclst = BindAPWorkCenter();
-            return View();
+            ca.Englst = BindEmp();
+            ca.Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
+            if (dtv.Rows.Count > 0)
+            {
+                ca.DocId  = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["LASTNO"].ToString();
+            }
+            ca.Batchlst = BindBatch();
+            List<BreakDetail> TData3 = new List<BreakDetail>();
+            BreakDetail tda3 = new BreakDetail();
+            for (int i = 0; i < 3; i++)
+            {
+                tda3 = new BreakDetail();
+
+                tda3.Machinelst = BindMachineID();
+                tda3.Emplst = BindEmp();
+                tda3.Isvalid = "Y";
+                TData3.Add(tda3);
+
+            }
+            ca.Shiftlst = BindShift();
+            ca.BreakLst= TData3;
+            return View(ca); 
         }
+        public List<SelectListItem> BindMachineID()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetMachine();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["MCODE"].ToString(), Value = dtDesg.Rows[i]["MACHINEINFOBASICID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public ActionResult GetMachineDetail(string ItemId)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+
+                string name = "";
+                string type = "";
+
+                dt = IProductionEntry.GetMachineDetails(ItemId);
+
+                if (dt.Rows.Count > 0)
+                {
+
+                    name = dt.Rows[0]["MNAME"].ToString();
+                    type = dt.Rows[0]["MTYPE"].ToString();
+                }
+                var result = new { name = name, type = type };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }

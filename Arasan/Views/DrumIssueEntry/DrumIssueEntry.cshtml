@@ -51,7 +51,7 @@
                                             <br /> <label for="inputName3" class="col-sm-4 control-label">Doc No<label class="mandatory">*</label></label>
                                             <div class="col-sm-8">
                                                 @Html.HiddenFor(C => C.ID)
-                                                @Html.TextBoxFor(C => C.Docid, new { @id = "txtDocid", @class = "form-control", @TabIndex = 1 })<br />
+                                                @Html.TextBoxFor(C => C.Docid, new { @id = "txtDocid", @class = "form-control", @TabIndex = 1 ,@readonly="readonly"})<br />
                                             </div>
                                         </div>
                                     </div>
@@ -335,9 +335,9 @@
         forceParse: 0
     });
      function changeDrum(ItemId) {
-       @* var item = document.getElementById("ddlItemid").value;
+     var item = document.getElementById("ddlItemid").value;
 
-        $.ajax({
+    @*   $.ajax({
             url: "GetDrumJSON",
             type: "post",
             data: { 'item' : item,'id': ItemId },
@@ -388,7 +388,7 @@
                     //alert(item.batch);
                     var Drum = "<td><input class='form-control' id='txtdrum" + index + "' name='Drumlst[" + index + "].drum'  style='width: 100px;' type='text'  readonly='True'  value=" + item.drum + " /></td>";
 
-                    var Batch = "<td><label>" + item.batch + "</label></td>";
+                    var Batch = "<td><label>" + item.batch + "</label><input type='hidden' value=" + item.batchno + " id='txtbatchno" + index + "' name='Drumlst[" + index + "].batchno'></td>";
 
                     var Qty = "<td><input class='form-control' id='txtqty" + index + "' name='Drumlst[" + index + "].qty'  style='width: 80px;' type='text' readonly='True' value=" + item.qty + " onkeyup = 'changeQty(this, " + index + ")'  /></td>";
 

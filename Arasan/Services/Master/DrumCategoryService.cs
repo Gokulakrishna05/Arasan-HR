@@ -63,6 +63,16 @@ namespace Arasan.Services
                         return msg;
                     }
                 }
+                else
+                {
+                    svSQL = " SELECT Count(*) as cnt FROM DRUMMASTER_CATEGORY WHERE CATEGORYTYPE = LTRIM(RTRIM('" + ss.CateType + "'))";
+                    if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "Drum Category Already Existed";
+                        return msg;
+                    }
+
+                }
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("DRUMCATE_PRO", objConn);

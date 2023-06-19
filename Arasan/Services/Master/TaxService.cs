@@ -64,6 +64,15 @@ namespace Arasan.Services
                         return msg;
                     }
                 }
+                else
+                {
+                    svSQL = " SELECT Count(*) as cnt FROM TAXMAST WHERE TAX = LTRIM(RTRIM('" + cy.Taxtype + "'))";
+                    if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "Tax Already Existed";
+                        return msg;
+                    }
+                }
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {

@@ -178,7 +178,13 @@ namespace Arasan.Models
         public string Docdate { get; set; }
         public string Eng { get; set; } 
         public List<SelectListItem> Englst { get; set; }
-
-
+        public List<SelectListItem> Batchlst { get; set; }
+        public string BatchNo { get;set; }
+        public string batchcomplete { get; set; }
+        public string SchQty { get; set; }
+        public string ProdQty { get; set; }
+        public List<SelectListItem> Shiftlst { get; set; }
+        public List<BreakDetail> BreakLst { get; set; }
+        public string Shift { get; set; }
     }
 }

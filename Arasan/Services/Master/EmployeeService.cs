@@ -29,11 +29,7 @@ namespace Arasan.Services.Master
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-
-                    
-
-                    cmd.CommandText = "Select  EMPMAST. EMPNAME, EMPMAST.EMPID, EMPMAST.EMPSEX,to_char( EMPMAST.EMPDOB,'dd-MON-yyyy')EMPDOB,ECADD1, ECCITY,ECSTATE,ECMAILID,ECPHNO,FATHERNAME,MOTHERNAME,EMPPAYCAT,EMPBASIC,PFNO,ESINO,EMPCOST,to_char( EMPMAST.PFDT,'dd-MON-yyyy')PFDT,to_char( EMPMAST.ESIDT,'dd-MON-yyyy')ESIDT,USERNAME,PASSWORD,EMPDEPT,EMPDESIGN,EMPDEPTCODE,to_char( EMPMAST.JOINDATE,'dd-MON-yyyy')JOINDATE,to_char( EMPMAST.RESIGNDATE,'dd-MON-yyyy')RESIGNDATE,EMPMASTID,EMPMAST.STATUS from EMPMAST WHERE EMPMAST.STATUS='ACTIVE'";
-
+                    cmd.CommandText = "Select  EMPMAST. EMPNAME, EMPMAST.EMPID, EMPMAST.EMPSEX,to_char( EMPMAST.EMPDOB,'dd-MON-yyyy')EMPDOB,ECADD1, ECCITY,ECSTATE,ECMAILID,ECPHNO,FATHERNAME,MOTHERNAME,EMPPAYCAT,EMPBASIC,PFNO,ESINO,EMPCOST,to_char( EMPMAST.PFDT,'dd-MON-yyyy')PFDT,to_char( EMPMAST.ESIDT,'dd-MON-yyyy')ESIDT,USERNAME,PASSWORD,EMPDEPT,EMPDESIGN,EMPDEPTCODE,to_char( EMPMAST.JOINDATE,'dd-MON-yyyy')JOINDATE,to_char( EMPMAST.RESIGNDATE,'dd-MON-yyyy')RESIGNDATE,EMPMASTID,EMPMAST.STATUS from EMPMAST where EMPMAST.STATUS='ACTIVE'  ";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -51,10 +47,8 @@ namespace Arasan.Services.Master
                             EmailId = rdr["ECMAILID"].ToString(),
                             PhoneNo = rdr["ECPHNO"].ToString(),
                             FatherName = rdr["FATHERNAME"].ToString(),
-                            MotherName = rdr["MOTHERNAME"].ToString(),
+                            MotherName = rdr["MOTHERNAME"].ToString()
                             
-
-
                         };
                         cmpList.Add(cmp);
                     }
@@ -79,7 +73,19 @@ namespace Arasan.Services.Master
                 if (cy.ID == null)
                 {
 
-                    svSQL = " SELECT Count(*) as cnt FROM EMPMAST WHERE EMPNAME = LTRIM(RTRIM('" + cy.EmpName + "')) and EMPID = LTRIM(RTRIM('" + cy.EmpNo + "'))";
+ 
+                    svSQL = " SELECT Count(*) as cnt FROM EMPMAST WHERE EMPNAME = LTRIM(RTRIM('" + cy.EmpNo + "')) ";
+ 
+                     if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "Employee Already Existed";
+                        return msg;
+                    }
+                }
+                else
+                {
+                    svSQL = " SELECT Count(EMPNAME) as cnt FROM EMPMAST WHERE EMPNAME = LTRIM(RTRIM('" + cy.EmpNo + "'))  ";
+ 
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "Employee Already Existed";
@@ -108,7 +114,7 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("EMPNAME", OracleDbType.NVarchar2).Value = cy.EmpName;
                     objCmd.Parameters.Add("EMPID", OracleDbType.NVarchar2).Value = cy.EmpNo;
                     objCmd.Parameters.Add("EMPSEX", OracleDbType.NVarchar2).Value = cy.Gender;
-                    objCmd.Parameters.Add("EMPDOB", OracleDbType.Date).Value = DateTime.Parse(cy.DOB);
+                    objCmd.Parameters.Add("EMPDOB", OracleDbType.NVarchar2).Value =cy.DOB;
                     objCmd.Parameters.Add("ECADD1", OracleDbType.NVarchar2).Value = cy.Address;
                     objCmd.Parameters.Add("ECCITY", OracleDbType.NVarchar2).Value = cy.CityId;
                     objCmd.Parameters.Add("ECSTATE", OracleDbType.NVarchar2).Value = cy.StateId;
@@ -121,15 +127,15 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("PFNO", OracleDbType.NVarchar2).Value = cy.PFNo;
                     objCmd.Parameters.Add("ESINO", OracleDbType.NVarchar2).Value = cy.ESINo;
                     objCmd.Parameters.Add("EMPCOST", OracleDbType.NVarchar2).Value = cy.EMPCost;
-                    objCmd.Parameters.Add("PFDT", OracleDbType.Date).Value = DateTime.Parse(cy.PFdate);
-                    objCmd.Parameters.Add("ESIDT", OracleDbType.Date).Value = DateTime.Parse(cy.ESIDate);
+                    objCmd.Parameters.Add("PFDT", OracleDbType.NVarchar2).Value = cy.PFdate;
+                    objCmd.Parameters.Add("ESIDT", OracleDbType.NVarchar2).Value = cy.ESIDate;
                     objCmd.Parameters.Add("USERNAME", OracleDbType.NVarchar2).Value = cy.UserName;
                     objCmd.Parameters.Add("PASSWORD", OracleDbType.NVarchar2).Value = cy.Password;
                     objCmd.Parameters.Add("EMPDEPT", OracleDbType.NVarchar2).Value = cy.EMPDeptment;
                     objCmd.Parameters.Add("EMPDESIGN", OracleDbType.NVarchar2).Value = cy.EMPDesign;
                     objCmd.Parameters.Add("EMPDEPTCODE", OracleDbType.NVarchar2).Value = cy.EMPDeptCode;
-                    objCmd.Parameters.Add("JOINDATE", OracleDbType.Date).Value = DateTime.Parse(cy.JoinDate);
-                    objCmd.Parameters.Add("RESIGNDATE", OracleDbType.Date).Value = DateTime.Parse(cy.ResignDate);
+                    objCmd.Parameters.Add("JOINDATE", OracleDbType.NVarchar2).Value = cy.JoinDate;
+                    objCmd.Parameters.Add("RESIGNDATE", OracleDbType.NVarchar2).Value = cy.ResignDate;
                     objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
 
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;

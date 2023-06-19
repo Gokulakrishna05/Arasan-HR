@@ -18,7 +18,7 @@ namespace Arasan.Interface
         DataTable GetItemDetails(string ItemId);
        //  string MaterialRequestCRUD(MaterialRequisition mr);
         string MaterialCRUD(MaterialRequisition cy);
-        IEnumerable<MaterialRequisition> GetAllMaterial();
+        IEnumerable<MaterialRequisition> GetAllMaterial(string status);
        // MaterialRequisition GetMaterialById(string id);
         DataTable GetmaterialReqDetails(string id);
         DataTable GetmaterialReqItemDetails(string id);

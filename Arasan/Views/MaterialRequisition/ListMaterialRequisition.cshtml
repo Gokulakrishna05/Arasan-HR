@@ -2,6 +2,9 @@
 
 @{
     ViewData["Title"] = "MaterialRequisition";
+    string query = ViewContext.HttpContext.Request.Query["status"];
+    string Pid = string.Empty;
+    if (!string.IsNullOrEmpty(query)) { Pid = ViewContext.HttpContext.Request.Query["status"]; }
 }
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
@@ -23,6 +26,13 @@
                     <hr>
                     <form>
                         <div class="row">
+                            <div class="col-md-6">
+                                <select style='width: 200px;' class='form-control  newcss' id="dllstatus" onchange="changeStatus(this.value)">
+                                    <option value='OPEN'>Open</option>
+                                    <option value='CLOSE'>Close</option>
+                                    @*<option value='InActive'>Disabled</option>*@
+                                </select>
+                            </div>
                             <div class="col-md-12 ">
                                 <div class=" textalignright">
                                     <a href="@Url.Action("MaterialRequisition" , "MaterialRequisition")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Material Requisition</a>
@@ -64,8 +74,18 @@
                                                             <td>@Html.DisplayFor(modelItem => item.Branch)</td>
                                                             <td>@Html.DisplayFor(modelItem => item.Location)</td>          
                                                             <td>@Html.DisplayFor(modelItem => item.DocDa)</td>
-                                                            <td>@Html.DisplayFor(modelItem => item.DocId)</td>          
+                                                            <td>@Html.DisplayFor(modelItem => item.DocId)</td>
+                                                                    @if (item.status == "CLOSE")
+                                                                    {
+                                                                        <td></td>
+                                                                        <td> </td>
+                                                                        <td></td>
+                                                                        <td> </td>
+                                                                        <td> </td>
 
+                                                                    }
+                                                                    else
+                                                                    {
                                                                 @if(item.status == "Approved"){
                                                                 <td><div class="fa-hover col-md-2 col-sm-4"> <img src='../Images/tick.png' alt='Moved to Quote' width='20' /></div></td>
                                                                 <td><div class="fa-hover col-md-2 col-sm-4"> <img src='../Images/tick.png' alt='Moved to Quote' width='20' /></div></td>
@@ -83,7 +103,7 @@
                                                                
 
                                                                 }
-
+                                                                }
                                                              
                                                         </tr>
                                                            i++;
@@ -164,4 +184,26 @@ afterClose : function() {
                                 });
                                 $(".fancybox1").eq(0).trigger('click');
                             }
-                        </script>
+    function changeStatus(status) {
+        var url = "/MaterialRequisition/ListMaterialRequisition?status=" + status;
+        window.location.href = url;
+        //$.ajax({
+        //    url: 'AssignSession',
+        //    data: { "status": status },
+        //    type: "GET",
+        //    success: function (result) {
+        //        document.getElementById("hdstatus").value = result;
+        //    },
+        //    error: function () {
+        //        alert("Data Not Found");
+        //    }
+        //});
+        //window.location.reload();
+
+    }
+    $(document).ready(function () {
+        var val2 = "@Pid";
+        $('#dllstatus').val(val2);
+    });
+
+</script>

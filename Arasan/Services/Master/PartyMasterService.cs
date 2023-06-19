@@ -66,8 +66,18 @@ namespace Arasan.Services.Master
             {
                 string StatementType = string.Empty; string svSQL = "";
                 if (cy.ID == null)
+
                 {
 
+                    svSQL = " SELECT Count(*) as cnt FROM PARTYMAST WHERE PARTYID =LTRIM(RTRIM('" + cy.PartyCode + "')) ";
+                    if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "Party Already Existed";
+                        return msg;
+                    }
+                }
+                else
+                {
                     svSQL = " SELECT Count(*) as cnt FROM PARTYMAST WHERE PARTYID =LTRIM(RTRIM('" + cy.PartyCode + "')) ";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {

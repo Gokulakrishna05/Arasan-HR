@@ -92,6 +92,15 @@ namespace Arasan.Services.Master
                         return msg;
                     }
                 }
+                else
+                {
+                    svSQL = " SELECT Count(*) as cnt FROM COMPANYMAST WHERE COMPANYID=LTRIM(RTRIM('" + cy.CompanyId + "'))";
+                    if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "Company Already Existed";
+                        return msg;
+                    }
+                }
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("COMPANYPROC", objConn);
