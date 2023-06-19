@@ -102,7 +102,7 @@ namespace Arasan.Services.Master
                 if (ss.ID == null)
                 {
 
-                    svSQL = " SELECT Count(*) as cnt FROM CITYMASTER WHERE CITYNAME = LTRIM(RTRIM('" + ss.Cit + "')) ";
+                    svSQL = " SELECT Count(CITYNAME) as cnt FROM CITYMASTER WHERE CITYNAME = LTRIM(RTRIM('" + ss.Cit + "')) ";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "City Already Existed";
@@ -111,7 +111,7 @@ namespace Arasan.Services.Master
                 }
                 else
                 {
-                    svSQL = " SELECT Count(*) as cnt FROM CITYMASTER WHERE CITYNAME = LTRIM(RTRIM('" + ss.Cit + "')) ";
+                    svSQL = " SELECT Count(CITYNAME) as cnt FROM CITYMASTER WHERE CITYNAME = LTRIM(RTRIM('" + ss.Cit + "')) ";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "City Already Existed";

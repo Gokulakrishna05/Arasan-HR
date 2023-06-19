@@ -103,7 +103,7 @@ namespace Arasan.Services
                 if (cy.ID == null)
                 {
 
-                    svSQL = " SELECT Count(*) as cnt FROM LOCDETAILS WHERE LOCID = LTRIM(RTRIM('" + cy.LocationId + "')) and LOCATIONTYPE = LTRIM(RTRIM('" + cy.LocType + "'))";
+                    svSQL = " SELECT Count(LOCID) as cnt FROM LOCDETAILS WHERE LOCID = LTRIM(RTRIM('" + cy.LocationId + "')) and LOCATIONTYPE = LTRIM(RTRIM('" + cy.LocType + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "Location Already Existed";
@@ -112,7 +112,7 @@ namespace Arasan.Services
                 }
                 else
                 {
-                    svSQL = " SELECT Count(*) as cnt FROM LOCDETAILS WHERE LOCID = LTRIM(RTRIM('" + cy.LocationId + "')) and LOCATIONTYPE = LTRIM(RTRIM('" + cy.LocType + "'))";
+                    svSQL = " SELECT Count(LOCID) as cnt FROM LOCDETAILS WHERE LOCID = LTRIM(RTRIM('" + cy.LocationId + "')) and LOCATIONTYPE = LTRIM(RTRIM('" + cy.LocType + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "Location Already Existed";

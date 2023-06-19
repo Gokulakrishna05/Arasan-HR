@@ -80,7 +80,7 @@ namespace Arasan.Services.Master
                 if (cy.ID == null)
                 {
 
-                    svSQL = " SELECT Count(*) as cnt FROM COMPANYMAST WHERE COMPANYID=LTRIM(RTRIM('" + cy.CompanyId + "'))";
+                    svSQL = " SELECT Count(COMPANYID) as cnt FROM COMPANYMAST WHERE COMPANYID=LTRIM(RTRIM('" + cy.CompanyId + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "Company Already Existed";
@@ -89,7 +89,7 @@ namespace Arasan.Services.Master
                 }
                 else
                 {
-                    svSQL = " SELECT Count(*) as cnt FROM COMPANYMAST WHERE COMPANYID=LTRIM(RTRIM('" + cy.CompanyId + "'))";
+                    svSQL = " SELECT Count(COMPANYID) as cnt FROM COMPANYMAST WHERE COMPANYID=LTRIM(RTRIM('" + cy.CompanyId + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "Company Already Existed";

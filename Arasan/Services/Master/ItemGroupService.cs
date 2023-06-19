@@ -79,7 +79,7 @@ namespace Arasan.Services.Master
                 if (by.ID == null)
                 {
 
-                    svSQL = " SELECT Count(*) as cnt FROM ITEMGROUP WHERE GROUPCODE = LTRIM(RTRIM('" + by.itemGroup + "'))";
+                    svSQL = " SELECT Count(GROUPCODE) as cnt FROM ITEMGROUP WHERE GROUPCODE = LTRIM(RTRIM('" + by.itemGroup + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "ItemGroup Already Existed";
@@ -88,7 +88,7 @@ namespace Arasan.Services.Master
                 }
                 else
                 {
-                    svSQL = " SELECT Count(*) as cnt FROM ITEMGROUP WHERE GROUPCODE = LTRIM(RTRIM('" + by.itemGroup + "'))";
+                    svSQL = " SELECT Count(GROUPCODE) as cnt FROM ITEMGROUP WHERE GROUPCODE = LTRIM(RTRIM('" + by.itemGroup + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "ItemGroup Already Existed";

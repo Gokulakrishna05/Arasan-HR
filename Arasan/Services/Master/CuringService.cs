@@ -106,7 +106,7 @@ namespace Arasan.Services
                 if (cy.ID == null)
                 {
 
-                    svSQL = " SELECT Count(*) as cnt FROM CURINGMASTER WHERE SHEDNUMBER = LTRIM(RTRIM('" + cy.Shed + "'))";
+                    svSQL = " SELECT Count(SHEDNUMBER) as cnt FROM CURINGMASTER WHERE SHEDNUMBER = LTRIM(RTRIM('" + cy.Shed + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "Curing Already Existed";
@@ -115,7 +115,7 @@ namespace Arasan.Services
                 }
                 else
                 {
-                    svSQL = " SELECT Count(*) as cnt FROM CURINGMASTER WHERE SHEDNUMBER = LTRIM(RTRIM('" + cy.Shed + "'))";
+                    svSQL = " SELECT Count(SHEDNUMBER) as cnt FROM CURINGMASTER WHERE SHEDNUMBER = LTRIM(RTRIM('" + cy.Shed + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "Curing Already Existed";

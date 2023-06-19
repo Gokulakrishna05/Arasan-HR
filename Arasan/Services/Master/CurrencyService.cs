@@ -80,20 +80,41 @@ namespace Arasan.Services.Master
                 if (cy.ID == null)
                 {
 
-                    svSQL = " SELECT Count(*) as cnt FROM CURRENCY WHERE MAINCURR = LTRIM(RTRIM('" + cy.CurrencyName + "')) and SYMBOL = LTRIM(RTRIM('" + cy.CurrencyCode + "'))";
+                    svSQL = " SELECT Count(SYMBOL) as cnt FROM CURRENCY WHERE  SYMBOL = LTRIM(RTRIM('" + cy.CurrencyCode + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
-                        msg = "Currency or Symbol Already Existed";
+                        msg = " Symbol Already Existed";
                         return msg;
                     }
+                    else
+                    {
+                        svSQL = " SELECT Count(MAINCURR) as cnt FROM CURRENCY WHERE MAINCURR = LTRIM(RTRIM('" + cy.CurrencyName + "')) ";
+                        if (datatrans.GetDataId(svSQL) > 0)
+                        {
+                            msg = "Currency Already Existed";
+                            return msg;
+                        }
+
+                    }
                 }
-                else
+               
+                else 
                 {
-                    svSQL = " SELECT Count(*) as cnt FROM CURRENCY WHERE MAINCURR = LTRIM(RTRIM('" + cy.CurrencyName + "')) and SYMBOL = LTRIM(RTRIM('" + cy.CurrencyCode + "'))";
+                    svSQL = " SELECT Count(SYMBOL) as cnt FROM CURRENCY WHERE  SYMBOL = LTRIM(RTRIM('" + cy.CurrencyCode + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
-                        msg = "Currency or Symbol Already Existed";
+                        msg = " Symbol Already Existed";
                         return msg;
+                    }
+                    else
+                    {
+                        svSQL = " SELECT Count(MAINCURR) as cnt FROM CURRENCY WHERE MAINCURR = LTRIM(RTRIM('" + cy.CurrencyName + "')) ";
+                        if (datatrans.GetDataId(svSQL) > 0)
+                        {
+                            msg = "Currency Already Existed";
+                            return msg;
+                        }
+
                     }
 
                 }
