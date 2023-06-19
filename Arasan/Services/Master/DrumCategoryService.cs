@@ -56,7 +56,7 @@ namespace Arasan.Services
                 if (ss.ID == null)
                 {
 
-                    svSQL = " SELECT Count(*) as cnt FROM DRUMMASTER_CATEGORY WHERE CATEGORYTYPE = LTRIM(RTRIM('" + ss.CateType + "'))";
+                    svSQL = " SELECT Count(DRUMMASTER_CATEGORY) as cnt FROM DRUMMASTER_CATEGORY WHERE CATEGORYTYPE = LTRIM(RTRIM('" + ss.CateType + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "Drum Category Already Existed";
@@ -65,7 +65,7 @@ namespace Arasan.Services
                 }
                 else
                 {
-                    svSQL = " SELECT Count(*) as cnt FROM DRUMMASTER_CATEGORY WHERE CATEGORYTYPE = LTRIM(RTRIM('" + ss.CateType + "'))";
+                    svSQL = " SELECT Count(DRUMMASTER_CATEGORY) as cnt FROM DRUMMASTER_CATEGORY WHERE CATEGORYTYPE = LTRIM(RTRIM('" + ss.CateType + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "Drum Category Already Existed";

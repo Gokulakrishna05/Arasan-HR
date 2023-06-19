@@ -87,7 +87,7 @@ namespace Arasan.Services.Master
                 if (cy.ID == null)
                 {
 
-                    svSQL = " SELECT Count(*) as cnt FROM CONMAST WHERE COUNTRYNAME = LTRIM(RTRIM('" + cy.ConName + "')) and COUNTRYCODE = LTRIM(RTRIM('" + cy.ConCode + "'))";
+                    svSQL = " SELECT Count(COUNTRYNAME) as cnt FROM CONMAST WHERE COUNTRYNAME = LTRIM(RTRIM('" + cy.ConName + "')) and COUNTRYCODE = LTRIM(RTRIM('" + cy.ConCode + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "Country Already Existed";
@@ -96,7 +96,7 @@ namespace Arasan.Services.Master
                 }
                 else
                 {
-                    svSQL = " SELECT Count(*) as cnt FROM CONMAST WHERE COUNTRYNAME = LTRIM(RTRIM('" + cy.ConName + "')) and COUNTRYCODE = LTRIM(RTRIM('" + cy.ConCode + "'))";
+                    svSQL = " SELECT Count(COUNTRYNAME) as cnt FROM CONMAST WHERE COUNTRYNAME = LTRIM(RTRIM('" + cy.ConName + "')) and COUNTRYCODE = LTRIM(RTRIM('" + cy.ConCode + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "Country Already Existed";

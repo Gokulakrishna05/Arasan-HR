@@ -128,7 +128,7 @@ namespace Arasan.Services.Master
                 if (ss.ID == null)
                 {
 
-                    svSQL = " SELECT Count(*) as cnt FROM ITEMMASTER WHERE ITEMID =LTRIM(RTRIM('" + ss.Item + "')) and ITEMCODE =LTRIM(RTRIM('" + ss.ItemCode + "'))";
+                    svSQL = " SELECT Count(ITEMID) as cnt FROM ITEMMASTER WHERE ITEMID =LTRIM(RTRIM('" + ss.Item + "')) and ITEMCODE =LTRIM(RTRIM('" + ss.ItemCode + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "Item Already Existed";
@@ -137,7 +137,7 @@ namespace Arasan.Services.Master
                 }
                 else
                 {
-                    svSQL = " SELECT Count(*) as cnt FROM ITEMMASTER WHERE ITEMID =LTRIM(RTRIM('" + ss.Item + "')) and ITEMCODE =LTRIM(RTRIM('" + ss.ItemCode + "'))";
+                    svSQL = " SELECT Count(ITEMID) as cnt FROM ITEMMASTER WHERE ITEMID =LTRIM(RTRIM('" + ss.Item + "')) and ITEMCODE =LTRIM(RTRIM('" + ss.ItemCode + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "Item Already Existed";

@@ -67,21 +67,23 @@ namespace Arasan.Services
                 if (ss.ID == null)
                 {
 
-                    svSQL = " SELECT Count(*) as cnt FROM DEPARTMENTMAST WHERE DEPARTMENT_CODE = LTRIM(RTRIM('" + ss.Departmentcode + "')) and DEPARTMENT_NAME = LTRIM(RTRIM('" + ss.DepartmentName + "'))";
+                    svSQL = " SELECT Count(DEPARTMENT_CODE) as cnt FROM DEPARTMENTMAST WHERE DEPARTMENT_CODE = LTRIM(RTRIM('" + ss.Departmentcode + "')) ";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
-                        msg = "DEPARTMENT_CODE Already Existed";
+                        msg = "Departmentcode Already Existed";
                         return msg;
                     }
+                   
                 }
                 else
                 {
-                    svSQL = " SELECT Count(*) as cnt FROM DEPARTMENTMAST WHERE DEPARTMENT_CODE = LTRIM(RTRIM('" + ss.Departmentcode + "')) and DEPARTMENT_NAME = LTRIM(RTRIM('" + ss.DepartmentName + "'))";
+                    svSQL = " SELECT Count(DEPARTMENT_CODE) as cnt FROM DEPARTMENTMAST WHERE DEPARTMENT_CODE = LTRIM(RTRIM('" + ss.Departmentcode + "')) ";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
-                        msg = "DEPARTMENT_CODE Already Existed";
+                        msg = "Departmentcode Already Existed";
                         return msg;
                     }
+                   
                 }
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {

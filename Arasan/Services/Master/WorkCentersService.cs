@@ -92,7 +92,7 @@ namespace Arasan.Services.Master
                 if (cy.ID == null)
                 {
 
-                    svSQL = " SELECT Count(*) as cnt FROM WCBASIC WHERE WCID = LTRIM(RTRIM('" + cy.Wid + "'))";
+                    svSQL = " SELECT Count(WCID) as cnt FROM WCBASIC WHERE WCID = LTRIM(RTRIM('" + cy.Wid + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "HsnCode Already Existed";
@@ -101,7 +101,7 @@ namespace Arasan.Services.Master
                 }
                 else
                 {
-                    svSQL = " SELECT Count(*) as cnt FROM WCBASIC WHERE WCID = LTRIM(RTRIM('" + cy.Wid + "'))";
+                    svSQL = " SELECT Count(WCID) as cnt FROM WCBASIC WHERE WCID = LTRIM(RTRIM('" + cy.Wid + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "HsnCode Already Existed";

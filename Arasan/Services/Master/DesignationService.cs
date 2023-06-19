@@ -57,7 +57,7 @@ namespace Arasan.Services.Master
                 if (ss.ID == null)
                 {
 
-                    svSQL = " SELECT Count(*) as cnt FROM DESIGNATIONMAST WHERE DESIGNATION = LTRIM(RTRIM('" + ss.Design + "'))";
+                    svSQL = " SELECT Count(DESIGNATION) as cnt FROM DESIGNATIONMAST WHERE DESIGNATION = LTRIM(RTRIM('" + ss.Design + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "Designation Already Existed";
@@ -66,7 +66,7 @@ namespace Arasan.Services.Master
                 }
                 else
                 {
-                    svSQL = " SELECT Count(*) as cnt FROM DESIGNATIONMAST WHERE DESIGNATION = LTRIM(RTRIM('" + ss.Design + "'))";
+                    svSQL = " SELECT Count(DESIGNATION) as cnt FROM DESIGNATIONMAST WHERE DESIGNATION = LTRIM(RTRIM('" + ss.Design + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "Designation Already Existed";

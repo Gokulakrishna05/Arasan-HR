@@ -109,7 +109,7 @@ namespace Arasan.Services
                 if (cy.ID == null)
                 {
 
-                    svSQL = " SELECT Count(*) as cnt FROM BRANCHMAST WHERE BRANCHID =LTRIM(RTRIM('" + cy.BranchName + "'))";
+                    svSQL = " SELECT Count(BRANCHID) as cnt FROM BRANCHMAST WHERE BRANCHID =LTRIM(RTRIM('" + cy.BranchName + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "Branch Already Existed";
@@ -121,7 +121,7 @@ namespace Arasan.Services
 
                 else
                 {
-                    svSQL = " SELECT Count(*) as cnt FROM BRANCHMAST WHERE BRANCHID =LTRIM(RTRIM('" + cy.BranchName + "'))";
+                    svSQL = " SELECT Count(BRANCHID) as cnt FROM BRANCHMAST WHERE BRANCHID =LTRIM(RTRIM('" + cy.BranchName + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "Branch Already Existed";
