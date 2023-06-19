@@ -65,9 +65,9 @@ namespace Arasan.Controllers
 
             return View(Cy);
         }
-        public IActionResult ListCompany()
+        public IActionResult ListCompany(string status)
         {
-            IEnumerable<Company> cmp = CompanyService.GetAllCompany();
+            IEnumerable<Company> cmp = CompanyService.GetAllCompany(status);
             return View(cmp);
         }
 

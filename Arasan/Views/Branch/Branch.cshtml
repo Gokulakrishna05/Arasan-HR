@@ -60,7 +60,7 @@
                                         <div class="col-sm-8">
                                            
                                             @Html.TextBoxFor(C => C.BranchName, new { @id = "txtBranchName", @class = "form-control", @TabIndex = 2,@size="30"})<br>
-                                          
+                                            @Html.HiddenFor(C => C.ID)
                                         </div>
 
                                     </div>
@@ -118,7 +118,7 @@
                                         <br /><label for="inputName3" class="col-sm-4 control-label">Pin Code<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
 
-                                            @Html.TextBoxFor(C => C.PinCode, new { @id = "PinCode",@maxlength="6",onkeydown = "return isNumeric2(event.keyCode,this.value)", @class = "form-control", @TabIndex = 2,@size="30" })
+                                            @Html.TextBoxFor(C => C.PinCode, new { @id = "txtPinCode",@maxlength="6",onkeydown = "return isNumeric2(event.keyCode,this.value)", @class = "form-control", @TabIndex = 2,@size="30" })
                                         </div>
 
                                     </div>
@@ -298,6 +298,22 @@
             }
             else {
                 $(ddlCity).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtPinCode").value == "") {
+                isValid = false;
+                $(txtPinCode).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter PinCode ");
+                return false;
+            }
+            else {
+                $(txtPinCode).css({
                     "border": "",
                     "background": ""
                 });

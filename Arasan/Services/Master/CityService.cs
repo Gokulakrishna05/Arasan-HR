@@ -18,8 +18,12 @@ namespace Arasan.Services.Master
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public IEnumerable<City> GetAllCity()
+        public IEnumerable<City> GetAllCity(string status)
         {
+            if (string.IsNullOrEmpty(status))
+            {
+                status = "ACTIVE";
+            }
             List<City> staList = new List<City>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
@@ -27,7 +31,7 @@ namespace Arasan.Services.Master
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select CITYNAME,STATEMAST.STATE,CITYID,CONMAST.COUNTRYNAME,CITYMASTER.STATUS from CITYMASTER left outer join CONMAST on COUNTRYMASTID=CITYMASTER.COUNTRYID left outer join STATEMAST on STATEMASTID=CITYMASTER.STATEID WHERE CITYMASTER.STATUS='ACTIVE'";
+                    cmd.CommandText = "Select CITYNAME,STATEMAST.STATE,CITYID,CONMAST.COUNTRYNAME,CITYMASTER.STATUS from CITYMASTER left outer join CONMAST on COUNTRYMASTID=CITYMASTER.COUNTRYID left outer join STATEMAST on STATEMASTID=CITYMASTER.STATEID WHERE CITYMASTER.STATUS='" + status + "' order by STATEMAST.STATEMASTID DESC";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -36,7 +40,8 @@ namespace Arasan.Services.Master
                             ID = rdr["CITYID"].ToString(),
                             Cit = rdr["CITYNAME"].ToString(),
                             State = rdr["STATE"].ToString(),
-                            countryid = rdr["COUNTRYNAME"].ToString()
+                            countryid = rdr["COUNTRYNAME"].ToString(),
+                            status = rdr["STATUS"].ToString()
                         };
                         staList.Add(sta);
                     }

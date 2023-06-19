@@ -11,7 +11,7 @@ namespace Arasan.Interface
 
     {
         string BranchCRUD(Branch cy);
-        IEnumerable<Branch> GetAllBranch();
+        IEnumerable<Branch> GetAllBranch(string status);
         DataTable GetCompany();
         //DataTable Getcountry();
         DataTable GetCity(string id);
