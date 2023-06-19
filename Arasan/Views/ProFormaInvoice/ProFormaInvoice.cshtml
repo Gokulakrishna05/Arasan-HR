@@ -388,8 +388,10 @@
                    
                     var TotAmount = "<td><input class='form-control' id='txttotamount" + index + "' name='ProFormalst[" + index + "].totamount'  style='width: 100px;' type='text' readonly='True'      /></td>";
 
+                    var removeCell = "<td><input id='Isvalid" + index + "' name='ProFormalst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='ProFormalst.Index' type='hidden' value='" + index + "'  /></td>";
 
-                    var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Item + ItemDes + Unit + Qty + Rate + Amount + Discount + ItroDiscount + CashDiscount + TradeDiscount + AdditionalDiscount + Specialdiscount + Frieght + Tariff + CGSTP + SGSTP + IGSTP + CGST + SGST + IGST + TotAmount + "</tr>";
+
+                    var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Item + ItemDes + Unit + Qty + Rate + Amount + Discount + ItroDiscount + CashDiscount + TradeDiscount + AdditionalDiscount + Specialdiscount + Frieght + Tariff + CGSTP + SGSTP + IGSTP + CGST + SGST + IGST + TotAmount + removeCell + "</tr>";
 
                     $("#tbBooks").append(newRow);
                 });

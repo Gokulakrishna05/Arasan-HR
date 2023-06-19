@@ -17,6 +17,7 @@ namespace Arasan.Models
 
         public List<SelectListItem> sta;
         public String State { get; set; }
+        public String status { get; set; }
 
         public List<SelectListItem> cuntylst;
         public String countryid { get; set; }

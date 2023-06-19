@@ -36,7 +36,7 @@ namespace Arasan.Controllers
             if (id != null)
             {
                 DataTable dt = new DataTable();
-                double total = 0;
+                //double total = 0;
                 dt = BranchService.GetEditBranch(id);
                 if (dt.Rows.Count > 0)
                 {
@@ -128,7 +128,7 @@ namespace Arasan.Controllers
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["STATE"].ToString(), Value = dtDesg.Rows[i]["STATEMASTID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["STATE"].ToString(), Value = dtDesg.Rows[i]["STATE"].ToString() });
                 }
                 return lstdesg;
             }
@@ -200,9 +200,9 @@ namespace Arasan.Controllers
             return Json(BindCity(supid));
 
         }
-        public IActionResult ListBranch()
+        public IActionResult ListBranch(string status)
         {
-            IEnumerable<Branch> br = BranchService.GetAllBranch();
+            IEnumerable<Branch> br = BranchService.GetAllBranch(status);
             return View(br);
         }
 

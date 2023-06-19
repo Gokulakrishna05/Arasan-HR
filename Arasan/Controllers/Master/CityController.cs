@@ -84,9 +84,9 @@ namespace Arasan.Controllers.Master
 
             return View(ss);
         }
-        public IActionResult ListCity()
+        public IActionResult ListCity(string status)
         {
-            IEnumerable<City> sta = city.GetAllCity();
+            IEnumerable<City> sta = city.GetAllCity(status);
             return View(sta);
         }
        

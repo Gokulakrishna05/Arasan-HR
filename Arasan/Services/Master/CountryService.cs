@@ -18,8 +18,12 @@ namespace Arasan.Services.Master
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public IEnumerable<Country> GetAllCountry()
+        public IEnumerable<Country> GetAllCountry(string status)
         {
+            if (string.IsNullOrEmpty(status))
+            {
+                status = "ACTIVE";
+            }
             List<Country> cmpList = new List<Country>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
@@ -27,7 +31,7 @@ namespace Arasan.Services.Master
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select COUNTRYNAME,COUNTRYCODE,COUNTRYMASTID,STATUS from CONMAST WHERE STATUS = 'ACTIVE'";
+                    cmd.CommandText = "Select COUNTRYNAME,COUNTRYCODE,COUNTRYMASTID,STATUS from CONMAST WHERE STATUS = '" + status + "' order by COUNTRYMAST.COUNTRYMASTID DESC";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -35,7 +39,8 @@ namespace Arasan.Services.Master
                         {
                             ID = rdr["COUNTRYMASTID"].ToString(),
                             ConName = rdr["COUNTRYNAME"].ToString(),
-                            ConCode = rdr["COUNTRYCODE"].ToString()
+                            ConCode = rdr["COUNTRYCODE"].ToString(),
+                            status = rdr["STATUS"].ToString()
                         };
                         cmpList.Add(cmp);
                     }

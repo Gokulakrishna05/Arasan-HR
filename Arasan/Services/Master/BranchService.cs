@@ -60,21 +60,20 @@ namespace Arasan.Services
         }
 
 
-        public IEnumerable<Branch> GetAllBranch()
+        public IEnumerable<Branch> GetAllBranch(string status)
     {
-        List<Branch> brList = new List<Branch>();
+            if (string.IsNullOrEmpty(status))
+            {
+                status = "ACTIVE";
+            }
+            List<Branch> brList = new List<Branch>();
         using (OracleConnection con = new OracleConnection(_connectionString))
         {
 
             using (OracleCommand cmd = con.CreateCommand())
             {
                 con.Open();
-                cmd.CommandText = "Select BRANCHMASTID,COMPANYMAST.COMPANYDESC,BRANCHID,ADDRESS1,STATE,CITY,PINCODE,CSTNO, CSTDATE,BRANCHMAST.STATUS from BRANCHMAST left outer join COMPANYMAST on COMPANYMASTID=BRANCHMAST.COMPANYID WHERE BRANCHMAST.STATUS = 'ACTIVE' ";
- 
- 
-                //cmd.CommandText = "Select BRANCHMASTID,COMPANYMAST.COMPANYDESC,BRANCHID,ADDRESS1,STATE,CITY,PINCODE,CSTNO, CSTDATE,BRANCHMAST.STATUS from BRANCHMAST left outer join COMPANYMAST on COMPANYMASTID=BRANCHMAST.COMPANYID WHERE BRANCHMAST.STATUS = 'ACTIVE'  ";
- 
- 
+                cmd.CommandText = "Select BRANCHMASTID,COMPANYMAST.COMPANYDESC,BRANCHID,ADDRESS1,STATE,CITY,PINCODE,CSTNO, CSTDATE,BRANCHMAST.STATUS from BRANCHMAST left outer join COMPANYMAST on COMPANYMASTID=BRANCHMAST.COMPANYID WHERE BRANCHMAST.STATUS ='" + status + "' order by BRANCHMAST.BRANCHMASTID DESC ";
                 OracleDataReader rdr = cmd.ExecuteReader();
                 while (rdr.Read())
                 {
@@ -88,7 +87,8 @@ namespace Arasan.Services
                         City = rdr["CITY"].ToString(),
                         PinCode = rdr["PINCODE"].ToString(),
                         GSTNo = rdr["CSTNO"].ToString(),
-                        GSTDate = rdr["CSTDATE"].ToString()
+                        GSTDate = rdr["CSTDATE"].ToString(),
+                        status = rdr["STATUS"].ToString()
 
                     };
                     brList.Add(br);
@@ -97,7 +97,10 @@ namespace Arasan.Services
         }
         return brList;
     }
-  public string BranchCRUD(Branch cy)
+      public string BranchCRUD(Branch cy)
+
+
+
     {
         string msg = "";
         try
@@ -113,6 +116,9 @@ namespace Arasan.Services
                         return msg;
                     }
                 }
+
+                //string StaName = datatrans.GetDataString("Select STATE from STATEMAST where STATEMASTID='" + cy.StateName + "' ");
+
                 else
                 {
                     svSQL = " SELECT Count(*) as cnt FROM BRANCHMAST WHERE BRANCHID =LTRIM(RTRIM('" + cy.BranchName + "'))";
@@ -123,6 +129,7 @@ namespace Arasan.Services
                     }
                 }
                 string StaName = datatrans.GetDataString("Select STATE from STATEMAST where STATEMASTID='" + cy.StateName + "' ");
+
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
             {
                 OracleCommand objCmd = new OracleCommand("BRANCHPROC", objConn);
@@ -143,7 +150,7 @@ namespace Arasan.Services
                 objCmd.Parameters.Add("COMPANYID", OracleDbType.NVarchar2).Value = cy.CompanyName;
                 objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.BranchName;
                 objCmd.Parameters.Add("ADDRESS1", OracleDbType.NVarchar2).Value = cy.Address;
-                objCmd.Parameters.Add("STATE", OracleDbType.NVarchar2).Value = StaName;
+                objCmd.Parameters.Add("STATE", OracleDbType.NVarchar2).Value = cy.StateName;
                 objCmd.Parameters.Add("CITY", OracleDbType.NVarchar2).Value = cy.City;
                 objCmd.Parameters.Add("PINCODE", OracleDbType.NVarchar2).Value = cy.PinCode;
                 objCmd.Parameters.Add("CSTNO", OracleDbType.NVarchar2).Value = cy.GSTNo;
@@ -174,7 +181,7 @@ namespace Arasan.Services
         public DataTable GetBranch(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select BRANCHMASTID,COMPANYMAST.COMPANYDESC,BRANCHID,ADDRESS1,STATE,CITY,PINCODE,CSTNO, to_char(CSTDATE,'dd-MON-yyyy')CSTDATE,BRANCHMAST.STATUS from BRANCHMAST left outer join COMPANYMAST on COMPANYMASTID=BRANCHMAST.COMPANYID  ";
+            SvSql = "Select BRANCHMASTID,COMPANYMAST.COMPANYDESC,BRANCHID,ADDRESS1,STATE,CITY,PINCODE,CSTNO,to_char(CSTDATE,'dd-MON-yyyy')CSTDATE,BRANCHMAST.STATUS from BRANCHMAST left outer join COMPANYMAST on COMPANYMASTID=BRANCHMAST.COMPANYID  ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
