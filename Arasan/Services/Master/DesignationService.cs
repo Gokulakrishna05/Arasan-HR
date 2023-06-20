@@ -64,15 +64,6 @@ namespace Arasan.Services.Master
                         return msg;
                     }
                 }
-                else
-                {
-                    svSQL = " SELECT Count(DESIGNATION) as cnt FROM DESIGNATIONMAST WHERE DESIGNATION = LTRIM(RTRIM('" + ss.Design + "'))";
-                    if (datatrans.GetDataId(svSQL) > 0)
-                    {
-                        msg = "Designation Already Existed";
-                        return msg;
-                    }
-                }
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("DesignationPROC", objConn);

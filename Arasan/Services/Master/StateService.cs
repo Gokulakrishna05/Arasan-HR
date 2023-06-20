@@ -106,16 +106,7 @@ namespace Arasan.Services.Master
                         return msg;
                     }
                 }
-                else
-                {
-                    svSQL = " SELECT Count(STATE) as cnt FROM STATEMAST WHERE STATE =LTRIM(RTRIM('" + ss.StateName + "'))";
-                    if (datatrans.GetDataId(svSQL) > 0)
-                    {
-                        msg = "State Already Existed";
-                        return msg;
-                    }
-
-                }
+                
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {

@@ -113,15 +113,6 @@ namespace Arasan.Services
                         return msg;
                     }
                 }
-                else
-                {
-                    svSQL = " SELECT Count(SHEDNUMBER) as cnt FROM CURINGMASTER WHERE SHEDNUMBER = LTRIM(RTRIM('" + cy.Shed + "'))";
-                    if (datatrans.GetDataId(svSQL) > 0)
-                    {
-                        msg = "Curing Already Existed";
-                        return msg;
-                    }
-                }
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {

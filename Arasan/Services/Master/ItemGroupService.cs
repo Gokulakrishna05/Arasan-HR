@@ -86,16 +86,6 @@ namespace Arasan.Services.Master
                         return msg;
                     }
                 }
-                else
-                {
-                    svSQL = " SELECT Count(GROUPCODE) as cnt FROM ITEMGROUP WHERE GROUPCODE = LTRIM(RTRIM('" + by.itemGroup + "'))";
-                    if (datatrans.GetDataId(svSQL) > 0)
-                    {
-                        msg = "ItemGroup Already Existed";
-                        return msg;
-                    }
-
-                }
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("ITEMGROUPPROC", objConn);
