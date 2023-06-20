@@ -123,7 +123,7 @@ namespace Arasan.Services
 
                 
  
-                string StaName = datatrans.GetDataString("Select STATE from STATEMAST where STATEMASTID='" + cy.StateName + "' ");
+                //string StaName = datatrans.GetDataString("Select STATE from STATEMAST where STATEMASTID='" + cy.StateName + "' ");
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
             {
@@ -135,7 +135,7 @@ namespace Arasan.Services
                     if (cy.ID == null)
                 {
                        
-                        svSQL = "Insert into BRANCHMAST (COMPANYID,BRANCHID,ADDRESS1,STATE,CITY,PINCODE,CSTNO,CSTDATE,STATUS) VALUES ('" + cy.CompanyName + "','" + cy.BranchName + "','" + cy.Address + "','" + StaName + "','" + cy.City + "','" + cy.PinCode + "','" + cy.GSTNo + "','" + cy.GSTDate + "', 'ACTIVE')";
+                        svSQL = "Insert into BRANCHMAST (COMPANYID,BRANCHID,ADDRESS1,STATE,CITY,PINCODE,CSTNO,CSTDATE,STATUS) VALUES ('" + cy.CompanyName + "','" + cy.BranchName + "','" + cy.Address + "','" + cy.StateName + "','" + cy.City + "','" + cy.PinCode + "','" + cy.GSTNo + "','" + cy.GSTDate + "', 'ACTIVE')";
                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                         objCmds.ExecuteNonQuery();
                     }
