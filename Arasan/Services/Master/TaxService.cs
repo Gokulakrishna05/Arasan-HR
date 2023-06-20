@@ -65,16 +65,7 @@ namespace Arasan.Services
                     }
                    
                 }
-                else
-                {
-                    svSQL = " SELECT Count(TAX) as cnt FROM TAXMAST WHERE TAX = LTRIM(RTRIM('" + cy.Taxtype + "')) and PERCENTAGE = LTRIM(RTRIM('" + cy.Percentage + "')) ";
-                    if (datatrans.GetDataId(svSQL) > 0)
-                    {
-                        msg = "Tax Already Existed";
-                        return msg;
-                    }
 
-                }
 
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))

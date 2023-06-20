@@ -119,14 +119,15 @@ namespace Arasan.Services
  
  
 
-                //string StaName = datatrans.GetDataString("Select STATE from STATEMAST where STATEMASTID='" + cy.StateName + "' ");
+                
 
-               
+                
  
                 string StaName = datatrans.GetDataString("Select STATE from STATEMAST where STATEMASTID='" + cy.StateName + "' ");
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
             {
+
 
                     objConn.Open();
 

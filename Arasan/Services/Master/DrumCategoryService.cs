@@ -60,22 +60,12 @@ namespace Arasan.Services
                 if (ss.ID == null)
                 {
 
-                    svSQL = " SELECT Count(DRUMMASTER_CATEGORY) as cnt FROM DRUMMASTER_CATEGORY WHERE CATEGORYTYPE = LTRIM(RTRIM('" + ss.CateType + "'))";
+                    svSQL = " SELECT Count(CATEGORYTYPE) as cnt FROM DRUMMASTER_CATEGORY WHERE CATEGORYTYPE = LTRIM(RTRIM('" + ss.CateType + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
-                        msg = "Drum Category Already Existed";
+                        msg = "Category Type Already Existed";
                         return msg;
                     }
-                }
-                else
-                {
-                    svSQL = " SELECT Count(DRUMMASTER_CATEGORY) as cnt FROM DRUMMASTER_CATEGORY WHERE CATEGORYTYPE = LTRIM(RTRIM('" + ss.CateType + "'))";
-                    if (datatrans.GetDataId(svSQL) > 0)
-                    {
-                        msg = "Drum Category Already Existed";
-                        return msg;
-                    }
-
                 }
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
