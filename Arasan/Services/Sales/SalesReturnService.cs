@@ -16,9 +16,12 @@ namespace Arasan.Services.Sales
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
         }
-        public IEnumerable<SalesReturn> GetAllSalesReturn()
+        public IEnumerable<SalesReturn> GetAllSalesReturn(string status)
         {
-
+            if (string.IsNullOrEmpty(status))
+            {
+                status = "ACTIVE";
+            }
             List<SalesReturn> cmpList = new List<SalesReturn>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
@@ -26,7 +29,7 @@ namespace Arasan.Services.Sales
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = " Select SALERETBASIC.DOCID,to_char(SALERETBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PARTYNAME,BRANCHMAST.BRANCHID,SALERETBASICID,SALERETBASIC.STATUS from SALERETBASIC  left outer join BRANCHMAST on BRANCHMAST.BRANCHMASTID=SALERETBASIC.BRANCHID  where SALERETBASIC.STATUS='ACTIVE'  order by SALERETBASIC.SALERETBASICID DESC ";
+                    cmd.CommandText = " Select SALERETBASIC.DOCID,to_char(SALERETBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PARTYNAME,BRANCHMAST.BRANCHID,SALERETBASICID,SALERETBASIC.STATUS from SALERETBASIC  left outer join BRANCHMAST on BRANCHMAST.BRANCHMASTID=SALERETBASIC.BRANCHID  where SALERETBASIC.STATUS='"+ status+ "'  order by SALERETBASIC.SALERETBASICID DESC ";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -232,6 +235,28 @@ namespace Arasan.Services.Sales
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
+        }
+        public string StatusChange(string tag, int id)
+        {
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE SALERETBASIC SET STATUS ='INACTIVE' WHERE SALERETBASICID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
         }
         //public DataTable GetSalesReturn(string invoiceid)
         //{

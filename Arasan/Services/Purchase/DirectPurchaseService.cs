@@ -17,8 +17,13 @@ namespace Arasan.Services
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
         }
-        public IEnumerable<DirectPurchase> GetAllDirectPur()
+        public IEnumerable<DirectPurchase> GetAllDirectPur(string status)
         {
+            if (string.IsNullOrEmpty(status))
+            {
+                status = "Yes";
+            }
+
             List<DirectPurchase> cmpList = new List<DirectPurchase>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
@@ -26,7 +31,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select  BRANCHMAST.BRANCHID,PARTYRCODE.PARTY,DPBASIC. DOCID,to_char(DPBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,DPBASIC.VOUCHER, to_char(DPBASIC.REFDT,'dd-MON-yyyy')REFDT,LOCID,CURRENCY.MAINCURR,DPBASIC.GROSS,DPBASIC.NET,DPBASIC.FREIGHT,OTHERCH,RNDOFF,DPBASIC.OTHERDISC,DPBASIC.LRCH,DPBASIC.DELCH,DPBASIC.NARR,DPBASICID,DPBASIC.IS_ACTIVE from DPBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=DPBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on DPBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=DPBASIC.MAINCURRENCY LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH') and DPBASIC.IS_ACTIVE= 'Yes' ORDER BY DPBASIC.DPBASICID DESC";
+                    cmd.CommandText = "Select  BRANCHMAST.BRANCHID,PARTYRCODE.PARTY,DPBASIC. DOCID,to_char(DPBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,DPBASIC.VOUCHER, to_char(DPBASIC.REFDT,'dd-MON-yyyy')REFDT,LOCID,CURRENCY.MAINCURR,DPBASIC.GROSS,DPBASIC.NET,DPBASIC.FREIGHT,OTHERCH,RNDOFF,DPBASIC.OTHERDISC,DPBASIC.LRCH,DPBASIC.DELCH,DPBASIC.NARR,DPBASICID,DPBASIC.IS_ACTIVE from DPBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=DPBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on DPBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=DPBASIC.MAINCURRENCY LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH') and DPBASIC.IS_ACTIVE= '"+ status +"' ORDER BY DPBASIC.DPBASICID DESC";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -42,8 +47,9 @@ namespace Arasan.Services
                             RefDate = rdr["REFDT"].ToString(),
                             Location = rdr["LOCID"].ToString(),
                             Currency = rdr["MAINCURR"].ToString(),
-                            Narration = rdr["NARR"].ToString()
-                            
+                            Narration = rdr["NARR"].ToString(),
+                            status = rdr["IS_ACTIVE"].ToString()
+
 
 
                         };

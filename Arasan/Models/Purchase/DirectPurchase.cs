@@ -39,7 +39,7 @@ namespace Arasan.Models
         public double SpDisc { get; set; }
         public double LRCha { get; set; }
         public double DelCh { get; set; }
-        public string Status { get; set; }
+        public string status { get; set; }
         public string Narration { get; set; }
 
 

@@ -176,9 +176,9 @@ namespace Arasan.Controllers
 
             return View(Cy);
         }
-        public IActionResult ListDirectPurchase()
+        public IActionResult ListDirectPurchase(string status)
         {
-            IEnumerable<DirectPurchase> cmp = directPurchase.GetAllDirectPur();
+            IEnumerable<DirectPurchase> cmp = directPurchase.GetAllDirectPur(status);
             return View(cmp);
         }
         public List<SelectListItem> BindBranch()
