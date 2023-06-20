@@ -119,25 +119,9 @@ namespace Arasan.Services
  
  
 
-                //string StaName = datatrans.GetDataString("Select STATE from STATEMAST where STATEMASTID='" + cy.StateName + "' ");
+                
 
-
-               
-                string StaName = datatrans.GetDataString("Select STATE from STATEMAST where STATEMASTID='" + cy.StateName + "' ");
-
-                using (OracleConnection objConn = new OracleConnection(_connectionString))
-                {
-                OracleCommand objCmd = new OracleCommand("BRANCHPROC", objConn);
-
-                else
-                {
-                    svSQL = " SELECT Count(BRANCHID) as cnt FROM BRANCHMAST WHERE BRANCHID =LTRIM(RTRIM('" + cy.BranchName + "'))";
-                    if (datatrans.GetDataId(svSQL) > 0)
-                    {
-                        msg = "Branch Already Existed";
-                        return msg;
-                    }
-                }
+                
  
                 string StaName = datatrans.GetDataString("Select STATE from STATEMAST where STATEMASTID='" + cy.StateName + "' ");
 
@@ -157,7 +141,7 @@ namespace Arasan.Services
                     }
                 else
                     {
-                        svSQL = " UPDATE BRANCHMAST SET COMPANYID ='" + cy.CompanyName + "', BRANCHID = '" + cy.BranchName + "', ADDRESS1 = '" + cy.Address + "',  STATE =  '" + StaName + "', CITY = '" + cy.City + "'  , PINCODE = '" + cy.PinCode + "', CSTNO = '" + cy.GSTNo + "', CSTDATE = '" + cy.GSTDate + "' Where BRANCHMASTID = '" + cy.ID + "'";
+                        svSQL = " UPDATE BRANCHMAST SET COMPANYID ='" + cy.CompanyName + "', BRANCHID = '" + cy.BranchName + "', ADDRESS1 = '" + cy.Address + "',  STATE =  '" + cy.StateName + "', CITY = '" + cy.City + "'  , PINCODE = '" + cy.PinCode + "', CSTNO = '" + cy.GSTNo + "', CSTDATE = '" + cy.GSTDate + "' Where BRANCHMASTID = '" + cy.ID + "'";
                          OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                         objCmds.ExecuteNonQuery();
                     }
