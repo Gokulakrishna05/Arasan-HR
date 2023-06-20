@@ -83,22 +83,22 @@ namespace Arasan.Services
                 if (ss.ID == null)
                 {
 
-                    svSQL = " SELECT Count(*) as cnt FROM DRUMMAST WHERE DRUMNO = LTRIM(RTRIM('" + ss.DrumNo + "'))";
+                    svSQL = " SELECT Count(DRUMNO) as cnt FROM DRUMMAST WHERE DRUMNO = LTRIM(RTRIM('" + ss.DrumNo + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "DrumNo Already Existed";
                         return msg;
                     }
                 }
-                else
-                {
-                    svSQL = " SELECT Count(*) as cnt FROM DRUMMAST WHERE DRUMNO = LTRIM(RTRIM('" + ss.DrumNo + "'))";
-                    if (datatrans.GetDataId(svSQL) > 0)
-                    {
-                        msg = "DrumNo Already Existed";
-                        return msg;
-                    }
-                }
+                //else
+                //{
+                //    svSQL = " SELECT Count(DRUMNO) as cnt FROM DRUMMAST WHERE DRUMNO = LTRIM(RTRIM('" + ss.DrumNo + "'))";
+                //    if (datatrans.GetDataId(svSQL) > 0)
+                //    {
+                //        msg = "DrumNo Already Existed";
+                //        return msg;
+                //    }
+                //}
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("DRUM_PROCEDURE", objConn);

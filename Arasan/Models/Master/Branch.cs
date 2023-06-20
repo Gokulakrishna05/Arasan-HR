@@ -32,6 +32,7 @@ namespace Arasan.Models
         public List<SelectListItem> statlst;
 
         public String StateName { get; set; }
+        public String status { get; set; }
 
 
     }

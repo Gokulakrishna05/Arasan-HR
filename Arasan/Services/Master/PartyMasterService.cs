@@ -69,7 +69,7 @@ namespace Arasan.Services.Master
 
                 {
 
-                    svSQL = " SELECT Count(*) as cnt FROM PARTYMAST WHERE PARTYID =LTRIM(RTRIM('" + cy.PartyCode + "')) ";
+                    svSQL = " SELECT Count(PARTYID) as cnt FROM PARTYMAST WHERE PARTYID =LTRIM(RTRIM('" + cy.PartyCode + "')) ";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "Party Already Existed";
@@ -78,7 +78,7 @@ namespace Arasan.Services.Master
                 }
                 else
                 {
-                    svSQL = " SELECT Count(*) as cnt FROM PARTYMAST WHERE PARTYID =LTRIM(RTRIM('" + cy.PartyCode + "')) ";
+                    svSQL = " SELECT Count(PARTYID) as cnt FROM PARTYMAST WHERE PARTYID =LTRIM(RTRIM('" + cy.PartyCode + "')) ";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "Party Already Existed";

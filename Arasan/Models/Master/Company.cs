@@ -4,6 +4,7 @@
     {
         public string ID { get; set; }
         public string CompanyId { get; set; }
+        public string status { get; set; }
 
         public string CompanyName { get; set; }
 

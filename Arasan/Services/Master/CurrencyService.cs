@@ -18,16 +18,20 @@ namespace Arasan.Services.Master
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public IEnumerable<Currency> GetAllCurrency()
+        public IEnumerable<Currency> GetAllCurrency(string status)
         {
             List<Currency> cmpList = new List<Currency>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
+                if (string.IsNullOrEmpty(status))
+                {
+                    status = "ACTIVE";
+                }
 
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select SYMBOL,MAINCURR,CURRENCYID,STATUS from CURRENCY WHERE STATUS= 'ACTIVE'";
+                    cmd.CommandText = "Select SYMBOL,MAINCURR,CURRENCYID,STATUS from CURRENCY WHERE CURRENCY.STATUS='" + status + "' order by CURRENCY.CURRENCYID DESC";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -35,7 +39,8 @@ namespace Arasan.Services.Master
                         {
                             ID = rdr["CURRENCYID"].ToString(),
                             CurrencyCode = rdr["SYMBOL"].ToString(),
-                            CurrencyName = rdr["MAINCURR"].ToString()
+                            CurrencyName = rdr["MAINCURR"].ToString(),
+                            status = rdr["STATUS"].ToString()
                         };
                         cmpList.Add(cmp);
                     }
@@ -80,20 +85,41 @@ namespace Arasan.Services.Master
                 if (cy.ID == null)
                 {
 
-                    svSQL = " SELECT Count(*) as cnt FROM CURRENCY WHERE MAINCURR = LTRIM(RTRIM('" + cy.CurrencyName + "')) and SYMBOL = LTRIM(RTRIM('" + cy.CurrencyCode + "'))";
+                    svSQL = " SELECT Count(SYMBOL) as cnt FROM CURRENCY WHERE  SYMBOL = LTRIM(RTRIM('" + cy.CurrencyCode + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
-                        msg = "Currency or Symbol Already Existed";
+                        msg = " Symbol Already Existed";
                         return msg;
                     }
+                    else
+                    {
+                        svSQL = " SELECT Count(MAINCURR) as cnt FROM CURRENCY WHERE MAINCURR = LTRIM(RTRIM('" + cy.CurrencyName + "')) ";
+                        if (datatrans.GetDataId(svSQL) > 0)
+                        {
+                            msg = "Currency Already Existed";
+                            return msg;
+                        }
+
+                    }
                 }
-                else
+               
+                else 
                 {
-                    svSQL = " SELECT Count(*) as cnt FROM CURRENCY WHERE MAINCURR = LTRIM(RTRIM('" + cy.CurrencyName + "')) and SYMBOL = LTRIM(RTRIM('" + cy.CurrencyCode + "'))";
+                    svSQL = " SELECT Count(SYMBOL) as cnt FROM CURRENCY WHERE  SYMBOL = LTRIM(RTRIM('" + cy.CurrencyCode + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
-                        msg = "Currency or Symbol Already Existed";
+                        msg = " Symbol Already Existed";
                         return msg;
+                    }
+                    else
+                    {
+                        svSQL = " SELECT Count(MAINCURR) as cnt FROM CURRENCY WHERE MAINCURR = LTRIM(RTRIM('" + cy.CurrencyName + "')) ";
+                        if (datatrans.GetDataId(svSQL) > 0)
+                        {
+                            msg = "Currency Already Existed";
+                            return msg;
+                        }
+
                     }
 
                 }
@@ -127,7 +153,7 @@ namespace Arasan.Services.Master
                     }
                     catch (Exception ex)
                     {
-                        System.Console.WriteLine("Exception: {0}", ex.ToString());
+                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
                     }
                     objConn.Close();
                 }

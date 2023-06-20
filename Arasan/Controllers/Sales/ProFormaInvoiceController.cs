@@ -260,7 +260,7 @@ namespace Arasan.Controllers.Sales
                         //tda.tariff = dtt.Rows[i]["TARIFFID"].ToString();
                         //tda.totamount = dtt.Rows[i]["TOTEXAMT"].ToString();
                         tda.ID = id;
-
+                        tda.Isvalid = "Y";
                         Data.Add(tda);
                     }
                 }

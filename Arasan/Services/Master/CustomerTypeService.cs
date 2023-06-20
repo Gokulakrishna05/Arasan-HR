@@ -18,8 +18,12 @@ namespace Arasan.Services
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public IEnumerable<CustomerType> GetAllCustomerType()
+        public IEnumerable<CustomerType> GetAllCustomerType(string status)
         {
+            if (string.IsNullOrEmpty(status))
+            {
+                status = "ACTIVE";
+            }
             List<CustomerType> staList = new List<CustomerType>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
@@ -27,7 +31,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select CUSTOMER_TYPE,DESCRIPTION,CUSTOMERTYPEID,STATUS  from CUSTOMERTYPE WHERE STATUS= 'ACTIVE'";
+                    cmd.CommandText = "Select CUSTOMER_TYPE,DESCRIPTION,CUSTOMERTYPEID,STATUS  from CUSTOMERTYPE WHERE STATUS= '" + status + "' order by CUSTOMERTYPE.CUSTOMERTYPEID DESC";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -36,6 +40,7 @@ namespace Arasan.Services
                             ID = rdr["CUSTOMERTYPEID"].ToString(),
                             Type = rdr["CUSTOMER_TYPE"].ToString(),
                             Des = rdr["DESCRIPTION"].ToString(),
+                            status = rdr["STATUS"].ToString()
                            
                         };
                         staList.Add(sta);
@@ -53,7 +58,7 @@ namespace Arasan.Services
                 if (cy.ID == null)
                 {
 
-                    svSQL = " SELECT Count(*) as cnt FROM CUSTOMERTYPE WHERE CUSTOMER_TYPE =LTRIM(RTRIM('" + cy.Type + "'))";
+                    svSQL = " SELECT Count(CUSTOMER_TYPE) as cnt FROM CUSTOMERTYPE WHERE CUSTOMER_TYPE =LTRIM(RTRIM('" + cy.Type + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "CustomerType Already Existed";
@@ -62,7 +67,7 @@ namespace Arasan.Services
                 }
                 else
                 {
-                    svSQL = " SELECT Count(*) as cnt FROM CUSTOMERTYPE WHERE CUSTOMER_TYPE =LTRIM(RTRIM('" + cy.Type + "'))";
+                    svSQL = " SELECT Count(CUSTOMER_TYPE) as cnt FROM CUSTOMERTYPE WHERE CUSTOMER_TYPE =LTRIM(RTRIM('" + cy.Type + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "CustomerType Already Existed";

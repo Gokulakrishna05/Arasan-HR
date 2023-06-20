@@ -18,8 +18,12 @@ namespace Arasan.Services.Master
             _connectionString = _configuration.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public IEnumerable<Company> GetAllCompany()
+        public IEnumerable<Company> GetAllCompany(string status)
         {
+            if (string.IsNullOrEmpty(status))
+            {
+                status = "ACTIVE";
+            }
             List<Company> cmpList = new List<Company>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
@@ -27,7 +31,7 @@ namespace Arasan.Services.Master
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select COMPANYID,COMPANYDESC,COMPANYMASTID,STATUS from COMPANYMAST WHERE STATUS='ACTIVE'";
+                    cmd.CommandText = "Select COMPANYID,COMPANYDESC,COMPANYMASTID,STATUS from COMPANYMAST WHERE STATUS='" + status + "' order by COMPANYMAST.COMPANYMASTID DESC";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -35,7 +39,8 @@ namespace Arasan.Services.Master
                         {
                             ID = rdr["COMPANYMASTID"].ToString(),
                             CompanyId = rdr["COMPANYID"].ToString(),
-                            CompanyName = rdr["COMPANYDESC"].ToString()
+                            CompanyName = rdr["COMPANYDESC"].ToString(),
+                            status = rdr["STATUS"].ToString()
                         };
                         cmpList.Add(cmp);
                     }
@@ -80,7 +85,7 @@ namespace Arasan.Services.Master
                 if (cy.ID == null)
                 {
 
-                    svSQL = " SELECT Count(*) as cnt FROM COMPANYMAST WHERE COMPANYID=LTRIM(RTRIM('" + cy.CompanyId + "'))";
+                    svSQL = " SELECT Count(COMPANYID) as cnt FROM COMPANYMAST WHERE COMPANYID=LTRIM(RTRIM('" + cy.CompanyId + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "Company Already Existed";
@@ -89,7 +94,7 @@ namespace Arasan.Services.Master
                 }
                 else
                 {
-                    svSQL = " SELECT Count(*) as cnt FROM COMPANYMAST WHERE COMPANYID=LTRIM(RTRIM('" + cy.CompanyId + "'))";
+                    svSQL = " SELECT Count(COMPANYID) as cnt FROM COMPANYMAST WHERE COMPANYID=LTRIM(RTRIM('" + cy.CompanyId + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "Company Already Existed";

@@ -55,7 +55,7 @@ namespace Arasan.Services
                 if (cy.ID == null)
                 {
 
-                    svSQL = " SELECT Count(*) as cnt FROM UNITMAST WHERE UNITID = LTRIM(RTRIM('" + cy.UnitName + "'))";
+                    svSQL = " SELECT Count(UNITID) as cnt FROM UNITMAST WHERE UNITID = LTRIM(RTRIM('" + cy.UnitName + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "Unit Already Existed";
@@ -64,7 +64,7 @@ namespace Arasan.Services
                 }
                 else
                 {
-                    svSQL = " SELECT Count(*) as cnt FROM UNITMAST WHERE UNITID = LTRIM(RTRIM('" + cy.UnitName + "'))";
+                    svSQL = " SELECT Count(UNITID) as cnt FROM UNITMAST WHERE UNITID = LTRIM(RTRIM('" + cy.UnitName + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "Unit Already Existed";

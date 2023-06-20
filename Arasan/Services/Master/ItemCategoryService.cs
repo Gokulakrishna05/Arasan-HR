@@ -82,7 +82,7 @@ namespace Arasan.Services.Master
                 if (iy.ID == null)
                 {
 
-                    svSQL = " SELECT Count(*) as cnt FROM ITEMCATEGORY WHERE CATEGORY = LTRIM(RTRIM('" + iy.Category + "'))";
+                    svSQL = " SELECT Count(CATEGORY) as cnt FROM ITEMCATEGORY WHERE CATEGORY = LTRIM(RTRIM('" + iy.Category + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "ItemCategory Already Existed";
@@ -91,7 +91,7 @@ namespace Arasan.Services.Master
                 }
                 else
                 {
-                    svSQL = " SELECT Count(*) as cnt FROM ITEMCATEGORY WHERE CATEGORY = LTRIM(RTRIM('" + iy.Category + "'))";
+                    svSQL = " SELECT Count(CATEGORY) as cnt FROM ITEMCATEGORY WHERE CATEGORY = LTRIM(RTRIM('" + iy.Category + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "ItemCategory Already Existed";

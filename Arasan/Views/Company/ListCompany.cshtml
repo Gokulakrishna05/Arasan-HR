@@ -2,6 +2,9 @@
 
 @{
     ViewData["Title"] = "Company";
+    string query = ViewContext.HttpContext.Request.Query["status"];
+    string Qid = string.Empty;
+    if (!string.IsNullOrEmpty(query)) { Qid = ViewContext.HttpContext.Request.Query["status"]; }
 }
 
 
@@ -34,6 +37,13 @@
 
                     <form>
                         <div class="row">
+                            <div class="col-md-6 ">
+                                <select style='width: 200px;' class='form-control  newcss' id="dllstatus" onchange="changeStatus(this.value)">
+                                    <option value='ACTIVE'>Open</option>
+                                    <option value='INACTIVE'>Close</option>
+                                    @* <option value='InActive'>Disabled</option>*@
+                                </select>
+                            </div>
                             <div class="col-md-12 ">
                                 <div class=" textalignright">
 
@@ -73,9 +83,16 @@
                                                                 <td>@i</td>
                                                                 <td>@Html.DisplayFor(modelItem => item.CompanyId)</td>
                                                                 <td>@Html.DisplayFor(modelItem => item.CompanyName)</td>
-
+                                                                 @if (item.status == "INACTIVE")
+                                                                    {
+                                                                        <td></td>
+                                                                        <td> </td>
+                                                                    }
+                                                                    else
+                                                                    {
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Company", "Company",new { id=item.ID })"></a></div></td>
                                                                     <td> <a href="@Url.Action("DeleteMR","Company",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
+                                                                    }
                                                                 </tr>
                                                                 i++;
                                                         }
@@ -128,5 +145,55 @@
 
 
 
+    });
+</script>
+<a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+<a class="fancyboxe1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+<link rel="stylesheet" href="@Url.Content("~/css/jquery.fancybox.css?v=2.1.5")" type="text/css" media="screen" />
+<script type="text/javascript" src="@Url.Content("~/css/jquery.fancybox.pack.js?v=2.1.5")"></script>
+<script type="text/javascript">
+    var fancybox123;
+    jQuery(document).ready(function ($) {
+        $(".fancybox").fancybox({
+            width: '80%',
+            height: '10%',
+            arrows: false,
+            afterClose: function () {
+                location.reload();
+                return;
+            }
+        });
+        fancybox123 = $.fancybox;
+    });
+
+    function close_popup() {
+        fancybox123.close();
+        $(".fancybox1").fancybox({
+            width: '100%',
+            height: '100%',
+            arrows: false,
+        });
+        $(".fancybox1").eq(0).trigger('click');
+    }
+    function changeStatus(status) {
+        var url = "/Company/ListCompany?status=" + status;
+        window.location.href = url;
+        //$.ajax({
+        //    url: 'AssignSession',
+        //    data: { "status": status },
+        //    type: "GET",
+        //    success: function (result) {
+        //        document.getElementById("hdstatus").value = result;
+        //    },
+        //    error: function () {
+        //        alert("Data Not Found");
+        //    }
+        //});
+        //window.location.reload();
+
+    }
+    $(document).ready(function () {
+        var val2 = "@Qid";
+        $('#dllstatus').val(val2);
     });
 </script>

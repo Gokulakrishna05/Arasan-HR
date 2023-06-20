@@ -9,7 +9,7 @@ namespace Arasan.Interface
     {
 
         string DrumCategoryCRUD(DrumCategory ss);
-        IEnumerable<DrumCategory> GetAllDrumCategory();
+        IEnumerable<DrumCategory> GetAllDrumCategory(string status);
 
         DataTable GetDrumCategory(string id);
 

@@ -68,9 +68,9 @@ namespace Arasan.Controllers
             return View(Ic);
         }
 
-        public IActionResult ListCountry()
+        public IActionResult ListCountry(string status)
         {
-            IEnumerable<Country> ic = CountryService.GetAllCountry();
+            IEnumerable<Country> ic = CountryService.GetAllCountry(status);
             return View(ic);
         }
 

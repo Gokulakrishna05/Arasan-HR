@@ -100,9 +100,9 @@ namespace Arasan.Controllers.Master
             }
         }
 
-        public IActionResult ListDesignation()
+        public IActionResult ListDesignation(string status)
         {
-            IEnumerable<Designation> cmp = DesignationService.GetAllDesignation();
+            IEnumerable<Designation> cmp = DesignationService.GetAllDesignation(status);
             return View(cmp);
         }
 

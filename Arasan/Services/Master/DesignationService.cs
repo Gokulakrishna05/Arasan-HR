@@ -19,8 +19,12 @@ namespace Arasan.Services.Master
             datatrans = new DataTransactions(_connectionString);
         }
 
-        public IEnumerable<Designation> GetAllDesignation()
+        public IEnumerable<Designation> GetAllDesignation(string status)
         {
+            if (string.IsNullOrEmpty(status))
+            {
+                status = "ACTIVE";
+            }
             List<Designation> cmpList = new List<Designation>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
@@ -28,7 +32,7 @@ namespace Arasan.Services.Master
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select DESIGNATIONMASTID,DESIGNATION,DEPARTMENT_NAME from DESIGNATIONMAST WHERE STATUS= 'ACTIVE'";
+                    cmd.CommandText = "Select DESIGNATIONMASTID,DESIGNATION,DEPARTMENT_NAME from DESIGNATIONMAST WHERE STATUS= '" + status + "' order by DESIGNATIONMAST.DESIGNATIONMASTID DESC";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -36,8 +40,9 @@ namespace Arasan.Services.Master
                         {
                             ID = rdr["DESIGNATIONMASTID"].ToString(),
                             Design = rdr["DESIGNATION"].ToString(),
-                            DeptName = rdr["DEPARTMENT_NAME"].ToString()
-                            
+                            DeptName = rdr["DEPARTMENT_NAME"].ToString(),
+                            //status = rdr["STATUS"].ToString()
+
 
                         };
                         cmpList.Add(cmp);
@@ -57,7 +62,7 @@ namespace Arasan.Services.Master
                 if (ss.ID == null)
                 {
 
-                    svSQL = " SELECT Count(*) as cnt FROM DESIGNATIONMAST WHERE DESIGNATION = LTRIM(RTRIM('" + ss.Design + "'))";
+                    svSQL = " SELECT Count(DESIGNATION) as cnt FROM DESIGNATIONMAST WHERE DESIGNATION = LTRIM(RTRIM('" + ss.Design + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "Designation Already Existed";
@@ -66,7 +71,7 @@ namespace Arasan.Services.Master
                 }
                 else
                 {
-                    svSQL = " SELECT Count(*) as cnt FROM DESIGNATIONMAST WHERE DESIGNATION = LTRIM(RTRIM('" + ss.Design + "'))";
+                    svSQL = " SELECT Count(DESIGNATION) as cnt FROM DESIGNATIONMAST WHERE DESIGNATION = LTRIM(RTRIM('" + ss.Design + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "Designation Already Existed";

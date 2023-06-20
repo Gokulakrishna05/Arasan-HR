@@ -19,8 +19,12 @@ namespace Arasan.Services
             datatrans = new DataTransactions(_connectionString);
         }
 
-         public IEnumerable<DrumCategory> GetAllDrumCategory()
+         public IEnumerable<DrumCategory> GetAllDrumCategory(string status)
         {
+            if (string.IsNullOrEmpty(status))
+            {
+                status = "ACTIVE";
+            }
             List<DrumCategory> cmpList = new List<DrumCategory>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
@@ -28,7 +32,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select CATEGORYID,CATEGORYTYPE,DESCRIPTION,STATUS from DRUMMASTER_CATEGORY WHERE STATUS='ACTIVE'";
+                    cmd.CommandText = "Select CATEGORYID,CATEGORYTYPE,DESCRIPTION,STATUS from DRUMMASTER_CATEGORY WHERE STATUS='" + status + "' order by DRUMMASTER_CATEGORY.CATEGORYID DESC";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -56,7 +60,7 @@ namespace Arasan.Services
                 if (ss.ID == null)
                 {
 
-                    svSQL = " SELECT Count(*) as cnt FROM DRUMMASTER_CATEGORY WHERE CATEGORYTYPE = LTRIM(RTRIM('" + ss.CateType + "'))";
+                    svSQL = " SELECT Count(DRUMMASTER_CATEGORY) as cnt FROM DRUMMASTER_CATEGORY WHERE CATEGORYTYPE = LTRIM(RTRIM('" + ss.CateType + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "Drum Category Already Existed";
@@ -65,7 +69,7 @@ namespace Arasan.Services
                 }
                 else
                 {
-                    svSQL = " SELECT Count(*) as cnt FROM DRUMMASTER_CATEGORY WHERE CATEGORYTYPE = LTRIM(RTRIM('" + ss.CateType + "'))";
+                    svSQL = " SELECT Count(DRUMMASTER_CATEGORY) as cnt FROM DRUMMASTER_CATEGORY WHERE CATEGORYTYPE = LTRIM(RTRIM('" + ss.CateType + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "Drum Category Already Existed";

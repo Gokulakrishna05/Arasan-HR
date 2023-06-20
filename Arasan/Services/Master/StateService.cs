@@ -99,7 +99,7 @@ namespace Arasan.Services.Master
                 if (ss.ID == null)
                 {
 
-                    svSQL = " SELECT Count(*) as cnt FROM STATEMAST WHERE STATE =LTRIM(RTRIM('" + ss.StateName + "'))";
+                    svSQL = " SELECT Count(STATE) as cnt FROM STATEMAST WHERE STATE =LTRIM(RTRIM('" + ss.StateName + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "State Already Existed";
@@ -108,7 +108,7 @@ namespace Arasan.Services.Master
                 }
                 else
                 {
-                    svSQL = " SELECT Count(*) as cnt FROM STATEMAST WHERE STATE =LTRIM(RTRIM('" + ss.StateName + "'))";
+                    svSQL = " SELECT Count(STATE) as cnt FROM STATEMAST WHERE STATE =LTRIM(RTRIM('" + ss.StateName + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "State Already Existed";

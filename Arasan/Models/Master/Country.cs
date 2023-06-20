@@ -5,6 +5,7 @@
         public string ID{ get; set; }
         public string ConName { get; set; }
         public string ConCode { get; set; }
+        public string status { get; set; }
     
 
 

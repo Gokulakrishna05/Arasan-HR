@@ -81,9 +81,9 @@ namespace Arasan.Controllers
 
             return View(Ic);
         }
-        public IActionResult ListCuring()
+        public IActionResult ListCuring(string status)
         {
-            IEnumerable<Curing> ic = CuringService.GetAllCuring();
+            IEnumerable<Curing> ic = CuringService.GetAllCuring(status);
             return View(ic);
         }
         public IActionResult Status(string id)

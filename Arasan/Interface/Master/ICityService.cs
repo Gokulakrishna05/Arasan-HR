@@ -8,7 +8,7 @@ namespace Arasan.Interface.Master
     public interface ICityService
     {
         string CityCRUD(City by);
-        IEnumerable<City> GetAllCity();
+        IEnumerable<City> GetAllCity(string status);
         DataTable GetCity(string id);
 
         DataTable GetState(string id);
