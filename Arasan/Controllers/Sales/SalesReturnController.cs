@@ -115,9 +115,9 @@ namespace Arasan.Controllers.Sales
 
             return View(Cy);
         }
-        public IActionResult ListSalesReturn()
+        public IActionResult ListSalesReturn(string status)
         {
-            IEnumerable<SalesReturn> cmp = SRInterface.GetAllSalesReturn();
+            IEnumerable<SalesReturn> cmp = SRInterface.GetAllSalesReturn(status);
             return View(cmp);
         }
         public List<SelectListItem> BindLocation()
@@ -318,6 +318,21 @@ namespace Arasan.Controllers.Sales
             model.returnlist = Data;
             return Json(model.returnlist);
 
+        }
+        public ActionResult CloseQuote(string tag, int id)
+        {
+
+            string flag = SRInterface.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListSalesReturn");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListSalesReturn");
+            }
         }
     }
 }
