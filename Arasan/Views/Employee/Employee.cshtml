@@ -192,7 +192,7 @@
 
                               <br />
                            
-                                          </div>
+                                    </div>
 
                         
                   @*1st atb*@
@@ -209,7 +209,7 @@
 
                                                     <label for="inputName3" class="col-sm-4 control-label"> User Name <label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
-                                                    @Html.TextBoxFor(C => C.UserName, new { @id = "txtUserName ", @class = "form-control", @TabIndex = 10})<br />
+                                                    @Html.TextBoxFor(C => C.UserName, new { @id = "txtuse ", @class = "form-control", @TabIndex = 10})<br />
 
                                     </div>
 
@@ -281,7 +281,7 @@
 
                                             </div>
                                         </div>
-                                    </div>
+                            </div>
 
 
                                     <div class="row">
@@ -621,7 +621,7 @@
                                 <div class="col-lg-10"></div>
                                 <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
                             <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListEmployee", "Employee")'">Cancel</button>
-
+                           
                    @* 5th tab*@
                 </div>
                  
@@ -629,7 +629,7 @@
            
 
         
-                        @*    <div style="height:30px;"></div>
+                            @*<div style="height:30px;"></div>
                                 <div class="col-lg-10"></div>
                                 <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
                             <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListEmployee", "Employee")'">Cancel</button>*@
@@ -656,6 +656,210 @@
         forceParse: 0
     });
 
+    $(function () {
+        $('._select').select2();
+    });
+
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+
+            if (document.getElementById("EmpName").value == "") {
+                isValid = false;
+                $(EmpName).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Employee Name");
+                return false;
+            }
+            else {
+                $(EmpName).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("EmpId").value == "") {
+                isValid = false;
+                $(EmpId).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Employee ID");
+                return false;
+            }
+            else {
+                $(EmpId).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+             if (document.getElementById("DOB").value == "") {
+                isValid = false;
+                $(DOB).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select DOB");
+                return false;
+            }
+            else {
+                $(DOB).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+             if (document.getElementById("Phoneno").value == "") {
+                isValid = false;
+                $(Phoneno).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Mobile No");
+                return false;
+            }
+            else {
+                $(Phoneno).css({
+                    "border": "",
+                    "background": ""
+                });
+            } 
+
+             if (document.getElementById("txtuse").value == "") {
+                isValid = false;
+                $(txtuse).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select User Name");
+                return false;
+            }
+            else {
+                $(txtuse).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+
+            if (document.getElementById("Password").value == "") {
+                isValid = false;
+                $(Password).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Password");
+                return false;
+            }
+            else {
+                $(Password).css({
+                    "border": "",
+                    "background": ""
+                });
+            } 
+
+            if (document.getElementById("JoinDate").value == "") {
+                isValid = false;
+                $(JoinDate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Join Date");
+                return false;
+            }
+            else {
+                $(JoinDate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("YearPassing").value == "") {
+                isValid = false;
+                $(YearPassing).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Year Of Passing");
+                return false;
+            }
+            else {
+                $(YearPassing).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (isValid == false)
+                e.preventDefault();
+
+        });
+
+    });
+
+</script>
+
+<script>
+
+    function State_Change(itemid, i) {
+        //alert(itemid);
+        //debugger;
+        $.ajax({
+            url: "GetItemJSON",
+            type: "post",
+            data: { 'supid': itemid },
+            cache: false,
+            success: function (response) {
+                var newlist;
+                //alert(JSON.stringify(response));
+                newlist = response.Ilst;
+                PopulateDropDown("#ddlCity" + i, response);
+            },
+            error: function () {
+                debugger;
+                alert("Please Select State");
+            }
+        });
+    }
+    function PopulateDropDown(dropDownId, list) {
+        //alert(list);
+        $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
+        if (list != null && list.length > 0) {
+            $(dropDownId).removeAttr("disabled");
+            $.each(list, function () {
+                $(dropDownId).append($("<option></option>").val(this['value']).html(this['text']));
+            });
+        }
+        $(dropDownId).trigger("liszt:updated");
+    }
+           
+
+</script>
+
+
+
+
+
+@*
+    <script>
+    $(".chosen-select").chosen();
+    $('.form_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
     $(document).ready(function () {
         $('#btnSave').click(function (e) {
             var isValid = true;
@@ -709,43 +913,111 @@
                 });
             }
 
-            if (document.getElementById("txtUserName").value == "") {
+
+
+            if (document.getElementById("ddlState").value == "") {
                 Phoneno = false;
-                $(txtUserName).css({
+                $(ddlState).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Enter UserName ");
+                alert("Please Enter State ");
                 return false;
             }
             else {
-                $(txtUserName).css({
+                $(ddlState).css({
                     "border": "",
                     "background": ""
                 });
             }
 
-            //if (document.getElementById("Phoneno").value == "") {
-            //    Phoneno = false;
-            //    $(Phoneno).css({
-            //        "border": "1px solid red",
-            //        "background": "#FFCECE"
-            //    });
+            if (document.getElementById("UserName").value == "") {
+                isValid = false;
+                $(UserName).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
 
-            //    alert("Please Enter Mobile No ");
-            //    return false;
-            //}
-            //else {
-            //    $(Phoneno).css({
-            //        "border": "",
-            //        "background": ""
-            //    });
-            //}
+                alert("Please Enter User Name ");
+                return false;
+            }
+            else {
+                $(UserName).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("Password").value == "") {
+                isValid = false;
+                $(Password).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
 
+                alert("Please Enter Password ");
+                return false;
+            }
+            else {
+                $(Password).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+
+
+            if (document.getElementById("YearPassing").value == "") {
+                isValid = false;
+                $(YearPassing).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter YearPassing ");
+                return false;
+            }
+            else {
+                $(YearPassing).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
             if (isValid == false)
                 e.preventDefault();
         });
 
     });
+    function State_Change(itemid, i) {
+        //alert(itemid);
+        //debugger;
+        $.ajax({
+            url: "GetItemJSON",
+            type: "post",
+            data: { 'supid': itemid },
+            cache: false,
+            success: function (response) {
+                var newlist;
+                //alert(JSON.stringify(response));
+                newlist = response.Ilst;
+                PopulateDropDown("#ddlCity" + i, response);
+            },
+            error: function () {
+                debugger;
+                alert("Please Select State");
+            }
+        });
+    }
+    function PopulateDropDown(dropDownId, list) {
+        //alert(list);
+        $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
+        if (list != null && list.length > 0) {
+            $(dropDownId).removeAttr("disabled");
+            $.each(list, function () {
+                $(dropDownId).append($("<option></option>").val(this['value']).html(this['text']));
+            });
+        }
+        $(dropDownId).trigger("liszt:updated");
+    }
 </script>
+*@
