@@ -79,9 +79,9 @@ namespace Arasan.Controllers
             return View(Dm);
         }
 
-        public ActionResult ListNewCategory()
+        public ActionResult ListNewCategory(string status)
         {
-            IEnumerable<DrumCategory> cmp = DrumCategoryService.GetAllDrumCategory();
+            IEnumerable<DrumCategory> cmp = DrumCategoryService.GetAllDrumCategory(status);
             return View(cmp);
         }
 

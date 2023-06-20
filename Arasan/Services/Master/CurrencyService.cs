@@ -18,16 +18,20 @@ namespace Arasan.Services.Master
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public IEnumerable<Currency> GetAllCurrency()
+        public IEnumerable<Currency> GetAllCurrency(string status)
         {
             List<Currency> cmpList = new List<Currency>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
+                if (string.IsNullOrEmpty(status))
+                {
+                    status = "ACTIVE";
+                }
 
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select SYMBOL,MAINCURR,CURRENCYID,STATUS from CURRENCY WHERE STATUS= 'ACTIVE'";
+                    cmd.CommandText = "Select SYMBOL,MAINCURR,CURRENCYID,STATUS from CURRENCY WHERE CURRENCY.STATUS='" + status + "' order by CURRENCY.CURRENCYID DESC";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -35,7 +39,8 @@ namespace Arasan.Services.Master
                         {
                             ID = rdr["CURRENCYID"].ToString(),
                             CurrencyCode = rdr["SYMBOL"].ToString(),
-                            CurrencyName = rdr["MAINCURR"].ToString()
+                            CurrencyName = rdr["MAINCURR"].ToString(),
+                            status = rdr["STATUS"].ToString()
                         };
                         cmpList.Add(cmp);
                     }

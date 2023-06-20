@@ -19,8 +19,12 @@ namespace Arasan.Services
             datatrans = new DataTransactions(_connectionString);
         }
 
-        public IEnumerable<Department> GetAllDepartment()
+        public IEnumerable<Department> GetAllDepartment(string status)
         {
+            if (string.IsNullOrEmpty(status))
+            {
+                status = "ACTIVE";
+            }
             List<Department> cmpList = new List<Department>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
@@ -28,7 +32,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select DEPARTMENTMASTID,DEPARTMENT_CODE,DEPARTMENT_NAME,DESCRIPTION, STATUS from DEPARTMENTMAST WHERE STATUS= 'ACTIVE'";
+                    cmd.CommandText = "Select DEPARTMENTMASTID,DEPARTMENT_CODE,DEPARTMENT_NAME,DESCRIPTION, STATUS from DEPARTMENTMAST WHERE DEPARTMENTMAST.STATUS= '" + status + "' order by DEPARTMENTMAST.DEPARTMENTMASTID DESC";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -37,7 +41,8 @@ namespace Arasan.Services
                             ID = rdr["DEPARTMENTMASTID"].ToString(),
                             Departmentcode = rdr["DEPARTMENT_CODE"].ToString(),
                             DepartmentName = rdr["DEPARTMENT_NAME"].ToString(),
-                            Description = rdr["DESCRIPTION"].ToString()
+                            Description = rdr["DESCRIPTION"].ToString(),
+                            status = rdr["STATUS"].ToString()
 
                         };
                         cmpList.Add(cmp);

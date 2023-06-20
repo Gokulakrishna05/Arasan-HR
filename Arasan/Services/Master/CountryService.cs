@@ -31,7 +31,7 @@ namespace Arasan.Services.Master
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select COUNTRYNAME,COUNTRYCODE,COUNTRYMASTID,STATUS from CONMAST WHERE STATUS = '" + status + "' order by COUNTRYMAST.COUNTRYMASTID DESC";
+                    cmd.CommandText = "Select COUNTRYNAME,COUNTRYCODE,COUNTRYMASTID,STATUS from CONMAST WHERE STATUS = '" + status + "' order by CONMAST.COUNTRYMASTID DESC";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {

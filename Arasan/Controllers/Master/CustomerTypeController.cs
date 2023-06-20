@@ -76,9 +76,9 @@ namespace Arasan.Controllers
 
             return View(Cy);
         }
-        public IActionResult ListCustomerType()
+        public IActionResult ListCustomerType(string status)
         {
-            IEnumerable<CustomerType> ic = Customer.GetAllCustomerType();
+            IEnumerable<CustomerType> ic = Customer.GetAllCustomerType(status);
             return View(ic);
         }
 

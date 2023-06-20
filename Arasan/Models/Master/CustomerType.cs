@@ -5,5 +5,6 @@
         public string ID { get; set; }
         public string Type { get; set; }
         public string Des { get; set; }
+        public string status { get; set; }
     }
 }
