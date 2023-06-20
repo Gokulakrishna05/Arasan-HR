@@ -76,15 +76,7 @@ namespace Arasan.Services.Master
                         return msg;
                     }
                 }
-                else
-                {
-                    svSQL = " SELECT Count(PARTYID) as cnt FROM PARTYMAST WHERE PARTYID =LTRIM(RTRIM('" + cy.PartyCode + "')) ";
-                    if (datatrans.GetDataId(svSQL) > 0)
-                    {
-                        msg = "Party Already Existed";
-                        return msg;
-                    }
-                }
+                
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {

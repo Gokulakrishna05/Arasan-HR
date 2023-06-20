@@ -65,15 +65,7 @@ namespace Arasan.Services
                         return msg;
                     }
                 }
-                else
-                {
-                    svSQL = " SELECT Count(CUSTOMER_TYPE) as cnt FROM CUSTOMERTYPE WHERE CUSTOMER_TYPE =LTRIM(RTRIM('" + cy.Type + "'))";
-                    if (datatrans.GetDataId(svSQL) > 0)
-                    {
-                        msg = "CustomerType Already Existed";
-                        return msg;
-                    }
-                }
+               
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("CUSTOMERTYPEPROC", objConn);

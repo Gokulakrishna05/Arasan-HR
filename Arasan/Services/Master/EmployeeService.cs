@@ -74,21 +74,11 @@ namespace Arasan.Services.Master
                 {
 
  
-                    svSQL = " SELECT Count(*) as cnt FROM EMPMAST WHERE EMPNAME = LTRIM(RTRIM('" + cy.EmpNo + "')) ";
+                    svSQL = " SELECT Count(EMPNAME) as cnt FROM EMPMAST WHERE EMPNAME = LTRIM(RTRIM('" + cy.EmpNo + "')) ";
  
                      if (datatrans.GetDataId(svSQL) > 0)
                     {
-                        msg = "Employee Already Existed";
-                        return msg;
-                    }
-                }
-                else
-                {
-                    svSQL = " SELECT Count(EMPNAME) as cnt FROM EMPMAST WHERE EMPNAME = LTRIM(RTRIM('" + cy.EmpNo + "'))  ";
- 
-                    if (datatrans.GetDataId(svSQL) > 0)
-                    {
-                        msg = "Employee Already Existed";
+                        msg = "Employee Name Already Existed";
                         return msg;
                     }
                 }

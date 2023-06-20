@@ -121,6 +121,14 @@ namespace Arasan.Services
 
                 //string StaName = datatrans.GetDataString("Select STATE from STATEMAST where STATEMASTID='" + cy.StateName + "' ");
 
+
+               
+                string StaName = datatrans.GetDataString("Select STATE from STATEMAST where STATEMASTID='" + cy.StateName + "' ");
+
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                OracleCommand objCmd = new OracleCommand("BRANCHPROC", objConn);
+
                 else
                 {
                     svSQL = " SELECT Count(BRANCHID) as cnt FROM BRANCHMAST WHERE BRANCHID =LTRIM(RTRIM('" + cy.BranchName + "'))";
@@ -135,6 +143,7 @@ namespace Arasan.Services
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
             {
+
 
                     objConn.Open();
 

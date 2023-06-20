@@ -114,16 +114,7 @@ namespace Arasan.Services.Master
                         return msg;
                     }
                 }
-                else
-                {
-                    svSQL = " SELECT Count(CITYNAME) as cnt FROM CITYMASTER WHERE CITYNAME = LTRIM(RTRIM('" + ss.Cit + "')) ";
-                    if (datatrans.GetDataId(svSQL) > 0)
-                    {
-                        msg = "City Already Existed";
-                        return msg;
-                    }
-
-                }
+               
                 string StaName = datatrans.GetDataString("Select STATE from STATEMAST where STATEMASTID='" + ss.State + "' ");
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {

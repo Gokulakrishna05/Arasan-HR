@@ -80,16 +80,7 @@ namespace Arasan.Services
                     }
                    
                 }
-                else
-                {
-                    svSQL = " SELECT Count(DEPARTMENT_CODE) as cnt FROM DEPARTMENTMAST WHERE DEPARTMENT_CODE = LTRIM(RTRIM('" + ss.Departmentcode + "')) ";
-                    if (datatrans.GetDataId(svSQL) > 0)
-                    {
-                        msg = "Departmentcode Already Existed";
-                        return msg;
-                    }
-                   
-                }
+              
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("DEPARTMENTPROC", objConn);
