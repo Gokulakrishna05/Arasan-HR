@@ -295,7 +295,7 @@ namespace Arasan.Services.Master
         public DataTable GetEmpEduDeatils(string data)
         {
             string SvSql = string.Empty;
-            SvSql = "Select EMPMEDU.EDUCATION,EMPMEDU.UC,EMPMEDU.ECPLACE,to_char(EMPMEDU.YRPASSING,'dd-MON-yyyy')YRPASSING,EMPMEDU.MPER,EMPMEDUID  from EMPMEDU where EMPMEDU.EMPMASTID=" + data + "";
+            SvSql = "Select EMPMEDU.EDUCATION, .UC,EMPMEDU.ECPLACE,to_char(EMPMEDU.YRPASSING,'dd-MON-yyyy')YRPASSING,EMPMEDU.MPER,EMPMEDUID  from EMPMEDU where EMPMEDU.EMPMASTID=" + data + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
