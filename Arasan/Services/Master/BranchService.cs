@@ -116,8 +116,11 @@ namespace Arasan.Services
                         return msg;
                     }
                 }
+ 
+ 
 
                 //string StaName = datatrans.GetDataString("Select STATE from STATEMAST where STATEMASTID='" + cy.StateName + "' ");
+
 
                
                 string StaName = datatrans.GetDataString("Select STATE from STATEMAST where STATEMASTID='" + cy.StateName + "' ");
@@ -126,39 +129,41 @@ namespace Arasan.Services
                 {
                 OracleCommand objCmd = new OracleCommand("BRANCHPROC", objConn);
 
-
-                objCmd.CommandType = CommandType.StoredProcedure;
-                if (cy.ID == null)
-                {
-                    StatementType = "Insert";
-                    objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-                }
                 else
                 {
-                    StatementType = "Update";
-                    objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                    svSQL = " SELECT Count(BRANCHID) as cnt FROM BRANCHMAST WHERE BRANCHID =LTRIM(RTRIM('" + cy.BranchName + "'))";
+                    if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "Branch Already Existed";
+                        return msg;
+                    }
                 }
+ 
+                string StaName = datatrans.GetDataString("Select STATE from STATEMAST where STATEMASTID='" + cy.StateName + "' ");
 
-                objCmd.Parameters.Add("COMPANYID", OracleDbType.NVarchar2).Value = cy.CompanyName;
-                objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.BranchName;
-                objCmd.Parameters.Add("ADDRESS1", OracleDbType.NVarchar2).Value = cy.Address;
-                objCmd.Parameters.Add("STATE", OracleDbType.NVarchar2).Value = cy.StateName;
-                objCmd.Parameters.Add("CITY", OracleDbType.NVarchar2).Value = cy.City;
-                objCmd.Parameters.Add("PINCODE", OracleDbType.NVarchar2).Value = cy.PinCode;
-                objCmd.Parameters.Add("CSTNO", OracleDbType.NVarchar2).Value = cy.GSTNo;
-                objCmd.Parameters.Add("CSTDATE", OracleDbType.NVarchar2).Value = cy.GSTDate;
-                objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
-                objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
-                try
-                {
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+            {
+
+
                     objConn.Open();
-                    objCmd.ExecuteNonQuery();
-                    //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
-                }
-                catch (Exception ex)
+
+
+                    if (cy.ID == null)
                 {
-                    //System.Console.WriteLine("Exception: {0}", ex.ToString());
-                }
+                       
+                        svSQL = "Insert into BRANCHMAST (COMPANYID,BRANCHID,ADDRESS1,STATE,CITY,PINCODE,CSTNO,CSTDATE,STATUS) VALUES ('" + cy.CompanyName + "','" + cy.BranchName + "','" + cy.Address + "','" + StaName + "','" + cy.City + "','" + cy.PinCode + "','" + cy.GSTNo + "','" + cy.GSTDate + "', 'ACTIVE')";
+                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                        objCmds.ExecuteNonQuery();
+                    }
+                else
+                    {
+                        svSQL = " UPDATE BRANCHMAST SET COMPANYID ='" + cy.CompanyName + "', BRANCHID = '" + cy.BranchName + "', ADDRESS1 = '" + cy.Address + "',  STATE =  '" + StaName + "', CITY = '" + cy.City + "'  , PINCODE = '" + cy.PinCode + "', CSTNO = '" + cy.GSTNo + "', CSTDATE = '" + cy.GSTDate + "' Where BRANCHMASTID = '" + cy.ID + "'";
+                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                        objCmds.ExecuteNonQuery();
+                    }
+
+ 
+                
                 objConn.Close();
             }
         }

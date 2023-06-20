@@ -19,8 +19,12 @@ namespace Arasan.Services
             datatrans = new DataTransactions(_connectionString);
         }
 
-         public IEnumerable<DrumCategory> GetAllDrumCategory()
+         public IEnumerable<DrumCategory> GetAllDrumCategory(string status)
         {
+            if (string.IsNullOrEmpty(status))
+            {
+                status = "ACTIVE";
+            }
             List<DrumCategory> cmpList = new List<DrumCategory>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
@@ -28,7 +32,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select CATEGORYID,CATEGORYTYPE,DESCRIPTION,STATUS from DRUMMASTER_CATEGORY WHERE STATUS='ACTIVE'";
+                    cmd.CommandText = "Select CATEGORYID,CATEGORYTYPE,DESCRIPTION,STATUS from DRUMMASTER_CATEGORY WHERE STATUS='" + status + "' order by DRUMMASTER_CATEGORY.CATEGORYID DESC";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {

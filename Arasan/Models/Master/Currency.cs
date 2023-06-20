@@ -5,6 +5,7 @@
         public string ID { get; set; }
         public string CurrencyCode { get; set; }
         public string CurrencyName { get; set; }
+        public string status { get; set; }
 
 
     }

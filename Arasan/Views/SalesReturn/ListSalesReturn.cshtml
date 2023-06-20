@@ -26,8 +26,8 @@
                         <div class="row">
                             <div class="col-md-6 ">
                                 <select style='width: 200px;' class='form-control  newcss' id="dllstatus" onchange="changeStatus(this.value)">
-                                    <option value='Active'>Open</option>
-                                    <option value='CLOSE'>Close</option>
+                                    <option value='ACTIVE'>Open</option>
+                                    <option value='INACTIVE'>Close</option>
                                     <option value='InActive'>Disabled</option>
                                 </select>
                             </div>
@@ -76,13 +76,13 @@
                                                                     <td>@Html.DisplayFor(modelItem => item.Docdate)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.custname)</td>
                                                                     @* <td>@Html.DisplayFor(modelItem => item.Customer)</td>*@
-                                                                    @if (item.status == "CLOSE")
+                                                                    @if (item.status == "INACTIVE")
                                                                     {
                                                                         <td></td>
                                                                         <td> </td>
-                                                                        <td></td>
-                                                                        <td> </td>
-                                                                        <td> </td>
+                                                                        //<td></td>
+                                                                        //<td> </td>
+                                                                        //<td> </td>
                                                                     }
                                                                     else
                                                                     {
@@ -179,7 +179,7 @@
         $(".fancybox1").eq(0).trigger('click');
     }
     function changeStatus(status) {
-        var url = "/SalesQuotation/ListSalesQuotation?status=" + status;
+        var url = "/SalesReturn/ListSalesReturn?status=" + status;
         window.location.href = url;
         //$.ajax({
         //    url: 'AssignSession',

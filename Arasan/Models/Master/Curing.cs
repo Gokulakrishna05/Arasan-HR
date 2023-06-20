@@ -23,7 +23,7 @@ namespace Arasan.Models
         public string Cap { get; set; }
 
         public List<SelectListItem> statuslst;
-        public string Status { get; set; }
+        public string status { get; set; }
 
 
     }

@@ -9,7 +9,7 @@ namespace Arasan.Models
         public string ID { get; set; }
         public string CategoryType { get; set; }
         public string Description { get; set; }
-        public string Status { get; set; }
+        public string status { get; set; }
         public string CateType { get; set; }
 
     }

@@ -17,6 +17,7 @@ namespace Arasan.Models
 
         public List<SelectListItem> DeptNamelst;
         public string DeptName { get; set; }
+        public string status { get; set; }
 
     }
 }

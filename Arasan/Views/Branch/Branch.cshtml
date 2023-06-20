@@ -270,7 +270,7 @@
                     "background": ""
                 });
             }
-            if (document.getElementById("ddlState").value == "" ) {
+            if (document.getElementById("ddlState").value == "" || document.getElementById("ddlState").value == 0) {
                 isValid = false;
                 $(ddlState).css({
                     "border": "1px solid red",
@@ -286,7 +286,7 @@
                     "background": ""
                 });
             }
-            if (document.getElementById("ddlCity").value == "") {
+            if (document.getElementById("ddlCity").value == "" || document.getElementById("ddlCity").value == 0) {
                 isValid = false;
                 $(ddlCity).css({
                     "border": "1px solid red",
