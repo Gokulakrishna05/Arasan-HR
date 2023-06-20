@@ -109,9 +109,9 @@ namespace Arasan.Controllers.Master
             return View(Dp);
         }
 
-        public IActionResult ListDepartment()
+        public IActionResult ListDepartment(string status)
         {
-            IEnumerable<Department> cmp = DepartmentService.GetAllDepartment();
+            IEnumerable<Department> cmp = DepartmentService.GetAllDepartment(status);
             return View(cmp);
         }
 

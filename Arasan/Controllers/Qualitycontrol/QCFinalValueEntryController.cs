@@ -119,7 +119,7 @@ namespace Arasan.Controllers.Qualitycontrol
                     //ca.BatchNo = dt.Rows[0]["BATCHNO"].ToString();
                     //ca.Itemid = dt.Rows[0]["ITEMID"].ToString();
                     //ca.ProNo = dt.Rows[0]["PRODID"].ToString();
-                    //ca.Rate = dt.Rows[0]["RATEPHR"].ToString();
+                    //ca.Rate = dt.Rows[0]["RATEPHR"].ToString();pas
                     //ca.ProDate = dt.Rows[0]["PRODDATE"].ToString();
                     //ca.SampleNo = dt.Rows[0]["SAMPLENO"].ToString();
                     //ca.NozzleNo = dt.Rows[0]["NOZZLENO"].ToString();

@@ -8,7 +8,7 @@ namespace Arasan.Interface
     public interface ICuringService
     {
         string CuringCRUD(Curing cy);
-        IEnumerable<Curing> GetAllCuring();
+        IEnumerable<Curing> GetAllCuring(string status);
         DataTable GetCuring();
         Curing GetCuringById(string id);
         DataTable GetCuringDeatil(string id);

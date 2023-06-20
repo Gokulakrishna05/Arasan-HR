@@ -37,8 +37,12 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        public IEnumerable<Curing> GetAllCuring()
+        public IEnumerable<Curing> GetAllCuring(string status)
         {
+            if (string.IsNullOrEmpty(status))
+            {
+                status = "ACTIVE";
+            }
             List<Curing> cmpList = new List<Curing>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
@@ -47,7 +51,7 @@ namespace Arasan.Services
                 {
                     con.Open();
 
-                    cmd.CommandText = "Select LOCDETAILS.LOCID,SUBGROUP,SHEDNUMBER,CAPACITY,CURINGMASTER.STATUS,CURINGMASTERID  from CURINGMASTER LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID = CURINGMASTER.LOCATIONID WHERE CURINGMASTER.STATUS='ACTIVE' ";
+                    cmd.CommandText = "Select LOCDETAILS.LOCID,SUBGROUP,SHEDNUMBER,CAPACITY,CURINGMASTERID  from CURINGMASTER LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID = CURINGMASTER.LOCATIONID WHERE CURINGMASTER.STATUS='" + status + "' order by CURINGMASTER.CURINGMASTERID DESC ";
 
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
@@ -59,7 +63,7 @@ namespace Arasan.Services
                             Sub = rdr["SUBGROUP"].ToString(),
                             Shed = rdr["SHEDNUMBER"].ToString(),
                             Cap = rdr["CAPACITY"].ToString(),
-                            Status = rdr["STATUS"].ToString()
+                            status = rdr["STATUS"].ToString()
 
                         };
                         cmpList.Add(cmp);
@@ -87,7 +91,7 @@ namespace Arasan.Services
                             Sub = rdr["SUBGROUP"].ToString(),
                             Shed = rdr["SHEDNUMBER"].ToString(),
                             Cap = rdr["CAPACITY"].ToString(),
-                            Status = rdr["STATUS"].ToString()
+                            status = rdr["STATUS"].ToString()
                         };
                         Curing = cmp;
                     }

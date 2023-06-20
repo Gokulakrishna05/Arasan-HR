@@ -6,7 +6,7 @@ namespace Arasan.Interface.Master
     public interface ICurrencyService
     {
         string CurrencyCRUD(Currency cy);
-        IEnumerable<Currency> GetAllCurrency();
+        IEnumerable<Currency> GetAllCurrency(string status);
         Currency GetCurrencyById(string id);
 
         string StatusChange(string tag, int id);

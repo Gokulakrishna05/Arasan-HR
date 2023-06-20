@@ -66,9 +66,9 @@ namespace Arasan.Controllers.Master
 
             return View(Cy);
         }
-        public IActionResult ListCurrency()
+        public IActionResult ListCurrency(string status)
         {
-            IEnumerable<Currency> cmp = CurrencyService.GetAllCurrency();
+            IEnumerable<Currency> cmp = CurrencyService.GetAllCurrency(status);
             return View(cmp);
         }
 
