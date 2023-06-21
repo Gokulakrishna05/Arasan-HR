@@ -127,7 +127,7 @@ namespace Arasan.Services
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE DRUMMASTER_CATEGORY SET STATUS ='INACTIVE' WHERE CATEGORYID='" + id + "'";
+                    svSQL = "UPDATE DRUMMASTER_CATEGORY SET STATUS ='ISACTIVE' WHERE CATEGORYID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();

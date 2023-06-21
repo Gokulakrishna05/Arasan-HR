@@ -49,6 +49,7 @@
                                                 <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
                                                     <thead>
                                                         <tr>
+                                                            <th>EMP ID</th>
                                                             <th>EMP Name</th>
                                                             <th>Gender</th>
                                                             <th>DOB</th>
@@ -67,7 +68,7 @@
                                                             foreach (var item in Model)
                                                             {
                                                                 <tr>
-
+                                                                    <td>@Html.DisplayFor(modelItem => item.EmpNo)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.EmpName)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.Gender)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.DOB)</td>
