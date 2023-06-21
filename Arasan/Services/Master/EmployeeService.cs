@@ -74,11 +74,11 @@ namespace Arasan.Services.Master
                 {
 
  
-                    svSQL = " SELECT Count(EMPNAME) as cnt FROM EMPMAST WHERE EMPNAME = LTRIM(RTRIM('" + cy.EmpNo + "')) ";
+                    svSQL = " SELECT Count(EMPID) as cnt FROM EMPMAST WHERE EMPNAME = LTRIM(RTRIM('" + cy.EmpNo + "')) ";
  
                      if (datatrans.GetDataId(svSQL) > 0)
                     {
-                        msg = "Employee Name Already Existed";
+                        msg = "EmployeeID Already Existed";
                         return msg;
                     }
                 }
@@ -157,8 +157,9 @@ namespace Arasan.Services.Master
                             }
                             else
                             {
+
                                 StatementType = "Update";
-                                objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                                objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
 
                             }
                             objCmds.CommandType = CommandType.StoredProcedure;
@@ -187,7 +188,7 @@ namespace Arasan.Services.Master
                             else
                             {
                                 StatementType = "Update";
-                                objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                                objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
 
                             }
                             objCmds.CommandType = CommandType.StoredProcedure;
@@ -217,7 +218,7 @@ namespace Arasan.Services.Master
                             else
                             {
                                 StatementType = "Update";
-                                objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                                objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
 
                             }
                             objCmds.CommandType = CommandType.StoredProcedure;
@@ -285,7 +286,7 @@ namespace Arasan.Services.Master
         public DataTable GetEmpEduDeatils(string data)
         {
             string SvSql = string.Empty;
-            SvSql = "Select EMPMEDU.EDUCATION, .UC,EMPMEDU.ECPLACE,to_char(EMPMEDU.YRPASSING,'dd-MON-yyyy')YRPASSING,EMPMEDU.MPER,EMPMEDUID  from EMPMEDU where EMPMEDU.EMPMASTID=" + data + "";
+            SvSql = "Select EMPMEDU.EDUCATION, EMPMEDU.UC,EMPMEDU.ECPLACE,to_char(EMPMEDU.YRPASSING,'dd-MON-yyyy')YRPASSING,EMPMEDU.MPER,EMPMEDUID  from EMPMEDU where EMPMEDU.EMPMASTID=" + data + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -305,7 +306,7 @@ namespace Arasan.Services.Master
         public DataTable GetEmpSkillDeatils(string data)
         {
             string SvSql = string.Empty;
-            SvSql = "Select EMPMSS.SKILL,EMPMSSID  from EMPMSS where EMPMSS.EMPMASTID=" + data + "";
+            SvSql = "Select EMPMSS.SKILL,EMPMSSID  from EMPMSS where EMPMSS.EMPMASTID =" + data + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
