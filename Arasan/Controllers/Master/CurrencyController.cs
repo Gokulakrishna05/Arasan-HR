@@ -86,6 +86,20 @@ namespace Arasan.Controllers.Master
                 TempData["notice"] = flag;
                 return RedirectToAction("ListCurrency");
             }
+        } public ActionResult Remove(string tag, int id)
+        {
+
+            string flag = CurrencyService.RemoveChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListCurrency");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListCurrency");
+            }
         }
 
     }

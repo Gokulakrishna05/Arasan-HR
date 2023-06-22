@@ -149,9 +149,9 @@ namespace Arasan.Controllers
             return View(DM);
         }
 
-        public IActionResult ListDrumMaster()
+        public IActionResult ListDrumMaster(string status)
         {
-            IEnumerable<DrumMaster> cmp = DrumMasterService.GetAllDrumMaster();
+            IEnumerable<DrumMaster> cmp = DrumMasterService.GetAllDrumMaster(status);
             return View(cmp);
         }
 
@@ -159,6 +159,21 @@ namespace Arasan.Controllers
         {
 
             string flag = DrumMasterService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListDrumMaster");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListDrumMaster");
+            }
+        } 
+        public ActionResult Remove(string tag, int id)
+        {
+
+            string flag = DrumMasterService.RemoveChange(tag, id);
             if (string.IsNullOrEmpty(flag))
             {
 

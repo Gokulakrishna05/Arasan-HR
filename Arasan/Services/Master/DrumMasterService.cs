@@ -19,16 +19,21 @@ namespace Arasan.Services
             datatrans = new DataTransactions(_connectionString);
         }
 
-        public IEnumerable<DrumMaster> GetAllDrumMaster()
+        public IEnumerable<DrumMaster> GetAllDrumMaster(string status)
         {
+            if (string.IsNullOrEmpty(status))
+            {
+                status = "ACTIVE";
+            }
             List<DrumMaster> cmpList = new List<DrumMaster>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
 
                 using (OracleCommand cmd = con.CreateCommand())
                 {
+                   
                     con.Open();
-                    cmd.CommandText = "Select DRUMMASTID,DRUMMAST.DRUMNO,DRUMMAST.CATEGORY,LOCDETAILS.LOCID,DRUMMAST.DRUMTYPE from DRUMMAST LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID=DRUMMAST.LOCATION WHERE DRUMMAST.STATUS='ACTIVE'";
+                    cmd.CommandText = "Select DRUMMASTID,DRUMMAST.DRUMNO,DRUMMAST.CATEGORY,LOCDETAILS.LOCID,DRUMMAST.DRUMTYPE from DRUMMAST LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID=DRUMMAST.LOCATION WHERE DRUMMAST.STATUS='" + status + "' order by DRUMMAST.DRUMMASTID DESC";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -160,6 +165,28 @@ namespace Arasan.Services
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
                     svSQL = "UPDATE DRUMMAST SET STATUS ='INACTIVE' WHERE DRUMMASTID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
+        } public string RemoveChange(string tag, int id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE DRUMMAST SET STATUS ='ACTIVE' WHERE DRUMMASTID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();

@@ -37,6 +37,7 @@ namespace Arasan.Models
         public string DrumType { get; set; }
 
         public string TargetWeight { get; set; }
+        public string status { get; set; }
 
 
     }

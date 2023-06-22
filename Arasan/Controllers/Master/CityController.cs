@@ -147,5 +147,20 @@ namespace Arasan.Controllers.Master
                 return RedirectToAction("ListCity");
             }
         }
+        public ActionResult Remove(string tag, int id)
+        {
+
+            string flag = city.RemoveChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListCity");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListCity");
+            }
+        }
     }
 }

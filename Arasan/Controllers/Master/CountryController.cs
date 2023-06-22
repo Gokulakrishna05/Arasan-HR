@@ -89,5 +89,20 @@ namespace Arasan.Controllers
                 return RedirectToAction("ListCountry");
             }
         }
+        public ActionResult Remove(string tag, int id)
+        {
+
+            string flag = CountryService.RemoveChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListCountry");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListCountry");
+            }
+        }
     }
 }

@@ -222,6 +222,21 @@ namespace Arasan.Controllers
             }
         }
 
+        public ActionResult Remove(string tag, int id)
+        {
+
+            string flag = BranchService.RemoveChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListBranch");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListBranch");
+            }
+        }
     }
 }
 
