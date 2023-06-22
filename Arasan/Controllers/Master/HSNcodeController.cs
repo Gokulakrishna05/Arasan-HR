@@ -28,14 +28,7 @@ namespace Arasan.Controllers.Master
             {
 
             }
-            //    else
-            //    {
-            //        st = HSNcodeService.GetHSNcodeById(id);
-
-            //    }
-            //    return View(st);
-            //}
-
+           
             else
             {
                 DataTable dt = new DataTable();
