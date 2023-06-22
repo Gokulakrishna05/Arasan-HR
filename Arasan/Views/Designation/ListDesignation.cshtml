@@ -5,13 +5,13 @@
     string Qid = string.Empty;
     if (!string.IsNullOrEmpty(query)) { Qid = ViewContext.HttpContext.Request.Query["status"]; }
 }
-@*
+
 <script type="text/javascript">
     @if (TempData["notice"] != null)
     {
         @:alert('@TempData["notice"]');
     }
-</script>*@
+</script>
 
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">

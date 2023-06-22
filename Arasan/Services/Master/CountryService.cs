@@ -87,10 +87,10 @@ namespace Arasan.Services.Master
                 if (cy.ID == null)
                 {
 
-                    svSQL = " SELECT Count(COUNTRYNAME) as cnt FROM CONMAST WHERE COUNTRYNAME = LTRIM(RTRIM('" + cy.ConName + "')) and COUNTRYCODE = LTRIM(RTRIM('" + cy.ConCode + "'))";
+                    svSQL = " SELECT Count(COUNTRYCODE) as cnt FROM CONMAST WHERE COUNTRYCODE = LTRIM(RTRIM('" + cy.ConCode + "')) and COUNTRYCODE = LTRIM(RTRIM('" + cy.ConCode + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
-                        msg = "Country Already Existed";
+                        msg = "Country Code Already Existed";
                         return msg;
                     }
                 }
@@ -123,7 +123,7 @@ namespace Arasan.Services.Master
                     {
                         objConn.Open();
                         objCmd.ExecuteNonQuery();
-                        //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
+                       
                     }
                     catch (Exception ex)
                     {

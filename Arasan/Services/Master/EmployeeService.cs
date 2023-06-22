@@ -247,11 +247,6 @@ namespace Arasan.Services.Master
 
             return msg;
         }
-
-
-
-
-
         public DataTable GetState()
         {
             string SvSql = string.Empty;

@@ -47,34 +47,7 @@ namespace Arasan.Services.Master
             return staList;
         }
 
-        //public HSNcode GetHSNcodeById(string eid)
-        //{
-        //    HSNcode HSNcode = new HSNcode();
-        //    using (OracleConnection con = new OracleConnection(_connectionString))
-        //    {
-        //        using (OracleCommand cmd = con.CreateCommand())
-        //        {
-        //            con.Open();
-        //            cmd.CommandText = "Select HSNCODEID,HSNCODE,DESCRIPTION,CGST,SGST,IGST from HSNCODE where HSNCODEID=" + eid + "";
-        //            OracleDataReader rdr = cmd.ExecuteReader();
-        //            while (rdr.Read())
-        //            {
-        //                HSNcode sta = new HSNcode
-        //                {
-        //                    ID = rdr["HSNCODEID"].ToString(),
-        //                    HCode = rdr["HSNCODE"].ToString(),
-        //                    Dec = rdr["DESCRIPTION"].ToString(),
-        //                    CGst = rdr["CGST"].ToString(),
-        //                    SGst = rdr["SGST"].ToString(),
-        //                    IGst = rdr["IGST"].ToString()
-        //                };
-        //                HSNcode = sta;
-        //            }
-        //        }
-        //    }
-        //    return HSNcode;
-        //}
-
+         
         public string HSNcodeCRUD(HSNcode ss)
         {
             string msg = "";
