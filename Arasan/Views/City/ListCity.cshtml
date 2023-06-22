@@ -82,8 +82,9 @@
                                                                     <td>@Html.DisplayFor(modelItem => item.Cit)</td>
                                                                     @if (item.status == "INACTIVE")
                                                                     {
-                                                                        <td></td>
-                                                                        <td> </td>
+                                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("City", "City",new { id=item.ID })"></a></div></td>
+                                                                        <td> <a href="@Url.Action("Remove","City",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
+
                                                                     }
                                                                     else
                                                                     {

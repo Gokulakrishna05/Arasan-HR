@@ -120,6 +120,20 @@ namespace Arasan.Controllers.Master
                 TempData["notice"] = flag;
                 return RedirectToAction("ListDesignation");
             }
+        }   public ActionResult Remove(string tag, int id)
+        {
+
+            string flag = DesignationService.RemoveChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListDesignation");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListDesignation");
+            }
         }
     }
 }

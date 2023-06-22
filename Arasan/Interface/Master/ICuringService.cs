@@ -16,6 +16,7 @@ namespace Arasan.Interface
         DataTable GetSubgroup();
 
         string StatusChange(string tag, int id);
+        string RemoveChange(string tag, int id);
 
     }
 }
