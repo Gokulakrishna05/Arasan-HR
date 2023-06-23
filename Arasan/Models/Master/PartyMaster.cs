@@ -88,6 +88,7 @@ namespace Arasan.Models
 
         public string CEmail { get; set; }
         public string Isvalid { get; set; }
+        public string status { get; set; }
 
     }
     //public class PartyItem

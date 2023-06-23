@@ -24,5 +24,6 @@ namespace Arasan.Models
         public string SGst { get; set; }
         public List<SelectListItem> IGstlst;
         public string IGst { get; set; }
+        public string status { get; set; }
     }
 }

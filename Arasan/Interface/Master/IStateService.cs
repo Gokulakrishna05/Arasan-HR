@@ -8,12 +8,13 @@ namespace Arasan.Interface.Master
     public interface IStateService
     {
         string StateCRUD(State by);
-        IEnumerable<State> GetAllState();
+        IEnumerable<State> GetAllState(string status);
         State GetStateById(string id);
 
         DataTable GetEditState(string id);
 
         DataTable Getcountry();
         string StatusChange(string tag, int id);
+        string RemoveChange(string tag, int id);
     }
 }

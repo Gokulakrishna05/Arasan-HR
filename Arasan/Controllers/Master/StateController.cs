@@ -79,9 +79,9 @@ namespace Arasan.Controllers.Master
 
             return View(ss);
         }
-        public IActionResult ListState()
+        public IActionResult ListState(string status)
         {
-            IEnumerable<State> sta = StateService.GetAllState();
+            IEnumerable<State> sta = StateService.GetAllState(status);
             return View(sta);
         }
 
@@ -107,6 +107,20 @@ namespace Arasan.Controllers.Master
         {
 
             string flag = StateService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListState");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListState");
+            }
+        }public ActionResult Remove(string tag, int id)
+        {
+
+            string flag = StateService.RemoveChange(tag, id);
             if (string.IsNullOrEmpty(flag))
             {
 

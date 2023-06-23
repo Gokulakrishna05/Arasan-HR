@@ -140,9 +140,9 @@ namespace Arasan.Controllers.Master
                 throw ex;
             }
         }
-        public IActionResult ListHSNcode()
+        public IActionResult ListHSNcode(string status)
         {
-            IEnumerable<HSNcode> sta = HSNcodeService.GetAllHSNcode();
+            IEnumerable<HSNcode> sta = HSNcodeService.GetAllHSNcode(status);
             return View(sta);
         }
 
@@ -150,6 +150,20 @@ namespace Arasan.Controllers.Master
         {
 
             string flag = HSNcodeService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListHSNcode");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListHSNcode");
+            }
+        }public ActionResult Remove(string tag, int id)
+        {
+
+            string flag = HSNcodeService.RemoveChange(tag, id);
             if (string.IsNullOrEmpty(flag))
             {
 

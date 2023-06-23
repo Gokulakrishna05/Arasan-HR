@@ -1,6 +1,4 @@
-﻿
-
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Arasan.Models
 {
@@ -14,10 +12,11 @@ namespace Arasan.Models
         //public string FaxNo { get; set; }
         public string EmailId { get; set; }
         public string Address { get; set; }
-      
+        public string status { get; set; }
+
         //public string Bin { get; set; }
         //public string Trade { get; set; }
-  
+
         //public string FlowOrd { get; set; }
 
         public Location()
