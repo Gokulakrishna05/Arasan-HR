@@ -12,11 +12,12 @@ namespace Arasan.Interface.Master
         DataTable GetState();
         DataTable GetCity();
         DataTable GetCountry();
-        IEnumerable<PartyMaster> GetAllParty();
+        IEnumerable<PartyMaster> GetAllParty(string status);
        DataTable GetParty(string id);
         DataTable GetCountryDetails(string id);
         DataTable GetPartyContact(string id);
         string StatusChange(string tag, int id);
+        string RemoveChange(string tag, int id);
         DataTable GetLedger();
 
         //DataTable GetEmpEduDeatils(string data);

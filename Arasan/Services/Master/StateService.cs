@@ -18,7 +18,7 @@ namespace Arasan.Services.Master
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public IEnumerable<State> GetAllState()
+        public IEnumerable<State> GetAllState(string status)
         {
             List<State> staList = new List<State>();
             using (OracleConnection con = new OracleConnection(_connectionString))
@@ -27,7 +27,7 @@ namespace Arasan.Services.Master
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "select STATE,STATE_CODE,CONMAST.COUNTRYNAME,STATEMASTID from  STATEMAST LEFT OUTER JOIN CONMAST ON CONMAST.COUNTRYMASTID=STATEMAST.COUNTRYMASTID WHERE STATEMAST.STATUS ='ACTIVE'";
+                    cmd.CommandText = "select STATE,STATE_CODE,CONMAST.COUNTRYNAME,STATEMASTID from  STATEMAST LEFT OUTER JOIN CONMAST ON CONMAST.COUNTRYMASTID=STATEMAST.COUNTRYMASTID WHERE STATEMAST.STATUS ='" + status + "' order by STATEMAST.STATEMASTID DESC";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -162,6 +162,28 @@ namespace Arasan.Services.Master
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
                     svSQL = "UPDATE STATEMAST SET STATUS ='INACTIVE' WHERE STATEMASTID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
+        } public string RemoveChange(string tag, int id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE STATEMAST SET STATUS ='ACTIVE' WHERE STATEMASTID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();

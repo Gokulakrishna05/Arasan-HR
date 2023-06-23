@@ -251,9 +251,9 @@ namespace Arasan.Controllers.Master
                 throw ex;
             }
         }
-        public IActionResult ListParty()
+        public IActionResult ListParty(string status)
         {
-           IEnumerable<PartyMaster> cmp = PartyMasterService.GetAllParty();
+           IEnumerable<PartyMaster> cmp = PartyMasterService.GetAllParty(status);
             return View(cmp);
         }
         public JsonResult GetItemGrpJSON()
@@ -293,6 +293,20 @@ namespace Arasan.Controllers.Master
         {
 
             string flag = PartyMasterService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListParty");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListParty");
+            }
+        } public ActionResult Remove(string tag, int id)
+        {
+
+            string flag = PartyMasterService.RemoveChange(tag, id);
             if (string.IsNullOrEmpty(flag))
             {
 
