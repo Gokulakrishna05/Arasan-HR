@@ -117,7 +117,8 @@ namespace Arasan.Controllers.Master
                 TempData["notice"] = flag;
                 return RedirectToAction("ListState");
             }
-        }public ActionResult Remove(string tag, int id)
+        }
+        public ActionResult Remove(string tag, int id)
         {
 
             string flag = StateService.RemoveChange(tag, id);

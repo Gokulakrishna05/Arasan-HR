@@ -7,7 +7,7 @@ namespace Arasan.Models
        
         public string itemGroup { get; set; }
         public string ItemGroupDescription { get; set; }
+        public String status { get; set; }
 
-       
     }
 }

@@ -93,9 +93,9 @@ namespace Arasan.Controllers
 
             return View(Cy);
         }
-        public IActionResult ListTax()
+        public IActionResult ListTax(string status)
         {
-            IEnumerable<Tax> cmp = TaxService.GetAllTax();
+            IEnumerable<Tax> cmp = TaxService.GetAllTax(status);
             return View(cmp);
         }
 
@@ -103,6 +103,22 @@ namespace Arasan.Controllers
         {
 
             string flag = TaxService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListTax");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListTax");
+            }
+        }
+        
+        public ActionResult Remove(string tag, int id)
+        {
+
+            string flag = TaxService.RemoveChange(tag, id);
             if (string.IsNullOrEmpty(flag))
             {
 

@@ -19,8 +19,13 @@ namespace Arasan.Services.Master
             datatrans = new DataTransactions(_connectionString);
         }
         
-        public IEnumerable<WorkCenters> GetAllWorkCenters()
+        public IEnumerable<WorkCenters> GetAllWorkCenters(string status)
         {
+            if (string.IsNullOrEmpty(status))
+            {
+                status = "ACTIVE";
+            }
+
             {
                 List<WorkCenters> cmpList = new List<WorkCenters>();
                 using (OracleConnection con = new OracleConnection(_connectionString))
@@ -29,7 +34,7 @@ namespace Arasan.Services.Master
                     using (OracleCommand cmd = con.CreateCommand())
                     {
                         con.Open();
-                        cmd.CommandText = "Select WCBASIC.WCID,WCTYPE,LOCDETAILS.LOCID,WCBASICID,WCBASIC.STATUS from WCBASIC LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID =WCBASIC.ILOCATION WHERE WCBASIC.STATUS= 'ACTIVE'";
+                        cmd.CommandText = "Select WCBASIC.WCID,WCTYPE,LOCDETAILS.LOCID,WCBASICID,WCBASIC.STATUS from WCBASIC LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID =WCBASIC.ILOCATION WHERE WCBASIC.STATUS='" + status + "' order by WCBASIC.WCID DESC ";
                         OracleDataReader rdr = cmd.ExecuteReader();
                         while (rdr.Read())
                         {
@@ -217,6 +222,28 @@ namespace Arasan.Services.Master
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
                     svSQL = "UPDATE WCBASIC SET STATUS ='INACTIVE' WHERE WCBASICID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
+        }public string RemoveChange(string tag, int id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE WCBASIC SET STATUS ='ACTIVE' WHERE WCBASICID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();

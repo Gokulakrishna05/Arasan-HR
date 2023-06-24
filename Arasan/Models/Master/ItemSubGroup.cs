@@ -9,5 +9,6 @@ namespace Arasan.Models
 
         public string itemSubGroup { get; set; }
         public string Descreption { get; set; }
+        public string status { get; set; }
     }
 }

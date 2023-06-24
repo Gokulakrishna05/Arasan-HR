@@ -66,9 +66,9 @@ namespace Arasan.Controllers.Master
             return View(Ic);
         }
       
-        public IActionResult ListItemCategory()
+        public IActionResult ListItemCategory(string status)
         {
-            IEnumerable<ItemCategory> ic = ItemCategoryService.GetAllItemCategory();
+            IEnumerable<ItemCategory> ic = ItemCategoryService.GetAllItemCategory(status);
             return View(ic);
         }
 
@@ -76,6 +76,21 @@ namespace Arasan.Controllers.Master
         {
 
             string flag = ItemCategoryService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListItemCategory");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListItemCategory");
+            }
+        }
+        public ActionResult Remove(string tag, int id)
+        {
+
+            string flag = ItemCategoryService.RemoveChange(tag, id);
             if (string.IsNullOrEmpty(flag))
             {
 

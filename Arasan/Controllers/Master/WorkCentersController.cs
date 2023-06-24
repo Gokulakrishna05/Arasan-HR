@@ -140,9 +140,9 @@ namespace Arasan.Controllers.Master
 
             return View(Cy);
         }
-        public IActionResult ListWorkCenters()
+        public IActionResult ListWorkCenters(string status)
         {
-            IEnumerable<WorkCenters> cmp = WorkCentersService.GetAllWorkCenters();
+            IEnumerable<WorkCenters> cmp = WorkCentersService.GetAllWorkCenters(status);
             return View(cmp);
         }
         public JsonResult GetItemGrpJSON()

@@ -72,15 +72,30 @@ namespace Arasan.Controllers
 
             return View(Cy);
         }
-        public IActionResult ListUnit()
+        public IActionResult ListUnit(string status)
         {
-            IEnumerable<Unit> cmp = UnitService.GetAllUnit();
+            IEnumerable<Unit> cmp = UnitService.GetAllUnit(status);
             return View(cmp);
         }
         public ActionResult DeleteMR(string tag, int id)
         {
 
             string flag = UnitService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListUnit");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListUnit");
+            }
+        }
+        public ActionResult Remove(string tag, int id)
+        {
+
+            string flag = UnitService.RemoveChange(tag, id);
             if (string.IsNullOrEmpty(flag))
             {
 
