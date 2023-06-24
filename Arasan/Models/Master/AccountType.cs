@@ -16,5 +16,6 @@ namespace Arasan.Models
         public string CreatedBy { get; set; }
        
         public string Status { get; set; }
+        public string status { get; set; }
     }
 }

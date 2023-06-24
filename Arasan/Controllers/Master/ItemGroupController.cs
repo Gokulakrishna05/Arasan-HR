@@ -66,15 +66,29 @@ namespace Arasan.Controllers.Master
 
             return View(by);
         }
-        public IActionResult ListItemGroup()
+        public IActionResult ListItemGroup(string status)
         {
-            IEnumerable<ItemGroup> itg = itemGroupService.GetAllItemGroup();
+            IEnumerable<ItemGroup> itg = itemGroupService.GetAllItemGroup(status);
             return View(itg);
         }
         public ActionResult DeleteMR(string tag, int id)
         {
 
             string flag = itemGroupService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListItemGroup");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListItemGroup");
+            }
+        }public ActionResult Remove(string tag, int id)
+        {
+
+            string flag = itemGroupService.RemoveChange(tag, id);
             if (string.IsNullOrEmpty(flag))
             {
 

@@ -20,6 +20,10 @@ namespace Arasan.Services.Master
         }
         public IEnumerable<State> GetAllState(string status)
         {
+            if (string.IsNullOrEmpty(status))
+            {
+                status = "ACTIVE";
+            }
             List<State> staList = new List<State>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
@@ -161,7 +165,7 @@ namespace Arasan.Services.Master
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE STATEMAST SET STATUS ='INACTIVE' WHERE STATEMASTID='" + id + "'";
+                    svSQL = "UPDATE STATEMAST SET STATUS ='INACTIVE' WHERE STATEMASTID='" + id + "' ";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -175,7 +179,8 @@ namespace Arasan.Services.Master
             }
             return "";
 
-        } public string RemoveChange(string tag, int id)
+        } 
+        public string RemoveChange(string tag, int id)
         {
 
             try

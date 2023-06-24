@@ -5,7 +5,8 @@
         public string ID { get; set; }
         public string UnitName { get; set; }
         public string UnitCode { get; set; }
-       
+        public string status { get; set; }
+
 
     }
 }

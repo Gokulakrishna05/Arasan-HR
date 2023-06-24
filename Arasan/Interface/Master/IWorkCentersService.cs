@@ -8,9 +8,10 @@ namespace Arasan.Interface.Master;
 public interface IWorkCentersService
 {
     DataTable GetSupplier();
-    IEnumerable<WorkCenters> GetAllWorkCenters();
+    IEnumerable<WorkCenters> GetAllWorkCenters(string status);
     DataTable GetWorkCenters(string id);
     DataTable GetWorkCentersDetail(string id);
     string WorkCentersCRUD(WorkCenters cy);
     string StatusChange(string tag, int id);
+    string RemoveChange(string tag, int id);
 }

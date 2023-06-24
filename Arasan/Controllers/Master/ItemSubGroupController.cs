@@ -67,9 +67,9 @@ namespace Arasan.Controllers.Master
 
             return View(sub);
         }
-        public IActionResult ListItemSubGroup()
+        public IActionResult ListItemSubGroup(string status)
         {
-            IEnumerable<ItemSubGroup> itg = ItemSubGroupService.GetAllItemSubGroup();
+            IEnumerable<ItemSubGroup> itg = ItemSubGroupService.GetAllItemSubGroup(status);
             return View(itg);
         }
 
@@ -77,6 +77,20 @@ namespace Arasan.Controllers.Master
         {
 
             string flag = ItemSubGroupService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListItemSubGroup");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListItemSubGroup");
+            }
+        } public ActionResult Remove(string tag, int id)
+        {
+
+            string flag = ItemSubGroupService.RemoveChange(tag, id);
             if (string.IsNullOrEmpty(flag))
             {
 

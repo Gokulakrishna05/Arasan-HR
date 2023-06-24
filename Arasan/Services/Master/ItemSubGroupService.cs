@@ -19,8 +19,12 @@ namespace Arasan.Services.Master
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public IEnumerable<ItemSubGroup> GetAllItemSubGroup()
+        public IEnumerable<ItemSubGroup> GetAllItemSubGroup(string status)
         {
+            if (string.IsNullOrEmpty(status))
+            {
+                status = "ACTIVE";
+            }
             List<ItemSubGroup> staList = new List<ItemSubGroup>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
@@ -28,7 +32,7 @@ namespace Arasan.Services.Master
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select SGCODE,SGDESC,STATUS,ITEMSUBGROUPID from ITEMSUBGROUP WHERE STATUS='ACTIVE'";
+                    cmd.CommandText = "Select SGCODE,SGDESC,STATUS,ITEMSUBGROUPID from ITEMSUBGROUP WHERE STATUS='" + status + "' order by ITEMSUBGROUP.ITEMSUBGROUPID DESC ";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -142,6 +146,28 @@ namespace Arasan.Services.Master
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
                     svSQL = "UPDATE ITEMSUBGROUP SET STATUS ='INACTIVE' WHERE ITEMSUBGROUPID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
+        } public string RemoveChange(string tag, int id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE ITEMSUBGROUP SET STATUS ='ACTIVE' WHERE ITEMSUBGROUPID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();

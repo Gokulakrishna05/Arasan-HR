@@ -8,9 +8,10 @@ namespace Arasan.Interface
     public interface ITaxService
     {
         string TaxCRUD(Tax cy);
-        IEnumerable<Tax> GetAllTax();
+        IEnumerable<Tax> GetAllTax(string status);
 
         DataTable GetTax(string id);
         string StatusChange(string tag, int id);
+        string RemoveChange(string tag, int id);
     }
 }

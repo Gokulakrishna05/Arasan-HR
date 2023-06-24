@@ -87,9 +87,9 @@ namespace Arasan.Controllers
             return View(AG);
         }
 
-        public IActionResult ListAccountType()
+        public IActionResult ListAccountType(string status)
         {
-            IEnumerable<AccountType> cmp = AccountTypeService.GetAllAccountType();
+            IEnumerable<AccountType> cmp = AccountTypeService.GetAllAccountType(status);
             return View(cmp);
         }
 
@@ -97,6 +97,21 @@ namespace Arasan.Controllers
         {
 
             string flag = AccountTypeService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListAccountType");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListAccountType");
+            }
+        }
+         public ActionResult Remove(string tag, int id)
+         {
+
+            string flag = AccountTypeService.RemoveChange(tag, id);
             if (string.IsNullOrEmpty(flag))
             {
 
