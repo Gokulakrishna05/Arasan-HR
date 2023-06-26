@@ -13,6 +13,7 @@ namespace Arasan.Interface
         DataTable GetAccType();
 
         string StatusChange(string tag, int id);
+       
 
         //DataTable GetGroupDetails(string id);
         DataTable GetAccGroup(string id);

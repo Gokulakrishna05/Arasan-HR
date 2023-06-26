@@ -114,8 +114,8 @@ namespace Arasan.Controllers.Master
             }
             else
             {
-                TempData["notice"] = flag;
-                return RedirectToAction("ListState");
+               TempData["notice"] = flag;
+               return RedirectToAction("ListState");
             }
         }
         public ActionResult Remove(string tag, int id)
