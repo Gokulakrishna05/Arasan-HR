@@ -148,6 +148,7 @@ namespace Arasan.Controllers
                 return RedirectToAction("ListLedger");
             }
         }
+       
         public List<SelectListItem> BindAccType()
         {
             try

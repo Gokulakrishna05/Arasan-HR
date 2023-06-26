@@ -31,7 +31,7 @@ namespace Arasan.Services.Master
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "select STATE,STATE_CODE,CONMAST.COUNTRYNAME,STATEMASTID from  STATEMAST LEFT OUTER JOIN CONMAST ON CONMAST.COUNTRYMASTID=STATEMAST.COUNTRYMASTID WHERE STATEMAST.STATUS ='" + status + "' order by STATEMAST.STATEMASTID DESC";
+                    cmd.CommandText = "select STATE,STATE_CODE,CONMAST.COUNTRYNAME,STATEMASTID ,STATEMAST.STATUS from  STATEMAST LEFT OUTER JOIN CONMAST ON CONMAST.COUNTRYMASTID=STATEMAST.COUNTRYMASTID WHERE STATEMAST.STATUS ='" + status + "' order by STATEMAST.STATEMASTID DESC";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {

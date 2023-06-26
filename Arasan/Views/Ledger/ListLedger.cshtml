@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Ledger";
+  
 }
 <script type="text/javascript">
     @if (TempData["notice"] != null)
@@ -29,6 +30,7 @@
 
                     <form>
                         <div class="row">
+                            
                             <div class="col-md-12 ">
                                 <div class=" textalignright">
                                     <a href="@Url.Action("Ledger", "Ledger")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Ledger</a>
@@ -71,10 +73,11 @@
                                                                     <td>@Html.DisplayFor(modelItem => item.AccGroup)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.LedName)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.DocDate)</td>
+                                                                   
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Ledger", "Ledger",new { id=item.ID })"></a></div></td>
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("Ledger", "Ledger",new { id=item.ID })"></a></div></td>
                                                                     <td> <a href="@Url.Action("DeleteMR","Ledger",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
-
+                                                                    
                                                                 </tr>
                                                                 i++;
                                                             }
@@ -130,3 +133,4 @@
 
     });
 </script>
+
