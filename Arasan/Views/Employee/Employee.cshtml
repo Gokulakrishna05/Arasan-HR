@@ -80,6 +80,7 @@
                                                 <div class="col-sm-8">
                                                         @Html.TextBoxFor(C => C.EmpNo, new { @id = "EmpId", @class = "form-control", @TabIndex = 1,autocomplete="off"})
                                                         @Html.HiddenFor(C => C.ID)
+                                                          @Html.HiddenFor(C => C.Branch)
                                                     <br />
                                                 </div>
                                             </div>
@@ -166,7 +167,7 @@
 
                                         <label for="inputName3" class="col-sm-4 control-label">State<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                                        @Html.DropDownListFor(C => C.StateId, Model.Statelst, new { @id = "ddlState", @Class = "form-control chosen-select newcss", @TabIndex = 6,onchange = "State_Change(this.value)"})
+                                                        @Html.DropDownListFor(C => C.StateId, Model.Statelst, new { @id = "ddlState", @Class = "form-control _select newcss", @TabIndex = 6,onchange = "State_Change(this.value)"})
                                              <br />
                                         </div>
 
@@ -182,7 +183,7 @@
 
                                         <label for="inputName3" class="col-sm-4 control-label">City<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.CityId, Model.Citylst, "Please Select", new{ @id = "ddlCity", @Class = "form-control chosen-select newcss", @TabIndex = 7 })
+                                                        @Html.DropDownListFor(C => C.CityId, Model.Citylst, "Please Select", new{ @id = "ddlCity", @Class = "form-control _select newcss", @TabIndex = 7 })
                                             <br />
                                             
                                         </div>
@@ -808,11 +809,14 @@
 
 <script>
 
+    $(function () {
+        $('._select').select2();
+    });
     function State_Change(itemid, i) {
         //alert(itemid);
         //debugger;
         $.ajax({
-            url: "GetItemJSON",
+            url: "GetStateJSON",
             type: "post",
             data: { 'supid': itemid },
             cache: false,
@@ -820,7 +824,7 @@
                 var newlist;
                 //alert(JSON.stringify(response));
                 newlist = response.Ilst;
-                PopulateDropDown("#ddlCity" + i, response);
+                PopulateDropDown("#ddlCity", response);
             },
             error: function () {
                 debugger;
@@ -847,177 +851,3 @@
 
 
 
-@*
-    <script>
-    $(".chosen-select").chosen();
-    $('.form_date').datetimepicker({
-        //   language:  'fr',
-        weekStart: 1,
-        todayBtn: 1,
-        autoclose: 1,
-        todayHighlight: 1,
-        startView: 2,
-        minView: 2,
-        forceParse: 0
-    });
-    $(document).ready(function () {
-        $('#btnSave').click(function (e) {
-            var isValid = true;
-            if (document.getElementById("EmpName").value == "") {
-                isValid = false;
-                $(EmpName).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Enter Employee Name");
-                return false;
-            }
-            else {
-                $(EmpName).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-            if (document.getElementById("EmpId").value == "") {
-                isValid = false;
-                $(EmpId).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Enter Employee ID");
-                return false;
-            }
-            else {
-                $(EmpId).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-
-            if (document.getElementById("Phoneno").value == "") {
-                Phoneno = false;
-                $(Phoneno).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Enter Mobile No ");
-                return false;
-            }
-            else {
-                $(Phoneno).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-
-
-
-            if (document.getElementById("ddlState").value == "") {
-                Phoneno = false;
-                $(ddlState).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Enter State ");
-                return false;
-            }
-            else {
-                $(ddlState).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-
-            if (document.getElementById("UserName").value == "") {
-                isValid = false;
-                $(UserName).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Enter User Name ");
-                return false;
-            }
-            else {
-                $(UserName).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-            if (document.getElementById("Password").value == "") {
-                isValid = false;
-                $(Password).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Enter Password ");
-                return false;
-            }
-            else {
-                $(Password).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-
-
-
-            if (document.getElementById("YearPassing").value == "") {
-                isValid = false;
-                $(YearPassing).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Enter YearPassing ");
-                return false;
-            }
-            else {
-                $(YearPassing).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-            if (isValid == false)
-                e.preventDefault();
-        });
-
-    });
-    function State_Change(itemid, i) {
-        //alert(itemid);
-        //debugger;
-        $.ajax({
-            url: "GetItemJSON",
-            type: "post",
-            data: { 'supid': itemid },
-            cache: false,
-            success: function (response) {
-                var newlist;
-                //alert(JSON.stringify(response));
-                newlist = response.Ilst;
-                PopulateDropDown("#ddlCity" + i, response);
-            },
-            error: function () {
-                debugger;
-                alert("Please Select State");
-            }
-        });
-    }
-    function PopulateDropDown(dropDownId, list) {
-        //alert(list);
-        $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
-        if (list != null && list.length > 0) {
-            $(dropDownId).removeAttr("disabled");
-            $.each(list, function () {
-                $(dropDownId).append($("<option></option>").val(this['value']).html(this['text']));
-            });
-        }
-        $(dropDownId).trigger("liszt:updated");
-    }
-</script>
-*@

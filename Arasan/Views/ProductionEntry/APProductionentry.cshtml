@@ -148,7 +148,7 @@ a{
                                     <label for="inputName3" class="col-sm-4 control-label">Work Center <label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                         @Html.HiddenFor(C => C.ID)
-                                             @Html.DropDownListFor(C => C.Location, Model.Loclst," -- Please Select -- ", new { @id = "ddlStLoc", @Class = "form-control _select", @TabIndex = 1 , @onchange = "Stk_Change(this.value)" })<br />
+                                             @Html.DropDownListFor(C => C.Location, Model.Loclst," -- Please Select -- ", new { @id = "ddlStLoc", @Class = "form-control _select", @TabIndex = 1 /*, @onchange = "Stk_Change(this.value)"*/ })<br />
                                     </div>
                                 </div>
                             </div>
@@ -158,7 +158,7 @@ a{
                                     <label for="inputName3" class="col-sm-4 control-label">Assign Engineer<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
 
-                                            @Html.DropDownListFor(C => C.Eng, Model.Englst," -- Please Select -- ", new { @id = "ddlStLoc", @Class = "form-control _select", @TabIndex = 1 , @onchange = "Stk_Change(this.value)" })<br />
+                                            @Html.DropDownListFor(C => C.Eng, Model.Englst," -- Please Select -- ", new { @id = "ddlStLoc", @Class = "form-control _select", @TabIndex = 1/* , @onchange = "Stk_Change(this.value)" */})<br />
 
                                     </div>
                                 </div>
@@ -308,8 +308,70 @@ a{
 
                                                     <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
                                                          <div class="panel-body">
-                                                             Panel 1
-                                                             </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="btn-group">
+                                                            <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:200px;">
+
+                                                        <table class="table table-striped table-hover" id="dataTable">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Item ID</th>
+                                                                    <th>Bin ID</th>
+                                                                    <th> Drum No </th>
+                                                                    <th> Batch No </th>
+                                                                    <th> Batch Qty </th>
+                                                                    <th> Stock Available</th>
+                                                                    <th> Issue Qty </th>
+                                                                    <th> Mill Load Addition </th>
+                                                                    <th> Output Y/N </th>
+                                                                    <th> Remove </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="tbBooks">
+                                                                @{
+
+                                                                    int i = 0;
+                                                                    foreach (var item in Model.inplst.ToList())
+                                                                    {
+                                                                        <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+
+                                                                            <td>
+                                                                                @Html.DropDownListFor(o => o.inplst[i].ItemId, Model.inplst[i].Itemlst, "Please Select", new { @class = "form-control _select   newcss", @id = "ddlItem" + i, style = "width: 170px;", onchange = "changeItem(this.value," + i + ")" })
+                                                                            </td>
+                                                                            <td>@Html.TextBoxFor(o => o.inplst[i].BinId, new { @id = "txtBinId" + i, @class = "form-control", style = "width: 100px;"})</td>
+                                                                            <td>
+                                                                                @Html.DropDownListFor(o => o.inplst[i].drumno, Model.inplst[i].drumlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddldrumno" + i, style = "width: 120px;" })
+                                                                            </td>
+                                                                            <td>@Html.TextBoxFor(o => o.inplst[i].batchno, new { @id = "txtbatchno" + i, @class = "form-control", style = "width: 200px;"})</td>
+                                                                            <td> @Html.TextBoxFor(o => o.inplst[i].batchqty, new { @id = "txtbatchqty" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;text-align:right" })</td>
+                                                                            <td>@Html.TextBoxFor(o => o.inplst[i].StockAvailable, new { @id = "txtStockAvailable" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;text-align:right" })</td>
+                                                                            <td>@Html.TextBoxFor(o => o.inplst[i].IssueQty, new { @id = "txtIssueQty" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")" })</td>
+                                                                            <td>@Html.TextBoxFor(o => o.inplst[i].MillLoadAdd, new { @id = "txtMillLoadAdd" + i, @class = "form-control", style = "width: 100px;"})</td>
+                                                                            <td> @Html.DropDownListFor(o => o.inplst[i].Output, Model.inplst[i].outputlst, new { @class = "form-control _select newcss", @id = "ddlOutput" + i, style = "width: 100px;" })</td>
+                                                                            <td>
+                                                                                @Html.HiddenFor(o => o.inplst[i].Isvalid, new { @id = "Isvalid" + i })
+                                                                                <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" />
+                                                                            </td>
+
+
+                                                                        </tr>
+
+                                                                        i = i + 1;
+                                                                    }
+                                                                }
+                                                            </tbody>
+                                                        </table>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
                                          </div>            
                                      </div>
                                         <div class="panel panel-default">
@@ -337,7 +399,86 @@ a{
                                                     </div>
                                                     <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
                                                 <div class="panel-body">
-                                                             Panel 3
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="btn-group">
+                                                            <input type="button" value="Add Row" onclick="AddEmpRow()" class="btn sbold green" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:200px;">
+
+                                                        <table class="table table-striped table-hover" id="dataTableEmp">
+
+                                                            <thead>
+                                                                <tr>
+
+                                                                    <th>Emp Name</th>
+                                                                    <th>Emp Code</th>
+                                                                    <th>Department </th>
+                                                                    <th> Start Date </th>
+                                                                    <th> Start Time </th>
+                                                                    <th> End Date </th>
+                                                                    <th> End Time </th>
+                                                                    <th>OT Hrs </th>
+                                                                    <th>ET Others </th>
+                                                                    <th>Normel Hour </th>
+                                                                    <th>Nature Of Work </th>
+
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="tbBooksEmp">
+                                                                @{
+
+                                                                    int k = 0;
+                                                                    foreach (var item in Model.EmplLst.ToList())
+                                                                    {
+                                                                        <tr id="trBookEmp@(k)" class="chkEmpitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+
+
+
+                                                                            <td>
+                                                                                @Html.DropDownListFor(o => o.EmplLst[k].Employee, Model.EmplLst[k].Employeelst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlEmployee" + k, style = "width: 170px;",onchange = "changeEmployeeItem(this.value," + k + ")" })
+                                                                            </td>
+                                                                            <td>@Html.TextBoxFor(o => o.EmplLst[k].EmpCode, new { @id = "txtEmpCode" +k, @class = "form-control" , style = "width: 100px; "  })</td>
+                                                                            <td>@Html.TextBoxFor(o => o.EmplLst[k].Depart, new { @id = "txtDepart" + k, @class = "form-control" , style = "width: 120px; "  })</td>
+
+                                                                            <td>
+                                                                                <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                                                                    @Html.TextBoxFor(o => o.EmplLst[k].StartDate, new { @id = "txtStartDate" + k, @class = "form-control", style = "width: 100px;",@readonly="readonly"})<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                                                </div>
+                                                                            </td>
+
+                                                                            <td>@Html.TextBoxFor(o => o.EmplLst[k].StartTime, new { @id = "txtStartTime" +k, @class = "form-control", style = "width: 110px;", @Type="time"})</td>
+                                                                            <td>
+                                                                                <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                                                                    @Html.TextBoxFor(o => o.EmplLst[k].EndDate, new { @id = "txtEndDate" + k, @class = "form-control",  style = "width: 100px;" ,@readonly="readonly"})<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>@Html.TextBoxFor(o => o.EmplLst[k].EndTime, new { @id = "txtEndTime" + k, @class = "form-control" , style = "width: 110px; ",@Type="time" })</td>
+                                                                            <td>@Html.TextBoxFor(o => o.EmplLst[k].OTHrs, new { @id = "txtOTHrs" + k, @class = "form-control" , style = "width: 80px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})</td>
+                                                                            @* <td>@Html.TextBoxFor(o => o.inputlst[i].MillLoadAdd, new { @id = "txtMillLoadAdd" + i, @class = "form-control", style = "width: 100px;"})</td>*@
+                                                                            <td>@Html.TextBoxFor(o => o.EmplLst[k].ETOther, new { @id = "txtETOther" + k, @class = "form-control" , style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)" })</td>
+                                                                            <td>@Html.TextBoxFor(o => o.EmplLst[k].Normal, new { @id = "txtNormal" + k, @class = "form-control" , style = "width: 70px; " ,onkeydown = "return isNumeric2(event.keyCode,this.value)" })</td>
+                                                                            <td>@Html.TextBoxFor(o => o.EmplLst[k].NOW, new { @id = "txtNOW" + k, @class = "form-control" , style = "width: 120px; "  })</td>
+
+                                                                            <td>
+                                                                                @Html.HiddenFor(o => o.EmplLst[k].Isvalid, new { @id = "EmpIsvalid" + k})
+                                                                                <img onclick="removeEmpRow(@(k));" src="../Images/delete.png" style="cursor:pointer" />
+                                                                            </td>
+
+
+                                                                        </tr>
+
+                                                                        k = k + 1;
+                                                                    }
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
                                                              </div>
                                          </div>            
                                         </div>
@@ -492,4 +633,235 @@ a{
         var tag="@tag";
         $('#dllstatus').val(val2);
     });
+    function AddRow() {
+        var opt = "";
+        var remopt = "";
+
+        $.ajax({
+            type: "POST",
+            url: 'GetItemJSON',
+            success: function (data) {
+                $.each(data, function () {
+                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
+                });
+
+                $.ajax({
+                    type: "POST",
+                    url: 'GetDrumJSON',
+                    success: function (data) {
+                        $.each(data, function () {
+                            remopt += "<option value=" + this.value + ">" + this.text + "</option>";
+                        });
+                        AppendRow(opt, remopt);
+                    }
+                })
+
+            }
+        })
+    }
+    function AppendRow(opt, remopt) {
+        var index = $("#tbBooks").children("tr").length;
+
+        var itemid = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlItem" + index + "' name='inputlst[" + index + "].ItemId' ><option value=''>Please select</option>" + opt + "</select></td>";
+        var binid = "<td><input class='form-control'  id='txtBinId" + index + "' name='inputlst[" + index + "].BinId' style='width: 100px;' type='text' value=''></td>";
+        var drumno = "<td><select style = 'width: 120px;' class='form-control _select newcss' id='drumno" + index + "' name='inputlst[" + index + "].drumno' ><option value=''>Please select</option>" + remopt + "</select></td>";
+        var batchno = "<td><input class='form-control'  id='txtbatchno" + index + "' name='inputlst[" + index + "].batchno' style='width: 200px;' type='text' value=''></td>";
+        var batchqty = "<td><input class='form-control'  id='txtbatchqty" + index + "' name='inputlst[" + index + "].batchqty' style='width: 80px;' type='text' value='' onkeydown = 'return isNumeric2(event.keyCode,this.value)'></td>";
+        var stock = "<td><input class='form-control'  id='txtStockAvailable" + index + "' name='inputlst[" + index + "].StockAvailable' style='width: 80px;' type='text' value='' onkeydown = 'return isNumeric2(event.keyCode,this.value)'></td>";
+        var issueqty = "<td><input class='form-control'  id='txtIssueQty" + index + "' name='inputlst[" + index + "].IssueQty'  type='text' value='' style = 'width: 100px;text-align:right' onkeydown = 'return isNumeric2(event.keyCode,this.value)' onkeyup = 'changeQty(this, " + index + ")'></td>";
+        var MillLoadAdd = "<td><input class='form-control'  id='txtMillLoadAdd" + index + "' name='inputlst[" + index + "].MillLoadAdd' style='width: 100px;' type='text' value=''></td>";
+        var output = "<td><select style = 'width: 100px;' class='form-control _select newcss' id='ddlOutput" + index + "' name='inputlst[" + index + "].Output' ><option value='YES'>YES</option><option value='NO'>NO</option></select></td>";
+        var removeCell = "<td><input id='Isvalid" + index + "' name='inputlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='inputlst.Index' type='hidden' value='" + index + "'  /></td>";
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + itemid + binid + drumno + batchno + batchqty + stock + issueqty + MillLoadAdd + output + removeCell + "</tr>";
+        $("#tbBooks").append(newRow);
+
+        $(function () {
+            $('._select').select2();
+        });
+    }
+    function AddEmpRow() {
+        var opt = "";
+        $.ajax({
+            type: "POST",
+            url: 'GetEmpJSON',
+            success: function (data) {
+                $.each(data, function () {
+                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
+                });
+                AppendEmpRow(opt);
+            }
+        })
+    }
+    function changeEmployeeItem(ItemId, i) {
+        $.ajax({
+            url: 'GetEmployeeDetail',
+            data: { "ItemId": ItemId },
+            type: "GET",
+            success: function (result) {
+
+                document.getElementById("txtEmpCode" + i).value = result.code;
+
+
+
+            },
+            error: function () {
+                alert("Data Not Found");
+            }
+        });
+    }
+    function AddBreakRow() {
+        var opt = "";
+        var remopt = "";
+        $.ajax({
+            type: "POST",
+            url: 'GetBreakJSON',
+            success: function (data) {
+                $.each(data, function () {
+                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
+                });
+                $.ajax({
+                    type: "POST",
+                    url: 'GetBreakEmpJSON',
+                    success: function (data) {
+                        $.each(data, function () {
+                            remopt += "<option value=" + this.value + ">" + this.text + "</option>";
+                        });
+                        AppendBreakRow(opt, remopt);
+                    }
+                })
+
+            }
+        })
+    }
+    function AppendEmpRow(opt) {
+        var index = $("#tbBooksEmp").children("tr").length;
+        var empname = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlEmployee" + index + "' name='EmpLst[" + index + "].Employee' onchange = 'changeEmployeeItem(this.value," + index + ")' ><option value=''>Please select</option>" + opt + "</select></td>";
+
+        var code = "<td><input class='form-control'  id='txtEmpCode" + index + "' name='EmpLst[" + index + "].EmpCode' style='width: 100px;'   value=''></td>";
+
+        var Department = "<td><input class='form-control'  id='txtDepart" + index + "' name='EmpLst[" + index + "].Depart' style='width: 120px;'   value=''></td>";
+
+        var startdate = "<td><div class='input-group date form_date col-sm-8'  data-date-format='dd-M-yyyy'><input class='form-control'  id='txStartDate" + index + "' name='EmpLst[" + index + "].StartDate' style='width: 100px;' type='text' value=''readonly='readonly'><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div></td>";
+        var starttime = "<td><input class='form-control'  id='txtStartTime" + index + "' name='EmpLst[" + index + "].StartTime' style='width: 110px;' type='time' value=''></td>";
+        var enddate = "<td><div class='input-group date form_date col-sm-8'  data-date-format='dd-M-yyyy'><input class='form-control'  id='txtEndDate" + index + "' name='EmpLst[" + index + "].EndDate' style='width: 100px;' type='text' value='' readonly='readonly'><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div></td>";
+        var endtime = "<td><input class='form-control'  id='txtEndTime" + index + "' name='EmpLst[" + index + "].EndTime' style='width: 110px;' type='time' value=''></td>";
+        var othrs = "<td><input class='form-control'  id='txtOTHrs" + index + "' name='EmpLst[" + index + "].OTHrs' style='width: 80px;' type='text' value=''></td>";
+        var ethrs = "<td><input class='form-control'  id='txtETOther" + index + "' name='EmpLst[" + index + "].ETOther' style='width: 80px;'   value=''></td>";
+        var nhr = "<td><input class='form-control'  id='txtNormal" + index + "' name='EmpLst[" + index + "].Normal' style='width: 70px;'   value=''></td>";
+        var now = "<td><input class='form-control'  id='txtReason" + index + "' name='EmpLst[" + index + "].Reason' style='width: 120px;'   value=''></td>";
+
+        var removeCell = "<td><input id='IsEmpvalid" + index + "' name='EmpLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeEmpRow(" + index + ");'  style='cursor:pointer' /><input name='inputlst.Index' type='hidden' value='" + index + "'  /></td>";
+        var newRow = "<tr class='chkEmpitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookEmp" + index + "'>" + empname + code + Department + startdate + starttime + enddate + endtime + othrs + ethrs + nhr + now + removeCell + "</tr>";
+        $("#tbBooksEmp").append(newRow);
+
+
+        $(function () {
+            $('._select').select2();
+        });
+
+        $('.form_date').datetimepicker({
+            //   language:  'fr',
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0
+        });
+    }
+    function AppendBreakRow(opt, remopt) {
+        var index = $("#tbBooksBreak").children("tr").length;
+
+        var Code = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlMachineId" + index + "' name='BreakLst[" + index + "].MachineId' onchange = 'changeMachineItem(this.value," + index + ")' ><option value=''>Please select</option>" + opt + "</select></td>";
+        var Des = "<td><input class='form-control'  id='txtMachineDes" + index + "' name='BreakLst[" + index + "].MachineDes' style='width: 120px;'   value=''></td>";
+        var DType = "<td><input class='form-control'  id='txtDType" + index + "' name='BreakLst[" + index + "].DType' style='width: 120px;'   value=''></td>";
+        var MType = "<td><input class='form-control'  id='txtMType" + index + "' name='BreakLst[" + index + "].MType' style='width: 100px;' type='text' value=''></td>";
+        var starttime = "<td><input class='form-control'  id='txtStartTime" + index + "' name='BreakLst[" + index + "].StartTime' style='width: 120px;'   value=''></td>";
+        var endtime = "<td><input class='form-control'  id='txtEndTime" + index + "' name='BreakLst[" + index + "].EndTime' style='width: 120px;'   value=''></td>";
+        var PB = "<td><input class='form-control'  id='txtPB" + index + "' name='BreakLst[" + index + "].PB' style='width: 100px;' type='text' value=''></td>";
+        var Enterd = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlAlloted" + index + "' name='BreakLst[" + index + "].Alloted' ><option value=''>Please select</option>" + remopt + "</select> </td>";
+
+        var Reason = "<td><input class='form-control'  id='txtReason" + index + "' name='BreakLst[" + index + "].Reason' style='width: 100px;' type='text' value=''></td>";
+        var removeCell = "<td><input id='IsBreakvalid" + index + "' name='BreakLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeBreakRow(" + index + ");'  style='cursor:pointer' /><input name='inputlst.Index' type='hidden' value='" + index + "'  /></td>";
+        var newRow = "<tr class='chkBreakitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookBreak" + index + "'>" + Code + Des + Dtype + MType + starttime + endtime + PB + reason + Enterd + Reason + removeCell + "</tr>";
+        $("#tbBooksBreak").append(newRow);
+
+
+        $(function () {
+            $('._select').select2();
+        });
+
+
+    }
+    function removeRow(id) {
+        var table = document.getElementById("dataTable");
+        var rowCount = table.rows.length;
+        var row = document.getElementById('trBook' + id);
+        var j = 0;
+        $('tr.chkitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+                j += 1;
+            }
+        });
+        if (j > 1) {
+            row.style.display = "none";
+            document.getElementById('Isvalid' + id).value = "N";
+        }
+        else {
+            alert("Cannot delete all the rows.")
+        }
+
+        var i = 0;
+        var qty = 0;
+        var tot = 0;
+        $('tr.chkitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+                qty = $(this).find('#txtIssueQty' + i.toString()).val();
+                if (qty == "")
+                    qty = 0;
+
+                tot += eval(qty);
+            }
+            i += 1;
+        });
+        document.getElementById("txttotalinqty").value = tot.toFixed(2);
+
+    }
+    function removeEmpRow(id) {
+        var table = document.getElementById("dataTableEmp");
+        var rowCount = table.rows.length;
+        var row = document.getElementById('trBookEmp' + id);
+        var j = 0;
+        $('tr.chkEmpitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+                j += 1;
+            }
+        });
+        if (j > 1) {
+            row.style.display = "none";
+            document.getElementById('EmpIsvalid' + id).value = "N";
+        }
+        else {
+            alert("Cannot delete all the rows.")
+        }
+    }
+    function removeBreakRow(id) {
+        var table = document.getElementById("dataTableBreak");
+        var rowCount = table.rows.length;
+        var row = document.getElementById('trBookBreak' + id);
+        var j = 0;
+        $('tr.chkBreakitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+                j += 1;
+            }
+        });
+        if (j > 1) {
+            row.style.display = "none";
+            document.getElementById('BreakIsvalid' + id).value = "N";
+        }
+        else {
+            alert("Cannot delete all the rows.")
+        }
+        }
 </script>

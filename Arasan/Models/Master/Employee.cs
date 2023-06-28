@@ -14,7 +14,7 @@ namespace Arasan.Models
 
         public string ID { get; set; }
         public string EmpName { get; set; }
-
+        public string Branch { get; set; }
         public string MultipleLoc { get; set; }
         public string Region { get; set; }
         public string Gender { get; set; }

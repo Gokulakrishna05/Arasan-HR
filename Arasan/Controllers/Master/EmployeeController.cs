@@ -26,7 +26,7 @@ namespace Arasan.Controllers.Master
             Employee E = new Employee();
             E.Statelst = BindState();
             E.Citylst = BindCity("");
-
+            E.Branch = Request.Cookies["BranchId"];
             //List<EduDeatils> TData = new List<EduDeatils>();
             //EduDeatils tda = new EduDeatils();
             if (id == null)
@@ -48,8 +48,10 @@ namespace Arasan.Controllers.Master
                     E.DOB = dt.Rows[0]["EMPDOB"].ToString();
                     E.ID = id;
                     E.Address = dt.Rows[0]["ECADD1"].ToString();
-                    E.CityId = dt.Rows[0]["ECCITY"].ToString();
                     E.StateId = dt.Rows[0]["ECSTATE"].ToString();
+                    E.Citylst = BindCity(E.StateId);
+                    E.CityId = dt.Rows[0]["ECCITY"].ToString();
+                    
                     E.EmailId = dt.Rows[0]["ECMAILID"].ToString();
                     E.PhoneNo = dt.Rows[0]["ECPHNO"].ToString();
                     E.FatherName = dt.Rows[0]["FATHERNAME"].ToString();
@@ -302,7 +304,7 @@ namespace Arasan.Controllers.Master
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["STATE"].ToString(), Value = dtDesg.Rows[i]["STATEMASTID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["STATE"].ToString(), Value = dtDesg.Rows[i]["STATE"].ToString() });
                 }
                 return lstdesg;
             }
@@ -319,7 +321,7 @@ namespace Arasan.Controllers.Master
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["CITYNAME"].ToString(), Value = dtDesg.Rows[i]["CITYID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["CITYNAME"].ToString(), Value = dtDesg.Rows[i]["CITYNAME"].ToString() });
                 }
                 return lstdesg;
             }
