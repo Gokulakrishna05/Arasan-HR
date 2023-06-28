@@ -33,7 +33,7 @@
                     <form>
                         <div class="row">
                             <select style='width: 200px;' class='form-control  newcss' id="dllstatus" onchange="changeStatus(this.value)">
-                                <option value='ACTIVE'>Open</option>
+                                <option value="" selected>Open</option>
                                 <option value='ISACTIVE'>Close</option>
                                 @* <option value='InActive'>Disabled</option>*@
                             </select>
@@ -42,9 +42,7 @@
                                     <a href="@Url.Action("Employee", "Employee")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Employee</a>
                                     <br>
                                 </div>
-
-
-                            </div>
+                             </div>
                         </div>
 
                         <div class="row">
