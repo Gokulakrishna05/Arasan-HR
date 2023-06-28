@@ -51,7 +51,7 @@ namespace Arasan.Services
                 {
                     con.Open();
 
-                    cmd.CommandText = "Select LOCDETAILS.LOCID,SUBGROUP,SHEDNUMBER,CAPACITY,CURINGMASTERID  from CURINGMASTER LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID = CURINGMASTER.LOCATIONID WHERE CURINGMASTER.STATUS='" + status + "' order by CURINGMASTER.CURINGMASTERID DESC ";
+                    cmd.CommandText = "Select LOCDETAILS.LOCID,SUBGROUP,SHEDNUMBER,CAPACITY,CURINGMASTERID  from CURINGMASTER LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID=CURINGMASTER.LOCATIONID WHERE CURINGMASTER.STATUS='" + status + "' order by CURINGMASTER.CURINGMASTERID DESC";
 
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
@@ -63,7 +63,7 @@ namespace Arasan.Services
                             Sub = rdr["SUBGROUP"].ToString(),
                             Shed = rdr["SHEDNUMBER"].ToString(),
                             Cap = rdr["CAPACITY"].ToString(),
-                            status = rdr["STATUS"].ToString()
+                            //status = rdr["STATUS"].ToString()
 
                         };
                         cmpList.Add(cmp);
@@ -72,33 +72,33 @@ namespace Arasan.Services
             }
             return cmpList;
         }
-        public Curing GetCuringById(string eid)
-        {
-            Curing Curing = new Curing();
-            using (OracleConnection con = new OracleConnection(_connectionString))
-            {
-                using (OracleCommand cmd = con.CreateCommand())
-                {
-                    con.Open();
-                    cmd.CommandText = "Select LOCATIONID,SUBGROUP,SHEDNUMBER,CAPACITY,STATUS,CURINGMASTERID from CURINGMASTER where CURINGMASTERID=" + eid + "";
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
-                    {
-                        Curing cmp = new Curing
-                        {
-                            ID = rdr["CURINGMASTERID"].ToString(),
-                            Location = rdr["LOCATIONID"].ToString(),
-                            Sub = rdr["SUBGROUP"].ToString(),
-                            Shed = rdr["SHEDNUMBER"].ToString(),
-                            Cap = rdr["CAPACITY"].ToString(),
-                            status = rdr["STATUS"].ToString()
-                        };
-                        Curing = cmp;
-                    }
-                }
-            }
-            return Curing;
-        }
+        //public Curing GetCuringById(string eid)
+        //{
+        //    Curing Curing = new Curing();
+        //    using (OracleConnection con = new OracleConnection(_connectionString))
+        //    {
+        //        using (OracleCommand cmd = con.CreateCommand())
+        //        {
+        //            con.Open();
+        //            cmd.CommandText = "Select LOCATIONID,SUBGROUP,SHEDNUMBER,CAPACITY,STATUS,CURINGMASTERID from CURINGMASTER where CURINGMASTERID=" + eid + "";
+        //            OracleDataReader rdr = cmd.ExecuteReader();
+        //            while (rdr.Read())
+        //            {
+        //                Curing cmp = new Curing
+        //                {
+        //                    ID = rdr["CURINGMASTERID"].ToString(),
+        //                    Location = rdr["LOCATIONID"].ToString(),
+        //                    Sub = rdr["SUBGROUP"].ToString(),
+        //                    Shed = rdr["SHEDNUMBER"].ToString(),
+        //                    Cap = rdr["CAPACITY"].ToString(),
+        //                    status = rdr["STATUS"].ToString()
+        //                };
+        //                Curing = cmp;
+        //            }
+        //        }
+        //    }
+        //    return Curing;
+        //}
         public string CuringCRUD(Curing cy)
         {
             string msg = "";
