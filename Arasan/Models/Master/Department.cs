@@ -17,6 +17,7 @@ namespace Arasan.Models
         public string UpdatedOn { get; set; }
         public string UpdatedBy { get; set; }
 
+
         //public List<Designation> Designationlst { get; set; }
     }
  //public class Designation

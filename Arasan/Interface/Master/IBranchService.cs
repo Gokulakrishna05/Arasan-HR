@@ -19,6 +19,8 @@ namespace Arasan.Interface
         DataTable GetState();
         DataTable GetBranch(string id);
         string StatusChange(string tag, int id);
+        string RemoveChange(string tag, int id);
+
 
     }
 }

@@ -19,8 +19,12 @@ namespace Arasan.Services
             datatrans = new DataTransactions(_connectionString);
         }
 
-        public IEnumerable<AccountType> GetAllAccountType()
+        public IEnumerable<AccountType> GetAllAccountType(string status)
         {
+            if (string.IsNullOrEmpty(status))
+            {
+                status = "ACTIVE";
+            }
             List<AccountType> cmpList = new List<AccountType>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
@@ -28,7 +32,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select ACCOUNTTYPEID,ACCOUNTCODE,ACCOUNTTYPE,STATUS from ACCTYPE WHERE STATUS='ACTIVE'";
+                    cmd.CommandText = "Select ACCOUNTTYPEID,ACCOUNTCODE,ACCOUNTTYPE,STATUS from ACCTYPE WHERE STATUS='" + status + "' order by ACCTYPE.ACCOUNTTYPEID DESC ";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -60,7 +64,7 @@ namespace Arasan.Services
                     svSQL = " SELECT Count(ACCOUNTCODE) as cnt FROM ACCTYPE WHERE ACCOUNTCODE =LTRIM(RTRIM('" + ss.AccountCode + "')) and ACCOUNTTYPE =LTRIM(RTRIM('" + ss.Accounttype + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
-                        msg = "Account Already Existed";
+                        msg = "Account Code Already Existed";
                         return msg;
                     }
                 }
@@ -147,6 +151,32 @@ namespace Arasan.Services
             return "";
 
         }
+        
+        public string RemoveChange(string tag, int id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE ACCTYPE SET STATUS ='ACTIVE' WHERE ACCOUNTTYPEID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
+        }
+
+       
 
     }
 }

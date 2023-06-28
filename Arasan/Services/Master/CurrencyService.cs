@@ -91,27 +91,10 @@ namespace Arasan.Services.Master
                         msg = " Symbol Already Existed";
                         return msg;
                     }
-                    //else
-                    //{
-                    //    svSQL = " SELECT Count(MAINCURR) as cnt FROM CURRENCY WHERE MAINCURR = LTRIM(RTRIM('" + cy.CurrencyName + "')) ";
-                    //    if (datatrans.GetDataId(svSQL) > 0)
-                    //    {
-                    //        msg = "Currency Already Existed";
-                    //        return msg;
-                    //    }
-
-                    //}
+                    
                 }
                
-                //else 
-                //{
-                //    svSQL = " SELECT Count(SYMBOL) as cnt FROM CURRENCY WHERE  SYMBOL = LTRIM(RTRIM('" + cy.CurrencyCode + "'))";
-                //    if (datatrans.GetDataId(svSQL) > 0)
-                //    {
-                //        msg = " Symbol Already Existed";
-                //        return msg;
-                //    }
-                    else
+               else
                     {
                         svSQL = " SELECT Count(MAINCURR) as cnt FROM CURRENCY WHERE MAINCURR = LTRIM(RTRIM('" + cy.CurrencyName + "')) ";
                         if (datatrans.GetDataId(svSQL) > 0)
@@ -120,9 +103,9 @@ namespace Arasan.Services.Master
                             return msg;
                         }
 
-                    }
+               }
 
-                //}
+               
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("CURRENCYPROC", objConn);
@@ -149,11 +132,11 @@ namespace Arasan.Services.Master
                     {
                         objConn.Open();
                         objCmd.ExecuteNonQuery();
-                        //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
+                        
                     }
                     catch (Exception ex)
                     {
-                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
+                        
                     }
                     objConn.Close();
                 }
@@ -176,6 +159,28 @@ namespace Arasan.Services.Master
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
                     svSQL = "UPDATE CURRENCY SET STATUS ='INACTIVE' WHERE CURRENCYID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
+        } public string RemoveChange(string tag, int id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty; 
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE CURRENCY SET STATUS ='ACTIVE' WHERE CURRENCYID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();

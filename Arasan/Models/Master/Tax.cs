@@ -15,6 +15,8 @@ namespace Arasan.Models
         public string Taxtype{ get; set; }
 
         public string Percentage { get; set; }
+        public string status { get; set; }
+
 
     }
 }

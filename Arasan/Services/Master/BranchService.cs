@@ -21,7 +21,8 @@ namespace Arasan.Services
         public DataTable GetCompany()
         {
             string SvSql = string.Empty;
-            SvSql = "select COMPANYID,COMPANYMASTID from  COMPANYMAST order by COMPANYMASTID asc";
+            //SvSql = "select COMPANYID,COMPANYMASTID from  COMPANYMAST order by COMPANYMASTID asc";
+            SvSql = "SELECT COMPANYID,COMPANYMASTID  FROM COMPANYMAST WHERE STATUS='ACTIVE' order by COMPANYMASTID asc";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -61,14 +62,15 @@ namespace Arasan.Services
 
 
         public IEnumerable<Branch> GetAllBranch(string status)
-    {
+        {
             if (string.IsNullOrEmpty(status))
             {
                 status = "ACTIVE";
             }
-            List<Branch> brList = new List<Branch>();
-        using (OracleConnection con = new OracleConnection(_connectionString))
-        {
+       
+          List<Branch> brList = new List<Branch>();
+          using (OracleConnection con = new OracleConnection(_connectionString))
+          {
 
             using (OracleCommand cmd = con.CreateCommand())
             {
@@ -94,14 +96,11 @@ namespace Arasan.Services
                     brList.Add(br);
                 }
             }
-        }
+          }
         return brList;
-    }
+        }
       public string BranchCRUD(Branch cy)
-
-
-
-    {
+      {
         string msg = "";
         try
         {
@@ -117,29 +116,23 @@ namespace Arasan.Services
                     }
                 }
  
- 
-
-                
-
-                
- 
-                //string StaName = datatrans.GetDataString("Select STATE from STATEMAST where STATEMASTID='" + cy.StateName + "' ");
+                   //string StaName = datatrans.GetDataString("Select STATE from STATEMAST where STATEMASTID='" + cy.StateName + "' ");
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
-            {
+                {
 
 
                     objConn.Open();
 
 
                     if (cy.ID == null)
-                {
+                    {
                        
                         svSQL = "Insert into BRANCHMAST (COMPANYID,BRANCHID,ADDRESS1,STATE,CITY,PINCODE,CSTNO,CSTDATE,STATUS) VALUES ('" + cy.CompanyName + "','" + cy.BranchName + "','" + cy.Address + "','" + cy.StateName + "','" + cy.City + "','" + cy.PinCode + "','" + cy.GSTNo + "','" + cy.GSTDate + "', 'ACTIVE')";
                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                         objCmds.ExecuteNonQuery();
                     }
-                else
+                    else
                     {
                         svSQL = " UPDATE BRANCHMAST SET COMPANYID ='" + cy.CompanyName + "', BRANCHID = '" + cy.BranchName + "', ADDRESS1 = '" + cy.Address + "',  STATE =  '" + cy.StateName + "', CITY = '" + cy.City + "'  , PINCODE = '" + cy.PinCode + "', CSTNO = '" + cy.GSTNo + "', CSTDATE = '" + cy.GSTDate + "' Where BRANCHMASTID = '" + cy.ID + "'";
                          OracleCommand objCmds = new OracleCommand(svSQL, objConn);
@@ -148,8 +141,8 @@ namespace Arasan.Services
 
  
                 
-                objConn.Close();
-            }
+                  objConn.Close();
+                }
         }
         catch (Exception ex)
         {
@@ -158,7 +151,7 @@ namespace Arasan.Services
         }
 
         return msg;
-  }
+      }
         public DataTable GetBranch(string id)
         {
             string SvSql = string.Empty;
@@ -179,6 +172,30 @@ namespace Arasan.Services
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
                     svSQL = "UPDATE BRANCHMAST SET STATUS ='INACTIVE' WHERE BRANCHMASTID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
+        }
+
+        public string RemoveChange(string tag, int id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE BRANCHMAST SET STATUS ='ACTIVE' WHERE BRANCHMASTID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();

@@ -20,8 +20,12 @@ namespace Arasan.Services
             datatrans = new DataTransactions(_connectionString);
         }
 
-        public IEnumerable<Unit> GetAllUnit()
+        public IEnumerable<Unit> GetAllUnit(string status)
         {
+            if (string.IsNullOrEmpty(status))
+            {
+                status = "ACTIVE";
+            }
             List<Unit> cmpList = new List<Unit>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
@@ -29,7 +33,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select UNITMASTID,UNITID from UNITMAST WHERE STATUS='ACTIVE'";
+                    cmd.CommandText = "Select UNITMASTID,UNITID from UNITMAST WHERE STATUS='" + status + "' order by UNITMAST.UNITMASTID DESC ";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -125,6 +129,29 @@ namespace Arasan.Services
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
                     svSQL = "UPDATE UNITMAST SET STATUS ='INACTIVE' WHERE UNITMASTID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
+        }
+        public string RemoveChange(string tag, int id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE UNITMAST SET STATUS ='ACTIVE' WHERE UNITMASTID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();

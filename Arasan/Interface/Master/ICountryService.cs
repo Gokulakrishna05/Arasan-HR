@@ -9,5 +9,6 @@ namespace Arasan.Interface.Master
         IEnumerable<Country> GetAllCountry(string status);
         Country GetCountryById(string id);
         string StatusChange(string tag, int id);
+        string RemoveChange(string tag, int id);
     }
 }

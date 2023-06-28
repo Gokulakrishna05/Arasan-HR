@@ -83,8 +83,8 @@
                                                                     <td>@Html.DisplayFor(modelItem => item.Description)</td>
                                                                     @if (item.status == "INACTIVE")
                                                                     {
-                                                                        <td></td>
-                                                                        <td> </td>
+                                                                       <td></td>
+                                                                        <td> <a href="@Url.Action("Remove","DrumCategory",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
                                                                     }
                                                                     else
                                                                     {
@@ -175,7 +175,7 @@
         $(".fancybox1").eq(0).trigger('click');
     }
     function changeStatus(status) {
-        var url = "/DrumCategory/ListDrumCategory?status=" + status;
+        var url = "/DrumCategory/ListNewCategory?status=" + status;
         window.location.href = url;
         //$.ajax({
         //    url: 'AssignSession',

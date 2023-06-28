@@ -876,6 +876,55 @@
                     "background": ""
                 });
             }
+             if (document.getElementById("txtReorderlvl").value == "") {
+                isValid = false;
+                $(txtReorderlvl).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Reorder level ");
+                return false;
+            }
+            else {
+                $(txtReorderlvl).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtMaxlvl").value == "") {
+                isValid = false;
+                $(txtMaxlvl).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Maximum Stock Level ");
+                return false;
+            }
+            else {
+                $(txtMaxlvl).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+           
+            if (document.getElementById("txtMinlvl").value == "") {
+                isValid = false;
+                $(txtMinlvl).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Minimum Stock Level ");
+                return false;
+            }
+            else {
+                $(txtMinlvl).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
 
             if (document.getElementById("txtuom").value == "") {
                 isValid = false;

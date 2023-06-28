@@ -94,7 +94,7 @@ namespace Arasan.Controllers
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COMPANYID"].ToString(), Value = dtDesg.Rows[i]["COMPANYMASTID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COMPANYID"].ToString(), Value = dtDesg.Rows[i]["COMPANYID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -222,6 +222,21 @@ namespace Arasan.Controllers
             }
         }
 
+        public ActionResult Remove(string tag, int id)
+        {
+
+            string flag = BranchService.RemoveChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListBranch");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListBranch");
+            }
+        }
     }
 }
 

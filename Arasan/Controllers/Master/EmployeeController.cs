@@ -331,9 +331,9 @@ namespace Arasan.Controllers.Master
             }
         }
 
-        public IActionResult ListEmployee()
+        public IActionResult ListEmployee(string status)
         {
-            IEnumerable<Employee> cmp = EmployeeService.GetAllEmployee();
+            IEnumerable<Employee> cmp = EmployeeService.GetAllEmployee(status);
             return View(cmp);
         }
 
@@ -341,6 +341,20 @@ namespace Arasan.Controllers.Master
         {
 
             string flag = EmployeeService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListEmployee");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListEmployee");
+            }
+        } public ActionResult Remove(string tag, int id)
+        {
+
+            string flag = EmployeeService.RemoveChange(tag, id);
             if (string.IsNullOrEmpty(flag))
             {
 

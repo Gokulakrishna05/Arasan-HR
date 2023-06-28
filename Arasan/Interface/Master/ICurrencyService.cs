@@ -10,5 +10,6 @@ namespace Arasan.Interface.Master
         Currency GetCurrencyById(string id);
 
         string StatusChange(string tag, int id);
+        string RemoveChange(string tag, int id);
     }
 }

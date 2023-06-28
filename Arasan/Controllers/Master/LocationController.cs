@@ -86,9 +86,9 @@ namespace Arasan.Controllers
 
             return View(Cy);
         }
-        public IActionResult ListLocation()
+        public IActionResult ListLocation(string status)
         {
-            IEnumerable<Location> cmp = LocationService.GetAllLocations();
+            IEnumerable<Location> cmp = LocationService.GetAllLocations(status);
             return View(cmp);
         }
         public List<SelectListItem> BindBranch()
@@ -113,6 +113,20 @@ namespace Arasan.Controllers
         {
 
             string flag = LocationService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListLocation");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListLocation");
+            }
+        } public ActionResult Remove(string tag, int id)
+        {
+
+            string flag = LocationService.RemoveChange(tag, id);
             if (string.IsNullOrEmpty(flag))
             {
 

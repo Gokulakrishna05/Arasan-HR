@@ -6,6 +6,6 @@
       
         public string Category { get; set; }
 
-
+        public String status { get; set; }
     }
 }

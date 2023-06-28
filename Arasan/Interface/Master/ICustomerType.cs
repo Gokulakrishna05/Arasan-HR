@@ -11,6 +11,7 @@ namespace Arasan.Interface
         DataTable GetCustomerType(string id);
 
         string StatusChange(string tag, int id);
+        string RemoveChange(string tag, int id);
 
     }
 }

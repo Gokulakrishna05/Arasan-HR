@@ -48,6 +48,7 @@ namespace Arasan.Models
 
         public string JoinDate { get; set; }
         public string ResignDate { get; set; }
+        public string status { get; set; }
 
 
 

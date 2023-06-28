@@ -1,10 +1,13 @@
 ﻿using Arasan.Interface;
+using Arasan.Interface.Master;
 using Arasan.Models;
 using Microsoft.Extensions.Configuration;
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Data;
+
+
 namespace Arasan.Services
 {
     public class LedgerService : ILedger
@@ -18,6 +21,7 @@ namespace Arasan.Services
         }
         public IEnumerable<Ledger> GetAllLedger()
         {
+           
             List<Ledger> cmpList = new List<Ledger>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
@@ -25,7 +29,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select ACCTYPE.ACCOUNTTYPE,LEDNAME,to_char(LEDGER.DOCDATE,'dd-MON-yyyy')DOCDATE,LEDGERID from LEDGER LEFT OUTER JOIN ACCTYPE ON ACCOUNTTYPEID=LEDGER.ACCTYPE  where LEDGER.STATUS='Active'";
+                    cmd.CommandText = "Select ACCTYPE.ACCOUNTTYPE,LEDNAME,to_char(LEDGER.DOCDATE,'dd-MON-yyyy')DOCDATE,LEDGERID from LEDGER LEFT OUTER JOIN ACCTYPE ON ACCOUNTTYPEID=LEDGER.ACCTYPE  where LEDGER.STATUS= 'Active'" ;
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -155,6 +159,7 @@ namespace Arasan.Services
             return "";
 
         }
+       
         public DataTable GetLedger(string id)
         {
             string SvSql = string.Empty;

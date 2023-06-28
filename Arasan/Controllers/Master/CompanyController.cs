@@ -85,6 +85,20 @@ namespace Arasan.Controllers
                 TempData["notice"] = flag;
                 return RedirectToAction("ListCompany");
             }
+        } public ActionResult Remove(string tag, int id)
+        {
+
+            string flag = CompanyService.RemoveChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListCompany");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListCompany");
+            }
         }
     }
 }

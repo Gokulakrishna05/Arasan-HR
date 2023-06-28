@@ -100,6 +100,21 @@ namespace Arasan.Controllers
                 return RedirectToAction("ListNewCategory");
             }
         }
+        public ActionResult Remove(string tag, int id)
+        {
+
+            string flag = DrumCategoryService.RemoveChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListNewCategory");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListNewCategory");
+            }
+        }
 
     }
 }

@@ -45,7 +45,7 @@
                         {
                             @Html.AntiForgeryToken()
                     <form>
-                        <div class="tabs-container">
+                       <div class="tabs-container">
               <ul class="nav nav-tabs">
                 <li class="active"><a href="#tab-1" data-toggle="tab" >Party Master</a></li>
                 <li ><a href="#tab-2" data-toggle="tab" >General Info</a></li>
@@ -110,9 +110,9 @@
                                 <div class="col-md-6">
                                   <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Party Group<label class="Mandatory"></label></label>
+                                         <label for="inputName3" class="col-sm-4 control-label">Party Group<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
-                                                        @Html.TextBoxFor(C => C.PartyGroup, new { @id = "PartyGroup", @class = "form-control", autocomplete="off", @TabIndex = 1})<br />
+                                          @Html.TextBoxFor(C => C.PartyGroup, new { @id = "PartyGroup", @class = "form-control", autocomplete="off", @TabIndex = 1})<br />
                                           @Html.HiddenFor(C => C.ID)
                                     </div>
 
@@ -125,7 +125,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Comm.Code<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                                    @Html.TextBoxFor(C => C.Comm, new { @id = "Comm", autocomplete="off", @class = "form-control", @TabIndex = 1})
+                                         @Html.TextBoxFor(C => C.Comm, new { @id = "Comm", autocomplete="off", @class = "form-control", @TabIndex = 1})
                                     </div>
 
                                  </div>
@@ -713,12 +713,12 @@
                                                                                     @Html.TextBoxFor(o => o.Designation, new { @id = "txtDesignation" + i, @class = "form-control", style = "width: 180px;" })
                                                                                 </td>
                                                                                 <td>
-                                                                                    @Html.TextBoxFor(o => o.CPhone, new { @id = "txtPhone" + i, @class = "form-control", style = "width: 180px;" })
-                                                                                </td>
+                                                                                    @Html.TextBoxFor(o => o.CPhone, new { @id = "txtPhone" + i, @class = "form-control", style = "width: 180px;" , onkeydown= "return isNumeric2(event.keyCode,this.value)" })
+                                                                                 </td>
                                                                                 <td>
                                                                                     @Html.TextBoxFor(o => o.CEmail, new { @id = "txtEmail" + i, @class = "form-control", style = "width: 180px;",@Type="email" })
                                                                                 </td>
-                                                                                <td>
+                                                                                <td> 
                                                                                     @Html.HiddenFor(o => o.Isvalid, new { @id = "Isvalid" + i })
                                                                                     <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="Suplst.Index" type="hidden" value="@(i)" />
                                                                                 </td>
@@ -734,7 +734,7 @@
                                         </div>
                                     </div>
                                 </div>
-                        </div>
+                       </div>
 
                         <div style="height:30px;"></div>
                             <div class="col-lg-10"></div>
@@ -790,6 +790,38 @@
                     "background": ""
                 });
             }
+            if (document.getElementById("PartyGroup").value == "") {
+                isValid = false;
+                $(PartyGroup).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Party Group");
+                return false;
+            }
+            else {
+                $(PartyGroup).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("JoinDate").value == "") {
+                isValid = false;
+                $(JoinDate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Join Date");
+                return false;
+            }
+            else {
+                $(JoinDate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
             if (document.getElementById("ddlLedger").value == "") {
                 isValid = false;
                 $(ddlLedger).css({
@@ -806,7 +838,22 @@
                     "background": ""
                 });
             }
+            if (document.getElementById("RateCode").value == "") {
+                isValid = false;
+                $(RateCode).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
 
+                alert("Please Enter RateCode");
+                return false;
+            }
+            else {
+                $(RateCode).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
             if (document.getElementById("Mobile").value == "") {
                 isValid = false;
                 $(Mobile).css({
@@ -851,8 +898,8 @@
             $('._select').select2();
         });
 
-  
-     </script>
+</script>
+
 <script>
    
    

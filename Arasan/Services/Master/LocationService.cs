@@ -28,7 +28,7 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        public IEnumerable<Location> GetAllLocations()
+        public IEnumerable<Location> GetAllLocations(string status)
         {
             List<Location> cmpList = new List<Location>();
             using (OracleConnection con = new OracleConnection(_connectionString))
@@ -37,7 +37,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select LOCID,LOCATIONTYPE,CPNAME,PHNO,EMAIL,ADD1,BRANCHID,LOCDETAILSID,STATUS from LOCDETAILS WHERE STATUS= 'ACTIVE'";
+                    cmd.CommandText = "Select LOCID,LOCATIONTYPE,CPNAME,PHNO,EMAIL,ADD1,BRANCHID,LOCDETAILSID,STATUS from LOCDETAILS WHERE STATUS= '" + status + "' order by LOCDETAILS.LOCID DESC";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -165,6 +165,28 @@ namespace Arasan.Services
         }
 
         public string StatusChange(string tag, int id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE LOCDETAILS SET STATUS ='INACTIVE' WHERE LOCDETAILSID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
+        } public string RemoveChange(string tag, int id)
         {
 
             try
