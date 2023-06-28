@@ -32,6 +32,7 @@ namespace Arasan.Interface
         DataTable GetDrumStock(string branch, string loc, string ItemId);
         DataTable GetAPWorkCenter();
         DataTable GetMachineDetails(string id);
+        DataTable GetEmployeeDetails(string id);
         string StatusChange(string tag, int id);
     }
 }

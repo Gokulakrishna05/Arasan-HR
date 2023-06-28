@@ -947,4 +947,14 @@ public class ProductionEntryService : IProductionEntry
         return "";
 
     }
+    public DataTable GetEmployeeDetails(string id)
+    {
+        string SvSql = string.Empty;
+        SvSql = "Select EMPID,EMPNAME,EMPMASTID from EMPMAST where EMPMASTID='" + id + "' ";
+        DataTable dtt = new DataTable();
+        OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        adapter.Fill(dtt);
+        return dtt;
+    }
 }

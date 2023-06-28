@@ -869,6 +869,23 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+        public List<SelectListItem> BindEmployee()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetEmp();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["EMPNAME"].ToString(), Value = dtDesg.Rows[i]["EMPMASTID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public ActionResult GetStkqty(string branch, string loc, string ItemId)
         {
             try
@@ -1127,6 +1144,10 @@ namespace Arasan.Controllers
             ca.Batchlst = BindBatch();
             List<BreakDetail> TData3 = new List<BreakDetail>();
             BreakDetail tda3 = new BreakDetail();
+            List<ProInput> TData = new List<ProInput>();
+            ProInput tda = new ProInput();
+            List<EmpDetails> TTData2 = new List<EmpDetails>();
+            EmpDetails tda2 = new EmpDetails();
             for (int i = 0; i < 3; i++)
             {
                 tda3 = new BreakDetail();
@@ -1137,9 +1158,76 @@ namespace Arasan.Controllers
                 TData3.Add(tda3);
 
             }
+            for (int i = 0; i < 3; i++)
+            {
+                tda = new ProInput();
+
+                tda.Itemlst = BindStockItemlst();
+                tda.drumlst = BindStockItemlst();
+                tda.outputlst = Bindoutput();
+                tda.Isvalid = "Y";
+                TData.Add(tda);
+
+            }
+            for (int i = 0; i < 3; i++)
+            {
+                tda2 = new EmpDetails();
+
+                tda2.Employeelst = BindEmployee();
+                tda2.Isvalid = "Y";
+                TTData2.Add(tda2);
+            }
             ca.Shiftlst = BindShift();
             ca.BreakLst= TData3;
+            ca.inplst = TData;
+            ca.EmplLst = TTData2;
             return View(ca); 
+        }
+        public JsonResult GetEmpJSON()
+        {
+            //EnqItem model = new EnqItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(BindEmployee());
+        }
+        public JsonResult GetBreakJSON()
+        {
+            //EnqItem model = new EnqItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(BindMachineID());
+        }
+        public JsonResult GetBreakEmpJSON()
+        {
+            //EnqItem model = new EnqItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(BindEmp());
+        }
+        public ActionResult GetEmployeeDetail(string ItemId)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+
+                string code = "";
+
+
+                dt = IProductionEntry.GetEmployeeDetails(ItemId);
+
+                if (dt.Rows.Count > 0)
+                {
+
+                    code = dt.Rows[0]["EMPID"].ToString();
+
+
+
+                }
+
+                var result = new { code = code };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public List<SelectListItem> BindMachineID()
         {

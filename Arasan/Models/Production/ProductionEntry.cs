@@ -186,5 +186,57 @@ namespace Arasan.Models
         public List<SelectListItem> Shiftlst { get; set; }
         public List<BreakDetail> BreakLst { get; set; }
         public string Shift { get; set; }
+        public List<ProInput> inplst { get; set; }
+        public List<EmpDetails> EmplLst { get; set; }
+    }
+    public class ProInput
+    {
+        public string ItemId { get; set; }
+        public string saveitemId { get; set; }
+
+        public List<SelectListItem> Itemlst { get; set; }
+        public List<SelectListItem> ItemGrouplst { get; set; }
+        public string ItemGroupId { get; set; }
+        public string BinId { get; set; }
+        public List<SelectListItem> binlst { get; set; }
+        public string drumno { get; set; }
+        public List<SelectListItem> drumlst { get; set; }
+        public string batchno { get; set; }
+        public double batchqty { get; set; }
+        public double StockAvailable { get; set; }
+        public double IssueQty { get; set; }
+        public string MillLoadAdd { get; set; }
+        public string Output { get; set; }
+        public string Isvalid { get; set; }
+        public List<SelectListItem> outputlst;
+        public string Purchasestock { get; set; }
+        public string drumid { get; set; }
+        public string Proinid { get; set; }
+        public List<SelectListItem> lotlist { get; set; }
+        public string Lotno { get; set; }
+        public double totalqty { get; set; }
+    }
+    public class EmpDetails
+    {
+        public string ID { get; set; }
+        public List<SelectListItem> Statuslst { get; set; }
+        public string EmpCode { get; set; }
+        public string saveItemId { get; set; }
+
+
+        public List<SelectListItem> Employeelst { get; set; }
+
+        public string Employee { get; set; }
+        public string NOW { get; set; }
+
+        public string Depart { get; set; }
+        public string StartDate { get; set; }
+        public string EndDate { get; set; }
+        public string StartTime { get; set; }
+        public string EndTime { get; set; }
+        public string OTHrs { get; set; }
+        public string Normal { get; set; }
+        public string ETOther { get; set; }
+        public string Isvalid { get; set; }
     }
 }
