@@ -34,6 +34,7 @@
                             <div class="col-md-6 ">
                                 <select style='width: 200px;' class='form-control  newcss' id="dllstatus" onchange="changeStatus(this.value)">
                                     <option value="" selected>Open</option>
+                                    <option value='ACTIVE'>Open</option>
                                     <option value='INACTIVE'>Close</option>
                                     @* <option value='InActive'>Disabled</option>*@
                                 </select>
@@ -77,7 +78,7 @@
                                                                     <td>@Html.DisplayFor(modelItem => item.CGst)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.SGst)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.IGst)</td>
-                                                                    @if (item.status == "ISACTIVE")
+                                                                    @if (item.status == "INACTIVE")
                                                                     {
                                                                         <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("HSNcode", "HSNcode",new { id=item.ID })"></a></div></td>
                                                                         <td> <a href="@Url.Action("Remove","HSNcode",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
