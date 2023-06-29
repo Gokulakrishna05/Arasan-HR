@@ -177,7 +177,8 @@ namespace Arasan.Services.Master
             }
             return "";
 
-        } public string RemoveChange(string tag, int id)
+        } 
+        public string RemoveChange(string tag, int id)
         {
 
             try
@@ -185,7 +186,7 @@ namespace Arasan.Services.Master
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE HSNCODE SET STATUS ='INACTIVE' WHERE HSNCODEID='" + id + "'";
+                    svSQL = "UPDATE HSNCODE SET STATUS ='ACTIVE' WHERE HSNCODEID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
