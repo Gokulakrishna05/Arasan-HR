@@ -1,0 +1,248 @@
+﻿@model Arasan.Models.EmailConfig
+
+@{
+    ViewData["Title"] = "EmailConfig";
+}
+<style>
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
+<script type="text/javascript">
+    @if (TempData["notice"] != null)
+    {
+        @:alert('@TempData["notice"]');
+    }
+</script>
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a>Master</a> </li>
+            <li class="active"> <strong> EmailConfig </strong> </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+
+                    <hr>
+                    @using (Html.BeginForm("EmailConfig", "EmailConfig", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <form>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">SMTP Host<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+
+                                            @Html.TextBoxFor(C => C.SMTP, new { @id = "txtSMTP", @class = "form-control",autocomplete="off" , @TabIndex = 2, @size="30" })
+                                            <br>
+                                            @* for edit & delete*@
+                                            @Html.HiddenFor(C => C.ID)
+                                        </div>
+                                    </div>
+                                </div>
+                                
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Port No<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+
+                                            @Html.TextBoxFor(C => C.Port, new { @id = "txtPort", @class = "form-control",autocomplete="off" , @TabIndex = 2, @size="30" })
+                                           <br>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Email ID<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+
+                                            @Html.TextBoxFor(C => C.Email, new { @id = "txtEmail", @class = "form-control",autocomplete="off" , @TabIndex = 2, @size="30" })
+                                            <br>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Password<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+
+                                            @Html.TextBoxFor(C => C.Password, new { @id = "txtPassword", @class = "form-control",autocomplete="off" , @TabIndex = 2, @size="30" })
+                                            <br>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">SSL<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group">
+
+                                                @Html.RadioButtonFor(C => C.SSL, "YES", new { @TabIndex = 2 })
+                                                <label id="mt-radio">YES</label>&emsp;
+                                                @Html.RadioButtonFor(C => C.SSL, "NO", new { @TabIndex = 3 })
+                                                <label id="mt-radio">NO</label>
+
+                                                <br>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Signature<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextAreaFor(C => C.Signature, new { @id = "txtSignature", @class = "form-control", @TabIndex = 1})
+                                       
+                                        <br></div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="height:30px;"></div>
+                            <div class="col-lg-10"></div>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+                            <a button class="btn btn-danger" type="submit" href="@Url.Action("ListEmailConfig", "EmailConfig")">Cancel</a>
+
+                        </form>
+                    }
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    $(function () {
+        $('._select').select2();
+    });
+
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+
+            if (document.getElementById("txtSMTP").value == "") {
+                isValid = false;
+                $(txtSMTP).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter SMTP Host");
+                return false;
+            }
+            else {
+                $(txtSMTP).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtPort").value == "") {
+                isValid = false;
+                $(txtPort).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Port No");
+                return false;
+            }
+            else {
+                $(txtPort).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtEmail").value == "") {
+                isValid = false;
+                $(txtEmail).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Email ID");
+                return false;
+            }
+            else {
+                $(txtEmail).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtPassword").value == "") {
+                isValid = false;
+                $(txtPassword).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Password");
+                return false;
+            }
+            else {
+                $(txtPassword).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtSignature").value == "") {
+                isValid = false;
+                $(txtSignature).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Signature");
+                return false;
+            }
+            else {
+                $(txtSignature).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+           
+            
+
+            if (isValid == false)
+                e.preventDefault();
+
+        });
+
+    });
+
+</script>
