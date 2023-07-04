@@ -331,6 +331,28 @@ namespace Arasan.Services.Master
             return dtt;
         }
 
+        public DataTable GetEMPDept()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select DEPARTMENT_CODE from DEPARTMENTMAST where  STATUS= 'ACTIVE'  ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        } 
+        
+        public DataTable GetDesign()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select DESIGNATION from DESIGNATIONMAST where  STATUS= 'ACTIVE'  ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
         public string GetMultipleLocation(MultipleLocation mp)
         {
                 string msg = "";

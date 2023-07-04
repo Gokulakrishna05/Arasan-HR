@@ -172,8 +172,8 @@
                                         </div>
 
                                     </div>
-                                            </div>
-                                    </div>
+                                </div>
+                               </div>
 
 
 
@@ -546,16 +546,39 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">EMP Department<label class="mandatory">*</label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.DropDownListFor(C => C.EMPDeptment, Model.EMPDeptlst,"Please Select", new { @id = "ddlEMPDeptment", @Class = "form-control _select", @TabIndex = 6 ,style = "width: 350px;"})<br />
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label for="inputName3" class="col-sm-4 control-label">EMP Design<label class="mandatory">*</label></label>
+                                                    <div class="col-sm-8">
+                                                        @Html.DropDownListFor(C => C.EMPDesign, Model.EMPDesignlst,"Please Select", new { @id = "ddlEMPDesign", @Class = "form-control _select newcss", @TabIndex = 6,style = "width: 350px;"})
+                                                        <br /><br>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        @*<div class="row">
 
                                             <div class="col-md-6">
                                                 <div class="form-group">
 
                                                     <label for="inputName3" class="col-sm-4 control-label"> EMP Department<label class="Mandatory"></label></label>
+                                                   
                                                     <div class="col-sm-8">
-                                                        @Html.TextBoxFor(C => C.EMPDeptment, new { @id = "EMPDeptment ", @class = "form-control", @TabIndex = 12,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
-
+                                                        @Html.DropDownListFor(C => C.EMPDeptment, Model.EMPDeptlst,"Please Select", new { @id = "ddlEMPDeptment", @Class = "form-control _select", @TabIndex = 1 })<br />
                                                     </div>
 
                                                 </div>
@@ -564,15 +587,14 @@
                                                 <div class="form-group">
 
                                                     <label for="inputName3" class="col-sm-4 control-label">EMP Design<label class="Mandatory"></label></label>
+                                                   
                                                     <div class="col-sm-8">
-                                                        @Html.TextBoxFor(C => C.EMPDesign, new { @id = "EMPDesign ", @class = "form-control", @TabIndex = 13})<br />
-
-
+                                                        @Html.DropDownListFor(C => C.EMPDesign, Model.EMPDesignlst,"Please Select", new { @id = "ddlEMPDesign", @Class = "form-control _select", @TabIndex = 1 })<br /><br>
                                                     </div>
 
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div>*@
 
                                         <div class="row">
 
@@ -796,6 +818,37 @@
             }
             else {
                 $(YearPassing).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("ddlEMPDeptment").value == "") {
+                isValid = false;
+                $(ddlEMPDeptment).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select EMPDeptment");
+                return false;
+            }
+            else {
+                $(ddlEMPDeptment).css({
+                    "border": "",
+                    "background": ""
+                });
+            }if (document.getElementById("ddlEMPDesign").value == "") {
+                isValid = false;
+                $(ddlEMPDesign).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select EMP Design");
+                return false;
+            }
+            else {
+                $(ddlEMPDesign).css({
                     "border": "",
                     "background": ""
                 });
