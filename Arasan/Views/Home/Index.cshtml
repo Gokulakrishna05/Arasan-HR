@@ -248,14 +248,83 @@
 	
 						</div>
  </div>
-								
-							 
-						 
+  @*  <div id="divalerts" style="display:block">
+        <div class="box box-success">
+            <div class="box-header with-border">
+                <h3 class="box-title">Alerts</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <p style="font-weight:bold;color:darkgreen">Leads Followup - <label id="Leadsfollowcount">(@Html.DisplayFor(m => m.Leadsfollowcount))</label></p>
+                        <div class="info-boxalert">
+                            <table id="blogTable1" class="zui-table zui-table-rounded">
+                                <thead>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+
+
+
+
+                </div>
+
+
+
+
+
+
+            </div>
+        </div>
+
+    </div>*@
+
+
 </div>
- 
+@*<script>
+
+ function BindLeadfollow(strBranch, strfrom, strTo, KAMID) {
+                $.ajax({
+                    url: 'BindLeadfollow',
+                    data: { "strBranch": strBranch, "strfrom": strfrom, "strTo": strTo, "KAMID": KAMID },
+                    type: "GET",
+                    success: function (json) {
+                        json = json || {};
+                        $('#blogTable1 tbody').empty();
+                        var c = 0;
+                        $.each(json, function (i, item) {
+                            var rows = "
+<tr style='border-bottom: 1px dashed #c7c7c7; !important'>
+    "
+    + "
+    <td style='font-weight: 400; color: #000; padding: 4px;'>" + item.displaytext + " - <span style='color: #F47A27;'>" + item.followedby + "</span> - <span style='color: red;'>" + item.status + "</span> </td>"
+    + "
+</tr>";
+                            $('#blogTable1 tbody').append(rows);
+                            c = c + 1;
+                        });
+                        document.getElementById("Leadsfollowcount").innerHTML = c;
+                    },
+                    error: function () {
+                        // alert("Data Not Found");
+                    }
+                });
+            }
 
 
 
+</script>*@
 
 
 

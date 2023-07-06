@@ -46,7 +46,6 @@ namespace Arasan.Services
             List<Curing> cmpList = new List<Curing>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
-
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();

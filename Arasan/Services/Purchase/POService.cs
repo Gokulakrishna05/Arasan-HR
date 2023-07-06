@@ -334,7 +334,6 @@ namespace Arasan.Services
                 int cunt = datatrans.GetDataId("Select count(GRNBLBASICID) from GRNBLBASIC Where POBASICID=" + cy.POId + "");
                 if (cunt == 0)
                 {
-
                 DateTime theDate = DateTime.Now;
                 DateTime todate; DateTime fromdate;
                 string t; string f;
