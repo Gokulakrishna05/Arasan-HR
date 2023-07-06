@@ -170,7 +170,7 @@ namespace Arasan.Controllers
 
                 foreach (QoItem item in cmp)
                 {
-                    Content += " <tr><td>" + item.Desc + "</td>";
+                    Content += " <tr><td>" + item.ItemId + "</td>";
                     Content += " <td>" + item.Quantity + "</td>";
                     Content += " <td>" + item.Unit + "</td></tr>";
                 }
@@ -190,7 +190,7 @@ namespace Arasan.Controllers
 
                 requestwer.Body = Content;
                 //request.Attachments = "Yes";
-                datatrans.sendemail("Test mail", Content, "kesavanmoorthi81@gmail.com", "kesavanmoorthi70@gmail.com", "aqhfevhczfrnbtgz", "587", "true", "smtp.gmail.com", "Arasan");
+                datatrans.sendemail("Test mail", Content, "gokulakrishna76@gmail.com", "gokulakrishna76@gmail.com", "wxojuguvqfnjcejj", "587", "true", "smtp.gmail.com", "Arasan");
                 return Ok();
 
             }

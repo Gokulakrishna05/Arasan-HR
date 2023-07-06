@@ -279,12 +279,12 @@ namespace Arasan.Controllers.Sales
                         tda.rate = dtt.Rows[i]["RATE"].ToString();
                         tda.amount = dtt.Rows[i]["TOTAMT"].ToString();
                         tda.discount ="0";
-                        tda.itemspec ="0";
+                        tda.itemspec = "STD";
                         tda.freight = "0";
                         tda.freightamt ="0";
                         tda.disqty =  "0";
                         tda.packind = "0";
-                        tda.matsupply = "0";
+                        tda.matsupply = "OWN";
                        
                         tda.introdis = "0";
                         tda.cashdis = "0";

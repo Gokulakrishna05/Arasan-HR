@@ -13,7 +13,11 @@ using Arasan.Interface.Qualitycontrol;
 using Arasan.Interface.Stores_Management;
 using Arasan.Interface.Sales;
 using Arasan.Services.Sales;
+
+using System.Collections.Generic;
+
 using Arasan.Models;
+
 //using Arasan.Services.Store_Management;
 
 
@@ -40,15 +44,15 @@ internal class Program
         builder.Services.TryAddSingleton<IDirectDeductionService, DirectDeductionService>();
         builder.Services.TryAddSingleton<IBranchSelectionService, BranchSelectionService>();
         builder.Services.TryAddSingleton<IStockService, StockService>();
-        builder.Services.TryAddSingleton<IPurchaseEnqService,PurchaseEnqService>();
+        builder.Services.TryAddSingleton<IPurchaseEnqService, PurchaseEnqService>();
         builder.Services.TryAddSingleton<IHomeService, HomeService>();
         builder.Services.TryAddSingleton<IPurchaseEnqService, PurchaseEnqService>();
         builder.Services.TryAddSingleton<IItemTransferService, ItemTransferService>();
         builder.Services.TryAddSingleton<IQCResultService, QCResultService>();
         builder.Services.TryAddSingleton<ISalesEnq, SalesEnqService>();
-        
+
         builder.Services.TryAddSingleton<IItemNameService, ItemNameService>();
-        builder.Services.TryAddSingleton<IItemCategoryService,ItemCategoryService>();
+        builder.Services.TryAddSingleton<IItemCategoryService, ItemCategoryService>();
         builder.Services.TryAddSingleton<IPO, POService>();
         builder.Services.TryAddSingleton<IGRN, GRNService>();
         builder.Services.TryAddSingleton<ICompanyService, CompanyService>();
@@ -66,7 +70,7 @@ internal class Program
         builder.Services.TryAddSingleton<IStoreAccService, StoreAccService>();
         builder.Services.TryAddSingleton<IPurchaseIndent, PurchaseIndentService>();
         builder.Services.TryAddSingleton<IPurchaseQuo, PurchaseQuoService>();
-        builder.Services.TryAddSingleton<IMailService,MailService>();
+        builder.Services.TryAddSingleton<IMailService, MailService>();
         builder.Services.TryAddSingleton<IDirectPurchase, DirectPurchaseService>();
         builder.Services.TryAddSingleton<IStoreIssueConsumables, StoreIssueConsumablesService>();
         builder.Services.TryAddSingleton<IStoreIssueProduction, StoreIssueProductionService>();
@@ -75,9 +79,9 @@ internal class Program
         builder.Services.TryAddSingleton<IEmployee, EmployeeService>();
         builder.Services.TryAddSingleton<IStockIn, StockInService>();
         builder.Services.TryAddSingleton<IPurchaseReturn, PurchaseReturnService>();
-        builder.Services.TryAddSingleton<IQCTestValueEntryService,QCTestValueEntryService>();
+        builder.Services.TryAddSingleton<IQCTestValueEntryService, QCTestValueEntryService>();
         builder.Services.TryAddSingleton<IAccGroup, AccGroupService>();
-        builder.Services.TryAddSingleton<IStoresReturnService,StoresReturnService>();
+        builder.Services.TryAddSingleton<IStoresReturnService, StoresReturnService>();
         builder.Services.TryAddSingleton<IReasonCodeService, ReasonCodeService>();
 
         builder.Services.TryAddSingleton<IProductionEntry, ProductionEntryService>();
@@ -91,17 +95,17 @@ internal class Program
         builder.Services.TryAddSingleton<ICuringInwardService, CuringInwardService>();
         builder.Services.TryAddSingleton<IBatchProduction, BatchProductionService>();
 
-         builder.Services.TryAddSingleton<IProductionScheduleService, ProductionScheduleService>();
+        builder.Services.TryAddSingleton<IProductionScheduleService, ProductionScheduleService>();
         builder.Services.TryAddSingleton<IProductionLog, ProductionLogService>();
-        builder.Services.TryAddSingleton<ICuringService, CuringService>(); 
-          builder.Services.TryAddSingleton<IDrumIssueEntryService, DrumIssueEntryService>();
- 
+        builder.Services.TryAddSingleton<ICuringService, CuringService>();
+        builder.Services.TryAddSingleton<IDrumIssueEntryService, DrumIssueEntryService>();
+
         builder.Services.TryAddSingleton<IPackingNote, PackingNoteService>();
         builder.Services.TryAddSingleton<ICuringOutward, CuringOutwardService>();
-        builder.Services.TryAddSingleton<IQCFinalValueEntryService, QCFinalValueEntryService>(); 
+        builder.Services.TryAddSingleton<IQCFinalValueEntryService, QCFinalValueEntryService>();
         builder.Services.TryAddSingleton<IProductionForecastingService, ProductionForecastingService>();
         builder.Services.TryAddSingleton<ISectionService, SectionService>();
-      
+
         builder.Services.TryAddSingleton<IDrumMaster, DrumMasterService>();
         builder.Services.TryAddSingleton<IDrumCategory, DrumCategoryService>();
 
@@ -134,15 +138,18 @@ internal class Program
         builder.Services.TryAddSingleton<IProFormaInvoiceService, ProFormaInvoiceService>();
 
 
- 
+
         builder.Services.TryAddSingleton<IWorkOrderShortClose, WorkOrderShortCloseService>();
- 
+
         builder.Services.TryAddSingleton<ISalesReturn, SalesReturnService>();
 
         builder.Services.TryAddSingleton<IDesignation, DesignationService>();
 
         builder.Services.TryAddSingleton<IDepotInvoiceService, DepotInvoiceService>();
+
+
         builder.Services.TryAddSingleton<IEmailConfig, EmailConfigService>();
+
 
 
 
@@ -162,19 +169,53 @@ internal class Program
             // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             app.UseHsts();
         }
+       
 
         app.UseHttpsRedirection();
         app.UseStaticFiles();
 
         app.UseRouting();
+       
 
         app.UseAuthorization();
         app.UseSession();
-        
+
         app.MapControllerRoute(
             name: "default",
             pattern: "{controller=Account}/{action=Login}/{fid?}");
-        
+
+
+      
         app.Run();
     }
+    public void ConfigureServices(IServiceCollection service)
+    {
+        service.AddMvc();
+
+    }
+    public void Configure(IApplicationBuilder app,IWebHostEnvironment env)
+    {
+        if(env.IsDevelopment())
+        {
+            app.UseDeveloperExceptionPage();
+
+        }
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllerRoute(
+                name: "defalut",
+                pattern: "{controller=Report}/(action=Print}/{id?})");
+        });
+
+    }
+    public static IHostBuilder CreateHostBuilder(string[] args) =>
+        Host.CreateDefaultBuilder(args)
+        .ConfigureWebHostDefaults(webBuilder =>
+        {
+            webBuilder.UseContentRoot(Directory.GetCurrentDirectory());
+            webBuilder.UseWebRoot("wwwroot");
+            webBuilder.UseStartup<IStartup>();
+
+        });
+
 }
