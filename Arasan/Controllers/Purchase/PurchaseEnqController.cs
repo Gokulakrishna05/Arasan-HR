@@ -238,7 +238,7 @@ namespace Arasan.Controllers
 
                 requestwer.Body = Content;
                 //request.Attachments = "No";
-                datatrans.sendemail("Test mail", Content, "gokulakrishna76@gmail.com", "kesavanmoorthi70@gmail.com", "mlyakjnecuzeosdx", "587", "true", "smtp.gmail.com", "IcanD");
+                datatrans.sendemail("Test mail", Content, "kesavanmoorthi81@gmail.com", "kesavanmoorthi70@gmail.com", "spabnjcirlfipjco", "587", "true", "smtp.gmail.com", "IcanD");
                 return Ok();
 
             }
