@@ -7,6 +7,7 @@ using Org.BouncyCastle.Ocsp;
 using System;
 using System.Collections.Generic;
 using System.Data;
+
 namespace Arasan.Services.Master
 {
     public class EmployeeService : IEmployee
@@ -323,6 +324,28 @@ namespace Arasan.Services.Master
         {
             string SvSql = string.Empty;
             SvSql = "Select EMPNAME  from EMPMAST where  EMPMASTID=" + id + "";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetEMPDept()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select DEPARTMENT_CODE from DEPARTMENTMAST where  STATUS= 'ACTIVE'  ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        } 
+        
+        public DataTable GetDesign()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select DESIGNATION from DESIGNATIONMAST where  STATUS= 'ACTIVE'  ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

@@ -123,7 +123,8 @@ namespace Arasan.Controllers
                 TempData["notice"] = flag;
                 return RedirectToAction("ListLocation");
             }
-        } public ActionResult Remove(string tag, int id)
+        } 
+        public ActionResult Remove(string tag, int id)
         {
 
             string flag = LocationService.RemoveChange(tag, id);

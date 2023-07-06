@@ -186,7 +186,8 @@ namespace Arasan.Services
             }
             return "";
 
-        } public string RemoveChange(string tag, int id)
+        } 
+        public string RemoveChange(string tag, int id)
         {
 
             try
@@ -194,7 +195,7 @@ namespace Arasan.Services
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE LOCDETAILS SET STATUS ='INACTIVE' WHERE LOCDETAILSID='" + id + "'";
+                    svSQL = "UPDATE LOCDETAILS SET STATUS ='ACTIVE' WHERE LOCDETAILSID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();

@@ -1,54 +1,66 @@
-﻿using Arasan.Interface;
-using Arasan.Interface.Master;
+﻿using Arasan.Interface.Master;
+using Arasan.Interface;
 using Arasan.Models;
 using Microsoft.Extensions.Configuration;
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Configuration;
 
-namespace Arasan.Services.Master
+namespace Arasan.Services
 {
-    public class HSNcodeService : IHSNcodeService
+    public class EmailConfigService : IEmailConfig
     {
         private readonly string _connectionString;
         DataTransactions datatrans;
-        public HSNcodeService(IConfiguration _configuratio)
+        public EmailConfigService(IConfiguration _configuration)
         {
-            _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
+            _connectionString = _configuration.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public IEnumerable<HSNcode> GetAllHSNcode(string status)
+
+        public IEnumerable<EmailConfig> GetAllEmailConfig(string status)
         {
-            List<HSNcode> staList = new List<HSNcode>();
+            if (string.IsNullOrEmpty(status))
+            {
+                status = "ACTIVE";
+            }
+            List<EmailConfig> cmpList = new List<EmailConfig>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
 
                 using (OracleCommand cmd = con.CreateCommand())
                 {
+
                     con.Open();
-                    cmd.CommandText = "Select HSNCODEID,HSNCODE,DESCRIPTION,CGST,SGST,IGST,STATUS from HSNCODE WHERE STATUS= '" + status + "' order by HSNCODE.HSNCODEID DESC";
+                    cmd.CommandText = "Select EMAILCONFIG_ID,SMTP_HOST,PORT_NO,EMAIL_ID,PASSWORD,SSL,SIGNATURE from EMAIL_CONFIG  WHERE EMAIL_CONFIG.STATUS = '" + status + "' order by EMAILCONFIG_ID DESC";
                     OracleDataReader rdr = cmd.ExecuteReader();
+                   
                     while (rdr.Read())
                     {
-                        HSNcode sta = new HSNcode
+                        EmailConfig cmp = new EmailConfig
                         {
-                            ID = rdr["HSNCODEID"].ToString(),
-                            HCode = rdr["HSNCODE"].ToString(),
-                            Dec = rdr["DESCRIPTION"].ToString(),
-                            CGst = rdr["CGST"].ToString(),
-                            SGst = rdr["SGST"].ToString(),
-                            IGst = rdr["IGST"].ToString() 
+                            ID = rdr["EMAILCONFIG_ID"].ToString(),
+                            SMTP = rdr["SMTP_HOST"].ToString(),
+                            Port = rdr["PORT_NO"].ToString(),
+                            Email = rdr["EMAIL_ID"].ToString(),
+                            Password = rdr["PASSWORD"].ToString(),
+                            SSL = rdr["SSL"].ToString(),
+                            Signature = rdr["SIGNATURE"].ToString()
+                            
+
+
+
                         };
-                        staList.Add(sta);
+                        cmpList.Add(cmp);
                     }
                 }
             }
-            return staList;
+            return cmpList;
         }
 
-         
-        public string HSNcodeCRUD(HSNcode ss)
+        public string EmailConfigCRUD(EmailConfig ss)
         {
             string msg = "";
             try
@@ -58,19 +70,19 @@ namespace Arasan.Services.Master
                 if (ss.ID == null)
                 {
 
-                    svSQL = " SELECT Count(HSNCODE) as cnt FROM HSNCODE WHERE HSNCODE = LTRIM(RTRIM('" + ss.HCode + "'))";
+                    svSQL = " SELECT Count(SMTP_HOST) as cnt FROM DRUMMAST WHERE DRUMNO = LTRIM(RTRIM('" + ss.SMTP + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
-                        msg = "HsnCode Already Existed";
+                        msg = "SMTP Already Existed";
                         return msg;
                     }
                 }
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
-                    OracleCommand objCmd = new OracleCommand("HSNPROC", objConn);
+                    OracleCommand objCmd = new OracleCommand("EMAILCONFIGPROC", objConn);
                     /*objCmd.Connection = objConn;
-                    objCmd.CommandText = "HSNPROC";*/
+                    objCmd.CommandText = "DRUM_PROCEDURE";*/
 
                     objCmd.CommandType = CommandType.StoredProcedure;
                     if (ss.ID == null)
@@ -84,22 +96,24 @@ namespace Arasan.Services.Master
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = ss.ID;
                     }
 
-                    objCmd.Parameters.Add("HSNCODE", OracleDbType.NVarchar2).Value = ss.HCode;
-                    objCmd.Parameters.Add("DESCRIPTION", OracleDbType.NVarchar2).Value = ss.Dec;
-                    objCmd.Parameters.Add("CGST", OracleDbType.NVarchar2).Value = ss.CGst;
-                    objCmd.Parameters.Add("SGST", OracleDbType.NVarchar2).Value = ss.SGst;
-                    objCmd.Parameters.Add("IGST", OracleDbType.NVarchar2).Value = ss.IGst;
+                    objCmd.Parameters.Add("SMTP_HOST", OracleDbType.NVarchar2).Value = ss.SMTP;
+                    objCmd.Parameters.Add("PORT_NO", OracleDbType.NVarchar2).Value = ss.Port;
+                    objCmd.Parameters.Add("EMAIL_ID", OracleDbType.NVarchar2).Value = ss.Email;
+                    objCmd.Parameters.Add("PASSWORD", OracleDbType.NVarchar2).Value = ss.Password;
+                    objCmd.Parameters.Add("SSL", OracleDbType.NVarchar2).Value = ss.SSL;
+                    objCmd.Parameters.Add("SIGNATURE", OracleDbType.NVarchar2).Value = ss.Signature;
                     objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+
                     try
                     {
                         objConn.Open();
                         objCmd.ExecuteNonQuery();
-                        //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
+
                     }
                     catch (Exception ex)
                     {
-                        System.Console.WriteLine("Exception: {0}", ex.ToString());
+
                     }
                     objConn.Close();
                 }
@@ -113,41 +127,10 @@ namespace Arasan.Services.Master
             return msg;
         }
 
-        public DataTable GetHSNcode(string id)
+        public DataTable GetEmailConfig(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select HSNCODEID,HSNCODE,DESCRIPTION,CGST,SGST,IGST from HSNCODE where HSNCODEID = '" + id + "' ";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
-
-        public DataTable GetCGst()
-        {
-            string SvSql = string.Empty;
-            SvSql = "select * from TAXMAST where TAX='CGST' AND STATUS= 'ACTIVE'  ";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
-        public DataTable GetSGst()
-        {
-            string SvSql = string.Empty;
-            SvSql = "select * from TAXMAST where TAX='SGST' AND STATUS= 'ACTIVE'  ";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
-        public DataTable GetIGst()
-        {
-            string SvSql = string.Empty;
-            SvSql = "select * from TAXMAST where TAX='IGST' AND STATUS= 'ACTIVE'  ";
+            SvSql = "select EMAILCONFIG_ID,SMTP_HOST,PORT_NO,EMAIL_ID,PASSWORD,SSL,SIGNATURE from EMAIL_CONFIG  where EMAILCONFIG_ID = '" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -163,7 +146,7 @@ namespace Arasan.Services.Master
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE HSNCODE SET STATUS ='INACTIVE' WHERE HSNCODEID='" + id + "'";
+                    svSQL = "UPDATE EMAIL_CONFIG SET STATUS ='INACTIVE' WHERE EMAILCONFIG_ID ='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -177,7 +160,7 @@ namespace Arasan.Services.Master
             }
             return "";
 
-        } 
+        }
         public string RemoveChange(string tag, int id)
         {
 
@@ -186,7 +169,7 @@ namespace Arasan.Services.Master
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE HSNCODE SET STATUS ='ACTIVE' WHERE HSNCODEID='" + id + "'";
+                    svSQL = "UPDATE EMAIL_CONFIG SET STATUS ='ACTIVE' WHERE EMAILCONFIG_ID ='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -202,5 +185,4 @@ namespace Arasan.Services.Master
 
         }
     }
-
 }

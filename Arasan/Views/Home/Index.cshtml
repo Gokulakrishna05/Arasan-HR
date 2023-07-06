@@ -3,7 +3,169 @@
     ViewData["Title"] = "Home Page";
 }
 
+<style>
+    .info-boxalert {
+        display: block;
+        height: 150px;
+        background:#FFF;
+        width: 100%;
+        box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+        border-radius: 2px;
+        margin-bottom: 5px;
+        overflow-y: auto;
+    }
 
+    .info-box {
+        display: block;
+        min-height: 90px;
+        background: #F1F1F1;
+        width: 100%;
+        box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+        border-radius: 2px;
+        margin-bottom: 15px;
+    }
+
+        .info-box small {
+            font-size: 14px;
+        }
+
+        .info-box .progress {
+            background: #F1F1F1;
+            margin: 5px -10px 5px -10px;
+            height: 2px;
+        }
+
+            .info-box .progress, .info-box .progress .progress-bar {
+                border-radius: 0;
+            }
+
+                .info-box .progress .progress-bar {
+                    background: #fff;
+                }
+
+    .info-box-icon {
+        border-top-left-radius: 2px;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 2px;
+        display: block;
+        float: left;
+        height: 90px;
+        width: 90px;
+        text-align: center;
+        font-size: 45px;
+        line-height: 90px;
+        background: rgba(0,0,0,0.2);
+    }
+
+    .info-box-content {
+        padding: 5px 10px;
+        margin-left: 90px;
+    }
+
+    .info-box-number {
+        display: block;
+        font-weight: bold;
+        font-size: 18px;
+    }
+
+    .progress-description, .info-box-text {
+        display: block;
+        font-size: 14px;
+        white-space: initial;
+        /*white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;*/
+    }
+
+    .info-box-text {
+        text-transform: uppercase;
+    }
+
+    .info-box-more {
+        display: block;
+    }
+
+    .progress-description {
+        margin: 0;
+    }
+
+    .round1 {
+        position: relative;
+        margin: 0px;
+        font-size: 1em;
+        vertical-align: middle;
+        border-right: 1px solid #fff;
+        text-align: center;
+        color: #fff;
+        padding-top: 8px;
+        padding-bottom: 8px;
+    }
+
+        .round1 i {
+            padding-left: 5px;
+        }
+
+    .xdsoft_datepicker.active, .xdsoft_datetimepicker .xdsoft_timepicker.active {
+        width: 400Px !important;
+    }
+
+    .xdsoft_calendar table {
+        height: 254px !important;
+    }
+
+    .panel {
+        margin: 10px !important;
+    }
+
+    .xdsoft_datetimepicker.xdsoft_.xdsoft_noselect.xdsoft_inline {
+        margin: 10px !important;
+    }
+
+    /* Style the tab */
+    .tab {
+        overflow: hidden;
+        border: 1px solid #ccc;
+        background-color: #f1f1f1;
+    }
+
+        /* Style the buttons that are used to open the tab content */
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            border-right: 2px solid #fff;
+        }
+
+            .tab button:last-child {
+                border-right: none;
+            }
+
+            /* Change background color of buttons on hover */
+            .tab button:hover {
+                background-color: #ddd;
+            }
+
+            /* Create an active/current tablink class */
+            .tab button.active {
+                background-color: #ccc;
+            }
+
+    /* Style the tab content */
+    .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        border: 1px solid #ccc;
+        border-top: none;
+        height: 100%;
+    }
+
+   
+</style>
 
 <div class="row">
     <div class="col-lg-6 top15">
@@ -248,6 +410,7 @@
 	
 						</div>
  </div>
+
   @*  <div id="divalerts" style="display:block">
         <div class="box box-success">
             <div class="box-header with-border">
@@ -275,7 +438,30 @@
                         <!-- /.info-box -->
                     </div>
 
+ </div>
 
+
+
+ 
+<div id="divalerts" style="display:block">
+    <div class="box box-success">
+        <div class="box-header with-border">
+            <h3 class="box-title">Alerts</h3>
+
+
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                    <i class="fa fa-minus"></i>
+                </button>
+
+            </div>
+        </div>
+        <div class="box-body">
+            <div class="row">
+             
+
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <p style="font-weight:bold;color:darkgreen">Quote Followup @*- <label id="Quotefollowcount">(@Html.DisplayFor(m => m.Count))</label>*@</p>
 
 
                 </div>
@@ -327,187 +513,84 @@
 </script>*@
 
 
+                    <div class="info-boxalert">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Quo No</th>
+                                    <th>Follwed By</th>
+                                    <th>Next Follow Date</th>
+                                     
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
 
-          <!-- tabs -->
-       @*   <div class="col-lg-8 top20">
-            <div class="tabs-container">
-              <ul class="nav nav-tabs">
-                <li class="active"><a href="#tab-1" data-toggle="tab"><i class="fa fa-money" aria-hidden="true"></i> Transactions Panel  </a></li>
-                <li><a href="#tab-2" data-toggle="tab"><i class="fa fa-tasks" aria-hidden="true"></i> Tasks Panel</a></li>
-            
-              </ul>
-              <div class="tab-content">
-                <div class="tab-pane active" id="tab-1">
-                <div class="panel-body"> <div class="table-responsive">
-                              <table class="table table-bordered table-hover bottom0 ">
-                                 <thead>
-                                    <tr>
-                                       <th>Order #</th>
-                                       <th>Order Date</th>
-                                       <th>Order Time</th>
-                                       <th>Amount (USD)</th>
-                                    </tr>
-                                 </thead>
-                                 <tbody>
-                                    <tr>
-                                       <td>3128</td>
-                                       <td>4/10/2017</td>
-                                       <td>3:29 PM</td>
-                                       <td>$323.33</td>
-                                    </tr>
-                                    <tr>
-                                       <td>3128</td>
-                                       <td>4/11/2017</td>
-                                       <td>3:20 PM</td>
-                                       <td>$233.34</td>
-                                    </tr>
-                                    <tr>
-                                       <td>3128</td>
-                                       <td>4/12/2017</td>
-                                       <td>3:03 PM</td>
-                                       <td>$723.17</td>
-                                    </tr>
-                                    <tr>
-                                       <td>3128</td>
-                                       <td>4/13/2017</td>
-                                       <td>3:00 PM</td>
-                                       <td>$23.71</td>
-                                    </tr>
-                                    <tr>
-                                       <td>3128</td>
-                                       <td>4/14/2017</td>
-                                       <td>2:49 PM</td>
-                                       <td>$8343.23</td>
-                                    </tr>
-                                    <tr>
-                                       <td>3128</td>
-                                       <td>4/18/2017</td>
-                                       <td>2:23 PM</td>
-                                       <td>$243.12</td>
-                                    </tr>
-                                    <tr>
-                                       <td>3128</td>
-                                       <td>4/12/2017</td>
-                                       <td>2:15 PM</td>
-                                       <td>$5663.54</td>
-                                    </tr>
-                                    <tr>
-                                       <td>3118</td>
-                                       <td>4/4/2017</td>
-                                       <td>2:32 PM</td>
-                                       <td>$943.45</td>
-                                    </tr>
-                                    <tr>
-                                       <td>3158</td>
-                                       <td>4/8/2017</td>
-                                       <td>2:32 PM</td>
-                                       <td>$943.45</td>
-                                    </tr>
-                                 </tbody>
-                              </table>
-                              <div class="panel-footer text-right"><a href="#" class="btn green btn-sm">View All Transactions</a>
-                           </div>
-                           </div></div>
+
+                                    int e = 0;
+
+                                    foreach (var item in Model.Folllst.ToList())
+                                    {
+                                        <tr>
+                                            <td>@Html.DisplayFor(o => o.Folllst[e].displaytext)</td>
+                                           
+                                            <td>@Html.DisplayFor(o => o.Folllst[e].followedby)</td>
+                                           
+                                            <td>@Html.DisplayFor(o => o.Folllst[e].status)</td>
+                                            
+                                        </tr>
+                                        e = e + 1;
+                                      
+                                    }
+                                }
+                            
+                            <tbody></tbody>
+                        </table>
+
+                    </div>
+                    <!-- /.info-box -->
                 </div>
-                <div class="tab-pane" id="tab-2">
-                  <div class="panel-body">   <!-- START list group-->
-                           <div class="task-list">
-                              <a href="#" class="list-group-item bt0">
-                                 <span class="label label-warning pull-right">just now</span>
-                                 <em class="fa fa-fw fa-calendar mr"></em>Calendar updated</a>
-                              <a href="#" class="list-group-item">
-                                 <span class="label label-warning pull-right">4 minutes ago</span>
-                                 <em class="fa fa-fw fa-comment mr"></em>Commented on a post</a>
-                              <a href="#" class="list-group-item">
-                                 <span class="label label-warning pull-right">23 minutes ago</span>
-                                 <em class="fa fa-fw fa-truck mr"></em>Order 392 shipped</a>
-                              <a href="#" class="list-group-item">
-                                 <span class="label label-warning pull-right">46 minutes ago</span>
-                                 <em class="fa fa-fw fa-money mr"></em>Invoice 653 has been paid</a>
-                              <a href="#" class="list-group-item">
-                                 <span class="label label-warning pull-right">1 hour ago</span>
-                                 <em class="fa fa-fw fa-user mr"></em>A new user has been added</a>
-                              <a href="#" class="list-group-item">
-                                 <span class="label label-warning pull-right">2 hours ago</span>
-                                 <em class="fa fa-fw fa-check mr"></em>Completed task: "pick up dry cleaning"</a>
-                              <a href="#" class="list-group-item">
-                                 <span class="label label-warning pull-right">yesterday</span>
-                                 <em class="fa fa-fw fa-globe mr"></em>Saved the world</a>
-                              <a href="#" class="list-group-item">
-                                 <span class="label label-warning pull-right">two days ago</span>
-                                 <em class="fa fa-fw fa-check mr"></em>Completed task: "fix error on sales page"</a>
-                              <a href="#" class="list-group-item">
-                                 <span class="label label-warning pull-right">two days ago</span>
-                                 <em class="fa fa-fw fa-check mr"></em>Completed task: "fix error on sales page"</a>
-                           </div>
-                           <!-- END list group-->
-                           <div class="panel-footer text-right"><a href="#" class="btn green btn-sm">View All Activity</a>
-                           </div>
-                  </div>
+
+
+            </div><br /><br /><br />
+
+         
+
+                    </div>
+                    <!-- /.info-box -->
                 </div>
-             
-              </div>
+
             </div>
-          </div>
-          <!-- tabs -->
+             
+
+ 
 
 
-          <div class="col-lg-4">
 
-    <div class="widget white-bg box-shadow p-xl">
 
-        <h2>
-            Susan Wenscombe
-        </h2>
-        <ul class="list-unstyled m-t-md">
-            <li>
-                <span class="fa fa-envelope m-r-xs"></span>
-                <label>Email:</label> Susan@mail.com
-            </li>
-            <li>
-                <span class="fa fa-home m-r-xs"></span>
-                <label>Address:</label> 4030 Prospect Street
-            </li>
-            <li>
-                <span class="fa fa-phone m-r-xs"></span>
-                <label>Contact:</label> 856-681-6121
-            </li>
-        </ul>
+        
 
-    </div>
-    <div class="widget green-bg box-shadow text-center">
-        <div >
-            <i class="fa fa-envelope fa-4x"></i>
-
-            <h1>30</h1>
-
-            <h3 class="font-bold no-margins">
-                Mail
-            </h3>
-            <small> Do something</small>
-        </div>
-    </div>
-    <div class="widget white-bg box-shadow">
-        <h2>Personal Details </h2>
-        <table class="table small m-b-xs top5 bottom0">
-            <tbody>
-                <tr>
-                    <td><strong>142</strong> Projects </td>
-                    <td><strong>22</strong> Followers </td>
-                </tr>
-                <tr>
-                    <td><strong>61</strong> Comments </td>
-                    <td><strong>54</strong> Articles </td>
-                </tr>
-                <tr>
-                    <td><strong>154</strong> Tags </td>
-                    <td><strong>32</strong> Friends </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
-          
-</div>*@
-		
-
+@*<script>
+    function BindQuotefollow(strBranch) {
+        $.ajax({
+            url: 'BindQuotefollow',
+            data: { "strBranch": strBranch },
+            type: "GET",
+            success: function (result) {
+                $('#blogTable2 tbody').empty();
+                var c = 0;
+                $.each(function (result) {
+                    var rows = "<tr style='border-bottom: 1px dashed #c7c7c7; !important'>"
+                    + "<td style='font-weight: 400; color: #000; padding: 4px;'>" + result.displaytext + " - <span style='color: #F47A27;'>" + result.followedby + "</span> - <span style='color: red;'>" + result.status + "</span></td>"
+                        + "</tr>";status
+                    $('#blogTable2 tbody').append(rows);
+                    c = c + 1;
+                });
+                document.getElementById("Quotefollowcount").innerHTML = c;
+            },
+            error: function () {
+                // alert("Data Not Found");
+            }
+        });
+    }
+</script>*@

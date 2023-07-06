@@ -5,6 +5,8 @@ using Arasan.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using NuGet.Protocol.Plugins;
+using System.Xml.Linq;
 
 namespace Arasan.Controllers
 {
@@ -82,6 +84,22 @@ namespace Arasan.Controllers
                     TDatan.Add(tdan);
                 }
             }
+            GridDisplay Reg = new GridDisplay();
+
+            List<GridDisplay> Data1 = new List<GridDisplay>();
+            DataTable dt = new DataTable();
+            dt = HomeService.GetquoteFollowupnextReport();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                Reg = new GridDisplay();
+                Reg.displaytext = dt.Rows[i]["QUO_ID"].ToString();
+                Reg.followedby = dt.Rows[i]["FOLLOWED_BY"].ToString();
+                Reg.status = dt.Rows[i]["NEXT_FOLLOW_DATE"].ToString();
+
+                Data1.Add(Reg);
+
+            }
+            H.Folllst = Data1;
             H.qcNotifies=TData;
             H.Notifies = TData1;
             H.Materialnotification = TDatan;
@@ -137,5 +155,37 @@ namespace Arasan.Controllers
         {
             return View();
         }
+        //public ActionResult BindQuotefollow(string qutno)
+        //{
+        //    try
+        //    {
+        //        Home H = new Home();
+        //        GridDisplay Reg = new GridDisplay();
+               
+        //        List<GridDisplay> Data1 = new List<GridDisplay>();
+                 
+
+        //        DataTable dt = new DataTable();
+        //        dt = HomeService.GetquoteFollowupnextReport(qutno);
+        //        for (int i = 0; i < dt.Rows.Count; i++)
+        //        {
+
+        //            Reg.displaytext = dt.Rows[i]["QUO_ID"].ToString();
+        //            Reg.followedby = dt.Rows[i]["FOLLOWED_BY"].ToString();
+        //            Reg.status = dt.Rows[i]["NEXT_FOLLOW_DATE"].ToString();
+        //            Data1.Add(Reg);
+
+        //        }
+        //        Reg.Folllst = Data1;
+
+        //        H.Folllst = Data1;
+        //        return View(H);
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        throw ex;
+        //    }
+       // }
     }
 }

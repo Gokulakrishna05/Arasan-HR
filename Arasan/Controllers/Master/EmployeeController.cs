@@ -24,6 +24,8 @@ namespace Arasan.Controllers.Master
         public IActionResult Employee(string id)
         {
             Employee E = new Employee();
+            E.EMPDeptlst = BindEMPDept();
+            E.EMPDesignlst = BindEMPDesign();
             E.Statelst = BindState();
             E.Citylst = BindCity("");
             E.Branch = Request.Cookies["BranchId"];
@@ -155,6 +157,8 @@ namespace Arasan.Controllers.Master
 
             return View(emp);
         }
+
+       
         public JsonResult GetStateJSON(string supid)
         {
             Employee model = new Employee();
@@ -322,6 +326,42 @@ namespace Arasan.Controllers.Master
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["CITYNAME"].ToString(), Value = dtDesg.Rows[i]["CITYNAME"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<SelectListItem> BindEMPDept()
+        {
+            try
+            {
+                DataTable dtDesg = EmployeeService.GetEMPDept();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DEPARTMENT_CODE"].ToString(), Value = dtDesg.Rows[i]["DEPARTMENT_CODE"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<SelectListItem> BindEMPDesign()
+        {
+            try
+            {
+                DataTable dtDesg = EmployeeService.GetDesign();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DESIGNATION"].ToString(), Value = dtDesg.Rows[i]["DESIGNATION"].ToString() });
                 }
                 return lstdesg;
             }

@@ -10,7 +10,9 @@ namespace Arasan.Models
         public double empty { get; set; }
         public int res { get; set; }
         public double rem { get; set; }
+        public string Quotefollowcount { get; set; }
         public List<MatNotify> Materialnotification { get; set; }
+        public List<GridDisplay>Folllst { get; set; }
     }
     public class QcNotify
     {
@@ -51,5 +53,17 @@ namespace Arasan.Models
         public string status { get; set; }
         public string Occupied { get; set; }
 
+    }
+    public class GridDisplay
+    {
+        public string displaytext { get; set; }
+
+        public string followedby { get; set; }
+
+        public string Count { get; set; }
+
+        public string status { get; set; }
+
+        public string CPerson { get; set; }
     }
 }
