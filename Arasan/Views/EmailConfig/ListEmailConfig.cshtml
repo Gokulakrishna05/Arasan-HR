@@ -1,12 +1,11 @@
-﻿@model IEnumerable<Arasan.Models.DrumCategory>
-
+﻿@model IEnumerable<Arasan.Models.EmailConfig>
 @{
-    ViewData["Title"] = "DrumCategory";
+    ViewData["Title"] = "ListEmailConfig";
     string query = ViewContext.HttpContext.Request.Query["status"];
     string Qid = string.Empty;
-    if (!string.IsNullOrEmpty(query)) { Qid = ViewContext.HttpContext.Request.Query["status"]; }
+    if (!string.IsNullOrEmpty(query)) { Qid = ViewContext.HttpContext.Request.Query["status"]; 
 }
-
+}
 <script type="text/javascript">
     @if (TempData["notice"] != null)
     {
@@ -16,11 +15,10 @@
 
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
-
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Master</a> </li>
-            <li class="active"> <strong>DrumCategory</strong> </li>
+            <li class="active"> <strong> EmailConfig </strong> </li>
         </ol>
     </div>
 </div>
@@ -37,17 +35,14 @@
                                 <select style='width: 200px;' class='form-control  newcss' id="dllstatus" onchange="changeStatus(this.value)">
                                     <option value="" selected>Open</option>
                                     <option value='INACTIVE'>Close</option>
-                                    @* <option value='InActive'>Disabled</option>*@
+                                    
                                 </select>
                             </div>
                             <div class="col-md-12 ">
                                 <div class=" textalignright">
-
-                                    <a href="@Url.Action("NewCategory", "DrumCategory")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add DrumCategory</a>
-
-                                   <br>
+                                    <a href="@Url.Action("EmailConfig","EmailConfig")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add EmailConfig</a>
+                                    <br>
                                 </div>
-
 
                             </div>
                         </div>
@@ -55,48 +50,54 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="ibox float-e-margins">
-
                                     <div class="ibox-content collapse in">
                                         <div class="widgets-container">
                                             <div>
                                                 <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
                                                     <thead>
                                                         <tr>
-                                                            <th>S.No</th>
-                                                            <th>Category Type</th>
-                                                            <th>Description</th>
-                                                            
 
+                                                            <th>SMTP Host</th>
+                                                            <th>Port No</th>
+                                                            <th>Email ID</th>
+                                                           
+                                                            <th>Password</th>
+                                                           
                                                             <th>Edit</th>
                                                             <th>Close</th>
                                                         </tr>
                                                     </thead>
-
                                                     <tbody>
                                                         @{
                                                             int i = 1;
+
                                                             foreach (var item in Model)
                                                             {
                                                                 <tr>
-                                                                    <td>@i</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.CategoryType)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.Description)</td>
+
+
+                                                                    <td>@Html.DisplayFor(modelItem => item.SMTP)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Port)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Password)</td>
+                                                                   
+                                                                    
                                                                     @if (item.status == "INACTIVE")
                                                                     {
-                                                                       <td></td>
-                                                                        <td> <a href="@Url.Action("Remove","DrumCategory",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
+                                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("EmailConfig", "EmailConfig",new { id=item.ID })"></a></div></td>
+                                                                        <td> <a href="@Url.Action("Remove","EmailConfig",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
                                                                     }
                                                                     else
                                                                     {
-
-                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("NewCategory", "DrumCategory",new { id=item.ID })"></a></div></td>
-                                                                    <td> <a href="@Url.Action("DeleteMR","DrumCategory",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
+                                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("EmailConfig", "EmailConfig",new { id=item.ID })"></a></div></td>
+                                                                        <td> <a href="@Url.Action("DeleteMR","EmailConfig",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
                                                                     }
                                                                 </tr>
                                                                 i++;
                                                             }
                                                         }
-                                                       
+
+
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -105,10 +106,8 @@
                                 </div>
                             </div>
                         </div>
-
-
-
                     </form>
+
                 </div>
             </div>
         </div>
@@ -146,6 +145,7 @@
 
     });
 </script>
+
 <a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
 <a class="fancyboxe1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
 <link rel="stylesheet" href="@Url.Content("~/css/jquery.fancybox.css?v=2.1.5")" type="text/css" media="screen" />
@@ -175,7 +175,7 @@
         $(".fancybox1").eq(0).trigger('click');
     }
     function changeStatus(status) {
-        var url = "/DrumCategory/ListNewCategory?status=" + status;
+        var url = "/EmailConfig/ListEmailConfig?status=" + status;
         window.location.href = url;
         //$.ajax({
         //    url: 'AssignSession',

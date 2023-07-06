@@ -13,7 +13,11 @@ using Arasan.Interface.Qualitycontrol;
 using Arasan.Interface.Stores_Management;
 using Arasan.Interface.Sales;
 using Arasan.Services.Sales;
+
 using System.Collections.Generic;
+
+using Arasan.Models;
+
 //using Arasan.Services.Store_Management;
 
 
@@ -142,6 +146,10 @@ internal class Program
         builder.Services.TryAddSingleton<IDesignation, DesignationService>();
 
         builder.Services.TryAddSingleton<IDepotInvoiceService, DepotInvoiceService>();
+
+
+        builder.Services.TryAddSingleton<IEmailConfig, EmailConfigService>();
+
 
 
 
