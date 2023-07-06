@@ -11,5 +11,7 @@ namespace Arasan.Interface
         DataTable CuringGroup();
         DataTable curingsubgroup(string curingset);
         DataTable GetMaterialnot();
+
+        DataTable GetquoteFollowupnextReport();
     }
 }
