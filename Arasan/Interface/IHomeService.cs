@@ -13,5 +13,6 @@ namespace Arasan.Interface
         DataTable GetMaterialnot();
 
         DataTable GetquoteFollowupnextReport();
+        DataTable GetEnqFollowupnextReport();
     }
 }
