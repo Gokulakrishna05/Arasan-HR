@@ -8,6 +8,7 @@ namespace Arasan.Interface
     {
         DataTable GetCusType();
         DataTable GetSupplier();
+        DataTable GetItem();
        
         IEnumerable<SalesEnquiry> GetAllSalesEnq();
         string SalesEnqCRUD(SalesEnquiry cy);
@@ -22,5 +23,7 @@ namespace Arasan.Interface
         DataTable GetFolowup(string id);
         string PurchaseFollowupCRUD(EnqFollowup pf);
         IEnumerable<SalesItem> GetAllSalesenquriyItem(string id);
+
+        string StatusChange(string tag, int id);
     }
 }

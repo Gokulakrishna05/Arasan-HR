@@ -4,6 +4,7 @@ using System.Security.Cryptography.Pkcs;
 using System.Xml.Linq;
 using Arasan.Interface;
 using Arasan.Models;
+using Arasan.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -24,11 +25,14 @@ namespace Arasan.Controllers
             }
             public IActionResult Sales_Enquiry(string id )
             {
-                SalesEnquiry ca = new SalesEnquiry();
-                ca.Brlst = BindBranch();
+            SalesEnquiry ca = new SalesEnquiry();
+            //ca.CreatedBy = Request.Cookies["UserId"];
+            //ca.UpdatedBy = Request.Cookies["UserId"];
+
+            ca.Brlst = BindBranch();
             ca.Branch = Request.Cookies["BranchId"];
             ca.Suplst = BindSupplier();
-                ca.Curlst = BindCurrency();
+            ca.Curlst = BindCurrency();
             ca.RecList = BindEmp();
             ca.assignList = BindEmp();
             ca.Assign = Request.Cookies["UserId"];
@@ -44,8 +48,8 @@ namespace Arasan.Controllers
                 {
                     tda = new SalesItem();
 
-                    tda.ItemGrouplst = BindItemGrplst();
-                    tda.Itemlst = BindItemlst("");
+                    //tda.ItemGrouplst = BindItemGrplst();
+                    tda.Itemlst = BindItemlst();
                     tda.Isvalid = "Y";
                     TData.Add(tda);
                 }
@@ -57,7 +61,7 @@ namespace Arasan.Controllers
 
 
                 DataTable dt = new DataTable();
-
+                //double total = 0;
                 dt = Sales.GetSalesEnquiry(id);
                 if (dt.Rows.Count > 0)
                 {
@@ -66,14 +70,14 @@ namespace Arasan.Controllers
                     ca.EnqDate = dt.Rows[0]["ENQ_DATE"].ToString();
                     ca.City = dt.Rows[0]["CITY"].ToString();
                     ca.ID = id;
-                    ca.ContactPersion = dt.Rows[0]["CONTACT_PERSON"].ToString();
+                    ca.ContactPerson = dt.Rows[0]["CONTACT_PERSON"].ToString();
                     ca.Mobile = dt.Rows[0]["CONTACT_PERSON_MOBILE"].ToString();
                     ca.Recieved = dt.Rows[0]["LEADBY"].ToString();
                     ca.Assign = dt.Rows[0]["ASSIGNED_TO"].ToString();
                     ca.Customer = dt.Rows[0]["CUSTOMER_NAME"].ToString();
                     ca.CustomerType = dt.Rows[0]["CUSTOMER_TYPE"].ToString();
                     ca.EnqType = dt.Rows[0]["ENQ_TYPE"].ToString();
-                    ca.ContactPersion = dt.Rows[0]["CONTACT_PERSON"].ToString();
+                    ca.ContactPerson = dt.Rows[0]["CONTACT_PERSON"].ToString();
                     ca.PinCode = dt.Rows[0]["PINCODE"].ToString();
                     ca.Priority = dt.Rows[0]["PRIORITY"].ToString();
                     ca.Address = dt.Rows[0]["ADDRESS"].ToString();
@@ -89,14 +93,14 @@ namespace Arasan.Controllers
                     {
                         tda = new SalesItem();
                         double toaamt = 0;
-                        tda.ItemGrouplst = BindItemGrplst();
-                        DataTable dt3 = new DataTable();
-                        dt3 = datatrans.GetItemSubGroup(dt2.Rows[i]["ITEM_ID"].ToString());
-                        if (dt3.Rows.Count > 0)
-                        {
-                            tda.ItemGroupId = dt3.Rows[0]["SUBGROUPCODE"].ToString();
-                        }
-                        tda.Itemlst = BindItemlst(tda.ItemGroupId);
+                            //tda.ItemGrouplst = BindItemGrplst();
+                            //DataTable dt3 = new DataTable();
+                            //dt3 = datatrans.GetItemSubGroup(dt2.Rows[i]["ITEM_ID"].ToString());
+                            //if (dt3.Rows.Count > 0)
+                            //{
+                            //    tda.ItemGroupId = dt3.Rows[0]["SUBGROUPCODE"].ToString();
+                            //}
+
                         tda.ItemId = dt2.Rows[i]["ITEM_ID"].ToString();
                         tda.saveItemId = dt2.Rows[i]["ITEM_ID"].ToString();
                         DataTable dt4 = new DataTable();
@@ -188,11 +192,11 @@ namespace Arasan.Controllers
                     throw ex;
                 }
             }
-        public List<SelectListItem> BindItemlst(string value)
+        public List<SelectListItem> BindItemlst()
         {
             try
             {
-                DataTable dtDesg = datatrans.GetItem(value);
+                DataTable dtDesg = Sales.GetItem();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -226,8 +230,8 @@ namespace Arasan.Controllers
         public JsonResult GetItemJSON(string itemid)
         {
             DirItem model = new DirItem();
-            model.Itemlst = BindItemlst(itemid);
-            return Json(BindItemlst(itemid));
+            model.Itemlst = BindItemlst();
+            return Json(BindItemlst());
 
         }
         public JsonResult GetItemGrpJSON()
@@ -337,6 +341,9 @@ namespace Arasan.Controllers
                 string contact = "";
                 string city = "";
                 string pin = "";
+                string Mob = "";
+
+
                 dt = Sales.GetCustomerDetails(ItemId);
 
                 if (dt.Rows.Count > 0)
@@ -349,10 +356,11 @@ namespace Arasan.Controllers
                 
                    
                         pin = dt.Rows[0]["PINCODE"].ToString();
+                    Mob = dt.Rows[0]["MOBILE"].ToString();
                    
                 }
 
-                var result = new { address = address, contact= contact, city = city, pin = pin };
+                var result = new { address = address, contact= contact, city = city, pin = pin , Mob = Mob };
                 return Json(result);
             }
             catch (Exception ex)
@@ -407,7 +415,7 @@ namespace Arasan.Controllers
                 ca.Priority = dt.Rows[0]["PRIORITY"].ToString();
                 ca.PinCode = dt.Rows[0]["PINCODE"].ToString();
                 ca.Address = dt.Rows[0]["ADDRESS"].ToString();
-                ca.ContactPersion = dt.Rows[0]["CONTACT_PERSON"].ToString();
+                ca.ContactPerson = dt.Rows[0]["CONTACT_PERSON"].ToString();
                 ca.City = dt.Rows[0]["CITY"].ToString();
                 ca.ID = id;
             }
@@ -591,7 +599,7 @@ namespace Arasan.Controllers
                 IEnumerable<SalesItem> cmp = Sales.GetAllSalesenquriyItem(id);
                 Content = @"<html> 
                 < head >
-    < style >
+              < style >
                 table, th, td {
                 border: 1px solid black;
                     border - collapse: collapse;
@@ -691,6 +699,22 @@ namespace Arasan.Controllers
         public IActionResult Sales_Forecasting()
         {
             return View();
+        }
+
+        public ActionResult DeleteMR(string tag, int id)
+        {
+
+            string flag = Sales.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListSalesEnquiry");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListSalesEnquiry");
+            }
         }
     }
  }

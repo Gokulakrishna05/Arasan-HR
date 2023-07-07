@@ -10,6 +10,14 @@
     left:5px;
 }
 </style>
+<script type="text/javascript">
+    @if (TempData["notice"] != null)
+    {
+        @:alert('@TempData["notice"]');
+    }
+</script>
+
+
 <div class="row wrapper border-bottom page-heading">
       <div class="col-lg-12">
 
@@ -50,64 +58,66 @@
                                                 <div class="col-sm-8">
                                         @Html.DropDownListFor(C => C.EnqType, Model.Enqlst, "Please Select", new { @id = "ddlEnqType", @Class = "form-control chosen-select", @TabIndex = 1 })
                                           @Html.HiddenFor(C => C.ID)
+                                          <br>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 									
-									<div style="height:30px;"></div>
+									@*<div style="height:30px;"></div>*@
 									 <div class="row">
                                       
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                        <label for="inputName3" class="col-sm-4 control-label">Enquiry Date<label class="mandatory">*</label></label>
-                                              
-                                                   
-												 <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                       <br> <label for="inputName3" class="col-sm-4 control-label">Enquiry Date<label class="mandatory">*</label></label>
+                                         @* <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                         @Html.TextBoxFor(C => C.EnqDate, new { @id = "EnqDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
                                         <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                     </div>
-                                    <input type="hidden" id="dtp_input2" value="" />
-                                   
-													
-												
-                                               
-                                            </div>
+                                    <input type="hidden" id="dtp_input2" value="" />*@
+                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                            @Html.TextBoxFor(C => C.EnqDate, new { @id = "EnqDate", @class = "form-control", @TabIndex = 2,@size="30",@readonly=true })
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                            
+                                        </div>
+								            </div>
                                         </div>
                                 <div class="col-md-6">
-                                    <div class="form-group">
+                                   <div class="form-group">
 
                                         <br />  <label for="inputName3" class="col-sm-4 control-label">Currency<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Currency, Model.Curlst, new { @id = "ddlCurrency", @Class = "form-control chosen-select", @TabIndex = 1 })
-
+                                            @Html.DropDownListFor(C => C.Currency, Model.Curlst,"Rupees-RS", new { @id = "ddlCurrency", @Class = "form-control chosen-select", @TabIndex = 1 })
+                                            
                                         </div>
                                     </div>
+
+
+                                   </div>
                                 </div>
-                                    </div>
-               <div class="row">
+                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Customer Type<label class="mandatory">*</label></label>
+                                   <label for="inputName3" class="col-sm-4 control-label">Customer Type<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                @Html.DropDownListFor(C => C.CustomerType, Model.Typelst, "Please Select", new { @id = "ddlCustomerType", @Class = "form-control chosen-select", @TabIndex = 1 })
 
-
+                              
                                     </div>
                                 </div>
                             </div>
-                    <div class="col-md-6">
+                              <div class="col-md-6">
                                             <div class="form-group">
                                             
-                                                <label for="inputName3" class="col-sm-4 control-label">Customer Name<label class="mandatory">*</label></label>
+                                               <label for="inputName3" class="col-sm-4 control-label">Customer Name<label class="mandatory">*</label></label>
                                                 <div class="col-sm-8">
                                         @Html.DropDownListFor(C => C.Customer, Model.Suplst, "Please Select", new { @id = "ddlCustomer", @Class = "form-control chosen-select", @TabIndex = 1,onchange = "changeItem(this.value)" })
 
                                                 </div>
                                             </div>
-                                        </div>
-                        </div>
+                             </div>
+                         </div>
                           <div class="row">
                             
                             <div class="col-md-6">
@@ -135,13 +145,13 @@
 
                             </div>
 									
-									<div style="height:30px;"></div>
+									@*<div style="height:30px;"></div>*@
 									 <div class="row">
 
                           
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="inputName3" class="col-sm-4 control-label">Pin Code<label class="Mandatory"></label></label>
+                                   <br> <label for="inputName3" class="col-sm-4 control-label">Pin Code<label class="Mandatory"></label></label>
 
                                     <div class="col-sm-8">
                                         @Html.TextBoxFor(C => C.PinCode, new { @id = "txtPinCode", @class = "form-control", @TabIndex = 2,@readonly="readonly" })
@@ -153,21 +163,21 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Contact Person<label class="Mandatory"></label></label>
+                                       <br> <label for="inputName3" class="col-sm-4 control-label">Contact Person<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.ContactPersion, new { @id = "txtContactPersion", @class = "form-control", @TabIndex = 2 })
+                                            @Html.TextBoxFor(C => C.ContactPerson, new { @id = "txtContactPerson", @class = "form-control", @TabIndex = 2 })
                                         </div>
                                     </div>
                                 </div>
                                     </div>
 									
-						<div style="height:30px;"></div>
+						@*<div style="height:30px;"></div>*@
                         <div class="row">                    
 						
                             <div class="col-md-6">
                                 <div class="form-group">
                                            
-                                    <label for="inputName3" class="col-sm-4 control-label">Contact Person Mobile<label class="mandatory">*</label></label>
+                                  <br>  <label for="inputName3" class="col-sm-4 control-label">Contact Person Mobile<label class="mandatory">*</label></label>
                                               
                                         <div class="col-sm-8">
                                              @Html.TextBoxFor(C => C.Mobile, new { @id = "txtMobile", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
@@ -181,14 +191,14 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Priority<label class="Mandatory"></label></label>
+                                      <br>  <label for="inputName3" class="col-sm-4 control-label">Priority<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.Priority, Model.Prilst, new { @id = "ddlPriority", @Class = "form-control chosen-select", @TabIndex = 1 })
 
                                         </div>
                                     </div>
                                 </div>
-                                    </div>
+                        </div>
 
                      
 								@*	<div style="height:30px;"></div>
@@ -230,7 +240,7 @@
                                     <table class="table table-striped table-hover" id="dataTable">
                       <thead>
                         <tr>
-                                                <th>Item Group</th>
+                                               @* <th>Item Group</th>*@
                           <th>Item Id </th>
                           <th>Description</th>
 						  <th> Unit </th>
@@ -247,10 +257,10 @@
                                                             {
                                                 <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
-                                                        <td>
+                                                      @*  <td>
                                                             @Html.DropDownListFor(o => o.SalesLst[i].ItemGroupId, Model.SalesLst[i].ItemGrouplst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItemGrp" + i, style = "width: 200px;", onchange = "Grup_Change(this.value," + i + ")"})
 
-                                                        </td>
+                                                        </td>*@
                                                 <td>
                                                     @Html.DropDownListFor(o => o.SalesLst[i].ItemId, Model.SalesLst[i].Itemlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItem" + i, style = "width: 200px;", onchange = "changeItemDetail(this.value," + i + ")" })
                                                     @Html.HiddenFor(o => o.SalesLst[i].saveItemId)
@@ -323,7 +333,7 @@
                                                 <label for="inputName3" class="col-sm-4 control-label">Assign To<label class="Mandatory"></label></label>
                                               
                                                       <div class="col-sm-8">
-												                                        @Html.DropDownListFor(C => C.Assign, Model.assignList, new { @id = "ddlAssign", @Class = "form-control chosen-select", @TabIndex = 1 })
+												      @Html.DropDownListFor(C => C.Assign, Model.assignList, new { @id = "ddlAssign", @Class = "form-control chosen-select", @TabIndex = 1 })
 
 												</div>
                                                
@@ -386,6 +396,7 @@
                                         
                                     </div>*@
 							 <div style="height:30px;"></div>
+                            <div class="col-lg-10"></div>
                           <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
                             <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListSalesEnquiry", "SalesEnquiry")'">Cancel</button>
  
@@ -442,9 +453,10 @@
             success: function (result) {
 
                 document.getElementById("txtAddress" ).value = result.address;
-                document.getElementById("txtContactPersion").value = result.contact;
+                document.getElementById("txtContactPerson").value = result.contact;
                 document.getElementById("txtCity" ).value = result.city;
                 document.getElementById("txtPinCode" ).value = result.pin;
+                document.getElementById("txtMobile").value = result.pin;
             },
             error: function () {
                 alert("Data Not Found");
@@ -536,7 +548,7 @@
         var index = $("#tbBooks").children("tr").length;
 
 
-        var ItemGrp = "<td><select style = 'width: 200px;' class='form-control chosen-select newcss' id='ddlItemGrp" + index + "' name='SalesLst[" + index + "].ItemGroupId' onchange = 'Grup_Change(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
+        //var ItemGrp = "<td><select style = 'width: 200px;' class='form-control chosen-select newcss' id='ddlItemGrp" + index + "' name='SalesLst[" + index + "].ItemGroupId' onchange = 'Grup_Change(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
 
 
         var Item = "<td><select style = 'width: 200px;' class='form-control chosen-select newcss' id='ddlItem" + index + "' name='Itemlst[" + index + "].ItemId' onchange = 'changeItemDetail(this.value," + index + ")'><option value=''>Please select</option></select></td>";
@@ -580,22 +592,38 @@
                     "background": ""
                 });
             }
-            if (document.getElementById("txtMobile").value == "") {
-                isValid = false;
-                $(txtMobile).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
+            //if (document.getElementById("txtMobile").value == "") {
+            //    isValid = false;
+            //    $(txtMobile).css({
+            //        "border": "1px solid red",
+            //        "background": "#FFCECE"
+            //    });
 
-                alert("Please Select Phone Number");
-                return false;
-            }
-            else {
-                $(txtMobile).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
+            //    alert("Please Select Phone Number");
+            //    return false;
+            //}
+            //else {
+            //    $(txtMobile).css({
+            //        "border": "",
+            //        "background": ""
+            //    });
+            //}
+            //if (document.getElementById("txtContactPerson").value == "") {
+            //    isValid = false;
+            //    $(txtContactPerson).css({
+            //        "border": "1px solid red",
+            //        "background": "#FFCECE"
+            //    });
+
+            //    alert("Please Select Contact Person");
+            //    return false;
+            //}
+            //else {
+            //    $(txtContactPerson).css({
+            //        "border": "",
+            //        "background": ""
+            //    });
+            //}
 
 
             if (document.getElementById("ddlCustomerType").value == "" || document.getElementById("ddlCustomerType").value == 0) {
@@ -646,6 +674,7 @@
                     "background": ""
                 });
             }
+
             if (isValid == false)
                 e.preventDefault();
         });
