@@ -220,7 +220,9 @@ namespace Arasan.Services
             }
             return "";
 
-        } public string RemoveChange(string tag, int id)
+        } 
+        
+        public string RemoveChange(string tag, int id)
         {
 
             try

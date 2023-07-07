@@ -23,6 +23,7 @@ namespace Arasan.Controllers.Master
             Department Dp = new Department();
             Dp.CreatedBy = Request.Cookies["UserId"];
             Dp.UpdatedBy = Request.Cookies["UserId"];
+
             //List<Designation> TData = new List<Designation>();
             //Designation tda = new Designation();
 

@@ -42,9 +42,13 @@ namespace Arasan.Models
         public string City { get; set; }
         public string PinCode { get; set; }
         public string EnqNo { get; set; }
-        public string ContactPersion { get; set; }
+        public string ContactPerson { get; set; }
         public string Priority { get; set; }
         public string status { get; set; }
+        public string CreatedOn { get; set; }
+        public string CreatedBy { get; set; }
+        public string UpdatedOn { get; set; }
+        public string UpdatedBy { get; set; }
         public string TotalQty { get; set; }
         public List<SalesItem> SalesLst { get; set; }
     }

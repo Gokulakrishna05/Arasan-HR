@@ -26,7 +26,7 @@ namespace Arasan.Services
                 {
                     con.Open();
  
-                    cmd.CommandText = "Select  PARTYRCODE.PARTY,ENQ_NO,to_char(SALES_ENQUIRY.ENQ_DATE,'dd-MON-yyyy')ENQ_DATE, ENQ_TYPE,CUSTOMER_TYPE,SALES_ENQUIRY.STATUS,SALES_ENQUIRY.ID from SALES_ENQUIRY LEFT OUTER JOIN  PARTYMAST on SALES_ENQUIRY.CUSTOMER_NAME=PARTYMAST.PARTYMASTID  LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Customer','BOTH')";
+                    cmd.CommandText = "Select  PARTYRCODE.PARTY,ENQ_NO,to_char(SALES_ENQUIRY.ENQ_DATE,'dd-MON-yyyy')ENQ_DATE, ENQ_TYPE,CUSTOMER_TYPE,SALES_ENQUIRY.STATUS,SALES_ENQUIRY.ISACTIVE,SALES_ENQUIRY.ID from SALES_ENQUIRY LEFT OUTER JOIN  PARTYMAST on SALES_ENQUIRY.CUSTOMER_NAME=PARTYMAST.PARTYMASTID  LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Customer','BOTH')  AND ISACTIVE = 'YES'";
  
  
                     OracleDataReader rdr = cmd.ExecuteReader();
@@ -42,7 +42,7 @@ namespace Arasan.Services
                             EnqDate = rdr["ENQ_DATE"].ToString(),
                            
                             EnqType = rdr["ENQ_TYPE"].ToString(),
-                           status = rdr["STATUS"].ToString(),
+                           
 
                         };
                         cmpList.Add(cmp);
@@ -203,12 +203,19 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("ENQ_TYPE", OracleDbType.NVarchar2).Value = cy.EnqType;
                     objCmd.Parameters.Add("CURRENCY_TYPE", OracleDbType.NVarchar2).Value = cy.Currency;
                     objCmd.Parameters.Add("ADDRESS", OracleDbType.NVarchar2).Value = cy.Address;
-                    objCmd.Parameters.Add("CONTACT_PERSON", OracleDbType.NVarchar2).Value = cy.ContactPersion;
+                    objCmd.Parameters.Add("CONTACT_PERSON", OracleDbType.NVarchar2).Value = cy.ContactPerson;
                     objCmd.Parameters.Add("CONTACT_PERSON_MOBILE", OracleDbType.NVarchar2).Value = cy.Mobile;
                     objCmd.Parameters.Add("PRIORITY", OracleDbType.NVarchar2).Value = cy.Priority;
                     objCmd.Parameters.Add("LEADBY", OracleDbType.NVarchar2).Value = cy.Recieved;
                     objCmd.Parameters.Add("ASSIGNED_TO", OracleDbType.NVarchar2).Value = cy.Assign;
                     objCmd.Parameters.Add("PINCODE", OracleDbType.NVarchar2).Value = cy.PinCode;
+                   
+                    objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = cy.CreatedBy;
+                    objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                   
+                    objCmd.Parameters.Add("UPDATED_BY", OracleDbType.NVarchar2).Value = cy.UpdatedBy;
+                    objCmd.Parameters.Add("UPDATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                    objCmd.Parameters.Add("ISACTIVE", OracleDbType.NVarchar2).Value = "YES";
                     //objCmd.Parameters.Add("NARR", OracleDbType.NVarchar2).Value = cy.Narration;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
@@ -393,7 +400,7 @@ namespace Arasan.Services
                         StatementType = "Update";
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.FolID;
                     }
-
+                   
                     objCmd.Parameters.Add("ENQ_NO", OracleDbType.NVarchar2).Value = cy.EnqNo;
                     objCmd.Parameters.Add("FOLLOW_BY", OracleDbType.NVarchar2).Value = cy.Followby;
                     objCmd.Parameters.Add("FOLLOWDATE", OracleDbType.Date).Value = DateTime.Parse(cy.Followdate);
@@ -436,7 +443,7 @@ namespace Arasan.Services
         public DataTable GetSalesEnquiryItem(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select ITEM_ID,ITEM_DESCRIPTION,UNIT,QUANTITY  from SALES_ENQ_ITEM  where SAL_ENQ_ID=" + id + "";
+            SvSql = "Select ITEM_ID,ITEM_DESCRIPTION,UNIT,QUANTITY  from SALES_ENQ_ITEM  where SAL_ENQ_ID=" + id + " ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -466,7 +473,7 @@ namespace Arasan.Services
         public DataTable GetCustomerDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select CITY,PINCODE,ADD1,INTRODUCEDBY from PARTYMAST Where PARTYMAST.PARTYMASTID='" + id +"'";
+            SvSql = "Select CITY,PINCODE,ADD1,INTRODUCEDBY,MOBILE from PARTYMAST Where PARTYMAST.PARTYMASTID = '" + id + "' ";
             DataTable dtt = new DataTable(); OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
 
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -523,6 +530,41 @@ namespace Arasan.Services
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
+        }
+
+        public DataTable GetItem()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select ITEMID,ITEMMASTERID from ITEMMASTER WHERE IGROUP = 'FINISHED'";
+            
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public string StatusChange(string tag, int id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE SALES_ENQUIRY SET ISACTIVE ='NO' WHERE ID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
         }
     }
 }
