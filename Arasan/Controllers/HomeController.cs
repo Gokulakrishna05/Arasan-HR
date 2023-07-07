@@ -99,7 +99,22 @@ namespace Arasan.Controllers
                 Data1.Add(Reg);
 
             }
+            EnqDisplay tdas = new EnqDisplay();
+            List<EnqDisplay> Data2 = new List<EnqDisplay>();
+            DataTable dt1 = new DataTable();
+            dt1 = HomeService.GetEnqFollowupnextReport();
+            for (int i = 0; i < dt1.Rows.Count; i++)
+            {
+                tdas = new EnqDisplay();
+                tdas.displaytext = dt1.Rows[i]["ENQ_ID"].ToString();
+                tdas.followedby = dt1.Rows[i]["FOLLOWED_BY"].ToString();
+                tdas.status = dt1.Rows[i]["NEXT_FOLLOW_DATE"].ToString();
+
+                Data2.Add(tdas);
+
+            }
             H.Folllst = Data1;
+            H.Enqlllst = Data2;
             H.qcNotifies=TData;
             H.Notifies = TData1;
             H.Materialnotification = TDatan;
