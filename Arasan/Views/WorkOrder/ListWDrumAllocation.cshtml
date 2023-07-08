@@ -1,0 +1,102 @@
+﻿@model IEnumerable<Arasan.Models.WorkOrder>
+@{
+    ViewData["Title"] = "Drum Allocation";
+}
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a>Sales</a> </li>
+            <li class="active"> <strong>Drum Allocation</strong> </li>
+        </ol>
+    </div>
+</div>
+
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    <form>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="ibox float-e-margins">
+                                    <div class="ibox-content collapse in">
+                                        <div class="widgets-container">
+                                            <div>
+                                                <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Branch </th>
+                                                             <th>Doc Id</th>
+                                                            <th>Doc Date</th>
+                                                            <th>Location</th>
+                                                            <th>Customer Name</th>
+                                                            <th>Drum Allocate</th>
+                                                        </tr>
+                                                    </thead>
+
+                                                    <tbody>
+                                                        @{
+                                                            int i = 1;
+                                                            foreach (var item in Model)
+                                                            {
+                                                                <tr>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Branch)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.JopId)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.JopDate)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Location)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Customer)</td>
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a aria-hidden="true" href="@Url.Action("WDrumAllocation", "WorkOrder",new { id=item.ID })"><img src='../Images/checklist.png' alt='Allocate' /></a></div></td>
+                                                                    </tr>
+                                                                i++;
+                                                            }
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#example7').DataTable({
+            dom: 'Bfrtip',
+            buttons: [{
+                text: 'copy',
+                extend: "copy",
+                className: 'btn dark btn-outline'
+            }, {
+                text: 'csv',
+                extend: "csv",
+                className: 'btn aqua btn-outline'
+            }, {
+                text: 'excel',
+                extend: "excel",
+                className: 'btn aqua btn-outline'
+            }, {
+                text: 'pdf',
+                extend: "pdf",
+                className: 'btn yellow  btn-outline'
+            }, {
+                text: 'print',
+                extend: "print",
+                className: 'btn purple  btn-outline'
+            }]
+        });
+
+
+
+    });
+   
+    
+</script>

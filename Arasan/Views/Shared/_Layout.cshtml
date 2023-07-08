@@ -397,17 +397,18 @@
                   <li class="nav-item"> <a class="nav-link nav-toggle" href="javascript:;"> <i class="fa fa-shopping-cart"></i> <span class="title">Sales</span> <span class="arrow"></span> </a>
           <ul class="sub-menu">
 
-              <li class="nav-item"><a class="nav-link" href="@Url.Action("Sales_Forecasting", "SalesEnquiry")">Sales Forecasting</a></li>
+             @* <li class="nav-item"><a class="nav-link" href="@Url.Action("Sales_Forecasting", "SalesEnquiry")">Sales Forecasting</a></li>*@
 
              <li class="nav-item"><a class="nav-link" href="@Url.Action("ListSalesEnquiry", "SalesEnquiry")">Sales Enquiry</a></li>
              <li class="nav-item"><a class="nav-link" href="@Url.Action("ListSalesQuotation", "SalesQuotation")">Sales Quotation</a></li>
 
           @*   <li class="nav-item"><a class="nav-link" href="@Url.Action("ListSalesEnquiry", "SalesEnquiry")">Sales Enquiry</a></li>*@
             @* <li class="nav-item"><a class="nav-link" href="@Url.Action("SalesQuotation", "SalesQuotation")">Sales Quotation</a></li>*@
-
+              <li class="nav-item"><a class="nav-link" href="@Url.Action("ListWorkOrder", "WorkOrder")">Work Order</a></li>
+               <li class="nav-item"><a class="nav-link" href="@Url.Action("ListWDrumAllocation", "WorkOrder")">Drum Allocation</a></li>
+             @*<li class="nav-item"><a class="nav-link" href="@Url.Action("Work_Order_Amedment", "SalesEnquiry")">Work order Amendment</a></li>*@
              <li class="nav-item"><a class="nav-link" href="@Url.Action("ListProFormaInvoice", "ProFormaInvoice")">Proforma Invoice</a></li>
-                            <li class="nav-item"><a class="nav-link" href="@Url.Action("ListWorkOrder", "WorkOrder")">Work Order</a></li>
-             <li class="nav-item"><a class="nav-link" href="@Url.Action("Work_Order_Amedment", "SalesEnquiry")">Work order Amendment</a></li>
+                          
             @* <li class="nav-item"><a class="nav-link" href="@Url.Action("Work_Orde_ShortClose", "SalesEnquiry")">Work order Short Close</a></li>*@
              <li class="nav-item"><a class="nav-link" href="@Url.Action("ListSalesReturn", "SalesReturn")">Sales Return</a></li>
                <li class="nav-item active"><a class="nav-link" href="@Url.Action("Excise_Invoice", "SalesEnquiry")">Excise Invoice</a></li>
