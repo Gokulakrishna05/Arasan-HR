@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RDLCDesign", "RDLCDesign\RDLCDesign.csproj", "{4C8B4713-FA98-4A6D-9312-FAC75A5ABA80}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RDLCReport1", "RDLCReport1\RDLCReport1.csproj", "{C46A57D4-A37C-436F-A224-29E8FB990EF6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{4C8B4713-FA98-4A6D-9312-FAC75A5ABA80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4C8B4713-FA98-4A6D-9312-FAC75A5ABA80}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C8B4713-FA98-4A6D-9312-FAC75A5ABA80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C46A57D4-A37C-436F-A224-29E8FB990EF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C46A57D4-A37C-436F-A224-29E8FB990EF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C46A57D4-A37C-436F-A224-29E8FB990EF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C46A57D4-A37C-436F-A224-29E8FB990EF6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
