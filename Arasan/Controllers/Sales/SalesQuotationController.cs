@@ -756,5 +756,40 @@ namespace Arasan.Controllers.Sales
             ca.QuoLst = Data;
             return View(ca);
         }
+        [HttpPost]
+        public ActionResult ViewQuote(SalesQuotation Cy, string id)
+        {
+            try
+            {
+                Cy.ID = id;
+                string Strout = SalesQuotationService.QuotetoOrder(Cy.ID);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Cy.ID == null)
+                    {
+                        TempData["notice"] = "WorkOrder Generated Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "WorkOrder Generated Successfully...!";
+                    }
+                    return RedirectToAction("ListSalesQuotation");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit SalesQuotation";
+                    TempData["notice"] = Strout;
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return RedirectToAction("ListSalesEnquiry");
+        }
     }
 }

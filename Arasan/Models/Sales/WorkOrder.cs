@@ -23,6 +23,7 @@ namespace Arasan.Models
         public string Location { get; set; }
         public List<SelectListItem> Qolst;
         public string Quo { get; set; }
+        public string Emp { get; set; }
         public string Customer { get; set; }
         public string CusNo { get; set; }
         public string Cusdate { get; set; }
