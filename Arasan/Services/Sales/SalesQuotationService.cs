@@ -313,7 +313,7 @@ namespace Arasan.Services.Sales
         public DataTable GetSalesQuotationItemDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select SALESQUOTEDETAIL.QTY,SALESQUOTEDETAIL.SALESQUOTEDETAILID,SALESQUOTEDETAIL.ITEMID,UNITMAST.UNITID,SALESQUOTEDETAIL.RATE  from SALESQUOTEDETAIL LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=SALESQUOTEDETAIL.UNIT  where SALESQUOTEDETAIL.SALESQUOTEDETAILID='" + id + "'";
+            SvSql = "Select SALESQUOTEDETAIL.QTY,SALESQUOTEDETAIL.SALESQUOTEDETAILID,SALESQUOTEDETAIL.ITEMID,UNITMAST.UNITID,SALESQUOTEDETAIL.RATE  from SALESQUOTEDETAIL LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=SALESQUOTEDETAIL.UNIT  where SALESQUOTEDETAIL.SALESQUOID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -436,5 +436,27 @@ namespace Arasan.Services.Sales
         //{
         //    throw new NotImplementedException();
         //}
+
+
+        public DataTable GetSalesQuo(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select BRANCHMAST.BRANCHID,SALES_QUOTE.QUOTE_NO,to_char(SALES_QUOTE.QUOTE_DATE,'dd-MON-yyyy')QUOTE_DATE,SALES_QUOTE.ENQNO,to_char(SALES_QUOTE.ENQDATE,'dd-MON-yyyy')ENQDATE,SALES_QUOTE.CURRENCY_TYPE,PARTYRCODE.PARTY,SALES_QUOTE.CUSTOMER_TYPE,SALES_QUOTE.ADDRESS,SALES_QUOTE.CITY,SALES_QUOTE.PINCODE,SALES_QUOTE.CONTACT_PERSON_MAIL,SALES_QUOTE.CONTACT_PERSON_MOBILE,SALES_QUOTE.PRIORITY,SALES_QUOTE.ASSIGNED_TO,SALES_QUOTE.ID from SALES_QUOTE LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=SALES_QUOTE.BRANCHID LEFT OUTER JOIN  PARTYMAST on SALES_QUOTE.Customer=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Customer','BOTH')   AND SALES_QUOTE.ID=" + id + "";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetSalesQuoItem(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select SALESQUOTEDETAIL.QTY,SALESQUOTEDETAIL.SALESQUOTEDETAILID,ITEMMASTER.ITEMID,UNIT,SALESQUOTEDETAIL.RATE,SALESQUOTEDETAIL.AMOUNT  from SALESQUOTEDETAIL left outer join ITEMMASTER ON ITEMMASTERID=SALESQUOTEDETAIL.ITEMID  where SALESQUOTEDETAIL.SALESQUOID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
     }
 }
