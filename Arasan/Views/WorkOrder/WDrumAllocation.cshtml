@@ -389,7 +389,7 @@ a{
                 j += 1;
             });
 
-         var tot = 0;
+         
          var drumtext = document.getElementById("txtSearch" + i).value;
          const myArray = drumtext.split(",");
          var drumnos = "";
@@ -406,17 +406,17 @@ a{
                      var n=zeroPad(j,cunt)
                      var drumno = string + n;
                      drumnos += drumno + ",";
-                     tot += 1;
+                    
                  }
 
              } else {
                   drumnos += myArray[i] + ",";
-                  tot += 1;
+                  //tot += 1;
              }
 
 }
 drumnos = drumnos.substr(0,drumnos.length-1);
-
+var tot = 0;
 
   if (drumnos != "") {
              var j = 0;
@@ -427,6 +427,7 @@ drumnos = drumnos.substr(0,drumnos.length-1);
                     for (let k = 0; k < myArray.length; k++) {
                         if (invid == myArray[k]) {
                              $('#drumslect_' + i + '_' + j).prop('checked', true);
+                              tot += 1;
                             break;
                         }
                     }
