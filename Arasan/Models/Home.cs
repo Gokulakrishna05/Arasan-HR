@@ -14,6 +14,7 @@ namespace Arasan.Models
         public List<MatNotify> Materialnotification { get; set; }
         public List<GridDisplay>Folllst { get; set; }
         public List<EnqDisplay> Enqlllst { get; set; }
+        //public List<SalesQuoteDisplay> SalesQuotelllst { get; set; }
     }
     public class QcNotify
     {

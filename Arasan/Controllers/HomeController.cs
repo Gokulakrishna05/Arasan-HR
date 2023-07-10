@@ -108,13 +108,30 @@ namespace Arasan.Controllers
                 tdas = new EnqDisplay();
                 tdas.displaytext = dt1.Rows[i]["ENQ_ID"].ToString();
                 tdas.followedby = dt1.Rows[i]["FOLLOWED_BY"].ToString();
-                tdas.status = dt1.Rows[i]["NEXT_FOLLOW_DATE"].ToString();
+                tdas.status = dt1.Rows[i]["NEXT_FOLLOW_DATE"].ToString(); 
 
                 Data2.Add(tdas);
 
             }
+
+            //SalesQuoteDisplay sq = new SalesQuoteDisplay();
+            //List<SalesQuoteDisplay> Data3 = new List<SalesQuoteDisplay>();
+            //DataTable dt2 = new DataTable();
+            //dt1 = HomeService.GetSalesQuoteFollowupnextReport();
+            //for (int i = 0; i < dt1.Rows.Count; i++)
+            //{
+            //    sq = new SalesQuoteDisplay();
+            //    sq.displaytext = dt2.Rows[i]["ENQ_ID"].ToString();
+            //    sq.followedby = dt2.Rows[i]["FOLLOWED_BY"].ToString();
+            //    sq.status = dt2.Rows[i]["NEXT_FOLLOW_DATE"].ToString();
+
+            //    Data3.Add(sq);
+
+            //}
+
             H.Folllst = Data1;
             H.Enqlllst = Data2;
+            //H.SalesQuotelllst = Data3;
             H.qcNotifies=TData;
             H.Notifies = TData1;
             H.Materialnotification = TDatan;

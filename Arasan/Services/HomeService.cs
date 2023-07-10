@@ -90,7 +90,17 @@ namespace Arasan.Services
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
-        }
+        } 
+        //public DataTable GetSalesQuoteFollowupnextReport()
+        //{
+        //    string SvSql = string.Empty;
+        //    SvSql = "SELECT SALESQUOFOLLOWID,FOLLOWED_BY,FOLLOW_DATE ,FOLLOW_DATE,FOLLOW_STATUS ,TO_CHAR(NEXT_FOLLOW_DATE,'dd-MON-yyyy')NEXT_FOLLOW_DATE  from SALESQUOFOLLOWUP  where NEXT_FOLLOW_DATE  between SYSDATE  and  SYSDATE + 2  ";
+        //    DataTable dtt = new DataTable();
+        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
+        //}
 
     }
 }

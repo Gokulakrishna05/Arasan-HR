@@ -14,5 +14,6 @@ namespace Arasan.Interface
 
         DataTable GetquoteFollowupnextReport();
         DataTable GetEnqFollowupnextReport();
+        //DataTable GetSalesQuoteFollowupnextReport();
     }
 }
