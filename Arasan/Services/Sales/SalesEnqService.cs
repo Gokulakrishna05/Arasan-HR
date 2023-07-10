@@ -199,7 +199,6 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("ENQ_NO", OracleDbType.NVarchar2).Value = cy.EnqNo;
                     objCmd.Parameters.Add("ENQ_DATE", OracleDbType.Date).Value = DateTime.Parse(cy.EnqDate);
                     objCmd.Parameters.Add("CITY", OracleDbType.NVarchar2).Value = cy.City;
-              
                     objCmd.Parameters.Add("CUSTOMER_TYPE", OracleDbType.NVarchar2).Value = cy.CustomerType;
                     objCmd.Parameters.Add("ENQ_TYPE", OracleDbType.NVarchar2).Value = cy.EnqType;
                     objCmd.Parameters.Add("CURRENCY_TYPE", OracleDbType.NVarchar2).Value = cy.Currency;
@@ -210,10 +209,8 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("LEADBY", OracleDbType.NVarchar2).Value = cy.Recieved;
                     objCmd.Parameters.Add("ASSIGNED_TO", OracleDbType.NVarchar2).Value = cy.Assign;
                     objCmd.Parameters.Add("PINCODE", OracleDbType.NVarchar2).Value = cy.PinCode;
-                   
                     objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = cy.CreatedBy;
                     objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
-                   
                     objCmd.Parameters.Add("UPDATED_BY", OracleDbType.NVarchar2).Value = cy.UpdatedBy;
                     objCmd.Parameters.Add("UPDATED_ON", OracleDbType.Date).Value = DateTime.Now;
                     objCmd.Parameters.Add("ISACTIVE", OracleDbType.NVarchar2).Value = "YES";
