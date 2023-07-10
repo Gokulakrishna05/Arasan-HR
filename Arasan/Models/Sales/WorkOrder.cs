@@ -77,10 +77,33 @@ namespace Arasan.Models
         public string packind { get; set; }
         public List<SelectListItem> taxlst;
         public string tax { get; set; }
-
-        
+        public bool selectall { get; set; }
+        public string search { get; set; }
         public string Isvalid { get; set; }
         //public List<SelectListItem> outputlst;
 
+        public List<Drumdetails> drumlst { get; set; }
+
+    }
+    public class WDrumallocation
+    {
+        public string Branch { get; set; }
+        public string Location { get; set; }
+        public string JobId { get; set; }
+        public string JobDate { get; set; }
+        public string DOCId { get; set; }   
+        public string DocDate { get; set; }
+        public string Customername { get; set; }
+        public List<WorkItem> Worklst { get; set; }
+        //public List<Drumdetails> drumlst { get; set; }
+    }
+    public class Drumdetails
+    {
+        public bool drumselect { get; set; }
+        public string lotno { get; set; }
+        public string drumno { get; set; }
+        public string qty { get; set; }
+        public string rate { get; set; }
+        public string invid { get; set; }
     }
 }

@@ -25,5 +25,7 @@ namespace Arasan.Interface.Sales
         //DataTable GetSalesQuotationByName(string id);
         //DataTable GetSalesQuotationItem(string id);
         string StatusChange(string tag, int id);
+        DataTable GetSalesQuo(string id);
+        DataTable GetSalesQuoItem(string id);
     }
 }

@@ -219,6 +219,66 @@ namespace Arasan.Controllers.Sales
                 throw ex;
             }
         }
+        public ActionResult WDrumAllocation(string id)
+        {
+            WDrumallocation ca = new WDrumallocation();
+            DataTable dt = new DataTable();
+            dt= WorkOrderService.GetWorkOrderByID(id);
+            if(dt.Rows.Count > 0)
+            {
+                ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                ca.Location= dt.Rows[0]["LOCID"].ToString();
+                ca.JobId= dt.Rows[0]["DOCID"].ToString();
+                ca.JobDate= dt.Rows[0]["DOCDATE"].ToString();
+                ca.Customername= dt.Rows[0]["PARTY"].ToString();
+            }
+            ca.DocDate = DateTime.Now.ToString("dd-MMM-yyyy");
+            DataTable dtv = datatrans.GetSequence("er");
+            if (dtv.Rows.Count > 0)
+            {
+                ca.DOCId = dtv.Rows[0]["PREFIX"].ToString() + "" + dtv.Rows[0]["last"].ToString();
+            }
+            List<WorkItem> TData = new List<WorkItem>();
+            WorkItem tda = new WorkItem();
+            DataTable dtt = new DataTable();
+            dtt= WorkOrderService.GetWorkOrderDetails(id);
+            if (dtt.Rows.Count > 0)
+            {
+                for (int i = 0; i < dtt.Rows.Count; i++)
+                {
+                    tda = new WorkItem();
+                    tda.itemid = dtt.Rows[i]["item"].ToString();
+                    tda.items= dtt.Rows[i]["ITEMID"].ToString();
+                    List<Drumdetails> tlstdrum = new List<Drumdetails>();
+                    Drumdetails tdrum = new Drumdetails();
+                    DataTable dt3 = new DataTable();
+                    dt3 = WorkOrderService.GetDrumDetails(tda.itemid);
+                    if (dt3.Rows.Count > 0)
+                    {
+                        for (int j = 0; j < dt3.Rows.Count; j++)
+                        {
+                            tdrum = new Drumdetails();
+                            tdrum.lotno = dt3.Rows[j]["LOTNO"].ToString();
+                            tdrum.drumno = dt3.Rows[j]["DRUMNO"].ToString();
+                            tdrum.qty = dt3.Rows[j]["PLUSQTY"].ToString();
+                            tdrum.rate = dt3.Rows[j]["RATE"].ToString();
+                            tdrum.invid = dt3.Rows[j]["lstockvalueid"].ToString();
+                            tlstdrum.Add(tdrum);
+                        }
+                    }
+                    tda.drumlst = tlstdrum;
+                    TData.Add(tda);
+                }
+            }
+            ca.Worklst = TData;
+            return View(ca);
+        }
+        public IActionResult ListWDrumAllocation(string status)
+        {
+            IEnumerable<WorkOrder> cmp = WorkOrderService.GetAllWorkOrder(status);
+            return View(cmp);
+        }
+
         public ActionResult GetSalesQuoDetails(string id,string jobid)
         {
             WorkOrder model = new WorkOrder();
