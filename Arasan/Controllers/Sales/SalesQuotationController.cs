@@ -693,5 +693,68 @@ namespace Arasan.Controllers.Sales
                 return RedirectToAction("ListSalesQuotation");
             }
         }
+        public IActionResult ViewSQ(string id)
+        {
+            SalesQuotation ca = new SalesQuotation();
+            DataTable dt = new DataTable();
+            DataTable dtt = new DataTable();
+            dt = SalesQuotationService.GetSalesQuo(id);
+            if (dt.Rows.Count > 0)
+            {
+                ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                ca.QuoId = dt.Rows[0]["QUOTE_NO"].ToString();
+                ca.QuoDate = dt.Rows[0]["QUOTE_DATE"].ToString();
+                ca.EnNo = dt.Rows[0]["ENQNO"].ToString();
+                ca.EnDate = dt.Rows[0]["ENQDATE"].ToString();
+                ca.Currency = dt.Rows[0]["CURRENCY_TYPE"].ToString();
+                ca.Customer = dt.Rows[0]["PARTY"].ToString();
+                ca.CustomerType = dt.Rows[0]["CUSTOMER_TYPE"].ToString();
+                ca.Address = dt.Rows[0]["ADDRESS"].ToString();
+                ca.PinCode = dt.Rows[0]["PINCODE"].ToString();
+                ca.Gmail = dt.Rows[0]["CONTACT_PERSON_MAIL"].ToString();
+                ca.Mobile = dt.Rows[0]["CONTACT_PERSON_MOBILE"].ToString();
+                ca.Pro = dt.Rows[0]["PRIORITY"].ToString();
+                ca.Assign = dt.Rows[0]["ASSIGNED_TO"].ToString();
+                ca.ID = id;
+
+
+            }
+            List<QuoItem> Data = new List<QuoItem>();
+            QuoItem tda = new QuoItem();
+            
+            double total = 0;
+            dtt = SalesQuotationService.GetSalesQuoItem(id);
+            if (dtt.Rows.Count > 0)
+            {
+                for (int i = 0; i < dtt.Rows.Count; i++)
+                {
+                    tda = new QuoItem();
+                     
+                    tda.ItemId = dtt.Rows[i]["ITEMID"].ToString();
+                    tda.saveItemId = dtt.Rows[i]["ITEMID"].ToString();
+                   tda.Quantity = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString() == "" ? "0" : dtt.Rows[i]["QTY"].ToString());
+                    tda.Amount = Convert.ToDouble(dtt.Rows[i]["AMOUNT"].ToString() == "" ? "0" : dtt.Rows[i]["AMOUNT"].ToString());
+                    tda.Rate = Convert.ToDouble(dtt.Rows[i]["RATE"].ToString() == "" ? "0" : dtt.Rows[i]["RATE"].ToString());
+                    
+                    tda.Unit = dtt.Rows[i]["UNIT"].ToString();
+                    //tda.unitprim= dt2.Rows[i]["UNITID"].ToString();
+                    //tda.Disc = Convert.ToDouble(dtt.Rows[i]["DISC"].ToString() == "" ? "0" : dtt.Rows[i]["DISC"].ToString());
+                    //tda.DiscAmount = Convert.ToDouble(dtt.Rows[i]["DISCAMOUNT"].ToString() == "" ? "0" : dtt.Rows[i]["DISCAMOUNT"].ToString());
+                    //tda.FrigCharge = Convert.ToDouble(dtt.Rows[i]["IFREIGHTCH"].ToString() == "" ? "0" : dtt.Rows[i]["IFREIGHTCH"].ToString());
+                    //tda.TotalAmount = Convert.ToDouble(dtt.Rows[i]["TOTAMT"].ToString() == "" ? "0" : dtt.Rows[i]["TOTAMT"].ToString());
+                    //tda.CGSTP = Convert.ToDouble(dtt.Rows[i]["CGSTPER"].ToString() == "" ? "0" : dtt.Rows[i]["CGSTPER"].ToString());
+                    //tda.SGSTP = Convert.ToDouble(dtt.Rows[i]["SGSTPER"].ToString() == "" ? "0" : dtt.Rows[i]["SGSTPER"].ToString());
+                    //tda.IGSTP = Convert.ToDouble(dtt.Rows[i]["IGSTPER"].ToString() == "" ? "0" : dtt.Rows[i]["IGSTPER"].ToString());
+                    //tda.CGST = Convert.ToDouble(dtt.Rows[i]["CGSTAMT"].ToString() == "" ? "0" : dtt.Rows[i]["CGSTAMT"].ToString());
+                    //tda.SGST = Convert.ToDouble(dtt.Rows[i]["SGSTAMT"].ToString() == "" ? "0" : dtt.Rows[i]["SGSTAMT"].ToString());
+                    //tda.IGST = Convert.ToDouble(dtt.Rows[i]["IGSTAMT"].ToString() == "" ? "0" : dtt.Rows[i]["IGSTAMT"].ToString());
+                    tda.Isvalid = "Y";
+                    Data.Add(tda);
+                }
+            }
+            
+            ca.QuoLst = Data;
+            return View(ca);
+        }
     }
 }

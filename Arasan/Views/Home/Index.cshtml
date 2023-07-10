@@ -410,11 +410,111 @@
         </div>
     </div>
 </div>
-
-
-
-
 <div id="divalerts" style="display:block">
+    <div class="box box-success">
+        <div class="box-header with-border">
+            <h3 class="box-title">Alerts</h3>
+
+           @* <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                    <i class="fa fa-minus"></i>
+                </button>
+
+            </div>*@
+        </div>
+        <div class="box-body">
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <p style="font-weight:bold;color:darkgreen">Leads Followup @*- <label id="Quotefollowcount">(@Html.DisplayFor(m => m.Count))</label>*@</p>
+
+                    <div class="info-boxalert">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Enq No</th>
+                                    <th>Follwed By</th>
+                                    <th>Next Follow Date</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+
+
+                                    int t = 0;
+
+                                    foreach (var item in Model.Enqlllst.ToList())
+                                    {
+                                        <tr>
+                                            <td>@Html.DisplayFor(o => o.Enqlllst[t].displaytext)</td>
+
+                                            <td>@Html.DisplayFor(o => o.Enqlllst[t].followedby)</td>
+
+                                            <td>@Html.DisplayFor(o => o.Enqlllst[t].status)</td>
+
+                                        </tr>
+                                        t = t + 1;
+
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <p style="font-weight:bold;color:darkgreen">Quote Followup @*- <label id="Quotefollowcount">(@Html.DisplayFor(m => m.Count))</label>*@</p>
+
+                    <div class="info-boxalert">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Quo No</th>
+                                    <th>Follwed By</th>
+                                    <th>Next Follow Date</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+
+                                    int e = 0;
+
+                                    foreach (var item in Model.Folllst.ToList())
+                                    {
+                                        <tr>
+                                            <td>@Html.DisplayFor(o => o.Folllst[e].displaytext)</td>
+
+                                            <td>@Html.DisplayFor(o => o.Folllst[e].followedby)</td>
+
+                                            <td>@Html.DisplayFor(o => o.Folllst[e].status)</td>
+
+                                        </tr>
+                                        e = e + 1;
+
+                                    }
+                                }
+
+                           </tbody>
+                        </table>
+
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+
+
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
+
+
+@*<div id="divalerts" style="display:block">
     <div class="box box-success">
         <div class="box-header with-border">
             <h3 class="box-title">Alerts</h3>
@@ -431,6 +531,9 @@
 
 
                 <div class="col-md-6 col-sm-6 col-xs-12">
+
+                    
+
                     <p style="font-weight:bold;color:darkgreen">Quote Followup @*- <label id="Quotefollowcount">(@Html.DisplayFor(m => m.Count))</label></p>
 
 
@@ -486,6 +589,7 @@
 
 
  
+
                     <div class="info-boxalert">
                         <table class="table table-bordered table-hover">
                             <thead>
@@ -521,10 +625,14 @@
 
                     </div>
                     <div class="col-md-6 col-sm-6 col-xs-12">
+
                         <br />
                     <p style="font-weight:bold;color:darkgreen">Leads Followup @*- <label id="Quotefollowcount">(@Html.DisplayFor(m => m.Count))</label>*@</p>
 
                         <div class="info-boxalert">
+
+                    <div class="info-boxalert">
+
                             <table class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
@@ -614,7 +722,7 @@
         <!-- /.info-box -->
     </div>
 
-</div>
+</div>*@
 
 
 
