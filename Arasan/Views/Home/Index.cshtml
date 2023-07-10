@@ -521,6 +521,7 @@
 
                     </div>
                     <div class="col-md-6 col-sm-6 col-xs-12">
+                        <br />
                     <p style="font-weight:bold;color:darkgreen">Leads Followup @*- <label id="Quotefollowcount">(@Html.DisplayFor(m => m.Count))</label>*@</p>
 
                         <div class="info-boxalert">
@@ -560,6 +561,48 @@
                         </div>
                     </div>
                     <!-- /.info-box -->
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <br />
+                    <p style="font-weight:bold;color:darkgreen">SalesQuote Followup @*- <label id="Quotefollowcount">(@Html.DisplayFor(m => m.Count))</label>*@</p>
+
+                    <div class="info-boxalert">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>QUOTE_NO</th>
+                                    <th>Follwed By</th>
+                                    <th>Next Follow Date</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+
+
+                                    int d = 0;
+
+                                    foreach (var item in Model.Enqlllst.ToList())
+                                    {
+                                        <tr>
+                                            <td>@Html.DisplayFor(o => o.Enqlllst[d].displaytext)</td>
+
+                                            <td>@Html.DisplayFor(o => o.Enqlllst[d].followedby)</td>
+
+                                            <td>@Html.DisplayFor(o => o.Enqlllst[d].status)</td>
+
+                                        </tr>
+                                        d = d + 1;
+
+                                    }
+                                }
+
+                            <tbody></tbody>
+                        </table>
+
+                    </div>
+                </div>
+
+                    
                 </div>
 
 

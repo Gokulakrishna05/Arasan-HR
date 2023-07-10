@@ -40,6 +40,7 @@ namespace Arasan.Controllers
             ca.Enqlst = BindEnqType();
             ca.Typelst = BindCusType();
             ca.EnqDate = DateTime.Now.ToString("dd-MMM-yyyy");
+            ca.Currency = "1";
             List<SalesItem> TData = new List<SalesItem>();
             SalesItem tda = new SalesItem();
             if (id == null)
