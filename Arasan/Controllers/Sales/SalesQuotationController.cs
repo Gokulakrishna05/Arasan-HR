@@ -762,7 +762,7 @@ namespace Arasan.Controllers.Sales
             try
             {
                 Cy.ID = id;
-                string Strout = SalesQuotationService.QuotetoOrder(Cy.ID);
+                string Strout = "";/*SalesQuotationService.QuotetoOrder(Cy.ID);*/
                 if (string.IsNullOrEmpty(Strout))
                 {
                     if (Cy.ID == null)
