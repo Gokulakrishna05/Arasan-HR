@@ -29,9 +29,12 @@ namespace Arasan.Controllers.Sales
             WorkOrder ca = new WorkOrder();
             ca.Branch = Request.Cookies["BranchId"];
             ca.Curlst = BindCurrency();
-            ca.Loc = BindLocation();
+            
             ca.Qolst = BindQuotation();
             ca.JopDate = DateTime.Now.ToString("dd-MMM-yyyy");
+            ca.Location = Request.Cookies["LocationId"];
+            ca.Emp= Request.Cookies["UserId"];
+            ca.Loc = BindLocation(ca.Emp);
             DataTable dtv = datatrans.GetSequence("er");
             if (dtv.Rows.Count > 0)
             {
@@ -174,15 +177,15 @@ namespace Arasan.Controllers.Sales
                 throw ex;
             }
         }
-        public List<SelectListItem> BindLocation()
+        public List<SelectListItem> BindLocation(string id)
         {
             try
             {
-                DataTable dtDesg = datatrans.GetLocation();
+                DataTable dtDesg = WorkOrderService.GetLocation(id);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["LOCID"].ToString(), Value = dtDesg.Rows[i]["LOCDETAILSID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["LOCID"].ToString(), Value = dtDesg.Rows[i]["loc"].ToString() });
                 }
                 return lstdesg;
             }

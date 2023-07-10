@@ -273,5 +273,16 @@ namespace Arasan.Services.Sales
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetLocation(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = " select locdetails.LOCID ,EMPLOYEELOCATION.LOCID loc from EMPLOYEELOCATION  left outer join locdetails on locdetails.locdetailsid=EMPLOYEELOCATION.LOCID where EMPID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        
     }
 }

@@ -9,6 +9,7 @@ namespace Arasan.Interface.Sales
     {
         IEnumerable<WorkOrder> GetAllWorkOrder(string status);
         DataTable GetQuo();
+        DataTable GetLocation(string id);
         string WorkOrderCRUD(WorkOrder cy);
         DataTable GetQuoDetails(string id);
         DataTable GetSatesQuoDetails(string id);
