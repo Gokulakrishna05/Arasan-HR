@@ -169,6 +169,18 @@ namespace Arasan.Models
         public string Lotno { get; set; }
 
     }
+    public class POItemDetail
+    {
+        public string ItemId { get; set; }
+       
+        public string PUnit { get; set; }
+       
+        public double Qty { get; set; }
+       
+        public double rate { get; set; }
+        public double Amount { get; set; }
+       
+    }
     public class POGateItem
     {
         public string itemid { get; set; }

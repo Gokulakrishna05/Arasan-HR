@@ -458,5 +458,83 @@ namespace Arasan.Services.Sales
             adapter.Fill(dtt);
             return dtt;
         }
+        public string QuotetoOrder(string id)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
+                datatrans = new DataTransactions(_connectionString);
+
+
+                int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'JOB#' AND ACTIVESEQUENCE = 'T'");
+                string docid = string.Format("{0}{1}", "JOB#", (idc + 1).ToString());
+
+                string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='JOB#' AND ACTIVESEQUENCE ='T'";
+                try
+                {
+                    datatrans.UpdateStatus(updateCMd);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+
+
+
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    string Customer = datatrans.GetDataString("Select CUSTOMER from SALES_QUOTE where SALES_QUOTE.ID='" + id + "' ");
+
+                    string party = datatrans.GetDataString("Select PARTYNAME from PARTYMAST where PARTYMASTID='" + Customer + "' ");
+
+                    string currency = datatrans.GetDataString("Select CURRENCY_TYPE from SALES_QUOTE where SALES_QUOTE.ID='" + id + "' ");
+
+                    string symbol = datatrans.GetDataString("Select SYMBOL from CURRENCY where MAINCURR='" + currency + "' ");
+
+                    svSQL = "Insert into JOBASIC (BRANCHID,QUOID,MAINCURRENCY,DOCID,DOCDATE,PARTYNAME,PARTYID,SYMBOL,STATUS) (Select BRANCHID,'" + id + "',CURRENCY_TYPE,'" + docid + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "' ,'" + party +"',CUSTOMER,'"+ symbol + "' ,'ACTIVE' from SALES_QUOTE where SALES_QUOTE.ID='" + id + "')";
+                    OracleCommand objCmd = new OracleCommand(svSQL, objConn);
+                    try
+                    {
+                        objConn.Open();
+                        objCmd.ExecuteNonQuery();
+                    }
+                    catch (Exception ex)
+                    {
+                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
+                    }
+                    objConn.Close();
+                }
+
+                string quotid = datatrans.GetDataString("Select JOBASICID from JOBASIC Where QUOID=" + id + "");
+                string unit = datatrans.GetDataString("Select UNIT from SALESQUOTEDETAIL Where SALESQUOID=" + id + "");
+                string UnitId = datatrans.GetDataString("Select UNITMASTID from UNITMAST where UNITID='" + unit + "' ");
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    string Sql = "Insert into JODETAIL (JOBASICID,ITEMID,QTY,UNIT,RATE,AMOUNT,DISCOUNT) (Select '" + quotid + "',ITEMID,QTY,'" + UnitId + "',RATE ,AMOUNT,DISCAMOUNT FROM SALESQUOTEDETAIL WHERE SALESQUOID=" + id + ")";
+                    OracleCommand objCmds = new OracleCommand(Sql, objConnT);
+                    try
+                    {
+                        objConnT.Open();
+                        objCmds.ExecuteNonQuery();
+                    }
+                    catch (Exception ex)
+                    {
+                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
+                    }
+                    objConnT.Close();
+
+                }
+                   
+              
+            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
+        }
     }
 }

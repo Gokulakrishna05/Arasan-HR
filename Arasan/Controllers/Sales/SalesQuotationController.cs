@@ -757,7 +757,7 @@ namespace Arasan.Controllers.Sales
             return View(ca);
         }
         [HttpPost]
-        public ActionResult ViewQuote(SalesQuotation Cy, string id)
+        public ActionResult ViewSQ(SalesQuotation Cy, string id)
         {
             try
             {

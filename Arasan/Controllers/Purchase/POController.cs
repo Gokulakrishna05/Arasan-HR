@@ -5,7 +5,7 @@ using Arasan.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
-
+using AspNetCore.Reporting;
 
 namespace Arasan.Controllers
 {
@@ -13,13 +13,16 @@ namespace Arasan.Controllers
     {
         IPO PoService;
         private string? _connectionString;
+        private readonly IWebHostEnvironment _WebHostEnvironment;
         IConfiguration? _configuratio;
         DataTransactions datatrans;
-        public POController(IPO _PoService, IConfiguration _configuratio)
+        public POController(IPO _PoService, IConfiguration _configuratio, IWebHostEnvironment WebHostEnvironment)
         {
+            this._WebHostEnvironment = WebHostEnvironment;
             PoService = _PoService;
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
         }
         
         public IActionResult PurchaseOrder(string id)
@@ -607,6 +610,20 @@ namespace Arasan.Controllers
                 TempData["notice"] = flag;
                 return RedirectToAction("ListPO");
             }
+        }
+        public async Task<IActionResult> Print(string id)
+        {
+            string mimtype = "";
+            int extension = 1;
+            var path = $"{this._WebHostEnvironment.WebRootPath}\\Reports\\Report1.rdlc";
+            Dictionary<string, string> Parameters = new Dictionary<string, string>();
+            //  Parameters.Add("rp1", " Hi Everyone");
+            var product = await PoService.GetPOItem(id);
+            LocalReport localReport = new LocalReport(path);
+            localReport.AddDataSource("DataSet1", product);
+            var result = localReport.Execute(RenderType.Pdf, extension, Parameters, mimtype);
+
+            return File(result.MainStream, "application/Pdf");
         }
     }
 }

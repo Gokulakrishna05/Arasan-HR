@@ -83,7 +83,7 @@
                                         <div class="col-sm-8">
                                             <div class="input-group">
 
-                                                @Html.RadioButtonFor(C => C.OrderType, "ORDER", new { @TabIndex = 2 })
+                                                @Html.RadioButtonFor(C => C.OrderType, "ORDER", new { @TabIndex = 2 , Checked="true",value="ORDER"})
                                                 <label id="mt-radio">ORDER</label>
                                                 @Html.RadioButtonFor(C => C.OrderType, "SAMPLE", new { @TabIndex = 3 })
                                                 <label id="mt-radio">SAMPLE</label>
@@ -255,17 +255,19 @@
                                                             <th> Order Qty </th>
                                                             <th> Dispatch Qty </th>
                                                             <th> Rate </th>
+
                                                             <th> Amount </th>
+                                                    <th> Discount </th>
                                                             <th> Qty Disc </th>
                                                             <th> Spl Disc </th>
                                                             <th> Cash Disc </th>
                                                             <th> Introd Disc </th>
                                                             <th> Trade Disc </th>
                                                             <th> Addition Disc </th>
-                                                            <th> Discount </th>
+                                                            
 
-                                                <th>  Freight </th>
-                                                            <th> Freight Amount </th>
+                                              @*  <th>  Freight </th>
+                                                            <th> Freight Amount </th>*@
                                                             <th> Tax Type </th>
                                                             <th> Mat Supply</th>
                                                             <th> Packing Spec </th>
@@ -273,8 +275,85 @@
                                                         </tr>
                                                     </thead>
                                         <tbody id="tbBooks">
-                                                        
 
+                                                @{
+
+                                                    int i = 0;
+                                                    int j = 1;
+                                                    foreach (var item in Model.Worklst.ToList())
+                                                    {
+                                                        <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                          
+                                                            <td>
+                                                                @Html.TextBoxFor(o => o.Worklst[i].items,  new { @id = "txtitems" + i, @class = "form-control", style = "width: 80px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)", @readonly = "readonly"})
+                                                                @Html.HiddenFor(o => o.Worklst[i].itemid)
+                                                            </td>
+                                                            <td>
+                                                                @Html.TextBoxFor(o => o.Worklst[i].itemspec,  new { @id = "txtitemspec" + i, @class = "form-control", style = "width: 80px;"})
+                                                            </td>
+                                                            <td>
+                                                                @Html.TextBoxFor(o => o.Worklst[i].unit, new { @id = "txtunit" + i, @class = "form-control", style = "width: 80px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)", @readonly = "readonly"})
+                                                            </td>
+                                                          
+                                                            <td>
+                                                                @Html.TextBoxFor(o => o.Worklst[i].orderqty, new { @id = "txtorderqty" + i, @class = "form-control",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")", style = "width: 80px;" })
+                                                            </td>
+                                                            <td>
+                                                                @Html.TextBoxFor(o => o.Worklst[i].disqty, new { @id = "txtdisqty" + i, @class = "form-control", style = "width:220px;",onkeydown = "return isNumeric2(event.keyCode,this.value)"})
+                                                            </td>
+                                                            <td>
+                                                                @Html.TextBoxFor(o => o.Worklst[i].rate, new { @id = "txtRate" + i, @class = "form-control",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")", style = "width: 80px;" ,@readonly = "readonly"})
+                                                            </td>
+                                                            <td>
+                                                                @Html.HiddenFor(o => o.Worklst[i].Isvalid, new { @id = "Isvalid" + i })
+                                                                @Html.TextBoxFor(o => o.Worklst[i]. amount, new { @id = "txtamount" + i , @class = "form-control",onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;" ,@readonly = "readonly" })
+                                                            </td>
+                                                             <td>
+                                                                @Html.TextBoxFor(o => o.Worklst[i].discount, new { @id = "txtdiscount" + i, @class = "form-control", style = "width: 80px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")"})
+                                                            </td>
+                                                            <td>
+                                                                @Html.TextBoxFor(o => o.Worklst[i].qtydis, new { @id = "txtqtydis" + i, @class = "form-control", style = "width: 80px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")"})
+                                                            </td>
+                                                            <td>
+                                                                @Html.TextBoxFor(o => o.Worklst[i].spldis, new { @id = "txtspldis" + i, @class = "form-control",onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;", @onkeyup = "changeQty(this," + i + ")" })
+                                                            </td>
+                                                            <td>
+                                                                @Html.TextBoxFor(o => o.Worklst[i].cashdis, new { @id = "txtcashdis" + i, @class = "form-control",onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;", @onkeyup = "changeQty(this," + i + ")" })
+                                                            </td>
+
+                                                            <td>
+                                                                @Html.TextBoxFor(o => o.Worklst[i].introdis, new { @id = "txtintrodis" + i, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")"})
+                                                            </td>
+                                                            <td>
+                                                                @Html.TextBoxFor(o => o.Worklst[i].tradedis, new { @id = "txttradedis" + i, @class = "form-control", style = "width: 80px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")"})
+                                                            </td>
+                                                            <td>
+                                                                @Html.TextBoxFor(o => o.Worklst[i].additiondis, new { @id = "txtadditiondis" + i, @class = "form-control", style = "width: 80px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")"})
+                                                            </td>
+                                                            <td>
+                                                                @Html.TextBoxFor(o => o.Worklst[i].tax, new { @id = "txttax" + i, @class = "form-control", style = "width: 80px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)", @readonly = "readonly", @onkeyup = "changeQty(this," + i + ")"})
+                                                            </td>
+                                                            <td>
+                                                                @Html.TextBoxFor(o => o.Worklst[i].matsupply, new { @id = "txtmatsupply" + i, @class = "form-control", style = "width: 80px;"})
+                                                            </td>
+                                                            <td>
+                                                                @Html.TextBoxFor(o => o.Worklst[i].packind, new { @id = "txtpackind" + i, @class = "form-control", style = "width: 80px;"})
+                                                            </td>
+                                                           
+
+
+
+                                                            <td>
+                                                                @Html.HiddenFor(o => o.Worklst[i].Isvalid, new { @id = "Isvalid" + i })
+                                                                <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="Suplst.Index" type="hidden" value="@(i)" />
+                                                            </td>
+
+                                                        </tr>
+
+                                                        i = i + 1;
+                                                        j = j + 1;
+                                                    }
+                                                }
 
 
                                                     </tbody>
@@ -331,22 +410,22 @@
     });
     //function changeQuoDet(ItemId,jobid) {
 
-    //    $.ajax({
-    //        url: 'GetQuoDetail',
-    //        data: { 'ItemId': ItemId},
-    //        type: "GET",
-    //        success: function (result) {
+    //    //$.ajax({
+    //    //    url: 'GetQuoDetail',
+    //    //    data: { 'ItemId': ItemId},
+    //    //    type: "GET",
+    //    //    success: function (result) {
 
 
 
-    //            document.getElementById("txtCustomer").value = result.customer;
-    //            document.getElementById("txtCurrency").value = result.currency;
+    //    //        document.getElementById("txtCustomer").value = result.customer;
+    //    //        document.getElementById("txtCurrency").value = result.currency;
 
-    //        },
-    //        error: function () {
-    //            alert("Data Not Found");
-    //        }
-    //    });
+    //    //    },
+    //    //    error: function () {
+    //    //        alert("Data Not Found");
+    //    //    }
+    //    //});
     //    document.getElementById("tbBooks").innerHTML = "";
     //    $.ajax({
     //        url: 'GetSalesQuoDetails',
