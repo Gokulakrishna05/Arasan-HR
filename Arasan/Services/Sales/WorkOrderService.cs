@@ -92,19 +92,6 @@ namespace Arasan.Services.Sales
                 datatrans = new DataTransactions(_connectionString);
 
 
-                int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'JOB#' AND ACTIVESEQUENCE = 'T'");
-                string docid = string.Format("{0}{1}", "JOB#", (idc + 1).ToString());
-
-                string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='JOB#' AND ACTIVESEQUENCE ='T'";
-                try
-                {
-                    datatrans.UpdateStatus(updateCMd);
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-                cy.JopId = docid;
 
                 
                 string party = datatrans.GetDataString("Select ID from PARTYRCODE where PARTY='" + cy.Customer + "' ");
@@ -120,16 +107,10 @@ namespace Arasan.Services.Sales
                     objCmd.CommandText = "PURQUOPROC";*/
 
 					objCmd.CommandType = CommandType.StoredProcedure;
-					if (cy.ID == null)
-					{
-						StatementType = "Insert";
-						objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-					}
-					else
-					{
+					
 						StatementType = "Update";
 						objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
-					}
+					
 
 
                     //objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;

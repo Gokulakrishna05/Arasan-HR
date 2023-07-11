@@ -1,10 +1,12 @@
 ﻿using Arasan.Interface;
 using Arasan.Models;
+using Dapper;
 using Microsoft.Extensions.Configuration;
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 
 namespace Arasan.Services
 {
@@ -543,5 +545,12 @@ namespace Arasan.Services
 
         }
 
+        public async Task<IEnumerable<POItemDetail>> GetPOItem(string id)
+        {
+            using(OracleConnection db =new OracleConnection (_connectionString))
+            {
+                return await db.QueryAsync<POItemDetail>("select ITEMMASTER.ITEMID,PODETAIL.QTY,PUNIT,PODETAIL.RATE,PODETAIL.AMOUNT from PODETAIL left outer join ITEMMASTER on ITEMMASTER.ITEMMASTERID=PODETAIL.ITEMID where PODETAIL.POBASICID='" + id + "'", commandType: CommandType.Text);
+            }
+        }
     }
 }
