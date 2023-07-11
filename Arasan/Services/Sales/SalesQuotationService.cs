@@ -313,7 +313,7 @@ namespace Arasan.Services.Sales
         public DataTable GetSalesQuotationItemDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select SALESQUOTEDETAIL.QTY,SALESQUOTEDETAIL.SALESQUOTEDETAILID,SALESQUOTEDETAIL.ITEMID,UNITMAST.UNITID,SALESQUOTEDETAIL.RATE  from SALESQUOTEDETAIL LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=SALESQUOTEDETAIL.UNIT  where SALESQUOTEDETAIL.SALESQUOID='" + id + "'";
+            SvSql = "Select SALESQUOTEDETAIL.QTY,SALESQUOTEDETAIL.SALESQUOTEDETAILID,SALESQUOTEDETAIL.ITEMID,SALESQUOTEDETAIL.UNIT,SALESQUOTEDETAIL.RATE  from SALESQUOTEDETAIL where SALESQUOTEDETAIL.SALESQUOID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
