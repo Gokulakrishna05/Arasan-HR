@@ -25,6 +25,19 @@ namespace Arasan.Controllers.Report
         {
             return View();
         }
+
+        //public async Task<IActionResult> Print()
+        //{
+        //    string mimtype="";
+        //    int extension = 1;
+        //    var path = $"{this._WebHostEnvironment.WebRootPath}\\Reports\\Report1.rdlc";
+        //    Dictionary<string,string> Parameters= new Dictionary<string,string>();
+        //    //  Parameters.Add("rp1", " Hi Everyone");
+        //    var product = await _po.GetPOItem();
+        //    LocalReport localReport = new LocalReport(path);
+        //    localReport.AddDataSource("DataSet1", product);
+        //     var result=localReport.Execute(RenderType.Pdf,extension,Parameters,mimtype);
+
         public async Task<IActionResult> Print(string id)
         {
             string mimtype="";
@@ -37,7 +50,8 @@ namespace Arasan.Controllers.Report
             localReport.AddDataSource("DataSet1", product);
              var result=localReport.Execute(RenderType.Pdf,extension,Parameters,mimtype);
 
-            return File(result.MainStream,"application/Pdf");
-        }
+
+        //    return File(result.MainStream,"application/Pdf");
+        //}
     }
 }

@@ -47,7 +47,7 @@ namespace Arasan.Services
                             Cur = rdr["MAINCURR"].ToString(),
                             Supplier = rdr["PARTYNAME"].ToString(),
                             Status = rdr["STATUS"].ToString(),
-                               Active = rdr["IS_ACTIVE"].ToString(),
+                            Active = rdr["IS_ACTIVE"].ToString(),
                         };
                         cmpList.Add(cmp);
                     }
