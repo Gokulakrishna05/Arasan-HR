@@ -10,7 +10,7 @@
 
 #pragma warning disable 1591
 
-namespace RDLCDesign {
+namespace Arasan {
     
     
     /// <summary>
@@ -20,9 +20,9 @@ namespace RDLCDesign {
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
     [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedDataSetSchema")]
-    [global::System.Xml.Serialization.XmlRootAttribute("DataSet4")]
+    [global::System.Xml.Serialization.XmlRootAttribute("DataSet1")]
     [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.DataSet")]
-    public partial class DataSet4 : global::System.Data.DataSet {
+    public partial class DataSet1 : global::System.Data.DataSet {
         
         private PODETAILDataTable tablePODETAIL;
         
@@ -30,7 +30,7 @@ namespace RDLCDesign {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        public DataSet4() {
+        public DataSet1() {
             this.BeginInit();
             this.InitClass();
             global::System.ComponentModel.CollectionChangeEventHandler schemaChangedHandler = new global::System.ComponentModel.CollectionChangeEventHandler(this.SchemaChanged);
@@ -41,7 +41,7 @@ namespace RDLCDesign {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        protected DataSet4(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+        protected DataSet1(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                 base(info, context, false) {
             if ((this.IsBinarySerialized(info, context) == true)) {
                 this.InitVars(false);
@@ -127,7 +127,7 @@ namespace RDLCDesign {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         public override global::System.Data.DataSet Clone() {
-            DataSet4 cln = ((DataSet4)(base.Clone()));
+            DataSet1 cln = ((DataSet1)(base.Clone()));
             cln.InitVars();
             cln.SchemaSerializationMode = this.SchemaSerializationMode;
             return cln;
@@ -199,9 +199,9 @@ namespace RDLCDesign {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private void InitClass() {
-            this.DataSetName = "DataSet4";
+            this.DataSetName = "DataSet1";
             this.Prefix = "";
-            this.Namespace = "http://tempuri.org/DataSet4.xsd";
+            this.Namespace = "http://tempuri.org/DataSet1.xsd";
             this.EnforceConstraints = true;
             this.SchemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
             this.tablePODETAIL = new PODETAILDataTable();
@@ -225,7 +225,7 @@ namespace RDLCDesign {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedDataSetSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
-            DataSet4 ds = new DataSet4();
+            DataSet1 ds = new DataSet1();
             global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
             global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
             global::System.Xml.Schema.XmlSchemaAny any = new global::System.Xml.Schema.XmlSchemaAny();
@@ -375,19 +375,23 @@ namespace RDLCDesign {
             
             private global::System.Data.DataColumn columnMAILTO;
             
-            private global::System.Data.DataColumn columnCGSTPER;
+            private global::System.Data.DataColumn columnSGSTP;
             
-            private global::System.Data.DataColumn columnCGSTAMT;
+            private global::System.Data.DataColumn columnCGSTP;
             
-            private global::System.Data.DataColumn columnSGSTPER;
+            private global::System.Data.DataColumn columnIGSTP;
             
-            private global::System.Data.DataColumn columnSGSTAMT;
+            private global::System.Data.DataColumn columnSGST;
             
-            private global::System.Data.DataColumn columnIGSTPER;
+            private global::System.Data.DataColumn columnCGST;
             
-            private global::System.Data.DataColumn columnIGSTAMT;
+            private global::System.Data.DataColumn columnIGST;
             
-            private global::System.Data.DataColumn columnTOTALAMT;
+            private global::System.Data.DataColumn columnTOTAMT;
+            
+            private global::System.Data.DataColumn columnORDCLBY;
+            
+            private global::System.Data.DataColumn columnORDCLON;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
@@ -808,57 +812,73 @@ namespace RDLCDesign {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn CGSTPERColumn {
+            public global::System.Data.DataColumn SGSTPColumn {
                 get {
-                    return this.columnCGSTPER;
+                    return this.columnSGSTP;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn CGSTAMTColumn {
+            public global::System.Data.DataColumn CGSTPColumn {
                 get {
-                    return this.columnCGSTAMT;
+                    return this.columnCGSTP;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn SGSTPERColumn {
+            public global::System.Data.DataColumn IGSTPColumn {
                 get {
-                    return this.columnSGSTPER;
+                    return this.columnIGSTP;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn SGSTAMTColumn {
+            public global::System.Data.DataColumn SGSTColumn {
                 get {
-                    return this.columnSGSTAMT;
+                    return this.columnSGST;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn IGSTPERColumn {
+            public global::System.Data.DataColumn CGSTColumn {
                 get {
-                    return this.columnIGSTPER;
+                    return this.columnCGST;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn IGSTAMTColumn {
+            public global::System.Data.DataColumn IGSTColumn {
                 get {
-                    return this.columnIGSTAMT;
+                    return this.columnIGST;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn TOTALAMTColumn {
+            public global::System.Data.DataColumn TOTAMTColumn {
                 get {
-                    return this.columnTOTALAMT;
+                    return this.columnTOTAMT;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn ORDCLBYColumn {
+                get {
+                    return this.columnORDCLBY;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn ORDCLONColumn {
+                get {
+                    return this.columnORDCLON;
                 }
             }
             
@@ -948,13 +968,15 @@ namespace RDLCDesign {
                         double FREIGHTCHGS, 
                         long DELD, 
                         string MAILTO, 
-                        float CGSTPER, 
-                        decimal CGSTAMT, 
-                        float SGSTPER, 
-                        decimal SGSTAMT, 
-                        float IGSTPER, 
-                        decimal IGSTAMT, 
-                        decimal TOTALAMT) {
+                        float SGSTP, 
+                        float CGSTP, 
+                        float IGSTP, 
+                        double SGST, 
+                        double CGST, 
+                        double IGST, 
+                        double TOTAMT, 
+                        string ORDCLBY, 
+                        string ORDCLON) {
                 PODETAILRow rowPODETAILRow = ((PODETAILRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         INDENTNO,
@@ -1005,13 +1027,15 @@ namespace RDLCDesign {
                         FREIGHTCHGS,
                         DELD,
                         MAILTO,
-                        CGSTPER,
-                        CGSTAMT,
-                        SGSTPER,
-                        SGSTAMT,
-                        IGSTPER,
-                        IGSTAMT,
-                        TOTALAMT};
+                        SGSTP,
+                        CGSTP,
+                        IGSTP,
+                        SGST,
+                        CGST,
+                        IGST,
+                        TOTAMT,
+                        ORDCLBY,
+                        ORDCLON};
                 rowPODETAILRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowPODETAILRow);
                 return rowPODETAILRow;
@@ -1082,13 +1106,15 @@ namespace RDLCDesign {
                 this.columnFREIGHTCHGS = base.Columns["FREIGHTCHGS"];
                 this.columnDELD = base.Columns["DELD"];
                 this.columnMAILTO = base.Columns["MAILTO"];
-                this.columnCGSTPER = base.Columns["CGSTPER"];
-                this.columnCGSTAMT = base.Columns["CGSTAMT"];
-                this.columnSGSTPER = base.Columns["SGSTPER"];
-                this.columnSGSTAMT = base.Columns["SGSTAMT"];
-                this.columnIGSTPER = base.Columns["IGSTPER"];
-                this.columnIGSTAMT = base.Columns["IGSTAMT"];
-                this.columnTOTALAMT = base.Columns["TOTALAMT"];
+                this.columnSGSTP = base.Columns["SGSTP"];
+                this.columnCGSTP = base.Columns["CGSTP"];
+                this.columnIGSTP = base.Columns["IGSTP"];
+                this.columnSGST = base.Columns["SGST"];
+                this.columnCGST = base.Columns["CGST"];
+                this.columnIGST = base.Columns["IGST"];
+                this.columnTOTAMT = base.Columns["TOTAMT"];
+                this.columnORDCLBY = base.Columns["ORDCLBY"];
+                this.columnORDCLON = base.Columns["ORDCLON"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1190,29 +1216,35 @@ namespace RDLCDesign {
                 base.Columns.Add(this.columnDELD);
                 this.columnMAILTO = new global::System.Data.DataColumn("MAILTO", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnMAILTO);
-                this.columnCGSTPER = new global::System.Data.DataColumn("CGSTPER", typeof(float), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnCGSTPER);
-                this.columnCGSTAMT = new global::System.Data.DataColumn("CGSTAMT", typeof(decimal), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnCGSTAMT);
-                this.columnSGSTPER = new global::System.Data.DataColumn("SGSTPER", typeof(float), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnSGSTPER);
-                this.columnSGSTAMT = new global::System.Data.DataColumn("SGSTAMT", typeof(decimal), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnSGSTAMT);
-                this.columnIGSTPER = new global::System.Data.DataColumn("IGSTPER", typeof(float), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnIGSTPER);
-                this.columnIGSTAMT = new global::System.Data.DataColumn("IGSTAMT", typeof(decimal), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnIGSTAMT);
-                this.columnTOTALAMT = new global::System.Data.DataColumn("TOTALAMT", typeof(decimal), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnTOTALAMT);
+                this.columnSGSTP = new global::System.Data.DataColumn("SGSTP", typeof(float), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnSGSTP);
+                this.columnCGSTP = new global::System.Data.DataColumn("CGSTP", typeof(float), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCGSTP);
+                this.columnIGSTP = new global::System.Data.DataColumn("IGSTP", typeof(float), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnIGSTP);
+                this.columnSGST = new global::System.Data.DataColumn("SGST", typeof(double), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnSGST);
+                this.columnCGST = new global::System.Data.DataColumn("CGST", typeof(double), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCGST);
+                this.columnIGST = new global::System.Data.DataColumn("IGST", typeof(double), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnIGST);
+                this.columnTOTAMT = new global::System.Data.DataColumn("TOTAMT", typeof(double), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTOTAMT);
+                this.columnORDCLBY = new global::System.Data.DataColumn("ORDCLBY", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnORDCLBY);
+                this.columnORDCLON = new global::System.Data.DataColumn("ORDCLON", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnORDCLON);
                 this.columnINDENTNO.MaxLength = 10;
                 this.columnMRPID.MaxLength = 10;
                 this.columnINDENTCLOSE.MaxLength = 3;
                 this.columnPUNIT.MaxLength = 10;
-                this.columnITEMDESC.MaxLength = 120;
-                this.columnSPECIFICATION.MaxLength = 25;
+                this.columnITEMDESC.MaxLength = 150;
+                this.columnSPECIFICATION.MaxLength = 200;
                 this.columnPURTYPE.MaxLength = 30;
                 this.columnPOID.MaxLength = 45;
                 this.columnMAILTO.MaxLength = 40;
+                this.columnORDCLBY.MaxLength = 30;
+                this.columnORDCLON.MaxLength = 20;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1280,7 +1312,7 @@ namespace RDLCDesign {
             public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
                 global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
                 global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
-                DataSet4 ds = new DataSet4();
+                DataSet1 ds = new DataSet1();
                 global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
                 any1.Namespace = "http://www.w3.org/2001/XMLSchema";
                 any1.MinOccurs = new decimal(0);
@@ -2123,113 +2155,145 @@ namespace RDLCDesign {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public float CGSTPER {
+            public float SGSTP {
                 get {
                     try {
-                        return ((float)(this[this.tablePODETAIL.CGSTPERColumn]));
+                        return ((float)(this[this.tablePODETAIL.SGSTPColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'CGSTPER\' in table \'PODETAIL\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'SGSTP\' in table \'PODETAIL\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tablePODETAIL.CGSTPERColumn] = value;
+                    this[this.tablePODETAIL.SGSTPColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public decimal CGSTAMT {
+            public float CGSTP {
                 get {
                     try {
-                        return ((decimal)(this[this.tablePODETAIL.CGSTAMTColumn]));
+                        return ((float)(this[this.tablePODETAIL.CGSTPColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'CGSTAMT\' in table \'PODETAIL\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'CGSTP\' in table \'PODETAIL\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tablePODETAIL.CGSTAMTColumn] = value;
+                    this[this.tablePODETAIL.CGSTPColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public float SGSTPER {
+            public float IGSTP {
                 get {
                     try {
-                        return ((float)(this[this.tablePODETAIL.SGSTPERColumn]));
+                        return ((float)(this[this.tablePODETAIL.IGSTPColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'SGSTPER\' in table \'PODETAIL\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'IGSTP\' in table \'PODETAIL\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tablePODETAIL.SGSTPERColumn] = value;
+                    this[this.tablePODETAIL.IGSTPColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public decimal SGSTAMT {
+            public double SGST {
                 get {
                     try {
-                        return ((decimal)(this[this.tablePODETAIL.SGSTAMTColumn]));
+                        return ((double)(this[this.tablePODETAIL.SGSTColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'SGSTAMT\' in table \'PODETAIL\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'SGST\' in table \'PODETAIL\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tablePODETAIL.SGSTAMTColumn] = value;
+                    this[this.tablePODETAIL.SGSTColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public float IGSTPER {
+            public double CGST {
                 get {
                     try {
-                        return ((float)(this[this.tablePODETAIL.IGSTPERColumn]));
+                        return ((double)(this[this.tablePODETAIL.CGSTColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'IGSTPER\' in table \'PODETAIL\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'CGST\' in table \'PODETAIL\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tablePODETAIL.IGSTPERColumn] = value;
+                    this[this.tablePODETAIL.CGSTColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public decimal IGSTAMT {
+            public double IGST {
                 get {
                     try {
-                        return ((decimal)(this[this.tablePODETAIL.IGSTAMTColumn]));
+                        return ((double)(this[this.tablePODETAIL.IGSTColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'IGSTAMT\' in table \'PODETAIL\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'IGST\' in table \'PODETAIL\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tablePODETAIL.IGSTAMTColumn] = value;
+                    this[this.tablePODETAIL.IGSTColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public decimal TOTALAMT {
+            public double TOTAMT {
                 get {
                     try {
-                        return ((decimal)(this[this.tablePODETAIL.TOTALAMTColumn]));
+                        return ((double)(this[this.tablePODETAIL.TOTAMTColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'TOTALAMT\' in table \'PODETAIL\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'TOTAMT\' in table \'PODETAIL\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tablePODETAIL.TOTALAMTColumn] = value;
+                    this[this.tablePODETAIL.TOTAMTColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string ORDCLBY {
+                get {
+                    try {
+                        return ((string)(this[this.tablePODETAIL.ORDCLBYColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ORDCLBY\' in table \'PODETAIL\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablePODETAIL.ORDCLBYColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string ORDCLON {
+                get {
+                    try {
+                        return ((string)(this[this.tablePODETAIL.ORDCLONColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ORDCLON\' in table \'PODETAIL\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablePODETAIL.ORDCLONColumn] = value;
                 }
             }
             
@@ -2811,86 +2875,110 @@ namespace RDLCDesign {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public bool IsCGSTPERNull() {
-                return this.IsNull(this.tablePODETAIL.CGSTPERColumn);
+            public bool IsSGSTPNull() {
+                return this.IsNull(this.tablePODETAIL.SGSTPColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void SetCGSTPERNull() {
-                this[this.tablePODETAIL.CGSTPERColumn] = global::System.Convert.DBNull;
+            public void SetSGSTPNull() {
+                this[this.tablePODETAIL.SGSTPColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public bool IsCGSTAMTNull() {
-                return this.IsNull(this.tablePODETAIL.CGSTAMTColumn);
+            public bool IsCGSTPNull() {
+                return this.IsNull(this.tablePODETAIL.CGSTPColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void SetCGSTAMTNull() {
-                this[this.tablePODETAIL.CGSTAMTColumn] = global::System.Convert.DBNull;
+            public void SetCGSTPNull() {
+                this[this.tablePODETAIL.CGSTPColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public bool IsSGSTPERNull() {
-                return this.IsNull(this.tablePODETAIL.SGSTPERColumn);
+            public bool IsIGSTPNull() {
+                return this.IsNull(this.tablePODETAIL.IGSTPColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void SetSGSTPERNull() {
-                this[this.tablePODETAIL.SGSTPERColumn] = global::System.Convert.DBNull;
+            public void SetIGSTPNull() {
+                this[this.tablePODETAIL.IGSTPColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public bool IsSGSTAMTNull() {
-                return this.IsNull(this.tablePODETAIL.SGSTAMTColumn);
+            public bool IsSGSTNull() {
+                return this.IsNull(this.tablePODETAIL.SGSTColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void SetSGSTAMTNull() {
-                this[this.tablePODETAIL.SGSTAMTColumn] = global::System.Convert.DBNull;
+            public void SetSGSTNull() {
+                this[this.tablePODETAIL.SGSTColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public bool IsIGSTPERNull() {
-                return this.IsNull(this.tablePODETAIL.IGSTPERColumn);
+            public bool IsCGSTNull() {
+                return this.IsNull(this.tablePODETAIL.CGSTColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void SetIGSTPERNull() {
-                this[this.tablePODETAIL.IGSTPERColumn] = global::System.Convert.DBNull;
+            public void SetCGSTNull() {
+                this[this.tablePODETAIL.CGSTColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public bool IsIGSTAMTNull() {
-                return this.IsNull(this.tablePODETAIL.IGSTAMTColumn);
+            public bool IsIGSTNull() {
+                return this.IsNull(this.tablePODETAIL.IGSTColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void SetIGSTAMTNull() {
-                this[this.tablePODETAIL.IGSTAMTColumn] = global::System.Convert.DBNull;
+            public void SetIGSTNull() {
+                this[this.tablePODETAIL.IGSTColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public bool IsTOTALAMTNull() {
-                return this.IsNull(this.tablePODETAIL.TOTALAMTColumn);
+            public bool IsTOTAMTNull() {
+                return this.IsNull(this.tablePODETAIL.TOTAMTColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void SetTOTALAMTNull() {
-                this[this.tablePODETAIL.TOTALAMTColumn] = global::System.Convert.DBNull;
+            public void SetTOTAMTNull() {
+                this[this.tablePODETAIL.TOTAMTColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsORDCLBYNull() {
+                return this.IsNull(this.tablePODETAIL.ORDCLBYColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetORDCLBYNull() {
+                this[this.tablePODETAIL.ORDCLBYColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsORDCLONNull() {
+                return this.IsNull(this.tablePODETAIL.ORDCLONColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetORDCLONNull() {
+                this[this.tablePODETAIL.ORDCLONColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -2929,7 +3017,7 @@ namespace RDLCDesign {
         }
     }
 }
-namespace RDLCDesign.DataSet4TableAdapters {
+namespace Arasan.DataSet1TableAdapters {
     
     
     /// <summary>
@@ -3101,17 +3189,19 @@ namespace RDLCDesign.DataSet4TableAdapters {
             tableMapping.ColumnMappings.Add("FREIGHTCHGS", "FREIGHTCHGS");
             tableMapping.ColumnMappings.Add("DELD", "DELD");
             tableMapping.ColumnMappings.Add("MAILTO", "MAILTO");
-            tableMapping.ColumnMappings.Add("CGSTPER", "CGSTPER");
-            tableMapping.ColumnMappings.Add("CGSTAMT", "CGSTAMT");
-            tableMapping.ColumnMappings.Add("SGSTPER", "SGSTPER");
-            tableMapping.ColumnMappings.Add("SGSTAMT", "SGSTAMT");
-            tableMapping.ColumnMappings.Add("IGSTPER", "IGSTPER");
-            tableMapping.ColumnMappings.Add("IGSTAMT", "IGSTAMT");
-            tableMapping.ColumnMappings.Add("TOTALAMT", "TOTALAMT");
+            tableMapping.ColumnMappings.Add("SGSTP", "SGSTP");
+            tableMapping.ColumnMappings.Add("CGSTP", "CGSTP");
+            tableMapping.ColumnMappings.Add("IGSTP", "IGSTP");
+            tableMapping.ColumnMappings.Add("SGST", "SGST");
+            tableMapping.ColumnMappings.Add("CGST", "CGST");
+            tableMapping.ColumnMappings.Add("IGST", "IGST");
+            tableMapping.ColumnMappings.Add("TOTAMT", "TOTAMT");
+            tableMapping.ColumnMappings.Add("ORDCLBY", "ORDCLBY");
+            tableMapping.ColumnMappings.Add("ORDCLON", "ORDCLON");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.InsertCommand = new global::Oracle.ManagedDataAccess.Client.OracleCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = @"INSERT INTO ""ORACLE_OCM"".""PODETAIL"" (""INDENTNO"", ""INDENTDT"", ""ITEMID"", ""RATE"", ""AMOUNT"", ""PINDDETAILID"", ""PINDBASICID"", ""MRPQTY"", ""MRPID"", ""REJQTY"", ""INDENTQTY"", ""SHCLQTY"", ""GRNQTY"", ""QTY"", ""POBASICID"", ""PODETAILID"", ""DUEDATE"", ""INDENTCLOSE"", ""CF"", ""PUNIT"", ""ACCQTY"", ""ITEMDESC"", ""SPECIFICATION"", ""CONTRATE"", ""DEPTCODE"", ""DISCPER"", ""DISCAMT"", ""BEDPER"", ""BEDAMT"", ""CESSPER"", ""CESSAMT"", ""SHECESSPER"", ""SHECESSAMT"", ""ACCESSAMT"", ""TARIFFID"", ""PURTYPE"", ""PODETAILROW"", ""UNIT"", ""SPLDISCPER"", ""SPLDISCAMT"", ""ADDDUTYPER"", ""ADDDUTYAMT"", ""PORA"", ""ITEMMASTERID"", ""POID"", ""FREIGHTCHGS"", ""DELD"", ""MAILTO"", ""CGSTPER"", ""CGSTAMT"", ""SGSTPER"", ""SGSTAMT"", ""IGSTPER"", ""IGSTAMT"", ""TOTALAMT"") VALUES (:INDENTNO, :INDENTDT, :ITEMID, :RATE, :AMOUNT, :PINDDETAILID, :PINDBASICID, :MRPQTY, :MRPID, :REJQTY, :INDENTQTY, :SHCLQTY, :GRNQTY, :QTY, :POBASICID, :PODETAILID, :DUEDATE, :INDENTCLOSE, :CF, :PUNIT, :ACCQTY, :ITEMDESC, :SPECIFICATION, :CONTRATE, :DEPTCODE, :DISCPER, :DISCAMT, :BEDPER, :BEDAMT, :CESSPER, :CESSAMT, :SHECESSPER, :SHECESSAMT, :ACCESSAMT, :TARIFFID, :PURTYPE, :PODETAILROW, :UNIT, :SPLDISCPER, :SPLDISCAMT, :ADDDUTYPER, :ADDDUTYAMT, :PORA, :ITEMMASTERID, :POID, :FREIGHTCHGS, :DELD, :MAILTO, :CGSTPER, :CGSTAMT, :SGSTPER, :SGSTAMT, :IGSTPER, :IGSTAMT, :TOTALAMT)";
+            this._adapter.InsertCommand.CommandText = @"INSERT INTO ""TAAIERP"".""PODETAIL"" (""INDENTNO"", ""INDENTDT"", ""ITEMID"", ""RATE"", ""AMOUNT"", ""PINDDETAILID"", ""PINDBASICID"", ""MRPQTY"", ""MRPID"", ""REJQTY"", ""INDENTQTY"", ""SHCLQTY"", ""GRNQTY"", ""QTY"", ""POBASICID"", ""PODETAILID"", ""DUEDATE"", ""INDENTCLOSE"", ""CF"", ""PUNIT"", ""ACCQTY"", ""ITEMDESC"", ""SPECIFICATION"", ""CONTRATE"", ""DEPTCODE"", ""DISCPER"", ""DISCAMT"", ""BEDPER"", ""BEDAMT"", ""CESSPER"", ""CESSAMT"", ""SHECESSPER"", ""SHECESSAMT"", ""ACCESSAMT"", ""TARIFFID"", ""PURTYPE"", ""PODETAILROW"", ""UNIT"", ""SPLDISCPER"", ""SPLDISCAMT"", ""ADDDUTYPER"", ""ADDDUTYAMT"", ""PORA"", ""ITEMMASTERID"", ""POID"", ""FREIGHTCHGS"", ""DELD"", ""MAILTO"", ""SGSTP"", ""CGSTP"", ""IGSTP"", ""SGST"", ""CGST"", ""IGST"", ""TOTAMT"", ""ORDCLBY"", ""ORDCLON"") VALUES (:INDENTNO, :INDENTDT, :ITEMID, :RATE, :AMOUNT, :PINDDETAILID, :PINDBASICID, :MRPQTY, :MRPID, :REJQTY, :INDENTQTY, :SHCLQTY, :GRNQTY, :QTY, :POBASICID, :PODETAILID, :DUEDATE, :INDENTCLOSE, :CF, :PUNIT, :ACCQTY, :ITEMDESC, :SPECIFICATION, :CONTRATE, :DEPTCODE, :DISCPER, :DISCAMT, :BEDPER, :BEDAMT, :CESSPER, :CESSAMT, :SHECESSPER, :SHECESSAMT, :ACCESSAMT, :TARIFFID, :PURTYPE, :PODETAILROW, :UNIT, :SPLDISCPER, :SPLDISCAMT, :ADDDUTYPER, :ADDDUTYAMT, :PORA, :ITEMMASTERID, :POID, :FREIGHTCHGS, :DELD, :MAILTO, :SGSTP, :CGSTP, :IGSTP, :SGST, :CGST, :IGST, :TOTAMT, :ORDCLBY, :ORDCLON)";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
             global::Oracle.ManagedDataAccess.Client.OracleParameter param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
             param.ParameterName = "INDENTNO";
@@ -3280,14 +3370,14 @@ namespace RDLCDesign.DataSet4TableAdapters {
             param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
             param.ParameterName = "ITEMDESC";
             param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
-            param.Size = 120;
+            param.Size = 150;
             param.IsNullable = true;
             param.SourceColumn = "ITEMDESC";
             this._adapter.InsertCommand.Parameters.Add(param);
             param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
             param.ParameterName = "SPECIFICATION";
             param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
-            param.Size = 25;
+            param.Size = 200;
             param.IsNullable = true;
             param.SourceColumn = "SPECIFICATION";
             this._adapter.InsertCommand.Parameters.Add(param);
@@ -3489,60 +3579,74 @@ namespace RDLCDesign.DataSet4TableAdapters {
             param.SourceColumn = "MAILTO";
             this._adapter.InsertCommand.Parameters.Add(param);
             param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "CGSTPER";
+            param.ParameterName = "SGSTP";
             param.DbType = global::System.Data.DbType.Single;
             param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Single;
             param.Size = 22;
             param.IsNullable = true;
-            param.SourceColumn = "CGSTPER";
+            param.SourceColumn = "SGSTP";
             this._adapter.InsertCommand.Parameters.Add(param);
             param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "CGSTAMT";
-            param.DbType = global::System.Data.DbType.Decimal;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Decimal;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "CGSTAMT";
-            this._adapter.InsertCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "SGSTPER";
+            param.ParameterName = "CGSTP";
             param.DbType = global::System.Data.DbType.Single;
             param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Single;
             param.Size = 22;
             param.IsNullable = true;
-            param.SourceColumn = "SGSTPER";
+            param.SourceColumn = "CGSTP";
             this._adapter.InsertCommand.Parameters.Add(param);
             param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "SGSTAMT";
-            param.DbType = global::System.Data.DbType.Decimal;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Decimal;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "SGSTAMT";
-            this._adapter.InsertCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IGSTPER";
+            param.ParameterName = "IGSTP";
             param.DbType = global::System.Data.DbType.Single;
             param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Single;
             param.Size = 22;
             param.IsNullable = true;
-            param.SourceColumn = "IGSTPER";
+            param.SourceColumn = "IGSTP";
             this._adapter.InsertCommand.Parameters.Add(param);
             param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IGSTAMT";
-            param.DbType = global::System.Data.DbType.Decimal;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Decimal;
+            param.ParameterName = "SGST";
+            param.DbType = global::System.Data.DbType.Double;
+            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Double;
             param.Size = 22;
             param.IsNullable = true;
-            param.SourceColumn = "IGSTAMT";
+            param.SourceColumn = "SGST";
             this._adapter.InsertCommand.Parameters.Add(param);
             param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "TOTALAMT";
-            param.DbType = global::System.Data.DbType.Decimal;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Decimal;
+            param.ParameterName = "CGST";
+            param.DbType = global::System.Data.DbType.Double;
+            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Double;
             param.Size = 22;
             param.IsNullable = true;
-            param.SourceColumn = "TOTALAMT";
+            param.SourceColumn = "CGST";
+            this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
+            param.ParameterName = "IGST";
+            param.DbType = global::System.Data.DbType.Double;
+            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Double;
+            param.Size = 22;
+            param.IsNullable = true;
+            param.SourceColumn = "IGST";
+            this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
+            param.ParameterName = "TOTAMT";
+            param.DbType = global::System.Data.DbType.Double;
+            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Double;
+            param.Size = 22;
+            param.IsNullable = true;
+            param.SourceColumn = "TOTAMT";
+            this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
+            param.ParameterName = "ORDCLBY";
+            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
+            param.Size = 30;
+            param.IsNullable = true;
+            param.SourceColumn = "ORDCLBY";
+            this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
+            param.ParameterName = "ORDCLON";
+            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
+            param.Size = 20;
+            param.IsNullable = true;
+            param.SourceColumn = "ORDCLON";
             this._adapter.InsertCommand.Parameters.Add(param);
         }
         
@@ -3550,8 +3654,8 @@ namespace RDLCDesign.DataSet4TableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private void InitConnection() {
             this._connection = new global::Oracle.ManagedDataAccess.Client.OracleConnection();
-            this._connection.ConnectionString = "DATA SOURCE=192.168.0.11:1521/orcl1;TNS_ADMIN=C:\\Users\\ace\\Oracle\\network\\admin;P" +
-                "ERSIST SECURITY INFO=True;USER ID=ORACLE_OCM";
+            this._connection.ConnectionString = "DATA SOURCE=192.168.0.11:1521/orcl;TNS_ADMIN=C:\\Users\\ace\\Oracle\\network\\admin;PA" +
+                "SSWORD=Master_1234;PERSIST SECURITY INFO=True;USER ID=TAAIERP";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3560,7 +3664,7 @@ namespace RDLCDesign.DataSet4TableAdapters {
             this._commandCollection = new global::Oracle.ManagedDataAccess.Client.OracleCommand[1];
             this._commandCollection[0] = new global::Oracle.ManagedDataAccess.Client.OracleCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = @"SELECT INDENTNO, INDENTDT, ITEMID, RATE, AMOUNT, PINDDETAILID, PINDBASICID, MRPQTY, MRPID, REJQTY, INDENTQTY, SHCLQTY, GRNQTY, QTY, POBASICID, PODETAILID, DUEDATE, INDENTCLOSE, CF, PUNIT, ACCQTY, ITEMDESC, SPECIFICATION, CONTRATE, DEPTCODE, DISCPER, DISCAMT, BEDPER, BEDAMT, CESSPER, CESSAMT, SHECESSPER, SHECESSAMT, ACCESSAMT, TARIFFID, PURTYPE, PODETAILROW, UNIT, SPLDISCPER, SPLDISCAMT, ADDDUTYPER, ADDDUTYAMT, PORA, ITEMMASTERID, POID, FREIGHTCHGS, DELD, MAILTO, CGSTPER, CGSTAMT, SGSTPER, SGSTAMT, IGSTPER, IGSTAMT, TOTALAMT FROM ORACLE_OCM.PODETAIL";
+            this._commandCollection[0].CommandText = @"SELECT INDENTNO, INDENTDT, ITEMID, RATE, AMOUNT, PINDDETAILID, PINDBASICID, MRPQTY, MRPID, REJQTY, INDENTQTY, SHCLQTY, GRNQTY, QTY, POBASICID, PODETAILID, DUEDATE, INDENTCLOSE, CF, PUNIT, ACCQTY, ITEMDESC, SPECIFICATION, CONTRATE, DEPTCODE, DISCPER, DISCAMT, BEDPER, BEDAMT, CESSPER, CESSAMT, SHECESSPER, SHECESSAMT, ACCESSAMT, TARIFFID, PURTYPE, PODETAILROW, UNIT, SPLDISCPER, SPLDISCAMT, ADDDUTYPER, ADDDUTYAMT, PORA, ITEMMASTERID, POID, FREIGHTCHGS, DELD, MAILTO, SGSTP, CGSTP, IGSTP, SGST, CGST, IGST, TOTAMT, ORDCLBY, ORDCLON FROM TAAIERP.PODETAIL";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         
@@ -3568,7 +3672,7 @@ namespace RDLCDesign.DataSet4TableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
-        public virtual int Fill(DataSet4.PODETAILDataTable dataTable) {
+        public virtual int Fill(DataSet1.PODETAILDataTable dataTable) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
             if ((this.ClearBeforeFill == true)) {
                 dataTable.Clear();
@@ -3581,9 +3685,9 @@ namespace RDLCDesign.DataSet4TableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
-        public virtual DataSet4.PODETAILDataTable GetData() {
+        public virtual DataSet1.PODETAILDataTable GetData() {
             this.Adapter.SelectCommand = this.CommandCollection[0];
-            DataSet4.PODETAILDataTable dataTable = new DataSet4.PODETAILDataTable();
+            DataSet1.PODETAILDataTable dataTable = new DataSet1.PODETAILDataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;
         }
@@ -3591,14 +3695,14 @@ namespace RDLCDesign.DataSet4TableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(DataSet4.PODETAILDataTable dataTable) {
+        public virtual int Update(DataSet1.PODETAILDataTable dataTable) {
             return this.Adapter.Update(dataTable);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(DataSet4 dataSet) {
+        public virtual int Update(DataSet1 dataSet) {
             return this.Adapter.Update(dataSet, "PODETAIL");
         }
         
@@ -3670,13 +3774,15 @@ namespace RDLCDesign.DataSet4TableAdapters {
                     global::System.Nullable<double> FREIGHTCHGS, 
                     global::System.Nullable<long> DELD, 
                     string MAILTO, 
-                    global::System.Nullable<float> CGSTPER, 
-                    global::System.Nullable<decimal> CGSTAMT, 
-                    global::System.Nullable<float> SGSTPER, 
-                    global::System.Nullable<decimal> SGSTAMT, 
-                    global::System.Nullable<float> IGSTPER, 
-                    global::System.Nullable<decimal> IGSTAMT, 
-                    global::System.Nullable<decimal> TOTALAMT) {
+                    global::System.Nullable<float> SGSTP, 
+                    global::System.Nullable<float> CGSTP, 
+                    global::System.Nullable<float> IGSTP, 
+                    global::System.Nullable<double> SGST, 
+                    global::System.Nullable<double> CGST, 
+                    global::System.Nullable<double> IGST, 
+                    global::System.Nullable<double> TOTAMT, 
+                    string ORDCLBY, 
+                    string ORDCLON) {
             if ((INDENTNO == null)) {
                 this.Adapter.InsertCommand.Parameters[0].Value = global::System.DBNull.Value;
             }
@@ -3965,47 +4071,59 @@ namespace RDLCDesign.DataSet4TableAdapters {
             else {
                 this.Adapter.InsertCommand.Parameters[47].Value = ((string)(MAILTO));
             }
-            if ((CGSTPER.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[48].Value = ((float)(CGSTPER.Value));
+            if ((SGSTP.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[48].Value = ((float)(SGSTP.Value));
             }
             else {
                 this.Adapter.InsertCommand.Parameters[48].Value = global::System.DBNull.Value;
             }
-            if ((CGSTAMT.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[49].Value = ((decimal)(CGSTAMT.Value));
+            if ((CGSTP.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[49].Value = ((float)(CGSTP.Value));
             }
             else {
                 this.Adapter.InsertCommand.Parameters[49].Value = global::System.DBNull.Value;
             }
-            if ((SGSTPER.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[50].Value = ((float)(SGSTPER.Value));
+            if ((IGSTP.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[50].Value = ((float)(IGSTP.Value));
             }
             else {
                 this.Adapter.InsertCommand.Parameters[50].Value = global::System.DBNull.Value;
             }
-            if ((SGSTAMT.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[51].Value = ((decimal)(SGSTAMT.Value));
+            if ((SGST.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[51].Value = ((double)(SGST.Value));
             }
             else {
                 this.Adapter.InsertCommand.Parameters[51].Value = global::System.DBNull.Value;
             }
-            if ((IGSTPER.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[52].Value = ((float)(IGSTPER.Value));
+            if ((CGST.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[52].Value = ((double)(CGST.Value));
             }
             else {
                 this.Adapter.InsertCommand.Parameters[52].Value = global::System.DBNull.Value;
             }
-            if ((IGSTAMT.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[53].Value = ((decimal)(IGSTAMT.Value));
+            if ((IGST.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[53].Value = ((double)(IGST.Value));
             }
             else {
                 this.Adapter.InsertCommand.Parameters[53].Value = global::System.DBNull.Value;
             }
-            if ((TOTALAMT.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[54].Value = ((decimal)(TOTALAMT.Value));
+            if ((TOTAMT.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[54].Value = ((double)(TOTAMT.Value));
             }
             else {
                 this.Adapter.InsertCommand.Parameters[54].Value = global::System.DBNull.Value;
+            }
+            if ((ORDCLBY == null)) {
+                this.Adapter.InsertCommand.Parameters[55].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[55].Value = ((string)(ORDCLBY));
+            }
+            if ((ORDCLON == null)) {
+                this.Adapter.InsertCommand.Parameters[56].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[56].Value = ((string)(ORDCLON));
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -4115,7 +4233,7 @@ namespace RDLCDesign.DataSet4TableAdapters {
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        private int UpdateUpdatedRows(DataSet4 dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
+        private int UpdateUpdatedRows(DataSet1 dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
             int result = 0;
             if ((this._pODETAILTableAdapter != null)) {
                 global::System.Data.DataRow[] updatedRows = dataSet.PODETAIL.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
@@ -4134,7 +4252,7 @@ namespace RDLCDesign.DataSet4TableAdapters {
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        private int UpdateInsertedRows(DataSet4 dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
+        private int UpdateInsertedRows(DataSet1 dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
             int result = 0;
             if ((this._pODETAILTableAdapter != null)) {
                 global::System.Data.DataRow[] addedRows = dataSet.PODETAIL.Select(null, null, global::System.Data.DataViewRowState.Added);
@@ -4152,7 +4270,7 @@ namespace RDLCDesign.DataSet4TableAdapters {
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        private int UpdateDeletedRows(DataSet4 dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows) {
+        private int UpdateDeletedRows(DataSet1 dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows) {
             int result = 0;
             if ((this._pODETAILTableAdapter != null)) {
                 global::System.Data.DataRow[] deletedRows = dataSet.PODETAIL.Select(null, null, global::System.Data.DataViewRowState.Deleted);
@@ -4194,7 +4312,7 @@ namespace RDLCDesign.DataSet4TableAdapters {
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        public virtual int UpdateAll(DataSet4 dataSet) {
+        public virtual int UpdateAll(DataSet1 dataSet) {
             if ((dataSet == null)) {
                 throw new global::System.ArgumentNullException("dataSet");
             }
