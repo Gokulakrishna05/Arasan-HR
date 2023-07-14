@@ -135,7 +135,7 @@ namespace Arasan.Controllers
             dt = PurenqService.GetPurchaseEnqByID(id);
             if (dt.Rows.Count > 0)
             {
-                ca.Supplier = dt.Rows[0]["PARTY"].ToString();
+                ca.Supplier = dt.Rows[0]["PARTYNAME"].ToString();
                 ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
                 //ca.QuoId = dt.Rows[0]["DOCID"].ToString();
                 //ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
@@ -359,7 +359,7 @@ namespace Arasan.Controllers
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTY"].ToString(), Value = dtDesg.Rows[i]["PARTYMASTID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTYNAME"].ToString(), Value = dtDesg.Rows[i]["PARTYMASTID"].ToString() });
                 }
                 return lstdesg;
             }
