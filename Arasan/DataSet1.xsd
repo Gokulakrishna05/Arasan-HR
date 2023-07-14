@@ -1,18 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xs:schema id="DataSet4" targetNamespace="http://tempuri.org/DataSet4.xsd" xmlns:mstns="http://tempuri.org/DataSet4.xsd" xmlns="http://tempuri.org/DataSet4.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+<xs:schema id="DataSet1" targetNamespace="http://tempuri.org/DataSet1.xsd" xmlns:mstns="http://tempuri.org/DataSet1.xsd" xmlns="http://tempuri.org/DataSet1.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
   <xs:annotation>
     <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
       <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
         <Connections>
-          <Connection ConnectionStringObject="DATA SOURCE=192.168.0.11:1521/orcl1;TNS_ADMIN=C:\Users\ace\Oracle\network\admin;PERSIST SECURITY INFO=True;USER ID=ORACLE_OCM" IsAppSettingsProperty="false" Modifier="Assembly" Name="ORACLE_OCM.orcl1" ParameterPrefix=":" Provider="Oracle.ManagedDataAccess.Client" />
+          <Connection ConnectionStringObject="DATA SOURCE=192.168.0.11:1521/orcl;TNS_ADMIN=C:\Users\ace\Oracle\network\admin;PASSWORD=Master_1234;PERSIST SECURITY INFO=True;USER ID=TAAIERP" IsAppSettingsProperty="false" Modifier="Assembly" Name="TAAIERP.orcl" ParameterPrefix=":" Provider="Oracle.ManagedDataAccess.Client" />
         </Connections>
         <Tables>
           <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="PODETAILTableAdapter" GeneratorDataComponentClassName="PODETAILTableAdapter" Name="PODETAIL" UserDataComponentName="PODETAILTableAdapter">
             <MainSource>
-              <DbSource ConnectionRef="ORACLE_OCM.orcl1" DbObjectName="ORACLE_OCM.PODETAIL" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="true" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+              <DbSource ConnectionRef="TAAIERP.orcl" DbObjectName="TAAIERP.PODETAIL" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="true" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
                 <InsertCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="false">
-                    <CommandText>INSERT INTO "ORACLE_OCM"."PODETAIL" ("INDENTNO", "INDENTDT", "ITEMID", "RATE", "AMOUNT", "PINDDETAILID", "PINDBASICID", "MRPQTY", "MRPID", "REJQTY", "INDENTQTY", "SHCLQTY", "GRNQTY", "QTY", "POBASICID", "PODETAILID", "DUEDATE", "INDENTCLOSE", "CF", "PUNIT", "ACCQTY", "ITEMDESC", "SPECIFICATION", "CONTRATE", "DEPTCODE", "DISCPER", "DISCAMT", "BEDPER", "BEDAMT", "CESSPER", "CESSAMT", "SHECESSPER", "SHECESSAMT", "ACCESSAMT", "TARIFFID", "PURTYPE", "PODETAILROW", "UNIT", "SPLDISCPER", "SPLDISCAMT", "ADDDUTYPER", "ADDDUTYAMT", "PORA", "ITEMMASTERID", "POID", "FREIGHTCHGS", "DELD", "MAILTO", "CGSTPER", "CGSTAMT", "SGSTPER", "SGSTAMT", "IGSTPER", "IGSTAMT", "TOTALAMT") VALUES (:INDENTNO, :INDENTDT, :ITEMID, :RATE, :AMOUNT, :PINDDETAILID, :PINDBASICID, :MRPQTY, :MRPID, :REJQTY, :INDENTQTY, :SHCLQTY, :GRNQTY, :QTY, :POBASICID, :PODETAILID, :DUEDATE, :INDENTCLOSE, :CF, :PUNIT, :ACCQTY, :ITEMDESC, :SPECIFICATION, :CONTRATE, :DEPTCODE, :DISCPER, :DISCAMT, :BEDPER, :BEDAMT, :CESSPER, :CESSAMT, :SHECESSPER, :SHECESSAMT, :ACCESSAMT, :TARIFFID, :PURTYPE, :PODETAILROW, :UNIT, :SPLDISCPER, :SPLDISCAMT, :ADDDUTYPER, :ADDDUTYAMT, :PORA, :ITEMMASTERID, :POID, :FREIGHTCHGS, :DELD, :MAILTO, :CGSTPER, :CGSTAMT, :SGSTPER, :SGSTAMT, :IGSTPER, :IGSTAMT, :TOTALAMT)</CommandText>
+                    <CommandText>INSERT INTO "TAAIERP"."PODETAIL" ("INDENTNO", "INDENTDT", "ITEMID", "RATE", "AMOUNT", "PINDDETAILID", "PINDBASICID", "MRPQTY", "MRPID", "REJQTY", "INDENTQTY", "SHCLQTY", "GRNQTY", "QTY", "POBASICID", "PODETAILID", "DUEDATE", "INDENTCLOSE", "CF", "PUNIT", "ACCQTY", "ITEMDESC", "SPECIFICATION", "CONTRATE", "DEPTCODE", "DISCPER", "DISCAMT", "BEDPER", "BEDAMT", "CESSPER", "CESSAMT", "SHECESSPER", "SHECESSAMT", "ACCESSAMT", "TARIFFID", "PURTYPE", "PODETAILROW", "UNIT", "SPLDISCPER", "SPLDISCAMT", "ADDDUTYPER", "ADDDUTYAMT", "PORA", "ITEMMASTERID", "POID", "FREIGHTCHGS", "DELD", "MAILTO", "SGSTP", "CGSTP", "IGSTP", "SGST", "CGST", "IGST", "TOTAMT", "ORDCLBY", "ORDCLON") VALUES (:INDENTNO, :INDENTDT, :ITEMID, :RATE, :AMOUNT, :PINDDETAILID, :PINDBASICID, :MRPQTY, :MRPID, :REJQTY, :INDENTQTY, :SHCLQTY, :GRNQTY, :QTY, :POBASICID, :PODETAILID, :DUEDATE, :INDENTCLOSE, :CF, :PUNIT, :ACCQTY, :ITEMDESC, :SPECIFICATION, :CONTRATE, :DEPTCODE, :DISCPER, :DISCAMT, :BEDPER, :BEDAMT, :CESSPER, :CESSAMT, :SHECESSPER, :SHECESSAMT, :ACCESSAMT, :TARIFFID, :PURTYPE, :PODETAILROW, :UNIT, :SPLDISCPER, :SPLDISCAMT, :ADDDUTYPER, :ADDDUTYAMT, :PORA, :ITEMMASTERID, :POID, :FREIGHTCHGS, :DELD, :MAILTO, :SGSTP, :CGSTP, :IGSTP, :SGST, :CGST, :IGST, :TOTAMT, :ORDCLBY, :ORDCLON)</CommandText>
                     <Parameters>
                       <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="INDENTNO" Precision="0" ProviderType="Varchar2" Scale="0" Size="10" SourceColumn="INDENTNO" SourceColumnNullMapping="false" SourceVersion="Current" />
                       <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Date" Direction="Input" ParameterName="INDENTDT" Precision="0" ProviderType="Date" Scale="0" Size="7" SourceColumn="INDENTDT" SourceColumnNullMapping="false" SourceVersion="Current" />
@@ -35,8 +35,8 @@
                       <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="CF" Precision="0" ProviderType="Decimal" Scale="0" Size="22" SourceColumn="CF" SourceColumnNullMapping="false" SourceVersion="Current" />
                       <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="PUNIT" Precision="0" ProviderType="Varchar2" Scale="0" Size="10" SourceColumn="PUNIT" SourceColumnNullMapping="false" SourceVersion="Current" />
                       <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="ACCQTY" Precision="0" ProviderType="Decimal" Scale="0" Size="22" SourceColumn="ACCQTY" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="ITEMDESC" Precision="0" ProviderType="Varchar2" Scale="0" Size="120" SourceColumn="ITEMDESC" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="SPECIFICATION" Precision="0" ProviderType="Varchar2" Scale="0" Size="25" SourceColumn="SPECIFICATION" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="ITEMDESC" Precision="0" ProviderType="Varchar2" Scale="0" Size="150" SourceColumn="ITEMDESC" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="SPECIFICATION" Precision="0" ProviderType="Varchar2" Scale="0" Size="200" SourceColumn="SPECIFICATION" SourceColumnNullMapping="false" SourceVersion="Current" />
                       <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="CONTRATE" Precision="0" ProviderType="Decimal" Scale="0" Size="22" SourceColumn="CONTRATE" SourceColumnNullMapping="false" SourceVersion="Current" />
                       <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="DEPTCODE" Precision="0" ProviderType="Decimal" Scale="0" Size="22" SourceColumn="DEPTCODE" SourceColumnNullMapping="false" SourceVersion="Current" />
                       <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Single" Direction="Input" ParameterName="DISCPER" Precision="0" ProviderType="Single" Scale="0" Size="22" SourceColumn="DISCPER" SourceColumnNullMapping="false" SourceVersion="Current" />
@@ -62,19 +62,21 @@
                       <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Double" Direction="Input" ParameterName="FREIGHTCHGS" Precision="0" ProviderType="Double" Scale="0" Size="22" SourceColumn="FREIGHTCHGS" SourceColumnNullMapping="false" SourceVersion="Current" />
                       <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int64" Direction="Input" ParameterName="DELD" Precision="0" ProviderType="Int64" Scale="0" Size="22" SourceColumn="DELD" SourceColumnNullMapping="false" SourceVersion="Current" />
                       <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="MAILTO" Precision="0" ProviderType="Varchar2" Scale="0" Size="40" SourceColumn="MAILTO" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Single" Direction="Input" ParameterName="CGSTPER" Precision="0" ProviderType="Single" Scale="0" Size="22" SourceColumn="CGSTPER" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="CGSTAMT" Precision="0" ProviderType="Decimal" Scale="0" Size="22" SourceColumn="CGSTAMT" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Single" Direction="Input" ParameterName="SGSTPER" Precision="0" ProviderType="Single" Scale="0" Size="22" SourceColumn="SGSTPER" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="SGSTAMT" Precision="0" ProviderType="Decimal" Scale="0" Size="22" SourceColumn="SGSTAMT" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Single" Direction="Input" ParameterName="IGSTPER" Precision="0" ProviderType="Single" Scale="0" Size="22" SourceColumn="IGSTPER" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="IGSTAMT" Precision="0" ProviderType="Decimal" Scale="0" Size="22" SourceColumn="IGSTAMT" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="TOTALAMT" Precision="0" ProviderType="Decimal" Scale="0" Size="22" SourceColumn="TOTALAMT" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Single" Direction="Input" ParameterName="SGSTP" Precision="0" ProviderType="Single" Scale="0" Size="22" SourceColumn="SGSTP" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Single" Direction="Input" ParameterName="CGSTP" Precision="0" ProviderType="Single" Scale="0" Size="22" SourceColumn="CGSTP" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Single" Direction="Input" ParameterName="IGSTP" Precision="0" ProviderType="Single" Scale="0" Size="22" SourceColumn="IGSTP" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Double" Direction="Input" ParameterName="SGST" Precision="0" ProviderType="Double" Scale="0" Size="22" SourceColumn="SGST" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Double" Direction="Input" ParameterName="CGST" Precision="0" ProviderType="Double" Scale="0" Size="22" SourceColumn="CGST" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Double" Direction="Input" ParameterName="IGST" Precision="0" ProviderType="Double" Scale="0" Size="22" SourceColumn="IGST" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Double" Direction="Input" ParameterName="TOTAMT" Precision="0" ProviderType="Double" Scale="0" Size="22" SourceColumn="TOTAMT" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="ORDCLBY" Precision="0" ProviderType="Varchar2" Scale="0" Size="30" SourceColumn="ORDCLBY" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="ORDCLON" Precision="0" ProviderType="Varchar2" Scale="0" Size="20" SourceColumn="ORDCLON" SourceColumnNullMapping="false" SourceVersion="Current" />
                     </Parameters>
                   </DbCommand>
                 </InsertCommand>
                 <SelectCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="false">
-                    <CommandText>SELECT INDENTNO, INDENTDT, ITEMID, RATE, AMOUNT, PINDDETAILID, PINDBASICID, MRPQTY, MRPID, REJQTY, INDENTQTY, SHCLQTY, GRNQTY, QTY, POBASICID, PODETAILID, DUEDATE, INDENTCLOSE, CF, PUNIT, ACCQTY, ITEMDESC, SPECIFICATION, CONTRATE, DEPTCODE, DISCPER, DISCAMT, BEDPER, BEDAMT, CESSPER, CESSAMT, SHECESSPER, SHECESSAMT, ACCESSAMT, TARIFFID, PURTYPE, PODETAILROW, UNIT, SPLDISCPER, SPLDISCAMT, ADDDUTYPER, ADDDUTYAMT, PORA, ITEMMASTERID, POID, FREIGHTCHGS, DELD, MAILTO, CGSTPER, CGSTAMT, SGSTPER, SGSTAMT, IGSTPER, IGSTAMT, TOTALAMT FROM ORACLE_OCM.PODETAIL</CommandText>
+                    <CommandText>SELECT INDENTNO, INDENTDT, ITEMID, RATE, AMOUNT, PINDDETAILID, PINDBASICID, MRPQTY, MRPID, REJQTY, INDENTQTY, SHCLQTY, GRNQTY, QTY, POBASICID, PODETAILID, DUEDATE, INDENTCLOSE, CF, PUNIT, ACCQTY, ITEMDESC, SPECIFICATION, CONTRATE, DEPTCODE, DISCPER, DISCAMT, BEDPER, BEDAMT, CESSPER, CESSAMT, SHECESSPER, SHECESSAMT, ACCESSAMT, TARIFFID, PURTYPE, PODETAILROW, UNIT, SPLDISCPER, SPLDISCAMT, ADDDUTYPER, ADDDUTYAMT, PORA, ITEMMASTERID, POID, FREIGHTCHGS, DELD, MAILTO, SGSTP, CGSTP, IGSTP, SGST, CGST, IGST, TOTAMT, ORDCLBY, ORDCLON FROM TAAIERP.PODETAIL</CommandText>
                     <Parameters />
                   </DbCommand>
                 </SelectCommand>
@@ -129,13 +131,15 @@
               <Mapping SourceColumn="FREIGHTCHGS" DataSetColumn="FREIGHTCHGS" />
               <Mapping SourceColumn="DELD" DataSetColumn="DELD" />
               <Mapping SourceColumn="MAILTO" DataSetColumn="MAILTO" />
-              <Mapping SourceColumn="CGSTPER" DataSetColumn="CGSTPER" />
-              <Mapping SourceColumn="CGSTAMT" DataSetColumn="CGSTAMT" />
-              <Mapping SourceColumn="SGSTPER" DataSetColumn="SGSTPER" />
-              <Mapping SourceColumn="SGSTAMT" DataSetColumn="SGSTAMT" />
-              <Mapping SourceColumn="IGSTPER" DataSetColumn="IGSTPER" />
-              <Mapping SourceColumn="IGSTAMT" DataSetColumn="IGSTAMT" />
-              <Mapping SourceColumn="TOTALAMT" DataSetColumn="TOTALAMT" />
+              <Mapping SourceColumn="SGSTP" DataSetColumn="SGSTP" />
+              <Mapping SourceColumn="CGSTP" DataSetColumn="CGSTP" />
+              <Mapping SourceColumn="IGSTP" DataSetColumn="IGSTP" />
+              <Mapping SourceColumn="SGST" DataSetColumn="SGST" />
+              <Mapping SourceColumn="CGST" DataSetColumn="CGST" />
+              <Mapping SourceColumn="IGST" DataSetColumn="IGST" />
+              <Mapping SourceColumn="TOTAMT" DataSetColumn="TOTAMT" />
+              <Mapping SourceColumn="ORDCLBY" DataSetColumn="ORDCLBY" />
+              <Mapping SourceColumn="ORDCLON" DataSetColumn="ORDCLON" />
             </Mappings>
             <Sources />
           </TableAdapter>
@@ -144,7 +148,7 @@
       </DataSource>
     </xs:appinfo>
   </xs:annotation>
-  <xs:element name="DataSet4" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_UserDSName="DataSet4" msprop:Generator_DataSetName="DataSet4">
+  <xs:element name="DataSet1" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_UserDSName="DataSet1" msprop:Generator_DataSetName="DataSet1">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
         <xs:element name="PODETAIL" msprop:Generator_RowEvHandlerName="PODETAILRowChangeEventHandler" msprop:Generator_RowDeletedName="PODETAILRowDeleted" msprop:Generator_RowDeletingName="PODETAILRowDeleting" msprop:Generator_RowEvArgName="PODETAILRowChangeEvent" msprop:Generator_TablePropName="PODETAIL" msprop:Generator_RowChangedName="PODETAILRowChanged" msprop:Generator_RowChangingName="PODETAILRowChanging" msprop:Generator_TableClassName="PODETAILDataTable" msprop:Generator_RowClassName="PODETAILRow" msprop:Generator_TableVarName="tablePODETAIL" msprop:Generator_UserTableName="PODETAIL">
@@ -198,14 +202,14 @@
               <xs:element name="ITEMDESC" msprop:Generator_ColumnPropNameInRow="ITEMDESC" msprop:Generator_ColumnPropNameInTable="ITEMDESCColumn" msprop:Generator_ColumnVarNameInTable="columnITEMDESC" msprop:Generator_UserColumnName="ITEMDESC" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
-                    <xs:maxLength value="120" />
+                    <xs:maxLength value="150" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
               <xs:element name="SPECIFICATION" msprop:Generator_ColumnPropNameInRow="SPECIFICATION" msprop:Generator_ColumnPropNameInTable="SPECIFICATIONColumn" msprop:Generator_ColumnVarNameInTable="columnSPECIFICATION" msprop:Generator_UserColumnName="SPECIFICATION" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
-                    <xs:maxLength value="25" />
+                    <xs:maxLength value="200" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
@@ -252,13 +256,27 @@
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="CGSTPER" msprop:Generator_ColumnPropNameInRow="CGSTPER" msprop:Generator_ColumnPropNameInTable="CGSTPERColumn" msprop:Generator_ColumnVarNameInTable="columnCGSTPER" msprop:Generator_UserColumnName="CGSTPER" type="xs:float" minOccurs="0" />
-              <xs:element name="CGSTAMT" msprop:Generator_ColumnPropNameInRow="CGSTAMT" msprop:Generator_ColumnPropNameInTable="CGSTAMTColumn" msprop:Generator_ColumnVarNameInTable="columnCGSTAMT" msprop:Generator_UserColumnName="CGSTAMT" type="xs:decimal" minOccurs="0" />
-              <xs:element name="SGSTPER" msprop:Generator_ColumnPropNameInRow="SGSTPER" msprop:Generator_ColumnPropNameInTable="SGSTPERColumn" msprop:Generator_ColumnVarNameInTable="columnSGSTPER" msprop:Generator_UserColumnName="SGSTPER" type="xs:float" minOccurs="0" />
-              <xs:element name="SGSTAMT" msprop:Generator_ColumnPropNameInRow="SGSTAMT" msprop:Generator_ColumnPropNameInTable="SGSTAMTColumn" msprop:Generator_ColumnVarNameInTable="columnSGSTAMT" msprop:Generator_UserColumnName="SGSTAMT" type="xs:decimal" minOccurs="0" />
-              <xs:element name="IGSTPER" msprop:Generator_ColumnPropNameInRow="IGSTPER" msprop:Generator_ColumnPropNameInTable="IGSTPERColumn" msprop:Generator_ColumnVarNameInTable="columnIGSTPER" msprop:Generator_UserColumnName="IGSTPER" type="xs:float" minOccurs="0" />
-              <xs:element name="IGSTAMT" msprop:Generator_ColumnPropNameInRow="IGSTAMT" msprop:Generator_ColumnPropNameInTable="IGSTAMTColumn" msprop:Generator_ColumnVarNameInTable="columnIGSTAMT" msprop:Generator_UserColumnName="IGSTAMT" type="xs:decimal" minOccurs="0" />
-              <xs:element name="TOTALAMT" msprop:Generator_ColumnPropNameInRow="TOTALAMT" msprop:Generator_ColumnPropNameInTable="TOTALAMTColumn" msprop:Generator_ColumnVarNameInTable="columnTOTALAMT" msprop:Generator_UserColumnName="TOTALAMT" type="xs:decimal" minOccurs="0" />
+              <xs:element name="SGSTP" msprop:Generator_ColumnPropNameInRow="SGSTP" msprop:Generator_ColumnPropNameInTable="SGSTPColumn" msprop:Generator_ColumnVarNameInTable="columnSGSTP" msprop:Generator_UserColumnName="SGSTP" type="xs:float" minOccurs="0" />
+              <xs:element name="CGSTP" msprop:Generator_ColumnPropNameInRow="CGSTP" msprop:Generator_ColumnPropNameInTable="CGSTPColumn" msprop:Generator_ColumnVarNameInTable="columnCGSTP" msprop:Generator_UserColumnName="CGSTP" type="xs:float" minOccurs="0" />
+              <xs:element name="IGSTP" msprop:Generator_ColumnPropNameInRow="IGSTP" msprop:Generator_ColumnPropNameInTable="IGSTPColumn" msprop:Generator_ColumnVarNameInTable="columnIGSTP" msprop:Generator_UserColumnName="IGSTP" type="xs:float" minOccurs="0" />
+              <xs:element name="SGST" msprop:Generator_ColumnPropNameInRow="SGST" msprop:Generator_ColumnPropNameInTable="SGSTColumn" msprop:Generator_ColumnVarNameInTable="columnSGST" msprop:Generator_UserColumnName="SGST" type="xs:double" minOccurs="0" />
+              <xs:element name="CGST" msprop:Generator_ColumnPropNameInRow="CGST" msprop:Generator_ColumnPropNameInTable="CGSTColumn" msprop:Generator_ColumnVarNameInTable="columnCGST" msprop:Generator_UserColumnName="CGST" type="xs:double" minOccurs="0" />
+              <xs:element name="IGST" msprop:Generator_ColumnPropNameInRow="IGST" msprop:Generator_ColumnPropNameInTable="IGSTColumn" msprop:Generator_ColumnVarNameInTable="columnIGST" msprop:Generator_UserColumnName="IGST" type="xs:double" minOccurs="0" />
+              <xs:element name="TOTAMT" msprop:Generator_ColumnPropNameInRow="TOTAMT" msprop:Generator_ColumnPropNameInTable="TOTAMTColumn" msprop:Generator_ColumnVarNameInTable="columnTOTAMT" msprop:Generator_UserColumnName="TOTAMT" type="xs:double" minOccurs="0" />
+              <xs:element name="ORDCLBY" msprop:Generator_ColumnPropNameInRow="ORDCLBY" msprop:Generator_ColumnPropNameInTable="ORDCLBYColumn" msprop:Generator_ColumnVarNameInTable="columnORDCLBY" msprop:Generator_UserColumnName="ORDCLBY" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ORDCLON" msprop:Generator_ColumnPropNameInRow="ORDCLON" msprop:Generator_ColumnPropNameInTable="ORDCLONColumn" msprop:Generator_ColumnVarNameInTable="columnORDCLON" msprop:Generator_UserColumnName="ORDCLON" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="20" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
             </xs:sequence>
           </xs:complexType>
         </xs:element>

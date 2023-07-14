@@ -20,7 +20,7 @@
   <DataSets>
     <DataSet Name="DataSet1">
       <Query>
-        <DataSourceName>DataSet4</DataSourceName>
+        <DataSourceName>DataSet1</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
@@ -216,38 +216,46 @@
           <DataField>MAILTO</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="CGSTPER">
-          <DataField>CGSTPER</DataField>
+        <Field Name="SGSTP">
+          <DataField>SGSTP</DataField>
           <rd:TypeName>System.Single</rd:TypeName>
         </Field>
-        <Field Name="CGSTAMT">
-          <DataField>CGSTAMT</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="SGSTPER">
-          <DataField>SGSTPER</DataField>
+        <Field Name="CGSTP">
+          <DataField>CGSTP</DataField>
           <rd:TypeName>System.Single</rd:TypeName>
         </Field>
-        <Field Name="SGSTAMT">
-          <DataField>SGSTAMT</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="IGSTPER">
-          <DataField>IGSTPER</DataField>
+        <Field Name="IGSTP">
+          <DataField>IGSTP</DataField>
           <rd:TypeName>System.Single</rd:TypeName>
         </Field>
-        <Field Name="IGSTAMT">
-          <DataField>IGSTAMT</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
+        <Field Name="SGST">
+          <DataField>SGST</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
         </Field>
-        <Field Name="TOTALAMT">
-          <DataField>TOTALAMT</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
+        <Field Name="CGST">
+          <DataField>CGST</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="IGST">
+          <DataField>IGST</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="TOTAMT">
+          <DataField>TOTAMT</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="ORDCLBY">
+          <DataField>ORDCLBY</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ORDCLON">
+          <DataField>ORDCLON</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
       <rd:DataSetInfo>
-        <rd:DataSetName>DataSet4</rd:DataSetName>
-        <rd:SchemaPath>E:\Gokul\Arasan\Repos\ArasanAluminium\RDLCDesign\DataSet4.xsd</rd:SchemaPath>
+        <rd:DataSetName>DataSet1</rd:DataSetName>
+        <rd:SchemaPath>E:\Gokul\Arasan\Repos\ArasanAluminium\Arasan\DataSet1.xsd</rd:SchemaPath>
         <rd:TableName>PODETAIL</rd:TableName>
         <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
         <rd:TableAdapterGetDataMethod>GetData</rd:TableAdapterGetDataMethod>
@@ -263,19 +271,19 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>5.75718cm</Width>
+                  <Width>5.56473cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.5cm</Width>
+                  <Width>2.30755cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.12958cm</Width>
+                  <Width>1.93713cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.5cm</Width>
+                  <Width>2.30755cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>3.24083cm</Width>
+                  <Width>3.04838cm</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -1300,11 +1308,10 @@
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
-            <DataSetName>DataSet1</DataSetName>
-            <Top>6.57076cm</Top>
-            <Left>0.57672cm</Left>
+            <Top>10.37334cm</Top>
+            <Left>0.62704cm</Left>
             <Height>3.67938cm</Height>
-            <Width>16.12759cm</Width>
+            <Width>15.16534cm</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1325,12 +1332,14 @@
                     </Style>
                   </TextRun>
                 </TextRuns>
-                <Style />
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox6</rd:DefaultName>
-            <Top>0.08049cm</Top>
-            <Left>7.25932cm</Left>
+            <Top>4.22666cm</Top>
+            <Left>5.66103cm</Left>
             <Height>0.78521cm</Height>
             <Width>4.45792cm</Width>
             <ZIndex>1</ZIndex>
@@ -1345,9 +1354,10 @@
             </Style>
           </Textbox>
           <Line Name="Line3">
-            <Top>1.34938cm</Top>
+            <Top>5.22084cm</Top>
+            <Left>0.59176cm</Left>
             <Height>0cm</Height>
-            <Width>20.30202cm</Width>
+            <Width>15.20062cm</Width>
             <ZIndex>2</ZIndex>
             <Style>
               <Border>
@@ -1366,12 +1376,14 @@
                     <Style />
                   </TextRun>
                 </TextRuns>
-                <Style />
+                <Style>
+                  <TextAlign>Left</TextAlign>
+                </Style>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox7</rd:DefaultName>
-            <Top>2.14312cm</Top>
-            <Left>14.20432cm</Left>
+            <Top>5.98729cm</Top>
+            <Left>9.94099cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
             <ZIndex>3</ZIndex>
@@ -1400,8 +1412,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox8</rd:DefaultName>
-            <Top>2.91951cm</Top>
-            <Left>14.20432cm</Left>
+            <Top>6.7284cm</Top>
+            <Left>9.94099cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
             <ZIndex>4</ZIndex>
@@ -1430,8 +1442,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox9</rd:DefaultName>
-            <Top>3.6959cm</Top>
-            <Left>14.20432cm</Left>
+            <Top>7.50479cm</Top>
+            <Left>9.94099cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
             <ZIndex>5</ZIndex>
@@ -1460,8 +1472,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox10</rd:DefaultName>
-            <Top>4.47229cm</Top>
-            <Left>14.20432cm</Left>
+            <Top>8.28118cm</Top>
+            <Left>9.94099cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
             <ZIndex>6</ZIndex>
@@ -1490,7 +1502,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox12</rd:DefaultName>
-            <Top>1.34938cm</Top>
+            <Top>5.23078cm</Top>
+            <Left>0.62704cm</Left>
             <Height>0.6cm</Height>
             <Width>3.79646cm</Width>
             <ZIndex>7</ZIndex>
@@ -1505,9 +1518,10 @@
             </Style>
           </Textbox>
           <Line Name="Line4">
-            <Top>1.94938cm</Top>
+            <Top>5.85612cm</Top>
+            <Left>0.59176cm</Left>
             <Height>0cm</Height>
-            <Width>20.30202cm</Width>
+            <Width>15.20062cm</Width>
             <ZIndex>8</ZIndex>
             <Style>
               <Border>
@@ -1516,9 +1530,10 @@
             </Style>
           </Line>
           <Line Name="Line5">
-            <Top>5.14285cm</Top>
+            <Top>8.99696cm</Top>
+            <Left>0.59176cm</Left>
             <Height>0cm</Height>
-            <Width>20.30202cm</Width>
+            <Width>15.20062cm</Width>
             <ZIndex>9</ZIndex>
             <Style>
               <Border>
@@ -1527,9 +1542,9 @@
             </Style>
           </Line>
           <Line Name="Line6">
-            <Top>1.98465cm</Top>
-            <Left>14.06321cm</Left>
-            <Height>3.12292cm</Height>
+            <Top>5.85612cm</Top>
+            <Left>9.79988cm</Left>
+            <Height>3.06034cm</Height>
             <Width>0cm</Width>
             <ZIndex>10</ZIndex>
             <Style>
@@ -1553,7 +1568,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox14</rd:DefaultName>
-            <Top>2.05521cm</Top>
+            <Top>5.90133cm</Top>
+            <Left>0.59176cm</Left>
             <Height>0.6cm</Height>
             <Width>1.86724cm</Width>
             <ZIndex>11</ZIndex>
@@ -1582,7 +1598,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox16</rd:DefaultName>
-            <Top>2.65521cm</Top>
+            <Top>6.50133cm</Top>
+            <Left>0.59176cm</Left>
             <Height>0.70583cm</Height>
             <Width>1.86724cm</Width>
             <ZIndex>12</ZIndex>
@@ -1611,8 +1628,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox18</rd:DefaultName>
-            <Top>2.12576cm</Top>
-            <Left>17.03536cm</Left>
+            <Top>5.98729cm</Top>
+            <Left>12.77203cm</Left>
             <Height>0.6cm</Height>
             <Width>2.94979cm</Width>
             <ZIndex>13</ZIndex>
@@ -1641,8 +1658,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox20</rd:DefaultName>
-            <Top>2.95479cm</Top>
-            <Left>17.03536cm</Left>
+            <Top>6.76368cm</Top>
+            <Left>12.77203cm</Left>
             <Height>0.6cm</Height>
             <Width>2.94979cm</Width>
             <ZIndex>14</ZIndex>
@@ -1671,8 +1688,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox21</rd:DefaultName>
-            <Top>3.6959cm</Top>
-            <Left>17.03536cm</Left>
+            <Top>7.50479cm</Top>
+            <Left>12.77203cm</Left>
             <Height>0.6cm</Height>
             <Width>2.94979cm</Width>
             <ZIndex>15</ZIndex>
@@ -1701,8 +1718,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox22</rd:DefaultName>
-            <Top>4.47229cm</Top>
-            <Left>17.03536cm</Left>
+            <Top>8.28118cm</Top>
+            <Left>12.77203cm</Left>
             <Height>0.49417cm</Height>
             <Width>2.94979cm</Width>
             <ZIndex>16</ZIndex>
@@ -1731,8 +1748,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox23</rd:DefaultName>
-            <Top>2.01993cm</Top>
-            <Left>2.59638cm</Left>
+            <Top>5.86605cm</Top>
+            <Left>3.18814cm</Left>
             <Height>0.6cm</Height>
             <Width>5.14583cm</Width>
             <ZIndex>17</ZIndex>
@@ -1761,8 +1778,13 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox24</rd:DefaultName>
+
             <Top>2.12576cm</Top>
             <Left>2.59638cm</Left>
+
+            <Top>6.64244cm</Top>
+            <Left>3.18814cm</Left>
+
             <Height>0.6cm</Height>
             <Width>5.14583cm</Width>
             <ZIndex>18</ZIndex>
@@ -1791,7 +1813,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox25</rd:DefaultName>
-            <Top>3.73118cm</Top>
+            <Top>7.5773cm</Top>
+            <Left>0.59176cm</Left>
             <Height>0.6cm</Height>
             <Width>2.12958cm</Width>
             <ZIndex>19</ZIndex>
@@ -1820,7 +1843,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox26</rd:DefaultName>
-            <Top>4.36646cm</Top>
+            <Top>8.21258cm</Top>
+            <Left>0.59176cm</Left>
             <Height>0.6cm</Height>
             <Width>2.12958cm</Width>
             <ZIndex>20</ZIndex>
@@ -1849,8 +1873,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox27</rd:DefaultName>
-            <Top>3.73118cm</Top>
-            <Left>2.62284cm</Left>
+            <Top>7.5773cm</Top>
+            <Left>3.2146cm</Left>
             <Height>0.6cm</Height>
             <Width>5.14583cm</Width>
             <ZIndex>21</ZIndex>
@@ -1879,8 +1903,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox28</rd:DefaultName>
-            <Top>4.445cm</Top>
-            <Left>2.62284cm</Left>
+            <Top>8.29112cm</Top>
+            <Left>3.2146cm</Left>
             <Height>0.6cm</Height>
             <Width>5.11056cm</Width>
             <ZIndex>22</ZIndex>
@@ -1912,8 +1936,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox29</rd:DefaultName>
-            <Top>5.1591cm</Top>
-            <Left>7.74848cm</Left>
+            <Top>8.99696cm</Top>
+            <Left>6.19177cm</Left>
             <Height>0.6cm</Height>
             <Width>3.41312cm</Width>
             <ZIndex>23</ZIndex>
@@ -1928,9 +1952,10 @@
             </Style>
           </Textbox>
           <Line Name="Line7">
-            <Top>5.7591cm</Top>
+            <Top>9.63224cm</Top>
+            <Left>0.59176cm</Left>
             <Height>0cm</Height>
-            <Width>20.30202cm</Width>
+            <Width>15.20062cm</Width>
             <ZIndex>24</ZIndex>
             <Style>
               <Border>
@@ -1953,8 +1978,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox30</rd:DefaultName>
-            <Top>5.79438cm</Top>
-            <Left>0.59182cm</Left>
+            <Top>9.6675cm</Top>
+            <Left>0.62704cm</Left>
             <Height>0.6cm</Height>
             <Width>10.56979cm</Width>
             <ZIndex>25</ZIndex>
@@ -1968,253 +1993,274 @@
               <PaddingBottom>2pt</PaddingBottom>
             </Style>
           </Textbox>
+          <Line Name="Line8">
+            <Top>0.52694cm</Top>
+            <Left>0.59176cm</Left>
+            <Height>0cm</Height>
+            <Width>15.20062cm</Width>
+            <ZIndex>26</ZIndex>
+            <Style>
+              <Border>
+                <Style>Solid</Style>
+              </Border>
+            </Style>
+          </Line>
+          <Line Name="Line12">
+            <Top>0.52694cm</Top>
+            <Left>0.59176cm</Left>
+            <Height>13.52577cm</Height>
+            <Width>0cm</Width>
+            <ZIndex>27</ZIndex>
+            <Style>
+              <Border>
+                <Style>Solid</Style>
+              </Border>
+            </Style>
+          </Line>
+          <Line Name="Line14">
+            <Top>0.52694cm</Top>
+            <Left>15.79238cm</Left>
+            <Height>13.52577cm</Height>
+            <Width>0cm</Width>
+            <ZIndex>28</ZIndex>
+            <Style>
+              <Border>
+                <Style>Solid</Style>
+              </Border>
+            </Style>
+          </Line>
+          <Textbox Name="Textbox1">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>THE ARASAN ALUMINIUM INDUSTRIES ( P )  LTD</Value>
+                    <Style>
+                      <FontSize>14pt</FontSize>
+                      <FontWeight>Bold</FontWeight>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox1</rd:DefaultName>
+            <Top>0.8911cm</Top>
+            <Left>2.49428cm</Left>
+            <Height>0.865cm</Height>
+            <Width>12.95104cm</Width>
+            <ZIndex>29</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Image Name="Image1">
+            <Source>Embedded</Source>
+            <Value>Arasan_Logo</Value>
+            <Sizing>FitProportional</Sizing>
+            <Top>1.82666cm</Top>
+            <Left>0.66232cm</Left>
+            <Height>1.1825cm</Height>
+            <Width>1.51446cm</Width>
+            <ZIndex>30</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
+          <Textbox Name="Textbox2">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Factory &amp; Admin. Office : S.No 556 to568, Melamathur Village, Amathur P.O-626005.</Value>
+                    <Style>
+                      <FontFamily />
+                      <FontSize>8pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox2</rd:DefaultName>
+            <Top>1.79138cm</Top>
+            <Left>2.49428cm</Left>
+            <Height>0.6cm</Height>
+            <Width>12.72483cm</Width>
+            <ZIndex>31</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox3">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Phone:+91-7867000916/917,9442171616, Mobile:+91-7867000485</Value>
+                    <Style>
+                      <FontFamily />
+                      <FontSize>8pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox3</rd:DefaultName>
+            <Top>2.39138cm</Top>
+            <Left>3.07101cm</Left>
+            <Height>0.6cm</Height>
+            <Width>10.33167cm</Width>
+            <ZIndex>32</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox4">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>E-Mail:info@arasanaluminium.com  Website : www.arasanaluminium.com</Value>
+                    <Style>
+                      <FontFamily />
+                      <FontSize>8pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox4</rd:DefaultName>
+            <Top>2.99138cm</Top>
+            <Left>2.72705cm</Left>
+            <Height>0.6cm</Height>
+            <Width>11.50874cm</Width>
+            <ZIndex>33</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox5">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Registered Office :102-A, Chairman A.Shanmugam Road, Sivakasi.</Value>
+                    <Style>
+                      <FontFamily />
+                      <FontSize>8pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox5</rd:DefaultName>
+            <Top>3.59138cm</Top>
+            <Left>3.3356cm</Left>
+            <Height>0.6cm</Height>
+            <Width>10.56979cm</Width>
+            <ZIndex>34</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Line Name="Line2">
+            <Top>0.52694cm</Top>
+            <Left>2.31789cm</Left>
+            <Height>3.66444cm</Height>
+            <Width>0cm</Width>
+            <ZIndex>35</ZIndex>
+            <Style>
+              <Border>
+                <Style>Solid</Style>
+              </Border>
+            </Style>
+          </Line>
+          <Line Name="Line9">
+            <Top>4.19138cm</Top>
+            <Left>0.62704cm</Left>
+            <Height>0cm</Height>
+            <Width>15.16534cm</Width>
+            <ZIndex>36</ZIndex>
+            <Style>
+              <Border>
+                <Style>Solid</Style>
+              </Border>
+            </Style>
+          </Line>
+          <Line Name="Line10">
+            <Top>14.05272cm</Top>
+            <Left>0.59176cm</Left>
+            <Height>0cm</Height>
+            <Width>15.20062cm</Width>
+            <ZIndex>37</ZIndex>
+            <Style>
+              <Border>
+                <Style>Solid</Style>
+              </Border>
+            </Style>
+          </Line>
         </ReportItems>
-        <Height>5.09375in</Height>
+        <Height>6.70778in</Height>
         <Style />
       </Body>
-      <Width>7.99292in</Width>
+      <Width>6.39456in</Width>
       <Page>
-        <PageHeader>
-          <Height>4.04495cm</Height>
-          <PrintOnFirstPage>true</PrintOnFirstPage>
-          <PrintOnLastPage>true</PrintOnLastPage>
-          <ReportItems>
-            <Textbox Name="Textbox1">
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>THE ARASAN ALUMINIUM INDUSTRIES ( P )  LTD</Value>
-                      <Style>
-                        <FontSize>18pt</FontSize>
-                        <FontWeight>Bold</FontWeight>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
-                  <Style />
-                </Paragraph>
-              </Paragraphs>
-              <rd:DefaultName>Textbox1</rd:DefaultName>
-              <Top>0.37042cm</Top>
-              <Left>2.21939cm</Left>
-              <Height>0.865cm</Height>
-              <Width>15.42458cm</Width>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-              </Style>
-            </Textbox>
-            <Image Name="Image1">
-              <Source>Embedded</Source>
-              <Value>Arasan_Logo</Value>
-              <Sizing>FitProportional</Sizing>
-              <Top>1.00182cm</Top>
-              <Left>0.31687cm</Left>
-              <Height>1.1825cm</Height>
-              <Width>1.69085cm</Width>
-              <ZIndex>1</ZIndex>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-              </Style>
-            </Image>
-            <Textbox Name="Textbox2">
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>Factory &amp; Admin. Office : S.No 556 to568, Melamathur Village, Amathur P.O-626005.</Value>
-                      <Style />
-                    </TextRun>
-                  </TextRuns>
-                  <Style />
-                </Paragraph>
-              </Paragraphs>
-              <rd:DefaultName>Textbox2</rd:DefaultName>
-              <Top>1.58432cm</Top>
-              <Left>3.34411cm</Left>
-              <Height>0.6cm</Height>
-              <Width>13.24083cm</Width>
-              <ZIndex>2</ZIndex>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-              </Style>
-            </Textbox>
-            <Textbox Name="Textbox3">
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>Phone:+91-7867000916/917,9442171616, Mobile:+91-7867000485</Value>
-                      <Style />
-                    </TextRun>
-                  </TextRuns>
-                  <Style />
-                </Paragraph>
-              </Paragraphs>
-              <rd:DefaultName>Textbox3</rd:DefaultName>
-              <Top>2.14905cm</Top>
-              <Left>4.59994cm</Left>
-              <Height>0.6cm</Height>
-              <Width>10.33167cm</Width>
-              <ZIndex>3</ZIndex>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-              </Style>
-            </Textbox>
-            <Textbox Name="Textbox4">
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>E-Mail:info@arasanaluminium.com  Website :</Value>
-                      <Style />
-                    </TextRun>
-                    <TextRun>
-                      <Value> www.arasanaluminium.com</Value>
-                      <ActionInfo>
-                        <Actions>
-                          <Action>
-                            <Hyperlink> www.arasanaluminium.com</Hyperlink>
-                          </Action>
-                        </Actions>
-                      </ActionInfo>
-                      <Style />
-                    </TextRun>
-                  </TextRuns>
-                  <Style />
-                </Paragraph>
-              </Paragraphs>
-              <rd:DefaultName>Textbox4</rd:DefaultName>
-              <Top>2.74905cm</Top>
-              <Left>4.25598cm</Left>
-              <Height>0.6cm</Height>
-              <Width>11.50874cm</Width>
-              <ZIndex>4</ZIndex>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-              </Style>
-            </Textbox>
-            <Textbox Name="Textbox5">
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>Registered Office :102-A, Chairman A.Shanmugam Road, Sivakasi.</Value>
-                      <Style />
-                    </TextRun>
-                  </TextRuns>
-                  <Style />
-                </Paragraph>
-              </Paragraphs>
-              <rd:DefaultName>Textbox5</rd:DefaultName>
-              <Top>3.34905cm</Top>
-              <Left>4.86453cm</Left>
-              <Height>0.6cm</Height>
-              <Width>10.56979cm</Width>
-              <ZIndex>5</ZIndex>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-              </Style>
-            </Textbox>
-            <Line Name="Line1">
-              <Top>4.04495cm</Top>
-              <Left>17.94786cm</Left>
-              <Height>-4.04495cm</Height>
-              <Width>0cm</Width>
-              <ZIndex>6</ZIndex>
-              <Style>
-                <Border>
-                  <Style>Solid</Style>
-                </Border>
-              </Style>
-            </Line>
-            <Line Name="Line2">
-              <Top>0.03528cm</Top>
-              <Left>2.18411cm</Left>
-              <Height>4.00967cm</Height>
-              <Width>0cm</Width>
-              <ZIndex>7</ZIndex>
-              <Style>
-                <Border>
-                  <Style>Solid</Style>
-                </Border>
-              </Style>
-            </Line>
-            <Image Name="Image2">
-              <Source>Embedded</Source>
-              <Value>iso9001</Value>
-              <Sizing>Fit</Sizing>
-              <Top>0.72856cm</Top>
-              <Left>18.05369cm</Left>
-              <Height>2.02049cm</Height>
-              <Width>2.24833cm</Width>
-              <ZIndex>8</ZIndex>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-              </Style>
-            </Image>
-            <Line Name="Line8">
-              <Top>4.04495cm</Top>
-              <Left>0.31687cm</Left>
-              <Height>0cm</Height>
-              <Width>19.98515cm</Width>
-              <ZIndex>9</ZIndex>
-              <Style>
-                <Border>
-                  <Style>Solid</Style>
-                </Border>
-              </Style>
-            </Line>
-          </ReportItems>
-          <Style>
-            <Border>
-              <Style>None</Style>
-            </Border>
-          </Style>
-        </PageHeader>
         <PageHeight>29.7cm</PageHeight>
         <PageWidth>21cm</PageWidth>
         <LeftMargin>2cm</LeftMargin>

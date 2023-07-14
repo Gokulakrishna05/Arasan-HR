@@ -198,7 +198,7 @@ namespace Arasan.Controllers
                 for (int i = 0; i < dt.Rows.Count; i++)
                 {
                     tda = new GateInwardItem();
-                    tda.Supplier = dt.Rows[i]["PARTY"].ToString();
+                    tda.Supplier = dt.Rows[i]["PARTYNAME"].ToString();
                     tda.Status = dt.Rows[i]["STATUS"].ToString();
                     tda.GateInDate = dt.Rows[i]["GATE_IN_DATE"].ToString();
                     tda.GateInTime = dt.Rows[i]["GATE_IN_TIME"].ToString();
@@ -416,7 +416,7 @@ namespace Arasan.Controllers
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTY"].ToString(), Value = dtDesg.Rows[i]["PARTYMASTID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTYNAME"].ToString(), Value = dtDesg.Rows[i]["PARTYMASTID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -511,7 +511,7 @@ namespace Arasan.Controllers
             dt = PoService.GetPObyID(id);
             if (dt.Rows.Count > 0)
             {
-                ca.Supplier = dt.Rows[0]["PARTY"].ToString();
+                ca.Supplier = dt.Rows[0]["PARTYNAME"].ToString();
                 ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
                 ca.PONo = dt.Rows[0]["DOCID"].ToString();
                 ca.POdate = dt.Rows[0]["DOCDATE"].ToString();
@@ -618,9 +618,12 @@ namespace Arasan.Controllers
             var path = $"{this._WebHostEnvironment.WebRootPath}\\Reports\\Report1.rdlc";
             Dictionary<string, string> Parameters = new Dictionary<string, string>();
             //  Parameters.Add("rp1", " Hi Everyone");
-            var product = await PoService.GetPOItem(id);
+            var Poitem = await PoService.GetPOItem(id);
+            //var po = await PoService.GetPO(id);
             LocalReport localReport = new LocalReport(path);
-            localReport.AddDataSource("DataSet1", product);
+            localReport.AddDataSource("DataSet1", Poitem);
+        
+            //localReport.AddDataSource("DataSet1_DataTable1", po);
             var result = localReport.Execute(RenderType.Pdf, extension, Parameters, mimtype);
 
             return File(result.MainStream, "application/Pdf");

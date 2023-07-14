@@ -656,7 +656,7 @@ namespace Arasan.Controllers.Store_Management
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dt1.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dt1.Rows[i]["PARTY"].ToString(), Value = dt1.Rows[i]["PARTYID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dt1.Rows[i]["PARTYNAME"].ToString(), Value = dt1.Rows[i]["PARTYID"].ToString() });
                 }
                 return lstdesg;
             }

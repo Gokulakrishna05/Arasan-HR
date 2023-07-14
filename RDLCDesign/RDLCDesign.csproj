@@ -17,19 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="DataSet3.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>DataSet3.xsd</DependentUpon>
-    </Compile>
-    <Compile Update="DataSet4.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>DataSet4.xsd</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="DataSet3.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>DataSet3.Designer.cs</LastGenOutput>

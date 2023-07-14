@@ -114,24 +114,24 @@ namespace Arasan.Controllers
 
             }
 
-            //SalesQuoteDisplay sq = new SalesQuoteDisplay();
-            //List<SalesQuoteDisplay> Data3 = new List<SalesQuoteDisplay>();
-            //DataTable dt2 = new DataTable();
-            //dt1 = HomeService.GetSalesQuoteFollowupnextReport();
-            //for (int i = 0; i < dt1.Rows.Count; i++)
-            //{
-            //    sq = new SalesQuoteDisplay();
-            //    sq.displaytext = dt2.Rows[i]["ENQ_ID"].ToString();
-            //    sq.followedby = dt2.Rows[i]["FOLLOWED_BY"].ToString();
-            //    sq.status = dt2.Rows[i]["NEXT_FOLLOW_DATE"].ToString();
+            SalesQuoteDisplay sq = new SalesQuoteDisplay();
+            List<SalesQuoteDisplay> Data3 = new List<SalesQuoteDisplay>();
+            DataTable dt5 = new DataTable();
+            dt5 = HomeService.GetSalesQuoteFollowupnextReport();
+            for (int i = 0; i < dt5.Rows.Count; i++)
+            {
+                sq = new SalesQuoteDisplay();
+                sq.displaytext = dt5.Rows[i]["QUOTE_NO"].ToString();
+                sq.followby = dt5.Rows[i]["FOLLOW_BY"].ToString();
+                sq.status = dt5.Rows[i]["NEXT_FOLLOW_DATE"].ToString();
 
-            //    Data3.Add(sq);
+                Data3.Add(sq);
 
-            //}
+            }
 
             H.Folllst = Data1;
             H.Enqlllst = Data2;
-            //H.SalesQuotelllst = Data3;
+            H.SalesQuotelllst = Data3;
             H.qcNotifies=TData;
             H.Notifies = TData1;
             H.Materialnotification = TDatan;

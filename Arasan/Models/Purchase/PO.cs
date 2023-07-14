@@ -171,15 +171,26 @@ namespace Arasan.Models
     }
     public class POItemDetail
     {
-        public string ItemId { get; set; }
+        public string ITEMID { get; set; }
        
-        public string PUnit { get; set; }
+        public string PUNIT { get; set; }
        
-        public double Qty { get; set; }
+        public double QTY { get; set; }
        
-        public double rate { get; set; }
-        public double Amount { get; set; }
+        public double RATE { get; set; }
+        public double AMOUNT { get; set; }
        
+    }
+    public class PODetail
+    {
+        public string DOCID { get; set; }
+
+        public string PARTYID { get; set; }
+
+        public string DOCDATE { get; set; }
+
+        
+
     }
     public class POGateItem
     {
