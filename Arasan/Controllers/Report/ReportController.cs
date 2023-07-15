@@ -51,7 +51,7 @@ namespace Arasan.Controllers.Report
              var result=localReport.Execute(RenderType.Pdf,extension,Parameters,mimtype);
 
 
-        //    return File(result.MainStream,"application/Pdf");
-        //}
+            return File(result.MainStream,"application/Pdf");
+        }
     }
 }
