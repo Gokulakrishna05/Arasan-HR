@@ -34,5 +34,7 @@ namespace Arasan.Interface
 
         string StatusChange(string tag, int id);
 
+        Task<IEnumerable<PQuoItemDetail>> GetPQuoItem(string id);
+
     }
 }
