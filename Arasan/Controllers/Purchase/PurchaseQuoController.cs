@@ -24,7 +24,7 @@ namespace Arasan.Controllers
         public IActionResult PurchaseQuotation(string id)
         {
             PurchaseQuo ca = new PurchaseQuo();
-            ca.Brlst = BindBranch();
+            ca.Brlst =  BindBranch();
             ca.Suplst = BindSupplier();
             ca.Curlst = BindCurrency();
             ca.RecList = BindEmp();
