@@ -15,9 +15,9 @@ namespace Arasan.Controllers.Report
     {
         private readonly IWebHostEnvironment _WebHostEnvironment;
         private readonly IPO _po;
-        public ReportController (IWebHostEnvironment WebHostEnvironment,IPO po)
+        public ReportController(IWebHostEnvironment WebHostEnvironment, IPO po)
         {
-           this. _WebHostEnvironment = WebHostEnvironment;
+            this._WebHostEnvironment = WebHostEnvironment;
             this._po = po;
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
         }
@@ -40,18 +40,20 @@ namespace Arasan.Controllers.Report
 
         public async Task<IActionResult> Print(string id)
         {
-            string mimtype="";
+            string mimtype = "";
             int extension = 1;
             var path = $"{this._WebHostEnvironment.WebRootPath}\\Reports\\Report1.rdlc";
-            Dictionary<string,string> Parameters= new Dictionary<string,string>();
+            Dictionary<string, string> Parameters = new Dictionary<string, string>();
             //  Parameters.Add("rp1", " Hi Everyone");
             var product = await _po.GetPOItem(id);
             LocalReport localReport = new LocalReport(path);
             localReport.AddDataSource("DataSet1", product);
-             var result=localReport.Execute(RenderType.Pdf,extension,Parameters,mimtype);
+            var result = localReport.Execute(RenderType.Pdf, extension, Parameters, mimtype);
+
 
 
             return File(result.MainStream,"application/Pdf");
+
         }
     }
 }
