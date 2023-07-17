@@ -172,14 +172,27 @@ namespace Arasan.Models
     public class POItemDetail
     {
         public string ITEMID { get; set; }
-       
+
         public string PUNIT { get; set; }
-       
+
         public double QTY { get; set; }
-       
+
         public double RATE { get; set; }
         public double AMOUNT { get; set; }
-       
+        public double SGST { get; set; }
+
+        public double IGST { get; set; }
+        public double CGST { get; set; }
+        public string DOCID { get; set; }
+        public string GROSS { get; set; }
+        public string DOCDATE { get; set; }
+        public string NET { get; set; }
+        public string PARTYID { get; set; }
+        public string AMTINWORDS { get; set; }
+        public string PAYTERMS { get; set; }
+        public string DELTERMS { get; set; }
+        public string DESP { get; set; }
+        public string WARRTERMS { get; set; }
     }
     public class PODetail
     {
@@ -189,7 +202,11 @@ namespace Arasan.Models
 
         public string DOCDATE { get; set; }
 
-        
+        public string GROSS { get; set; }
+
+        public string NET { get; set; }
+
+       
 
     }
     public class POGateItem
