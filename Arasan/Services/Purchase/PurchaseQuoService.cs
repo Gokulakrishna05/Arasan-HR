@@ -1,5 +1,6 @@
 ﻿using Arasan.Interface;
 using Arasan.Models;
+using Dapper;
 using Microsoft.Extensions.Configuration;
 using Oracle.ManagedDataAccess.Client;
 using System;
@@ -476,6 +477,13 @@ namespace Arasan.Services
             }
             return "";
 
+        }
+        public async Task<IEnumerable<PQuoItemDetail>> GetPQuoItem(string id)
+        {
+            using (OracleConnection db = new OracleConnection(_connectionString))
+            {
+                return await db.QueryAsync<PQuoItemDetail>("SELECT TAAIERP.ITEMMASTER.ITEMID, TAAIERP.PURQUOTBASIC.DOCID, to_char(TAAIERP.PURQUOTBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,TAAIERP.UNITMAST.UNITID,TAAIERP.PURQUOTDETAIL.QTY,TAAIERP.PURQUOTDETAIL.RATE,TAAIERP.PURQUOTBASIC.PARTYNAME FROM TAAIERP.PURQUOTBASIC, TAAIERP.PURQUOTDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=TAAIERP.PURQUOTDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=TAAIERP.PURQUOTDETAIL.UNIT where PURQUOTDETAIL.PURQUOTBASICID='" + id + "' and PURQUOTBASIC.PURQUOTBASICID ='" + id + "'", commandType: CommandType.Text);
+            }
         }
     }
 }
