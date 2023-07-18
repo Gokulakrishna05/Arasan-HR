@@ -85,6 +85,8 @@
                                                                     }
                                                                     else
                                                                     {
+                                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("Print", "SalesQuotation" ,new { id=item.ID })"><img src='../Images/pdf.png' alt='Generate PO' width='20' /></a></div></td>
+
                                                                         <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("SendMail", "SalesQuotation",new { id=item.ID })"><img src='../Images/mail_icon.png' alt='Send Email' /></a></div></td>
                                                                             <td> <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("Followup", "SalesQuotation",new { id=item.ID })"><img src='../Images/followup.png' alt='FollowUp' /> - (1)</a></div></td>
                                                                         <td>
