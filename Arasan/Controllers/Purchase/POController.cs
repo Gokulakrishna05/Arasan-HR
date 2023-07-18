@@ -614,13 +614,15 @@ namespace Arasan.Controllers
         }
         public async Task<IActionResult> Print(string id)
         {
+             
             string mimtype = "";
             int extension = 1;
+            string DrumID = datatrans.GetDataString("Select PARTYID from POBASIC where POBASICID='" + id + "' ");
             DataSet ds = new DataSet();
             var path = $"{this._WebHostEnvironment.WebRootPath}\\Reports\\Report1.rdlc";
             Dictionary<string, string> Parameters = new Dictionary<string, string>();
             //  Parameters.Add("rp1", " Hi Everyone");
-            var Poitem = await PoService.GetPOItem(id);
+            var Poitem = await PoService.GetPOItem(id, DrumID);
             ////var po = await PoService.GetPO(id);
             //DataTable dt = new DataTable("POBASIC");
             //DataTable dt2 = new DataTable("PODETAIL");

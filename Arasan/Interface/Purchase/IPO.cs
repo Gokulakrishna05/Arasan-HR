@@ -23,7 +23,7 @@ namespace Arasan.Interface
 
 
 
-        Task<IEnumerable<POItemDetail>> GetPOItem(string id);
+        Task<IEnumerable<POItemDetail>> GetPOItem(string id,string s);
 
 
     }
