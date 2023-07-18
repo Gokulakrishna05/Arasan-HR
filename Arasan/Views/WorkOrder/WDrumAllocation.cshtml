@@ -59,7 +59,7 @@ a{
     }
 
     .panel-default > .panel-heading a[aria-expanded="true"] {
-        background-color: green;
+                background-color: #AAEACC;
     }
 
     .panel-default > .panel-heading a[aria-expanded="true"]:after {
@@ -92,7 +92,7 @@ a{
     .accordion-option .toggle-accordion {
         float: right;
         font-size: 16px;
-        color: #49B6D6;
+            color: #A5D0DD;
     }
 
     .accordion-option .toggle-accordion:before {
@@ -104,7 +104,7 @@ a{
     }
 
     .panel-title a {
-        background-color: #49B6D6;
+        background-color: #A5D0DD;
     }
 
     .panel-body table tr td {
@@ -246,8 +246,10 @@ a{
                                                                                                                                                                                                                      <div class="panel panel-default">
                                                                                                                                                                                                 <div class="panel-heading" role="tab" id="headingOne@(i)">
                                                                                                                                                                                                     <h4 class="panel-title">
-                                                                                                                                                                                                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne@(i)" aria-expanded="false" aria-controls="collapseOne@(i)" class="collapsed">
-                                                                                                                                                                                                           @Html.DisplayFor(o => o.Worklst[i].items)
+                                                                                                          <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne@(i)" aria-expanded="false" aria-controls="collapseOne@(i)" class="collapsed">
+                                                            <div class="row">
+                                                                <div class="col-md-5">@Html.DisplayFor(o => o.Worklst[i].items) </div> <div class="col-md-3">TotalQty   : @Html.DisplayFor(o => o.Worklst[i].orderqty) @Html.HiddenFor(o => o.Worklst[i].orderqty,new{@id="orderqty"+ i})</div>
+                                                            </div>           
                                                                                                                                                                                                         </a>
                                                                                                                                                                                                     </h4>
                                                                                                                                                                                                 </div>
@@ -270,9 +272,12 @@ a{
                                                                                                                                                                                     </div>
                                                                                                                                                                                 </div>
                                                                                                                                                                             </div>   
-                                                                                                                                                                             <div class="col-md-6">
-                                                                                                                                                                              Total No.Of Drums Selected : <label id="lbldrumdisp"></label>
+                                                                                                                                                                             <div class="col-md-3">
+                                                                                                                                                                              Total No.Of Drums Selected : <label id="lbldrumdisp"></label>                        
                                                                                                                                                                              </div>
+                                                            <div class="col-md-3">
+                                                                Total Qty : <label id="lblQtydisp"></label>
+                                                            </div>
                                                                                                                                                                                              </div>
 
 
@@ -297,7 +302,7 @@ a{
                                                 foreach (var drum in item.drumlst.ToList())
                                                 {
                                                                                                                                                                                                              <tr id="trBook_@(i)_@(j)" class="chkitemlst@(i)" style="height: 30px;border-bottom: 1px dashed #ddd;">
-                                                                                                                                                                                                               <td>@Html.CheckBoxFor(o => drum.drumselect, new { @id = "drumslect_" + i + "_" + j })@Html.HiddenFor(o => drum.invid, new { @id = "invid_" + i + "_" + j }) </td>
+                                                                                    <td>@Html.CheckBoxFor(o => drum.drumselect, new { @id = "drumslect_" + i + "_" + j ,@onclick = "checkfunc("+ i +");"})@Html.HiddenFor(o => drum.invid, new { @id = "invid_" + i + "_" + j }) </td>
                                                                                                                                                                                                                 <td>@Html.DisplayFor(o => drum.lotno)</td>
                                                                                                                                                                                                                <td>@Html.DisplayFor(o => drum.drumno)@Html.HiddenFor(o => drum.drumno, new { @id = "drumno_" + i + "_" + j })</td>
                                                                                                                                                                                                                <td>@Html.DisplayFor(o => drum.qty)@Html.HiddenFor(o => drum.qty, new { @id = "qty_" + i + "_" + j })</td>
@@ -354,6 +359,23 @@ a{
         minView: 2,
         forceParse: 0
     });
+    function checkfunc(i){
+        var j = 0;
+        var tot=0;
+        var totqty=0;
+        $('tr.chkitemlst' + i).each(function () {
+            if ($(this).css('display') !== 'none') {
+                if ($('#drumslect_' + i + '_' + j).prop('checked') == true) {
+                    var qty = document.getElementById('qty_' + i + '_' + j).value;
+                    totqty +=eval(qty);
+                    tot += 1;
+                }
+            }
+            j += 1;
+        });
+        document.getElementById("lbldrumdisp").innerHTML = tot;
+        document.getElementById("lblQtydisp").innerHTML = totqty;
+    }
     function enableAllrepview(i) {
         
         if ($("#Selectallchk" + i).prop('checked') == true) {
@@ -417,7 +439,7 @@ a{
 }
 drumnos = drumnos.substr(0,drumnos.length-1);
 var tot = 0;
-
+        var totqty = 0;
   if (drumnos != "") {
              var j = 0;
              const myArray = drumnos.split(",");
@@ -427,7 +449,9 @@ var tot = 0;
                     for (let k = 0; k < myArray.length; k++) {
                         if (invid == myArray[k]) {
                              $('#drumslect_' + i + '_' + j).prop('checked', true);
+                            var qty = document.getElementById('qty_' + i + '_' + j).value;
                               tot += 1;
+                            totqty += eval(qty);
                             break;
                         }
                     }
@@ -437,6 +461,7 @@ var tot = 0;
             });
       }
          document.getElementById("lbldrumdisp").innerHTML = tot;
+        document.getElementById("lblQtydisp").innerHTML = totqty;
 }
 
 function zeroPad(num, places) {

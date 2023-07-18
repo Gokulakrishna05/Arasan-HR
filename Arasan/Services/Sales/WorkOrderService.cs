@@ -32,7 +32,7 @@ namespace Arasan.Services.Sales
 				using (OracleCommand cmd = con.CreateCommand())
 				{
 					con.Open();
-					cmd.CommandText = "Select JOBASIC.DOCID,to_char(JOBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PARTYRCODE.PARTY,LOCDETAILS.LOCID,BRANCHMAST.BRANCHID,JOBASICID,JOBASIC.STATUS from JOBASIC  left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID=JOBASIC.LOCID  left outer join BRANCHMAST on BRANCHMAST.BRANCHMASTID=JOBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on JOBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Customer','BOTH') AND JOBASIC.STATUS='"+ status +"' order by JOBASIC.JOBASICID DESC ";
+					cmd.CommandText = "Select JOBASIC.DOCID,to_char(JOBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PARTYMAST.PARTYNAME PARTY,LOCDETAILS.LOCID,BRANCHMAST.BRANCHID,JOBASICID,JOBASIC.STATUS from JOBASIC  left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID=JOBASIC.LOCID  left outer join BRANCHMAST on BRANCHMAST.BRANCHMASTID=JOBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on JOBASIC.PARTYID=PARTYMAST.PARTYMASTID  Where  JOBASIC.STATUS='" + status + "' order by JOBASIC.JOBASICID DESC ";
 					OracleDataReader rdr = cmd.ExecuteReader();
 					while (rdr.Read())
 					{
@@ -216,7 +216,7 @@ namespace Arasan.Services.Sales
         public DataTable GetWorkOrderByID(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select JOBASIC.DOCID,to_char(JOBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PARTYRCODE.PARTY,LOCDETAILS.LOCID,BRANCHMAST.BRANCHID,JOBASICID,JOBASIC.STATUS from JOBASIC  left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID=JOBASIC.LOCID  left outer join BRANCHMAST on BRANCHMAST.BRANCHMASTID=JOBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on JOBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Customer','BOTH') AND  JOBASICID='" + id + "' ";
+            SvSql = "Select JOBASIC.DOCID,to_char(JOBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PARTYMAST.PARTYNAME PARTY,LOCDETAILS.LOCID,BRANCHMAST.BRANCHID,JOBASICID,JOBASIC.STATUS,JOBASIC.LOCID as LOCMASTERID from JOBASIC  left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID=JOBASIC.LOCID  left outer join BRANCHMAST on BRANCHMAST.BRANCHMASTID=JOBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on JOBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID WHERE  JOBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -244,10 +244,20 @@ namespace Arasan.Services.Sales
             return dtt;
         }
 
-        public DataTable GetDrumDetails(string Itemid)
+        //public DataTable GetDrumDetails(string Itemid)
+        //{
+        //    string SvSql = string.Empty;
+        //    SvSql = "select lstockvalueid,LOTNO,DRUMNO,RATE,PLUSQTY from lstockvalue where STOCKTRANSTYPE='FG PACKED' AND ITEMID='" + Itemid + "' ";
+        //    DataTable dtt = new DataTable();
+        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
+        //}
+        public DataTable GetDrumDetails(string Itemid, string locid)
         {
             string SvSql = string.Empty;
-            SvSql = "select lstockvalueid,LOTNO,DRUMNO,RATE,PLUSQTY from lstockvalue where STOCKTRANSTYPE='FG PACKED' AND ITEMID='" + Itemid + "' ";
+            SvSql = "select DRUMNO,SUM(PLUSQTY) QTY,lotno,rate,plstockvalueid from plstockvalue where ITEMID='" + Itemid + "' AND LOCID='" + locid + "' group by DRUMNO,lotno,rate,plstockvalueid having sum(Plusqty-Minusqty)>0 ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
