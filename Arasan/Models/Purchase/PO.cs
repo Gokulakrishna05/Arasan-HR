@@ -193,6 +193,17 @@ namespace Arasan.Models
         public string DELTERMS { get; set; }
         public string DESP { get; set; }
         public string WARRTERMS { get; set; }
+        public string EXPR1 { get; set; }
+        public string ADD1 { get; set; }
+        public string ADD2 { get; set; }
+        public string ADD3 { get; set; }
+        public string CITY { get; set; }
+        public string PINCODE { get; set; }
+        public string STATE { get; set; }
+        public string CSTNO { get; set; }
+        public string MOBILE { get; set; }
+        public string qty { get; set; }
+
     }
     public class PODetail
     {
