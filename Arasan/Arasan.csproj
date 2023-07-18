@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\Reports\EnqReport.rdlc" />
+    <Content Remove="wwwroot\Reports\QuotationReport.rdlc" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Models\DataTransactions.cs~RF6bf757.TMP" />
     <None Remove="Services\Production\euok0plw.tmv~" />
     <None Remove="Views\Account\1agfobwd.bjs~" />
@@ -17,6 +22,8 @@
     <None Include="..\.editorconfig" Link=".editorconfig" />
     <None Include="Views\ProFormaInvoice\ListProFormaInvoice.cshtml" />
     <None Include="Views\ProFormaInvoice\ProFormaInvoice.cshtml" />
+    <None Include="wwwroot\Reports\EnqReport.rdlc" />
+    <None Include="wwwroot\Reports\QuotationReport.rdlc" />
   </ItemGroup>
 
   <ItemGroup>
