@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Data;
 using System.Collections.Generic;
 using System.Xml.Linq;
+using AspNetCore.Reporting;
 
 namespace Arasan.Controllers.Sales
 {
@@ -13,10 +14,12 @@ namespace Arasan.Controllers.Sales
         ISalesQuotationService SalesQuotationService;
         IConfiguration? _configuratio;
         private string? _connectionString;
+        private readonly IWebHostEnvironment _WebHostEnvironment;
 
         DataTransactions datatrans;
-        public SalesQuotationController(ISalesQuotationService _SalesQuotationService, IConfiguration _configuratio)
+        public SalesQuotationController(ISalesQuotationService _SalesQuotationService, IConfiguration _configuratio, IWebHostEnvironment WebHostEnvironment)
         {
+            this._WebHostEnvironment = WebHostEnvironment;
             SalesQuotationService = _SalesQuotationService;
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
@@ -790,6 +793,21 @@ namespace Arasan.Controllers.Sales
             }
 
             return RedirectToAction("ListSalesEnquiry");
+        }
+
+        public async Task<IActionResult> Print(string id)
+        {
+            string mimtype = "";
+            int extension = 1;
+            var path = $"{this._WebHostEnvironment.WebRootPath}\\Reports\\QuotationReport.rdlc";
+            Dictionary<string, string> Parameters = new Dictionary<string, string>();
+            //  Parameters.Add("rp1", " Hi Everyone");
+            //var product = await SalesQuotationService.GetPOItem(id);
+            LocalReport localReport = new LocalReport(path);
+            //localReport.AddDataSource("DataSet1", product);
+            var result = localReport.Execute(RenderType.Pdf, extension, Parameters, mimtype);
+
+            return File(result.MainStream, "application/Pdf");
         }
     }
 }

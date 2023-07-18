@@ -31,14 +31,14 @@ namespace Arasan.Services.Master
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select COUNTRYNAME,COUNTRYCODE,COUNTRYMASTID,STATUS from CONMAST WHERE STATUS = '" + status + "' order by CONMAST.COUNTRYMASTID DESC";
+                    cmd.CommandText = "Select COUNTRY,COUNTRYCODE,COUNTRYMASTID,STATUS from CONMAST order by CONMAST.COUNTRYMASTID DESC";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
                         Country cmp = new Country
                         {
                             ID = rdr["COUNTRYMASTID"].ToString(),
-                            ConName = rdr["COUNTRYNAME"].ToString(),
+                            ConName = rdr["COUNTRY"].ToString(),
                             ConCode = rdr["COUNTRYCODE"].ToString(),
                             status = rdr["STATUS"].ToString()
                         };
@@ -58,14 +58,14 @@ namespace Arasan.Services.Master
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select COUNTRYNAME,COUNTRYCODE,COUNTRYMASTID from CONMAST where COUNTRYMASTID=" + eid + "";
+                    cmd.CommandText = "Select COUNTRY,COUNTRYCODE,COUNTRYMASTID from CONMAST where COUNTRYMASTID=" + eid + "";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
                         Country cmp = new Country
                         {
                             ID = rdr["COUNTRYMASTID"].ToString(),
-                            ConName = rdr["COUNTRYNAME"].ToString(),
+                            ConName = rdr["COUNTRY"].ToString(),
                             ConCode = rdr["COUNTRYCODE"].ToString()
                         };
                         country = cmp;

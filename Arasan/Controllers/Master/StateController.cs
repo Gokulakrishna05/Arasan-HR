@@ -32,7 +32,7 @@ namespace Arasan.Controllers.Master
                 if (dt.Rows.Count > 0)
                 {
                     st.StateName = dt.Rows[0]["STATE"].ToString();
-                    st.StateCode = dt.Rows[0]["STATE_CODE"].ToString();
+                    st.StateCode = dt.Rows[0]["STCODE"].ToString();
                     st.countryid = dt.Rows[0]["COUNTRYMASTID"].ToString();
                     st.ID = id;
 
@@ -93,7 +93,7 @@ namespace Arasan.Controllers.Master
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COUNTRYNAME"].ToString(), Value = dtDesg.Rows[i]["COUNTRYMASTID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COUNTRY"].ToString(), Value = dtDesg.Rows[i]["COUNTRYMASTID"].ToString() });
                 }
                 return lstdesg;
             }

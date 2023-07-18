@@ -4,7 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Arasan.Models;
-using System.Xml.Linq;
+using AspNetCore.Reporting;
+using NuGet.Packaging.Signing;
 
 namespace Arasan.Controllers
 {
@@ -12,19 +13,22 @@ namespace Arasan.Controllers
     {
         IPurchaseQuo PurquoService;
         private string? _connectionString;
+        private readonly IWebHostEnvironment _WebHostEnvironment;
         IConfiguration? _configuratio;
         DataTransactions datatrans;
-        public PurchaseQuoController(IPurchaseQuo _PurquoService, IConfiguration _configuratio)
+        public PurchaseQuoController(IPurchaseQuo _PurquoService, IConfiguration _configuratio, IWebHostEnvironment WebHostEnvironment)
         {
+            this._WebHostEnvironment = WebHostEnvironment;
             PurquoService = _PurquoService;
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
 
         }
         public IActionResult PurchaseQuotation(string id)
         {
             PurchaseQuo ca = new PurchaseQuo();
-            ca.Brlst = BindBranch();
+            ca.Brlst =  BindBranch();
             ca.Suplst = BindSupplier();
             ca.Curlst = BindCurrency();
             ca.RecList = BindEmp();
@@ -549,6 +553,32 @@ namespace Arasan.Controllers
                 TempData["notice"] = flag;
                 return RedirectToAction("ListPurchaseQuo");
             }
+        }
+        public async Task<IActionResult> Print(string id)
+        {
+            string mimtype = "";
+            int extension = 1;
+            DataSet ds = new DataSet();
+            var path = $"{this._WebHostEnvironment.WebRootPath}\\Reports\\QuotationReport.rdlc";
+            Dictionary<string, string> Parameters = new Dictionary<string, string>();
+            //  Parameters.Add("rp1", " Hi Everyone");
+            var PQuoitem = await PurquoService.GetPQuoItem(id);
+            ////var po = await PoService.GetPO(id);
+            //DataTable dt = new DataTable("POBASIC");
+            //DataTable dt2 = new DataTable("PODETAIL");
+            // dt= PoService.GetPO(id);
+            // dt2= PoService.GetPOItem(id);
+
+            //ds.Tables.Add(dt);
+            //ds.Tables.Add(dt2);
+            //ds.Tables.AddRange(new DataTable[] { dt, dt2 });
+            //ReportDataSource rds = new AspNetCore.Reporting.ReportDataSource("DataSet_Reservaties", ds.Tables[0]);
+            LocalReport localReport = new LocalReport(path);
+            localReport.AddDataSource("DataSet3", PQuoitem);
+            //localReport.AddDataSource("DataSet1_DataTable1", po);
+            var result = localReport.Execute(RenderType.Pdf, extension, Parameters, mimtype);
+
+            return File(result.MainStream, "application/Pdf");
         }
     }
 }

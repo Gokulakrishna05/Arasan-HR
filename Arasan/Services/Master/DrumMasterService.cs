@@ -33,7 +33,7 @@ namespace Arasan.Services
                 {
                    
                     con.Open();
-                    cmd.CommandText = "Select DRUMMASTID,DRUMMAST.DRUMNO,DRUMMAST.CATEGORY,LOCDETAILS.LOCID,DRUMMAST.DRUMTYPE from DRUMMAST LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID=DRUMMAST.LOCATION WHERE DRUMMAST.STATUS='" + status + "' order by DRUMMAST.DRUMMASTID DESC";
+                    cmd.CommandText = "Select DRUMMASTID,DRUMMAST.DRUMNO,to_char(DRUMMAST.DOCDATE,'dd-MON-yyyy')DOCDATE,DRUMMAST.CATEGORY,LOCDETAILS.LOCID,DRUMMAST.DRUMTYPE,DRUMMAST.STATUS from DRUMMAST LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID=DRUMMAST.LOCATION WHERE DRUMMAST.STATUS='" + status + "' order by DRUMMAST.DRUMMASTID DESC";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -41,9 +41,11 @@ namespace Arasan.Services
                         {
                             ID = rdr["DRUMMASTID"].ToString(),
                             DrumNo = rdr["DRUMNO"].ToString(),
+                            DocDate = rdr["DOCDATE"].ToString(),
                             Category = rdr["CATEGORY"].ToString(),
                             Location = rdr["LOCID"].ToString(),
                             DrumType = rdr["DRUMTYPE"].ToString(),
+                            status = rdr["STATUS"].ToString()
                             
                             
 

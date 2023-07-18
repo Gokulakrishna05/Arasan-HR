@@ -31,7 +31,7 @@ namespace Arasan.Services.Master
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "select STATE,STATE_CODE,CONMAST.COUNTRYNAME,STATEMASTID ,STATEMAST.STATUS from  STATEMAST LEFT OUTER JOIN CONMAST ON CONMAST.COUNTRYMASTID=STATEMAST.COUNTRYMASTID WHERE STATEMAST.STATUS ='" + status + "' order by STATEMAST.STATEMASTID DESC";
+                    cmd.CommandText = "select STATE,STCODE,CONMAST.COUNTRY,STATEMASTID ,STATEMAST.STATUS from  STATEMAST LEFT OUTER JOIN CONMAST ON CONMAST.COUNTRYMASTID=STATEMAST.COUNTRYMASTID WHERE STATEMAST.STATUS ='" + status + "' order by STATEMAST.STATEMASTID DESC";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -39,8 +39,9 @@ namespace Arasan.Services.Master
                         {
                             ID = rdr["STATEMASTID"].ToString(),
                             StateName = rdr["STATE"].ToString(),
-                            StateCode = rdr["STATE_CODE"].ToString(),
-                            countryid = rdr["COUNTRYNAME"].ToString()
+                            StateCode = rdr["STCODE"].ToString(),
+                            countryid = rdr["COUNTRY"].ToString(),
+                            status = rdr["STATUS"].ToString()
                         };
                         staList.Add(sta);
                     }
@@ -51,7 +52,8 @@ namespace Arasan.Services.Master
         public DataTable Getcountry()
         {
             string SvSql = string.Empty;
-            SvSql = "select COUNTRYNAME,COUNTRYMASTID from CONMAST order by COUNTRYMASTID asc";
+            //SvSql = "select COUNTRYNAME,COUNTRYMASTID from CONMAST  WHERE STATUS='ACTIVE' order by COUNTRYMASTID asc" ;
+            SvSql = "select COUNTRY,COUNTRYMASTID from CONMAST order by COUNTRYMASTID asc";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -61,7 +63,7 @@ namespace Arasan.Services.Master
         public DataTable GetEditState(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select STATE,STATE_CODE,COUNTRYMASTID,STATEMASTID from  STATEMAST  where STATEMASTID='" + id + "'";
+            SvSql = "select STATE,STCODE,COUNTRYMASTID,STATEMASTID from  STATEMAST  where STATEMASTID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -76,7 +78,7 @@ namespace Arasan.Services.Master
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select STATE,STATE_CODE,COUNTRYMASTID,STATEMASTID from STATEMAST where STATEMASTID=" + eid + "";
+                    cmd.CommandText = "Select STATE,STCODE,COUNTRYMASTID,STATEMASTID from STATEMAST where STATEMASTID=" + eid + "";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -84,7 +86,7 @@ namespace Arasan.Services.Master
                         {
                             ID = rdr["STATEMASTID"].ToString(),
                             StateName = rdr["STATE"].ToString(),
-                            StateCode = rdr["STATE_CODE"].ToString(),
+                            StateCode = rdr["STCODE"].ToString(),
                             countryid = rdr["COUNTRYMASTID"].ToString()
                         };
                         State = sta;
@@ -131,7 +133,7 @@ namespace Arasan.Services.Master
                     }
 
                     objCmd.Parameters.Add("STATE", OracleDbType.NVarchar2).Value = ss.StateName;
-                    objCmd.Parameters.Add("STATE_CODE", OracleDbType.NVarchar2).Value = ss.StateCode;
+                    objCmd.Parameters.Add("STCODE", OracleDbType.NVarchar2).Value = ss.StateCode;
                     objCmd.Parameters.Add("COUNTRYMASTID", OracleDbType.NVarchar2).Value = ss.countryid;
                     objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
