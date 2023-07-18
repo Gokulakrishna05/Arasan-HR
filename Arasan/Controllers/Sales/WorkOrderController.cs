@@ -234,6 +234,7 @@ namespace Arasan.Controllers.Sales
                 ca.JobId= dt.Rows[0]["DOCID"].ToString();
                 ca.JobDate= dt.Rows[0]["DOCDATE"].ToString();
                 ca.Customername= dt.Rows[0]["PARTY"].ToString();
+                ca.Locid = dt.Rows[0]["LOCMASTERID"].ToString();
             }
             ca.DocDate = DateTime.Now.ToString("dd-MMM-yyyy");
             DataTable dtv = datatrans.GetSequence("er");
@@ -252,10 +253,11 @@ namespace Arasan.Controllers.Sales
                     tda = new WorkItem();
                     tda.itemid = dtt.Rows[i]["item"].ToString();
                     tda.items= dtt.Rows[i]["ITEMID"].ToString();
+                    tda.orderqty= dtt.Rows[i]["QTY"].ToString(); 
                     List<Drumdetails> tlstdrum = new List<Drumdetails>();
                     Drumdetails tdrum = new Drumdetails();
                     DataTable dt3 = new DataTable();
-                    dt3 = WorkOrderService.GetDrumDetails(tda.itemid);
+                    dt3 = WorkOrderService.GetDrumDetails(tda.itemid, ca.Locid);
                     if (dt3.Rows.Count > 0)
                     {
                         for (int j = 0; j < dt3.Rows.Count; j++)
@@ -263,9 +265,9 @@ namespace Arasan.Controllers.Sales
                             tdrum = new Drumdetails();
                             tdrum.lotno = dt3.Rows[j]["LOTNO"].ToString();
                             tdrum.drumno = dt3.Rows[j]["DRUMNO"].ToString();
-                            tdrum.qty = dt3.Rows[j]["PLUSQTY"].ToString();
+                            tdrum.qty = dt3.Rows[j]["QTY"].ToString();
                             tdrum.rate = dt3.Rows[j]["RATE"].ToString();
-                            tdrum.invid = dt3.Rows[j]["lstockvalueid"].ToString();
+                            tdrum.invid = dt3.Rows[j]["plstockvalueid"].ToString();
                             tlstdrum.Add(tdrum);
                         }
                     }
