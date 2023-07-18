@@ -95,6 +95,7 @@ namespace Arasan.Models
         public string DOCId { get; set; }   
         public string DocDate { get; set; }
         public string Customername { get; set; }
+
         public List<WorkItem> Worklst { get; set; }
 
         public string Locid { get; set; }
