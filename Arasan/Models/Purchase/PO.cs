@@ -169,6 +169,57 @@ namespace Arasan.Models
         public string Lotno { get; set; }
 
     }
+    public class POItemDetail
+    {
+        public string ITEMID { get; set; }
+
+        public string PUNIT { get; set; }
+
+        public double QTY { get; set; }
+
+        public double RATE { get; set; }
+        public double AMOUNT { get; set; }
+        public double SGST { get; set; }
+
+        public double IGST { get; set; }
+        public double CGST { get; set; }
+        public string DOCID { get; set; }
+        public string GROSS { get; set; }
+        public string DOCDATE { get; set; }
+        public string NET { get; set; }
+        public string PARTYID { get; set; }
+        public string AMTINWORDS { get; set; }
+        public string PAYTERMS { get; set; }
+        public string DELTERMS { get; set; }
+        public string DESP { get; set; }
+        public string WARRTERMS { get; set; }
+        public string EXPR1 { get; set; }
+        public string ADD1 { get; set; }
+        public string ADD2 { get; set; }
+        public string ADD3 { get; set; }
+        public string CITY { get; set; }
+        public string PINCODE { get; set; }
+        public string STATE { get; set; }
+        public string CSTNO { get; set; }
+        public string MOBILE { get; set; }
+        public string qty { get; set; }
+
+    }
+    public class PODetail
+    {
+        public string DOCID { get; set; }
+
+        public string PARTYID { get; set; }
+
+        public string DOCDATE { get; set; }
+
+        public string GROSS { get; set; }
+
+        public string NET { get; set; }
+
+       
+
+    }
     public class POGateItem
     {
         public string itemid { get; set; }

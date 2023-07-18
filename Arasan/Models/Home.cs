@@ -14,7 +14,7 @@ namespace Arasan.Models
         public List<MatNotify> Materialnotification { get; set; }
         public List<GridDisplay>Folllst { get; set; }
         public List<EnqDisplay> Enqlllst { get; set; }
-        //public List<SalesQuoteDisplay> SalesQuotelllst { get; set; }
+        public List<SalesQuoteDisplay> SalesQuotelllst { get; set; }
     }
     public class QcNotify
     {
@@ -73,6 +73,20 @@ namespace Arasan.Models
         public string displaytext { get; set; }
 
         public string followedby { get; set; }
+
+        public string Count { get; set; }
+
+        public string status { get; set; }
+
+        public string CPerson { get; set; }
+
+    }
+
+    public class SalesQuoteDisplay
+    {
+        public string displaytext { get; set; }
+
+        public string followby { get; set; }
 
         public string Count { get; set; }
 

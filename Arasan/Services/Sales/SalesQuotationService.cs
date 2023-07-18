@@ -31,7 +31,7 @@ namespace Arasan.Services.Sales
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select SQ.STATUS,BRANCHID,QUOTE_NO,to_char(QUOTE_DATE,'dd-MON-yyyy')QUOTE_DATE,ENQNO,to_char(ENQDATE,'dd-MON-yyyy')ENQDATE,CURRENCY_TYPE,SQ.CUSTOMER,SQ.CUSTOMER_TYPE,SQ.ADDRESS,SQ.CITY,SQ.CONTACT_PERSON_MOBILE,SQ.CONTACT_PERSON_MAIL,SQ.PINCODE,SQ.PRIORITY,SQ.ASSIGNED_TO,SQ.ID,PARTYRCODE.PARTY from SALES_QUOTE SQ LEFT OUTER JOIN  PARTYMAST on SQ.CUSTOMER=PARTYMAST.PARTYMASTID  LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Customer','BOTH') AND  SQ.STATUS='" + status + "' order by SQ.ID DESC ";
+                    cmd.CommandText = "Select BRANCHID,QUOTE_NO,to_char(QUOTE_DATE,'dd-MON-yyyy')QUOTE_DATE,ENQNO,to_char(ENQDATE,'dd-MON-yyyy')ENQDATE,CURRENCY_TYPE,SQ.CUSTOMER,SQ.CUSTOMER_TYPE,SQ.ADDRESS,SQ.CITY,SQ.CONTACT_PERSON_MOBILE,SQ.CONTACT_PERSON_MAIL,SQ.PINCODE,SQ.PRIORITY,SQ.ASSIGNED_TO,SQ.ID,PARTYRCODE.PARTY from SALES_QUOTE SQ LEFT OUTER JOIN  PARTYMAST on SQ.CUSTOMER=PARTYMAST.PARTYMASTID  LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Customer','BOTH') AND  SQ.STATUS='" + status + "' order by SQ.ID DESC ";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -53,7 +53,7 @@ namespace Arasan.Services.Sales
                             PinCode = rdr["PINCODE"].ToString(),
                             Pro = rdr["PRIORITY"].ToString(),
                             Assign = rdr["ASSIGNED_TO"].ToString(),
-                            status= rdr["STATUS"].ToString()
+                            //status= rdr["STATUS"].ToString()
                         };
                         cmpList.Add(cmp);
                     }
@@ -313,7 +313,7 @@ namespace Arasan.Services.Sales
         public DataTable GetSalesQuotationItemDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select SALESQUOTEDETAIL.QTY,SALESQUOTEDETAIL.SALESQUOTEDETAILID,SALESQUOTEDETAIL.ITEMID,UNITMAST.UNITID,SALESQUOTEDETAIL.RATE  from SALESQUOTEDETAIL LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=SALESQUOTEDETAIL.UNIT  where SALESQUOTEDETAIL.SALESQUOID='" + id + "'";
+            SvSql = "Select SALESQUOTEDETAIL.QTY,SALESQUOTEDETAIL.SALESQUOTEDETAILID,SALESQUOTEDETAIL.ITEMID,SALESQUOTEDETAIL.UNIT,SALESQUOTEDETAIL.RATE  from SALESQUOTEDETAIL where SALESQUOTEDETAIL.SALESQUOID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -457,6 +457,84 @@ namespace Arasan.Services.Sales
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
+        }
+        public string QuotetoOrder(string id)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
+                datatrans = new DataTransactions(_connectionString);
+
+
+                int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'JOB#' AND ACTIVESEQUENCE = 'T'");
+                string docid = string.Format("{0}{1}", "JOB#", (idc + 1).ToString());
+
+                string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='JOB#' AND ACTIVESEQUENCE ='T'";
+                try
+                {
+                    datatrans.UpdateStatus(updateCMd);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+
+
+
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    string Customer = datatrans.GetDataString("Select CUSTOMER from SALES_QUOTE where SALES_QUOTE.ID='" + id + "' ");
+
+                    string party = datatrans.GetDataString("Select PARTYNAME from PARTYMAST where PARTYMASTID='" + Customer + "' ");
+
+                    string currency = datatrans.GetDataString("Select CURRENCY_TYPE from SALES_QUOTE where SALES_QUOTE.ID='" + id + "' ");
+
+                    string symbol = datatrans.GetDataString("Select SYMBOL from CURRENCY where MAINCURR='" + currency + "' ");
+
+                    svSQL = "Insert into JOBASIC (BRANCHID,QUOID,MAINCURRENCY,DOCID,DOCDATE,PARTYNAME,PARTYID,SYMBOL,STATUS) (Select BRANCHID,'" + id + "',CURRENCY_TYPE,'" + docid + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "' ,'" + party +"',CUSTOMER,'"+ symbol + "' ,'ACTIVE' from SALES_QUOTE where SALES_QUOTE.ID='" + id + "')";
+                    OracleCommand objCmd = new OracleCommand(svSQL, objConn);
+                    try
+                    {
+                        objConn.Open();
+                        objCmd.ExecuteNonQuery();
+                    }
+                    catch (Exception ex)
+                    {
+                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
+                    }
+                    objConn.Close();
+                }
+
+                string quotid = datatrans.GetDataString("Select JOBASICID from JOBASIC Where QUOID=" + id + "");
+                string unit = datatrans.GetDataString("Select UNIT from SALESQUOTEDETAIL Where SALESQUOID=" + id + "");
+                string UnitId = datatrans.GetDataString("Select UNITMASTID from UNITMAST where UNITID='" + unit + "' ");
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    string Sql = "Insert into JODETAIL (JOBASICID,ITEMID,QTY,UNIT,RATE,AMOUNT,DISCOUNT) (Select '" + quotid + "',ITEMID,QTY,'" + UnitId + "',RATE ,AMOUNT,DISCAMOUNT FROM SALESQUOTEDETAIL WHERE SALESQUOID=" + id + ")";
+                    OracleCommand objCmds = new OracleCommand(Sql, objConnT);
+                    try
+                    {
+                        objConnT.Open();
+                        objCmds.ExecuteNonQuery();
+                    }
+                    catch (Exception ex)
+                    {
+                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
+                    }
+                    objConnT.Close();
+
+                }
+                   
+              
+            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
         }
     }
 }

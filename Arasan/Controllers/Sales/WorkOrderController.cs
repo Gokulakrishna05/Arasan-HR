@@ -79,7 +79,41 @@ namespace Arasan.Controllers.Sales
                     ca.ExRate = dt.Rows[0]["EXRATE"].ToString();
                     ViewBag.Quo = id;
                 }
-              
+                DataTable dtt1 = new DataTable();
+                dtt1 = WorkOrderService.GetWorkOrderDetails(id);
+                if (dtt1.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dtt1.Rows.Count; i++)
+                    {
+                        tda = new WorkItem();
+                        tda.items = dtt1.Rows[i]["ITEMID"].ToString();
+                        tda.itemid = dtt1.Rows[i]["item"].ToString();
+                        tda.unit = dtt1.Rows[i]["UNITID"].ToString();
+                        tda.orderqty = dtt1.Rows[i]["QTY"].ToString();
+
+                        tda.rate = dtt1.Rows[i]["RATE"].ToString();
+                        tda.amount = dtt1.Rows[i]["AMOUNT"].ToString();
+                        tda.discount = dtt1.Rows[i]["DISCOUNT"].ToString();
+                        tda.taxtype = dtt1.Rows[i]["TAXTYPE"].ToString();
+                        tda.tradedis = dtt1.Rows[i]["TDISC"].ToString();
+                        tda.qtydis = dtt1.Rows[i]["QDISC"].ToString();
+                        tda.additiondis = dtt1.Rows[i]["ADISC"].ToString();
+
+                        tda.itemspec = dtt1.Rows[i]["ITEMSPEC"].ToString();
+                        tda.freight = dtt1.Rows[i]["FREIGHT"].ToString();
+                        tda.freightamt = dtt1.Rows[i]["FREIGHTAMT"].ToString();
+                        tda.disqty = dtt1.Rows[i]["DCQTY"].ToString();
+                        tda.packind = dtt1.Rows[i]["PACKSPEC"].ToString();
+                        tda.matsupply = dtt1.Rows[i]["MATSUPP"].ToString();
+                        tda.Isvalid = "Y";
+                        tda.introdis = dtt1.Rows[i]["IDISC"].ToString();
+                        tda.cashdis = dtt1.Rows[i]["CDISC"].ToString();
+                        tda.spldis = dtt1.Rows[i]["SDISC"].ToString();
+
+                        TData.Add(tda);
+                    }
+                }
+
             }
           //  ca.Worklst = TData;
             return View(ca);
@@ -194,34 +228,34 @@ namespace Arasan.Controllers.Sales
                 throw ex;
             }
         }
-        public ActionResult GetQuoDetail(string ItemId)
-        {
-            try
-            {
-                DataTable dt = new DataTable();
-                string customer = "";
-                string currency = "";
-                if (ItemId != "edit")
-                {
-                    dt = WorkOrderService.GetQuoDetails(ItemId);
+        //public ActionResult GetQuoDetail(string ItemId)
+        //{
+        //    try
+        //    {
+        //        DataTable dt = new DataTable();
+        //        string customer = "";
+        //        string currency = "";
+        //        if (ItemId != "edit")
+        //        {
+        //            dt = WorkOrderService.GetQuoDetails(ItemId);
 
-                    if (dt.Rows.Count > 0)
-                    {
-                        customer = dt.Rows[0]["PARTY"].ToString();
-                        currency = dt.Rows[0]["MAINCURR"].ToString();
+        //            if (dt.Rows.Count > 0)
+        //            {
+        //                customer = dt.Rows[0]["PARTY"].ToString();
+        //                currency = dt.Rows[0]["MAINCURR"].ToString();
 
-                    }
-                }
+        //            }
+        //        }
                 
 
-                var result = new { customer = customer , currency = currency };
-                return Json(result);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        //        var result = new { customer = customer , currency = currency };
+        //        return Json(result);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
         public ActionResult WDrumAllocation(string id)
         {
             WDrumallocation ca = new WDrumallocation();

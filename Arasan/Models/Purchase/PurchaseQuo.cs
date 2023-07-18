@@ -94,5 +94,22 @@ namespace Arasan.Models
         public string Nfdate { get; set; }
         public string Rmarks { get; set; }
     }
+    public class PQuoItemDetail
+    {
+        public string ITEMID { get; set; }
+
+        public string UNIT { get; set; }
+
+        public double QTY { get; set; }
+
+        public double RATE { get; set; }
+      
+        public string DOCID { get; set; }
+       
+        public string DOCDATE { get; set; }
+       
+        public string PARTYNAME { get; set; }
+       
+    }
 }
 

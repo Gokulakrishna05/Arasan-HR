@@ -191,6 +191,8 @@ internal class Program
     public void ConfigureServices(IServiceCollection service)
     {
         service.AddMvc();
+        service.AddOptions();
+        service.AddTransient<IPO, POService>();
 
     }
     public void Configure(IApplicationBuilder app,IWebHostEnvironment env)

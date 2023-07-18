@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Data;
 using System.Collections.Generic;
 using System.Xml.Linq;
+using AspNetCore.Reporting;
 
 namespace Arasan.Controllers.Sales
 {
@@ -13,10 +14,12 @@ namespace Arasan.Controllers.Sales
         ISalesQuotationService SalesQuotationService;
         IConfiguration? _configuratio;
         private string? _connectionString;
+        private readonly IWebHostEnvironment _WebHostEnvironment;
 
         DataTransactions datatrans;
-        public SalesQuotationController(ISalesQuotationService _SalesQuotationService, IConfiguration _configuratio)
+        public SalesQuotationController(ISalesQuotationService _SalesQuotationService, IConfiguration _configuratio, IWebHostEnvironment WebHostEnvironment)
         {
+            this._WebHostEnvironment = WebHostEnvironment;
             SalesQuotationService = _SalesQuotationService;
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
@@ -109,16 +112,16 @@ namespace Arasan.Controllers.Sales
                         tda.Amount = toaamt;
                         tda.Unit = dt2.Rows[i]["UNIT"].ToString();
                         //tda.unitprim= dt2.Rows[i]["UNITID"].ToString();
-                        tda.Disc = Convert.ToDouble(dt2.Rows[i]["DISC"].ToString() == "" ? "0" : dt2.Rows[i]["DISC"].ToString());
-                        tda.DiscAmount = Convert.ToDouble(dt2.Rows[i]["DISCAMOUNT"].ToString() == "" ? "0" : dt2.Rows[i]["DISCAMOUNT"].ToString());
-                        tda.FrigCharge = Convert.ToDouble(dt2.Rows[i]["IFREIGHTCH"].ToString() == "" ? "0" : dt2.Rows[i]["IFREIGHTCH"].ToString());
-                        tda.TotalAmount = Convert.ToDouble(dt2.Rows[i]["TOTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["TOTAMT"].ToString());
-                        tda.CGSTP = Convert.ToDouble(dt2.Rows[i]["CGSTPER"].ToString() == "" ? "0" : dt2.Rows[i]["CGSTPER"].ToString());
-                        tda.SGSTP = Convert.ToDouble(dt2.Rows[i]["SGSTPER"].ToString() == "" ? "0" : dt2.Rows[i]["SGSTPER"].ToString());
-                        tda.IGSTP = Convert.ToDouble(dt2.Rows[i]["IGSTPER"].ToString() == "" ? "0" : dt2.Rows[i]["IGSTPER"].ToString());
-                        tda.CGST = Convert.ToDouble(dt2.Rows[i]["CGSTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["CGSTAMT"].ToString());
-                        tda.SGST = Convert.ToDouble(dt2.Rows[i]["SGSTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["SGSTAMT"].ToString());
-                        tda.IGST = Convert.ToDouble(dt2.Rows[i]["IGSTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["IGSTAMT"].ToString());
+                        //tda.Disc = Convert.ToDouble(dt2.Rows[i]["DISC"].ToString() == "" ? "0" : dt2.Rows[i]["DISC"].ToString());
+                        //tda.DiscAmount = Convert.ToDouble(dt2.Rows[i]["DISCAMOUNT"].ToString() == "" ? "0" : dt2.Rows[i]["DISCAMOUNT"].ToString());
+                        //tda.FrigCharge = Convert.ToDouble(dt2.Rows[i]["IFREIGHTCH"].ToString() == "" ? "0" : dt2.Rows[i]["IFREIGHTCH"].ToString());
+                        //tda.TotalAmount = Convert.ToDouble(dt2.Rows[i]["TOTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["TOTAMT"].ToString());
+                        //tda.CGSTP = Convert.ToDouble(dt2.Rows[i]["CGSTPER"].ToString() == "" ? "0" : dt2.Rows[i]["CGSTPER"].ToString());
+                        //tda.SGSTP = Convert.ToDouble(dt2.Rows[i]["SGSTPER"].ToString() == "" ? "0" : dt2.Rows[i]["SGSTPER"].ToString());
+                        //tda.IGSTP = Convert.ToDouble(dt2.Rows[i]["IGSTPER"].ToString() == "" ? "0" : dt2.Rows[i]["IGSTPER"].ToString());
+                        //tda.CGST = Convert.ToDouble(dt2.Rows[i]["CGSTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["CGSTAMT"].ToString());
+                        //tda.SGST = Convert.ToDouble(dt2.Rows[i]["SGSTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["SGSTAMT"].ToString());
+                        //tda.IGST = Convert.ToDouble(dt2.Rows[i]["IGSTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["IGSTAMT"].ToString());
                         tda.Isvalid = "Y";
                         TData.Add(tda);
                     }
@@ -199,7 +202,7 @@ namespace Arasan.Controllers.Sales
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTY"].ToString(), Value = dtDesg.Rows[i]["PARTYMASTID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTYNAME"].ToString(), Value = dtDesg.Rows[i]["PARTYMASTID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -757,7 +760,7 @@ namespace Arasan.Controllers.Sales
             return View(ca);
         }
         [HttpPost]
-        public ActionResult ViewQuote(SalesQuotation Cy, string id)
+        public ActionResult ViewSQ(SalesQuotation Cy, string id)
         {
             try
             {
@@ -790,6 +793,21 @@ namespace Arasan.Controllers.Sales
             }
 
             return RedirectToAction("ListSalesEnquiry");
+        }
+
+        public async Task<IActionResult> Print(string id)
+        {
+            string mimtype = "";
+            int extension = 1;
+            var path = $"{this._WebHostEnvironment.WebRootPath}\\Reports\\QuotationReport.rdlc";
+            Dictionary<string, string> Parameters = new Dictionary<string, string>();
+            //  Parameters.Add("rp1", " Hi Everyone");
+            //var product = await SalesQuotationService.GetPOItem(id);
+            LocalReport localReport = new LocalReport(path);
+            //localReport.AddDataSource("DataSet1", product);
+            var result = localReport.Execute(RenderType.Pdf, extension, Parameters, mimtype);
+
+            return File(result.MainStream, "application/Pdf");
         }
     }
 }

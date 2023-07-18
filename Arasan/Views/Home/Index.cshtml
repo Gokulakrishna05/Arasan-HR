@@ -504,7 +504,45 @@
                     <!-- /.info-box -->
                 </div>
 
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <br />
+                    <p style="font-weight:bold;color:darkgreen">SalesQuote Followup @*- <label id="Quotefollowcount">(@Html.DisplayFor(m => m.Count))</label>*@</p>
 
+                    <div class="info-boxalert">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Quote No</th>
+                                    <th>Follwed By</th>
+                                    <th>Next Follow Date</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+
+
+                                    int d = 0;
+
+                                    foreach (var item in Model.SalesQuotelllst.ToList())
+                                    {
+                                        <tr>
+                                            <td>@Html.DisplayFor(o => o.SalesQuotelllst[d].displaytext)</td>
+
+                                            <td>@Html.DisplayFor(o => o.SalesQuotelllst[d].followby)</td>
+
+                                            <td>@Html.DisplayFor(o => o.SalesQuotelllst[d].status)</td>
+
+                                        </tr>
+                                        d = d + 1;
+
+                                    }
+                                }
+
+                            <tbody></tbody>
+                        </table>
+
+                    </div>
             </div>
 
 

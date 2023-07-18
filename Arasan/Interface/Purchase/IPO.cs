@@ -19,5 +19,12 @@ namespace Arasan.Interface
         DataTable GetPObySuppID(string supid);
 
         string StatusChange(string tag, int id);
+
+
+
+
+        Task<IEnumerable<POItemDetail>> GetPOItem(string id,string s);
+
+
     }
 }
