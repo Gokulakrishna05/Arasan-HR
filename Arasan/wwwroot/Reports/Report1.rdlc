@@ -580,66 +580,6 @@
               </Border>
             </Style>
           </Tablix>
-          <Textbox Name="Textbox72">
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>Deilvery Terms     :</Value>
-                    <Style />
-                  </TextRun>
-                </TextRuns>
-                <Style />
-              </Paragraph>
-            </Paragraphs>
-            <rd:DefaultName>Textbox28</rd:DefaultName>
-            <Top>4.36777cm</Top>
-            <Left>9.97627cm</Left>
-            <Height>6.35277in</Height>
-            <Width>2.83912in</Width>
-            <ZIndex>1</ZIndex>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-              <PaddingLeft>2pt</PaddingLeft>
-              <PaddingRight>2pt</PaddingRight>
-              <PaddingTop>2pt</PaddingTop>
-              <PaddingBottom>2pt</PaddingBottom>
-            </Style>
-          </Textbox>
-          <Textbox Name="Textbox52">
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>=Fields!IGST.Value</Value>
-                    <Style />
-                  </TextRun>
-                </TextRuns>
-                <Style />
-              </Paragraph>
-            </Paragraphs>
-            <rd:DefaultName>Textbox24</rd:DefaultName>
-            <Top>2.12576cm</Top>
-            <Left>2.59638cm</Left>
-            <Height>0.6cm</Height>
-            <Width>5.14583cm</Width>
-            <ZIndex>2</ZIndex>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-              <PaddingLeft>2pt</PaddingLeft>
-              <PaddingRight>2pt</PaddingRight>
-              <PaddingTop>2pt</PaddingTop>
-              <PaddingBottom>2pt</PaddingBottom>
-            </Style>
-          </Textbox>
           <Textbox Name="Textbox6">
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
@@ -664,7 +604,7 @@
             <Left>5.36845cm</Left>
             <Height>0.39716cm</Height>
             <Width>4.45792cm</Width>
-            <ZIndex>3</ZIndex>
+            <ZIndex>1</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -679,13 +619,8 @@
             <Top>4.22035cm</Top>
             <Left>0.1228cm</Left>
             <Height>0cm</Height>
-
             <Width>15.67687cm</Width>
             <ZIndex>2</ZIndex>
-
-            <Width>15.37701cm</Width>
-            <ZIndex>4</ZIndex>
-
             <Style>
               <Border>
                 <Style>Solid</Style>
@@ -711,19 +646,11 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox7</rd:DefaultName>
-
             <Top>4.8909cm</Top>
             <Left>9.68369cm</Left>
             <Height>0.33542cm</Height>
             <Width>2.32361cm</Width>
             <ZIndex>3</ZIndex>
-
-            <Top>5.98729cm</Top>
-            <Left>9.94099cm</Left>
-            <Height>0.6cm</Height>
-            <Width>2.5cm</Width>
-            <ZIndex>5</ZIndex>
-
             <Style>
               <Border>
                 <Style>None</Style>
@@ -751,19 +678,11 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox8</rd:DefaultName>
-
             <Top>5.33215cm</Top>
             <Left>9.64841cm</Left>
             <Height>0.33542cm</Height>
             <Width>2.32361cm</Width>
             <ZIndex>4</ZIndex>
-
-            <Top>6.7284cm</Top>
-            <Left>9.94099cm</Left>
-            <Height>0.6cm</Height>
-            <Width>2.5cm</Width>
-            <ZIndex>6</ZIndex>
-
             <Style>
               <Border>
                 <Style>None</Style>
@@ -791,19 +710,11 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox9</rd:DefaultName>
-
             <Top>5.84396cm</Top>
             <Left>9.68369cm</Left>
             <Height>0.33542cm</Height>
             <Width>2.35889cm</Width>
             <ZIndex>5</ZIndex>
-
-            <Top>7.50479cm</Top>
-            <Left>9.94099cm</Left>
-            <Height>0.6cm</Height>
-            <Width>2.5cm</Width>
-            <ZIndex>7</ZIndex>
-
             <Style>
               <Border>
                 <Style>None</Style>
@@ -831,19 +742,11 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox10</rd:DefaultName>
-
             <Top>6.35577cm</Top>
             <Left>9.68369cm</Left>
             <Height>0.4509cm</Height>
             <Width>2.32361cm</Width>
             <ZIndex>6</ZIndex>
-
-            <Top>8.28118cm</Top>
-            <Left>9.94099cm</Left>
-            <Height>0.6cm</Height>
-            <Width>2.5cm</Width>
-            <ZIndex>8</ZIndex>
-
             <Style>
               <Border>
                 <Style>None</Style>
@@ -875,7 +778,7 @@
             <Left>0.12279cm</Left>
             <Height>0.6cm</Height>
             <Width>3.79646cm</Width>
-            <ZIndex>9</ZIndex>
+            <ZIndex>7</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -890,13 +793,8 @@
             <Top>4.82035cm</Top>
             <Left>0.12279cm</Left>
             <Height>0cm</Height>
-
             <Width>15.67687cm</Width>
             <ZIndex>8</ZIndex>
-
-            <Width>15.41229cm</Width>
-            <ZIndex>10</ZIndex>
- 
             <Style>
               <Border>
                 <Style>Solid</Style>
@@ -907,13 +805,8 @@
             <Top>6.98306cm</Top>
             <Left>0.10416cm</Left>
             <Height>0cm</Height>
-
             <Width>15.67603cm</Width>
             <ZIndex>9</ZIndex>
-
-            <Width>15.37701cm</Width>
-            <ZIndex>11</ZIndex>
-
             <Style>
               <Border>
                 <Style>Solid</Style>
@@ -925,7 +818,7 @@
             <Left>9.5073cm</Left>
             <Height>2.54279cm</Height>
             <Width>0cm</Width>
-            <ZIndex>12</ZIndex>
+            <ZIndex>10</ZIndex>
             <Style>
               <Border>
                 <Style>Solid</Style>
@@ -953,7 +846,7 @@
             <Left>0.17639cm</Left>
             <Height>0.30014cm</Height>
             <Width>1.86724cm</Width>
-            <ZIndex>13</ZIndex>
+            <ZIndex>11</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -985,7 +878,7 @@
             <Left>0.17639cm</Left>
             <Height>0.33542cm</Height>
             <Width>1.86724cm</Width>
-            <ZIndex>14</ZIndex>
+            <ZIndex>12</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1017,7 +910,7 @@
             <Left>12.47945cm</Left>
             <Height>0.35305cm</Height>
             <Width>2.94979cm</Width>
-            <ZIndex>15</ZIndex>
+            <ZIndex>13</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1049,7 +942,7 @@
             <Left>12.47945cm</Left>
             <Height>0.2825cm</Height>
             <Width>2.94979cm</Width>
-            <ZIndex>16</ZIndex>
+            <ZIndex>14</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1081,7 +974,7 @@
             <Left>12.47945cm</Left>
             <Height>0.33542cm</Height>
             <Width>2.94979cm</Width>
-            <ZIndex>17</ZIndex>
+            <ZIndex>15</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1113,7 +1006,7 @@
             <Left>12.47945cm</Left>
             <Height>0.30896cm</Height>
             <Width>2.94979cm</Width>
-            <ZIndex>18</ZIndex>
+            <ZIndex>16</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1145,7 +1038,7 @@
             <Left>2.43447cm</Left>
             <Height>0.33542cm</Height>
             <Width>5.14583cm</Width>
-            <ZIndex>19</ZIndex>
+            <ZIndex>17</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1156,38 +1049,6 @@
               <PaddingBottom>2pt</PaddingBottom>
             </Style>
           </Textbox>
-
-          <Textbox Name="Textbox24">
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value />
-                    <Style />
-                  </TextRun>
-                </TextRuns>
-                <Style />
-              </Paragraph>
-            </Paragraphs>
-            <rd:DefaultName>Textbox24</rd:DefaultName>
-            <Top>2.12576cm</Top>
-            <Left>2.59638cm</Left>
-            <Height>0.6cm</Height>
-            <Width>5.14583cm</Width>
-            <ZIndex>20</ZIndex>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-              <PaddingLeft>2pt</PaddingLeft>
-              <PaddingRight>2pt</PaddingRight>
-              <PaddingTop>2pt</PaddingTop>
-              <PaddingBottom>2pt</PaddingBottom>
-            </Style>
-          </Textbox>
-
           <Textbox Name="Textbox25">
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
@@ -1205,19 +1066,11 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox25</rd:DefaultName>
-
             <Top>5.84396cm</Top>
             <Left>0.15807cm</Left>
             <Height>0.36188cm</Height>
             <Width>1.86724cm</Width>
             <ZIndex>18</ZIndex>
-
-            <Top>7.5773cm</Top>
-            <Left>0.59176cm</Left>
-            <Height>0.6cm</Height>
-            <Width>2.12958cm</Width>
-            <ZIndex>21</ZIndex>
-
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1245,19 +1098,11 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox26</rd:DefaultName>
-
             <Top>6.34695cm</Top>
             <Left>0.15807cm</Left>
             <Height>0.36299cm</Height>
             <Width>1.86724cm</Width>
             <ZIndex>19</ZIndex>
-
-            <Top>8.21258cm</Top>
-            <Left>0.59176cm</Left>
-            <Height>0.6cm</Height>
-            <Width>2.12958cm</Width>
-            <ZIndex>22</ZIndex>
-
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1289,41 +1134,7 @@
             <Left>2.38088cm</Left>
             <Height>0.30896cm</Height>
             <Width>5.14583cm</Width>
-
             <ZIndex>20</ZIndex>
-
-            <ZIndex>23</ZIndex>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-              <PaddingLeft>2pt</PaddingLeft>
-              <PaddingRight>2pt</PaddingRight>
-              <PaddingTop>2pt</PaddingTop>
-              <PaddingBottom>2pt</PaddingBottom>
-            </Style>
-          </Textbox>
-          <Textbox Name="Textbox46">
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>=Fields!NET.Value</Value>
-                    <Style />
-                  </TextRun>
-                </TextRuns>
-                <Style />
-              </Paragraph>
-            </Paragraphs>
-            <rd:DefaultName>Textbox27</rd:DefaultName>
-            <Top>7.62056cm</Top>
-            <Left>3.2146cm</Left>
-            <Height>0.6cm</Height>
-            <Width>5.14583cm</Width>
-            <ZIndex>24</ZIndex>
-
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1355,11 +1166,7 @@
             <Left>2.38088cm</Left>
             <Height>0.30979cm</Height>
             <Width>5.11056cm</Width>
-
             <ZIndex>21</ZIndex>
-
-            <ZIndex>25</ZIndex>
-
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1394,11 +1201,7 @@
             <Left>6.09418cm</Left>
             <Height>0.30896cm</Height>
             <Width>3.41312cm</Width>
-
             <ZIndex>22</ZIndex>
-
-            <ZIndex>26</ZIndex>
-
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1413,13 +1216,8 @@
             <Top>7.43313cm</Top>
             <Left>0.12279cm</Left>
             <Height>0cm</Height>
-
             <Width>15.67687cm</Width>
             <ZIndex>23</ZIndex>
-
-            <Width>15.37701cm</Width>
-            <ZIndex>27</ZIndex>
-
             <Style>
               <Border>
                 <Style>Solid</Style>
@@ -1447,11 +1245,7 @@
             <Left>0.07056cm</Left>
             <Height>0.36188cm</Height>
             <Width>10.56979cm</Width>
- 
             <ZIndex>24</ZIndex>
- 
-            <ZIndex>28</ZIndex>
- 
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1462,29 +1256,13 @@
               <PaddingBottom>2pt</PaddingBottom>
             </Style>
           </Textbox>
- 
- 
-          <Line Name="Line8">
-            <Top>0.52694cm</Top>
-            <Left>0.41537cm</Left>
-            <Height>0cm</Height>
-            <Width>15.37701cm</Width>
-            <ZIndex>29</ZIndex>
-            <Style>
-              <Border>
-                <Style>Solid</Style>
-              </Border>
-            </Style>
-          </Line>
-           <Line Name="Line14">
+          <Line Name="Line14">
             <Top>0.14111cm</Top>
             <Left>15.79966cm</Left>
             <Height>16.41545cm</Height>
             <Width>0cm</Width>
-             <ZIndex>25</ZIndex>
- 
-            <ZIndex>30</ZIndex>
-             <Style>
+            <ZIndex>25</ZIndex>
+            <Style>
               <Border>
                 <Style>Solid</Style>
               </Border>
@@ -1513,13 +1291,8 @@
             <Top>0.31125cm</Top>
             <Left>1.72707cm</Left>
             <Height>0.865cm</Height>
- 
             <Width>12.21614cm</Width>
             <ZIndex>26</ZIndex>
- 
-            <Width>12.95104cm</Width>
-            <ZIndex>31</ZIndex>
- 
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1538,11 +1311,7 @@
             <Left>0.12279cm</Left>
             <Height>1.1825cm</Height>
             <Width>1.51446cm</Width>
- 
             <ZIndex>27</ZIndex>
- 
-            <ZIndex>32</ZIndex>
- 
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1572,13 +1341,8 @@
             <Top>1.21153cm</Top>
             <Left>1.72707cm</Left>
             <Height>0.6cm</Height>
- 
             <Width>11.80799cm</Width>
             <ZIndex>28</ZIndex>
- 
-            <Width>12.72483cm</Width>
-            <ZIndex>33</ZIndex>
- 
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1611,13 +1375,9 @@
             <rd:DefaultName>Textbox3</rd:DefaultName>
             <Top>1.81153cm</Top>
             <Left>2.3038cm</Left>
- 
+            <Height>0.6cm</Height>
             <Width>10.713cm</Width>
             <ZIndex>29</ZIndex>
- 
-            <Width>10.33167cm</Width>
-            <ZIndex>34</ZIndex>
- 
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1651,13 +1411,8 @@
             <Top>2.41153cm</Top>
             <Left>1.95984cm</Left>
             <Height>0.6cm</Height>
- 
             <Width>11.57522cm</Width>
             <ZIndex>30</ZIndex>
- 
-            <Width>11.50874cm</Width>
-            <ZIndex>35</ZIndex>
- 
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1691,13 +1446,8 @@
             <Top>3.01153cm</Top>
             <Left>2.56839cm</Left>
             <Height>0.6cm</Height>
- 
             <Width>10.06708cm</Width>
             <ZIndex>31</ZIndex>
- 
-            <Width>10.56979cm</Width>
-            <ZIndex>36</ZIndex>
- 
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1713,11 +1463,7 @@
             <Left>1.67253cm</Left>
             <Height>3.54097cm</Height>
             <Width>0cm</Width>
- 
             <ZIndex>32</ZIndex>
- 
-            <ZIndex>37</ZIndex>
- 
             <Style>
               <Border>
                 <Style>Solid</Style>
@@ -1728,25 +1474,8 @@
             <Top>3.68208cm</Top>
             <Left>0.12279cm</Left>
             <Height>0cm</Height>
- 
             <Width>15.64159cm</Width>
             <ZIndex>33</ZIndex>
- 
-            <Width>15.37701cm</Width>
-            <ZIndex>38</ZIndex>
-            <Style>
-              <Border>
-                <Style>Solid</Style>
-              </Border>
-            </Style>
-          </Line>
-          <Line Name="Line2">
-            <Top>0.52694cm</Top>
-            <Left>2.31789cm</Left>
-            <Height>3.66444cm</Height>
-            <Width>0cm</Width>
-            <ZIndex>39</ZIndex>
- 
             <Style>
               <Border>
                 <Style>Solid</Style>
@@ -1757,85 +1486,14 @@
             <Top>13.25129cm</Top>
             <Left>0.12279cm</Left>
             <Height>0cm</Height>
- 
             <Width>15.65992cm</Width>
             <ZIndex>34</ZIndex>
- 
-            <Width>15.34173cm</Width>
-            <ZIndex>40</ZIndex>
             <Style>
               <Border>
                 <Style>Solid</Style>
               </Border>
             </Style>
           </Line>
-          <Line Name="Line9">
-            <Top>4.19138cm</Top>
-            <Left>0.62704cm</Left>
-            <Height>0cm</Height>
-            <Width>15.16534cm</Width>
-            <ZIndex>41</ZIndex>
-            <Style>
-              <Border>
-                <Style>Solid</Style>
-              </Border>
-            </Style>
-          </Line>
-          <Line Name="Line1">
-            <Top>0.52694cm</Top>
-            <Left>0.41537cm</Left>
-            <Height>19.97685cm</Height>
-            <Width>0cm</Width>
-            <ZIndex>42</ZIndex>
-            <Style>
-              <Border>
-                <Style>Solid</Style>
-              </Border>
-            </Style>
-          </Line>
-          <Line Name="Line10">
-            <Top>14.05272cm</Top>
-            <Left>0.59176cm</Left>
-            <Height>0cm</Height>
-            <Width>15.20062cm</Width>
-            <ZIndex>43</ZIndex>
- 
-            <Style>
-              <Border>
-                <Style>Solid</Style>
-              </Border>
-            </Style>
-          </Line>
-          <Textbox Name="Textbox31">
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value />
-                    <Style />
-                  </TextRun>
-                </TextRuns>
-                <Style />
-              </Paragraph>
-            </Paragraphs>
-            <rd:DefaultName>Textbox23</rd:DefaultName>
-            <Top>6.76368cm</Top>
-            <Left>3.2146cm</Left>
-            <Height>0.6cm</Height>
-            <Width>5.14583cm</Width>
-            <ZIndex>44</ZIndex>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-              <PaddingLeft>2pt</PaddingLeft>
-              <PaddingRight>2pt</PaddingRight>
-              <PaddingTop>2pt</PaddingTop>
-              <PaddingBottom>2pt</PaddingBottom>
-            </Style>
-          </Textbox>
           <Textbox Name="Textbox33">
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
@@ -1857,11 +1515,7 @@
             <Left>0.24695cm</Left>
             <Height>0.38833cm</Height>
             <Width>2.5cm</Width>
- 
             <ZIndex>35</ZIndex>
- 
-            <ZIndex>45</ZIndex>
- 
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1876,13 +1530,8 @@
             <Top>9.28606cm</Top>
             <Left>0.10584cm</Left>
             <Height>0cm</Height>
- 
             <Width>15.69382cm</Width>
             <ZIndex>36</ZIndex>
- 
-            <Width>15.34173cm</Width>
-            <ZIndex>46</ZIndex>
- 
             <Style>
               <Border>
                 <Style>Solid</Style>
@@ -1893,25 +1542,8 @@
             <Top>9.93258cm</Top>
             <Left>0.10584cm</Left>
             <Height>0cm</Height>
- 
             <Width>15.69382cm</Width>
             <ZIndex>37</ZIndex>
- 
-            <Width>15.27118cm</Width>
-            <ZIndex>47</ZIndex>
-            <Style>
-              <Border>
-                <Style>Solid</Style>
-              </Border>
-            </Style>
-          </Line>
-          <Line Name="Line13">
-            <Top>11.62709cm</Top>
-            <Left>6.01538cm</Left>
-            <Height>3.74286cm</Height>
-            <Width>0cm</Width>
-            <ZIndex>48</ZIndex>
- 
             <Style>
               <Border>
                 <Style>Solid</Style>
@@ -1941,11 +1573,7 @@
             <Left>5.95307cm</Left>
             <Height>0.13516cm</Height>
             <Width>2.5cm</Width>
- 
             <ZIndex>38</ZIndex>
- 
-            <ZIndex>49</ZIndex>
- 
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1979,11 +1607,7 @@
             <Left>5.95307cm</Left>
             <Height>0.16702cm</Height>
             <Width>2.5cm</Width>
- 
             <ZIndex>39</ZIndex>
- 
-            <ZIndex>50</ZIndex>
- 
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2017,11 +1641,7 @@
             <Left>5.95307cm</Left>
             <Height>0.2023cm</Height>
             <Width>2.5cm</Width>
-
             <ZIndex>40</ZIndex>
-
-            <ZIndex>51</ZIndex>
-
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2050,21 +1670,12 @@
                 </Style>
               </Paragraph>
             </Paragraphs>
-
             <rd:DefaultName>Textbox37</rd:DefaultName>
             <Top>10.96758cm</Top>
             <Left>5.95307cm</Left>
             <Height>0.22959cm</Height>
             <Width>2.5cm</Width>
             <ZIndex>41</ZIndex>
-
-            <rd:DefaultName>Textbox10</rd:DefaultName>
-            <Top>8.3264cm</Top>
-            <Left>9.87044cm</Left>
-            <Height>0.6cm</Height>
-            <Width>2.5cm</Width>
-            <ZIndex>52</ZIndex>
-
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2098,11 +1709,7 @@
             <Left>5.95307cm</Left>
             <Height>0.07083cm</Height>
             <Width>2.5cm</Width>
-
             <ZIndex>42</ZIndex>
-
-            <ZIndex>53</ZIndex>
-
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2113,42 +1720,12 @@
               <PaddingBottom>2pt</PaddingBottom>
             </Style>
           </Textbox>
-
-          <Line Name="Line15">
-            <Top>11.65272cm</Top>
-            <Left>8.02673cm</Left>
-            <Height>0.64723cm</Height>
-            <Width>0cm</Width>
-            <ZIndex>54</ZIndex>
-            <Style>
-              <Border>
-                <Style>Solid</Style>
-              </Border>
-            </Style>
-          </Line>
-
           <Line Name="Line16">
             <Top>9.29731cm</Top>
             <Left>10.31779cm</Left>
             <Height>0.63528cm</Height>
             <Width>0cm</Width>
-
             <ZIndex>43</ZIndex>
-
-            <ZIndex>55</ZIndex>
-            <Style>
-              <Border>
-                <Style>Solid</Style>
-              </Border>
-            </Style>
-          </Line>
-          <Line Name="Line17">
-            <Top>11.65272cm</Top>
-            <Left>12.67344cm</Left>
-            <Height>3.71723cm</Height>
-            <Width>0cm</Width>
-            <ZIndex>56</ZIndex>
-
             <Style>
               <Border>
                 <Style>Solid</Style>
@@ -2159,13 +1736,8 @@
             <Top>12.41316cm</Top>
             <Left>0.1228cm</Left>
             <Height>0cm</Height>
-
             <Width>15.64159cm</Width>
             <ZIndex>44</ZIndex>
-
-            <Width>15.34173cm</Width>
-            <ZIndex>57</ZIndex>
-
             <Style>
               <Border>
                 <Style>Solid</Style>
@@ -2176,13 +1748,8 @@
             <Top>10.47342cm</Top>
             <Left>5.79252cm</Left>
             <Height>0cm</Height>
-
             <Width>9.9013cm</Width>
             <ZIndex>45</ZIndex>
-
-            <Width>9.74172cm</Width>
-            <ZIndex>58</ZIndex>
-
             <Style>
               <Border>
                 <Style>Solid</Style>
@@ -2195,10 +1762,6 @@
             <Height>0cm</Height>
             <Width>9.99019cm</Width>
             <ZIndex>46</ZIndex>
-
-            <Width>9.777cm</Width>
-            <ZIndex>59</ZIndex>
-
             <Style>
               <Border>
                 <Style>Solid</Style>
@@ -2211,9 +1774,6 @@
             <Height>0cm</Height>
             <Width>10.00714cm</Width>
             <ZIndex>47</ZIndex>
-
-            <Width>9.74172cm</Width>
-            <ZIndex>60</ZIndex>
             <Style>
               <Border>
                 <Style>Solid</Style>
@@ -2224,13 +1784,8 @@
             <Top>11.89336cm</Top>
             <Left>5.79252cm</Left>
             <Height>0cm</Height>
-
             <Width>10.00714cm</Width>
             <ZIndex>48</ZIndex>
-
-            <Width>9.74172cm</Width>
-            <ZIndex>61</ZIndex>
-
             <Style>
               <Border>
                 <Style>Solid</Style>
@@ -2258,11 +1813,7 @@
             <Left>0.10416cm</Left>
             <Height>0.69933cm</Height>
             <Width>5.09292cm</Width>
-
             <ZIndex>49</ZIndex>
-
-            <ZIndex>62</ZIndex>
-
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2292,11 +1843,7 @@
             <Left>0.15807cm</Left>
             <Height>0.45862cm</Height>
             <Width>3.16146cm</Width>
-
             <ZIndex>50</ZIndex>
-
-            <ZIndex>63</ZIndex>
-
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2328,11 +1875,7 @@
             <Left>0.15807cm</Left>
             <Height>0.6cm</Height>
             <Width>3.16146cm</Width>
-
             <ZIndex>51</ZIndex>
-
-            <ZIndex>64</ZIndex>
-
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2348,11 +1891,7 @@
             <Left>7.95043cm</Left>
             <Height>3.30527cm</Height>
             <Width>0cm</Width>
-
             <ZIndex>52</ZIndex>
-
-            <ZIndex>65</ZIndex>
-
             <Style>
               <Border>
                 <Style>Solid</Style>
@@ -2382,11 +1921,7 @@
             <Left>9.68369cm</Left>
             <Height>0.4859cm</Height>
             <Width>3.33311cm</Width>
-
             <ZIndex>53</ZIndex>
-
-            <ZIndex>66</ZIndex>
-
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2416,19 +1951,11 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox44</rd:DefaultName>
-
             <Top>13.90478cm</Top>
             <Left>8.28247cm</Left>
             <Height>0.41479cm</Height>
             <Width>6.87027cm</Width>
             <ZIndex>54</ZIndex>
-
-            <Top>17.5014cm</Top>
-            <Left>7.47571cm</Left>
-            <Height>0.6cm</Height>
-            <Width>8.28139cm</Width>
-            <ZIndex>67</ZIndex>
-
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2457,21 +1984,12 @@
                 </Style>
               </Paragraph>
             </Paragraphs>
-
             <rd:DefaultName>Textbox45</rd:DefaultName>
             <Top>15.31278cm</Top>
             <Left>9.5073cm</Left>
             <Height>0.6cm</Height>
             <Width>4.37438cm</Width>
             <ZIndex>55</ZIndex>
-
-            <rd:DefaultName>Textbox22</rd:DefaultName>
-            <Top>8.3264cm</Top>
-            <Left>12.77203cm</Left>
-            <Height>0.55478cm</Height>
-            <Width>2.84396cm</Width>
-            <ZIndex>68</ZIndex>
-
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2486,13 +2004,8 @@
             <Top>16.55656cm</Top>
             <Left>0.08751cm</Left>
             <Height>0cm</Height>
-
             <Width>15.71216cm</Width>
             <ZIndex>56</ZIndex>
-
-            <Width>15.37701cm</Width>
-            <ZIndex>69</ZIndex>
-
             <Style>
               <Border>
                 <Style>Solid</Style>
@@ -2522,11 +2035,7 @@
             <Left>13.19382cm</Left>
             <Height>0.30014cm</Height>
             <Width>2.5cm</Width>
-
             <ZIndex>57</ZIndex>
-
-            <ZIndex>70</ZIndex>
-
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2560,7 +2069,6 @@
             <Left>13.2291cm</Left>
             <Height>0.21194cm</Height>
             <Width>2.5cm</Width>
-
             <ZIndex>58</ZIndex>
             <Style>
               <Border>
@@ -2596,9 +2104,6 @@
             <Height>0.27285cm</Height>
             <Width>2.5cm</Width>
             <ZIndex>59</ZIndex>
-
-            <ZIndex>71</ZIndex>
-
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2631,13 +2136,8 @@
             <Top>10.00314cm</Top>
             <Left>13.29966cm</Left>
             <Height>0.32604cm</Height>
-
             <Width>2.42944cm</Width>
             <ZIndex>60</ZIndex>
-
-            <Width>2.5cm</Width>
-            <ZIndex>72</ZIndex>
- 
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2671,7 +2171,6 @@
             <Left>13.24743cm</Left>
             <Height>0.28222cm</Height>
             <Width>2.5cm</Width>
- 
             <ZIndex>61</ZIndex>
             <Style>
               <Border>
@@ -2739,8 +2238,6 @@
             <Height>0.6cm</Height>
             <Width>3.10785cm</Width>
             <ZIndex>63</ZIndex>
-             <ZIndex>73</ZIndex>
- 
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2771,13 +2268,8 @@
             <Top>13.94005cm</Top>
             <Left>0.14112cm</Left>
             <Height>0.6cm</Height>
- 
             <Width>3.17841cm</Width>
             <ZIndex>64</ZIndex>
- 
-            <Width>3.10785cm</Width>
-            <ZIndex>74</ZIndex>
- 
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2809,11 +2301,7 @@
             <Left>0.12279cm</Left>
             <Height>0.35306cm</Height>
             <Width>3.0909cm</Width>
- 
             <ZIndex>65</ZIndex>
- 
-            <ZIndex>75</ZIndex>
- 
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2843,11 +2331,7 @@
             <Left>1.62912cm</Left>
             <Height>0.27368cm</Height>
             <Width>12.90122cm</Width>
- 
             <ZIndex>66</ZIndex>
- 
-            <ZIndex>76</ZIndex>
- 
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2881,11 +2365,7 @@
             <Left>3.40703cm</Left>
             <Height>0.6cm</Height>
             <Width>3.68721cm</Width>
- 
             <ZIndex>67</ZIndex>
- 
-            <ZIndex>77</ZIndex>
- 
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2919,11 +2399,7 @@
             <Left>3.40703cm</Left>
             <Height>0.45889cm</Height>
             <Width>3.68721cm</Width>
- 
             <ZIndex>68</ZIndex>
- 
-            <ZIndex>78</ZIndex>
- 
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2957,11 +2433,7 @@
             <Left>3.37175cm</Left>
             <Height>0.6cm</Height>
             <Width>3.72249cm</Width>
- 
             <ZIndex>69</ZIndex>
- 
-            <ZIndex>79</ZIndex>
- 
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2994,13 +2466,8 @@
             <Top>13.92184cm</Top>
             <Left>3.4423cm</Left>
             <Height>0.6cm</Height>
- 
             <Width>3.68721cm</Width>
             <ZIndex>70</ZIndex>
- 
-            <Width>3.72249cm</Width>
-            <ZIndex>80</ZIndex>
- 
             <Style>
               <Border>
                 <Style>None</Style>
@@ -3266,250 +2733,6 @@
       </Body>
       <Width>6.29005in</Width>
       <Page>
- 
-        <PageHeader>
-          <Height>4.04495cm</Height>
-          <PrintOnFirstPage>true</PrintOnFirstPage>
-          <PrintOnLastPage>true</PrintOnLastPage>
-          <ReportItems>
-            <Textbox Name="Textbox1">
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>THE ARASAN ALUMINIUM INDUSTRIES ( P )  LTD</Value>
-                      <Style>
-                        <FontSize>18pt</FontSize>
-                        <FontWeight>Bold</FontWeight>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
-                  <Style />
-                </Paragraph>
-              </Paragraphs>
-              <rd:DefaultName>Textbox1</rd:DefaultName>
-              <Top>0.37042cm</Top>
-              <Left>2.21939cm</Left>
-              <Height>0.865cm</Height>
-              <Width>15.42458cm</Width>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-              </Style>
-            </Textbox>
-            <Image Name="Image1">
-              <Source>Embedded</Source>
-              <Value>Arasan_Logo</Value>
-              <Sizing>FitProportional</Sizing>
-              <Top>1.00182cm</Top>
-              <Left>0.31687cm</Left>
-              <Height>1.1825cm</Height>
-              <Width>1.69085cm</Width>
-              <ZIndex>1</ZIndex>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-              </Style>
-            </Image>
-            <Textbox Name="Textbox2">
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>Factory &amp; Admin. Office : S.No 556 to568, Melamathur Village, Amathur P.O-626005.</Value>
-                      <Style />
-                    </TextRun>
-                  </TextRuns>
-                  <Style />
-                </Paragraph>
-              </Paragraphs>
-              <rd:DefaultName>Textbox2</rd:DefaultName>
-              <Top>1.54905cm</Top>
-              <Left>3.46349cm</Left>
-              <Height>0.6cm</Height>
-              <Width>13.24083cm</Width>
-              <ZIndex>2</ZIndex>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-              </Style>
-            </Textbox>
-            <Textbox Name="Textbox3">
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>Phone:+91-7867000916/917,9442171616, Mobile:+91-7867000485</Value>
-                      <Style />
-                    </TextRun>
-                  </TextRuns>
-                  <Style />
-                </Paragraph>
-              </Paragraphs>
-              <rd:DefaultName>Textbox3</rd:DefaultName>
-              <Top>2.14905cm</Top>
-              <Left>4.59994cm</Left>
-              <Height>0.6cm</Height>
-              <Width>10.33167cm</Width>
-              <ZIndex>3</ZIndex>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-              </Style>
-            </Textbox>
-            <Textbox Name="Textbox4">
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>E-Mail:info@arasanaluminium.com  Website :</Value>
-                      <Style />
-                    </TextRun>
-                    <TextRun>
-                      <Value> www.arasanaluminium.com</Value>
-                      <ActionInfo>
-                        <Actions>
-                          <Action>
-                            <Hyperlink> www.arasanaluminium.com</Hyperlink>
-                          </Action>
-                        </Actions>
-                      </ActionInfo>
-                      <Style />
-                    </TextRun>
-                  </TextRuns>
-                  <Style />
-                </Paragraph>
-              </Paragraphs>
-              <rd:DefaultName>Textbox4</rd:DefaultName>
-              <Top>2.74905cm</Top>
-              <Left>4.25598cm</Left>
-              <Height>0.6cm</Height>
-              <Width>11.50874cm</Width>
-              <ZIndex>4</ZIndex>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-              </Style>
-            </Textbox>
-            <Textbox Name="Textbox5">
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>Registered Office :102-A, Chairman A.Shanmugam Road, Sivakasi.</Value>
-                      <Style />
-                    </TextRun>
-                  </TextRuns>
-                  <Style />
-                </Paragraph>
-              </Paragraphs>
-              <rd:DefaultName>Textbox5</rd:DefaultName>
-              <Top>3.34905cm</Top>
-              <Left>4.86453cm</Left>
-              <Height>0.6cm</Height>
-              <Width>10.56979cm</Width>
-              <ZIndex>5</ZIndex>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-              </Style>
-            </Textbox>
-            <Line Name="Line1">
-              <Top>4.04495cm</Top>
-              <Left>17.94786cm</Left>
-              <Height>-4.04495cm</Height>
-              <Width>0cm</Width>
-              <ZIndex>6</ZIndex>
-              <Style>
-                <Border>
-                  <Style>Solid</Style>
-                </Border>
-              </Style>
-            </Line>
-            <Line Name="Line2">
-              <Top>0.03528cm</Top>
-              <Left>2.18411cm</Left>
-              <Height>4.00967cm</Height>
-              <Width>0cm</Width>
-              <ZIndex>7</ZIndex>
-              <Style>
-                <Border>
-                  <Style>Solid</Style>
-                </Border>
-              </Style>
-            </Line>
-            <Image Name="Image2">
-              <Source>Embedded</Source>
-              <Value>iso9001</Value>
-              <Sizing>Fit</Sizing>
-              <Top>0.72856cm</Top>
-              <Left>18.05369cm</Left>
-              <Height>2.02049cm</Height>
-              <Width>2.24833cm</Width>
-              <ZIndex>8</ZIndex>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-              </Style>
-            </Image>
-            <Line Name="Line8">
-              <Top>4.04495cm</Top>
-              <Left>0.31687cm</Left>
-              <Height>0cm</Height>
-              <Width>19.98515cm</Width>
-              <ZIndex>9</ZIndex>
-              <Style>
-                <Border>
-                  <Style>Solid</Style>
-                </Border>
-              </Style>
-            </Line>
-          </ReportItems>
-          <Style>
-            <Border>
-              <Style>None</Style>
-            </Border>
-          </Style>
-        </PageHeader>
-
- 
         <PageHeight>29.7cm</PageHeight>
         <PageWidth>21cm</PageWidth>
         <LeftMargin>2cm</LeftMargin>
