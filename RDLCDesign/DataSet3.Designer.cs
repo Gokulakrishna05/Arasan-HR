@@ -24,7 +24,7 @@ namespace RDLCDesign {
     [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.DataSet")]
     public partial class DataSet3 : global::System.Data.DataSet {
         
-        private PURENQDataTable tablePURENQ;
+        private DataTable1DataTable tableDataTable1;
         
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
@@ -54,8 +54,8 @@ namespace RDLCDesign {
             if ((this.DetermineSchemaSerializationMode(info, context) == global::System.Data.SchemaSerializationMode.IncludeSchema)) {
                 global::System.Data.DataSet ds = new global::System.Data.DataSet();
                 ds.ReadXmlSchema(new global::System.Xml.XmlTextReader(new global::System.IO.StringReader(strSchema)));
-                if ((ds.Tables["PURENQ"] != null)) {
-                    base.Tables.Add(new PURENQDataTable(ds.Tables["PURENQ"]));
+                if ((ds.Tables["DataTable1"] != null)) {
+                    base.Tables.Add(new DataTable1DataTable(ds.Tables["DataTable1"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -79,9 +79,9 @@ namespace RDLCDesign {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Browsable(false)]
         [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public PURENQDataTable PURENQ {
+        public DataTable1DataTable DataTable1 {
             get {
-                return this.tablePURENQ;
+                return this.tableDataTable1;
             }
         }
         
@@ -152,8 +152,8 @@ namespace RDLCDesign {
                 this.Reset();
                 global::System.Data.DataSet ds = new global::System.Data.DataSet();
                 ds.ReadXml(reader);
-                if ((ds.Tables["PURENQ"] != null)) {
-                    base.Tables.Add(new PURENQDataTable(ds.Tables["PURENQ"]));
+                if ((ds.Tables["DataTable1"] != null)) {
+                    base.Tables.Add(new DataTable1DataTable(ds.Tables["DataTable1"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -188,10 +188,10 @@ namespace RDLCDesign {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         internal void InitVars(bool initTable) {
-            this.tablePURENQ = ((PURENQDataTable)(base.Tables["PURENQ"]));
+            this.tableDataTable1 = ((DataTable1DataTable)(base.Tables["DataTable1"]));
             if ((initTable == true)) {
-                if ((this.tablePURENQ != null)) {
-                    this.tablePURENQ.InitVars();
+                if ((this.tableDataTable1 != null)) {
+                    this.tableDataTable1.InitVars();
                 }
             }
         }
@@ -204,13 +204,13 @@ namespace RDLCDesign {
             this.Namespace = "http://tempuri.org/DataSet3.xsd";
             this.EnforceConstraints = true;
             this.SchemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
-            this.tablePURENQ = new PURENQDataTable();
-            base.Tables.Add(this.tablePURENQ);
+            this.tableDataTable1 = new DataTable1DataTable();
+            base.Tables.Add(this.tableDataTable1);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        private bool ShouldSerializePURENQ() {
+        private bool ShouldSerializeDataTable1() {
             return false;
         }
         
@@ -270,16 +270,16 @@ namespace RDLCDesign {
         }
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        public delegate void PURENQRowChangeEventHandler(object sender, PURENQRowChangeEvent e);
+        public delegate void DataTable1RowChangeEventHandler(object sender, DataTable1RowChangeEvent e);
         
         /// <summary>
         ///Represents the strongly named DataTable class.
         ///</summary>
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class PURENQDataTable : global::System.Data.TypedTableBase<PURENQRow> {
+        public partial class DataTable1DataTable : global::System.Data.TypedTableBase<DataTable1Row> {
             
-            private global::System.Data.DataColumn columnPURENQID;
+            private global::System.Data.DataColumn columnPURQUOTBASICID;
             
             private global::System.Data.DataColumn columnPROFITDOC;
             
@@ -297,40 +297,118 @@ namespace RDLCDesign {
             
             private global::System.Data.DataColumn columnBRANCHID;
             
+            private global::System.Data.DataColumn columnDOCID;
+            
+            private global::System.Data.DataColumn columnDOCDATE;
+            
+            private global::System.Data.DataColumn columnPARTYID;
+            
+            private global::System.Data.DataColumn columnPARTYNAME;
+            
+            private global::System.Data.DataColumn columnFROMDATE;
+            
+            private global::System.Data.DataColumn columnTODATE;
+            
+            private global::System.Data.DataColumn columnNARR;
+            
             private global::System.Data.DataColumn columnENQNO;
             
             private global::System.Data.DataColumn columnENQDATE;
             
-            private global::System.Data.DataColumn columnENQRECDBY;
+            private global::System.Data.DataColumn columnPARTYREFNO;
             
-            private global::System.Data.DataColumn columnASSIGNTO;
+            private global::System.Data.DataColumn columnUSERID;
             
-            private global::System.Data.DataColumn columnFOLLOWDT;
+            private global::System.Data.DataColumn columnRECID;
+            
+            private global::System.Data.DataColumn columnEXRATE;
+            
+            private global::System.Data.DataColumn columnMAINCURRENCY;
+            
+            private global::System.Data.DataColumn columnSENTBY;
+            
+            private global::System.Data.DataColumn columnRECDBY;
+            
+            private global::System.Data.DataColumn columnFUDATE;
+            
+            private global::System.Data.DataColumn columnPARENTACTIVITYID;
+            
+            private global::System.Data.DataColumn columnORGANISERID;
+            
+            private global::System.Data.DataColumn columnPARENTJOBSID;
+            
+            private global::System.Data.DataColumn columnACTIVITYDONE;
+            
+            private global::System.Data.DataColumn columnFOLLOWUPTIME;
+            
+            private global::System.Data.DataColumn columnTHROUGH;
+            
+            private global::System.Data.DataColumn columnNARR1;
+            
+            private global::System.Data.DataColumn columnNARR2;
+            
+            private global::System.Data.DataColumn columnNARR3;
+            
+            private global::System.Data.DataColumn columnAPPBY;
+            
+            private global::System.Data.DataColumn columnDESIGNATION;
+            
+            private global::System.Data.DataColumn columnENQID;
+            
+            private global::System.Data.DataColumn columnIS_ACTIVE;
             
             private global::System.Data.DataColumn columnSTATUS;
             
-            private global::System.Data.DataColumn columnREMARKS;
+            private global::System.Data.DataColumn columnPURQUOTDETAILID;
             
-            private global::System.Data.DataColumn columnSMSDATE;
+            private global::System.Data.DataColumn columnPURQUOTBASICID1;
             
-            private global::System.Data.DataColumn columnSENDSMS;
+            private global::System.Data.DataColumn columnITEMID;
             
-            private global::System.Data.DataColumn columnENQREF;
+            private global::System.Data.DataColumn columnITEMDESC;
             
-            private global::System.Data.DataColumn columnPARTYMASTID;
+            private global::System.Data.DataColumn columnRATE;
             
-            private global::System.Data.DataColumn columnCURRENCYID;
+            private global::System.Data.DataColumn columnQTY;
             
-            private global::System.Data.DataColumn columnEXCRATERATE;
+            private global::System.Data.DataColumn columnUNIT;
             
-            private global::System.Data.DataColumn columnPARTYREFNO;
+            private global::System.Data.DataColumn columnPRIQTY;
             
-            private global::System.Data.DataColumn columnACTIVE;
+            private global::System.Data.DataColumn columnCF;
+            
+            private global::System.Data.DataColumn columnORDSTATUS;
+            
+            private global::System.Data.DataColumn columnSCHQTY;
+            
+            private global::System.Data.DataColumn columnEXPR1;
+            
+            private global::System.Data.DataColumn columnEXPR2;
+            
+            private global::System.Data.DataColumn columnEXPR3;
+            
+            private global::System.Data.DataColumn columnEXPR4;
+            
+            private global::System.Data.DataColumn columnEXPR5;
+            
+            private global::System.Data.DataColumn columnEXPR6;
+            
+            private global::System.Data.DataColumn columnEXPR7;
+            
+            private global::System.Data.DataColumn columnEXPR9;
+            
+            private global::System.Data.DataColumn columnEXPR8;
+            
+            private global::System.Data.DataColumn columnEXPR10;
+            
+            private global::System.Data.DataColumn columnEXPR11;
+            
+            private global::System.Data.DataColumn columnEXPR12;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public PURENQDataTable() {
-                this.TableName = "PURENQ";
+            public DataTable1DataTable() {
+                this.TableName = "DataTable1";
                 this.BeginInit();
                 this.InitClass();
                 this.EndInit();
@@ -338,7 +416,7 @@ namespace RDLCDesign {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            internal PURENQDataTable(global::System.Data.DataTable table) {
+            internal DataTable1DataTable(global::System.Data.DataTable table) {
                 this.TableName = table.TableName;
                 if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
                     this.CaseSensitive = table.CaseSensitive;
@@ -355,16 +433,16 @@ namespace RDLCDesign {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            protected PURENQDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+            protected DataTable1DataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn PURENQIDColumn {
+            public global::System.Data.DataColumn PURQUOTBASICIDColumn {
                 get {
-                    return this.columnPURENQID;
+                    return this.columnPURQUOTBASICID;
                 }
             }
             
@@ -434,6 +512,62 @@ namespace RDLCDesign {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn DOCIDColumn {
+                get {
+                    return this.columnDOCID;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn DOCDATEColumn {
+                get {
+                    return this.columnDOCDATE;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn PARTYIDColumn {
+                get {
+                    return this.columnPARTYID;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn PARTYNAMEColumn {
+                get {
+                    return this.columnPARTYNAME;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn FROMDATEColumn {
+                get {
+                    return this.columnFROMDATE;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn TODATEColumn {
+                get {
+                    return this.columnTODATE;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn NARRColumn {
+                get {
+                    return this.columnNARR;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn ENQNOColumn {
                 get {
                     return this.columnENQNO;
@@ -450,25 +584,169 @@ namespace RDLCDesign {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn ENQRECDBYColumn {
+            public global::System.Data.DataColumn PARTYREFNOColumn {
                 get {
-                    return this.columnENQRECDBY;
+                    return this.columnPARTYREFNO;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn ASSIGNTOColumn {
+            public global::System.Data.DataColumn USERIDColumn {
                 get {
-                    return this.columnASSIGNTO;
+                    return this.columnUSERID;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn FOLLOWDTColumn {
+            public global::System.Data.DataColumn RECIDColumn {
                 get {
-                    return this.columnFOLLOWDT;
+                    return this.columnRECID;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn EXRATEColumn {
+                get {
+                    return this.columnEXRATE;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn MAINCURRENCYColumn {
+                get {
+                    return this.columnMAINCURRENCY;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn SENTBYColumn {
+                get {
+                    return this.columnSENTBY;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn RECDBYColumn {
+                get {
+                    return this.columnRECDBY;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn FUDATEColumn {
+                get {
+                    return this.columnFUDATE;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn PARENTACTIVITYIDColumn {
+                get {
+                    return this.columnPARENTACTIVITYID;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn ORGANISERIDColumn {
+                get {
+                    return this.columnORGANISERID;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn PARENTJOBSIDColumn {
+                get {
+                    return this.columnPARENTJOBSID;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn ACTIVITYDONEColumn {
+                get {
+                    return this.columnACTIVITYDONE;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn FOLLOWUPTIMEColumn {
+                get {
+                    return this.columnFOLLOWUPTIME;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn THROUGHColumn {
+                get {
+                    return this.columnTHROUGH;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn NARR1Column {
+                get {
+                    return this.columnNARR1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn NARR2Column {
+                get {
+                    return this.columnNARR2;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn NARR3Column {
+                get {
+                    return this.columnNARR3;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn APPBYColumn {
+                get {
+                    return this.columnAPPBY;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn DESIGNATIONColumn {
+                get {
+                    return this.columnDESIGNATION;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn ENQIDColumn {
+                get {
+                    return this.columnENQID;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn IS_ACTIVEColumn {
+                get {
+                    return this.columnIS_ACTIVE;
                 }
             }
             
@@ -482,73 +760,185 @@ namespace RDLCDesign {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn REMARKSColumn {
+            public global::System.Data.DataColumn PURQUOTDETAILIDColumn {
                 get {
-                    return this.columnREMARKS;
+                    return this.columnPURQUOTDETAILID;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn SMSDATEColumn {
+            public global::System.Data.DataColumn PURQUOTBASICID1Column {
                 get {
-                    return this.columnSMSDATE;
+                    return this.columnPURQUOTBASICID1;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn SENDSMSColumn {
+            public global::System.Data.DataColumn ITEMIDColumn {
                 get {
-                    return this.columnSENDSMS;
+                    return this.columnITEMID;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn ENQREFColumn {
+            public global::System.Data.DataColumn ITEMDESCColumn {
                 get {
-                    return this.columnENQREF;
+                    return this.columnITEMDESC;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn PARTYMASTIDColumn {
+            public global::System.Data.DataColumn RATEColumn {
                 get {
-                    return this.columnPARTYMASTID;
+                    return this.columnRATE;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn CURRENCYIDColumn {
+            public global::System.Data.DataColumn QTYColumn {
                 get {
-                    return this.columnCURRENCYID;
+                    return this.columnQTY;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn EXCRATERATEColumn {
+            public global::System.Data.DataColumn UNITColumn {
                 get {
-                    return this.columnEXCRATERATE;
+                    return this.columnUNIT;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn PARTYREFNOColumn {
+            public global::System.Data.DataColumn PRIQTYColumn {
                 get {
-                    return this.columnPARTYREFNO;
+                    return this.columnPRIQTY;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn ACTIVEColumn {
+            public global::System.Data.DataColumn CFColumn {
                 get {
-                    return this.columnACTIVE;
+                    return this.columnCF;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn ORDSTATUSColumn {
+                get {
+                    return this.columnORDSTATUS;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn SCHQTYColumn {
+                get {
+                    return this.columnSCHQTY;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn EXPR1Column {
+                get {
+                    return this.columnEXPR1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn EXPR2Column {
+                get {
+                    return this.columnEXPR2;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn EXPR3Column {
+                get {
+                    return this.columnEXPR3;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn EXPR4Column {
+                get {
+                    return this.columnEXPR4;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn EXPR5Column {
+                get {
+                    return this.columnEXPR5;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn EXPR6Column {
+                get {
+                    return this.columnEXPR6;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn EXPR7Column {
+                get {
+                    return this.columnEXPR7;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn EXPR9Column {
+                get {
+                    return this.columnEXPR9;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn EXPR8Column {
+                get {
+                    return this.columnEXPR8;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn EXPR10Column {
+                get {
+                    return this.columnEXPR10;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn EXPR11Column {
+                get {
+                    return this.columnEXPR11;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn EXPR12Column {
+                get {
+                    return this.columnEXPR12;
                 }
             }
             
@@ -563,34 +953,34 @@ namespace RDLCDesign {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public PURENQRow this[int index] {
+            public DataTable1Row this[int index] {
                 get {
-                    return ((PURENQRow)(this.Rows[index]));
+                    return ((DataTable1Row)(this.Rows[index]));
                 }
             }
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public event PURENQRowChangeEventHandler PURENQRowChanging;
+            public event DataTable1RowChangeEventHandler DataTable1RowChanging;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public event PURENQRowChangeEventHandler PURENQRowChanged;
+            public event DataTable1RowChangeEventHandler DataTable1RowChanged;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public event PURENQRowChangeEventHandler PURENQRowDeleting;
+            public event DataTable1RowChangeEventHandler DataTable1RowDeleting;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public event PURENQRowChangeEventHandler PURENQRowDeleted;
+            public event DataTable1RowChangeEventHandler DataTable1RowDeleted;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void AddPURENQRow(PURENQRow row) {
+            public void AddDataTable1Row(DataTable1Row row) {
                 this.Rows.Add(row);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public PURENQRow AddPURENQRow(
-                        decimal PURENQID, 
+            public DataTable1Row AddDataTable1Row(
+                        decimal PURQUOTBASICID, 
                         string PROFITDOC, 
                         decimal APPROVAL, 
                         string APPROVALSTATUS, 
@@ -599,24 +989,63 @@ namespace RDLCDesign {
                         decimal T1SOURCEID, 
                         decimal LATEMPLATEID, 
                         decimal BRANCHID, 
-                        string ENQNO, 
+                        string DOCID, 
+                        System.DateTime DOCDATE, 
+                        decimal PARTYID, 
+                        string PARTYNAME, 
+                        System.DateTime FROMDATE, 
+                        System.DateTime TODATE, 
+                        string NARR, 
+                        decimal ENQNO, 
                         System.DateTime ENQDATE, 
-                        decimal ENQRECDBY, 
-                        decimal ASSIGNTO, 
-                        System.DateTime FOLLOWDT, 
-                        string STATUS, 
-                        string REMARKS, 
-                        System.DateTime SMSDATE, 
-                        string SENDSMS, 
-                        string ENQREF, 
-                        string PARTYMASTID, 
-                        string CURRENCYID, 
-                        string EXCRATERATE, 
                         string PARTYREFNO, 
-                        string ACTIVE) {
-                PURENQRow rowPURENQRow = ((PURENQRow)(this.NewRow()));
+                        string USERID, 
+                        decimal RECID, 
+                        decimal EXRATE, 
+                        decimal MAINCURRENCY, 
+                        string SENTBY, 
+                        decimal RECDBY, 
+                        System.DateTime FUDATE, 
+                        string PARENTACTIVITYID, 
+                        decimal ORGANISERID, 
+                        decimal PARENTJOBSID, 
+                        string ACTIVITYDONE, 
+                        string FOLLOWUPTIME, 
+                        string THROUGH, 
+                        string NARR1, 
+                        string NARR2, 
+                        string NARR3, 
+                        string APPBY, 
+                        string DESIGNATION, 
+                        decimal ENQID, 
+                        string IS_ACTIVE, 
+                        string STATUS, 
+                        decimal PURQUOTDETAILID, 
+                        decimal PURQUOTBASICID1, 
+                        decimal ITEMID, 
+                        string ITEMDESC, 
+                        decimal RATE, 
+                        string QTY, 
+                        decimal UNIT, 
+                        decimal PRIQTY, 
+                        decimal CF, 
+                        short ORDSTATUS, 
+                        double SCHQTY, 
+                        decimal EXPR1, 
+                        decimal EXPR2, 
+                        string EXPR3, 
+                        decimal EXPR4, 
+                        decimal EXPR5, 
+                        string EXPR6, 
+                        System.DateTime EXPR7, 
+                        string EXPR9, 
+                        decimal EXPR8, 
+                        System.DateTime EXPR10, 
+                        decimal EXPR11, 
+                        decimal EXPR12) {
+                DataTable1Row rowDataTable1Row = ((DataTable1Row)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
-                        PURENQID,
+                        PURQUOTBASICID,
                         PROFITDOC,
                         APPROVAL,
                         APPROVALSTATUS,
@@ -625,37 +1054,69 @@ namespace RDLCDesign {
                         T1SOURCEID,
                         LATEMPLATEID,
                         BRANCHID,
+                        DOCID,
+                        DOCDATE,
+                        PARTYID,
+                        PARTYNAME,
+                        FROMDATE,
+                        TODATE,
+                        NARR,
                         ENQNO,
                         ENQDATE,
-                        ENQRECDBY,
-                        ASSIGNTO,
-                        FOLLOWDT,
-                        STATUS,
-                        REMARKS,
-                        SMSDATE,
-                        SENDSMS,
-                        ENQREF,
-                        PARTYMASTID,
-                        CURRENCYID,
-                        EXCRATERATE,
                         PARTYREFNO,
-                        ACTIVE};
-                rowPURENQRow.ItemArray = columnValuesArray;
-                this.Rows.Add(rowPURENQRow);
-                return rowPURENQRow;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public PURENQRow FindByPURENQID(decimal PURENQID) {
-                return ((PURENQRow)(this.Rows.Find(new object[] {
-                            PURENQID})));
+                        USERID,
+                        RECID,
+                        EXRATE,
+                        MAINCURRENCY,
+                        SENTBY,
+                        RECDBY,
+                        FUDATE,
+                        PARENTACTIVITYID,
+                        ORGANISERID,
+                        PARENTJOBSID,
+                        ACTIVITYDONE,
+                        FOLLOWUPTIME,
+                        THROUGH,
+                        NARR1,
+                        NARR2,
+                        NARR3,
+                        APPBY,
+                        DESIGNATION,
+                        ENQID,
+                        IS_ACTIVE,
+                        STATUS,
+                        PURQUOTDETAILID,
+                        PURQUOTBASICID1,
+                        ITEMID,
+                        ITEMDESC,
+                        RATE,
+                        QTY,
+                        UNIT,
+                        PRIQTY,
+                        CF,
+                        ORDSTATUS,
+                        SCHQTY,
+                        EXPR1,
+                        EXPR2,
+                        EXPR3,
+                        EXPR4,
+                        EXPR5,
+                        EXPR6,
+                        EXPR7,
+                        EXPR9,
+                        EXPR8,
+                        EXPR10,
+                        EXPR11,
+                        EXPR12};
+                rowDataTable1Row.ItemArray = columnValuesArray;
+                this.Rows.Add(rowDataTable1Row);
+                return rowDataTable1Row;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public override global::System.Data.DataTable Clone() {
-                PURENQDataTable cln = ((PURENQDataTable)(base.Clone()));
+                DataTable1DataTable cln = ((DataTable1DataTable)(base.Clone()));
                 cln.InitVars();
                 return cln;
             }
@@ -663,13 +1124,13 @@ namespace RDLCDesign {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             protected override global::System.Data.DataTable CreateInstance() {
-                return new PURENQDataTable();
+                return new DataTable1DataTable();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             internal void InitVars() {
-                this.columnPURENQID = base.Columns["PURENQID"];
+                this.columnPURQUOTBASICID = base.Columns["PURQUOTBASICID"];
                 this.columnPROFITDOC = base.Columns["PROFITDOC"];
                 this.columnAPPROVAL = base.Columns["APPROVAL"];
                 this.columnAPPROVALSTATUS = base.Columns["APPROVALSTATUS"];
@@ -678,28 +1139,67 @@ namespace RDLCDesign {
                 this.columnT1SOURCEID = base.Columns["T1SOURCEID"];
                 this.columnLATEMPLATEID = base.Columns["LATEMPLATEID"];
                 this.columnBRANCHID = base.Columns["BRANCHID"];
+                this.columnDOCID = base.Columns["DOCID"];
+                this.columnDOCDATE = base.Columns["DOCDATE"];
+                this.columnPARTYID = base.Columns["PARTYID"];
+                this.columnPARTYNAME = base.Columns["PARTYNAME"];
+                this.columnFROMDATE = base.Columns["FROMDATE"];
+                this.columnTODATE = base.Columns["TODATE"];
+                this.columnNARR = base.Columns["NARR"];
                 this.columnENQNO = base.Columns["ENQNO"];
                 this.columnENQDATE = base.Columns["ENQDATE"];
-                this.columnENQRECDBY = base.Columns["ENQRECDBY"];
-                this.columnASSIGNTO = base.Columns["ASSIGNTO"];
-                this.columnFOLLOWDT = base.Columns["FOLLOWDT"];
-                this.columnSTATUS = base.Columns["STATUS"];
-                this.columnREMARKS = base.Columns["REMARKS"];
-                this.columnSMSDATE = base.Columns["SMSDATE"];
-                this.columnSENDSMS = base.Columns["SENDSMS"];
-                this.columnENQREF = base.Columns["ENQREF"];
-                this.columnPARTYMASTID = base.Columns["PARTYMASTID"];
-                this.columnCURRENCYID = base.Columns["CURRENCYID"];
-                this.columnEXCRATERATE = base.Columns["EXCRATERATE"];
                 this.columnPARTYREFNO = base.Columns["PARTYREFNO"];
-                this.columnACTIVE = base.Columns["ACTIVE"];
+                this.columnUSERID = base.Columns["USERID"];
+                this.columnRECID = base.Columns["RECID"];
+                this.columnEXRATE = base.Columns["EXRATE"];
+                this.columnMAINCURRENCY = base.Columns["MAINCURRENCY"];
+                this.columnSENTBY = base.Columns["SENTBY"];
+                this.columnRECDBY = base.Columns["RECDBY"];
+                this.columnFUDATE = base.Columns["FUDATE"];
+                this.columnPARENTACTIVITYID = base.Columns["PARENTACTIVITYID"];
+                this.columnORGANISERID = base.Columns["ORGANISERID"];
+                this.columnPARENTJOBSID = base.Columns["PARENTJOBSID"];
+                this.columnACTIVITYDONE = base.Columns["ACTIVITYDONE"];
+                this.columnFOLLOWUPTIME = base.Columns["FOLLOWUPTIME"];
+                this.columnTHROUGH = base.Columns["THROUGH"];
+                this.columnNARR1 = base.Columns["NARR1"];
+                this.columnNARR2 = base.Columns["NARR2"];
+                this.columnNARR3 = base.Columns["NARR3"];
+                this.columnAPPBY = base.Columns["APPBY"];
+                this.columnDESIGNATION = base.Columns["DESIGNATION"];
+                this.columnENQID = base.Columns["ENQID"];
+                this.columnIS_ACTIVE = base.Columns["IS_ACTIVE"];
+                this.columnSTATUS = base.Columns["STATUS"];
+                this.columnPURQUOTDETAILID = base.Columns["PURQUOTDETAILID"];
+                this.columnPURQUOTBASICID1 = base.Columns["PURQUOTBASICID1"];
+                this.columnITEMID = base.Columns["ITEMID"];
+                this.columnITEMDESC = base.Columns["ITEMDESC"];
+                this.columnRATE = base.Columns["RATE"];
+                this.columnQTY = base.Columns["QTY"];
+                this.columnUNIT = base.Columns["UNIT"];
+                this.columnPRIQTY = base.Columns["PRIQTY"];
+                this.columnCF = base.Columns["CF"];
+                this.columnORDSTATUS = base.Columns["ORDSTATUS"];
+                this.columnSCHQTY = base.Columns["SCHQTY"];
+                this.columnEXPR1 = base.Columns["EXPR1"];
+                this.columnEXPR2 = base.Columns["EXPR2"];
+                this.columnEXPR3 = base.Columns["EXPR3"];
+                this.columnEXPR4 = base.Columns["EXPR4"];
+                this.columnEXPR5 = base.Columns["EXPR5"];
+                this.columnEXPR6 = base.Columns["EXPR6"];
+                this.columnEXPR7 = base.Columns["EXPR7"];
+                this.columnEXPR9 = base.Columns["EXPR9"];
+                this.columnEXPR8 = base.Columns["EXPR8"];
+                this.columnEXPR10 = base.Columns["EXPR10"];
+                this.columnEXPR11 = base.Columns["EXPR11"];
+                this.columnEXPR12 = base.Columns["EXPR12"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             private void InitClass() {
-                this.columnPURENQID = new global::System.Data.DataColumn("PURENQID", typeof(decimal), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnPURENQID);
+                this.columnPURQUOTBASICID = new global::System.Data.DataColumn("PURQUOTBASICID", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPURQUOTBASICID);
                 this.columnPROFITDOC = new global::System.Data.DataColumn("PROFITDOC", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnPROFITDOC);
                 this.columnAPPROVAL = new global::System.Data.DataColumn("APPROVAL", typeof(decimal), null, global::System.Data.MappingType.Element);
@@ -716,79 +1216,167 @@ namespace RDLCDesign {
                 base.Columns.Add(this.columnLATEMPLATEID);
                 this.columnBRANCHID = new global::System.Data.DataColumn("BRANCHID", typeof(decimal), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnBRANCHID);
-                this.columnENQNO = new global::System.Data.DataColumn("ENQNO", typeof(string), null, global::System.Data.MappingType.Element);
+                this.columnDOCID = new global::System.Data.DataColumn("DOCID", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDOCID);
+                this.columnDOCDATE = new global::System.Data.DataColumn("DOCDATE", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDOCDATE);
+                this.columnPARTYID = new global::System.Data.DataColumn("PARTYID", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPARTYID);
+                this.columnPARTYNAME = new global::System.Data.DataColumn("PARTYNAME", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPARTYNAME);
+                this.columnFROMDATE = new global::System.Data.DataColumn("FROMDATE", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnFROMDATE);
+                this.columnTODATE = new global::System.Data.DataColumn("TODATE", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTODATE);
+                this.columnNARR = new global::System.Data.DataColumn("NARR", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnNARR);
+                this.columnENQNO = new global::System.Data.DataColumn("ENQNO", typeof(decimal), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnENQNO);
                 this.columnENQDATE = new global::System.Data.DataColumn("ENQDATE", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnENQDATE);
-                this.columnENQRECDBY = new global::System.Data.DataColumn("ENQRECDBY", typeof(decimal), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnENQRECDBY);
-                this.columnASSIGNTO = new global::System.Data.DataColumn("ASSIGNTO", typeof(decimal), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnASSIGNTO);
-                this.columnFOLLOWDT = new global::System.Data.DataColumn("FOLLOWDT", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnFOLLOWDT);
-                this.columnSTATUS = new global::System.Data.DataColumn("STATUS", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnSTATUS);
-                this.columnREMARKS = new global::System.Data.DataColumn("REMARKS", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnREMARKS);
-                this.columnSMSDATE = new global::System.Data.DataColumn("SMSDATE", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnSMSDATE);
-                this.columnSENDSMS = new global::System.Data.DataColumn("SENDSMS", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnSENDSMS);
-                this.columnENQREF = new global::System.Data.DataColumn("ENQREF", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnENQREF);
-                this.columnPARTYMASTID = new global::System.Data.DataColumn("PARTYMASTID", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnPARTYMASTID);
-                this.columnCURRENCYID = new global::System.Data.DataColumn("CURRENCYID", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnCURRENCYID);
-                this.columnEXCRATERATE = new global::System.Data.DataColumn("EXCRATERATE", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnEXCRATERATE);
                 this.columnPARTYREFNO = new global::System.Data.DataColumn("PARTYREFNO", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnPARTYREFNO);
-                this.columnACTIVE = new global::System.Data.DataColumn("ACTIVE", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnACTIVE);
-                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
-                                this.columnPURENQID}, true));
-                this.columnPURENQID.AllowDBNull = false;
-                this.columnPURENQID.Unique = true;
+                this.columnUSERID = new global::System.Data.DataColumn("USERID", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnUSERID);
+                this.columnRECID = new global::System.Data.DataColumn("RECID", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRECID);
+                this.columnEXRATE = new global::System.Data.DataColumn("EXRATE", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnEXRATE);
+                this.columnMAINCURRENCY = new global::System.Data.DataColumn("MAINCURRENCY", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnMAINCURRENCY);
+                this.columnSENTBY = new global::System.Data.DataColumn("SENTBY", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnSENTBY);
+                this.columnRECDBY = new global::System.Data.DataColumn("RECDBY", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRECDBY);
+                this.columnFUDATE = new global::System.Data.DataColumn("FUDATE", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnFUDATE);
+                this.columnPARENTACTIVITYID = new global::System.Data.DataColumn("PARENTACTIVITYID", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPARENTACTIVITYID);
+                this.columnORGANISERID = new global::System.Data.DataColumn("ORGANISERID", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnORGANISERID);
+                this.columnPARENTJOBSID = new global::System.Data.DataColumn("PARENTJOBSID", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPARENTJOBSID);
+                this.columnACTIVITYDONE = new global::System.Data.DataColumn("ACTIVITYDONE", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnACTIVITYDONE);
+                this.columnFOLLOWUPTIME = new global::System.Data.DataColumn("FOLLOWUPTIME", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnFOLLOWUPTIME);
+                this.columnTHROUGH = new global::System.Data.DataColumn("THROUGH", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTHROUGH);
+                this.columnNARR1 = new global::System.Data.DataColumn("NARR1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnNARR1);
+                this.columnNARR2 = new global::System.Data.DataColumn("NARR2", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnNARR2);
+                this.columnNARR3 = new global::System.Data.DataColumn("NARR3", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnNARR3);
+                this.columnAPPBY = new global::System.Data.DataColumn("APPBY", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnAPPBY);
+                this.columnDESIGNATION = new global::System.Data.DataColumn("DESIGNATION", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDESIGNATION);
+                this.columnENQID = new global::System.Data.DataColumn("ENQID", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnENQID);
+                this.columnIS_ACTIVE = new global::System.Data.DataColumn("IS_ACTIVE", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnIS_ACTIVE);
+                this.columnSTATUS = new global::System.Data.DataColumn("STATUS", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnSTATUS);
+                this.columnPURQUOTDETAILID = new global::System.Data.DataColumn("PURQUOTDETAILID", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPURQUOTDETAILID);
+                this.columnPURQUOTBASICID1 = new global::System.Data.DataColumn("PURQUOTBASICID1", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPURQUOTBASICID1);
+                this.columnITEMID = new global::System.Data.DataColumn("ITEMID", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnITEMID);
+                this.columnITEMDESC = new global::System.Data.DataColumn("ITEMDESC", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnITEMDESC);
+                this.columnRATE = new global::System.Data.DataColumn("RATE", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRATE);
+                this.columnQTY = new global::System.Data.DataColumn("QTY", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnQTY);
+                this.columnUNIT = new global::System.Data.DataColumn("UNIT", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnUNIT);
+                this.columnPRIQTY = new global::System.Data.DataColumn("PRIQTY", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPRIQTY);
+                this.columnCF = new global::System.Data.DataColumn("CF", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCF);
+                this.columnORDSTATUS = new global::System.Data.DataColumn("ORDSTATUS", typeof(short), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnORDSTATUS);
+                this.columnSCHQTY = new global::System.Data.DataColumn("SCHQTY", typeof(double), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnSCHQTY);
+                this.columnEXPR1 = new global::System.Data.DataColumn("EXPR1", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnEXPR1);
+                this.columnEXPR2 = new global::System.Data.DataColumn("EXPR2", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnEXPR2);
+                this.columnEXPR3 = new global::System.Data.DataColumn("EXPR3", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnEXPR3);
+                this.columnEXPR4 = new global::System.Data.DataColumn("EXPR4", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnEXPR4);
+                this.columnEXPR5 = new global::System.Data.DataColumn("EXPR5", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnEXPR5);
+                this.columnEXPR6 = new global::System.Data.DataColumn("EXPR6", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnEXPR6);
+                this.columnEXPR7 = new global::System.Data.DataColumn("EXPR7", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnEXPR7);
+                this.columnEXPR9 = new global::System.Data.DataColumn("EXPR9", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnEXPR9);
+                this.columnEXPR8 = new global::System.Data.DataColumn("EXPR8", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnEXPR8);
+                this.columnEXPR10 = new global::System.Data.DataColumn("EXPR10", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnEXPR10);
+                this.columnEXPR11 = new global::System.Data.DataColumn("EXPR11", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnEXPR11);
+                this.columnEXPR12 = new global::System.Data.DataColumn("EXPR12", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnEXPR12);
+                this.columnPURQUOTBASICID.AllowDBNull = false;
                 this.columnPROFITDOC.MaxLength = 1;
                 this.columnAPPROVALSTATUS.MaxLength = 1;
                 this.columnCANCEL.MaxLength = 1;
-                this.columnENQNO.MaxLength = 25;
-                this.columnSTATUS.MaxLength = 25;
-                this.columnREMARKS.MaxLength = 50;
-                this.columnSENDSMS.MaxLength = 3;
-                this.columnENQREF.MaxLength = 15;
-                this.columnPARTYMASTID.MaxLength = 50;
-                this.columnCURRENCYID.MaxLength = 20;
-                this.columnEXCRATERATE.MaxLength = 15;
+                this.columnDOCID.MaxLength = 10;
+                this.columnPARTYNAME.MaxLength = 40;
+                this.columnNARR.MaxLength = 100;
                 this.columnPARTYREFNO.MaxLength = 15;
-                this.columnACTIVE.MaxLength = 20;
+                this.columnUSERID.MaxLength = 40;
+                this.columnSENTBY.MaxLength = 30;
+                this.columnPARENTACTIVITYID.MaxLength = 50;
+                this.columnACTIVITYDONE.MaxLength = 100;
+                this.columnFOLLOWUPTIME.MaxLength = 10;
+                this.columnTHROUGH.MaxLength = 15;
+                this.columnNARR1.MaxLength = 75;
+                this.columnNARR2.MaxLength = 75;
+                this.columnNARR3.MaxLength = 75;
+                this.columnAPPBY.MaxLength = 50;
+                this.columnDESIGNATION.MaxLength = 20;
+                this.columnIS_ACTIVE.MaxLength = 20;
+                this.columnSTATUS.MaxLength = 20;
+                this.columnPURQUOTDETAILID.AllowDBNull = false;
+                this.columnITEMDESC.MaxLength = 150;
+                this.columnQTY.MaxLength = 10;
+                this.columnEXPR3.MaxLength = 10;
+                this.columnEXPR6.MaxLength = 10;
+                this.columnEXPR9.MaxLength = 40;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public PURENQRow NewPURENQRow() {
-                return ((PURENQRow)(this.NewRow()));
+            public DataTable1Row NewDataTable1Row() {
+                return ((DataTable1Row)(this.NewRow()));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new PURENQRow(builder);
+                return new DataTable1Row(builder);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             protected override global::System.Type GetRowType() {
-                return typeof(PURENQRow);
+                return typeof(DataTable1Row);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanged(e);
-                if ((this.PURENQRowChanged != null)) {
-                    this.PURENQRowChanged(this, new PURENQRowChangeEvent(((PURENQRow)(e.Row)), e.Action));
+                if ((this.DataTable1RowChanged != null)) {
+                    this.DataTable1RowChanged(this, new DataTable1RowChangeEvent(((DataTable1Row)(e.Row)), e.Action));
                 }
             }
             
@@ -796,8 +1384,8 @@ namespace RDLCDesign {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanging(e);
-                if ((this.PURENQRowChanging != null)) {
-                    this.PURENQRowChanging(this, new PURENQRowChangeEvent(((PURENQRow)(e.Row)), e.Action));
+                if ((this.DataTable1RowChanging != null)) {
+                    this.DataTable1RowChanging(this, new DataTable1RowChangeEvent(((DataTable1Row)(e.Row)), e.Action));
                 }
             }
             
@@ -805,8 +1393,8 @@ namespace RDLCDesign {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleted(e);
-                if ((this.PURENQRowDeleted != null)) {
-                    this.PURENQRowDeleted(this, new PURENQRowChangeEvent(((PURENQRow)(e.Row)), e.Action));
+                if ((this.DataTable1RowDeleted != null)) {
+                    this.DataTable1RowDeleted(this, new DataTable1RowChangeEvent(((DataTable1Row)(e.Row)), e.Action));
                 }
             }
             
@@ -814,14 +1402,14 @@ namespace RDLCDesign {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleting(e);
-                if ((this.PURENQRowDeleting != null)) {
-                    this.PURENQRowDeleting(this, new PURENQRowChangeEvent(((PURENQRow)(e.Row)), e.Action));
+                if ((this.DataTable1RowDeleting != null)) {
+                    this.DataTable1RowDeleting(this, new DataTable1RowChangeEvent(((DataTable1Row)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void RemovePURENQRow(PURENQRow row) {
+            public void RemoveDataTable1Row(DataTable1Row row) {
                 this.Rows.Remove(row);
             }
             
@@ -848,7 +1436,7 @@ namespace RDLCDesign {
                 type.Attributes.Add(attribute1);
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "PURENQDataTable";
+                attribute2.FixedValue = "DataTable1DataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -892,25 +1480,25 @@ namespace RDLCDesign {
         /// <summary>
         ///Represents strongly named DataRow class.
         ///</summary>
-        public partial class PURENQRow : global::System.Data.DataRow {
+        public partial class DataTable1Row : global::System.Data.DataRow {
             
-            private PURENQDataTable tablePURENQ;
+            private DataTable1DataTable tableDataTable1;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            internal PURENQRow(global::System.Data.DataRowBuilder rb) : 
+            internal DataTable1Row(global::System.Data.DataRowBuilder rb) : 
                     base(rb) {
-                this.tablePURENQ = ((PURENQDataTable)(this.Table));
+                this.tableDataTable1 = ((DataTable1DataTable)(this.Table));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public decimal PURENQID {
+            public decimal PURQUOTBASICID {
                 get {
-                    return ((decimal)(this[this.tablePURENQ.PURENQIDColumn]));
+                    return ((decimal)(this[this.tableDataTable1.PURQUOTBASICIDColumn]));
                 }
                 set {
-                    this[this.tablePURENQ.PURENQIDColumn] = value;
+                    this[this.tableDataTable1.PURQUOTBASICIDColumn] = value;
                 }
             }
             
@@ -919,14 +1507,14 @@ namespace RDLCDesign {
             public string PROFITDOC {
                 get {
                     try {
-                        return ((string)(this[this.tablePURENQ.PROFITDOCColumn]));
+                        return ((string)(this[this.tableDataTable1.PROFITDOCColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'PROFITDOC\' in table \'PURENQ\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'PROFITDOC\' in table \'DataTable1\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tablePURENQ.PROFITDOCColumn] = value;
+                    this[this.tableDataTable1.PROFITDOCColumn] = value;
                 }
             }
             
@@ -935,14 +1523,14 @@ namespace RDLCDesign {
             public decimal APPROVAL {
                 get {
                     try {
-                        return ((decimal)(this[this.tablePURENQ.APPROVALColumn]));
+                        return ((decimal)(this[this.tableDataTable1.APPROVALColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'APPROVAL\' in table \'PURENQ\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'APPROVAL\' in table \'DataTable1\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tablePURENQ.APPROVALColumn] = value;
+                    this[this.tableDataTable1.APPROVALColumn] = value;
                 }
             }
             
@@ -951,14 +1539,14 @@ namespace RDLCDesign {
             public string APPROVALSTATUS {
                 get {
                     try {
-                        return ((string)(this[this.tablePURENQ.APPROVALSTATUSColumn]));
+                        return ((string)(this[this.tableDataTable1.APPROVALSTATUSColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'APPROVALSTATUS\' in table \'PURENQ\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'APPROVALSTATUS\' in table \'DataTable1\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tablePURENQ.APPROVALSTATUSColumn] = value;
+                    this[this.tableDataTable1.APPROVALSTATUSColumn] = value;
                 }
             }
             
@@ -967,14 +1555,14 @@ namespace RDLCDesign {
             public short MAXAPPROVED {
                 get {
                     try {
-                        return ((short)(this[this.tablePURENQ.MAXAPPROVEDColumn]));
+                        return ((short)(this[this.tableDataTable1.MAXAPPROVEDColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'MAXAPPROVED\' in table \'PURENQ\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'MAXAPPROVED\' in table \'DataTable1\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tablePURENQ.MAXAPPROVEDColumn] = value;
+                    this[this.tableDataTable1.MAXAPPROVEDColumn] = value;
                 }
             }
             
@@ -983,14 +1571,14 @@ namespace RDLCDesign {
             public string CANCEL {
                 get {
                     try {
-                        return ((string)(this[this.tablePURENQ.CANCELColumn]));
+                        return ((string)(this[this.tableDataTable1.CANCELColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'CANCEL\' in table \'PURENQ\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'CANCEL\' in table \'DataTable1\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tablePURENQ.CANCELColumn] = value;
+                    this[this.tableDataTable1.CANCELColumn] = value;
                 }
             }
             
@@ -999,14 +1587,14 @@ namespace RDLCDesign {
             public decimal T1SOURCEID {
                 get {
                     try {
-                        return ((decimal)(this[this.tablePURENQ.T1SOURCEIDColumn]));
+                        return ((decimal)(this[this.tableDataTable1.T1SOURCEIDColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'T1SOURCEID\' in table \'PURENQ\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'T1SOURCEID\' in table \'DataTable1\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tablePURENQ.T1SOURCEIDColumn] = value;
+                    this[this.tableDataTable1.T1SOURCEIDColumn] = value;
                 }
             }
             
@@ -1015,14 +1603,14 @@ namespace RDLCDesign {
             public decimal LATEMPLATEID {
                 get {
                     try {
-                        return ((decimal)(this[this.tablePURENQ.LATEMPLATEIDColumn]));
+                        return ((decimal)(this[this.tableDataTable1.LATEMPLATEIDColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'LATEMPLATEID\' in table \'PURENQ\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'LATEMPLATEID\' in table \'DataTable1\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tablePURENQ.LATEMPLATEIDColumn] = value;
+                    this[this.tableDataTable1.LATEMPLATEIDColumn] = value;
                 }
             }
             
@@ -1031,30 +1619,142 @@ namespace RDLCDesign {
             public decimal BRANCHID {
                 get {
                     try {
-                        return ((decimal)(this[this.tablePURENQ.BRANCHIDColumn]));
+                        return ((decimal)(this[this.tableDataTable1.BRANCHIDColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'BRANCHID\' in table \'PURENQ\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'BRANCHID\' in table \'DataTable1\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tablePURENQ.BRANCHIDColumn] = value;
+                    this[this.tableDataTable1.BRANCHIDColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public string ENQNO {
+            public string DOCID {
                 get {
                     try {
-                        return ((string)(this[this.tablePURENQ.ENQNOColumn]));
+                        return ((string)(this[this.tableDataTable1.DOCIDColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'ENQNO\' in table \'PURENQ\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'DOCID\' in table \'DataTable1\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tablePURENQ.ENQNOColumn] = value;
+                    this[this.tableDataTable1.DOCIDColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public System.DateTime DOCDATE {
+                get {
+                    try {
+                        return ((global::System.DateTime)(this[this.tableDataTable1.DOCDATEColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'DOCDATE\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.DOCDATEColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public decimal PARTYID {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableDataTable1.PARTYIDColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'PARTYID\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.PARTYIDColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string PARTYNAME {
+                get {
+                    try {
+                        return ((string)(this[this.tableDataTable1.PARTYNAMEColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'PARTYNAME\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.PARTYNAMEColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public System.DateTime FROMDATE {
+                get {
+                    try {
+                        return ((global::System.DateTime)(this[this.tableDataTable1.FROMDATEColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'FROMDATE\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.FROMDATEColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public System.DateTime TODATE {
+                get {
+                    try {
+                        return ((global::System.DateTime)(this[this.tableDataTable1.TODATEColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'TODATE\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.TODATEColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string NARR {
+                get {
+                    try {
+                        return ((string)(this[this.tableDataTable1.NARRColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'NARR\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.NARRColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public decimal ENQNO {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableDataTable1.ENQNOColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ENQNO\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.ENQNOColumn] = value;
                 }
             }
             
@@ -1063,190 +1763,14 @@ namespace RDLCDesign {
             public System.DateTime ENQDATE {
                 get {
                     try {
-                        return ((global::System.DateTime)(this[this.tablePURENQ.ENQDATEColumn]));
+                        return ((global::System.DateTime)(this[this.tableDataTable1.ENQDATEColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'ENQDATE\' in table \'PURENQ\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'ENQDATE\' in table \'DataTable1\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tablePURENQ.ENQDATEColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public decimal ENQRECDBY {
-                get {
-                    try {
-                        return ((decimal)(this[this.tablePURENQ.ENQRECDBYColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'ENQRECDBY\' in table \'PURENQ\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tablePURENQ.ENQRECDBYColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public decimal ASSIGNTO {
-                get {
-                    try {
-                        return ((decimal)(this[this.tablePURENQ.ASSIGNTOColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'ASSIGNTO\' in table \'PURENQ\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tablePURENQ.ASSIGNTOColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public System.DateTime FOLLOWDT {
-                get {
-                    try {
-                        return ((global::System.DateTime)(this[this.tablePURENQ.FOLLOWDTColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'FOLLOWDT\' in table \'PURENQ\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tablePURENQ.FOLLOWDTColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public string STATUS {
-                get {
-                    try {
-                        return ((string)(this[this.tablePURENQ.STATUSColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'STATUS\' in table \'PURENQ\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tablePURENQ.STATUSColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public string REMARKS {
-                get {
-                    try {
-                        return ((string)(this[this.tablePURENQ.REMARKSColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'REMARKS\' in table \'PURENQ\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tablePURENQ.REMARKSColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public System.DateTime SMSDATE {
-                get {
-                    try {
-                        return ((global::System.DateTime)(this[this.tablePURENQ.SMSDATEColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'SMSDATE\' in table \'PURENQ\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tablePURENQ.SMSDATEColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public string SENDSMS {
-                get {
-                    try {
-                        return ((string)(this[this.tablePURENQ.SENDSMSColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'SENDSMS\' in table \'PURENQ\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tablePURENQ.SENDSMSColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public string ENQREF {
-                get {
-                    try {
-                        return ((string)(this[this.tablePURENQ.ENQREFColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'ENQREF\' in table \'PURENQ\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tablePURENQ.ENQREFColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public string PARTYMASTID {
-                get {
-                    try {
-                        return ((string)(this[this.tablePURENQ.PARTYMASTIDColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'PARTYMASTID\' in table \'PURENQ\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tablePURENQ.PARTYMASTIDColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public string CURRENCYID {
-                get {
-                    try {
-                        return ((string)(this[this.tablePURENQ.CURRENCYIDColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'CURRENCYID\' in table \'PURENQ\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tablePURENQ.CURRENCYIDColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public string EXCRATERATE {
-                get {
-                    try {
-                        return ((string)(this[this.tablePURENQ.EXCRATERATEColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'EXCRATERATE\' in table \'PURENQ\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tablePURENQ.EXCRATERATEColumn] = value;
+                    this[this.tableDataTable1.ENQDATEColumn] = value;
                 }
             }
             
@@ -1255,307 +1779,1446 @@ namespace RDLCDesign {
             public string PARTYREFNO {
                 get {
                     try {
-                        return ((string)(this[this.tablePURENQ.PARTYREFNOColumn]));
+                        return ((string)(this[this.tableDataTable1.PARTYREFNOColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'PARTYREFNO\' in table \'PURENQ\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'PARTYREFNO\' in table \'DataTable1\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tablePURENQ.PARTYREFNOColumn] = value;
+                    this[this.tableDataTable1.PARTYREFNOColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public string ACTIVE {
+            public string USERID {
                 get {
                     try {
-                        return ((string)(this[this.tablePURENQ.ACTIVEColumn]));
+                        return ((string)(this[this.tableDataTable1.USERIDColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'ACTIVE\' in table \'PURENQ\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'USERID\' in table \'DataTable1\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tablePURENQ.ACTIVEColumn] = value;
+                    this[this.tableDataTable1.USERIDColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public decimal RECID {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableDataTable1.RECIDColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RECID\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.RECIDColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public decimal EXRATE {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableDataTable1.EXRATEColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'EXRATE\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.EXRATEColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public decimal MAINCURRENCY {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableDataTable1.MAINCURRENCYColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'MAINCURRENCY\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.MAINCURRENCYColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string SENTBY {
+                get {
+                    try {
+                        return ((string)(this[this.tableDataTable1.SENTBYColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'SENTBY\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.SENTBYColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public decimal RECDBY {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableDataTable1.RECDBYColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RECDBY\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.RECDBYColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public System.DateTime FUDATE {
+                get {
+                    try {
+                        return ((global::System.DateTime)(this[this.tableDataTable1.FUDATEColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'FUDATE\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.FUDATEColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string PARENTACTIVITYID {
+                get {
+                    try {
+                        return ((string)(this[this.tableDataTable1.PARENTACTIVITYIDColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'PARENTACTIVITYID\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.PARENTACTIVITYIDColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public decimal ORGANISERID {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableDataTable1.ORGANISERIDColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ORGANISERID\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.ORGANISERIDColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public decimal PARENTJOBSID {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableDataTable1.PARENTJOBSIDColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'PARENTJOBSID\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.PARENTJOBSIDColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string ACTIVITYDONE {
+                get {
+                    try {
+                        return ((string)(this[this.tableDataTable1.ACTIVITYDONEColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ACTIVITYDONE\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.ACTIVITYDONEColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string FOLLOWUPTIME {
+                get {
+                    try {
+                        return ((string)(this[this.tableDataTable1.FOLLOWUPTIMEColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'FOLLOWUPTIME\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.FOLLOWUPTIMEColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string THROUGH {
+                get {
+                    try {
+                        return ((string)(this[this.tableDataTable1.THROUGHColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'THROUGH\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.THROUGHColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string NARR1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableDataTable1.NARR1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'NARR1\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.NARR1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string NARR2 {
+                get {
+                    try {
+                        return ((string)(this[this.tableDataTable1.NARR2Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'NARR2\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.NARR2Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string NARR3 {
+                get {
+                    try {
+                        return ((string)(this[this.tableDataTable1.NARR3Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'NARR3\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.NARR3Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string APPBY {
+                get {
+                    try {
+                        return ((string)(this[this.tableDataTable1.APPBYColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'APPBY\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.APPBYColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string DESIGNATION {
+                get {
+                    try {
+                        return ((string)(this[this.tableDataTable1.DESIGNATIONColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'DESIGNATION\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.DESIGNATIONColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public decimal ENQID {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableDataTable1.ENQIDColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ENQID\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.ENQIDColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string IS_ACTIVE {
+                get {
+                    try {
+                        return ((string)(this[this.tableDataTable1.IS_ACTIVEColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'IS_ACTIVE\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.IS_ACTIVEColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string STATUS {
+                get {
+                    try {
+                        return ((string)(this[this.tableDataTable1.STATUSColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'STATUS\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.STATUSColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public decimal PURQUOTDETAILID {
+                get {
+                    return ((decimal)(this[this.tableDataTable1.PURQUOTDETAILIDColumn]));
+                }
+                set {
+                    this[this.tableDataTable1.PURQUOTDETAILIDColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public decimal PURQUOTBASICID1 {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableDataTable1.PURQUOTBASICID1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'PURQUOTBASICID1\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.PURQUOTBASICID1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public decimal ITEMID {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableDataTable1.ITEMIDColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ITEMID\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.ITEMIDColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string ITEMDESC {
+                get {
+                    try {
+                        return ((string)(this[this.tableDataTable1.ITEMDESCColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ITEMDESC\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.ITEMDESCColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public decimal RATE {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableDataTable1.RATEColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RATE\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.RATEColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string QTY {
+                get {
+                    try {
+                        return ((string)(this[this.tableDataTable1.QTYColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'QTY\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.QTYColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public decimal UNIT {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableDataTable1.UNITColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'UNIT\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.UNITColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public decimal PRIQTY {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableDataTable1.PRIQTYColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'PRIQTY\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.PRIQTYColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public decimal CF {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableDataTable1.CFColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'CF\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.CFColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public short ORDSTATUS {
+                get {
+                    try {
+                        return ((short)(this[this.tableDataTable1.ORDSTATUSColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ORDSTATUS\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.ORDSTATUSColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public double SCHQTY {
+                get {
+                    try {
+                        return ((double)(this[this.tableDataTable1.SCHQTYColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'SCHQTY\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.SCHQTYColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public decimal EXPR1 {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableDataTable1.EXPR1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'EXPR1\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.EXPR1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public decimal EXPR2 {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableDataTable1.EXPR2Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'EXPR2\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.EXPR2Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string EXPR3 {
+                get {
+                    try {
+                        return ((string)(this[this.tableDataTable1.EXPR3Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'EXPR3\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.EXPR3Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public decimal EXPR4 {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableDataTable1.EXPR4Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'EXPR4\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.EXPR4Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public decimal EXPR5 {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableDataTable1.EXPR5Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'EXPR5\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.EXPR5Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string EXPR6 {
+                get {
+                    try {
+                        return ((string)(this[this.tableDataTable1.EXPR6Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'EXPR6\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.EXPR6Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public System.DateTime EXPR7 {
+                get {
+                    try {
+                        return ((global::System.DateTime)(this[this.tableDataTable1.EXPR7Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'EXPR7\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.EXPR7Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string EXPR9 {
+                get {
+                    try {
+                        return ((string)(this[this.tableDataTable1.EXPR9Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'EXPR9\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.EXPR9Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public decimal EXPR8 {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableDataTable1.EXPR8Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'EXPR8\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.EXPR8Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public System.DateTime EXPR10 {
+                get {
+                    try {
+                        return ((global::System.DateTime)(this[this.tableDataTable1.EXPR10Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'EXPR10\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.EXPR10Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public decimal EXPR11 {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableDataTable1.EXPR11Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'EXPR11\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.EXPR11Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public decimal EXPR12 {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableDataTable1.EXPR12Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'EXPR12\' in table \'DataTable1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDataTable1.EXPR12Column] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsPROFITDOCNull() {
-                return this.IsNull(this.tablePURENQ.PROFITDOCColumn);
+                return this.IsNull(this.tableDataTable1.PROFITDOCColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetPROFITDOCNull() {
-                this[this.tablePURENQ.PROFITDOCColumn] = global::System.Convert.DBNull;
+                this[this.tableDataTable1.PROFITDOCColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsAPPROVALNull() {
-                return this.IsNull(this.tablePURENQ.APPROVALColumn);
+                return this.IsNull(this.tableDataTable1.APPROVALColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetAPPROVALNull() {
-                this[this.tablePURENQ.APPROVALColumn] = global::System.Convert.DBNull;
+                this[this.tableDataTable1.APPROVALColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsAPPROVALSTATUSNull() {
-                return this.IsNull(this.tablePURENQ.APPROVALSTATUSColumn);
+                return this.IsNull(this.tableDataTable1.APPROVALSTATUSColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetAPPROVALSTATUSNull() {
-                this[this.tablePURENQ.APPROVALSTATUSColumn] = global::System.Convert.DBNull;
+                this[this.tableDataTable1.APPROVALSTATUSColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsMAXAPPROVEDNull() {
-                return this.IsNull(this.tablePURENQ.MAXAPPROVEDColumn);
+                return this.IsNull(this.tableDataTable1.MAXAPPROVEDColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetMAXAPPROVEDNull() {
-                this[this.tablePURENQ.MAXAPPROVEDColumn] = global::System.Convert.DBNull;
+                this[this.tableDataTable1.MAXAPPROVEDColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsCANCELNull() {
-                return this.IsNull(this.tablePURENQ.CANCELColumn);
+                return this.IsNull(this.tableDataTable1.CANCELColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetCANCELNull() {
-                this[this.tablePURENQ.CANCELColumn] = global::System.Convert.DBNull;
+                this[this.tableDataTable1.CANCELColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsT1SOURCEIDNull() {
-                return this.IsNull(this.tablePURENQ.T1SOURCEIDColumn);
+                return this.IsNull(this.tableDataTable1.T1SOURCEIDColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetT1SOURCEIDNull() {
-                this[this.tablePURENQ.T1SOURCEIDColumn] = global::System.Convert.DBNull;
+                this[this.tableDataTable1.T1SOURCEIDColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsLATEMPLATEIDNull() {
-                return this.IsNull(this.tablePURENQ.LATEMPLATEIDColumn);
+                return this.IsNull(this.tableDataTable1.LATEMPLATEIDColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetLATEMPLATEIDNull() {
-                this[this.tablePURENQ.LATEMPLATEIDColumn] = global::System.Convert.DBNull;
+                this[this.tableDataTable1.LATEMPLATEIDColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsBRANCHIDNull() {
-                return this.IsNull(this.tablePURENQ.BRANCHIDColumn);
+                return this.IsNull(this.tableDataTable1.BRANCHIDColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetBRANCHIDNull() {
-                this[this.tablePURENQ.BRANCHIDColumn] = global::System.Convert.DBNull;
+                this[this.tableDataTable1.BRANCHIDColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsDOCIDNull() {
+                return this.IsNull(this.tableDataTable1.DOCIDColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetDOCIDNull() {
+                this[this.tableDataTable1.DOCIDColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsDOCDATENull() {
+                return this.IsNull(this.tableDataTable1.DOCDATEColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetDOCDATENull() {
+                this[this.tableDataTable1.DOCDATEColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsPARTYIDNull() {
+                return this.IsNull(this.tableDataTable1.PARTYIDColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetPARTYIDNull() {
+                this[this.tableDataTable1.PARTYIDColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsPARTYNAMENull() {
+                return this.IsNull(this.tableDataTable1.PARTYNAMEColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetPARTYNAMENull() {
+                this[this.tableDataTable1.PARTYNAMEColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsFROMDATENull() {
+                return this.IsNull(this.tableDataTable1.FROMDATEColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetFROMDATENull() {
+                this[this.tableDataTable1.FROMDATEColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsTODATENull() {
+                return this.IsNull(this.tableDataTable1.TODATEColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetTODATENull() {
+                this[this.tableDataTable1.TODATEColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsNARRNull() {
+                return this.IsNull(this.tableDataTable1.NARRColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetNARRNull() {
+                this[this.tableDataTable1.NARRColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsENQNONull() {
-                return this.IsNull(this.tablePURENQ.ENQNOColumn);
+                return this.IsNull(this.tableDataTable1.ENQNOColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetENQNONull() {
-                this[this.tablePURENQ.ENQNOColumn] = global::System.Convert.DBNull;
+                this[this.tableDataTable1.ENQNOColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsENQDATENull() {
-                return this.IsNull(this.tablePURENQ.ENQDATEColumn);
+                return this.IsNull(this.tableDataTable1.ENQDATEColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetENQDATENull() {
-                this[this.tablePURENQ.ENQDATEColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public bool IsENQRECDBYNull() {
-                return this.IsNull(this.tablePURENQ.ENQRECDBYColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void SetENQRECDBYNull() {
-                this[this.tablePURENQ.ENQRECDBYColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public bool IsASSIGNTONull() {
-                return this.IsNull(this.tablePURENQ.ASSIGNTOColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void SetASSIGNTONull() {
-                this[this.tablePURENQ.ASSIGNTOColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public bool IsFOLLOWDTNull() {
-                return this.IsNull(this.tablePURENQ.FOLLOWDTColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void SetFOLLOWDTNull() {
-                this[this.tablePURENQ.FOLLOWDTColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public bool IsSTATUSNull() {
-                return this.IsNull(this.tablePURENQ.STATUSColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void SetSTATUSNull() {
-                this[this.tablePURENQ.STATUSColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public bool IsREMARKSNull() {
-                return this.IsNull(this.tablePURENQ.REMARKSColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void SetREMARKSNull() {
-                this[this.tablePURENQ.REMARKSColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public bool IsSMSDATENull() {
-                return this.IsNull(this.tablePURENQ.SMSDATEColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void SetSMSDATENull() {
-                this[this.tablePURENQ.SMSDATEColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public bool IsSENDSMSNull() {
-                return this.IsNull(this.tablePURENQ.SENDSMSColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void SetSENDSMSNull() {
-                this[this.tablePURENQ.SENDSMSColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public bool IsENQREFNull() {
-                return this.IsNull(this.tablePURENQ.ENQREFColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void SetENQREFNull() {
-                this[this.tablePURENQ.ENQREFColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public bool IsPARTYMASTIDNull() {
-                return this.IsNull(this.tablePURENQ.PARTYMASTIDColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void SetPARTYMASTIDNull() {
-                this[this.tablePURENQ.PARTYMASTIDColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public bool IsCURRENCYIDNull() {
-                return this.IsNull(this.tablePURENQ.CURRENCYIDColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void SetCURRENCYIDNull() {
-                this[this.tablePURENQ.CURRENCYIDColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public bool IsEXCRATERATENull() {
-                return this.IsNull(this.tablePURENQ.EXCRATERATEColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void SetEXCRATERATENull() {
-                this[this.tablePURENQ.EXCRATERATEColumn] = global::System.Convert.DBNull;
+                this[this.tableDataTable1.ENQDATEColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsPARTYREFNONull() {
-                return this.IsNull(this.tablePURENQ.PARTYREFNOColumn);
+                return this.IsNull(this.tableDataTable1.PARTYREFNOColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetPARTYREFNONull() {
-                this[this.tablePURENQ.PARTYREFNOColumn] = global::System.Convert.DBNull;
+                this[this.tableDataTable1.PARTYREFNOColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public bool IsACTIVENull() {
-                return this.IsNull(this.tablePURENQ.ACTIVEColumn);
+            public bool IsUSERIDNull() {
+                return this.IsNull(this.tableDataTable1.USERIDColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void SetACTIVENull() {
-                this[this.tablePURENQ.ACTIVEColumn] = global::System.Convert.DBNull;
+            public void SetUSERIDNull() {
+                this[this.tableDataTable1.USERIDColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsRECIDNull() {
+                return this.IsNull(this.tableDataTable1.RECIDColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetRECIDNull() {
+                this[this.tableDataTable1.RECIDColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsEXRATENull() {
+                return this.IsNull(this.tableDataTable1.EXRATEColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetEXRATENull() {
+                this[this.tableDataTable1.EXRATEColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsMAINCURRENCYNull() {
+                return this.IsNull(this.tableDataTable1.MAINCURRENCYColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetMAINCURRENCYNull() {
+                this[this.tableDataTable1.MAINCURRENCYColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsSENTBYNull() {
+                return this.IsNull(this.tableDataTable1.SENTBYColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetSENTBYNull() {
+                this[this.tableDataTable1.SENTBYColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsRECDBYNull() {
+                return this.IsNull(this.tableDataTable1.RECDBYColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetRECDBYNull() {
+                this[this.tableDataTable1.RECDBYColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsFUDATENull() {
+                return this.IsNull(this.tableDataTable1.FUDATEColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetFUDATENull() {
+                this[this.tableDataTable1.FUDATEColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsPARENTACTIVITYIDNull() {
+                return this.IsNull(this.tableDataTable1.PARENTACTIVITYIDColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetPARENTACTIVITYIDNull() {
+                this[this.tableDataTable1.PARENTACTIVITYIDColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsORGANISERIDNull() {
+                return this.IsNull(this.tableDataTable1.ORGANISERIDColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetORGANISERIDNull() {
+                this[this.tableDataTable1.ORGANISERIDColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsPARENTJOBSIDNull() {
+                return this.IsNull(this.tableDataTable1.PARENTJOBSIDColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetPARENTJOBSIDNull() {
+                this[this.tableDataTable1.PARENTJOBSIDColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsACTIVITYDONENull() {
+                return this.IsNull(this.tableDataTable1.ACTIVITYDONEColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetACTIVITYDONENull() {
+                this[this.tableDataTable1.ACTIVITYDONEColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsFOLLOWUPTIMENull() {
+                return this.IsNull(this.tableDataTable1.FOLLOWUPTIMEColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetFOLLOWUPTIMENull() {
+                this[this.tableDataTable1.FOLLOWUPTIMEColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsTHROUGHNull() {
+                return this.IsNull(this.tableDataTable1.THROUGHColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetTHROUGHNull() {
+                this[this.tableDataTable1.THROUGHColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsNARR1Null() {
+                return this.IsNull(this.tableDataTable1.NARR1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetNARR1Null() {
+                this[this.tableDataTable1.NARR1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsNARR2Null() {
+                return this.IsNull(this.tableDataTable1.NARR2Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetNARR2Null() {
+                this[this.tableDataTable1.NARR2Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsNARR3Null() {
+                return this.IsNull(this.tableDataTable1.NARR3Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetNARR3Null() {
+                this[this.tableDataTable1.NARR3Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsAPPBYNull() {
+                return this.IsNull(this.tableDataTable1.APPBYColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetAPPBYNull() {
+                this[this.tableDataTable1.APPBYColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsDESIGNATIONNull() {
+                return this.IsNull(this.tableDataTable1.DESIGNATIONColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetDESIGNATIONNull() {
+                this[this.tableDataTable1.DESIGNATIONColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsENQIDNull() {
+                return this.IsNull(this.tableDataTable1.ENQIDColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetENQIDNull() {
+                this[this.tableDataTable1.ENQIDColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsIS_ACTIVENull() {
+                return this.IsNull(this.tableDataTable1.IS_ACTIVEColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetIS_ACTIVENull() {
+                this[this.tableDataTable1.IS_ACTIVEColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsSTATUSNull() {
+                return this.IsNull(this.tableDataTable1.STATUSColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetSTATUSNull() {
+                this[this.tableDataTable1.STATUSColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsPURQUOTBASICID1Null() {
+                return this.IsNull(this.tableDataTable1.PURQUOTBASICID1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetPURQUOTBASICID1Null() {
+                this[this.tableDataTable1.PURQUOTBASICID1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsITEMIDNull() {
+                return this.IsNull(this.tableDataTable1.ITEMIDColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetITEMIDNull() {
+                this[this.tableDataTable1.ITEMIDColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsITEMDESCNull() {
+                return this.IsNull(this.tableDataTable1.ITEMDESCColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetITEMDESCNull() {
+                this[this.tableDataTable1.ITEMDESCColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsRATENull() {
+                return this.IsNull(this.tableDataTable1.RATEColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetRATENull() {
+                this[this.tableDataTable1.RATEColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsQTYNull() {
+                return this.IsNull(this.tableDataTable1.QTYColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetQTYNull() {
+                this[this.tableDataTable1.QTYColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsUNITNull() {
+                return this.IsNull(this.tableDataTable1.UNITColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetUNITNull() {
+                this[this.tableDataTable1.UNITColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsPRIQTYNull() {
+                return this.IsNull(this.tableDataTable1.PRIQTYColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetPRIQTYNull() {
+                this[this.tableDataTable1.PRIQTYColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsCFNull() {
+                return this.IsNull(this.tableDataTable1.CFColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetCFNull() {
+                this[this.tableDataTable1.CFColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsORDSTATUSNull() {
+                return this.IsNull(this.tableDataTable1.ORDSTATUSColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetORDSTATUSNull() {
+                this[this.tableDataTable1.ORDSTATUSColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsSCHQTYNull() {
+                return this.IsNull(this.tableDataTable1.SCHQTYColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetSCHQTYNull() {
+                this[this.tableDataTable1.SCHQTYColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsEXPR1Null() {
+                return this.IsNull(this.tableDataTable1.EXPR1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetEXPR1Null() {
+                this[this.tableDataTable1.EXPR1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsEXPR2Null() {
+                return this.IsNull(this.tableDataTable1.EXPR2Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetEXPR2Null() {
+                this[this.tableDataTable1.EXPR2Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsEXPR3Null() {
+                return this.IsNull(this.tableDataTable1.EXPR3Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetEXPR3Null() {
+                this[this.tableDataTable1.EXPR3Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsEXPR4Null() {
+                return this.IsNull(this.tableDataTable1.EXPR4Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetEXPR4Null() {
+                this[this.tableDataTable1.EXPR4Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsEXPR5Null() {
+                return this.IsNull(this.tableDataTable1.EXPR5Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetEXPR5Null() {
+                this[this.tableDataTable1.EXPR5Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsEXPR6Null() {
+                return this.IsNull(this.tableDataTable1.EXPR6Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetEXPR6Null() {
+                this[this.tableDataTable1.EXPR6Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsEXPR7Null() {
+                return this.IsNull(this.tableDataTable1.EXPR7Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetEXPR7Null() {
+                this[this.tableDataTable1.EXPR7Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsEXPR9Null() {
+                return this.IsNull(this.tableDataTable1.EXPR9Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetEXPR9Null() {
+                this[this.tableDataTable1.EXPR9Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsEXPR8Null() {
+                return this.IsNull(this.tableDataTable1.EXPR8Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetEXPR8Null() {
+                this[this.tableDataTable1.EXPR8Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsEXPR10Null() {
+                return this.IsNull(this.tableDataTable1.EXPR10Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetEXPR10Null() {
+                this[this.tableDataTable1.EXPR10Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsEXPR11Null() {
+                return this.IsNull(this.tableDataTable1.EXPR11Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetEXPR11Null() {
+                this[this.tableDataTable1.EXPR11Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsEXPR12Null() {
+                return this.IsNull(this.tableDataTable1.EXPR12Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetEXPR12Null() {
+                this[this.tableDataTable1.EXPR12Column] = global::System.Convert.DBNull;
             }
         }
         
@@ -1563,22 +3226,22 @@ namespace RDLCDesign {
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        public class PURENQRowChangeEvent : global::System.EventArgs {
+        public class DataTable1RowChangeEvent : global::System.EventArgs {
             
-            private PURENQRow eventRow;
+            private DataTable1Row eventRow;
             
             private global::System.Data.DataRowAction eventAction;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public PURENQRowChangeEvent(PURENQRow row, global::System.Data.DataRowAction action) {
+            public DataTable1RowChangeEvent(DataTable1Row row, global::System.Data.DataRowAction action) {
                 this.eventRow = row;
                 this.eventAction = action;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public PURENQRow Row {
+            public DataTable1Row Row {
                 get {
                     return this.eventRow;
                 }
@@ -1606,7 +3269,7 @@ namespace RDLCDesign.DataSet3TableAdapters {
     [global::System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner" +
         ", Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
     [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-    public partial class PURENQTableAdapter : global::System.ComponentModel.Component {
+    public partial class DataTable1TableAdapter : global::System.ComponentModel.Component {
         
         private global::Oracle.ManagedDataAccess.Client.OracleDataAdapter _adapter;
         
@@ -1620,7 +3283,7 @@ namespace RDLCDesign.DataSet3TableAdapters {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        public PURENQTableAdapter() {
+        public DataTable1TableAdapter() {
             this.ClearBeforeFill = true;
         }
         
@@ -1717,8 +3380,8 @@ namespace RDLCDesign.DataSet3TableAdapters {
             this._adapter = new global::Oracle.ManagedDataAccess.Client.OracleDataAdapter();
             global::System.Data.Common.DataTableMapping tableMapping = new global::System.Data.Common.DataTableMapping();
             tableMapping.SourceTable = "Table";
-            tableMapping.DataSetTable = "PURENQ";
-            tableMapping.ColumnMappings.Add("PURENQID", "PURENQID");
+            tableMapping.DataSetTable = "DataTable1";
+            tableMapping.ColumnMappings.Add("PURQUOTBASICID", "PURQUOTBASICID");
             tableMapping.ColumnMappings.Add("PROFITDOC", "PROFITDOC");
             tableMapping.ColumnMappings.Add("APPROVAL", "APPROVAL");
             tableMapping.ColumnMappings.Add("APPROVALSTATUS", "APPROVALSTATUS");
@@ -1727,1339 +3390,69 @@ namespace RDLCDesign.DataSet3TableAdapters {
             tableMapping.ColumnMappings.Add("T1SOURCEID", "T1SOURCEID");
             tableMapping.ColumnMappings.Add("LATEMPLATEID", "LATEMPLATEID");
             tableMapping.ColumnMappings.Add("BRANCHID", "BRANCHID");
+            tableMapping.ColumnMappings.Add("DOCID", "DOCID");
+            tableMapping.ColumnMappings.Add("DOCDATE", "DOCDATE");
+            tableMapping.ColumnMappings.Add("PARTYID", "PARTYID");
+            tableMapping.ColumnMappings.Add("PARTYNAME", "PARTYNAME");
+            tableMapping.ColumnMappings.Add("FROMDATE", "FROMDATE");
+            tableMapping.ColumnMappings.Add("TODATE", "TODATE");
+            tableMapping.ColumnMappings.Add("NARR", "NARR");
             tableMapping.ColumnMappings.Add("ENQNO", "ENQNO");
             tableMapping.ColumnMappings.Add("ENQDATE", "ENQDATE");
-            tableMapping.ColumnMappings.Add("ENQRECDBY", "ENQRECDBY");
-            tableMapping.ColumnMappings.Add("ASSIGNTO", "ASSIGNTO");
-            tableMapping.ColumnMappings.Add("FOLLOWDT", "FOLLOWDT");
-            tableMapping.ColumnMappings.Add("STATUS", "STATUS");
-            tableMapping.ColumnMappings.Add("REMARKS", "REMARKS");
-            tableMapping.ColumnMappings.Add("SMSDATE", "SMSDATE");
-            tableMapping.ColumnMappings.Add("SENDSMS", "SENDSMS");
-            tableMapping.ColumnMappings.Add("ENQREF", "ENQREF");
-            tableMapping.ColumnMappings.Add("PARTYMASTID", "PARTYMASTID");
-            tableMapping.ColumnMappings.Add("CURRENCYID", "CURRENCYID");
-            tableMapping.ColumnMappings.Add("EXCRATERATE", "EXCRATERATE");
             tableMapping.ColumnMappings.Add("PARTYREFNO", "PARTYREFNO");
-            tableMapping.ColumnMappings.Add("ACTIVE", "ACTIVE");
+            tableMapping.ColumnMappings.Add("USERID", "USERID");
+            tableMapping.ColumnMappings.Add("RECID", "RECID");
+            tableMapping.ColumnMappings.Add("EXRATE", "EXRATE");
+            tableMapping.ColumnMappings.Add("MAINCURRENCY", "MAINCURRENCY");
+            tableMapping.ColumnMappings.Add("SENTBY", "SENTBY");
+            tableMapping.ColumnMappings.Add("RECDBY", "RECDBY");
+            tableMapping.ColumnMappings.Add("FUDATE", "FUDATE");
+            tableMapping.ColumnMappings.Add("PARENTACTIVITYID", "PARENTACTIVITYID");
+            tableMapping.ColumnMappings.Add("ORGANISERID", "ORGANISERID");
+            tableMapping.ColumnMappings.Add("PARENTJOBSID", "PARENTJOBSID");
+            tableMapping.ColumnMappings.Add("ACTIVITYDONE", "ACTIVITYDONE");
+            tableMapping.ColumnMappings.Add("FOLLOWUPTIME", "FOLLOWUPTIME");
+            tableMapping.ColumnMappings.Add("THROUGH", "THROUGH");
+            tableMapping.ColumnMappings.Add("NARR1", "NARR1");
+            tableMapping.ColumnMappings.Add("NARR2", "NARR2");
+            tableMapping.ColumnMappings.Add("NARR3", "NARR3");
+            tableMapping.ColumnMappings.Add("APPBY", "APPBY");
+            tableMapping.ColumnMappings.Add("DESIGNATION", "DESIGNATION");
+            tableMapping.ColumnMappings.Add("ENQID", "ENQID");
+            tableMapping.ColumnMappings.Add("IS_ACTIVE", "IS_ACTIVE");
+            tableMapping.ColumnMappings.Add("STATUS", "STATUS");
+            tableMapping.ColumnMappings.Add("PURQUOTDETAILID", "PURQUOTDETAILID");
+            tableMapping.ColumnMappings.Add("PURQUOTBASICID1", "PURQUOTBASICID1");
+            tableMapping.ColumnMappings.Add("ITEMID", "ITEMID");
+            tableMapping.ColumnMappings.Add("ITEMDESC", "ITEMDESC");
+            tableMapping.ColumnMappings.Add("RATE", "RATE");
+            tableMapping.ColumnMappings.Add("QTY", "QTY");
+            tableMapping.ColumnMappings.Add("UNIT", "UNIT");
+            tableMapping.ColumnMappings.Add("PRIQTY", "PRIQTY");
+            tableMapping.ColumnMappings.Add("CF", "CF");
+            tableMapping.ColumnMappings.Add("ORDSTATUS", "ORDSTATUS");
+            tableMapping.ColumnMappings.Add("SCHQTY", "SCHQTY");
+            tableMapping.ColumnMappings.Add("EXPR1", "EXPR1");
+            tableMapping.ColumnMappings.Add("EXPR2", "EXPR2");
+            tableMapping.ColumnMappings.Add("EXPR3", "EXPR3");
+            tableMapping.ColumnMappings.Add("EXPR4", "EXPR4");
+            tableMapping.ColumnMappings.Add("EXPR5", "EXPR5");
+            tableMapping.ColumnMappings.Add("EXPR6", "EXPR6");
+            tableMapping.ColumnMappings.Add("EXPR7", "EXPR7");
+            tableMapping.ColumnMappings.Add("EXPR9", "EXPR9");
+            tableMapping.ColumnMappings.Add("EXPR8", "EXPR8");
+            tableMapping.ColumnMappings.Add("EXPR10", "EXPR10");
+            tableMapping.ColumnMappings.Add("EXPR11", "EXPR11");
+            tableMapping.ColumnMappings.Add("EXPR12", "EXPR12");
             this._adapter.TableMappings.Add(tableMapping);
-            this._adapter.DeleteCommand = new global::Oracle.ManagedDataAccess.Client.OracleCommand();
-            this._adapter.DeleteCommand.Connection = this.Connection;
-            this._adapter.DeleteCommand.CommandText = "DELETE FROM \"ORACLE_OCM\".\"PURENQ\" WHERE ((\"PURENQID\" = :Original_PURENQID) AND ((" +
-                ":IsNull_PROFITDOC = 1 AND \"PROFITDOC\" IS NULL) OR (\"PROFITDOC\" = :Original_PROFI" +
-                "TDOC)) AND ((:IsNull_APPROVAL = 1 AND \"APPROVAL\" IS NULL) OR (\"APPROVAL\" = :Orig" +
-                "inal_APPROVAL)) AND ((:IsNull_APPROVALSTATUS = 1 AND \"APPROVALSTATUS\" IS NULL) O" +
-                "R (\"APPROVALSTATUS\" = :Original_APPROVALSTATUS)) AND ((:IsNull_MAXAPPROVED = 1 A" +
-                "ND \"MAXAPPROVED\" IS NULL) OR (\"MAXAPPROVED\" = :Original_MAXAPPROVED)) AND ((:IsN" +
-                "ull_CANCEL = 1 AND \"CANCEL\" IS NULL) OR (\"CANCEL\" = :Original_CANCEL)) AND ((:Is" +
-                "Null_T1SOURCEID = 1 AND \"T1SOURCEID\" IS NULL) OR (\"T1SOURCEID\" = :Original_T1SOU" +
-                "RCEID)) AND ((:IsNull_LATEMPLATEID = 1 AND \"LATEMPLATEID\" IS NULL) OR (\"LATEMPLA" +
-                "TEID\" = :Original_LATEMPLATEID)) AND ((:IsNull_BRANCHID = 1 AND \"BRANCHID\" IS NU" +
-                "LL) OR (\"BRANCHID\" = :Original_BRANCHID)) AND ((:IsNull_ENQNO = 1 AND \"ENQNO\" IS" +
-                " NULL) OR (\"ENQNO\" = :Original_ENQNO)) AND ((:IsNull_ENQDATE = 1 AND \"ENQDATE\" I" +
-                "S NULL) OR (\"ENQDATE\" = :Original_ENQDATE)) AND ((:IsNull_ENQRECDBY = 1 AND \"ENQ" +
-                "RECDBY\" IS NULL) OR (\"ENQRECDBY\" = :Original_ENQRECDBY)) AND ((:IsNull_ASSIGNTO " +
-                "= 1 AND \"ASSIGNTO\" IS NULL) OR (\"ASSIGNTO\" = :Original_ASSIGNTO)) AND ((:IsNull_" +
-                "FOLLOWDT = 1 AND \"FOLLOWDT\" IS NULL) OR (\"FOLLOWDT\" = :Original_FOLLOWDT)) AND (" +
-                "(:IsNull_STATUS = 1 AND \"STATUS\" IS NULL) OR (\"STATUS\" = :Original_STATUS)) AND " +
-                "((:IsNull_REMARKS = 1 AND \"REMARKS\" IS NULL) OR (\"REMARKS\" = :Original_REMARKS))" +
-                " AND ((:IsNull_SMSDATE = 1 AND \"SMSDATE\" IS NULL) OR (\"SMSDATE\" = :Original_SMSD" +
-                "ATE)) AND ((:IsNull_SENDSMS = 1 AND \"SENDSMS\" IS NULL) OR (\"SENDSMS\" = :Original" +
-                "_SENDSMS)) AND ((:IsNull_ENQREF = 1 AND \"ENQREF\" IS NULL) OR (\"ENQREF\" = :Origin" +
-                "al_ENQREF)) AND ((:IsNull_PARTYMASTID = 1 AND \"PARTYMASTID\" IS NULL) OR (\"PARTYM" +
-                "ASTID\" = :Original_PARTYMASTID)) AND ((:IsNull_CURRENCYID = 1 AND \"CURRENCYID\" I" +
-                "S NULL) OR (\"CURRENCYID\" = :Original_CURRENCYID)) AND ((:IsNull_EXCRATERATE = 1 " +
-                "AND \"EXCRATERATE\" IS NULL) OR (\"EXCRATERATE\" = :Original_EXCRATERATE)) AND ((:Is" +
-                "Null_PARTYREFNO = 1 AND \"PARTYREFNO\" IS NULL) OR (\"PARTYREFNO\" = :Original_PARTY" +
-                "REFNO)) AND ((:IsNull_ACTIVE = 1 AND \"ACTIVE\" IS NULL) OR (\"ACTIVE\" = :Original_" +
-                "ACTIVE)))";
-            this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
-            global::Oracle.ManagedDataAccess.Client.OracleParameter param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_PURENQID";
-            param.DbType = global::System.Data.DbType.Decimal;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Decimal;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "PURENQID";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IsNull_PROFITDOC";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
-            param.Size = 1;
-            param.IsNullable = true;
-            param.SourceColumn = "PROFITDOC";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_PROFITDOC";
-            param.DbType = global::System.Data.DbType.StringFixedLength;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Char;
-            param.Size = 1;
-            param.IsNullable = true;
-            param.SourceColumn = "PROFITDOC";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IsNull_APPROVAL";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "APPROVAL";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_APPROVAL";
-            param.DbType = global::System.Data.DbType.Decimal;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Decimal;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "APPROVAL";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IsNull_APPROVALSTATUS";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
-            param.Size = 1;
-            param.IsNullable = true;
-            param.SourceColumn = "APPROVALSTATUS";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_APPROVALSTATUS";
-            param.DbType = global::System.Data.DbType.StringFixedLength;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Char;
-            param.Size = 1;
-            param.IsNullable = true;
-            param.SourceColumn = "APPROVALSTATUS";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IsNull_MAXAPPROVED";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "MAXAPPROVED";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_MAXAPPROVED";
-            param.DbType = global::System.Data.DbType.Int16;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int16;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "MAXAPPROVED";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IsNull_CANCEL";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
-            param.Size = 1;
-            param.IsNullable = true;
-            param.SourceColumn = "CANCEL";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_CANCEL";
-            param.DbType = global::System.Data.DbType.StringFixedLength;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Char;
-            param.Size = 1;
-            param.IsNullable = true;
-            param.SourceColumn = "CANCEL";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IsNull_T1SOURCEID";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "T1SOURCEID";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_T1SOURCEID";
-            param.DbType = global::System.Data.DbType.Decimal;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Decimal;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "T1SOURCEID";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IsNull_LATEMPLATEID";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "LATEMPLATEID";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_LATEMPLATEID";
-            param.DbType = global::System.Data.DbType.Decimal;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Decimal;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "LATEMPLATEID";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IsNull_BRANCHID";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "BRANCHID";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_BRANCHID";
-            param.DbType = global::System.Data.DbType.Decimal;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Decimal;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "BRANCHID";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IsNull_ENQNO";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
-            param.Size = 25;
-            param.IsNullable = true;
-            param.SourceColumn = "ENQNO";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_ENQNO";
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
-            param.Size = 25;
-            param.IsNullable = true;
-            param.SourceColumn = "ENQNO";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IsNull_ENQDATE";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
-            param.Size = 7;
-            param.IsNullable = true;
-            param.SourceColumn = "ENQDATE";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_ENQDATE";
-            param.DbType = global::System.Data.DbType.Date;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Date;
-            param.Size = 7;
-            param.IsNullable = true;
-            param.SourceColumn = "ENQDATE";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IsNull_ENQRECDBY";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "ENQRECDBY";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_ENQRECDBY";
-            param.DbType = global::System.Data.DbType.Decimal;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Decimal;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "ENQRECDBY";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IsNull_ASSIGNTO";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "ASSIGNTO";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_ASSIGNTO";
-            param.DbType = global::System.Data.DbType.Decimal;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Decimal;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "ASSIGNTO";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IsNull_FOLLOWDT";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
-            param.Size = 7;
-            param.IsNullable = true;
-            param.SourceColumn = "FOLLOWDT";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_FOLLOWDT";
-            param.DbType = global::System.Data.DbType.Date;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Date;
-            param.Size = 7;
-            param.IsNullable = true;
-            param.SourceColumn = "FOLLOWDT";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IsNull_STATUS";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
-            param.Size = 25;
-            param.IsNullable = true;
-            param.SourceColumn = "STATUS";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_STATUS";
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
-            param.Size = 25;
-            param.IsNullable = true;
-            param.SourceColumn = "STATUS";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IsNull_REMARKS";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
-            param.Size = 50;
-            param.IsNullable = true;
-            param.SourceColumn = "REMARKS";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_REMARKS";
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
-            param.Size = 50;
-            param.IsNullable = true;
-            param.SourceColumn = "REMARKS";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IsNull_SMSDATE";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
-            param.Size = 7;
-            param.IsNullable = true;
-            param.SourceColumn = "SMSDATE";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_SMSDATE";
-            param.DbType = global::System.Data.DbType.Date;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Date;
-            param.Size = 7;
-            param.IsNullable = true;
-            param.SourceColumn = "SMSDATE";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IsNull_SENDSMS";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
-            param.Size = 3;
-            param.IsNullable = true;
-            param.SourceColumn = "SENDSMS";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_SENDSMS";
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
-            param.Size = 3;
-            param.IsNullable = true;
-            param.SourceColumn = "SENDSMS";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IsNull_ENQREF";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
-            param.Size = 15;
-            param.IsNullable = true;
-            param.SourceColumn = "ENQREF";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_ENQREF";
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
-            param.Size = 15;
-            param.IsNullable = true;
-            param.SourceColumn = "ENQREF";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IsNull_PARTYMASTID";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
-            param.Size = 50;
-            param.IsNullable = true;
-            param.SourceColumn = "PARTYMASTID";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_PARTYMASTID";
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.NVarchar2;
-            param.Size = 50;
-            param.IsNullable = true;
-            param.SourceColumn = "PARTYMASTID";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IsNull_CURRENCYID";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
-            param.Size = 20;
-            param.IsNullable = true;
-            param.SourceColumn = "CURRENCYID";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_CURRENCYID";
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.NVarchar2;
-            param.Size = 20;
-            param.IsNullable = true;
-            param.SourceColumn = "CURRENCYID";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IsNull_EXCRATERATE";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
-            param.Size = 15;
-            param.IsNullable = true;
-            param.SourceColumn = "EXCRATERATE";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_EXCRATERATE";
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.NVarchar2;
-            param.Size = 15;
-            param.IsNullable = true;
-            param.SourceColumn = "EXCRATERATE";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IsNull_PARTYREFNO";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
-            param.Size = 15;
-            param.IsNullable = true;
-            param.SourceColumn = "PARTYREFNO";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_PARTYREFNO";
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.NVarchar2;
-            param.Size = 15;
-            param.IsNullable = true;
-            param.SourceColumn = "PARTYREFNO";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IsNull_ACTIVE";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
-            param.Size = 20;
-            param.IsNullable = true;
-            param.SourceColumn = "ACTIVE";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_ACTIVE";
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
-            param.Size = 20;
-            param.IsNullable = true;
-            param.SourceColumn = "ACTIVE";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            this._adapter.InsertCommand = new global::Oracle.ManagedDataAccess.Client.OracleCommand();
-            this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = @"INSERT INTO ""ORACLE_OCM"".""PURENQ"" (""PURENQID"", ""PROFITDOC"", ""APPROVAL"", ""APPROVALSTATUS"", ""MAXAPPROVED"", ""CANCEL"", ""T1SOURCEID"", ""LATEMPLATEID"", ""BRANCHID"", ""ENQNO"", ""ENQDATE"", ""ENQRECDBY"", ""ASSIGNTO"", ""FOLLOWDT"", ""STATUS"", ""REMARKS"", ""SMSDATE"", ""SENDSMS"", ""ENQREF"", ""PARTYMASTID"", ""CURRENCYID"", ""EXCRATERATE"", ""PARTYREFNO"", ""ACTIVE"") VALUES (:PURENQID, :PROFITDOC, :APPROVAL, :APPROVALSTATUS, :MAXAPPROVED, :CANCEL, :T1SOURCEID, :LATEMPLATEID, :BRANCHID, :ENQNO, :ENQDATE, :ENQRECDBY, :ASSIGNTO, :FOLLOWDT, :STATUS, :REMARKS, :SMSDATE, :SENDSMS, :ENQREF, :PARTYMASTID, :CURRENCYID, :EXCRATERATE, :PARTYREFNO, :ACTIVE)";
-            this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "PURENQID";
-            param.DbType = global::System.Data.DbType.Decimal;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Decimal;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "PURENQID";
-            this._adapter.InsertCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "PROFITDOC";
-            param.DbType = global::System.Data.DbType.StringFixedLength;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Char;
-            param.Size = 1;
-            param.IsNullable = true;
-            param.SourceColumn = "PROFITDOC";
-            this._adapter.InsertCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "APPROVAL";
-            param.DbType = global::System.Data.DbType.Decimal;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Decimal;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "APPROVAL";
-            this._adapter.InsertCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "APPROVALSTATUS";
-            param.DbType = global::System.Data.DbType.StringFixedLength;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Char;
-            param.Size = 1;
-            param.IsNullable = true;
-            param.SourceColumn = "APPROVALSTATUS";
-            this._adapter.InsertCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "MAXAPPROVED";
-            param.DbType = global::System.Data.DbType.Int16;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int16;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "MAXAPPROVED";
-            this._adapter.InsertCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "CANCEL";
-            param.DbType = global::System.Data.DbType.StringFixedLength;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Char;
-            param.Size = 1;
-            param.IsNullable = true;
-            param.SourceColumn = "CANCEL";
-            this._adapter.InsertCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "T1SOURCEID";
-            param.DbType = global::System.Data.DbType.Decimal;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Decimal;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "T1SOURCEID";
-            this._adapter.InsertCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "LATEMPLATEID";
-            param.DbType = global::System.Data.DbType.Decimal;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Decimal;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "LATEMPLATEID";
-            this._adapter.InsertCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "BRANCHID";
-            param.DbType = global::System.Data.DbType.Decimal;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Decimal;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "BRANCHID";
-            this._adapter.InsertCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "ENQNO";
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
-            param.Size = 25;
-            param.IsNullable = true;
-            param.SourceColumn = "ENQNO";
-            this._adapter.InsertCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "ENQDATE";
-            param.DbType = global::System.Data.DbType.Date;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Date;
-            param.Size = 7;
-            param.IsNullable = true;
-            param.SourceColumn = "ENQDATE";
-            this._adapter.InsertCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "ENQRECDBY";
-            param.DbType = global::System.Data.DbType.Decimal;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Decimal;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "ENQRECDBY";
-            this._adapter.InsertCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "ASSIGNTO";
-            param.DbType = global::System.Data.DbType.Decimal;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Decimal;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "ASSIGNTO";
-            this._adapter.InsertCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "FOLLOWDT";
-            param.DbType = global::System.Data.DbType.Date;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Date;
-            param.Size = 7;
-            param.IsNullable = true;
-            param.SourceColumn = "FOLLOWDT";
-            this._adapter.InsertCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "STATUS";
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
-            param.Size = 25;
-            param.IsNullable = true;
-            param.SourceColumn = "STATUS";
-            this._adapter.InsertCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "REMARKS";
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
-            param.Size = 50;
-            param.IsNullable = true;
-            param.SourceColumn = "REMARKS";
-            this._adapter.InsertCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "SMSDATE";
-            param.DbType = global::System.Data.DbType.Date;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Date;
-            param.Size = 7;
-            param.IsNullable = true;
-            param.SourceColumn = "SMSDATE";
-            this._adapter.InsertCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "SENDSMS";
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
-            param.Size = 3;
-            param.IsNullable = true;
-            param.SourceColumn = "SENDSMS";
-            this._adapter.InsertCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "ENQREF";
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
-            param.Size = 15;
-            param.IsNullable = true;
-            param.SourceColumn = "ENQREF";
-            this._adapter.InsertCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "PARTYMASTID";
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.NVarchar2;
-            param.Size = 50;
-            param.IsNullable = true;
-            param.SourceColumn = "PARTYMASTID";
-            this._adapter.InsertCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "CURRENCYID";
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.NVarchar2;
-            param.Size = 20;
-            param.IsNullable = true;
-            param.SourceColumn = "CURRENCYID";
-            this._adapter.InsertCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "EXCRATERATE";
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.NVarchar2;
-            param.Size = 15;
-            param.IsNullable = true;
-            param.SourceColumn = "EXCRATERATE";
-            this._adapter.InsertCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "PARTYREFNO";
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.NVarchar2;
-            param.Size = 15;
-            param.IsNullable = true;
-            param.SourceColumn = "PARTYREFNO";
-            this._adapter.InsertCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "ACTIVE";
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
-            param.Size = 20;
-            param.IsNullable = true;
-            param.SourceColumn = "ACTIVE";
-            this._adapter.InsertCommand.Parameters.Add(param);
-            this._adapter.UpdateCommand = new global::Oracle.ManagedDataAccess.Client.OracleCommand();
-            this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = "UPDATE \"ORACLE_OCM\".\"PURENQ\" SET \"PURENQID\" = :PURENQID, \"PROFITDOC\" = :PROFITDOC" +
-                ", \"APPROVAL\" = :APPROVAL, \"APPROVALSTATUS\" = :APPROVALSTATUS, \"MAXAPPROVED\" = :M" +
-                "AXAPPROVED, \"CANCEL\" = :CANCEL, \"T1SOURCEID\" = :T1SOURCEID, \"LATEMPLATEID\" = :LA" +
-                "TEMPLATEID, \"BRANCHID\" = :BRANCHID, \"ENQNO\" = :ENQNO, \"ENQDATE\" = :ENQDATE, \"ENQ" +
-                "RECDBY\" = :ENQRECDBY, \"ASSIGNTO\" = :ASSIGNTO, \"FOLLOWDT\" = :FOLLOWDT, \"STATUS\" =" +
-                " :STATUS, \"REMARKS\" = :REMARKS, \"SMSDATE\" = :SMSDATE, \"SENDSMS\" = :SENDSMS, \"ENQ" +
-                "REF\" = :ENQREF, \"PARTYMASTID\" = :PARTYMASTID, \"CURRENCYID\" = :CURRENCYID, \"EXCRA" +
-                "TERATE\" = :EXCRATERATE, \"PARTYREFNO\" = :PARTYREFNO, \"ACTIVE\" = :ACTIVE WHERE ((\"" +
-                "PURENQID\" = :Original_PURENQID) AND ((:IsNull_PROFITDOC = 1 AND \"PROFITDOC\" IS N" +
-                "ULL) OR (\"PROFITDOC\" = :Original_PROFITDOC)) AND ((:IsNull_APPROVAL = 1 AND \"APP" +
-                "ROVAL\" IS NULL) OR (\"APPROVAL\" = :Original_APPROVAL)) AND ((:IsNull_APPROVALSTAT" +
-                "US = 1 AND \"APPROVALSTATUS\" IS NULL) OR (\"APPROVALSTATUS\" = :Original_APPROVALST" +
-                "ATUS)) AND ((:IsNull_MAXAPPROVED = 1 AND \"MAXAPPROVED\" IS NULL) OR (\"MAXAPPROVED" +
-                "\" = :Original_MAXAPPROVED)) AND ((:IsNull_CANCEL = 1 AND \"CANCEL\" IS NULL) OR (\"" +
-                "CANCEL\" = :Original_CANCEL)) AND ((:IsNull_T1SOURCEID = 1 AND \"T1SOURCEID\" IS NU" +
-                "LL) OR (\"T1SOURCEID\" = :Original_T1SOURCEID)) AND ((:IsNull_LATEMPLATEID = 1 AND" +
-                " \"LATEMPLATEID\" IS NULL) OR (\"LATEMPLATEID\" = :Original_LATEMPLATEID)) AND ((:Is" +
-                "Null_BRANCHID = 1 AND \"BRANCHID\" IS NULL) OR (\"BRANCHID\" = :Original_BRANCHID)) " +
-                "AND ((:IsNull_ENQNO = 1 AND \"ENQNO\" IS NULL) OR (\"ENQNO\" = :Original_ENQNO)) AND" +
-                " ((:IsNull_ENQDATE = 1 AND \"ENQDATE\" IS NULL) OR (\"ENQDATE\" = :Original_ENQDATE)" +
-                ") AND ((:IsNull_ENQRECDBY = 1 AND \"ENQRECDBY\" IS NULL) OR (\"ENQRECDBY\" = :Origin" +
-                "al_ENQRECDBY)) AND ((:IsNull_ASSIGNTO = 1 AND \"ASSIGNTO\" IS NULL) OR (\"ASSIGNTO\"" +
-                " = :Original_ASSIGNTO)) AND ((:IsNull_FOLLOWDT = 1 AND \"FOLLOWDT\" IS NULL) OR (\"" +
-                "FOLLOWDT\" = :Original_FOLLOWDT)) AND ((:IsNull_STATUS = 1 AND \"STATUS\" IS NULL) " +
-                "OR (\"STATUS\" = :Original_STATUS)) AND ((:IsNull_REMARKS = 1 AND \"REMARKS\" IS NUL" +
-                "L) OR (\"REMARKS\" = :Original_REMARKS)) AND ((:IsNull_SMSDATE = 1 AND \"SMSDATE\" I" +
-                "S NULL) OR (\"SMSDATE\" = :Original_SMSDATE)) AND ((:IsNull_SENDSMS = 1 AND \"SENDS" +
-                "MS\" IS NULL) OR (\"SENDSMS\" = :Original_SENDSMS)) AND ((:IsNull_ENQREF = 1 AND \"E" +
-                "NQREF\" IS NULL) OR (\"ENQREF\" = :Original_ENQREF)) AND ((:IsNull_PARTYMASTID = 1 " +
-                "AND \"PARTYMASTID\" IS NULL) OR (\"PARTYMASTID\" = :Original_PARTYMASTID)) AND ((:Is" +
-                "Null_CURRENCYID = 1 AND \"CURRENCYID\" IS NULL) OR (\"CURRENCYID\" = :Original_CURRE" +
-                "NCYID)) AND ((:IsNull_EXCRATERATE = 1 AND \"EXCRATERATE\" IS NULL) OR (\"EXCRATERAT" +
-                "E\" = :Original_EXCRATERATE)) AND ((:IsNull_PARTYREFNO = 1 AND \"PARTYREFNO\" IS NU" +
-                "LL) OR (\"PARTYREFNO\" = :Original_PARTYREFNO)) AND ((:IsNull_ACTIVE = 1 AND \"ACTI" +
-                "VE\" IS NULL) OR (\"ACTIVE\" = :Original_ACTIVE)))";
-            this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "PURENQID";
-            param.DbType = global::System.Data.DbType.Decimal;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Decimal;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "PURENQID";
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "PROFITDOC";
-            param.DbType = global::System.Data.DbType.StringFixedLength;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Char;
-            param.Size = 1;
-            param.IsNullable = true;
-            param.SourceColumn = "PROFITDOC";
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "APPROVAL";
-            param.DbType = global::System.Data.DbType.Decimal;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Decimal;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "APPROVAL";
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "APPROVALSTATUS";
-            param.DbType = global::System.Data.DbType.StringFixedLength;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Char;
-            param.Size = 1;
-            param.IsNullable = true;
-            param.SourceColumn = "APPROVALSTATUS";
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "MAXAPPROVED";
-            param.DbType = global::System.Data.DbType.Int16;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int16;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "MAXAPPROVED";
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "CANCEL";
-            param.DbType = global::System.Data.DbType.StringFixedLength;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Char;
-            param.Size = 1;
-            param.IsNullable = true;
-            param.SourceColumn = "CANCEL";
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "T1SOURCEID";
-            param.DbType = global::System.Data.DbType.Decimal;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Decimal;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "T1SOURCEID";
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "LATEMPLATEID";
-            param.DbType = global::System.Data.DbType.Decimal;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Decimal;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "LATEMPLATEID";
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "BRANCHID";
-            param.DbType = global::System.Data.DbType.Decimal;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Decimal;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "BRANCHID";
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "ENQNO";
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
-            param.Size = 25;
-            param.IsNullable = true;
-            param.SourceColumn = "ENQNO";
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "ENQDATE";
-            param.DbType = global::System.Data.DbType.Date;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Date;
-            param.Size = 7;
-            param.IsNullable = true;
-            param.SourceColumn = "ENQDATE";
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "ENQRECDBY";
-            param.DbType = global::System.Data.DbType.Decimal;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Decimal;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "ENQRECDBY";
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "ASSIGNTO";
-            param.DbType = global::System.Data.DbType.Decimal;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Decimal;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "ASSIGNTO";
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "FOLLOWDT";
-            param.DbType = global::System.Data.DbType.Date;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Date;
-            param.Size = 7;
-            param.IsNullable = true;
-            param.SourceColumn = "FOLLOWDT";
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "STATUS";
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
-            param.Size = 25;
-            param.IsNullable = true;
-            param.SourceColumn = "STATUS";
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "REMARKS";
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
-            param.Size = 50;
-            param.IsNullable = true;
-            param.SourceColumn = "REMARKS";
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "SMSDATE";
-            param.DbType = global::System.Data.DbType.Date;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Date;
-            param.Size = 7;
-            param.IsNullable = true;
-            param.SourceColumn = "SMSDATE";
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "SENDSMS";
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
-            param.Size = 3;
-            param.IsNullable = true;
-            param.SourceColumn = "SENDSMS";
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "ENQREF";
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
-            param.Size = 15;
-            param.IsNullable = true;
-            param.SourceColumn = "ENQREF";
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "PARTYMASTID";
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.NVarchar2;
-            param.Size = 50;
-            param.IsNullable = true;
-            param.SourceColumn = "PARTYMASTID";
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "CURRENCYID";
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.NVarchar2;
-            param.Size = 20;
-            param.IsNullable = true;
-            param.SourceColumn = "CURRENCYID";
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "EXCRATERATE";
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.NVarchar2;
-            param.Size = 15;
-            param.IsNullable = true;
-            param.SourceColumn = "EXCRATERATE";
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "PARTYREFNO";
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.NVarchar2;
-            param.Size = 15;
-            param.IsNullable = true;
-            param.SourceColumn = "PARTYREFNO";
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "ACTIVE";
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
-            param.Size = 20;
-            param.IsNullable = true;
-            param.SourceColumn = "ACTIVE";
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_PURENQID";
-            param.DbType = global::System.Data.DbType.Decimal;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Decimal;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "PURENQID";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IsNull_PROFITDOC";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
-            param.Size = 1;
-            param.IsNullable = true;
-            param.SourceColumn = "PROFITDOC";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_PROFITDOC";
-            param.DbType = global::System.Data.DbType.StringFixedLength;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Char;
-            param.Size = 1;
-            param.IsNullable = true;
-            param.SourceColumn = "PROFITDOC";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IsNull_APPROVAL";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "APPROVAL";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_APPROVAL";
-            param.DbType = global::System.Data.DbType.Decimal;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Decimal;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "APPROVAL";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IsNull_APPROVALSTATUS";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
-            param.Size = 1;
-            param.IsNullable = true;
-            param.SourceColumn = "APPROVALSTATUS";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_APPROVALSTATUS";
-            param.DbType = global::System.Data.DbType.StringFixedLength;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Char;
-            param.Size = 1;
-            param.IsNullable = true;
-            param.SourceColumn = "APPROVALSTATUS";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IsNull_MAXAPPROVED";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "MAXAPPROVED";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_MAXAPPROVED";
-            param.DbType = global::System.Data.DbType.Int16;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int16;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "MAXAPPROVED";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IsNull_CANCEL";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
-            param.Size = 1;
-            param.IsNullable = true;
-            param.SourceColumn = "CANCEL";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_CANCEL";
-            param.DbType = global::System.Data.DbType.StringFixedLength;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Char;
-            param.Size = 1;
-            param.IsNullable = true;
-            param.SourceColumn = "CANCEL";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IsNull_T1SOURCEID";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "T1SOURCEID";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_T1SOURCEID";
-            param.DbType = global::System.Data.DbType.Decimal;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Decimal;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "T1SOURCEID";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IsNull_LATEMPLATEID";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "LATEMPLATEID";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_LATEMPLATEID";
-            param.DbType = global::System.Data.DbType.Decimal;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Decimal;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "LATEMPLATEID";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IsNull_BRANCHID";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "BRANCHID";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_BRANCHID";
-            param.DbType = global::System.Data.DbType.Decimal;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Decimal;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "BRANCHID";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IsNull_ENQNO";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
-            param.Size = 25;
-            param.IsNullable = true;
-            param.SourceColumn = "ENQNO";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_ENQNO";
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
-            param.Size = 25;
-            param.IsNullable = true;
-            param.SourceColumn = "ENQNO";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IsNull_ENQDATE";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
-            param.Size = 7;
-            param.IsNullable = true;
-            param.SourceColumn = "ENQDATE";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_ENQDATE";
-            param.DbType = global::System.Data.DbType.Date;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Date;
-            param.Size = 7;
-            param.IsNullable = true;
-            param.SourceColumn = "ENQDATE";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IsNull_ENQRECDBY";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "ENQRECDBY";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_ENQRECDBY";
-            param.DbType = global::System.Data.DbType.Decimal;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Decimal;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "ENQRECDBY";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IsNull_ASSIGNTO";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "ASSIGNTO";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_ASSIGNTO";
-            param.DbType = global::System.Data.DbType.Decimal;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Decimal;
-            param.Size = 22;
-            param.IsNullable = true;
-            param.SourceColumn = "ASSIGNTO";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IsNull_FOLLOWDT";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
-            param.Size = 7;
-            param.IsNullable = true;
-            param.SourceColumn = "FOLLOWDT";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_FOLLOWDT";
-            param.DbType = global::System.Data.DbType.Date;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Date;
-            param.Size = 7;
-            param.IsNullable = true;
-            param.SourceColumn = "FOLLOWDT";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IsNull_STATUS";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
-            param.Size = 25;
-            param.IsNullable = true;
-            param.SourceColumn = "STATUS";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_STATUS";
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
-            param.Size = 25;
-            param.IsNullable = true;
-            param.SourceColumn = "STATUS";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IsNull_REMARKS";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
-            param.Size = 50;
-            param.IsNullable = true;
-            param.SourceColumn = "REMARKS";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_REMARKS";
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
-            param.Size = 50;
-            param.IsNullable = true;
-            param.SourceColumn = "REMARKS";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IsNull_SMSDATE";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
-            param.Size = 7;
-            param.IsNullable = true;
-            param.SourceColumn = "SMSDATE";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_SMSDATE";
-            param.DbType = global::System.Data.DbType.Date;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Date;
-            param.Size = 7;
-            param.IsNullable = true;
-            param.SourceColumn = "SMSDATE";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IsNull_SENDSMS";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
-            param.Size = 3;
-            param.IsNullable = true;
-            param.SourceColumn = "SENDSMS";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_SENDSMS";
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
-            param.Size = 3;
-            param.IsNullable = true;
-            param.SourceColumn = "SENDSMS";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IsNull_ENQREF";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
-            param.Size = 15;
-            param.IsNullable = true;
-            param.SourceColumn = "ENQREF";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_ENQREF";
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
-            param.Size = 15;
-            param.IsNullable = true;
-            param.SourceColumn = "ENQREF";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IsNull_PARTYMASTID";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
-            param.Size = 50;
-            param.IsNullable = true;
-            param.SourceColumn = "PARTYMASTID";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_PARTYMASTID";
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.NVarchar2;
-            param.Size = 50;
-            param.IsNullable = true;
-            param.SourceColumn = "PARTYMASTID";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IsNull_CURRENCYID";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
-            param.Size = 20;
-            param.IsNullable = true;
-            param.SourceColumn = "CURRENCYID";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_CURRENCYID";
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.NVarchar2;
-            param.Size = 20;
-            param.IsNullable = true;
-            param.SourceColumn = "CURRENCYID";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IsNull_EXCRATERATE";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
-            param.Size = 15;
-            param.IsNullable = true;
-            param.SourceColumn = "EXCRATERATE";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_EXCRATERATE";
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.NVarchar2;
-            param.Size = 15;
-            param.IsNullable = true;
-            param.SourceColumn = "EXCRATERATE";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IsNull_PARTYREFNO";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
-            param.Size = 15;
-            param.IsNullable = true;
-            param.SourceColumn = "PARTYREFNO";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_PARTYREFNO";
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.NVarchar2;
-            param.Size = 15;
-            param.IsNullable = true;
-            param.SourceColumn = "PARTYREFNO";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "IsNull_ACTIVE";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Int32;
-            param.Size = 20;
-            param.IsNullable = true;
-            param.SourceColumn = "ACTIVE";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::Oracle.ManagedDataAccess.Client.OracleParameter();
-            param.ParameterName = "Original_ACTIVE";
-            param.OracleDbTypeEx = global::Oracle.ManagedDataAccess.Client.OracleDbType.Varchar2;
-            param.Size = 20;
-            param.IsNullable = true;
-            param.SourceColumn = "ACTIVE";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.UpdateCommand.Parameters.Add(param);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private void InitConnection() {
             this._connection = new global::Oracle.ManagedDataAccess.Client.OracleConnection();
-            this._connection.ConnectionString = "DATA SOURCE=192.168.0.11:1521/orcl1;TNS_ADMIN=C:\\Users\\ace\\Oracle\\network\\admin;P" +
-                "ERSIST SECURITY INFO=True;USER ID=ORACLE_OCM";
+            this._connection.ConnectionString = "DATA SOURCE=192.168.0.2:1521/orcl;TNS_ADMIN=C:\\Users\\Dell\\Oracle\\network\\admin;PA" +
+                "SSWORD=Master_1234;USER ID=TAAIERP";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3068,7 +3461,12 @@ namespace RDLCDesign.DataSet3TableAdapters {
             this._commandCollection = new global::Oracle.ManagedDataAccess.Client.OracleCommand[1];
             this._commandCollection[0] = new global::Oracle.ManagedDataAccess.Client.OracleCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = @"SELECT PURENQID, PROFITDOC, APPROVAL, APPROVALSTATUS, MAXAPPROVED, CANCEL, T1SOURCEID, LATEMPLATEID, BRANCHID, ENQNO, ENQDATE, ENQRECDBY, ASSIGNTO, FOLLOWDT, STATUS, REMARKS, SMSDATE, SENDSMS, ENQREF, PARTYMASTID, CURRENCYID, EXCRATERATE, PARTYREFNO, ACTIVE FROM ORACLE_OCM.PURENQ";
+            this._commandCollection[0].CommandText = @"SELECT        TAAIERP.PURQUOTBASIC.*, TAAIERP.PURQUOTDETAIL.*, TAAIERP.PURQUOTDETAIL.ITEMID AS EXPR1, TAAIERP.PURQUOTDETAIL.RATE AS EXPR2, TAAIERP.PURQUOTDETAIL.QTY AS EXPR3, 
+                         TAAIERP.PURQUOTDETAIL.UNIT AS EXPR4, TAAIERP.PURQUOTBASIC.BRANCHID AS EXPR5, TAAIERP.PURQUOTBASIC.DOCID AS EXPR6, TAAIERP.PURQUOTBASIC.DOCDATE AS EXPR7, 
+                         TAAIERP.PURQUOTBASIC.PARTYNAME AS EXPR9, TAAIERP.PURQUOTBASIC.ENQNO AS EXPR8, TAAIERP.PURQUOTBASIC.ENQDATE AS EXPR10, TAAIERP.PURQUOTBASIC.ENQID AS EXPR11, 
+                         TAAIERP.PURQUOTBASIC.MAINCURRENCY AS EXPR12
+FROM            TAAIERP.PURQUOTBASIC INNER JOIN
+                         TAAIERP.PURQUOTDETAIL ON TAAIERP.PURQUOTBASIC.PURQUOTBASICID = TAAIERP.PURQUOTDETAIL.PURQUOTBASICID";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         
@@ -3076,7 +3474,7 @@ namespace RDLCDesign.DataSet3TableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
-        public virtual int Fill(DataSet3.PURENQDataTable dataTable) {
+        public virtual int Fill(DataSet3.DataTable1DataTable dataTable) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
             if ((this.ClearBeforeFill == true)) {
                 dataTable.Clear();
@@ -3089,902 +3487,11 @@ namespace RDLCDesign.DataSet3TableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
-        public virtual DataSet3.PURENQDataTable GetData() {
+        public virtual DataSet3.DataTable1DataTable GetData() {
             this.Adapter.SelectCommand = this.CommandCollection[0];
-            DataSet3.PURENQDataTable dataTable = new DataSet3.PURENQDataTable();
+            DataSet3.DataTable1DataTable dataTable = new DataSet3.DataTable1DataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(DataSet3.PURENQDataTable dataTable) {
-            return this.Adapter.Update(dataTable);
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(DataSet3 dataSet) {
-            return this.Adapter.Update(dataSet, "PURENQ");
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(global::System.Data.DataRow dataRow) {
-            return this.Adapter.Update(new global::System.Data.DataRow[] {
-                        dataRow});
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(global::System.Data.DataRow[] dataRows) {
-            return this.Adapter.Update(dataRows);
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(
-                    decimal Original_PURENQID, 
-                    string Original_PROFITDOC, 
-                    global::System.Nullable<decimal> Original_APPROVAL, 
-                    string Original_APPROVALSTATUS, 
-                    global::System.Nullable<short> Original_MAXAPPROVED, 
-                    string Original_CANCEL, 
-                    global::System.Nullable<decimal> Original_T1SOURCEID, 
-                    global::System.Nullable<decimal> Original_LATEMPLATEID, 
-                    global::System.Nullable<decimal> Original_BRANCHID, 
-                    string Original_ENQNO, 
-                    global::System.Nullable<global::System.DateTime> Original_ENQDATE, 
-                    global::System.Nullable<decimal> Original_ENQRECDBY, 
-                    global::System.Nullable<decimal> Original_ASSIGNTO, 
-                    global::System.Nullable<global::System.DateTime> Original_FOLLOWDT, 
-                    string Original_STATUS, 
-                    string Original_REMARKS, 
-                    global::System.Nullable<global::System.DateTime> Original_SMSDATE, 
-                    string Original_SENDSMS, 
-                    string Original_ENQREF, 
-                    string Original_PARTYMASTID, 
-                    string Original_CURRENCYID, 
-                    string Original_EXCRATERATE, 
-                    string Original_PARTYREFNO, 
-                    string Original_ACTIVE) {
-            this.Adapter.DeleteCommand.Parameters[0].Value = ((decimal)(Original_PURENQID));
-            if ((Original_PROFITDOC == null)) {
-                this.Adapter.DeleteCommand.Parameters[1].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[2].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[1].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[2].Value = ((string)(Original_PROFITDOC));
-            }
-            if ((Original_APPROVAL.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[3].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[4].Value = ((decimal)(Original_APPROVAL.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[3].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[4].Value = global::System.DBNull.Value;
-            }
-            if ((Original_APPROVALSTATUS == null)) {
-                this.Adapter.DeleteCommand.Parameters[5].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[6].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[5].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[6].Value = ((string)(Original_APPROVALSTATUS));
-            }
-            if ((Original_MAXAPPROVED.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[7].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[8].Value = ((short)(Original_MAXAPPROVED.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[7].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[8].Value = global::System.DBNull.Value;
-            }
-            if ((Original_CANCEL == null)) {
-                this.Adapter.DeleteCommand.Parameters[9].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[10].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[9].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[10].Value = ((string)(Original_CANCEL));
-            }
-            if ((Original_T1SOURCEID.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[11].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[12].Value = ((decimal)(Original_T1SOURCEID.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[11].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[12].Value = global::System.DBNull.Value;
-            }
-            if ((Original_LATEMPLATEID.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[13].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[14].Value = ((decimal)(Original_LATEMPLATEID.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[13].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[14].Value = global::System.DBNull.Value;
-            }
-            if ((Original_BRANCHID.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[15].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[16].Value = ((decimal)(Original_BRANCHID.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[15].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[16].Value = global::System.DBNull.Value;
-            }
-            if ((Original_ENQNO == null)) {
-                this.Adapter.DeleteCommand.Parameters[17].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[18].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[17].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[18].Value = ((string)(Original_ENQNO));
-            }
-            if ((Original_ENQDATE.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[19].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[20].Value = ((System.DateTime)(Original_ENQDATE.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[19].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[20].Value = global::System.DBNull.Value;
-            }
-            if ((Original_ENQRECDBY.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[21].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[22].Value = ((decimal)(Original_ENQRECDBY.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[21].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[22].Value = global::System.DBNull.Value;
-            }
-            if ((Original_ASSIGNTO.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[23].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[24].Value = ((decimal)(Original_ASSIGNTO.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[23].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[24].Value = global::System.DBNull.Value;
-            }
-            if ((Original_FOLLOWDT.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[25].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[26].Value = ((System.DateTime)(Original_FOLLOWDT.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[25].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[26].Value = global::System.DBNull.Value;
-            }
-            if ((Original_STATUS == null)) {
-                this.Adapter.DeleteCommand.Parameters[27].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[28].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[27].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[28].Value = ((string)(Original_STATUS));
-            }
-            if ((Original_REMARKS == null)) {
-                this.Adapter.DeleteCommand.Parameters[29].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[30].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[29].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[30].Value = ((string)(Original_REMARKS));
-            }
-            if ((Original_SMSDATE.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[31].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[32].Value = ((System.DateTime)(Original_SMSDATE.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[31].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[32].Value = global::System.DBNull.Value;
-            }
-            if ((Original_SENDSMS == null)) {
-                this.Adapter.DeleteCommand.Parameters[33].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[34].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[33].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[34].Value = ((string)(Original_SENDSMS));
-            }
-            if ((Original_ENQREF == null)) {
-                this.Adapter.DeleteCommand.Parameters[35].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[36].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[35].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[36].Value = ((string)(Original_ENQREF));
-            }
-            if ((Original_PARTYMASTID == null)) {
-                this.Adapter.DeleteCommand.Parameters[37].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[38].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[37].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[38].Value = ((string)(Original_PARTYMASTID));
-            }
-            if ((Original_CURRENCYID == null)) {
-                this.Adapter.DeleteCommand.Parameters[39].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[40].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[39].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[40].Value = ((string)(Original_CURRENCYID));
-            }
-            if ((Original_EXCRATERATE == null)) {
-                this.Adapter.DeleteCommand.Parameters[41].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[42].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[41].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[42].Value = ((string)(Original_EXCRATERATE));
-            }
-            if ((Original_PARTYREFNO == null)) {
-                this.Adapter.DeleteCommand.Parameters[43].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[44].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[43].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[44].Value = ((string)(Original_PARTYREFNO));
-            }
-            if ((Original_ACTIVE == null)) {
-                this.Adapter.DeleteCommand.Parameters[45].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[46].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[45].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[46].Value = ((string)(Original_ACTIVE));
-            }
-            global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
-            if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
-                        != global::System.Data.ConnectionState.Open)) {
-                this.Adapter.DeleteCommand.Connection.Open();
-            }
-            try {
-                int returnValue = this.Adapter.DeleteCommand.ExecuteNonQuery();
-                return returnValue;
-            }
-            finally {
-                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
-                    this.Adapter.DeleteCommand.Connection.Close();
-                }
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(
-                    decimal PURENQID, 
-                    string PROFITDOC, 
-                    global::System.Nullable<decimal> APPROVAL, 
-                    string APPROVALSTATUS, 
-                    global::System.Nullable<short> MAXAPPROVED, 
-                    string CANCEL, 
-                    global::System.Nullable<decimal> T1SOURCEID, 
-                    global::System.Nullable<decimal> LATEMPLATEID, 
-                    global::System.Nullable<decimal> BRANCHID, 
-                    string ENQNO, 
-                    global::System.Nullable<global::System.DateTime> ENQDATE, 
-                    global::System.Nullable<decimal> ENQRECDBY, 
-                    global::System.Nullable<decimal> ASSIGNTO, 
-                    global::System.Nullable<global::System.DateTime> FOLLOWDT, 
-                    string STATUS, 
-                    string REMARKS, 
-                    global::System.Nullable<global::System.DateTime> SMSDATE, 
-                    string SENDSMS, 
-                    string ENQREF, 
-                    string PARTYMASTID, 
-                    string CURRENCYID, 
-                    string EXCRATERATE, 
-                    string PARTYREFNO, 
-                    string ACTIVE) {
-            this.Adapter.InsertCommand.Parameters[0].Value = ((decimal)(PURENQID));
-            if ((PROFITDOC == null)) {
-                this.Adapter.InsertCommand.Parameters[1].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[1].Value = ((string)(PROFITDOC));
-            }
-            if ((APPROVAL.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[2].Value = ((decimal)(APPROVAL.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[2].Value = global::System.DBNull.Value;
-            }
-            if ((APPROVALSTATUS == null)) {
-                this.Adapter.InsertCommand.Parameters[3].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[3].Value = ((string)(APPROVALSTATUS));
-            }
-            if ((MAXAPPROVED.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[4].Value = ((short)(MAXAPPROVED.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[4].Value = global::System.DBNull.Value;
-            }
-            if ((CANCEL == null)) {
-                this.Adapter.InsertCommand.Parameters[5].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[5].Value = ((string)(CANCEL));
-            }
-            if ((T1SOURCEID.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[6].Value = ((decimal)(T1SOURCEID.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[6].Value = global::System.DBNull.Value;
-            }
-            if ((LATEMPLATEID.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[7].Value = ((decimal)(LATEMPLATEID.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[7].Value = global::System.DBNull.Value;
-            }
-            if ((BRANCHID.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[8].Value = ((decimal)(BRANCHID.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[8].Value = global::System.DBNull.Value;
-            }
-            if ((ENQNO == null)) {
-                this.Adapter.InsertCommand.Parameters[9].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[9].Value = ((string)(ENQNO));
-            }
-            if ((ENQDATE.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[10].Value = ((System.DateTime)(ENQDATE.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[10].Value = global::System.DBNull.Value;
-            }
-            if ((ENQRECDBY.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[11].Value = ((decimal)(ENQRECDBY.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[11].Value = global::System.DBNull.Value;
-            }
-            if ((ASSIGNTO.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[12].Value = ((decimal)(ASSIGNTO.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[12].Value = global::System.DBNull.Value;
-            }
-            if ((FOLLOWDT.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[13].Value = ((System.DateTime)(FOLLOWDT.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[13].Value = global::System.DBNull.Value;
-            }
-            if ((STATUS == null)) {
-                this.Adapter.InsertCommand.Parameters[14].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[14].Value = ((string)(STATUS));
-            }
-            if ((REMARKS == null)) {
-                this.Adapter.InsertCommand.Parameters[15].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[15].Value = ((string)(REMARKS));
-            }
-            if ((SMSDATE.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[16].Value = ((System.DateTime)(SMSDATE.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[16].Value = global::System.DBNull.Value;
-            }
-            if ((SENDSMS == null)) {
-                this.Adapter.InsertCommand.Parameters[17].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[17].Value = ((string)(SENDSMS));
-            }
-            if ((ENQREF == null)) {
-                this.Adapter.InsertCommand.Parameters[18].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[18].Value = ((string)(ENQREF));
-            }
-            if ((PARTYMASTID == null)) {
-                this.Adapter.InsertCommand.Parameters[19].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[19].Value = ((string)(PARTYMASTID));
-            }
-            if ((CURRENCYID == null)) {
-                this.Adapter.InsertCommand.Parameters[20].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[20].Value = ((string)(CURRENCYID));
-            }
-            if ((EXCRATERATE == null)) {
-                this.Adapter.InsertCommand.Parameters[21].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[21].Value = ((string)(EXCRATERATE));
-            }
-            if ((PARTYREFNO == null)) {
-                this.Adapter.InsertCommand.Parameters[22].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[22].Value = ((string)(PARTYREFNO));
-            }
-            if ((ACTIVE == null)) {
-                this.Adapter.InsertCommand.Parameters[23].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[23].Value = ((string)(ACTIVE));
-            }
-            global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
-            if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
-                        != global::System.Data.ConnectionState.Open)) {
-                this.Adapter.InsertCommand.Connection.Open();
-            }
-            try {
-                int returnValue = this.Adapter.InsertCommand.ExecuteNonQuery();
-                return returnValue;
-            }
-            finally {
-                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
-                    this.Adapter.InsertCommand.Connection.Close();
-                }
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(
-                    decimal PURENQID, 
-                    string PROFITDOC, 
-                    global::System.Nullable<decimal> APPROVAL, 
-                    string APPROVALSTATUS, 
-                    global::System.Nullable<short> MAXAPPROVED, 
-                    string CANCEL, 
-                    global::System.Nullable<decimal> T1SOURCEID, 
-                    global::System.Nullable<decimal> LATEMPLATEID, 
-                    global::System.Nullable<decimal> BRANCHID, 
-                    string ENQNO, 
-                    global::System.Nullable<global::System.DateTime> ENQDATE, 
-                    global::System.Nullable<decimal> ENQRECDBY, 
-                    global::System.Nullable<decimal> ASSIGNTO, 
-                    global::System.Nullable<global::System.DateTime> FOLLOWDT, 
-                    string STATUS, 
-                    string REMARKS, 
-                    global::System.Nullable<global::System.DateTime> SMSDATE, 
-                    string SENDSMS, 
-                    string ENQREF, 
-                    string PARTYMASTID, 
-                    string CURRENCYID, 
-                    string EXCRATERATE, 
-                    string PARTYREFNO, 
-                    string ACTIVE, 
-                    decimal Original_PURENQID, 
-                    string Original_PROFITDOC, 
-                    global::System.Nullable<decimal> Original_APPROVAL, 
-                    string Original_APPROVALSTATUS, 
-                    global::System.Nullable<short> Original_MAXAPPROVED, 
-                    string Original_CANCEL, 
-                    global::System.Nullable<decimal> Original_T1SOURCEID, 
-                    global::System.Nullable<decimal> Original_LATEMPLATEID, 
-                    global::System.Nullable<decimal> Original_BRANCHID, 
-                    string Original_ENQNO, 
-                    global::System.Nullable<global::System.DateTime> Original_ENQDATE, 
-                    global::System.Nullable<decimal> Original_ENQRECDBY, 
-                    global::System.Nullable<decimal> Original_ASSIGNTO, 
-                    global::System.Nullable<global::System.DateTime> Original_FOLLOWDT, 
-                    string Original_STATUS, 
-                    string Original_REMARKS, 
-                    global::System.Nullable<global::System.DateTime> Original_SMSDATE, 
-                    string Original_SENDSMS, 
-                    string Original_ENQREF, 
-                    string Original_PARTYMASTID, 
-                    string Original_CURRENCYID, 
-                    string Original_EXCRATERATE, 
-                    string Original_PARTYREFNO, 
-                    string Original_ACTIVE) {
-            this.Adapter.UpdateCommand.Parameters[0].Value = ((decimal)(PURENQID));
-            if ((PROFITDOC == null)) {
-                this.Adapter.UpdateCommand.Parameters[1].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[1].Value = ((string)(PROFITDOC));
-            }
-            if ((APPROVAL.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[2].Value = ((decimal)(APPROVAL.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[2].Value = global::System.DBNull.Value;
-            }
-            if ((APPROVALSTATUS == null)) {
-                this.Adapter.UpdateCommand.Parameters[3].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[3].Value = ((string)(APPROVALSTATUS));
-            }
-            if ((MAXAPPROVED.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[4].Value = ((short)(MAXAPPROVED.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[4].Value = global::System.DBNull.Value;
-            }
-            if ((CANCEL == null)) {
-                this.Adapter.UpdateCommand.Parameters[5].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[5].Value = ((string)(CANCEL));
-            }
-            if ((T1SOURCEID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[6].Value = ((decimal)(T1SOURCEID.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[6].Value = global::System.DBNull.Value;
-            }
-            if ((LATEMPLATEID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[7].Value = ((decimal)(LATEMPLATEID.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[7].Value = global::System.DBNull.Value;
-            }
-            if ((BRANCHID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[8].Value = ((decimal)(BRANCHID.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[8].Value = global::System.DBNull.Value;
-            }
-            if ((ENQNO == null)) {
-                this.Adapter.UpdateCommand.Parameters[9].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[9].Value = ((string)(ENQNO));
-            }
-            if ((ENQDATE.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[10].Value = ((System.DateTime)(ENQDATE.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[10].Value = global::System.DBNull.Value;
-            }
-            if ((ENQRECDBY.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[11].Value = ((decimal)(ENQRECDBY.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[11].Value = global::System.DBNull.Value;
-            }
-            if ((ASSIGNTO.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[12].Value = ((decimal)(ASSIGNTO.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[12].Value = global::System.DBNull.Value;
-            }
-            if ((FOLLOWDT.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[13].Value = ((System.DateTime)(FOLLOWDT.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[13].Value = global::System.DBNull.Value;
-            }
-            if ((STATUS == null)) {
-                this.Adapter.UpdateCommand.Parameters[14].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[14].Value = ((string)(STATUS));
-            }
-            if ((REMARKS == null)) {
-                this.Adapter.UpdateCommand.Parameters[15].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[15].Value = ((string)(REMARKS));
-            }
-            if ((SMSDATE.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[16].Value = ((System.DateTime)(SMSDATE.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[16].Value = global::System.DBNull.Value;
-            }
-            if ((SENDSMS == null)) {
-                this.Adapter.UpdateCommand.Parameters[17].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[17].Value = ((string)(SENDSMS));
-            }
-            if ((ENQREF == null)) {
-                this.Adapter.UpdateCommand.Parameters[18].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[18].Value = ((string)(ENQREF));
-            }
-            if ((PARTYMASTID == null)) {
-                this.Adapter.UpdateCommand.Parameters[19].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[19].Value = ((string)(PARTYMASTID));
-            }
-            if ((CURRENCYID == null)) {
-                this.Adapter.UpdateCommand.Parameters[20].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[20].Value = ((string)(CURRENCYID));
-            }
-            if ((EXCRATERATE == null)) {
-                this.Adapter.UpdateCommand.Parameters[21].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[21].Value = ((string)(EXCRATERATE));
-            }
-            if ((PARTYREFNO == null)) {
-                this.Adapter.UpdateCommand.Parameters[22].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[22].Value = ((string)(PARTYREFNO));
-            }
-            if ((ACTIVE == null)) {
-                this.Adapter.UpdateCommand.Parameters[23].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[23].Value = ((string)(ACTIVE));
-            }
-            this.Adapter.UpdateCommand.Parameters[24].Value = ((decimal)(Original_PURENQID));
-            if ((Original_PROFITDOC == null)) {
-                this.Adapter.UpdateCommand.Parameters[25].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[26].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[25].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[26].Value = ((string)(Original_PROFITDOC));
-            }
-            if ((Original_APPROVAL.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[27].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[28].Value = ((decimal)(Original_APPROVAL.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[27].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[28].Value = global::System.DBNull.Value;
-            }
-            if ((Original_APPROVALSTATUS == null)) {
-                this.Adapter.UpdateCommand.Parameters[29].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[30].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[29].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[30].Value = ((string)(Original_APPROVALSTATUS));
-            }
-            if ((Original_MAXAPPROVED.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[31].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[32].Value = ((short)(Original_MAXAPPROVED.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[31].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[32].Value = global::System.DBNull.Value;
-            }
-            if ((Original_CANCEL == null)) {
-                this.Adapter.UpdateCommand.Parameters[33].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[34].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[33].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[34].Value = ((string)(Original_CANCEL));
-            }
-            if ((Original_T1SOURCEID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[35].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[36].Value = ((decimal)(Original_T1SOURCEID.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[35].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[36].Value = global::System.DBNull.Value;
-            }
-            if ((Original_LATEMPLATEID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[37].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[38].Value = ((decimal)(Original_LATEMPLATEID.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[37].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[38].Value = global::System.DBNull.Value;
-            }
-            if ((Original_BRANCHID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[39].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[40].Value = ((decimal)(Original_BRANCHID.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[39].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[40].Value = global::System.DBNull.Value;
-            }
-            if ((Original_ENQNO == null)) {
-                this.Adapter.UpdateCommand.Parameters[41].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[42].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[41].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[42].Value = ((string)(Original_ENQNO));
-            }
-            if ((Original_ENQDATE.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[43].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[44].Value = ((System.DateTime)(Original_ENQDATE.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[43].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[44].Value = global::System.DBNull.Value;
-            }
-            if ((Original_ENQRECDBY.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[45].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[46].Value = ((decimal)(Original_ENQRECDBY.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[45].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[46].Value = global::System.DBNull.Value;
-            }
-            if ((Original_ASSIGNTO.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[47].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[48].Value = ((decimal)(Original_ASSIGNTO.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[47].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[48].Value = global::System.DBNull.Value;
-            }
-            if ((Original_FOLLOWDT.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[49].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[50].Value = ((System.DateTime)(Original_FOLLOWDT.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[49].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[50].Value = global::System.DBNull.Value;
-            }
-            if ((Original_STATUS == null)) {
-                this.Adapter.UpdateCommand.Parameters[51].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[52].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[51].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[52].Value = ((string)(Original_STATUS));
-            }
-            if ((Original_REMARKS == null)) {
-                this.Adapter.UpdateCommand.Parameters[53].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[54].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[53].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[54].Value = ((string)(Original_REMARKS));
-            }
-            if ((Original_SMSDATE.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[55].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[56].Value = ((System.DateTime)(Original_SMSDATE.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[55].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[56].Value = global::System.DBNull.Value;
-            }
-            if ((Original_SENDSMS == null)) {
-                this.Adapter.UpdateCommand.Parameters[57].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[58].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[57].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[58].Value = ((string)(Original_SENDSMS));
-            }
-            if ((Original_ENQREF == null)) {
-                this.Adapter.UpdateCommand.Parameters[59].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[60].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[59].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[60].Value = ((string)(Original_ENQREF));
-            }
-            if ((Original_PARTYMASTID == null)) {
-                this.Adapter.UpdateCommand.Parameters[61].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[62].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[61].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[62].Value = ((string)(Original_PARTYMASTID));
-            }
-            if ((Original_CURRENCYID == null)) {
-                this.Adapter.UpdateCommand.Parameters[63].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[64].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[63].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[64].Value = ((string)(Original_CURRENCYID));
-            }
-            if ((Original_EXCRATERATE == null)) {
-                this.Adapter.UpdateCommand.Parameters[65].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[66].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[65].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[66].Value = ((string)(Original_EXCRATERATE));
-            }
-            if ((Original_PARTYREFNO == null)) {
-                this.Adapter.UpdateCommand.Parameters[67].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[68].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[67].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[68].Value = ((string)(Original_PARTYREFNO));
-            }
-            if ((Original_ACTIVE == null)) {
-                this.Adapter.UpdateCommand.Parameters[69].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[70].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[69].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[70].Value = ((string)(Original_ACTIVE));
-            }
-            global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
-            if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
-                        != global::System.Data.ConnectionState.Open)) {
-                this.Adapter.UpdateCommand.Connection.Open();
-            }
-            try {
-                int returnValue = this.Adapter.UpdateCommand.ExecuteNonQuery();
-                return returnValue;
-            }
-            finally {
-                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
-                    this.Adapter.UpdateCommand.Connection.Close();
-                }
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(
-                    string PROFITDOC, 
-                    global::System.Nullable<decimal> APPROVAL, 
-                    string APPROVALSTATUS, 
-                    global::System.Nullable<short> MAXAPPROVED, 
-                    string CANCEL, 
-                    global::System.Nullable<decimal> T1SOURCEID, 
-                    global::System.Nullable<decimal> LATEMPLATEID, 
-                    global::System.Nullable<decimal> BRANCHID, 
-                    string ENQNO, 
-                    global::System.Nullable<global::System.DateTime> ENQDATE, 
-                    global::System.Nullable<decimal> ENQRECDBY, 
-                    global::System.Nullable<decimal> ASSIGNTO, 
-                    global::System.Nullable<global::System.DateTime> FOLLOWDT, 
-                    string STATUS, 
-                    string REMARKS, 
-                    global::System.Nullable<global::System.DateTime> SMSDATE, 
-                    string SENDSMS, 
-                    string ENQREF, 
-                    string PARTYMASTID, 
-                    string CURRENCYID, 
-                    string EXCRATERATE, 
-                    string PARTYREFNO, 
-                    string ACTIVE, 
-                    decimal Original_PURENQID, 
-                    string Original_PROFITDOC, 
-                    global::System.Nullable<decimal> Original_APPROVAL, 
-                    string Original_APPROVALSTATUS, 
-                    global::System.Nullable<short> Original_MAXAPPROVED, 
-                    string Original_CANCEL, 
-                    global::System.Nullable<decimal> Original_T1SOURCEID, 
-                    global::System.Nullable<decimal> Original_LATEMPLATEID, 
-                    global::System.Nullable<decimal> Original_BRANCHID, 
-                    string Original_ENQNO, 
-                    global::System.Nullable<global::System.DateTime> Original_ENQDATE, 
-                    global::System.Nullable<decimal> Original_ENQRECDBY, 
-                    global::System.Nullable<decimal> Original_ASSIGNTO, 
-                    global::System.Nullable<global::System.DateTime> Original_FOLLOWDT, 
-                    string Original_STATUS, 
-                    string Original_REMARKS, 
-                    global::System.Nullable<global::System.DateTime> Original_SMSDATE, 
-                    string Original_SENDSMS, 
-                    string Original_ENQREF, 
-                    string Original_PARTYMASTID, 
-                    string Original_CURRENCYID, 
-                    string Original_EXCRATERATE, 
-                    string Original_PARTYREFNO, 
-                    string Original_ACTIVE) {
-            return this.Update(Original_PURENQID, PROFITDOC, APPROVAL, APPROVALSTATUS, MAXAPPROVED, CANCEL, T1SOURCEID, LATEMPLATEID, BRANCHID, ENQNO, ENQDATE, ENQRECDBY, ASSIGNTO, FOLLOWDT, STATUS, REMARKS, SMSDATE, SENDSMS, ENQREF, PARTYMASTID, CURRENCYID, EXCRATERATE, PARTYREFNO, ACTIVE, Original_PURENQID, Original_PROFITDOC, Original_APPROVAL, Original_APPROVALSTATUS, Original_MAXAPPROVED, Original_CANCEL, Original_T1SOURCEID, Original_LATEMPLATEID, Original_BRANCHID, Original_ENQNO, Original_ENQDATE, Original_ENQRECDBY, Original_ASSIGNTO, Original_FOLLOWDT, Original_STATUS, Original_REMARKS, Original_SMSDATE, Original_SENDSMS, Original_ENQREF, Original_PARTYMASTID, Original_CURRENCYID, Original_EXCRATERATE, Original_PARTYREFNO, Original_ACTIVE);
         }
     }
     
@@ -4000,8 +3507,6 @@ namespace RDLCDesign.DataSet3TableAdapters {
         
         private UpdateOrderOption _updateOrder;
         
-        private PURENQTableAdapter _pURENQTableAdapter;
-        
         private bool _backupDataSetBeforeUpdate;
         
         private global::System.Data.IDbConnection _connection;
@@ -4014,20 +3519,6 @@ namespace RDLCDesign.DataSet3TableAdapters {
             }
             set {
                 this._updateOrder = value;
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        [global::System.ComponentModel.EditorAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterManagerPropertyEditor, Microso" +
-            "ft.VSDesigner, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3" +
-            "a", "System.Drawing.Design.UITypeEditor")]
-        public PURENQTableAdapter PURENQTableAdapter {
-            get {
-                return this._pURENQTableAdapter;
-            }
-            set {
-                this._pURENQTableAdapter = value;
             }
         }
         
@@ -4050,10 +3541,6 @@ namespace RDLCDesign.DataSet3TableAdapters {
                 if ((this._connection != null)) {
                     return this._connection;
                 }
-                if (((this._pURENQTableAdapter != null) 
-                            && (this._pURENQTableAdapter.Connection != null))) {
-                    return this._pURENQTableAdapter.Connection;
-                }
                 return null;
             }
             set {
@@ -4067,9 +3554,6 @@ namespace RDLCDesign.DataSet3TableAdapters {
         public int TableAdapterInstanceCount {
             get {
                 int count = 0;
-                if ((this._pURENQTableAdapter != null)) {
-                    count = (count + 1);
-                }
                 return count;
             }
         }
@@ -4081,15 +3565,6 @@ namespace RDLCDesign.DataSet3TableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private int UpdateUpdatedRows(DataSet3 dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
             int result = 0;
-            if ((this._pURENQTableAdapter != null)) {
-                global::System.Data.DataRow[] updatedRows = dataSet.PURENQ.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
-                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
-                if (((updatedRows != null) 
-                            && (0 < updatedRows.Length))) {
-                    result = (result + this._pURENQTableAdapter.Update(updatedRows));
-                    allChangedRows.AddRange(updatedRows);
-                }
-            }
             return result;
         }
         
@@ -4100,14 +3575,6 @@ namespace RDLCDesign.DataSet3TableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private int UpdateInsertedRows(DataSet3 dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
             int result = 0;
-            if ((this._pURENQTableAdapter != null)) {
-                global::System.Data.DataRow[] addedRows = dataSet.PURENQ.Select(null, null, global::System.Data.DataViewRowState.Added);
-                if (((addedRows != null) 
-                            && (0 < addedRows.Length))) {
-                    result = (result + this._pURENQTableAdapter.Update(addedRows));
-                    allAddedRows.AddRange(addedRows);
-                }
-            }
             return result;
         }
         
@@ -4118,14 +3585,6 @@ namespace RDLCDesign.DataSet3TableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private int UpdateDeletedRows(DataSet3 dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows) {
             int result = 0;
-            if ((this._pURENQTableAdapter != null)) {
-                global::System.Data.DataRow[] deletedRows = dataSet.PURENQ.Select(null, null, global::System.Data.DataViewRowState.Deleted);
-                if (((deletedRows != null) 
-                            && (0 < deletedRows.Length))) {
-                    result = (result + this._pURENQTableAdapter.Update(deletedRows));
-                    allChangedRows.AddRange(deletedRows);
-                }
-            }
             return result;
         }
         
@@ -4165,11 +3624,6 @@ namespace RDLCDesign.DataSet3TableAdapters {
             if ((dataSet.HasChanges() == false)) {
                 return 0;
             }
-            if (((this._pURENQTableAdapter != null) 
-                        && (this.MatchTableAdapterConnection(this._pURENQTableAdapter.Connection) == false))) {
-                throw new global::System.ArgumentException("All TableAdapters managed by a TableAdapterManager must use the same connection s" +
-                        "tring.");
-            }
             global::System.Data.IDbConnection workConnection = this.Connection;
             if ((workConnection == null)) {
                 throw new global::System.ApplicationException("TableAdapterManager contains no connection information. Set each TableAdapterMana" +
@@ -4202,15 +3656,6 @@ namespace RDLCDesign.DataSet3TableAdapters {
             try {
                 // ---- Prepare for update -----------
                 //
-                if ((this._pURENQTableAdapter != null)) {
-                    revertConnections.Add(this._pURENQTableAdapter, this._pURENQTableAdapter.Connection);
-                    this._pURENQTableAdapter.Connection = ((global::Oracle.ManagedDataAccess.Client.OracleConnection)(workConnection));
-                    this._pURENQTableAdapter.Transaction = ((global::Oracle.ManagedDataAccess.Client.OracleTransaction)(workTransaction));
-                    if (this._pURENQTableAdapter.Adapter.AcceptChangesDuringUpdate) {
-                        this._pURENQTableAdapter.Adapter.AcceptChangesDuringUpdate = false;
-                        adaptersWithAcceptChangesDuringUpdate.Add(this._pURENQTableAdapter.Adapter);
-                    }
-                }
                 // 
                 //---- Perform updates -----------
                 //
@@ -4268,10 +3713,6 @@ namespace RDLCDesign.DataSet3TableAdapters {
             finally {
                 if (workConnOpened) {
                     workConnection.Close();
-                }
-                if ((this._pURENQTableAdapter != null)) {
-                    this._pURENQTableAdapter.Connection = ((global::Oracle.ManagedDataAccess.Client.OracleConnection)(revertConnections[this._pURENQTableAdapter]));
-                    this._pURENQTableAdapter.Transaction = null;
                 }
                 if ((0 < adaptersWithAcceptChangesDuringUpdate.Count)) {
                     global::System.Data.Common.DataAdapter[] adapters = new System.Data.Common.DataAdapter[adaptersWithAcceptChangesDuringUpdate.Count];

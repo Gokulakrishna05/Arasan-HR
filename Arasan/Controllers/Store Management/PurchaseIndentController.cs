@@ -380,7 +380,7 @@ namespace Arasan.Controllers.Store_Management
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTY"].ToString(), Value = dtDesg.Rows[i]["PARTYMASTID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTYNAME"].ToString(), Value = dtDesg.Rows[i]["PARTYMASTID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -656,7 +656,7 @@ namespace Arasan.Controllers.Store_Management
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dt1.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dt1.Rows[i]["PARTY"].ToString(), Value = dt1.Rows[i]["PARTYID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dt1.Rows[i]["PARTYNAME"].ToString(), Value = dt1.Rows[i]["PARTYID"].ToString() });
                 }
                 return lstdesg;
             }

@@ -112,7 +112,7 @@ namespace Arasan.Services
         public DataTable GetLasttwoSupp(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select  PARTYRCODE.PARTY,GRNBLBASIC.PARTYID from GRNBLDETAIL LEFT OUTER JOIN GRNBLBASIC on GRNBLBASIC.GRNBLBASICID=GRNBLDETAIL.GRNBLBASICID LEFT OUTER JOIN PARTYMAST on GRNBLBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH')   group by PARTYRCODE.PARTY,GRNBLBASIC.PARTYID fetch first 2 rows only";
+            SvSql = "select  PARTYMAST.PARTYNAME,GRNBLBASIC.PARTYID from GRNBLDETAIL LEFT OUTER JOIN GRNBLBASIC on GRNBLBASIC.GRNBLBASICID=GRNBLDETAIL.GRNBLBASICID LEFT OUTER JOIN PARTYMAST on GRNBLBASIC.PARTYID=PARTYMAST.PARTYMASTID  Where PARTYMAST.TYPE IN ('Supplier','BOTH')   group by PARTYRCODE.PARTY,GRNBLBASIC.PARTYID fetch first 2 rows only";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -133,7 +133,7 @@ namespace Arasan.Services
         public DataTable GetSupplier()
         {
             string SvSql = string.Empty;
-            SvSql = "Select PARTYMAST.PARTYMASTID,PARTYRCODE.PARTY from PARTYMAST LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND PARTYRCODE.PARTY IS NOT NULL";
+            SvSql = "Select PARTYMAST.PARTYMASTID,PARTYMAST.PARTYNAME from PARTYMAST Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND PARTYMAST.PARTYNAME IS NOT NULL";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
