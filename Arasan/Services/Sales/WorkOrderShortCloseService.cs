@@ -22,7 +22,9 @@ namespace Arasan.Services
         public DataTable GetWorkOrder(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select JOBASIC.DOCID,JOBASIC.BRANCHID,JOBASIC.LOCID as Loc,LOCDETAILS.LOCID,JOBASIC.PARTYID as customerId,PARTYMAST.PARTYNAME,ORDTYPE from JOBASIC left Outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID=JOBASIC.LOCID  LEFT OUTER JOIN  PARTYMAST on JOBASIC.PARTYID=PARTYMAST.PARTYMASTID  Where PARTYMAST.TYPE IN ('Customer','BOTH')  And JOBASICID='" + id + "' ";
+
+            SvSql = "select JOBASIC.DOCID,JOBASIC.BRANCHID,JOBASIC.LOCID as Loc,LOCDETAILS.LOCID,JOBASIC.PARTYID as customerId,PARTYMAST.PARTYNAME as PARTY,ORDTYPE from JOBASIC left Outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID=JOBASIC.LOCID  LEFT OUTER JOIN  PARTYMAST on JOBASIC.PARTYID=PARTYMAST.PARTYMASTID  Where PARTYMAST.TYPE IN ('Customer','BOTH')  And JOBASICID='" + id + "' ";
+
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
