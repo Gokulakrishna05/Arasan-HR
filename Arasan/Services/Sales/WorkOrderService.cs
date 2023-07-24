@@ -94,7 +94,7 @@ namespace Arasan.Services.Sales
 
 
                 
-                string party = datatrans.GetDataString("Select ID from PARTYRCODE where PARTY='" + cy.Customer + "' ");
+                string party = datatrans.GetDataString("Select PARTYNAME from PARTYMAST where PARTY='" + cy.Customer + "' ");
                 string partyid = datatrans.GetDataString("Select PARTYMASTID from PARTYMAST where PARTYNAME='" + party + "' ");
 
 

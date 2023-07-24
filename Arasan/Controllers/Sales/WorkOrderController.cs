@@ -115,7 +115,7 @@ namespace Arasan.Controllers.Sales
                 }
 
             }
-          //  ca.Worklst = TData;
+            ca.Worklst = TData;
             return View(ca);
         }
         [HttpPost]
