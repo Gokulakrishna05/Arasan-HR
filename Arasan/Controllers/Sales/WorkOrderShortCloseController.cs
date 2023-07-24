@@ -44,7 +44,7 @@ namespace Arasan.Controllers
             if (dt.Rows.Count > 0)
             {
                 ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
-                ca.Customer = dt.Rows[0]["PARTY"].ToString();
+                ca.Customer = dt.Rows[0]["PARTYNAME"].ToString();
                 ca.CustomerId = dt.Rows[0]["customerId"].ToString();
                 ca.ID = id;
                 ca.Location = dt.Rows[0]["LOCID"].ToString();
