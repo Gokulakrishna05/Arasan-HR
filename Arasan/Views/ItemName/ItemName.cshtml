@@ -647,7 +647,7 @@
                                                                 <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
                                                                     <td>
-                                                                        @Html.DropDownListFor(o => o.Suplst[i].SupName, Model.Suplst[i].Suplierlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlSuplierlst" + i, style = "width: 200px;", onchange = "Grup_Change(this.value," + i + ")"})
+                                                                        @Html.DropDownListFor(o => o.Suplst[i].SupName, Model.Suplst[i].Suplierlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlSuplierlst" + i, style = "width: 200px;"})
 
                                                                     </td>
                                                                     <td>
@@ -749,11 +749,11 @@
     function AppendRow(opt) {
         var index = $("#tbBooks").children("tr").length;
 
-        var Suplst = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='Suplst" + index + "' name='Suplst[" + index + "].Suplierlst' onchange = 'Grup_Change(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
+        var Suplst = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='Suplst" + index + "' name='Suplst[" + index + "].Suplierlst' ><option value=''>Please select</option>" + opt + "</select></td>";
 
 
 
-        var SupplierPart = "<td><input class='form-control' id='txtSupplierPart" + index + "' name='Suplst[" + index + "].SupplierPart'  style='width: 90px;' type='text'  readonly='True' /></td>";
+        var SupplierPart = "<td><input class='form-control' id='txtSupplierPart" + index + "' name='Suplst[" + index + "].SupplierPart'  style='width: 90px;' type='text'   /></td>";
 
         var PurchasePrice = "<td><input class='form-control' id='txtPurchasePrice" + index + "' name='Suplst[" + index + "].PurchasePrice'  style='width: 90px;' type='text'  /></td>";
 
