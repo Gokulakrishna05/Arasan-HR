@@ -41,7 +41,7 @@ namespace Arasan.Controllers.Master
                 {
                     if (by.ID == null)
                     {
-                        TempData["notice"] = "ItemGroupInserted Successfully...!";
+                        TempData["notice"] = "ItemGroup Inserted Successfully...!";
                     }
                     else
                     {
