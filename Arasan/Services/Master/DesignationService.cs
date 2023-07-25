@@ -40,7 +40,7 @@ namespace Arasan.Services.Master
                         {
                             ID = rdr["DESIGNATIONMASTID"].ToString(),
                             Design = rdr["DESIGNATION"].ToString(),
-                            DeptName = rdr["DEPARTMENT_NAME"].ToString(),
+                            DeptName = rdr["DEPARTMENT_NAME"].ToString()
                             //status = rdr["STATUS"].ToString()
 
 
@@ -71,7 +71,7 @@ namespace Arasan.Services.Master
                 }
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
-                    OracleCommand objCmd = new OracleCommand("DesignationPROC", objConn);
+                    OracleCommand objCmd = new OracleCommand("DESIGNATIONPROC", objConn);
 
                     objCmd.CommandType = CommandType.StoredProcedure;
                     if (ss.ID == null)

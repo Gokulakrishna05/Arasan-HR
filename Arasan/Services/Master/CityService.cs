@@ -31,7 +31,7 @@ namespace Arasan.Services.Master
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select CITYNAME,STATEMAST.STATE,CITYID,CONMAST.COUNTRYNAME,CITYMASTER.STATUS from CITYMASTER left outer join CONMAST on COUNTRYMASTID=CITYMASTER.COUNTRYID left outer join STATEMAST on STATEMASTID=CITYMASTER.STATEID WHERE CITYMASTER.STATUS='" + status + "' order by STATEMAST.STATEMASTID DESC";
+                    cmd.CommandText = "Select CITYNAME,STATEMAST.STATE,CITYID,CONMAST.COUNTRY,CITYMASTER.STATUS from CITYMASTER left outer join CONMAST on COUNTRYMASTID=CITYMASTER.COUNTRYID left outer join STATEMAST on STATEMASTID=CITYMASTER.STATEID WHERE CITYMASTER.STATUS='" + status + "' order by STATEMAST.STATEMASTID DESC";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -40,7 +40,7 @@ namespace Arasan.Services.Master
                             ID = rdr["CITYID"].ToString(),
                             Cit = rdr["CITYNAME"].ToString(),
                             State = rdr["STATE"].ToString(),
-                            countryid = rdr["COUNTRYNAME"].ToString(),
+                            countryid = rdr["COUNTRY"].ToString(),
                             status = rdr["STATUS"].ToString()
                         };
                         staList.Add(sta);
@@ -78,7 +78,7 @@ namespace Arasan.Services.Master
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select CITYNAME,STATEID,CITYID,COUNTRYID from CITYMASTER where CITYID=" + eid + "";
+                    cmd.CommandText = "Select COUNTRYID,STATEID,CITYID,CITYNAME from CITYMASTER where CITYID=" + eid + "";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -134,11 +134,10 @@ namespace Arasan.Services.Master
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = ss.ID;
                     }
 
-                    objCmd.Parameters.Add("CITYNAME", OracleDbType.NVarchar2).Value = ss.Cit;
+                    objCmd.Parameters.Add("COUNTRY", OracleDbType.NVarchar2).Value = ss.countryid;
                     objCmd.Parameters.Add("STATEID", OracleDbType.NVarchar2).Value = ss.State;
-                   
-                    objCmd.Parameters.Add("COUNTRYID", OracleDbType.NVarchar2).Value = ss.countryid;
-                    objCmd.Parameters.Add("STATENAME", OracleDbType.NVarchar2).Value = StaName;
+                    objCmd.Parameters.Add("CITYNAME", OracleDbType.NVarchar2).Value = ss.Cit;
+                    
                     objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     try
