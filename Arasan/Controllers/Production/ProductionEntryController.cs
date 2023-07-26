@@ -1136,6 +1136,7 @@ namespace Arasan.Controllers
             DataTable dtv = datatrans.GetSequence("vchpr");
             ca.Loclst = BindAPWorkCenter();
             ca.Englst = BindEmp();
+            ca.batchcomplete = "N";
             ca.Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
             if (dtv.Rows.Count > 0)
             {
