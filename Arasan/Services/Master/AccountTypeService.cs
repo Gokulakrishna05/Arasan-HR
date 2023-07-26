@@ -61,7 +61,7 @@ namespace Arasan.Services
                 if (ss.ID == null)
                 {
 
-                    svSQL = " SELECT Count(ACCOUNTCODE) as cnt FROM ACCTYPE WHERE ACCOUNTCODE =LTRIM(RTRIM('" + ss.AccountCode + "')) and ACCOUNTTYPE =LTRIM(RTRIM('" + ss.Accounttype + "'))";
+                    svSQL = " SELECT Count(ACCOUNTCODE) as cnt FROM ACCTYPE WHERE ACCOUNTCODE = LTRIM(RTRIM('" + ss.AccountCode + "')) and ACCOUNTTYPE =LTRIM(RTRIM('" + ss.Accounttype + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "Account Code Already Existed";

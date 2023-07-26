@@ -27,7 +27,7 @@ namespace Arasan.Services.Master
             }
             List<ItemSubGroup> staList = new List<ItemSubGroup>();
             using (OracleConnection con = new OracleConnection(_connectionString))
-            {
+             {
 
                 using (OracleCommand cmd = con.CreateCommand())
                 {
@@ -49,8 +49,7 @@ namespace Arasan.Services.Master
             }
             return staList;
         }
-
-
+        
         public ItemSubGroup GetItemSubGroupById(string eid)
         {
             ItemSubGroup ItemSubGroup = new ItemSubGroup();

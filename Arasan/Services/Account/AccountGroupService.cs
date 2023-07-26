@@ -27,6 +27,7 @@ namespace Arasan.Services
                 {
                     con.Open();
                     cmd.CommandText = "Select BRANCHMAST.BRANCHID,ACCOUNTGROUP,GROUPCODE,ACCGROUP.STATUS,ACCGROUPID from ACCGROUP LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=ACCGROUP.BRANCHID where ACCGROUP.STATUS='Active'";
+                   
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -36,7 +37,7 @@ namespace Arasan.Services
                             Branch = rdr["BRANCHID"].ToString(),
                             AccGroup = rdr["ACCOUNTGROUP"].ToString(),
                             GCode = rdr["GROUPCODE"].ToString(),
-                            Status = rdr["STATUS"].ToString(),
+                            Status = rdr["STATUS"].ToString()
 
                         };
                         cmpList.Add(cmp);
