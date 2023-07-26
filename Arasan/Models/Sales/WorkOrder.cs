@@ -47,6 +47,7 @@ namespace Arasan.Models
 
         public string itemspec { get; set; }
 
+        public string Jodetailid { get; set; }
         public string orderqty { get; set; }
 
 
@@ -86,8 +87,9 @@ namespace Arasan.Models
         public List<Drumdetails> drumlst { get; set; }
 
     }
-    public class WDrumallocation
+    public class WDrumAllocation
     {
+        public string ID { get; set; }
         public string Branch { get; set; }
         public string Location { get; set; }
         public string JobId { get; set; }
@@ -95,7 +97,8 @@ namespace Arasan.Models
         public string DOCId { get; set; }   
         public string DocDate { get; set; }
         public string Customername { get; set; }
-
+        public string CustomerId { get; set; }
+        public string JOId { get; set; }
         public List<WorkItem> Worklst { get; set; }
 
         public string Locid { get; set; }

@@ -1933,7 +1933,7 @@
                     </ReportItems>
                     <KeepTogether>true</KeepTogether>
                     <Left>7.25137cm</Left>
-                    <Height>2.78788cm</Height>
+                    <Height>2.48849cm</Height>
                     <Width>3.153cm</Width>
                     <ZIndex>2</ZIndex>
                     <Style>
@@ -2194,7 +2194,7 @@
                 <KeepTogether>true</KeepTogether>
                 <Top>5.48102cm</Top>
                 <Left>5.91352cm</Left>
-                <Height>2.78788cm</Height>
+                <Height>2.48849cm</Height>
                 <Width>10.40437cm</Width>
                 <ZIndex>34</ZIndex>
                 <Style>
@@ -2317,7 +2317,7 @@
                 </Style>
               </Line>
               <Line Name="Line166">
-                <Top>8.5999cm</Top>
+                <Top>8.33cm</Top>
                 <Height>0cm</Height>
                 <Width>5.91352cm</Width>
                 <ZIndex>41</ZIndex>
@@ -2727,6 +2727,16 @@
             </Border>
           </Style>
         </PageHeader>
+        <PageFooter>
+          <Height>2.54cm</Height>
+          <PrintOnFirstPage>true</PrintOnFirstPage>
+          <PrintOnLastPage>true</PrintOnLastPage>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+          </Style>
+        </PageFooter>
         <PageHeight>29.7cm</PageHeight>
         <PageWidth>21cm</PageWidth>
         <LeftMargin>2cm</LeftMargin>

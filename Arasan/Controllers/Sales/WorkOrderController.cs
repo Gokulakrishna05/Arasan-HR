@@ -258,7 +258,7 @@ namespace Arasan.Controllers.Sales
         //}
         public ActionResult WDrumAllocation(string id)
         {
-            WDrumallocation ca = new WDrumallocation();
+            WDrumAllocation ca = new WDrumAllocation();
             DataTable dt = new DataTable();
             dt= WorkOrderService.GetWorkOrderByID(id);
             if(dt.Rows.Count > 0)
@@ -268,7 +268,9 @@ namespace Arasan.Controllers.Sales
                 ca.JobId= dt.Rows[0]["DOCID"].ToString();
                 ca.JobDate= dt.Rows[0]["DOCDATE"].ToString();
                 ca.Customername= dt.Rows[0]["PARTY"].ToString();
+                ca.CustomerId = dt.Rows[0]["CUSTOMERID"].ToString();
                 ca.Locid = dt.Rows[0]["LOCMASTERID"].ToString();
+                ca.JOId = dt.Rows[0]["JOBASICID"].ToString();
             }
             ca.DocDate = DateTime.Now.ToString("dd-MMM-yyyy");
             DataTable dtv = datatrans.GetSequence("er");
@@ -287,7 +289,8 @@ namespace Arasan.Controllers.Sales
                     tda = new WorkItem();
                     tda.itemid = dtt.Rows[i]["item"].ToString();
                     tda.items= dtt.Rows[i]["ITEMID"].ToString();
-                    tda.orderqty= dtt.Rows[i]["QTY"].ToString(); 
+                    tda.orderqty= dtt.Rows[i]["QTY"].ToString();
+                    tda.Jodetailid = dtt.Rows[i]["JODETAILID"].ToString();
                     List<Drumdetails> tlstdrum = new List<Drumdetails>();
                     Drumdetails tdrum = new Drumdetails();
                     DataTable dt3 = new DataTable();
@@ -311,6 +314,43 @@ namespace Arasan.Controllers.Sales
             }
             ca.Worklst = TData;
             return View(ca);
+        }
+        [HttpPost]
+        public ActionResult WDrumAllocation(WDrumAllocation cy, string id)
+        {
+
+            try
+            {
+                cy.ID = id;
+                string Strout = WorkOrderService.DrumAllocationCRUD(cy);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (cy.ID == null)
+                    {
+                        TempData["notice"] = "DrumAllocation Inserted Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "DrumAllocation Updated Successfully...!";
+                    }
+                    return RedirectToAction("ListWDrumAllocation");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit WDrumAllocation";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(cy);
         }
         public IActionResult ListWDrumAllocation(string status)
         {
