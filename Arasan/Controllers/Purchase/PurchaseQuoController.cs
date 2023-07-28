@@ -568,16 +568,14 @@ namespace Arasan.Controllers
             //DataTable dt2 = new DataTable("PODETAIL");
             // dt= PoService.GetPO(id);
             // dt2= PoService.GetPOItem(id);
-
             //ds.Tables.Add(dt);
             //ds.Tables.Add(dt2);
             //ds.Tables.AddRange(new DataTable[] { dt, dt2 });
             //ReportDataSource rds = new AspNetCore.Reporting.ReportDataSource("DataSet_Reservaties", ds.Tables[0]);
             LocalReport localReport = new LocalReport(path);
-            localReport.AddDataSource("DataSet3", PQuoitem);
+            localReport.AddDataSource("PurchaseQuo", PQuoitem);
             //localReport.AddDataSource("DataSet1_DataTable1", po);
             var result = localReport.Execute(RenderType.Pdf, extension, Parameters, mimtype);
-
             return File(result.MainStream, "application/Pdf");
         }
     }

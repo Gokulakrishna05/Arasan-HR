@@ -203,6 +203,56 @@ namespace Arasan.Services.Sales
 
 			return msg;
 		}
+        public string DrumAllocationCRUD(WDrumAllocation cy)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
+                datatrans = new DataTransactions(_connectionString);
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    OracleCommand objCmd = new OracleCommand("DRUMALLOPROC", objConn);
+                    /*objCmd.Connection = objConn;
+                    objCmd.CommandText = "PURQUOPROC";*/
+
+                    objCmd.CommandType = CommandType.StoredProcedure;
+
+                    StatementType = "Insert";
+                    objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+
+
+
+                   
+                    objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.DOCId;
+                    objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = cy.DocDate;
+                    objCmd.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = cy.Locid;
+                    objCmd.Parameters.Add("JOPID", OracleDbType.NVarchar2).Value = cy.JOId;
+                    objCmd.Parameters.Add("CUSTOMERID", OracleDbType.NVarchar2).Value = cy.CustomerId;
+                    objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                    objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
+                    try
+                    {
+                        objConn.Open();
+                        objCmd.ExecuteNonQuery();
+                      
+
+                    }
+                    catch (Exception ex)
+                    {
+                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
+                    }
+                    objConn.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
+        }
         public DataTable GetSatesQuoDetails(string id)
         {
             string SvSql = string.Empty;
@@ -216,7 +266,7 @@ namespace Arasan.Services.Sales
         public DataTable GetWorkOrderByID(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select JOBASIC.DOCID,to_char(JOBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PARTYMAST.PARTYNAME PARTY,LOCDETAILS.LOCID,BRANCHMAST.BRANCHID,JOBASICID,JOBASIC.STATUS,JOBASIC.LOCID as LOCMASTERID from JOBASIC  left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID=JOBASIC.LOCID  left outer join BRANCHMAST on BRANCHMAST.BRANCHMASTID=JOBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on JOBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID WHERE  JOBASICID='" + id + "' ";
+            SvSql = "Select JOBASIC.DOCID,to_char(JOBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PARTYMAST.PARTYNAME PARTY,LOCDETAILS.LOCID,BRANCHMAST.BRANCHID,JOBASICID,JOBASIC.STATUS,JOBASIC.LOCID as LOCMASTERID,JOBASIC.PARTYID as CUSTOMERID,JOBASIC.JOBASICID from JOBASIC  left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID=JOBASIC.LOCID  left outer join BRANCHMAST on BRANCHMAST.BRANCHMASTID=JOBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on JOBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID WHERE  JOBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -236,7 +286,7 @@ namespace Arasan.Services.Sales
         public DataTable GetWorkOrderDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select JOBASICID,QTY,MATSUPP,JODETAIL.ITEMID as item,ITEMMASTER.ITEMID,DCQTY,RATE,AMOUNT,UNITMAST.UNITID,ITEMSPEC,PACKSPEC,DISCOUNT,FREIGHTAMT,QDISC,CDISC,IDISC,TDISC,ADISC,SDISC,FREIGHT,TAXTYPE from JODETAIL left outer join ITEMMASTER ON ITEMMASTER.ITEMMASTERID=JODETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT Where JOBASICID='" + id + "' ";
+            SvSql = "select JOBASICID,QTY,MATSUPP,JODETAIL.ITEMID as item,ITEMMASTER.ITEMID,DCQTY,RATE,AMOUNT,UNITMAST.UNITID,ITEMSPEC,PACKSPEC,DISCOUNT,FREIGHTAMT,QDISC,CDISC,IDISC,TDISC,ADISC,SDISC,FREIGHT,TAXTYPE,JODETAIL.JODETAILID from JODETAIL left outer join ITEMMASTER ON ITEMMASTER.ITEMMASTERID=JODETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT Where JOBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

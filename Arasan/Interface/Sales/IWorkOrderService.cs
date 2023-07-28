@@ -11,6 +11,7 @@ namespace Arasan.Interface.Sales
         DataTable GetQuo();
         DataTable GetLocation(string id);
         string WorkOrderCRUD(WorkOrder cy);
+        string DrumAllocationCRUD(WDrumAllocation cy);
         DataTable GetQuoDetails(string id);
         DataTable GetSatesQuoDetails(string id);
         DataTable GetWorkOrder(string id);

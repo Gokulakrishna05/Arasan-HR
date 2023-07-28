@@ -98,7 +98,7 @@ namespace Arasan.Models
     {
         public string ITEMID { get; set; }
 
-        public string UNIT { get; set; }
+        public string UNITID { get; set; }
 
         public double QTY { get; set; }
 
