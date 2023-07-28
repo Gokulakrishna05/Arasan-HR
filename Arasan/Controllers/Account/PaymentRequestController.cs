@@ -124,7 +124,7 @@ namespace Arasan.Controllers
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTY"].ToString(), Value = dtDesg.Rows[i]["PARTYMASTID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTYNAME"].ToString(), Value = dtDesg.Rows[i]["PARTYMASTID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -230,7 +230,7 @@ namespace Arasan.Controllers
             if (dt.Rows.Count > 0)
             {
                 ca.DocId = dt.Rows[0]["DOCID"].ToString();
-                ca.Supplier = dt.Rows[0]["PARTY"].ToString();
+                ca.Supplier = dt.Rows[0]["PARTYNAME"].ToString();
                 ca.Final = dt.Rows[0]["AMOUNT"].ToString();
                 ca.Date = dt.Rows[0]["DOCDATE"].ToString();
                 ca.GRN = dt.Rows[0]["PO_OR_GRN"].ToString();
