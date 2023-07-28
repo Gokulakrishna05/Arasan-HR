@@ -122,7 +122,7 @@
                                         <br />     <label for="inputName3" class="col-sm-4 control-label">Final Amount<label class="mandatory">*</label></label>
                                             <div class="col-sm-8">
 
-                                            @Html.TextBoxFor(C => C.Final, new { @id = "txtFinal", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"  })
+                                            @Html.TextBoxFor(C => C.Final, new { @id = "txtFinal", @class = "form-control", @TabIndex = 1 ,@readonly="readonly" /*onkeydown = "return isNumeric2(event.keyCode,this.value)" */ })
                                                 <br />
 
                                             </div>
@@ -316,22 +316,22 @@
                     "background": ""
                 });
             }
-            if (document.getElementById("txtFinal").value == "") {
-                isValid = false;
-                $(txtFinal).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
+            //if (document.getElementById("txtFinal").value == "") {
+            //    isValid = false;
+            //    $(txtFinal).css({
+            //        "border": "1px solid red",
+            //        "background": "#FFCECE"
+            //    });
 
-                alert("Please Enter Final Amount");
-                return false;
-            }
-            else {
-                $(txtFinal).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
+            //    alert("Please Enter Final Amount");
+            //    return false;
+            //}
+            //else {
+            //    $(txtFinal).css({
+            //        "border": "",
+            //        "background": ""
+            //    });
+            //}
 
         });
 

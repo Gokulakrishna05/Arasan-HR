@@ -25,7 +25,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select PREFIX,TRANSTYPE,DESCRIPTION,LASTNO,to_char(STDT,'dd-MON-yyyy')STDT,to_char(EDDT,'dd-MON-yyyy')EDDT,SEQUENCEID from SEQUENCE where ACTIVESEQUENCE='T'";
+                    cmd.CommandText = "Select PREFIX,TRANSTYPE,DESCRIPTION,LASTNO,to_char(STDATE,'dd-MON-yyyy')STDATE,to_char(EDDATE,'dd-MON-yyyy')EDDATE,SEQUENCEID from SEQUENCE where ACTIVESEQUENCE='T'";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -35,8 +35,8 @@ namespace Arasan.Services
                             Prefix = rdr["PREFIX"].ToString(),
                             Trans = rdr["TRANSTYPE"].ToString(),
                             Des = rdr["DESCRIPTION"].ToString(),
-                            Start = rdr["STDT"].ToString(),
-                            End = rdr["EDDT"].ToString(),
+                            Start = rdr["STDATE"].ToString(),
+                            End = rdr["EDDATE"].ToString(),
                             Last = rdr["LASTNO"].ToString(),
 
                         };
@@ -75,8 +75,8 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("TRANSTYPE", OracleDbType.NVarchar2).Value = cy.Trans;
                     objCmd.Parameters.Add("DESCRIPTION", OracleDbType.NVarchar2).Value = cy.Des;
                     objCmd.Parameters.Add("LASTNO", OracleDbType.NVarchar2).Value = cy.Last;
-                    objCmd.Parameters.Add("STDT", OracleDbType.NVarchar2).Value =  cy.Start ;
-                    objCmd.Parameters.Add("EDDT", OracleDbType.NVarchar2).Value = cy.End;
+                    objCmd.Parameters.Add("STDATE", OracleDbType.Date).Value = DateTime.Parse(cy.Start); 
+                    objCmd.Parameters.Add("EDDATE", OracleDbType.Date).Value = DateTime.Parse(cy.End);
                     objCmd.Parameters.Add("ACTIVESEQUENCE", OracleDbType.NVarchar2).Value = "T";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
 
@@ -104,7 +104,7 @@ namespace Arasan.Services
         public DataTable GetSequence(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select PREFIX,TRANSTYPE,DESCRIPTION,LASTNO,to_char(STDT,'dd-MON-yyyy')STDT,to_char(EDDT,'dd-MON-yyyy')EDDT,SEQUENCEID from SEQUENCE where SEQUENCEID=" + id + "";
+            SvSql = "Select PREFIX,TRANSTYPE,DESCRIPTION,LASTNO,to_char(STDATE,'dd-MON-yyyy')STDATE,to_char(EDDATE,'dd-MON-yyyy')EDDATE,SEQUENCEID from SEQUENCE where SEQUENCEID=" + id + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

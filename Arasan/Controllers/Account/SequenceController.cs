@@ -47,11 +47,11 @@ namespace Arasan.Controllers
                     sq.Des = dt.Rows[0]["DESCRIPTION"].ToString();
                     sq.Last = dt.Rows[0]["LASTNO"].ToString();
                     sq.Trans = dt.Rows[0]["TRANSTYPE"].ToString();
-                    sq.Start = dt.Rows[0]["STDT"].ToString();
-                    sq.End = dt.Rows[0]["EDDT"].ToString();
+                    sq.Start = dt.Rows[0]["STDATE"].ToString();
+                    sq.End = dt.Rows[0]["EDDATE"].ToString();
                     sq.ID = id;
 
-                }
+                } 
 
             }
             return View(sq);
