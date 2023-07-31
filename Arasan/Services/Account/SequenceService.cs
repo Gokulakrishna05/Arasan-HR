@@ -25,7 +25,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select PREFIX,TRANSTYPE,DESCRIPTION,LASTNO,to_char(STDATE,'dd-MON-yyyy')STDATE,to_char(EDDATE,'dd-MON-yyyy')EDDATE,SEQUENCEID from SEQUENCE where ACTIVESEQUENCE='T'";
+                    cmd.CommandText = "Select PREFIX,TRANSTYPE,DESCRIPTION,LASTNO,to_char(STDATE,'dd-MON-yyyy')STDATE,to_char(EDDATE,'dd-MON-yyyy')EDDATE,SEQUENCEID from SEQUENCE where ACTIVESEQUENCE='T' ORDER BY SEQUENCEID ASC";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -37,7 +37,7 @@ namespace Arasan.Services
                             Des = rdr["DESCRIPTION"].ToString(),
                             Start = rdr["STDATE"].ToString(),
                             End = rdr["EDDATE"].ToString(),
-                            Last = rdr["LASTNO"].ToString(),
+                            Last = rdr["LASTNO"].ToString()
 
                         };
                         cmpList.Add(cmp);
@@ -74,9 +74,10 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("PREFIX", OracleDbType.NVarchar2).Value = cy.Prefix;
                     objCmd.Parameters.Add("TRANSTYPE", OracleDbType.NVarchar2).Value = cy.Trans;
                     objCmd.Parameters.Add("DESCRIPTION", OracleDbType.NVarchar2).Value = cy.Des;
-                    objCmd.Parameters.Add("LASTNO", OracleDbType.NVarchar2).Value = cy.Last;
+                   
                     objCmd.Parameters.Add("STDATE", OracleDbType.Date).Value = DateTime.Parse(cy.Start); 
                     objCmd.Parameters.Add("EDDATE", OracleDbType.Date).Value = DateTime.Parse(cy.End);
+                    objCmd.Parameters.Add("LASTNO", OracleDbType.NVarchar2).Value = cy.Last;
                     objCmd.Parameters.Add("ACTIVESEQUENCE", OracleDbType.NVarchar2).Value = "T";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
 

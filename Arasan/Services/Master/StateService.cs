@@ -73,7 +73,7 @@ namespace Arasan.Services.Master
         public State GetStateById(string eid)
         {
             State State = new State();
-            using (OracleConnection con = new OracleConnection(_connectionString))
+            using (OracleConnection con = new OracleConnection(_connectionString)) 
             {
                 using (OracleCommand cmd = con.CreateCommand())
                 {

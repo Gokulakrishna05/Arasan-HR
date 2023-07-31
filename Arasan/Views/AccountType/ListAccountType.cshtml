@@ -60,7 +60,7 @@
 
                                                             <th>AccountCode</th>
                                                             <th>AccountType</th>
-                                                            <th>Status</th>
+                                                           @* <th>Status</th>*@
 
 
                                                             <th>Edit</th>
@@ -78,7 +78,7 @@
 
                                                                     <td>@Html.DisplayFor(modelItem => item.AccountCode)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.Accounttype)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.Status)</td>
+                                                                   @* <td>@Html.DisplayFor(modelItem => item.Status)</td> *@
 
                                                                     @if (item.status == "INACTIVE")
                                                                     {
