@@ -40,7 +40,6 @@ namespace Arasan.Services
                             Customer = rdr["PARTY"].ToString(),
                             EnqNo = rdr["ENQ_NO"].ToString(),
                             EnqDate = rdr["ENQ_DATE"].ToString(),
-                           
                             EnqType = rdr["ENQ_TYPE"].ToString(),
                             status = rdr["STATUS"].ToString()
                            

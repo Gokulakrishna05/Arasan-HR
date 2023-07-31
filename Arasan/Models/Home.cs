@@ -15,6 +15,9 @@ namespace Arasan.Models
         public List<GridDisplay>Folllst { get; set; }
         public List<EnqDisplay> Enqlllst { get; set; }
         public List<SalesQuoteDisplay> SalesQuotelllst { get; set; }
+        public int Quotefollowcunt { get; set; }
+        public int EnqFollowcunt { get; set; }
+        public int SalesQuoteFollowcunt { get; set; }
     }
     public class QcNotify
     {
@@ -67,6 +70,7 @@ namespace Arasan.Models
         public string status { get; set; }
 
         public string CPerson { get; set; }
+        
     }
     public class EnqDisplay
     {
