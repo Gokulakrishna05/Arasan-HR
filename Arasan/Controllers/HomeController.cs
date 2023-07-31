@@ -95,7 +95,6 @@ namespace Arasan.Controllers
                 Reg.displaytext = dt.Rows[i]["QUO_ID"].ToString();
                 Reg.followedby = dt.Rows[i]["FOLLOWED_BY"].ToString();
                 Reg.status = dt.Rows[i]["NEXT_FOLLOW_DATE"].ToString();
-
                 Data1.Add(Reg);
 
             }
@@ -135,6 +134,9 @@ namespace Arasan.Controllers
             H.qcNotifies=TData;
             H.Notifies = TData1;
             H.Materialnotification = TDatan;
+            H.Quotefollowcunt = dt.Rows.Count;
+            H.EnqFollowcunt = dt1.Rows.Count;
+            H.SalesQuoteFollowcunt = dt5.Rows.Count;
             return View(H);
         }
         public ActionResult Proddashboard()

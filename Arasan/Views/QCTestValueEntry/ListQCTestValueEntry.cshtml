@@ -1,5 +1,4 @@
-﻿@model Arasan.Models.QCTestValueEntry
-
+﻿@model IEnumerable<Arasan.Models.QCTestValueEntry>
 @{
     ViewData["Title"] = "QCTestValueEntry";
 }
@@ -39,38 +38,33 @@
                                                 <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
                                                     <thead>
                                                         <tr>
-                                                            <td>S.No</td>
-                                                            <th>Tax Type </th>
-                                                            <th>Percentage [%]</th>
-
+                                                           
+                                                            <th>Doc Id</th>
+                                                            <th>Drum No</th>
                                                             <th>Edit</th>
-                                                            <th>Delete</th>
+                                                            
                                                         </tr>
                                                     </thead>
 
-                                                    <tbody> 
-                                                        <tr>
-                                                            <td>1</td>
-                                                            <td>CGST</td>
-                                                            <td>5%</td>
+                                                    <tbody>
+                                                        @{
+                                                            int k = 1;
+                                                            foreach (var item in Model)
+                                                            {
 
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("QCTestValueEntry", "QCTestValueEntry")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("QCTestValueEntry", "QCTestValueEntry")"></a></div></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>2</td>
-                                                            <td>SGST</td>
-                                                            <td>2%</td>
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("QCTestValueEntry", "QCTestValueEntry")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("QCTestValueEntry", "QCTestValueEntry")"></a></div></td>
-                                                        </tr>
-                                                        @*<tr>
-                                                            <td>3</td>
-                                                            <td>IGST</td>
-                                                            <td>10%</td>
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("tax", "tax")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("tax", "tax")"></a></div></td>
-                                                        </tr>*@
+
+                                                                <tr>
+                                                                    <td>@Html.DisplayFor(modelItem => item.DocId)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Drum)</td>
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("QCTestValueEntry", "QCTestValueEntry",new { id=item.ID })"></a></div></td>
+                                                                    
+
+                                                                </tr>
+
+                                                                k++;
+                                                            }
+                                                        }
+                                                       
                                                     </tbody>
                                                 </table>
                                             </div>

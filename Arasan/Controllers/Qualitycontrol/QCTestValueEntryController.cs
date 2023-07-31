@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data;
+using Arasan.Interface;
 using Arasan.Interface.Master;
 using Arasan.Interface.Qualitycontrol;
 using Arasan.Models;
@@ -27,16 +28,26 @@ namespace Arasan.Controllers.Qualitycontrol
         {
             QCTestValueEntry ca = new QCTestValueEntry();
             ca.Brlst = BindBranch();
+            ca.Branch = Request.Cookies["BranchId"];
             ca.assignList = BindEmp();
+            ca.Worklst = BindWorkCenter();
+            ca.Shiftlst = BindShift();
+            List<QCTestValueEntryItem> TData = new List<QCTestValueEntryItem>();
+            QCTestValueEntryItem tda = new QCTestValueEntryItem();
             if (id == null)
             {
+                for (int i = 0; i < 3; i++)
+                {
+                    tda = new QCTestValueEntryItem();
+                    tda.Isvalid = "Y";
+                    TData.Add(tda);
+                }
 
             }
             else
             {
                 //ca = QCTestValueEntryService.GetQCTestValueEntryById(id);
                 DataTable dt = new DataTable();
-                double total = 0;
                 dt = QCTestValueEntryService.GetQCTestValueEntryDetails(id);
                 if (dt.Rows.Count > 0)
                 {
@@ -58,6 +69,7 @@ namespace Arasan.Controllers.Qualitycontrol
 
                 }
             }
+            ca.QCTestLst = TData;
             return View(ca);
         }
         [HttpPost]
@@ -101,6 +113,40 @@ namespace Arasan.Controllers.Qualitycontrol
         {
             IEnumerable<QCTestValueEntry> sta = QCTestValueEntryService.GetAllQCTestValueEntry();
             return View();
+        }
+        public List<SelectListItem> BindShift()
+        {
+            try
+            {
+                DataTable dtDesg = QCTestValueEntryService.ShiftDeatils();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["SHIFTNO"].ToString(), Value = dtDesg.Rows[i]["SHIFTNO"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindWorkCenter()
+        {
+            try
+            {
+                DataTable dtDesg = QCTestValueEntryService.GetWorkCenter();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["WCID"].ToString(), Value = dtDesg.Rows[i]["WCBASICID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public List<SelectListItem> BindBranch()
         {
