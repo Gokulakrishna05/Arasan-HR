@@ -72,7 +72,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select  DOCID,to_char(PAYMENTREQUEST.DOCDATE,'dd-MON-yyyy')DOCDATE,PARTYMAST.PARTYNAME,PAYMENTREQUEST.TYPE,PO_OR_GRN,AMOUNT,REQUESTEDBY,PAYMENTREQUEST.ACTIVE,PAYMENTREQUESTID from PAYMENTREQUEST LEFT OUTER JOIN  PARTYMAST on PAYMENTREQUEST.SUPPLIERID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH')  AND PAYMENTREQUEST.STATUS IS NULL";
+                    cmd.CommandText = "Select  DOCID,to_char(PAYMENTREQUEST.DOCDATE,'dd-MON-yyyy')DOCDATE,PARTYMAST.PARTYNAME,PAYMENTREQUEST.TYPE,PO_OR_GRN,AMOUNT,REQUESTEDBY,PAYMENTREQUEST.ACTIVE,PAYMENTREQUESTID from PAYMENTREQUEST LEFT OUTER JOIN  PARTYMAST on PAYMENTREQUEST.SUPPLIERID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH')  AND PAYMENTREQUEST.ACTIVE IS NOT NULL ORDER BY PAYMENTREQUESTID ASC ";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -87,7 +87,7 @@ namespace Arasan.Services
                             GRN = rdr["PO_OR_GRN"].ToString(),
                             Type = rdr["TYPE"].ToString(),
                             Final = rdr["AMOUNT"].ToString(),
-                            ReqBy = rdr["REQUESTEDBY"].ToString(),
+                            ReqBy = rdr["REQUESTEDBY"].ToString()
                            
 
 
@@ -115,7 +115,7 @@ namespace Arasan.Services
                     if (cy.ID == null)
                     {
                         StatementType = "Insert";
-                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value; 
                     }
                     else
                     {
@@ -125,14 +125,15 @@ namespace Arasan.Services
 
                     objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.DocId;
                     objCmd.Parameters.Add("DOCDATE", OracleDbType.Date).Value = DateTime.Parse(cy.Date);
-                    objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
-                    objCmd.Parameters.Add("SUPPLIERID", OracleDbType.NVarchar2).Value = cy.Supplier;
                     objCmd.Parameters.Add("TYPE", OracleDbType.NVarchar2).Value = cy.Type;
+                    objCmd.Parameters.Add("SUPPLIERID", OracleDbType.NVarchar2).Value = cy.Supplier;
                     objCmd.Parameters.Add("PO_OR_GRN", OracleDbType.NVarchar2).Value = cy.GRN;
+                    objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
                     objCmd.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = cy.Amount;
                     objCmd.Parameters.Add("FINAL_AMOUNT", OracleDbType.NVarchar2).Value = cy.Final;
                     objCmd.Parameters.Add("REQUESTEDBY", OracleDbType.NVarchar2).Value = cy.ReqBy;
                     objCmd.Parameters.Add("ACTIVE", OracleDbType.NVarchar2).Value = "YES";
+                    //objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "Approved";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     try
                     {

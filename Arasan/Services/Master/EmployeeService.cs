@@ -267,7 +267,7 @@ namespace Arasan.Services.Master
         public DataTable GetCity(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select CITYNAME,CITYID from CITYMASTER where STATEID ='"  + id +"'";
+            SvSql = "select CITYNAME,CITYID from CITYMASTER  "; /*where STATEID ='"  + id +"'";*/
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
