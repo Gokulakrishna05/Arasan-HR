@@ -146,9 +146,9 @@ internal class Program
         builder.Services.TryAddSingleton<IDesignation, DesignationService>();
 
         builder.Services.TryAddSingleton<IDepotInvoiceService, DepotInvoiceService>();
+		builder.Services.TryAddSingleton<IAPProductionEntry, APProductionentryService>();
 
-
-        builder.Services.TryAddSingleton<IEmailConfig, EmailConfigService>();
+		builder.Services.TryAddSingleton<IEmailConfig, EmailConfigService>();
 
 
 
