@@ -50,6 +50,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>DataSet3.xsd</DependentUpon>
     </Compile>
+    <Compile Update="DataSet4.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DataSet4.xsd</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -57,6 +62,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="wwwroot\Reports\Report1.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Reports\SQuotationReport.rdlc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -69,6 +77,10 @@
     <None Update="DataSet3.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>DataSet3.Designer.cs</LastGenOutput>
+    </None>
+    <None Update="DataSet4.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSet4.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
 

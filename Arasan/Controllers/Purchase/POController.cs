@@ -614,7 +614,7 @@ namespace Arasan.Controllers
         }
         public async Task<IActionResult> Print(string id)
         {
-             
+
             string mimtype = "";
             int extension = 1;
             string DrumID = datatrans.GetDataString("Select PARTYID from POBASIC where POBASICID='" + id + "' ");
@@ -640,5 +640,7 @@ namespace Arasan.Controllers
 
             return File(result.MainStream, "application/Pdf");
         }
+
+
     }
 }
