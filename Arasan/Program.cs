@@ -17,6 +17,7 @@ using Arasan.Services.Sales;
 using System.Collections.Generic;
 
 using Arasan.Models;
+using Microsoft.AspNetCore.Http.Features;
 
 //using Arasan.Services.Store_Management;
 
@@ -160,6 +161,10 @@ internal class Program
         builder.Services.TryAddSingleton(emailConfig);
 
         builder.Services.AddControllers();
+        builder.Services.Configure<FormOptions>(x =>
+        {
+            x.ValueCountLimit = int.MaxValue;
+        });
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
@@ -169,8 +174,8 @@ internal class Program
             // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             app.UseHsts();
         }
-       
 
+        
         app.UseHttpsRedirection();
         app.UseStaticFiles();
 

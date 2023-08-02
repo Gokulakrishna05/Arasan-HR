@@ -396,8 +396,8 @@ namespace Arasan.Controllers.Master
         }
         public JsonResult GetItemGrpJSON()
         {
-            //EnqItem model = new EnqItem();
-            //  model.ItemGrouplst = BindItemGrplst(value);
+           //EnqItem model = new EnqItem();
+           //  model.ItemGrouplst = BindItemGrplst(value);
             return Json(BindSupplier());
         }
         //public IActionResult SupplierDetail(String id)

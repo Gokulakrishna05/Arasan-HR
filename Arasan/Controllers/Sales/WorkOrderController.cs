@@ -7,6 +7,7 @@ using Arasan.Models;
 using Arasan.Services.Sales;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
 
 namespace Arasan.Controllers.Sales
 {
@@ -316,34 +317,45 @@ namespace Arasan.Controllers.Sales
             return View(ca);
         }
         [HttpPost]
+
+        //public JsonResult WDrumallocat(string json)
+        //{
+        //    var model = JsonConvert.DeserializeObject(json); 
+        //    return null;
+        //}
+
+        [HttpPost]
+        [RequestFormLimits(ValueCountLimit = int.MaxValue)]
+
         public ActionResult WDrumAllocation(WDrumAllocation cy, string id)
         {
 
             try
             {
-                cy.ID = id;
-                string Strout = WorkOrderService.DrumAllocationCRUD(cy);
-                if (string.IsNullOrEmpty(Strout))
-                {
-                    if (cy.ID == null)
+                    cy.ID = id;
+                    string Strout = WorkOrderService.DrumAllocationCRUD(cy);
+                    if (string.IsNullOrEmpty(Strout))
                     {
-                        TempData["notice"] = "DrumAllocation Inserted Successfully...!";
+                        if (cy.ID == null)
+                        {
+                            TempData["notice"] = "DrumAllocation Inserted Successfully...!";
+                        }
+                        else
+                        {
+                            TempData["notice"] = "DrumAllocation Updated Successfully...!";
+                        }
+                        return RedirectToAction("ListWDrumAllocation");
                     }
+
                     else
                     {
-                        TempData["notice"] = "DrumAllocation Updated Successfully...!";
+                        ViewBag.PageTitle = "Edit WDrumAllocation";
+                        TempData["notice"] = Strout;
+                        //return View();
                     }
-                    return RedirectToAction("ListWDrumAllocation");
-                }
 
-                else
-                {
-                    ViewBag.PageTitle = "Edit WDrumAllocation";
-                    TempData["notice"] = Strout;
-                    //return View();
-                }
-
-                // }
+                    // }
+                
             }
             catch (Exception ex)
             {
