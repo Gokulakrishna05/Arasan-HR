@@ -96,7 +96,7 @@
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>DataSet2</rd:DataSetName>
-        <rd:SchemaPath>E:\Kesavan Project\Arasan\Repos\ArasanAluminium\Arasan\DataSet2.xsd</rd:SchemaPath>
+        <rd:SchemaPath>E:\Deepa\Arasan\Repos\ArasaAluminium\Arasan\DataSet2.xsd</rd:SchemaPath>
         <rd:TableName>DataTable1</rd:TableName>
         <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
         <rd:TableAdapterGetDataMethod>GetData</rd:TableAdapterGetDataMethod>
@@ -601,7 +601,7 @@
                 <rd:DefaultName>Textbox29</rd:DefaultName>
                 <Top>5.02975cm</Top>
                 <Left>6.44916cm</Left>
-                <Height>0.49417cm</Height>
+                <Height>0.56472cm</Height>
                 <Width>3.41312cm</Width>
                 <ZIndex>18</ZIndex>
                 <Style>
@@ -616,6 +616,7 @@
               </Textbox>
               <Line Name="Line7">
                 <Top>5.66503cm</Top>
+                <Left>0.01042in</Left>
                 <Height>0cm</Height>
                 <Width>16.9048cm</Width>
                 <ZIndex>19</ZIndex>
@@ -958,7 +959,7 @@
                   <Paragraph>
                     <TextRuns>
                       <TextRun>
-                        <Value>For and on behaif of</Value>
+                        <Value>For and on behalf of</Value>
                         <Style />
                       </TextRun>
                     </TextRuns>
@@ -1899,7 +1900,7 @@
             </ReportItems>
             <KeepTogether>true</KeepTogether>
             <Height>17.15551cm</Height>
-            <Width>16.9048cm</Width>
+            <Width>16.93127cm</Width>
             <Style>
               <Border>
                 <Style>Solid</Style>
@@ -1914,7 +1915,7 @@
           </Border>
         </Style>
       </Body>
-      <Width>6.65543in</Width>
+      <Width>6.66585in</Width>
       <Page>
         <PageHeader>
           <Height>4.3259cm</Height>

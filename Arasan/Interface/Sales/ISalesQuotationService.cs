@@ -1,6 +1,7 @@
-﻿using Arasan.Models;
+﻿using System.Collections.Generic;
+using System.Collections;
 using System.Data;
-using System.Collections.Generic;
+using Arasan.Models;
 
 namespace Arasan.Interface.Sales
 {
@@ -27,5 +28,7 @@ namespace Arasan.Interface.Sales
         string StatusChange(string tag, int id);
         DataTable GetSalesQuo(string id);
         DataTable GetSalesQuoItem(string id);
+
+        //Task<IEnumerable<SQuoItemDetail>> GetSQuoItem(string id);
     }
 }

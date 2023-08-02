@@ -129,4 +129,18 @@ namespace Arasan.Models
         public string Nfdate { get; set; }
         public string Rmarks { get; set; }
     }
+
+    public class SQuoItemDetail
+    {
+        public string ITEMID { get; set; }
+
+        public string UNIT { get; set; }
+
+        public double QTY { get; set; }
+
+        public double RATE { get; set; }
+
+       
+
+    }
 }
