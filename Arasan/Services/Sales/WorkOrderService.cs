@@ -220,9 +220,6 @@ namespace Arasan.Services.Sales
 
                     StatementType = "Insert";
                     objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-
-
-
                    
                     objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.DOCId;
                     objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = cy.DocDate;
@@ -231,18 +228,36 @@ namespace Arasan.Services.Sales
                     objCmd.Parameters.Add("CUSTOMERID", OracleDbType.NVarchar2).Value = cy.CustomerId;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
-                    try
+                    objConn.Open();
+                    objCmd.ExecuteNonQuery();
+                    Object Pid = objCmd.Parameters["OUTID"].Value;
+                    //if (cy.ID != null)
+                    //{
+                    //    Pid = cy.ID;
+                    //}
+                    foreach (WorkItem cp in cy.Worklst)
                     {
-                        objConn.Open();
-                        objCmd.ExecuteNonQuery();
-                      
+                        foreach (Drumdetails ca in cp.drumlst)
+                        {
+                            if (ca.drumselect == true)
+                            {
+                                OracleCommand objCmds = new OracleCommand("DRUMALLODETPROC", objConn);
+                                objCmds.CommandType = CommandType.StoredProcedure;
+                                objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cp.itemid;
+                                objCmds.Parameters.Add("JODRUMALLOCATIONBASICID", OracleDbType.NVarchar2).Value = Pid;
+                                objCmds.Parameters.Add("PLSTOCKID", OracleDbType.NVarchar2).Value = ca.invid;
+                                objCmds.Parameters.Add("JOPDETAILID", OracleDbType.NVarchar2).Value = cp.Jodetailid;
+                                objCmds.Parameters.Add("DRUMNO", OracleDbType.NVarchar2).Value = ca.drumno;
+                                objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = ca.qty; 
+                                objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                                objCmds.ExecuteNonQuery();
+                            }
+                            
+                        }
+                    }
 
-                    }
-                    catch (Exception ex)
-                    {
-                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
-                    }
-                    objConn.Close();
+                            objConn.Close();
                 }
             }
             catch (Exception ex)
@@ -307,7 +322,7 @@ namespace Arasan.Services.Sales
         public DataTable GetDrumDetails(string Itemid, string locid)
         {
             string SvSql = string.Empty;
-            SvSql = "select DRUMNO,SUM(PLUSQTY) QTY,lotno,rate,plstockvalueid from plstockvalue where ITEMID='" + Itemid + "' AND LOCID='" + locid + "' group by DRUMNO,lotno,rate,plstockvalueid having sum(Plusqty-Minusqty)>0 ";
+            SvSql = "select DRUMNO,SUM(PLUSQTY) QTY,lotno,rate,plstockvalueid from plstockvalue where ITEMID='" + Itemid + "' AND LOCID='" + locid + "' group by DRUMNO,lotno,rate,plstockvalueid having sum(Plusqty-Minusqty)>0 order by DRUMNO DESC";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
