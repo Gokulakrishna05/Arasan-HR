@@ -13,11 +13,15 @@ namespace Arasan.Interface
 
         string APProductionEntryDetCRUD(APProductionentryDet Cy );
 
-        string OutputDetCRUD(APProductionentryDet Cy);
-
+        string APProEntryCRUD(APProductionentryDet Cy);
+        
         IEnumerable<APProductionentry>  GetAllAPProductionentry();
 		DataTable GetItemDetails(string id);
-		DataTable GetConItemDetails(string id);
+
+        DataTable SaveOutDetails(string id, string item,string drum, string time, string qty);
+
+        DataTable GetOutItemDetails(string id);
+        DataTable GetConItemDetails(string id);
 		DataTable GetItem();
 
         DataTable GetOutItem();
@@ -25,6 +29,8 @@ namespace Arasan.Interface
 
         DataTable GetInput(string id);
         DataTable GetOutput(string id);
+
+        DataTable GetResult(string id);
         DataTable GetCons(string id);
         DataTable GetEmpdet(string id);
         DataTable GetBreak(string id);

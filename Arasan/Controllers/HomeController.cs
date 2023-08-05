@@ -31,6 +31,10 @@ namespace Arasan.Controllers
             QcNotify tda = new QcNotify();
             List<Notify> TData1 = new List<Notify>();
             Notify tda1 = new Notify();
+
+            List<APOut> TDatao1 = new List<APOut>();
+            APOut tdao1 = new APOut();
+
             DataTable dt2 = new DataTable();
             dt2 = HomeService.IsQCNotify();
             if (dt2.Rows.Count > 0)
@@ -84,6 +88,22 @@ namespace Arasan.Controllers
                     TDatan.Add(tdan);
                 }
             }
+            DataTable Outdt = new DataTable();
+            Outdt = HomeService.GetAPout();
+            if (Outdt.Rows.Count > 0)
+            {
+                for (int i = 0; i < Outdt.Rows.Count; i++)
+                {
+                    tdao1 = new APOut();
+                    tdao1.id = Outdt.Rows[i]["APPRODUCTIONBASICID"].ToString();
+                    tdao1.ItemName = Outdt.Rows[i]["ITEMID"].ToString();
+                    tdao1.Drum = Outdt.Rows[i]["DRUMNO"].ToString();
+                    tdao1.Time = Outdt.Rows[i]["TIME"].ToString();
+                    tdao1.TotalQty = Outdt.Rows[i]["OUTQTY"].ToString();
+
+                    TDatao1.Add(tdao1);
+                }
+            }
             GridDisplay Reg = new GridDisplay();
 
             List<GridDisplay> Data1 = new List<GridDisplay>();
@@ -133,6 +153,7 @@ namespace Arasan.Controllers
             H.SalesQuotelllst = Data3;
             H.qcNotifies=TData;
             H.Notifies = TData1;
+            H.APOutlist = TDatao1;
             H.Materialnotification = TDatan;
             H.Quotefollowcunt = dt.Rows.Count;
             H.EnqFollowcunt = dt1.Rows.Count;

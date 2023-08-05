@@ -136,7 +136,7 @@ a{
                 <div class="widgets-container">
                     <h5 style="font-size:14px">AP Production Entry</h5>
                     <hr>
-                    @using (Html.BeginForm("APProductionentryDetail", "APProductionentry", FormMethod.Post))
+                    @using (Html.BeginForm("APProductionentry", "APProductionentry", FormMethod.Post))
                         {
                             @Html.AntiForgeryToken()
                              <form>
@@ -334,7 +334,8 @@ a{
 
                                                     </div>
                                                 </div>
-
+                                                  <div class="col-lg-11"></div>
+                                                  <button type="button" class="btn aqua m-t-xs bottom15-xs"  id="btnInsert">Submit</button>
                                                 <!-- 1st tab  -->
                                             </div>
                                             <div class="tab-pane" id="tab-2">
@@ -390,8 +391,11 @@ a{
 
 
                                                 </div>
+                                                  <div class="col-lg-11"></div>
+                                                  <button type="button" class="btn aqua m-t-xs bottom15-xs"  id="btnCons">Submit</button>
                                                 <!-- 2nd tab  -->
                                             </div>
+
                                      </div>
                                </div>
                                </div>
@@ -407,6 +411,13 @@ a{
                                             <div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo">
 
                                                   <div class="panel-body">
+                                                       <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="btn-group">
+                                                            <input type="button" value="Add Row" onclick="AddOutRow()" class="btn sbold green" />
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                     <div class="row">
 
 
@@ -420,8 +431,8 @@ a{
                                                                         <th> Bin Id </th>
                                                                         <th>Time </th>
                                                                         <th> Qty </th>
-                                                                        <th>Move to QC  </th>
-                                                                       @* <th>Used Qty</th>*@
+                                                                        <th></th>
+                                                                        <th>Test Result</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody id="tbBooksout">
@@ -433,21 +444,28 @@ a{
                                                                             <tr id="trBookout@(m)" class="chkitemlstout" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
                                                                                 <td>
-                                                                                    @Html.DropDownListFor(o => o.outlst[m].ItemId, Model.outlst[m].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlOutItem" + m, style = "width: 170px;" })
-                                                                                    @Html.HiddenFor(o => o.outlst[m].APID, new { @id = "txtAPID" + m, @class = "form-control", style = "width: 100px;"})
+                                                                                    @Html.DropDownListFor(o => o.outlst[m].ItemId, Model.outlst[m].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlOutItem" + m, style = "width: 170px;",onchange = "changeOutItem(this.value," + m + ")" })
+                                                                                    @Html.HiddenFor(o => o.outlst[m].APID, new { @id = "txtOutAPID" + m, @class = "form-control", style = "width: 100px;"})
                                                                                 </td>
                                                                                 <td>  @Html.DropDownListFor(o => o.outlst[m].drumno, Model.outlst[m].drumlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddldrumno" + m, style = "width: 170px;"})</td>
-                                                                                <td>@Html.TextBoxFor(o => o.outlst[m].BinId, new { @id = "txtOutBinId" + m, @class = "form-control", style = "width: 100px;",@readonly=true})</td>
-                                                                                <td>@Html.TextBoxFor(o => o.outlst[m].Time, new { @id = "txtTime" + m, @class = "form-control", style = "width: 80px;text-align:right" })</td>
+                                                                                <td>@Html.TextBoxFor(o => o.outlst[m].BinId, new { @id = "txtOutBinId" + m, @class = "form-control", style = "width: 100px;",@readonly=true}) @Html.HiddenFor(o => o.outlst[m].outBin, new { @id = "txtoutBin" + m, @class = "form-control", style = "width: 100px;"})</td>
+                                                                                <td>@Html.TextBoxFor(o => o.outlst[m].Time, new { @id = "txtTime" + m, @class = "form-control", style = "width: 80px; " })</td>
                                                                                 @* <td>@Html.TextBoxFor(o => o.outlst[m].consQty, new { @id = "txtconsQty" + m, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeConsQty(this," + j + ")" })</td>
                                                                     *@
-                                                                                <td>@Html.TextBoxFor(o => o.outlst[m].OutputQty, new { @id = "txtOutputQty" + m, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right" })</td>
-                                                                                <td>  <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("OutputDet", "APProductionentry"/*,new { id=item.ID }*/)" class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20'/></a></div></td>
-
-                                                                               @* <td>
+                                                                                <td>@Html.TextBoxFor(o => o.outlst[m].OutputQty, new { @id = "txtOutputQty" + m, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right" })   @Html.HiddenFor(o => o.outlst[m].Isvalid, new { @id = "Isoutvalid" + m })</td>
+                                                                                @if (item.Result != "Ok")
+                                                                                {
+                                                                                    <td>   <button type="button" class="btn aqua m-t-xs bottom15-xs" id="Save">Move to QC </button></td>
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                     <td>   <button type="button" class="btn aqua m-t-xs bottom15-xs" id="Save" disabled>Move to QC </button></td>
+                                                                                }
+                                                                                <td>@Html.TextBoxFor(o => o.outlst[m].Result, new { @id = "txtResult" + m, @class = "form-control", style = "width: 100px;text-align:right",@readonly=true })</td>
+                                                                              @*    <td>
                                                                                     @Html.HiddenFor(o => o.outlst[m].Isvalid, new { @id = "Isoutvalid" + m })
                                                                                     <img onclick="removeConsRow(@(m));" src="../Images/delete.png" style="cursor:pointer" />
-                                                                                </td>*@
+                                                                    </td>*@
 
 
                                                                             </tr>
@@ -555,6 +573,8 @@ a{
                                                         </table>
                                                     </div>
                                                 </div>
+                                                  <div class="col-lg-11"></div>
+                                                  <button type="button" class="btn aqua m-t-xs bottom15-xs"  id="btnEmp">Submit</button>
                                                              </div>
                                          </div>            
                                         </div>
@@ -641,7 +661,8 @@ a{
                                                                     </table>
                                                  </div>
                                               </div>
-
+                                                <div class="col-lg-11"></div>
+                                                <button type="button" class="btn aqua m-t-xs bottom15-xs"  id="btnBreak">Submit</button>
 
                                                             <!--    Panel 4 End  -->
                                                              </div>
@@ -652,16 +673,40 @@ a{
 
  </div>
                </div>
-               
-                <div style="height:30px;"></div>
-                             <div class="col-lg-10"></div>
-                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
-                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListAPProductionentry", "APProductionentry")'">Cancel</button>
+                 <div class="row">
+                             <div class="col-md-6">
+                                <div class="form-group">
+
+                              <br />      <label for="inputName3" class="col-sm-4 control-label">Is Complete<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                                    <div class="input-group">
+                                                @Html.CheckBoxFor(model => model.Complete,new{value="Yes",onchange = "changeentry(this.value)"})
+                                                @*  @Html.RadioButtonFor(C => C.Complete, "Yes", new { @TabIndex = 2 ,onchange = "changeentry(this.value)"})
+                                                        <label id="mt-radio">Yes</label>
+                                                @Html.RadioButtonFor(C => C.Complete, "No", new { @TabIndex = 3,onchange = "changeentry(this.value)" ,@checked="checked"})
+                                                        <label id="mt-radio">No</label>*@
+
+
+                                                    </div><br />
+                                    </div>
+
+                                </div>
+                            </div>
+                       
+                           
+                    
+              
+                            <div class="col-lg-10" hidden id="go">
+                                <div class="col-lg-10"></div>
+                            <button type="button" href="@Url.Action("APProdApprove", "APProductionentry")" class="btn aqua fancybox"  data-fancybox-type='iframe' id="btnSave">Submit</button>
+                            <button class="btn btn-danger" type="button"  causesvalidation="false" id="btnCansel" onclick="location.href='@Url.Action("ListAPProductionentry", "APProductionentry")'">Cancel</button>
+                            </div>
+                            </div>
 </form>
  }
-                </div>
+                
             </div>
-        </div>
+        </div>`
 
     </div>
 </div>
@@ -712,6 +757,51 @@ a{
             }
         });
     }
+
+
+   $(document).ready(function() {
+ 
+            $("#Save").click(function() {
+                var i=0;
+        var id = document.getElementById("txtOutAPID" + i).value;
+       var ItemId= document.getElementById("ddlOutItem" + i).value;
+        var drum = document.getElementById("ddldrumno" + i).value;
+        var time = document.getElementById("txtTime" + i).value;
+        var qty = document.getElementById("txtOutputQty" + i).value;
+       
+        $.ajax({
+            url: 'SaveOutDetail',
+            data: { "id":id,"ItemId": ItemId, "drum": drum, "time": time, "qty": qty },
+            type: "POST",
+            success: function (result) {
+                
+             
+                 
+            },
+            error: function () {
+               
+            }
+        });
+    });
+ 
+        });
+
+    function changeOutItem(ItemId, i) {
+        $.ajax({
+            url: 'GetOutItemDetail',
+            data: { "ItemId": ItemId },
+            type: "GET",
+            success: function (result) {
+
+                document.getElementById("txtOutBinId" + i).value = result.bin;
+                document.getElementById("txtoutBin" + i).value = result.binid;
+
+            },
+            error: function () {
+                alert("Data Not Found");
+            }
+        });
+    }
       function changeconsItem(ItemId, i) {
         $.ajax({
             url: 'GetConItemDetail',
@@ -731,11 +821,30 @@ a{
     }
     function AddRow() {
         var opt = "";
-        var remopt = "";
+        
 
         $.ajax({
             type: "POST",
             url: 'GetItemJSON',
+            success: function (data) {
+                $.each(data, function () {
+                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
+                });
+
+             
+                        AppendRow(opt);
+                   
+
+            }
+        })
+    }
+     function AddOutRow() {
+        var opt = "";
+        var remopt = "";
+
+        $.ajax({
+            type: "POST",
+            url: 'GetOutItemJSON',
             success: function (data) {
                 $.each(data, function () {
                     opt += "<option value=" + this.value + ">" + this.text + "</option>";
@@ -748,7 +857,7 @@ a{
                         $.each(data, function () {
                             remopt += "<option value=" + this.value + ">" + this.text + "</option>";
                         });
-                        AppendRow(opt, remopt);
+                        AppendOutRow(opt, remopt);
                     }
                 })
 
@@ -766,26 +875,66 @@ a{
         }
         $(dropDownId).trigger("liszt:updated");
     }
-    function AppendRow(opt, remopt) {
+    function AppendRow(opt) {
         var index = $("#tbBooks").children("tr").length;
 
-        var itemid = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlItem" + index + "' name='inputlst[" + index + "].ItemId' ><option value=''>Please select</option>" + opt + "</select></td>";
-        var binid = "<td><input class='form-control'  id='txtBinId" + index + "' name='inputlst[" + index + "].BinId' style='width: 100px;' type='text' value=''></td>";
-        var drumno = "<td><select style = 'width: 120px;' class='form-control _select newcss' id='drumno" + index + "' name='inputlst[" + index + "].drumno' ><option value=''>Please select</option>" + remopt + "</select></td>";
+        var itemid = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlItem" + index + "' name='inputlst[" + index + "].ItemId' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
+        var binid = "<td><input class='form-control'  id='txtBinId" + index + "' name='inputlst[" + index + "].BinId' style='width: 100px;' type='text' value='' readonly='true'></td>";
         var batchno = "<td><input class='form-control'  id='txtbatchno" + index + "' name='inputlst[" + index + "].batchno' style='width: 200px;' type='text' value=''></td>";
-        var batchqty = "<td><input class='form-control'  id='txtbatchqty" + index + "' name='inputlst[" + index + "].batchqty' style='width: 80px;' type='text' value='' onkeydown = 'return isNumeric2(event.keyCode,this.value)'></td>";
-        var stock = "<td><input class='form-control'  id='txtStockAvailable" + index + "' name='inputlst[" + index + "].StockAvailable' style='width: 80px;' type='text' value='' onkeydown = 'return isNumeric2(event.keyCode,this.value)'></td>";
-        var issueqty = "<td><input class='form-control'  id='txtIssueQty" + index + "' name='inputlst[" + index + "].IssueQty'  type='text' value='' style = 'width: 100px;text-align:right' onkeydown = 'return isNumeric2(event.keyCode,this.value)' onkeyup = 'changeQty(this, " + index + ")'></td>";
-        var MillLoadAdd = "<td><input class='form-control'  id='txtMillLoadAdd" + index + "' name='inputlst[" + index + "].MillLoadAdd' style='width: 100px;' type='text' value=''></td>";
-        var output = "<td><select style = 'width: 100px;' class='form-control _select newcss' id='ddlOutput" + index + "' name='inputlst[" + index + "].Output' ><option value='YES'>YES</option><option value='NO'>NO</option></select></td>";
+        var stock = "<td><input class='form-control'  id='txtStockAvailable" + index + "' name='inputlst[" + index + "].StockAvailable' style='width: 80px; text-align:right' type='text' value='' onkeydown = 'return isNumeric2(event.keyCode,this.value)'></td>";
+        var issueqty = "<td><input class='form-control'  id='txtIssueQty" + index + "' name='inputlst[" + index + "].IssueQty'  type='text' value='' style = 'width: 100px;text-align:right' onkeydown = 'return isNumeric2(event.keyCode,this.value)' ></td>";
         var removeCell = "<td><input id='Isvalid" + index + "' name='inputlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='inputlst.Index' type='hidden' value='" + index + "'  /></td>";
-        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + itemid + binid + drumno + batchno + batchqty + stock + issueqty + MillLoadAdd + output + removeCell + "</tr>";
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + itemid + binid  + batchno  + stock + issueqty  + removeCell + "</tr>";
         $("#tbBooks").append(newRow);
 
         $(function () {
             $('._select').select2();
         });
     }
+    function AppendOutRow(opt,remopt) {
+        var index = $("#tbBooksout").children("tr").length;
+
+        var itemid = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlOutItem" + index + "' name='outlst[" + index + "].ItemId' onchange = 'changeOutItem(this.value," + index + ")' ><option value=''>Please select</option>" + opt + "</select></td>";
+        var drum = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddldrumno" + index + "' name='outlst[" + index + "].drumno' ><option value=''>Please select</option>" + remopt + "</select></td>";
+        var bin = "<td><input class='form-control'  id='txtOutBinId" + index + "' name='outlst[" + index + "].BinId' style='width: 100px;' type='text' value='' readonly='true'></td>";
+        var time = "<td><input class='form-control'  id='txtTime" + index + "' name='outlst[" + index + "].Time' style='width: 80px;' type='text' value='' onkeydown = 'return isNumeric2(event.keyCode,this.value)'></td>";
+        var qty = "<td><input class='form-control'  id='txtOutputQty" + index + "' name='outlst[" + index + "].OutputQty'  type='text' value='' style = 'width: 100px;text-align:right' onkeydown = 'return isNumeric2(event.keyCode,this.value)' ></td>";
+        var qc = "<td> <button type='button' class='btn aqua m - t - xs bottom15 - xs' id='Save'>Move to QC </button></td>";
+        var test = "<td><input class='form-control'  id='txtResult" + index + "' name='outlst[" + index + "].Result'  type='text' value='' style = 'width: 100px;text-align:right' onkeydown = 'return isNumeric2(event.keyCode,this.value)' readonly='true'></td>";
+@*        var removeCell = "<td><input id='Isvalid" + index + "' name='outlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='inputlst.Index' type='hidden' value='" + index + "'  /></td>";
+*@        var newRow = "<tr class='chkitemlstout'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookout" + index + "'>" + itemid + drum + bin + time + qty + qc + test + "</tr>";
+        $("#tbBooksout").append(newRow);
+
+        $(function () {
+            $('._select').select2();
+        });
+    }
+    $(document).ready(function () {
+
+        $("#Save").click(function () {
+            var i = 0;
+            var id = document.getElementById("txtOutAPID" + i).value;
+            var ItemId = document.getElementById("ddlOutItem" + i).value;
+            var drum = document.getElementById("ddldrumno" + i).value;
+            var time = document.getElementById("txtTime" + i).value;
+            var qty = document.getElementById("txtOutputQty" + i).value;
+
+            $.ajax({
+                url: 'SaveOutDetail',
+                data: { "id": id, "ItemId": ItemId, "drum": drum, "time": time, "qty": qty },
+                type: "POST",
+                success: function (result) {
+
+
+
+                },
+                error: function () {
+
+                }
+            });
+        });
+
+    });
     function AddEmpRow() {
         var opt = "";
         $.ajax({
@@ -880,18 +1029,18 @@ a{
     function AppendBreakRow(opt, remopt) {
         var index = $("#tbBooksBreak").children("tr").length;
 
-        var Code = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlMachineId" + index + "' name='BreakLst[" + index + "].MachineId' onchange = 'changeMachineItem(this.value," + index + ")' ><option value=''>Please select</option>" + opt + "</select></td>";
-        var Des = "<td><input class='form-control'  id='txtMachineDes" + index + "' name='BreakLst[" + index + "].MachineDes' style='width: 120px;'   value=''></td>";
-        var DType = "<td><input class='form-control'  id='txtDType" + index + "' name='BreakLst[" + index + "].DType' style='width: 120px;'   value=''></td>";
-        var MType = "<td><input class='form-control'  id='txtMType" + index + "' name='BreakLst[" + index + "].MType' style='width: 100px;' type='text' value=''></td>";
-        var starttime = "<td><input class='form-control'  id='txtStartTime" + index + "' name='BreakLst[" + index + "].StartTime' style='width: 120px;'   value=''></td>";
-        var endtime = "<td><input class='form-control'  id='txtEndTime" + index + "' name='BreakLst[" + index + "].EndTime' style='width: 120px;'   value=''></td>";
-        var PB = "<td><input class='form-control'  id='txtPB" + index + "' name='BreakLst[" + index + "].PB' style='width: 100px;' type='text' value=''></td>";
-        var Enterd = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlAlloted" + index + "' name='BreakLst[" + index + "].Alloted' ><option value=''>Please select</option>" + remopt + "</select> </td>";
+        var Code = "<td><select style = 'width: 120px;' class='form-control _select newcss' id='ddlMachineId" + index + "' name='BreakLst[" + index + "].MachineId' onchange = 'changeMachineItem(this.value," + index + ")' ><option value=''>Please select</option>" + opt + "</select></td>";
+        var Des = "<td><input class='form-control'  id='txtMachineDes" + index + "' name='BreakLst[" + index + "].MachineDes' style='width: 180px;'   value=''></td>";
+        var Dtype = "<td><input class='form-control'  id='txtDType" + index + "' name='BreakLst[" + index + "].DType' style='width: 120px;'   value=''></td>";
+        var MType = "<td><input class='form-control'  id='txtMType" + index + "' name='BreakLst[" + index + "].MType' style='width: 120px;' type='text' value=''></td>";
+        var starttime = "<td><input class='form-control'  id='txtStartTime" + index + "' name='BreakLst[" + index + "].StartTime' style='width: 110px;'   value=''></td>";
+        var endtime = "<td><input class='form-control'  id='txtEndTime" + index + "' name='BreakLst[" + index + "].EndTime' style='width: 110px;'   value=''></td>";
+        var PB = "<td><input class='form-control'  id='txtPB" + index + "' name='BreakLst[" + index + "].PB' style='width: 80px;' type='text' value=''></td>";
+        var Enterd = "<td><select style = 'width: 140px;' class='form-control _select newcss' id='ddlAlloted" + index + "' name='BreakLst[" + index + "].Alloted' ><option value=''>Please select</option>" + remopt + "</select> </td>";
 
-        var Reason = "<td><input class='form-control'  id='txtReason" + index + "' name='BreakLst[" + index + "].Reason' style='width: 100px;' type='text' value=''></td>";
+        var Reason = "<td><input class='form-control'  id='txtReason" + index + "' name='BreakLst[" + index + "].Reason' style='width: 120px;' type='text' value=''></td>";
         var removeCell = "<td><input id='IsBreakvalid" + index + "' name='BreakLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeBreakRow(" + index + ");'  style='cursor:pointer' /><input name='inputlst.Index' type='hidden' value='" + index + "'  /></td>";
-        var newRow = "<tr class='chkBreakitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookBreak" + index + "'>" + Code + Des + Dtype + MType + starttime + endtime + PB + reason + Enterd + Reason + removeCell + "</tr>";
+        var newRow = "<tr class='chkBreakitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookBreak" + index + "'>" + Code + Des + Dtype + MType + starttime + endtime + PB + Enterd + Reason + removeCell + "</tr>";
         $("#tbBooksBreak").append(newRow);
 
 
@@ -993,4 +1142,46 @@ a{
             }
         });
     }*@
+      function changeentry(typeid) {
+          
+        if (typeid == "Yes") {
+           
+            document.getElementById("go").style.display = "block";
+           @* document.getElementById("btnCansel").style.display = "block";*@
+        }
+        else {
+           
+   
+      document.getElementById("go").style.display = "none";
+           @* document.getElementById("btnCansel").style.display = "none";*@
+                
+            
+        }
+    }
+
+</script>
+<a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+<a class="fancyboxe1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+<link rel="stylesheet" href="@Url.Content("~/css/jquery.fancybox.css?v=2.1.5")" type="text/css" media="screen" />
+<script type="text/javascript" src="@Url.Content("~/css/jquery.fancybox.pack.js?v=2.1.5")"></script>
+<script type="text/javascript">
+    var fancybox123;
+    jQuery(document).ready(function ($) {
+        $(".fancybox").fancybox({
+            width: '80%',
+            height: '10%',
+            arrows: false,
+
+        });
+        fancybox123 = $.fancybox;
+    });
+    function close_popup() {
+        fancybox123.close();
+        $(".fancybox1").fancybox({
+            width: '100%',
+            height: '100%',
+            arrows: false,
+        });
+        $(".fancybox1").eq(0).trigger('click');
+    }
 </script>

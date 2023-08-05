@@ -12,6 +12,7 @@ namespace Arasan.Models
 
 		public object APID { get; set; }
 		public string Location { get; set; }
+        public string Branch { get; set; }
         public List<SelectListItem> Loclst { get; set; }
         public string DocId { get; set; }
         public string Docdate { get; set; }
@@ -19,6 +20,7 @@ namespace Arasan.Models
         public List<SelectListItem> Englst { get; set; }
         public List<SelectListItem> Batchlst { get; set; }
         public string BatchNo { get;set; }
+       
         public string batchcomplete { get; set; }
         public string SchQty { get; set; }
         public string ProdQty { get; set; }
@@ -31,14 +33,14 @@ namespace Arasan.Models
     {
       
         public string ID { get; set; }
-
+        public string change { get; set; }
         public object APID { get; set; }
         public string Location { get; set; }
-     
+        public string Branch { get; set; }
         public string DocId { get; set; }
         public string Docdate { get; set; }
         public string Eng { get; set; }
-       
+        public bool Complete { get; set; }
         public string BatchNo { get; set; }
         public string batchcomplete { get; set; }
         public string SchQty { get; set; }
@@ -90,6 +92,7 @@ namespace Arasan.Models
         public List<SelectListItem> Itemlst { get; set; }
       
         public string BinId { get; set; }
+        public string outBin { get; set; }
         public string Time { get; set; }
         public string Bin { get; set; }
         public List<SelectListItem> binlst { get; set; }
@@ -100,6 +103,9 @@ namespace Arasan.Models
         public double Stock  { get; set; }
         public double IssueQty { get; set; }
         public string MillLoadAdd { get; set; }
+        public string Result { get; set; }
+
+        public string Status { get; set; }
         public double OutputQty { get; set; }
         public string Isvalid { get; set; }
         public List<SelectListItem> outputlst;

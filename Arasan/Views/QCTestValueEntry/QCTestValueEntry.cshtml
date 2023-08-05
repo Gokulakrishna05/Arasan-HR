@@ -43,7 +43,7 @@
                                                             <br /> <label for="inputName3" class="col-sm-4 control-label">Branch<label class="Mandatory"></label></label>
                                                         <div class="col-sm-8">
                                                                 @Html.DropDownListFor(C => C.Branch, Model.Brlst," -- Please Select -- ", new { @id = "ddlBranch", @Class = "form-control _select", @TabIndex = 1 })
-                                                             
+                                                                @Html.HiddenFor(C => C.APID)
                                                         </div>
                                                     </div>
                                                 </div>
@@ -105,7 +105,7 @@
                                                     <div class="form-group">
                                                             <br /> <label for="inputName3" class="col-sm-4 control-label">Drum No/Sample No<label class="Mandatory"></label></label>
                                                         <div class="col-sm-8">
-                                                                @Html.TextBoxFor(C => C.Drum, new { @id = "txtRefBatch", @class = "form-control", @TabIndex = 2 })
+                                                                @Html.TextBoxFor(C => C.Drum, new { @id = "txtRefBatch", @class = "form-control", @TabIndex = 2 ,@readonly="readonly"})
                                                         </div>
                                                     </div>
                                                 </div>
@@ -140,7 +140,7 @@
 
                                                             <br /> <label for="inputName3" class="col-sm-4 control-label">Item ID<label class="Mandatory"></label></label>
                                                         <div class="col-sm-8">
-                                                                @Html.TextBoxFor(C => C.Item, new { @id = "txtRefBatch", @class = "form-control", @TabIndex = 2 })
+                                                                @Html.TextBoxFor(C => C.Item, new { @id = "txtRefBatch", @class = "form-control", @TabIndex = 2 ,@readonly="readonly"})
                                                                 
                                                         </div>
                                                     </div>
@@ -262,7 +262,8 @@
                                                                            
                                                                             <td>
                                                                                 @Html.TextBoxFor(o => o.QCTestLst[i].Description, new { @id = "txtDescription" + i, @class = "form-control", style = "width: 90px;"})
-                                                                            </td>
+                                                                                @Html.HiddenFor(o => o.QCTestLst[i].APID, new { @id = "txtAPID" + i, @class = "form-control", style = "width: 100px;"})
+                                                                                </td>
                                                                             <td>
                                                                                 @Html.TextBoxFor(o => o.QCTestLst[i].Value, new { @id = "txtValue" + i, @class = "form-control", style = "width: 90px;"})
                                                                             </td>

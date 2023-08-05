@@ -350,7 +350,40 @@
                                 }
                             </tbody>
                         </table>
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Drum No</th>
+                                    <th>Time</th>
+                                    <th>Qty</th>
+                                    
+                                    <th> </th>
 
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+
+                                    int g = 0;
+
+                                    foreach (var item in Model.APOutlist.ToList())
+                                    {
+                                        <tr>
+                                            <td>@Html.DisplayFor(o => o.APOutlist[g].ItemName)</td>
+                                            <td>@Html.DisplayFor(o => o.APOutlist[g].Drum)</td>
+                                            <td>@Html.DisplayFor(o => o.APOutlist[g].Time)</td>
+                                            <td>@Html.DisplayFor(o => o.APOutlist[g].TotalQty)</td>
+
+                                            <td> <a class="nav-link" href="@Url.Action("QCTestValueEntry", "QCTestValueEntry",new { id=item.id ,tag=1})"> <span class="title">Go To QC </span> </a></td>
+
+                                        </tr>
+                                        g = g + 1;
+
+                                    }
+                                }
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
@@ -417,7 +450,7 @@
         <div class="panel panel-default">
             <div class="panel-heading" role="tab" id="headingOne">
                 <h4 class="panel-title">
-                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne" class="collapsed">
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
                         <span style="color:white">Alerts</span>
                     </a>
                 </h4>
