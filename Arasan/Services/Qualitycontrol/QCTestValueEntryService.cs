@@ -11,9 +11,11 @@ namespace Arasan.Services.Qualitycontrol
     public class QCTestValueEntryService : IQCTestValueEntryService
     {
         private readonly string _connectionString;
+        DataTransactions datatrans;
         public QCTestValueEntryService(IConfiguration _configuratio)
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
+            datatrans = new DataTransactions(_connectionString);
         }
         public IEnumerable<QCTestValueEntry> GetAllQCTestValueEntry()
         {
@@ -52,6 +54,22 @@ namespace Arasan.Services.Qualitycontrol
         public string QCTestValueEntryCRUD(QCTestValueEntry cy)
         {
             string msg = "";
+            //datatrans = new DataTransactions(_connectionString);
+
+
+            //int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'AP-Pro' AND ACTIVESEQUENCE = 'T'");
+            //string docid = string.Format("{0}{1}", "AP-Pro", (idc + 1).ToString());
+
+            //string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='AP-Pro' AND ACTIVESEQUENCE ='T'";
+            //try
+            //{
+            //    datatrans.UpdateStatus(updateCMd);
+            //}
+            //catch (Exception ex)
+            //{
+            //    throw ex;
+            //}
+            //cy.DocId = docid;
             try
             {
                 string StatementType = string.Empty; string svSQL = "";
@@ -80,10 +98,10 @@ namespace Arasan.Services.Qualitycontrol
                     objCmd.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = cy.Work;
                     objCmd.Parameters.Add("SHIFTNO", OracleDbType.NVarchar2).Value = cy.Shift;
                     objCmd.Parameters.Add("PROCESSLOTNO", OracleDbType.NVarchar2).Value = cy.Process;
-                    objCmd.Parameters.Add("DRUMNO", OracleDbType.NVarchar2).Value = cy.Drum;
+                    objCmd.Parameters.Add("CDRUMNO", OracleDbType.NVarchar2).Value = cy.Drum;
                     objCmd.Parameters.Add("PRODDATE", OracleDbType.NVarchar2).Value = cy.Prodate;
-                    objCmd.Parameters.Add("DSAMPLE", OracleDbType.NVarchar2).Value = cy.Sample;
-                    objCmd.Parameters.Add("DSAMPLETIME", OracleDbType.NVarchar2).Value = cy.Sampletime;
+                    objCmd.Parameters.Add("SAMPLENO", OracleDbType.NVarchar2).Value = cy.Sample;
+                    objCmd.Parameters.Add("STIME", OracleDbType.NVarchar2).Value = cy.Sampletime;
                     objCmd.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cy.Item;
                     objCmd.Parameters.Add("RATEPHR", OracleDbType.NVarchar2).Value = cy.Rate;
                     objCmd.Parameters.Add("NOZZLENO", OracleDbType.NVarchar2).Value = cy.Nozzle;
@@ -117,8 +135,12 @@ namespace Arasan.Services.Qualitycontrol
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
 
+                                        svSQL = "Update APPRODOUTDET SET TESTRESULT='" + cp.TestResult + "',MOVETOQC='Moved' WHERE APPRODUCTIONBASICID='"+ cp.APID +"'";
+                                        OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
+                                        objCmdd.ExecuteNonQuery();
 
                                     }
+                                  
                                 }
 
                             }
@@ -141,6 +163,7 @@ namespace Arasan.Services.Qualitycontrol
                                     }
                                 }
                             }
+                       
                         }
                     }
                     catch (Exception ex)
@@ -200,6 +223,26 @@ namespace Arasan.Services.Qualitycontrol
             return dtt;
         }
 
+        public DataTable GetAPOutDetails(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select WCID,SHIFT,to_char(APPRODUCTIONBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE from APPRODUCTIONBASIC WHERE APPRODUCTIONBASICID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
 
+        public DataTable GetAPOutItemDetails(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select ITEMMASTER.ITEMID,DRUMMAST.DRUMNO,Time from APPRODOUTDET  LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=APPRODOUTDET.ITEMID LEFT OUTER JOIN DRUMMAST ON DRUMMASTID=APPRODOUTDET.DRUMNO WHERE APPRODUCTIONBASICID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
     }
 }

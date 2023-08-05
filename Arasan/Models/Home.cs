@@ -18,6 +18,7 @@ namespace Arasan.Models
         public int Quotefollowcunt { get; set; }
         public int EnqFollowcunt { get; set; }
         public int SalesQuoteFollowcunt { get; set; }
+        public List<APOut> APOutlist { get; set; }
     }
     public class QcNotify
     {
@@ -36,6 +37,15 @@ namespace Arasan.Models
         public string TotalQty { get; set; }
         public string Unit { get; set; }
         public string stockQty { get; set; }
+    }
+    public class APOut
+    {
+        public string id { get; set; }
+        public string Drum { get; set; }
+        public string ItemName { get; set; }
+        public string TotalQty { get; set; }
+        public string Time { get; set; }
+        
     }
     public class Notify
     {

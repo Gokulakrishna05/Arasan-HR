@@ -28,6 +28,7 @@ namespace Arasan.Models
         public string Process { get; set; }
         public string Drum { get; set; }
         public string Prodate { get; set; }
+        public string APID { get; set; }
         public string Sample { get; set; }
         public string Sampletime { get; set; }
         public string Item { get; set; }
@@ -51,6 +52,7 @@ namespace Arasan.Models
         public string Test { get; set; }
         public string Manual { get; set; }
         public string Actual { get; set; }
+        public string APID { get; set; }
         public string TestResult { get; set; }
         public string Isvalid { get; set; }
 

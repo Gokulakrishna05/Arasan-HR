@@ -149,6 +149,7 @@ a{
                                     <div class="col-sm-8">
                                         @Html.HiddenFor(C => C.ID)
                                          @Html.HiddenFor(C => C.APID)
+                                            @Html.HiddenFor(C => C.Branch)
                                              @Html.DropDownListFor(C => C.Location, Model.Loclst," -- Please Select -- ", new { @id = "ddlStLoc", @Class = "form-control _select", @TabIndex = 1 /*, @onchange = "Stk_Change(this.value)"*/ })<br />
                                     </div>
                                 </div>
