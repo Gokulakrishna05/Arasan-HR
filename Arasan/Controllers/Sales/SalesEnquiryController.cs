@@ -17,11 +17,11 @@ namespace Arasan.Controllers
             ISalesEnq Sales;
             IConfiguration? _configuratio;
             private string? _connectionString;
-            private readonly IWebHostEnvironment _WebHostEnvironment;
+            //private readonly IWebHostEnvironment _WebHostEnvironment;
         DataTransactions datatrans;
             public SalesEnquiryController(ISalesEnq _Sales, IConfiguration _configuratio, IWebHostEnvironment WebHostEnvironment)
             {
-                this._WebHostEnvironment = WebHostEnvironment;
+                //this._WebHostEnvironment = WebHostEnvironment;
                 Sales = _Sales;
                 _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
                 datatrans = new DataTransactions(_connectionString);
@@ -721,20 +721,7 @@ namespace Arasan.Controllers
             }
         }
 
-        public async Task<IActionResult> Print(string id)
-        {
-            string mimtype = "";
-            int extension = 1;
-            var path = $"{this._WebHostEnvironment.WebRootPath}\\Reports\\EnqReport.rdlc";
-            Dictionary<string, string> Parameters = new Dictionary<string, string>();
-            //  Parameters.Add("rp1", " Hi Everyone");
-            //var product = await SalesQuotationService.GetPOItem(id);
-            LocalReport localReport = new LocalReport(path);
-            //localReport.AddDataSource("DataSet1", product);
-            var result = localReport.Execute(RenderType.Pdf, extension, Parameters, mimtype);
-
-            return File(result.MainStream, "application/Pdf");
-        }
+       
 
     }
  }

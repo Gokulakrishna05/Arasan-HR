@@ -29,6 +29,6 @@ namespace Arasan.Interface.Sales
         DataTable GetSalesQuo(string id);
         DataTable GetSalesQuoItem(string id);
 
-        //Task<IEnumerable<SQuoItemDetail>> GetSQuoItem(string id);
+        Task<IEnumerable<SQuoItemDetail>> GetSQuoItem(string id);
     }
 }
