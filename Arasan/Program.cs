@@ -193,7 +193,7 @@ internal class Program
         service.AddMvc();
         service.AddOptions();
         service.AddTransient<IPO, POService>();
-
+        service.AddTransient<ISalesQuotationService, SalesQuotationService>();
     }
     public void Configure(IApplicationBuilder app,IWebHostEnvironment env)
     {

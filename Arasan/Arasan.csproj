@@ -56,6 +56,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>DataSet4.xsd</DependentUpon>
     </Compile>
+    <Compile Update="DataSet5.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DataSet5.xsd</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -82,6 +87,10 @@
     <None Update="DataSet4.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>DataSet4.Designer.cs</LastGenOutput>
+    </None>
+    <None Update="DataSet5.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSet5.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
 
