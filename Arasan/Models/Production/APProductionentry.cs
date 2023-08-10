@@ -180,5 +180,64 @@ namespace Arasan.Models
         public string PB { get; set; }
         public string Isvalid { get; set; }
     }
+
+
+
+
+    public class APItemDetail
+    {
+
+        public string WCID { get; set; }
+        public string DOCID { get; set; }
+        public string DOCDATE { get; set; }
+        public string SHIFT { get; set; }
+        public string ITEMID { get; set; }
+        public string QTY { get; set; }
+        public string CHARGINGTIME { get; set; }
+        public string UNIT { get; set; }
+        public string DRUMNO { get; set; }
+        public string OUTQTY { get; set; }
+        public string FROMTIME { get; set; }
+        public string TESTRESULT { get; set; }
+        public string TOTIME { get; set; }
+        public string EXPR8 { get; set; }
+        public string EXPR9 { get; set; }
+        public string EMPNAME { get; set; }
+
+        public string BSHIFT { get; set; }
+        public string CSHIFT { get; set; }
+        public string BITEMID { get; set; }
+        public string CITEMID { get; set; }
+        public string BQTY { get; set; }
+        public string CQTY { get; set; }
+        public string BCHARGINGTIME { get; set; }
+        public string CCHARGINGTIME { get; set; }
+        public string BUNIT { get; set; }
+        public string CUNIT { get; set; }
+
+        public string BDRUMNO { get; set; }
+        public string CDRUMNO { get; set; }
+
+        public string BOUTQTY { get; set; }
+        public string COUTQTY { get; set; }
+        public string BFROMTIME { get; set; }
+        public string CFROMTIME { get; set; }
+        public string BTESTRESULT { get; set; }
+        public string CTESTRESULT { get; set; }
+        public string BTOTIME { get; set; }
+        public string CTOTIME { get; set; }
+        public string BFROM { get; set; }
+        public string CFROM { get; set; }
+        public string BTO { get; set; }
+        public string CTO { get; set; }
+        public string BEMP { get; set; }
+        public string CEMP { get; set; }
+        public string BSQTY { get; set; }
+        public string CSQTY { get; set; }
+        public string BCONSQTY { get; set; }
+        public string CCONSQTY { get; set; }
+        public string EXPR6 { get; set; }
+        public string CONSQTY { get; set; }
+    }
 }
 
