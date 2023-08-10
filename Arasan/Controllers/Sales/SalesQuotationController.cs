@@ -498,7 +498,7 @@ namespace Arasan.Controllers.Sales
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COUNTRYNAME"].ToString(), Value = dtDesg.Rows[i]["COUNTRYMASTID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COUNTRY"].ToString(), Value = dtDesg.Rows[i]["COUNTRYMASTID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -818,10 +818,10 @@ namespace Arasan.Controllers.Sales
             var path = $"{this._WebHostEnvironment.WebRootPath}\\Reports\\SQuotationReport.rdlc";
             Dictionary<string, string> Parameters = new Dictionary<string, string>();
 
-            //var SQuoitem = await SalesQuotationService.GetSQuoItem(id);
+            var SQuoitem = await SalesQuotationService.GetSQuoItem(id);
 
             LocalReport localReport = new LocalReport(path);
-            //localReport.AddDataSource("DataSet1", SQuoitem);
+            localReport.AddDataSource("DataSet1", SQuoitem);
 
             var result = localReport.Execute(RenderType.Pdf, extension, Parameters, mimtype);
             return File(result.MainStream, "application/Pdf");

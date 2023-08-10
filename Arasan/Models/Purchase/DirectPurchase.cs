@@ -6,7 +6,7 @@ namespace Arasan.Models
     {
         public DirectPurchase()
         {
-            this.Brlst = new List<SelectListItem>();
+            this.Brlst  = new  List<SelectListItem>();
             this.Suplst = new List<SelectListItem>();
             this.Curlst = new List<SelectListItem>();
             this.Loclst = new List<SelectListItem>();

@@ -152,8 +152,14 @@ namespace Arasan.Controllers.Qualitycontrol
         public IActionResult ListQCTestValueEntry()
         {
             IEnumerable<QCTestValueEntry> sta = QCTestValueEntryService.GetAllQCTestValueEntry();
-            return View();
+            return View(sta);
         }
+        //public JsonResult GetItemGrpJSON()
+        //{
+        //    //EnqItem model = new EnqItem();
+        //    //  model.ItemGrouplst = BindItemGrplst(value);
+        //    return Json(BindProcessid());
+        //}
         public List<SelectListItem> BindShift()
         {
             try

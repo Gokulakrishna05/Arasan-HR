@@ -57,11 +57,17 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>DataSet4.xsd</DependentUpon>
     </Compile>
+ 
     <Compile Update="DataSet7.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>DataSet7.xsd</DependentUpon>
-    </Compile>
+ 
+    <Compile Update="DataSet5.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DataSet5.xsd</DependentUpon>
+     </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -96,11 +102,11 @@
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>DataSet5.Designer.cs</LastGenOutput>
     </None>
-    <None Update="DataSet7.xsd">
+     <None Update="DataSet7.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>DataSet7.Designer.cs</LastGenOutput>
     </None>
-  </ItemGroup>
+   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="https://json.schemastore.org/artifacthub-repo.json" /></VisualStudio></ProjectExtensions>
 

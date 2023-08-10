@@ -150,6 +150,7 @@ internal class Program
 		builder.Services.TryAddSingleton<IAPProductionEntry, APProductionentryService>();
 
 		builder.Services.TryAddSingleton<IEmailConfig, EmailConfigService>();
+		builder.Services.TryAddSingleton<IDebitNoteBillService, DebitNoteBillService>();
 
 
 
@@ -198,7 +199,7 @@ internal class Program
         service.AddMvc();
         service.AddOptions();
         service.AddTransient<IPO, POService>();
-
+        service.AddTransient<ISalesQuotationService, SalesQuotationService>();
     }
     public void Configure(IApplicationBuilder app,IWebHostEnvironment env)
     {
