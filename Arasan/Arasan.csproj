@@ -56,20 +56,8 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>DataSet4.xsd</DependentUpon>
-    </Compile>
- 
-    <Compile Update="DataSet7.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>DataSet7.xsd</DependentUpon>
- 
-    <Compile Update="DataSet5.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>DataSet5.xsd</DependentUpon>
-     </Compile>
+    </Compile> 
   </ItemGroup>
-
   <ItemGroup>
     <Content Update="wwwroot\Reports\Production.rdlc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
