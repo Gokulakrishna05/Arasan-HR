@@ -32,7 +32,7 @@ namespace Arasan.Services
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
-                        SalesEnquiry cmp = new SalesEnquiry
+                        SalesEnquiry cmp = new SalesEnquiry 
                         {
 
                             ID = rdr["ID"].ToString(),
@@ -61,14 +61,17 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select SALES_ENQ_ITEM.QUANTITY,SALES_ENQ_ITEM.ID,ITEMMASTER.ITEMID,UNITMAST.UNITID from SALES_ENQ_ITEM LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=SALES_ENQ_ITEM.ITEM_ID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  where SALES_ENQ_ITEM.SAL_ENQ_ID='" + id + "'";
+                    cmd.CommandText = "Select SALES_ENQ_ITEM.ID,SALES_ENQ_ITEM.ITEM_DESCRIPTION,SALES_ENQ_ITEM.QUANTITY,ITEMMASTER.ITEMID,UNITMAST.UNITID from SALES_ENQ_ITEM LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=SALES_ENQ_ITEM.ITEM_ID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  where SALES_ENQ_ITEM.SAL_ENQ_ID='" + id + "'";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
                         SalesItem cmp = new SalesItem
                         {
+                            ID = rdr["ID"].ToString(),
+
                             ItemId = rdr["ITEMID"].ToString(),
-                            Unit = rdr["UNITID"].ToString(),
+                            Des = rdr["ITEM_DESCRIPTION"].ToString(),
+                            Unit = rdr["UNIT"].ToString(),
                             Qty = rdr["QTY"].ToString()
                         };
                         cmpList.Add(cmp);
@@ -339,7 +342,7 @@ namespace Arasan.Services
                 string quotid = datatrans.GetDataString("Select SALES_QUOTE.ID from SALES_QUOTE Where SALES_ENQ_ID=" + QuoteId + "");
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    string Sql = "Insert into SALESQUOTEDETAIL (SALESQUOID,ITEMID,ITEMDESC,QTY,UNIT) (Select '" + quotid + "',ITEM_ID,ITEM_DESCRIPTION,QUANTITY,UNIT FROM SALES_ENQ_ITEM WHERE SAL_ENQ_ID=" + QuoteId + ")";
+                    string Sql = "Insert into SALESQUOTEDETAIL (SALESQUOID,ITEMID,ITEMDESC,QTY,UNIT) (Select '" + quotid + "',ITEM_ID,ITEM_DESCRIPTION,QUANTITY,UNIT_ID FROM SALES_ENQ_ITEM WHERE SAL_ENQ_ID=" + QuoteId + ")";
                     OracleCommand objCmds = new OracleCommand(Sql, objConnT);
                     try
                     {
@@ -489,7 +492,7 @@ namespace Arasan.Services
         public DataTable GetEnqByName(string name)
         {
             string SvSql = string.Empty;
-            SvSql = "Select   BRANCHMAST.BRANCHID, ENQ_NO,to_char(ENQ_DATE,'dd-MON-yyyy') ENQ_DATE ,PARTYRCODE.PARTY,SALES_ENQUIRY.CURRENCY_TYPE,SALES_ENQUIRY.CONTACT_PERSON,SALES_ENQUIRY.CUSTOMER_TYPE,SALES_ENQUIRY.ENQ_TYPE,SALES_ENQUIRY.ADDRESS,SALES_ENQUIRY.CITY,SALES_ENQUIRY.PINCODE,PRIORITY,SALES_ENQUIRY.ID,SALES_ENQUIRY.STATUS from SALES_ENQUIRY  LEFT OUTER JOIN BRANCHMAST ON BRANCHMAST.BRANCHMASTID=SALES_ENQUIRY.BRANCH_ID LEFT OUTER JOIN  PARTYMAST on SALES_ENQUIRY.CUSTOMER_NAME=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Customer','BOTH') AND SALES_ENQUIRY.ID='" + name + "'";
+            SvSql = "Select BRANCHMAST.BRANCHID, ENQ_NO,to_char(ENQ_DATE,'dd-MON-yyyy') ENQ_DATE ,PARTYRCODE.PARTY,SALES_ENQUIRY.CURRENCY_TYPE,SALES_ENQUIRY.CONTACT_PERSON,SALES_ENQUIRY.CUSTOMER_TYPE,SALES_ENQUIRY.ENQ_TYPE,SALES_ENQUIRY.ADDRESS,SALES_ENQUIRY.CITY,SALES_ENQUIRY.PINCODE,PRIORITY,SALES_ENQUIRY.ID,SALES_ENQUIRY.STATUS from SALES_ENQUIRY  LEFT OUTER JOIN BRANCHMAST ON BRANCHMAST.BRANCHMASTID=SALES_ENQUIRY.BRANCH_ID LEFT OUTER JOIN  PARTYMAST on SALES_ENQUIRY.CUSTOMER_NAME=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.PARTY Where PARTYMAST.TYPE IN ('Customer','BOTH') AND SALES_ENQUIRY.ID='" + name + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

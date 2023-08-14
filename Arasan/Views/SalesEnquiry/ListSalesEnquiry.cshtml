@@ -56,7 +56,7 @@
                                                             <th>Enquiry No</th>
                                                             <th>Enquiry Date</th>
                                                             <th>Enq Type</th>
-                                                            <th>Customer Name</th>
+                                                            @*<th>Customer Name</th>*@
                                                             <th>Send Mail</th>
                                                             <th>Followup</th>
                                                             <th>Move To Quote</th>
@@ -79,7 +79,9 @@
                                                                         <td>@Html.DisplayFor(modelItem => item.EnqNo)</td>
                                                                         <td>@Html.DisplayFor(modelItem => item.EnqDate)</td>
                                                                         <td>@Html.DisplayFor(modelItem => item.EnqType)</td>
-                                                                        <td>@Html.DisplayFor(modelItem => item.Customer)</td>
+
+                                                                        @*<td>@Html.DisplayFor(modelItem => item.Customer)</td>*@
+
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("SendMail", "SalesEnquiry",new { id=item.ID })"><img src='../Images/mail_icon.png' alt='Send Email' /></a></div></td>
                                                                         <td> <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("Followup", "SalesEnquiry",new { id=item.ID })"><img src='../Images/followup.png' alt='FollowUp' /> - (1)</a></div></td>
 
