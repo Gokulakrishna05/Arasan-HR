@@ -11,8 +11,10 @@ namespace Arasan.Interface.Sales
         IEnumerable<DebitNoteBill> GetAllDebitNoteBill();
         string DebitNoteBillCRUD(DebitNoteBill cy);
         DataTable GetParty();
-        DataTable GetGrn();
+        DataTable GetGrn(string id);
         DataTable GetItemDetails(string itemId);
+        DataTable GetInvoDates(string itemId);
+        DataTable GetDebitNoteBillDetail(string id);
         //DataTable GetItemDetails(string itemId);
     }
 }

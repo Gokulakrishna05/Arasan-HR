@@ -29,13 +29,15 @@ namespace Arasan.Models
         public string Bcgst { get; set; }
         public string Narration { get; set; }
 
-        public List<DebitNote> Depitlst;
+        public List<DebitNoteItem> Depitlst { get; set; }
     }
-    public class DebitNote
+    public class DebitNoteItem
     {
         public string ID { get; set; }
 
         public string InvNo { get; set; }
+        public string Invdate { get; set; }
+
         public string Item { get; set; }
         public string Cf { get; set; }
         public string Unit { get; set; }
@@ -43,6 +45,9 @@ namespace Arasan.Models
         public string Rate { get; set; }
         public string Amount { get; set; }
         public string CGST { get; set; }
+        public string CGSTP { get; set; }
+        public string SGSTP { get; set; }
+        public string IGSTP { get; set; }
         public string SGST { get; set; }
         public string IGST { get; set; }
         public string Total { get; set; }
