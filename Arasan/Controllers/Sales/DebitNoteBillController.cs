@@ -5,6 +5,7 @@ using Arasan.Services.Qualitycontrol;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Data;
+using System.Reflection;
 
 namespace Arasan.Controllers.Sales
 {
@@ -26,44 +27,49 @@ namespace Arasan.Controllers.Sales
             DebitNoteBill ca = new DebitNoteBill();
             ca.Brlst = BindBranch();
             ca.Partylst = BindGParty();
+            
             ca.Branch = Request.Cookies["BranchId"];
-            List<DebitNote> TData = new List<DebitNote>();
-            DebitNote tda = new DebitNote();
+            List<DebitNoteItem> TData = new List<DebitNoteItem>();
+            DebitNoteItem tda = new DebitNoteItem();
             if (id == null)
             {
-                tda = new DebitNote();
-                tda.Grnlst = BindGrnlst();
+                tda = new DebitNoteItem();
+                tda.Grnlst = BindGrnlst("");
+                tda.CGSTP = "9";
+                tda.SGSTP = "9";
+                tda.IGSTP = "18";
                 tda.Isvalid = "Y";
                 TData.Add(tda);
 
             }
             else
             {
-               
-                    //ca = QCTestValueEntryService.GetQCTestValueEntryById(id);
-                    //DataTable dt = new DataTable();
-                    //dt = DebitNoteBillService.GetQCTestValueEntryDetails(id);
-                    //if (dt.Rows.Count > 0)
-                    //{
-                    //    //ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
-                    //    //ca.DocId = dt.Rows[0]["DOCID"].ToString();
-                    //    //ca.Docdate = dt.Rows[0]["DOCDATE"].ToString();
-                    //    //ca.Work = dt.Rows[0]["WCID"].ToString();
-                    //    //ca.Shift = dt.Rows[0]["SHIFTNO"].ToString();
-                    //    //ca.Process = dt.Rows[0]["PROCESSLOTNO"].ToString();
-                    //    //ca.Drum = dt.Rows[0]["DRUMNO"].ToString();
-                    //    //ca.Prodate = dt.Rows[0]["PRODDATE"].ToString();
-                    //    //ca.Sample = dt.Rows[0]["DSAMPLE"].ToString();
-                    //    //ca.Sampletime = dt.Rows[0]["DSAMPLETIME"].ToString();
-                    //    //ca.Item = dt.Rows[0]["ITEMID"].ToString();
-                    //    //ca.Entered = dt.Rows[0]["ENTEREDBY"].ToString();
-                    //    //ca.Remarks = dt.Rows[0]["REMARKS"].ToString();
+
+
+                DataTable dt = new DataTable();
+                dt = DebitNoteBillService.GetDebitNoteBillDetail(id);
+                if (dt.Rows.Count > 0)
+                {
+                    ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                    ca.Vocher = dt.Rows[0]["VTYPE"].ToString();
+                    ca.DocId = dt.Rows[0]["DOCID"].ToString();
+                    ca.Docdate = dt.Rows[0]["DOCDATE"].ToString();
+                    ca.RefNo = dt.Rows[0]["REFNO"].ToString();
+                    ca.RefDate = dt.Rows[0]["REFDT"].ToString();
+                    ca.Party = dt.Rows[0]["PARTYID"].ToString();
+                    ca.Gross = dt.Rows[0]["GROSS"].ToString();
+                    ca.Net = dt.Rows[0]["NET"].ToString();
+                    ca.Amount = dt.Rows[0]["AMTINWRD"].ToString();
+                    ca.Bigst = dt.Rows[0]["BIGST"].ToString();
+                    ca.Bsgst = dt.Rows[0]["BSGST"].ToString();
+                    ca.Bcgst = dt.Rows[0]["BCGST"].ToString();
+                    ca.Narration = dt.Rows[0]["NARRATION"].ToString();
 
 
 
-                    //}
-               
-               
+                }
+
+
 
             }
             ca.Depitlst = TData;
@@ -106,11 +112,19 @@ namespace Arasan.Controllers.Sales
 
             return View(Cy);
         }
-        public JsonResult GetItemGrpJSON()
+        public JsonResult GetPartyJSON(string supid)
+        {
+            //string CityID = datatrans.GetDataString("Select STATEMASTID from STATEMAST where STATE='" + supid + "' ");
+            DebitNoteItem model = new DebitNoteItem();
+            model.Grnlst = BindGrnlst(supid);
+            return Json(BindGrnlst(supid));
+
+        }
+        public JsonResult GetItemGrpJSON(string supid)
         {
             //DeductionItem model = new DeductionItem();
-            //  model.ItemGrouplst = BindItemGrplst(value);
-            return Json(BindGrnlst());
+            //model.Grnlst = BindGrnlst(supid);
+            return Json(BindGrnlst(supid));
         }
         public ActionResult GetItemDetail(string ItemId)
         {
@@ -163,6 +177,35 @@ namespace Arasan.Controllers.Sales
                 throw ex;
             }
         }
+        public ActionResult GetInvoDate(string ItemId)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+
+
+               string invDate = "";
+               
+
+                dt = DebitNoteBillService.GetInvoDates(ItemId);
+
+                if (dt.Rows.Count > 0)
+                {
+
+
+                    invDate = dt.Rows[0]["DOCDATE"].ToString();
+
+
+                }
+
+                var result = new { invDate = invDate };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public IActionResult ListDebitNoteBill()
         {
             IEnumerable<DebitNoteBill> sta = DebitNoteBillService.GetAllDebitNoteBill();
@@ -193,7 +236,7 @@ namespace Arasan.Controllers.Sales
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTYNAME"].ToString(), Value = dtDesg.Rows[i]["PARTYNAME"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTYNAME"].ToString(), Value = dtDesg.Rows[i]["PARTYID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -202,11 +245,11 @@ namespace Arasan.Controllers.Sales
                 throw ex;
             }
         }
-        public List<SelectListItem> BindGrnlst()
+        public List<SelectListItem> BindGrnlst(string id)
         {
             try
             {
-                DataTable dtDesg = DebitNoteBillService.GetGrn();
+                DataTable dtDesg = DebitNoteBillService.GetGrn(id);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
