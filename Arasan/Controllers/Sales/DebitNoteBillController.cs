@@ -1,4 +1,5 @@
-﻿using Arasan.Interface.Qualitycontrol;
+﻿using Arasan.Interface;
+using Arasan.Interface.Qualitycontrol;
 using Arasan.Interface.Sales;
 using Arasan.Models;
 using Arasan.Services.Qualitycontrol;
@@ -68,6 +69,33 @@ namespace Arasan.Controllers.Sales
 
 
                 }
+                DataTable dt2 = new DataTable();
+
+                dt2 = DebitNoteBillService.GetDebitNoteBillItem(id);
+                if (dt2.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt2.Rows.Count; i++)
+                    {
+                        tda = new DebitNoteItem();
+                        tda.Grnlst = BindGrnlst("");
+                        tda.Grnlst = BindGrnlst(ca.Party);
+                        tda.InvNo = dt2.Rows[i]["INVNO"].ToString();
+                        tda.Invdate = dt2.Rows[i]["INVDT"].ToString();
+                        tda.Item = dt2.Rows[i]["ITEMID"].ToString();
+                        tda.Cf = dt2.Rows[i]["CONVFACTOR"].ToString();
+                        tda.Unit = dt2.Rows[i]["PRIUNIT"].ToString();
+                        tda.Qty = dt2.Rows[i]["QTY"].ToString();
+                        tda.Rate = dt2.Rows[i]["RATE"].ToString();
+                        tda.Amount = dt2.Rows[i]["AMOUNT"].ToString();
+                        tda.CGST = dt2.Rows[i]["CGST"].ToString();
+                        tda.SGST = dt2.Rows[i]["SGST"].ToString();
+                        tda.IGST = dt2.Rows[i]["IGST"].ToString();
+                        tda.Total = dt2.Rows[i]["TOTAMT"].ToString();
+                        tda.ID = id;
+                        TData.Add(tda);
+                    }
+
+                }
 
 
 
@@ -87,7 +115,7 @@ namespace Arasan.Controllers.Sales
                 {
                     if (Cy.ID == null)
                     {
-                        TempData["notice"] = "DebitNoteBill Inserted Successfully...!";
+                        TempData["notice"] = "- Inserted Successfully...!";
                     }
                     else
                     {
@@ -120,12 +148,12 @@ namespace Arasan.Controllers.Sales
             return Json(BindGrnlst(supid));
 
         }
-        public JsonResult GetItemGrpJSON(string supid)
-        {
-            //DeductionItem model = new DeductionItem();
-            //model.Grnlst = BindGrnlst(supid);
-            return Json(BindGrnlst(supid));
-        }
+        //public JsonResult GetItemGrpJSON(string supid)
+        //{
+        //    //DeductionItem model = new DeductionItem();
+        //    //model.Grnlst = BindGrnlst(supid);
+        //    return Json(BindGrnlst(supid));
+        //}
         public ActionResult GetItemDetail(string ItemId)
         {
             try
@@ -192,10 +220,7 @@ namespace Arasan.Controllers.Sales
                 if (dt.Rows.Count > 0)
                 {
 
-
                     invDate = dt.Rows[0]["DOCDATE"].ToString();
-
-
                 }
 
                 var result = new { invDate = invDate };

@@ -263,7 +263,7 @@
 
                                     <br /><label for="inputName3" class="col-sm-4 control-label">BIGST<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.Bigst, new { @id = "txtBigst", @class = "form-control", @TabIndex = 2 })
+                                        @Html.TextBoxFor(C => C.Bigst, new { @id = "txtBigst", @class = "form-control", @TabIndex = 2,@readonly="true" })
                                     </div>
                                 </div>
                             </div>
@@ -271,7 +271,7 @@
                                 <div class="form-group">
                                     <br /><label for="inputName3" class="col-sm-4 control-label">BSGST<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.Bsgst, new { @id = "txtBsgst", @class = "form-control", @TabIndex = 2 })
+                                        @Html.TextBoxFor(C => C.Bsgst, new { @id = "txtBsgst", @class = "form-control", @TabIndex = 2,@readonly="true" })
                                     </div>
                                 </div>
                             </div>
@@ -279,7 +279,7 @@
                                 <div class="form-group">
                                     <br /> <label for="inputName3" class="col-sm-4 control-label">BCGST<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.Bcgst, new { @id = "txtBcgst", @class = "form-control", @TabIndex = 2 })
+                                            @Html.TextBoxFor(C => C.Bcgst, new { @id = "txtBcgst", @class = "form-control", @TabIndex = 2,@readonly="true" })
                                     </div>
                                 </div>
                             </div>
@@ -375,7 +375,7 @@
         var opt = "";
         $.ajax({
             type: "POST",
-            url: 'GetItemGrpJSON',
+            url: 'GetPartyJSON',
             success: function (data) {
 
                 $.each(data, function () {
@@ -406,11 +406,12 @@
     function AppendRow(opt) {
         var index = $("#tbBooks").children("tr").length;
 
-           var InvNo = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlInvNo" + index + "' name='Depitlst[" + index + "].InvNo' onchange = 'Grup_Change(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
+        var InvNo = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlInvNo" + index + "' name='Depitlst[" + index + "].InvNo' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
 
-      @*  var InvNo = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlInvNo" + index + "' name='Depitlst[" + index + "].InvNo' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option></select></td>";
+        var Invdate = "<td><div class='input-group date form_date col-sm-8'  data-date-format='dd-M-yyyy'><input class='form-control' id='txtInvdate" + index + "' name='Depitlst[" + index + "].Invdate' readonly='True' style='width: 100px;' type='text' value=''> <span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div> </td>";
+     @* var InvNo = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlInvNo" + index + "' name='Depitlst[" + index + "].InvNo' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option></select></td>";
 *@
-        var Item = "<td><input class='form-control' id='txtItem" + index + "' name='Depitlst[" + index + "].Item'  style='width: 80px;' type='text'  readonly='True' /></td>";
+        var Item = "<td><input class='form-control' id='txtItem" + index + "' name='Depitlst[" + index + "].Item'  style='width: 200px;' type='text'  readonly='True' /></td>";
 
         var Cf = "<td><input class='form-control' id='txtCf" + index + "' name='Depitlst[" + index + "].Cf'  style='width: 80px;' type='text'  readonly='True' /></td>";
 
@@ -418,7 +419,7 @@
 
         var Qty = "<td><input class='form-control' id='txtQty" + index + "' name='Depitlst[" + index + "].Qty'  style='width: 80px;' type='text'   /></td>";
        
-        var Rate = "<td><input class='form-control' id='txtRate" + index + "' name='Depitlst[" + index + "].Rate' style='width: 80px;' type='text' readonly='True' /></td>";
+        var Rate = "<td><input class='form-control' id='txtRate" + index + "' name='Depitlst[" + index + "].Rate' style='width: 100px;' type='text' readonly='True' /></td>";
        
         var Amount = "<td><input class='form-control' id='txtAmount" + index + "' name='Depitlst[" + index + "].Amount' style='width: 100px;' type='text' readonly='True' /></td>";
        
@@ -433,7 +434,7 @@
         var removeCell = "<td><input id='Isvalid" + index + "' name='Depitlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='Depitlst.Index' type='hidden' value='" + index + "'  /></td>";
 
 
-        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + InvNo + Item + Cf + Unit + Qty + Rate +  Amount + CGST + SGST + IGST  + Total + removeCell + "</tr>";
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + InvNo + Invdate + Item + Cf + Unit + Qty + Rate +  Amount + CGST + SGST + IGST  + Total + removeCell + "</tr>";
         //alert(Packing);
         $("#tbBooks").append(newRow);
 
@@ -465,6 +466,9 @@
     function changeQty(_this, i) {
         try {
             var GTot = 0;
+            var cgstAmount = 0;
+            var sgstAmount = 0;
+            var igstAmount = 0;
             var j = 0;
             var qty = 0;
             var tot = 0;
@@ -524,11 +528,30 @@
                         amt = 0;
 
                     totamt += eval(amt);
+
                     var tamt = $(this).find('#txtTotal' + j.toString()).val();
                     if (tamt == "")
                         tamt = 0;
 
                     totamount += eval(tamt);
+
+                    var cgst = $(this).find('#txtCGST' + j.toString()).val();
+                    if (cgst == "")
+                        cgst = 0;
+
+                    cgstAmount += eval(cgst);
+
+                    var sgst= $(this).find('#txtSGST' + j.toString()).val();
+                    if (sgst == "")
+                        sgst = 0;
+
+                    sgstAmount += eval(sgst);
+
+                    var igst = $(this).find('#txtIGST' + j.toString()).val();
+                    if (igst == "")
+                        igst = 0;
+
+                    igstAmount += eval(igst);
 
                 }
                 j += 1;
@@ -537,6 +560,10 @@
            
             document.getElementById("txtGross").value = totamt.toFixed(2);
             document.getElementById("txtNet").value = totamount.toFixed(2);
+            document.getElementById("txtBcgst").value = cgstAmount.toFixed(2);
+            document.getElementById("txtBsgst").value = sgstAmount.toFixed(2);
+            document.getElementById("txtBigst").value = igstAmount.toFixed(2);
+
             
 
         }

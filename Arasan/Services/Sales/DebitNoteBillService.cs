@@ -149,7 +149,6 @@ namespace Arasan.Services.Sales
 
             return msg;
         }
-
         public DataTable GetParty()
         {
             string SvSql = string.Empty;
@@ -170,7 +169,6 @@ namespace Arasan.Services.Sales
             adapter.Fill(dtt);
             return dtt;
         }
-
         public DataTable GetItemDetails(string itemId)
         {
             string SvSql = string.Empty;
@@ -181,11 +179,10 @@ namespace Arasan.Services.Sales
             adapter.Fill(dtt);
             return dtt;
         }
-
         public DataTable GetInvoDates(string itemId)
         {
             string SvSql = string.Empty;
-            SvSql = "select DOCDATE,GRNBLBASICID FROM  GRNBLBASIC WHERE GRNBLBASICID='" + itemId + "'";
+            SvSql = "select to_char(GRNBLBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,GRNBLBASICID FROM  GRNBLBASIC WHERE GRNBLBASICID='" + itemId + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -197,6 +194,16 @@ namespace Arasan.Services.Sales
         {
             string SvSql = string.Empty;
             SvSql = "select BRANCHID,VTYPE,DOCID,DOCDATE,REFNO,REFDT,PARTYID,GROSS,NET,AMTINWRD,BIGST,BSGST,BCGST,NARRATION FROM DBNOTEBASIC WHERE DBNOTEBASICID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetDebitNoteBillItem(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select DBNOTEBASICID,INVNO,INVDT,ITEMMASTER.ITEMID,DBNOTEDETAIL.CONVFACTOR,DBNOTEDETAIL.PRIUNIT,DBNOTEDETAIL.QTY,DBNOTEDETAIL.RATE,DBNOTEDETAIL.AMOUNT,DBNOTEDETAIL.CGST,DBNOTEDETAIL.SGST,DBNOTEDETAIL.IGST,DBNOTEDETAIL.TOTAMT FROM DBNOTEDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID =DBNOTEDETAIL.ITEMID WHERE DBNOTEBASICID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
