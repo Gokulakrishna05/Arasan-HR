@@ -57,7 +57,7 @@
                                                             @* <th>Currency</th>*@
                                                             <th>Send Mail</th>
                                                             <th>Followup</th>
-                                                            <th>Generate WO</th>
+                                                            <th>Generate SQ</th>
                                                             <th>Edit</th>
                                                            @* <th>Delete</th>*@
                                                         <th>Close</th>
@@ -85,22 +85,18 @@
                                                                     }
                                                                     else
                                                                     {
-                                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("Print", "SalesQuotation" ,new { id=item.ID })"><img src='../Images/pdf.png' alt='Generate PO' width='20' /></a></div></td>
-
-                                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("SendMail", "SalesQuotation",new { id=item.ID })"><img src='../Images/mail_icon.png' alt='Send Email' /></a></div></td>
+                                                                       
+                                                                         <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("SendMail", "SalesQuotation",new { id=item.ID })"><img src='../Images/mail_icon.png' alt='Send Email' /></a></div></td>
                                                                             <td> <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("Followup", "SalesQuotation",new { id=item.ID })"><img src='../Images/followup.png' alt='FollowUp' /> - (1)</a></div></td>
-                                                                        <td>
-                                                                            <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewSQ", "SalesQuotation",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a></div>
-                                                                        </td>
-                                                                            <td>
-                                                                                <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("SalesQuotation", "SalesQuotation",new { id=item.ID })"></a></div>
-                                                                            </td>
-                                                                           @* <td>
-                                                                                <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("SalesQuotation", "SalesQuotation",new { id=item.ID })"></a></div>
-                                                                            </td>*@
-                                                                             <td>
-                                                                                <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("CloseQuote", "SalesQuotation",new { id=item.ID })" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/close_icon.png' alt='close' /></a></div>
-                                                                            </td>
+                                                                        
+                                                                         <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("Print", "SalesQuotation" ,new { id=item.ID })"><img src='../Images/pdf.png' alt='Generate SQ' width='20' /></a></div></td>
+                                                                         <td>
+                                                                             <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("SalesQuotation", "SalesQuotation",new { id=item.ID })"></a></div>
+                                                                         </td>
+                                                                           
+                                                                         <td>
+                                                                             <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("CloseQuote", "SalesQuotation",new { id=item.ID })" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/close_icon.png' alt='close' /></a></div>
+                                                                         </td>
                                                                     }
                                                                     
                                                                         </tr>

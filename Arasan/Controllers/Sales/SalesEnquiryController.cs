@@ -399,17 +399,16 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public IActionResult ViewQuote(string id)
+      public IActionResult ViewQuote(string id)
         {
             SalesEnquiry ca = new SalesEnquiry();
             DataTable dt = new DataTable();
             DataTable dtt = new DataTable();
+            
             dt = Sales.GetEnqByName(id);
             if (dt.Rows.Count > 0)
             {
-               
                 ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
-                
                 ca.Customer = dt.Rows[0]["PARTY"].ToString();
                 ca.EnqNo = dt.Rows[0]["ENQ_NO"].ToString();
                 ca.EnqDate = dt.Rows[0]["ENQ_DATE"].ToString();
@@ -422,29 +421,34 @@ namespace Arasan.Controllers
                 ca.ContactPerson = dt.Rows[0]["CONTACT_PERSON"].ToString();
                 ca.City = dt.Rows[0]["CITY"].ToString();
                 ca.ID = id;
-            }
-            List<SalesItem> Data = new List<SalesItem>();
-            SalesItem tda = new SalesItem();
-            double tot = 0;
-            dtt = Sales.GetEnqItem(id);
-            if (dtt.Rows.Count > 0)
-            {
-                for (int i = 0; i < dtt.Rows.Count; i++)
+
+
+                List<SalesItem> Data = new List<SalesItem>();
+                SalesItem tda = new SalesItem();
+                //double tot = 0;
+  
+                dtt = Sales.GetEnqItem(id);
+                if (dtt.Rows.Count > 0)
                 {
-                    tda = new SalesItem();
-                    tda.ItemId = dtt.Rows[i]["ITEMID"].ToString();
-                    tda.Des = dtt.Rows[i]["ITEM_DESCRIPTION"].ToString();
-                    tda.Unit = dtt.Rows[i]["UNIT"].ToString();
-                    tda.Qty = dtt.Rows[i]["QUANTITY"].ToString();
-                 
-                    //tot += tda.TotalAmount;
-                    Data.Add(tda);
+                    for (int i = 0; i < dtt.Rows.Count; i++)
+                    {
+                        tda = new SalesItem();
+                        tda.ItemId = dtt.Rows[i]["ITEMID"].ToString();
+                        tda.Des = dtt.Rows[i]["ITEM_DESCRIPTION"].ToString();
+                        tda.Unit = dtt.Rows[i]["UNIT"].ToString();
+                        tda.Qty = dtt.Rows[i]["QUANTITY"].ToString();
+                        tda.ID = id;
+                        // tot += tda.TotalAmount;
+                        Data.Add(tda);
+                    }
                 }
+                //ca.Net = tot;
+                ca.SalesLst = Data;
             }
-            //ca.Net = tot;
-            ca.SalesLst = Data;
             return View(ca);
         }
+        
+       
 
         [HttpPost]
         public ActionResult ViewQuote(SalesEnquiry Cy, string id)

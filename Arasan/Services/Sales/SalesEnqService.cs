@@ -32,7 +32,7 @@ namespace Arasan.Services
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
-                        SalesEnquiry cmp = new SalesEnquiry
+                        SalesEnquiry cmp = new SalesEnquiry 
                         {
 
                             ID = rdr["ID"].ToString(),
@@ -61,14 +61,17 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select SALES_ENQ_ITEM.QUANTITY,SALES_ENQ_ITEM.ID,ITEMMASTER.ITEMID,UNITMAST.UNITID from SALES_ENQ_ITEM LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=SALES_ENQ_ITEM.ITEM_ID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  where SALES_ENQ_ITEM.SAL_ENQ_ID='" + id + "'";
+                    cmd.CommandText = "Select SALES_ENQ_ITEM.ID,SALES_ENQ_ITEM.ITEM_DESCRIPTION,SALES_ENQ_ITEM.QUANTITY,ITEMMASTER.ITEMID,UNITMAST.UNITID from SALES_ENQ_ITEM LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=SALES_ENQ_ITEM.ITEM_ID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  where SALES_ENQ_ITEM.SAL_ENQ_ID='" + id + "'";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
                         SalesItem cmp = new SalesItem
                         {
+                            ID = rdr["ID"].ToString(),
+                              
                             ItemId = rdr["ITEMID"].ToString(),
-                            Unit = rdr["UNITID"].ToString(),
+                            Des = rdr["ITEM_DESCRIPTION"].ToString(),
+                            Unit = rdr["UNIT"].ToString(),
                             Qty = rdr["QTY"].ToString()
                         };
                         cmpList.Add(cmp);
@@ -245,7 +248,7 @@ namespace Arasan.Services
                                         objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                                     }
                                     objCmds.CommandType = CommandType.StoredProcedure;
-                                    //objCmds.Parameters.Add("SAL_ENQ_ID", OracleDbType.NVarchar2).Value = Pid;
+                                    objCmds.Parameters.Add("SAL_ENQ_ID", OracleDbType.NVarchar2).Value = Pid;
                                     objCmds.Parameters.Add("ITEM_ID", OracleDbType.NVarchar2).Value = cp.ItemId;
                                     objCmds.Parameters.Add("ITEM_DESCRIPTION", OracleDbType.NVarchar2).Value = cp.Des;
                                     objCmds.Parameters.Add("UNIT", OracleDbType.NVarchar2).Value = cp.Unit;
@@ -428,7 +431,7 @@ namespace Arasan.Services
         public DataTable GetSalesEnquiry(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select  BRANCH_ID,ENQ_NO,to_char(ENQ_DATE,'dd-MON-yyyy')ENQ_DATE, ENQ_TYPE,CUSTOMER_TYPE,CUSTOMER_NAME,ADDRESS,CITY,PINCODE,CONTACT_PERSON,CONTACT_PERSON_MOBILE,PRIORITY,LEADBY,ASSIGNED_TO,CURRENCY_TYPE,SALES_ENQUIRY.ID from SALES_ENQUIRY  where SALES_ENQUIRY.ID=" + id + "";
+            SvSql = "Select  BRANCH_ID,SALES_ENQUIRY.ENQ_NO,to_char(ENQ_DATE,'dd-MON-yyyy')ENQ_DATE, ENQ_TYPE,CUSTOMER_TYPE,CUSTOMER_NAME,ADDRESS,CITY,PINCODE,CONTACT_PERSON,CONTACT_PERSON_MOBILE,PRIORITY,LEADBY,ASSIGNED_TO,CURRENCY_TYPE,SALES_ENQUIRY.ID from SALES_ENQUIRY  where SALES_ENQUIRY.ID=" + id + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -438,7 +441,8 @@ namespace Arasan.Services
         public DataTable GetSalesEnquiryItem(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select ITEM_ID,ITEM_DESCRIPTION,UNIT,QUANTITY  from SALES_ENQ_ITEM  where SAL_ENQ_ID=" + id + " ";
+            //SvSql = "Select ITEM_ID,ITEM_DESCRIPTION,UNIT,QUANTITY  from SALES_ENQ_ITEM  where SAL_ENQ_ID=" + id + " ";
+            SvSql = "Select ITEM_ID,ITEM_DESCRIPTION,UNIT,QUANTITY  from SALES_ENQ_ITEM  where SALES_ENQ_ITEM.ID=" + id + " ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -489,7 +493,7 @@ namespace Arasan.Services
         public DataTable GetEnqByName(string name)
         {
             string SvSql = string.Empty;
-            SvSql = "Select   BRANCHMAST.BRANCHID, ENQ_NO,to_char(ENQ_DATE,'dd-MON-yyyy') ENQ_DATE ,PARTYRCODE.PARTY,SALES_ENQUIRY.CURRENCY_TYPE,SALES_ENQUIRY.CONTACT_PERSON,SALES_ENQUIRY.CUSTOMER_TYPE,SALES_ENQUIRY.ENQ_TYPE,SALES_ENQUIRY.ADDRESS,SALES_ENQUIRY.CITY,SALES_ENQUIRY.PINCODE,PRIORITY,SALES_ENQUIRY.ID,SALES_ENQUIRY.STATUS from SALES_ENQUIRY  LEFT OUTER JOIN BRANCHMAST ON BRANCHMAST.BRANCHMASTID=SALES_ENQUIRY.BRANCH_ID LEFT OUTER JOIN  PARTYMAST on SALES_ENQUIRY.CUSTOMER_NAME=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Customer','BOTH') AND SALES_ENQUIRY.ID='" + name + "'";
+            SvSql = "Select BRANCHMAST.BRANCHID, ENQ_NO,to_char(ENQ_DATE,'dd-MON-yyyy') ENQ_DATE ,PARTYRCODE.PARTY,SALES_ENQUIRY.CURRENCY_TYPE,SALES_ENQUIRY.CONTACT_PERSON,SALES_ENQUIRY.CUSTOMER_TYPE,SALES_ENQUIRY.ENQ_TYPE,SALES_ENQUIRY.ADDRESS,SALES_ENQUIRY.CITY,SALES_ENQUIRY.PINCODE,PRIORITY,SALES_ENQUIRY.ID,SALES_ENQUIRY.STATUS from SALES_ENQUIRY  LEFT OUTER JOIN BRANCHMAST ON BRANCHMAST.BRANCHMASTID=SALES_ENQUIRY.BRANCH_ID LEFT OUTER JOIN  PARTYMAST on SALES_ENQUIRY.CUSTOMER_NAME=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.PARTY Where PARTYMAST.TYPE IN ('Customer','BOTH') AND SALES_ENQUIRY.ID='" + name + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -499,7 +503,7 @@ namespace Arasan.Services
         public DataTable GetEnqItem(string name)
         {
             string SvSql = string.Empty;
-            SvSql = "Select SALES_ENQ_ITEM.QUANTITY,SALES_ENQ_ITEM.ID,ITEMMASTER.ITEMID,SALES_ENQ_ITEM.UNIT,SALES_ENQ_ITEM.ITEM_DESCRIPTION from SALES_ENQ_ITEM LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=SALES_ENQ_ITEM.ITEM_ID   where SALES_ENQ_ITEM.SAL_ENQ_ID='" + name + "'";
+            SvSql = "Select SALES_ENQ_ITEM.SAL_ENQ_ID,SALES_ENQ_ITEM.QUANTITY,SALES_ENQ_ITEM.ID,ITEMMASTER.ITEMID,SALES_ENQ_ITEM.UNIT,SALES_ENQ_ITEM.ITEM_DESCRIPTION from SALES_ENQ_ITEM LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=SALES_ENQ_ITEM.ITEM_ID   where SALES_ENQ_ITEM.SAL_ENQ_ID='" + name + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
