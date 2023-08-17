@@ -32,6 +32,7 @@
     <PackageReference Include="Dapper" Version="2.0.143" />
     <PackageReference Include="jsTree" Version="3.1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
+    <PackageReference Include="Microsoft.ReportingServices.ReportViewerControl.WebForms" Version="150.1586.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.8" />
     <PackageReference Include="NETCore.MailKit" Version="2.1.0" />
     <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="3.21.100" />
@@ -55,10 +56,12 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>DataSet4.xsd</DependentUpon>
-    </Compile>
+    </Compile> 
   </ItemGroup>
-
   <ItemGroup>
+    <Content Update="wwwroot\Reports\Production.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="wwwroot\Reports\QuotationReport.rdlc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -83,7 +86,15 @@
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>DataSet4.Designer.cs</LastGenOutput>
     </None>
-  </ItemGroup>
+    <None Update="DataSet5.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSet5.Designer.cs</LastGenOutput>
+    </None>
+     <None Update="DataSet7.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSet7.Designer.cs</LastGenOutput>
+    </None>
+   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="https://json.schemastore.org/artifacthub-repo.json" /></VisualStudio></ProjectExtensions>
 

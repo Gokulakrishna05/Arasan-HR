@@ -41,6 +41,12 @@ namespace Arasan.Interface
         DataTable GetAPWorkCenter();
 		DataTable GetMachineDetails(string id);
 		DataTable GetEmployeeDetails(string id);
-		 
-	}
+
+
+
+
+        Task<IEnumerable<APItemDetail>> GetAPItem( string aid,string bid,string cid);
+
+     
+    }
 }

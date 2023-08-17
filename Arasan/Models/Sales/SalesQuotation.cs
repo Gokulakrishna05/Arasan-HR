@@ -132,6 +132,7 @@ namespace Arasan.Models
 
     public class SQuoItemDetail
     {
+        public string ID { get; set; }
         public string ITEMID { get; set; }
 
         public string UNIT { get; set; }
@@ -140,7 +141,23 @@ namespace Arasan.Models
 
         public double RATE { get; set; }
 
-       
+        public string TOTAMT { get; set; }
+        public string PARTYID { get; set; }
+        public string PARTYNAME { get; set; }
+        public string ADD1 { get; set; }
+        public string ADD2 { get; set; }
+        public string ADD3 { get; set; }
+        public string STATE { get; set; }
+        public double AMOUNT { get; set; }
+        public string GSTNO { get; set; }
+        public string SALESQUOID { get; set; }
+        public string ADDRESS { get; set; }
+        public string IGST { get; set; }
+        public string SALES_ENQ_ID { get; set; }
+        public string ENQNO { get; set; }
+        public string ENQDATE { get; set; }
+        public string DELIVERY_TERMS { get; set; }
+        public string ITEMDESC { get; set; }
 
     }
 }
