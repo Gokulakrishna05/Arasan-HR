@@ -1,293 +1,297 @@
 ﻿using Arasan.Interface;
 using Arasan.Models;
+using AspNetCore.Reporting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Data;
 
-namespace Arasan.Controllers 
+namespace Arasan.Controllers
 {
-	public class APProductionentryController : Controller
-	{
-		IAPProductionEntry IProductionEntry;
-		IConfiguration? _configuratio;
-		private string? _connectionString;
-		DataTransactions datatrans;
-		public APProductionentryController(IAPProductionEntry _IProductionEntry, IConfiguration _configuratio)
-		{
-			IProductionEntry = _IProductionEntry;
-			_connectionString = _configuratio.GetConnectionString("OracleDBConnection");
-			datatrans = new DataTransactions(_connectionString);
-		}
+    public class APProductionentryController : Controller
+    {
+        IAPProductionEntry IProductionEntry;
+        IConfiguration? _configuratio;
+        private string? _connectionString;
+        private readonly IWebHostEnvironment _WebHostEnvironment;
+        DataTransactions datatrans;
+        public APProductionentryController(IAPProductionEntry _IProductionEntry, IConfiguration _configuratio, IWebHostEnvironment WebHostEnvironment)
+        {
+            this._WebHostEnvironment = WebHostEnvironment;
+            IProductionEntry = _IProductionEntry;
+            _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
+            datatrans = new DataTransactions(_connectionString);
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+        }
 
 
-		public ActionResult APProductionentry(string id)
-		{
-			APProductionentry ca = new APProductionentry();
-			DataTable dtv = datatrans.GetSequence("APPro");
-			ca.Loclst = BindAPWorkCenter();
-			ca.Englst = BindEmp();
-			ca.Shiftlst = BindShift();
+        public ActionResult APProductionentry(string id)
+        {
+            APProductionentry ca = new APProductionentry();
+            DataTable dtv = datatrans.GetSequence("APPro");
+            ca.Loclst = BindAPWorkCenter();
+            ca.Englst = BindEmp();
+            ca.Shiftlst = BindShift();
             ca.Branch = Request.Cookies["BranchId"];
             ca.batchcomplete = "N";
-			ca.Shift = "A";
-			ca.Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
-			if (dtv.Rows.Count > 0)
-			{
-				ca.DocId = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
-			}
-			ca.Batchlst = BindBatch();
-			if (id == null)
-			{
+            ca.Shift = "A";
+            ca.Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
+            if (dtv.Rows.Count > 0)
+            {
+                ca.DocId = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
+            }
+            ca.Batchlst = BindBatch();
+            if (id == null)
+            {
 
-			}
-			else
-			{
-				if (!string.IsNullOrEmpty(id))
-				{
-					ca.APID = id;
-					
-				}
-			}
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(id))
+                {
+                    ca.APID = id;
 
-			//List<BreakDetail> TData3 = new List<BreakDetail>();
-			//BreakDetail tda3 = new BreakDetail();
-			//List<ProInput> TData = new List<ProInput>();
-			//ProInput tda = new ProInput();
-			//List<APProInCons> TData1 = new List<APProInCons>();
-			//APProInCons tda1 = new APProInCons();
-			//List<EmpDetails> TTData2 = new List<EmpDetails>();
-			//EmpDetails tda2 = new EmpDetails();
-			//for (int i = 0; i < 3; i++)
-			//{
-			//	tda3 = new BreakDetail();
+                }
+            }
 
-			//	tda3.Machinelst = BindMachineID();
-			//	tda3.Emplst = BindEmp();
-			//	tda3.Isvalid = "Y";
-			//	TData3.Add(tda3);
+            //List<BreakDetail> TData3 = new List<BreakDetail>();
+            //BreakDetail tda3 = new BreakDetail();
+            //List<ProInput> TData = new List<ProInput>();
+            //ProInput tda = new ProInput();
+            //List<APProInCons> TData1 = new List<APProInCons>();
+            //APProInCons tda1 = new APProInCons();
+            //List<EmpDetails> TTData2 = new List<EmpDetails>();
+            //EmpDetails tda2 = new EmpDetails();
+            //for (int i = 0; i < 3; i++)
+            //{
+            //	tda3 = new BreakDetail();
 
-			//}
-			//for (int i = 0; i < 3; i++)
-			//{
-			//	tda = new ProInput();
+            //	tda3.Machinelst = BindMachineID();
+            //	tda3.Emplst = BindEmp();
+            //	tda3.Isvalid = "Y";
+            //	TData3.Add(tda3);
 
-			//	tda.Itemlst = BindItemlst();
+            //}
+            //for (int i = 0; i < 3; i++)
+            //{
+            //	tda = new ProInput();
 
-
-			//	tda.Isvalid = "Y";
-			//	TData.Add(tda);
-
-			//}
-			//for (int i = 0; i < 1; i++)
-			//{
-			//	tda1 = new APProInCons();
-			//	tda1.Itemlst = BindItemlst();
-			//	tda1.Isvalid = "Y";
-			//	TData1.Add(tda1);
-			//}
-			//for (int i = 0; i < 3; i++)
-			//{
-			//	tda2 = new EmpDetails();
-
-			//	tda2.Employeelst = BindEmp();
-			//	tda2.Isvalid = "Y";
-			//	TTData2.Add(tda2);
-			//}
-
-			//ca.BreakLst = TData3;
-			//ca.inplst = TData;
-			//ca.EmplLst = TTData2;
-			//ca.Binconslst = TData1;
-			return View(ca);
-		}
-		public JsonResult GetEmpJSON()
-		{
-			//EnqItem model = new EnqItem();
-			//  model.ItemGrouplst = BindItemGrplst(value);
-			return Json(BindEmp());
-		}
-		public JsonResult GetBreakJSON()
-		{
-			//EnqItem model = new EnqItem();
-			//  model.ItemGrouplst = BindItemGrplst(value);
-			return Json(BindMachineID());
-		}
-		public JsonResult GetBreakEmpJSON()
-		{
-			//EnqItem model = new EnqItem();
-			//  model.ItemGrouplst = BindItemGrplst(value);
-			return Json(BindEmp());
-		}
+            //	tda.Itemlst = BindItemlst();
 
 
+            //	tda.Isvalid = "Y";
+            //	TData.Add(tda);
 
-		[HttpPost]
-		public ActionResult APProductionentry(APProductionentry Cy, string id)
-		{
+            //}
+            //for (int i = 0; i < 1; i++)
+            //{
+            //	tda1 = new APProInCons();
+            //	tda1.Itemlst = BindItemlst();
+            //	tda1.Isvalid = "Y";
+            //	TData1.Add(tda1);
+            //}
+            //for (int i = 0; i < 3; i++)
+            //{
+            //	tda2 = new EmpDetails();
 
-			try
-			{
-				Cy.ID = id;
-				string Strout = IProductionEntry.APProductionEntryCRUD(Cy);
-				if (string.IsNullOrEmpty(Strout))
-				{
-					if (Cy.ID == null)
-					{
-						TempData["notice"] = "APProductionentry Inserted Successfully...!";
-					}
-					else
-					{
-						TempData["notice"] = "APProductionentry Updated Successfully...!";
-					}
-					//return RedirectToAction("APProductionentryDetail", new { id = id });
-				}
+            //	tda2.Employeelst = BindEmp();
+            //	tda2.Isvalid = "Y";
+            //	TTData2.Add(tda2);
+            //}
 
-				else
-				{
-					ViewBag.PageTitle = "Edit APProductionentry";
-					TempData["notice"] = Strout;
-					//return View();
-				}
-				return RedirectToAction("APProductionentryDetail", new { id = Cy.APID ,tag=2});
-				// }
-			}
-			catch (Exception ex)
-			{
-				throw ex;
-			}
-			
-			return View(Cy);
-		}
-		public List<SelectListItem> BindEmp()
-		{
-			try
-			{
-				DataTable dtDesg = datatrans.GetEmp();
-				List<SelectListItem> lstdesg = new List<SelectListItem>();
-				for (int i = 0; i < dtDesg.Rows.Count; i++)
-				{
-					lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["EMPNAME"].ToString(), Value = dtDesg.Rows[i]["EMPMASTID"].ToString() });
-				}
-				return lstdesg;
-			}
-			catch (Exception ex)
-			{
-				throw ex;
-			}
-		}
-		public List<SelectListItem> BindBatch()
-		{
-			try
-			{
-				DataTable dtDesg = datatrans.GetBatch();
-				List<SelectListItem> lstdesg = new List<SelectListItem>();
-				for (int i = 0; i < dtDesg.Rows.Count; i++)
-				{
-					lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DOCID"].ToString(), Value = dtDesg.Rows[i]["DOCID"].ToString() });
-				}
-				return lstdesg;
-			}
-			catch (Exception ex)
-			{
-				throw ex;
-			}
-		}
-		public List<SelectListItem> BindAPWorkCenter()
-		{
-			try
-			{
-				DataTable dtDesg = IProductionEntry.GetAPWorkCenter();
-				List<SelectListItem> lstdesg = new List<SelectListItem>();
-				for (int i = 0; i < dtDesg.Rows.Count; i++)
-				{
-					lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["WCID"].ToString(), Value = dtDesg.Rows[i]["WCBASICID"].ToString() });
-				}
-				return lstdesg;
-			}
-			catch (Exception ex)
-			{
-				throw ex;
-			}
-		}
-		public ActionResult GetEmployeeDetail(string ItemId)
-		{
-			try
-			{
-				DataTable dt = new DataTable();
-
-				string code = "";
-
-
-				dt = IProductionEntry.GetEmployeeDetails(ItemId);
-
-				if (dt.Rows.Count > 0)
-				{
-
-					code = dt.Rows[0]["EMPID"].ToString();
+            //ca.BreakLst = TData3;
+            //ca.inplst = TData;
+            //ca.EmplLst = TTData2;
+            //ca.Binconslst = TData1;
+            return View(ca);
+        }
+        public JsonResult GetEmpJSON()
+        {
+            //EnqItem model = new EnqItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(BindEmp());
+        }
+        public JsonResult GetBreakJSON()
+        {
+            //EnqItem model = new EnqItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(BindMachineID());
+        }
+        public JsonResult GetBreakEmpJSON()
+        {
+            //EnqItem model = new EnqItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(BindEmp());
+        }
 
 
 
-				}
+        [HttpPost]
+        public ActionResult APProductionentry(APProductionentry Cy, string id)
+        {
 
-				var result = new { code = code };
-				return Json(result);
-			}
-			catch (Exception ex)
-			{
-				throw ex;
-			}
-		}
-		public List<SelectListItem> BindMachineID()
-		{
-			try
-			{
-				DataTable dtDesg = datatrans.GetMachine();
-				List<SelectListItem> lstdesg = new List<SelectListItem>();
-				for (int i = 0; i < dtDesg.Rows.Count; i++)
-				{
-					lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["MCODE"].ToString(), Value = dtDesg.Rows[i]["MACHINEINFOBASICID"].ToString()});
-				}
-				return lstdesg;
-			}
-			catch (Exception ex)
-			{
-				throw ex;
-			}
-		}
-		public List<SelectListItem> BindShift()
-		{
-			try
-			{
-				DataTable dtDesg = IProductionEntry.ShiftDeatils();
-				List<SelectListItem> lstdesg = new List<SelectListItem>();
-				for (int i = 0; i < dtDesg.Rows.Count; i++)
-				{
-					lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["SHIFTNO"].ToString(), Value = dtDesg.Rows[i]["SHIFTNO"].ToString() });
-				}
-				return lstdesg;
-			}
-			catch (Exception ex)
-			{
-				throw ex;
-			}
-		}
-		public List<SelectListItem> BindItemlst()
-		{
-			try
-			{
-				DataTable dtDesg = IProductionEntry.GetItem();
-				List<SelectListItem> lstdesg = new List<SelectListItem>();
-				for (int i = 0; i < dtDesg.Rows.Count; i++)
-				{
-					lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEMMASTERID"].ToString() });
-				}
-				return lstdesg;
-			}
-			catch (Exception ex)
-			{
-				throw ex;
-			}
-		}
+            try
+            {
+                Cy.ID = id;
+                string Strout = IProductionEntry.APProductionEntryCRUD(Cy);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Cy.ID == null)
+                    {
+                        TempData["notice"] = "APProductionentry Inserted Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "APProductionentry Updated Successfully...!";
+                    }
+                    //return RedirectToAction("APProductionentryDetail", new { id = id });
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit APProductionentry";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
+                return RedirectToAction("APProductionentryDetail", new { id = Cy.APID, tag = 2 });
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(Cy);
+        }
+        public List<SelectListItem> BindEmp()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetEmp();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["EMPNAME"].ToString(), Value = dtDesg.Rows[i]["EMPMASTID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindBatch()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetBatch();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DOCID"].ToString(), Value = dtDesg.Rows[i]["DOCID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindAPWorkCenter()
+        {
+            try
+            {
+                DataTable dtDesg = IProductionEntry.GetAPWorkCenter();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["WCID"].ToString(), Value = dtDesg.Rows[i]["WCBASICID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult GetEmployeeDetail(string ItemId)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+
+                string code = "";
+
+
+                dt = IProductionEntry.GetEmployeeDetails(ItemId);
+
+                if (dt.Rows.Count > 0)
+                {
+
+                    code = dt.Rows[0]["EMPID"].ToString();
+
+
+
+                }
+
+                var result = new { code = code };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindMachineID()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetMachine();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["MCODE"].ToString(), Value = dtDesg.Rows[i]["MACHINEINFOBASICID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindShift()
+        {
+            try
+            {
+                DataTable dtDesg = IProductionEntry.ShiftDeatils();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["SHIFTNO"].ToString(), Value = dtDesg.Rows[i]["SHIFTNO"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindItemlst()
+        {
+            try
+            {
+                DataTable dtDesg = IProductionEntry.GetItem();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEMMASTERID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         public List<SelectListItem> BindOutItemlst()
         {
@@ -297,7 +301,7 @@ namespace Arasan.Controllers
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEMMASTERID"].ToString()});
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEMMASTERID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -307,22 +311,22 @@ namespace Arasan.Controllers
             }
         }
         public List<SelectListItem> BindItemlstCon()
-		{
-			try
-			{
-				DataTable dtDesg = IProductionEntry.GetItemCon();
-				List<SelectListItem> lstdesg = new List<SelectListItem>();
-				for (int i = 0; i < dtDesg.Rows.Count; i++)
-				{
-					lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEMMASTERID"].ToString()});
-				}
-				return lstdesg;
-			}
-			catch (Exception ex)
-			{
-				throw ex;
-			}
-		}
+        {
+            try
+            {
+                DataTable dtDesg = IProductionEntry.GetItemCon();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEMMASTERID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<SelectListItem> BindDrum()
         {
             try
@@ -331,7 +335,7 @@ namespace Arasan.Controllers
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DRUMNO"].ToString(), Value = dtDesg.Rows[i]["DRUMMASTID"].ToString()});
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DRUMNO"].ToString(), Value = dtDesg.Rows[i]["DRUMMASTID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -341,127 +345,127 @@ namespace Arasan.Controllers
             }
         }
         public ActionResult GetshiftDetail(string Shiftid)
-		{
-			try
-			{
-				DataTable dt = new DataTable();
-				string fromtime = "";
-				string totime = "";
-				string tothrs = "";
-				dt = datatrans.GetData("Select FROMTIME,TOTIME,SHIFTHRS from SHIFTMAST where SHIFTNO='" + Shiftid + "'");
-				if (dt.Rows.Count > 0)
-				{
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                string fromtime = "";
+                string totime = "";
+                string tothrs = "";
+                dt = datatrans.GetData("Select FROMTIME,TOTIME,SHIFTHRS from SHIFTMAST where SHIFTNO='" + Shiftid + "'");
+                if (dt.Rows.Count > 0)
+                {
 
-					fromtime = dt.Rows[0]["FROMTIME"].ToString();
-					totime = dt.Rows[0]["TOTIME"].ToString();
-					tothrs = dt.Rows[0]["SHIFTHRS"].ToString();
-				}
+                    fromtime = dt.Rows[0]["FROMTIME"].ToString();
+                    totime = dt.Rows[0]["TOTIME"].ToString();
+                    tothrs = dt.Rows[0]["SHIFTHRS"].ToString();
+                }
 
-				var result = new { fromtime = fromtime, totime = totime, tothrs = tothrs };
-				return Json(result);
-			}
-			catch (Exception ex)
-			{
-				throw ex;
-			}
-		}
-		public ActionResult GetMachineDetail(string ItemId)
-		{
-			try
-			{
-				DataTable dt = new DataTable();
+                var result = new { fromtime = fromtime, totime = totime, tothrs = tothrs };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult GetMachineDetail(string ItemId)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
 
-				string name = "";
-				string type = "";
+                string name = "";
+                string type = "";
 
-				dt = IProductionEntry.GetMachineDetails(ItemId);
+                dt = IProductionEntry.GetMachineDetails(ItemId);
 
-				if (dt.Rows.Count > 0)
-				{
+                if (dt.Rows.Count > 0)
+                {
 
-					name = dt.Rows[0]["MNAME"].ToString();
-					type = dt.Rows[0]["MTYPE"].ToString();
-				}
-				var result = new { name = name, type = type };
-				return Json(result);
-			}
-			catch (Exception ex)
-			{
-				throw ex;
-			}
-		}
-		public IActionResult ListAPProductionentry()
-		{
-			IEnumerable<APProductionentry> cmp = IProductionEntry.GetAllAPProductionentry();
-			return View(cmp);
-		}
+                    name = dt.Rows[0]["MNAME"].ToString();
+                    type = dt.Rows[0]["MTYPE"].ToString();
+                }
+                var result = new { name = name, type = type };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public IActionResult ListAPProductionentry()
+        {
+            IEnumerable<APProductionentry> cmp = IProductionEntry.GetAllAPProductionentry();
+            return View(cmp);
+        }
 
-		
-		public ActionResult APProductionentryDetail(string id,string tag)
-		{
-			APProductionentryDet ca = new APProductionentryDet();
-			//ca.Complete = "No";
+
+        public ActionResult APProductionentryDetail(string id, string tag)
+        {
+            APProductionentryDet ca = new APProductionentryDet();
+            //ca.Complete = "No";
             APProductionentry cy = new APProductionentry();
             List<BreakDet> TData3 = new List<BreakDet>();
             BreakDet tda3 = new BreakDet();
-			List<ProInput> TData = new List<ProInput>();
-			ProInput tda = new ProInput();
+            List<ProInput> TData = new List<ProInput>();
+            ProInput tda = new ProInput();
             List<ProOutput> TData4 = new List<ProOutput>();
             ProOutput tda4 = new ProOutput();
             List<APProInCons> TData1 = new List<APProInCons>();
-			APProInCons tda1 = new APProInCons();
-			List<EmpDetails> TTData2 = new List<EmpDetails>();
-			EmpDetails tda2 = new EmpDetails();
-			if (tag == "2" || tag==null)
-			{
-				for (int i = 0; i < 3; i++)
-				{
-					tda3 = new BreakDet();
+            APProInCons tda1 = new APProInCons();
+            List<EmpDetails> TTData2 = new List<EmpDetails>();
+            EmpDetails tda2 = new EmpDetails();
+            if (tag == "2" || tag == null)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    tda3 = new BreakDet();
 
-					tda3.Machinelst = BindMachineID();
-					tda3.Emplst = BindEmp();
-					tda3.Isvalid = "Y";
-					tda3.APID = id;
-					TData3.Add(tda3);
+                    tda3.Machinelst = BindMachineID();
+                    tda3.Emplst = BindEmp();
+                    tda3.Isvalid = "Y";
+                    tda3.APID = id;
+                    TData3.Add(tda3);
 
-				}
-				for (int i = 0; i < 3; i++)
-				{
-					tda = new ProInput();
-					tda.APID = id;
-					tda.Itemlst = BindItemlst();
+                }
+                for (int i = 0; i < 3; i++)
+                {
+                    tda = new ProInput();
+                    tda.APID = id;
+                    tda.Itemlst = BindItemlst();
 
-					tda.Isvalid = "Y";
-					TData.Add(tda);
+                    tda.Isvalid = "Y";
+                    TData.Add(tda);
 
-				}
-				for (int i = 0; i < 1; i++)
-				{
-					tda4 = new ProOutput();
-					tda4.APID = id;
-					tda4.Itemlst = BindOutItemlst();
-					tda4.drumlst = BindDrum();
-					tda4.Isvalid = "Y";
-					TData4.Add(tda4);
+                }
+                for (int i = 0; i < 1; i++)
+                {
+                    tda4 = new ProOutput();
+                    tda4.APID = id;
+                    tda4.Itemlst = BindOutItemlst();
+                    tda4.drumlst = BindDrum();
+                    tda4.Isvalid = "Y";
+                    TData4.Add(tda4);
 
-				}
-				for (int i = 0; i < 1; i++)
-				{
-					tda1 = new APProInCons();
-					tda1.Itemlst = BindItemlstCon();
-					tda1.Isvalid = "Y";
-					tda1.APID = id;
-					TData1.Add(tda1);
-				}
-				for (int i = 0; i < 3; i++)
-				{
-					tda2 = new EmpDetails();
-					tda2.APID = id;
-					tda2.Employeelst = BindEmp();
-					tda2.Isvalid = "Y";
-					TTData2.Add(tda2);
-				}
-			}
+                }
+                for (int i = 0; i < 1; i++)
+                {
+                    tda1 = new APProInCons();
+                    tda1.Itemlst = BindItemlstCon();
+                    tda1.Isvalid = "Y";
+                    tda1.APID = id;
+                    TData1.Add(tda1);
+                }
+                for (int i = 0; i < 3; i++)
+                {
+                    tda2 = new EmpDetails();
+                    tda2.APID = id;
+                    tda2.Employeelst = BindEmp();
+                    tda2.Isvalid = "Y";
+                    TTData2.Add(tda2);
+                }
+            }
             DataTable dt = new DataTable();
 
             dt = IProductionEntry.GetAPProd(id);
@@ -473,7 +477,7 @@ namespace Arasan.Controllers
                 ca.Eng = dt.Rows[0]["EMPNAME"].ToString();
                 ca.Shift = dt.Rows[0]["SHIFT"].ToString();
                 ca.SchQty = dt.Rows[0]["SCHQTY"].ToString();
-               
+
                 //ca.ParNo = dt.Rows[0]["PARTYREFNO"].ToString();
                 ca.ProdQty = dt.Rows[0]["PRODQTY"].ToString();
                 //ca.ExRate = dt.Rows[0]["EXCRATERATE"].ToString();
@@ -531,7 +535,7 @@ namespace Arasan.Controllers
                     tda2 = new EmpDetails();
                     tda2.Employeelst = BindEmp();
                     tda2.Employee = dt4.Rows[i]["EMPID"].ToString();
-                    
+
                     tda2.EmpCode = dt4.Rows[i]["EMPCODE"].ToString();
                     tda2.Depart = dt4.Rows[i]["DEPARTMENT"].ToString();
                     tda2.StartDate = dt4.Rows[i]["STARTDATE"].ToString();
@@ -568,7 +572,7 @@ namespace Arasan.Controllers
                     tda3.DType = dt5.Rows[i]["DTYPE"].ToString();
                     tda3.MType = dt5.Rows[i]["MTYPE"].ToString();
                     tda3.Reason = dt5.Rows[i]["REASON"].ToString();
-                    
+
                     tda3.APID = id;
                     TData3.Add(tda3);
                 }
@@ -591,23 +595,23 @@ namespace Arasan.Controllers
                     tda4.OutputQty = Convert.ToDouble(dt6.Rows[i]["OUTQTY"].ToString() == "" ? "0" : dt6.Rows[i]["OUTQTY"].ToString());
                     DataTable dt7 = new DataTable();
                     dt7 = IProductionEntry.GetResult(id);
-					if (dt7.Rows.Count > 0)
-					{
+                    if (dt7.Rows.Count > 0)
+                    {
                         tda4.Result = dt7.Rows[i]["TESTRESULT"].ToString();
                         tda4.Status = dt7.Rows[i]["MOVETOQC"].ToString();
                     }
-                        tda4.APID = id;
+                    tda4.APID = id;
                     TData4.Add(tda4);
                     tda4.Isvalid = "Y";
                 }
 
             }
-			if(tag=="1")
-			{
+            if (tag == "1")
+            {
                 DataTable ap = datatrans.GetData("select APPRODUCTIONBASICID,DOCID,DOCDATE,SHIFT from APPRODUCTIONBASIC WHERE IS_CURRENT='Yes'");
-				if (ap.Rows.Count > 0)
-				{
-					string apID = datatrans.GetDataString("Select APPRODUCTIONBASICID from APPRODUCTIONBASIC where IS_CURRENT='Yes' ");
+                if (ap.Rows.Count > 0)
+                {
+                    string apID = datatrans.GetDataString("Select APPRODUCTIONBASICID from APPRODUCTIONBASIC where IS_CURRENT='Yes' ");
 
                     DataTable adt = new DataTable();
 
@@ -647,8 +651,8 @@ namespace Arasan.Controllers
                         }
 
                     }
-					else
-					{
+                    else
+                    {
                         for (int i = 0; i < 1; i++)
                         {
                             tda = new ProInput();
@@ -681,8 +685,8 @@ namespace Arasan.Controllers
                         }
 
                     }
-					else
-					{
+                    else
+                    {
                         for (int i = 0; i < 1; i++)
                         {
                             tda1 = new APProInCons();
@@ -720,9 +724,9 @@ namespace Arasan.Controllers
                         }
 
                     }
-					else
-					{
-                       
+                    else
+                    {
+
                         for (int i = 0; i < 1; i++)
                         {
                             tda2 = new EmpDetails();
@@ -757,8 +761,8 @@ namespace Arasan.Controllers
                         }
 
                     }
-					else
-					{
+                    else
+                    {
                         for (int i = 0; i < 1; i++)
                         {
                             tda3 = new BreakDet();
@@ -799,8 +803,8 @@ namespace Arasan.Controllers
                         }
 
                     }
-					else
-					{
+                    else
+                    {
                         for (int i = 0; i < 1; i++)
                         {
                             tda4 = new ProOutput();
@@ -813,19 +817,19 @@ namespace Arasan.Controllers
                         }
                     }
                 }
-				else
-				{
+                else
+                {
                     return RedirectToAction("APProductionentry");
                 }
             }
             ca.BreakLst = TData3;
-			ca.inplst = TData;
+            ca.inplst = TData;
             ca.outlst = TData4;
             ca.EmplLst = TTData2;
-			ca.Binconslst = TData1;
-			
-			return View(ca);
-		}
+            ca.Binconslst = TData1;
+
+            return View(ca);
+        }
         [HttpPost]
         public ActionResult APProductionentryDetail(APProductionentryDet Cy, string id)
         {
@@ -853,7 +857,7 @@ namespace Arasan.Controllers
                     TempData["notice"] = Strout;
                     //return View();
                 }
-                
+
                 // }
             }
             catch (Exception ex)
@@ -867,78 +871,78 @@ namespace Arasan.Controllers
         public ActionResult APProdApprove(string id)
         {
             APProductionentryDet ca = new APProductionentryDet();
-           
+
             return View(ca);
         }
         [HttpPost]
         public ActionResult APProdApproves(APProductionentryDet Cy, string id)
         {
-			if (Cy.change != "Complete")
-			{
-				try
-				{
-					Cy.ID = id;
-					string Strout = IProductionEntry.APProEntryCRUD(Cy);
-					if (string.IsNullOrEmpty(Strout))
-					{
-						//if (Cy.ID == null)
-						//{
-						//    TempData["notice"] = "APProductionentryDetail Inserted Successfully...!";
-						//}
-						//else
-						//{
-						//    TempData["notice"] = "APProductionentryDetail Updated Successfully...!";
-						//}
-						return RedirectToAction("APProductionentryDetail", new { id = Cy.APID });
-					}
+            if (Cy.change != "Complete")
+            {
+                try
+                {
+                    Cy.ID = id;
+                    string Strout = IProductionEntry.APProEntryCRUD(Cy);
+                    if (string.IsNullOrEmpty(Strout))
+                    {
+                        //if (Cy.ID == null)
+                        //{
+                        //    TempData["notice"] = "APProductionentryDetail Inserted Successfully...!";
+                        //}
+                        //else
+                        //{
+                        //    TempData["notice"] = "APProductionentryDetail Updated Successfully...!";
+                        //}
+                        return RedirectToAction("APProductionentryDetail", new { id = Cy.APID });
+                    }
 
-					else
-					{
-						ViewBag.PageTitle = "Edit APProductionentryDetail";
-						TempData["notice"] = Strout;
-						//return View();
-					}
+                    else
+                    {
+                        ViewBag.PageTitle = "Edit APProductionentryDetail";
+                        TempData["notice"] = Strout;
+                        //return View();
+                    }
 
-					// }
-				}
-				catch (Exception ex)
-				{
-					throw ex;
-				}
-			}
-			else
-			{
+                    // }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+            else
+            {
                 return RedirectToAction("ListAPProductionentry");
             }
             return View(Cy);
         }
         public ActionResult GetItemDetail(string ItemId)
-		{
-			try
-			{
-				DataTable dt = new DataTable();
-				DataTable dt1 = new DataTable();
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                DataTable dt1 = new DataTable();
 
-				string bin = "";
-				string binid = "";
-				dt = IProductionEntry.GetItemDetails(ItemId);
+                string bin = "";
+                string binid = "";
+                dt = IProductionEntry.GetItemDetails(ItemId);
 
-				if (dt.Rows.Count > 0)
-				{
+                if (dt.Rows.Count > 0)
+                {
 
-					bin = dt.Rows[0]["BINID"].ToString();
-					binid = dt.Rows[0]["bin"].ToString();
+                    bin = dt.Rows[0]["BINID"].ToString();
+                    binid = dt.Rows[0]["bin"].ToString();
 
-				}
+                }
 
-				var result = new { bin = bin, binid= binid };
-				return Json(result);
-			}
-			catch (Exception ex)
-			{
-				throw ex;
-			}
-		}
+                var result = new { bin = bin, binid = binid };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public JsonResult GetItemJSON()
         {
             //EnqItem model = new EnqItem();
@@ -955,7 +959,7 @@ namespace Arasan.Controllers
         {
             return Json(BindDrum());
         }
-        public ActionResult SaveOutDetail(string id,string ItemId,string drum,string time,string qty)
+        public ActionResult SaveOutDetail(string id, string ItemId, string drum, string time, string qty)
         {
             try
             {
@@ -964,11 +968,11 @@ namespace Arasan.Controllers
 
                 string bin = "";
                 string binid = "";
-                dt = IProductionEntry.SaveOutDetails(id,ItemId, drum, time, qty);
+                dt = IProductionEntry.SaveOutDetails(id, ItemId, drum, time, qty);
 
-                 
 
-                var result ="";
+
+                var result = "";
                 return Json(result);
             }
             catch (Exception ex)
@@ -1004,36 +1008,66 @@ namespace Arasan.Controllers
             }
         }
         public ActionResult GetConItemDetail(string ItemId)
-		{
-			try
-			{
-				DataTable dt = new DataTable();
-				DataTable dt1 = new DataTable();
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                DataTable dt1 = new DataTable();
 
-				string bin = "";
-				string binid = "";
-				string unit = "";
-				string unitid = "";
+                string bin = "";
+                string binid = "";
+                string unit = "";
+                string unitid = "";
 
-				dt = IProductionEntry.GetConItemDetails(ItemId);
+                dt = IProductionEntry.GetConItemDetails(ItemId);
 
-				if (dt.Rows.Count > 0)
-				{
+                if (dt.Rows.Count > 0)
+                {
 
-					bin = dt.Rows[0]["BINID"].ToString();
-					binid = dt.Rows[0]["bin"].ToString();
-					unit = dt.Rows[0]["UNITID"].ToString();
-					unitid = dt.Rows[0]["unit"].ToString();
+                    bin = dt.Rows[0]["BINID"].ToString();
+                    binid = dt.Rows[0]["bin"].ToString();
+                    unit = dt.Rows[0]["UNITID"].ToString();
+                    unitid = dt.Rows[0]["unit"].ToString();
 
-				}
+                }
 
-				var result = new { bin = bin, binid = binid, unit= unit , unitid = unitid };
-				return Json(result);
-			}
-			catch (Exception ex)
-			{
-				throw ex;
-			}
-		}
-	}
+                var result = new { bin = bin, binid = binid, unit = unit, unitid = unitid };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<IActionResult> Print(string id)
+
+        {
+
+            string mimtype = "";
+            int extension = 1;
+            DataTable ap = datatrans.GetData("Select SHIFT from APPRODUCTIONBASIC where DOCID='" + id + "' ");
+            string a = ap.Rows[0]["SHIFT"].ToString();
+            string b = ap.Rows[1]["SHIFT"].ToString();
+            string c = ap.Rows[2]["SHIFT"].ToString();
+
+            string aid = datatrans.GetDataString("Select APPRODUCTIONBASICID from APPRODUCTIONBASIC where SHIFT='" + a + "' and DOCID='" + id + "' ");
+            string bid = datatrans.GetDataString("Select APPRODUCTIONBASICID from APPRODUCTIONBASIC where SHIFT='" + b + "'  and DOCID='" + id + "' ");
+            string cid = datatrans.GetDataString("Select APPRODUCTIONBASICID from APPRODUCTIONBASIC where SHIFT='" + c + "'  and DOCID='" + id + "' ");
+            DataSet ds = new DataSet();
+            var path = $"{this._WebHostEnvironment.WebRootPath}\\Reports\\Production.rdlc";
+            Dictionary<string, string> Parameters = new Dictionary<string, string>();
+            //  Parameters.Add("rp1", " Hi Everyone");
+
+            var APitem = await IProductionEntry.GetAPItem(aid, bid, cid);
+          
+            LocalReport localReport = new LocalReport(path);
+             
+             localReport.AddDataSource("APProduction", APitem);
+            //localReport.AddDataSource("DataSet1_DataTable1", po);
+            var result = localReport.Execute(RenderType.Pdf, extension, Parameters, mimtype);
+           
+            return File(result.MainStream, "application/Pdf");
+
+        }
+    }
 }

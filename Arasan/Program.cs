@@ -150,6 +150,7 @@ internal class Program
 		builder.Services.TryAddSingleton<IAPProductionEntry, APProductionentryService>();
 
 		builder.Services.TryAddSingleton<IEmailConfig, EmailConfigService>();
+		builder.Services.TryAddSingleton<IDebitNoteBillService, DebitNoteBillService>();
 
 
 

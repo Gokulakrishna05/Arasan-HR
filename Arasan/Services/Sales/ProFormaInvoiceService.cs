@@ -182,7 +182,7 @@ namespace Arasan.Services.Sales
                             {
                                 foreach (ProFormaInvoiceDetail cp in cy.ProFormalst)
                                 {
-                                    string UnitId = datatrans.GetDataString("Select UNITMASTID from UNITMAST where UNITID='" + cp.unit + "' ");
+                                    string UnitId = datatrans.GetDataString("Select  UNITMASTID from UNITMAST where UNITID='" + cp.unit + "' ");
                                     string ItemId = datatrans.GetDataString("Select ITEMMASTERID from ITEMMASTER where ITEMID='" + cp.itemid + "' ");
 
                                     if (cp.Isvalid == "Y")
