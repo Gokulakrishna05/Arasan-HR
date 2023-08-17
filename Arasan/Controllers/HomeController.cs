@@ -98,7 +98,7 @@ namespace Arasan.Controllers
                     tdao1.id = Outdt.Rows[i]["APPRODUCTIONBASICID"].ToString();
                     tdao1.ItemName = Outdt.Rows[i]["ITEMID"].ToString();
                     tdao1.Drum = Outdt.Rows[i]["DRUMNO"].ToString();
-                    tdao1.Time = Outdt.Rows[i]["TIME"].ToString();
+                    //tdao1.Time = Outdt.Rows[i]["TIME"].ToString();
                     tdao1.TotalQty = Outdt.Rows[i]["OUTQTY"].ToString();
 
                     TDatao1.Add(tdao1);
@@ -171,9 +171,26 @@ namespace Arasan.Controllers
             dt2 = HomeService.CuringGroup();
             int empty = datatrans.GetDataId("select count(*) as cunt from curingmaster where STATUS='Active'");
             double loaded = datatrans.GetDataId("select count(*) as cunt from curingmaster where STATUS!='Active'");
+
+            //if(loaded >= empty)
+            //{
+
+            //}
             double rem = loaded - empty;
             double remain = rem / loaded;
-            int res =Convert.ToInt32( (rem / loaded) * 100);
+            int res = 0;
+            if(loaded > 0)
+            {
+                if (loaded >= empty)
+                {
+                    res = Convert.ToInt32((empty / loaded) * 100);
+                }
+                else
+                {
+                    res = Convert.ToInt32((loaded / empty) * 100);
+                }
+                    
+            }
             if (dt2.Rows.Count > 0)
             {
                 for (int i = 0; i < dt2.Rows.Count; i++)

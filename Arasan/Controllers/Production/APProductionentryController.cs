@@ -2,7 +2,11 @@
 using Arasan.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Options;
 using System.Data;
+using System.DirectoryServices.ActiveDirectory;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Arasan.Controllers 
 {
@@ -363,9 +367,50 @@ namespace Arasan.Controllers
 			catch (Exception ex)
 			{
 				throw ex;
-			}
-		}
-		public ActionResult GetMachineDetail(string ItemId)
+            }
+        }
+        public ActionResult InsertProInput([FromBody] ProInput[] model)
+        {
+            try
+			{
+               
+
+                if (model != null)
+                {
+                    return Json("Success");
+                }
+                else
+                {
+                    return Json("An Error Has occoured");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult InsertConsInput([FromBody] APProInCons[] model)
+        {
+            try
+            {
+
+
+                if (model != null)
+                {
+                    return Json("Success");
+                }
+                else
+                {
+                    return Json("An Error Has occoured");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public ActionResult GetMachineDetail(string ItemId)
 		{
 			try
 			{
@@ -462,6 +507,10 @@ namespace Arasan.Controllers
 					TTData2.Add(tda2);
 				}
 			}
+			if (!string.IsNullOrEmpty(id))
+			{
+
+			
             DataTable dt = new DataTable();
 
             dt = IProductionEntry.GetAPProd(id);
@@ -472,7 +521,8 @@ namespace Arasan.Controllers
                 ca.DocId = dt.Rows[0]["DOCID"].ToString();
                 ca.Eng = dt.Rows[0]["EMPNAME"].ToString();
                 ca.Shift = dt.Rows[0]["SHIFT"].ToString();
-                ca.SchQty = dt.Rows[0]["SCHQTY"].ToString();
+                ViewBag.shift= dt.Rows[0]["SHIFT"].ToString();
+                    ca.SchQty = dt.Rows[0]["SCHQTY"].ToString();
                
                 //ca.ParNo = dt.Rows[0]["PARTYREFNO"].ToString();
                 ca.ProdQty = dt.Rows[0]["PRODQTY"].ToString();
@@ -495,8 +545,9 @@ namespace Arasan.Controllers
                     tda.IssueQty = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString() == "" ? "0" : dt2.Rows[i]["QTY"].ToString());
                     tda.StockAvailable = Convert.ToDouble(dt2.Rows[i]["STOCK"].ToString() == "" ? "0" : dt2.Rows[i]["STOCK"].ToString());
                     tda.APID = id;
+					 tda.Isvalid = "Y";
                     TData.Add(tda);
-                    tda.Isvalid = "Y";
+                    
                 }
 
             }
@@ -544,8 +595,9 @@ namespace Arasan.Controllers
                     tda2.Normal = dt4.Rows[i]["NHOUR"].ToString();
                     tda2.NOW = dt4.Rows[i]["NATUREOFWORK"].ToString();
                     tda2.ID = id;
-                    TTData2.Add(tda2);
-                    tda2.Isvalid = "Y";
+                        tda2.Isvalid = "Y";
+                        TTData2.Add(tda2);
+                    
                 }
 
             }
@@ -597,12 +649,14 @@ namespace Arasan.Controllers
                         tda4.Status = dt7.Rows[i]["MOVETOQC"].ToString();
                     }
                         tda4.APID = id;
-                    TData4.Add(tda4);
-                    tda4.Isvalid = "Y";
+                        tda4.Isvalid = "Y";
+                        TData4.Add(tda4);
+                   
                 }
 
             }
-			if(tag=="1")
+    }
+            if (tag=="1")
 			{
                 DataTable ap = datatrans.GetData("select APPRODUCTIONBASICID,DOCID,DOCDATE,SHIFT from APPRODUCTIONBASIC WHERE IS_CURRENT='Yes'");
 				if (ap.Rows.Count > 0)
@@ -610,7 +664,7 @@ namespace Arasan.Controllers
 					string apID = datatrans.GetDataString("Select APPRODUCTIONBASICID from APPRODUCTIONBASIC where IS_CURRENT='Yes' ");
 
                     DataTable adt = new DataTable();
-
+                    DataTable dt6 = new DataTable();
                     adt = IProductionEntry.GetAPProd(apID);
                     if (adt.Rows.Count > 0)
                     {
@@ -620,7 +674,7 @@ namespace Arasan.Controllers
                         ca.Eng = adt.Rows[0]["EMPNAME"].ToString();
                         ca.Shift = adt.Rows[0]["SHIFT"].ToString();
                         ca.SchQty = adt.Rows[0]["SCHQTY"].ToString();
-
+                        ViewBag.shift = adt.Rows[0]["SHIFT"].ToString();
                         //ca.ParNo = dt.Rows[0]["PARTYREFNO"].ToString();
                         ca.ProdQty = adt.Rows[0]["PRODQTY"].ToString();
                         //ca.ExRate = dt.Rows[0]["EXCRATERATE"].ToString();
@@ -944,6 +998,10 @@ namespace Arasan.Controllers
             //EnqItem model = new EnqItem();
             //model.Itemlst = BindItemlst(itemid);
             return Json(BindItemlst());
+        }
+        public JsonResult GetconsItemJSON()
+        {
+            return Json(BindItemlstCon());
         }
         public JsonResult GetOutItemJSON()
         {
