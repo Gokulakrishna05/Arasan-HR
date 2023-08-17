@@ -187,19 +187,19 @@
                 <TablixBody>
                   <TablixColumns>
                     <TablixColumn>
-                      <Width>5.74738cm</Width>
+                      <Width>5.81205cm</Width>
                     </TablixColumn>
                     <TablixColumn>
-                      <Width>2.19401cm</Width>
+                      <Width>2.25868cm</Width>
                     </TablixColumn>
                     <TablixColumn>
-                      <Width>2.48655cm</Width>
+                      <Width>2.55122cm</Width>
                     </TablixColumn>
                     <TablixColumn>
-                      <Width>2.59089cm</Width>
+                      <Width>2.65556cm</Width>
                     </TablixColumn>
                     <TablixColumn>
-                      <Width>2.97572cm</Width>
+                      <Width>3.04039cm</Width>
                     </TablixColumn>
                   </TablixColumns>
                   <TablixRows>
@@ -228,7 +228,6 @@
                               <rd:DefaultName>Textbox59</rd:DefaultName>
                               <Style>
                                 <Border>
-                                  <Color>LightGrey</Color>
                                   <Style>Solid</Style>
                                 </Border>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -263,7 +262,6 @@
                               <rd:DefaultName>Textbox69</rd:DefaultName>
                               <Style>
                                 <Border>
-                                  <Color>LightGrey</Color>
                                   <Style>Solid</Style>
                                 </Border>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -298,7 +296,6 @@
                               <rd:DefaultName>Textbox63</rd:DefaultName>
                               <Style>
                                 <Border>
-                                  <Color>LightGrey</Color>
                                   <Style>Solid</Style>
                                 </Border>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -333,7 +330,6 @@
                               <rd:DefaultName>Textbox15</rd:DefaultName>
                               <Style>
                                 <Border>
-                                  <Color>LightGrey</Color>
                                   <Style>Solid</Style>
                                 </Border>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -368,7 +364,6 @@
                               <rd:DefaultName>Textbox67</rd:DefaultName>
                               <Style>
                                 <Border>
-                                  <Color>LightGrey</Color>
                                   <Style>Solid</Style>
                                 </Border>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -405,7 +400,6 @@
                               <rd:DefaultName>ITEMID1</rd:DefaultName>
                               <Style>
                                 <Border>
-                                  <Color>LightGrey</Color>
                                   <Style>Solid</Style>
                                 </Border>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -439,7 +433,6 @@
                               <rd:DefaultName>PUNIT</rd:DefaultName>
                               <Style>
                                 <Border>
-                                  <Color>LightGrey</Color>
                                   <Style>Solid</Style>
                                 </Border>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -473,7 +466,6 @@
                               <rd:DefaultName>QTY</rd:DefaultName>
                               <Style>
                                 <Border>
-                                  <Color>LightGrey</Color>
                                   <Style>Solid</Style>
                                 </Border>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -507,7 +499,6 @@
                               <rd:DefaultName>RATE</rd:DefaultName>
                               <Style>
                                 <Border>
-                                  <Color>LightGrey</Color>
                                   <Style>Solid</Style>
                                 </Border>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -542,7 +533,6 @@
                               <rd:DefaultName>AMOUNT</rd:DefaultName>
                               <Style>
                                 <Border>
-                                  <Color>LightGrey</Color>
                                   <Style>Solid</Style>
                                 </Border>
                                 <PaddingLeft>2pt</PaddingLeft>
@@ -579,12 +569,11 @@
                 </TablixRowHierarchy>
                 <DataSetName>DataSet1</DataSetName>
                 <Top>3.69622cm</Top>
-                <Left>0.14606cm</Left>
                 <Height>1.27938cm</Height>
-                <Width>15.99455cm</Width>
+                <Width>16.31789cm</Width>
                 <Style>
                   <Border>
-                    <Style>None</Style>
+                    <Style>Solid</Style>
                   </Border>
                 </Style>
               </Tablix>

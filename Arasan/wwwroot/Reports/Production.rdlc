@@ -9,6 +9,27 @@
       </ConnectionProperties>
       <rd:DataSourceID>5810cf44-cab1-44c5-adfd-6f8702e57c8e</rd:DataSourceID>
     </DataSource>
+    <DataSource Name="DataSet6">
+      <ConnectionProperties>
+        <DataProvider>System.Data.DataSet</DataProvider>
+        <ConnectString>/* Local Connection */</ConnectString>
+      </ConnectionProperties>
+      <rd:DataSourceID>dcfd1e04-ca74-4f19-ae21-7749dbed2410</rd:DataSourceID>
+    </DataSource>
+    <DataSource Name="APProduction">
+      <ConnectionProperties>
+        <DataProvider>System.Data.DataSet</DataProvider>
+        <ConnectString>/* Local Connection */</ConnectString>
+      </ConnectionProperties>
+      <rd:DataSourceID>bc735f2e-7aff-4e7b-ad5f-b90068fa2c29</rd:DataSourceID>
+    </DataSource>
+    <DataSource Name="APCShift">
+      <ConnectionProperties>
+        <DataProvider>System.Data.DataSet</DataProvider>
+        <ConnectString>/* Local Connection */</ConnectString>
+      </ConnectionProperties>
+      <rd:DataSourceID>b093e814-96d8-4c61-9d5f-8de5594f92f2</rd:DataSourceID>
+    </DataSource>
   </DataSources>
   <DataSets>
     <DataSet Name="APProduction">
@@ -21,10 +42,6 @@
           <DataField>APPRODUCTIONBASICID</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
-        <Field Name="APPRODINPDETID">
-          <DataField>APPRODINPDETID</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
         <Field Name="WCID">
           <DataField>WCID</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
@@ -33,10 +50,6 @@
           <DataField>DOCID</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="ITEMID">
-          <DataField>ITEMID</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
         <Field Name="DOCDATE">
           <DataField>DOCDATE</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
@@ -44,6 +57,18 @@
         <Field Name="SHIFT">
           <DataField>SHIFT</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="APPRODINPDETID">
+          <DataField>APPRODINPDETID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="EXPR1">
+          <DataField>EXPR1</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="ITEMID">
+          <DataField>ITEMID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="QTY">
           <DataField>QTY</DataField>
@@ -61,218 +86,366 @@
           <DataField>APPRODOUTDETID</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
-        <Field Name="APPRODEMPDETID">
-          <DataField>APPRODEMPDETID</DataField>
+        <Field Name="EXPR2">
+          <DataField>EXPR2</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="DRUMNO">
           <DataField>DRUMNO</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
-        <Field Name="EMPID">
-          <DataField>EMPID</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="EXPR1">
-          <DataField>EXPR1</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="EXPR2">
-          <DataField>EXPR2</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="APPRODCONSDETID">
-          <DataField>APPRODCONSDETID</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="EXPR3">
-          <DataField>EXPR3</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="APPRODBREAKDETID">
-          <DataField>APPRODBREAKDETID</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
         <Field Name="OUTQTY">
           <DataField>OUTQTY</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
-        <Field Name="TOTIME">
-          <DataField>TOTIME</DataField>
+        <Field Name="FROMTIME">
+          <DataField>FROMTIME</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="TESTRESULT">
           <DataField>TESTRESULT</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="FROMTIME">
-          <DataField>FROMTIME</DataField>
+        <Field Name="TOTIME">
+          <DataField>TOTIME</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="CONSQTY">
-          <DataField>CONSQTY</DataField>
+        <Field Name="APPRODEMPDETID">
+          <DataField>APPRODEMPDETID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="EXPR3">
+          <DataField>EXPR3</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="EMPID">
+          <DataField>EMPID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="APPRODCONSDETID">
+          <DataField>APPRODCONSDETID</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="EXPR4">
           <DataField>EXPR4</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
-        <Field Name="REASON">
-          <DataField>REASON</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="PB">
-          <DataField>PB</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+        <Field Name="CONSQTY">
+          <DataField>CONSQTY</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="EXPR5">
           <DataField>EXPR5</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="APPRODBREAKDETID">
+          <DataField>APPRODBREAKDETID</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="EXPR6">
           <DataField>EXPR6</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
+        <Field Name="MACHCODE">
+          <DataField>MACHCODE</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="EXPR7">
           <DataField>EXPR7</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="EXPR8">
           <DataField>EXPR8</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="EXPR9">
-          <DataField>EXPR9</DataField>
+        <Field Name="PB">
+          <DataField>PB</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="REASON">
+          <DataField>REASON</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="EMPNAME">
           <DataField>EMPNAME</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="BSHIFT">
-          <DataField>BSHIFT</DataField>
+      </Fields>
+      <rd:DataSetInfo>
+        <rd:DataSetName>APProduction</rd:DataSetName>
+        <rd:SchemaPath>E:\Gokul\Arasan\Repos\ArasanAluminium\Arasan\APProduction.xsd</rd:SchemaPath>
+        <rd:TableName>DataTable1</rd:TableName>
+        <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
+        <rd:TableAdapterGetDataMethod>GetData</rd:TableAdapterGetDataMethod>
+        <rd:TableAdapterName>DataTable1TableAdapter</rd:TableAdapterName>
+      </rd:DataSetInfo>
+    </DataSet>
+    <DataSet Name="APOut">
+      <Query>
+        <DataSourceName>DataSet6</DataSourceName>
+        <CommandText>/* Local Query */</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="APPRODUCTIONBASICID">
+          <DataField>APPRODUCTIONBASICID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="DOCID">
+          <DataField>DOCID</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="CSHIFT">
-          <DataField>CSHIFT</DataField>
+        <Field Name="DOCDATE">
+          <DataField>DOCDATE</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="SHIFT">
+          <DataField>SHIFT</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="BITEMID">
-          <DataField>BITEMID</DataField>
+        <Field Name="APPRODINPDETID">
+          <DataField>APPRODINPDETID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="EXPR1">
+          <DataField>EXPR1</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="ITEMID">
+          <DataField>ITEMID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="QTY">
+          <DataField>QTY</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="CHARGINGTIME">
+          <DataField>CHARGINGTIME</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="CITEMID">
-          <DataField>CITEMID</DataField>
+        <Field Name="UNIT">
+          <DataField>UNIT</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="BQTY">
-          <DataField>BQTY</DataField>
+        <Field Name="APPRODCONSDETID">
+          <DataField>APPRODCONSDETID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="EXPR2">
+          <DataField>EXPR2</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="CONSQTY">
+          <DataField>CONSQTY</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="EXPR3">
+          <DataField>EXPR3</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="DRUMNO">
+          <DataField>DRUMNO</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="EXPR4">
+          <DataField>EXPR4</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="EXPR5">
+          <DataField>EXPR5</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="APPRODOUTDETID">
+          <DataField>APPRODOUTDETID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="OUTQTY">
+          <DataField>OUTQTY</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="FROMTIME">
+          <DataField>FROMTIME</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="CQTY">
-          <DataField>CQTY</DataField>
+        <Field Name="TESTRESULT">
+          <DataField>TESTRESULT</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="BCHARGINGTIME">
-          <DataField>BCHARGINGTIME</DataField>
+        <Field Name="TOTIME">
+          <DataField>TOTIME</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="CCHARGINGTIME">
-          <DataField>CCHARGINGTIME</DataField>
+        <Field Name="APPRODBREAKDETID">
+          <DataField>APPRODBREAKDETID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="EXPR6">
+          <DataField>EXPR6</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="BUNIT">
-          <DataField>BUNIT</DataField>
+        <Field Name="EXPR7">
+          <DataField>EXPR7</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="CUNIT">
-          <DataField>CUNIT</DataField>
+        <Field Name="PB">
+          <DataField>PB</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="BDRUMNO">
-          <DataField>BDRUMNO</DataField>
+        <Field Name="REASON">
+          <DataField>REASON</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="CDRUMNO">
-          <DataField>CDRUMNO</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+        <Field Name="APPRODEMPDETID">
+          <DataField>APPRODEMPDETID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
-        <Field Name="BOUTQTY">
-          <DataField>BOUTQTY</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+        <Field Name="EMPID">
+          <DataField>EMPID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
-        <Field Name="COUTQTY">
-          <DataField>COUTQTY</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="BFROMTIME">
-          <DataField>BFROMTIME</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CFROMTIME">
-          <DataField>CFROMTIME</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="BTESTRESULT">
-          <DataField>BTESTRESULT</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CTESTRESULT">
-          <DataField>CTESTRESULT</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="BTOTIME">
-          <DataField>BTOTIME</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CTOTIME">
-          <DataField>CTOTIME</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="BFROM">
-          <DataField>BFROM</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CFROM">
-          <DataField>CFROM</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="BTO">
-          <DataField>BTO</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CTO">
-          <DataField>CTO</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="BEMP">
-          <DataField>BEMP</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CEMP">
-          <DataField>CEMP</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="BSQTY">
-          <DataField>BSQTY</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CSQTY">
-          <DataField>CSQTY</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="BCONSQTY">
-          <DataField>BCONSQTY</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CCONSQTY">
-          <DataField>CCONSQTY</DataField>
+        <Field Name="EMPNAME">
+          <DataField>EMPNAME</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
       <rd:DataSetInfo>
-        <rd:DataSetName>DataSet5</rd:DataSetName>
-        <rd:SchemaPath>E:\Gokul\Arasan\Repos\ArasanAluminium\Arasan\DataSet5.xsd</rd:SchemaPath>
+        <rd:DataSetName>DataSet6</rd:DataSetName>
+        <rd:SchemaPath>E:\Gokul\Arasan\Repos\ArasanAluminium\Arasan\DataSet6.xsd</rd:SchemaPath>
+        <rd:TableName>DataTable1</rd:TableName>
+        <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
+        <rd:TableAdapterGetDataMethod>GetData</rd:TableAdapterGetDataMethod>
+        <rd:TableAdapterName>DataTable1TableAdapter</rd:TableAdapterName>
+      </rd:DataSetInfo>
+    </DataSet>
+    <DataSet Name="APCShift">
+      <Query>
+        <DataSourceName>APCShift</DataSourceName>
+        <CommandText>/* Local Query */</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="APPRODUCTIONBASICID">
+          <DataField>APPRODUCTIONBASICID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="DOCID">
+          <DataField>DOCID</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DOCDATE">
+          <DataField>DOCDATE</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="SHIFT">
+          <DataField>SHIFT</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="APPRODINPDETID">
+          <DataField>APPRODINPDETID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="EXPR1">
+          <DataField>EXPR1</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="ITEMID">
+          <DataField>ITEMID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="QTY">
+          <DataField>QTY</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="CHARGINGTIME">
+          <DataField>CHARGINGTIME</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="UNIT">
+          <DataField>UNIT</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="APPRODCONSDETID">
+          <DataField>APPRODCONSDETID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="EXPR2">
+          <DataField>EXPR2</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="CONSQTY">
+          <DataField>CONSQTY</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="EXPR3">
+          <DataField>EXPR3</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="DRUMNO">
+          <DataField>DRUMNO</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="EXPR4">
+          <DataField>EXPR4</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="EXPR5">
+          <DataField>EXPR5</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="APPRODOUTDETID">
+          <DataField>APPRODOUTDETID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="OUTQTY">
+          <DataField>OUTQTY</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="FROMTIME">
+          <DataField>FROMTIME</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TESTRESULT">
+          <DataField>TESTRESULT</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TOTIME">
+          <DataField>TOTIME</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="APPRODBREAKDETID">
+          <DataField>APPRODBREAKDETID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="EXPR6">
+          <DataField>EXPR6</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="EXPR7">
+          <DataField>EXPR7</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PB">
+          <DataField>PB</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="REASON">
+          <DataField>REASON</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="APPRODEMPDETID">
+          <DataField>APPRODEMPDETID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="EMPID">
+          <DataField>EMPID</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="EMPNAME">
+          <DataField>EMPNAME</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+      <rd:DataSetInfo>
+        <rd:DataSetName>APCShift</rd:DataSetName>
+        <rd:SchemaPath>E:\Gokul\Arasan\Repos\ArasanAluminium\Arasan\APCShift.xsd</rd:SchemaPath>
         <rd:TableName>DataTable1</rd:TableName>
         <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
         <rd:TableAdapterGetDataMethod>GetData</rd:TableAdapterGetDataMethod>
@@ -329,42 +502,6 @@
                   </Border>
                 </Style>
               </Line>
-              <Textbox Name="Textbox43">
-                <CanGrow>true</CanGrow>
-                <KeepTogether>true</KeepTogether>
-                <Paragraphs>
-                  <Paragraph>
-                    <TextRuns>
-                      <TextRun>
-                        <Value>=Fields!SHIFT.Value</Value>
-                        <Style>
-                          <FontStyle>Italic</FontStyle>
-                          <FontFamily>Times New Roman</FontFamily>
-                          <FontSize>16pt</FontSize>
-                          <FontWeight>Bold</FontWeight>
-                        </Style>
-                      </TextRun>
-                    </TextRuns>
-                    <Style />
-                  </Paragraph>
-                </Paragraphs>
-                <rd:DefaultName>Textbox43</rd:DefaultName>
-                <Top>1.49405cm</Top>
-                <Left>0.03351cm</Left>
-                <Height>0.6cm</Height>
-                <Width>0.68038cm</Width>
-                <ZIndex>2</ZIndex>
-                <Style>
-                  <Border>
-                    <Style>None</Style>
-                  </Border>
-                  <PaddingLeft>2pt</PaddingLeft>
-                  <PaddingRight>2pt</PaddingRight>
-                  <PaddingTop>2pt</PaddingTop>
-                  <PaddingBottom>2pt</PaddingBottom>
-                  <WritingMode>Rotate270</WritingMode>
-                </Style>
-              </Textbox>
               <Tablix Name="Tablix1">
                 <TablixBody>
                   <TablixColumns>
@@ -1277,8 +1414,8 @@
                 <DataSetName>APProduction</DataSetName>
                 <Left>0.85677cm</Left>
                 <Height>2.42787cm</Height>
-                <Width>15.69562cm</Width>
-                <ZIndex>3</ZIndex>
+                <Width>15.69559cm</Width>
+                <ZIndex>2</ZIndex>
                 <Style>
                   <Border>
                     <Style>Solid</Style>
@@ -1292,7 +1429,7 @@
                 <Top>1.02647cm</Top>
                 <Height>0cm</Height>
                 <Width>0.855cm</Width>
-                <ZIndex>4</ZIndex>
+                <ZIndex>3</ZIndex>
                 <Style>
                   <Border>
                     <Style>Solid</Style>
@@ -1336,14 +1473,14 @@
                       <TablixCells>
                         <TablixCell>
                           <CellContents>
-                            <Textbox Name="BCHARGINGTIME">
+                            <Textbox Name="CHARGINGTIME1">
                               <CanGrow>true</CanGrow>
                               <KeepTogether>true</KeepTogether>
                               <Paragraphs>
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>=Fields!BCHARGINGTIME.Value</Value>
+                                      <Value>=Fields!CHARGINGTIME.Value</Value>
                                       <Style />
                                     </TextRun>
                                   </TextRuns>
@@ -1352,7 +1489,7 @@
                                   </Style>
                                 </Paragraph>
                               </Paragraphs>
-                              <rd:DefaultName>BCHARGINGTIME</rd:DefaultName>
+                              <rd:DefaultName>CHARGINGTIME1</rd:DefaultName>
                               <Style>
                                 <Border>
                                   <Style>Solid</Style>
@@ -1367,14 +1504,14 @@
                         </TablixCell>
                         <TablixCell>
                           <CellContents>
-                            <Textbox Name="BITEMID">
+                            <Textbox Name="ITEMID1">
                               <CanGrow>true</CanGrow>
                               <KeepTogether>true</KeepTogether>
                               <Paragraphs>
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>=Fields!BITEMID.Value</Value>
+                                      <Value>=Fields!ITEMID.Value</Value>
                                       <Style />
                                     </TextRun>
                                   </TextRuns>
@@ -1383,7 +1520,7 @@
                                   </Style>
                                 </Paragraph>
                               </Paragraphs>
-                              <rd:DefaultName>BITEMID</rd:DefaultName>
+                              <rd:DefaultName>ITEMID1</rd:DefaultName>
                               <Style>
                                 <Border>
                                   <Style>Solid</Style>
@@ -1398,14 +1535,14 @@
                         </TablixCell>
                         <TablixCell>
                           <CellContents>
-                            <Textbox Name="BQTY">
+                            <Textbox Name="QTY1">
                               <CanGrow>true</CanGrow>
                               <KeepTogether>true</KeepTogether>
                               <Paragraphs>
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>=Fields!BQTY.Value</Value>
+                                      <Value>=Fields!QTY.Value</Value>
                                       <Style />
                                     </TextRun>
                                   </TextRuns>
@@ -1414,7 +1551,7 @@
                                   </Style>
                                 </Paragraph>
                               </Paragraphs>
-                              <rd:DefaultName>BQTY</rd:DefaultName>
+                              <rd:DefaultName>QTY1</rd:DefaultName>
                               <Style>
                                 <Border>
                                   <Style>Solid</Style>
@@ -1460,14 +1597,14 @@
                         </TablixCell>
                         <TablixCell>
                           <CellContents>
-                            <Textbox Name="BDRUMNO">
+                            <Textbox Name="DRUMNO">
                               <CanGrow>true</CanGrow>
                               <KeepTogether>true</KeepTogether>
                               <Paragraphs>
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>=Fields!BDRUMNO.Value</Value>
+                                      <Value>=Fields!DRUMNO.Value</Value>
                                       <Style />
                                     </TextRun>
                                   </TextRuns>
@@ -1476,7 +1613,7 @@
                                   </Style>
                                 </Paragraph>
                               </Paragraphs>
-                              <rd:DefaultName>BDRUMNO</rd:DefaultName>
+                              <rd:DefaultName>DRUMNO</rd:DefaultName>
                               <Style>
                                 <Border>
                                   <Style>Solid</Style>
@@ -1491,14 +1628,14 @@
                         </TablixCell>
                         <TablixCell>
                           <CellContents>
-                            <Textbox Name="BFROMTIME">
+                            <Textbox Name="FROMTIME2">
                               <CanGrow>true</CanGrow>
                               <KeepTogether>true</KeepTogether>
                               <Paragraphs>
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>=Fields!BFROMTIME.Value</Value>
+                                      <Value>=Fields!FROMTIME.Value</Value>
                                       <Style />
                                     </TextRun>
                                   </TextRuns>
@@ -1507,7 +1644,7 @@
                                   </Style>
                                 </Paragraph>
                               </Paragraphs>
-                              <rd:DefaultName>BFROMTIME</rd:DefaultName>
+                              <rd:DefaultName>FROMTIME2</rd:DefaultName>
                               <Style>
                                 <Border>
                                   <Style>Solid</Style>
@@ -1522,14 +1659,14 @@
                         </TablixCell>
                         <TablixCell>
                           <CellContents>
-                            <Textbox Name="BTOTIME">
+                            <Textbox Name="TOTIME">
                               <CanGrow>true</CanGrow>
                               <KeepTogether>true</KeepTogether>
                               <Paragraphs>
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>=Fields!BTOTIME.Value</Value>
+                                      <Value>=Fields!TOTIME.Value</Value>
                                       <Style />
                                     </TextRun>
                                   </TextRuns>
@@ -1538,7 +1675,7 @@
                                   </Style>
                                 </Paragraph>
                               </Paragraphs>
-                              <rd:DefaultName>BTOTIME</rd:DefaultName>
+                              <rd:DefaultName>TOTIME</rd:DefaultName>
                               <Style>
                                 <Border>
                                   <Style>Solid</Style>
@@ -1553,14 +1690,14 @@
                         </TablixCell>
                         <TablixCell>
                           <CellContents>
-                            <Textbox Name="BOUTQTY">
+                            <Textbox Name="OUTQTY">
                               <CanGrow>true</CanGrow>
                               <KeepTogether>true</KeepTogether>
                               <Paragraphs>
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>=Fields!BOUTQTY.Value</Value>
+                                      <Value>=Fields!OUTQTY.Value</Value>
                                       <Style />
                                     </TextRun>
                                   </TextRuns>
@@ -1569,7 +1706,7 @@
                                   </Style>
                                 </Paragraph>
                               </Paragraphs>
-                              <rd:DefaultName>BOUTQTY</rd:DefaultName>
+                              <rd:DefaultName>OUTQTY</rd:DefaultName>
                               <Style>
                                 <Border>
                                   <Style>Solid</Style>
@@ -1584,14 +1721,14 @@
                         </TablixCell>
                         <TablixCell>
                           <CellContents>
-                            <Textbox Name="BTESTRESULT">
+                            <Textbox Name="TESTRESULT">
                               <CanGrow>true</CanGrow>
                               <KeepTogether>true</KeepTogether>
                               <Paragraphs>
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>=Fields!BTESTRESULT.Value</Value>
+                                      <Value>=Fields!TESTRESULT.Value</Value>
                                       <Style />
                                     </TextRun>
                                   </TextRuns>
@@ -1600,7 +1737,7 @@
                                   </Style>
                                 </Paragraph>
                               </Paragraphs>
-                              <rd:DefaultName>BTESTRESULT</rd:DefaultName>
+                              <rd:DefaultName>TESTRESULT</rd:DefaultName>
                               <Style>
                                 <Border>
                                   <Style>Solid</Style>
@@ -1637,12 +1774,12 @@
                     </TablixMember>
                   </TablixMembers>
                 </TablixRowHierarchy>
-                <DataSetName>APProduction</DataSetName>
+                <DataSetName>APOut</DataSetName>
                 <Top>2.87104cm</Top>
                 <Left>0.85677cm</Left>
                 <Height>0.6cm</Height>
-                <Width>15.69562cm</Width>
-                <ZIndex>5</ZIndex>
+                <Width>15.69558cm</Width>
+                <ZIndex>4</ZIndex>
                 <Style>
                   <Border>
                     <Style>Solid</Style>
@@ -1656,7 +1793,7 @@
                   <Paragraph>
                     <TextRuns>
                       <TextRun>
-                        <Value>=Fields!BSHIFT.Value</Value>
+                        <Value>=First(Fields!SHIFT.Value, "APOut")</Value>
                         <Style>
                           <FontStyle>Italic</FontStyle>
                           <FontFamily>Times New Roman</FontFamily>
@@ -1670,10 +1807,10 @@
                 </Paragraphs>
                 <rd:DefaultName>Textbox163</rd:DefaultName>
                 <Top>2.87104cm</Top>
-                <Left>0.01504cm</Left>
+                <Left>0.03528cm</Left>
                 <Height>0.6cm</Height>
                 <Width>0.68038cm</Width>
-                <ZIndex>6</ZIndex>
+                <ZIndex>5</ZIndex>
                 <Style>
                   <Border>
                     <Style>None</Style>
@@ -1722,14 +1859,14 @@
                       <TablixCells>
                         <TablixCell>
                           <CellContents>
-                            <Textbox Name="CCHARGINGTIME">
+                            <Textbox Name="CHARGINGTIME2">
                               <CanGrow>true</CanGrow>
                               <KeepTogether>true</KeepTogether>
                               <Paragraphs>
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>=Fields!CCHARGINGTIME.Value</Value>
+                                      <Value>=Fields!CHARGINGTIME.Value</Value>
                                       <Style />
                                     </TextRun>
                                   </TextRuns>
@@ -1738,7 +1875,7 @@
                                   </Style>
                                 </Paragraph>
                               </Paragraphs>
-                              <rd:DefaultName>CCHARGINGTIME</rd:DefaultName>
+                              <rd:DefaultName>CHARGINGTIME2</rd:DefaultName>
                               <Style>
                                 <Border>
                                   <Style>Solid</Style>
@@ -1753,14 +1890,14 @@
                         </TablixCell>
                         <TablixCell>
                           <CellContents>
-                            <Textbox Name="CITEMID">
+                            <Textbox Name="ITEMID2">
                               <CanGrow>true</CanGrow>
                               <KeepTogether>true</KeepTogether>
                               <Paragraphs>
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>=Fields!CITEMID.Value</Value>
+                                      <Value>=Fields!ITEMID.Value</Value>
                                       <Style />
                                     </TextRun>
                                   </TextRuns>
@@ -1769,7 +1906,7 @@
                                   </Style>
                                 </Paragraph>
                               </Paragraphs>
-                              <rd:DefaultName>CITEMID</rd:DefaultName>
+                              <rd:DefaultName>ITEMID2</rd:DefaultName>
                               <Style>
                                 <Border>
                                   <Style>Solid</Style>
@@ -1784,14 +1921,14 @@
                         </TablixCell>
                         <TablixCell>
                           <CellContents>
-                            <Textbox Name="CQTY">
+                            <Textbox Name="QTY2">
                               <CanGrow>true</CanGrow>
                               <KeepTogether>true</KeepTogether>
                               <Paragraphs>
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>=Fields!CQTY.Value</Value>
+                                      <Value>=Fields!QTY.Value</Value>
                                       <Style />
                                     </TextRun>
                                   </TextRuns>
@@ -1800,7 +1937,7 @@
                                   </Style>
                                 </Paragraph>
                               </Paragraphs>
-                              <rd:DefaultName>CQTY</rd:DefaultName>
+                              <rd:DefaultName>QTY2</rd:DefaultName>
                               <Style>
                                 <Border>
                                   <Style>Solid</Style>
@@ -1846,14 +1983,14 @@
                         </TablixCell>
                         <TablixCell>
                           <CellContents>
-                            <Textbox Name="CDRUMNO">
+                            <Textbox Name="DRUMNO2">
                               <CanGrow>true</CanGrow>
                               <KeepTogether>true</KeepTogether>
                               <Paragraphs>
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>=Fields!CDRUMNO.Value</Value>
+                                      <Value>=Fields!DRUMNO.Value</Value>
                                       <Style />
                                     </TextRun>
                                   </TextRuns>
@@ -1862,7 +1999,7 @@
                                   </Style>
                                 </Paragraph>
                               </Paragraphs>
-                              <rd:DefaultName>CDRUMNO</rd:DefaultName>
+                              <rd:DefaultName>DRUMNO2</rd:DefaultName>
                               <Style>
                                 <Border>
                                   <Style>Solid</Style>
@@ -1877,14 +2014,14 @@
                         </TablixCell>
                         <TablixCell>
                           <CellContents>
-                            <Textbox Name="CDRUMNO1">
+                            <Textbox Name="FROMTIME3">
                               <CanGrow>true</CanGrow>
                               <KeepTogether>true</KeepTogether>
                               <Paragraphs>
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>=Fields!CDRUMNO.Value</Value>
+                                      <Value>=Fields!FROMTIME.Value</Value>
                                       <Style />
                                     </TextRun>
                                   </TextRuns>
@@ -1893,7 +2030,7 @@
                                   </Style>
                                 </Paragraph>
                               </Paragraphs>
-                              <rd:DefaultName>CDRUMNO1</rd:DefaultName>
+                              <rd:DefaultName>FROMTIME3</rd:DefaultName>
                               <Style>
                                 <Border>
                                   <Style>Solid</Style>
@@ -1908,14 +2045,14 @@
                         </TablixCell>
                         <TablixCell>
                           <CellContents>
-                            <Textbox Name="CTOTIME">
+                            <Textbox Name="TOTIME2">
                               <CanGrow>true</CanGrow>
                               <KeepTogether>true</KeepTogether>
                               <Paragraphs>
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>=Fields!CTOTIME.Value</Value>
+                                      <Value>=Fields!TOTIME.Value</Value>
                                       <Style />
                                     </TextRun>
                                   </TextRuns>
@@ -1924,7 +2061,7 @@
                                   </Style>
                                 </Paragraph>
                               </Paragraphs>
-                              <rd:DefaultName>CTOTIME</rd:DefaultName>
+                              <rd:DefaultName>TOTIME2</rd:DefaultName>
                               <Style>
                                 <Border>
                                   <Style>Solid</Style>
@@ -1939,14 +2076,14 @@
                         </TablixCell>
                         <TablixCell>
                           <CellContents>
-                            <Textbox Name="COUTQTY">
+                            <Textbox Name="OUTQTY2">
                               <CanGrow>true</CanGrow>
                               <KeepTogether>true</KeepTogether>
                               <Paragraphs>
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>=Fields!COUTQTY.Value</Value>
+                                      <Value>=Fields!OUTQTY.Value</Value>
                                       <Style />
                                     </TextRun>
                                   </TextRuns>
@@ -1955,7 +2092,7 @@
                                   </Style>
                                 </Paragraph>
                               </Paragraphs>
-                              <rd:DefaultName>COUTQTY</rd:DefaultName>
+                              <rd:DefaultName>OUTQTY2</rd:DefaultName>
                               <Style>
                                 <Border>
                                   <Style>Solid</Style>
@@ -1970,14 +2107,14 @@
                         </TablixCell>
                         <TablixCell>
                           <CellContents>
-                            <Textbox Name="CTESTRESULT">
+                            <Textbox Name="TESTRESULT2">
                               <CanGrow>true</CanGrow>
                               <KeepTogether>true</KeepTogether>
                               <Paragraphs>
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>=Fields!CTESTRESULT.Value</Value>
+                                      <Value>=Fields!TESTRESULT.Value</Value>
                                       <Style />
                                     </TextRun>
                                   </TextRuns>
@@ -1986,7 +2123,7 @@
                                   </Style>
                                 </Paragraph>
                               </Paragraphs>
-                              <rd:DefaultName>CTESTRESULT</rd:DefaultName>
+                              <rd:DefaultName>TESTRESULT2</rd:DefaultName>
                               <Style>
                                 <Border>
                                   <Style>Solid</Style>
@@ -2023,12 +2160,12 @@
                     </TablixMember>
                   </TablixMembers>
                 </TablixRowHierarchy>
-                <DataSetName>APProduction</DataSetName>
+                <DataSetName>APCShift</DataSetName>
                 <Top>3.96803cm</Top>
                 <Left>0.87224cm</Left>
                 <Height>0.6cm</Height>
                 <Width>15.68015cm</Width>
-                <ZIndex>7</ZIndex>
+                <ZIndex>6</ZIndex>
                 <Style>
                   <Border>
                     <Style>Solid</Style>
@@ -2042,7 +2179,7 @@
                   <Paragraph>
                     <TextRuns>
                       <TextRun>
-                        <Value>=Fields!CSHIFT.Value</Value>
+                        <Value>=First(Fields!SHIFT.Value, "APCShift")</Value>
                         <Style>
                           <FontStyle>Italic</FontStyle>
                           <FontFamily>Times New Roman</FontFamily>
@@ -2059,7 +2196,7 @@
                 <Left>0.05015cm</Left>
                 <Height>0.6cm</Height>
                 <Width>0.68038cm</Width>
-                <ZIndex>8</ZIndex>
+                <ZIndex>7</ZIndex>
                 <Style>
                   <Border>
                     <Style>None</Style>
@@ -2335,14 +2472,14 @@
                             </TablixCell>
                             <TablixCell>
                               <CellContents>
-                                <Textbox Name="EXPR6">
+                                <Textbox Name="EXPR5">
                                   <CanGrow>true</CanGrow>
                                   <KeepTogether>true</KeepTogether>
                                   <Paragraphs>
                                     <Paragraph>
                                       <TextRuns>
                                         <TextRun>
-                                          <Value>=Fields!EXPR6.Value</Value>
+                                          <Value>=Fields!EXPR5.Value</Value>
                                           <Style />
                                         </TextRun>
                                       </TextRuns>
@@ -2351,7 +2488,7 @@
                                       </Style>
                                     </Paragraph>
                                   </Paragraphs>
-                                  <rd:DefaultName>EXPR6</rd:DefaultName>
+                                  <rd:DefaultName>EXPR5</rd:DefaultName>
                                   <Style>
                                     <Border>
                                       <Style>Solid</Style>
@@ -2397,14 +2534,14 @@
                             </TablixCell>
                             <TablixCell>
                               <CellContents>
-                                <Textbox Name="EXPR61">
+                                <Textbox Name="EXPR51">
                                   <CanGrow>true</CanGrow>
                                   <KeepTogether>true</KeepTogether>
                                   <Paragraphs>
                                     <Paragraph>
                                       <TextRuns>
                                         <TextRun>
-                                          <Value>=Fields!EXPR6.Value</Value>
+                                          <Value>=Fields!EXPR5.Value</Value>
                                           <Style />
                                         </TextRun>
                                       </TextRuns>
@@ -2413,7 +2550,7 @@
                                       </Style>
                                     </Paragraph>
                                   </Paragraphs>
-                                  <rd:DefaultName>EXPR61</rd:DefaultName>
+                                  <rd:DefaultName>EXPR51</rd:DefaultName>
                                   <Style>
                                     <Border>
                                       <Style>Solid</Style>
@@ -2533,7 +2670,7 @@
                                     <Paragraph>
                                       <TextRuns>
                                         <TextRun>
-                                          <Value>=Fields!BSQTY.Value</Value>
+                                          <Value>=Sum(Fields!EXPR3.Value, "APOut")</Value>
                                           <Style />
                                         </TextRun>
                                       </TextRuns>
@@ -2595,7 +2732,7 @@
                                     <Paragraph>
                                       <TextRuns>
                                         <TextRun>
-                                          <Value>=Fields!BSQTY.Value</Value>
+                                          <Value>=Sum(Fields!EXPR3.Value, "APOut")</Value>
                                           <Style />
                                         </TextRun>
                                       </TextRuns>
@@ -2626,7 +2763,7 @@
                                     <Paragraph>
                                       <TextRuns>
                                         <TextRun>
-                                          <Value>=Fields!BCONSQTY.Value</Value>
+                                          <Value>=Sum(Fields!CONSQTY.Value, "APOut")</Value>
                                           <Style />
                                         </TextRun>
                                       </TextRuns>
@@ -2724,7 +2861,7 @@
                                     <Paragraph>
                                       <TextRuns>
                                         <TextRun>
-                                          <Value>=Fields!CSQTY.Value</Value>
+                                          <Value>=Sum(Fields!EXPR3.Value, "APCShift")</Value>
                                           <Style />
                                         </TextRun>
                                       </TextRuns>
@@ -2786,7 +2923,7 @@
                                     <Paragraph>
                                       <TextRuns>
                                         <TextRun>
-                                          <Value>=Fields!CSQTY.Value</Value>
+                                          <Value>=Sum(Fields!EXPR3.Value, "APCShift")</Value>
                                           <Style />
                                         </TextRun>
                                       </TextRuns>
@@ -2817,7 +2954,7 @@
                                     <Paragraph>
                                       <TextRuns>
                                         <TextRun>
-                                          <Value>=Fields!CCONSQTY.Value</Value>
+                                          <Value>=Sum(Fields!CONSQTY.Value, "APCShift")</Value>
                                           <Style />
                                         </TextRun>
                                       </TextRuns>
@@ -3755,6 +3892,7 @@
                             </TablixMember>
                           </TablixMembers>
                         </TablixRowHierarchy>
+                        <DataSetName>APProduction</DataSetName>
                         <Top>0.77246cm</Top>
                         <Height>2.4cm</Height>
                         <Width>8.44178cm</Width>
@@ -3783,7 +3921,7 @@
                 <Left>0.855cm</Left>
                 <Height>7.66673cm</Height>
                 <Width>8.44179cm</Width>
-                <ZIndex>9</ZIndex>
+                <ZIndex>8</ZIndex>
                 <Style>
                   <Border>
                     <Style>Solid</Style>
@@ -4199,13 +4337,44 @@
                       <PaddingBottom>2pt</PaddingBottom>
                     </Style>
                   </Textbox>
+                  <Textbox Name="Textbox23">
+                    <CanGrow>true</CanGrow>
+                    <KeepTogether>true</KeepTogether>
+                    <Paragraphs>
+                      <Paragraph>
+                        <TextRuns>
+                          <TextRun>
+                            <Value>=Sum(Fields!OUTQTY.Value, "APProduction")
+-Sum(Fields!OUTQTY.Value, "APOut")</Value>
+                            <Style />
+                          </TextRun>
+                        </TextRuns>
+                        <Style />
+                      </Paragraph>
+                    </Paragraphs>
+                    <rd:DefaultName>Textbox23</rd:DefaultName>
+                    <Top>2.21941cm</Top>
+                    <Left>2.66462cm</Left>
+                    <Height>0.6cm</Height>
+                    <Width>1.52878cm</Width>
+                    <ZIndex>16</ZIndex>
+                    <Style>
+                      <Border>
+                        <Style>None</Style>
+                      </Border>
+                      <PaddingLeft>2pt</PaddingLeft>
+                      <PaddingRight>2pt</PaddingRight>
+                      <PaddingTop>2pt</PaddingTop>
+                      <PaddingBottom>2pt</PaddingBottom>
+                    </Style>
+                  </Textbox>
                 </ReportItems>
                 <KeepTogether>true</KeepTogether>
                 <Top>7.6323cm</Top>
                 <Left>9.28767cm</Left>
                 <Height>7.66673cm</Height>
                 <Width>7.26472cm</Width>
-                <ZIndex>10</ZIndex>
+                <ZIndex>9</ZIndex>
                 <Style>
                   <Border>
                     <Style>Solid</Style>
@@ -4231,7 +4400,7 @@
                 <Left>1.24037cm</Left>
                 <Height>0.33542cm</Height>
                 <Width>2.5cm</Width>
-                <ZIndex>11</ZIndex>
+                <ZIndex>10</ZIndex>
                 <Style>
                   <Border>
                     <Style>None</Style>
@@ -4261,7 +4430,7 @@
                 <Left>9.67544cm</Left>
                 <Height>0.33542cm</Height>
                 <Width>2.5cm</Width>
-                <ZIndex>12</ZIndex>
+                <ZIndex>11</ZIndex>
                 <Style>
                   <Border>
                     <Style>None</Style>
@@ -4291,6 +4460,41 @@
                 <Left>1.24037cm</Left>
                 <Height>0.41479cm</Height>
                 <Width>3.21438cm</Width>
+                <ZIndex>12</ZIndex>
+                <Style>
+                  <Border>
+                    <Style>None</Style>
+                  </Border>
+                  <PaddingLeft>2pt</PaddingLeft>
+                  <PaddingRight>2pt</PaddingRight>
+                  <PaddingTop>2pt</PaddingTop>
+                  <PaddingBottom>2pt</PaddingBottom>
+                </Style>
+              </Textbox>
+              <Textbox Name="Textbox164">
+                <CanGrow>true</CanGrow>
+                <KeepTogether>true</KeepTogether>
+                <Paragraphs>
+                  <Paragraph>
+                    <TextRuns>
+                      <TextRun>
+                        <Value>=First(Fields!SHIFT.Value, "APProduction")</Value>
+                        <Style>
+                          <FontStyle>Italic</FontStyle>
+                          <FontFamily>Times New Roman</FontFamily>
+                          <FontSize>16pt</FontSize>
+                          <FontWeight>Bold</FontWeight>
+                        </Style>
+                      </TextRun>
+                    </TextRuns>
+                    <Style />
+                  </Paragraph>
+                </Paragraphs>
+                <rd:DefaultName>Textbox163</rd:DefaultName>
+                <Top>1.82787cm</Top>
+                <Left>0.07056cm</Left>
+                <Height>0.6cm</Height>
+                <Width>0.68038cm</Width>
                 <ZIndex>13</ZIndex>
                 <Style>
                   <Border>
@@ -4300,6 +4504,7 @@
                   <PaddingRight>2pt</PaddingRight>
                   <PaddingTop>2pt</PaddingTop>
                   <PaddingBottom>2pt</PaddingBottom>
+                  <WritingMode>Rotate270</WritingMode>
                 </Style>
               </Textbox>
             </ReportItems>
@@ -4585,6 +4790,37 @@
                       <TablixCells>
                         <TablixCell>
                           <CellContents>
+                            <Textbox Name="EXPR7">
+                              <CanGrow>true</CanGrow>
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value>=Fields!EXPR7.Value</Value>
+                                      <Style />
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Center</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <rd:DefaultName>EXPR7</rd:DefaultName>
+                              <Style>
+                                <Border>
+                                  <Style>Solid</Style>
+                                </Border>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                                <PaddingBottom>2pt</PaddingBottom>
+                              </Style>
+                            </Textbox>
+                          </CellContents>
+                        </TablixCell>
+                        <TablixCell>
+                          <CellContents>
                             <Textbox Name="EXPR8">
                               <CanGrow>true</CanGrow>
                               <KeepTogether>true</KeepTogether>
@@ -4602,37 +4838,6 @@
                                 </Paragraph>
                               </Paragraphs>
                               <rd:DefaultName>EXPR8</rd:DefaultName>
-                              <Style>
-                                <Border>
-                                  <Style>Solid</Style>
-                                </Border>
-                                <PaddingLeft>2pt</PaddingLeft>
-                                <PaddingRight>2pt</PaddingRight>
-                                <PaddingTop>2pt</PaddingTop>
-                                <PaddingBottom>2pt</PaddingBottom>
-                              </Style>
-                            </Textbox>
-                          </CellContents>
-                        </TablixCell>
-                        <TablixCell>
-                          <CellContents>
-                            <Textbox Name="EXPR9">
-                              <CanGrow>true</CanGrow>
-                              <KeepTogether>true</KeepTogether>
-                              <Paragraphs>
-                                <Paragraph>
-                                  <TextRuns>
-                                    <TextRun>
-                                      <Value>=Fields!EXPR9.Value</Value>
-                                      <Style />
-                                    </TextRun>
-                                  </TextRuns>
-                                  <Style>
-                                    <TextAlign>Center</TextAlign>
-                                  </Style>
-                                </Paragraph>
-                              </Paragraphs>
-                              <rd:DefaultName>EXPR9</rd:DefaultName>
                               <Style>
                                 <Border>
                                   <Style>Solid</Style>
@@ -4739,6 +4944,7 @@
                     </TablixMember>
                   </TablixMembers>
                 </TablixRowHierarchy>
+                <DataSetName>APProduction</DataSetName>
                 <Top>1.20649cm</Top>
                 <Left>0.00911cm</Left>
                 <Height>2.32917cm</Height>
@@ -5043,7 +5249,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>=Fields!BEMP.Value</Value>
+                                      <Value>=First(Fields!EMPNAME.Value, "APOut")</Value>
                                       <Style />
                                     </TextRun>
                                   </TextRuns>
@@ -5074,7 +5280,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>=Fields!CEMP.Value</Value>
+                                      <Value>=First(Fields!EMPNAME.Value, "APCShift")</Value>
                                       <Style />
                                     </TextRun>
                                   </TextRuns>
@@ -5220,10 +5426,10 @@
                     </Paragraph>
                   </Paragraphs>
                   <rd:DefaultName>Textbox2</rd:DefaultName>
-                  <Top>0.865cm</Top>
-                  <Left>4.07141cm</Left>
+                  <Top>0.93556cm</Top>
+                  <Left>4.39517cm</Left>
                   <Height>0.6cm</Height>
-                  <Width>8.55896cm</Width>
+                  <Width>8.39507cm</Width>
                   <ZIndex>2</ZIndex>
                   <Style>
                     <Border>
@@ -5385,96 +5591,6 @@
                     <PaddingBottom>2pt</PaddingBottom>
                   </Style>
                 </Textbox>
-                <Textbox Name="Textbox8">
-                  <CanGrow>true</CanGrow>
-                  <KeepTogether>true</KeepTogether>
-                  <Paragraphs>
-                    <Paragraph>
-                      <TextRuns>
-                        <TextRun>
-                          <Value>=Fields!DOCDATE.Value</Value>
-                          <Style />
-                        </TextRun>
-                      </TextRuns>
-                      <Style />
-                    </Paragraph>
-                  </Paragraphs>
-                  <rd:DefaultName>Textbox8</rd:DefaultName>
-                  <Top>2.41778cm</Top>
-                  <Left>11.95599cm</Left>
-                  <Height>0.6cm</Height>
-                  <Width>2.5cm</Width>
-                  <ZIndex>8</ZIndex>
-                  <Style>
-                    <Border>
-                      <Style>None</Style>
-                    </Border>
-                    <PaddingLeft>2pt</PaddingLeft>
-                    <PaddingRight>2pt</PaddingRight>
-                    <PaddingTop>2pt</PaddingTop>
-                    <PaddingBottom>2pt</PaddingBottom>
-                  </Style>
-                </Textbox>
-                <Textbox Name="Textbox9">
-                  <CanGrow>true</CanGrow>
-                  <KeepTogether>true</KeepTogether>
-                  <Paragraphs>
-                    <Paragraph>
-                      <TextRuns>
-                        <TextRun>
-                          <Value>=Fields!WCID.Value</Value>
-                          <Style />
-                        </TextRun>
-                      </TextRuns>
-                      <Style />
-                    </Paragraph>
-                  </Paragraphs>
-                  <rd:DefaultName>Textbox9</rd:DefaultName>
-                  <Top>3.19417cm</Top>
-                  <Left>11.95599cm</Left>
-                  <Height>0.6cm</Height>
-                  <Width>2.5cm</Width>
-                  <ZIndex>9</ZIndex>
-                  <Style>
-                    <Border>
-                      <Style>None</Style>
-                    </Border>
-                    <PaddingLeft>2pt</PaddingLeft>
-                    <PaddingRight>2pt</PaddingRight>
-                    <PaddingTop>2pt</PaddingTop>
-                    <PaddingBottom>2pt</PaddingBottom>
-                  </Style>
-                </Textbox>
-                <Textbox Name="Textbox10">
-                  <CanGrow>true</CanGrow>
-                  <KeepTogether>true</KeepTogether>
-                  <Paragraphs>
-                    <Paragraph>
-                      <TextRuns>
-                        <TextRun>
-                          <Value>=Fields!DOCID.Value</Value>
-                          <Style />
-                        </TextRun>
-                      </TextRuns>
-                      <Style />
-                    </Paragraph>
-                  </Paragraphs>
-                  <rd:DefaultName>Textbox10</rd:DefaultName>
-                  <Top>2.41778cm</Top>
-                  <Left>2.85433cm</Left>
-                  <Height>0.6cm</Height>
-                  <Width>2.5cm</Width>
-                  <ZIndex>10</ZIndex>
-                  <Style>
-                    <Border>
-                      <Style>None</Style>
-                    </Border>
-                    <PaddingLeft>2pt</PaddingLeft>
-                    <PaddingRight>2pt</PaddingRight>
-                    <PaddingTop>2pt</PaddingTop>
-                    <PaddingBottom>2pt</PaddingBottom>
-                  </Style>
-                </Textbox>
                 <Textbox Name="Textbox11">
                   <CanGrow>true</CanGrow>
                   <KeepTogether>true</KeepTogether>
@@ -5494,7 +5610,7 @@
                   <Left>2.85433cm</Left>
                   <Height>0.6cm</Height>
                   <Width>2.5cm</Width>
-                  <ZIndex>11</ZIndex>
+                  <ZIndex>8</ZIndex>
                   <Style>
                     <Border>
                       <Style>None</Style>
@@ -5524,6 +5640,96 @@
                   <Left>13.9621cm</Left>
                   <Height>0.6cm</Height>
                   <Width>1.81208cm</Width>
+                  <ZIndex>9</ZIndex>
+                  <Style>
+                    <Border>
+                      <Style>None</Style>
+                    </Border>
+                    <PaddingLeft>2pt</PaddingLeft>
+                    <PaddingRight>2pt</PaddingRight>
+                    <PaddingTop>2pt</PaddingTop>
+                    <PaddingBottom>2pt</PaddingBottom>
+                  </Style>
+                </Textbox>
+                <Textbox Name="Textbox19">
+                  <CanGrow>true</CanGrow>
+                  <KeepTogether>true</KeepTogether>
+                  <Paragraphs>
+                    <Paragraph>
+                      <TextRuns>
+                        <TextRun>
+                          <Value>=First(Fields!DOCID.Value, "APOut")</Value>
+                          <Style />
+                        </TextRun>
+                      </TextRuns>
+                      <Style />
+                    </Paragraph>
+                  </Paragraphs>
+                  <rd:DefaultName>Textbox11</rd:DefaultName>
+                  <Top>2.41778cm</Top>
+                  <Left>2.85433cm</Left>
+                  <Height>0.6cm</Height>
+                  <Width>2.5cm</Width>
+                  <ZIndex>10</ZIndex>
+                  <Style>
+                    <Border>
+                      <Style>None</Style>
+                    </Border>
+                    <PaddingLeft>2pt</PaddingLeft>
+                    <PaddingRight>2pt</PaddingRight>
+                    <PaddingTop>2pt</PaddingTop>
+                    <PaddingBottom>2pt</PaddingBottom>
+                  </Style>
+                </Textbox>
+                <Textbox Name="Textbox20">
+                  <CanGrow>true</CanGrow>
+                  <KeepTogether>true</KeepTogether>
+                  <Paragraphs>
+                    <Paragraph>
+                      <TextRuns>
+                        <TextRun>
+                          <Value>=First(Fields!DOCDATE.Value, "APProduction")</Value>
+                          <Style />
+                        </TextRun>
+                      </TextRuns>
+                      <Style />
+                    </Paragraph>
+                  </Paragraphs>
+                  <rd:DefaultName>Textbox11</rd:DefaultName>
+                  <Top>2.41778cm</Top>
+                  <Left>12.4992cm</Left>
+                  <Height>0.6cm</Height>
+                  <Width>2.5cm</Width>
+                  <ZIndex>11</ZIndex>
+                  <Style>
+                    <Border>
+                      <Style>None</Style>
+                    </Border>
+                    <PaddingLeft>2pt</PaddingLeft>
+                    <PaddingRight>2pt</PaddingRight>
+                    <PaddingTop>2pt</PaddingTop>
+                    <PaddingBottom>2pt</PaddingBottom>
+                  </Style>
+                </Textbox>
+                <Textbox Name="Textbox21">
+                  <CanGrow>true</CanGrow>
+                  <KeepTogether>true</KeepTogether>
+                  <Paragraphs>
+                    <Paragraph>
+                      <TextRuns>
+                        <TextRun>
+                          <Value>=First(Fields!WCID.Value, "APProduction")</Value>
+                          <Style />
+                        </TextRun>
+                      </TextRuns>
+                      <Style />
+                    </Paragraph>
+                  </Paragraphs>
+                  <rd:DefaultName>Textbox11</rd:DefaultName>
+                  <Top>3.19417cm</Top>
+                  <Left>12.4992cm</Left>
+                  <Height>0.6cm</Height>
+                  <Width>2.5cm</Width>
                   <ZIndex>12</ZIndex>
                   <Style>
                     <Border>
