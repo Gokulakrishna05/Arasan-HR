@@ -1116,14 +1116,15 @@ namespace Arasan.Controllers
             Dictionary<string, string> Parameters = new Dictionary<string, string>();
             //  Parameters.Add("rp1", " Hi Everyone");
 
-            var APitem = await IProductionEntry.GetAPItem(aid, bid, cid);
+            var APitem = await IProductionEntry.GetAPItem(aid);
 
-
-
+            var APitems = await IProductionEntry.GetAPItems(bid);
+            var APitemsc = await IProductionEntry.GetAPItemsc(cid);
             LocalReport localReport = new LocalReport(path);
 
             localReport.AddDataSource("APProduction", APitem);
-
+            localReport.AddDataSource("APOut", APitems);
+            localReport.AddDataSource("APCShift", APitemsc);
             //localReport.AddDataSource("DataSet1_DataTable1", po);
             var result = localReport.Execute(RenderType.Pdf, extension, Parameters, mimtype);
 
