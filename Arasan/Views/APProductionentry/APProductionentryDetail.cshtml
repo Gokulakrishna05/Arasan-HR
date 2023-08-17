@@ -155,7 +155,7 @@ a{
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Assign Engineer<label class="mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Engineer<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
 
                                             @Html.DisplayFor(C => C.Eng)<br>
@@ -334,15 +334,20 @@ a{
 
                                                     </div>
                                                 </div>
-                                                  <div class="col-lg-11"></div>
-                                                  <button type="button" class="btn aqua m-t-xs bottom15-xs"  id="btnInsert">Submit</button>
+                                                 
                                                 <!-- 1st tab  -->
                                             </div>
                                             <div class="tab-pane" id="tab-2">
                                                 <!-- 2nd tab  -->
                                                 <div class="row">
-                                                    
 
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <div class="btn-group">
+                                                                            <input type="button" value="Add Row" onclick="AddConsRow()" class="btn sbold green" />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
 
                                                     <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:200px;">
                                                         <table class="table table-striped table-hover" id="dataTableinc">
@@ -370,9 +375,9 @@ a{
                                                                                 </td>
                                                                             <td>@Html.TextBoxFor(o => o.Binconslst[j].consunit, new { @id = "txtconsunit" + j, @class = "form-control", style = "width: 100px;",@readonly=true})@Html.HiddenFor(o => o.Binconslst[j].unitid, new { @id = "txtconsunitid" + j, @class = "form-control", style = "width: 100px;"})</td>
                                                                             <td>@Html.TextBoxFor(o => o.Binconslst[j].BinId, new { @id = "txtConsBinId" + j, @class = "form-control", style = "width: 100px;",@readonly=true})@Html.HiddenFor(o => o.Binconslst[j].consBin, new { @id = "txtConsBin" + j, @class = "form-control", style = "width: 100px;"})</td>
-                                                                            <td>@Html.TextBoxFor(o => o.Binconslst[j].ConsStock, new { @id = "txtConsStock" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;text-align:right" })</td>
-                                                                            <td>@Html.TextBoxFor(o => o.Binconslst[j].consQty, new { @id = "txtconsQty" + j, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeConsQty(this," + j + ")" })</td>
-                                                                             <td>@Html.TextBoxFor(o => o.Binconslst[j].Qty, new { @id = "txtQty" + j, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeConsQty(this," + j + ")" })</td>
+                                                                            <td>@Html.TextBoxFor(o => o.Binconslst[j].ConsStock, new { @id = "txtConsStock" + j, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;text-align:right" })</td>
+                                                                            <td>@Html.TextBoxFor(o => o.Binconslst[j].consQty, new { @id = "txtconsQty" + j, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right" })</td>
+                                                                             <td>@Html.TextBoxFor(o => o.Binconslst[j].Qty, new { @id = "txtQty" + j, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right" })</td>
 
                                                                             <td>
                                                                                 @Html.HiddenFor(o => o.Binconslst[j].Isvalid, new { @id = "IsConsvalid" + j })
@@ -391,11 +396,11 @@ a{
 
 
                                                 </div>
-                                                  <div class="col-lg-11"></div>
-                                                  <button type="button" class="btn aqua m-t-xs bottom15-xs"  id="btnCons">Submit</button>
+                                               
                                                 <!-- 2nd tab  -->
                                             </div>
-
+                                                        <div class="col-lg-11"></div>
+                                                        <button type="button" class="btn aqua m-t-xs bottom15-xs" id="btnInsert" onclick="insertinputdetails()">Submit</button>
                                      </div>
                                </div>
                                </div>
@@ -680,7 +685,7 @@ a{
                               <br />      <label for="inputName3" class="col-sm-4 control-label">Is Complete<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
                                                     <div class="input-group">
-                                                @Html.CheckBoxFor(model => model.Complete,new{value="Yes",onchange = "changeentry(this.value)"})
+                                                @Html.CheckBoxFor(model => model.Complete,new{value="Yes",onchange = "changeentry(this.value)",@id="chkcmp"})
                                                 @*  @Html.RadioButtonFor(C => C.Complete, "Yes", new { @TabIndex = 2 ,onchange = "changeentry(this.value)"})
                                                         <label id="mt-radio">Yes</label>
                                                 @Html.RadioButtonFor(C => C.Complete, "No", new { @TabIndex = 3,onchange = "changeentry(this.value)" ,@checked="checked"})
@@ -710,9 +715,13 @@ a{
 
     </div>
 </div>
+
+</div>
 <script>
     $(function() {
             $('._select').select2();
+        var shift = '@ViewBag.shift';
+        changeshift(shift);
         });
         $('.form_date').datetimepicker({
             //   language:  'fr',
@@ -724,6 +733,19 @@ a{
             minView: 2,
             forceParse: 0
         });
+    function changeshift(Shiftid) {
+        $.ajax({
+            url: 'GetshiftDetail',
+            data: { "Shiftid": Shiftid },
+            type: "GET",
+            success: function (result) {
+                document.getElementById("shiftdetails").innerHTML = result.fromtime + " to " + result.totime + "  Total Hours : " + result.tothrs;
+            },
+            error: function () {
+                alert("Data Not Found");
+            }
+        });
+    }
         function changeMachineItem(ItemId, i) {
         $.ajax({
             url: 'GetMachineDetail',
@@ -834,6 +856,25 @@ a{
              
                         AppendRow(opt);
                    
+
+            }
+        })
+    }
+    function AddConsRow() {
+        var opt = "";
+
+
+        $.ajax({
+            type: "POST",
+            url: 'GetconsItemJSON',
+            success: function (data) {
+                $.each(data, function () {
+                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
+                });
+
+
+                AppendConsRow(opt);
+
 
             }
         })
@@ -1143,22 +1184,66 @@ a{
         });
     }*@
       function changeentry(typeid) {
-          
-        if (typeid == "Yes") {
-           
-            document.getElementById("go").style.display = "block";
-           @* document.getElementById("btnCansel").style.display = "block";*@
-        }
-        else {
-           
-   
-      document.getElementById("go").style.display = "none";
-           @* document.getElementById("btnCansel").style.display = "none";*@
-                
-            
-        }
+                if ($('#chkcmp').prop('checked') == true) {
+                    document.getElementById("go").style.display = "block";
+                }
+                else{
+                    document.getElementById("go").style.display = "none";
+                }
     }
+    function insertinputdetails(){
+            var j = 0;
+            var i=0;
+            var ProInput = new Array();
+            $('tr.chkitemlst').each(function () {
+                if ($(this).css('display') !== 'none') {
+                    var order = {};
+                    order.ItemId = document.getElementById("ddlItem" + j).value;
+                    order.BinId = document.getElementById("txtBinId" + j).value;
+                    order.batchno = document.getElementById("txtbatchno" + j).value;
+                    order.IssueQty = document.getElementById("txtIssueQty" + j).value;
+                    order.StockAvailable = document.getElementById("txtStockAvailable" + j).value;
+                    ProInput.push(order);
+                    j += 1;
+                }
+            });
 
+            var APProInCons = new Array();
+                $('tr.chkitemlstinc').each(function () {
+                    if ($(this).css('display') !== 'none') {
+                        var proincons = {};
+                    proincons.ItemId = document.getElementById("ddlConsItem" + i).value;
+                    proincons.BinId = document.getElementById("txtConsBinId" + i).value;
+                    proincons.Qty = document.getElementById("txtQty" + i).value;
+                   proincons.consQty = document.getElementById("txtconsQty" + i).value;
+    proincons.ConsStock = document.getElementById("txtConsStock" + i).value;
+                    APProInCons.push(proincons);
+                    i += 1;
+                    }
+                }); 
+            alert(JSON.stringify(ProInput));
+            $.ajax({
+                type: "POST",
+                url: "InsertProInput",
+            data: JSON.stringify(ProInput),
+                contentType: "application/json",
+                dataType: "json",
+                success: function (r) {
+                    //alert(r + " record(s) inserted.");
+                }
+            });
+
+        $.ajax({
+            type: "POST",
+            url: "InsertConsInput",
+            data: JSON.stringify(APProInCons),
+            contentType: "application/json",
+            dataType: "json",
+            success: function (r) {
+                //alert(r + " record(s) inserted.");
+            }
+        });
+    }    
 </script>
 <a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
 <a class="fancyboxe1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
