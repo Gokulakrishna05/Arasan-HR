@@ -1,5 +1,6 @@
 using Arasan.Interface;
 using Arasan.Models;
+using AspNetCore.Reporting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Options;
@@ -14,14 +15,17 @@ namespace Arasan.Controllers
 	{
 		IAPProductionEntry IProductionEntry;
 		IConfiguration? _configuratio;
-		private string? _connectionString;
+        private readonly IWebHostEnvironment _WebHostEnvironment;
+        private string? _connectionString;
 		DataTransactions datatrans;
-		public APProductionentryController(IAPProductionEntry _IProductionEntry, IConfiguration _configuratio)
+		public APProductionentryController(IAPProductionEntry _IProductionEntry, IConfiguration _configuratio, IWebHostEnvironment WebHostEnvironment)
 		{
-			IProductionEntry = _IProductionEntry;
+            this._WebHostEnvironment = WebHostEnvironment;
+            IProductionEntry = _IProductionEntry;
 			_connectionString = _configuratio.GetConnectionString("OracleDBConnection");
 			datatrans = new DataTransactions(_connectionString);
-		}
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+        }
 
 
 		public ActionResult APProductionentry(string id)
@@ -1093,5 +1097,38 @@ namespace Arasan.Controllers
 				throw ex;
 			}
 		}
-	}
+        public async Task<IActionResult> Print(string id)
+
+        {
+
+            string mimtype = "";
+            int extension = 1;
+            DataTable ap = datatrans.GetData("Select SHIFT from APPRODUCTIONBASIC where DOCID='" + id + "' ");
+            string a = ap.Rows[0]["SHIFT"].ToString();
+            string b = ap.Rows[1]["SHIFT"].ToString();
+            string c = ap.Rows[2]["SHIFT"].ToString();
+
+            string aid = datatrans.GetDataString("Select APPRODUCTIONBASICID from APPRODUCTIONBASIC where SHIFT='" + a + "' and DOCID='" + id + "' ");
+            string bid = datatrans.GetDataString("Select APPRODUCTIONBASICID from APPRODUCTIONBASIC where SHIFT='" + b + "'  and DOCID='" + id + "' ");
+            string cid = datatrans.GetDataString("Select APPRODUCTIONBASICID from APPRODUCTIONBASIC where SHIFT='" + c + "'  and DOCID='" + id + "' ");
+            DataSet ds = new DataSet();
+            var path = $"{this._WebHostEnvironment.WebRootPath}\\Reports\\Production.rdlc";
+            Dictionary<string, string> Parameters = new Dictionary<string, string>();
+            //  Parameters.Add("rp1", " Hi Everyone");
+
+            var APitem = await IProductionEntry.GetAPItem(aid, bid, cid);
+
+
+
+            LocalReport localReport = new LocalReport(path);
+
+            localReport.AddDataSource("APProduction", APitem);
+
+            //localReport.AddDataSource("DataSet1_DataTable1", po);
+            var result = localReport.Execute(RenderType.Pdf, extension, Parameters, mimtype);
+
+            return File(result.MainStream, "application/Pdf");
+
+        }
+    }
 }
