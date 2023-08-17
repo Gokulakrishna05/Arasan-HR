@@ -399,10 +399,7 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-
-       
-
-        public IActionResult ViewQuote(string id)
+      public IActionResult ViewQuote(string id)
         {
             SalesEnquiry ca = new SalesEnquiry();
             DataTable dt = new DataTable();
