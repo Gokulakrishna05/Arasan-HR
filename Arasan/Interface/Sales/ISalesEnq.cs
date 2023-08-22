@@ -20,7 +20,7 @@ namespace Arasan.Interface
         DataTable GetEnqByName(string id);
         DataTable GetEnqItem(string id);
         DataTable GetEnqDetail(string id);
-        DataTable GetFolowup(string id);
+        DataTable GetFollowup(string id);
         string PurchaseFollowupCRUD(EnqFollowup pf);
         IEnumerable<SalesItem> GetAllSalesenquriyItem(string id);
 

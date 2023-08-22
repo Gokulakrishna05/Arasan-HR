@@ -513,17 +513,19 @@ namespace Arasan.Services
         public DataTable GetEnqDetail(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select   ENQ_NO ,PARTYRCODE.PARTY from SALES_ENQUIRY  LEFT OUTER JOIN  PARTYMAST on SALES_ENQUIRY.CUSTOMER_NAME=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Customer','BOTH')  AND SALES_ENQUIRY.SALESENQUIRYID='" + id + "'";
+            // SvSql = "Select ENQ_NO ,PARTYRCODE.PARTY from SALES_ENQUIRY  LEFT OUTER JOIN  PARTYMAST on SALES_ENQUIRY.CUSTOMER_NAME=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Customer','BOTH')  AND SALES_ENQUIRY.SALESENQUIRYID='" + id + "'";
+            SvSql = "Select ENQ_NO ,PARTYMAST.PARTYNAME from SALES_ENQUIRY  LEFT OUTER JOIN  PARTYMAST on SALES_ENQUIRY.CUSTOMER_NAME=PARTYMAST.PARTYMASTID  Where PARTYMAST.TYPE IN ('Customer','BOTH') AND SALES_ENQUIRY.SALESENQUIRYID='" + id + "'";
+
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetFolowup(string id)
+        public DataTable GetFollowup(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select   ENQ_NO ,FOLLOW_BY,to_char(SALES_ENQ_FOLLOWUP.FOLLOWDATE,'dd-MON-yyyy')FOLLOWDATE,to_char(SALES_ENQ_FOLLOWUP.NEXTFOLLOWDATE,'dd-MON-yyyy')NEXTFOLLOWDATE,REMARK,FOLLOW_DETAILS ,SALESENQFOLLOWID From SALES_ENQ_FOLLOWUP Where SALES_ENQ_FOLLOWUP.ENQ_NO='" + id + "'";
+            SvSql = "Select ENQ_NO ,FOLLOW_BY,to_char(SALES_ENQ_FOLLOWUP.FOLLOWDATE,'dd-MON-yyyy')FOLLOWDATE,to_char(SALES_ENQ_FOLLOWUP.NEXTFOLLOWDATE,'dd-MON-yyyy')NEXTFOLLOWDATE,REMARK,FOLLOW_DETAILS,SALESENQFOLLOWID From SALES_ENQ_FOLLOWUP Where SALES_ENQ_FOLLOWUP.ENQ_NO='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -535,7 +537,6 @@ namespace Arasan.Services
         {
             string SvSql = string.Empty;
             SvSql = "select ITEMID,ITEMMASTERID from ITEMMASTER WHERE IGROUP = 'FINISHED'";
-            
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -550,8 +551,8 @@ namespace Arasan.Services
             {
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
-                {
-                    svSQL = "UPDATE SALES_ENQUIRY SET ISACTIVE ='NO' WHERE SALESENQUIRYID='" + id + "'";
+                {      
+                    svSQL = "UPDATE SALES_ENQUIRY SET ISACTIVE ='NO' WHERE SALESENQUIRYID='" + id + "'"; 
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();

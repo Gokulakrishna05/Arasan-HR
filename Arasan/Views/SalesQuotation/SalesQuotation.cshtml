@@ -66,6 +66,7 @@
                                         <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.EnqType, Model.Enqlst, new { @id = "ddlEnqType", @Class = "form-control  _select", @TabIndex = 1 })
                                             @Html.HiddenFor(C => C.ID)
+                                            @Html.HiddenFor(C => C.QuoId)
                                         </div>
                                     </div>
                                 </div>
@@ -806,7 +807,7 @@
                     "background": ""
                 });
             }
-            if (document.getElementById("txtMobile").value == "") {
+            @*if (document.getElementById("txtMobile").value == "") {
                 isValid = false;
                 $(txtMobile).css({
                     "border": "1px solid red",
@@ -821,7 +822,7 @@
                     "border": "",
                     "background": ""
                 });
-            }
+            }*@
 
 
             if (document.getElementById("ddlCustomerType").value == "" || document.getElementById("ddlCustomerType").value == 0) {

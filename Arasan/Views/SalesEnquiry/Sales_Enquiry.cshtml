@@ -58,6 +58,7 @@
                                                 <div class="col-sm-8">
                                         @Html.DropDownListFor(C => C.EnqType, Model.Enqlst, "Please Select", new { @id = "ddlEnqType", @Class = "form-control chosen-select", @TabIndex = 1 })
                                           @Html.HiddenFor(C => C.ID)
+                                            @Html.HiddenFor(C => C.EnqNo)
                                           <br>
                                                 </div>
                                             </div>
