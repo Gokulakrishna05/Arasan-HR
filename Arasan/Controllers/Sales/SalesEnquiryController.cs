@@ -179,8 +179,7 @@ namespace Arasan.Controllers
                     throw ex;
                 }
             }
-
-            public List<SelectListItem> BindCurrency()
+           public List<SelectListItem> BindCurrency()
             {
                 try
                 {
@@ -503,18 +502,18 @@ namespace Arasan.Controllers
             }
             else
             {
-                if (!string.IsNullOrEmpty(id))
+                if (!string.IsNullOrEmpty(id)) 
                 {
                     DataTable dt = new DataTable();
                     dt = Sales.GetEnqDetail(id);
                     if (dt.Rows.Count > 0)
                     {
                         cmp.EnqNo = dt.Rows[0]["ENQ_NO"].ToString();
-                        cmp.CusName = dt.Rows[0]["PARTY"].ToString();
+                        cmp.CusName = dt.Rows[0]["PARTYNAME"].ToString();
                     }
                     DataTable dtt = new DataTable();
                     string e = cmp.EnqNo;
-                    dtt = Sales.GetFolowup(e);
+                    dtt = Sales.GetFollowup(e);
                    SalesEnqFollowupDetails tda = new SalesEnqFollowupDetails();
 
                     if (dtt.Rows.Count > 0)
@@ -527,12 +526,12 @@ namespace Arasan.Controllers
                             tda.Nfdate = dtt.Rows[i]["NEXTFOLLOWDATE"].ToString();
                             tda.Rmarks = dtt.Rows[i]["REMARK"].ToString();
                             tda.Enquiryst = dtt.Rows[i]["FOLLOW_DETAILS"].ToString();
+                           
                             TData.Add(tda);
                         }
                     }
                
-            
-        }
+                }
             }
             cmp.qflst = TData;
             return View(cmp);

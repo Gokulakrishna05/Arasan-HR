@@ -53,7 +53,7 @@
                                                             <th>Enquiry No</th>
                                                             <th>Quo No</th>
                                                             <th>Quo Date</th>
-                                                            <th>Customer Name</th>
+                                                           @* <th>Customer Name</th>*@
                                                             @* <th>Currency</th>*@
                                                             <th>Send Mail</th>
                                                             <th>Followup</th>
@@ -74,7 +74,7 @@
                                                                             <td>@Html.DisplayFor(modelItem => item.EnNo)</td>
                                                                             <td>@Html.DisplayFor(modelItem => item.QuoId)</td>
                                                                             <td>@Html.DisplayFor(modelItem => item.QuoDate)</td>
-                                                                             <td>@Html.DisplayFor(modelItem => item.Customer)</td>
+                                                                             
                                                                     @if (item.status == "CLOSE")
                                                                     {
                                                                          <td></td>

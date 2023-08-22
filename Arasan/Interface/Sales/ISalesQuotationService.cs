@@ -11,6 +11,7 @@ namespace Arasan.Interface.Sales
         DataTable GetBranch();
         DataTable Getcountry();
         DataTable GetEnquiry();
+        
         DataTable GetSupplier();
         DataTable GetSalesQuotation(string id);
         DataTable GetSalesQuotationItemDetails(string id);
@@ -22,7 +23,7 @@ namespace Arasan.Interface.Sales
         DataTable GetCusType();
         DataTable GetPurchaseQuotationDetails(string id);
         string SalesQuotationFollowupCRUD(QuotationFollowup pf);
-        DataTable GetFolowup(string enqid);
+        DataTable GetFollowup(string enqid);
         //DataTable GetSalesQuotationByName(string id);
         //DataTable GetSalesQuotationItem(string id);
         string StatusChange(string tag, int id);

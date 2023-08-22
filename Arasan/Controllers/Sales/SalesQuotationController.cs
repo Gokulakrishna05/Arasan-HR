@@ -415,7 +415,7 @@ namespace Arasan.Controllers.Sales
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ENQ_NO"].ToString(), Value = dtDesg.Rows[i]["ID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ENQ_NO"].ToString(), Value = dtDesg.Rows[i]["SALESENQUIRYID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -424,6 +424,7 @@ namespace Arasan.Controllers.Sales
                 throw ex;
             }
         }
+
         public List<SelectListItem> BindCurrency()
         {
             try
@@ -572,6 +573,7 @@ namespace Arasan.Controllers.Sales
         {
             QuotationFollowup cmp = new QuotationFollowup();
             cmp.EnqassignList = BindEmp();
+            cmp.Followdate = DateTime.Now.ToString("dd-MMM-yyyy");
             List<QuotationFollowupDetail> TData = new List<QuotationFollowupDetail>();
             if (id == null)
             {
@@ -587,11 +589,11 @@ namespace Arasan.Controllers.Sales
                     if (dt.Rows.Count > 0)
                     {
                         cmp.QuoId = dt.Rows[0]["QUOTE_NO"].ToString();
-                        cmp.Customer = dt.Rows[0]["PARTY"].ToString();
+                        cmp.Customer = dt.Rows[0]["PARTYNAME"].ToString();
                     }
                     DataTable dtt = new DataTable();
                     string e = cmp.QuoId;
-                    dtt = SalesQuotationService.GetFolowup(e);
+                    dtt = SalesQuotationService.GetFollowup(e);
                     QuotationFollowupDetail tda = new QuotationFollowupDetail();
 
                     if (dtt.Rows.Count > 0)
@@ -613,8 +615,8 @@ namespace Arasan.Controllers.Sales
 
             return View(cmp);
 
+         }
 
-        }
         [HttpPost]
         public ActionResult Followup(QuotationFollowup Pf, string id)
         {
