@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DataSet6" targetNamespace="http://tempuri.org/DataSet6.xsd" xmlns:mstns="http://tempuri.org/DataSet6.xsd" xmlns="http://tempuri.org/DataSet6.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection ConnectionStringObject="DATA SOURCE=192.168.0.9:1521/orcl;TNS_ADMIN=C:\Users\ace\Oracle\network\admin;PASSWORD=Master_1234;PERSIST SECURITY INFO=True;USER ID=TAAIERP" IsAppSettingsProperty="false" Modifier="Assembly" Name="TAAIERP.orcl" ParameterPrefix=":" Provider="Oracle.ManagedDataAccess.Client" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="DataTable1TableAdapter" GeneratorDataComponentClassName="DataTable1TableAdapter" Name="DataTable1" UserDataComponentName="DataTable1TableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="TAAIERP.orcl" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT       TAAIERP.APPRODUCTIONBASIC.APPRODUCTIONBASICID, TAAIERP.APPRODUCTIONBASIC.DOCID, TAAIERP.APPRODUCTIONBASIC.DOCDATE, TAAIERP.APPRODUCTIONBASIC.SHIFT, 
+                         TAAIERP.APPRODINPDET.APPRODINPDETID, TAAIERP.APPRODINPDET.APPRODUCTIONBASICID AS EXPR1, TAAIERP.APPRODINPDET.ITEMID, TAAIERP.APPRODINPDET.QTY, TAAIERP.APPRODINPDET.CHARGINGTIME, 
+                         TAAIERP.APPRODINPDET.UNIT, TAAIERP.APPRODCONSDET.APPRODCONSDETID, TAAIERP.APPRODCONSDET.APPRODUCTIONBASICID AS EXPR2, TAAIERP.APPRODCONSDET.CONSQTY, 
+                         TAAIERP.APPRODCONSDET.QTY AS EXPR3, TAAIERP.APPRODOUTDET.DRUMNO, TAAIERP.APPRODOUTDET.ITEMID AS EXPR4, TAAIERP.APPRODOUTDET.APPRODUCTIONBASICID AS EXPR5, 
+                         TAAIERP.APPRODOUTDET.APPRODOUTDETID, TAAIERP.APPRODOUTDET.OUTQTY, TAAIERP.APPRODOUTDET.FROMTIME, TAAIERP.APPRODOUTDET.TESTRESULT, TAAIERP.APPRODOUTDET.TOTIME, 
+                         TAAIERP.APPRODBREAKDET.APPRODBREAKDETID, TAAIERP.APPRODBREAKDET.FROMTIME AS EXPR6, TAAIERP.APPRODBREAKDET.TOTIME AS EXPR7, TAAIERP.APPRODBREAKDET.PB, 
+                         TAAIERP.APPRODBREAKDET.REASON, TAAIERP.APPRODEMPDET.APPRODEMPDETID, TAAIERP.APPRODEMPDET.EMPID
+FROM            TAAIERP.APPRODUCTIONBASIC INNER JOIN
+                         TAAIERP.APPRODINPDET ON TAAIERP.APPRODUCTIONBASIC.APPRODUCTIONBASICID = TAAIERP.APPRODINPDET.APPRODUCTIONBASICID INNER JOIN
+                         TAAIERP.APPRODOUTDET ON TAAIERP.APPRODUCTIONBASIC.APPRODUCTIONBASICID = TAAIERP.APPRODOUTDET.APPRODUCTIONBASICID INNER JOIN
+                         TAAIERP.APPRODCONSDET ON TAAIERP.APPRODUCTIONBASIC.APPRODUCTIONBASICID = TAAIERP.APPRODCONSDET.APPRODUCTIONBASICID INNER JOIN
+                         TAAIERP.APPRODBREAKDET ON TAAIERP.APPRODUCTIONBASIC.APPRODUCTIONBASICID = TAAIERP.APPRODBREAKDET.APPRODUCTIONBASICID INNER JOIN
+                         TAAIERP.APPRODEMPDET ON TAAIERP.APPRODUCTIONBASIC.APPRODUCTIONBASICID = TAAIERP.APPRODEMPDET.APPRODUCTIONBASICID</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="APPRODUCTIONBASICID" DataSetColumn="APPRODUCTIONBASICID" />
+              <Mapping SourceColumn="DOCID" DataSetColumn="DOCID" />
+              <Mapping SourceColumn="DOCDATE" DataSetColumn="DOCDATE" />
+              <Mapping SourceColumn="SHIFT" DataSetColumn="SHIFT" />
+              <Mapping SourceColumn="APPRODINPDETID" DataSetColumn="APPRODINPDETID" />
+              <Mapping SourceColumn="EXPR1" DataSetColumn="EXPR1" />
+              <Mapping SourceColumn="ITEMID" DataSetColumn="ITEMID" />
+              <Mapping SourceColumn="QTY" DataSetColumn="QTY" />
+              <Mapping SourceColumn="CHARGINGTIME" DataSetColumn="CHARGINGTIME" />
+              <Mapping SourceColumn="UNIT" DataSetColumn="UNIT" />
+              <Mapping SourceColumn="APPRODCONSDETID" DataSetColumn="APPRODCONSDETID" />
+              <Mapping SourceColumn="EXPR2" DataSetColumn="EXPR2" />
+              <Mapping SourceColumn="CONSQTY" DataSetColumn="CONSQTY" />
+              <Mapping SourceColumn="EXPR3" DataSetColumn="EXPR3" />
+              <Mapping SourceColumn="DRUMNO" DataSetColumn="DRUMNO" />
+              <Mapping SourceColumn="EXPR4" DataSetColumn="EXPR4" />
+              <Mapping SourceColumn="EXPR5" DataSetColumn="EXPR5" />
+              <Mapping SourceColumn="APPRODOUTDETID" DataSetColumn="APPRODOUTDETID" />
+              <Mapping SourceColumn="OUTQTY" DataSetColumn="OUTQTY" />
+              <Mapping SourceColumn="FROMTIME" DataSetColumn="FROMTIME" />
+              <Mapping SourceColumn="TESTRESULT" DataSetColumn="TESTRESULT" />
+              <Mapping SourceColumn="TOTIME" DataSetColumn="TOTIME" />
+              <Mapping SourceColumn="APPRODBREAKDETID" DataSetColumn="APPRODBREAKDETID" />
+              <Mapping SourceColumn="EXPR6" DataSetColumn="EXPR6" />
+              <Mapping SourceColumn="EXPR7" DataSetColumn="EXPR7" />
+              <Mapping SourceColumn="PB" DataSetColumn="PB" />
+              <Mapping SourceColumn="REASON" DataSetColumn="REASON" />
+              <Mapping SourceColumn="APPRODEMPDETID" DataSetColumn="APPRODEMPDETID" />
+              <Mapping SourceColumn="EMPID" DataSetColumn="EMPID" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DataSet6" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="DataSet6" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="DataSet6">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="DataTable1" msprop:Generator_RowEvHandlerName="DataTable1RowChangeEventHandler" msprop:Generator_RowDeletedName="DataTable1RowDeleted" msprop:Generator_RowDeletingName="DataTable1RowDeleting" msprop:Generator_RowEvArgName="DataTable1RowChangeEvent" msprop:Generator_TablePropName="DataTable1" msprop:Generator_RowChangedName="DataTable1RowChanged" msprop:Generator_RowChangingName="DataTable1RowChanging" msprop:Generator_TableClassName="DataTable1DataTable" msprop:Generator_RowClassName="DataTable1Row" msprop:Generator_TableVarName="tableDataTable1" msprop:Generator_UserTableName="DataTable1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="APPRODUCTIONBASICID" msprop:Generator_ColumnPropNameInRow="APPRODUCTIONBASICID" msprop:Generator_ColumnPropNameInTable="APPRODUCTIONBASICIDColumn" msprop:Generator_ColumnVarNameInTable="columnAPPRODUCTIONBASICID" msprop:Generator_UserColumnName="APPRODUCTIONBASICID" type="xs:decimal" />
+              <xs:element name="DOCID" msprop:Generator_ColumnPropNameInRow="DOCID" msprop:Generator_ColumnPropNameInTable="DOCIDColumn" msprop:Generator_ColumnVarNameInTable="columnDOCID" msprop:Generator_UserColumnName="DOCID" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="78" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DOCDATE" msprop:Generator_ColumnPropNameInRow="DOCDATE" msprop:Generator_ColumnPropNameInTable="DOCDATEColumn" msprop:Generator_ColumnVarNameInTable="columnDOCDATE" msprop:Generator_UserColumnName="DOCDATE" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="SHIFT" msprop:Generator_ColumnPropNameInRow="SHIFT" msprop:Generator_ColumnPropNameInTable="SHIFTColumn" msprop:Generator_ColumnVarNameInTable="columnSHIFT" msprop:Generator_UserColumnName="SHIFT" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="20" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="APPRODINPDETID" msprop:Generator_ColumnPropNameInRow="APPRODINPDETID" msprop:Generator_ColumnPropNameInTable="APPRODINPDETIDColumn" msprop:Generator_ColumnVarNameInTable="columnAPPRODINPDETID" msprop:Generator_UserColumnName="APPRODINPDETID" type="xs:decimal" />
+              <xs:element name="EXPR1" msprop:Generator_ColumnPropNameInRow="EXPR1" msprop:Generator_ColumnPropNameInTable="EXPR1Column" msprop:Generator_ColumnVarNameInTable="columnEXPR1" msprop:Generator_UserColumnName="EXPR1" type="xs:decimal" minOccurs="0" />
+              <xs:element name="ITEMID" msprop:Generator_ColumnPropNameInRow="ITEMID" msprop:Generator_ColumnPropNameInTable="ITEMIDColumn" msprop:Generator_ColumnVarNameInTable="columnITEMID" msprop:Generator_UserColumnName="ITEMID" type="xs:decimal" minOccurs="0" />
+              <xs:element name="QTY" msprop:Generator_ColumnPropNameInRow="QTY" msprop:Generator_ColumnPropNameInTable="QTYColumn" msprop:Generator_ColumnVarNameInTable="columnQTY" msprop:Generator_UserColumnName="QTY" type="xs:decimal" minOccurs="0" />
+              <xs:element name="CHARGINGTIME" msprop:Generator_ColumnPropNameInRow="CHARGINGTIME" msprop:Generator_ColumnPropNameInTable="CHARGINGTIMEColumn" msprop:Generator_ColumnVarNameInTable="columnCHARGINGTIME" msprop:Generator_UserColumnName="CHARGINGTIME" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="20" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="UNIT" msprop:Generator_ColumnPropNameInRow="UNIT" msprop:Generator_ColumnPropNameInTable="UNITColumn" msprop:Generator_ColumnVarNameInTable="columnUNIT" msprop:Generator_UserColumnName="UNIT" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="20" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="APPRODCONSDETID" msprop:Generator_ColumnPropNameInRow="APPRODCONSDETID" msprop:Generator_ColumnPropNameInTable="APPRODCONSDETIDColumn" msprop:Generator_ColumnVarNameInTable="columnAPPRODCONSDETID" msprop:Generator_UserColumnName="APPRODCONSDETID" type="xs:decimal" />
+              <xs:element name="EXPR2" msprop:Generator_ColumnPropNameInRow="EXPR2" msprop:Generator_ColumnPropNameInTable="EXPR2Column" msprop:Generator_ColumnVarNameInTable="columnEXPR2" msprop:Generator_UserColumnName="EXPR2" type="xs:decimal" minOccurs="0" />
+              <xs:element name="CONSQTY" msprop:Generator_ColumnPropNameInRow="CONSQTY" msprop:Generator_ColumnPropNameInTable="CONSQTYColumn" msprop:Generator_ColumnVarNameInTable="columnCONSQTY" msprop:Generator_UserColumnName="CONSQTY" type="xs:decimal" minOccurs="0" />
+              <xs:element name="EXPR3" msprop:Generator_ColumnPropNameInRow="EXPR3" msprop:Generator_ColumnPropNameInTable="EXPR3Column" msprop:Generator_ColumnVarNameInTable="columnEXPR3" msprop:Generator_UserColumnName="EXPR3" type="xs:decimal" minOccurs="0" />
+              <xs:element name="DRUMNO" msprop:Generator_ColumnPropNameInRow="DRUMNO" msprop:Generator_ColumnPropNameInTable="DRUMNOColumn" msprop:Generator_ColumnVarNameInTable="columnDRUMNO" msprop:Generator_UserColumnName="DRUMNO" type="xs:decimal" minOccurs="0" />
+              <xs:element name="EXPR4" msprop:Generator_ColumnPropNameInRow="EXPR4" msprop:Generator_ColumnPropNameInTable="EXPR4Column" msprop:Generator_ColumnVarNameInTable="columnEXPR4" msprop:Generator_UserColumnName="EXPR4" type="xs:decimal" minOccurs="0" />
+              <xs:element name="EXPR5" msprop:Generator_ColumnPropNameInRow="EXPR5" msprop:Generator_ColumnPropNameInTable="EXPR5Column" msprop:Generator_ColumnVarNameInTable="columnEXPR5" msprop:Generator_UserColumnName="EXPR5" type="xs:decimal" minOccurs="0" />
+              <xs:element name="APPRODOUTDETID" msprop:Generator_ColumnPropNameInRow="APPRODOUTDETID" msprop:Generator_ColumnPropNameInTable="APPRODOUTDETIDColumn" msprop:Generator_ColumnVarNameInTable="columnAPPRODOUTDETID" msprop:Generator_UserColumnName="APPRODOUTDETID" type="xs:decimal" />
+              <xs:element name="OUTQTY" msprop:Generator_ColumnPropNameInRow="OUTQTY" msprop:Generator_ColumnPropNameInTable="OUTQTYColumn" msprop:Generator_ColumnVarNameInTable="columnOUTQTY" msprop:Generator_UserColumnName="OUTQTY" type="xs:decimal" minOccurs="0" />
+              <xs:element name="FROMTIME" msprop:Generator_ColumnPropNameInRow="FROMTIME" msprop:Generator_ColumnPropNameInTable="FROMTIMEColumn" msprop:Generator_ColumnVarNameInTable="columnFROMTIME" msprop:Generator_UserColumnName="FROMTIME" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="20" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="TESTRESULT" msprop:Generator_ColumnPropNameInRow="TESTRESULT" msprop:Generator_ColumnPropNameInTable="TESTRESULTColumn" msprop:Generator_ColumnVarNameInTable="columnTESTRESULT" msprop:Generator_UserColumnName="TESTRESULT" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="20" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="TOTIME" msprop:Generator_ColumnPropNameInRow="TOTIME" msprop:Generator_ColumnPropNameInTable="TOTIMEColumn" msprop:Generator_ColumnVarNameInTable="columnTOTIME" msprop:Generator_UserColumnName="TOTIME" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="20" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="APPRODBREAKDETID" msprop:Generator_ColumnPropNameInRow="APPRODBREAKDETID" msprop:Generator_ColumnPropNameInTable="APPRODBREAKDETIDColumn" msprop:Generator_ColumnVarNameInTable="columnAPPRODBREAKDETID" msprop:Generator_UserColumnName="APPRODBREAKDETID" type="xs:decimal" />
+              <xs:element name="EXPR6" msprop:Generator_ColumnPropNameInRow="EXPR6" msprop:Generator_ColumnPropNameInTable="EXPR6Column" msprop:Generator_ColumnVarNameInTable="columnEXPR6" msprop:Generator_UserColumnName="EXPR6" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="20" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="EXPR7" msprop:Generator_ColumnPropNameInRow="EXPR7" msprop:Generator_ColumnPropNameInTable="EXPR7Column" msprop:Generator_ColumnVarNameInTable="columnEXPR7" msprop:Generator_UserColumnName="EXPR7" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="20" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PB" msprop:Generator_ColumnPropNameInRow="PB" msprop:Generator_ColumnPropNameInTable="PBColumn" msprop:Generator_ColumnVarNameInTable="columnPB" msprop:Generator_UserColumnName="PB" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="20" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="REASON" msprop:Generator_ColumnPropNameInRow="REASON" msprop:Generator_ColumnPropNameInTable="REASONColumn" msprop:Generator_ColumnVarNameInTable="columnREASON" msprop:Generator_UserColumnName="REASON" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="90" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="APPRODEMPDETID" msprop:Generator_ColumnPropNameInRow="APPRODEMPDETID" msprop:Generator_ColumnPropNameInTable="APPRODEMPDETIDColumn" msprop:Generator_ColumnVarNameInTable="columnAPPRODEMPDETID" msprop:Generator_UserColumnName="APPRODEMPDETID" type="xs:decimal" />
+              <xs:element name="EMPID" msprop:Generator_ColumnPropNameInRow="EMPID" msprop:Generator_ColumnPropNameInTable="EMPIDColumn" msprop:Generator_ColumnVarNameInTable="columnEMPID" msprop:Generator_UserColumnName="EMPID" type="xs:decimal" minOccurs="0" />
+              <xs:element name="EMPNAME" msprop:Generator_ColumnPropNameInRow="EMPNAME" msprop:Generator_ColumnPropNameInTable="EMPNAMEColumn" msprop:Generator_ColumnVarNameInTable="columnEMPNAME" msprop:Generator_UserColumnName="EMPNAME" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

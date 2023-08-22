@@ -3,6 +3,16 @@
 @{
     ViewData["Title"] = "DebitNoteBill";
 }
+<style>
+ 
+
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
 
@@ -28,7 +38,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <br /><label for="inputName3" class="col-sm-4 control-label">Branch<label class="Mandatory"></label></label>
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Branch<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                         @Html.DropDownListFor(C => C.Branch, Model.Brlst," -- Please Select -- ", new { @id = "ddlBranch", @Class = "form-control _select", @TabIndex = 1 })
                                     </div>
@@ -49,7 +59,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <br />  <label for="inputName3" class="col-sm-4 control-label">Document ID<label class="Mandatory"></label></label>
+                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Document ID<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                         @Html.TextBoxFor(C => C.DocId, new { @id = "txtDocId", @class = "form-control", @TabIndex = 2 })
                                     </div>
@@ -58,7 +68,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <br />   <label for="inputName3" class="col-sm-4 control-label">Document Date<label class="Mandatory"></label></label>
+                                        <br />   <label for="inputName3" class="col-sm-4 control-label">Document Date<label class="mandatory">*</label></label>
                                     <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                         @Html.TextBoxFor(C => C.Docdate, new { @id = "Docdate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
                                         <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -94,7 +104,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <br /><label for="inputName3" class="col-sm-4 control-label">Party ID<label class="Mandatory"></label></label>
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Party ID<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.Party, Model.Partylst," -- Please Select -- ", new { @id = "ddlParty", @Class = "form-control _select", @TabIndex = 1,@onchange = "PartyChange(value," + 0 + ")"})
                                     </div>
@@ -250,7 +260,7 @@
 
                                     <br /><label for="inputName3" class="col-sm-4 control-label">Amount In Words<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.Amount, new { @id = "txtAmount", @class = "form-control", @TabIndex = 2 })
+                                            @Html.TextBoxFor(C => C.Amount, new { @id = "txtAmount", @class = "form-control", @TabIndex = 2,@onchange = "numberToWords(value," + 0 + ")" })
                                     </div>
                                 </div>
                             </div>
@@ -571,7 +581,58 @@
             alert(ex.message);
         }
     }
-     $(document).ready(function () {
+   @* function numberToWords(number) {
+        const units = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
+        const teens = ['Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
+        const tens = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+        const thousands = ['', 'Thousand', 'Million', 'Billion'];
+
+        function convertChunk(number) {
+            if (number === 0) return '';
+
+            const chunk = [];
+
+            if (number >= 100) {
+                chunk.push(units[Math.floor(number / 100)]);
+                chunk.push('Hundred');
+                number %= 100;
+            }
+
+            if (number >= 10 && number <= 19) {
+                chunk.push(teens[number - 10]);
+            } else {
+                chunk.push(tens[Math.floor(number / 10)]);
+                chunk.push(units[number % 10]);
+            }
+
+            return chunk.filter(Boolean).join(' ');
+        }
+
+        if (number === 0) {
+            return 'Zero';
+        }
+
+        let words = '';
+        let chunkIndex = 0;
+
+        while (number > 0) {
+            if (number % 1000 !== 0) {
+                words = convertChunk(number % 1000) + ' ' + thousands[chunkIndex] + ' ' + words;
+            }
+            number = Math.floor(number / 1000);
+            chunkIndex++;
+        }
+
+        return words.trim();
+    }
+
+    const amount = 123456789.12; // Replace with your desired amount
+    const words = numberToWords(amount);
+
+    console.log(`Amount in words: ${words}`);*@
+
+    $(document).ready(function () 
+    {
         $('#btnSave').click(function (e) {
             var isValid = true;
             if (document.getElementById("txtDocId").value == "") {
@@ -606,18 +667,18 @@
                     "background": ""
                 });
             }
-            if (document.getElementById("txtChellanNo").value == "") {
+            if (document.getElementById("ddlParty").value == "") {
                 isValid = false;
-                $(txtChellanNo).css({
+                $(ddlParty).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select Challan No");
+                alert("Please Select Party");
                 return false;
             }
             else {
-                $(txtChellanNo).css({
+                $(ddlParty).css({
                     "border": "",
                     "background": ""
                 });

@@ -97,7 +97,8 @@ namespace Arasan.Controllers
                     {
                         tda = new SalesItem();
                         double toaamt = 0;
-                            //tda.ItemGrouplst = BindItemGrplst();
+                            tda.Itemlst = BindItemlst();
+
                             //DataTable dt3 = new DataTable();
                             //dt3 = datatrans.GetItemSubGroup(dt2.Rows[i]["ITEM_ID"].ToString());
                             //if (dt3.Rows.Count > 0)

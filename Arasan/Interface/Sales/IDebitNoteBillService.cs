@@ -14,6 +14,8 @@ namespace Arasan.Interface.Sales
         DataTable GetGrn(string id);
         DataTable GetItemDetails(string itemId);
         DataTable GetInvoDates(string itemId);
+
+        DataTable EditProEntry(string PROID);
         DataTable GetDebitNoteBillDetail(string id);
         DataTable GetDebitNoteBillItem(string id);
         //DataTable GetItemDetails(string itemId);
