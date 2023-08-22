@@ -46,6 +46,7 @@
                                                             <th>Branch</th>
                                                             <th>Doc Id</th>
                                                             <th>Doc Date</th>
+                                                            <th>Approve</th>
                                                             <th>Edit</th>
                                                             <th>Close</th>
                                                         </tr>
@@ -60,6 +61,7 @@
                                                                     <td>@Html.DisplayFor(modelItem => item.Branch)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.DocId)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.Docdate)</td>
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("Credit_Note_Approval", "DebitNoteBill",new { PROID=item.ID })"><img src='../Images/checklist.png' alt='Waiting for approval' /></a></div></td>
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("DebitNoteBill", "DebitNoteBill",new { id=item.ID })"></a></div></td>
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("DebitNoteBill", "DebitNoteBill",new { id=item.ID })"></a></div></td>
                                                                 </tr>

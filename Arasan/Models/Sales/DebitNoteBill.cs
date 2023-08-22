@@ -9,9 +9,17 @@ namespace Arasan.Models
         {
             this.Brlst = new List<SelectListItem>();
             this.Partylst = new List<SelectListItem>();
+            this.RecList = new List<SelectListItem>();
+            this.Curlst = new List<SelectListItem>();
            
 
         }
+        public List<SelectListItem> Curlst;
+        public string Currency { get; set; }
+
+        public List<SelectListItem> RecList;
+        public string Entered { get; set; }
+        public string Approved { get; set; }
         public List<SelectListItem> Brlst;
         public string Branch { get; set; }
         public List<SelectListItem> Partylst;
@@ -23,13 +31,31 @@ namespace Arasan.Models
         public string RefDate { get; set; }
         public string Gross { get; set; }
         public string Net { get; set; }
+        public string Location { get; set; }
         public string Amount { get; set; }
         public string Bigst { get; set; }
         public string Bsgst { get; set; }
         public string Bcgst { get; set; }
         public string Narration { get; set; }
+        public string Credit { get; set; }
+        public string Debit { get; set; }
+        public string TotalAmount { get; set; }
 
         public List<DebitNoteItem> Depitlst { get; set; }
+        public List<CreditItem> Creditlst { get; set; }
+    }
+    public class CreditItem
+    {
+        public string ID { get; set; }
+        public List<SelectListItem> Crlst { get; set; }
+        public string Dr { get; set; }
+        public List<SelectListItem> Acclst { get; set; }
+        public string Account { get; set; }
+        public string DepitAmount { get; set; }
+        public string CreditAmount { get; set; }
+        public string Isvalid { get; set; }
+       
+
     }
     public class DebitNoteItem
     {

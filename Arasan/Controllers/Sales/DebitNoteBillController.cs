@@ -28,7 +28,8 @@ namespace Arasan.Controllers.Sales
             DebitNoteBill ca = new DebitNoteBill();
             ca.Brlst = BindBranch();
             ca.Partylst = BindGParty();
-            
+           
+            ca.Location = Request.Cookies["LocationId"];
             ca.Branch = Request.Cookies["BranchId"];
             List<DebitNoteItem> TData = new List<DebitNoteItem>();
             DebitNoteItem tda = new DebitNoteItem();
@@ -140,6 +141,84 @@ namespace Arasan.Controllers.Sales
 
             return View(Cy);
         }
+        public IActionResult Credit_Note_Approval(string PROID)
+        {
+
+            DebitNoteBill ca = new DebitNoteBill();
+            ca.RecList = BindEmp();
+            ca.Curlst = BindCurrency();
+            List<CreditItem> TData = new List<CreditItem>();
+            CreditItem tda = new CreditItem();
+            tda = new CreditItem();
+            tda.Isvalid = "Y";
+            tda.Crlst = BindCredit();
+            tda.Acclst = BindLedger();
+            TData.Add(tda);
+
+            DataTable dt = DebitNoteBillService.EditProEntry(PROID);
+            if (dt.Rows.Count > 0)
+               {
+                    ca.ID = PROID;
+                    ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                    ca.Net = dt.Rows[0]["NET"].ToString();
+                    ca.Location = Request.Cookies["Locationname"];
+
+                }
+            
+            ca.Creditlst = TData;
+            return View(ca);
+        }
+        public List<SelectListItem> BindLedger()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetLedger();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DISPLAY_NAME"].ToString(), Value = dtDesg.Rows[i]["LEDGERID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindEmp()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetEmp();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["EMPNAME"].ToString(), Value = dtDesg.Rows[i]["EMPNAME"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindCurrency()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetCurency();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["Cur"].ToString(), Value = dtDesg.Rows[i]["CURRENCYID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public JsonResult GetPartyJSON(string supid)
         {
             //string CityID = datatrans.GetDataString("Select STATEMASTID from STATEMAST where STATE='" + supid + "' ");
@@ -148,12 +227,27 @@ namespace Arasan.Controllers.Sales
             return Json(BindGrnlst(supid));
 
         }
-        //public JsonResult GetItemGrpJSON(string supid)
-        //{
-        //    //DeductionItem model = new DeductionItem();
-        //    //model.Grnlst = BindGrnlst(supid);
-        //    return Json(BindGrnlst(supid));
-        //}
+        public List<SelectListItem> BindCredit()
+        {
+            try
+            {
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                lstdesg.Add(new SelectListItem() { Text = "Dr", Value = "Dr" });
+                lstdesg.Add(new SelectListItem() { Text = "Cr", Value = "Cr" });
+
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public JsonResult GetAccountJSON()
+        {
+
+            return Json(BindLedger());
+
+        }
         public ActionResult GetItemDetail(string ItemId)
         {
             try
