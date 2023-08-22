@@ -63,7 +63,7 @@
             }
 
             .panel-default > .panel-heading a[aria-expanded="true"] {
-                background-color: #AAEACC;
+                background-color: #49B6D6;
             }
 
                 .panel-default > .panel-heading a[aria-expanded="true"]:after {
@@ -96,7 +96,7 @@
         .accordion-option .toggle-accordion {
             float: right;
             font-size: 16px;
-            color: #A5D0DD;
+            color: #AAB7B8;
         }
 
             .accordion-option .toggle-accordion:before {
@@ -108,7 +108,7 @@
             }
 
     .panel-title a {
-        background-color: #A5D0DD;
+        background-color: #AAB7B8;
     }
 
     .panel-body table tr td {
@@ -251,7 +251,7 @@
                                                     <h4 class="panel-title">
                                                         <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne@(i)" aria-expanded="false" aria-controls="collapseOne@(i)" class="collapsed">
                                                             <div class="row">
-                                                                <div class="col-md-5">@Html.DisplayFor(o => o.Worklst[i].items) </div> <div class="col-md-3">TotalQty   : @Html.DisplayFor(o => o.Worklst[i].orderqty,new{@id="orderqty"+ i}) @Html.HiddenFor(o => o.Worklst[i].orderqty,new{@id="orderqty"+ i}) @Html.HiddenFor(o => o.Worklst[i].itemid ) @Html.HiddenFor(o => o.Worklst[i].Jodetailid)</div>
+                                                                <div class="col-md-5">@Html.DisplayFor(o => o.Worklst[i].items) </div> <div class="col-md-3">Order Qty   : @Html.DisplayFor(o => o.Worklst[i].orderqty,new{@id="orderqty"+ i}) @Html.HiddenFor(o => o.Worklst[i].orderqty,new{@id="orderqty"+ i}) @Html.HiddenFor(o => o.Worklst[i].itemid ) @Html.HiddenFor(o => o.Worklst[i].Jodetailid)</div>
                                                             </div>
                                                         </a>
                                                     </h4>
