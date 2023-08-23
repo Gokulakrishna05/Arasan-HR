@@ -115,7 +115,7 @@ namespace Arasan.Models
         public DataTable GetLedger()
         {
             string SvSql = string.Empty;
-            SvSql = "select DISPLAY_NAME, LEDGERID from ledger where STATUs = 'Active'";
+            SvSql = "select DISPLAY_NAME, LEDGERID from LEDGER";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
