@@ -18,6 +18,7 @@ namespace Arasan.Interface.Sales
         DataTable EditProEntry(string PROID);
         DataTable GetDebitNoteBillDetail(string id);
         DataTable GetDebitNoteBillItem(string id);
+        string CreditNoteStock(DebitNoteBill cy);
         //DataTable GetItemDetails(string itemId);
     }
 }

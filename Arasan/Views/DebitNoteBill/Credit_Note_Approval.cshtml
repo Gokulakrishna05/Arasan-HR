@@ -38,18 +38,22 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Branch ID<label class="Mandatory"></label></label>
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Branch ID<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
                                             @Html.DisplayFor(C => C.Branch)
+                                            @Html.HiddenFor(C => C.ID)
+                                            @Html.HiddenFor(C => C.Bra)
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Location<label class="Mandatory"></label></label>
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Location<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
                                             @Html.DisplayFor(C => C.Location)
+                                             @Html.HiddenFor(C => C.ID)
+                                            @Html.HiddenFor(C => C.Loc)
                                     </div>
                                 </div>
                             </div>
@@ -59,16 +63,18 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Document ID<label class="Mandatory"></label></label>
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Document ID<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.DocId, new { @id = "txtDocId", @class = "form-control", @TabIndex = 2 })
+                                            @Html.DisplayFor(C => C.DocId)
+                                            @Html.HiddenFor(C => C.ID)
+                                            @Html.HiddenFor(C => C.DocId)
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Document Date<label class="Mandatory"></label></label>
+                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Document Date<label class="mandatory">*</label></label>
                                         <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                             @Html.TextBoxFor(C => C.Docdate, new { @id = "Docdate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -83,7 +89,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Currrency ID<label class="Mandatory"></label></label>
+                                            <br /> <label for="inputName3" class="col-sm-4 control-label">Currrency ID<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.Currency, Model.Curlst," -- Please Select -- ", new { @id = "ddlCurrency", @Class = "form-control _select", @TabIndex = 1})
                                         </div>
@@ -93,7 +99,7 @@
                                 <div class="form-group">
                                    <br /> <label for="inputName3" class="col-sm-4 control-label">Exchange Rate<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Vocher, new { @id = "txtVocher", @class = "form-control", @TabIndex = 2 })
+                                            @Html.TextBoxFor(C => C.Exchange, new { @id = "txtExchange", @class = "form-control", @TabIndex = 2 })
                                     </div>
                                 </div>
                             </div>
@@ -247,33 +253,7 @@
                                     </div>
                                 </div>
                             </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Entered By<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Entered, Model.RecList," -- Please Select -- ", new { @id = "ddlParty", @Class = "form-control _select", @TabIndex = 1})
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Approved By<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Approved, Model.RecList," -- Please Select -- ", new { @id = "ddlParty", @Class = "form-control _select", @TabIndex = 1})
-                                        </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                        <br /><label for="inputName3" class="col-sm-4 control-label">Approved<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Vocher, new { @id = "txtVocher", @class = "form-control", @TabIndex = 2 })
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -284,7 +264,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                             <div style="height:30px;"></div>
                             <div class="col-lg-10"></div>
@@ -346,7 +325,7 @@
             alert("Cannot delete all the rows.")
         }
     }
-    $(document).ready(function () {
+    @*$(document).ready(function () {
         $('#btnSave').click(function (e) {
            var depit = document.getElementById("txtTotalDeAmount");
            var credit = document.getElementById("txtTotalCrAmount");
@@ -359,7 +338,7 @@
 
        });
 
-    });
+    });*@
     function AddRow() {
         var opt = "";
         $.ajax({
@@ -434,7 +413,7 @@
                     qty = $(this).find('#txtCreditAmount' + j.toString()).val();
                     if (qty == "")
                         qty = 0;
-
+                    
                     tot += eval(qty);
                 }
                 j += 1;
@@ -448,21 +427,27 @@
     function totAmount(_this) {
         try {
 
+         
+         
             var j = 0;
-            var dqty = 0;
-            var cqty = 0;
+            @*var dqty = 0;
+            var cqty = 0;*@
             var tot = 0;
             $('tr.chkitemlst').each(function () {
                 if ($(this).css('display') !== 'none') {
-                    dqty = $(this).find('#txtDepitAmount' + j.toString()).val();
-                    cqty = $(this).find('#txtCreditAmount' + j.toString()).val();
-                    @*if (qty == "")
-                    qty = 0;*@
+                   var dqty = $(this).find('#txtTotalDeAmount' + j.toString()).val();
+                    var cqty = $(this).find('#txtTotalCrAmount' + j.toString()).val();
+                    @*if (dqty == "")
+                        dqty = 0;
+                    if (cqty == "")
+                        cqty = 0;*@
 
-                    tot = dqty - cqty;
+                    var tot = eval(dqty) - eval(cqty);
+                    
                 }
-
+                j += 1;
             });
+           
             document.getElementById("txtTotalAmount").value = tot.toFixed(2);
         }
         catch (ex) {

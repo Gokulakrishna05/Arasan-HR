@@ -40,6 +40,10 @@ namespace Arasan.Models
         public string Credit { get; set; }
         public string Debit { get; set; }
         public string TotalAmount { get; set; }
+        public string Exchange { get; set; }
+        public string Appby { get; set; }
+        public string Bra { get; set; }
+        public string Loc { get; set; }
 
         public List<DebitNoteItem> Depitlst { get; set; }
         public List<CreditItem> Creditlst { get; set; }

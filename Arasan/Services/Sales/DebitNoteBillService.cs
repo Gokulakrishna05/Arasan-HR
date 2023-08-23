@@ -149,6 +149,103 @@ namespace Arasan.Services.Sales
 
             return msg;
         }
+        public string CreditNoteStock(DebitNoteBill cy)
+        {
+            string msg = "";
+            try
+            {
+
+                string StatementType = string.Empty;
+                string svSQL = "";
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    OracleCommand objCmd = new OracleCommand("CRNBASICPROC", objConn);
+                  
+                    objCmd.CommandType = CommandType.StoredProcedure;
+
+                   
+                    StatementType = "Insert";
+                    objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                   
+                    objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Bra;
+                    objCmd.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = cy.Loc;
+                    objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.DocId;
+                    objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = cy.Docdate;
+                    objCmd.Parameters.Add("CURRENCYID", OracleDbType.NVarchar2).Value = cy.Currency;
+                    objCmd.Parameters.Add("EXCHANGERATE", OracleDbType.NVarchar2).Value = cy.Exchange;
+                    objCmd.Parameters.Add("REFNO", OracleDbType.NVarchar2).Value = cy.RefNo;
+                    objCmd.Parameters.Add("REFDT", OracleDbType.NVarchar2).Value = cy.RefDate;
+                    objCmd.Parameters.Add("VTYPE", OracleDbType.NVarchar2).Value = cy.Vocher;
+                    objCmd.Parameters.Add("TCREDITAMOUNT", OracleDbType.NVarchar2).Value = cy.Credit;
+                    objCmd.Parameters.Add("TDEBITAMOUNT", OracleDbType.NVarchar2).Value = cy.Debit;
+                    objCmd.Parameters.Add("NARR", OracleDbType.NVarchar2).Value = cy.Narration;
+                    objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                    objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
+
+                    try
+                    {
+                        objConn.Open();
+                        objCmd.ExecuteNonQuery();
+                        Object Pid = objCmd.Parameters["OUTID"].Value;
+                        //string Pid = "0";
+                        if (cy.ID != null)
+                        {
+                            Pid = cy.ID;
+                        }
+                        if (cy.Creditlst != null)
+                        {
+                            if (cy.ID == null)
+                            {
+                                foreach (CreditItem cp in cy.Creditlst)
+                                {
+                                    //string itemId = datatrans.GetDataString("Select ITEMMASTERID from ITEMMASTER where ITEMID='" + cp.Item + "' ");
+
+
+                                    if (cp.Isvalid == "Y" && cp.Dr != "0")
+                                    {
+                                        svSQL = "Insert into CRNDETAIL(CRNBASICID,DBCR,MID,DBAMOUNT,CRAMOUNT) VALUES ('" + Pid + "','" + cp.Dr + "','" + cp.Account + "','" + cp.DepitAmount + "','" + cp.CreditAmount + "')";
+                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                        objCmds.ExecuteNonQuery();
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                svSQL = "Delete CRNDETAIL WHERE CRNBASICID='" + cy.ID + "'";
+                                OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
+                                objCmdd.ExecuteNonQuery();
+                                foreach (CreditItem cp in cy.Creditlst)
+                                {
+                                    //string itemId = datatrans.GetDataString("Select ITEMMASTERID from ITEMMASTER where ITEMID='" + cp.Item + "' ");
+
+
+                                    if (cp.Isvalid == "Y" && cp.Dr != "0")
+                                    {
+                                        svSQL = "Insert into CRNDETAIL(CRNBASICID,DBCR,MID,DBAMOUNT,CRAMOUNT) VALUES ('" + Pid + "','" + cp.Dr + "','" + cp.Account + "','" + cp.DepitAmount + "','" + cp.CreditAmount + "')";
+                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                        objCmds.ExecuteNonQuery();
+                                    }
+                                }
+                            }
+
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                    objConn.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
+        }
         public DataTable GetParty()
         {
             string SvSql = string.Empty;
@@ -213,13 +310,14 @@ namespace Arasan.Services.Sales
         public DataTable EditProEntry(string PROID)
         {
             string SvSql = string.Empty;
-            SvSql = "select  BRANCHMAST.BRANCHID,NET FROM DBNOTEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMAST.BRANCHMASTID =DBNOTEBASIC.BRANCHID where DBNOTEBASIC.DBNOTEBASICID =" + PROID + "";
+            SvSql = "select  BRANCHMAST.BRANCHID,NET,DBNOTEBASIC.DOCID,DBNOTEBASIC.BRANCHID AS BRA FROM DBNOTEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMAST.BRANCHMASTID =DBNOTEBASIC.BRANCHID where DBNOTEBASIC.DBNOTEBASICID =" + PROID + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
         }
-       
+
+        
     }
 }

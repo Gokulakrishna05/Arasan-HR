@@ -141,11 +141,43 @@ namespace Arasan.Controllers.Sales
 
             return View(Cy);
         }
+        [HttpPost]
+        public ActionResult Credit_Note_Approval(DebitNoteBill Cy, string id)
+        {
+
+            try
+            {
+                Cy.ID = id;
+                string Strout = DebitNoteBillService.CreditNoteStock(Cy);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    TempData["notice"] = "CreditNote Approved Successfully...!";
+                    return RedirectToAction("ListDebitNoteBill");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit DebitNoteBill";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(Cy);
+        }
         public IActionResult Credit_Note_Approval(string PROID)
         {
 
             DebitNoteBill ca = new DebitNoteBill();
             ca.RecList = BindEmp();
+            ca.Currency = "1";
+            ca.Exchange = "1";
             ca.Curlst = BindCurrency();
             List<CreditItem> TData = new List<CreditItem>();
             CreditItem tda = new CreditItem();
@@ -160,8 +192,12 @@ namespace Arasan.Controllers.Sales
                {
                     ca.ID = PROID;
                     ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                    ca.Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
+                    ca.DocId = dt.Rows[0]["DOCID"].ToString();
+                    ca.Bra = dt.Rows[0]["BRA"].ToString();
                     ca.Net = dt.Rows[0]["NET"].ToString();
                     ca.Location = Request.Cookies["Locationname"];
+                    ca.Loc = Request.Cookies["Locationid"];
 
                 }
             
