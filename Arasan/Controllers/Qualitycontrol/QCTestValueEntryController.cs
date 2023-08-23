@@ -99,7 +99,7 @@ namespace Arasan.Controllers.Qualitycontrol
                             ca.Drum = dtt1.Rows[0]["DRUMNO"].ToString();
 
 
-                            ca.Sampletime = dtt1.Rows[0]["TIME"].ToString();
+                            ca.Sampletime = dtt1.Rows[0]["FROMTIME"].ToString();
                             ca.Item = dtt1.Rows[0]["ITEMID"].ToString();
                         }
 

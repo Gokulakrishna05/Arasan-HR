@@ -1,9 +1,11 @@
 using Arasan.Interface;
 using Arasan.Models;
 using AspNetCore.Reporting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Options;
+using Org.BouncyCastle.Utilities;
 using System.Data;
 using System.DirectoryServices.ActiveDirectory;
 using System.Text.Json;
@@ -114,7 +116,13 @@ namespace Arasan.Controllers
 			//  model.ItemGrouplst = BindItemGrplst(value);
 			return Json(BindEmp());
 		}
-		public JsonResult GetBreakJSON()
+        public JsonResult GetLogJSON()
+        {
+            LogDetails model = new LogDetails();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(model);
+        }
+        public JsonResult GetBreakJSON()
 		{
 			//EnqItem model = new EnqItem();
 			//  model.ItemGrouplst = BindItemGrplst(value);
@@ -170,7 +178,7 @@ namespace Arasan.Controllers
 		{
 			try
 			{
-				DataTable dtDesg = datatrans.GetEmp();
+				DataTable dtDesg = IProductionEntry.GetEmp();
 				List<SelectListItem> lstdesg = new List<SelectListItem>();
 				for (int i = 0; i < dtDesg.Rows.Count; i++)
 				{
@@ -377,16 +385,30 @@ namespace Arasan.Controllers
         {
             try
 			{
-               
+                foreach (ProInput input in model)
+                {
+                   
+                    string item = input.ItemId;
+                    string bin = input.BinId;
+                    string batch = input.batchno;
+                    string time = input.Time;
+                    string id = input.APID;
+                    string stock = input.StockAvailable.ToString();
+                    string qty = input.IssueQty.ToString();
+                    DataTable dt = new DataTable();
+                    
+                    dt = IProductionEntry.SaveInputDetails(id, item, bin, time, qty, stock, batch);
+                }
+                    if (model != null)
+                    {
 
-                if (model != null)
-                {
-                    return Json("Success");
-                }
-                else
-                {
-                    return Json("An Error Has occoured");
-                }
+                        return Json("Success");
+                    }
+                    else
+                    {
+                        return Json("An Error Has occoured");
+                    }
+                
             }
             catch (Exception ex)
             {
@@ -397,7 +419,20 @@ namespace Arasan.Controllers
         {
             try
             {
+                foreach (APProInCons Cons in model)
+                {
 
+                    string item = Cons.ItemId;
+                    string bin = Cons.BinId;
+                    string unit = Cons.consunit;
+                    string qty = Cons.consQty.ToString(); 
+                    string id = Cons.APID;
+                    string stock = Cons.ConsStock.ToString();
+                    string usedqty = Cons.Qty.ToString();
+                    DataTable dt = new DataTable();
+
+                    dt = IProductionEntry.SaveConsDetails(id, item, bin, unit, usedqty, qty, stock);
+                }
 
                 if (model != null)
                 {
@@ -413,7 +448,116 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+        public ActionResult InsertProEmp([FromBody] EmpDetails[] model)
+        {
+            try
+            {
+                foreach (EmpDetails emp in model)
+                {
 
+                    string empname = emp.Employee;
+                    string code = emp.EmpCode;
+                    string depat = emp.Depart;
+                    string sdate = emp.StartDate ;
+                    string id = emp.APID;
+                    string stime = emp.StartTime ;
+                    string edate = emp.EndDate ;
+                    string etime = emp.EndTime;
+                    string ot = emp.OTHrs;
+                    string et = emp.ETOther;
+                    string normal = emp.Normal;
+                    string now = emp.NOW;
+                    DataTable dt = new DataTable();
+
+                    dt = IProductionEntry.SaveEmpDetails(id,empname, code, depat, sdate, stime, edate, etime, ot, et, normal, now);
+                }
+
+                if (model != null)
+                {
+                    return Json("Success");
+                }
+                else
+                {
+                    return Json("An Error Has occoured");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult InsertProLog([FromBody] LogDetails[] model)
+        {
+            try
+            {
+                foreach (LogDetails log in model)
+                {
+
+                  
+                    string sdate = log.StartDate;
+                    string id = log.APID;
+                    string stime = log.StartTime;
+                    string edate = log.EndDate;
+                    string etime = log.EndTime;
+                    string tot = log.tothrs;
+                    string reason = log.Reason;
+                     
+                    DataTable dt = new DataTable();
+
+                    dt = IProductionEntry.SaveLogDetails(id, sdate, stime, edate, etime, tot, reason);
+                }
+
+                if (model != null)
+                {
+                    return Json("Success");
+                }
+                else
+                {
+                    return Json("An Error Has occoured");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult InsertProBreak([FromBody] BreakDet[] model)
+        {
+            try
+            {
+                foreach (BreakDet det in model)
+                {
+
+                    string machine = det.MachineId;
+                    string des = det.MachineDes;
+                    string dtype = det.DType;
+                    string mtype = det.MType;
+                    string id = det.APID;
+                    string stime = det.StartTime;
+                    string pb = det.PB;
+                    string etime = det.EndTime;
+                    string reason = det.Reason;
+                    string all = det.Alloted;
+                    
+                    DataTable dt = new DataTable();
+
+                    dt = IProductionEntry.SaveBreakDetails(id, machine, des, dtype, mtype, stime, etime, pb, all, reason);
+                }
+
+                if (model != null)
+                {
+                    return Json("Success");
+                }
+                else
+                {
+                    return Json("An Error Has occoured");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public ActionResult GetMachineDetail(string ItemId)
 		{
 			try
@@ -461,7 +605,9 @@ namespace Arasan.Controllers
 			APProInCons tda1 = new APProInCons();
 			List<EmpDetails> TTData2 = new List<EmpDetails>();
 			EmpDetails tda2 = new EmpDetails();
-			if (tag == "2" || tag==null)
+            List<LogDetails> TTData5 = new List<LogDetails>();
+            LogDetails tda5 = new LogDetails();
+            if (tag == "2" || tag==null)
 			{
 				for (int i = 0; i < 3; i++)
 				{
@@ -510,7 +656,48 @@ namespace Arasan.Controllers
 					tda2.Isvalid = "Y";
 					TTData2.Add(tda2);
 				}
-			}
+                for (int i = 0; i < 1; i++)
+                {
+                    tda5 = new LogDetails();
+                    tda5.APID = id;
+                    string ShiftTime = datatrans.GetDataString("Select SHIFTHRS from SHIFTMAST where shiftno='" + ca.Shift + "' ");
+                    tda5.StartDate = DateTime.Now.ToString("dd-MMM-yyyy  HH:mm:ss");
+                    tda5.StartTime = DateTime.Now.ToString("HH:mm");
+                    DateTime dateTime = DateTime.Parse(tda5.StartDate);
+                    //TimeSpan t1 = new TimeSpan(24,0,0);
+
+
+                    int hours = int.Parse(ShiftTime);
+                    TimeSpan t2 = new TimeSpan(hours, 0, 0);
+                    DateTime resultDateTime = dateTime + t2;
+                    tda5.EndDate = resultDateTime.ToString("dd-MMM-yyyy - HH:mm");
+
+                    string[] sdateList = tda5.StartDate.Split(" ");
+                    string sdate = "";
+                    string stime = "";
+                    if (sdateList.Length > 0)
+                    {
+                        sdate = sdateList[0];
+                        stime = sdateList[1];
+                    }
+                    string[] edateList = tda5.EndDate.Split(" - ");
+                    string endate = "";
+                    string endtime = "";
+                    if (sdateList.Length > 0)
+                    {
+                        endate = edateList[0];
+                        endtime = edateList[1];
+                    }
+                    tda5.StartDate = sdate;
+                    tda5.EndDate = endate;
+
+                    tda5.EndTime = endtime;
+
+                    tda5.Isvalid = "Y";
+                    TTData5.Add(tda5);
+
+                }
+            }
 			if (!string.IsNullOrEmpty(id))
 			{
 
@@ -544,7 +731,8 @@ namespace Arasan.Controllers
                     tda = new ProInput();
                     tda.Itemlst = BindItemlst();
                     tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
-                    tda.BinId = dt2.Rows[i]["BINID"].ToString();
+                        tda.Time = dt2.Rows[i]["CHARGINGTIME"].ToString();
+                        tda.BinId = dt2.Rows[i]["BINID"].ToString();
                     tda.batchno = dt2.Rows[i]["BATCHNO"].ToString();
                     tda.IssueQty = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString() == "" ? "0" : dt2.Rows[i]["QTY"].ToString());
                     tda.StockAvailable = Convert.ToDouble(dt2.Rows[i]["STOCK"].ToString() == "" ? "0" : dt2.Rows[i]["STOCK"].ToString());
@@ -643,8 +831,9 @@ namespace Arasan.Controllers
                     tda4.BinId = dt6.Rows[i]["BINID"].ToString();
                     tda4.drumlst = BindDrum();
                     tda4.drumno = dt6.Rows[i]["DRUMNO"].ToString();
-
-                    tda4.OutputQty = Convert.ToDouble(dt6.Rows[i]["OUTQTY"].ToString() == "" ? "0" : dt6.Rows[i]["OUTQTY"].ToString());
+                        tda4.FromTime = dt6.Rows[i]["FROMTIME"].ToString();
+                        tda4.ToTime = dt6.Rows[i]["TOTIME"].ToString();
+                        tda4.OutputQty = Convert.ToDouble(dt6.Rows[i]["OUTQTY"].ToString() == "" ? "0" : dt6.Rows[i]["OUTQTY"].ToString());
                     DataTable dt7 = new DataTable();
                     dt7 = IProductionEntry.GetResult(id);
 					if (dt7.Rows.Count > 0)
@@ -659,9 +848,37 @@ namespace Arasan.Controllers
                 }
 
             }
-    }
+                DataTable adt7 = new DataTable();
+
+                adt7 = IProductionEntry.GetLogdetail(id);
+                if (adt7.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt6.Rows.Count; i++)
+                    {
+                        tda5 = new LogDetails();
+
+                        tda5.StartDate = adt7.Rows[i]["STARTDATE"].ToString();
+                        tda5.StartTime = adt7.Rows[i]["STARTTIME"].ToString();
+
+                        tda5.EndDate = adt7.Rows[i]["ENDDATE"].ToString();
+
+                        tda5.Reason = adt7.Rows[i]["REASON"].ToString();
+
+
+
+                        tda5.EndTime = adt7.Rows[i]["ENDTIME"].ToString();
+                        tda5.tothrs = adt7.Rows[i]["TOTALHRS"].ToString();
+
+                        tda5.APID = id;
+                        TTData5.Add(tda5);
+                        tda5.Isvalid = "Y";
+                    }
+
+                }
+            }
             if (tag=="1")
 			{
+              
                 DataTable ap = datatrans.GetData("select APPRODUCTIONBASICID,DOCID,DOCDATE,SHIFT from APPRODUCTIONBASIC WHERE IS_CURRENT='Yes'");
 				if (ap.Rows.Count > 0)
 				{
@@ -685,6 +902,7 @@ namespace Arasan.Controllers
                         ca.BatchNo = adt.Rows[0]["BATCH"].ToString();
                         ca.batchcomplete = adt.Rows[0]["BATCHYN"].ToString();
                     }
+                  
                     DataTable adt2 = new DataTable();
 
                     adt2 = IProductionEntry.GetInput(apID);
@@ -696,10 +914,11 @@ namespace Arasan.Controllers
                             tda.Itemlst = BindItemlst();
                             tda.ItemId = adt2.Rows[i]["ITEMID"].ToString();
                             tda.BinId = adt2.Rows[i]["BINID"].ToString();
+                            tda.Time = adt2.Rows[i]["CHARGINGTIME"].ToString();
                             tda.batchno = adt2.Rows[i]["BATCHNO"].ToString();
                             tda.IssueQty = Convert.ToDouble(adt2.Rows[i]["QTY"].ToString() == "" ? "0" : adt2.Rows[i]["QTY"].ToString());
                             tda.StockAvailable = Convert.ToDouble(adt2.Rows[i]["STOCK"].ToString() == "" ? "0" : adt2.Rows[i]["STOCK"].ToString());
-                            tda.APID = id;
+                            tda.APID = apID;
                             TData.Add(tda);
                             tda.Isvalid = "Y";
                         }
@@ -710,7 +929,7 @@ namespace Arasan.Controllers
                         for (int i = 0; i < 1; i++)
                         {
                             tda = new ProInput();
-                            tda.APID = id;
+                            tda.APID = apID;
                             tda.Itemlst = BindItemlst();
 
                             tda.Isvalid = "Y";
@@ -733,7 +952,7 @@ namespace Arasan.Controllers
                             tda1.consQty = Convert.ToDouble(adt3.Rows[i]["CONSQTY"].ToString() == "" ? "0" : adt3.Rows[i]["CONSQTY"].ToString());
                             tda1.ConsStock = Convert.ToDouble(adt3.Rows[i]["STOCK"].ToString() == "" ? "0" : adt3.Rows[i]["STOCK"].ToString());
 
-                            tda1.APID = id;
+                            tda1.APID = apID;
                             tda1.Isvalid = "Y";
                             TData1.Add(tda1);
                         }
@@ -746,7 +965,7 @@ namespace Arasan.Controllers
                             tda1 = new APProInCons();
                             tda1.Itemlst = BindItemlstCon();
                             tda1.Isvalid = "Y";
-                            tda1.APID = id;
+                            tda1.APID = apID;
                             TData1.Add(tda1);
                         }
                     }
@@ -772,7 +991,7 @@ namespace Arasan.Controllers
                             tda2.ETOther = adt4.Rows[i]["ETOTHER"].ToString();
                             tda2.Normal = adt4.Rows[i]["NHOUR"].ToString();
                             tda2.NOW = adt4.Rows[i]["NATUREOFWORK"].ToString();
-                            tda2.ID = id;
+                            tda2.APID = apID;
                             TTData2.Add(tda2);
                             tda2.Isvalid = "Y";
                         }
@@ -784,7 +1003,7 @@ namespace Arasan.Controllers
                         for (int i = 0; i < 1; i++)
                         {
                             tda2 = new EmpDetails();
-                            tda2.APID = id;
+                            tda2.APID = apID;
                             tda2.Employeelst = BindEmp();
                             tda2.Isvalid = "Y";
                             TTData2.Add(tda2);
@@ -810,7 +1029,7 @@ namespace Arasan.Controllers
                             tda3.MType = adt5.Rows[i]["MTYPE"].ToString();
                             tda3.Reason = adt5.Rows[i]["REASON"].ToString();
 
-                            tda3.APID = id;
+                            tda3.APID = apID;
                             TData3.Add(tda3);
                         }
 
@@ -824,7 +1043,7 @@ namespace Arasan.Controllers
                             tda3.Machinelst = BindMachineID();
                             tda3.Emplst = BindEmp();
                             tda3.Isvalid = "Y";
-                            tda3.APID = id;
+                            tda3.APID = apID;
                             TData3.Add(tda3);
 
                         }
@@ -842,7 +1061,8 @@ namespace Arasan.Controllers
                             tda4.BinId = adt6.Rows[i]["BINID"].ToString();
                             tda4.drumlst = BindDrum();
                             tda4.drumno = adt6.Rows[i]["DRUMNO"].ToString();
-
+                            tda4.FromTime = adt6.Rows[i]["FROMTIME"].ToString();
+                            tda4.ToTime = adt6.Rows[i]["TOTIME"].ToString();
                             tda4.OutputQty = Convert.ToDouble(adt6.Rows[i]["OUTQTY"].ToString() == "" ? "0" : adt6.Rows[i]["OUTQTY"].ToString());
                             DataTable dt7 = new DataTable();
                             dt7 = IProductionEntry.GetResult(id);
@@ -851,7 +1071,7 @@ namespace Arasan.Controllers
                                 tda4.Result = dt7.Rows[i]["TESTRESULT"].ToString();
                                 tda4.Status = dt7.Rows[i]["MOVETOQC"].ToString();
                             }
-                            tda4.APID = id;
+                            tda4.APID = apID;
                             TData4.Add(tda4);
                             tda4.Isvalid = "Y";
                         }
@@ -862,12 +1082,83 @@ namespace Arasan.Controllers
                         for (int i = 0; i < 1; i++)
                         {
                             tda4 = new ProOutput();
-                            tda4.APID = id;
+                            tda4.APID = apID;
                             tda4.Itemlst = BindOutItemlst();
                             tda4.drumlst = BindDrum();
                             tda4.Isvalid = "Y";
                             TData4.Add(tda4);
 
+                        }
+                    }
+                    DataTable adt7 = new DataTable();
+
+                    adt7 = IProductionEntry.GetLogdetail(apID);
+                    if (adt7.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < adt7.Rows.Count; i++)
+                        {
+                            tda5 = new LogDetails();
+                          
+                            tda5.StartDate = adt7.Rows[i]["STARTDATE"].ToString();
+                            tda5.StartTime = adt7.Rows[i]["STARTTIME"].ToString();
+                           
+                            tda5.EndDate = adt7.Rows[i]["ENDDATE"].ToString();
+
+                            tda5.Reason = adt7.Rows[i]["REASON"].ToString();
+
+
+
+                            tda5.EndTime = adt7.Rows[i]["ENDTIME"].ToString();
+                                tda5.tothrs = adt7.Rows[i]["TOTALHRS"].ToString();
+                         
+                            tda5.APID = apID;
+                            TTData5.Add(tda5);
+                            tda5.Isvalid = "Y";
+                        }
+
+                    }
+                    else
+                    {
+                        for (int i = 0; i < 1; i++)
+                        {
+                            tda5 = new LogDetails();
+                            tda5.APID = apID;
+                            string ShiftTime = datatrans.GetDataString("Select SHIFTHRS from SHIFTMAST where shiftno='" + ca.Shift + "' ");
+                            tda5.StartDate = DateTime.Now.ToString("dd-MMM-yyyy  HH:mm:ss");
+                            tda5.StartTime = DateTime.Now.ToString("HH:mm");
+                            DateTime dateTime = DateTime.Parse(tda5.StartDate);
+                            //TimeSpan t1 = new TimeSpan(24,0,0);
+                             
+                           
+                            int hours = int.Parse(ShiftTime);
+                            TimeSpan t2 = new TimeSpan(hours,0,0);
+                            DateTime resultDateTime = dateTime + t2;
+                            tda5.EndDate = resultDateTime.ToString("dd-MMM-yyyy - HH:mm");
+
+                            string[] sdateList = tda5.StartDate.Split(" ");
+                            string sdate = "";
+                            string stime = "";
+                            if (sdateList.Length > 0)
+                            {
+                                sdate = sdateList[0];
+                                stime = sdateList[1];
+                            }
+                            string[] edateList = tda5.EndDate.Split(" - ");
+                            string endate = "";
+                            string endtime = "";
+                            if (sdateList.Length > 0)
+                            {
+                                endate = edateList[0];
+                                endtime = edateList[1];
+                            }
+                            tda5.StartDate = sdate;
+                            tda5.EndDate = endate;
+                            
+                            tda5.EndTime = endtime;
+                             
+                           tda5.Isvalid = "Y";
+                            TTData5.Add(tda5);
+                          
                         }
                     }
                 }
@@ -881,8 +1172,9 @@ namespace Arasan.Controllers
             ca.outlst = TData4;
             ca.EmplLst = TTData2;
 			ca.Binconslst = TData1;
-			
-			return View(ca);
+            ca.LogLst = TTData5;
+
+            return View(ca);
 		}
         [HttpPost]
         public ActionResult APProductionentryDetail(APProductionentryDet Cy, string id)

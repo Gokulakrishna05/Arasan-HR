@@ -52,6 +52,7 @@ namespace Arasan.Models
         public List<ProOutput> outlst { get; set; }
         public List<APProInCons> Binconslst { get; set; }
         public List<EmpDetails> EmplLst { get; set; }
+        public List<LogDetails> LogLst { get; set; }
 
     }
     public class ProInput
@@ -69,6 +70,7 @@ namespace Arasan.Models
         public string drumno { get; set; }
         public List<SelectListItem> drumlst { get; set; }
         public string batchno { get; set; }
+        public string Time { get; set; }
         public double batchqty { get; set; }
         public double StockAvailable { get; set; }
         public double IssueQty { get; set; }
@@ -93,7 +95,8 @@ namespace Arasan.Models
       
         public string BinId { get; set; }
         public string outBin { get; set; }
-        public string Time { get; set; }
+        public string FromTime { get; set; }
+        public string ToTime { get; set; }
         public string Bin { get; set; }
         public List<SelectListItem> binlst { get; set; }
         public string drumno { get; set; }
@@ -157,6 +160,19 @@ namespace Arasan.Models
         public string ETOther { get; set; }
         public string Isvalid { get; set; }
     }
+    public class LogDetails
+    {
+        public string ID { get; set; }
+        public string APID { get; set; }
+        public string StartDate { get; set; }
+        public string EndDate { get; set; }
+        public string StartTime { get; set; }
+        public string EndTime { get; set; }
+        public string tothrs { get; set; }
+        public string Reason { get; set; }
+       
+        public string Isvalid { get; set; }
+    }
     public class BreakDet
     {
         public string ID { get; set; }
@@ -205,8 +221,8 @@ namespace Arasan.Models
         public string EMPNAME { get; set; }
 
        
-        public string EXPR5 { get; set; }
-        public string CONSQTY { get; set; }
+        public double EXPR5 { get; set; }
+        public double CONSQTY { get; set; }
     }
 
     public class APItemDetails

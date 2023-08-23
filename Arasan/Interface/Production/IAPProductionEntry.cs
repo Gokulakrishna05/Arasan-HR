@@ -25,10 +25,12 @@ namespace Arasan.Interface
 		DataTable GetItem();
 
         DataTable GetOutItem();
+        DataTable GetEmp();
         DataTable GetAPProd(string id);
 
         DataTable GetInput(string id);
         DataTable GetOutput(string id);
+        DataTable GetLogdetail(string id);
 
         DataTable GetResult(string id);
         DataTable GetCons(string id);
@@ -40,11 +42,16 @@ namespace Arasan.Interface
 
         DataTable GetAPWorkCenter();
 		DataTable GetMachineDetails(string id);
-		DataTable GetEmployeeDetails(string id);
+
+        
+        DataTable GetEmployeeDetails(string id);
 
 
-
-
+        DataTable SaveInputDetails(string id, string item, string bin, string time, string qty, string stock, string batch);
+        DataTable SaveConsDetails(string id, string item, string bin, string unit, string usedqty, string qty, string stock);
+        DataTable SaveEmpDetails(string id, string empname, string code, string depat, string sdate, string stime, string edate, string etime, string ot, string et, string normal, string now);
+        DataTable SaveBreakDetails(string id, string machine, string des, string dtype, string mtype, string stime, string etime, string pb,string all, string reason);
+        DataTable SaveLogDetails(string id, string sdate, string stime, string edate, string etime, string tot, string reason);
         Task<IEnumerable<APItemDetail>> GetAPItem( string aid);
         Task<IEnumerable<APItemDetails>> GetAPItems(string bid );
         Task<IEnumerable<APItemDetailsc>> GetAPItemsc(string cid);
