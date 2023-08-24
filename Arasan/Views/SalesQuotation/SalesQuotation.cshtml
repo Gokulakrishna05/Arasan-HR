@@ -67,6 +67,7 @@
                                             @Html.DropDownListFor(C => C.EnqType, Model.Enqlst, new { @id = "ddlEnqType", @Class = "form-control  _select", @TabIndex = 1 })
                                             @Html.HiddenFor(C => C.ID)
                                             @Html.HiddenFor(C => C.QuoId)
+                                            @Html.HiddenFor(C => C.Branch)
                                         </div>
                                     </div>
                                 </div>
@@ -453,6 +454,7 @@
 
                                     </div>
                                  <div style="height:30px;"></div>
+                                 <div class="col-lg-10"></div>
                             <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
                             <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListSalesQuotation", "SalesQuotation")'">Cancel</button>
  
@@ -675,7 +677,7 @@
             alert("Cannot delete all the rows.")
         }
     }
-    function changeItem(ItemId) {
+    @*function changeItem(ItemId) {
         $.ajax({
             url: 'GetCustomerDetail',
             data: { "ItemId": ItemId },
@@ -692,7 +694,27 @@
             }
         });
 
+    }*@
+
+    function changeItem(ItemId) {
+        $.ajax({
+            url: 'GetEnqDetails',
+            data: { "ItemId": ItemId },
+            type: "GET",
+            success: function (result) {
+
+                document.getElementById("txtAddress").value = result.address;
+                document.getElementById("txtMobile").value = result.contact;
+                document.getElementById("txtCity").value = result.city;
+                document.getElementById("txtPinCode").value = result.pin;
+            },
+            error: function () {
+                alert("Data Not Found");
+            }
+        });
+
     }
+
     $('.form_date').datetimepicker({
         //   language:  'fr',
         weekStart: 1,

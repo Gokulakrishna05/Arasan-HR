@@ -75,8 +75,8 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("TRANSTYPE", OracleDbType.NVarchar2).Value = cy.Trans;
                     objCmd.Parameters.Add("DESCRIPTION", OracleDbType.NVarchar2).Value = cy.Des;
                    
-                    objCmd.Parameters.Add("STDATE", OracleDbType.Date).Value = DateTime.Parse(cy.Start); 
-                    objCmd.Parameters.Add("EDDATE", OracleDbType.Date).Value = DateTime.Parse(cy.End);
+                    objCmd.Parameters.Add("STDATE", OracleDbType.NVarchar2).Value = cy.Start; 
+                    objCmd.Parameters.Add("EDDATE", OracleDbType.NVarchar2).Value = cy.End;
                     objCmd.Parameters.Add("LASTNO", OracleDbType.NVarchar2).Value = cy.Last;
                     objCmd.Parameters.Add("ACTIVESEQUENCE", OracleDbType.NVarchar2).Value = "T";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;

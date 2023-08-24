@@ -19,7 +19,8 @@ namespace Arasan.Interface.Sales
         //string QuotetoOrder(string cy);
         DataTable GetItemCF(string ItemId, string unitid);
         IEnumerable<QuoItem> GetAllSalesQuotationItem(string id);
-        DataTable GetCustomerDetails(string itemId);
+        //DataTable GetCustomerDetails(string itemId);
+        DataTable GetEnqDetails(string itemId);
         DataTable GetCusType();
         DataTable GetPurchaseQuotationDetails(string id);
         string SalesQuotationFollowupCRUD(QuotationFollowup pf);

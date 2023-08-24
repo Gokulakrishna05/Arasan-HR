@@ -140,44 +140,61 @@ namespace Arasan.Services
 
                 string StatementType = string.Empty; string svSQL = "";
 
-                if (cy.ID == null)
+                //if (cy.ID == null)
+                //{
+                //    DateTime theDate = DateTime.Now;
+                //    DateTime todate; DateTime fromdate;
+                //    string t; string f;
+                //    if (DateTime.Now.Month >= 4)
+                //    {
+                //        todate = theDate.AddYears(1);
+                //    }
+                //    else
+                //    {
+                //        todate = theDate;
+                //    }
+                //    if (DateTime.Now.Month >= 4)
+                //    {
+                //        fromdate = theDate;
+                //    }
+                //    else
+                //    {
+                //        fromdate = theDate.AddYears(-1);
+                //    }
+                //    t = todate.ToString("yy");
+                //    f = fromdate.ToString("yy");
+                //    string disp = string.Format("{0}-{1}", f, t);
+
+                //    int idc = GetDataId(" SELECT COMMON_TEXT FROM COMMON_MASTER WHERE COMMON_TYPE = 'SE' AND IS_ACTIVE = 'Y'");
+                //    cy.EnqNo = string.Format("{0}/{3}/{1} - {2} ", "TAAI","SE", (idc + 1).ToString(), disp);
+
+                //    string updateCMd = " UPDATE COMMON_MASTER SET COMMON_TEXT ='" + (idc + 1).ToString() + "' WHERE COMMON_TYPE ='SE' AND IS_ACTIVE ='Y'";
+                //    try
+                //    {
+                //        UpdateStatus(updateCMd);
+                //    }
+                //    catch (Exception ex)
+                //    {
+                //        throw ex;
+                //    }
+                //}
+
+                datatrans = new DataTransactions(_connectionString);
+
+
+                int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'TAAI/SE #' AND ACTIVESEQUENCE = 'T'");
+                string EnqNo = string.Format("{0}{1}", "TAAI/SE #", (idc + 1).ToString());
+
+                string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='TAAI/SE #' AND ACTIVESEQUENCE ='T'";
+                try
                 {
-                    DateTime theDate = DateTime.Now;
-                    DateTime todate; DateTime fromdate;
-                    string t; string f;
-                    if (DateTime.Now.Month >= 4)
-                    {
-                        todate = theDate.AddYears(1);
-                    }
-                    else
-                    {
-                        todate = theDate;
-                    }
-                    if (DateTime.Now.Month >= 4)
-                    {
-                        fromdate = theDate;
-                    }
-                    else
-                    {
-                        fromdate = theDate.AddYears(-1);
-                    }
-                    t = todate.ToString("yy");
-                    f = fromdate.ToString("yy");
-                    string disp = string.Format("{0}-{1}", f, t);
-
-                    int idc = GetDataId(" SELECT COMMON_TEXT FROM COMMON_MASTER WHERE COMMON_TYPE = 'SE' AND IS_ACTIVE = 'Y'");
-                    cy.EnqNo = string.Format("{0}/{3}/{1} - {2} ", "TAAI","SE", (idc + 1).ToString(), disp);
-
-                    string updateCMd = " UPDATE COMMON_MASTER SET COMMON_TEXT ='" + (idc + 1).ToString() + "' WHERE COMMON_TYPE ='SE' AND IS_ACTIVE ='Y'";
-                    try
-                    {
-                        UpdateStatus(updateCMd);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw ex;
-                    }
+                    datatrans.UpdateStatus(updateCMd);
                 }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                cy.EnqNo = EnqNo;
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                  {
                     OracleCommand objCmd = new OracleCommand("SALESENQPROC", objConn);
