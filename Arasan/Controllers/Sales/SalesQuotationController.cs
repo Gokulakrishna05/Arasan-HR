@@ -306,7 +306,40 @@ namespace Arasan.Controllers.Sales
         //    ca.QuoLst = Data;
         //    return View(ca);
         //}
-        public ActionResult GetCustomerDetail(string ItemId)
+        //public ActionResult GetCustomerDetails(string ItemId)
+        //{
+        //    try
+        //    {
+        //        DataTable dt = new DataTable();
+        //        DataTable dt1 = new DataTable();
+
+        //        string address = "";
+        //        string contact = "";
+        //        string city = "";
+        //        string pin = "";
+        //        dt = SalesQuotationService.GetCustomerDetails(ItemId);
+
+        //        if (dt.Rows.Count > 0)
+        //        {
+
+        //            address = dt.Rows[0]["ADD1"].ToString();
+        //            contact = dt.Rows[0]["INTRODUCEDBY"].ToString();
+        //            city = dt.Rows[0]["CITY"].ToString();
+        //            pin = dt.Rows[0]["PINCODE"].ToString();
+
+        //        }
+
+        //        var result = new { address = address, contact = contact, city = city, pin = pin };
+        //        return Json(result);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
+
+
+        public ActionResult GetEnqDetails(string ItemId)
         {
             try
             {
@@ -317,13 +350,13 @@ namespace Arasan.Controllers.Sales
                 string contact = "";
                 string city = "";
                 string pin = "";
-                dt = SalesQuotationService.GetCustomerDetails(ItemId);
+                dt = SalesQuotationService.GetEnqDetails(ItemId);
 
                 if (dt.Rows.Count > 0)
                 {
 
-                    address = dt.Rows[0]["ADD1"].ToString();
-                    contact = dt.Rows[0]["INTRODUCEDBY"].ToString();
+                    address = dt.Rows[0]["ADDRESS"].ToString();
+                    contact = dt.Rows[0]["CONTACT_PERSON_MOBILE"].ToString();
                     city = dt.Rows[0]["CITY"].ToString();
                     pin = dt.Rows[0]["PINCODE"].ToString();
 
@@ -337,6 +370,7 @@ namespace Arasan.Controllers.Sales
                 throw ex;
             }
         }
+
         public ActionResult AssignSession(string status)
         {
             try
