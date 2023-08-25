@@ -52,7 +52,7 @@
                                                 <div class="form-group" id="EnquiryQuote" style="display:none;">
                                                     <br />  <label for="inputName3" class="col-sm-4 control-label">From Enquiry <label class="mandatory">*</label></label>
                                                     <div class="col-sm-8">
-                                                        @Html.DropDownListFor(C => C.EnquiryId, Model.EnquiryList, " -- Select -- ", new { @id = "ddlEnquiry", @Class = "form-control  _select", @style = "width:350px;" })
+                                            @Html.DropDownListFor(C => C.EnquiryId, Model.EnquiryList,"--Please select--", new { @id = "ddlEnquiry", @Class = "form-control  _select", @style = "width:350px; " ,@onchange = "changeItem(this.value);" })
                                                     </div>
                                                 </div>
                                             </div>
@@ -64,7 +64,7 @@
 
                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Quotation Type<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.EnqType, Model.Enqlst, new { @id = "ddlEnqType", @Class = "form-control  _select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.EnqType, Model.Enqlst,"--Please select--", new { @id = "ddlQuoType", @Class = "form-control  _select", @TabIndex = 1 })
                                             @Html.HiddenFor(C => C.ID)
                                             @Html.HiddenFor(C => C.QuoId)
                                             @Html.HiddenFor(C => C.Branch)
@@ -95,7 +95,7 @@
 
                                                 <br /> <label for="inputName3" class="col-sm-4 control-label">Currency<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Currency, Model.Curlst, new { @id = "ddlCurrency", @Class = "form-control  _select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.Currency, Model.Curlst,"--Please select--", new { @id = "ddlCurrency", @Class = "form-control  _select", @TabIndex = 1 })
 
                                                 </div>
                                             </div>
@@ -105,7 +105,7 @@
 
                                          <br /> <label for="inputName3" class="col-sm-4 control-label">Customer Type<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.CustomerType, Model.Typelst, new { @id = "ddlCustomerType", @Class = "form-control  _select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.CustomerType, Model.Typelst,"--Please select--", new { @id = "ddlCustomerType", @Class = "form-control  _select", @TabIndex = 1 })
                                             @Html.HiddenFor(C => C.ID)
 
                                         </div>
@@ -118,7 +118,7 @@
 
                                                 <br /> <label for="inputName3" class="col-sm-4 control-label">Customer Name<label class="mandatory">*</label></label>
                                                 <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Customer, Model.Suplst,"--Please Select--" ,new { @id = "ddlCustomer", @Class = "form-control _select", @TabIndex = 1,onchange = "changeItem(this.value)" })
+                                            @Html.DropDownListFor(C => C.Customer, Model.Suplst,"--Please Select--" ,new { @id = "ddlCustomer", @Class = "form-control _select", @TabIndex = 1,onchange = "changeItem1(this.value)" })
                                               @Html.HiddenFor(C => C.ID)
                                                 </div>
                                             </div>
@@ -677,7 +677,7 @@
             alert("Cannot delete all the rows.")
         }
     }
-    @*function changeItem(ItemId) {
+    function changeItem1(ItemId) {
         $.ajax({
             url: 'GetCustomerDetail',
             data: { "ItemId": ItemId },
@@ -694,19 +694,19 @@
             }
         });
 
-    }*@
+    }
 
     function changeItem(ItemId) {
         $.ajax({
-            url: 'GetEnqDetails',
+            url: 'GetEnqDetail',
             data: { "ItemId": ItemId },
             type: "GET",
             success: function (result) {
 
-                document.getElementById("txtAddress").value = result.address;
-                document.getElementById("txtMobile").value = result.contact;
-                document.getElementById("txtCity").value = result.city;
-                document.getElementById("txtPinCode").value = result.pin;
+                document.getElementById("ddlQuoType").value = result.quoid;
+                document.getElementById("QuoDate").value = result.quodate;
+                document.getElementById("ddlCurrency").value = result.currency;
+                document.getElementById("ddlCustomer").value = result.customertype;
             },
             error: function () {
                 alert("Data Not Found");
@@ -714,6 +714,38 @@
         });
 
     }
+
+    $.ajax({
+        url: "GetEnqJSON",
+            type: "post",
+                data: { 'supid': ItemId, "Type": type },
+            cache: false,
+            success: function (response) {
+                var newlist;
+                    newlist = response.Itemlst;
+            PopulateDropDown("#ddlQuoType", response);
+            },
+            error: function () {
+                debugger;
+                alert("Please Select Quo Type");
+            }
+        });  
+        
+        $.ajax({
+        url: "GetEnqJSON",
+            type: "post",
+                data: { 'supid': ItemId, "Type": type },
+            cache: false,
+            success: function (response) {
+                var newlist;
+                    newlist = response.Itemlst;
+            PopulateDropDown("#ddlQuoType", response);
+            },
+            error: function () {
+                debugger;
+                alert("Please Select Quo Type");
+            }
+        }); 
 
     $('.form_date').datetimepicker({
         //   language:  'fr',
@@ -879,9 +911,9 @@
                     "background": ""
                 });
             }*@
-            if (document.getElementById("ddlEnqType").value == "" || document.getElementById("ddlEnqType").value == 0) {
+            if (document.getElementById("ddlQuoType").value == "" || document.getElementById("ddlQuoType").value == 0) {
                 isValid = false;
-                $(ddlEnqType_chzn).css({
+                $(ddlQuoType).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
@@ -890,7 +922,7 @@
                 return false;
             }
             else {
-                $(ddlEnqType_chzn).css({
+                $(ddlQuoType).css({
                     "border": "",
                     "background": ""
                 });

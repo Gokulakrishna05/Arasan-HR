@@ -64,7 +64,7 @@ namespace Arasan.Controllers.Sales
                     ca.QuoId = dt.Rows[0]["QUOTE_NO"].ToString();
                     ca.QuoDate = dt.Rows[0]["QUOTE_DATE"].ToString();
                     ca.EnNo = dt.Rows[0]["ENQNO"].ToString();
-                    ca.EnDate = dt.Rows[0]["ENQDATE"].ToString();
+                    ca.EnDate = dt.Rows[0]["ENQ_DATE"].ToString();
                     ca.Currency = dt.Rows[0]["CURRENCY_TYPE"].ToString();
                     ca.Customer = dt.Rows[0]["CUSTOMER"].ToString();
                     ca.CustomerType = dt.Rows[0]["CUSTOMER_TYPE"].ToString();
@@ -281,7 +281,7 @@ namespace Arasan.Controllers.Sales
         //        ca.QuoId = dt.Rows[0]["QUOTE_NO"].ToString();
         //        ca.QuoDate = dt.Rows[0]["QUOTE_DATE"].ToString();
         //        ca.EnNo = dt.Rows[0]["ENQNO"].ToString();
-        //        ca.EnDate = dt.Rows[0]["ENQDATE"].ToString();
+        //        ca.EnDate = dt.Rows[0]["ENQ_DATE"].ToString();
         //        ca.ID = id;
         //    }
         //    List<QuoItem> Data = new List<QuoItem>();
@@ -306,40 +306,9 @@ namespace Arasan.Controllers.Sales
         //    ca.QuoLst = Data;
         //    return View(ca);
         //}
-        //public ActionResult GetCustomerDetails(string ItemId)
-        //{
-        //    try
-        //    {
-        //        DataTable dt = new DataTable();
-        //        DataTable dt1 = new DataTable();
-
-        //        string address = "";
-        //        string contact = "";
-        //        string city = "";
-        //        string pin = "";
-        //        dt = SalesQuotationService.GetCustomerDetails(ItemId);
-
-        //        if (dt.Rows.Count > 0)
-        //        {
-
-        //            address = dt.Rows[0]["ADD1"].ToString();
-        //            contact = dt.Rows[0]["INTRODUCEDBY"].ToString();
-        //            city = dt.Rows[0]["CITY"].ToString();
-        //            pin = dt.Rows[0]["PINCODE"].ToString();
-
-        //        }
-
-        //        var result = new { address = address, contact = contact, city = city, pin = pin };
-        //        return Json(result);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
 
 
-        public ActionResult GetEnqDetails(string ItemId)
+        public ActionResult GetCustomerDetail(string ItemId)
         {
             try
             {
@@ -350,13 +319,13 @@ namespace Arasan.Controllers.Sales
                 string contact = "";
                 string city = "";
                 string pin = "";
-                dt = SalesQuotationService.GetEnqDetails(ItemId);
+                dt = SalesQuotationService.GetCustomerDetails(ItemId);
 
                 if (dt.Rows.Count > 0)
                 {
 
-                    address = dt.Rows[0]["ADDRESS"].ToString();
-                    contact = dt.Rows[0]["CONTACT_PERSON_MOBILE"].ToString();
+                    address = dt.Rows[0]["ADD1"].ToString();
+                    contact = dt.Rows[0]["INTRODUCEDBY"].ToString();
                     city = dt.Rows[0]["CITY"].ToString();
                     pin = dt.Rows[0]["PINCODE"].ToString();
 
@@ -371,6 +340,127 @@ namespace Arasan.Controllers.Sales
             }
         }
 
+
+        public ActionResult GetEnqDetail(string ItemId)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                //DataTable dt1 = new DataTable();
+
+                //string quoid = "";
+                string quodate = "";
+                //string currency = "";
+                //string customertype = "";
+                dt = SalesQuotationService.GetEnqDetails(ItemId);
+
+                if (dt.Rows.Count > 0)
+                {
+
+                    //quoid = dt.Rows[0]["ENQ_TYPE"].ToString();
+                    quodate = dt.Rows[0]["ENQ_DATE"].ToString();
+                    //currency = dt.Rows[0]["CURRENCY_TYPE"].ToString();
+                    //customertype = dt.Rows[0]["CUSTOMER_NAME"].ToString();
+
+                }
+
+                //var result = new { quoid = quoid, quodate = quodate, currency = currency, customertype = customertype };
+                var result = new { quodate = quodate };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public JsonResult GetEnqJSON(string supid, string Type)
+        {
+            SalesQuotation model = new SalesQuotation();
+            model.Quolst = BindQuolst(supid, Type);
+            return Json(BindQuolst(supid, Type));
+
+        }
+
+        public JsonResult GetCurrencyJSON(string supid, string Type)
+        {
+            SalesQuotation model = new SalesQuotation();
+            model.Currlst = BindCurrlst(supid, Type);
+            return Json(BindCurrlst(supid, Type));
+
+        }
+
+        public JsonResult GetCustypeJSON(string supid, string Type)
+        {
+            SalesQuotation model = new SalesQuotation();
+            model.Custypelst = BindCustypelst(supid, Type);
+            return Json(BindCustypelst(supid, Type));
+
+        }
+
+
+        public List<SelectListItem> BindQuolst(string value, string Type)
+        {
+            try
+            {
+
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+              
+                    DataTable dtDesg = SalesQuotationService.GetQuobyId(value);
+                    for (int i = 0; i < dtDesg.Rows.Count; i++)
+                    {
+                        lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ENQ_TYPE"].ToString(), Value = dtDesg.Rows[i]["SALESENQUIRYID"].ToString() });
+
+                    }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<SelectListItem> BindCurrlst(string value, string Type)
+        {
+            try
+            {
+
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+
+                DataTable dtDesg = SalesQuotationService.GetCurrbyId(value);
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["CURRENCY_TYPE"].ToString(), Value = dtDesg.Rows[i]["SALESENQUIRYID"].ToString() });
+
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<SelectListItem> BindCustypelst(string value, string Type)
+        {
+            try
+            {
+
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+
+                DataTable dtDesg = SalesQuotationService.GetCustypebyId(value);
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["CUSTOMER_NAME"].ToString(), Value = dtDesg.Rows[i]["SALESENQUIRYID"].ToString() });
+
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public ActionResult AssignSession(string status)
         {
             try
@@ -744,7 +834,7 @@ namespace Arasan.Controllers.Sales
                 ca.QuoId = dt.Rows[0]["QUOTE_NO"].ToString();
                 ca.QuoDate = dt.Rows[0]["QUOTE_DATE"].ToString();
                 ca.EnNo = dt.Rows[0]["ENQNO"].ToString();
-                ca.EnDate = dt.Rows[0]["ENQDATE"].ToString();
+                ca.EnDate = dt.Rows[0]["ENQ_DATE"].ToString();
                 ca.Currency = dt.Rows[0]["CURRENCY_TYPE"].ToString();
                 ca.Customer = dt.Rows[0]["PARTY"].ToString();
                 ca.CustomerType = dt.Rows[0]["CUSTOMER_TYPE"].ToString();
