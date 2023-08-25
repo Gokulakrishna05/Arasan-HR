@@ -18,6 +18,9 @@ namespace Arasan.Models
             this.Enqlst = new List<SelectListItem>();
             this.Typelst = new List<SelectListItem>();
             this.Prilst = new List<SelectListItem>();
+            this.Quolst = new List<SelectListItem>();
+            this.Currlst = new List<SelectListItem>();
+            this.Custypelst = new List<SelectListItem>();
         }
         public List<SelectListItem> RecList;
         public string Recieved { get; set; }
@@ -26,6 +29,9 @@ namespace Arasan.Models
         public List<SelectListItem> Suplst;
         public List<SelectListItem> Enqlst;
         public List<SelectListItem> Typelst;
+        public List<SelectListItem> Quolst;
+        public List<SelectListItem> Currlst;
+        public List<SelectListItem> Custypelst;
         public string CustomerType { get; set; }
         public string EnqType { get; set; }
         public List<SelectListItem> cuntylst;
