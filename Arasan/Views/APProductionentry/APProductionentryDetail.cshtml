@@ -62,7 +62,7 @@ a{
     }
 
     .panel-default > .panel-heading a[aria-expanded="true"] {
-        background-color: green;
+                background-color: #49B6D6;
     }
 
     .panel-default > .panel-heading a[aria-expanded="true"]:after {
@@ -95,7 +95,7 @@ a{
     .accordion-option .toggle-accordion {
         float: right;
         font-size: 16px;
-        color: #49B6D6;
+            color: #AAB7B8;
     }
 
     .accordion-option .toggle-accordion:before {
@@ -107,7 +107,7 @@ a{
     }
 
     .panel-title a {
-        background-color: #49B6D6;
+        background-color: #AAB7B8;
     }
 
     .panel-body table tr td {
@@ -147,7 +147,7 @@ a{
 
                                     <label for="inputName3" class="col-sm-4 control-label">Work Center <label class="mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.HiddenFor(C => C.APID)
+                                        @Html.HiddenFor(C => C.APID,new{@id="hdapid"})
                                         @Html.DisplayFor(C => C.Location)<br>                                
 </div>
                                 </div>
@@ -442,6 +442,7 @@ a{
                                                                         <th> Qty </th>
                                                                         <th></th>
                                                                         <th>Test Result</th>
+                                                                        <th></th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody id="tbBooksout">
@@ -453,11 +454,12 @@ a{
                                                                             <tr id="trBookout@(m)" class="chkitemlstout" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
                                                                                 <td>
+                                                                                    @* @Html.DisplayFor(o => o.outlst[m].ItemId) *@
                                                                                     @Html.DropDownListFor(o => o.outlst[m].ItemId, Model.outlst[m].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlOutItem" + m, style = "width: 170px;",onchange = "changeOutItem(this.value," + m + ")" })
                                                                                     @Html.HiddenFor(o => o.outlst[m].APID, new { @id = "txtOutAPID" + m, @class = "form-control", style = "width: 100px;"})
                                                                                 </td>
                                                                                 <td>  @Html.DropDownListFor(o => o.outlst[m].drumno, Model.outlst[m].drumlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddldrumno" + m, style = "width: 170px;"})</td>
-                                                                                <td>@Html.TextBoxFor(o => o.outlst[m].BinId, new { @id = "txtOutBinId" + m, @class = "form-control", style = "width: 100px;",@readonly=true}) @Html.HiddenFor(o => o.outlst[m].outBin, new { @id = "txtoutBin" + m, @class = "form-control", style = "width: 100px;"})</td>
+                                                                                <td>@Html.TextBoxFor(o => o.outlst[m].BinId, new { @id = "txtOutBinId" + m, @class = "form-control", style = "width: 100px;",@readonly=true}) @Html.HiddenFor(o => o.outlst[m].outBin, new { @id = "txtOutBin" + m, @class = "form-control", style = "width: 100px;"})</td>
                                                                                 <td>@Html.TextBoxFor(o => o.outlst[m].FromTime, new { @id = "txtFromTime" + m, @class = "form-control", style = "width: 80px; " })</td>
                                                                                 <td>@Html.TextBoxFor(o => o.outlst[m].ToTime, new { @id = "txtToTime" + m, @class = "form-control", style = "width: 80px; " })</td>
 
@@ -466,13 +468,14 @@ a{
                                                                                 <td>@Html.TextBoxFor(o => o.outlst[m].OutputQty, new { @id = "txtOutputQty" + m, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right" })   @Html.HiddenFor(o => o.outlst[m].Isvalid, new { @id = "Isoutvalid" + m })</td>
                                                                                 @if (item.Result != "Ok")
                                                                                 {
-                                                                                    <td>   <button type="button" class="btn aqua m-t-xs bottom15-xs" id="Save">Move to QC </button></td>
+                                                                                    <td>   <button type="button" class="btn aqua m-t-xs bottom15-xs" id="Save" onclick="outputsave(@(m))" disabled>Save </button></td>
                                                                                 }
                                                                                 else
                                                                                 {
-                                                                                     <td>   <button type="button" class="btn aqua m-t-xs bottom15-xs" id="Save" disabled>Move to QC </button></td>
+                                                                                     <td>   <button type="button" class="btn aqua m-t-xs bottom15-xs" id="Save" disabled>Save</button></td>
                                                                                 }
                                                                                 <td>@Html.TextBoxFor(o => o.outlst[m].Result, new { @id = "txtResult" + m, @class = "form-control", style = "width: 100px;text-align:right",@readonly=true })</td>
+                                                                                <td> <img onclick="refreshrow(@(m));" src="../Images/refresh.gif" style="cursor:pointer;width:20px;height:20px;" /></td>
                                                                               @*    <td>
                                                                                     @Html.HiddenFor(o => o.outlst[m].Isvalid, new { @id = "Isoutvalid" + m })
                                                                                     <img onclick="removeConsRow(@(m));" src="../Images/delete.png" style="cursor:pointer" />
@@ -693,7 +696,7 @@ a{
                                                         <div class="row">
                                                             <div class="col-md-12">
                                                                 <div class="btn-group">
-                                                                    <input type="button" value="Add Row" onclick="AddEmpRow()" class="btn sbold green" />
+                                                                    <input type="button" value="Add Row" onclick="AddLogRow()" class="btn sbold green" />
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -722,7 +725,7 @@ a{
                                                                             int x = 0;
                                                                             foreach (var item in Model.LogLst.ToList())
                                                                             {
-                                                                                <tr id="trBookLog@(k)" class="chkLogitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                                <tr id="trBookLog@(x)" class="chkLogitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
 
 
@@ -745,7 +748,7 @@ a{
 
                                                                                     <td>
                                                                                         @Html.HiddenFor(o => o.LogLst[x].Isvalid, new { @id = "Isvalid" + x })
-                                                                                        <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" />
+                                                                                        <img onclick="removeLogRow(@(x));" src="../Images/delete.png" style="cursor:pointer" />
                                                                                     </td>
 
 
@@ -872,33 +875,27 @@ a{
         });
     }
 
-
-   $(document).ready(function() {
- 
-            $("#Save").click(function() {
-                var i=0;
-        var id = document.getElementById("txtOutAPID" + i).value;
-       var ItemId= document.getElementById("ddlOutItem" + i).value;
+    function outputsave(i){
+        
+        var id = document.getElementById("hdapid").value;
+        var ItemId = document.getElementById("ddlOutItem" + i).value;
         var drum = document.getElementById("ddldrumno" + i).value;
-        var time = document.getElementById("txtTime" + i).value;
+        var time = document.getElementById("txtFromTime" + i).value;
         var qty = document.getElementById("txtOutputQty" + i).value;
-       
+        var totime = document.getElementById("txtToTime" + i).value;
         $.ajax({
             url: 'SaveOutDetail',
-            data: { "id":id,"ItemId": ItemId, "drum": drum, "time": time, "qty": qty },
+            data: { "id": id, "ItemId": ItemId, "drum": drum, "time": time, "qty": qty, "totime": totime },
             type: "POST",
             success: function (result) {
-                
-             
-                 
+
             },
             error: function () {
-               
+
             }
         });
-    });
- 
-        });
+    }
+
 
     function changeOutItem(ItemId, i) {
         $.ajax({
@@ -908,7 +905,7 @@ a{
             success: function (result) {
 
                 document.getElementById("txtOutBinId" + i).value = result.bin;
-                document.getElementById("txtoutBin" + i).value = result.binid;
+                document.getElementById("txtOutBin" + i).value = result.binid;
 
             },
             error: function () {
@@ -1031,13 +1028,14 @@ a{
 
         var itemid = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlOutItem" + index + "' name='outlst[" + index + "].ItemId' onchange = 'changeOutItem(this.value," + index + ")' ><option value=''>Please select</option>" + opt + "</select></td>";
         var drum = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddldrumno" + index + "' name='outlst[" + index + "].drumno' ><option value=''>Please select</option>" + remopt + "</select></td>";
-        var bin = "<td><input class='form-control'  id='txtOutBinId" + index + "' name='outlst[" + index + "].BinId' style='width: 100px;' type='text' value='' readonly='true'></td>";
-        var time = "<td><input class='form-control'  id='txtTime" + index + "' name='outlst[" + index + "].Time' style='width: 80px;' type='text' value='' onkeydown = 'return isNumeric2(event.keyCode,this.value)'></td>";
+        var bin = "<td><input class='form-control'  id='txtOutBinId" + index + "' name='outlst[" + index + "].BinId' style='width: 100px;' type='text' value='' readonly='true'><input type='hidden' id='txtOutBin" + index + "' name='outlst[" + index + "].OutBin'></td>";
+        var time = "<td><input class='form-control'  id='txtFromTime" + index + "' name='outlst[" + index + "].FromTime' style='width: 80px;' type='text' value='' onkeydown = 'return isNumeric2(event.keyCode,this.value)'></td>";
+         var totime = "<td><input class='form-control'  id='txtToTime" + index + "' name='outlst[" + index + "].ToTime' style='width: 80px;' type='text' value='' onkeydown = 'return isNumeric2(event.keyCode,this.value)'></td>";
         var qty = "<td><input class='form-control'  id='txtOutputQty" + index + "' name='outlst[" + index + "].OutputQty'  type='text' value='' style = 'width: 100px;text-align:right' onkeydown = 'return isNumeric2(event.keyCode,this.value)' ></td>";
-        var qc = "<td> <button type='button' class='btn aqua m - t - xs bottom15 - xs' id='Save'>Move to QC </button></td>";
+        var qc = "<td> <button type='button' class='btn aqua m - t - xs bottom15 - xs' id='Save' onclick='outputsave(" + index + ")'>Save </button></td>";
         var test = "<td><input class='form-control'  id='txtResult" + index + "' name='outlst[" + index + "].Result'  type='text' value='' style = 'width: 100px;text-align:right' onkeydown = 'return isNumeric2(event.keyCode,this.value)' readonly='true'></td>";
-@*        var removeCell = "<td><input id='Isvalid" + index + "' name='outlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='inputlst.Index' type='hidden' value='" + index + "'  /></td>";
-*@        var newRow = "<tr class='chkitemlstout'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookout" + index + "'>" + itemid + drum + bin + time + qty + qc + test + "</tr>";
+        var removeCell = "<td><input id='Isoutvalid" + index + "' name='outlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeOutRow(" + index + ");'  style='cursor:pointer' /><input name='outlst.Index' type='hidden' value='" + index + "'  /></td>";
+       var newRow = "<tr class='chkitemlstout'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookout" + index + "'>" + itemid + drum + bin + time + totime + qty + qc + test + removeCell + "</tr>";
         $("#tbBooksout").append(newRow);
 
         $(function () {
@@ -1219,6 +1217,28 @@ a{
         document.getElementById("txttotalinqty").value = tot.toFixed(2);
 
     }
+    function removeOutRow(id) {
+        var table = document.getElementById("dataTableinc");
+        var rowCount = table.rows.length;
+        var row = document.getElementById('trBookout' + id);
+        var j = 0;
+        $('tr.chkitemlstout').each(function () {
+            if ($(this).css('display') !== 'none') {
+                j += 1;
+            }
+        });
+        if (j > 1) {
+            row.style.display = "none";
+            document.getElementById('Isoutvalid' + id).value = "N";
+        }
+        else {
+            alert("Cannot delete all the rows.")
+        }
+
+      
+
+    }
+    
     function removeEmpRow(id) {
         var table = document.getElementById("dataTableEmp");
         var rowCount = table.rows.length;
@@ -1292,12 +1312,13 @@ a{
             $('tr.chkitemlst').each(function () {
                 if ($(this).css('display') !== 'none') {
                     var order = {};
+               
                     order.ItemId = document.getElementById("ddlItem" + j).value;
                     order.BinId = document.getElementById("txtBinId" + j).value;
                     order.batchno = document.getElementById("txtbatchno" + j).value;
                     order.IssueQty = document.getElementById("txtIssueQty" + j).value;
                      order.Time = document.getElementById("txtITime" + j).value;
-                    order.APID = document.getElementById("txtAPID" + j).value;
+                    order.APID = document.getElementById("hdapid").value;
                     order.StockAvailable = document.getElementById("txtStockAvailable" + j).value;
                     ProInput.push(order);
                     j += 1;
@@ -1311,15 +1332,14 @@ a{
                     proincons.ItemId = document.getElementById("ddlConsItem" + i).value;
                     proincons.BinId = document.getElementById("txtConsBinId" + i).value;
                     proincons.Qty = document.getElementById("txtQty" + i).value;
-                proincons.consunit = document.getElementById("txtconsunit" + i).value;
+                    proincons.consunit = document.getElementById("txtconsunit" + i).value;
                    proincons.consQty = document.getElementById("txtconsQty" + i).value;
-                     proincons.APID = document.getElementById("txtCAPID" + j).value;
-    proincons.ConsStock = document.getElementById("txtConsStock" + i).value;
+                     proincons.APID = document.getElementById("hdapid").value;
+                    proincons.ConsStock = document.getElementById("txtConsStock" + i).value;
                     APProInCons.push(proincons);
                     i += 1;
                     }
                 }); 
-            alert(JSON.stringify(ProInput));
             $.ajax({
                 type: "POST",
                 url: "InsertProInput",
@@ -1352,7 +1372,7 @@ a{
                     
                     emp.StartDate = document.getElementById("txtStartDate" + e).value;
                      emp.StartTime = document.getElementById("txtStartTime" + e).value;
-                    emp.APID = document.getElementById("txtEAPID" + e).value;
+                emp.APID = document.getElementById("hdapid").value;
                     emp.EndDate = document.getElementById("txtEndDate" + e).value;
                      emp.EndTime = document.getElementById("txtEndTime" + e).value;
                      emp.OTHrs = document.getElementById("txtOTHrs" + e).value;
@@ -1365,7 +1385,6 @@ a{
             });
 
            
-            alert(JSON.stringify(EmpDetails));
             $.ajax({
                 type: "POST",
                 url: "InsertProEmp",
@@ -1391,7 +1410,7 @@ a{
                   
                    
                      brakdet.StartTime = document.getElementById("txtBStartTime" + e).value;
-                    brakdet.APID = document.getElementById("txtAPID" + e).value;
+                brakdet.APID = document.getElementById("hdapid").value;
                 brakdet.PB = document.getElementById("txtPB" + e).value;
                      brakdet.EndTime = document.getElementById("txtBEndTime" + e).value;
                      brakdet.DType = document.getElementById("txtDType" + e).value;
@@ -1404,7 +1423,6 @@ a{
             });
 
            
-            alert(JSON.stringify(BreakDet));
             $.ajax({
                 type: "POST",
                 url: "InsertProBreak",
@@ -1430,7 +1448,7 @@ a{
                   
                    
                      log.StartTime = document.getElementById("txtLStartTime" + e).value;
-                    log.APID = document.getElementById("txtAPID" + e).value;
+                log.APID = document.getElementById("hdapid").value;
                
                      log.EndTime = document.getElementById("txtLEndTime" + e).value;
                 log.tothrs = document.getElementById("txtTotalHrs" + e).value;
@@ -1442,7 +1460,7 @@ a{
             });
 
            
-            alert(JSON.stringify(LogDetails));
+            
             $.ajax({
                 type: "POST",
                 url: "InsertProLog ",
@@ -1456,7 +1474,30 @@ a{
 
        
     }
+    function refreshrow(i){
 
+        var id = document.getElementById("txtOutAPID" + i).value;
+        var ItemId = document.getElementById("ddlOutItem" + i).value;
+        var drum = document.getElementById("ddldrumno" + i).value;
+       
+        $.ajax({
+            url: 'GetQCResult',
+            data: { "id": id, "ItemId": ItemId, "drum": drum },
+            type: "POST",
+            success: function (result) {
+                if (result.res == "No") {
+    alert("QC Not Completed");
+}else{
+                    document.getElementById("txtResult" + i).value = result.resdetail;
+                    alert("QC Result Updated Successfully");
+}
+            },
+            error: function () {
+
+            }
+        });
+
+    }
     function removeLogRow(id) {
         var table = document.getElementById("dataTableLog");
         var rowCount = table.rows.length;
@@ -1474,7 +1515,7 @@ a{
         else {
             alert("Cannot delete all the rows.")
         }
-    } function AppendLogRow(opt) {
+    } function AddLogRow() {
         var index = $("#tbBooksLog").children("tr").length;
 
 
@@ -1486,7 +1527,7 @@ a{
         var reason = "<td><input class='form-control'  id='txtLReason" + index + "' name='LogLst[" + index + "].Reason' style='width: 100px;'   value=''></td>";
 
         var removeCell = "<td><input id='LogIsvalid" + index + "' name='LogLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeLogRow(" + index + ");'  style='cursor:pointer' /><input name='inputlst.Index' type='hidden' value='" + index + "'  /></td>";
-        var newRow = "<tr class='chkLogitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookEmp" + index + "'>" + startdate + starttime + enddate + endtime + total + reason + removeCell + "</tr>";
+        var newRow = "<tr class='chkLogitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookLog" + index + "'>" + startdate + starttime + enddate + endtime + total + reason + removeCell + "</tr>";
         $("#tbBooksLog").append(newRow);
 
 
