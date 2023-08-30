@@ -570,7 +570,7 @@
                 <DataSetName>DataSet1</DataSetName>
                 <Top>3.69622cm</Top>
                 <Height>1.27938cm</Height>
-                <Width>16.31789cm</Width>
+                <Width>16.3179cm</Width>
                 <Style>
                   <Border>
                     <Style>Solid</Style>
@@ -2398,9 +2398,9 @@
               </Textbox>
             </ReportItems>
             <KeepTogether>true</KeepTogether>
-            <Left>0.19392cm</Left>
+            <Top>0.9525cm</Top>
             <Height>13.22746cm</Height>
-            <Width>16.31789cm</Width>
+            <Width>16.3179cm</Width>
             <Style>
               <Border>
                 <Style>Double</Style>
@@ -2408,7 +2408,7 @@
             </Style>
           </Rectangle>
         </ReportItems>
-        <Height>5.43091in</Height>
+        <Height>6.45766in</Height>
         <Style>
           <Border>
             <Style>None</Style>
