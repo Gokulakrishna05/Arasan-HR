@@ -619,7 +619,7 @@ namespace Arasan.Controllers
             int extension = 1;
             string DrumID = datatrans.GetDataString("Select PARTYID from POBASIC where POBASICID='" + id + "' ");
             DataSet ds = new DataSet();
-            var path = $"{this._WebHostEnvironment.WebRootPath}\\Reports\\Report1.rdlc";
+            var path = $"{this._WebHostEnvironment.WebRootPath}\\Reports\\Basic.rdlc";
             Dictionary<string, string> Parameters = new Dictionary<string, string>();
             //  Parameters.Add("rp1", " Hi Everyone");
             var Poitem = await PoService.GetPOItem(id, DrumID);

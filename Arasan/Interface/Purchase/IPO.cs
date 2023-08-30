@@ -21,7 +21,7 @@ namespace Arasan.Interface
         string StatusChange(string tag, int id);
 
 
-
+        Task<IEnumerable<POItemDetail>> GetPOItemss (string supid, string s);
 
         Task<IEnumerable<POItemDetail>> GetPOItem(string id,string s);
 
