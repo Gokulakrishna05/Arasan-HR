@@ -18,7 +18,7 @@ namespace Arasan.Interface
         IEnumerable<APProductionentry>  GetAllAPProductionentry();
 		DataTable GetItemDetails(string id);
 
-        DataTable SaveOutDetails(string id, string item,string drum, string time, string qty);
+        DataTable SaveOutDetails(string id, string item,string drum, string time, string qty, string totime);
 
         DataTable GetOutItemDetails(string id);
         DataTable GetConItemDetails(string id);

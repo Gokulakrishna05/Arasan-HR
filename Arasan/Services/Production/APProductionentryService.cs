@@ -477,7 +477,7 @@ namespace Arasan.Services
         public DataTable GetOutput(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select APPRODUCTIONBASICID,ITEMID,BINBASIC.BINID,OUTQTY,DRUMNO,FROMTIME,TOTIME from APPRODOUTDET left outer join BINBASIC ON BINBASICID= APPRODOUTDET.BINID  where APPRODUCTIONBASICID='" + id + "' ";
+            SvSql = "select APPRODOUTDETID,APPRODUCTIONBASICID,APPRODOUTDET.ITEMID,BINBASIC.BINID,OUTQTY,DRUMNO,FROMTIME,TOTIME,ITEMMASTER.ITEMID as ITEMNAME,TESTRESULT,MOVETOQC from APPRODOUTDET left outer join BINBASIC ON BINBASICID= APPRODOUTDET.BINID LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=APPRODOUTDET.ITEMID  where APPRODUCTIONBASICID='" + id + "' ";
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -507,10 +507,10 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable SaveOutDetails(string id, string item, string drum, string time, string qty)
+        public DataTable SaveOutDetails(string id, string item, string drum, string time, string qty,string totime)
         {
             string SvSql = string.Empty;
-            SvSql = "Insert into APPRODOUTDET (APPRODUCTIONBASICID,ITEMID,DRUMNO,TIME,OUTQTY) VALUES ('" + id + "','" + item + "','" + drum + "','" + time + "','" + qty + "')";
+            SvSql = "Insert into APPRODOUTDET (APPRODUCTIONBASICID,ITEMID,DRUMNO,FROMTIME,OUTQTY,TOTIME) VALUES ('" + id + "','" + item + "','" + drum + "','" + time + "','" + qty + "','" + totime + "')";
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
