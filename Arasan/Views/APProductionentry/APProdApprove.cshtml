@@ -45,15 +45,26 @@
                               <br />      <label for="inputName3" class="col-sm-4 control-label">Are you Complete Or Change Shift<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
                                                     <div class="input-group">
+                                                @Html.HiddenFor(C => C.APID)
+                                                @{
 
-                                                        @Html.RadioButtonFor(C => C.change, "A", new { @TabIndex = 2 })
+                                                    int i = 0;
+                                                    foreach (var item in Model.ShiftNames.ToList())
+                                                    {
+                                                        var st = Model.ShiftNames[i].ToString();
+                                                        @Html.RadioButtonFor(C => C.change, st, new { @TabIndex = 2 })
+                                                        <label id="mt-radio">@Html.DisplayFor(o => o.ShiftNames[i])</label>
+                                                        i = i + 1;
+                                                    }
+                                                }
+                                                     @*   @Html.RadioButtonFor(C => C.change, "A", new { @TabIndex = 2 })
                                                         <label id="mt-radio">A</label>
                                                 @Html.RadioButtonFor(C => C.change, "B", new { @TabIndex = 3})
                                                         <label id="mt-radio">B</label>
                                                          @Html.RadioButtonFor(C => C.change, "C", new { @TabIndex = 2 })
                                                         <label id="mt-radio">C</label>
                                                 @Html.RadioButtonFor(C => C.change, "Complete", new { @TabIndex = 3})
-                                                        <label id="mt-radio">Complete</label>
+                                                        <label id="mt-radio">Complete</label>*@
 
                                                     </div><br />
                                     </div>
