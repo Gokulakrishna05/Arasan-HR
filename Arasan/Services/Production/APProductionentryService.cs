@@ -364,10 +364,18 @@ namespace Arasan.Services
                     using (OracleConnection objConn = new OracleConnection(_connectionString))
                     {
                         objConn.Open();
+
+                        if (cy.change == "Complete")
+                        {
+                            svSQL = "Update APPRODUCTIONBASIC SET IS_CURRENT='No' WHERE APPRODUCTIONBASICID='"+ cy.APID +"'";
+                            OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
+                            objCmdd.ExecuteNonQuery();
+                        }
+
                         DataTable ap = datatrans.GetData("select APPRODUCTIONBASICID,DOCID,WCID,to_char(APPRODUCTIONBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,SHIFT,ASSIGNENG,SCHQTY,PRODQTY,BATCH,BATCHYN,BRANCHID from APPRODUCTIONBASIC WHERE IS_CURRENT='Yes'");
-                        svSQL = "Update APPRODUCTIONBASIC SET IS_CURRENT='No'";
-                        OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
-                        objCmdd.ExecuteNonQuery();
+                        //svSQL = "Update APPRODUCTIONBASIC SET IS_CURRENT='No'";
+                        //OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
+                        //objCmdd.ExecuteNonQuery();
 
                         OracleCommand objCmd = new OracleCommand("APPRODUCTIONPROC", objConn);
 
@@ -521,8 +529,13 @@ namespace Arasan.Services
         public DataTable SaveInputDetails(string id, string item, string bin, string time, string qty, string stock, string batch)
         {
             string SvSql = string.Empty;
+            using (OracleConnection objConnT = new OracleConnection(_connectionString))
+            {
+                 SvSql = "Delete APPRODINPDET WHERE APPRODUCTIONBASICID='" + id + "'";
+                 OracleCommand objCmdd = new OracleCommand(SvSql, objConnT);
+                 objCmdd.ExecuteNonQuery();
+            }
             SvSql = "Insert into APPRODINPDET (APPRODUCTIONBASICID,ITEMID,BINID,CHARGINGTIME,QTY,STOCK,BATCHNO) VALUES ('" + id + "','" + item + "','" + bin + "','" + time + "','" + qty + "','" + stock + "','" + batch + "')";
-
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -533,8 +546,14 @@ namespace Arasan.Services
         public DataTable SaveConsDetails(string id, string item, string bin, string unit, string usedqty, string qty, string stock)
         {
             string SvSql = string.Empty;
-            SvSql = "Insert into APPRODCONSDET (APPRODUCTIONBASICID,ITEMID,BINID,UNIT,QTY,CONSQTY,STOCK) VALUES ('" + id + "','" + item + "','" + bin + "','" + unit + "','" + usedqty + "','" + qty + "','" + stock + "')";
+            using (OracleConnection objConnT = new OracleConnection(_connectionString))
+            {
+                SvSql = "Delete APPRODCONSDET WHERE APPRODUCTIONBASICID='" + id + "'";
+                OracleCommand objCmdd = new OracleCommand(SvSql, objConnT);
+                objCmdd.ExecuteNonQuery();
+            }
 
+            SvSql = "Insert into APPRODCONSDET (APPRODUCTIONBASICID,ITEMID,BINID,UNIT,QTY,CONSQTY,STOCK) VALUES ('" + id + "','" + item + "','" + bin + "','" + unit + "','" + usedqty + "','" + qty + "','" + stock + "')";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -544,6 +563,13 @@ namespace Arasan.Services
         public DataTable SaveEmpDetails(string id, string empname, string code, string depat, string sdate, string stime, string edate, string etime, string ot, string et, string normal, string now)
         {
             string SvSql = string.Empty;
+            using (OracleConnection objConnT = new OracleConnection(_connectionString))
+            {
+                SvSql = "Delete APPRODEMPDET WHERE APPRODUCTIONBASICID='" + id + "'";
+                OracleCommand objCmdd = new OracleCommand(SvSql, objConnT);
+                objCmdd.ExecuteNonQuery();
+            }
+
             SvSql = "Insert into APPRODEMPDET (APPRODUCTIONBASICID,EMPID,EMPCODE,DEPARTMENT,STARTDATE,STARTTIME,ENDDATE,ENDTIME,OTHOUR,ETOTHER,NHOUR,NATUREOFWORK) VALUES ('" + id + "','" + empname + "','" + code + "','" + depat + "','" + sdate + "','" + stime + "','" + edate + "','" + etime + "','" + ot + "','" + et + "','" + normal + "','" + now + "')";
 
             DataTable dtt = new DataTable();
@@ -555,6 +581,12 @@ namespace Arasan.Services
         public DataTable SaveBreakDetails(string id, string machine, string des, string dtype, string mtype, string stime, string etime, string pb, string all, string reason)
         {
             string SvSql = string.Empty;
+            using (OracleConnection objConnT = new OracleConnection(_connectionString))
+            {
+                SvSql = "Delete APPRODBREAKDET WHERE APPRODUCTIONBASICID='" + id + "'";
+                OracleCommand objCmdd = new OracleCommand(SvSql, objConnT);
+                objCmdd.ExecuteNonQuery();
+            }
             SvSql = "Insert into APPRODBREAKDET (APPRODUCTIONBASICID,MACHCODE,DESCRIPTION,DTYPE,MTYPE,FROMTIME,TOTIME,PB,ALLOTTEDTO,REASON) VALUES ('" + id + "','" + machine + "','" + des + "','" + dtype + "','" + mtype + "','" + stime + "','" + etime + "','" + pb + "','" + all + "','" + reason + "')";
 
             DataTable dtt = new DataTable();
@@ -567,6 +599,12 @@ namespace Arasan.Services
 
         {
             string SvSql = string.Empty;
+            using (OracleConnection objConnT = new OracleConnection(_connectionString))
+            {
+                SvSql = "Delete APPRODLOGDET WHERE APPRODUCTIONBASICID='" + id + "'";
+                OracleCommand objCmdd = new OracleCommand(SvSql, objConnT);
+                objCmdd.ExecuteNonQuery();
+            }
             SvSql = "Insert into APPRODLOGDET (APPRODUCTIONBASICID,STARTDATE,STARTTIME,ENDDATE,ENDTIME,TOTALHRS,REASON) VALUES ('" + id + "','" + sdate + "','" + stime + "','" + edate + "','" + etime + "','" + tot + "','" + reason + "')";
 
             DataTable dtt = new DataTable();

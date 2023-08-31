@@ -29,6 +29,20 @@ namespace Arasan.Controllers
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
         }
 
+        public ActionResult APProductinentryselection()
+        {
+            var userId = Request.Cookies["UserId"];
+            int cunt = datatrans.GetDataId("select count(*) as cunt from APPRODUCTIONBASIC where IS_CURRENT='Yes' AND ASSIGNENG='"+ userId + "'");
+            if (cunt == 0)
+            {
+                return RedirectToAction("APProductionentry");
+            }
+            else
+            {
+                return RedirectToAction("APProductionentryDetail", new { tag = 1 });
+            }
+        }
+
 
 		public ActionResult APProductionentry(string id)
 		{
@@ -1222,7 +1236,16 @@ namespace Arasan.Controllers
         public ActionResult APProdApprove(string id)
         {
             APProductionentryDet ca = new APProductionentryDet();
+            ca.APID = id;
+            DataTable dt = datatrans.GetData("Select SHIFTNO from SHIFTMAST WHERE SHIFTNO IN ('A','B','C') and SHIFTNO not IN  (Select Shift from  APPRODUCTIONBASIC where DOCID=(select DOCID from APPRODUCTIONBASIC where APPRODUCTIONBASICID='" + id + "'))");
+            List<string> list = new List<string>();
            
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                list.Add(dt.Rows[i]["SHIFTNO"].ToString());
+            }
+            list.Add("Complete");
+            ca.ShiftNames = list;
             return View(ca);
         }
         [HttpPost]
@@ -1236,14 +1259,6 @@ namespace Arasan.Controllers
 					string Strout = IProductionEntry.APProEntryCRUD(Cy);
 					if (string.IsNullOrEmpty(Strout))
 					{
-						//if (Cy.ID == null)
-						//{
-						//    TempData["notice"] = "APProductionentryDetail Inserted Successfully...!";
-						//}
-						//else
-						//{
-						//    TempData["notice"] = "APProductionentryDetail Updated Successfully...!";
-						//}
 						return RedirectToAction("APProductionentryDetail", new { id = Cy.APID });
 					}
 

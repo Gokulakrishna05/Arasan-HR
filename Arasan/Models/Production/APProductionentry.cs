@@ -54,6 +54,8 @@ namespace Arasan.Models
         public List<EmpDetails> EmplLst { get; set; }
         public List<LogDetails> LogLst { get; set; }
 
+        public List<string> ShiftNames { get; set; }
+
     }
     public class ProInput
     {
