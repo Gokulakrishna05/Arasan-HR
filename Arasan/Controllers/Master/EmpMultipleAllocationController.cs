@@ -7,9 +7,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Data;
 using System.Reflection;
 
-
-
-
 namespace Arasan.Controllers.Master
 {
     public class EmpMultipleAllocationController : Controller
@@ -29,7 +26,7 @@ namespace Arasan.Controllers.Master
         {
             EmpMultipleAllocation ca = new EmpMultipleAllocation();
             ca.Emolst = BindEmp();
-            ca.Loclst = BindMlocation();
+            ca.Loclst = BindMlocation(id);
 
             //ca.Location = Request.Cookies["LocationId"];
             ca.EDate = DateTime.Now.ToString("dd-MMM-yyyy");
@@ -42,24 +39,14 @@ namespace Arasan.Controllers.Master
             else
             {
 
-
-                //DataTable dt = new DataTable();
                 //dt = DebitNoteBillService.GetDebitNoteBillDetail(id);
                 //if (dt.Rows.Count > 0)
                 //{
                 //    ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
                 //    ca.Vocher = dt.Rows[0]["VTYPE"].ToString();
                 //    ca.DocId = dt.Rows[0]["DOCID"].ToString();
-                
-
-
-
                 //}
                
-
-
-
-
             }
            
             return View(ca);
@@ -101,6 +88,36 @@ namespace Arasan.Controllers.Master
 
             return View(Cy);
         }
+        [HttpPost]
+        public ActionResult ReassignEmpMultipleAllocation(EmpReasign Cy, string id)
+        {
+
+            try
+            {
+                Cy.ID = id;
+                string Strout = EmpMultipleAllocationService.ReassignEmpMultipleAllocation(Cy);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    TempData["notice"] = "EmpMultipleAllocation Inserted Successfully...!";
+                    return RedirectToAction("ListEmpMultipleAllocation");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit EmpMultipleAllocation";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(Cy);
+        }
         public ActionResult MyEmpMultipleAllocationgrid()
         {
             List<EmpBindList> Reg = new List<EmpBindList>();
@@ -111,18 +128,26 @@ namespace Arasan.Controllers.Master
             {
 
                 string DeleteRow = string.Empty;
+                string ViewPage = string.Empty;
                 string EditRow = string.Empty;
-
-                EditRow = "<a href=EmpMultipleAllocation?id=" + dtUsers.Rows[i]["EMPALLOCATIONID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                DeleteRow = "<a href=DeleteEmpMultipleAllocation?tag=Del&id=" + dtUsers.Rows[i]["EMPALLOCATIONID"].ToString() + " onclick='return confirm(" + "\"Are you sure you want to Disable this record...?\"" + ")'><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                string ReAssign = string.Empty;
+                
+                EditRow = "<a href=EmpMultipleAllocation?piid=" + dtUsers.Rows[i]["EMPALLOCATIONID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                ViewPage = "<a href=ViewEmpMultipleAllocation?piid=" + dtUsers.Rows[i]["EMPALLOCATIONID"].ToString() + "<'class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Waiting for approval' /></a>";
+                ReAssign = "<a href=ReassignEmpMultipleAllocation?piid=" + dtUsers.Rows[i]["EMPALLOCATIONID"].ToString() + "><img src='../Images/D2.png' alt='Waiting for approval' /></a>";
+                DeleteRow = "<a href=EmpMultipleAllocation?tag=Del&piid=" + dtUsers.Rows[i]["EMPALLOCATIONID"].ToString() + ")'><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                
 
                 Reg.Add(new EmpBindList
                 {
                     piid = Convert.ToInt64(dtUsers.Rows[i]["EMPALLOCATIONID"].ToString()),
+                    
                     emp = dtUsers.Rows[i]["EMPNAME"].ToString(),
                     edate = dtUsers.Rows[i]["EMPDATE"].ToString(),
-                    EditRow = EditRow,
-                    DelRow = DeleteRow,
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+                    view = ViewPage,
+                    reassign = ReAssign,
 
                 });
             }
@@ -153,6 +178,36 @@ namespace Arasan.Controllers.Master
                 EnqChkItem
             });
         }
+        public IActionResult ViewEmpMultipleAllocation(string id)
+        {
+            EmpView ca = new EmpView();
+            DataTable dt = new DataTable();
+            dt = EmpMultipleAllocationService.GetEmpMultipleAllocationServiceName(id);
+            if (dt.Rows.Count > 0)
+            {
+                ca.Emp = dt.Rows[0]["EMPNAME"].ToString();
+                ca.EDate = dt.Rows[0]["EMPDATE"].ToString();
+                ca.Location = dt.Rows[0]["LOCID"].ToString();
+                ca.ID = id;
+            }
+            return View(ca);
+           
+        }
+        public IActionResult ReassignEmpMultipleAllocation(string piid)
+        {
+            EmpReasign ca = new EmpReasign();
+            ca.Emolst = BindEmp();
+            ca.Loclst = BindMlocation(piid);
+            DataTable dt1 = new DataTable();
+            dt1 = EmpMultipleAllocationService.GetEmpMultipleAllocationReassign(piid);
+            if (dt1.Rows.Count > 0)
+            {
+                ca.EDate = dt1.Rows[0]["EMPDATE"].ToString();
+             
+            }
+            return View(ca);
+
+        }
         public IActionResult ListEmpMultipleAllocation()
         {
             //IEnumerable<EmpMultipleAllocation> sta = EmpMultipleAllocationService.GetAllEmpMultipleAllocation();
@@ -175,17 +230,37 @@ namespace Arasan.Controllers.Master
                 throw ex;
             }
         }
-        public List<SelectListItem> BindMlocation()
+        public List<SelectListItem> BindMlocation(string id)
         {
             try
             {
-                DataTable dtDesg = EmpMultipleAllocationService.GetMlocation();
-                List<SelectListItem> lstdesg = new List<SelectListItem>();
-                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                List<SelectListItem> items = new List<SelectListItem>();
+                DataTable dtCity = new DataTable();
+                dtCity = datatrans.GetLocation();
+                if (dtCity.Rows.Count > 0)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["LOCID"].ToString(), Value = dtDesg.Rows[i]["LOCDETAILSID"].ToString() });
+                    for (int i = 0; i < dtCity.Rows.Count; i++)
+                    {
+                        bool sel = false;
+                        long Region_id = EmpMultipleAllocationService.GetMregion(dtCity.Rows[i]["LOCDETAILSID"].ToString(), id);
+                        if (Region_id == 0)
+                        {
+                            sel = false;
+                        }
+                        else
+                        {
+                            sel = true;
+                        }
+                        items.Add(new SelectListItem
+                        {
+                            Text = dtCity.Rows[i]["LOCID"].ToString(),
+                            Value = dtCity.Rows[i]["LOCDETAILSID"].ToString(),
+                            Selected = sel
+                        });
+                    }
                 }
-                return lstdesg;
+                return items;
+                
             }
             catch (Exception ex)
             {
@@ -194,3 +269,4 @@ namespace Arasan.Controllers.Master
         }
     }
 }
+
