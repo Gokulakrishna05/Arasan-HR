@@ -74,6 +74,9 @@
     </Compile> 
   </ItemGroup>
   <ItemGroup>
+    <Content Update="wwwroot\Reports\Basic.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="wwwroot\Reports\Production.rdlc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

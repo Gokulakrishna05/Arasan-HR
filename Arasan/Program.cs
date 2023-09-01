@@ -151,8 +151,9 @@ internal class Program
 
 		builder.Services.TryAddSingleton<IEmailConfig, EmailConfigService>();
 		builder.Services.TryAddSingleton<IDebitNoteBillService, DebitNoteBillService>();
+		builder.Services.TryAddSingleton<IEmpMultipleAllocationService, EmpMultipleAllocationService>();
 
-
+        builder.Services.TryAddSingleton<IPyroProduction, PyroProductionService>();
 
 
 

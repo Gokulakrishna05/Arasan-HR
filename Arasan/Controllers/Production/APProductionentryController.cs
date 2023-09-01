@@ -29,6 +29,20 @@ namespace Arasan.Controllers
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
         }
 
+        public ActionResult APProductinentryselection()
+        {
+            var userId = Request.Cookies["UserId"];
+            int cunt = datatrans.GetDataId("select count(*) as cunt from APPRODUCTIONBASIC where IS_CURRENT='Yes' AND ASSIGNENG='"+ userId + "'");
+            if (cunt == 0)
+            {
+                return RedirectToAction("APProductionentry");
+            }
+            else
+            {
+                return RedirectToAction("APProductionentryDetail", new { tag = 1 });
+            }
+        }
+
 
 		public ActionResult APProductionentry(string id)
 		{
@@ -901,6 +915,7 @@ namespace Arasan.Controllers
                         //ca.ExRate = dt.Rows[0]["EXCRATERATE"].ToString();
                         ca.BatchNo = adt.Rows[0]["BATCH"].ToString();
                         ca.batchcomplete = adt.Rows[0]["BATCHYN"].ToString();
+                        ca.APID= apID;
                     }
                   
                     DataTable adt2 = new DataTable();
@@ -1053,27 +1068,31 @@ namespace Arasan.Controllers
                     adt6 = IProductionEntry.GetOutput(apID);
                     if (adt6.Rows.Count > 0)
                     {
-                        for (int i = 0; i < dt6.Rows.Count; i++)
+                        for (int i = 0; i < adt6.Rows.Count; i++)
                         {
                             tda4 = new ProOutput();
                             tda4.Itemlst = BindOutItemlst();
                             tda4.ItemId = adt6.Rows[i]["ITEMID"].ToString();
+                            tda4.saveitemId= adt6.Rows[i]["ITEMNAME"].ToString();
                             tda4.BinId = adt6.Rows[i]["BINID"].ToString();
                             tda4.drumlst = BindDrum();
                             tda4.drumno = adt6.Rows[i]["DRUMNO"].ToString();
                             tda4.FromTime = adt6.Rows[i]["FROMTIME"].ToString();
                             tda4.ToTime = adt6.Rows[i]["TOTIME"].ToString();
                             tda4.OutputQty = Convert.ToDouble(adt6.Rows[i]["OUTQTY"].ToString() == "" ? "0" : adt6.Rows[i]["OUTQTY"].ToString());
-                            DataTable dt7 = new DataTable();
-                            dt7 = IProductionEntry.GetResult(id);
-                            if (dt7.Rows.Count > 0)
-                            {
-                                tda4.Result = dt7.Rows[i]["TESTRESULT"].ToString();
-                                tda4.Status = dt7.Rows[i]["MOVETOQC"].ToString();
-                            }
-                            tda4.APID = apID;
-                            TData4.Add(tda4);
+                            tda4.Result = adt6.Rows[i]["TESTRESULT"].ToString();
+                            tda4.Status = adt6.Rows[i]["MOVETOQC"].ToString();
+                            //DataTable dt7 = new DataTable();
+                            //dt7 = IProductionEntry.GetResult(id);
+                            //if (dt7.Rows.Count > 0)
+                            //{
+                            //    tda4.Result = dt7.Rows[i]["TESTRESULT"].ToString();
+                            //    tda4.Status = dt7.Rows[i]["MOVETOQC"].ToString();
+                            //}
+                            tda4.APID = adt6.Rows[i]["APPRODOUTDETID"].ToString();
                             tda4.Isvalid = "Y";
+                            TData4.Add(tda4);
+                           
                         }
 
                     }
@@ -1217,7 +1236,16 @@ namespace Arasan.Controllers
         public ActionResult APProdApprove(string id)
         {
             APProductionentryDet ca = new APProductionentryDet();
+            ca.APID = id;
+            DataTable dt = datatrans.GetData("Select SHIFTNO from SHIFTMAST WHERE SHIFTNO IN ('A','B','C') and SHIFTNO not IN  (Select Shift from  APPRODUCTIONBASIC where DOCID=(select DOCID from APPRODUCTIONBASIC where APPRODUCTIONBASICID='" + id + "'))");
+            List<string> list = new List<string>();
            
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                list.Add(dt.Rows[i]["SHIFTNO"].ToString());
+            }
+            list.Add("Complete");
+            ca.ShiftNames = list;
             return View(ca);
         }
         [HttpPost]
@@ -1231,14 +1259,6 @@ namespace Arasan.Controllers
 					string Strout = IProductionEntry.APProEntryCRUD(Cy);
 					if (string.IsNullOrEmpty(Strout))
 					{
-						//if (Cy.ID == null)
-						//{
-						//    TempData["notice"] = "APProductionentryDetail Inserted Successfully...!";
-						//}
-						//else
-						//{
-						//    TempData["notice"] = "APProductionentryDetail Updated Successfully...!";
-						//}
 						return RedirectToAction("APProductionentryDetail", new { id = Cy.APID });
 					}
 
@@ -1309,7 +1329,7 @@ namespace Arasan.Controllers
         {
             return Json(BindDrum());
         }
-        public ActionResult SaveOutDetail(string id,string ItemId,string drum,string time,string qty)
+        public ActionResult SaveOutDetail(string id,string ItemId,string drum,string time,string qty,string totime)
         {
             try
             {
@@ -1318,7 +1338,7 @@ namespace Arasan.Controllers
 
                 string bin = "";
                 string binid = "";
-                dt = IProductionEntry.SaveOutDetails(id,ItemId, drum, time, qty);
+                dt = IProductionEntry.SaveOutDetails(id,ItemId, drum, time, qty, totime);
 
                  
 
@@ -1330,6 +1350,27 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+        public ActionResult GetQCResult(string id, string ItemId, string drum)
+        {
+            try
+            {
+                var res = "No";
+                var resdetail = "";
+                int cunt = datatrans.GetDataId("select count(APPRODOUTDETID) as cunt  from APPRODOUTDET where TESTRESULT is not null and APPRODOUTDETID='" + id + "'");
+                if (cunt > 0)
+                {
+                    res = "Yes";
+                   resdetail= datatrans.GetDataString("select TESTRESULT  from APPRODOUTDET where TESTRESULT is not null and APPRODOUTDETID='" + id + "'");
+                }
+                var result = new { res = res, resdetail = resdetail };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public ActionResult GetOutItemDetail(string ItemId)
         {
             try

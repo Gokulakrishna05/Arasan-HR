@@ -329,6 +329,9 @@
                                      <li class="nav-item">
                                 <a class="nav-link" href="@Url.Action("ListWorkCenters", "WorkCenters")"> <span class="title">Work Center </span> </a>
                                      </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="@Url.Action("ListEmpMultipleAllocation", "EmpMultipleAllocation")"> <span class="title">Employee Multiple Allocation</span> </a>
+                                    </li>
                            
                           </ul>
                               </li>
@@ -434,15 +437,23 @@
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("ListProductionSchedule", "ProductionSchedule")">Production Schedule</a></li>
                             @*<li class="nav-item"><a class="nav-link" href="@Url.Action("ProcessLostEntry", "ProcessCostEntry")">Process Lot Entry</a></li>*@
                             <li class="nav-item active"><a class="nav-link" href="@Url.Action("ListBatchCreation", "BatchCreation")">Batch Creation</a></li>
-                            <li class="nav-item"><a class="nav-link" href="@Url.Action("ListAPProductionentry", "APProductionentry")">AP Production Entry</a></li>
-                             <li class="nav-item"><a class="nav-link" href="@Url.Action("APProductionentryDetail", "APProductionentry",new{tag=1})">AP Production Entry Det</a></li>
-                           @* <li class="nav-item"><a class="nav-link" href="@Url.Action("ListReasonCode", "ReasonCode")">Reason Code Masters</a></li>*@
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("ListProductionLog", "ProductionLog")">Production Log</a></li>
+                            <li class="nav-item"><a class="nav-link" href="@Url.Action("APProductinentryselection", "APProductionentry")">AP Production Entry</a></li>
+                            <li class="nav-item"><a class="nav-link" href="@Url.Action("ListAPProductionentry", "APProductionentry")">AP Production Entry List</a></li>
+                            
+                             <li class="nav-item"><a class="nav-link" href="@Url.Action("PyroProduction", "PyroProduction" )">Pyro Production Entry</a></li>
+ 
+                           
+                           
+ 
+                           @* <li class="nav-item"><a class="nav-link" href="@Url.Action("ListReasonCode", "ReasonCode")">Reason Code Masters</a></li>*@
+                           
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("ListProductionEntry", "ProductionEntry")">Production Entry</a></li>
+                            <li class="nav-item"><a class="nav-link" href="@Url.Action("ListBatchProduction", "BatchProduction")">Batch Production Entry</a></li>
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("ListCuringInward", "ProductionEntry")">Curing Inward</a></li>
                             @*<li class="nav-item"><a class="nav-link" href="@Url.Action("CuringEStatus", "ProcessCostEntry")">Curing E-Status</a></li>*@
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("ListCuringOutward", "CuringOutward")">Curing Outward</a></li>
-                            <li class="nav-item"><a class="nav-link" href="@Url.Action("ListBatchProduction", "BatchProduction")">Batch Production Entry</a></li>
+                            
                             @*<li class="nav-item"><a class="nav-link" href="@Url.Action("PackingIssueEntry", "ProcessCostEntry")">Packing Issue Entry</a></li>*@
                            @* <li class="nav-item"><a class="nav-link" href="@Url.Action("PackingDrumAllocation", "ProcessCostEntry")">Packing Drum Allocation</a></li>*@
                               @* <li class="nav-item"><a class="nav-link" href="@Url.Action("PackingEntry", "ProcessCostEntry")">Packing Entry</a></li>*@

@@ -114,7 +114,8 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Prod.Log ID<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.DropDownListFor(C => C.ProdLogId, Model.ProdLoglst," -- Please Select -- ", new { @id = "ddlProdLogId", @Class = "form-control _select", @TabIndex = 1})<br/>
+                                            @Html.TextBoxFor(C => C.ProdLogId, new { @id = "ddlProdLogId", @Class = "form-control _select", @TabIndex = 1})
+                                        @*@Html.DropDownListFor(C => C.ProdLogId, Model.ProdLoglst," -- Please Select -- ", new { @id = "ddlProdLogId", @Class = "form-control _select", @TabIndex = 1})<br/>*@
                                     </div>
                                 </div>
                             </div>
@@ -613,6 +614,7 @@
 
     </div>
 </div>
+
 <script>
      $("#ddlBranch").change(function () {
         var branch = this.value;
@@ -1080,6 +1082,38 @@
       
        $(function() {
             $('._select').select2();
+
+
+            $("#ddlProdLogId").select2({
+                minimumInputLength: 2,
+                tags: [],
+                ajax: {
+                    url: 'GetProdLog',
+                    dataType: 'json',
+                    type: "GET",
+                    quietMillis: 50,
+                    data: function (term) {
+                        return {
+                            term: term
+                        };
+                    },
+                    results: function (data) {
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.text,
+                                    id: item.value
+                                }
+                            })
+                        };
+                    }
+                }
+            });
+
+
+
+
+
         });
 
         $('.form_date').datetimepicker({
@@ -1557,4 +1591,58 @@
         });
 
     });
+
+    $("#ddlProdLogId").select2({
+        minimumInputLength: 2,
+        tags: [],
+        ajax: {
+            url: 'GetProdLog',
+            dataType: 'json',
+            type: "GET",
+            quietMillis: 50,
+            data: function (term) {
+                return {
+                    term: term
+                };
+            },
+            results: function (data) {
+                return {
+                    results: $.map(data, function (item) {
+                        return {
+                            text: item.text,
+                            id: item.value
+                        }
+                    })
+                };
+            }
+        }
+    });
+   
+  @* $("#ddlProdLogId").select2({
+        ajax: {
+            url: 'GetProdLog',
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    q: params.term, // search term
+                    page: params.page
+                };
+            },
+            processResults: function (data, params) {
+                params.page = params.page || 1;
+                return {
+                    results: data.items,
+                    pagination: {
+                        more: (params.page * 30) < data.total_count
+                    }
+                };
+            },
+            cache: true
+        },
+        placeholder: 'Search for a repository',
+        minimumInputLength: 1,
+        templateResult: formatRepo,
+        templateSelection: formatRepoSelection
+    });*@
 </script>
