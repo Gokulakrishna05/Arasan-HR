@@ -138,6 +138,13 @@ namespace Arasan.Services.Master
             adapter.Fill(dtt);
             return dtt;
         }
+        public long GetMregion(string regionid, string id)
+        {
+            string SvSql = "SELECT LOCID from EMPALLOCATION where LOCID=" + regionid + " and EMPNAME=" + id + "";
+            DataTable dtCity = new DataTable();
+            long user_id = datatrans.GetDataIdlong(SvSql);
+            return user_id;
+        }
 
         public DataTable GetEmpMultipleItem(string PRID)
         {
@@ -148,6 +155,79 @@ namespace Arasan.Services.Master
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
+        }
+
+        public DataTable GetEmpMultipleAllocationServiceName(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select EMPMAST.EMPNAME,to_char(EMPDATE,'dd-MON-yyyy') EMPDATE,LOCDETAILS.LOCID,EMPALLOCATIONID from EMPALLOCATION LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID=EMPALLOCATION.EMPNAME LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=EMPALLOCATION.LOCATIONNAME Order by EMPALLOCATIONID DESC ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetEmpMultipleAllocationReassign(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select to_char(EMPDATE,'dd-MON-yyyy')EMPDATE,LOCDETAILS.LOCID,EMPALLOCATIONID from EMPALLOCATION LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=EMPALLOCATION.LOCATIONNAME  Where EMPALLOCATION.EMPALLOCATIONID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public string ReassignEmpMultipleAllocation(EmpReasign cy)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty;
+                string svSQL = "";
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    OracleCommand objCmd = new OracleCommand("EMPALLOCATIONPROC", objConn);
+                    /*objCmd.Connection = objConn;
+                    objCmd.CommandText = "CITYPROC";*/
+
+                    objCmd.CommandType = CommandType.StoredProcedure;
+                    if (cy.ID == null)
+                    {
+                        StatementType = "Insert";
+                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                    }
+                    else
+                    {
+                        StatementType = "Update";
+                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                    }
+
+                    objCmd.Parameters.Add("EMPNAME", OracleDbType.NVarchar2).Value = cy.Emp;
+                    objCmd.Parameters.Add("EMPDATE", OracleDbType.NVarchar2).Value = cy.EDate;
+                    objCmd.Parameters.Add("LOCATIONNAME", OracleDbType.NVarchar2).Value = cy.Location;
+                    objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                    try
+                    {
+                        objConn.Open();
+                        objCmd.ExecuteNonQuery();
+                        //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
+                    }
+                    catch (Exception ex)
+                    {
+                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
+                    }
+                    objConn.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
         }
     }
 }

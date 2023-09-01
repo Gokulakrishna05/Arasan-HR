@@ -9,22 +9,26 @@
     .newwidth {
         width: 120px;
     }
-    .mandatory{
-	color: red;
-	position:relative;
-	top:2px;
-	left:5px;
-}
-a{
+
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+
+    a {
         outline: none;
         text-decoration: none;
         color: #000;
-    } 
-    a:hover, a:active, a:focus {
-        outline: none;
-        text-decoration: none;
-        color: #000;
-    } 
+    }
+
+        a:hover, a:active, a:focus {
+            outline: none;
+            text-decoration: none;
+            color: #000;
+        }
+
     .container {
         max-width: 960px;
     }
@@ -40,42 +44,42 @@ a{
         user-select: none;
     }
 
-    .panel-default > .panel-heading a {
-        display: block;
-        padding: 10px 15px;
-    }
+        .panel-default > .panel-heading a {
+            display: block;
+            padding: 10px 15px;
+        }
 
-    .panel-default > .panel-heading a:after {
-        content: "";
-        position: relative;
-        top: 1px;
-        display: inline-block;
-    /*    font-family: 'Glyphicons Halflings';*/
-        font-style: normal;
-        font-weight: 400;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        float: right;
-        transition: transform .25s linear;
-        -webkit-transition: -webkit-transform .25s linear;
-    }
+            .panel-default > .panel-heading a:after {
+                content: "";
+                position: relative;
+                top: 1px;
+                display: inline-block;
+                /*    font-family: 'Glyphicons Halflings';*/
+                font-style: normal;
+                font-weight: 400;
+                line-height: 1;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+                float: right;
+                transition: transform .25s linear;
+                -webkit-transition: -webkit-transform .25s linear;
+            }
 
-    .panel-default > .panel-heading a[aria-expanded="true"] {
-        background-color: green;
-    }
+            .panel-default > .panel-heading a[aria-expanded="true"] {
+                background-color: #49B6D6;
+            }
 
-    .panel-default > .panel-heading a[aria-expanded="true"]:after {
-        content: "\2212";
-        -webkit-transform: rotate(180deg);
-        transform: rotate(180deg);
-    }
+                .panel-default > .panel-heading a[aria-expanded="true"]:after {
+                    content: "\2212";
+                    -webkit-transform: rotate(180deg);
+                    transform: rotate(180deg);
+                }
 
-    .panel-default > .panel-heading a[aria-expanded="false"]:after {
-        content: "\002b";
-        -webkit-transform: rotate(90deg);
-        transform: rotate(90deg);
-    }
+            .panel-default > .panel-heading a[aria-expanded="false"]:after {
+                content: "\002b";
+                -webkit-transform: rotate(90deg);
+                transform: rotate(90deg);
+            }
 
     .accordion-option {
         width: 100%;
@@ -84,39 +88,39 @@ a{
         margin: 15px 0;
     }
 
-    .accordion-option .title {
-        font-size: 20px;
-        font-weight: bold;
-        float: left;
-        padding: 0;
-        margin: 0;
-    }
+        .accordion-option .title {
+            font-size: 20px;
+            font-weight: bold;
+            float: left;
+            padding: 0;
+            margin: 0;
+        }
 
-    .accordion-option .toggle-accordion {
-        float: right;
-        font-size: 16px;
-        color: #49B6D6;
-    }
+        .accordion-option .toggle-accordion {
+            float: right;
+            font-size: 16px;
+            color: #AAB7B8;
+        }
 
-    .accordion-option .toggle-accordion:before {
-        content: "Expand All";
-    }
+            .accordion-option .toggle-accordion:before {
+                content: "Expand All";
+            }
 
-    .accordion-option .toggle-accordion.active:before {
-        content: "Collapse All";
-    }
+            .accordion-option .toggle-accordion.active:before {
+                content: "Collapse All";
+            }
 
     .panel-title a {
-        background-color: #49B6D6;
+        background-color: #AAB7B8;
     }
 
     .panel-body table tr td {
-        padding:5px;
+        padding: 5px;
     }
 
     .panel-body table {
-       /* font-size: 15px;*/
-        font-weight:normal;
+        /* font-size: 15px;*/
+        font-weight: normal;
     }
 </style>
 <div class="row wrapper border-bottom page-heading">
@@ -140,7 +144,7 @@ a{
                         {
                             @Html.AntiForgeryToken()
                              <form>
-
+                            <div id="divstart">
   <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -157,7 +161,7 @@ a{
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Assign Engineer<label class="mandatory">*</label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Supervisor<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
 
                                             @Html.DropDownListFor(C => C.Eng, Model.Englst," -- Please Select -- ", new { @id = "ddlStLoc", @Class = "form-control _select", @TabIndex = 1/* , @onchange = "Stk_Change(this.value)" */})<br />
@@ -166,7 +170,7 @@ a{
                                 </div>
                             </div>
                         </div>
-                        <div style="height:30px;"></div>
+                        <div style="height:15px;"></div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -245,8 +249,8 @@ a{
                                 </div>
 
                             </div>
-                            <div id="divshiftgenerate">
-                         <div style="height:30px;"></div>
+                           
+                         <div style="height:15px;"></div>
                           <div class="row">
                           
                             <div class="col-md-6">
@@ -268,12 +272,14 @@ a{
                                 </div>
                             </div>
                         </div>
-                       </div>
+                       
 
-                          <div style="height:30px;"></div>
+                          <div style="height:15px;"></div>
                              <div class="col-lg-10"></div>
-                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Start</button>
                             <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListAPProductionentry", "APProductionentry")'">Cancel</button>
+                            </div>
+                          
                         
                  
 
@@ -299,23 +305,7 @@ a{
             minView: 2,
             forceParse: 0
         });
-        function changeMachineItem(ItemId, i) {
-        $.ajax({
-            url: 'GetMachineDetail',
-            data: { "ItemId": ItemId },
-            type: "GET",
-            success: function (result) {
-                
-                document.getElementById("txtMachineDes" + i).value = result.name;
-              
-                document.getElementById("txtMType" + i).value = result.type;
-                
-            },
-            error: function () {
-                alert("Data Not Found");
-            }
-        });
-    }
+    
     function changeshift(Shiftid) {
                 $.ajax({
                     url: 'GetshiftDetail',
@@ -334,270 +324,5 @@ a{
         var tag="@tag";
         $('#dllstatus').val(val2);
     });
-    function AddRow() {
-        var opt = "";
-        var remopt = "";
-
-        $.ajax({
-            type: "POST",
-            url: 'GetItemJSON',
-            success: function (data) {
-                $.each(data, function () {
-                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
-                });
-
-                $.ajax({
-                    type: "POST",
-                    url: 'GetDrumJSON',
-                    success: function (data) {
-                        $.each(data, function () {
-                            remopt += "<option value=" + this.value + ">" + this.text + "</option>";
-                        });
-                        AppendRow(opt, remopt);
-                    }
-                })
-
-            }
-        })
-    }
-    function PopulateDropDown(dropDownId, list) {
-        //alert(list);
-        $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
-        if (list != null && list.length > 0) {
-            $(dropDownId).removeAttr("disabled");
-            $.each(list, function () {
-                $(dropDownId).append($("<option></option>").val(this['value']).html(this['text']));
-            });
-        }
-        $(dropDownId).trigger("liszt:updated");
-    }
-    function AppendRow(opt, remopt) {
-        var index = $("#tbBooks").children("tr").length;
-
-        var itemid = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlItem" + index + "' name='inputlst[" + index + "].ItemId' ><option value=''>Please select</option>" + opt + "</select></td>";
-        var binid = "<td><input class='form-control'  id='txtBinId" + index + "' name='inputlst[" + index + "].BinId' style='width: 100px;' type='text' value=''></td>";
-        var drumno = "<td><select style = 'width: 120px;' class='form-control _select newcss' id='drumno" + index + "' name='inputlst[" + index + "].drumno' ><option value=''>Please select</option>" + remopt + "</select></td>";
-        var batchno = "<td><input class='form-control'  id='txtbatchno" + index + "' name='inputlst[" + index + "].batchno' style='width: 200px;' type='text' value=''></td>";
-        var batchqty = "<td><input class='form-control'  id='txtbatchqty" + index + "' name='inputlst[" + index + "].batchqty' style='width: 80px;' type='text' value='' onkeydown = 'return isNumeric2(event.keyCode,this.value)'></td>";
-        var stock = "<td><input class='form-control'  id='txtStockAvailable" + index + "' name='inputlst[" + index + "].StockAvailable' style='width: 80px;' type='text' value='' onkeydown = 'return isNumeric2(event.keyCode,this.value)'></td>";
-        var issueqty = "<td><input class='form-control'  id='txtIssueQty" + index + "' name='inputlst[" + index + "].IssueQty'  type='text' value='' style = 'width: 100px;text-align:right' onkeydown = 'return isNumeric2(event.keyCode,this.value)' onkeyup = 'changeQty(this, " + index + ")'></td>";
-        var MillLoadAdd = "<td><input class='form-control'  id='txtMillLoadAdd" + index + "' name='inputlst[" + index + "].MillLoadAdd' style='width: 100px;' type='text' value=''></td>";
-        var output = "<td><select style = 'width: 100px;' class='form-control _select newcss' id='ddlOutput" + index + "' name='inputlst[" + index + "].Output' ><option value='YES'>YES</option><option value='NO'>NO</option></select></td>";
-        var removeCell = "<td><input id='Isvalid" + index + "' name='inputlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='inputlst.Index' type='hidden' value='" + index + "'  /></td>";
-        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + itemid + binid + drumno + batchno + batchqty + stock + issueqty + MillLoadAdd + output + removeCell + "</tr>";
-        $("#tbBooks").append(newRow);
-
-        $(function () {
-            $('._select').select2();
-        });
-    }
-    function AddEmpRow() {
-        var opt = "";
-        $.ajax({
-            type: "POST",
-            url: 'GetEmpJSON',
-            success: function (data) {
-                $.each(data, function () {
-                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
-                });
-                AppendEmpRow(opt);
-            }
-        })
-    }
-    function changeEmployeeItem(ItemId, i) {
-        $.ajax({
-            url: 'GetEmployeeDetail',
-            data: { "ItemId": ItemId },
-            type: "GET",
-            success: function (result) {
-
-                document.getElementById("txtEmpCode" + i).value = result.code;
-
-
-
-            },
-            error: function () {
-                alert("Data Not Found");
-            }
-        });
-    }
-    function AddBreakRow() {
-        var opt = "";
-        var remopt = "";
-        $.ajax({
-            type: "POST",
-            url: 'GetBreakJSON',
-            success: function (data) {
-                $.each(data, function () {
-                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
-                });
-                $.ajax({
-                    type: "POST",
-                    url: 'GetBreakEmpJSON',
-                    success: function (data) {
-                        $.each(data, function () {
-                            remopt += "<option value=" + this.value + ">" + this.text + "</option>";
-                        });
-                        AppendBreakRow(opt, remopt);
-                    }
-                })
-
-            }
-        })
-    }
-    function AppendEmpRow(opt) {
-        var index = $("#tbBooksEmp").children("tr").length;
-        var empname = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlEmployee" + index + "' name='EmpLst[" + index + "].Employee' onchange = 'changeEmployeeItem(this.value," + index + ")' ><option value=''>Please select</option>" + opt + "</select></td>";
-
-        var code = "<td><input class='form-control'  id='txtEmpCode" + index + "' name='EmpLst[" + index + "].EmpCode' style='width: 100px;'   value=''></td>";
-
-        var Department = "<td><input class='form-control'  id='txtDepart" + index + "' name='EmpLst[" + index + "].Depart' style='width: 120px;'   value=''></td>";
-
-        var startdate = "<td><div class='input-group date form_date col-sm-8'  data-date-format='dd-M-yyyy'><input class='form-control'  id='txStartDate" + index + "' name='EmpLst[" + index + "].StartDate' style='width: 100px;' type='text' value=''readonly='readonly'><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div></td>";
-        var starttime = "<td><input class='form-control'  id='txtStartTime" + index + "' name='EmpLst[" + index + "].StartTime' style='width: 110px;' type='time' value=''></td>";
-        var enddate = "<td><div class='input-group date form_date col-sm-8'  data-date-format='dd-M-yyyy'><input class='form-control'  id='txtEndDate" + index + "' name='EmpLst[" + index + "].EndDate' style='width: 100px;' type='text' value='' readonly='readonly'><span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div></td>";
-        var endtime = "<td><input class='form-control'  id='txtEndTime" + index + "' name='EmpLst[" + index + "].EndTime' style='width: 110px;' type='time' value=''></td>";
-        var othrs = "<td><input class='form-control'  id='txtOTHrs" + index + "' name='EmpLst[" + index + "].OTHrs' style='width: 80px;' type='text' value=''></td>";
-        var ethrs = "<td><input class='form-control'  id='txtETOther" + index + "' name='EmpLst[" + index + "].ETOther' style='width: 80px;'   value=''></td>";
-        var nhr = "<td><input class='form-control'  id='txtNormal" + index + "' name='EmpLst[" + index + "].Normal' style='width: 70px;'   value=''></td>";
-        var now = "<td><input class='form-control'  id='txtReason" + index + "' name='EmpLst[" + index + "].Reason' style='width: 120px;'   value=''></td>";
-
-        var removeCell = "<td><input id='IsEmpvalid" + index + "' name='EmpLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeEmpRow(" + index + ");'  style='cursor:pointer' /><input name='inputlst.Index' type='hidden' value='" + index + "'  /></td>";
-        var newRow = "<tr class='chkEmpitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookEmp" + index + "'>" + empname + code + Department + startdate + starttime + enddate + endtime + othrs + ethrs + nhr + now + removeCell + "</tr>";
-        $("#tbBooksEmp").append(newRow);
-
-
-        $(function () {
-            $('._select').select2();
-        });
-
-        $('.form_date').datetimepicker({
-            //   language:  'fr',
-            weekStart: 1,
-            todayBtn: 1,
-            autoclose: 1,
-            todayHighlight: 1,
-            startView: 2,
-            minView: 2,
-            forceParse: 0
-        });
-    }
-    function AppendBreakRow(opt, remopt) {
-        var index = $("#tbBooksBreak").children("tr").length;
-
-        var Code = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlMachineId" + index + "' name='BreakLst[" + index + "].MachineId' onchange = 'changeMachineItem(this.value," + index + ")' ><option value=''>Please select</option>" + opt + "</select></td>";
-        var Des = "<td><input class='form-control'  id='txtMachineDes" + index + "' name='BreakLst[" + index + "].MachineDes' style='width: 120px;'   value=''></td>";
-        var DType = "<td><input class='form-control'  id='txtDType" + index + "' name='BreakLst[" + index + "].DType' style='width: 120px;'   value=''></td>";
-        var MType = "<td><input class='form-control'  id='txtMType" + index + "' name='BreakLst[" + index + "].MType' style='width: 100px;' type='text' value=''></td>";
-        var starttime = "<td><input class='form-control'  id='txtStartTime" + index + "' name='BreakLst[" + index + "].StartTime' style='width: 120px;'   value=''></td>";
-        var endtime = "<td><input class='form-control'  id='txtEndTime" + index + "' name='BreakLst[" + index + "].EndTime' style='width: 120px;'   value=''></td>";
-        var PB = "<td><input class='form-control'  id='txtPB" + index + "' name='BreakLst[" + index + "].PB' style='width: 100px;' type='text' value=''></td>";
-        var Enterd = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlAlloted" + index + "' name='BreakLst[" + index + "].Alloted' ><option value=''>Please select</option>" + remopt + "</select> </td>";
-
-        var Reason = "<td><input class='form-control'  id='txtReason" + index + "' name='BreakLst[" + index + "].Reason' style='width: 100px;' type='text' value=''></td>";
-        var removeCell = "<td><input id='IsBreakvalid" + index + "' name='BreakLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeBreakRow(" + index + ");'  style='cursor:pointer' /><input name='inputlst.Index' type='hidden' value='" + index + "'  /></td>";
-        var newRow = "<tr class='chkBreakitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookBreak" + index + "'>" + Code + Des + Dtype + MType + starttime + endtime + PB + reason + Enterd + Reason + removeCell + "</tr>";
-        $("#tbBooksBreak").append(newRow);
-
-
-        $(function () {
-            $('._select').select2();
-        });
-
-
-    }
-    function removeRow(id) {
-        var table = document.getElementById("dataTable");
-        var rowCount = table.rows.length;
-        var row = document.getElementById('trBook' + id);
-        var j = 0;
-        $('tr.chkitemlst').each(function () {
-            if ($(this).css('display') !== 'none') {
-                j += 1;
-            }
-        });
-        if (j > 1) {
-            row.style.display = "none";
-            document.getElementById('Isvalid' + id).value = "N";
-        }
-        else {
-            alert("Cannot delete all the rows.")
-        }
-
-        var i = 0;
-        var qty = 0;
-        var tot = 0;
-        $('tr.chkitemlst').each(function () {
-            if ($(this).css('display') !== 'none') {
-                qty = $(this).find('#txtIssueQty' + i.toString()).val();
-                if (qty == "")
-                    qty = 0;
-
-                tot += eval(qty);
-            }
-            i += 1;
-        });
-        document.getElementById("txttotalinqty").value = tot.toFixed(2);
-
-    }
-    function removeEmpRow(id) {
-        var table = document.getElementById("dataTableEmp");
-        var rowCount = table.rows.length;
-        var row = document.getElementById('trBookEmp' + id);
-        var j = 0;
-        $('tr.chkEmpitemlst').each(function () {
-            if ($(this).css('display') !== 'none') {
-                j += 1;
-            }
-        });
-        if (j > 1) {
-            row.style.display = "none";
-            document.getElementById('EmpIsvalid' + id).value = "N";
-        }
-        else {
-            alert("Cannot delete all the rows.")
-        }
-    }
-    function removeBreakRow(id) {
-        var table = document.getElementById("dataTableBreak");
-        var rowCount = table.rows.length;
-        var row = document.getElementById('trBookBreak' + id);
-        var j = 0;
-        $('tr.chkBreakitemlst').each(function () {
-            if ($(this).css('display') !== 'none') {
-                j += 1;
-            }
-        });
-        if (j > 1) {
-            row.style.display = "none";
-            document.getElementById('BreakIsvalid' + id).value = "N";
-        }
-        else {
-            alert("Cannot delete all the rows.")
-        }
-        }
-
-         
-  @*  function Stk_Change(wcid) {
-        $.ajax({
-            url: 'GetStkItem',
-            data: { 'wcid': wcid },
-            type: "post",
-            success: function (result) {
-                var newlist;
-                newlist = result.Itemlst;
-                var j = 0;
-                $('tr.chkitemlst').each(function () {
-                    if ($(this).css('display') !== 'none') {
-                        PopulateDropDown("#ddlItem" + j, result);
-                    }
-                    j += 1;
-                });
-            },
-            error: function () {
-                debugger;
-                alert("Please Select State");
-            }
-        });
-    }*@
+    
 </script>

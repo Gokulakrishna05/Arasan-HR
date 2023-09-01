@@ -35,7 +35,7 @@ namespace Arasan.Controllers
             ca.Shiftlst = BindShift();
             ca.Processlst= BindProcess();
             ca.ETypelst = BindEType();
-            ca.ProdLoglst= BindProdLog();
+            //ca.ProdLoglst= BindProdLog();
             ca.ProdSchlst= BindProdSch();
             ca.Shiftdate = DateTime.Now.ToString("dd-MMM-yyyy");
 
@@ -229,7 +229,11 @@ namespace Arasan.Controllers
             ca.wastelst= TData3;
             return View(ca);
         }
-
+        public ActionResult TestSelect2drop()
+        {
+            return View();
+        }
+        
         public ActionResult CuringInward(string PROID)
         {
             ProductionEntry ca = new ProductionEntry();
@@ -532,7 +536,23 @@ namespace Arasan.Controllers
         {
             return Json(Binddrumstklst(branch, loc, ItemId));
         }
+        public JsonResult GetProdLog(string term)
+        {
+            return Json(BindProdLog1(term));
+        }
+        //public JsonResult GetProdLog(string keyword, int? pageSize, int? page)
+        //{
+        //    int totalCount = 0;
+        //    if (!string.IsNullOrWhiteSpace(keyword))
+        //    {
+        //        List<Companies> listCompanies = Companies.GetAll(this.CurrentTenant, (keyword ?? string.Empty).Trim(), false, 11, page.Value, pageSize.Value, ref totalCount, null, null, null, null, null).ToList();
+        //        var list = listCompanies.Select(x => new { text = x.CompanyName, id = x.CompanyId }).ToList();
 
+        //        return Json(new { result = list, Counts = totalCount });
+        //    }
+
+        //    return Json(null);
+        //}
         public List<SelectListItem> Binddrumstklst(string branch, string loc, string ItemId)
         {
             try
@@ -613,6 +633,23 @@ namespace Arasan.Controllers
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["SGCODE"].ToString(), Value = dtDesg.Rows[i]["ITEMSUBGROUPID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindProdLog1(string term)
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetProdLogsearch(term);
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DOCID"].ToString(), Value = dtDesg.Rows[i]["LPRODBASICID"].ToString() });
                 }
                 return lstdesg;
             }
