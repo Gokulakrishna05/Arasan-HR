@@ -6,6 +6,9 @@ using System.Data;
 using System.Collections.Generic;
 using System.Xml.Linq;
 using AspNetCore.Reporting;
+using System.Reflection;
+using Arasan.Interface;
+using Microsoft.Reporting.Map.WebForms.BingMaps;
 
 namespace Arasan.Controllers.Sales
 {
@@ -38,6 +41,7 @@ namespace Arasan.Controllers.Sales
             ca.cuntylst = BindCountry();
             ca.Enqlst = BindEnqType();
             ca.Typelst = BindCusType();
+            //ca.CusNamelst = BindCusName();
             ca.QuoteFormatList = BindQuoteFormat();
             ca.EnquiryList = BindEnquiry();
             List<QuoItem> TData = new List<QuoItem>();
@@ -63,7 +67,7 @@ namespace Arasan.Controllers.Sales
                     ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
                     ca.QuoId = dt.Rows[0]["QUOTE_NO"].ToString();
                     ca.QuoDate = dt.Rows[0]["QUOTE_DATE"].ToString();
-                    ca.EnNo = dt.Rows[0]["ENQNO"].ToString();
+                    ca.EnNo = dt.Rows[0]["ENQ_NO"].ToString();
                     ca.EnDate = dt.Rows[0]["ENQ_DATE"].ToString();
                     ca.Currency = dt.Rows[0]["CURRENCY_TYPE"].ToString();
                     ca.Customer = dt.Rows[0]["CUSTOMER"].ToString();
@@ -194,6 +198,23 @@ namespace Arasan.Controllers.Sales
                 throw ex;
             }
         }
+        //public List<SelectListItem> BindCusName()
+        //{
+        //    try
+        //    {
+        //        DataTable dtDesg = SalesQuotationService.GetCusName();
+        //        List<SelectListItem> lstdesg = new List<SelectListItem>();
+        //        for (int i = 0; i < dtDesg.Rows.Count; i++)
+        //        {
+        //            lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["CUSTOMER_NAME"].ToString(), Value = dtDesg.Rows[i]["CUSTOMERTYPEID"].ToString() });
+        //        }
+        //        return lstdesg;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
         public List<SelectListItem> BindSupplier()
         {
             try
@@ -280,7 +301,7 @@ namespace Arasan.Controllers.Sales
         //        ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
         //        ca.QuoId = dt.Rows[0]["QUOTE_NO"].ToString();
         //        ca.QuoDate = dt.Rows[0]["QUOTE_DATE"].ToString();
-        //        ca.EnNo = dt.Rows[0]["ENQNO"].ToString();
+        //        ca.EnNo = dt.Rows[0]["ENQ_NO"].ToString();
         //        ca.EnDate = dt.Rows[0]["ENQ_DATE"].ToString();
         //        ca.ID = id;
         //    }
@@ -346,26 +367,41 @@ namespace Arasan.Controllers.Sales
             try
             {
                 DataTable dt = new DataTable();
-                //DataTable dt1 = new DataTable();
-
-                //string quoid = "";
+                
                 string quodate = "";
-                //string currency = "";
-                //string customertype = "";
+                string customertype = "";
+                string address = "";
+                string city = "";
+                string pincode = "";
+                string mobile = "";
+                string pro = "";
+                string custid = "";
+                string quotype = "";
+                string currency = "";
+                string Priority = "";
+                string itemgroup = "";
                 dt = SalesQuotationService.GetEnqDetails(ItemId);
 
                 if (dt.Rows.Count > 0)
                 {
+                  quodate = dt.Rows[0]["ENQ_DATE"].ToString();
 
-                    //quoid = dt.Rows[0]["ENQ_TYPE"].ToString();
-                    quodate = dt.Rows[0]["ENQ_DATE"].ToString();
-                    //currency = dt.Rows[0]["CURRENCY_TYPE"].ToString();
-                    //customertype = dt.Rows[0]["CUSTOMER_NAME"].ToString();
+                  //customertype = dt.Rows[0]["CUSTOMER_NAME"].ToString();
+                    address = dt.Rows[0]["ADDRESS"].ToString();
+                    city = dt.Rows[0]["CITY"].ToString();
+                    pincode = dt.Rows[0]["PINCODE"].ToString();
+                    mobile = dt.Rows[0]["CONTACT_PERSON_MOBILE"].ToString();
+                    custid= dt.Rows[0]["CUSTOMER_NAME"].ToString(); 
+                    quotype= dt.Rows[0]["ENQ_TYPE"].ToString(); 
+                    currency = dt.Rows[0]["CURRENCY_TYPE"].ToString();
+                    Priority = dt.Rows[0]["PRIORITY"].ToString();
+
+                    itemgroup = dt.Rows[0]["ITEMGROUP"].ToString();
+
 
                 }
 
-                //var result = new { quoid = quoid, quodate = quodate, currency = currency, customertype = customertype };
-                var result = new { quodate = quodate };
+                var result = new { quodate = quodate ,  address = address, city = city, pincode = pincode, mobile = mobile , custid = custid , quotype = quotype, currency= currency, Priority = Priority , itemgroup = itemgroup };
                 return Json(result);
             }
             catch (Exception ex)
@@ -374,36 +410,57 @@ namespace Arasan.Controllers.Sales
             }
         }
 
-        public JsonResult GetEnqJSON(string supid, string Type)
+        public JsonResult GetEnqJSON(string ItemId)
         {
             SalesQuotation model = new SalesQuotation();
-            model.Quolst = BindQuolst(supid, Type);
-            return Json(BindQuolst(supid, Type));
+            model.Enqlst = BindEnqlst(ItemId);
+            return Json(BindEnqlst(ItemId));
+
+        
+        }
+
+        public JsonResult GetCurrencyJSON(string ItemId)
+        {
+            SalesQuotation model = new SalesQuotation();
+            model.Currlst = BindCurrlst(ItemId);
+            return Json(BindCurrlst(ItemId));
 
         }
 
-        public JsonResult GetCurrencyJSON(string supid, string Type)
+        public JsonResult GetCustypeJSON(string ItemId)
         {
             SalesQuotation model = new SalesQuotation();
-            model.Currlst = BindCurrlst(supid, Type);
-            return Json(BindCurrlst(supid, Type));
+            model.Custypelst = BindCustypelst(ItemId);
+            return Json(BindCustypelst(ItemId));
+
+        }
+        public JsonResult GetTypeJSON(string ItemId)
+        {
+            SalesQuotation model = new SalesQuotation();
+            model.Typelst = BindTypelst(ItemId);
+            return Json(BindTypelst(ItemId));
+
+        }
+        public JsonResult GetPriJSON(string ItemId)
+        {
+            SalesQuotation model = new SalesQuotation();
+            model.Prilst = BindPrilst(ItemId);
+            return Json(BindPrilst(ItemId));
+
+        }
+        
+        public JsonResult GetItemgroupJSON(string ItemId)
+        {
+            SalesQuotation model = new SalesQuotation();
+            model.Itemgrouplst = BindItemgrouplst(ItemId);
+            return Json(BindItemgrouplst(ItemId));
 
         }
 
-        public JsonResult GetCustypeJSON(string supid, string Type)
-        {
-            SalesQuotation model = new SalesQuotation();
-            model.Custypelst = BindCustypelst(supid, Type);
-            return Json(BindCustypelst(supid, Type));
-
-        }
-
-
-        public List<SelectListItem> BindQuolst(string value, string Type)
+        public List<SelectListItem> BindEnqlst(string value)
         {
             try
             {
-
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
               
                     DataTable dtDesg = SalesQuotationService.GetQuobyId(value);
@@ -412,19 +469,17 @@ namespace Arasan.Controllers.Sales
                         lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ENQ_TYPE"].ToString(), Value = dtDesg.Rows[i]["SALESENQUIRYID"].ToString() });
 
                     }
+                return lstdesg;
             }
-
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-
-        public List<SelectListItem> BindCurrlst(string value, string Type)
+        public List<SelectListItem> BindCurrlst(string value)
         {
             try
             {
-
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
 
                 DataTable dtDesg = SalesQuotationService.GetCurrbyId(value);
@@ -433,15 +488,15 @@ namespace Arasan.Controllers.Sales
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["CURRENCY_TYPE"].ToString(), Value = dtDesg.Rows[i]["SALESENQUIRYID"].ToString() });
 
                 }
+                return lstdesg;
             }
-
             catch (Exception ex)
             {
                 throw ex;
             }
         }
 
-        public List<SelectListItem> BindCustypelst(string value, string Type)
+        public List<SelectListItem> BindCustypelst(string value)
         {
             try
             {
@@ -451,9 +506,75 @@ namespace Arasan.Controllers.Sales
                 DataTable dtDesg = SalesQuotationService.GetCustypebyId(value);
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["CUSTOMER_TYPE"].ToString(), Value = dtDesg.Rows[i]["SALESENQUIRYID"].ToString() });
+
+                }
+                return lstdesg;
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        } 
+        
+        public List<SelectListItem> BindTypelst(string value)
+        {
+            try
+            {
+
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+
+                DataTable dtDesg = SalesQuotationService.GetTypelstbyId(value);
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["CUSTOMER_NAME"].ToString(), Value = dtDesg.Rows[i]["SALESENQUIRYID"].ToString() });
 
                 }
+                return lstdesg;
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindPrilst(string value)
+        {
+            try
+            {
+
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+
+                DataTable dtDesg = SalesQuotationService.GetPribyId(value);
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PRIORITY"].ToString(), Value = dtDesg.Rows[i]["SALESENQUIRYID"].ToString() });
+
+                }
+                return lstdesg;
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        
+        public List<SelectListItem> BindItemgrouplst(string value)
+        {
+            try
+            {
+
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+
+                DataTable dtDesg = SalesQuotationService.GetItemgroupbyId(value);
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMGROUP"].ToString(), Value = dtDesg.Rows[i]["SALESQUOTEDETAILID"].ToString() });
+
+                }
+                return lstdesg;
             }
 
             catch (Exception ex)
@@ -833,10 +954,10 @@ namespace Arasan.Controllers.Sales
                 ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
                 ca.QuoId = dt.Rows[0]["QUOTE_NO"].ToString();
                 ca.QuoDate = dt.Rows[0]["QUOTE_DATE"].ToString();
-                ca.EnNo = dt.Rows[0]["ENQNO"].ToString();
+                ca.EnNo = dt.Rows[0]["ENQ_NO"].ToString();
                 ca.EnDate = dt.Rows[0]["ENQ_DATE"].ToString();
                 ca.Currency = dt.Rows[0]["CURRENCY_TYPE"].ToString();
-                ca.Customer = dt.Rows[0]["PARTY"].ToString();
+                //ca.Customer = dt.Rows[0]["PARTY"].ToString();
                 ca.CustomerType = dt.Rows[0]["CUSTOMER_TYPE"].ToString();
                 ca.Address = dt.Rows[0]["ADDRESS"].ToString();
                 ca.PinCode = dt.Rows[0]["PINCODE"].ToString();

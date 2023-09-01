@@ -44,7 +44,7 @@
                                                 <div class="form-group">
                                                     <br />  <label for="inputName3" class="col-sm-4 control-label">New / Existing Quote <label class="mandatory">*</label></label>
                                                     <div class="col-sm-8">
-                                                        @Html.DropDownListFor(C => C.QuoteFormatId, Model.QuoteFormatList,"--Please select--",new { @id = "ddlQuoteFormat", @Class = "form-control  _select", @TabIndex = 1, @onchange = "QuoteFormat(this.value);" })
+                                                        @Html.DropDownListFor(C => C.QuoteFormatId, Model.QuoteFormatList,"--Please select--",new { @id = "ddlQuoteFormat", @Class = "form-control _select", @TabIndex = 1, @onchange = "QuoteFormat(this.value);" })
                                                     </div>
                                                 </div>
                                             </div>
@@ -56,8 +56,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-              <div class="row">
+                   </div>
+                             <div class="row">
                                       
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -88,8 +88,8 @@
 
                                             </div>
                                         </div>
-                                    </div>
-               <div class="row">
+                             </div>
+                                  <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
 
@@ -100,8 +100,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
+                                    <div class="col-md-6">
+                                      <div class="form-group">
 
                                          <br /> <label for="inputName3" class="col-sm-4 control-label">Customer Type<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
@@ -109,9 +109,9 @@
                                             @Html.HiddenFor(C => C.ID)
 
                                         </div>
+                                      </div>
                                     </div>
-                                </div>
-                                    </div>
+                                  </div>
                                      <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -477,9 +477,10 @@
         if (list != null && list.length > 0) {
             $(dropDownId).removeAttr("disabled");
             $.each(list, function () {
-                $(dropDownId).append($("<option></option>").val(this['value']).html(this['text']));
+                $(dropDownId).append($("<option> </option>").val(this['value']).html(this['text']));
             });
         }
+        
         $(dropDownId).trigger("liszt:updated");
     }
   $('._select').select2();
@@ -493,7 +494,7 @@
         minView: 2,
         forceParse: 0
     });
- $('._select').select2();
+   $('._select').select2();
     function removeRow(id)
     {
         
@@ -514,10 +515,11 @@
             alert("Cannot delete all the rows.")
         }
     }
+
     function Grup_Change(itemid, i) {
-        //alert(itemid);
-        //debugger;
-        $.ajax({
+       @* //alert(itemid);
+        //debugger;*@
+        $.ajax({ 
             url: "GetItemJSON",
             type: "post",
             data: { 'itemid': itemid },
@@ -702,23 +704,39 @@
             data: { "ItemId": ItemId },
             type: "GET",
             success: function (result) {
+            @*var $example = $("#ddlQuoType").select2();
+                $example.val(result.EnqType).trigger("change");*@
 
-                document.getElementById("ddlQuoType").value = result.quoid;
+               
                 document.getElementById("QuoDate").value = result.quodate;
-                document.getElementById("ddlCurrency").value = result.currency;
-                document.getElementById("ddlCustomer").value = result.customertype;
-            },
+                document.getElementById("txtAddress").value = result.address;
+                document.getElementById("txtMobile").value = result.mobile;
+                document.getElementById("txtCity").value = result.city;
+                document.getElementById("txtPinCode").value = result.pincode;
+
+                var $example = $("#ddlCustomer").select2();
+                $example.val(result.custid).trigger("change");
+
+                var $example = $("#ddlQuoType").select2();
+                    $example.val(result.quotype).trigger("change");
+
+                var $example = $("#ddlCurrency").select2();
+                  $example.val(result.currency).trigger("change");
+
+                var $example = $("#ddlPro").select2();
+                $example.val(result.Priority).trigger("change");
+
+                },
             error: function () {
                 alert("Data Not Found");
             }
         });
+    
 
-    }
-
-    $.ajax({
+  @*  $.ajax({
         url: "GetEnqJSON",
             type: "post",
-                data: { 'supid': ItemId, "Type": type },
+            data: { "ItemId": ItemId },
             cache: false,
             success: function (response) {
                 var newlist;
@@ -727,25 +745,75 @@
             },
             error: function () {
                 debugger;
-                alert("Please Select Quo Type");
+                alert("Please Select QuoType");
             }
-        });  
+    });  
         
         $.ajax({
-        url: "GetEnqJSON",
+        url: "GetCurrencyJSON",
             type: "post",
-                data: { 'supid': ItemId, "Type": type },
+            data: { "ItemId": ItemId },
             cache: false,
             success: function (response) {
                 var newlist;
                     newlist = response.Itemlst;
-            PopulateDropDown("#ddlQuoType", response);
+            PopulateDropDown("#ddlCurrency", response);
             },
             error: function () {
                 debugger;
-                alert("Please Select Quo Type");
+            alert("Please Select Currency");
             }
         }); 
+        
+        $.ajax({
+        url: "GetCustypeJSON",
+            type: "post",
+        data: { "ItemId": ItemId },
+            cache: false,
+            success: function (response) {
+                var newlist;
+                    newlist = response.Itemlst;
+            PopulateDropDown("#ddlCustomerType", response);
+            },
+            error: function () {
+                debugger;
+            alert("Please Select CustomerType");
+            }
+        }); 
+
+        $.ajax({
+            url: "GetTypeJSON",
+            type: "post",
+        data: { "ItemId": ItemId },
+            cache: false,
+            success: function (response) {
+                var newlist;
+                    newlist = response.Itemlst;
+            PopulateDropDown("#ddlCustomer", response);
+            },
+            error: function () {
+                debugger;
+            alert("Please Select Customer Name");
+            }
+        }); 
+
+        $.ajax({
+            url: "GetPriJSON",
+            type: "post",
+            data: { "ItemId": ItemId },
+            cache: false,
+            success: function (response) {
+                var newlist;
+                newlist = response.Itemlst;
+                PopulateDropDown("#ddlPro", response);
+            },
+            error: function () {
+                debugger;
+                alert("Please Select Priority");
+            }
+        });*@
+
+    }
 
     $('.form_date').datetimepicker({
         //   language:  'fr',
@@ -762,7 +830,7 @@
 
         var ItemGrp = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItemGrp" + index + "' name='QuoLst[" + index + "].ItemGroupId' onchange = 'Grup_Change(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
 
-        var Item = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItem" + index + "' name='QuoLst[" + index + "].ItemId' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option></select></td>";
+        var Item = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItem" + index + "' name='QuoLst[" + index + "].ItemId' onchange = 'changeItemDetail(this.value," + index + ")'><option value=''>Please select</option></select></td>";
 
         var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='QuoLst[" + index + "].Unit'  style='width: 80px;' type='text'onkeydown='return isNumeric2(event.keyCode,this.value)'  onchange = 'changeQty(this.value," + index + ")'  readonly='True' /></td>";
 
@@ -811,11 +879,13 @@
         })
     }
 </script>
-<script>
+
+@*<script>
     <a class="fancybox1" rel = "group" data - fancybox - type="iframe" href = "#" style = "display: none; width: 760px;" > </a>
         < a class="fancyboxe1" rel = "group" data - fancybox - type="iframe" href = "#" style = "display: none; width: 760px;" > </a>
             < link rel = "stylesheet" href = "@Url.Content("~/css/jquery.fancybox.css?v=2.1.5")" type = "text/css" media = "screen" />
                 <script type="text/javascript" src = "@Url.Content("~/css/jquery.fancybox.pack.js?v=2.1.5")" ></script>
+
 <script type="text/javascript">
         var fancybox123;
     jQuery(document).ready(function ($) {
@@ -829,9 +899,9 @@
             }
         });
         fancybox123 = $.fancybox;
-    });
+    });*@
 
-    function close_popup() {
+   @* function close_popup() {
         fancybox123.close();
         $(".fancybox1").fancybox({
             width: '100%',
@@ -841,18 +911,37 @@
         $(".fancybox1").eq(0).trigger('click');
     }
 </script>
+*@
 <script>
     $(document).ready(function () {
         $('#btnSave').click(function (e) {
             var isValid = true;
-            if (document.getElementById("EnDate").value == "") {
+
+
+            if (document.getElementById("ddlQuoteFormat").value == "" || document.getElementById("ddlQuoteFormat").value == 0) {
                 isValid = false;
-                $(EnqDate).css({
+                $(ddlQuoteFormat).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select Enq Date");
+                alert("Please Select QuoteFormat");
+                return false;
+            }
+            else {
+                $(ddlQuoType).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("ddlEnquiry").value == "" || document.getElementById("ddlEnquiry").value == 0) {
+                isValid = false;
+                $(ddlEnquiry).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Enquiry");
                 return false;
             }
             else {
@@ -861,32 +950,17 @@
                     "background": ""
                 });
             }
-            @*if (document.getElementById("txtMobile").value == "") {
+            
+
+
+            if (document.getElementById("ddlCountry").value == "" || document.getElementById("ddlCountry").value == 0) {
                 isValid = false;
-                $(txtMobile).css({
+                $(ddlCountry).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select Phone Number");
-                return false;
-            }
-            else {
-                $(txtMobile).css({
-                    "border": "",
-                    "background": ""
-                });
-            }*@
-
-
-            if (document.getElementById("ddlCustomerType").value == "" || document.getElementById("ddlCustomerType").value == 0) {
-                isValid = false;
-                $(ddlCustomerType_chzn).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Select Customer Type");
+                alert("Please Select Country");
                 return false;
             }
             else {
@@ -895,7 +969,8 @@
                     "background": ""
                 });
             }
-            @*if (document.getElementById("ddlCustomer").value == "" || document.getElementById("ddlCustomer").value == 0) {
+
+            if (document.getElementById("ddlCustomer").value == "" || document.getElementById("ddlCustomer").value == 0) {
                 isValid = false;
                 $(ddlCustomer_chzn).css({
                     "border": "1px solid red",
@@ -910,28 +985,34 @@
                     "border": "",
                     "background": ""
                 });
-            }*@
-            if (document.getElementById("ddlQuoType").value == "" || document.getElementById("ddlQuoType").value == 0) {
+            }
+            
+            if (document.getElementById("ddlPro").value == "" || document.getElementById("ddlPro").value == 0) {
                 isValid = false;
-                $(ddlQuoType).css({
+                $(ddlPro).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select Enq Type");
+                alert("Please Select Priority");
                 return false;
             }
             else {
-                $(ddlQuoType).css({
+                $(ddlCustomer_chzn).css({
                     "border": "",
                     "background": ""
                 });
             }
+
+            
             if (isValid == false)
                 e.preventDefault();
         });
 
     });
+</script>
+
+<script>
     function QuoteFormat(value) {
                 if (value == "new") {
                     $('#EnquiryQuote').css('display', 'none');
