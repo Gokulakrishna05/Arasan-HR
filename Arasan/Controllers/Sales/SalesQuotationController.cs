@@ -412,6 +412,7 @@ namespace Arasan.Controllers.Sales
                         lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ENQ_TYPE"].ToString(), Value = dtDesg.Rows[i]["SALESENQUIRYID"].ToString() });
 
                     }
+                return lstdesg;
             }
 
             catch (Exception ex)
@@ -433,6 +434,7 @@ namespace Arasan.Controllers.Sales
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["CURRENCY_TYPE"].ToString(), Value = dtDesg.Rows[i]["SALESENQUIRYID"].ToString() });
 
                 }
+                return lstdesg;
             }
 
             catch (Exception ex)
@@ -454,6 +456,7 @@ namespace Arasan.Controllers.Sales
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["CUSTOMER_NAME"].ToString(), Value = dtDesg.Rows[i]["SALESENQUIRYID"].ToString() });
 
                 }
+                return lstdesg;
             }
 
             catch (Exception ex)
