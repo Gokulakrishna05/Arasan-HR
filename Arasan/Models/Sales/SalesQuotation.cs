@@ -21,10 +21,11 @@ namespace Arasan.Models
             this.Quolst = new List<SelectListItem>();
             this.Currlst = new List<SelectListItem>();
             this.Custypelst = new List<SelectListItem>();
+
         }
         public List<SelectListItem> RecList;
         public string Recieved { get; set; }
-      
+
 
         public List<SelectListItem> Suplst;
         public List<SelectListItem> Enqlst;
@@ -75,39 +76,40 @@ namespace Arasan.Models
         public string status { get; set; }
         public List<QuoItem> QuoLst { get; set; }
         public string QuoteFormatId { get; set; }
-        public List<SelectListItem> QuoteFormatList { get; set; }   
+        public List<SelectListItem> QuoteFormatList { get; set; }
         public string EnquiryId { get; set; }
         public List<SelectListItem> EnquiryList { get; set; }
+        public List<SelectListItem> Itemgrouplst { get; internal set; }
     }
-    public class QuoItem 
+    public class QuoItem
     {
         public string ItemId { get; set; }
 
         public List<SelectListItem> Itlst { get; set; }
 
         public List<SelectListItem> ItemGrouplst { get; set; }
-        
+
         public string saveItemId { get; set; }
         public string ItemGroupId { get; set; }
         public string Des { get; set; }
         public string Unit { get; set; }
         public string ConFac { get; set; }
-        public double Quantity { get; set; }
+        public string Quantity { get; set; }
 
         //public string Description { get; set; }
-        public double Rate { get; set; }
-        public double Amount { get; set; }
-        public double Disc { get; set; }
-        public double DiscAmount { get; set; }
+        public string Rate { get; set; }
+        public string Amount { get; set; }
+        public string Disc { get; set; }
+        public string DiscAmount { get; set; }
 
-        public double FrigCharge { get; set; }
-        public double CGSTP { get; set; }
-        public double SGSTP { get; set; }
-        public double IGSTP { get; set; }
-        public double CGST { get; set; }
-        public double SGST { get; set; }
-        public double IGST { get; set; }
-        public double TotalAmount { get; set; }
+        public string FrigCharge { get; set; }
+        public string CGSTP { get; set; }
+        public string SGSTP { get; set; }
+        public string IGSTP { get; set; }
+        public string CGST { get; set; }
+        public string SGST { get; set; }
+        public string IGST { get; set; }
+        public string TotalAmount { get; set; }
         public string Isvalid { get; set; }
     }
     public class QuotationFollowup

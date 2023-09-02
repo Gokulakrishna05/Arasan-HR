@@ -371,9 +371,9 @@
                 alert("Data Not Found");
             }
         });
+
         document.getElementById("tbBooks").innerHTML = "";
         var item = document.getElementById("ddlItemid").value;
-
         $.ajax({
             url: 'GetDrumStockDetails',
             type: "post",
