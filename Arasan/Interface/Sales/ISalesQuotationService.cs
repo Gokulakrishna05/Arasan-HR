@@ -11,7 +11,7 @@ namespace Arasan.Interface.Sales
         DataTable GetBranch();
         DataTable Getcountry();
         DataTable GetEnquiry();
-        
+
         DataTable GetSupplier();
         DataTable GetSalesQuotation(string id);
         DataTable GetSalesQuotationItemDetails(string id);
@@ -21,12 +21,15 @@ namespace Arasan.Interface.Sales
         IEnumerable<QuoItem> GetAllSalesQuotationItem(string id);
         DataTable GetCustomerDetails(string itemId);
         DataTable GetEnqDetails(string itemId);
+        //DataTable GetItemgrpDetails(string itemId);
         DataTable GetQuobyId(string itemId);
         DataTable GetCurrbyId(string itemId);
         DataTable GetCustypebyId(string itemId);
         DataTable GetTypelstbyId(string itemId);
         DataTable GetPribyId(string itemId);
-        DataTable GetItemgroupbyId(string itemId);
+        //DataTable GetItemgroupbyId(string itemId);
+        //DataTable SalesQuotationDetail(string id, string item);
+        DataTable GetItemgrpDetail(string id);
         DataTable GetCusType();
         //DataTable GetCusName();
         DataTable GetPurchaseQuotationDetails(string id);

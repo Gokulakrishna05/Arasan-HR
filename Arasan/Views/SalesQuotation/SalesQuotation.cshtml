@@ -660,6 +660,8 @@
             }
         })
     }
+
+
     $(".chosen-select").chosen();
     function removeRow(id) {
         var table = document.getElementById("dataTable");
@@ -679,6 +681,7 @@
             alert("Cannot delete all the rows.")
         }
     }
+
     function changeItem1(ItemId) {
         $.ajax({
             url: 'GetCustomerDetail',
@@ -698,124 +701,96 @@
 
     }
 
-    function changeItem(ItemId) {
+ function changeItem(ItemId) {
         $.ajax({
             url: 'GetEnqDetail',
             data: { "ItemId": ItemId },
             type: "GET",
             success: function (result) {
-            @*var $example = $("#ddlQuoType").select2();
-                $example.val(result.EnqType).trigger("change");*@
-
+           
                
                 document.getElementById("QuoDate").value = result.quodate;
                 document.getElementById("txtAddress").value = result.address;
                 document.getElementById("txtMobile").value = result.mobile;
                 document.getElementById("txtCity").value = result.city;
                 document.getElementById("txtPinCode").value = result.pincode;
+                document.getElementById("Unit").value = result.unit;
 
-                var $example = $("#ddlCustomer").select2();
+             var $example = $("#ddlCustomer").select2();
                 $example.val(result.custid).trigger("change");
 
-                var $example = $("#ddlQuoType").select2();
-                    $example.val(result.quotype).trigger("change");
+                var $quotetype = $("#ddlQuoType").select2();
+                    $quotetype.val(result.quotype).trigger("change");
 
-                var $example = $("#ddlCurrency").select2();
-                  $example.val(result.currency).trigger("change");
+               var $currency = $("#ddlCurrency").select2();
+                  $currency.val(result.currency).trigger("change");
 
-                var $example = $("#ddlPro").select2();
-                $example.val(result.Priority).trigger("change");
+                var $prior = $("#ddlPro").select2();
+                   $prior.val(result.Priority).trigger("change");
 
                 },
             error: function () {
                 alert("Data Not Found");
             }
         });
-    
 
-  @*  $.ajax({
-        url: "GetEnqJSON",
-            type: "post",
-            data: { "ItemId": ItemId },
-            cache: false,
-            success: function (response) {
-                var newlist;
-                    newlist = response.Itemlst;
-            PopulateDropDown("#ddlQuoType", response);
-            },
-            error: function () {
-                debugger;
-                alert("Please Select QuoType");
-            }
-    });  
-        
+
+        document.getElementById("tbBooks").innerHTML = "";
         $.ajax({
-        url: "GetCurrencyJSON",
+            url: 'GetItemgrpDetail',
             type: "post",
-            data: { "ItemId": ItemId },
+            data: { "id": ItemId },
             cache: false,
-            success: function (response) {
-                var newlist;
-                    newlist = response.Itemlst;
-            PopulateDropDown("#ddlCurrency", response);
+
+            success: function (list) {
+                
+                list.forEach((item) => {
+
+                    var index = $("#tbBooks").children("tr").length;
+                    alert(index);
+
+                    var ItemGroupId = "<td><input class='form-control' id='ddlItemGrp" + index + "' name='QuoLst[" + index + "].ItemGroupId'  style='width: 100px;' type='text'  readonly='True'  value=" + item.ItemGroupId + " /></td>";
+                    var ItemId = "<td><input class='form-control' id='ddlItem" + index + "' name='Itlst[" + index + "].ItemId'  style='width: 100px;' type='text'  readonly='True'  value=" + item.item + " /></td>";
+
+
+                    var Unit = "<td><input class='form-control' id='txtunit" + index + "' name='QuoLst[" + index + "].Unit'  style='width: 80px;' type='text' readonly='True' value=" + item.qty + " onkeyup = 'changeQty(this, " + index + ")'  /></td>";
+                    var ConFac = "<td><input class='form-control' id='txtConFac" + index + "' name='QuoLst[" + index + "].ConFac'  style='width: 80px;' type='text' readonly='True' value=" + item.qty + " onkeyup = 'changeQty(this, " + index + ")'  /></td>";
+                    var Quantity = "<td><input class='form-control' id='txtQuantity" + index + "' name='QuoLst[" + index + "].Quantity'  style='width: 80px;' type='text' readonly='True' value=" + item.qty + " onkeyup = 'changeQty(this, " + index + ")'  /></td>";
+                    
+                    var Des = "<td><input class='form-control' id='txtDes" + index + "' name='QuoLst[" + index + "].Des'  style='width: 80px;' type='text' readonly='True' value=" + item.qty + " onkeyup = 'changeQty(this, " + index + ")'  /></td>";
+                    var Rate = "<td><input class='form-control' id='txtRate" + index + "' name='QuoLst[" + index + "].Rate'  style='width: 80px;' type='text' readonly='True' value=" + item.qty + " onkeyup = 'changeQty(this, " + index + ")'  /></td>";
+                    var Amount = "<td><input class='form-control' id='txtAmount" + index + "' name='QuoLst[" + index + "].Amount'  style='width: 80px;' type='text' readonly='True' value=" + item.qty + " onkeyup = 'changeQty(this, " + index + ")'  /></td>";
+                    
+                    var Disc = "<td><input class='form-control' id='txtDisc" + index + "' name='QuoLst[" + index + "].Disc'  style='width: 80px;' type='text' readonly='True' value=" + item.qty + " onkeyup = 'changeQty(this, " + index + ")'  /></td>";
+                    var DiscAmount = "<td><input class='form-control' id='txtDiscAmount" + index + "' name='QuoLst[" + index + "].DiscAmount'  style='width: 80px;' type='text' readonly='True' value=" + item.qty + " onkeyup = 'changeQty(this, " + index + ")'  /></td>";
+                    var FrigCharge = "<td><input class='form-control' id='txtFrigCharge" + index + "' name='QuoLst[" + index + "].FrigCharge'  style='width: 80px;' type='text' readonly='True' value=" + item.qty + " onkeyup = 'changeQty(this, " + index + ")'  /></td>";
+                    var CGSTP = "<td><input class='form-control' id='txtCGSTP" + index + "' name='QuoLst[" + index + "].CGSTP'  style='width: 80px;' type='text' readonly='True' value=" + item.qty + " onkeyup = 'changeQty(this, " + index + ")'  /></td>";
+                    var SGSTP = "<td><input class='form-control' id='txtSGSTP" + index + "' name='QuoLst[" + index + "].SGSTP'  style='width: 80px;' type='text' readonly='True' value=" + item.qty + " onkeyup = 'changeQty(this, " + index + ")'  /></td>";
+                    var IGSTP = "<td><input class='form-control' id='txtIGSTP" + index + "' name='QuoLst[" + index + "].IGSTP'  style='width: 80px;' type='text' readonly='True' value=" + item.qty + " onkeyup = 'changeQty(this, " + index + ")'  /></td>";
+                    var CGST = "<td><input class='form-control' id='txtCGST" + index + "' name='QuoLst[" + index + "].CGST'  style='width: 80px;' type='text' readonly='True' value=" + item.qty + " onkeyup = 'changeQty(this, " + index + ")'  /></td>";
+                    var SGST = "<td><input class='form-control' id='txtSGST" + index + "' name='QuoLst[" + index + "].SGST'  style='width: 80px;' type='text' readonly='True' value=" + item.qty + " onkeyup = 'changeQty(this, " + index + ")'  /></td>";
+                    var IGST = "<td><input class='form-control' id='txtIGST" + index + "' name='QuoLst[" + index + "].IGST'  style='width: 80px;' type='text' readonly='True' value=" + item.qty + " onkeyup = 'changeQty(this, " + index + ")'  /></td>";
+                    var TotalAmount = "<td><input class='form-control' id='txtTotalAmount" + index + "' name='QuoLst[" + index + "].TotalAmount'  style='width: 80px;' type='text' readonly='True' value=" + item.qty + " onkeyup = 'changeQty(this, " + index + ")'  /></td>";
+
+                    var confac = "<td><input id='Isvalid" + index + "' name='QuoLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='Drumlst.Index' type='hidden' value='" + index + "'  /></td>";
+
+                    var removeCell = "<td><input id='Isvalid" + index + "' name='QuoLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='Drumlst.Index' type='hidden' value='" + index + "'  /></td>";
+
+                    var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + ItemGroupId + Batch + Qty + removeCell + "</tr>";
+
+                    $("#tbBooks").append(newRow);
+                });
+                
             },
             error: function () {
-                debugger;
-            alert("Please Select Currency");
+                alert("Data Not Foundsrtrt");
             }
-        }); 
-        
-        $.ajax({
-        url: "GetCustypeJSON",
-            type: "post",
-        data: { "ItemId": ItemId },
-            cache: false,
-            success: function (response) {
-                var newlist;
-                    newlist = response.Itemlst;
-            PopulateDropDown("#ddlCustomerType", response);
-            },
-            error: function () {
-                debugger;
-            alert("Please Select CustomerType");
-            }
-        }); 
+        });
 
-        $.ajax({
-            url: "GetTypeJSON",
-            type: "post",
-        data: { "ItemId": ItemId },
-            cache: false,
-            success: function (response) {
-                var newlist;
-                    newlist = response.Itemlst;
-            PopulateDropDown("#ddlCustomer", response);
-            },
-            error: function () {
-                debugger;
-            alert("Please Select Customer Name");
-            }
-        }); 
+ }
 
-        $.ajax({
-            url: "GetPriJSON",
-            type: "post",
-            data: { "ItemId": ItemId },
-            cache: false,
-            success: function (response) {
-                var newlist;
-                newlist = response.Itemlst;
-                PopulateDropDown("#ddlPro", response);
-            },
-            error: function () {
-                debugger;
-                alert("Please Select Priority");
-            }
-        });*@
 
-    }
-
-    $('.form_date').datetimepicker({
+  $('.form_date').datetimepicker({
         //   language:  'fr',
         weekStart: 1,
         todayBtn: 1,
@@ -838,8 +813,8 @@
 
         
           var Quantity = "<td><input class='form-control' id='txtQuantity" + index + "' name='QuoLst[" + index + "].Quantity'  style='width: 90px;' type='text'/></td>"
-          
-          var Des = "<td><input class='form-control' id='txtConFac" + index + "' name='QuoLst[" + index + "].Des'  style='width: 220px;' type='text' readonly='True'  /></td>";
+
+        var Des = "<td><input class='form-control' id='txtDes" + index + "' name='QuoLst[" + index + "].Des'  style='width: 220px;' type='text' readonly='True'  /></td>";
 
 
            var Rate = "<td><input class='form-control' id='txtRate" + index + "' name='QuoLst[" + index + "].Rate'  style='width: 80px;' type='text'onkeydown='return isNumeric2(event.keyCode,this.value)'  onchange = 'changeQty(this.value," + index + ")'  readonly='True' /></td>";
