@@ -1,5 +1,6 @@
 using Arasan.Interface;
 using Arasan.Models;
+using Arasan.Services.Master;
 using AspNetCore.Reporting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +11,7 @@ using System.Data;
 using System.DirectoryServices.ActiveDirectory;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Xml.Linq;
 
 namespace Arasan.Controllers 
 {
@@ -267,7 +269,198 @@ namespace Arasan.Controllers
 				throw ex;
 			}
 		}
-		public List<SelectListItem> BindMachineID()
+        public IActionResult ViewAPProductionentry(string id)
+        {
+            APProductionentryDet ca = new APProductionentryDet();
+            DataTable dt = new DataTable();
+            dt = IProductionEntry.GetAPProductionentryName(id);
+            if (dt.Rows.Count > 0)
+            {
+                ca.Location = dt.Rows[0]["WCID"].ToString();
+                ca.Docdate = dt.Rows[0]["DOCDATE"].ToString();
+                ca.DocId = dt.Rows[0]["DOCID"].ToString();
+                ca.Eng = dt.Rows[0]["EMPNAME"].ToString();
+                ca.Shift = dt.Rows[0]["SHIFT"].ToString();
+                ViewBag.shift = dt.Rows[0]["SHIFT"].ToString();
+                ca.SchQty = dt.Rows[0]["SCHQTY"].ToString();
+                ca.ProdQty = dt.Rows[0]["PRODQTY"].ToString();
+                ca.BatchNo = dt.Rows[0]["BATCH"].ToString();
+                ca.batchcomplete = dt.Rows[0]["BATCHYN"].ToString();
+                ca.ID = id;
+            }
+            DataTable dt2 = new DataTable();
+            List<ProInput> TData = new List<ProInput>();
+            ProInput tda = new ProInput();
+            dt2 = IProductionEntry.GetInputDeatils(id);
+            if (dt2.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt2.Rows.Count; i++)
+                {
+                    tda = new ProInput();
+                    tda.Itemlst = BindItemlst();
+                    tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
+                    tda.Time = dt2.Rows[i]["CHARGINGTIME"].ToString();
+                    tda.BinId = dt2.Rows[i]["BINID"].ToString();
+                    tda.batchno = dt2.Rows[i]["BATCHNO"].ToString();
+                    tda.IssueQty = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString() == "" ? "0" : dt2.Rows[i]["QTY"].ToString());
+                    tda.StockAvailable = Convert.ToDouble(dt2.Rows[i]["STOCK"].ToString() == "" ? "0" : dt2.Rows[i]["STOCK"].ToString());
+                    tda.APID = id;
+                    tda.Isvalid = "Y";
+                    TData.Add(tda);
+
+                }
+
+            }
+            DataTable dt3 = new DataTable();
+            List<APProInCons> TData1 = new List<APProInCons>();
+            APProInCons tda1 = new APProInCons();
+            dt3 = IProductionEntry.GetConsDeatils(id);
+            if (dt3.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt3.Rows.Count; i++)
+                {
+                    tda1 = new APProInCons();
+                    tda1.Itemlst = BindItemlstCon();
+                    tda1.ItemId = dt3.Rows[i]["ITEMID"].ToString();
+                    tda1.consunit = dt3.Rows[i]["UNIT"].ToString();
+                    tda1.BinId = dt3.Rows[i]["BINID"].ToString();
+                    tda1.Qty = Convert.ToDouble(dt3.Rows[i]["QTY"].ToString() == "" ? "0" : dt3.Rows[i]["QTY"].ToString());
+                    tda1.consQty = Convert.ToDouble(dt3.Rows[i]["CONSQTY"].ToString() == "" ? "0" : dt3.Rows[i]["CONSQTY"].ToString());
+                    tda1.ConsStock = Convert.ToDouble(dt3.Rows[i]["STOCK"].ToString() == "" ? "0" : dt3.Rows[i]["STOCK"].ToString());
+
+                    tda1.APID = id;
+                    tda1.Isvalid = "Y";
+                    TData1.Add(tda1);
+                }
+
+            }
+
+            DataTable dt4 = new DataTable();
+            List<EmpDetails> TTData2 = new List<EmpDetails>();
+            EmpDetails tda2 = new EmpDetails();
+            dt4 = IProductionEntry.GetEmpdetDeatils(id);
+            if (dt4.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt4.Rows.Count; i++)
+                {
+                    tda2 = new EmpDetails();
+                    tda2.Employeelst = BindEmp();
+                    tda2.Employee = dt4.Rows[i]["EMPID"].ToString();
+
+                    tda2.EmpCode = dt4.Rows[i]["EMPCODE"].ToString();
+                    tda2.Depart = dt4.Rows[i]["DEPARTMENT"].ToString();
+                    tda2.StartDate = dt4.Rows[i]["STARTDATE"].ToString();
+                    tda2.StartTime = dt4.Rows[i]["STARTTIME"].ToString();
+                    tda2.EndDate = dt4.Rows[i]["ENDDATE"].ToString();
+                    tda2.EndTime = dt4.Rows[i]["ENDTIME"].ToString();
+                    tda2.OTHrs = dt4.Rows[i]["OTHOUR"].ToString();
+
+                    tda2.ETOther = dt4.Rows[i]["ETOTHER"].ToString();
+                    tda2.Normal = dt4.Rows[i]["NHOUR"].ToString();
+                    tda2.NOW = dt4.Rows[i]["NATUREOFWORK"].ToString();
+                    tda2.ID = id;
+                    tda2.Isvalid = "Y";
+                    TTData2.Add(tda2);
+
+                }
+
+            }
+            DataTable dt5 = new DataTable();
+            List<BreakDet> TData3 = new List<BreakDet>();
+            BreakDet tda3 = new BreakDet();
+            dt5 = IProductionEntry.GetBreakDeatils(id);
+            if (dt5.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt5.Rows.Count; i++)
+                {
+                    tda3 = new BreakDet();
+                    tda3.Machinelst = BindMachineID();
+                    tda3.MachineId = dt5.Rows[i]["MCODE"].ToString();
+                    tda3.Emplst = BindEmp();
+                    tda3.MachineDes = dt5.Rows[i]["DESCRIPTION"].ToString();
+                    tda3.StartTime = dt5.Rows[i]["FROMTIME"].ToString();
+                    tda3.EndTime = dt5.Rows[i]["TOTIME"].ToString();
+                    tda3.PB = dt5.Rows[i]["PB"].ToString();
+                    tda3.Isvalid = "Y";
+                    tda3.Alloted = dt5.Rows[i]["EMPNAME"].ToString();
+                    tda3.DType = dt5.Rows[i]["DTYPE"].ToString();
+                    tda3.MType = dt5.Rows[i]["MTYPE"].ToString();
+                    tda3.Reason = dt5.Rows[i]["REASON"].ToString();
+
+                    tda3.APID = id;
+                    TData3.Add(tda3);
+                }
+
+            }
+            DataTable dt6 = new DataTable();
+            List<ProOutput> TData4 = new List<ProOutput>();
+            ProOutput tda4 = new ProOutput();
+            dt6 = IProductionEntry.GetOutputDeatils(id);
+            if (dt6.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt6.Rows.Count; i++)
+                {
+                    tda4 = new ProOutput();
+                    tda4.Itemlst = BindOutItemlst();
+                    tda4.ItemId = dt6.Rows[i]["ITEMID"].ToString();
+                    tda4.BinId = dt6.Rows[i]["BINID"].ToString();
+                    tda4.drumlst = BindDrum();
+                    tda4.drumno = dt6.Rows[i]["DRUMNO"].ToString();
+                    tda4.FromTime = dt6.Rows[i]["FROMTIME"].ToString();
+                    tda4.ToTime = dt6.Rows[i]["TOTIME"].ToString();
+                    tda4.OutputQty = Convert.ToDouble(dt6.Rows[i]["OUTQTY"].ToString() == "" ? "0" : dt6.Rows[i]["OUTQTY"].ToString());
+                    DataTable dt7 = new DataTable();
+                    dt7 = IProductionEntry.GetResult(id);
+                    if (dt7.Rows.Count > 0)
+                    {
+                        tda4.Result = dt7.Rows[i]["TESTRESULT"].ToString();
+                        tda4.Status = dt7.Rows[i]["MOVETOQC"].ToString();
+                    }
+                    tda4.APID = id;
+                    tda4.Isvalid = "Y";
+                    TData4.Add(tda4);
+
+                }
+
+            }
+            DataTable adt7 = new DataTable();
+            List<LogDetails> TTData5 = new List<LogDetails>();
+            LogDetails tda5 = new LogDetails();
+            adt7 = IProductionEntry.GetLogdetailDeatils(id);
+            if (adt7.Rows.Count > 0)
+            {
+                for (int i = 0; i < adt7.Rows.Count; i++)
+                {
+                    tda5 = new LogDetails();
+
+                    tda5.StartDate = adt7.Rows[i]["STARTDATE"].ToString();
+                    tda5.StartTime = adt7.Rows[i]["STARTTIME"].ToString();
+
+                    tda5.EndDate = adt7.Rows[i]["ENDDATE"].ToString();
+
+                    tda5.Reason = adt7.Rows[i]["REASON"].ToString();
+
+
+
+                    tda5.EndTime = adt7.Rows[i]["ENDTIME"].ToString();
+                    tda5.tothrs = adt7.Rows[i]["TOTALHRS"].ToString();
+
+                    tda5.APID = id;
+                    TTData5.Add(tda5);
+                    tda5.Isvalid = "Y";
+                }
+
+            }
+            ca.BreakLst = TData3;
+            ca.inplst = TData;
+            ca.outlst = TData4;
+            ca.EmplLst = TTData2;
+            ca.Binconslst = TData1;
+            ca.LogLst = TTData5;
+            return View(ca);
+
+        }
+        public List<SelectListItem> BindMachineID()
 		{
 			try
 			{

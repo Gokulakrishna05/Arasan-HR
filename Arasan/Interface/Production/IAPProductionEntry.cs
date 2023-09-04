@@ -55,6 +55,12 @@ namespace Arasan.Interface
         Task<IEnumerable<APItemDetail>> GetAPItem( string aid);
         Task<IEnumerable<APItemDetails>> GetAPItems(string bid );
         Task<IEnumerable<APItemDetailsc>> GetAPItemsc(string cid);
-
+        DataTable GetAPProductionentryName(string id);
+        DataTable GetInputDeatils(string id);
+        DataTable GetConsDeatils(string id);
+        DataTable GetEmpdetDeatils(string id);
+        DataTable GetBreakDeatils(string id);
+        DataTable GetOutputDeatils(string id);
+        DataTable GetLogdetailDeatils(string id);
     }
 }
