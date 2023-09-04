@@ -442,7 +442,6 @@ namespace Arasan.Services
         {
             string SvSql = string.Empty;
             SvSql = "select APPRODUCTIONBASICID,ITEMID,BINBASIC.BINID,BATCHNO,STOCK,QTY,CHARGINGTIME from APPRODINPDET left outer join BINBASIC ON BINBASICID= APPRODINPDET.BINID  where APPRODUCTIONBASICID='" + id + "' ";
-
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -452,8 +451,7 @@ namespace Arasan.Services
         public DataTable GetCons(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select APPRODUCTIONBASICID,ITEMID,UNITMAST.UNITID,BINBASIC.BINID,STOCK,QTY,CONSQTY from APPRODCONSDET left outer join BINBASIC ON BINBASICID= APPRODCONSDET.BINID left outer join UNITMAST ON UNITMASTID= APPRODCONSDET.UNIT  where APPRODUCTIONBASICID='" + id + "' ";
-
+            SvSql = "select APPRODUCTIONBASICID,ITEMID,UNIT,BINID,STOCK,QTY,CONSQTY from APPRODCONSDET  where APPRODUCTIONBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -651,5 +649,81 @@ namespace Arasan.Services
             return dtt;
         }
 
+        public DataTable GetAPProductionentryName(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select APPRODUCTIONBASICID,APPRODUCTIONBASIC.DOCID,to_char(APPRODUCTIONBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,WCBASIC.WCID,EMPMAST.EMPNAME,SCHQTY,PRODQTY,BATCH,SHIFT,BATCHYN from APPRODUCTIONBASIC left outer join WCBASIC ON WCBASICID= APPRODUCTIONBASIC.WCID left outer join EMPMAST ON EMPMASTID= APPRODUCTIONBASIC.ASSIGNENG  where APPRODUCTIONBASICID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetInputDeatils(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select APPRODUCTIONBASICID,ITEMMASTER.ITEMID,BINBASIC.BINID,BATCHNO,STOCK,QTY,CHARGINGTIME from APPRODINPDET left outer join BINBASIC ON BINBASICID= APPRODINPDET.BINID left outer join ITEMMASTER ON ITEMMASTER.ITEMMASTERID= APPRODINPDET.ITEMID  where APPRODUCTIONBASICID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetConsDeatils(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select APPRODUCTIONBASICID,ITEMMASTER.ITEMID,UNIT,BINID,STOCK,QTY,CONSQTY from APPRODCONSDET left outer join ITEMMASTER ON ITEMMASTER.ITEMMASTERID= APPRODCONSDET.ITEMID   where APPRODUCTIONBASICID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetEmpdetDeatils(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select APPRODUCTIONBASICID,EMPMAST.EMPID,EMPCODE,DEPARTMENT,to_char(APPRODEMPDET.STARTDATE,'dd-MON-yyyy')STARTDATE,to_char(APPRODEMPDET.ENDDATE,'dd-MON-yyyy')ENDDATE,STARTTIME,ENDTIME,OTHOUR,ETOTHER,NHOUR,NATUREOFWORK from APPRODEMPDET left outer join EMPMAST ON EMPMAST.EMPMASTID= APPRODEMPDET.EMPID where APPRODUCTIONBASICID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetBreakDeatils(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select APPRODUCTIONBASICID,machineinfobasic.MCODE,DESCRIPTION,DTYPE,APPRODBREAKDET.MTYPE,FROMTIME,TOTIME,PB,EMPMAST.EMPNAME,REASON from APPRODBREAKDET left outer join machineinfobasic on machineinfobasic.machineinfobasicid=APPRODBREAKDET.MACHCODE LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID=APPRODBREAKDET.ALLOTTEDTO\r\n  where APPRODUCTIONBASICID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetOutputDeatils(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select APPRODOUTDETID,APPRODUCTIONBASICID,ITEMMASTER.ITEMID,BINBASIC.BINID,OUTQTY,DRUMMAST.DRUMNO,FROMTIME,TOTIME,ITEMMASTER.ITEMID as ITEMNAME,TESTRESULT,MOVETOQC from APPRODOUTDET left outer join BINBASIC ON BINBASICID= APPRODOUTDET.BINID LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=APPRODOUTDET.ITEMID LEFT OUTER JOIN DRUMMAST ON DRUMMAST.DRUMMASTID=APPRODOUTDET.DRUMNO\r\n  where APPRODUCTIONBASICID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetLogdetailDeatils(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select APPRODUCTIONBASICID,to_char(APPRODLOGDET.STARTDATE,'dd-MON-yyyy')STARTDATE,to_char(APPRODLOGDET.ENDDATE,'dd-MON-yyyy')ENDDATE,STARTTIME,ENDTIME,TOTALHRS,REASON from APPRODLOGDET where APPRODUCTIONBASICID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
     }
 }
