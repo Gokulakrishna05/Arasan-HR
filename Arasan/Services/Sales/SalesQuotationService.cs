@@ -115,7 +115,6 @@ namespace Arasan.Services.Sales
             string SvSql = string.Empty;
             //SvSql = "select ENQ_NO,ENQ_TYPE,ENQ_DATE,SALES_ENQUIRY.CURRENCY_TYPE,CUSTOMER_NAME,SALESENQUIRYID from SALES_ENQUIRY WHERE SALES_ENQUIRY.SALESENQUIRYID = '" + id + "' ";
             SvSql = "select ENQ_NO,ENQ_TYPE,ENQ_DATE,SALES_ENQUIRY.CURRENCY_TYPE,CUSTOMER_NAME,SALES_ENQUIRY.ADDRESS,SALES_ENQUIRY.CITY,SALES_ENQUIRY.PINCODE,SALES_ENQUIRY.CONTACT_PERSON_MOBILE ,SALES_ENQUIRY.PRIORITY,SALESENQUIRYID from SALES_ENQUIRY WHERE SALES_ENQUIRY.SALESENQUIRYID = '" + id + "' ";
-            //SvSql = "SELECT SALESQUOTEDETAIL.ITEMGROUP,SALESQUOTEDETAIL.ITEMID ,SALESQUOTEDETAIL.ITEMDESC ,SALESQUOTEDETAIL.RATE ,SALESQUOTEDETAIL.QTY ,SALESQUOTEDETAIL.CF , SALESQUOTEDETAIL.UNIT,SALESQUOTEDETAIL.AMOUNT ,SALESQUOTEDETAIL.DISC ,SALESQUOTEDETAIL.DISCAMOUNT ,SALESQUOTEDETAIL.IFREIGHTCH ,SALESQUOTEDETAIL.TOTAMT ,SALESQUOTEDETAIL.CGSTPER ,SALESQUOTEDETAIL.SGSTPER ,SALESQUOTEDETAIL.IGSTPER ,SALESQUOTEDETAIL.SGSTAMT ,SALESQUOTEDETAIL.IGSTAMT ,SALESQUOTEDETAIL.IGSTAMT,ENQ_NO,ENQ_TYPE,ENQ_DATE,SALES_ENQUIRY.CURRENCY_TYPE,CUSTOMER_NAME,SALES_ENQUIRY.ADDRESS,SALES_ENQUIRY.CITY,SALES_ENQUIRY.PINCODE,SALES_ENQUIRY.CONTACT_PERSON_MOBILE ,SALES_ENQUIRY.PRIORITY,SALESENQUIRYID from SALES_ENQUIRY LEFT OUTER JOIN SALESQUOTEDETAIL ON SALESQUOTEDETAIL.SALESQUOTEDETAILID = SALES_ENQUIRY.SALESENQUIRYID WHERE SALES_ENQUIRY.SALESENQUIRYID = '" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -126,9 +125,8 @@ namespace Arasan.Services.Sales
         public DataTable GetItemgrpDetail(string id)
         {
             string SvSql = string.Empty;
-            //SvSql = "select ENQ_NO,ENQ_TYPE,ENQ_DATE,SALES_ENQUIRY.CURRENCY_TYPE,CUSTOMER_NAME,SALESENQUIRYID from SALES_ENQUIRY WHERE SALES_ENQUIRY.SALESENQUIRYID = '" + id + "' ";
-            //SvSql = "SELECT ITEMGROUP,ITEMID,ITEMDESC,RATE,QTY,CF,UNIT,AMOUNT,DISC,DISCAMOUNT,IFREIGHTCH,TOTAMT,CGSTPER,SGSTPER,IGSTPER,SGSTAMT,IGSTAMT,CGSTAMT FROM SALESQUOTEDETAIL LEFT OUTER JOIN  SALES_ENQUIRY ON SALESENQUIRYID=SALESQUOTEDETAIL.SALESQUOTEDETAILID WHERE SALESQUOTEDETAIL.SALESQUOTEDETAILID = '" + id + "' ";
-            SvSql = "SELECT ITEMGROUP,ITEMID,ITEMDESC,RATE,QTY,CF,UNIT,AMOUNT,DISC,DISCAMOUNT,IFREIGHTCH,TOTAMT,CGSTPER,SGSTPER,IGSTPER,SGSTAMT,IGSTAMT,CGSTAMT,SALESQUOTEDETAIL.SALESQUOTEDETAILID,SALES_ENQUIRY.SALESENQUIRYID FROM SALESQUOTEDETAIL LEFT OUTER JOIN  SALES_ENQUIRY ON SALESENQUIRYID=SALESQUOTEDETAIL.SALESQUOTEDETAILID WHERE SALESQUOTEDETAIL.SALESQUOID = '" + id + "' ";
+            //SvSql = "SELECT ITEMGROUP,ITEMID,ITEMDESC,RATE,QTY,CF,UNIT,AMOUNT,DISC,DISCAMOUNT,IFREIGHTCH,TOTAMT,CGSTPER,SGSTPER,IGSTPER,SGSTAMT,IGSTAMT,CGSTAMT,SALESQUOTEDETAIL.SALESQUOTEDETAILID,SALES_ENQUIRY.SALESENQUIRYID FROM SALESQUOTEDETAIL LEFT OUTER JOIN  SALES_ENQUIRY ON SALESENQUIRYID=SALESQUOTEDETAIL.SALESQUOTEDETAILID WHERE SALESQUOTEDETAIL.SALESQUOTEDETAILID = '" + id + "' ";
+            SvSql = "SELECT ITEM_ID,ITEM_DESCRIPTION,UNIT,QUANTITY FROM SALES_ENQ_ITEM LEFT OUTER JOIN  SALES_ENQUIRY ON SALESENQUIRYID=SALES_ENQ_ITEM.SALESENQITEMID WHERE SALES_ENQ_ITEM.SALESENQITEMID  = '" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -197,18 +195,18 @@ namespace Arasan.Services.Sales
         }
 
 
-        public DataTable GetItemgroupbyId(string id)
+        //public DataTable GetItemgroupbyId(string id)
 
-        {
-            string SvSql = string.Empty;
-            SvSql = "SELECT ITEMGROUP,ITEMID,ITEMDESC,RATE,QTY,CF,UNIT,AMOUNT,DISC,DISCAMOUNT,IFREIGHTCH,TOTAMT,CGSTPER,SGSTPER,IGSTPER,SGSTAMT,IGSTAMT,CGSTAMT FROM SALESQUOTEDETAIL LEFT OUTER JOIN  SALES_ENQUIRY ON SALESENQUIRYID=SALESQUOTEDETAIL.SALESQUOTEDETAILID WHERE SALESQUOTEDETAIL.SALESQUOTEDETAILID='" + id + "'";
+        //{
+        //    string SvSql = string.Empty;
+        //    SvSql = "SELECT ITEMGROUP,ITEMID,ITEMDESC,RATE,QTY,CF,UNIT,AMOUNT,DISC,DISCAMOUNT,IFREIGHTCH,TOTAMT,CGSTPER,SGSTPER,IGSTPER,SGSTAMT,IGSTAMT,CGSTAMT FROM SALESQUOTEDETAIL LEFT OUTER JOIN  SALES_ENQUIRY ON SALESENQUIRYID=SALESQUOTEDETAIL.SALESQUOTEDETAILID WHERE SALESQUOTEDETAIL.SALESQUOTEDETAILID='" + id + "'";
 
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
+        //    DataTable dtt = new DataTable();
+        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
+        //}
         public DataTable Getcountry()
         {
             string SvSql = string.Empty;
@@ -309,7 +307,7 @@ namespace Arasan.Services.Sales
                                         objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                                     }
                                     objCmds.CommandType = CommandType.StoredProcedure;
-                                    objCmds.Parameters.Add("SALESQUOID", OracleDbType.NVarchar2).Value = Pid;
+                                    objCmds.Parameters.Add("SALESQUOTEDETAILID", OracleDbType.NVarchar2).Value = Pid;
                                     objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cp.ItemId;
                                     objCmds.Parameters.Add("ITEMDESC", OracleDbType.NVarchar2).Value = cp.Des;
                                     objCmds.Parameters.Add("UNIT", OracleDbType.NVarchar2).Value = cp.Unit;
@@ -559,7 +557,7 @@ namespace Arasan.Services.Sales
         public DataTable GetSalesQuoItem(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select SALESQUOTEDETAIL.QTY,SALESQUOTEDETAIL.SALESQUOTEDETAILID,ITEMMASTER.ITEMID,UNIT,SALESQUOTEDETAIL.RATE,SALESQUOTEDETAIL.AMOUNT  from SALESQUOTEDETAIL left outer join ITEMMASTER ON ITEMMASTERID=SALESQUOTEDETAIL.ITEMID  where SALESQUOTEDETAIL.SALESQUOID='" + id + "'";
+            SvSql = "Select SALESQUOTEDETAIL.QTY,SALESQUOTEDETAIL.SALESQUOTEDETAILID,ITEMMASTER.ITEMID,UNIT,SALESQUOTEDETAIL.RATE,SALESQUOTEDETAIL.AMOUNT  from SALESQUOTEDETAIL left outer join ITEMMASTER ON ITEMMASTERID=SALESQUOTEDETAIL.ITEMID  where SALESQUOTEDETAIL.SALESQUOTEDETAILID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -615,11 +613,11 @@ namespace Arasan.Services.Sales
                 }
 
                 string quotid = datatrans.GetDataString("Select JOBASICID from JOBASIC Where QUOID=" + id + "");
-                string unit = datatrans.GetDataString("Select UNIT from SALESQUOTEDETAIL Where SALESQUOID=" + id + "");
+                string unit = datatrans.GetDataString("Select UNIT from SALESQUOTEDETAIL Where SALESQUOTEDETAILID=" + id + "");
                 string UnitId = datatrans.GetDataString("Select UNITMASTID from UNITMAST where UNITID='" + unit + "' ");
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    string Sql = "Insert into JODETAIL (JOBASICID,ITEMID,QTY,UNIT,RATE,AMOUNT,DISCOUNT) (Select '" + quotid + "',ITEMID,QTY,'" + UnitId + "',RATE ,AMOUNT,DISCAMOUNT FROM SALESQUOTEDETAIL WHERE SALESQUOID=" + id + ")";
+                    string Sql = "Insert into JODETAIL (JOBASICID,ITEMID,QTY,UNIT,RATE,AMOUNT,DISCOUNT) (Select '" + quotid + "',ITEMID,QTY,'" + UnitId + "',RATE ,AMOUNT,DISCAMOUNT FROM SALESQUOTEDETAIL WHERE SALESQUOTEDETAILID=" + id + ")";
                     OracleCommand objCmds = new OracleCommand(Sql, objConnT);
                     try
                     {

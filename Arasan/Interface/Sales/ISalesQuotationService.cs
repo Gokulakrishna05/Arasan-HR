@@ -21,7 +21,7 @@ namespace Arasan.Interface.Sales
         IEnumerable<QuoItem> GetAllSalesQuotationItem(string id);
         DataTable GetCustomerDetails(string itemId);
         DataTable GetEnqDetails(string itemId);
-        //DataTable GetItemgrpDetails(string itemId);
+        
         DataTable GetQuobyId(string itemId);
         DataTable GetCurrbyId(string itemId);
         DataTable GetCustypebyId(string itemId);
