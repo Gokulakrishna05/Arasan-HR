@@ -9,6 +9,8 @@
   <ItemGroup>
     <Content Remove="wwwroot\Reports\EnqReport.rdlc" />
     <Content Remove="wwwroot\Reports\QuotationReport.rdlc" />
+    <Content Remove="wwwroot\Reports\SEqubasic.rdlc" />
+    <Content Remove="wwwroot\Reports\SQbasic.rdlc" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,6 +27,8 @@
     <None Include="Views\ProFormaInvoice\ProFormaInvoice.cshtml" />
     <None Include="wwwroot\Reports\EnqReport.rdlc" />
     <None Include="wwwroot\Reports\QuotationReport.rdlc" />
+    <None Include="wwwroot\Reports\SEqubasic.rdlc" />
+    <None Include="wwwroot\Reports\SQbasic.rdlc" />
   </ItemGroup>
 
   <ItemGroup>
