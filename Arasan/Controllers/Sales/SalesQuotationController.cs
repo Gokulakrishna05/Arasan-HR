@@ -379,11 +379,11 @@ namespace Arasan.Controllers.Sales
                 string city = "";
                 string pincode = "";
                 string mobile = "";
-                string pro = "";
+                
                 string custid = "";
                 string quotype = "";
                 string currency = "";
-                string Priority = "";
+                string Pri = "";
 
                 
 
@@ -393,7 +393,7 @@ namespace Arasan.Controllers.Sales
                 {
                     quodate = dt.Rows[0]["ENQ_DATE"].ToString();
 
-                    //customertype = dt.Rows[0]["CUSTOMER_NAME"].ToString();
+                    
                     address = dt.Rows[0]["ADDRESS"].ToString();
                     city = dt.Rows[0]["CITY"].ToString();
                     pincode = dt.Rows[0]["PINCODE"].ToString();
@@ -401,10 +401,11 @@ namespace Arasan.Controllers.Sales
                     custid = dt.Rows[0]["CUSTOMER_NAME"].ToString();
                     quotype = dt.Rows[0]["ENQ_TYPE"].ToString();
                     currency = dt.Rows[0]["CURRENCY_TYPE"].ToString();
-                    Priority = dt.Rows[0]["PRIORITY"].ToString();
+                    customertype = dt.Rows[0]["CUSTOMER_NAME"].ToString();
+                    Pri = dt.Rows[0]["PRIORITY"].ToString();
                 }
 
-                var result = new { quodate = quodate, address = address, city = city, pincode = pincode, mobile = mobile, custid = custid, quotype = quotype, currency = currency, Priority = Priority };
+                var result = new { quodate = quodate, address = address, city = city, pincode = pincode, mobile = mobile, custid = custid, quotype = quotype, currency = currency, Pri = Pri };
                 return Json(result);
             }
             catch (Exception ex)
@@ -1061,26 +1062,12 @@ namespace Arasan.Controllers.Sales
                 {
                     tda = new QuoItem();
 
-                    tda.ItemGroupId = dtt.Rows[0]["ITEMGROUP"].ToString();
+                    tda.itemid = dtt.Rows[0]["ITEM_ID"].ToString();
+                    tda.des = dtt.Rows[0]["ITEM_DESCRIPTION"].ToString();
+                    tda.unit = dtt.Rows[0]["UNIT"].ToString();
+                    tda.quantity = dtt.Rows[0]["QUANTITY"].ToString();
 
-                    tda.ItemId = dtt.Rows[0]["ITEMID"].ToString();
-
-                    tda.Unit = dtt.Rows[0]["UNIT"].ToString();
-                    tda.ConFac = dtt.Rows[0]["CF"].ToString();
-                    tda.Quantity = dtt.Rows[0]["QTY"].ToString();
-                    tda.Des = dtt.Rows[0]["ITEMDESC"].ToString();
-                    tda.Rate = dtt.Rows[0]["RATE"].ToString();
-                    tda.Amount = dtt.Rows[0]["AMOUNT"].ToString();
-                    tda.Disc = dtt.Rows[0]["DISC"].ToString();
-                    tda.DiscAmount = dtt.Rows[0]["DISCAMOUNT"].ToString();
-                    tda.FrigCharge = dtt.Rows[0]["IFREIGHTCH"].ToString();
-                    tda.CGSTP = dtt.Rows[0]["CGSTPER"].ToString();
-                    tda.SGSTP = dtt.Rows[0]["SGSTPER"].ToString();
-                    tda.IGSTP = dtt.Rows[0]["IGSTPER"].ToString();
-                    tda.CGST = dtt.Rows[0]["CGSTAMT"].ToString();
-                    tda.SGST = dtt.Rows[0]["SGSTAMT"].ToString();
-                    tda.IGST = dtt.Rows[0]["IGSTAMT"].ToString();
-                    tda.TotalAmount = dtt.Rows[0]["TOTAMT"].ToString();
+                    
 
                     Data.Add(tda);
                 }

@@ -230,7 +230,7 @@
                       <thead>
                         <tr>
                           
-                          <th>Item Group</th>
+                          @*<th>Item Group</th>*@
                           <th>Item Id </th>
                           <th>Unit</th>
                           <th> Conv.Factor</th>
@@ -256,99 +256,7 @@
                                             </tr>
                       </thead>
                                         <tbody id="tbBooks">
-                                            @{
-
-                                                int i = 0;
-                                                int j = 1;
-                                                foreach (var item in Model.QuoLst.ToList())
-                                                {
-                                                    <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
-                                                        <td>
-                                                            @Html.DropDownListFor(o => o.QuoLst[i].ItemGroupId, Model.QuoLst[i].ItemGrouplst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItemGrp" + i, style = "width: 200px;", onchange = "Grup_Change(this.value," + i + ")"})
-
-                                                        </td>
-
-                                                        <td>
-                                                            @Html.DropDownListFor(o => o.QuoLst[i].ItemId, Model.QuoLst[i].Itlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 200px;", onchange = "changeItemDetail(this.value," + i + ")" })
-                                                            @Html.HiddenFor(o => o.QuoLst[i].saveItemId)
-                                                        </td>
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.QuoLst[i].Unit,  new { @id = "txtUnit" + i, @class = "form-control", style = "width: 80px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)", @readonly = "readonly"})
-                                                        </td>
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.QuoLst[i].ConFac, new { @id = "txtConFac" + i, @class = "form-control", style = "width: 80px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)", @readonly = "readonly"})
-                                                            </td>
-                                                        @*<td>
-                                                            @Html.TextBoxFor(o => o.QuoLst[i].Desc, new { @id = "txtDesc" + i, @class = "form-control",onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;", @readonly = "readonly" })
-                                                        </td>*@
-                                                        @* <td>
-                                            @Html.TextBoxFor(o => o.Itlst[i]. Batch, new { @id = "txtBatch" + i, @class = "form-control", style = "width: 90px;"})
-                                            </td>
-                                            <td>
-                                            @Html.TextBoxFor(o => o.Itlst[i]. serial, new { @id = "txtserial" + i, @class = "form-control", style = "width: 90px;"})
-                                            </td>
-                                            <td>
-                                            @Html.TextBoxFor(o => o.Itlst[i]. Expiry, new { @id = "txtExpiry" + i, @class = "form-control", style = "width: 90px;"})
-                                            </td>*@
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.QuoLst[i].Quantity, new { @id = "txtQuantity" + i, @class = "form-control",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")", style = "width: 80px;" })
-                                                        </td>
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.QuoLst[i].Des, new { @id = "txtDes" + i, @class = "form-control", style = "width:220px;" , @readonly = "readonly"})
-                                                        </td>
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.QuoLst[i].Rate, new { @id = "txtRate" + i, @class = "form-control",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")", style = "width: 80px;" ,@readonly = "readonly"})
-                                                        </td>
-                                                        <td>
-                                                            @Html.HiddenFor(o => o.QuoLst[i].Isvalid, new { @id = "Isvalid" + i })
-                                                            @Html.TextBoxFor(o => o.QuoLst[i]. Amount, new { @id = "txtAmount" + i , @class = "form-control",onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;" ,@readonly = "readonly" })
-                                                        </td>
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.QuoLst[i].Disc, new { @id = "txtDisc" + i, @class = "form-control", style = "width: 80px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")"})
-                                                        </td>
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.QuoLst[i].DiscAmount, new { @id = "txtDiscAmount" + i, @class = "form-control",onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;", @onkeyup = "changeQty(this," + i + ")" })
-                                                        </td>
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.QuoLst[i].FrigCharge, new { @id = "txtFrigCharge" + i, @class = "form-control",onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;", @onkeyup = "changeQty(this," + i + ")" })
-                                                        </td>
-
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.QuoLst[i].CGSTP, new { @id = "txtCGSTP" + i, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")"})
-                                                        </td>
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.QuoLst[i].SGSTP, new { @id = "txtSGSTP" + i, @class = "form-control", style = "width: 80px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")"})
-                                                        </td>
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.QuoLst[i].IGSTP, new { @id = "txtIGSTP" + i, @class = "form-control", style = "width: 80px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")"})
-                                                        </td>
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.QuoLst[i].CGST, new { @id = "txtCGST" + i, @class = "form-control", style = "width: 80px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)", @readonly = "readonly", @onkeyup = "changeQty(this," + i + ")"})
-                                                        </td>
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.QuoLst[i].SGST, new { @id = "txtSGST" + i, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @readonly = "readonly", @onkeyup = "changeQty(this," + i + ")"})
-                                                        </td>
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.QuoLst[i].IGST, new { @id = "txtIGST" + i, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @readonly = "readonly", @onkeyup = "changeQty(this," + i + ")"})
-                                                        </td>
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.QuoLst[i].TotalAmount, new { @id = "txtTotalAmount" + i, @class = "form-control", style = "width: 80px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)", @readonly = "readonly"})
-                                                        </td>
-
-
-
-
-                                                        <td>
-                                                            @Html.HiddenFor(o => o.QuoLst[i].Isvalid, new { @id = "Isvalid" + i })
-                                                            <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="Suplst.Index" type="hidden" value="@(i)" />
-                                                        </td>
-
-                                                    </tr>
-
-                                                    i = i + 1;
-                                                    j = j + 1;
-                                                }
-                                            }
+                                           
                       </tbody>
                     </table>
                   </div>
@@ -725,7 +633,7 @@
                var $currency = $("#ddlCurrency").select2();
                   $currency.val(result.currency).trigger("change");
 
-                var $prior = $("#ddlPro").select2();
+                var $pri = $("#ddlPro").select2();
                    $prior.val(result.Priority).trigger("change");
 
                 },
@@ -737,53 +645,60 @@
 
         document.getElementById("tbBooks").innerHTML = "";
         $.ajax({
-            url: 'GetItemgrpDetail',
+            url: 'GetItemgrpDetails',
             type: "post",
             data: { "id": ItemId },
             cache: false,
-
             success: function (list) {
-                
+                alert(list);
                 list.forEach((item) => {
 
                     var index = $("#tbBooks").children("tr").length;
-                    alert(index);
-
-                    var ItemGroupId = "<td><input class='form-control' id='ddlItemGrp" + index + "' name='QuoLst[" + index + "].ItemGroupId'  style='width: 100px;' type='text'  readonly='True'  value=" + item.ItemGroupId + " /></td>";
-                    var ItemId = "<td><input class='form-control' id='ddlItem" + index + "' name='Itlst[" + index + "].ItemId'  style='width: 100px;' type='text'  readonly='True'  value=" + item.item + " /></td>";
+                        alert(item.itemid);
 
 
-                    var Unit = "<td><input class='form-control' id='txtunit" + index + "' name='QuoLst[" + index + "].Unit'  style='width: 80px;' type='text' readonly='True' value=" + item.qty + " onkeyup = 'changeQty(this, " + index + ")'  /></td>";
-                    var ConFac = "<td><input class='form-control' id='txtConFac" + index + "' name='QuoLst[" + index + "].ConFac'  style='width: 80px;' type='text' readonly='True' value=" + item.qty + " onkeyup = 'changeQty(this, " + index + ")'  /></td>";
-                    var Quantity = "<td><input class='form-control' id='txtQuantity" + index + "' name='QuoLst[" + index + "].Quantity'  style='width: 80px;' type='text' readonly='True' value=" + item.qty + " onkeyup = 'changeQty(this, " + index + ")'  /></td>";
-                    
-                    var Des = "<td><input class='form-control' id='txtDes" + index + "' name='QuoLst[" + index + "].Des'  style='width: 80px;' type='text' readonly='True' value=" + item.qty + " onkeyup = 'changeQty(this, " + index + ")'  /></td>";
-                    var Rate = "<td><input class='form-control' id='txtRate" + index + "' name='QuoLst[" + index + "].Rate'  style='width: 80px;' type='text' readonly='True' value=" + item.qty + " onkeyup = 'changeQty(this, " + index + ")'  /></td>";
-                    var Amount = "<td><input class='form-control' id='txtAmount" + index + "' name='QuoLst[" + index + "].Amount'  style='width: 80px;' type='text' readonly='True' value=" + item.qty + " onkeyup = 'changeQty(this, " + index + ")'  /></td>";
-                    
-                    var Disc = "<td><input class='form-control' id='txtDisc" + index + "' name='QuoLst[" + index + "].Disc'  style='width: 80px;' type='text' readonly='True' value=" + item.qty + " onkeyup = 'changeQty(this, " + index + ")'  /></td>";
-                    var DiscAmount = "<td><input class='form-control' id='txtDiscAmount" + index + "' name='QuoLst[" + index + "].DiscAmount'  style='width: 80px;' type='text' readonly='True' value=" + item.qty + " onkeyup = 'changeQty(this, " + index + ")'  /></td>";
-                    var FrigCharge = "<td><input class='form-control' id='txtFrigCharge" + index + "' name='QuoLst[" + index + "].FrigCharge'  style='width: 80px;' type='text' readonly='True' value=" + item.qty + " onkeyup = 'changeQty(this, " + index + ")'  /></td>";
-                    var CGSTP = "<td><input class='form-control' id='txtCGSTP" + index + "' name='QuoLst[" + index + "].CGSTP'  style='width: 80px;' type='text' readonly='True' value=" + item.qty + " onkeyup = 'changeQty(this, " + index + ")'  /></td>";
-                    var SGSTP = "<td><input class='form-control' id='txtSGSTP" + index + "' name='QuoLst[" + index + "].SGSTP'  style='width: 80px;' type='text' readonly='True' value=" + item.qty + " onkeyup = 'changeQty(this, " + index + ")'  /></td>";
-                    var IGSTP = "<td><input class='form-control' id='txtIGSTP" + index + "' name='QuoLst[" + index + "].IGSTP'  style='width: 80px;' type='text' readonly='True' value=" + item.qty + " onkeyup = 'changeQty(this, " + index + ")'  /></td>";
-                    var CGST = "<td><input class='form-control' id='txtCGST" + index + "' name='QuoLst[" + index + "].CGST'  style='width: 80px;' type='text' readonly='True' value=" + item.qty + " onkeyup = 'changeQty(this, " + index + ")'  /></td>";
-                    var SGST = "<td><input class='form-control' id='txtSGST" + index + "' name='QuoLst[" + index + "].SGST'  style='width: 80px;' type='text' readonly='True' value=" + item.qty + " onkeyup = 'changeQty(this, " + index + ")'  /></td>";
-                    var IGST = "<td><input class='form-control' id='txtIGST" + index + "' name='QuoLst[" + index + "].IGST'  style='width: 80px;' type='text' readonly='True' value=" + item.qty + " onkeyup = 'changeQty(this, " + index + ")'  /></td>";
-                    var TotalAmount = "<td><input class='form-control' id='txtTotalAmount" + index + "' name='QuoLst[" + index + "].TotalAmount'  style='width: 80px;' type='text' readonly='True' value=" + item.qty + " onkeyup = 'changeQty(this, " + index + ")'  /></td>";
+                   @* var itemid = "<td><input class='form-control' id='ddlItem " + index + "' name='QuoLst[" + index + "].itemid'  style='width: 100px;' type='text'  readonly='True'  value=" + item.itemid + " /></td>";
+                    var des = "<td><input class='form-control' id='txtDes" + index + "' name='QuoLst[" + index + "].des'  style='width: 100px;' type='text'  readonly='True'  value=" + item.des + " /></td>";
+                    var unit = "<td><input class='form-control' id='txtUnit" + index + "' name='QuoLst[" + index + "].unit'  style='width: 100px;' type='text'  readonly='True'  value=" + item.unit + " /></td>";
+                    var quantity = " <td><input class='form-control' id='txtQuantity" + index + "' name='QuoLst[" + index + "].quantity'  style='width: 100px;' type='text'  readonly='True'  value=" + item.quantity + " /></td>";
+                     
+                   
+                    var ConFac = "<td><input class='form-control' id='txtConFac" + index + "' name='QuoLst[" + index + "].ConFac'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;text-align:right' type='text'  /></td>";
+                    var Rate = "<td><input class='form-control' id='txtRate" + index + "' name='QuoLst[" + index + "].Rate'  style='width: 80px;' type='text'onkeydown='return isNumeric2(event.keyCode,this.value)'  onchange = 'changeQty(this.value," + index + ")'   /></td>";
 
-                    var confac = "<td><input id='Isvalid" + index + "' name='QuoLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='Drumlst.Index' type='hidden' value='" + index + "'  /></td>";
+                    var Amount = "<td><input class='form-control' id='txtAmount" + index + "' name='QuoLst[" + index + "].Amount'  style='width: 80px;' type='text'onkeydown='return isNumeric2(event.keyCode,this.value)'  onchange = 'changeQty(this.value," + index + ")' /></td>";
+       
+                    var Disc = "<td><input class='form-control' id='txtDisc" + index + "' name='QuoLst[" + index + "].Disc'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text'    /></td>";
+        
+                    var DiscAmount = "<td><input class='form-control' id='txtDiscAmount" + index + "' name='QuoLst[" + index + "].DiscAmount'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text' /></td>";
+        
+                    var FrigCharge = "<td><input class='form-control' id='txtFrigCharge" + index + "' name='QuoLst[" + index + "].FrigCharge'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text'    /></td>";
+        
+      
+                    var CGSTP = "<td><input class='form-control' id='txtCGSTP" + index + "' name='QuoLst[" + index + "].CGSTP'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text'  /></td>";
+        
+                    var SGSTP = "<td><input class='form-control' id='txtSGSTP" + index + "' name='QuoLst[" + index + "].SGSTP'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text'    /></td>";
+        
+                    var IGSTP = "<td><input class='form-control' id='txtIGSTP" + index + "' name='QuoLst[" + index + "].IGSTP'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text'    /></td>";
+        
+                    var CGST = "<td><input class='form-control' id='txtCGST" + index + "' name='QuoLst[" + index + "].CGST'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text'   /></td>";
+        
+                    var SGST = "<td><input class='form-control' id='txtSGST" + index + "' name='QuoLst[" + index + "].SGST'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text'    /></td>";
+        
+                    var IGST = "<td><input class='form-control' id='txtIGST" + index + "' name='QuoLst[" + index + "].IGST'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text'  /></td>";
+        
+                    var TotalAmount = "<td><input class='form-control' id='txtTotalAmount" + index + "' name='DirLst[" + index + "].TotalAmount'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)'   /></td>";
 
-                    var removeCell = "<td><input id='Isvalid" + index + "' name='QuoLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='Drumlst.Index' type='hidden' value='" + index + "'  /></td>";
 
-                    var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + ItemGroupId + Batch + Qty + removeCell + "</tr>";
+                    var removeCell = "<td><input id='Isvalid" + index + "' name='QuoLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='QuoLst.Index' type='hidden' value='" + index + "'  /></td>";
+                    var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + itemid + des + unit  + quantity + removeCell + "</tr>";
 
-                    $("#tbBooks").append(newRow);
+                    $("#tbBooks").append(newRow);*@
                 });
                 
             },
             error: function () {
-                alert("Data Not Foundsrtrt");
+                alert("Data Not Found items");
             }
         });
 
@@ -798,7 +713,7 @@
         todayHighlight: 1,
         startView: 2,
         minView: 2,
-        forceParse: 0
+        forceParse: 0 
     });
     function AppendRow(opt) {
         var index = $("#tbBooks").children("tr").length;

@@ -111,6 +111,11 @@ namespace Arasan.Models
         public string IGST { get; set; }
         public string TotalAmount { get; set; }
         public string Isvalid { get; set; }
+
+        public string itemid { get; set; }
+        public string des { get; set; }
+        public string unit { get; set; }
+        public string quantity { get; set; }
     }
     public class QuotationFollowup
     {
