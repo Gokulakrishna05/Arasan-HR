@@ -30,5 +30,14 @@ namespace Arasan.Interface
         DataTable GetMachineDetails(string id);
        DataTable GetEmployeeDetails(string id);
 
+        DataTable GetAPProd(string id);
+
+        DataTable GetInput(string id);
+        DataTable GetOutput(string id);
+        DataTable GetLogdetail(string id);
+        DataTable GetCons(string id);
+        DataTable GetEmpdet(string id);
+        DataTable GetBreak(string id);
+
     }
 }
