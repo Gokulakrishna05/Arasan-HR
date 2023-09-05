@@ -63,7 +63,8 @@ namespace Arasan.Models
         public string shiftid { get; set; }
         public string starttime { get; set; }
         public string endtime { get; set; }
-
+        public string SStart { get; set; }
+        public string SEnd { get; set; }
         public string OutEntryType { get; set; }
     }
     public class ProIn

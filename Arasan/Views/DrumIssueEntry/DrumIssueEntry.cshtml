@@ -390,7 +390,7 @@
 
                     var Batch = "<td><label>" + item.batch + "</label><input type='hidden' value=" + item.batchno + " id='txtbatchno" + index + "' name='Drumlst[" + index + "].batchno'></td>";
 
-                    var Qty = "<td><input class='form-control' id='txtqty" + index + "' name='Drumlst[" + index + "].qty'  style='width: 80px;' type='text' readonly='True' value=" + item.qty + " onkeyup = 'changeQty(this, " + index + ")'  /></td>";
+                    var Qty = "<td><input class='form-control' id='txtqty" + index + "' name='Drumlst[" + index + "].'qty  style='width: 80px;' type='text' readonly='True' value=" + item.qty + " onkeyup = 'changeQty(this, " + index + ")'  /></td>";
 
                     var removeCell = "<td><input id='Isvalid" + index + "' name='Drumlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='Drumlst.Index' type='hidden' value='" + index + "'  /></td>";
 

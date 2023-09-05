@@ -6,9 +6,15 @@ namespace Arasan.Interface
     {
         DataTable ShiftDeatils();
         DataTable DrumDeatils();
+
+        DataTable GetInpItem();
+        DataTable GetOutItem();
+        DataTable GetConsItem();
         DataTable Getstkqty(string branch, string loc, string ItemId);
         DataTable BindProcess();
-        IEnumerable<ProductionEntry> GetAllProductionEntry();
+        IEnumerable<ProductionEntry> GetAllProductionEntry(string st,string ed);
+
+        IEnumerable<ProductionEntry> GetAllProdEntry(string st,string ed);
         string ProductionEntryCRUD(ProductionEntry id);
         DataTable GetWorkCenter();
         DataTable EditProEntry(string PROID);

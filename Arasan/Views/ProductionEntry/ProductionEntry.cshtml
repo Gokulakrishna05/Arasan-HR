@@ -53,7 +53,7 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Work Center<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
 
-                                            @Html.DropDownListFor(C => C.Location, Model.Loclst," -- Please Select -- ", new { @id = "ddlStLoc", @Class = "form-control _select", @TabIndex = 1 , @onchange = "Stk_Change(this.value)" })<br />
+                                            @Html.DropDownListFor(C => C.Location, Model.Loclst," -- Please Select -- ", new { @id = "ddlStLoc", @Class = "form-control _select", @TabIndex = 1/* , @onchange = "Stk_Change(this.value)"*/ })<br />
 
                                     </div>
                                 </div>
@@ -77,7 +77,7 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Doc ID<label class="mandatory">*</label></label>
 
                                     <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.DocId, new { @id = "txtDocId", @class = "form-control", @TabIndex = 1 })<br />
+                                        @Html.TextBoxFor(C => C.DocId, new { @id = "txtDocId", @class = "form-control", @TabIndex = 1,@readonly="readonly" })<br />
                                     </div>
                                 </div>
                             </div>
@@ -616,6 +616,9 @@
 </div>
 
 <script>
+    $(function () {
+        $('._select').select2();
+    });
      $("#ddlBranch").change(function () {
         var branch = this.value;
          var loc = document.getElementById("ddlStLoc").value;
@@ -1333,7 +1336,7 @@
              $(function() {
             $('._select').select2();
         });
-          function Stk_Change (wcid) {
+         @* function Stk_Change (wcid) {
                $.ajax({
             url: 'GetStkItem',
              data: {'wcid' : wcid },
@@ -1354,7 +1357,7 @@
                 alert("Please Select State");
             }
         });
-          }
+          }*@
     $(document).ready(function () {
         $('#btnSave').click(function (e) {
             var isValid = true;
