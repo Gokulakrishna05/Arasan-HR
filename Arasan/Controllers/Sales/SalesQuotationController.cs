@@ -1037,7 +1037,7 @@ namespace Arasan.Controllers.Sales
             string mimtype = "";
             int extension = 1;
             DataSet ds = new DataSet();
-            var path = $"{this._WebHostEnvironment.WebRootPath}\\Reports\\SQuotationReport.rdlc";
+            var path = $"{this._WebHostEnvironment.WebRootPath}\\Reports\\SQbasic.rdlc";
             Dictionary<string, string> Parameters = new Dictionary<string, string>();
 
             var SQuoitem = await SalesQuotationService.GetSQuoItem(id);
