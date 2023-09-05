@@ -59,7 +59,7 @@ namespace Arasan.Services
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
-                    OracleCommand objCmd = new OracleCommand("BATCHCREATIOPROC", objConn);
+                    OracleCommand objCmd = new OracleCommand("BATCHCREATIONPROC", objConn);
                     /*objCmd.Connection = objConn;
                     objCmd.CommandText = "DIRECTPURCHASEPROC";*/
 
@@ -90,7 +90,6 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("BTYPE", OracleDbType.NVarchar2).Value = cy.Leaf;
                     objCmd.Parameters.Add("REFDOCID", OracleDbType.NVarchar2).Value = cy.RefBatch;
                     objCmd.Parameters.Add("NARR", OracleDbType.NVarchar2).Value = cy.Narr;
-                    //objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
@@ -115,8 +114,6 @@ namespace Arasan.Services
                                         svSQL = "Insert into BCPRODDETAIL (BCPRODBASICID,BWCID,PROCESSID,PSEQ,INSREQ) VALUES ('" + Pid + "','" + cp.WorkId + "','" + cp.ProcessId + "','" + cp.Seq + "','" + cp.Req + "')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
-
-
                                     }
                                 }
 
@@ -128,7 +125,6 @@ namespace Arasan.Services
                                 objCmdd.ExecuteNonQuery();
                                 foreach (BatchItem cp in cy.BatchLst)
                                 {
-
                                     if (cp.Isvalid == "Y" && cp.WorkId != "0")
                                     {
                                         svSQL = "Insert into BCPRODDETAIL (BCPRODBASICID,BWCID,PROCESSID,PSEQ,INSREQ) VALUES ('" + Pid + "','" + cp.WorkId + "','" + cp.ProcessId + "','" + cp.Seq + "','" + cp.Req + "')";
@@ -189,11 +185,9 @@ namespace Arasan.Services
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
 
-
                                     }
 
                                 }
-
                             }
                             else
                             {

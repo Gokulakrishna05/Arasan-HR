@@ -45,7 +45,7 @@
                                                     <thead>
                                                         <tr>
                                                             <th>Branch</th>
-                                                            <th>Work Center</th>
+                                                           @* <th>Work Center</th>*@
                                                             <th>Process</th>
                                                             <th>Doc Date</th>
                                                             <th>View</th>
@@ -63,7 +63,7 @@
 
                                                                 <tr>
                                                                     <td>@Html.DisplayFor(modelItem => item.Branch)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.WorkCenter)</td>
+                                                                    @*<td>@Html.DisplayFor(modelItem => item.WorkCenter)</td>*@
                                                                     <td>@Html.DisplayFor(modelItem => item.Process)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.DocDate)</td>
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewBatch", "BatchCreation",new { id=item.ID })"><img src='../Images/view_icon.png' alt='Waiting for approval' /></a></div></td>
