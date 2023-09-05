@@ -83,7 +83,7 @@ namespace Arasan.Models
     }
     public class QuoItem
     {
-        public string ItemId { get; set; }
+        //public string ItemId { get; set; }
 
         public List<SelectListItem> Itlst { get; set; }
 
@@ -91,10 +91,8 @@ namespace Arasan.Models
 
         public string saveItemId { get; set; }
         public string ItemGroupId { get; set; }
-        public string Des { get; set; }
-        public string Unit { get; set; }
+        
         public string ConFac { get; set; }
-        public string Quantity { get; set; }
 
         //public string Description { get; set; }
         public string Rate { get; set; }
