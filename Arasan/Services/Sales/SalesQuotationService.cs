@@ -291,7 +291,7 @@ namespace Arasan.Services.Sales
                         }
                         foreach (QuoItem cp in cy.QuoLst)
                         {
-                            if (cp.Isvalid == "Y" && cp.ItemId != "0")
+                            if (cp.Isvalid == "Y" && cp.itemid != "0")
                             {
                                 using (OracleConnection objConns = new OracleConnection(_connectionString))
                                 {
@@ -308,11 +308,11 @@ namespace Arasan.Services.Sales
                                     }
                                     objCmds.CommandType = CommandType.StoredProcedure;
                                     objCmds.Parameters.Add("SALESQUOTEDETAILID", OracleDbType.NVarchar2).Value = Pid;
-                                    objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cp.ItemId;
-                                    objCmds.Parameters.Add("ITEMDESC", OracleDbType.NVarchar2).Value = cp.Des;
-                                    objCmds.Parameters.Add("UNIT", OracleDbType.NVarchar2).Value = cp.Unit;
+                                    objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cp.itemid;
+                                    objCmds.Parameters.Add("ITEMDESC", OracleDbType.NVarchar2).Value = cp.des;
+                                    objCmds.Parameters.Add("UNIT", OracleDbType.NVarchar2).Value = cp.unit;
                                     objCmds.Parameters.Add("CF", OracleDbType.NVarchar2).Value = cp.ConFac;
-                                    objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = cp.Quantity;
+                                    objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = cp.quantity;
                                     objCmds.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = cp.Rate;
                                     objCmds.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = cp.Amount;
                                     objCmds.Parameters.Add("TOTAMT", OracleDbType.NVarchar2).Value = cp.TotalAmount;
@@ -401,9 +401,9 @@ namespace Arasan.Services.Sales
                     {
                         QuoItem cmp = new QuoItem
                         {
-                            ItemId = rdr["ITEMID"].ToString(),
-                            Unit = rdr["UNIT"].ToString(),
-                            Quantity = rdr["QTY"].ToString(),
+                            itemid = rdr["ITEMID"].ToString(),
+                            unit = rdr["UNIT"].ToString(),
+                            quantity = rdr["QTY"].ToString(),
                             //Quantity = Convert.ToDouble(rdr["QTY"].ToString())
                         };
                         cmpList.Add(cmp);

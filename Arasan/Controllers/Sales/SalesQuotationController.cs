@@ -772,9 +772,9 @@ namespace Arasan.Controllers.Sales
 
                 foreach (QuoItem item in cmp)
                 {
-                    Content += " <tr><td>" + item.Des + "</td>";
-                    Content += " <td>" + item.Quantity + "</td>";
-                    Content += " <td>" + item.Unit + "</td></tr>";
+                    Content += " <tr><td>" + item.des + "</td>";
+                    Content += " <td>" + item.quantity + "</td>";
+                    Content += " <td>" + item.unit + "</td></tr>";
                 }
                 Content += "</table>";
 
@@ -968,13 +968,13 @@ namespace Arasan.Controllers.Sales
                 {
                     tda = new QuoItem();
 
-                    tda.ItemId = dtt.Rows[i]["ITEMID"].ToString();
+                    tda.itemid = dtt.Rows[i]["ITEMID"].ToString();
                     tda.saveItemId = dtt.Rows[i]["ITEMID"].ToString();
                     //tda.Quantity = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString() == "" ? "0" : dtt.Rows[i]["QTY"].ToString());
                     //tda.Amount = Convert.ToDouble(dtt.Rows[i]["AMOUNT"].ToString() == "" ? "0" : dtt.Rows[i]["AMOUNT"].ToString());
                     //tda.Rate = Convert.ToDouble(dtt.Rows[i]["RATE"].ToString() == "" ? "0" : dtt.Rows[i]["RATE"].ToString());
 
-                    tda.Unit = dtt.Rows[i]["UNIT"].ToString();
+                    tda.unit = dtt.Rows[i]["UNIT"].ToString();
                     //tda.unitprim= dt2.Rows[i]["UNITID"].ToString();
                     //tda.Disc = Convert.ToDouble(dtt.Rows[i]["DISC"].ToString() == "" ? "0" : dtt.Rows[i]["DISC"].ToString());
                     //tda.DiscAmount = Convert.ToDouble(dtt.Rows[i]["DISCAMOUNT"].ToString() == "" ? "0" : dtt.Rows[i]["DISCAMOUNT"].ToString());
