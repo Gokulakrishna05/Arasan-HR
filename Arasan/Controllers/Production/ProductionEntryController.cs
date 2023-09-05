@@ -38,7 +38,11 @@ namespace Arasan.Controllers
             //ca.ProdLoglst= BindProdLog();
             ca.ProdSchlst= BindProdSch();
             ca.Shiftdate = DateTime.Now.ToString("dd-MMM-yyyy");
-
+            DataTable dtv = datatrans.GetSequence("nProd");
+            if (dtv.Rows.Count > 0)
+            {
+                ca.DocId = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
+            }
             List<ProIn> TData = new List<ProIn>();
             ProIn tda = new ProIn();
 
@@ -56,7 +60,7 @@ namespace Arasan.Controllers
                 {
                      tda = new ProIn();
                      tda.Itemlst = BindStockItemlst();
-                     tda.drumlst = BindStockItemlst();
+                     tda.drumlst = BinddrumOut();
                      tda.outputlst = Bindoutput();
                      tda.Isvalid = "Y";
                      TData.Add(tda);
@@ -66,7 +70,7 @@ namespace Arasan.Controllers
                 for (int i = 0; i < 1; i++)
                 {
                     tda1 = new ProInCons();
-                    tda1.Itemlst = BindItemlst("");
+                    tda1.Itemlst = BindConsItemlst();
                     tda1.Isvalid = "Y";
                     TData1.Add(tda1);
                 }
@@ -75,7 +79,7 @@ namespace Arasan.Controllers
                 for (int i = 0; i < 1; i++)
                 {
                     tda2 = new output();
-                    tda2.Itemlst = BindItemlst("");
+                    tda2.Itemlst = BindItemlst( );
                     tda2.drumlst = BinddrumOut();
                     tda2.statuslst = BindStatus();
                     tda2.loclst = BindLocation();
@@ -87,7 +91,7 @@ namespace Arasan.Controllers
                 for (int i = 0; i < 1; i++)
                 {
                     tda3 = new wastage();
-                    tda3.Itemlst = BindItemlst("");
+                    tda3.Itemlst = BindItemlst( );
                     tda3.loclst= BindLocation();
                     tda3.Isvalid = "Y";
                     TData3.Add(tda3);
@@ -132,7 +136,7 @@ namespace Arasan.Controllers
                     for (int i = 0; i < dt2.Rows.Count; i++)
                     {
                         tda = new ProIn();
-                        tda.Itemlst = BindItemlst("");
+                        tda.Itemlst = BindStockItemlst();
 
                         tda.drumlst = Binddrum();
                         tda.ItemId = dt2.Rows[i]["IITEMID"].ToString();
@@ -154,7 +158,7 @@ namespace Arasan.Controllers
                     for (int i = 0; i < dt3.Rows.Count; i++)
                     {
                         tda1 = new ProInCons();
-                        tda1.Itemlst = BindItemlst("");
+                        tda1.Itemlst = BindConsItemlst();
 
 
                         tda1.ItemId = dt3.Rows[i]["CITEMID"].ToString();
@@ -176,7 +180,7 @@ namespace Arasan.Controllers
                     for (int i = 0; i < dt4.Rows.Count; i++)
                     {
                         tda2 = new output();
-                        tda2.Itemlst = BindItemlst("");
+                        tda2.Itemlst = BindItemlst();
 
                         tda2.drumlst = Binddrum();
                         tda2.loclst = BindLocation();
@@ -207,14 +211,14 @@ namespace Arasan.Controllers
                     for (int i = 0; i < dt5.Rows.Count; i++)
                     {
                         tda3 = new wastage();
-                        tda3.Itemlst = BindItemlst("");
+                        tda3.Itemlst = BindItemlst();
                         tda3.loclst = BindLocation();
 
                         tda3.ItemId = dt5.Rows[i]["WITEMID"].ToString();
                         tda3.Isvalid = "Y";
                         tda3.BinId = dt5.Rows[i]["WBINID"].ToString();
                         tda3.batchno = dt5.Rows[i]["WBATCHNO"].ToString();
-                        tda3.wastageQty = Convert.ToDouble(dt5.Rows[i]["WQTY"].ToString() == "" ? "0" : dt3.Rows[i]["WQTY"].ToString());
+                        tda3.wastageQty = Convert.ToDouble(dt5.Rows[i]["WQTY"].ToString() == "" ? "0" : dt5.Rows[i]["WQTY"].ToString());
                         tda3.toloc = dt5.Rows[i]["WLOCATION"].ToString();
                         //tda3.ID = id;
                         TData3.Add(tda3);
@@ -363,6 +367,7 @@ namespace Arasan.Controllers
                     tda3.toloc= dtprowaste.Rows[i]["LOCID"].ToString();
                     tda3.wastageQty= dtprowaste.Rows[i]["WQTY"].ToString() != "" ? Convert.ToDouble(dtprowaste.Rows[i]["WQTY"].ToString()) : 0;
                     tda3.batchno= dtprowaste.Rows[i]["WBATCHNO"].ToString();
+                    TData3.Add(tda3);
                 }
                 ca.inputlst = TData;
                 ca.inconslst = TData1;
@@ -472,7 +477,8 @@ namespace Arasan.Controllers
                     tda3.batchno = dtprowaste.Rows[i]["WBATCHNO"].ToString();
                     tda3.saveitemId = dtprowaste.Rows[i]["WITEMID"].ToString();
                     tda3.locid = dtprowaste.Rows[i]["WLOCATION"].ToString();
-                    tda3.wasteid= dtprowaste.Rows[i]["NPRODWASTEDETID"].ToString(); 
+                    tda3.wasteid= dtprowaste.Rows[i]["NPRODWASTEDETID"].ToString();
+                    TData3.Add(tda3);
                 }
                 ca.inputlst = TData;
                 ca.inconslst = TData1;
@@ -508,11 +514,11 @@ namespace Arasan.Controllers
 
             return View(Cy);
         }
-        public JsonResult GetItemJSON(string itemid)
+        public JsonResult GetItemJSON()
         {
             EnqItem model = new EnqItem();
-            model.Itemlst = BindItemlst(itemid);
-            return Json(BindItemlst(itemid));
+            model.Itemlst = BindItemlst();
+            return Json(BindItemlst());
         }
         public JsonResult GetItemGrpJSON()
         {
@@ -587,11 +593,11 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public List<SelectListItem> BindItemlst(string value)
+        public List<SelectListItem> BindItemlst( )
         {
             try
             {
-                DataTable dtDesg = datatrans.GetItem(value);
+                DataTable dtDesg = IProductionEntry.GetOutItem( );
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -604,14 +610,34 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-
+        public List<SelectListItem> BindConsItemlst( )
+        {
+            try
+            {
+                DataTable dtDesg = IProductionEntry.GetConsItem( );
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEMMASTERID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<SelectListItem> BindStockItemlst()
         {
             try
             {
-             List<SelectListItem> lstdesg = new List<SelectListItem>();
-            lstdesg.Add(new SelectListItem() { Text = "--- Select ----", Value = "0" });
-              
+                DataTable dtDesg = IProductionEntry.GetInpItem();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEMMASTERID"].ToString() });
+                }
+
                 return lstdesg;
             }
             catch (Exception ex)
@@ -1045,9 +1071,9 @@ namespace Arasan.Controllers
 
             return View(Cy);
         }
-        public IActionResult ListProductionEntry()
+        public IActionResult ListProductionEntry(string st,string ed)
         {
-            IEnumerable<ProductionEntry> cmp = IProductionEntry.GetAllProductionEntry();
+            IEnumerable<ProductionEntry> cmp = IProductionEntry.GetAllProductionEntry(st,ed);
             return View(cmp);
         }
         public IActionResult ListCuringInward()
@@ -1148,6 +1174,16 @@ namespace Arasan.Controllers
                 TempData["notice"] = flag;
                 return RedirectToAction("ListProductionEntry");
             }
+        }
+
+     
+        public ActionResult Searchlist(string st, string ed)
+        {
+            
+             
+            IEnumerable<ProductionEntry> cmp = IProductionEntry.GetAllProdEntry(st, ed);
+            return View(cmp);
+
         }
 
         public List<SelectListItem> BindBatch()

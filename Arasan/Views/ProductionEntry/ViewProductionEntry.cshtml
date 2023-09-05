@@ -31,9 +31,9 @@
                 <div class="widgets-container">
                     <h5 style="font-size:14px">Production - Entry</h5>
                     <hr>
-                                                              @using (Html.BeginForm("ApproveProEntry", "ProductionEntry", FormMethod.Post))
+                                                         @*     @using (Html.BeginForm("ApproveProEntry", "ProductionEntry", FormMethod.Post))
                         {
-                            @Html.AntiForgeryToken()
+                            @Html.AntiForgeryToken()*@
                     <form>
                        <div class="row">
                             <div class="col-md-6">
@@ -501,11 +501,11 @@
                         
          
                        
-                        <div style="height:30px;"></div>
+                     @*   <div style="height:30px;"></div>
                           <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
-                        <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListProductionEntry", "ProductionEntry")'">Cancel</button>
+                        <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListProductionEntry", "ProductionEntry")'">Cancel</button>*@
                     </form>
-                    }
+                   @* }*@
                 </div>
             </div>
         </div>

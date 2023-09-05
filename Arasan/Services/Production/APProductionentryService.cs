@@ -283,7 +283,7 @@ namespace Arasan.Services
                         {
                             if (cp.Isvalid == "Y" && cp.ItemId != "0")
                             {
-                                svSQL = "Insert into APPRODCONSDET (APPRODUCTIONBASICID,ITEMID,UNIT,BINID,STOCK,QTY,CONSQTY) VALUES ('" + cp.APID + "','" + cp.ItemId + "','" + cp.unitid + "','" + cp.consBin + "','" + cp.ConsStock + "','" + cp.Qty + "','" + cp.consQty + "')";
+                                svSQL = "Insert into APPRODCONSDET (APPRODUCTIONBASICID,ITEMID,UNIT,BINID,STOCK,QTY,CONSQTY) VALUES ('" + cp.APID + "','" + cp.ItemId + "','" + cp.consunit + "','" + cp.BinId + "','" + cp.ConsStock + "','" + cp.Qty + "','" + cp.consQty + "')";
                                 OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                 objCmds.ExecuteNonQuery();
 

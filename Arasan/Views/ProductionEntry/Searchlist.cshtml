@@ -26,42 +26,15 @@
                 <div class="widgets-container">
 
                     <form>
-                      
                         <div class="row">
-                            <div class="row">
-                                <div class="col-md-5">
-                                    <label for="inputName3" class="col-sm-2 control-label">Start <label class="mandatory">*</label></label>
-                                    <div class="col-sm-7">
-                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                            @*@Html.TextBoxFor(C => C.SStart, new { @id = "SStart", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })*@
-                                            <input id="SStart" class="form-control" readonly="readonly" />
-                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                    <div class="col-md-5">
-                                    <label for="inputName3" class="col-sm-2 control-label"> End<label class="mandatory">*</label></label>
-                                    <div class="col-sm-7">
-
-                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                            @*  @Html.TextBoxFor(C => C.SEnd, new { @id = "SEnd", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })*@
-                                            <input id="SEnd" class="form-control" readonly="readonly" />
-                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                        </div>
-                                        <button type="button" class="btn  btn-round btn-primary" onclick="changesearch()" style="float: right; color:white;">Search </button>
-                                    </div>
-                                   
-                                </div>
-
-                            </div>
                             <div class="col-md-12 ">
                                 <div class=" textalignright">
                                     <a href="@Url.Action("ProductionEntry", "ProductionEntry")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add ProductionEntry </a>
                                     <br>
-
                                 </div>
-                              
+                                 
+                                   
+                                 
                             </div>
                         </div>
                         <div class="row">
@@ -70,21 +43,20 @@
 
                                     <div class="ibox-content collapse in">
                                         <div class="widgets-container">
-                                        
-                                            
+                                            <a href="@Url.Action("Search", "ProductionEntry")" class="btn  btn-round btn-primary" style="float: right; color:white;">Search </a>
                                             <div>
                                                 <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
                                                     <thead>
                                                         <tr>
                                                             <th>Branch</th>
-                                                          
+
                                                             <th>Doc No</th>
                                                             <th>Doc Date</th>
-                                                              <th>Entry Type</th>
+                                                            <th>Entry Type</th>
                                                             <th>View</th>
                                                             @* <th>Followup</th>
                                                             <th>Move To Quote</th>*@
-                                                             <th>Approve</th>
+                                                            <th>Approve</th>
                                                             <th>Curing Inward</th>
                                                             <th>Edit</th>
                                                             <th>Delete</th>
@@ -100,21 +72,21 @@
 
                                                                 <tr>
                                                                     <td>@Html.DisplayFor(modelItem => item.Branch)</td>
-                                                                    
+
                                                                     <td>@Html.DisplayFor(modelItem => item.DocId)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.Shiftdate)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.EntryType)</td>
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewProductionEntry", "ProductionEntry",new { PROID=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Waiting for approval' /></a></div></td>
                                                                     @*<td> <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("PurchaseFollowup", "PurchaseEnq")"><img src='../Images/followup.png' alt='FollowUp' /> - (1)</a></div></td>*@
-                                                                    @if (item.IsCuring =="Y")
+                                                                    @if (item.IsCuring == "Y")
                                                                     {
                                                                         <td></td>
-                                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("CuringInward", "ProductionEntry",new { PROID=item.ID })"><img src='../Images/move_quote.png' alt='View Details' width='20'/></a></div></td>
-                                                                        
+                                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("CuringInward", "ProductionEntry",new { PROID=item.ID })"><img src='../Images/move_quote.png' alt='View Details' width='20' /></a></div></td>
+
                                                                     }
                                                                     else
                                                                     {
-                                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ApproveProCEntry", "ProductionEntry",new { PROID=item.ID })"><img src='../Images/checklist.png' alt='View Details' width='20'/></a></div></td>
+                                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ApproveProCEntry", "ProductionEntry",new { PROID=item.ID })"><img src='../Images/checklist.png' alt='View Details' width='20' /></a></div></td>
                                                                         <td></td>
                                                                     }
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("ProductionEntry", "ProductionEntry",new { id=item.ID })"></a></div></td>
@@ -125,12 +97,12 @@
                                                                 i++;
                                                             }
                                                         }
-                                                        
+
                                                     </tbody>
                                                 </table>
                                             </div>
                                         </div>
-                                        
+                                        <a href="@Url.Action("Search", "ProductionEntry")" class="btn  btn-round btn-primary" style="float: right; color:white;">Search </a>
                                     </div>
                                 </div>
                             </div>
@@ -202,33 +174,5 @@
             arrows: false,
         });
         $(".fancybox1").eq(0).trigger('click');
-    }
-
-
-    $('.form_date').datetimepicker({
-        //   language:  'fr',
-        weekStart: 1,
-        todayBtn: 1,
-        autoclose: 1,
-        todayHighlight: 1,
-        startView: 2,
-        minView: 2,
-        forceParse: 0
-    });
-
-    function changesearch() {
-        var st = document.getElementById("SStart").value;
-        var ed = document.getElementById("SEnd").value;
-        $.ajax({
-            url: 'ListProductionEntry',
-            data: { "st": st, "ed": ed },
-            type: "GET",
-            success: function (result) {
-               
-            },
-            error: function () {
-                alert("Data Not Found");
-            }
-        });
     }
 </script>

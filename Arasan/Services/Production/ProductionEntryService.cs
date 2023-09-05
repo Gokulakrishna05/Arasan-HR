@@ -15,7 +15,66 @@ public class ProductionEntryService : IProductionEntry
     {
         _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
     }
-    public IEnumerable<ProductionEntry> GetAllProductionEntry()
+    public IEnumerable<ProductionEntry> GetAllProductionEntry(string st, string ed)
+    {
+        List<ProductionEntry> cmpList = new List<ProductionEntry>();
+
+        using (OracleConnection con = new OracleConnection(_connectionString))
+        {
+            if (st != null && ed!=null)
+            {
+                using (OracleCommand cmd = con.CreateCommand())
+                {
+                    con.Open();
+                    cmd.CommandText = "Select  BRANCHMAST.BRANCHID, ETYPE,NPRODBASIC. DOCID,to_char(NPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,NPRODBASICID,ISCURING,NPRODBASIC.STATUS from NPRODBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=NPRODBASIC.BRANCH WHERE DOCDATE BETWEEN '" + st + "'  AND '" + ed + "'  order by NPRODBASICID desc ";
+                    OracleDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        ProductionEntry cmp = new ProductionEntry
+                        {
+                            ID = rdr["NPRODBASICID"].ToString(),
+                            Branch = rdr["BRANCHID"].ToString(),
+                            EntryType = rdr["ETYPE"].ToString(),
+                            DocId = rdr["DOCID"].ToString(),
+                            Shiftdate = rdr["DOCDATE"].ToString(),
+                            IsCuring = rdr["ISCURING"].ToString()
+
+                        };
+                        cmpList.Add(cmp);
+                    }
+                }
+             
+            }
+        
+        else
+        {
+
+
+                using (OracleCommand cmd = con.CreateCommand())
+                {
+                    con.Open();
+                    cmd.CommandText = "Select  BRANCHMAST.BRANCHID, ETYPE,NPRODBASIC. DOCID,to_char(NPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,NPRODBASICID,ISCURING,NPRODBASIC.STATUS from NPRODBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=NPRODBASIC.BRANCH WHERE NPRODBASIC.DOCDATE > sysdate-30   order by NPRODBASICID desc ";
+                    OracleDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        ProductionEntry cmp = new ProductionEntry
+                        {
+                            ID = rdr["NPRODBASICID"].ToString(),
+                            Branch = rdr["BRANCHID"].ToString(),
+                            EntryType = rdr["ETYPE"].ToString(),
+                            DocId = rdr["DOCID"].ToString(),
+                            Shiftdate = rdr["DOCDATE"].ToString(),
+                            IsCuring = rdr["ISCURING"].ToString()
+
+                        };
+                        cmpList.Add(cmp);
+                    }
+                }
+            }
+        }
+        return cmpList;
+    }
+    public IEnumerable<ProductionEntry> GetAllProdEntry(string st,string ed)
     {
         List<ProductionEntry> cmpList = new List<ProductionEntry>();
         using (OracleConnection con = new OracleConnection(_connectionString))
@@ -24,7 +83,7 @@ public class ProductionEntryService : IProductionEntry
             using (OracleCommand cmd = con.CreateCommand())
             {
                 con.Open();
-                cmd.CommandText = "Select  BRANCHMAST.BRANCHID, ETYPE,NPRODBASIC. DOCID,to_char(NPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,NPRODBASICID,ISCURING,NPRODBASIC.STATUS from NPRODBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=NPRODBASIC.BRANCH WHERE NPRODBASIC.STATUS='ACTIVE' ";
+                cmd.CommandText = "Select  BRANCHMAST.BRANCHID, ETYPE,NPRODBASIC. DOCID,to_char(NPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,NPRODBASICID,ISCURING,NPRODBASIC.STATUS from NPRODBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=NPRODBASIC.BRANCH WHERE DOCDATE BETWEEN '"+ st + "'  AND '"+ ed +"'  order by NPRODBASICID desc ";
                 OracleDataReader rdr = cmd.ExecuteReader();
                 while (rdr.Read())
                 {
@@ -35,7 +94,7 @@ public class ProductionEntryService : IProductionEntry
                         EntryType = rdr["ETYPE"].ToString(),
                         DocId = rdr["DOCID"].ToString(),
                         Shiftdate = rdr["DOCDATE"].ToString(),
-                        IsCuring= rdr["ISCURING"].ToString()
+                        IsCuring = rdr["ISCURING"].ToString()
 
                     };
                     cmpList.Add(cmp);
@@ -44,7 +103,6 @@ public class ProductionEntryService : IProductionEntry
         }
         return cmpList;
     }
-
     public DataTable GetInwardEntry()
     {
         string SvSql = string.Empty;
@@ -134,6 +192,25 @@ public class ProductionEntryService : IProductionEntry
             {
                 endate = edateList[0];
                 endtime = edateList[1];
+            }
+            if (cy.ID == null)
+            {
+                datatrans = new DataTransactions(_connectionString);
+
+
+                int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'PE##' AND ACTIVESEQUENCE = 'T'");
+                string docid = string.Format("{0}{1}", "PE##", (idc + 1).ToString());
+
+                string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='PE##' AND ACTIVESEQUENCE ='T'";
+                try
+                {
+                    datatrans.UpdateStatus(updateCMd);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                cy.DocId = docid;
             }
             using (OracleConnection objConn = new OracleConnection(_connectionString))
             {
@@ -297,8 +374,8 @@ public class ProductionEntryService : IProductionEntry
                                     objCmds.Parameters.Add("OITEMID", OracleDbType.NVarchar2).Value = cp.ItemId;
                                     objCmds.Parameters.Add("DSDT", OracleDbType.Date).Value = DateTime.Parse(cp.startdate);
                                     objCmds.Parameters.Add("DEDT", OracleDbType.Date).Value = DateTime.Parse(cp.enddate);
-                                    objCmds.Parameters.Add("STIME", OracleDbType.NVarchar2).Value = cp.starttime;
-                                    objCmds.Parameters.Add("ETIME", OracleDbType.NVarchar2).Value = cp.endtime;
+                                    objCmds.Parameters.Add("DSTIME", OracleDbType.NVarchar2).Value = cp.starttime;
+                                    objCmds.Parameters.Add("DETIME", OracleDbType.NVarchar2).Value = cp.endtime;
                                     objCmds.Parameters.Add("OBATCHNO", OracleDbType.NVarchar2).Value = cp.batchno;
                                     objCmds.Parameters.Add("ODRUMNO", OracleDbType.NVarchar2).Value = cp.drumno;
                                     objCmds.Parameters.Add("OSTOCK", OracleDbType.NVarchar2).Value = cp.OutStock;
@@ -802,7 +879,7 @@ public class ProductionEntryService : IProductionEntry
     public DataTable ProwasteDetail(string PROID)
     {
         string SvSql = string.Empty;
-        SvSql = "select WLOCATION,NPRODWASTEDETID,ITEMMASTER.ITEMID,WBINID,LOCDETAILS.LOCID,WQTY,WBATCHNO from NPRODWASTEDET LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=NPRODWASTEDET.WITEMID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=NPRODWASTEDET.WLOCATION   WHERE NPRODBASICID =" + PROID + "";
+        SvSql = "select WLOCATION,NPRODWASTEDETID,ITEMMASTER.ITEMID,NPRODWASTEDET.WITEMID,WBINID,LOCDETAILS.LOCID,WQTY,WBATCHNO from NPRODWASTEDET LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=NPRODWASTEDET.WITEMID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=NPRODWASTEDET.WLOCATION   WHERE NPRODBASICID =" + PROID + "";
         DataTable dtt = new DataTable();
         OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
         OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -951,6 +1028,39 @@ public class ProductionEntryService : IProductionEntry
     {
         string SvSql = string.Empty;
         SvSql = "Select EMPID,EMPNAME,EMPMASTID from EMPMAST where EMPMASTID='" + id + "' ";
+        DataTable dtt = new DataTable();
+        OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        adapter.Fill(dtt);
+        return dtt;
+    }
+    public DataTable GetInpItem()
+    {
+        string SvSql = string.Empty;
+        SvSql = "select ITEMID,ITEMMASTERID from ITEMMASTER where IGROUP='RAW MATERIAL' ";
+
+        DataTable dtt = new DataTable();
+        OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        adapter.Fill(dtt);
+        return dtt;
+    }
+    public DataTable GetOutItem()
+    {
+        string SvSql = string.Empty;
+        SvSql = "select ITEMID,ITEMMASTERID from ITEMMASTER where IGROUP='SEMI FINISHED GOODS' ";
+
+        DataTable dtt = new DataTable();
+        OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        adapter.Fill(dtt);
+        return dtt;
+    }
+    public DataTable GetConsItem()
+    {
+        string SvSql = string.Empty;
+        SvSql = "select ITEMID,ITEMMASTERID from ITEMMASTER where igroup='Consumables'";
+
         DataTable dtt = new DataTable();
         OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
         OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
