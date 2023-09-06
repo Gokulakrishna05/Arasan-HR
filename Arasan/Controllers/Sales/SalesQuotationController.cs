@@ -1029,9 +1029,6 @@ namespace Arasan.Controllers.Sales
 
             return RedirectToAction("ListSalesEnquiry");
         }
-
-
-
         public async Task<IActionResult> Print(string id)
         {
             string mimtype = "";
@@ -1043,7 +1040,8 @@ namespace Arasan.Controllers.Sales
             var SQuoitem = await SalesQuotationService.GetSQuoItem(id);
 
             LocalReport localReport = new LocalReport(path);
-            localReport.AddDataSource("DataSet1", SQuoitem);
+            localReport.AddDataSource("salesquotation", SQuoitem);
+            //localReport.AddDataSource("DataSet1", SQuoitem);
 
             var result = localReport.Execute(RenderType.Pdf, extension, Parameters, mimtype);
             return File(result.MainStream, "application/Pdf");
