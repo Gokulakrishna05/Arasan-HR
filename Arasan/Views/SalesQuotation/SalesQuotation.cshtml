@@ -657,12 +657,13 @@
 
 
                     var itemid = "<td><input class='form-control' id='ddlItem " + index + "' name='QuoLst[" + index + "].itemid'  style='width: 100px;' type='text'  readonly='True'  value=" + item.itemid + " /></td>";
-                    var des = "<td><input class='form-control' id='txtDes" + index + "' name='QuoLst[" + index + "].des'  style='width: 100px;' type='text'  readonly='True'  value=" + item.des + " /></td>";
                     var unit = "<td><input class='form-control' id='txtUnit" + index + "' name='QuoLst[" + index + "].unit'  style='width: 100px;' type='text'  readonly='True'  value=" + item.unit + " /></td>";
-                    var quantity = " <td><input class='form-control' id='txtQuantity" + index + "' name='QuoLst[" + index + "].quantity'  style='width: 100px;' type='text'  readonly='True'  value=" + item.quantity + " /></td>";
-                     
-                   
                     var ConFac = "<td><input class='form-control' id='txtConFac" + index + "' name='QuoLst[" + index + "].ConFac'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;text-align:right' type='text'  /></td>";
+
+                    var quantity = " <td><input class='form-control' id='txtQuantity" + index + "' name='QuoLst[" + index + "].quantity'  style='width: 100px;' type='text'  readonly='True'  value=" + item.quantity + " /></td>";
+                    var des = "<td><input class='form-control' id='txtDes" + index + "' name='QuoLst[" + index + "].des'  style='width: 100px;' type='text'  readonly='True'  value=" + item.des + " /></td>";
+
+                   
                     var Rate = "<td><input class='form-control' id='txtRate" + index + "' name='QuoLst[" + index + "].Rate'  style='width: 80px;' type='text'onkeydown='return isNumeric2(event.keyCode,this.value)'  onchange = 'changeQty(this.value," + index + ")'   /></td>";
 
                     var Amount = "<td><input class='form-control' id='txtAmount" + index + "' name='QuoLst[" + index + "].Amount'  style='width: 80px;' type='text'onkeydown='return isNumeric2(event.keyCode,this.value)'  onchange = 'changeQty(this.value," + index + ")' /></td>";
