@@ -36,6 +36,12 @@ namespace Arasan.Controllers
             ca.ProdLoglst = BindProdLog();
             ca.ProdSchlst = BindProdSch();
             ca.Batchlst = BindBatch();
+            ca.Shiftdate = DateTime.Now.ToString("dd-MMM-yyyy");
+            DataTable dtv = datatrans.GetSequence("BPrd");
+            if (dtv.Rows.Count > 0)
+            {
+                ca.DocId = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
+            }
             List<ProInputItem> TData = new List<ProInputItem>();
             ProInputItem tda = new ProInputItem();
 

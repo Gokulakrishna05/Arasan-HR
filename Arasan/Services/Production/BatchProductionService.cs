@@ -67,28 +67,47 @@ namespace Arasan.Services;
         try
         {
             string StatementType = string.Empty; string svSQL = "";
+            string[] sdateList = cy.startdate.Split(" - ");
+            string sdate = "";
+            string stime = "";
+            if (sdateList.Length > 0)
+            {
+                sdate = sdateList[0];
+                stime = sdateList[1];
+            }
+            string[] edateList = cy.enddate.Split(" - ");
+            string endate = "";
+            string endtime = "";
+            if (sdateList.Length > 0)
+            {
+                endate = edateList[0];
+                endtime = edateList[1];
+            }
+            if (cy.ID == null)
+            {
+                datatrans = new DataTransactions(_connectionString);
 
+
+                int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'BPE# AND ACTIVESEQUENCE = 'T'");
+                string docid = string.Format("{0}{1}", "BPE#", (idc + 1).ToString());
+
+                string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='BPE#' AND ACTIVESEQUENCE ='T'";
+                try
+                {
+                    datatrans.UpdateStatus(updateCMd);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                cy.DocId = docid;
+            }
             using (OracleConnection objConn = new OracleConnection(_connectionString))
             {
                 OracleCommand objCmd = new OracleCommand("BATCHPRODUCTIONPROC", objConn);
                 /*objCmd.Connection = objConn;
                 objCmd.CommandText = "DIRECTPURCHASEPROC";*/
-                string[] sdateList = cy.startdate.Split(" - ");
-                string sdate = "";
-                string stime = "";
-                if (sdateList.Length > 0)
-                {
-                    sdate = sdateList[0];
-                    stime = sdateList[1];
-                }
-                string[] edateList = cy.enddate.Split(" - ");
-                string endate = "";
-                string endtime = "";
-                if (sdateList.Length > 0)
-                {
-                    endate = edateList[0];
-                    endtime = edateList[1];
-                }
+              
                 objCmd.CommandType = CommandType.StoredProcedure;
                 if (cy.ID == null)
                 {
