@@ -59,7 +59,7 @@ namespace Arasan.Controllers
                 {
                     tda = new ProInputItem();
                     // tda.ItemGrouplst = BindItemGrplst();
-                    tda.Itemlst = BindItemlst("");
+                    tda.Itemlst = BindItemlst( );
                     tda.drumlst = Binddrum();
                     //tda.outputlst = Bindoutput();
                     tda.Isvalid = "Y";
@@ -70,7 +70,7 @@ namespace Arasan.Controllers
                 for (int i = 0; i < 1; i++)
                 {
                     tda1 = new BProInCons();
-                    tda1.Itemlst = BindItemlst("");
+                    tda1.Itemlst = BindConItemlst();
                     tda1.Isvalid = "Y";
                     TData1.Add(tda1);
                 }
@@ -79,7 +79,7 @@ namespace Arasan.Controllers
                 for (int i = 0; i < 1; i++)
                 {
                     tda2 = new Boutput();
-                    tda2.Itemlst = BindItemlst("");
+                    tda2.Itemlst = BindOutItemlst( );
                     tda2.drumlst = Binddrum();
                     tda2.statuslst = BindStatus();
                     tda2.loclst = BindLocation();
@@ -91,7 +91,7 @@ namespace Arasan.Controllers
                 for (int i = 0; i < 1; i++)
                 {
                     tda3 = new Bwastage();
-                    tda3.Itemlst = BindItemlst("");
+                    tda3.Itemlst = BindItemlst( );
                     tda3.loclst = BindLocation();
                     tda3.Isvalid = "Y";
                     TData3.Add(tda3);
@@ -137,7 +137,7 @@ namespace Arasan.Controllers
                     for (int i = 0; i < dt2.Rows.Count; i++)
                     {
                         tda = new ProInputItem();
-                        tda.Itemlst = BindItemlst("");
+                        tda.Itemlst = BindItemlst( );
                         
                         tda.drumlst = Binddrum();
                         tda.ItemId = dt2.Rows[i]["IITEMID"].ToString();
@@ -160,7 +160,7 @@ namespace Arasan.Controllers
                     for (int i = 0; i < dt3.Rows.Count; i++)
                     {
                         tda1 = new BProInCons();
-                        tda1.Itemlst = BindItemlst("");
+                        tda1.Itemlst = BindItemlst( );
 
                        
                         tda1.ItemId = dt3.Rows[i]["CITEMID"].ToString();
@@ -182,7 +182,7 @@ namespace Arasan.Controllers
                     for (int i = 0; i < dt4.Rows.Count; i++)
                     {
                         tda2 = new Boutput();
-                        tda2.Itemlst = BindItemlst("");
+                        tda2.Itemlst = BindItemlst( );
 
                         tda2.drumlst = Binddrum();
                         tda2.loclst = BindLocation();
@@ -213,7 +213,7 @@ namespace Arasan.Controllers
                     for (int i = 0; i < dt5.Rows.Count; i++)
                     {
                         tda3 = new Bwastage();
-                        tda3.Itemlst = BindItemlst("");
+                        tda3.Itemlst = BindItemlst( );
                         tda3.loclst = BindLocation();
 
                         tda3.ItemId = dt5.Rows[i]["WITEMID"].ToString();
@@ -665,11 +665,11 @@ namespace Arasan.Controllers
             }
             return View(ca);
         }
-        public JsonResult GetItemJSON(string itemid)
+        public JsonResult GetItemJSON( )
         {
             EnqItem model = new EnqItem();
-            model.Itemlst = BindItemlst(itemid);
-            return Json(BindItemlst(itemid));
+            model.Itemlst = BindItemlst( );
+            return Json(BindItemlst( ));
         }
         public JsonResult GetsearchItemJSON(string prefix)
         {
@@ -759,11 +759,45 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public List<SelectListItem> BindItemlst(string value)
+        public List<SelectListItem> BindItemlst( )
         {
             try
             {
-                DataTable dtDesg = datatrans.GetItem(value);
+                DataTable dtDesg = IProductionEntry.GetItem();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEMMASTERID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindConItemlst()
+        {
+            try
+            {
+                DataTable dtDesg = IProductionEntry.GetConItem();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEMMASTERID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindOutItemlst()
+        {
+            try
+            {
+                DataTable dtDesg = IProductionEntry.GetOutItem();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -1044,9 +1078,9 @@ namespace Arasan.Controllers
             }
         }
 
-        public IActionResult ListBatchProduction()
+        public IActionResult ListBatchProduction(string st, string ed)
         {
-            IEnumerable<BatchProduction> cmp = IProductionEntry.GetAllBatchProduction();
+            IEnumerable<BatchProduction> cmp = IProductionEntry.GetAllBatchProduction(st, ed);
             return View(cmp);
         }
 
@@ -1063,6 +1097,38 @@ namespace Arasan.Controllers
             {
                 TempData["notice"] = flag;
                 return RedirectToAction("ListBatchProduction");
+            }
+        }
+        public ActionResult GetConItemDetail(string ItemId)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+             
+
+                string bin = "";
+                string binid = "";
+                string unit = "";
+                string unitid = "";
+
+                dt = IProductionEntry.GetConItemDetails(ItemId);
+
+                if (dt.Rows.Count > 0)
+                {
+
+                    bin = dt.Rows[0]["BINID"].ToString();
+                    binid = dt.Rows[0]["bin"].ToString();
+                    unit = dt.Rows[0]["UNITID"].ToString();
+                    unitid = dt.Rows[0]["unit"].ToString();
+
+                }
+
+                var result = new { bin = bin, binid = binid, unit = unit, unitid = unitid };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
     }

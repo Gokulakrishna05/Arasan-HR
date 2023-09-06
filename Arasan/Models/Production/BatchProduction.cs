@@ -94,6 +94,7 @@ namespace Arasan.Models
         public double consQty { get; set; }
         public string Isvalid { get; set; }
         public string BinId { get; set; }
+        public string consbin { get; set; }
 
         public string saveitemId { get; set; }
 

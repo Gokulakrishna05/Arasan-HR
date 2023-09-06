@@ -16,30 +16,57 @@ namespace Arasan.Services;
         _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
         datatrans = new DataTransactions(_connectionString);
     }
-    public IEnumerable<BatchProduction> GetAllBatchProduction()
+    public IEnumerable<BatchProduction> GetAllBatchProduction(string st, string ed)
     {
         List<BatchProduction> cmpList = new List<BatchProduction>();
         using (OracleConnection con = new OracleConnection(_connectionString))
-        { 
-
-            using (OracleCommand cmd = con.CreateCommand())
+        {
+            if (st != null && ed != null)
             {
-                con.Open();
-                cmd.CommandText = "Select ETYPE,BRANCHMAST.BRANCHID,DOCID,PROCESSMAST.PROCESSID,WCBASIC.WCID,BPRODBASICID,IS_INV ,BPRODBASIC.STATUS from BPRODBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=BPRODBASIC.BRANCH  LEFT OUTER JOIN PROCESSMAST ON PROCESSMASTID=BPRODBASIC.PROCESSID  LEFT OUTER JOIN WCBASIC ON WCBASICID=BPRODBASIC.WCID WHERE BPRODBASIC.STATUS='ACTIVE'";
-                OracleDataReader rdr = cmd.ExecuteReader();
-                while (rdr.Read())
+                using (OracleCommand cmd = con.CreateCommand())
                 {
-                    BatchProduction cmp = new BatchProduction
+                    con.Open();
+                    cmd.CommandText = "Select ETYPE,BRANCHMAST.BRANCHID,DOCID,to_char(BPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PROCESSMAST.PROCESSID,WCBASIC.WCID,BPRODBASICID,IS_INV ,BPRODBASIC.STATUS from BPRODBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=BPRODBASIC.BRANCH  LEFT OUTER JOIN PROCESSMAST ON PROCESSMASTID=BPRODBASIC.PROCESSID  LEFT OUTER JOIN WCBASIC ON WCBASICID=BPRODBASIC.WCID WHERE BPRODBASIC.STATUS='ACTIVE' and BPRODBASIC.DOCDATE BETWEEN '" + st + "'  AND '" + ed + "' order by BPRODBASICID desc";
+                    OracleDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
                     {
-                        ID = rdr["BPRODBASICID"].ToString(),
-                        Branch = rdr["BRANCHID"].ToString(),
-                        Location = rdr["WCID"].ToString(),
-                        ProcessId = rdr["PROCESSID"].ToString(),
-                        DocId = rdr["DOCID"].ToString(),
-                        IsInv= rdr["IS_INV"].ToString(),
-                        EntryType= rdr["ETYPE"].ToString(),
-                    };
-                    cmpList.Add(cmp);
+                        BatchProduction cmp = new BatchProduction
+                        {
+                            ID = rdr["BPRODBASICID"].ToString(),
+                            Branch = rdr["BRANCHID"].ToString(),
+                            Location = rdr["WCID"].ToString(),
+                            ProcessId = rdr["PROCESSID"].ToString(),
+                            DocId = rdr["DOCID"].ToString(),
+                            IsInv = rdr["IS_INV"].ToString(),
+                            Shiftdate = rdr["DOCDATE"].ToString(),
+                            EntryType = rdr["ETYPE"].ToString(),
+                        };
+                        cmpList.Add(cmp);
+                    }
+                }
+            }
+            else
+            {
+                using (OracleCommand cmd = con.CreateCommand())
+                {
+                    con.Open();
+                    cmd.CommandText = "Select ETYPE,BRANCHMAST.BRANCHID,DOCID,PROCESSMAST.PROCESSID,to_char(BPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,WCBASIC.WCID,BPRODBASICID,IS_INV ,BPRODBASIC.STATUS from BPRODBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=BPRODBASIC.BRANCH  LEFT OUTER JOIN PROCESSMAST ON PROCESSMASTID=BPRODBASIC.PROCESSID  LEFT OUTER JOIN WCBASIC ON WCBASICID=BPRODBASIC.WCID WHERE BPRODBASIC.STATUS='ACTIVE' and BPRODBASIC.DOCDATE > sysdate-30   order by BPRODBASICID desc";
+                    OracleDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        BatchProduction cmp = new BatchProduction
+                        {
+                            ID = rdr["BPRODBASICID"].ToString(),
+                            Branch = rdr["BRANCHID"].ToString(),
+                            Location = rdr["WCID"].ToString(),
+                            ProcessId = rdr["PROCESSID"].ToString(),
+                            DocId = rdr["DOCID"].ToString(),
+                            Shiftdate = rdr["DOCDATE"].ToString(),
+                            IsInv = rdr["IS_INV"].ToString(),
+                            EntryType = rdr["ETYPE"].ToString(),
+                        };
+                        cmpList.Add(cmp);
+                    }
                 }
             }
         }
@@ -88,7 +115,7 @@ namespace Arasan.Services;
                 datatrans = new DataTransactions(_connectionString);
 
 
-                int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'BPE# AND ACTIVESEQUENCE = 'T'");
+                int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'BPE#' AND ACTIVESEQUENCE = 'T'");
                 string docid = string.Format("{0}{1}", "BPE#", (idc + 1).ToString());
 
                 string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='BPE#' AND ACTIVESEQUENCE ='T'";
@@ -208,7 +235,7 @@ namespace Arasan.Services;
                             {
                                 if (cp.Isvalid == "Y" && cp.ItemId != "0" && cp.ItemId != null)
                                 {
-                                    svSQL = "Insert into BPRODCONSDET (BPRODBASICID,CITEMID,CBINID,CUNIT,CONSQTY,CVALUE) VALUES ('" + Pid + "','" + cp.ItemId + "','" + cp.BinId + "','" + cp.consunit + "','" + cp.consQty + "','" + cp.ConsStock + "')";
+                                    svSQL = "Insert into BPRODCONSDET (BPRODBASICID,CITEMID,CBINID,CUNIT,CONSQTY,CVALUE) VALUES ('" + Pid + "','" + cp.ItemId + "','" + cp.consbin + "','" + cp.consunit + "','" + cp.consQty + "','" + cp.ConsStock + "')";
                                     OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                     objCmds.ExecuteNonQuery();
 
@@ -224,7 +251,7 @@ namespace Arasan.Services;
                             {
                                 if (cp.Isvalid == "Y" && cp.ItemId != "0" && cp.ItemId != null)
                                 {
-                                    svSQL = "Insert into BPRODCONSDET (BPRODBASICID,CITEMID,CBINID,CUNIT,CONSQTY,CVALUE) VALUES ('" + Pid + "','" + cp.ItemId + "','" + cp.BinId + "','" + cp.consunit + "','" + cp.consQty + "','" + cp.ConsStock + "')";
+                                    svSQL = "Insert into BPRODCONSDET (BPRODBASICID,CITEMID,CBINID,CUNIT,CONSQTY,CVALUE) VALUES ('" + Pid + "','" + cp.ItemId + "','" + cp.consbin + "','" + cp.consunit + "','" + cp.consQty + "','" + cp.ConsStock + "')";
                                     OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                     objCmds.ExecuteNonQuery();
 
@@ -1040,8 +1067,50 @@ namespace Arasan.Services;
         adapter.Fill(dtt);
         return dtt;
     }
+    public DataTable GetItem()
+    {
+        string SvSql = string.Empty;
+        SvSql = "select ITEMID,ITEMMASTERID from ITEMMASTER where IGROUP='RAW MATERIAL' ";
 
+        DataTable dtt = new DataTable();
+        OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        adapter.Fill(dtt);
+        return dtt;
+    }
+    public DataTable GetOutItem()
+    {
+        string SvSql = string.Empty;
+        SvSql = "select ITEMID,ITEMMASTERID from ITEMMASTER where IGROUP='SEMI FINISHED GOODS' ";
 
+        DataTable dtt = new DataTable();
+        OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        adapter.Fill(dtt);
+        return dtt;
+    }
+    public DataTable GetConItem()
+    {
+        string SvSql = string.Empty;
+        SvSql = "select ITEMID,ITEMMASTERID from ITEMMASTER where igroup='Consumables'";
+
+        DataTable dtt = new DataTable();
+        OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        adapter.Fill(dtt);
+        return dtt;
+    }
+    public DataTable GetConItemDetails(string id)
+    {
+        string SvSql = string.Empty;
+        SvSql = "select BINBASIC.BINID,ITEMMASTER.BINNO as bin , UNITMAST.UNITID,ITEMMASTER.PRIUNIT as unit,ITEMMASTERID from ITEMMASTER left outer join BINBASIC ON BINBASICID= ITEMMASTER.BINNO LEFT OUTER JOIN UNITMAST  on ITEMMASTER.PRIUNIT=UNITMAST.UNITMASTID where ITEMMASTERID='" + id + "' ";
+
+        DataTable dtt = new DataTable();
+        OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        adapter.Fill(dtt);
+        return dtt;
+    }
     public string StatusChange(string tag, int id)
     {
 

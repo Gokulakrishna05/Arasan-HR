@@ -192,7 +192,7 @@
                                     <div class="form-group">
                                         <label for="inputName3" class="col-sm-4 control-label">End Date/Time<label class="mandatory">*</label></label>
 
-                                        <div class="input-group date form_dateend col-sm-8" data-date="" data-date-format="dd-M-yyyy - HH:ii p">
+                                        <div class="input-group date form_datetime col-sm-8" data-date="" data-date-format="dd-M-yyyy - HH:ii p">
                                             @Html.TextBoxFor(C => C.enddate, new { @id = "enddate", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                         </div>
@@ -343,7 +343,7 @@
                                                                                 @Html.DropDownListFor(o => o.Binconslst[j].ItemId, Model.Binconslst[j].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlConsItem" + j, style = "width: 170px;", onchange = "changeconsItem(this.value," + j + ")" })
                                                                             </td>
                                                                             <td>@Html.TextBoxFor(o => o.Binconslst[j].consunit, new { @id = "txtconsunit" + j, @class = "form-control", style = "width: 100px;",@readonly=true})</td>
-                                                                            <td>@Html.TextBoxFor(o => o.Binconslst[j].BinId, new { @id = "txtConsBinId" + j, @class = "form-control", style = "width: 100px;"})</td>
+                                                                            <td>@Html.TextBoxFor(o => o.Binconslst[j].BinId, new { @id = "txtConsBinId" + j, @class = "form-control", style = "width: 100px;"})@Html.HiddenFor(o => o.Binconslst[j].consbin, new { @id = "txtConsBin" + j, @class = "form-control", style = "width: 100px;"})</td>
                                                                             <td>@Html.TextBoxFor(o => o.Binconslst[j].ConsStock, new { @id = "txtConsStock" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;text-align:right" })</td>
                                                                             <td>@Html.TextBoxFor(o => o.Binconslst[j].consQty, new { @id = "txtconsQty" + j, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeConsQty(this," + j + ")" })</td>
 
@@ -915,7 +915,7 @@
                 },
             error: function () {
                 debugger;
-                alert("Please Select State");
+                alert("Please Select Input Item");
             }
         });
 
@@ -1246,7 +1246,23 @@
             },
             error: function () {
                 debugger;
-                alert("Please Select State");
+                alert("Please Select Cons Item");
+            }
+        });
+
+          $.ajax({
+            url: 'GetConItemDetail',
+            data: { "ItemId": ItemId },
+            type: "GET",
+            success: function (result) {
+                
+                document.getElementById("txtConsBinId" + i).value = result.bin;
+                document.getElementById("txtConsBin" + i).value = result.binid;
+                  document.getElementById("txtconsunit" + i).value = result.unit;
+                document.getElementById("txtconsunitid" + i).value = result.unitid;
+            },
+            error: function () {
+                alert("Data Not Found");
             }
         });
 
@@ -1263,7 +1279,7 @@
             },
             error: function () {
                 debugger;
-                alert("Please Select State");
+                alert("Please Select Output Item");
             }
         });
 
@@ -1312,7 +1328,7 @@
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select SchQty");
+                alert("Please Enter SchQty");
                 return false;
             }
             else {
@@ -1328,7 +1344,7 @@
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select  Prod Qty");
+                alert("Please Enter  Prod Qty");
                 return false;
             }
             else {

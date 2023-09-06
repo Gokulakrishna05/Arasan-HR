@@ -11,10 +11,14 @@ namespace Arasan.Interface
         DataTable Getstkqty(string branch, string loc, string ItemId);
         DataTable GetLotstkqty(string branch, string loc, string ItemId,string LotNo);
         DataTable BindProcess();
+        DataTable GetItem();
+        DataTable GetConItem();
+        DataTable GetOutItem();
+      
         DataTable SeacrhItem(string terms);
         string BatchProductionCRUD(BatchProduction cy);
         string BPRODStock(ProductionEntry cy);
-        IEnumerable<BatchProduction>  GetAllBatchProduction();
+        IEnumerable<BatchProduction>  GetAllBatchProduction(string st, string ed);
         DataTable GetWorkCenter();
         DataTable GetBatchProduction(string id);
         DataTable GetBatchProInpDet(string id);
@@ -30,5 +34,8 @@ namespace Arasan.Interface
         DataTable Getlot(string Itemid, string barchid, string Locid);
 
         string StatusChange(string tag, int id);
+
+
+        DataTable GetConItemDetails(string id);
     }
 }
