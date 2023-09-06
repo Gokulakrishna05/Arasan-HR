@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "Pyro Production  Entry";
     string tag = ViewContext.HttpContext.Request.Query["tag"];
-    string Qid=ViewContext.HttpContext.Request.Query["id"];
+    string shift = ViewContext.HttpContext.Request.Query["shift"];
   
 }
 <style>
@@ -206,7 +206,7 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Shift<label class="mandatory"> </label></label>
 
                                     <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Shift, Model.Shiftlst," -- Please Select -- ", new { @id = "ddlShift", @Class = "form-control _select", @TabIndex = 1 ,onchange = "changeshift(this.value)"})<br />
+                                            @Html.DropDownListFor(C => C.Shift, Model.Shiftlst," -- Please Select -- ", new { @id = "ddlShift", @Class = "form-control _select", @TabIndex = 1 ,onchange = "changeshift(this.value);changeshift1(this.value)"})<br />
                                             <br>
                                         </div>
                                 </div>
@@ -768,7 +768,15 @@
     $(function () {
         $('._select').select2();
         var shift = '@ViewBag.shift';
-        changeshift(shift);
+      changeshift(shift);
+      var tag='@tag';
+      var shiftwe='@shift';
+      @*alert(tag);*@
+       @*var $wcid = $("#ddlLocation").select2();
+                $wcid.val(tag).trigger("change");
+
+                 var $shit = $("#ddlShift").select2();
+                $shit.val(shiftwe).trigger("change");*@
     });
     $('.form_date').datetimepicker({
         //   language:  'fr',
@@ -786,13 +794,38 @@
             data: { "Shiftid": Shiftid },
             type: "GET",
             success: function (result) {
-                alert(result);
-                document.getElementById("shiftdetails").innerHTML = result.fromtime + " to " + result.totime + "  Total Hours : " + result.tothrs;
+@*                alert(result);
+*@                document.getElementById("shiftdetails").innerHTML = result.fromtime + " to " + result.totime + "  Total Hours : " + result.tothrs;
             },
             error: function () {
                 alert("Data Not Found");
             }
         });
+
+
+         
+
+    }
+   function changeshift1(Shiftid) {
+        var wcid=document.getElementById("ddlLocation").value;
+        $.ajax({
+            url: 'GetWcRec',
+            data: { "wcid": wcid ,"shift" : Shiftid},
+            type: "POST",
+            success: function (result) {
+               if (result.res == "No") {
+                    window.location.href = "PyroProduction?tag="+ wcid + "&shift=" + Shiftid;
+               }
+               else{
+                   window.location.href = "PyroProduction?id=" +result.url;
+               }
+
+            },
+            error: function () {
+
+            }
+        });
+
     }
     function changeMachineItem(ItemId, i) {
         $.ajax({
@@ -1533,13 +1566,19 @@
         });
     }
     function changewc(wcid) {
+        @*var url = '@Url.Action("GetWcRec", "PyroProduction")?wcid=' + wcid;
+        window.location.href = url;*@
+        var shift=document.getElementById("ddlShift").value;
         $.ajax({
             url: 'GetWcRec',
-            data: { "wcid": wcid},
+            data: { "wcid": wcid ,"shift" : shift},
             type: "POST",
             success: function (result) {
-                if (result.res == "No") {
-                    window.location.href = "PyroProduction/PyroProduction?id=1";
+               if (result.res == "No") {
+window.location.href = "PyroProduction?tag="+ wcid + "&shift=" + shift;
+               }
+               else{
+                   window.location.href = "PyroProduction?id=" +result.url;
                }
 
             },

@@ -212,7 +212,17 @@
         });
         $(".fancybox1").eq(0).trigger('click');
     }
-
+$('.to_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        endDate: new Date(),
+        forceParse: 0
+    });
 
     $('.form_date').datetimepicker({
         //   language:  'fr',
@@ -224,21 +234,14 @@
         minView: 2,
         endDate: new Date(),
         forceParse: 0
-    });
-    $('.to_date').datetimepicker({
-        //   language:  'fr',
-        weekStart: 1,
-        todayBtn: 1,
-        autoclose: 1,
-        todayHighlight: 1,
-        startView: 2,
-        minView: 2,
-        endDate: new Date(),
-        forceParse: 0
-    });
-    $('#form_date').on('dp.change', function (e) {
-    alert(e.date);
-});
+    }).on('changeDate', function (selected) {
+        var minDate = new Date(selected.date.valueOf());
+             $('.to_date').datetimepicker('setStartDate', minDate);
+        });
+    
+//    $('#form_date').on('dp.change', function (e) {
+//    alert(e.date);
+//});
 //       $('.form_date').on('dp.change', function (e) {
 //           alert(e.date);
 //    $('.to_date').data("DateTimePicker").startdate(e.date);
