@@ -117,6 +117,8 @@ namespace Arasan.Controllers
                     ca.ProdSchNo = dt.Rows[0]["PSCHNO"].ToString();
                     ca.Shift = dt.Rows[0]["SHIFT"].ToString();
                     ca.EntryType = dt.Rows[0]["ETYPE"].ToString();
+                    ca.startdate = dt.Rows[0]["STARTDATE"].ToString() + " & " + dt.Rows[0]["STARTTIME"].ToString();
+                    ca.enddate = dt.Rows[0]["ENDDATE"].ToString() + " & " + dt.Rows[0]["ENDTIME"].ToString();
                     ca.ProdQty = Convert.ToDouble(dt.Rows[0]["PRODQTY"].ToString() == "" ? "0" : dt.Rows[0]["PRODQTY"].ToString());
                     ca.SchQty = Convert.ToDouble(dt.Rows[0]["SCHQTY"].ToString() == "" ? "0" : dt.Rows[0]["SCHQTY"].ToString());
                     ca.totalinqty = Convert.ToDouble(dt.Rows[0]["TOTALINPUT"].ToString() == "" ? "0" : dt.Rows[0]["TOTALINPUT"].ToString());
@@ -488,7 +490,7 @@ namespace Arasan.Controllers
                     tda1.ItemId = dtProInCons.Rows[i]["ITEMID"].ToString();
                     tda1.Proinconsid = dtProInCons.Rows[i]["BPRODCONSDETID"].ToString();
                     tda1.saveitemId = dtProInCons.Rows[i]["CITEMID"].ToString();
-                    tda1.BinId = dtProInCons.Rows[i]["CBINID"].ToString();
+                    tda1.BinId = dtProInCons.Rows[i]["BINID"].ToString();
                     tda1.consunit = dtProInCons.Rows[i]["CUNIT"].ToString();
                     tda1.consQty = dtProInCons.Rows[i]["CONSQTY"].ToString() != "" ? Convert.ToDouble(dtProInCons.Rows[i]["CONSQTY"].ToString()) : 0;
                     double stock = 0;
@@ -612,7 +614,7 @@ namespace Arasan.Controllers
                 {
                     tda1 = new ProInCons();
                     tda1.ItemId = dtProInCons.Rows[i]["ITEMID"].ToString();
-                    tda1.BinId = dtProInCons.Rows[i]["CBINID"].ToString();
+                    tda1.BinId = dtProInCons.Rows[i]["BINID"].ToString();
                     tda1.consunit = dtProInCons.Rows[i]["CUNIT"].ToString();
                     tda1.consQty = dtProInCons.Rows[i]["CONSQTY"].ToString() != "" ? Convert.ToDouble(dtProInCons.Rows[i]["CONSQTY"].ToString()) : 0;
                     //double stock = 0;

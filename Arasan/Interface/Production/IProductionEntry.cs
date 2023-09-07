@@ -14,7 +14,7 @@ namespace Arasan.Interface
         DataTable BindProcess();
         IEnumerable<ProductionEntry> GetAllProductionEntry(string st,string ed);
 
-        IEnumerable<ProductionEntry> GetAllProdEntry(string st,string ed);
+       
         string ProductionEntryCRUD(ProductionEntry id);
         DataTable GetWorkCenter();
         DataTable EditProEntry(string PROID);
