@@ -74,35 +74,7 @@ public class ProductionEntryService : IProductionEntry
         }
         return cmpList;
     }
-    public IEnumerable<ProductionEntry> GetAllProdEntry(string st,string ed)
-    {
-        List<ProductionEntry> cmpList = new List<ProductionEntry>();
-        using (OracleConnection con = new OracleConnection(_connectionString))
-        {
-
-            using (OracleCommand cmd = con.CreateCommand())
-            {
-                con.Open();
-                cmd.CommandText = "Select  BRANCHMAST.BRANCHID, ETYPE,NPRODBASIC. DOCID,to_char(NPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,NPRODBASICID,ISCURING,NPRODBASIC.STATUS from NPRODBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=NPRODBASIC.BRANCH WHERE DOCDATE BETWEEN '"+ st + "'  AND '"+ ed +"'  order by NPRODBASICID desc ";
-                OracleDataReader rdr = cmd.ExecuteReader();
-                while (rdr.Read())
-                {
-                    ProductionEntry cmp = new ProductionEntry
-                    {
-                        ID = rdr["NPRODBASICID"].ToString(),
-                        Branch = rdr["BRANCHID"].ToString(),
-                        EntryType = rdr["ETYPE"].ToString(),
-                        DocId = rdr["DOCID"].ToString(),
-                        Shiftdate = rdr["DOCDATE"].ToString(),
-                        IsCuring = rdr["ISCURING"].ToString()
-
-                    };
-                    cmpList.Add(cmp);
-                }
-            }
-        }
-        return cmpList;
-    }
+  
     public DataTable GetInwardEntry()
     {
         string SvSql = string.Empty;

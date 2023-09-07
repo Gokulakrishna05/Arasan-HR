@@ -1177,14 +1177,7 @@ namespace Arasan.Controllers
         }
 
      
-        public ActionResult Searchlist(string st, string ed)
-        {
-            
-             
-            IEnumerable<ProductionEntry> cmp = IProductionEntry.GetAllProdEntry(st, ed);
-            return View(cmp);
-
-        }
+        
 
         public List<SelectListItem> BindBatch()
         {
