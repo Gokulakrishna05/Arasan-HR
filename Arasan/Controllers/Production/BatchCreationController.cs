@@ -618,12 +618,12 @@ namespace Arasan.Controllers
             //  model.ItemGrouplst = BindItemGrplst(value);
             return Json(model.Param);
         }
-        public IActionResult ListBatchCreation()
+        public IActionResult ListBatchCreation(string st, string ed)
         {
-            IEnumerable<BatchCreation> cmp = Batch.GetAllBatchCreation();
+            IEnumerable<BatchCreation> cmp = Batch.GetAllBatchCreation(st,ed);
             return View(cmp);
-         }
-
+        }
+      
         public ActionResult DeleteMR(string tag, int id)
         {
 

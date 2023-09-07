@@ -195,7 +195,9 @@ namespace Arasan.Services;
 
                                 if (cp.Isvalid == "Y" && cp.ItemId != "0" && cp.ItemId != null)
                                 {
-                                    svSQL = "Insert into BPRODINPDET (BPRODBASICID,IITEMID,IBINID,IDRUMNO,IBATCHNO,IBATCHQTY,IQTY) VALUES ('" + Pid + "','" + cp.ItemId + "','" + cp.BinId + "','" + cp.drumno + "','" + cp.batchno + "','" + cp.batchqty + "','" + cp.IssueQty + "')";
+                                    string DrumID = datatrans.GetDataString("Select DRUMNO from DRUMMAST where DRUMMASTID='" + cp.drumno + "' ");
+
+                                    svSQL = "Insert into BPRODINPDET (BPRODBASICID,IITEMID,IBINID,IDRUMNO,ICDRUMNO,IBATCHNO,IBATCHQTY,IQTY) VALUES ('" + Pid + "','" + cp.ItemId + "','" + cp.BinId + "','" + cp.drumno + "','" + DrumID + "','" + cp.batchno + "','" + cp.batchqty + "','" + cp.IssueQty + "')";
                                     OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                     objCmds.ExecuteNonQuery();
 
@@ -216,7 +218,8 @@ namespace Arasan.Services;
 
                                 if (cp.Isvalid == "Y" && cp.ItemId != "0" && cp.ItemId != null)
                                 {
-                                    svSQL = "Insert into BPRODINPDET (BPRODBASICID,IITEMID,IBINID,IDRUMNO,IBATCHNO,IBATCHQTY,IQTY) VALUES ('" + Pid + "','" + cp.ItemId + "','" + cp.BinId + "','" + cp.drumno + "','" + cp.batchno + "','" + cp.batchqty + "','" + cp.IssueQty + "')";
+                                    string DrumID = datatrans.GetDataString("Select DRUMNO from DRUMMAST where DRUMMASTID='" + cp.drumno + "' ");
+                                    svSQL = "Insert into BPRODINPDET (BPRODBASICID,IITEMID,IBINID,IDRUMNO,ICDRUMNO,IBATCHNO,IBATCHQTY,IQTY) VALUES ('" + Pid + "','" + cp.ItemId + "','" + cp.BinId + "','" + cp.drumno + "','" + DrumID + "','" + cp.batchno + "','" + cp.batchqty + "','" + cp.IssueQty + "')";
                                     OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                     objCmds.ExecuteNonQuery();
 
@@ -894,7 +897,7 @@ namespace Arasan.Services;
     public DataTable GetBatchProduction(string id)
     {
         string SvSql = string.Empty;
-        SvSql = "Select BRANCH,PROCESSID,WCID,SHIFT,to_char(BPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,ETYPE,DOCID,BATCH,ENTEREDBY,SCHQTY,PRODQTY,PRODLOGID,PSCHNO,BATCHCOMP,TOTALINPUT,TOTALOUTPUT,TOTCONSQTY,TOTRMQTY,TOTRMVALUE,TOTALWASTAGE,TOTMACHINEVALUE,TOTCONSVALUE from BPRODBASIC where BPRODBASICID ='" + id +"' ";
+        SvSql = "Select BRANCH,PROCESSID,WCID,SHIFT,to_char(BPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,ETYPE,DOCID,BATCH,ENTEREDBY,SCHQTY,PRODQTY,to_char(BPRODBASIC.STARTDATE,'dd-MON-yyyy')STARTDATE,to_char(BPRODBASIC.ENDDATE,'dd-MON-yyyy')ENDDATE,PRODLOGID,STARTTIME,ENDTIME,PSCHNO,BATCHCOMP,TOTALINPUT,TOTALOUTPUT,TOTCONSQTY,TOTRMQTY,TOTRMVALUE,TOTALWASTAGE,TOTMACHINEVALUE,TOTCONSVALUE from BPRODBASIC where BPRODBASICID ='" + id +"' ";
         DataTable dtt = new DataTable();
         OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
         OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -936,7 +939,7 @@ namespace Arasan.Services;
     public DataTable ProConsDetail(string PROID)
     {
         string SvSql = string.Empty;
-        SvSql = "select BPRODCONSDETID,ITEMMASTER.ITEMID,CBINID,CUNIT,CONSQTY,CVALUE,BPRODCONSDET.CITEMID from BPRODCONSDET LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=BPRODCONSDET.CITEMID   WHERE BPRODBASICID =" + PROID + "";
+        SvSql = "select BPRODCONSDETID,ITEMMASTER.ITEMID,BINBASIC.BINID ,CUNIT,CONSQTY,CVALUE,BPRODCONSDET.CITEMID from BPRODCONSDET LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=BPRODCONSDET.CITEMID left outer join BINBASIC on BINBASICID =BPRODCONSDET.CBINID   WHERE BPRODBASICID =" + PROID + "";
         DataTable dtt = new DataTable();
         OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
         OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
