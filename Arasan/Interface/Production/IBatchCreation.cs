@@ -10,7 +10,7 @@ namespace Arasan.Interface
        
         DataTable GetProcess();
         DataTable GetProcessid();
-        IEnumerable<BatchCreation> GetAllBatchCreation();
+        IEnumerable<BatchCreation> GetAllBatchCreation(string st, string ed);
         //DataTable GetProcessid();
         DataTable GetItem();
         DataTable GetBatchCreation(string id);

@@ -1,5 +1,6 @@
 ﻿using Arasan.Interface;
 using Arasan.Models;
+using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 using Microsoft.Extensions.Configuration;
 using Oracle.ManagedDataAccess.Client;
 using System;
@@ -18,16 +19,18 @@ namespace Arasan.Services
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public IEnumerable<BatchCreation> GetAllBatchCreation()
+        public IEnumerable<BatchCreation> GetAllBatchCreation(string st, string ed)
         {
             List<BatchCreation> cmpList = new List<BatchCreation>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
-
-                using (OracleCommand cmd = con.CreateCommand())
+                if (st != null && ed != null)
                 {
+
+                    using (OracleCommand cmd = con.CreateCommand())
+                    {
                     con.Open();
-                    cmd.CommandText = " Select   BRANCHMAST.BRANCHID,DOCID,to_char(BCPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PROCESSMAST.PROCESSID,WCBASIC.WCID,BCPRODBASICID,BCPRODBASIC.STATUS from BCPRODBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=BCPRODBASIC.BRANCHID  LEFT OUTER JOIN PROCESSMAST ON PROCESSMASTID=BCPRODBASIC.WPROCESSID  LEFT OUTER JOIN WCBASIC ON WCBASICID=BCPRODBASIC.WCID  and BCPRODBASIC.STATUS='ACTIVE' order by BCPRODBASICID desc   ";
+                    cmd.CommandText = " Select   BRANCHMAST.BRANCHID,DOCID,to_char(BCPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PROCESSMAST.PROCESSID,WCBASIC.WCID,BCPRODBASICID,BCPRODBASIC.STATUS from BCPRODBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=BCPRODBASIC.BRANCHID  LEFT OUTER JOIN PROCESSMAST ON PROCESSMASTID=BCPRODBASIC.WPROCESSID  LEFT OUTER JOIN WCBASIC ON WCBASICID=BCPRODBASIC.WCID  WHERE BCPRODBASIC.DOCDATE BETWEEN '" + st + "'  AND '" + ed + "'  order by BCPRODBASICID desc   ";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -48,7 +51,30 @@ namespace Arasan.Services
                     }
                 }
             }
-            return cmpList;
+            else
+            {
+                    using (OracleCommand cmd = con.CreateCommand())
+                    {
+                        con.Open();
+                        cmd.CommandText = " Select   BRANCHMAST.BRANCHID,DOCID,to_char(BCPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PROCESSMAST.PROCESSID,WCBASIC.WCID,BCPRODBASICID,BCPRODBASIC.STATUS from BCPRODBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=BCPRODBASIC.BRANCHID  LEFT OUTER JOIN PROCESSMAST ON PROCESSMASTID=BCPRODBASIC.WPROCESSID  LEFT OUTER JOIN WCBASIC ON WCBASICID=BCPRODBASIC.WCID  WHERE BCPRODBASIC.DOCDATE > sysdate-30   order by BCPRODBASICID desc   ";
+                        OracleDataReader rdr = cmd.ExecuteReader();
+                        while (rdr.Read())
+                        {
+                            BatchCreation cmp = new BatchCreation
+                            {
+                                ID = rdr["BCPRODBASICID"].ToString(),
+                                Branch = rdr["BRANCHID"].ToString(),
+                                WorkCenter = rdr["WCID"].ToString(),
+                                Process = rdr["PROCESSID"].ToString(),
+                                DocDate = rdr["DOCDATE"].ToString(),
+                            };
+                            cmpList.Add(cmp);
+                        }
+                    }
+                }
+
+            }
+                return cmpList;
         }
         public string BatchCRUD(BatchCreation cy)
         {
