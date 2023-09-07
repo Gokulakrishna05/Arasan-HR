@@ -24,7 +24,7 @@ namespace Arasan.Controllers
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public IActionResult PyroProduction(string id)
+        public IActionResult PyroProduction(string id,string tag,string shift)
         {
             PyroProduction ca = new PyroProduction();
             ca.Eng = Request.Cookies["UserName"];
@@ -52,11 +52,28 @@ namespace Arasan.Controllers
                 {
                     ca.DocId = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
                 }
-             
                 ca.Branch = Request.Cookies["BranchId"];
-
-
                 ca.Shift = "A";
+                if (!string.IsNullOrEmpty(tag))
+                {
+                    if (!string.IsNullOrEmpty(shift))
+                    {
+                        ca.Shift = shift;
+                    }
+                    else
+                    {
+                        ca.Shift = "A";
+                    }
+                    ca.Location = tag;
+                }
+                else { 
+                
+                }
+             
+               
+
+
+               
                 ca.Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
 
 
