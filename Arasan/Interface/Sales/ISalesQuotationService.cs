@@ -24,9 +24,10 @@ namespace Arasan.Interface.Sales
         
         DataTable GetQuobyId(string itemId);
         DataTable GetCurrbyId(string itemId);
-        DataTable GetCustypebyId(string itemId);
+        //DataTable GetCustypebyId(string itemId);
         DataTable GetTypelstbyId(string itemId);
         DataTable GetPribyId(string itemId);
+
         //DataTable GetItemgroupbyId(string itemId);
         //DataTable SalesQuotationDetail(string id, string item);
         DataTable GetItemgrpDetail(string id);
