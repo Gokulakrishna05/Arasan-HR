@@ -125,7 +125,8 @@ namespace Arasan.Services.Sales
         public DataTable GetItemgrpDetail(string id)
         {
             string SvSql = string.Empty;
-            //SvSql = "SELECT ITEMGROUP,ITEMID,ITEMDESC,RATE,QTY,CF,UNIT,AMOUNT,DISC,DISCAMOUNT,IFREIGHTCH,TOTAMT,CGSTPER,SGSTPER,IGSTPER,SGSTAMT,IGSTAMT,CGSTAMT,SALESQUOTEDETAIL.SALESQUOTEDETAILID,SALES_ENQUIRY.SALESENQUIRYID FROM SALESQUOTEDETAIL LEFT OUTER JOIN  SALES_ENQUIRY ON SALESENQUIRYID=SALESQUOTEDETAIL.SALESQUOTEDETAILID WHERE SALESQUOTEDETAIL.SALESQUOTEDETAILID = '" + id + "' ";
+            //SvSql = "SELECT ITEMID,ITEMDESC,RATE,QTY,CF,UNIT,AMOUNT,DISC,DISCAMOUNT,IFREIGHTCH,TOTAMT,CGSTPER,SGSTPER,IGSTPER,SGSTAMT,IGSTAMT,CGSTAMT,SALESQUOTEDETAIL.SALESQUOTEDETAILID,SALES_ENQUIRY.SALESENQUIRYID FROM SALESQUOTEDETAIL LEFT OUTER JOIN  SALES_ENQUIRY ON SALESENQUIRYID=SALESQUOTEDETAIL.SALESQUOTEDETAILID WHERE SALESQUOTEDETAIL.SALESQUOTEDETAILID = '" + id + "' ";
+            //SvSql = "SELECT ITEMID,ITEMDESC,UNIT,QTY FROM SALESQUOTEDETAIL LEFT OUTER JOIN  SALES_ENQUIRY ON SALESENQUIRYID=SALESQUOTEDETAIL.SALESQUOTEDETAILID WHERE SALESQUOTEDETAIL.SALESQUOTEDETAILID = '" + id + "' ";
             SvSql = "SELECT ITEM_ID,ITEM_DESCRIPTION,UNIT,QUANTITY FROM SALES_ENQ_ITEM LEFT OUTER JOIN  SALES_ENQUIRY ON SALESENQUIRYID=SALES_ENQ_ITEM.SALESENQITEMID WHERE SALES_ENQ_ITEM.SALESENQITEMID  = '" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -159,18 +160,18 @@ namespace Arasan.Services.Sales
             return dtt;
         }
 
-        public DataTable GetCustypebyId(string id)
-        {
-            string SvSql = string.Empty;
-            //SvSql = "Select SALES_QUOTE.SALESQUOTEID,SALES_ENQUIRY.CUSTOMER_TYPE,SALESENQUIRYID from SALES_ENQUIRY LEFT OUTER JOIN SALES_QUOTE ON SALESQUOTEID=SALES_ENQUIRY.SALESENQUIRYID WHERE SALES_ENQUIRY.SALESENQUIRYID='" + id + "'";
-            SvSql = "Select CUSTOMERTYPE.CUSTOMER_TYPE,SALES_ENQUIRY.SALESENQUIRYID From CUSTOMERTYPE  LEFT OUTER JOIN SALES_ENQUIRY ON SALES_ENQUIRY.SALESENQUIRYID=CUSTOMERTYPE.CUSTOMERTYPEID WHERE SALES_ENQUIRY.SALESENQUIRYID='" + id + "'";
+        //public DataTable GetCustypebyId(string id)
+        //{
+        //    string SvSql = string.Empty;
+        //    //SvSql = "Select SALES_QUOTE.SALESQUOTEID,SALES_ENQUIRY.CUSTOMER_TYPE,SALESENQUIRYID from SALES_ENQUIRY LEFT OUTER JOIN SALES_QUOTE ON SALESQUOTEID=SALES_ENQUIRY.SALESENQUIRYID WHERE SALES_ENQUIRY.SALESENQUIRYID='" + id + "'";
+        //    SvSql = "Select CUSTOMERTYPE.CUSTOMER_TYPE,SALES_ENQUIRY.SALESENQUIRYID From CUSTOMERTYPE  LEFT OUTER JOIN SALES_ENQUIRY ON SALES_ENQUIRY.SALESENQUIRYID=CUSTOMERTYPE.CUSTOMERTYPEID WHERE SALES_ENQUIRY.SALESENQUIRYID='" + id + "'";
 
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
+        //    DataTable dtt = new DataTable();
+        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
+        //}
         public DataTable GetTypelstbyId(string id)
         {
             string SvSql = string.Empty;
@@ -311,20 +312,21 @@ namespace Arasan.Services.Sales
                                     objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cp.itemid;
                                     objCmds.Parameters.Add("ITEMDESC", OracleDbType.NVarchar2).Value = cp.des;
                                     objCmds.Parameters.Add("UNIT", OracleDbType.NVarchar2).Value = cp.unit;
-                                    objCmds.Parameters.Add("CF", OracleDbType.NVarchar2).Value = cp.ConFac;
+                                    objCmds.Parameters.Add("CF", OracleDbType.NVarchar2).Value = cp.confac;
                                     objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = cp.quantity;
-                                    objCmds.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = cp.Rate;
-                                    objCmds.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = cp.Amount;
-                                    objCmds.Parameters.Add("TOTAMT", OracleDbType.NVarchar2).Value = cp.TotalAmount;
-                                    objCmds.Parameters.Add("DISC", OracleDbType.NVarchar2).Value = cp.Disc;
-                                    objCmds.Parameters.Add("DISCAMOUNT", OracleDbType.NVarchar2).Value = cp.DiscAmount;
-                                    objCmds.Parameters.Add("IFREIGHTCH", OracleDbType.NVarchar2).Value = cp.FrigCharge;
-                                    objCmds.Parameters.Add("CGSTPER", OracleDbType.NVarchar2).Value = cp.CGSTP;
-                                    objCmds.Parameters.Add("SGSTPER", OracleDbType.NVarchar2).Value = cp.SGSTP;
-                                    objCmds.Parameters.Add("IGSTPER", OracleDbType.NVarchar2).Value = cp.IGSTP;
-                                    objCmds.Parameters.Add("CGSTAMT", OracleDbType.NVarchar2).Value = cp.CGST;
-                                    objCmds.Parameters.Add("SGSTAMT", OracleDbType.NVarchar2).Value = cp.SGST;
-                                    objCmds.Parameters.Add("IGSTAMT", OracleDbType.NVarchar2).Value = cp.IGST;
+                                    objCmds.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = cp.rate;
+                                    objCmds.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = cp.amount;
+                                    
+                                    objCmds.Parameters.Add("DISC", OracleDbType.NVarchar2).Value = cp.disc;
+                                    objCmds.Parameters.Add("DISCAMOUNT", OracleDbType.NVarchar2).Value = cp.discamount;
+                                    objCmds.Parameters.Add("IFREIGHTCH", OracleDbType.NVarchar2).Value = cp.frigcharge;
+                                    objCmds.Parameters.Add("CGSTPER", OracleDbType.NVarchar2).Value = cp.cgstp;
+                                    objCmds.Parameters.Add("SGSTPER", OracleDbType.NVarchar2).Value = cp.sgstp;
+                                    objCmds.Parameters.Add("IGSTPER", OracleDbType.NVarchar2).Value = cp.igstp;
+                                    objCmds.Parameters.Add("CGSTAMT", OracleDbType.NVarchar2).Value = cp.cgst;
+                                    objCmds.Parameters.Add("SGSTAMT", OracleDbType.NVarchar2).Value = cp.sgst;
+                                    objCmds.Parameters.Add("IGSTAMT", OracleDbType.NVarchar2).Value = cp.igst;
+                                    objCmds.Parameters.Add("TOTAMT", OracleDbType.NVarchar2).Value = cp.totalamount;
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                     objConns.Open();
                                     objCmds.ExecuteNonQuery();

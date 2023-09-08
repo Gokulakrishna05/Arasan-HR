@@ -374,7 +374,7 @@ namespace Arasan.Controllers.Sales
                 DataTable dt = new DataTable();
 
                 string quodate = "";
-                string customertype = "";
+                //string customertype = "";
                 string address = "";
                 string city = "";
                 string pincode = "";
@@ -401,7 +401,7 @@ namespace Arasan.Controllers.Sales
                     custid = dt.Rows[0]["CUSTOMER_NAME"].ToString();
                     quotype = dt.Rows[0]["ENQ_TYPE"].ToString();
                     currency = dt.Rows[0]["CURRENCY_TYPE"].ToString();
-                    customertype = dt.Rows[0]["CUSTOMER_NAME"].ToString();
+                    //customertype = dt.Rows[0]["CUSTOMER_NAME"].ToString();
                     Pri = dt.Rows[0]["PRIORITY"].ToString();
                 }
 
@@ -433,13 +433,13 @@ namespace Arasan.Controllers.Sales
 
         }
 
-        public JsonResult GetCustypeJSON(string ItemId)
-        {
-            SalesQuotation model = new SalesQuotation();
-            model.Custypelst = BindCustypelst(ItemId);
-            return Json(BindCustypelst(ItemId));
+        //public JsonResult GetCustypeJSON(string ItemId)
+        //{
+        //    SalesQuotation model = new SalesQuotation();
+        //    model.Custypelst = BindCustypelst(ItemId);
+        //    return Json(BindCustypelst(ItemId));
 
-        }
+        //}
         public JsonResult GetTypeJSON(string ItemId)
         {
             SalesQuotation model = new SalesQuotation();
@@ -504,27 +504,27 @@ namespace Arasan.Controllers.Sales
             }
         }
 
-        public List<SelectListItem> BindCustypelst(string value)
-        {
-            try
-            {
+        //public List<SelectListItem> BindCustypelst(string value)
+        //{
+        //    try
+        //    {
 
-                List<SelectListItem> lstdesg = new List<SelectListItem>();
+        //        List<SelectListItem> lstdesg = new List<SelectListItem>();
 
-                DataTable dtDesg = SalesQuotationService.GetCustypebyId(value);
-                for (int i = 0; i < dtDesg.Rows.Count; i++)
-                {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["CUSTOMER_TYPE"].ToString(), Value = dtDesg.Rows[i]["SALESENQUIRYID"].ToString() });
+        //        DataTable dtDesg = SalesQuotationService.GetCustypebyId(value);
+        //        for (int i = 0; i < dtDesg.Rows.Count; i++)
+        //        {
+        //            lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["CUSTOMER_TYPE"].ToString(), Value = dtDesg.Rows[i]["SALESENQUIRYID"].ToString() });
 
-                }
-                return lstdesg;
-            }
+        //        }
+        //        return lstdesg;
+        //    }
 
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
 
         public List<SelectListItem> BindTypelst(string value)
         {
@@ -1061,10 +1061,11 @@ namespace Arasan.Controllers.Sales
                     tda = new QuoItem();
 
                     tda.itemid = dtt.Rows[0]["ITEM_ID"].ToString();
-                    tda.des = dtt.Rows[0]["ITEM_DESCRIPTION"].ToString();
+                    
                     tda.unit = dtt.Rows[0]["UNIT"].ToString();
+                    //tda.confac = dtt.Rows[0]["CF"].ToString();
                     tda.quantity = dtt.Rows[0]["QUANTITY"].ToString();
-
+                    tda.des = dtt.Rows[0]["ITEM_DESCRIPTION"].ToString();
                     
 
                     Data.Add(tda);
