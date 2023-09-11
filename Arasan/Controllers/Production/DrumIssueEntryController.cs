@@ -156,9 +156,9 @@ namespace Arasan.Controllers.Production
 
             return View(Cy);
         }
-        public IActionResult ListDrumIssueEntry()
+        public IActionResult ListDrumIssueEntry(string st, string ed)
         {
-            IEnumerable<DrumIssueEntry> cmp = DrumIssueEntryService.GetAllDrumIssueEntry();
+            IEnumerable<DrumIssueEntry> cmp = DrumIssueEntryService.GetAllDrumIssueEntry(st, ed);
             return View(cmp);
         }
         public List<SelectListItem> BindEmp()
