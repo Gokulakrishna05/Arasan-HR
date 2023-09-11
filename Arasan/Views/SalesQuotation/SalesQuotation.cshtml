@@ -704,8 +704,11 @@
                var $currency = $("#ddlCurrency").select2();
                   $currency.val(result.currency).trigger("change");
 
-                var $prior = $("#ddlPro").select2();
-                   $prior.val(result.Priority).trigger("change");
+                   var $custype = $("#ddlCustomerType").select2();
+                $custype.val(result.custype).trigger("change");
+
+                var $pri = $("#ddlPro").select2();
+                   $pri.val(result.Priority).trigger("change");
 
                 },
             error: function () {
@@ -729,35 +732,46 @@
 
                     var itemid = "<td><input class='form-control' id='ddlItem " + index + "' name='QuoLst[" + index + "].itemid'  style='width: 100px;' type='text'  readonly='True'  value=" + item.itemid + " /></td>";
                     var unit = "<td><input class='form-control' id='txtUnit" + index + "' name='QuoLst[" + index + "].unit'  style='width: 100px;' type='text'  readonly='True'  value=" + item.unit + " /></td>";
-                    var confac = "<td><input class='form-control' id='txtConFac" + index + "' name='QuoLst[" + index + "].confac'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px; text-align:right' type='text' onchange = 'changeQty(this.value," + index + ")'  value=" + item.confac + "  /></td> ";
+                    var confac = "<td><input class='form-control' id='txtConFac" + index + "' name='QuoLst[" + index + "].confac'  style='width: 100px;' type='text'  readonly='True'  value=" + item.confac + " /></td>";
+@*                    var confac = "<td><input class='form-control' id='txtConFac" + index + "' name='QuoLst[" + index + "].confac'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px; text-align:right' type='text'   /></td> ";
+*@                       
+                    var cgstp = "<td><input class='form-control' id='txtCGSTP" + index + "' name='QuoLst[" + index + "].cgstp'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text' onchange = 'changeQty(this.value," + index + ")'  /></td> ";
 
-                    var quantity = " <td><input class='form-control' id='txtQuantity" + index + "' name='QuoLst[" + index + "].quantity'  style='width: 100px;' type='text'  readonly='True'  value=" + item.quantity + " /></td>";
+                    var quantity = " <td><input class='form-control' id='txtQuantity" + index + "' name='QuoLst[" + index + "].quantity'  style='width: 100px;' type='text'  readonly='True'  value=" + item.quantity + "   /></td>";
                     var des = "<td><input class='form-control' id='txtDes" + index + "' name='QuoLst[" + index + "].des'  style='width: 100px;' type='text'  readonly='True'  value=" + item.des + " /></td>";
 
-                    var rate = "<td><input class='form-control' id='txtRate" + index + "' name='QuoLst[" + index + "].rate'  style='width: 80px;' type='text'  value=" + item.rate + "  /></td> ";
+                    var rate = "<td><input class='form-control' id='txtRate" + index + "' name='QuoLst[" + index + "].rate'  style='width: 80px;' type='text'  readonly='True'  value=" + item.rate + " /></td> ";
 
-                    var amount = "<td><input class='form-control' id='txtAmount" + index + "' name='QuoLst[" + index + "].amount'  style='width: 80px;' type='text'onkeydown='return isNumeric2(event.keyCode,this.value)'  onchange = 'changeQty(this.value," + index + ")' value=" + item.amount + "  /></td>";
+                    var amount = "<td><input class='form-control' id='txtAmount" + index + "' name='QuoLst[" + index + "].amount'  style='width: 80px;' type='text'  readonly='True'  value=" + item.amount + "  /></td>";
        
-                    var disc = "<td><input class='form-control' id='txtDisc" + index + "' name='QuoLst[" + index + "].disc'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text'  value=" + item.disc + "  /></td>";
+                    var disc = "<td><input class='form-control' id='txtDisc" + index + "' name='QuoLst[" + index + "].disc'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text'  onchange = 'changeQty(this.value," + index + ")'  /></td> ";
+
         
-                    var discamount = "<td><input class='form-control' id='txtDiscAmount" + index + "' name='QuoLst[" + index + "].discamount'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text' value=" + item.discamount + " /></td>";
+                    var discamount = "<td><input class='form-control' id='txtDiscAmount" + index + "' name='QuoLst[" + index + "].discamount'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text'  onchange = 'changeQty(this.value," + index + ")'  /></td> ";
+
         
-                    var frigcharge = "<td><input class='form-control' id='txtFrigCharge" + index + "' name='QuoLst[" + index + "].frigcharge'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text'  value=" + item.frigcharge + "  /></td>";
+                    var frigcharge = "<td><input class='form-control' id='txtFrigCharge" + index + "' name='QuoLst[" + index + "].frigcharge'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text' onchange = 'changeQty(this.value," + index + ")'  /></td> ";
+
         
       
-                    var cgstp = "<td><input class='form-control' id='txtCGSTP" + index + "' name='QuoLst[" + index + "].cgstp'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text' value=" + item.cgstp + " /></td>";
+                    var cgstp = "<td><input class='form-control' id='txtCGSTP" + index + "' name='QuoLst[" + index + "].cgstp'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text' onchange = 'changeQty(this.value," + index + ")'  /></td> ";
+
+                    var sgstp = "<td><input class='form-control' id='txtSGSTP" + index + "' name='QuoLst[" + index + "].sgstp'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text'   onchange = 'changeQty(this.value," + index + ")'  /></td> ";
+
         
-                    var sgstp = "<td><input class='form-control' id='txtSGSTP" + index + "' name='QuoLst[" + index + "].sgstp'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text'   value=" + item.sgstp + " /></td>";
+                    var igstp = "<td><input class='form-control' id='txtIGSTP" + index + "' name='QuoLst[" + index + "].igstp'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text'  onchange = 'changeQty(this.value," + index + ")'  /></td> ";
+
         
-                    var igstp = "<td><input class='form-control' id='txtIGSTP" + index + "' name='QuoLst[" + index + "].igstp'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text'  value=" + item.igstp + "  /></td>";
+                    var cgst = "<td><input class='form-control' id='txtCGST" + index + "' name='QuoLst[" + index + "].cgst'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text'   onchange = 'changeQty(this.value," + index + ")'  /></td> ";
+
+                    var sgst = "<td><input class='form-control' id='txtSGST" + index + "' name='QuoLst[" + index + "].sgst'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text'  onchange = 'changeQty(this.value," + index + ")'  /></td> ";
+
         
-                    var cgst = "<td><input class='form-control' id='txtCGST" + index + "' name='QuoLst[" + index + "].cgst'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text'   value=" + item.cgst + " /></td>";
+                    var igst = "<td><input class='form-control' id='txtIGST" + index + "' name='QuoLst[" + index + "].IGST'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text' onchange = 'changeQty(this.value," + index + ")'  /></td> ";
+
         
-                    var sgst = "<td><input class='form-control' id='txtSGST" + index + "' name='QuoLst[" + index + "].sgst'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text'  value=" + item.sgst + "  /></td>";
-        
-                    var igst = "<td><input class='form-control' id='txtIGST" + index + "' name='QuoLst[" + index + "].IGST'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text' value=" + item.igst + " /></td>";
-        
-                    var totalamount = "<td><input class='form-control' id='txtTotalAmount" + index + "' name='DirLst[" + index + "].totalamount'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)'  value=" + item.totalamount + " /></td>";
+                    var totalamount = "<td><input class='form-control' id='txtTotalAmount" + index + "' name='DirLst[" + index + "].totalamount'  style='width: 80px;' onkeydown='return isNumeric2(event.keyCode,this.value)'  onchange = 'changeQty(this.value," + index + ")'  /></td> ";
+
 
 
                    var removeCell = "<td><input id='Isvalid" + index + "' name='QuoLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='QuoLst.Index' type='hidden' value='" + index + "'  /></td>";
