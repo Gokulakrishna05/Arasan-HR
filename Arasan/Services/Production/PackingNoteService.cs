@@ -235,9 +235,7 @@ namespace Arasan.Services
                                     objCmds.Parameters.Add("IBATCHNO", OracleDbType.NVarchar2).Value = cp.BatchNo;
                                     objCmds.Parameters.Add("IBATCHQTY", OracleDbType.NVarchar2).Value = cp.BatchQty;
                                     objCmds.Parameters.Add("COMBNO", OracleDbType.NVarchar2).Value = cp.Comp;
-
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
-
                                     objConns.Open();
                                     objCmds.ExecuteNonQuery();
                                     objConns.Close();
