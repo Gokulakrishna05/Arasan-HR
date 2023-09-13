@@ -165,8 +165,8 @@ namespace Arasan.Models
         public string ADDRESS { get; set; }
         public string IGST { get; set; }
         public string SALES_ENQ_ID { get; set; }
-        public string ENQNO { get; set; }
-        public string ENQDATE { get; set; }
+        public string QUOTE_NO { get; set; }
+        public string QUOTE_DATE { get; set; }
         public string DELIVERY_TERMS { get; set; }
         public string ITEMDESC { get; set; }
 
