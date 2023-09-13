@@ -198,14 +198,10 @@ namespace Arasan.Services.Production
                                     objCmds.CommandType = CommandType.StoredProcedure;
 									
 									objCmds.Parameters.Add("DIEBASICID", OracleDbType.NVarchar2).Value = Pid;
-                                    //objCmds.Parameters.Add("FBINID", OracleDbType.NVarchar2).Value = ca.FBinId;
-                                    //objCmds.Parameters.Add("TBINID", OracleDbType.NVarchar2).Value = ca.TBinid;
                                     objCmds.Parameters.Add("NDRUMNO", OracleDbType.NVarchar2).Value = DrumID;
                                     objCmds.Parameters.Add("DRUMNO", OracleDbType.NVarchar2).Value = ca.drum;
                                     objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = ca.qty;
                                     objCmds.Parameters.Add("BATCHNO", OracleDbType.NVarchar2).Value = ca.batchno;
-                                    //objCmds.Parameters.Add("BATCHRATE", OracleDbType.NVarchar2).Value = ca.Rate;
-                                    //objCmds.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = ca.Amount;
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                     objConns.Open();
                                     objCmds.ExecuteNonQuery();
@@ -239,7 +235,6 @@ namespace Arasan.Services.Production
 
                                             OracleCommand objCmds = new OracleCommand("DRUMSTKPROC", objConns);
                                             objCmds.CommandType = CommandType.StoredProcedure;
-
                                             objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
                                             objCmds.Parameters.Add("INVENTORY_ITEM_ID", OracleDbType.NVarchar2).Value = "0";
                                             objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cy.Itemid;
