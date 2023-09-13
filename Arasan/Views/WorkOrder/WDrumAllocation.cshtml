@@ -279,7 +279,7 @@
                                                                 Total No.Of Drums Selected : <label id="lbldrumdisp"></label>
                                                             </div>
                                                             <div class="col-md-3">
-                                                                Total Qty : <label id="lblQtydisp"></label>
+                                                                Total Qty : <label id="totalqty"></label> 
                                                             </div>
                                                         </div>
 
@@ -378,7 +378,7 @@
             j += 1;
         });
         document.getElementById("lbldrumdisp").innerHTML = tot;
-        document.getElementById("lblQtydisp").innerHTML = totqty;
+        document.getElementById("totalqty").innerHTML = totqty;
     }
     function enableAllrepview(i) {
 
@@ -472,7 +472,7 @@
             });
         }
         document.getElementById("lbldrumdisp").innerHTML = tot;
-        document.getElementById("lblQtydisp").innerHTML = totqty;
+        document.getElementById("totalqty").innerHTML = totqty;
     }
 
     function zeroPad(num, places) {
@@ -481,26 +481,41 @@
     }
 
 
-        //$(document).ready(function () {
-        //    $('#btnSave').click(function (e) {
-        //try {
+        $(document).ready(function () {
+            $('#btnSave').click(function (e) {
+        try {
 
-        //    var i=0;
-        //            var qty = document.getElementById("orderqty" + i).value;
-        //            var stkqty = document.getElementById("lblQtydisp").value;
+           var i=0;
+                   var qty = document.getElementById("orderqty" + i).value;
+                var stkqty = document.getElementById("totalqty").value;
 
+                  alert(qty);
+                  alert(stkqty);
+             //if (eval(qty) > eval(stkqty) || eval(qty) < eval(stkqty)) {
 
-        //        if (eval(qty) > eval(stkqty) || eval(qty) < eval(stkqty)) {
+                alert("Pending Quantity Exceeds the Actual Quantity");
+               
+           //}
+        }
 
-        //        alert("Pending Quantity Exceeds the Actual Quantity");
-        //        qty = 0;
-        //    }
-        //}
+        catch (ex) {
+           alert(ex.message);
+        }
+            });
 
-        //catch (ex) {
-        //    alert(ex.message);
-        //}
-        //    });
+            });
 
-        //    });
+    //$(document).ready(function () {
+    //    $('#btnSave').click(function (e) {
+    //       var i=0;
+    //        if (document.getElementById("orderqty" + i).value  == document.getElementById("lblQtydisp").value  ) {
+               
+
+    //            alert("Please Enter Qty's are Same");
+    //            return false;
+    //        }
+            
+    //    });
+
+    //});
 </script>
