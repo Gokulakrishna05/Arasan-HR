@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections;
 using System.Data;
+using Arasan.Services.Sales;
 
 namespace Arasan.Interface.Sales
 {
@@ -19,5 +20,7 @@ namespace Arasan.Interface.Sales
         DataTable GetTax();
         DataTable GetWorkOrderByID(string id);
         DataTable GetDrumDetails(string Itemid, string locid);
+
+        IEnumerable<WDrumAllocation> GetAllWDrumAll();
     }
 }
