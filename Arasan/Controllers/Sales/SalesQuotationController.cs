@@ -83,7 +83,7 @@ namespace Arasan.Controllers.Sales
 
 
                 }
-                //ca = SalesQuotationService.GetLocationsById(id);
+                // ca = SalesQuotationService.GetLocationsById(id);
 
 
                 //DataTable dt2 = new DataTable();
@@ -101,34 +101,36 @@ namespace Arasan.Controllers.Sales
                 //        {
                 //            tda.ItemGroupId = dt3.Rows[0]["SUBGROUPCODE"].ToString();
                 //        }
-                //        tda.Itlst = BindItemlst(tda.ItemId);
-                //        tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
+                //        tda.Itlst = BindItemlst(tda.itemid);
+                //        tda.itemid = dt2.Rows[i]["ITEMID"].ToString();
                 //        tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
                 //        DataTable dt4 = new DataTable();
-                //        dt4 = datatrans.GetItemDetails(tda.ItemId);
+                //        dt4 = datatrans.GetItemDetails(tda.itemid);
                 //        if (dt4.Rows.Count > 0)
                 //        {
-                //            tda.Des = dt4.Rows[0]["ITEMDESC"].ToString();
-                //            tda.ConFac = dt4.Rows[0]["CF"].ToString();
-                //            tda.Rate = Convert.ToDouble(dt4.Rows[0]["LATPURPRICE"].ToString());
+                //            tda.des = dt4.Rows[0]["ITEMDESC"].ToString();
+                //            tda.confac = dt4.Rows[0]["CF"].ToString();
+                //            tda.rate = dt4.Rows[0]["RATE"].ToString();
+                //            tda.rate = Convert.ToDouble(dt4.Rows[0]["LATPURPRICE"].ToString());
                 //        }
-                //        tda.Quantity = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
-                //        toaamt = tda.Rate * tda.Quantity;
+                //        tda.quantity = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
+                //        tda.quantity = dt4.Rows[0]["QTY"].ToString();
+                //        toaamt = tda.rate * tda.quantity;
                 //        total += toaamt;
-                //        //tda.QtyPrim= Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
-                //        tda.Amount = toaamt;
-                //        tda.Unit = dt2.Rows[i]["UNIT"].ToString();
-                //        //tda.unitprim= dt2.Rows[i]["UNITID"].ToString();
-                //        //tda.Disc = Convert.ToDouble(dt2.Rows[i]["DISC"].ToString() == "" ? "0" : dt2.Rows[i]["DISC"].ToString());
-                //        //tda.DiscAmount = Convert.ToDouble(dt2.Rows[i]["DISCAMOUNT"].ToString() == "" ? "0" : dt2.Rows[i]["DISCAMOUNT"].ToString());
-                //        //tda.FrigCharge = Convert.ToDouble(dt2.Rows[i]["IFREIGHTCH"].ToString() == "" ? "0" : dt2.Rows[i]["IFREIGHTCH"].ToString());
-                //        //tda.TotalAmount = Convert.ToDouble(dt2.Rows[i]["TOTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["TOTAMT"].ToString());
-                //        //tda.CGSTP = Convert.ToDouble(dt2.Rows[i]["CGSTPER"].ToString() == "" ? "0" : dt2.Rows[i]["CGSTPER"].ToString());
-                //        //tda.SGSTP = Convert.ToDouble(dt2.Rows[i]["SGSTPER"].ToString() == "" ? "0" : dt2.Rows[i]["SGSTPER"].ToString());
-                //        //tda.IGSTP = Convert.ToDouble(dt2.Rows[i]["IGSTPER"].ToString() == "" ? "0" : dt2.Rows[i]["IGSTPER"].ToString());
-                //        //tda.CGST = Convert.ToDouble(dt2.Rows[i]["CGSTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["CGSTAMT"].ToString());
-                //        //tda.SGST = Convert.ToDouble(dt2.Rows[i]["SGSTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["SGSTAMT"].ToString());
-                //        //tda.IGST = Convert.ToDouble(dt2.Rows[i]["IGSTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["IGSTAMT"].ToString());
+                //        tda.QtyPrim = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
+                //        tda.amount = toaamt;
+                //        tda.unit = dt2.Rows[i]["UNIT"].ToString();
+                //        tda.unitprim = dt2.Rows[i]["UNITID"].ToString();
+                //        tda.Disc = Convert.ToDouble(dt2.Rows[i]["DISC"].ToString() == "" ? "0" : dt2.Rows[i]["DISC"].ToString());
+                //        tda.DiscAmount = Convert.ToDouble(dt2.Rows[i]["DISCAMOUNT"].ToString() == "" ? "0" : dt2.Rows[i]["DISCAMOUNT"].ToString());
+                //        tda.FrigCharge = Convert.ToDouble(dt2.Rows[i]["IFREIGHTCH"].ToString() == "" ? "0" : dt2.Rows[i]["IFREIGHTCH"].ToString());
+                //        tda.TotalAmount = Convert.ToDouble(dt2.Rows[i]["TOTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["TOTAMT"].ToString());
+                //        tda.CGSTP = Convert.ToDouble(dt2.Rows[i]["CGSTPER"].ToString() == "" ? "0" : dt2.Rows[i]["CGSTPER"].ToString());
+                //        tda.SGSTP = Convert.ToDouble(dt2.Rows[i]["SGSTPER"].ToString() == "" ? "0" : dt2.Rows[i]["SGSTPER"].ToString());
+                //        tda.IGSTP = Convert.ToDouble(dt2.Rows[i]["IGSTPER"].ToString() == "" ? "0" : dt2.Rows[i]["IGSTPER"].ToString());
+                //        tda.CGST = Convert.ToDouble(dt2.Rows[i]["CGSTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["CGSTAMT"].ToString());
+                //        tda.SGST = Convert.ToDouble(dt2.Rows[i]["SGSTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["SGSTAMT"].ToString());
+                //        tda.IGST = Convert.ToDouble(dt2.Rows[i]["IGSTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["IGSTAMT"].ToString());
                 //        tda.Isvalid = "Y";
                 //        TData.Add(tda);
                 //    }
@@ -374,16 +376,17 @@ namespace Arasan.Controllers.Sales
                 DataTable dt = new DataTable();
 
                 string quodate = "";
-                string customertype = "";
+                //string customertype = "";
                 string address = "";
                 string city = "";
                 string pincode = "";
                 string mobile = "";
                 
                 string custid = "";
+                string custype = "";
                 string quotype = "";
                 string currency = "";
-                string Pri = "";
+                string pri = "";
 
                 
 
@@ -399,13 +402,14 @@ namespace Arasan.Controllers.Sales
                     pincode = dt.Rows[0]["PINCODE"].ToString();
                     mobile = dt.Rows[0]["CONTACT_PERSON_MOBILE"].ToString();
                     custid = dt.Rows[0]["CUSTOMER_NAME"].ToString();
+                    custype = dt.Rows[0]["CUSTOMER_TYPE"].ToString();
                     quotype = dt.Rows[0]["ENQ_TYPE"].ToString();
                     currency = dt.Rows[0]["CURRENCY_TYPE"].ToString();
-                    customertype = dt.Rows[0]["CUSTOMER_NAME"].ToString();
-                    Pri = dt.Rows[0]["PRIORITY"].ToString();
+                    //customertype = dt.Rows[0]["CUSTOMER_NAME"].ToString();
+                    pri = dt.Rows[0]["PRIORITY"].ToString();
                 }
 
-                var result = new { quodate = quodate, address = address, city = city, pincode = pincode, mobile = mobile, custid = custid, quotype = quotype, currency = currency, Pri = Pri };
+                var result = new { quodate = quodate, address = address, city = city, pincode = pincode, mobile = mobile, custid = custid, custype= custype, quotype = quotype, currency = currency, pri = pri };
                 return Json(result);
             }
             catch (Exception ex)
@@ -1060,11 +1064,15 @@ namespace Arasan.Controllers.Sales
                 {
                     tda = new QuoItem();
 
-                    tda.itemid = dtt.Rows[0]["ITEM_ID"].ToString();
-                    tda.des = dtt.Rows[0]["ITEM_DESCRIPTION"].ToString();
+                    tda.itemid = dtt.Rows[0]["ITEMID"].ToString();
+                    
                     tda.unit = dtt.Rows[0]["UNIT"].ToString();
+                    //tda.confac = dtt.Rows[0]["CF"].ToString();
                     tda.quantity = dtt.Rows[0]["QUANTITY"].ToString();
-
+                    tda.des = dtt.Rows[0]["ITEM_DESCRIPTION"].ToString();
+                    tda.rate = dtt.Rows[0]["RATE"].ToString();
+                    tda.amount = dtt.Rows[0]["AMOUNT"].ToString();
+                    tda.confac = dtt.Rows[0]["CF"].ToString();
                     
 
                     Data.Add(tda);

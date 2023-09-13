@@ -296,31 +296,58 @@ namespace Arasan.Services.Production
             return dtt;
         }
 
-        public IEnumerable<DrumIssueEntry> GetAllDrumIssueEntry()
+        public IEnumerable<DrumIssueEntry> GetAllDrumIssueEntry(string st, string ed)
         {
             List<DrumIssueEntry> cmpList = new List<DrumIssueEntry>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
-
-                using (OracleCommand cmd = con.CreateCommand())
+                if (st != null && ed != null)
                 {
-                    con.Open();
-                    cmd.CommandText = "select DOCID,to_char(DIEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,LOCDETAILS.LOCID,TYPE,BRANCHMAST.BRANCHID,DIEBASICID FROM DIEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=DIEBASIC.BRANCH  LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID=DIEBASIC.FROMLOC order by DIEBASICID desc ";
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
+                    using (OracleCommand cmd = con.CreateCommand())
                     {
-                        DrumIssueEntry cmp = new DrumIssueEntry
+                        con.Open();
+                        cmd.CommandText = "select DOCID,to_char(DIEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,LOCDETAILS.LOCID,TYPE,BRANCHMAST.BRANCHID,DIEBASICID FROM DIEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=DIEBASIC.BRANCH  LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID=DIEBASIC.FROMLOC  WHERE DIEBASIC.DOCDATE BETWEEN '" + st + "'  AND '" + ed + "'  order by DIEBASICID desc ";
+                        OracleDataReader rdr = cmd.ExecuteReader();
+                        while (rdr.Read())
                         {
+                            DrumIssueEntry cmp = new DrumIssueEntry
+                            {
 
-                            ID = rdr["DIEBASICID"].ToString(),
-                            FromLoc = rdr["LOCID"].ToString(),
-                            Branch = rdr["BRANCHID"].ToString(),
-                            type = rdr["TYPE"].ToString(),
-                            Docid = rdr["DOCID"].ToString(),
-                            Docdate = rdr["DOCDATE"].ToString(),
+                                ID = rdr["DIEBASICID"].ToString(),
+                                FromLoc = rdr["LOCID"].ToString(),
+                                Branch = rdr["BRANCHID"].ToString(),
+                                type = rdr["TYPE"].ToString(),
+                                Docid = rdr["DOCID"].ToString(),
+                                Docdate = rdr["DOCDATE"].ToString(),
 
-                        };
-                        cmpList.Add(cmp);
+                            };
+                            cmpList.Add(cmp);
+                        }
+                    }
+
+                }
+                else
+                {
+                    using (OracleCommand cmd = con.CreateCommand())
+                    {
+                        con.Open();
+                        cmd.CommandText = "select DOCID,to_char(DIEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,LOCDETAILS.LOCID,TYPE,BRANCHMAST.BRANCHID,DIEBASICID FROM DIEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=DIEBASIC.BRANCH  LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID=DIEBASIC.FROMLOC WHERE DIEBASIC.DOCDATE > sysdate-30 order by DIEBASICID desc ";
+                        OracleDataReader rdr = cmd.ExecuteReader();
+                        while (rdr.Read())
+                        {
+                            DrumIssueEntry cmp = new DrumIssueEntry
+                            {
+
+                                ID = rdr["DIEBASICID"].ToString(),
+                                FromLoc = rdr["LOCID"].ToString(),
+                                Branch = rdr["BRANCHID"].ToString(),
+                                type = rdr["TYPE"].ToString(),
+                                Docid = rdr["DOCID"].ToString(),
+                                Docdate = rdr["DOCDATE"].ToString(),
+
+                            };
+                            cmpList.Add(cmp);
+                        }
                     }
                 }
             }

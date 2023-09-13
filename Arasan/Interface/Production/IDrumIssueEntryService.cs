@@ -10,7 +10,7 @@ namespace Arasan.Interface.Production
         DataTable BindBinID();
         DataTable DrumDeatils(string id,string item);
         string DrumIssueEntryCRUD(DrumIssueEntry cy);
-        IEnumerable<DrumIssueEntry> GetAllDrumIssueEntry();
+        IEnumerable<DrumIssueEntry> GetAllDrumIssueEntry(string st, string ed);
         DataTable GetBranch();
         DataTable GetDIEDetail(string id);
         DataTable GetDrumIssuseDetails(string id);

@@ -92,22 +92,22 @@ namespace Arasan.Models
         public string saveItemId { get; set; }
         public string ItemGroupId { get; set; }
         
-        public string ConFac { get; set; }
+        public string confac { get; set; }
 
         //public string Description { get; set; }
-        public string Rate { get; set; }
-        public string Amount { get; set; }
-        public string Disc { get; set; }
-        public string DiscAmount { get; set; }
+        public string rate { get; set; }
+        public string amount { get; set; }
+        public string disc { get; set; }
+        public string discamount { get; set; }
 
-        public string FrigCharge { get; set; }
-        public string CGSTP { get; set; }
-        public string SGSTP { get; set; }
-        public string IGSTP { get; set; }
-        public string CGST { get; set; }
-        public string SGST { get; set; }
-        public string IGST { get; set; }
-        public string TotalAmount { get; set; }
+        public string frigcharge { get; set; }
+        public string cgstp { get; set; }
+        public string sgstp { get; set; }
+        public string igstp { get; set; }
+        public string cgst { get; set; }
+        public string sgst { get; set; }
+        public string igst { get; set; }
+        public string totalamount { get; set; }
         public string Isvalid { get; set; }
 
         public string itemid { get; set; }
@@ -165,8 +165,8 @@ namespace Arasan.Models
         public string ADDRESS { get; set; }
         public string IGST { get; set; }
         public string SALES_ENQ_ID { get; set; }
-        public string ENQNO { get; set; }
-        public string ENQDATE { get; set; }
+        public string QUOTE_NO { get; set; }
+        public string QUOTE_DATE { get; set; }
         public string DELIVERY_TERMS { get; set; }
         public string ITEMDESC { get; set; }
 

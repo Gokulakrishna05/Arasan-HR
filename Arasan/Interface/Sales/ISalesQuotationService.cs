@@ -27,6 +27,7 @@ namespace Arasan.Interface.Sales
         DataTable GetCustypebyId(string itemId);
         DataTable GetTypelstbyId(string itemId);
         DataTable GetPribyId(string itemId);
+
         //DataTable GetItemgroupbyId(string itemId);
         //DataTable SalesQuotationDetail(string id, string item);
         DataTable GetItemgrpDetail(string id);
