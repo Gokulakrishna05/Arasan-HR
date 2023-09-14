@@ -71,10 +71,20 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>DataSet4.xsd</DependentUpon>
     </Compile>
+    <Compile Update="DataSet5.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DataSet5.xsd</DependentUpon>
+    </Compile>
     <Compile Update="DataSet6.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>DataSet6.xsd</DependentUpon>
+    </Compile>
+    <Compile Update="SQ.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SQ.xsd</DependentUpon>
     </Compile> 
   </ItemGroup>
   <ItemGroup>
@@ -116,6 +126,10 @@
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>DataSet4.Designer.cs</LastGenOutput>
     </None>
+    <None Update="DataSet5.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSet5.Designer.cs</LastGenOutput>
+    </None>
     <None Update="DataSet6.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>DataSet6.Designer.cs</LastGenOutput>
@@ -124,6 +138,10 @@
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>DataSet7.Designer.cs</LastGenOutput>
     </None>
+     <None Update="SQ.xsd">
+       <Generator>MSDataSetGenerator</Generator>
+       <LastGenOutput>SQ.Designer.cs</LastGenOutput>
+     </None>
    </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="https://json.schemastore.org/artifacthub-repo.json" /></VisualStudio></ProjectExtensions>

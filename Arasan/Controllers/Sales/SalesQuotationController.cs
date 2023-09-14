@@ -83,7 +83,7 @@ namespace Arasan.Controllers.Sales
 
                     ca.gross = Convert.ToDouble(dt.Rows[0]["GROSS"].ToString() == "" ? "0" : dt.Rows[0]["GROSS"].ToString());
                     ca.net = Convert.ToDouble(dt.Rows[0]["NET"].ToString() == "" ? "0" : dt.Rows[0]["NET"].ToString());
-                    ViewBag.Quoteid = id;
+                    //ViewBag.QuoId = id;
 
                 }
                 // ca = SalesQuotationService.GetLocationsById(id);
@@ -1043,7 +1043,7 @@ namespace Arasan.Controllers.Sales
             var SQuoitem = await SalesQuotationService.GetSQuoItem(id);
 
             LocalReport localReport = new LocalReport(path);
-            localReport.AddDataSource("salesquotation", SQuoitem);
+            localReport.AddDataSource("DataSet1", SQuoitem);
             //localReport.AddDataSource("DataSet1", SQuoitem);
 
             var result = localReport.Execute(RenderType.Pdf, extension, Parameters, mimtype);
@@ -1059,7 +1059,7 @@ namespace Arasan.Controllers.Sales
             dtt = SalesQuotationService.GetItemgrpDetail(id);
             if (dtt.Rows.Count > 0)
             {
-                for (int i = 0; i < dtt.Rows.Count; i++)
+                for (int i = 0; i < dtt.Rows.Count; i++)  
                 {
                     tda = new QuoItem();
 

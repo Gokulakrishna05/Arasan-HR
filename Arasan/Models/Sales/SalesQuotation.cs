@@ -170,6 +170,11 @@ namespace Arasan.Models
         public string QUOTE_DATE { get; set; }
         public string DELIVERY_TERMS { get; set; }
         public string ITEMDESC { get; set; }
+        public string GROSS { get; set; }
+        public string NET { get; set; }
+        public string CGSTAMT { get; set; }
+        public string SGSTAMT { get; set; }
+        public string IGSTAMT { get; set; }
 
     }
 }
