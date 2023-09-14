@@ -59,6 +59,8 @@ namespace Arasan.Services.Sales
                             PinCode = rdr["PINCODE"].ToString(),
                             Pro = rdr["PRIORITY"].ToString(),
                             Assign = rdr["ASSIGNED_TO"].ToString(),
+                            //gross = rdr["GROSS"].ToString(),
+                            //net = rdr["NET"].ToString(),
                             status = rdr["STATUS"].ToString()
                         };
                         cmpList.Add(cmp);
@@ -114,7 +116,7 @@ namespace Arasan.Services.Sales
         {
             string SvSql = string.Empty;
             //SvSql = "select ENQ_NO,ENQ_TYPE,ENQ_DATE,SALES_ENQUIRY.CURRENCY_TYPE,CUSTOMER_NAME,SALESENQUIRYID from SALES_ENQUIRY WHERE SALES_ENQUIRY.SALESENQUIRYID = '" + id + "' ";
-            SvSql = "select ENQ_NO,ENQ_TYPE,ENQ_DATE,SALES_ENQUIRY.CURRENCY_TYPE,CUSTOMER_NAME,CUSTOMER_TYPE,SALES_ENQUIRY.ADDRESS,SALES_ENQUIRY.CITY,SALES_ENQUIRY.PINCODE,SALES_ENQUIRY.CONTACT_PERSON_MOBILE ,SALES_ENQUIRY.PRIORITY,SALESENQUIRYID from SALES_ENQUIRY WHERE SALES_ENQUIRY.SALESENQUIRYID = '" + id + "' ";
+            SvSql = "select ENQ_NO,ENQ_TYPE,ENQ_DATE,SALES_ENQUIRY.CURRENCY_TYPE,CUSTOMER_NAME,CUSTOMER_TYPE,SALES_ENQUIRY.ADDRESS,SALES_ENQUIRY.CITY,SALES_ENQUIRY.PINCODE,SALES_ENQUIRY.CONTACT_PERSON_MOBILE ,SALES_ENQUIRY.PRIORITY,SALESENQUIRYID,GROSS,NET from SALES_ENQUIRY WHERE SALES_ENQUIRY.SALESENQUIRYID = '" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -275,6 +277,8 @@ namespace Arasan.Services.Sales
                     objCmd.Parameters.Add("CONTACT_PERSON_MOBILE", OracleDbType.NVarchar2).Value = cy.Mobile;
                     objCmd.Parameters.Add("PRIORITY", OracleDbType.NVarchar2).Value = cy.Pro;
                     objCmd.Parameters.Add("ASSIGNED_TO", OracleDbType.NVarchar2).Value = cy.Emp;
+                    objCmd.Parameters.Add("GROSS", OracleDbType.NVarchar2).Value = cy.gross;
+                    objCmd.Parameters.Add("NET", OracleDbType.NVarchar2).Value = cy.net;
 
                     objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
                     //objCmd.Parameters.Add("NARRATION", OracleDbType.NVarchar2).Value = cy.Narration;
@@ -359,7 +363,7 @@ namespace Arasan.Services.Sales
         public DataTable GetSalesQuotation(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select SALES_QUOTE.BRANCHID,SALES_QUOTE.QUOTE_NO,to_char(SALES_QUOTE.QUOTE_DATE,'dd-MON-yyyy')QUOTE_DATE,SALES_QUOTE.ENQ_NO,to_char(SALES_QUOTE.ENQ_DATE,'dd-MON-yyyy')ENQ_DATE,SALES_QUOTE.CURRENCY_TYPE,SALES_QUOTE.CUSTOMER,SALES_QUOTE.CUSTOMER_TYPE,SALES_QUOTE.ADDRESS,SALES_QUOTE.CITY,SALES_QUOTE.PINCODE,SALES_QUOTE.CONTACT_PERSON_MAIL,SALES_QUOTE.CONTACT_PERSON_MOBILE,SALES_QUOTE.PRIORITY,SALES_QUOTE.ASSIGNED_TO,SALESQUOTEID from SALES_QUOTE  where SALES_QUOTE.SALESQUOTEID= " + id + " ";
+            SvSql = "Select SALES_QUOTE.BRANCHID,SALES_QUOTE.QUOTE_NO,to_char(SALES_QUOTE.QUOTE_DATE,'dd-MON-yyyy')QUOTE_DATE,SALES_QUOTE.ENQ_NO,to_char(SALES_QUOTE.ENQ_DATE,'dd-MON-yyyy')ENQ_DATE,SALES_QUOTE.CURRENCY_TYPE,SALES_QUOTE.CUSTOMER,SALES_QUOTE.CUSTOMER_TYPE,SALES_QUOTE.ADDRESS,SALES_QUOTE.CITY,SALES_QUOTE.PINCODE,SALES_QUOTE.CONTACT_PERSON_MAIL,SALES_QUOTE.CONTACT_PERSON_MOBILE,SALES_QUOTE.PRIORITY,SALES_QUOTE.ASSIGNED_TO,SALESQUOTEID,GROSS,NET from SALES_QUOTE  where SALES_QUOTE.SALESQUOTEID= " + id + " ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

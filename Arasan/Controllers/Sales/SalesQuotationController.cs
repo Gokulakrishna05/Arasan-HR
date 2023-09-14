@@ -81,6 +81,9 @@ namespace Arasan.Controllers.Sales
                     ca.Assign = dt.Rows[0]["ASSIGNED_TO"].ToString();
                     ca.ID = id;
 
+                    ca.gross = Convert.ToDouble(dt.Rows[0]["GROSS"].ToString() == "" ? "0" : dt.Rows[0]["GROSS"].ToString());
+                    ca.net = Convert.ToDouble(dt.Rows[0]["NET"].ToString() == "" ? "0" : dt.Rows[0]["NET"].ToString());
+                    ViewBag.Quoteid = id;
 
                 }
                 // ca = SalesQuotationService.GetLocationsById(id);
@@ -376,7 +379,6 @@ namespace Arasan.Controllers.Sales
                 DataTable dt = new DataTable();
 
                 string quodate = "";
-                //string customertype = "";
                 string address = "";
                 string city = "";
                 string pincode = "";
@@ -387,16 +389,15 @@ namespace Arasan.Controllers.Sales
                 string quotype = "";
                 string currency = "";
                 string pri = "";
+                string gross = "";
+                string net = "";
 
-                
 
                 dt = SalesQuotationService.GetEnqDetails(ItemId);
 
                 if (dt.Rows.Count > 0)
                 {
                     quodate = dt.Rows[0]["ENQ_DATE"].ToString();
-
-                    
                     address = dt.Rows[0]["ADDRESS"].ToString();
                     city = dt.Rows[0]["CITY"].ToString();
                     pincode = dt.Rows[0]["PINCODE"].ToString();
@@ -405,11 +406,12 @@ namespace Arasan.Controllers.Sales
                     custype = dt.Rows[0]["CUSTOMER_TYPE"].ToString();
                     quotype = dt.Rows[0]["ENQ_TYPE"].ToString();
                     currency = dt.Rows[0]["CURRENCY_TYPE"].ToString();
-                    //customertype = dt.Rows[0]["CUSTOMER_NAME"].ToString();
                     pri = dt.Rows[0]["PRIORITY"].ToString();
+                    gross = dt.Rows[0]["GROSS"].ToString();
+                    net = dt.Rows[0]["NET"].ToString();
                 }
 
-                var result = new { quodate = quodate, address = address, city = city, pincode = pincode, mobile = mobile, custid = custid, custype= custype, quotype = quotype, currency = currency, pri = pri };
+                var result = new { quodate = quodate, address = address, city = city, pincode = pincode, mobile = mobile, custid = custid, custype= custype, quotype = quotype, currency = currency, pri = pri, gross = gross, net = net };
                 return Json(result);
             }
             catch (Exception ex)
@@ -417,10 +419,7 @@ namespace Arasan.Controllers.Sales
                 throw ex;
             }
         }
-
-
-
-        public JsonResult GetEnqJSON(string ItemId)
+         public JsonResult GetEnqJSON(string ItemId)
         {
             SalesQuotation model = new SalesQuotation();
             model.Enqlst = BindEnqlst(ItemId);
@@ -1065,9 +1064,8 @@ namespace Arasan.Controllers.Sales
                     tda = new QuoItem();
 
                     tda.itemid = dtt.Rows[0]["ITEMID"].ToString();
-                    
                     tda.unit = dtt.Rows[0]["UNIT"].ToString();
-                    //tda.confac = dtt.Rows[0]["CF"].ToString();
+                    
                     tda.quantity = dtt.Rows[0]["QUANTITY"].ToString();
                     tda.des = dtt.Rows[0]["ITEM_DESCRIPTION"].ToString();
                     tda.rate = dtt.Rows[0]["RATE"].ToString();
