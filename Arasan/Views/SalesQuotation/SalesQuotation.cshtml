@@ -345,7 +345,7 @@
 
                                                  <br /><label for="inputName3" class="col-sm-4 control-label">Gross <label class="mandatory">*</label></label>
                                                 <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Mobile, new { @id = "txtGross", @class = "form-control", @TabIndex = 1 ,@onkeyup = "changeAmount(this," + i + ")" })
+                                            @Html.TextBoxFor(C => C.gross, new { @id = "txtGross", @class = "form-control", @TabIndex = 1 ,@onkeyup = "changeAmount(this," + i + ")" })
                                                 </div>
                                             </div>
                                         </div>
@@ -354,7 +354,7 @@
                                                  <br /> <label for="inputName3" class="col-sm-4 control-label">Net <label class="Mandatory"></label></label>
 
                                                       <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Gmail, new { @id = "txtNet", @class = "form-control", @TabIndex = 1, @onkeyup = "changeAmount(this," + i + ")" })
+                                            @Html.TextBoxFor(C => C.net, new { @id = "txtNet", @class = "form-control", @TabIndex = 1, @onkeyup = "changeAmount(this," + i + ")" })
                                                 </div>
 
                                             </div>
@@ -463,7 +463,7 @@
     });
     function PopulateDropDown(dropDownId, list)
     {
-        //alert(list);
+       @* alert(list);*@
         $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
         if (list != null && list.length > 0) {
             $(dropDownId).removeAttr("disabled");
@@ -517,7 +517,7 @@
             cache: false,
             success: function (response) {
                 var newlist;
-                //alert(JSON.stringify(response));
+               @* //alert(JSON.stringify(response));*@
                 newlist = response.Ilst;
                 PopulateDropDown("#ddlItem" + i, response);
             },
@@ -895,12 +895,13 @@
         var removeCell = "<td><input id='Isvalid" + index + "' name='QuoLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='QuoLst.Index' type='hidden' value='" + index + "'  /></td>";
 
         var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + ItemGrp + Item + Unit + ConFac  + Quantity + Des + Rate + Amount + Disc + DiscAmount + FrigCharge  + CGSTP + SGSTP + IGSTP + CGST + SGST + IGST + TotalAmount +  removeCell + "</tr>";
-        //alert(Packing);
+        @*//alert(Packing);*@
         $("#tbBooks").append(newRow);
         $(function() {
             $('._select').select2();
         })
     }
+
 </script>
 
 @*<script>
