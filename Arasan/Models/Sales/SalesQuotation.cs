@@ -72,7 +72,8 @@ namespace Arasan.Models
         public string Pro { get; set; }
         public string Gmail { get; set; }
         public string PinCode { get; set; }
-        public double Net { get; set; }
+        public double gross { get; set; }
+        public double net { get; set; }
         public string status { get; set; }
         public List<QuoItem> QuoLst { get; set; }
         public string QuoteFormatId { get; set; }
