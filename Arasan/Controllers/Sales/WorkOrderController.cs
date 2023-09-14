@@ -369,7 +369,11 @@ namespace Arasan.Controllers.Sales
             IEnumerable<WorkOrder> cmp = WorkOrderService.GetAllWorkOrder(status);
             return View(cmp);
         }
-
+        public IActionResult ListWDrumAllo( )
+        {
+            IEnumerable<WDrumAllocation> cmp = WorkOrderService.GetAllWDrumAll();
+            return View(cmp);
+        }
         public ActionResult GetSalesQuoDetails(string id,string jobid)
         {
             WorkOrder model = new WorkOrder();

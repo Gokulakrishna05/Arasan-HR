@@ -339,6 +339,38 @@ namespace Arasan.Services.Sales
             adapter.Fill(dtt);
             return dtt;
         }
-        
+        public IEnumerable<WDrumAllocation> GetAllWDrumAll( )
+        {
+            
+
+            List<WDrumAllocation> cmpList = new List<WDrumAllocation>();
+            using (OracleConnection con = new OracleConnection(_connectionString))
+            {
+
+                using (OracleCommand cmd = con.CreateCommand())
+                {
+                    con.Open();
+                    cmd.CommandText = "Select jodrumallocationbasic.DOCID joid,to_char(jodrumallocationbasic.DOCDATE,'dd-MON-yyyy')DOCDATE,jobasic.DOCID as jobid,PARTYMAST.PARTYNAME ,LOCDETAILS.LOCID,JODRUMALLOCATIONBASICID from jodrumallocationbasic  left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID=jodrumallocationbasic.LOCID  LEFT OUTER JOIN  PARTYMAST on jodrumallocationbasic.CUSTOMERID=PARTYMAST.PARTYMASTID left outer join jobasic on jobasic.jobasicid= jodrumallocationbasic.JOPID order by jodrumallocationbasic.jodrumallocationbasicid DESC ";
+                    OracleDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        WDrumAllocation cmp = new WDrumAllocation
+                        {
+                            ID = rdr["JODRUMALLOCATIONBASICID"].ToString(),
+                            JobId = rdr["jobid"].ToString(),
+                            Customername = rdr["PARTYNAME"].ToString(),
+                            DocDate = rdr["DOCDATE"].ToString(),
+                            Location = rdr["LOCID"].ToString(),
+                            DOCId = rdr["DOCID"].ToString(),
+                           
+                           
+                          
+                        };
+                        cmpList.Add(cmp);
+                    }
+                }
+            }
+            return cmpList;
+        }
     }
 }
