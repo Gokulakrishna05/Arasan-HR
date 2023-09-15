@@ -16,30 +16,56 @@ namespace Arasan.Services
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public IEnumerable<PackingNote> GetAllPackingNote()
+        public IEnumerable<PackingNote> GetAllPackingNote(string st, string ed)
         {
             List<PackingNote> cmpList = new List<PackingNote>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
-
-                using (OracleCommand cmd = con.CreateCommand())
+                if (st != null && ed != null)
                 {
-                    con.Open();
-                    cmd.CommandText = "Select   BRANCHMAST.BRANCHID,DOCID,LOCDETAILS.LOCID,WCBASIC.WCID,ITEMMASTER.ITEMID,PACKNOTEBASICID  from PACKNOTEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PACKNOTEBASIC.BRANCH LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PACKNOTEBASIC.OITEMID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PACKNOTEBASIC.DRUMLOCATION  LEFT OUTER JOIN WCBASIC ON WCBASIC.WCBASICID=PACKNOTEBASIC.WCID  ";
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
+
+                    using (OracleCommand cmd = con.CreateCommand())
                     {
-                        PackingNote cmp = new PackingNote
+                        con.Open();
+                        cmd.CommandText = "Select   BRANCHMAST.BRANCHID,DOCID,LOCDETAILS.LOCID,WCBASIC.WCID,ITEMMASTER.ITEMID,PACKNOTEBASICID  from PACKNOTEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PACKNOTEBASIC.BRANCH LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PACKNOTEBASIC.OITEMID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PACKNOTEBASIC.DRUMLOCATION  LEFT OUTER JOIN WCBASIC ON WCBASIC.WCBASICID=PACKNOTEBASIC.WCID WHERE PACKNOTEBASIC.DOCDATE BETWEEN '" + st + "'  AND '" + ed + "' ";
+                        OracleDataReader rdr = cmd.ExecuteReader();
+                        while (rdr.Read())
                         {
-                            ID = rdr["PACKNOTEBASICID"].ToString(),
-                            Branch = rdr["BRANCHID"].ToString(),
-                            ItemId = rdr["ITEMID"].ToString(),
-                            DrumLoc = rdr["LOCID"].ToString(),
-                            DocId = rdr["DOCID"].ToString(),
-                        };
-                        cmpList.Add(cmp);
+                            PackingNote cmp = new PackingNote
+                            {
+                                ID = rdr["PACKNOTEBASICID"].ToString(),
+                                Branch = rdr["BRANCHID"].ToString(),
+                                ItemId = rdr["ITEMID"].ToString(),
+                                DrumLoc = rdr["LOCID"].ToString(),
+                                DocId = rdr["DOCID"].ToString(),
+                            };
+                            cmpList.Add(cmp);
+                        }
+                    }
+                
+            }
+                else
+                {
+                    using (OracleCommand cmd = con.CreateCommand())
+                    {
+                        con.Open();
+                        cmd.CommandText = "Select   BRANCHMAST.BRANCHID,DOCID,LOCDETAILS.LOCID,WCBASIC.WCID,ITEMMASTER.ITEMID,PACKNOTEBASICID  from PACKNOTEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PACKNOTEBASIC.BRANCH LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PACKNOTEBASIC.OITEMID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PACKNOTEBASIC.DRUMLOCATION  LEFT OUTER JOIN WCBASIC ON WCBASIC.WCBASICID=PACKNOTEBASIC.WCID WHERE PACKNOTEBASIC.DOCDATE > sysdate-30 ";
+                        OracleDataReader rdr = cmd.ExecuteReader();
+                        while (rdr.Read())
+                        {
+                            PackingNote cmp = new PackingNote
+                            {
+                                ID = rdr["PACKNOTEBASICID"].ToString(),
+                                Branch = rdr["BRANCHID"].ToString(),
+                                ItemId = rdr["ITEMID"].ToString(),
+                                DrumLoc = rdr["LOCID"].ToString(),
+                                DocId = rdr["DOCID"].ToString(),
+                            };
+                            cmpList.Add(cmp);
+                        }
                     }
                 }
+                
             }
             return cmpList;
         }
@@ -183,9 +209,8 @@ namespace Arasan.Services
                     }
                     objCmd.Parameters.Add("BRANCH", OracleDbType.NVarchar2).Value = cy.Branch;
                     objCmd.Parameters.Add("TOLOCDETAILSID", OracleDbType.NVarchar2).Value = cy.WorkId;
-            
                     objCmd.Parameters.Add("SHIFT", OracleDbType.NVarchar2).Value = cy.Shift;
-                    objCmd.Parameters.Add("DOCDATE", OracleDbType.Date).Value = DateTime.Parse(cy.Docdate);
+                    objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = cy.Docdate;
                     objCmd.Parameters.Add("DRUMLOCATION", OracleDbType.NVarchar2).Value = cy.DrumLoc;
                     objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.DocId;
                     objCmd.Parameters.Add("PACKCONSYN", OracleDbType.NVarchar2).Value = cy.PackYN;
@@ -196,10 +221,8 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("ENTEREDBY", OracleDbType.NVarchar2).Value = cy.Enterd;
                     objCmd.Parameters.Add("PACLOTNO", OracleDbType.NVarchar2).Value = cy.LotNo;
                     objCmd.Parameters.Add("REMARKS", OracleDbType.NVarchar2).Value = cy.Remark;
-                  
                     objCmd.Parameters.Add("PSCHNO", OracleDbType.NVarchar2).Value = cy.ProdSchNo;
                     objCmd.Parameters.Add("OITEMID", OracleDbType.NVarchar2).Value = Item;
-                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try

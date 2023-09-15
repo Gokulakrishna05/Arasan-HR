@@ -8,7 +8,7 @@ namespace Arasan.Interface
     {
         DataTable ShiftDeatils();
         DataTable GetWorkCenter();
-        IEnumerable<PackingNote>  GetAllPackingNote();
+        IEnumerable<PackingNote>  GetAllPackingNote(string st, string ed);
         string PackingNoteCRUD(PackingNote Cy);
         DataTable GetItembyId(string id);
         DataTable GetDrumLocation();
