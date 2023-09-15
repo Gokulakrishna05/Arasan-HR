@@ -369,9 +369,9 @@ namespace Arasan.Controllers
         //        throw ex;
         //    }
         //}
-        public IActionResult ListPackingNote()
+        public IActionResult ListPackingNote(string st, string ed)
         {
-            IEnumerable<PackingNote> cmp = Packing.GetAllPackingNote();
+            IEnumerable<PackingNote> cmp = Packing.GetAllPackingNote(st, ed);
             return View(cmp);
         }
         public IActionResult ApprovePacking(string NOTE)
