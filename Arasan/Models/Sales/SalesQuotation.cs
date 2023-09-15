@@ -84,7 +84,7 @@ namespace Arasan.Models
     }
     public class QuoItem
     {
-        //public string ItemId { get; set; }
+        
 
         public List<SelectListItem> Itlst { get; set; }
 
@@ -172,9 +172,10 @@ namespace Arasan.Models
         public string ITEMDESC { get; set; }
         public string GROSS { get; set; }
         public string NET { get; set; }
-        public string CGSTAMT { get; set; }
-        public string SGSTAMT { get; set; }
-        public string IGSTAMT { get; set; }
+        public double CGSTAMT { get; set; }
+        public double SGSTAMT { get; set; }
+        public double IGSTAMT { get; set; }
+        public string AMTINWORDS { get; set; }
 
     }
 }

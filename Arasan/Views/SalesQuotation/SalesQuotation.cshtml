@@ -1045,4 +1045,10 @@
                     $('#EnquiryQuote').css('display', 'block');
                 }
             }
+
+    function roundtorupee(amt) {
+        if (amt - round_decimals(amt, 0) > 0.5)
+            return pad_with_zeros(round_decimals(amt + 1, 0));
+        return pad_with_zeros(round_decimals(amt, 0));
+    }
 </script>
