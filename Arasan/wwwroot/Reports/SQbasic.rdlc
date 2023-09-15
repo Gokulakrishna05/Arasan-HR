@@ -543,7 +543,7 @@
                   <Paragraph>
                     <TextRuns>
                       <TextRun>
-                        <Value>=Sum(Fields!CGSTAMT.Value)</Value>
+                        <Value>=Fields!CGSTAMT.Value</Value>
                         <Style>
                           <FontFamily>Times New Roman</FontFamily>
                         </Style>
@@ -577,7 +577,7 @@
                   <Paragraph>
                     <TextRuns>
                       <TextRun>
-                        <Value>=Sum(Fields!SGSTAMT.Value)</Value>
+                        <Value>=Fields!SGSTAMT.Value</Value>
                         <Style>
                           <FontFamily>Times New Roman</FontFamily>
                         </Style>
@@ -657,7 +657,7 @@
                   <Paragraph>
                     <TextRuns>
                       <TextRun>
-                        <Value>=Sum(Fields!IGSTAMT.Value)</Value>
+                        <Value>=Fields!IGSTAMT.Value</Value>
                         <Style>
                           <FontFamily>Times New Roman</FontFamily>
                         </Style>
@@ -787,7 +787,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value />
+                <Value>=Fields!AMTINWORDS.Value</Value>
                 <Style>
                   <FontFamily>Times New Roman</FontFamily>
                 </Style>
@@ -2522,6 +2522,10 @@
         </Field>
         <Field Name="DELIVERY_TERMS">
           <DataField>DELIVERY_TERMS</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="AMTINWORDS">
+          <DataField>AMTINWORDS</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
