@@ -2352,9 +2352,8 @@
         </Textbox>
         <Line Name="Line2">
           <Top>1.63474in</Top>
-          <Left>0.03516in</Left>
           <Height>0in</Height>
-          <Width>6.40977in</Width>
+          <Width>6.44493in</Width>
           <ZIndex>6</ZIndex>
           <Style>
             <Border>

@@ -66,9 +66,12 @@ namespace Arasan.Controllers.Sales
                 if (dt.Rows.Count > 0)
                 {
                     ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
-                    ca.EnquiryId = dt.Rows[0]["ENQ_NO"].ToString();
-                    ca.QuoId = dt.Rows[0]["QUOTE_NO"].ToString();
+                    ca.QuoteFormatId = dt.Rows[0]["NEW_EXISTINGQUOTE"].ToString();
+                    ca.EnquiryId = dt.Rows[0]["FROM_ENQUIRY"].ToString();
+                    ca.EnqType = dt.Rows[0]["QUOTETYPE"].ToString();
+                    //ca.QuoId = dt.Rows[0]["QUOTE_NO"].ToString();
                     ca.QuoDate = dt.Rows[0]["QUOTE_DATE"].ToString();
+                    //ca.quotype = dt.Rows[0]["QUOTE_DATE"].ToString();
                     //ca.EnNo = dt.Rows[0]["ENQ_NO"].ToString();
                     //ca.EnDate = dt.Rows[0]["ENQ_DATE"].ToString();
                     ca.Currency = dt.Rows[0]["CURRENCY_TYPE"].ToString();
@@ -80,7 +83,9 @@ namespace Arasan.Controllers.Sales
                     ca.Mobile = dt.Rows[0]["CONTACT_PERSON_MOBILE"].ToString();
                     ca.Country = dt.Rows[0]["COUNTRYSHIPMENT"].ToString();
                     ca.Pro = dt.Rows[0]["PRIORITY"].ToString();
+                    ca.narr = dt.Rows[0]["NARRATION"].ToString();
                     ca.Assign = dt.Rows[0]["ASSIGNED_TO"].ToString();
+                    
                     ca.ID = id;
 
                     ca.gross = Convert.ToDouble(dt.Rows[0]["GROSS"].ToString() == "" ? "0" : dt.Rows[0]["GROSS"].ToString());
@@ -103,7 +108,7 @@ namespace Arasan.Controllers.Sales
 
 
                         tda.itemid = dt2.Rows[i]["ITEMID"].ToString();
-                        tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
+                        //tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
                         
                         tda.des = dt2.Rows[i]["ITEMDESC"].ToString();
                         tda.confac = dt2.Rows[i]["CF"].ToString();
@@ -457,6 +462,7 @@ namespace Arasan.Controllers.Sales
                 if (dt.Rows.Count > 0)
                 {
                     quodate = dt.Rows[0]["ENQ_DATE"].ToString();
+                    
                     address = dt.Rows[0]["ADDRESS"].ToString();
                     city = dt.Rows[0]["CITY"].ToString();
                     pincode = dt.Rows[0]["PINCODE"].ToString();

@@ -61,12 +61,14 @@ namespace Arasan.Models
 
         public string QuoId { get; set; }
         public string QuoDate { get; set; }
+        public string QuoType { get; set; }
         public string EnNo { get; set; }
         public string EnDate { get; set; }
 
         public string Customer { get; set; }
         public string Address { get; set; }
         public string City { get; set; }
+        public string narr { get; set; }
         public string Assign { get; set; }
         public string Mobile { get; set; }
         public string Pro { get; set; }
