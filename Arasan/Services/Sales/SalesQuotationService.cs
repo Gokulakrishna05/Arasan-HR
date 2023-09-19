@@ -605,7 +605,6 @@ namespace Arasan.Services.Sales
                 }
 
 
-
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     string Customer = datatrans.GetDataString("Select CUSTOMER from SALES_QUOTE where SALES_QUOTE.SALESQUOTEID='" + id + "' ");
