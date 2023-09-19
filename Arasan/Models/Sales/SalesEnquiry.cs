@@ -65,6 +65,8 @@ namespace Arasan.Models
         public string Isvalid { get; set; }
         public string Unit { get; set; }
         public string Qty { get; set; }
+        public string Rate { get; set; }
+        public string Amount { get; set; }
     }
     public class EnqFollowup
     {
