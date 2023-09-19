@@ -61,18 +61,21 @@ namespace Arasan.Models
 
         public string QuoId { get; set; }
         public string QuoDate { get; set; }
+        public string QuoType { get; set; }
         public string EnNo { get; set; }
         public string EnDate { get; set; }
 
         public string Customer { get; set; }
         public string Address { get; set; }
         public string City { get; set; }
+        public string narr { get; set; }
         public string Assign { get; set; }
         public string Mobile { get; set; }
         public string Pro { get; set; }
         public string Gmail { get; set; }
         public string PinCode { get; set; }
-        public double Net { get; set; }
+        public double gross { get; set; }
+        public double net { get; set; }
         public string status { get; set; }
         public List<QuoItem> QuoLst { get; set; }
         public string QuoteFormatId { get; set; }
@@ -83,7 +86,7 @@ namespace Arasan.Models
     }
     public class QuoItem
     {
-        //public string ItemId { get; set; }
+        
 
         public List<SelectListItem> Itlst { get; set; }
 
@@ -92,22 +95,22 @@ namespace Arasan.Models
         public string saveItemId { get; set; }
         public string ItemGroupId { get; set; }
         
-        public string ConFac { get; set; }
+        public string confac { get; set; }
 
         //public string Description { get; set; }
-        public string Rate { get; set; }
-        public string Amount { get; set; }
-        public string Disc { get; set; }
-        public string DiscAmount { get; set; }
+        public string rate { get; set; }
+        public string amount { get; set; }
+        public string disc { get; set; }
+        public string discamount { get; set; }
 
-        public string FrigCharge { get; set; }
-        public string CGSTP { get; set; }
-        public string SGSTP { get; set; }
-        public string IGSTP { get; set; }
-        public string CGST { get; set; }
-        public string SGST { get; set; }
-        public string IGST { get; set; }
-        public string TotalAmount { get; set; }
+        public string frigcharge { get; set; }
+        public string cgstp { get; set; }
+        public string sgstp { get; set; }
+        public string igstp { get; set; }
+        public string cgst { get; set; }
+        public string sgst { get; set; }
+        public string igst { get; set; }
+        public string totalamount { get; set; }
         public string Isvalid { get; set; }
 
         public string itemid { get; set; }
@@ -165,10 +168,16 @@ namespace Arasan.Models
         public string ADDRESS { get; set; }
         public string IGST { get; set; }
         public string SALES_ENQ_ID { get; set; }
-        public string ENQNO { get; set; }
-        public string ENQDATE { get; set; }
+        public string QUOTE_NO { get; set; }
+        public string QUOTE_DATE { get; set; }
         public string DELIVERY_TERMS { get; set; }
         public string ITEMDESC { get; set; }
+        public string GROSS { get; set; }
+        public string NET { get; set; }
+        public double CGSTAMT { get; set; }
+        public double SGSTAMT { get; set; }
+        public double IGSTAMT { get; set; }
+        public string AMTINWORDS { get; set; }
 
     }
 }

@@ -12,6 +12,9 @@
         top: 2px;
         left: 5px;
     }
+</style>
+<style>
+   
     .newwidth {
         width: 120px;
     }
@@ -223,17 +226,6 @@
     }
 
 
-    $('.form_date').datetimepicker({
-        //   language:  'fr',
-        weekStart: 1,
-        todayBtn: 1,
-        autoclose: 1,
-        todayHighlight: 1,
-        startView: 2,
-        minView: 2,
-        endDate: new Date(),
-        forceParse: 0
-    });
     $('.to_date').datetimepicker({
         //   language:  'fr',
         weekStart: 1,
@@ -245,13 +237,21 @@
         endDate: new Date(),
         forceParse: 0
     });
-    $('#form_date').on('dp.change', function (e) {
-    alert(e.date);
-});
-//       $('.form_date').on('dp.change', function (e) {
-//           alert(e.date);
-//    $('.to_date').data("DateTimePicker").startdate(e.date);
-//});
+
+    $('.form_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        endDate: new Date(),
+        forceParse: 0
+    }).on('changeDate', function (selected) {
+        var minDate = new Date(selected.date.valueOf());
+        $('.to_date').datetimepicker('setStartDate', minDate);
+    });
     function changesearch() {
 
         var isValid = true;

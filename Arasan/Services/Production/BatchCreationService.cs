@@ -87,7 +87,7 @@ namespace Arasan.Services
                 {
                     OracleCommand objCmd = new OracleCommand("BATCHCREATIONPROC", objConn);
                     /*objCmd.Connection = objConn;
-                    objCmd.CommandText = "DIRECTPURCHASEPROC";*/
+                    objCmd.CommandText = "BATCHCREATIONPROC";*/
 
                     objCmd.CommandType = CommandType.StoredProcedure;
                     if (cy.ID == null)

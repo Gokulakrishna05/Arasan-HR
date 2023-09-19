@@ -198,14 +198,10 @@ namespace Arasan.Services.Production
                                     objCmds.CommandType = CommandType.StoredProcedure;
 									
 									objCmds.Parameters.Add("DIEBASICID", OracleDbType.NVarchar2).Value = Pid;
-                                    //objCmds.Parameters.Add("FBINID", OracleDbType.NVarchar2).Value = ca.FBinId;
-                                    //objCmds.Parameters.Add("TBINID", OracleDbType.NVarchar2).Value = ca.TBinid;
                                     objCmds.Parameters.Add("NDRUMNO", OracleDbType.NVarchar2).Value = DrumID;
                                     objCmds.Parameters.Add("DRUMNO", OracleDbType.NVarchar2).Value = ca.drum;
                                     objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = ca.qty;
                                     objCmds.Parameters.Add("BATCHNO", OracleDbType.NVarchar2).Value = ca.batchno;
-                                    //objCmds.Parameters.Add("BATCHRATE", OracleDbType.NVarchar2).Value = ca.Rate;
-                                    //objCmds.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = ca.Amount;
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                     objConns.Open();
                                     objCmds.ExecuteNonQuery();
@@ -239,7 +235,6 @@ namespace Arasan.Services.Production
 
                                             OracleCommand objCmds = new OracleCommand("DRUMSTKPROC", objConns);
                                             objCmds.CommandType = CommandType.StoredProcedure;
-
                                             objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
                                             objCmds.Parameters.Add("INVENTORY_ITEM_ID", OracleDbType.NVarchar2).Value = "0";
                                             objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cy.Itemid;
@@ -296,31 +291,58 @@ namespace Arasan.Services.Production
             return dtt;
         }
 
-        public IEnumerable<DrumIssueEntry> GetAllDrumIssueEntry()
+        public IEnumerable<DrumIssueEntry> GetAllDrumIssueEntry(string st, string ed)
         {
             List<DrumIssueEntry> cmpList = new List<DrumIssueEntry>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
-
-                using (OracleCommand cmd = con.CreateCommand())
+                if (st != null && ed != null)
                 {
-                    con.Open();
-                    cmd.CommandText = "select DOCID,to_char(DIEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,LOCDETAILS.LOCID,TYPE,BRANCHMAST.BRANCHID,DIEBASICID FROM DIEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=DIEBASIC.BRANCH  LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID=DIEBASIC.FROMLOC order by DIEBASICID desc ";
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
+                    using (OracleCommand cmd = con.CreateCommand())
                     {
-                        DrumIssueEntry cmp = new DrumIssueEntry
+                        con.Open();
+                        cmd.CommandText = "select DOCID,to_char(DIEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,LOCDETAILS.LOCID,TYPE,BRANCHMAST.BRANCHID,DIEBASICID FROM DIEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=DIEBASIC.BRANCH  LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID=DIEBASIC.FROMLOC  WHERE DIEBASIC.DOCDATE BETWEEN '" + st + "'  AND '" + ed + "'  order by DIEBASICID desc ";
+                        OracleDataReader rdr = cmd.ExecuteReader();
+                        while (rdr.Read())
                         {
+                            DrumIssueEntry cmp = new DrumIssueEntry
+                            {
 
-                            ID = rdr["DIEBASICID"].ToString(),
-                            FromLoc = rdr["LOCID"].ToString(),
-                            Branch = rdr["BRANCHID"].ToString(),
-                            type = rdr["TYPE"].ToString(),
-                            Docid = rdr["DOCID"].ToString(),
-                            Docdate = rdr["DOCDATE"].ToString(),
+                                ID = rdr["DIEBASICID"].ToString(),
+                                FromLoc = rdr["LOCID"].ToString(),
+                                Branch = rdr["BRANCHID"].ToString(),
+                                type = rdr["TYPE"].ToString(),
+                                Docid = rdr["DOCID"].ToString(),
+                                Docdate = rdr["DOCDATE"].ToString(),
 
-                        };
-                        cmpList.Add(cmp);
+                            };
+                            cmpList.Add(cmp);
+                        }
+                    }
+
+                }
+                else
+                {
+                    using (OracleCommand cmd = con.CreateCommand())
+                    {
+                        con.Open();
+                        cmd.CommandText = "select DOCID,to_char(DIEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,LOCDETAILS.LOCID,TYPE,BRANCHMAST.BRANCHID,DIEBASICID FROM DIEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=DIEBASIC.BRANCH  LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID=DIEBASIC.FROMLOC WHERE DIEBASIC.DOCDATE > sysdate-30 order by DIEBASICID desc ";
+                        OracleDataReader rdr = cmd.ExecuteReader();
+                        while (rdr.Read())
+                        {
+                            DrumIssueEntry cmp = new DrumIssueEntry
+                            {
+
+                                ID = rdr["DIEBASICID"].ToString(),
+                                FromLoc = rdr["LOCID"].ToString(),
+                                Branch = rdr["BRANCHID"].ToString(),
+                                type = rdr["TYPE"].ToString(),
+                                Docid = rdr["DOCID"].ToString(),
+                                Docdate = rdr["DOCDATE"].ToString(),
+
+                            };
+                            cmpList.Add(cmp);
+                        }
                     }
                 }
             }

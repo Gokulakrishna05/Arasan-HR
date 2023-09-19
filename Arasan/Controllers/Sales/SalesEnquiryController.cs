@@ -99,13 +99,6 @@ namespace Arasan.Controllers
                         double toaamt = 0;
                             tda.Itemlst = BindItemlst();
 
-                            //DataTable dt3 = new DataTable();
-                            //dt3 = datatrans.GetItemSubGroup(dt2.Rows[i]["ITEM_ID"].ToString());
-                            //if (dt3.Rows.Count > 0)
-                            //{
-                            //    tda.ItemGroupId = dt3.Rows[0]["SUBGROUPCODE"].ToString();
-                            //}
-
                         tda.ItemId = dt2.Rows[i]["ITEM_ID"].ToString();
                         tda.saveItemId = dt2.Rows[i]["ITEM_ID"].ToString();
                         DataTable dt4 = new DataTable();

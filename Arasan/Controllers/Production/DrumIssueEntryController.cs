@@ -156,9 +156,9 @@ namespace Arasan.Controllers.Production
 
             return View(Cy);
         }
-        public IActionResult ListDrumIssueEntry()
+        public IActionResult ListDrumIssueEntry(string st, string ed)
         {
-            IEnumerable<DrumIssueEntry> cmp = DrumIssueEntryService.GetAllDrumIssueEntry();
+            IEnumerable<DrumIssueEntry> cmp = DrumIssueEntryService.GetAllDrumIssueEntry(st, ed);
             return View(cmp);
         }
         public List<SelectListItem> BindEmp()
@@ -443,20 +443,13 @@ namespace Arasan.Controllers.Production
                 for (int i = 0; i < dtDrum.Rows.Count; i++)
                 {
                     tda = new DrumIssueEntryItem();
-
-                    
                     tda.FBinId = dtDrum.Rows[i]["FBINID"].ToString();
- 
                     tda.TBinid = dtDrum.Rows[i]["TBINID"].ToString();
- 
                     tda.drum = dtDrum.Rows[i]["DRUMNO"].ToString();
-
                     tda.qty = dtDrum.Rows[i]["QTY"].ToString();
                     tda.batch = dtDrum.Rows[i]["BATCHNO"].ToString();
-                    
                     tda.Rate = Convert.ToDouble(dtDrum.Rows[0]["BATCHRATE"].ToString() == "" ? "0" : dtDrum.Rows[0]["BATCHRATE"].ToString());
                     tda.Amount = Convert.ToDouble(dtDrum.Rows[0]["AMOUNT"].ToString() == "" ? "0" : dtDrum.Rows[0]["AMOUNT"].ToString());
-
                     TData.Add(tda);
                 }
 
