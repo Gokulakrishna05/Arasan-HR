@@ -137,7 +137,7 @@ namespace Arasan.Services
         public DataTable GetWork(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select EMPNAME,EMPALLOCATION.LOCATIONNAME,LOCDETAILS.LOCID,EMPALLOCATIONID from EMPALLOCATION left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID=EMPALLOCATION.LOCATIONNAME  where EMPNAME='" + id +"'";
+            SvSql = "Select EMPID EMPNAME,EP.LOCATIONID LOCATIONNAME,LOCDETAILS.LOCID,EP.EMPALLOCATIONID from EMPALLOCATION left outer join EMPALLOCATIONDETAILS EP ON EMPALLOCATION.EMPALLOCATIONID=EP.EMPALLOCATIONID left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID=EP.LOCATIONID  where EMPID='" + id +"'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
