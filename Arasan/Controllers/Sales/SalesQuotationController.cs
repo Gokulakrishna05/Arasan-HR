@@ -69,11 +69,8 @@ namespace Arasan.Controllers.Sales
                     ca.QuoteFormatId = dt.Rows[0]["NEW_EXISTINGQUOTE"].ToString();
                     ca.EnquiryId = dt.Rows[0]["FROM_ENQUIRY"].ToString();
                     ca.EnqType = dt.Rows[0]["QUOTETYPE"].ToString();
-                    //ca.QuoId = dt.Rows[0]["QUOTE_NO"].ToString();
                     ca.QuoDate = dt.Rows[0]["QUOTE_DATE"].ToString();
-                    //ca.quotype = dt.Rows[0]["QUOTE_DATE"].ToString();
-                    //ca.EnNo = dt.Rows[0]["ENQ_NO"].ToString();
-                    //ca.EnDate = dt.Rows[0]["ENQ_DATE"].ToString();
+                    
                     ca.Currency = dt.Rows[0]["CURRENCY_TYPE"].ToString();
                     ca.Customer = dt.Rows[0]["CUSTOMER"].ToString();
                     ca.CustomerType = dt.Rows[0]["CUSTOMER_TYPE"].ToString();
@@ -93,7 +90,6 @@ namespace Arasan.Controllers.Sales
                     //ViewBag.QuoId = id;
 
                 }
-
                 DataTable dt2 = new DataTable();
 
                 dt2 = SalesQuotationService.GetSalesQuotationItemDetails(id);
@@ -135,81 +131,7 @@ namespace Arasan.Controllers.Sales
             return View(ca);
 
         }
-        //ca = SalesQuotationService.GetLocationsById(id);
-
-
-        //DataTable dt2 = new DataTable();
-        //        dt2 = SalesQuotationService.GetSalesQuotationItemDetails(id);
-        //        if (dt2.Rows.Count > 0)
-        //        {
-        //            for (int i = 0; i < dt2.Rows.Count; i++)
-        //            {
-        //                tda = new QuoItem();
-        //                //double toaamt = 0;
-        //                //tda.ItemGrouplst = BindItemGrplst();
-        //                //DataTable dt3 = new DataTable();
-        //                //dt3 = datatrans.GetItemSubGroup(dt2.Rows[i]["ITEMID"].ToString());
-        //                //if (dt3.Rows.Count > 0)
-        //                //{
-        //                //    tda.ItemGroupId = dt3.Rows[0]["SUBGROUPCODE"].ToString();
-        //                //}
-        //                //tda.Itlst = BindItemlst(tda.itemid);
-        //                tda.itemid = dt2.Rows[i]["ITEMID"].ToString();
-        //                tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
-        //                DataTable dt4 = new DataTable();
-        //                //dt4 = datatrans.GetItemDetails(tda.itemid);
-        //                if (dt4.Rows.Count > 0)
-        //                {
-        //                    tda.des = dt4.Rows[0]["ITEMDESC"].ToString();
-        //                    tda.confac = dt4.Rows[0]["CF"].ToString();
-        //                    tda.rate = dt4.Rows[0]["RATE"].ToString();
-        //                    //tda.rate = Convert.ToDouble(dt4.Rows[0]["LATPURPRICE"].ToString());
-        //                }
-        //                //tda.quantity = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
-        //                tda.quantity = dt4.Rows[0]["QTY"].ToString();
-        //                //toaamt = tda.rate * tda.quantity;
-        //                //total += toaamt;
-        //                //tda.quantityPrim = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
-        //                //tda.amount = toaamt;
-        //                tda.unit = dt2.Rows[i]["UNIT"].ToString();
-
-        //                //tda.unitprim = dt2.Rows[i]["UNIT"].ToString();
-        //                tda.disc = dt4.Rows[0]["DISC"].ToString();
-        //                tda.discamount = dt4.Rows[0]["DISCAMOUNT"].ToString();
-        //                tda.frigcharge = dt4.Rows[0]["IFREIGHTCH"].ToString();
-        //                tda.totalamount = dt4.Rows[0]["TOTAMT"].ToString();
-        //                tda.cgstp = dt4.Rows[0]["CGSTPER"].ToString();
-        //                tda.sgstp = dt4.Rows[0]["SGSTPER"].ToString();
-        //                tda.igstp = dt4.Rows[0]["IGSTPER"].ToString();
-        //                tda.cgst =  dt4.Rows[0]["CGSTAMT"].ToString();
-        //                tda.sgst =  dt4.Rows[0]["SGSTAMT"].ToString();
-        //                tda.igst =  dt4.Rows[0]["IGSTAMT"].ToString();
-
-        //                //tda.unitprim = dt2.Rows[i]["UNIT"].ToString();
-        //                //tda.disc = Convert.ToDouble(dt2.Rows[i]["DISC"].ToString() == "" ? "0" : dt2.Rows[i]["DISC"].ToString());
-        //                //tda.discamount = Convert.ToDouble(dt2.Rows[i]["DISCAMOUNT"].ToString() == "" ? "0" : dt2.Rows[i]["DISCAMOUNT"].ToString());
-        //                //tda.FrigCharge = Convert.ToDouble(dt2.Rows[i]["IFREIGHTCH"].ToString() == "" ? "0" : dt2.Rows[i]["IFREIGHTCH"].ToString());
-        //                //tda.TotalAmount = Convert.ToDouble(dt2.Rows[i]["TOTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["TOTAMT"].ToString());
-        //                //tda.CGSTP = Convert.ToDouble(dt2.Rows[i]["CGSTPER"].ToString() == "" ? "0" : dt2.Rows[i]["CGSTPER"].ToString());
-        //                //tda.SGSTP = Convert.ToDouble(dt2.Rows[i]["SGSTPER"].ToString() == "" ? "0" : dt2.Rows[i]["SGSTPER"].ToString());
-        //                //tda.IGSTP = Convert.ToDouble(dt2.Rows[i]["IGSTPER"].ToString() == "" ? "0" : dt2.Rows[i]["IGSTPER"].ToString());
-        //                //tda.CGST = Convert.ToDouble(dt2.Rows[i]["CGSTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["CGSTAMT"].ToString());
-        //                //tda.SGST = Convert.ToDouble(dt2.Rows[i]["SGSTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["SGSTAMT"].ToString());
-        //                //tda.IGST = Convert.ToDouble(dt2.Rows[i]["IGSTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["IGSTAMT"].ToString());
-        //                tda.Isvalid = "Y";
-        //                TData.Add(tda);
-        //            }
-        //        }
-
-
-        //        //ca.Net = Math.Round(total, 2);
-        //        ca.QuoLst = TData;
-        //    }
-        //    //ca.QuoLst = TData;
-        //    return View(ca);
-
-        //}
-
+        
 
         [HttpPost]
         public ActionResult SalesQuotation(SalesQuotation Cy, string id)
@@ -363,46 +285,7 @@ namespace Arasan.Controllers.Sales
                 throw ex;
             }
         }
-        //public IActionResult ViewQuote(string id)
-        //{
-        //    SalesQuotation ca = new SalesQuotation();
-        //    DataTable dt = new DataTable();
-        //    DataTable dtt = new DataTable();
-        //    dt = SalesQuotationService.GetSalesQuotationByName(id);
-        //    if (dt.Rows.Count > 0)
-        //    {
-        //        ca.Customer = dt.Rows[0]["PARTY"].ToString();
-        //        ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
-        //        ca.QuoId = dt.Rows[0]["QUOTE_NO"].ToString();
-        //        ca.QuoDate = dt.Rows[0]["QUOTE_DATE"].ToString();
-        //        ca.EnNo = dt.Rows[0]["ENQ_NO"].ToString();
-        //        ca.EnDate = dt.Rows[0]["ENQ_DATE"].ToString();
-        //        ca.ID = id;
-        //    }
-        //    List<QuoItem> Data = new List<QuoItem>();
-        //    QuoItem tda = new QuoItem();
-        //    double tot = 0;
-        //    dtt = SalesQuotationService.GetSalesQuotationItem(id);
-        //    if (dtt.Rows.Count > 0)
-        //    {
-        //        for (int i = 0; i < dtt.Rows.Count; i++)
-        //        {
-        //            tda = new QuoItem();
-        //            tda.ItemId = dtt.Rows[i]["ITEMID"].ToString();
-        //            tda.Unit = dtt.Rows[i]["UNIT"].ToString();
-        //            tda.Quantity = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString());
-        //            tda.Rate = Convert.ToDouble(dtt.Rows[i]["RATE"].ToString() == "" ? "0" : dtt.Rows[i]["RATE"].ToString());
-        //            tda.TotalAmount = tda.Quantity * tda.Rate;
-        //            tot += tda.TotalAmount;
-        //            Data.Add(tda);
-        //        }
-        //    }
-        //    ca.Net = tot;
-        //    ca.QuoLst = Data;
-        //    return View(ca);
-        //}
-
-
+       
         public ActionResult GetCustomerDetail(string ItemId)
         {
             try
@@ -523,15 +406,6 @@ namespace Arasan.Controllers.Sales
 
         }
 
-
-
-        //public JsonResult GetItemgroupJSON(string ItemId)
-        //{
-        //    SalesQuotation model = new SalesQuotation();
-        //    model.Itemgrouplst = BindItemgrouplst(ItemId);
-        //    return Json(BindItemgrouplst(ItemId));
-
-        //}
 
         public List<SelectListItem> BindEnqlst(string value)
         {
