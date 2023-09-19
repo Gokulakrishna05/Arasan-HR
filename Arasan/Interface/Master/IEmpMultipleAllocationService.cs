@@ -9,7 +9,7 @@ namespace Arasan.Interface.Master
     {
         string EmpMultipleAllocationCRUD(EmpMultipleAllocation cy);
         //IEnumerable<EmpMultipleAllocation> GetAllEmpMultipleAllocation();
-        DataTable GetEmp();
+        DataTable GetEmp(string action);
         DataTable GetEmpAllocation();
         DataTable GetEmpMultipleAllocationReassign(string id);
         DataTable GetEmpMultipleAllocationServiceName(string id);

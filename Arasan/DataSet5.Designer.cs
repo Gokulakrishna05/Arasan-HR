@@ -3224,6 +3224,8 @@ namespace Arasan {
             
             private global::System.Data.DataColumn columnDELIVERY_TERMS;
             
+            private global::System.Data.DataColumn columnAMTINWORDS;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public SQDataTable() {
@@ -3467,6 +3469,14 @@ namespace Arasan {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn AMTINWORDSColumn {
+                get {
+                    return this.columnAMTINWORDS;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -3528,7 +3538,8 @@ namespace Arasan {
                         decimal SGSTAMT, 
                         decimal IGSTAMT, 
                         decimal CGSTAMT, 
-                        string DELIVERY_TERMS) {
+                        string DELIVERY_TERMS, 
+                        string AMTINWORDS) {
                 SQRow rowSQRow = ((SQRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         PARTYNAME,
@@ -3556,7 +3567,8 @@ namespace Arasan {
                         SGSTAMT,
                         IGSTAMT,
                         CGSTAMT,
-                        DELIVERY_TERMS};
+                        DELIVERY_TERMS,
+                        AMTINWORDS};
                 rowSQRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowSQRow);
                 return rowSQRow;
@@ -3605,6 +3617,7 @@ namespace Arasan {
                 this.columnIGSTAMT = base.Columns["IGSTAMT"];
                 this.columnCGSTAMT = base.Columns["CGSTAMT"];
                 this.columnDELIVERY_TERMS = base.Columns["DELIVERY_TERMS"];
+                this.columnAMTINWORDS = base.Columns["AMTINWORDS"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3662,6 +3675,8 @@ namespace Arasan {
                 base.Columns.Add(this.columnCGSTAMT);
                 this.columnDELIVERY_TERMS = new global::System.Data.DataColumn("DELIVERY_TERMS", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnDELIVERY_TERMS);
+                this.columnAMTINWORDS = new global::System.Data.DataColumn("AMTINWORDS", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnAMTINWORDS);
                 this.columnPARTYNAME.MaxLength = 50;
                 this.columnADD1.MaxLength = 50;
                 this.columnADD2.MaxLength = 50;
@@ -8009,6 +8024,22 @@ namespace Arasan {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string AMTINWORDS {
+                get {
+                    try {
+                        return ((string)(this[this.tableSQ.AMTINWORDSColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'AMTINWORDS\' in table \'SQ\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSQ.AMTINWORDSColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsPARTYNAMENull() {
                 return this.IsNull(this.tableSQ.PARTYNAMEColumn);
             }
@@ -8317,6 +8348,18 @@ namespace Arasan {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetDELIVERY_TERMSNull() {
                 this[this.tableSQ.DELIVERY_TERMSColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsAMTINWORDSNull() {
+                return this.IsNull(this.tableSQ.AMTINWORDSColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetAMTINWORDSNull() {
+                this[this.tableSQ.AMTINWORDSColumn] = global::System.Convert.DBNull;
             }
         }
         

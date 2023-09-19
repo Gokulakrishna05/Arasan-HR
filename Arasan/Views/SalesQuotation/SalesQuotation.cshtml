@@ -354,6 +354,7 @@
                                                  <br /> <label for="inputName3" class="col-sm-4 control-label">Net <label class="Mandatory"></label></label>
 
                                                       <div class="col-sm-8">
+                                            <input type="hidden" id="hidnet" />
                                             @Html.TextBoxFor(C => C.net, new { @id = "txtNet", @class = "form-control", @TabIndex = 1, @onkeyup = "changeAmount(this," + i + ")" })
                                                 </div>
 
@@ -438,7 +439,9 @@
 
                                         <br /> <label for="inputName3" class="col-sm-2 control-label">Narration<label class="Mandatory"></label></label>
                                                 <div class="col-sm-10">
-                                                    <textarea class="form-control" id="inputEmail3" type="text" rows="3"></textarea>
+@*                                                    <textarea class="form-control" id="inputEmail3" type="text" rows="3"></textarea>
+*@                                                          @Html.TextBoxFor(C => C.narr, new { @id = "txtNarration", @class = "form-control", @TabIndex = 1, @onkeyup = "changeAmount(this," + i + ")" })
+
                                                 </div>
                                             </div>
                                         </div>
@@ -1045,4 +1048,43 @@
                     $('#EnquiryQuote').css('display', 'block');
                 }
             }
+
+             function changeQty(_this){
+                var netamt = document.getElementById("hidnet").value;
+                var quantity =document.getElementById("txtQuantity").value;
+                var amount = document.getElementById("txtAmount").value;
+                var cgstp = document.getElementById("txtCGSTP").value;
+                var sgstp = document.getElementById("txtSGSTP").value;
+                var igstp = document.getElementById("txtIGSTP").value;
+                var totalamount =document.getElementById("txtTotalAmount").value;
+
+                var totamount = 0;
+                var rotamt = 0;
+                  if (quantity == "")
+                  discamount = 0;
+
+                         if (amount == "")
+                         amount = 0;
+
+                         if (cgstp == "")
+                        cgstp = 0;
+
+                        if (sgstp == "")
+                        sgstp = 0;
+
+                        if (igstp == "")
+                        igstp = 0;
+
+
+                 rotamt = eval(quantity) + eval(amount) + eval(cgstp) + eval(sgstp) + eval(igstp) ;
+@*                 rotamt = eval(totamount) - (eval(totalamount) + eval(igstp));
+*@                 document.getElementById("txtNet").value = rotamt.toFixed(2);   
+
+            }
+
+    function roundtorupee(amt) {
+        if (amt - round_decimals(amt, 0) > 0.5)
+            return pad_with_zeros(round_decimals(amt + 1, 0));
+        return pad_with_zeros(round_decimals(amt, 0));
+    }
 </script>

@@ -61,12 +61,14 @@ namespace Arasan.Models
 
         public string QuoId { get; set; }
         public string QuoDate { get; set; }
+        public string QuoType { get; set; }
         public string EnNo { get; set; }
         public string EnDate { get; set; }
 
         public string Customer { get; set; }
         public string Address { get; set; }
         public string City { get; set; }
+        public string narr { get; set; }
         public string Assign { get; set; }
         public string Mobile { get; set; }
         public string Pro { get; set; }
@@ -84,7 +86,7 @@ namespace Arasan.Models
     }
     public class QuoItem
     {
-        //public string ItemId { get; set; }
+        
 
         public List<SelectListItem> Itlst { get; set; }
 
@@ -172,9 +174,10 @@ namespace Arasan.Models
         public string ITEMDESC { get; set; }
         public string GROSS { get; set; }
         public string NET { get; set; }
-        public string CGSTAMT { get; set; }
-        public string SGSTAMT { get; set; }
-        public string IGSTAMT { get; set; }
+        public double CGSTAMT { get; set; }
+        public double SGSTAMT { get; set; }
+        public double IGSTAMT { get; set; }
+        public string AMTINWORDS { get; set; }
 
     }
 }

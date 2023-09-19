@@ -190,7 +190,34 @@ namespace Arasan.Controllers
 			
 			return View(Cy);
 		}
-		public List<SelectListItem> BindEmp()
+
+        [HttpPost]
+        public ActionResult ApproveAPProductionentry(APProductionentryDet Cy, string id)
+        {
+            try
+            {
+                Cy.ID = id;
+                string Strout = IProductionEntry.ApproveAPProEntryCRUD(Cy);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                     TempData["notice"] = "APProductionentry Approved Successfully...!";
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit APProductionentry";
+                    TempData["notice"] = Strout;
+                }
+                return RedirectToAction("ListAPProductionentry");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return View(Cy);
+        }
+
+        public List<SelectListItem> BindEmp()
 		{
 			try
 			{
@@ -269,6 +296,115 @@ namespace Arasan.Controllers
 				throw ex;
 			}
 		}
+        public IActionResult ApproveAPProductionentry(string id)
+        {
+            APProductionentryDet ca = new APProductionentryDet();
+            DataTable dt = new DataTable();
+            dt = IProductionEntry.GetAPProductionentryName(id);
+            if (dt.Rows.Count > 0)
+            {
+                ca.Location = dt.Rows[0]["WCID"].ToString();
+                ca.Docdate = dt.Rows[0]["DOCDATE"].ToString();
+                ca.DocId = dt.Rows[0]["DOCID"].ToString();
+                ca.Eng = dt.Rows[0]["EMPNAME"].ToString();
+                ca.Shift = dt.Rows[0]["SHIFT"].ToString();
+                ViewBag.shift = dt.Rows[0]["SHIFT"].ToString();
+                ca.SchQty = dt.Rows[0]["SCHQTY"].ToString();
+                ca.ProdQty = dt.Rows[0]["PRODQTY"].ToString();
+                ca.BatchNo = dt.Rows[0]["BATCH"].ToString();
+                ca.batchcomplete = dt.Rows[0]["BATCHYN"].ToString();
+                ca.ID = id;
+                ca.LOCID= dt.Rows[0]["WCBASICID"].ToString();
+                ca.BranchId = Request.Cookies["BranchId"];
+            }
+            DataTable dt2 = new DataTable();
+            List<ProInput> TData = new List<ProInput>();
+            ProInput tda = new ProInput();
+            dt2 = IProductionEntry.GetInputDeatils(id);
+            if (dt2.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt2.Rows.Count; i++)
+                {
+                    tda = new ProInput();
+                    tda.Itemlst = BindItemlst();
+                    tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
+                    tda.Time = dt2.Rows[i]["CHARGINGTIME"].ToString();
+                    tda.BinId = dt2.Rows[i]["BINID"].ToString();
+                    tda.batchno = dt2.Rows[i]["BATCHNO"].ToString();
+                    tda.IssueQty = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString() == "" ? "0" : dt2.Rows[i]["QTY"].ToString());
+                    tda.StockAvailable = Convert.ToDouble(dt2.Rows[i]["STOCK"].ToString() == "" ? "0" : dt2.Rows[i]["STOCK"].ToString());
+                    tda.APID = id;
+                    tda.Isvalid = "Y";
+                    TData.Add(tda);
+
+                }
+
+            }
+            DataTable dt3 = new DataTable();
+            List<APProInCons> TData1 = new List<APProInCons>();
+            APProInCons tda1 = new APProInCons();
+            dt3 = IProductionEntry.GetConsDeatils(id);
+            if (dt3.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt3.Rows.Count; i++)
+                {
+                    tda1 = new APProInCons();
+                    tda1.Itemlst = BindItemlstCon();
+                    tda1.ItemId = dt3.Rows[i]["ITEMID"].ToString();
+                    tda1.consunit = dt3.Rows[i]["UNITID"].ToString();
+                    tda1.BinId = dt3.Rows[i]["BIN"].ToString();
+                    tda1.Qty = Convert.ToDouble(dt3.Rows[i]["QTY"].ToString() == "" ? "0" : dt3.Rows[i]["QTY"].ToString());
+                    tda1.consQty = Convert.ToDouble(dt3.Rows[i]["CONSQTY"].ToString() == "" ? "0" : dt3.Rows[i]["CONSQTY"].ToString());
+                    tda1.ConsStock = Convert.ToDouble(dt3.Rows[i]["STOCK"].ToString() == "" ? "0" : dt3.Rows[i]["STOCK"].ToString());
+
+                    tda1.APID = id;
+                    tda1.Isvalid = "Y";
+                    TData1.Add(tda1);
+                }
+
+            }
+
+           
+           
+            DataTable dt6 = new DataTable();
+            List<ProOutput> TData4 = new List<ProOutput>();
+            ProOutput tda4 = new ProOutput();
+            dt6 = IProductionEntry.GetOutputDeatils(id);
+            if (dt6.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt6.Rows.Count; i++)
+                {
+                    tda4 = new ProOutput();
+                    tda4.Itemlst = BindOutItemlst();
+                    tda4.ItemId = dt6.Rows[i]["ITEMID"].ToString();
+                    tda4.BinId = dt6.Rows[i]["BINID"].ToString();
+                    tda4.drumlst = BindDrum();
+                    tda4.drumno = dt6.Rows[i]["DRUMNO"].ToString();
+                    tda4.FromTime = dt6.Rows[i]["FROMTIME"].ToString();
+                    tda4.ToTime = dt6.Rows[i]["TOTIME"].ToString();
+                    tda4.OutputQty = Convert.ToDouble(dt6.Rows[i]["OUTQTY"].ToString() == "" ? "0" : dt6.Rows[i]["OUTQTY"].ToString());
+                    DataTable dt7 = new DataTable();
+                    dt7 = IProductionEntry.GetResult(id);
+                    if (dt7.Rows.Count > 0)
+                    {
+                        tda4.Result = dt7.Rows[i]["TESTRESULT"].ToString();
+                        tda4.Status = dt7.Rows[i]["MOVETOQC"].ToString();
+                    }
+                    tda4.APID = id;
+                    tda4.outid= dt6.Rows[i]["APPRODOUTDETID"].ToString();
+                    tda4.Isvalid = "Y";
+                    TData4.Add(tda4);
+
+                }
+
+            }
+           
+            ca.inplst = TData;
+            ca.outlst = TData4;
+            ca.Binconslst = TData1;
+            return View(ca);
+
+        }
         public IActionResult ViewAPProductionentry(string id)
         {
             APProductionentryDet ca = new APProductionentryDet();

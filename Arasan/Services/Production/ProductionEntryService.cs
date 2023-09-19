@@ -331,16 +331,8 @@ public class ProductionEntryService : IProductionEntry
                                 using (OracleConnection objConns = new OracleConnection(_connectionString))
                                 {
                                     OracleCommand objCmds = new OracleCommand("PRODOUTPUTDETAILPROC", objConns);
-                                    //if (cy.ID == null)
-                                    //{
                                     StatementType = "Insert";
                                     objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-                                    //}
-                                    //else
-                                    //{
-                                    //    StatementType = "Update";
-                                    //    objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
-                                    //}
                                     objCmds.CommandType = CommandType.StoredProcedure;
                                     objCmds.Parameters.Add("NPRODBASICID", OracleDbType.NVarchar2).Value = Pid;
                                     objCmds.Parameters.Add("OITEMID", OracleDbType.NVarchar2).Value = cp.ItemId;
@@ -360,7 +352,7 @@ public class ProductionEntryService : IProductionEntry
                                     objConns.Open();
                                     objCmds.ExecuteNonQuery();
                                     objConns.Close();
-                                    if (cp.toloc == "")
+                                    if (cp.toloc == "10932000000839")
                                     {
                                         IS_CURING = "Y";
                                     }

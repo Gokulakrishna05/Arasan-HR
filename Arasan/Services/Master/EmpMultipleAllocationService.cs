@@ -60,37 +60,34 @@ namespace Arasan.Services.Master
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     objConn.Open();
+
+                    OracleCommand objCmd = new OracleCommand("EMPALLOCATIONPROC", objConn);
+                    objCmd.CommandType = CommandType.StoredProcedure;
+                    if (cy.ID == null)
+                    {
+                        StatementType = "Insert";
+                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                    }
+                    else
+                    {
+                        StatementType = "Update";
+                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                    }
+
+                    objCmd.Parameters.Add("EMPID", OracleDbType.NVarchar2).Value = cy.Emp;
+                    objCmd.Parameters.Add("CREATEDDATE", OracleDbType.NVarchar2).Value = cy.EDate;
+                    //objCmd.Parameters.Add("CREATEDDATE", OracleDbType.NVarchar2).Value = cy.Location[i];
+                    objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                    objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
+                    objCmd.ExecuteNonQuery();
+                    Object Pid = objCmd.Parameters["OUTID"].Value;
+
                     for (int i = 0; i < cy.Location.Length; i++)
                     {
-                        OracleCommand objCmd = new OracleCommand("EMPALLOCATIONPROC", objConn);
-                        objCmd.CommandType = CommandType.StoredProcedure;
-                        if (cy.ID == null)
-                        {
-                            StatementType = "Insert";
-                             objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-                        }
-                        else
-                        {
-                            StatementType = "Update";
-                            objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
-                        }
+                        svSQL = "Insert into EMPALLOCATIONDETAILS (EMPALLOCATIONID,LOCATIONID) VALUES ('"+ Pid + "','"+ cy.Location[i] + "')";
+                        OracleCommand objCmddts = new OracleCommand(svSQL, objConn);
+                        objCmddts.ExecuteNonQuery();
 
-                        objCmd.Parameters.Add("EMPNAME", OracleDbType.NVarchar2).Value = cy.Emp;
-                        objCmd.Parameters.Add("EMPDATE", OracleDbType.NVarchar2).Value = cy.EDate;
-                        objCmd.Parameters.Add("LOCATIONNAME", OracleDbType.NVarchar2).Value = cy.Location[i];
-                        objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
-
-
-                        try
-                        {
-                           
-                            objCmd.ExecuteNonQuery();
-
-                        }
-                        catch (Exception ex)
-                        {
-
-                        }
                     }
                     objConn.Close();
                 }
@@ -106,10 +103,17 @@ namespace Arasan.Services.Master
 
        
 
-        public DataTable GetEmp()
+        public DataTable GetEmp(string action)
         {
             string SvSql = string.Empty;
-            SvSql = "SELECT EMPMASTID,EMPNAME FROM EMPMAST";
+            if (action == "insert")
+            {
+                SvSql = "SELECT EMPMASTID,EMPNAME FROM EMPMAST WHERE EMPMASTID NOT IN (SELECT EMPID from EMPALLOCATION WHERE IS_ACTIVE = 'Y') order by EMPNAME";
+            }
+            if (action == "update")
+            {
+                SvSql = "SELECT EMPMASTID,EMPNAME FROM EMPMAST order by EMPNAME";
+            }
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -120,7 +124,7 @@ namespace Arasan.Services.Master
         public DataTable GetEmpAllocation()
         {
             string SvSql = string.Empty;
-            SvSql = "select EMPMAST.EMPNAME,to_char(EMPDATE,'dd-MON-yyyy') EMPDATE,EMPALLOCATIONID from EMPALLOCATION LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID=EMPALLOCATION.EMPNAME Order by EMPALLOCATIONID DESC ";
+            SvSql = "select EMPMAST.EMPNAME,to_char(CREATEDDATE,'dd-MON-yyyy') EMPDATE,EMPALLOCATIONID from EMPALLOCATION LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID=EMPALLOCATION.EMPID Order by EMPALLOCATIONID DESC ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -140,7 +144,7 @@ namespace Arasan.Services.Master
         }
         public long GetMregion(string regionid, string id)
         {
-            string SvSql = "SELECT LOCID from EMPALLOCATION where LOCID=" + regionid + " and EMPNAME=" + id + "";
+            string SvSql = "SELECT LOCATIONID LOCID from EMPALLOCATIONDETAILS where LOCATIONID=" + regionid + " and EMPALLOCATIONID=" + id + "";
             DataTable dtCity = new DataTable();
             long user_id = datatrans.GetDataIdlong(SvSql);
             return user_id;
@@ -149,7 +153,7 @@ namespace Arasan.Services.Master
         public DataTable GetEmpMultipleItem(string PRID)
         {
             string SvSql = string.Empty;
-            SvSql = "select LOCDETAILS.LOCID,EMPALLOCATIONID from EMPALLOCATION  LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=EMPALLOCATION.LOCATIONNAME Order by EMPALLOCATIONID DESC";
+            SvSql = "select LOCDETAILS.LOCID,EMPALLOCATIONID from EMPALLOCATIONDETAILS  LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=EMPALLOCATIONDETAILS.LOCATIONID Order by EMPALLOCATIONDETAILSID DESC";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
