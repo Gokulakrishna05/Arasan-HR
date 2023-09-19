@@ -6,6 +6,7 @@ using Arasan.Services.Master;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Data;
 using System.Reflection;
+using System;
 
 namespace Arasan.Controllers.Master
 {
@@ -22,22 +23,29 @@ namespace Arasan.Controllers.Master
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public IActionResult EmpMultipleAllocation(string id, string tag)
+        public IActionResult EmpMultipleAllocation(string piid, string tag)
         {
             EmpMultipleAllocation ca = new EmpMultipleAllocation();
-            ca.Emolst = BindEmp();
-            ca.Loclst = BindMlocation(id);
+            
+           
 
             //ca.Location = Request.Cookies["LocationId"];
             ca.EDate = DateTime.Now.ToString("dd-MMM-yyyy");
 
-            if (id == null)
+            if (piid == null)
             {
-               
-
+                ca.Loclst = BindMlocation("");
+                ca.Emolst = BindEmp("insert");
             }
             else
             {
+                ca.Emolst = BindEmp("update");
+                DataTable dt = datatrans.GetData("select * from EMPALLOCATION WHERE IS_ACTIVE='Y' AND EMPALLOCATIONID='" + piid + "'");
+                if(dt.Rows.Count > 0)
+                {
+                    ca.Emp = dt.Rows[0]["EMPID"].ToString();
+                }
+                ca.Loclst = BindMlocation(piid); 
 
                 //dt = DebitNoteBillService.GetDebitNoteBillDetail(id);
                 //if (dt.Rows.Count > 0)
@@ -46,7 +54,7 @@ namespace Arasan.Controllers.Master
                 //    ca.Vocher = dt.Rows[0]["VTYPE"].ToString();
                 //    ca.DocId = dt.Rows[0]["DOCID"].ToString();
                 //}
-               
+
             }
            
             return View(ca);
@@ -133,7 +141,7 @@ namespace Arasan.Controllers.Master
                 string ReAssign = string.Empty;
                 
                 EditRow = "<a href=EmpMultipleAllocation?piid=" + dtUsers.Rows[i]["EMPALLOCATIONID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                ViewPage = "<a href=ViewEmpMultipleAllocation?piid=" + dtUsers.Rows[i]["EMPALLOCATIONID"].ToString() + "<'class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Waiting for approval' /></a>";
+                ViewPage = "<a href=ViewEmpMultipleAllocation?piid=" + dtUsers.Rows[i]["EMPALLOCATIONID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Waiting for approval' /></a>";
                 ReAssign = "<a href=ReassignEmpMultipleAllocation?piid=" + dtUsers.Rows[i]["EMPALLOCATIONID"].ToString() + "><img src='../Images/D2.png' alt='Waiting for approval' /></a>";
                 DeleteRow = "<a href=EmpMultipleAllocation?tag=Del&piid=" + dtUsers.Rows[i]["EMPALLOCATIONID"].ToString() + ")'><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
                 
@@ -196,7 +204,7 @@ namespace Arasan.Controllers.Master
         public IActionResult ReassignEmpMultipleAllocation(string piid)
         {
             EmpReasign ca = new EmpReasign();
-            ca.Emolst = BindEmp();
+            ca.Emolst = BindEmp("update");
             ca.Loclst = BindMlocation(piid);
             DataTable dt1 = new DataTable();
             dt1 = EmpMultipleAllocationService.GetEmpMultipleAllocationReassign(piid);
@@ -213,11 +221,11 @@ namespace Arasan.Controllers.Master
             //IEnumerable<EmpMultipleAllocation> sta = EmpMultipleAllocationService.GetAllEmpMultipleAllocation();
             return View();
         }
-        public List<SelectListItem> BindEmp()
+        public List<SelectListItem> BindEmp(string action)
         {
             try
             {
-                DataTable dtDesg = EmpMultipleAllocationService.GetEmp();
+                DataTable dtDesg = EmpMultipleAllocationService.GetEmp(action);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -236,7 +244,7 @@ namespace Arasan.Controllers.Master
             {
                 List<SelectListItem> items = new List<SelectListItem>();
                 DataTable dtCity = new DataTable();
-                dtCity = datatrans.GetLocation();
+                dtCity = datatrans.GetPyroLocation();
                 if (dtCity.Rows.Count > 0)
                 {
                     for (int i = 0; i < dtCity.Rows.Count; i++)

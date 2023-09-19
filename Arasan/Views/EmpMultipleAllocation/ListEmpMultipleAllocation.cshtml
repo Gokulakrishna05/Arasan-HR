@@ -12,7 +12,7 @@
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Master</a> </li>
-            <li class="active"> <strong>Emp Multiple Allocation</strong> </li>
+            <li class="active"> <strong>Pyro Supervisor Allocation</strong> </li>
         </ol>
     </div>
 </div>
@@ -115,8 +115,8 @@
         // creage grid
         $("#grid").jqxGrid(
             {
-                width: getWidth('Grid'),
-                height: 365,
+                width: 710,
+                height: 465,
                 source: source,
                 pageable: true,
                 filterable: true,
@@ -131,8 +131,8 @@
                 },
                 columns: [
 
-                    { text: 'Employee', datafield: 'emp', width: 300 },
-                    { text: 'EmployeeDate', datafield: 'edate', width: 300 },
+                    { text: 'Supervisor', datafield: 'emp', width: 250 },
+                    { text: 'Created Date', datafield: 'edate', width: 150 },
                     { text: 'Edit', datafield: 'editrow', width: 70, align: 'center', cellsalign: 'center' },
                     { text: 'Delete', datafield: 'delrow', width: 70, align: 'center', cellsalign: 'center' },
                     { text: 'View', datafield: 'view', width: 70, align: 'center', cellsalign: 'center' },
