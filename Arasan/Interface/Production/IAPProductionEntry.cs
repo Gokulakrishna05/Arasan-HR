@@ -14,7 +14,9 @@ namespace Arasan.Interface
         string APProductionEntryDetCRUD(APProductionentryDet Cy );
 
         string APProEntryCRUD(APProductionentryDet Cy);
-        
+
+        string ApproveAPProEntryCRUD(APProductionentryDet Cy);
+
         IEnumerable<APProductionentry>  GetAllAPProductionentry();
 		DataTable GetItemDetails(string id);
 

@@ -144,6 +144,16 @@ namespace Arasan.Models
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetPyroLocation()
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select LOCID,LOCDETAILSID from LOCDETAILS where LOCATIONTYPE='BALL MILL' order by LOCDETAILSID asc";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
 
         public DataTable GetcuringSet()
         {

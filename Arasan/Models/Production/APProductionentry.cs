@@ -27,6 +27,9 @@ namespace Arasan.Models
         public List<SelectListItem> Shiftlst { get; set; }
         
         public string Shift { get; set; }
+
+        public string isapprove { get;set; }
+        public string iscurrent { get; set; }
       
     }
     public class APProductionentryDet
@@ -55,6 +58,10 @@ namespace Arasan.Models
         public List<LogDetails> LogLst { get; set; }
 
         public List<string> ShiftNames { get; set; }
+
+        public string LOCID { get; set; }
+
+        public string BranchId { get; set; }
 
     }
     public class ProInput
@@ -91,6 +98,7 @@ namespace Arasan.Models
     {
         public string ItemId { get; set; }
         public string APID { get; set; }
+        public string outid { get; set; }
         public string saveitemId { get; set; }
 
         public List<SelectListItem> Itemlst { get; set; }
