@@ -32,11 +32,11 @@ namespace Arasan.Models
         public string Branch { get; set; }
         public string Currency { get; set; }
 
-        //public List<SelectListItem> Curlst;
+        public List<SelectListItem> Curlst;
         public string Party { get; set; }
         public string PartyName { get; set; }
 
-        //public List<SelectListItem> Suplst;
+        public List<SelectListItem> Suplst;
 
         public string WorkCenter { get; set; }
 
@@ -48,7 +48,7 @@ namespace Arasan.Models
         public string ID { get; set; }
 
         public string itemid { get; set; }
-
+        public string item { get; set; }
         public string itemdes { get; set; }
 
         public string unit { get; set; }
@@ -56,6 +56,7 @@ namespace Arasan.Models
 
         public string qty { get; set; }
 
+        public string BaID { get; set; }
         public string rate { get; set; }
 
         public string discount { get; set; }
@@ -77,6 +78,7 @@ namespace Arasan.Models
         public string tariff { get; set; }
         public string CGST { get; set; }
         public string SGST { get; set; }
+        public string SGSTCGST { get; set; }
         public string IGST { get; set; }
 
         public string CGSTP { get; set; }

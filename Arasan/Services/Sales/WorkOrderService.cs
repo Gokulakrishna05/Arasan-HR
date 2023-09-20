@@ -350,7 +350,7 @@ namespace Arasan.Services.Sales
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select jodrumallocationbasic.DOCID joid,to_char(jodrumallocationbasic.DOCDATE,'dd-MON-yyyy')DOCDATE,jobasic.DOCID as jobid,PARTYMAST.PARTYNAME ,LOCDETAILS.LOCID,JODRUMALLOCATIONBASICID from jodrumallocationbasic  left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID=jodrumallocationbasic.LOCID  LEFT OUTER JOIN  PARTYMAST on jodrumallocationbasic.CUSTOMERID=PARTYMAST.PARTYMASTID left outer join jobasic on jobasic.jobasicid= jodrumallocationbasic.JOPID order by jodrumallocationbasic.jodrumallocationbasicid DESC ";
+                    cmd.CommandText = "Select jodrumallocationbasic.DOCID,to_char(jodrumallocationbasic.DOCDATE,'dd-MON-yyyy')DOCDATE,jobasic.DOCID as jobid,PARTYMAST.PARTYNAME ,LOCDETAILS.LOCID,JODRUMALLOCATIONBASICID from jodrumallocationbasic  left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID=jodrumallocationbasic.LOCID  LEFT OUTER JOIN  PARTYMAST on jodrumallocationbasic.CUSTOMERID=PARTYMAST.PARTYMASTID left outer join jobasic on jobasic.jobasicid= jodrumallocationbasic.JOPID order by jodrumallocationbasic.jodrumallocationbasicid DESC ";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -371,6 +371,36 @@ namespace Arasan.Services.Sales
                 }
             }
             return cmpList;
+        }
+        public DataTable GetDrumAllByID(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select jodrumallocationbasic.DOCID,to_char(jodrumallocationbasic.DOCDATE,'dd-MON-yyyy')DOCDATE,jobasic.DOCID as jobid,PARTYMAST.PARTYNAME ,LOCDETAILS.LOCID,JODRUMALLOCATIONBASICID from jodrumallocationbasic  left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID=jodrumallocationbasic.LOCID  LEFT OUTER JOIN  PARTYMAST on jodrumallocationbasic.CUSTOMERID=PARTYMAST.PARTYMASTID left outer join jobasic on jobasic.jobasicid= jodrumallocationbasic.JOPID WHERE  jodrumallocationbasic.jodrumallocationbasicid='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetDrumAllDetails(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select ITEMMASTER.ITEMID,JODRUMALLOCATIONDETAIL.JODRUMALLOCATIONDETAILID from JODRUMALLOCATIONDETAIL left outer join ITEMMASTER ON ITEMMASTER.ITEMMASTERID=JODRUMALLOCATIONDETAIL.ITEMID  Where jodrumallocationbasicid='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetAllocationDrumDetails(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select JODRUMALLOCATIONDETAIL.DRUMNO,JODRUMALLOCATIONDETAIL.RATE,LOTNO,JODRUMALLOCATIONDETAIL.QTY,JODRUMALLOCATIONDETAILID from JODRUMALLOCATIONDETAIL     Where jodrumallocationbasicid='" + id + "'  ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
         }
     }
 }

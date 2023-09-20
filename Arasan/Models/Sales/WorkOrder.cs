@@ -99,6 +99,8 @@ namespace Arasan.Models
         public string Customername { get; set; }
         public string CustomerId { get; set; }
         public string JOId { get; set; }
+        public string items { get; set; }
+
         public string Totalqty { get; set; }
         public List<WorkItem> Worklst { get; set; }
 

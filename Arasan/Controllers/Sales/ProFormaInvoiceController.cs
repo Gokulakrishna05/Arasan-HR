@@ -23,24 +23,69 @@ namespace Arasan.Controllers.Sales
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public IActionResult ProFormaInvoice(string id)
+        public IActionResult ProFormaInvoice(string id ,int tag)
         {
             ProFormaInvoice ca = new ProFormaInvoice();
             ca.Brlst = BindBranch();
             ca.Branch = Request.Cookies["BranchId"];
-            //ca.Curlst = BindCurrency();
-            //ca.Suplst = BindSupplier();
+            ca.Curlst = BindCurrency();
+            ca.Suplst = BindSupplier();
             ca.Joblst = BindJob();
+            DataTable dtv = datatrans.GetSequence("PInv");
+            if (dtv.Rows.Count > 0)
+            {
+                ca.DocId = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
+            }
             List<ProFormaInvoiceDetail> TData = new List<ProFormaInvoiceDetail>();
             ProFormaInvoiceDetail tda = new ProFormaInvoiceDetail();
             if (id == null)
             {
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < 1; i++)
                 {
                     tda = new ProFormaInvoiceDetail();
 
                     tda.Isvalid = "Y";
                     TData.Add(tda);
+                }
+            }
+            else if(id != null && tag != 0)
+            {
+
+
+                DataTable dt1 = new DataTable();
+                //double total = 0;
+                dt1 = ProFormaInvoiceService.GetDrumParty(id);
+                if (dt1.Rows.Count > 0)
+                {
+                     
+                        ca.Party = dt1.Rows[0]["CUSTOMERID"].ToString();
+                        
+                    }
+                 DataTable dtt = new DataTable();
+
+                dtt = ProFormaInvoiceService.GetDrumAll(id);
+                if (dtt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dtt.Rows.Count; i++)
+                    {
+                        tda = new ProFormaInvoiceDetail();
+                        tda.itemid = dtt.Rows[i]["ITEMID"].ToString();
+                        tda.item = dtt.Rows[i]["item"].ToString();
+                        DataTable dtt1 = new DataTable();
+                        dtt1 = datatrans.GetItemDetails(tda.item);
+                        if (dtt1.Rows.Count > 0)
+                        {
+                  
+                            tda.unit = dtt1.Rows[0]["UNITID"].ToString();
+                            tda.itemdes = dtt1.Rows[i]["ITEMDESC"].ToString();
+                        }
+                            tda.qty = dtt.Rows[i]["totqty"].ToString();
+                        tda.rate = dtt.Rows[i]["totrate"].ToString();
+                        //tda.amount = dtt.Rows[i]["REFNO"].ToString();
+                        TData.Add(tda);
+                        tda.BaID = id;
+
+                    }
                 }
             }
             else
@@ -71,58 +116,9 @@ namespace Arasan.Controllers.Sales
 
 
                 }
-                //ca = SalesQuotationService.GetLocationsById(id);
-                //DataTable dt2 = new DataTable();
-                //dt2 = SalesQuotationService.GetSalesQuotationItemDetails(id);
-                //if (dt2.Rows.Count > 0)
-                //{
-                //    for (int i = 0; i < dt2.Rows.Count; i++)
-                //    {
-                //        tda = new QuoItem();
-                //        double toaamt = 0;
-                //        tda.ItemGrouplst = BindItemGrplst();
-                //        DataTable dt3 = new DataTable();
-                //        dt3 = datatrans.GetItemSubGroup(dt2.Rows[i]["ITEMID"].ToString());
-                //        if (dt3.Rows.Count > 0)
-                //        {
-                //            tda.ItemGroupId = dt3.Rows[0]["SUBGROUPCODE"].ToString();
-                //        }
-                //        tda.Itlst = BindItemlst(tda.ItemId);
-                //        tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
-                //        tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
-                //        DataTable dt4 = new DataTable();
-                //        dt4 = datatrans.GetItemDetails(tda.ItemId);
-                //        if (dt4.Rows.Count > 0)
-                //        {
-                //            tda.Des = dt4.Rows[0]["ITEMDESC"].ToString();
-                //            tda.ConFac = dt4.Rows[0]["CF"].ToString();
-                //            tda.Rate = Convert.ToDouble(dt4.Rows[0]["LATPURPRICE"].ToString());
-                //        }
-                //        tda.Quantity = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
-                //        toaamt = tda.Rate * tda.Quantity;
-                //        total += toaamt;
-                //        //tda.QtyPrim= Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
-                //        tda.Amount = toaamt;
-                //        tda.Unit = dt2.Rows[i]["UNIT"].ToString();
-                //        //tda.unitprim= dt2.Rows[i]["UNITID"].ToString();
-                //        tda.Disc = Convert.ToDouble(dt2.Rows[i]["DISC"].ToString() == "" ? "0" : dt2.Rows[i]["DISC"].ToString());
-                //        tda.DiscAmount = Convert.ToDouble(dt2.Rows[i]["DISCAMOUNT"].ToString() == "" ? "0" : dt2.Rows[i]["DISCAMOUNT"].ToString());
-                //        tda.FrigCharge = Convert.ToDouble(dt2.Rows[i]["IFREIGHTCH"].ToString() == "" ? "0" : dt2.Rows[i]["IFREIGHTCH"].ToString());
-                //        tda.TotalAmount = Convert.ToDouble(dt2.Rows[i]["TOTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["TOTAMT"].ToString());
-                //        tda.CGSTP = Convert.ToDouble(dt2.Rows[i]["CGSTPER"].ToString() == "" ? "0" : dt2.Rows[i]["CGSTPER"].ToString());
-                //        tda.SGSTP = Convert.ToDouble(dt2.Rows[i]["SGSTPER"].ToString() == "" ? "0" : dt2.Rows[i]["SGSTPER"].ToString());
-                //        tda.IGSTP = Convert.ToDouble(dt2.Rows[i]["IGSTPER"].ToString() == "" ? "0" : dt2.Rows[i]["IGSTPER"].ToString());
-                //        tda.CGST = Convert.ToDouble(dt2.Rows[i]["CGSTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["CGSTAMT"].ToString());
-                //        tda.SGST = Convert.ToDouble(dt2.Rows[i]["SGSTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["SGSTAMT"].ToString());
-                //        tda.IGST = Convert.ToDouble(dt2.Rows[i]["IGSTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["IGSTAMT"].ToString());
-                //        tda.Isvalid = "Y";
-                //        TData.Add(tda);
-                //    }
-                //}
-                //ca.Net = Math.Round(total, 2);
-                //ca.QuoLst = Data;
+              
             }
-            //ca.QuoLst = TData;
+            ca.ProFormalst = TData;
             return View(ca);
 
         }
@@ -163,36 +159,36 @@ namespace Arasan.Controllers.Sales
 
             return View(Cy);
         }
-        public ActionResult GetProFormaInvoiceDetail(string ItemId)
-        {
-            try
-            {
-                DataTable dt = new DataTable();
+        //public ActionResult GetProFormaInvoiceDetail(string ItemId)
+        //{
+        //    try
+        //    {
+        //        DataTable dt = new DataTable();
 
-                string  currency= "";
-                string  party = "";
-                if (ItemId != "edit")
-                {
-                    dt = ProFormaInvoiceService.GetProFormaInvoiceDetails(ItemId);
+        //        string  currency= "";
+        //        string  party = "";
+        //        if (ItemId != "edit")
+        //        {
+        //            dt = ProFormaInvoiceService.GetProFormaInvoiceDetails(ItemId);
 
-                    if (dt.Rows.Count > 0)
-                    {
+        //            if (dt.Rows.Count > 0)
+        //            {
 
-                        currency = dt.Rows[0]["MAINCURR"].ToString();
-                        party = dt.Rows[0]["PARTY"].ToString();
+        //                currency = dt.Rows[0]["MAINCURR"].ToString();
+        //                party = dt.Rows[0]["PARTY"].ToString();
 
 
-                    }
-                }
+        //            }
+        //        }
 
-                var result = new { currency = currency, party = party};
-                return Json(result);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        //        var result = new { currency = currency, party = party};
+        //        return Json(result);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
         public ActionResult GetWorkOrderDetails(string id,string jobid)
         {
             ProFormaInvoice model = new ProFormaInvoice();
@@ -284,7 +280,7 @@ namespace Arasan.Controllers.Sales
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTY"].ToString(), Value = dtDesg.Rows[i]["PARTYMASTID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTYNAME"].ToString(), Value = dtDesg.Rows[i]["PARTYMASTID"].ToString() });
                 }
                 return lstdesg;
             }

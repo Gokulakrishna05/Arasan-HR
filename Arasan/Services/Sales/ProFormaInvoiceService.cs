@@ -31,17 +31,17 @@ namespace Arasan.Services.Sales
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select  BRANCHMAST.BRANCHID,DOCID,REFNO,SPINVBASIC.STATUS,SPINVBASICID from SPINVBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMAST.BRANCHMASTID=SPINVBASIC.BRANCHID WHERE SPINVBASIC.STATUS= 'Active'";
+                    cmd.CommandText = "Select  BRANCHMAST.BRANCHID,DOCID,REFNO,PINVBASICID from PINVBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMAST.BRANCHMASTID=PINVBASIC.BRANCHID";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
                         ProFormaInvoice cmp = new ProFormaInvoice
                         {
-                            ID = rdr["SPINVBASICID"].ToString(),
+                            ID = rdr["PINVBASICID"].ToString(),
                             Branch = rdr["BRANCHID"].ToString(),
                             DocId = rdr["DOCID"].ToString(),
                             RefNo = rdr["REFNO"].ToString(),
-                            status = rdr["STATUS"].ToString()
+                            //status = rdr["STATUS"].ToString()
                         };
                         cmpList.Add(cmp);
                     }
@@ -87,47 +87,28 @@ namespace Arasan.Services.Sales
                 string currency = datatrans.GetDataString("Select CURRENCYID from CURRENCY where MAINCURR='" + cy.Currency + "' ");
                 string party = datatrans.GetDataString("Select ID from PARTYRCODE where PARTY='" + cy.Party + "' ");
                 string partyid = datatrans.GetDataString("Select PARTYMASTID from PARTYMAST where PARTYNAME='" + party + "' ");
-                //if (cy.ID == null)
-                //{
-                //    DateTime theDate = DateTime.Now;
-                //    DateTime todate; DateTime fromdate;
-                //    string t; string f;
-                //    if (DateTime.Now.Month >= 4)
-                //    {
-                //        todate = theDate.AddYears(1);
-                //    }
-                //    else
-                //    {
-                //        todate = theDate;
-                //    }
-                //    if (DateTime.Now.Month >= 4)
-                //    {
-                //        fromdate = theDate;
-                //    }
-                //    else
-                //    {
-                //        fromdate = theDate.AddYears(-1);
-                //    }
-                //    t = todate.ToString("yy");
-                //    f = fromdate.ToString("yy");
-                //    string disp = string.Format("{0}-{1}", f, t);
+                if (cy.ID == null)
+                {
+                    datatrans = new DataTransactions(_connectionString);
 
-                //    int idc = GetDataId(" SELECT COMMON_TEXT FROM COMMON_MASTER WHERE COMMON_TYPE = 'SE' AND IS_ACTIVE = 'Y'");
-                //    cy.DocId = string.Format("{0}/{3}/{1} - {2} ", "TAAI", "SE", (idc + 1).ToString(), disp);
 
-                //    string updateCMd = " UPDATE COMMON_MASTER SET COMMON_TEXT ='" + (idc + 1).ToString() + "' WHERE COMMON_TYPE ='SE' AND IS_ACTIVE ='Y'";
-                //    try
-                //    {
-                //        UpdateStatus(updateCMd);
-                //    }
-                //    catch (Exception ex)
-                //    {
-                //        throw ex;
-                //    }
-                //}
+                    int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'PInv' AND ACTIVESEQUENCE = 'T'");
+                    string docid = string.Format("{0}{1}", "PInv", (idc + 1).ToString());
+
+                    string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='PInv' AND ACTIVESEQUENCE ='T'";
+                    try
+                    {
+                        datatrans.UpdateStatus(updateCMd);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                    cy.DocId = docid;
+                }
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
-                    OracleCommand objCmd = new OracleCommand("SPINVBASICPROC", objConn);
+                    OracleCommand objCmd = new OracleCommand("PINVBASICPROC", objConn);
                     /*objCmd.Connection = objConn;
                     objCmd.CommandText = "PURQUOPROC";*/
 
@@ -146,20 +127,22 @@ namespace Arasan.Services.Sales
 
                     //objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                     objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
-                    objCmd.Parameters.Add("WORKORDER", OracleDbType.NVarchar2).Value = cy.WorkCenter;
+                    //objCmd.Parameters.Add("WORKORDER", OracleDbType.NVarchar2).Value = cy.WorkCenter;
                     objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.DocId;
                     objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = cy.Docdate;
                     objCmd.Parameters.Add("REFNO", OracleDbType.NVarchar2).Value = cy.RefNo;
                     objCmd.Parameters.Add("REFDATE", OracleDbType.NVarchar2).Value = cy.RefDate;
-                    objCmd.Parameters.Add("MAINCURRENCY", OracleDbType.NVarchar2).Value = currency;
+                    objCmd.Parameters.Add("MAINCURRENCY", OracleDbType.NVarchar2).Value = cy.Currency;
+                    objCmd.Parameters.Add("SYMBOL", OracleDbType.NVarchar2).Value = cy.Currency;
                     objCmd.Parameters.Add("EXRATE", OracleDbType.NVarchar2).Value = cy.ExRate;
-                    objCmd.Parameters.Add("PARTYID", OracleDbType.NVarchar2).Value = party;
+                    objCmd.Parameters.Add("PARTYID", OracleDbType.NVarchar2).Value = cy.Party;
+                    objCmd.Parameters.Add("PARTYNAME", OracleDbType.NVarchar2).Value = cy.Currency;
                     //objCmd.Parameters.Add("PARTYNAME", OracleDbType.NVarchar2).Value = party;
-                    objCmd.Parameters.Add("SALESVALUE", OracleDbType.NVarchar2).Value = cy.SalesValue;
+                    objCmd.Parameters.Add("SALVAL", OracleDbType.NVarchar2).Value = cy.SalesValue;
                     objCmd.Parameters.Add("GROSS", OracleDbType.NVarchar2).Value = cy.Gross;
                     objCmd.Parameters.Add("NET", OracleDbType.NVarchar2).Value = cy.Net;
                     objCmd.Parameters.Add("AMTWORDS", OracleDbType.NVarchar2).Value = cy.Amount;
-                    objCmd.Parameters.Add("BANKNAME", OracleDbType.NVarchar2).Value = cy.BankName;
+                    objCmd.Parameters.Add("BANK", OracleDbType.NVarchar2).Value = cy.BankName;
                     objCmd.Parameters.Add("ACNO", OracleDbType.NVarchar2).Value = cy.AcNo;
                     objCmd.Parameters.Add("SHIPADDRESS", OracleDbType.NVarchar2).Value = cy.Address;
                     objCmd.Parameters.Add("NARRATION", OracleDbType.NVarchar2).Value = cy.Narration;
@@ -236,78 +219,27 @@ namespace Arasan.Services.Sales
 
             return msg;
         }
-        public DataTable GetData(string sql)
-        {
-            DataTable _Dt = new DataTable();
-            try
-            {
-                OracleDataAdapter adapter = new OracleDataAdapter(sql, _connectionString);
-                OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-                adapter.Fill(_Dt);
-            }
-            catch (Exception ex)
-            {
-
-            }
-            return _Dt;
-        }
-        public int GetDataId(String sql)
-        {
-            DataTable _dt = new DataTable();
-            int Id = 0;
-            try
-            {
-                _dt = GetData(sql);
-                if (_dt.Rows.Count > 0)
-                {
-                    Id = Convert.ToInt32(_dt.Rows[0][0].ToString() == string.Empty ? "0" : _dt.Rows[0][0].ToString());
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            return Id;
-        }
-
-        public bool UpdateStatus(string query)
-        {
-            bool Saved = true;
-            try
-            {
-                OracleConnection objConn = new OracleConnection(_connectionString);
-                OracleCommand objCmd = new OracleCommand(query, objConn);
-                objCmd.Connection.Open();
-                objCmd.ExecuteNonQuery();
-                objCmd.Connection.Close();
-            }
-            catch (Exception ex)
-            {
-
-                Saved = false;
-            }
-            return Saved;
-        }
+       
         public DataTable GetEditProFormaInvoice(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select BRANCHID,WORKORDER,DOCID,to_char(SPINVBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,REFNO,to_char(SPINVBASIC.REFDATE,'dd-MON-yyyy')REFDATE,CURRENCY.MAINCURR,EXRATE,PARTYID,SALESVALUE,GROSS,NET,AMTWORDS,BANKNAME,ACNO,SHIPADDRESS,NARRATION,SPINVBASICID  from SPINVBASIC LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=SPINVBASIC.MAINCURRENCY Where SPINVBASIC.SPINVBASICID=" + id + "";
+            SvSql = "Select BRANCHID,PINVBASIC.DOCID,to_char(PINVBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,REFNO,to_char(PINVBASIC.REFDATE,'dd-MON-yyyy')REFDATE,CURRENCY.MAINCURR,EXRATE,PARTYID,SALVAL,GROSS,NET,AMTWORDS,BANK,ACNO,SHIPADDRESS,NARRATION,PINVBASICID  from PINVBASIC LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=PINVBASIC.MAINCURRENCY Where PINVBASIC.PINVBASICID=" + id + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetProFormaInvoiceDetails(string id)
-        {
-            string SvSql = string.Empty;
-            SvSql = "SELECT CURRENCY.MAINCURR,PARTYRCODE.PARTY,JOBASICID from JOBASIC LEFT OUTER JOIN CURRENCY ON JOBASIC.MAINCURRENCY=CURRENCY.CURRENCYID  LEFT OUTER JOIN  PARTYMAST on JOBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Customer','BOTH') AND JOBASICID='" + id + "'";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
+        //public DataTable GetProFormaInvoiceDetails(string id)
+        //{
+        //    string SvSql = string.Empty;
+        //    SvSql = "SELECT CURRENCY.MAINCURR,PARTYRCODE.PARTY,JOBASICID from JOBASIC LEFT OUTER JOIN CURRENCY ON JOBASIC.MAINCURRENCY=CURRENCY.CURRENCYID  LEFT OUTER JOIN  PARTYMAST on JOBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Customer','BOTH') AND JOBASICID='" + id + "'";
+        //    DataTable dtt = new DataTable();
+        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
+        //}
         public string StatusChange(string tag, int id)
         {
             try
@@ -334,7 +266,27 @@ namespace Arasan.Services.Sales
         public DataTable GetWorkOrderDetail(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select ITEMMASTER.ITEMID,ITEMSPEC,UNITMAST.UNITID,QTY,RATE,AMOUNT,DISCOUNT,IDISC,CDISC,TDISC,ADISC,SDISC,FREIGHT,JOBASICID from JODETAIL left outer join ITEMMASTER on ITEMMASTERID =JODETAIL.ITEMID left outer join UNITMAST on UNITMASTID=JODETAIL.UNIT where JOBASICID= '" + id + "'";
+            SvSql = "select ITEMMASTER.ITEMID,ITEMSPEC,UNITMAST.UNITID,JODETAIL.QTY,JODETAIL.RATE,AMOUNT,DISCOUNT,IDISC,CDISC,JODETAIL.TDISC,JODETAIL.ADISC,JODETAIL.SDISC,JODETAIL.FREIGHT,JOBASICID from JODETAIL left outer join ITEMMASTER on ITEMMASTER.ITEMMASTERID =JODETAIL.ITEMID left outer join UNITMAST on UNITMASTID=JODETAIL.UNIT where JODETAIL.JOBASICID= '" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetDrumAll(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select ITEMMASTER.ITEMID,SUM(JODRUMALLOCATIONDETAIL.QTY) as totqty,SUM(JODRUMALLOCATIONDETAIL.RATE) as totrate,JODRUMALLOCATIONDETAIL.ITEMID as item,JODRUMALLOCATIONBASICID from JODRUMALLOCATIONDETAIL left outer join ITEMMASTER on ITEMMASTER.ITEMMASTERID =JODRUMALLOCATIONDETAIL.ITEMID  where JODRUMALLOCATIONDETAIL.JODRUMALLOCATIONBASICID= '" + id + "' GROUP BY ITEMMASTER.ITEMID , JODRUMALLOCATIONDETAIL.ITEMID,JODRUMALLOCATIONBASICID";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetDrumParty(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select CUSTOMERID from JODRUMALLOCATIONBASIC   where JODRUMALLOCATIONBASIC.JODRUMALLOCATIONBASICID= '" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
