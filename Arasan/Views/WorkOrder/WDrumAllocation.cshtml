@@ -249,7 +249,7 @@
                                             <div class="panel panel-default">
                                                 <div class="panel-heading" role="tab" id="headingOne@(i)">
                                                     <h4 class="panel-title">
-                                                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne@(i)" aria-expanded="false" aria-controls="collapseOne@(i)" class="collapsed">
+                                                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne@(i)" aria-expanded="false" aria-controls="collapseOne@(i)">
                                                             <div class="row">
                                                                 <div class="col-md-5">@Html.DisplayFor(o => o.Worklst[i].items) </div> <div class="col-md-3">Order Qty   : @Html.DisplayFor(o => o.Worklst[i].orderqty,new{@id="orderqty"+ i}) @Html.HiddenFor(o => o.Worklst[i].orderqty,new{@id="orderqty"+ i}) @Html.HiddenFor(o => o.Worklst[i].itemid ) @Html.HiddenFor(o => o.Worklst[i].Jodetailid)</div>
                                                             </div>
@@ -279,7 +279,7 @@
                                                                 Total No.Of Drums Selected : <label id="lbldrumdisp"></label>
                                                             </div>
                                                             <div class="col-md-3">
-                                                                Total Qty : <label id="totalqty"></label> 
+                                                                Total Qty : <label id="totalqty"></label>   
                                                             </div>
                                                         </div>
 
@@ -483,19 +483,21 @@
 
         $(document).ready(function () {
             $('#btnSave').click(function (e) {
+            var isValid = true;
+            var i = 0;
         try {
-
-           var i=0;
+ 
                    var qty = document.getElementById("orderqty" + i).value;
-                var stkqty = document.getElementById("totalqty").value;
-
-                  alert(qty);
-                  alert(stkqty);
-             //if (eval(qty) > eval(stkqty) || eval(qty) < eval(stkqty)) {
-
-                alert("Pending Quantity Exceeds the Actual Quantity");
+                var stkqty = document.getElementById("totalqty").innerHTML;
                
-           //}
+                 
+                 
+             if (eval(qty) != eval(stkqty)) {
+
+                alert("Order Quantity and Drum Quantity does not match.");
+                return false;
+               
+           }
         }
 
         catch (ex) {
@@ -505,17 +507,5 @@
 
             });
 
-    //$(document).ready(function () {
-    //    $('#btnSave').click(function (e) {
-    //       var i=0;
-    //        if (document.getElementById("orderqty" + i).value  == document.getElementById("lblQtydisp").value  ) {
-               
-
-    //            alert("Please Enter Qty's are Same");
-    //            return false;
-    //        }
-            
-    //    });
-
-    //});
+   
 </script>

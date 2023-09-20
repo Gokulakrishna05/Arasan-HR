@@ -10,10 +10,13 @@ namespace Arasan.Interface.Sales
         DataTable GetBranch();
         DataTable GetJob();
         DataTable GetEditProFormaInvoice(string id);
+        DataTable GetDrumParty(string id);
+        DataTable GetDrumAll(string id);
+      
         string ProFormaInvoiceCRUD(ProFormaInvoice cy);
         string StatusChange(string tag, int id);
         DataTable GetWorkOrderDetail(string id);
-        DataTable GetProFormaInvoiceDetails(string id);
+        //DataTable GetProFormaInvoiceDetails(string id);
         DataTable EditProFormaInvoiceDetails(string id);
     }
 }

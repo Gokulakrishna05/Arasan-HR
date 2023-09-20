@@ -53,11 +53,14 @@
                                                     <thead>
                                                         <tr>
                                                             <th>S.No</th>
-                                                            <th>Branch</th>
-                                                            <th>InvoType</th>
-                                                            <th>InvNo</th>
-                                                            <th>Edit</th>
-                                                            <th>Close</th>
+                                                            <th style="text-align:center">Branch</th>
+                                                            <th style="text-align:center">Invoice No</th>
+                                                            <th style="text-align:center">Invoice Date</th>
+
+                                                            <th style="text-align:center">Party Name</th>
+                                                            <th style="text-align:center">Total Amount</th>
+                                                            <th style="text-align:center">View</th>
+                                                            <th style="text-align:center">Close</th>
                                                         </tr>
                                                     </thead>
 
@@ -68,11 +71,14 @@
                                                             {
                                                                 <tr>
                                                                     <td>@i</td>
-                                                                     <td>@Html.DisplayFor(modelItem => item.Branch)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.InvoType)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Branch)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.InvNo)</td>
-                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("DepotInvoice", "DepotInvoice",new { id=item.ID })"></a></div></td>
-                                                                    <td> <a href="@Url.Action("DeleteMR","DepotInvoice",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.InvDate)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Party)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Net)</td>
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewDepotInvoice", "DepotInvoice",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Waiting for approval' /></a></div></td>
+                                                                    <td> <a href="@Url.Action("DeleteDI","DepotInvoice",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
+
                                                                 </tr>
                                                                 i++;
                                                             }
@@ -125,4 +131,30 @@
 
 
     });
+</script>
+
+<a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+<a class="fancyboxe1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+<link rel="stylesheet" href="@Url.Content("~/css/jquery.fancybox.css?v=2.1.5")" type="text/css" media="screen" />
+<script type="text/javascript" src="@Url.Content("~/css/jquery.fancybox.pack.js?v=2.1.5")"></script>
+<script type="text/javascript">
+    var fancybox123;
+    jQuery(document).ready(function ($) {
+        $(".fancybox").fancybox({
+            width: '80%',
+            height: '10%',
+            arrows: false,
+
+        });
+        fancybox123 = $.fancybox;
+    });
+    function close_popup() {
+        fancybox123.close();
+        $(".fancybox1").fancybox({
+            width: '100%',
+            height: '100%',
+            arrows: false,
+        });
+        $(".fancybox1").eq(0).trigger('click');
+    }
 </script>

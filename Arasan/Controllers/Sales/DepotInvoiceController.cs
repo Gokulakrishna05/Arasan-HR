@@ -1,16 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Arasan.Models;
-using Arasan.Interface.Sales;
+
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Data;
 using System.Collections.Generic;
 using System.Xml.Linq;
-using Arasan.Services.Sales;
-using Arasan.Interface;
-using Arasan.Services.Master;
-using Arasan.Services.Store_Management;
 
-namespace Arasan.Controllers.Sales
+using Arasan.Interface;
+using Arasan.Services;
+
+
+namespace Arasan.Controllers
 {
     public class DepotInvoiceController : Controller
     {
@@ -39,18 +39,64 @@ namespace Arasan.Controllers.Sales
             ca.Inspelst = BindInspect();
             ca.Doclst = BindDocument();
             ca.Voclst = BindVocher();
+            ca.Tranlst = BindTrans();
+            ca.Tnamelst = Tname();
+            ca.enterdby = Request.Cookies["Username"];
             List<DepotInvoiceItem> TData = new List<DepotInvoiceItem>();
             DepotInvoiceItem tda = new DepotInvoiceItem();
+            List<TermsItem> TData1 = new List<TermsItem>();
+            TermsItem tda1 = new TermsItem();
+            List<AreaItem> TData2 = new List<AreaItem>();
+            AreaItem tda2 = new AreaItem();
 
             if (id == null)
             {
-                for (int i = 0; i < 2; i++)
+                ca.Doc = "BY HAND";
+                ca.Ordsam = "ORDER";
+                ca.Dis = "Road";
+                ca.Inspect = "OWN";
+                ca.RecBy = "OWN";
+                ca.Vocher = "R";
+                ca.Branch = "10001000000001";
+                ca.Location = "12418000000423";
+                //ca.Narration = "Invoice to";
+                string loc = ca.Location;
+                ViewBag.locdisp = ca.Location;
+                ca.InvDate = DateTime.Now.ToString("dd-MMM-yyyy");
+                ca.RefDate = DateTime.Now.ToString("dd-MMM-yyyy");
+                ca.ExRate = "1";
+                DataTable dtv = datatrans.GetSequence("Deinv", loc);
+                if (dtv.Rows.Count > 0)
+                {
+                    ca.InvNo = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["LASTNO"].ToString();
+                }
+                for (int i = 0; i < 1; i++)
                 {
                     tda = new DepotInvoiceItem();
-                    tda.ItemGrouplst = BindItemGrplst();
+                    //tda.ItemGrouplst = BindItemGrplst();
                     tda.Itemlst = BindItemlst("");
+                    tda.binlst = BindBin();
+                    //tda.FrieghtItemId = "Frieght Charges";
+                    //tda.FriQty = "1";
+                    //tda.HSNcode = "996519";
                     tda.Isvalid = "Y";
                     TData.Add(tda);
+                }
+                for (int i = 0; i < 1; i++)
+                {
+                    tda1 = new TermsItem();
+
+                    tda1.Termslst = BindTerms();
+                    tda1.Isvalid = "Y";
+                    TData1.Add(tda1);
+                }
+                for (int i = 0; i < 1; i++)
+                {
+                    tda2 = new AreaItem();
+
+                    tda2.Arealst = BindArea("");
+                    tda2.Isvalid = "Y";
+                    TData2.Add(tda2);
                 }
             }
             else
@@ -71,17 +117,20 @@ namespace Arasan.Controllers.Sales
                     ca.ID = id;
                     ca.RefNo = dt.Rows[0]["REFNO"].ToString();
                     ca.RefDate = dt.Rows[0]["REFDATE"].ToString();
-                    ca.Currency = dt.Rows[0]["MAINCURRENCY"].ToString();
-                    ca.ExRate = dt.Rows[0]["EXRATE"].ToString();
                     ca.Party = dt.Rows[0]["PARTYID"].ToString();
                     ca.Vocher = dt.Rows[0]["VTYPE"].ToString();
                     ca.Customer = dt.Rows[0]["CUSTPO"].ToString();
-                    ca.Type = dt.Rows[0]["TYPE"].ToString();
                     ca.Ordsam = dt.Rows[0]["ORDERSAMPLE"].ToString();
                     ca.Sales = dt.Rows[0]["SALVAL"].ToString();
                     ca.RecBy = dt.Rows[0]["RECDBY"].ToString();
                     ca.Dis = dt.Rows[0]["DESPBY"].ToString();
                     ca.Inspect = dt.Rows[0]["INSPBY"].ToString();
+                    ca.Trans = dt.Rows[0]["TRANSMODE"].ToString();
+                    ca.Vno = dt.Rows[0]["VNO"].ToString();
+                    ca.InvoiceD = dt.Rows[0]["INVDESC"].ToString();
+                    ca.TranCharger = dt.Rows[0]["TRANSP"].ToString();
+                    ca.Tname = dt.Rows[0]["TRANSNAME"].ToString();
+                    ca.Distance = dt.Rows[0]["TRANSLIMIT"].ToString();
                     ca.Doc = dt.Rows[0]["DOCTHORUGH"].ToString();
                     ca.AinWords = dt.Rows[0]["AMTWORDS"].ToString();
                     ca.Serial = dt.Rows[0]["SERNO"].ToString();
@@ -100,14 +149,14 @@ namespace Arasan.Controllers.Sales
                     {
                         tda = new DepotInvoiceItem();
                         double toaamt = 0;
-                        tda.ItemGrouplst = BindItemGrplst();
-                        DataTable dt3 = new DataTable();
-                        dt3 = datatrans.GetItemSubGroup(dt2.Rows[i]["ITEMID"].ToString());
-                        if (dt3.Rows.Count > 0)
-                        {
-                            tda.ItemGroupId = dt3.Rows[0]["SUBGROUPCODE"].ToString();
-                        }
-                        tda.Itemlst = BindItemlst(tda.ItemGroupId);
+                        //tda.ItemGrouplst = BindItemGrplst();
+                        //DataTable dt3 = new DataTable();
+                        //dt3 = datatrans.GetItemSubGroup(dt2.Rows[i]["ITEMID"].ToString());
+                        //if (dt3.Rows.Count > 0)
+                        //{
+                        //    tda.ItemGroupId = dt3.Rows[0]["SUBGROUPCODE"].ToString();
+                        //}
+                        tda.Itemlst = BindItemlst("");
                         tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
                         tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
 
@@ -151,6 +200,8 @@ namespace Arasan.Controllers.Sales
 
             }
             ca.Depotlst = TData;
+            ca.TermsItemlst = TData1;
+            ca.AreaItemlst = TData2;
             return View(ca);
 
         }
@@ -191,19 +242,61 @@ namespace Arasan.Controllers.Sales
 
             return View(Cy);
         }
+
         public IActionResult ListDepotInvoice()
         {
             IEnumerable<DepotInvoice> cmp = DepotInvoiceService.GetAllDepotInvoice();
             return View(cmp);
         }
-        public JsonResult GetItemJSON(string itemid)
+        public JsonResult GetItemJSON(string locid)
         {
             DepotInvoiceItem model = new DepotInvoiceItem();
-            model.Itemlst = BindItemlst(itemid);
-            return Json(BindItemlst(itemid));
+            model.Itemlst = BindItemlst(locid);
+            return Json(BindItemlst(locid));
 
         }
-        public ActionResult GetItemDetail(string ItemId)
+        public JsonResult GetTeamsJSON()
+        {
+            //EnqItem model = new EnqItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(BindTerms());
+        }
+        public List<SelectListItem> BindTerms()
+        {
+            try
+            {
+                DataTable dtDesg = DepotInvoiceService.GetTerms();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["TANDC"].ToString(), Value = dtDesg.Rows[i]["TANDCDETAILID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindTrans()
+        {
+            try
+            {
+
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                lstdesg.Add(new SelectListItem() { Text = "NONE", Value = "NONE" });
+                lstdesg.Add(new SelectListItem() { Text = "BY AUTO", Value = "BY AUTO" });
+                lstdesg.Add(new SelectListItem() { Text = "BY VAN", Value = "BY VAN" });
+                lstdesg.Add(new SelectListItem() { Text = "BY TRUCK", Value = "BY TRUCK" });
+                lstdesg.Add(new SelectListItem() { Text = "BY LORRY", Value = "BY LORRY" });
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult GetItemDetail(string ItemId, string locid)
         {
             try
             {
@@ -213,13 +306,17 @@ namespace Arasan.Controllers.Sales
                 string unit = "";
                 string CF = "";
                 string price = "";
+                string binno = "";
+                string binname = "";
                 dt = datatrans.GetItemDetails(ItemId);
-
+                string stock = DepotInvoiceService.GetDrumStock(ItemId, locid);
                 if (dt.Rows.Count > 0)
                 {
 
                     unit = dt.Rows[0]["UNITID"].ToString();
                     price = dt.Rows[0]["LATPURPRICE"].ToString();
+                    binno = dt.Rows[0]["BINNO"].ToString();
+                    binname = datatrans.GetDataString("select BINID from BINBASIC where BINBASICId='" + dt.Rows[0]["BINNO"].ToString() + "'"); ;
                     dt1 = DepotInvoiceService.GetItemCF(ItemId, dt.Rows[0]["UNITMASTID"].ToString());
                     if (dt1.Rows.Count > 0)
                     {
@@ -227,7 +324,7 @@ namespace Arasan.Controllers.Sales
                     }
                 }
 
-                var result = new { unit = unit, CF = CF, price = price };
+                var result = new { unit = unit, CF = CF, price = price, binno = binno, binname = binname, stock = stock };
                 return Json(result);
             }
             catch (Exception ex)
@@ -235,17 +332,85 @@ namespace Arasan.Controllers.Sales
                 throw ex;
             }
         }
+
+        public ActionResult GetItemRate(string ItemId, string custid, string ratec, string ordtype)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                string price = datatrans.GetDataString("Select nvl(sum(rate),0) rate , 1 AS SNO from (SELECT D.RATE FROM RATEBASIC B, RATEDETAIL D, ITEMMASTER I WHERE D.RCODE = '" + ratec + "' AND I.ITEMMASTERID = '" + ItemId + "' AND 'ORDER' ='" + ordtype + "' AND D.ITEMID = I.ITEMMASTERID AND B.RATEBASICID = D.RATEBASICID ANd B.VALIDFROM = (Select max(Validfrom) from Ratebasic R1 Where R1.RATECODE = '" + ratec + "' ANd R1.VALIDFROM <='" + DateTime.Now.ToString("dd-MMM-yyyy") + "') Union SELECT(-disc) FROM PARTYADVDISC WHERE PARTYMASTID ='" + custid + "' and active = 'Yes' and RATECODE = '" + ratec + "')");
+
+
+                var result = new { price = price };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public ActionResult ListDrumSelection(string itemid, string locid)
+        {
+            List<DDrumdetails> EnqChkItem = new List<DDrumdetails>();
+            DataTable dtEnq = new DataTable();
+            dtEnq = DepotInvoiceService.GetDrumDetails(itemid, locid);
+            for (int i = 0; i < dtEnq.Rows.Count; i++)
+            {
+
+                EnqChkItem.Add(new DDrumdetails
+                {
+                    lotno = dtEnq.Rows[i]["LOTNO"].ToString(),
+                    drumno = dtEnq.Rows[i]["DRUMNO"].ToString(),
+                    qty = dtEnq.Rows[i]["QTY"].ToString(),
+                    rate = dtEnq.Rows[i]["RATE"].ToString(),
+                    invid = dtEnq.Rows[i]["PLotmastID"].ToString()
+                });
+            }
+
+            return Json(new
+            {
+                EnqChkItem
+            });
+        }
+        public ActionResult DrumSelection(string itemid, string rowid, string locid)
+        {
+            Drumdetailstable ca = new Drumdetailstable();
+            List<DDrumdetails> TData = new List<DDrumdetails>();
+            DDrumdetails tda = new DDrumdetails();
+            DataTable dtEnq = new DataTable();
+            dtEnq = DepotInvoiceService.GetDrumDetails(itemid, locid);
+            for (int i = 0; i < dtEnq.Rows.Count; i++)
+            {
+                tda = new DDrumdetails();
+                tda.lotno = dtEnq.Rows[i]["LOTNO"].ToString();
+                tda.drumno = dtEnq.Rows[i]["DRUMNO"].ToString();
+                tda.qty = dtEnq.Rows[i]["QTY"].ToString();
+                tda.rate = dtEnq.Rows[i]["RATE"].ToString();
+                tda.invid = dtEnq.Rows[i]["PLotmastID"].ToString();
+                TData.Add(tda);
+            }
+            ca.Drumlst = TData;
+            return View(ca);
+        }
         public JsonResult GetItemGrpJSON()
         {
             //EnqItem model = new EnqItem();
             //  model.ItemGrouplst = BindItemGrplst(value);
             return Json(BindItemGrplst());
         }
-        public List<SelectListItem> BindItemlst(string value)
+
+        public JsonResult GetBinJSON()
+        {
+            //EnqItem model = new EnqItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(BindBin());
+        }
+        public List<SelectListItem> BindItemlst(string locid)
         {
             try
             {
-                DataTable dtDesg = datatrans.GetItem(value);
+                DataTable dtDesg = DepotInvoiceService.GetFGItem(locid);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -276,6 +441,24 @@ namespace Arasan.Controllers.Sales
                 throw ex;
             }
         }
+        public List<SelectListItem> Tname()
+        {
+            try
+            {
+                DataTable dtDesg = DepotInvoiceService.GetTname();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                lstdesg.Add(new SelectListItem() { Text = "NONE", Value = "0" });
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTYID"].ToString(), Value = dtDesg.Rows[i]["PARTYMASTID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<SelectListItem> BindBranch()
         {
             try
@@ -293,6 +476,24 @@ namespace Arasan.Controllers.Sales
                 throw ex;
             }
         }
+        public List<SelectListItem> BindBin()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetBinMaster();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["BINID"].ToString(), Value = dtDesg.Rows[i]["BINBASICID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public List<SelectListItem> BindSupplier()
         {
             try
@@ -459,7 +660,7 @@ namespace Arasan.Controllers.Sales
                 throw ex;
             }
         }
-        public ActionResult DeleteMR(string tag, int id)
+        public ActionResult DeleteMR(string tag, string id)
         {
 
             string flag = DepotInvoiceService.StatusChange(tag, id);
@@ -474,6 +675,421 @@ namespace Arasan.Controllers.Sales
                 return RedirectToAction("ListDepotInvoice");
             }
         }
+        public ActionResult GetGSTDetail(string ItemId, string custid)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                DataTable dt1 = new DataTable();
 
+                string sgst = "";
+
+                string hsn = "";
+                if (ItemId == "1")
+                {
+                    hsn = "996519";
+                }
+                else
+                {
+                    dt = DepotInvoiceService.GetHsn(ItemId);
+                    if (dt.Rows.Count > 0)
+                    {
+                        hsn = dt.Rows[0]["HSN"].ToString();
+                    }
+                }
+                if (ItemId == "1")
+                {
+                    sgst = "18";
+                }
+                else
+                {
+                    dt1 = DepotInvoiceService.GetGSTDetails(hsn);
+                    if (dt1.Rows.Count > 0)
+                    {
+
+                        sgst = dt1.Rows[0]["GSTP"].ToString();
+
+
+                    }
+                }
+
+                string cmpstate = datatrans.GetDataString("select STATE from CONTROL");
+
+                string type = "";
+
+                string partystate = datatrans.GetDataString("select STATE from PARTYMAST where PARTYMASTID='" + custid + "'");
+                if (partystate == cmpstate)
+                {
+                    type = "GST";
+                }
+                else
+                {
+                    type = "IGST";
+                }
+
+                var result = new { sgst = sgst, type = type, hsn = hsn };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult GetTrefficDetail(string ItemId)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                DataTable dt1 = new DataTable();
+
+                string treffic = "";
+
+                dt = DepotInvoiceService.GetTrefficDetails(ItemId);
+                if (dt.Rows.Count > 0)
+                {
+                    treffic = dt.Rows[0]["TARIFFID"].ToString();
+                }
+
+
+                var result = new { treffic = treffic };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public ActionResult GetAddrtype(string custid)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                string cmpstate = datatrans.GetDataString("select STATE from CONTROL");
+
+                string type = "";
+
+                string partystate = datatrans.GetDataString("select STATE from PARTYMAST where PARTYMASTID='" + custid + "'");
+                if (partystate == cmpstate)
+                {
+                    type = "GST";
+                }
+                else
+                {
+                    type = "IGST";
+                }
+
+
+                var result = new { type = type };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult GetItemSpecDetail(string ItemId)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                DataTable dt1 = new DataTable();
+
+                string type = "";
+                string spec = "";
+
+                dt = DepotInvoiceService.GetItemSpecDetails(ItemId);
+                if (dt.Rows.Count > 0)
+                {
+                    type = dt.Rows[0]["ITEMTYPE"].ToString();
+                    spec = dt.Rows[0]["ITEMSPEC"].ToString();
+                }
+
+
+                var result = new { type = type, spec = spec };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult GetAreaDetail(string ItemId)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+
+                string reciver = "";
+                //string address = "";
+                string state = "";
+                string city = "";
+                string pincode = "";
+                string phone = "";
+                string email = "";
+                string fax = "";
+                string add1 = "";
+                string add2 = "";
+                string add3 = "";
+
+
+                dt = DepotInvoiceService.GetAreaDetails(ItemId);
+
+                if (dt.Rows.Count > 0)
+                {
+
+                    reciver = dt.Rows[0]["ADDBOOKCOMPANY"].ToString();
+                    //address = dt.Rows[0]["address"].ToString();
+                    state = dt.Rows[0]["SSTATE"].ToString();
+                    city = dt.Rows[0]["SCITY"].ToString();
+                    pincode = dt.Rows[0]["SPINCODE"].ToString();
+                    phone = dt.Rows[0]["SPHONE"].ToString();
+                    email = dt.Rows[0]["SEMAIL"].ToString();
+                    fax = dt.Rows[0]["SFAX"].ToString();
+                    add1 = dt.Rows[0]["SADD1"].ToString();
+                    add2 = dt.Rows[0]["SADD2"].ToString();
+                    add3 = dt.Rows[0]["SADD3"].ToString();
+
+                }
+
+                var result = new { reciver = reciver, state = state, city = city, pincode = pincode, phone = phone, email = email, fax = fax, add1 = add1, add2 = add2, add3 = add3 };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public JsonResult GetPartyaddrJSON(string custid)
+        {
+            //EnqItem model = new EnqItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(BindArea(custid));
+        }
+
+
+
+        public List<SelectListItem> BindArea(string custid)
+        {
+            try
+            {
+                DataTable dtDesg = DepotInvoiceService.GetArea(custid);
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ADDBOOKTYPE"].ToString(), Value = dtDesg.Rows[i]["ADDBOOKTYPE"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public IActionResult ViewDepotInvoice(string id)
+        {
+            DepotInvoice ca = new DepotInvoice();
+            DataTable dt = DepotInvoiceService.ViewDepot(id);
+            if (dt.Rows.Count > 0)
+            {
+                ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                ca.InvoType = dt.Rows[0]["INVTYPE"].ToString();
+                ca.InvNo = dt.Rows[0]["DOCID"].ToString();
+                ca.InvDate = dt.Rows[0]["DOCDATE"].ToString();
+                ca.ID = id;
+                ca.Location = dt.Rows[0]["LOCID"].ToString();
+                ca.Party = dt.Rows[0]["PARTYNAME"].ToString();
+                ca.Vocher = dt.Rows[0]["VTYPE"].ToString();
+
+                ca.Ordsam = dt.Rows[0]["EORDTYPE"].ToString();
+                ca.Sales = dt.Rows[0]["SALVAL"].ToString();
+                ca.RecBy = dt.Rows[0]["RECDBY"].ToString();
+                ca.Dis = dt.Rows[0]["DESPBY"].ToString();
+                ca.Inspect = dt.Rows[0]["INSPBY"].ToString();
+                ca.Doc = dt.Rows[0]["DOCTHORUGH"].ToString();
+                ca.AinWords = dt.Rows[0]["AMTWORDS"].ToString();
+                ca.Serial = dt.Rows[0]["SERNO"].ToString();
+                ca.Narration = dt.Rows[0]["NARRATION"].ToString();
+                ca.Round = Convert.ToDouble(dt.Rows[0]["RNDOFF"].ToString() == "" ? "0" : dt.Rows[0]["RNDOFF"].ToString());
+                //ca.Packing = Convert.ToDouble(dt.Rows[0]["PACKING"].ToString() == "" ? "0" : dt.Rows[0]["PACKING"].ToString());
+                ca.Gross = Convert.ToDouble(dt.Rows[0]["GROSS"].ToString() == "" ? "0" : dt.Rows[0]["GROSS"].ToString());
+                ca.Net = Convert.ToDouble(dt.Rows[0]["NET"].ToString() == "" ? "0" : dt.Rows[0]["NET"].ToString());
+                ca.cgst = Convert.ToDouble(dt.Rows[0]["BCGST"].ToString() == "" ? "0" : dt.Rows[0]["BCGST"].ToString());
+                ca.sgst = Convert.ToDouble(dt.Rows[0]["BSGST"].ToString() == "" ? "0" : dt.Rows[0]["BSGST"].ToString());
+                ca.igst = Convert.ToDouble(dt.Rows[0]["BIGST"].ToString() == "" ? "0" : dt.Rows[0]["BIGST"].ToString());
+                ca.Discount = Convert.ToDouble(dt.Rows[0]["BDISCOUNT"].ToString() == "" ? "0" : dt.Rows[0]["BDISCOUNT"].ToString());
+                ca.FrightCharge = Convert.ToDouble(dt.Rows[0]["BFREIGHT"].ToString() == "" ? "0" : dt.Rows[0]["BFREIGHT"].ToString());
+                ca.Trans = dt.Rows[0]["TRANSMODE"].ToString();
+                ca.Distance = dt.Rows[0]["TRANSLIMIT"].ToString();
+
+                //ca.Tname = dt.Rows[0]["TRANSNAME"].ToString();
+                ca.Vno = dt.Rows[0]["VNO"].ToString();
+                ca.InvoiceD = dt.Rows[0]["INVDESC"].ToString();
+                ca.TranCharger = dt.Rows[0]["TRANSP"].ToString();
+
+            }
+            List<DepotInvoiceItem> TData = new List<DepotInvoiceItem>();
+            DepotInvoiceItem tda = new DepotInvoiceItem();
+            DataTable dtproin = DepotInvoiceService.Depotdetail(id);
+            if (dtproin.Rows.Count > 0)
+            {
+                for (int i = 0; i < dtproin.Rows.Count; i++)
+                {
+                    tda = new DepotInvoiceItem();
+                    tda.ItemId = dtproin.Rows[i]["ITEMID"].ToString();
+                    tda.ItemType = dtproin.Rows[i]["ITEMTYPE"].ToString();
+                    tda.ItemSpec = dtproin.Rows[i]["ITEMSPEC"].ToString();
+                    tda.Quantity = dtproin.Rows[i]["QTY"].ToString() != "" ? Convert.ToDouble(dtproin.Rows[i]["QTY"].ToString()) : 0;
+                    tda.CashDiscount = dtproin.Rows[i]["CDISC"].ToString() != "" ? Convert.ToDouble(dtproin.Rows[i]["CDISC"].ToString()) : 0;
+                    tda.FrigCharge = dtproin.Rows[i]["FREIGHT"].ToString() != "" ? Convert.ToDouble(dtproin.Rows[i]["FREIGHT"].ToString()) : 0;
+                    tda.CGST = dtproin.Rows[i]["CGST"].ToString() != "" ? Convert.ToDouble(dtproin.Rows[i]["CGST"].ToString()) : 0;
+                    tda.SGST = dtproin.Rows[i]["SGST"].ToString() != "" ? Convert.ToDouble(dtproin.Rows[i]["SGST"].ToString()) : 0;
+                    tda.IGST = dtproin.Rows[i]["IGST"].ToString() != "" ? Convert.ToDouble(dtproin.Rows[i]["IGST"].ToString()) : 0;
+                    tda.DiscAmount = dtproin.Rows[i]["DISCOUNT"].ToString() != "" ? Convert.ToDouble(dtproin.Rows[i]["DISCOUNT"].ToString()) : 0;
+                    tda.Unit = dtproin.Rows[i]["PRIUNIT"].ToString();
+                    //tda.ConFac = dtproin.Rows[i]["CF"].ToString();
+                    //tda.CurrentStock = dtproin.Rows[i]["IQTY"].ToString() != "" ? Convert.ToDouble(dtproin.Rows[i]["IQTY"].ToString()) : 0;
+                    tda.binid = dtproin.Rows[i]["BINID"].ToString();
+                    tda.rate = dtproin.Rows[i]["RATE"].ToString() != "" ? Convert.ToDouble(dtproin.Rows[i]["RATE"].ToString()) : 0;
+                    tda.Amount = dtproin.Rows[i]["AMOUNT"].ToString() != "" ? Convert.ToDouble(dtproin.Rows[i]["AMOUNT"].ToString()) : 0;
+                    tda.TotalAmount = dtproin.Rows[i]["TOTAMT"].ToString() != "" ? Convert.ToDouble(dtproin.Rows[i]["TOTAMT"].ToString()) : 0;
+                    TData.Add(tda);
+                }
+            }
+            List<TermsItem> TData1 = new List<TermsItem>();
+            TermsItem tda1 = new TermsItem();
+            DataTable dtProInCons = DepotInvoiceService.TermsDetail(id);
+            if (dtProInCons.Rows.Count > 0)
+            {
+                for (int i = 0; i < dtProInCons.Rows.Count; i++)
+                {
+                    tda1 = new TermsItem();
+                    tda1.Terms = dtProInCons.Rows[i]["TANDC"].ToString();
+
+                    TData1.Add(tda1);
+                }
+            }
+            List<AreaItem> TData2 = new List<AreaItem>();
+            AreaItem tda2 = new AreaItem();
+            DataTable dtproOut = DepotInvoiceService.AreaDetail(id);
+            if (dtproOut.Rows.Count > 0)
+            {
+                for (int i = 0; i < dtproOut.Rows.Count; i++)
+                {
+                    tda2 = new AreaItem();
+                    tda2.Areaid = dtproOut.Rows[i]["STYPE"].ToString();
+                    tda2.Add1 = dtproOut.Rows[i]["SADD1"].ToString();
+                    tda2.Add2 = dtproOut.Rows[i]["SADD2"].ToString();
+                    tda2.Add3 = dtproOut.Rows[i]["SADD3"].ToString();
+                    tda2.State = dtproOut.Rows[i]["SSTATE"].ToString();
+                    tda2.City = dtproOut.Rows[i]["SCITY"].ToString();
+                    tda2.Phone = dtproOut.Rows[i]["SPHONE"].ToString();
+                    tda2.PinCode = dtproOut.Rows[i]["SPINCODE"].ToString();
+                    tda2.Email = dtproOut.Rows[i]["SEMAIL"].ToString();
+                    tda2.Receiver = dtproOut.Rows[i]["SNAME"].ToString();
+                    tda2.Fax = dtproOut.Rows[i]["SFAX"].ToString();
+
+
+                    TData2.Add(tda2);
+                }
+            }
+
+            ca.Depotlst = TData;
+            ca.TermsItemlst = TData1;
+            ca.AreaItemlst = TData2;
+
+
+            return View(ca);
+        }
+
+        public ActionResult GetDocidDetail(string ItemId, string ordtype)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                DataTable dt1 = new DataTable();
+
+                string doc = "";
+
+                dt = datatrans.GetSequence("Deinv", ItemId, ordtype);
+                if (dt.Rows.Count > 0)
+                {
+                    doc = dt.Rows[0]["doc"].ToString();
+                }
+
+
+                var result = new { doc = doc };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult GetAdvDetails(string custid)
+        {
+            try
+            {
+                DepotInvoice cy = new DepotInvoice();
+                DataTable dtParty = datatrans.GetData("select distinct P.CREDITDAYS,P.CREDITLIMIT,P.GSTNO,P.PARTYNAME,P.ACCOUNTNAME,P.PartyGroup,A.ratecode,a.limit from PARTYMAST P,PartyAdvDisc A Where P.PartyMastID =A.PartyMastID(+) and A.active = 'Yes' and P.PARTYMASTID='" + custid + "' union select distinct P.CREDITDAYS,P.CREDITLIMIT,P.GSTNO,P.PARTYNAME,P.ACCOUNTNAME,P.PartyGroup,A.Bratecode,0 from PARTYMAST P,PartymastBRCode A Where P.PartyMastID =A.PartyMastID(+) and P.PARTYMASTID='" + custid + "' and 0=(select count(A.ratecode) from PARTYMAST P,PartyAdvDisc A Where P.PartyMastID =A.PartyMastID(+) and A.active = 'Yes' and P.PARTYMASTID='" + custid + "')");
+                cy.arc = dtParty.Rows[0]["ratecode"].ToString();
+                cy.crlimit = (long)Convert.ToDouble(dtParty.Rows[0]["CREDITLIMIT"].ToString());
+                cy.crd = (long)Convert.ToDouble(dtParty.Rows[0]["CREDITDAYS"].ToString());
+                cy.PartyG = dtParty.Rows[0]["PartyGroup"].ToString();
+                cy.limit = (long)Convert.ToDouble(dtParty.Rows[0]["limit"].ToString());
+                if (cy.limit > 0)
+                {
+                    DataTable psaledt = datatrans.GetData("Select nvl(sum(net),0) nets from ( Select sum(net) net from exinvbasic e, partymast p,partyadvdisc d where e.docdate between D.SD and D.ED and e.RateCode ='" + cy.arc + "' and e.partyid = P.PARTYMASTID and(P.PARTYMASTID = '" + custid + "' or(P.PARTYGROUP ='" + cy.PartyG + "' and 'None' <> '" + cy.PartyG + "')) and D.RATECODE = E.RATECODE and D.PARTYMASTID = P.PARTYMASTID  and e.EORDTYPE='ORDER' Union All Select sum(net) net from Depinvbasic e, partymast p,partyadvdisc d where e.docdate between D.SD and D.ED and e.RateCode = '" + cy.arc + "' and e.partyid = P.PARTYMASTID and(P.PARTYMASTID ='" + custid + "' or(P.PARTYGROUP = '" + cy.PartyG + "' and 'None' <> '" + cy.PartyG + "')) and D.RATECODE = E.RATECODE and D.PARTYMASTID = P.PARTYMASTID  and e.EORDTYPE='ORDER')");
+                    cy.asale = (long)Convert.ToDouble(psaledt.Rows[0]["nets"].ToString());
+                }
+                else cy.asale = 0;
+
+                var result = new { arc = cy.arc, partyg = cy.PartyG, limit = cy.limit, asale = cy.asale };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult GetNarrDetail(string ItemId)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                DataTable dt1 = new DataTable();
+
+                string narr = "";
+                string narr1 = "";
+                dt = DepotInvoiceService.GetNarr(ItemId);
+                if (dt.Rows.Count > 0)
+                {
+                    narr = dt.Rows[0]["PARTYNAME"].ToString();
+                }
+                narr1 = "Invoiced To " + narr;
+
+                var result = new { narr1 = narr1 };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult DeleteDI(string tag, string id)
+        {
+
+            string flag = DepotInvoiceService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListDepotInvoice");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListDepotInvoice");
+            }
+        }
     }
 }

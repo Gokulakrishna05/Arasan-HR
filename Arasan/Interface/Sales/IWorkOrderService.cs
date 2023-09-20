@@ -19,6 +19,9 @@ namespace Arasan.Interface.Sales
         DataTable GetWorkOrderDetails(string id);
         DataTable GetTax();
         DataTable GetWorkOrderByID(string id);
+        DataTable GetDrumAllByID(string id);
+        DataTable GetDrumAllDetails(string id);
+        DataTable GetAllocationDrumDetails(string id);
         DataTable GetDrumDetails(string Itemid, string locid);
 
         IEnumerable<WDrumAllocation> GetAllWDrumAll();
