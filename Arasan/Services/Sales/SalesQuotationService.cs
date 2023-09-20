@@ -264,8 +264,7 @@ namespace Arasan.Services.Sales
                         StatementType = "Update";
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                     }
-
-
+                    
                     //objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                     objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
                     objCmd.Parameters.Add("NEW_EXISTINGQUOTE", OracleDbType.NVarchar2).Value = cy.QuoteFormatId;
@@ -290,8 +289,6 @@ namespace Arasan.Services.Sales
                     objCmd.Parameters.Add("GROSS", OracleDbType.NVarchar2).Value = cy.gross;
                     objCmd.Parameters.Add("NET", OracleDbType.NVarchar2).Value = cy.net;
 
-                    
-                    //objCmd.Parameters.Add("NARRATION", OracleDbType.NVarchar2).Value = cy.Narration;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
@@ -346,10 +343,7 @@ namespace Arasan.Services.Sales
                                     objCmds.ExecuteNonQuery();
                                     objConns.Close();
                                 }
-
-
-
-                            }
+                             }
                         }
 
 
@@ -421,8 +415,8 @@ namespace Arasan.Services.Sales
                         {
                             itemid = rdr["ITEMID"].ToString(),
                             unit = rdr["UNIT"].ToString(),
-                            quantity = rdr["QTY"].ToString(),
-                            //Quantity = Convert.ToDouble(rdr["QTY"].ToString())
+                            //quantity = rdr["QTY"].ToString(),
+                            quantity = Convert.ToDouble(rdr["QTY"].ToString())
                         };
                         cmpList.Add(cmp);
                     }

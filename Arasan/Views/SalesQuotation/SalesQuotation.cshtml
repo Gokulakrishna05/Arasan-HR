@@ -82,11 +82,7 @@
                                             @Html.TextBoxFor(C => C.QuoDate, new { @id = "QuoDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
                                         <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                     </div>
-
-                                   
-
-
-                                            </div>
+                                    </div>
                                         </div>
                              </div>
                                   <div class="row">
@@ -630,12 +626,12 @@
                    j += 1;
             });
 
-            @*document.getElementById("txtFrig").value = totfrieght.toFixed(2); *@
+            document.getElementById("txtFrig").value = totfrieght.toFixed(2); 
 
             document.getElementById("txtGross").value = totamt.toFixed(2);
             document.getElementById("txtNet").value = totamount.toFixed(2);
 
-            @*document.getElementById("hidnet").value = totamount.toFixed(2);*@
+            document.getElementById("hidnet").value = totamount.toFixed(2);
 
         }
         catch (ex) {
