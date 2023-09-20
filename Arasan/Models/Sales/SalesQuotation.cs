@@ -77,8 +77,9 @@ namespace Arasan.Models
         public double gross { get; set; }
         public double net { get; set; }
         public string status { get; set; }
-        public List<QuoItem> QuoLst { get; set; }
         public string QuoteFormatId { get; set; }
+        public List<QuoItem> QuoLst { get; set; }
+       
         public List<SelectListItem> QuoteFormatList { get; set; }
         public string EnquiryId { get; set; }
         public List<SelectListItem> EnquiryList { get; set; }
@@ -98,25 +99,25 @@ namespace Arasan.Models
         public string confac { get; set; }
 
         //public string Description { get; set; }
-        public string rate { get; set; }
-        public string amount { get; set; }
-        public string disc { get; set; }
-        public string discamount { get; set; }
+        public double rate { get; set; }
+        public double amount { get; set; }
+        public double disc { get; set; }
+        public double discamount { get; set; }
 
-        public string frigcharge { get; set; }
-        public string cgstp { get; set; }
-        public string sgstp { get; set; }
-        public string igstp { get; set; }
-        public string cgst { get; set; }
-        public string sgst { get; set; }
-        public string igst { get; set; }
-        public string totalamount { get; set; }
+        public double frigcharge { get; set; }
+        public double cgstp { get; set; }
+        public double sgstp { get; set; }
+        public double igstp { get; set; }
+        public double cgst { get; set; }
+        public double sgst { get; set; }
+        public double igst { get; set; }
+        public double totalamount { get; set; }
         public string Isvalid { get; set; }
 
         public string itemid { get; set; }
         public string des { get; set; }
         public string unit { get; set; }
-        public string quantity { get; set; }
+        public double quantity { get; set; }
     }
     public class QuotationFollowup
     {
