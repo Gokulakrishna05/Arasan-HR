@@ -11,6 +11,7 @@ namespace Arasan.Interface.Sales
         DataTable GetJob();
         DataTable GetEditProFormaInvoice(string id);
         DataTable GetDrumParty(string id);
+        DataTable GetDrumDetails(string id);
         DataTable GetDrumAll(string id);
       
         string ProFormaInvoiceCRUD(ProFormaInvoice cy);
@@ -18,5 +19,7 @@ namespace Arasan.Interface.Sales
         DataTable GetWorkOrderDetail(string id);
         //DataTable GetProFormaInvoiceDetails(string id);
         DataTable EditProFormaInvoiceDetails(string id);
+        DataTable GetArea(string custid);
+        DataTable GetTerms();
     }
 }

@@ -8,6 +8,7 @@ using System.Xml.Linq;
 using Arasan.Services.Sales;
 using Arasan.Interface;
 using Arasan.Services.Master;
+using Arasan.Services;
 
 namespace Arasan.Controllers.Sales
 {
@@ -31,6 +32,7 @@ namespace Arasan.Controllers.Sales
             ca.Curlst = BindCurrency();
             ca.Suplst = BindSupplier();
             ca.Joblst = BindJob();
+            ca.Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
             DataTable dtv = datatrans.GetSequence("PInv");
             if (dtv.Rows.Count > 0)
             {
@@ -38,6 +40,10 @@ namespace Arasan.Controllers.Sales
             }
             List<ProFormaInvoiceDetail> TData = new List<ProFormaInvoiceDetail>();
             ProFormaInvoiceDetail tda = new ProFormaInvoiceDetail();
+            List<PTermsItem> TData1 = new List<PTermsItem>();
+            PTermsItem tda1 = new PTermsItem();
+            List<PAreaItem> TData2 = new List<PAreaItem>();
+            PAreaItem tda2 = new PAreaItem();
             if (id == null)
             {
                 for (int i = 0; i < 1; i++)
@@ -82,9 +88,10 @@ namespace Arasan.Controllers.Sales
                             tda.qty = dtt.Rows[i]["totqty"].ToString();
                         tda.rate = dtt.Rows[i]["totrate"].ToString();
                         //tda.amount = dtt.Rows[i]["REFNO"].ToString();
-                        TData.Add(tda);
                         tda.BaID = id;
-
+                        tda.Isvalid = "Y";
+                        TData.Add(tda);
+                      
                     }
                 }
             }
@@ -118,6 +125,24 @@ namespace Arasan.Controllers.Sales
                 }
               
             }
+            for (int i = 0; i < 1; i++)
+            {
+                tda1 = new PTermsItem();
+
+                tda1.Termslst = BindTerms();
+                tda1.Isvalid = "Y";
+                TData1.Add(tda1);
+            }
+            for (int i = 0; i < 1; i++)
+            {
+                tda2 = new PAreaItem();
+
+                tda2.Arealst = BindArea("");
+                tda2.Isvalid = "Y";
+                TData2.Add(tda2);
+            }
+            ca.TermsItemlst = TData1;
+            ca.AreaItemlst = TData2;
             ca.ProFormalst = TData;
             return View(ca);
 
@@ -353,6 +378,60 @@ namespace Arasan.Controllers.Sales
                 TempData["notice"] = flag;
                 return RedirectToAction("ListProFormaInvoice");
             }
+        }
+        public List<SelectListItem> BindTerms()
+        {
+            try
+            {
+                DataTable dtDesg = ProFormaInvoiceService.GetTerms();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["TANDC"].ToString(), Value = dtDesg.Rows[i]["TANDCDETAILID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindArea(string custid)
+        {
+            try
+            {
+                DataTable dtDesg = ProFormaInvoiceService.GetArea(custid);
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ADDBOOKTYPE"].ToString(), Value = dtDesg.Rows[i]["ADDBOOKTYPE"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult DrumSelectionView(string id)
+        {
+            ViewDrumdetailstable ca = new ViewDrumdetailstable();
+            List<DDrumdetailsView> TData = new List<DDrumdetailsView>();
+            DDrumdetailsView tda = new DDrumdetailsView();
+            DataTable dtEnq = new DataTable();
+            dtEnq = ProFormaInvoiceService.GetDrumDetails(id);
+            for (int i = 0; i < dtEnq.Rows.Count; i++)
+            {
+                tda = new DDrumdetailsView();
+                tda.lotno = dtEnq.Rows[i]["LOTNO"].ToString();
+                tda.drumno = dtEnq.Rows[i]["DRUMNO"].ToString();
+                tda.qty = dtEnq.Rows[i]["QTY"].ToString();
+                tda.rate = dtEnq.Rows[i]["RATE"].ToString();
+               
+                TData.Add(tda);
+            }
+            ca.Drumlst = TData;
+            return View(ca);
         }
         //public ActionResult AssignSession(string status)
         //{

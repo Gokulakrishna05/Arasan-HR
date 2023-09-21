@@ -31,7 +31,13 @@ namespace Arasan.Models
         public List<SelectListItem> Brlst;
         public string Branch { get; set; }
         public string Currency { get; set; }
+        public double Round { get; set; }
 
+        public double Discount { get; set; }
+        public double cgst { get; set; }
+        public double sgst { get; set; }
+        public double igst { get; set; }
+        public double FrightCharge { get; set; }
         public List<SelectListItem> Curlst;
         public string Party { get; set; }
         public string PartyName { get; set; }
@@ -42,6 +48,8 @@ namespace Arasan.Models
 
         public List<SelectListItem> Joblst;
         public List<ProFormaInvoiceDetail> ProFormalst { get; set; }
+        public List<PAreaItem> AreaItemlst { get; set; }
+        public List<PTermsItem> TermsItemlst { get; set; }
     }
     public class ProFormaInvoiceDetail
     {
@@ -88,6 +96,56 @@ namespace Arasan.Models
         public string totamount { get; set; }
 
         public string Isvalid { get; set; }
+    }
+    public class ViewDrumdetailstable
+    {
+        public List<DDrumdetailsView> Drumlst { get; set; }
+
+        public bool selectall { get; set; }
+    }
+    public class DDrumdetailsView
+    {
+        public string lotno { get; set; }
+        public string drumno { get; set; }
+        public string qty { get; set; }
+        public string rate { get; set; }
+        public string invid { get; set; }
+        public bool drumselect { get; set; }
+    }
+    public class PAreaItem
+    {
+        public string Isvalid { get; set; }
+
+        public string ID { get; set; }
+
+        public List<SelectListItem> Arealst { get; set; }
+
+        public string Areaid { get; set; }
+        public string Address { get; set; }
+        public string State { get; set; }
+        public string City { get; set; }
+        public string PinCode { get; set; }
+        public string Fax { get; set; }
+        public string Receiver { get; set; }
+        public string Phone { get; set; }
+        public string Cst { get; set; }
+
+        public string Tin { get; set; }
+        public string Add1 { get; set; }
+        public string Add2 { get; set; }
+        public string Add3 { get; set; }
+        public string Email { get; set; }
+
+    }
+    public class PTermsItem
+    {
+        public string Isvalid { get; set; }
+        public string ID { get; set; }
+
+        public List<SelectListItem> Termslst { get; set; }
+
+        public string Terms { get; set; }
+
     }
 
 }
