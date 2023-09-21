@@ -149,7 +149,6 @@ namespace Arasan.Controllers.Master
                 Reg.Add(new EmpBindList
                 {
                     piid = Convert.ToInt64(dtUsers.Rows[i]["EMPALLOCATIONID"].ToString()),
-                    
                     emp = dtUsers.Rows[i]["EMPNAME"].ToString(),
                     edate = dtUsers.Rows[i]["EMPDATE"].ToString(),
                     editrow = EditRow,
@@ -194,8 +193,13 @@ namespace Arasan.Controllers.Master
             if (dt.Rows.Count > 0)
             {
                 ca.Emp = dt.Rows[0]["EMPNAME"].ToString();
-                ca.EDate = dt.Rows[0]["EMPDATE"].ToString();
-                ca.Location = dt.Rows[0]["LOCID"].ToString();
+                ca.EDate = dt.Rows[0]["CREATEDDATE"].ToString();
+                DataTable dt1 = new DataTable();
+                dt1 = EmpMultipleAllocationService.GetEmpLocation(id);
+                for (int i = 0; i < dt1.Rows.Count; i++)
+                {
+                    ca.Location = dt1.Rows[i]["LOCID"].ToString();
+                }
                 ca.ID = id;
             }
             return View(ca);

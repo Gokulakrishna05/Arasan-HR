@@ -11,6 +11,7 @@ namespace Arasan.Interface.Master
         //IEnumerable<EmpMultipleAllocation> GetAllEmpMultipleAllocation();
         DataTable GetEmp(string action);
         DataTable GetEmpAllocation();
+        DataTable GetEmpLocation(string id);
         DataTable GetEmpMultipleAllocationReassign(string id);
         DataTable GetEmpMultipleAllocationServiceName(string id);
         DataTable GetEmpMultipleItem(string PRID);
