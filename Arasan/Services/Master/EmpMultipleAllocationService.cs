@@ -164,7 +164,7 @@ namespace Arasan.Services.Master
         public DataTable GetEmpMultipleAllocationServiceName(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select EMPMAST.EMPNAME,to_char(EMPDATE,'dd-MON-yyyy') EMPDATE,LOCDETAILS.LOCID,EMPALLOCATIONID from EMPALLOCATION LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID=EMPALLOCATION.EMPNAME LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=EMPALLOCATION.LOCATIONNAME Order by EMPALLOCATIONID DESC ";
+            SvSql = "select EMPMAST.EMPNAME,to_char(CREATEDDATE,'dd-MON-yyyy')CREATEDDATE,EMPALLOCATIONID from EMPALLOCATION LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID=EMPALLOCATION.EMPID Order by EMPALLOCATIONID DESC ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -175,7 +175,7 @@ namespace Arasan.Services.Master
         public DataTable GetEmpMultipleAllocationReassign(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select to_char(EMPDATE,'dd-MON-yyyy')EMPDATE,LOCDETAILS.LOCID,EMPALLOCATIONID from EMPALLOCATION LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=EMPALLOCATION.LOCATIONNAME  Where EMPALLOCATION.EMPALLOCATIONID='" + id + "'";
+            SvSql = "select to_char(EMPDATE,'dd-MON-yyyy')EMPDATE,LOCDETAILS.LOCID,EMPALLOCATIONID from EMPALLOCATION LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=EMPALLOCATIONDETAILS.LOCATIONID  Where EMPALLOCATION.EMPALLOCATIONID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -232,6 +232,17 @@ namespace Arasan.Services.Master
             }
 
             return msg;
+        }
+
+        public DataTable GetEmpLocation(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select LOCDETAILS.LOCID,EMPALLOCATIONID from EMPALLOCATIONDETAILS  LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=EMPALLOCATIONDETAILS.LOCATIONID Order by EMPALLOCATIONDETAILSID DESC";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
         }
     }
 }

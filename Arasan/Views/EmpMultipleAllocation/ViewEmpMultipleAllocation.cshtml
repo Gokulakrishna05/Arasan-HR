@@ -1,6 +1,6 @@
 ﻿@model Arasan.Models.EmpView
 @{
-    
+    Layout = "_PopupLayout";
     ViewData["Title"] = "EmpMultipleAllocation";
 }
 <style>
@@ -14,6 +14,7 @@
         top: 2px;
         left: 5px;
     }
+
 </style>
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
@@ -32,7 +33,9 @@
                 <div class="widgets-container">
                     <h5 style="font-size:14px">Emp Multiple Allocation</h5>
                     <hr>
-                  
+                    @using (Html.BeginForm("EmpView", "EmpMultipleAllocation", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
                         <form>
                             <div class="row">
                                 <div class="col-md-6">
@@ -71,11 +74,9 @@
                                 </div>
 
                              </div>
-                            <div style="height:30px;"></div>
-                            <button type="button" class="btn aqua m-t-xs bottom15-xs" id="btnSave" onclick="location.href='@Url.Action("ListEmpMultipleAllocation", "EmpMultipleAllocation")'">Submit</button>
-                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListEmpMultipleAllocation", "EmpMultipleAllocation")'">Cancel</button>
+                           
                         </form>
-                   
+                   }
                 </div>
             </div>
         </div>
