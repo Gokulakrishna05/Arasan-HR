@@ -39,5 +39,15 @@ namespace Arasan.Interface
         DataTable GetEmpdet(string id);
         DataTable GetBreak(string id);
 
+        IEnumerable<PyroProduction> GetAllPyro();
+
+        DataTable GetPyroProductionName(string id);
+        DataTable GetInputDeatils(string id);
+        DataTable GetConsDeatils(string id);
+        DataTable GetEmpdetDeatils(string id);
+        DataTable GetBreakDeatils(string id);
+        DataTable GetOutputDeatils(string id);
+        DataTable GetLogdetailDeatils(string id);
+
     }
 }

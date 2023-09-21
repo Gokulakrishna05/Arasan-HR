@@ -16,6 +16,37 @@ namespace Arasan.Services
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
+
+        public IEnumerable<PyroProduction> GetAllPyro( )
+        {
+            
+            List<PyroProduction> cmpList = new List<PyroProduction>();
+            using (OracleConnection con = new OracleConnection(_connectionString))
+            {
+
+                using (OracleCommand cmd = con.CreateCommand())
+                {
+                    con.Open();
+                    cmd.CommandText = "Select  DOCID,to_char(PYROPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,SHIFT,EMPMAST.EMPNAME,LOCDETAILS.LOCID,PYROPRODBASICID from PYROPRODBASIC LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID=PYROPRODBASIC.SUPERVISOR  LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PYROPRODBASIC.LOCID ORDER BY PYROPRODBASICID desc";
+                    OracleDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        PyroProduction cmp = new PyroProduction
+                        {
+                            ID = rdr["PYROPRODBASICID"].ToString(),
+                            super = rdr["EMPNAME"].ToString(),
+                            DocId = rdr["DOCID"].ToString(),
+                            Docdate = rdr["DOCDATE"].ToString(),
+                            Location = rdr["LOCID"].ToString(),
+                            Shift = rdr["SHIFT"].ToString()
+
+                        };
+                        cmpList.Add(cmp);
+                    }
+                }
+            }
+            return cmpList;
+        }
         public DataTable GetMachineDetails(string id)
         {
             string SvSql = string.Empty;
@@ -392,6 +423,82 @@ namespace Arasan.Services
             }
 
             return msg;
+        }
+        public DataTable GetPyroProductionName(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select PYROPRODBASICID,PYROPRODBASIC.DOCID,to_char(PYROPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,LOCDETAILS.LOCID,EMPMAST.EMPNAME,SHIFT from PYROPRODBASIC left outer join LOCDETAILS ON LOCDETAILSID= PYROPRODBASIC.LOCID left outer join EMPMAST ON EMPMASTID= PYROPRODBASIC.SUPERVISOR  where PYROPRODBASICID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetInputDeatils(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select PYROPRODBASICID,ITEMMASTER.ITEMID,BINBASIC.BINID,BATCH,STOCK,QTY,TIME from PYROPRODINPDET left outer join BINBASIC ON BINBASICID= PYROPRODINPDET.BINID left outer join ITEMMASTER ON ITEMMASTER.ITEMMASTERID= PYROPRODINPDET.ITEMID  where PYROPRODBASICID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetConsDeatils(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select PYROPRODBASICID,ITEMMASTER.ITEMID,PYROPRODCONSDET.UNITID,PYROPRODCONSDET.BINID,STOCK,QTY,UNITMAST.UNITID,CONSQTY,BINBASIC.BINID AS BIN from PYROPRODCONSDET left outer join ITEMMASTER ON ITEMMASTER.ITEMMASTERID= PYROPRODCONSDET.ITEMID left outer join BINBASIC ON BINBASICID= PYROPRODCONSDET.BINID LEFT OUTER JOIN UNITMAST  on ITEMMASTER.PRIUNIT=UNITMAST.UNITMASTID where PYROPRODBASICID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetEmpdetDeatils(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select PYROPRODBASICID,EMPMAST.EMPNAME,EMPCODE,DEPARTMENT,to_char(PYROPRODEMPDET.STARTDATE,'dd-MON-yyyy')STARTDATE,to_char(PYROPRODEMPDET.ENDDATE,'dd-MON-yyyy')ENDDATE,STARTTIME,ENDTIME,OTHRS,ETOTHER,NORMELHRS,NATUREOFWORK from PYROPRODEMPDET left outer join EMPMAST ON EMPMAST.EMPMASTID= PYROPRODEMPDET.EMPID where PYROPRODBASICID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetBreakDeatils(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select PYROPRODBASICID,machineinfobasic.MCODE,MEACHDES,DTYPE,PYROPRODBREAKDET.MTYPE,STARTTIME,ENDTIME,PB,EMPMAST.EMPNAME,REASON from PYROPRODBREAKDET left outer join machineinfobasic on machineinfobasic.machineinfobasicid=PYROPRODBREAKDET.MEACHINECODE LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID=PYROPRODBREAKDET.ALLOTTEDTO  where PYROPRODBASICID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetOutputDeatils(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select PYROPRODBASICID,ITEMMASTER.ITEMID,BINBASIC.BINID,OUTQTY,DRUMMAST.DRUMNO,STARTTIME,ENDTIME,ITEMMASTER.ITEMID as ITEMNAME from PYROPRODOUTDET left outer join BINBASIC ON BINBASICID= PYROPRODOUTDET.BINID LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PYROPRODOUTDET.ITEMID LEFT OUTER JOIN DRUMMAST ON DRUMMAST.DRUMMASTID=PYROPRODOUTDET.DRUM  where PYROPRODBASICID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetLogdetailDeatils(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select PYROPRODBASICID,to_char(PYROPRODLOGDET.STARTDATE,'dd-MON-yyyy')STARTDATE,to_char(PYROPRODLOGDET.ENDDATE,'dd-MON-yyyy')ENDDATE,STARTTIME,ENDTIME,TOTALHRS,REASON from PYROPRODLOGDET where PYROPRODBASICID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
         }
     }
 }
