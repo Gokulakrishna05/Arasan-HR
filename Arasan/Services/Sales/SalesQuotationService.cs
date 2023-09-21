@@ -34,7 +34,7 @@ namespace Arasan.Services.Sales
                     con.Open();
                    
                     //cmd.CommandText = "Select SALESQUOTEID,BRANCHID,QUOTE_NO,to_char(QUOTE_DATE,'dd-MON-yyyy')QUOTE_DATE,SQ.CURRENCY_TYPE,SQ.CUSTOMER,SQ.CUSTOMER_TYPE,SQ.ADDRESS,SQ.CITY,SQ.CONTACT_PERSON_MOBILE,SQ.CONTACT_PERSON_MAIL,SQ.PINCODE,SQ.PRIORITY,SQ.ASSIGNED_TO,SQ.SALESQUOTEID,SQ.STATUS,PARTYRCODE.PARTY from SALES_QUOTE SQ LEFT OUTER JOIN  PARTYMAST on SQ.CUSTOMER=PARTYMAST.PARTYMASTID  LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.PARTY ";
-                    cmd.CommandText = "Select SALESQUOTEID,NEW_EXISTINGQUOTE,FROM_ENQUIRY,BRANCHID,QUOTE_NO,to_char(QUOTE_DATE,'dd-MON-yyyy')QUOTE_DATE,QUOTETYPE,SQ.CURRENCY_TYPE,SQ.CUSTOMER,SQ.CUSTOMER_TYPE,SQ.ADDRESS,SQ.CITY,SQ.CONTACT_PERSON_MOBILE,SQ.CONTACT_PERSON_MAIL,SQ.PINCODE,SQ.PRIORITY,COUNTRYSHIPMENT,SQ.ASSIGNED_TO,SQ.SALESQUOTEID,SQ.STATUS from SALES_QUOTE SQ LEFT OUTER JOIN  PARTYMAST on SQ.CUSTOMER=PARTYMAST.PARTYMASTID   ";
+                    cmd.CommandText = "Select SALESQUOTEID,NEW_EXISTINGQUOTE,FROM_ENQUIRY,BRANCHID,QUOTE_NO,to_char(QUOTE_DATE,'dd-MON-yyyy')QUOTE_DATE,QUOTETYPE,SQ.CURRENCY_TYPE,SQ.CUSTOMER,SQ.CUSTOMER_TYPE,SQ.ADDRESS,SQ.CITY,SQ.CONTACT_PERSON_MOBILE,SQ.CONTACT_PERSON_MAIL,SQ.PINCODE,SQ.PRIORITY,COUNTRYSHIPMENT,SQ.ASSIGNED_TO,SQ.SALESQUOTEID,SQ.STATUS ,SQ.GROSS,SQ.NET from SALES_QUOTE SQ LEFT OUTER JOIN  PARTYMAST on SQ.CUSTOMER=PARTYMAST.PARTYMASTID   ";
 
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
@@ -43,8 +43,7 @@ namespace Arasan.Services.Sales
                         {
                             ID = rdr["SALESQUOTEID"].ToString(),
                             Branch = rdr["BRANCHID"].ToString(),
-                            QuoteFormatId = rdr["NEW_EXISTINGQUOTE"].ToString(),
-                            EnquiryId = rdr["FROM_ENQUIRY"].ToString(),
+                           
                             QuoId = rdr["QUOTE_NO"].ToString(),
                             QuoDate = rdr["QUOTE_DATE"].ToString(),
                             QuoType = rdr["QUOTETYPE"].ToString(),
@@ -55,16 +54,21 @@ namespace Arasan.Services.Sales
                             //Customer = rdr["PARTY"].ToString(),
                             CustomerType = rdr["CUSTOMER_TYPE"].ToString(),
                             Address = rdr["ADDRESS"].ToString(),
-                            City = rdr["CITY"].ToString(),
+                            City= rdr["CITY"].ToString(),
+                           
                             Mobile = rdr["CONTACT_PERSON_MOBILE"].ToString(),
                             Gmail = rdr["CONTACT_PERSON_MAIL"].ToString(),
                             PinCode = rdr["PINCODE"].ToString(),
                             Pro = rdr["PRIORITY"].ToString(),
                             Country = rdr["COUNTRYSHIPMENT"].ToString(),
                             Assign = rdr["ASSIGNED_TO"].ToString(),
-                            //gross = rdr["GROSS"].ToString(),
-                            //net = rdr["NET"].ToString(),
-                            status = rdr["STATUS"].ToString()
+                            
+                            status = rdr["STATUS"].ToString(),
+                            QuoteFormatId = rdr["NEW_EXISTINGQUOTE"].ToString(),
+                            EnquiryId = rdr["FROM_ENQUIRY"].ToString(),
+                            gross = rdr["GROSS"].ToString(),
+                            net = rdr["NET"].ToString()
+                            //narration = rdr["NARRATION"].ToString()
                         };
                         cmpList.Add(cmp);
                     }
@@ -267,8 +271,7 @@ namespace Arasan.Services.Sales
                     
                     //objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                     objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
-                    objCmd.Parameters.Add("NEW_EXISTINGQUOTE", OracleDbType.NVarchar2).Value = cy.QuoteFormatId;
-                    objCmd.Parameters.Add("FROM_ENQUIRY", OracleDbType.NVarchar2).Value = cy.EnquiryId;
+
                     objCmd.Parameters.Add("QUOTE_NO", OracleDbType.NVarchar2).Value = cy.QuoId;
                     objCmd.Parameters.Add("QUOTE_DATE", OracleDbType.Date).Value = DateTime.Parse(cy.QuoDate);
                     objCmd.Parameters.Add("QUOTETYPE", OracleDbType.NVarchar2).Value = cy.EnqType;
@@ -283,11 +286,12 @@ namespace Arasan.Services.Sales
                     objCmd.Parameters.Add("PRIORITY", OracleDbType.NVarchar2).Value = cy.Pro;
                     objCmd.Parameters.Add("COUNTRYSHIPMENT", OracleDbType.NVarchar2).Value = cy.Country;
                     objCmd.Parameters.Add("ASSIGNED_TO", OracleDbType.NVarchar2).Value = cy.Emp;
-                    objCmd.Parameters.Add("NARRATION", OracleDbType.NVarchar2).Value = cy.narr;
-                    
                     objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
+                    objCmd.Parameters.Add("NEW_EXISTINGQUOTE", OracleDbType.NVarchar2).Value = cy.QuoteFormatId;
+                    objCmd.Parameters.Add("FROM_ENQUIRY", OracleDbType.NVarchar2).Value = cy.EnquiryId;
                     objCmd.Parameters.Add("GROSS", OracleDbType.NVarchar2).Value = cy.gross;
                     objCmd.Parameters.Add("NET", OracleDbType.NVarchar2).Value = cy.net;
+                    //objCmd.Parameters.Add("NARRATION", OracleDbType.NVarchar2).Value = cy.narration;
 
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
@@ -367,7 +371,7 @@ namespace Arasan.Services.Sales
         public DataTable GetSalesQuotation(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select SALES_QUOTE.BRANCHID,NEW_EXISTINGQUOTE,FROM_ENQUIRY,SALES_QUOTE.QUOTE_NO,to_char(SALES_QUOTE.QUOTE_DATE,'dd-MON-yyyy')QUOTE_DATE,QUOTETYPE,SALES_QUOTE.CURRENCY_TYPE,SALES_QUOTE.CUSTOMER,SALES_QUOTE.CUSTOMER_TYPE,SALES_QUOTE.ADDRESS,SALES_QUOTE.CITY,SALES_QUOTE.PINCODE,SALES_QUOTE.CONTACT_PERSON_MAIL,SALES_QUOTE.CONTACT_PERSON_MOBILE,SALES_QUOTE.PRIORITY,COUNTRYSHIPMENT,SALES_QUOTE.ASSIGNED_TO,SALESQUOTEID,SALES_QUOTE.GROSS,SALES_QUOTE.NET,SALES_QUOTE.COUNTRYSHIPMENT,SALES_QUOTE.NARRATION,SALES_ENQUIRY.ENQ_NO from SALES_QUOTE LEFT OUTER JOIN  SALES_ENQUIRY ON SALES_ENQUIRY.SALESENQUIRYID=SALES_QUOTE.SALESQUOTEID where SALES_QUOTE.SALESQUOTEID= '" + id + "' ";
+            SvSql = "Select SALES_QUOTE.BRANCHID,NEW_EXISTINGQUOTE,FROM_ENQUIRY,SALES_QUOTE.QUOTE_NO,to_char(SALES_QUOTE.QUOTE_DATE,'dd-MON-yyyy')QUOTE_DATE,QUOTETYPE,SALES_QUOTE.CURRENCY_TYPE,SALES_QUOTE.CUSTOMER,SALES_QUOTE.CUSTOMER_TYPE,SALES_QUOTE.ADDRESS,SALES_QUOTE.CITY,SALES_QUOTE.PINCODE,SALES_QUOTE.CONTACT_PERSON_MAIL,SALES_QUOTE.CONTACT_PERSON_MOBILE,SALES_QUOTE.PRIORITY,COUNTRYSHIPMENT,SALES_QUOTE.ASSIGNED_TO,SALESQUOTEID,SALES_QUOTE.GROSS,SALES_QUOTE.NET,SALES_QUOTE.COUNTRYSHIPMENT,SALES_ENQUIRY.ENQ_NO from SALES_QUOTE LEFT OUTER JOIN  SALES_ENQUIRY ON SALES_ENQUIRY.SALESENQUIRYID=SALES_QUOTE.SALESQUOTEID where SALES_QUOTE.SALESQUOTEID= '" + id + "' ";
 
            //SvSql = "Select SALES_QUOTE.BRANCHID,SALES_QUOTE.QUOTE_NO,to_char(SALES_QUOTE.QUOTE_DATE,'dd-MON-yyyy')QUOTE_DATE,SALES_QUOTE.ENQ_NO,to_char(SALES_QUOTE.ENQ_DATE,'dd-MON-yyyy')ENQ_DATE,SALES_QUOTE.CURRENCY_TYPE,SALES_QUOTE.CUSTOMER,SALES_QUOTE.CUSTOMER_TYPE,SALES_QUOTE.ADDRESS,SALES_QUOTE.CITY,SALES_QUOTE.PINCODE,SALES_QUOTE.CONTACT_PERSON_MAIL,SALES_QUOTE.CONTACT_PERSON_MOBILE,SALES_QUOTE.PRIORITY,SALES_QUOTE.ASSIGNED_TO,SALESQUOTEID,GROSS,NET from SALES_QUOTE  where SALES_QUOTE.SALESQUOTEID= '" + id + "' ";
             DataTable dtt = new DataTable();

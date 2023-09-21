@@ -74,9 +74,10 @@ namespace Arasan.Models
         public string Pro { get; set; }
         public string Gmail { get; set; }
         public string PinCode { get; set; }
-        public double gross { get; set; }
-        public double net { get; set; }
+        public string gross { get; set; }
+        public string net { get; set; }
         public string status { get; set; }
+        public string narration { get; set; }
         public string QuoteFormatId { get; set; }
         public List<QuoItem> QuoLst { get; set; }
        
@@ -94,7 +95,7 @@ namespace Arasan.Models
         public List<SelectListItem> ItemGrouplst { get; set; }
 
         public string saveItemId { get; set; }
-        public string ItemGroupId { get; set; }
+        //public string ItemGroupId { get; set; }
         
         public string confac { get; set; }
 
