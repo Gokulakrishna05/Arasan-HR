@@ -192,28 +192,13 @@ namespace Arasan.Services.Master
                 string svSQL = "";
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
-                    OracleCommand objCmd = new OracleCommand("EMPALLOCATIONPROC", objConn);
-                    /*objCmd.Connection = objConn;
-                    objCmd.CommandText = "CITYPROC";*/
-
-                    objCmd.CommandType = CommandType.StoredProcedure;
-                    
-                    StatementType = "Update";
-                    objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
-                    objCmd.Parameters.Add("REASSIGNNAME", OracleDbType.NVarchar2).Value = cy.Reassign;
-                    objCmd.Parameters.Add("REASON", OracleDbType.NVarchar2).Value = cy.Reason;
-                    objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
-                    try
-                    {
-                        objConn.Open();
-                        objCmd.ExecuteNonQuery();
-                        //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
-                    }
-                    catch (Exception ex)
-                    {
-                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
-                    }
+                    string Sql = string.Empty;
+                    Sql = "UPDATE EMPALLOCATION SET REASSIGNNAME ='" + cy.Reassign + "',REASON ='" + cy.Reason + "' WHERE EMPALLOCATIONID='" + cy.ID + "'";
+                    OracleCommand objCmds = new OracleCommand(Sql, objConn);
+                    objConn.Open();
+                    objCmds.ExecuteNonQuery();
                     objConn.Close();
+                   
                 }
             }
             catch (Exception ex)
