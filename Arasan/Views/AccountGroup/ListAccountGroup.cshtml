@@ -50,6 +50,7 @@
                                                         <tr>
                                                             <th>Branch</th>
                                                             <th>Account Group</th>
+                                                            <th>Account Type</th>
                                                             <th>Group Code</th>
                                                             <th>Edit</th>
                                                           @*  <th>Delete</th>*@
@@ -67,6 +68,7 @@
 
                                                                     <td>@Html.DisplayFor(modelItem => item.Branch)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.AccGroup)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.AType)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.GCode)</td>
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("AccountGroup", "AccountGroup",new { id=item.ID })"></a></div></td>
                                                                     @*<td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("AccountGroup", "AccountGroup",new { id=item.ID })"></a></div></td>

@@ -26,7 +26,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,ACCOUNTGROUP,GROUPCODE,ACCGROUP.STATUS,ACCGROUPID from ACCGROUP LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=ACCGROUP.BRANCHID where ACCGROUP.STATUS='Active'";
+                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,ACCOUNTGROUP,ACCOUNTTYPE,GROUPCODE,DISPLAY_NAME,ACCGROUP.STATUS,ACCGROUPID from ACCGROUP LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=ACCGROUP.BRANCHID where ACCGROUP.STATUS='Active'";
                    
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
@@ -36,7 +36,9 @@ namespace Arasan.Services
                             ID = rdr["ACCGROUPID"].ToString(),
                             Branch = rdr["BRANCHID"].ToString(),
                             AccGroup = rdr["ACCOUNTGROUP"].ToString(),
+                            AType= rdr["ACCOUNTTYPE"].ToString(),
                             GCode = rdr["GROUPCODE"].ToString(),
+                            Display = rdr["DISPLAY_NAME"].ToString(),
                             Status = rdr["STATUS"].ToString()
 
                         };
@@ -80,9 +82,10 @@ namespace Arasan.Services
 
                     objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
                     objCmd.Parameters.Add("ACCOUNTGROUP", OracleDbType.NVarchar2).Value = cy.AccGroup;
-                    objCmd.Parameters.Add("ACCTYPE", OracleDbType.NVarchar2).Value = cy.AType;
+                    objCmd.Parameters.Add("ACCOUNTTYPE", OracleDbType.NVarchar2).Value = cy.AType;
                     objCmd.Parameters.Add("GROUPCODE", OracleDbType.NVarchar2).Value = cy.GCode;
                     objCmd.Parameters.Add("DISPLAY_NAME", OracleDbType.NVarchar2).Value = cy.Display;
+
                     objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "Active";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
 
@@ -134,7 +137,7 @@ namespace Arasan.Services
         public DataTable GetAccountGroup(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select ACCGROUPID,BRANCHID,ACCOUNTGROUP,ACCTYPE,GROUPCODE,DISPLAY_NAME FROM ACCGROUP where ACCGROUPID=" + id + "";
+            SvSql = "Select ACCGROUPID,BRANCHID,ACCOUNTGROUP,ACCOUNTTYPE,GROUPCODE,DISPLAY_NAME FROM ACCGROUP where ACCGROUPID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -144,7 +147,7 @@ namespace Arasan.Services
         public DataTable GetAccType()
         {
             string SvSql = string.Empty;
-            SvSql = "SELECT  ACCOUNTTYPEID,ACCOUNTTYPE FROM ACCTYPE";
+            SvSql = "SELECT ACCOUNTTYPEID,ACCOUNTTYPE FROM ACCTYPE order by ACCOUNTTYPEID asc";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

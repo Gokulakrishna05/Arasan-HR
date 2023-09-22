@@ -30,12 +30,9 @@ namespace Arasan.Controllers
             if (id == null)
             {
 
-
             }
             else
             {
-
-
                 DataTable dt = new DataTable();
 
                 dt = accountGroup.GetAccountGroup(id);
@@ -43,13 +40,12 @@ namespace Arasan.Controllers
                 {
                     sq.Branch = dt.Rows[0]["BRANCHID"].ToString();
                     sq.AccGroup = dt.Rows[0]["ACCOUNTGROUP"].ToString();
-                    sq.AType = dt.Rows[0]["ACCTYPE"].ToString();
+                    sq.AType = dt.Rows[0]["ACCOUNTTYPE"].ToString();
                     sq.GCode = dt.Rows[0]["GROUPCODE"].ToString();
                     sq.Display = dt.Rows[0]["DISPLAY_NAME"].ToString();
                     sq.ID = id;
 
                 }
-
             }
             return View(sq);
         }
