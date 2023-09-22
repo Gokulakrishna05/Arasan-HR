@@ -28,14 +28,15 @@ namespace Arasan.Controllers.Store_Management
             ca.PURLst = BindPurType();
             ca.ELst = BindErection();
             ca.EmpLst = BindEmp();
+            ca.Branch = Request.Cookies["BranchId"];
             ca.IndentDate = DateTime.Now.ToString("dd-MMM-yyyy");
             List<PIndentItem> TData = new List<PIndentItem>();
             PIndentItem tda = new PIndentItem();
             for (int i = 0; i < 3; i++)
             {
                 tda = new PIndentItem();
-                tda.ItemGrouplst = BindItemGrplst();
-                tda.Itemlst = BindItemlst("");
+                //tda.ItemGrouplst = BindItemGrplst();
+                tda.Itemlst = BindItemlst();
                 tda.loclst = GetLoc();
                 tda.Isvalid = "Y";
                 TData.Add(tda);
@@ -343,11 +344,11 @@ namespace Arasan.Controllers.Store_Management
                 throw ex;
             }
         }
-        public JsonResult GetItemJSON(string itemid)
+        public JsonResult GetItemJSON()
         {
             EnqItem model = new EnqItem();
-            model.Itemlst = BindItemlst(itemid);
-            return Json(BindItemlst(itemid));
+            model.Itemlst = BindItemlst();
+            return Json(BindItemlst());
 
         }
         //public JsonResult GetSuppJSON(string partytype)
@@ -411,11 +412,11 @@ namespace Arasan.Controllers.Store_Management
                 throw ex;
             }
         }
-        public List<SelectListItem> BindItemlst(string value)
+        public List<SelectListItem> BindItemlst()
         {
             try
             {
-                DataTable dtDesg = PurIndent.GetItem(value);
+                DataTable dtDesg = PurIndent.GetItem();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
