@@ -172,22 +172,25 @@ namespace Arasan.Services
 		public string APProductionEntryCRUD(APProductionentry cy)
 		{
 			string msg = "";
-            datatrans = new DataTransactions(_connectionString);
-
-
-            int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'AP-Pro' AND ACTIVESEQUENCE = 'T'");
-            string docid = string.Format("{0} {1}", "AP-Pro", (idc + 1).ToString());
-
-            string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='AP-Pro' AND ACTIVESEQUENCE ='T'";
-            try
+            if (cy.ID == null)
             {
-                datatrans.UpdateStatus(updateCMd);
+                datatrans = new DataTransactions(_connectionString);
+
+
+                int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'AP-Pro' AND ACTIVESEQUENCE = 'T'");
+                string docid = string.Format("{0} {1}", "AP-Pro", (idc + 1).ToString());
+
+                string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='AP-Pro' AND ACTIVESEQUENCE ='T'";
+                try
+                {
+                    datatrans.UpdateStatus(updateCMd);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                cy.DocId = docid;
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            cy.DocId = docid;
             try
 			{
 				string StatementType = string.Empty; string svSQL = "";

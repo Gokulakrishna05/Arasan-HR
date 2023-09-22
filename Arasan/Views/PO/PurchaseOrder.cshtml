@@ -35,7 +35,7 @@
                                                 <div class="col-sm-8">
                                                     @Html.HiddenFor(C => C.BranchId)
                                                     @Html.HiddenFor(C => C.SuppId)
-                                                    @Html.DropDownListFor(C => C.Branch, Model.Brlst, new { @id = "ddlBranch", @Class = "form-control chosen-select", @TabIndex = 1 ,@disabled="disabled"})<br/>
+                                            @Html.DropDownListFor(C => C.Branch, Model.Brlst, new { @id = "ddlBranch", @Class = "form-control _select", @TabIndex = 1 ,@disabled="disabled"})<br />
                                                 </div>
                                             </div>
                                         </div>
@@ -71,7 +71,7 @@
                                             
                                                 <label for="inputName3" class="col-sm-4 control-label">Currency<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                 @Html.DropDownListFor(C => C.Cur, Model.Curlst, new { @id = "ddlCur", @Class = "form-control chosen-select", @TabIndex = 1 ,@disabled="disabled"})
+                                                 @Html.DropDownListFor(C => C.Cur, Model.Curlst, new { @id = "ddlCur", @Class = "form-control _select", @TabIndex = 1 ,@disabled="disabled"})
                                                 </div>
                                             </div>
                                         </div>
@@ -139,7 +139,7 @@
                                             
                                                 <label for="inputName3" class="col-sm-4 control-label">Party Id<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                        @Html.DropDownListFor(C => C.Supplier, Model.Suplst, new { @id = "ddlSupplier", @Class = "form-control chosen-select", @TabIndex = 1 ,@disabled="disabled"})
+                                                        @Html.DropDownListFor(C => C.Supplier, Model.Suplst, new { @id = "ddlSupplier", @Class = "form-control _select", @TabIndex = 1 ,@disabled="disabled"})
                                                 </div>
                                             </div>
                                         </div>
@@ -161,7 +161,7 @@
                                             
                                                 <label for="inputName3" class="col-sm-4 control-label">Prepared by<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                    @Html.DropDownListFor(C => C.Recid, Model.RecList, new { @id = "ddlEnqRec", @Class = "form-control chosen-select", @TabIndex = 1 })
+                                                    @Html.DropDownListFor(C => C.Recid, Model.RecList, new { @id = "ddlEnqRec", @Class = "form-control _select", @TabIndex = 1 })
                                                 </div>
                                             </div>
                                         </div>
@@ -221,11 +221,11 @@
                                                             {
                                                                                                                                             <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
                                                                                                                                             <td>
-                                                                                                                                            @Html.DropDownListFor(o => o.PoItem[i].ItemGroupId, Model.PoItem[i].ItemGrouplst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItemGrp" + i, style = "width: 170px;", onchange = "Grup_Change(this.value," + i + ")",disabled="disabled" })
+                                                                                                                                            @Html.DropDownListFor(o => o.PoItem[i].ItemGroupId, Model.PoItem[i].ItemGrouplst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItemGrp" + i, style = "width: 170px;", onchange = "Grup_Change(this.value," + i + ")",disabled="disabled" })
                                                                                                                                         </td>
                                                                                                                                         <td>
 
-                                                                                                                                            @Html.DropDownListFor(o => o.PoItem[i].ItemId, Model.PoItem[i].Itemlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItem" + i, style = "width: 170px;", onchange = "changeItem(this.value," + i + ")",disabled="disabled" })
+                                                            @Html.DropDownListFor(o => o.PoItem[i].ItemId, Model.PoItem[i].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 170px;", onchange = "changeItem(this.value," + i + ")",disabled="disabled" })
                                                                                                                                         @Html.HiddenFor(o => o.PoItem[i].saveItemId)
                                                                                                                                             </td>
                                                                                                                                          <td>
@@ -414,7 +414,7 @@
                                             
                                                 <label for="inputName3" class="col-sm-4 control-label">Payment Terms<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                    @Html.DropDownListFor(C => C.Paymentterms, Model.Paymenttermslst, new { @id = "ddlPaymentterms", @Class = "form-control chosen-select", @TabIndex = 1 })<br/>
+                                            @Html.DropDownListFor(C => C.Paymentterms, Model.Paymenttermslst, new { @id = "ddlPaymentterms", @Class = "form-control _select", @TabIndex = 1 })<br />
                                                 </div>
                                             </div>
                                         </div>
@@ -423,7 +423,7 @@
                                                 <label for="inputName3" class="col-sm-4 control-label">Delivery Terms<label class="Mandatory"></label></label>
                                               
                                                       <div class="col-sm-8">
-												 @Html.DropDownListFor(C => C.delterms, Model.deltermlst, new { @id = "ddldelterms", @Class = "form-control chosen-select", @TabIndex = 1 })<br/>
+												 @Html.DropDownListFor(C => C.delterms, Model.deltermlst, new { @id = "ddldelterms", @Class = "form-control _select", @TabIndex = 1 })<br/>
 												</div>
                                                
                                             </div>
@@ -437,7 +437,7 @@
                                                 <label for="inputName3" class="col-sm-4 control-label">Despatch<label class="Mandatory"></label></label>
                                               
                                                       <div class="col-sm-8">
-												 @Html.DropDownListFor(C => C.desp, Model.desplst, new { @id = "ddldesp", @Class = "form-control chosen-select", @TabIndex = 1 })<br/>
+												 @Html.DropDownListFor(C => C.desp, Model.desplst, new { @id = "ddldesp", @Class = "form-control _select", @TabIndex = 1 })<br/>
 												</div>
                                                
                                             </div>
@@ -447,7 +447,7 @@
                                                 <label for="inputName3" class="col-sm-4 control-label">Warrenty terms<label class="Mandatory"></label></label>
                                               
                                                       <div class="col-sm-8">
-												 @Html.DropDownListFor(C => C.warrantyterms, Model.warrantytermslst, new { @id = "ddlwarrantyterms", @Class = "form-control chosen-select", @TabIndex = 1 })<br/>
+												 @Html.DropDownListFor(C => C.warrantyterms, Model.warrantytermslst, new { @id = "ddlwarrantyterms", @Class = "form-control _select", @TabIndex = 1 })<br/>
 												</div>
                                                
                                             </div>
@@ -461,7 +461,7 @@
                                                 <label for="inputName3" class="col-sm-4 control-label">Po Sent By<label class="Mandatory"></label></label>
                                               
                                                       <div class="col-sm-8">
-												 @Html.DropDownListFor(C => C.assignid, Model.assignList, new { @id = "ddlPosent", @Class = "form-control chosen-select", @TabIndex = 1 })
+												 @Html.DropDownListFor(C => C.assignid, Model.assignList, new { @id = "ddlPosent", @Class = "form-control _select", @TabIndex = 1 })
 												</div>
                                                
                                             </div>
@@ -525,7 +525,9 @@
         </div>
       </div>
 <script>
-     $(".chosen-select").chosen();
+    $(function () {
+        $('._select').select2();
+    });
       $('.form_date').datetimepicker({
      //   language:  'fr',
         weekStart: 1,

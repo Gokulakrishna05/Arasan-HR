@@ -79,7 +79,9 @@ namespace Arasan.Controllers
                         ca.Cur = "1";
                     }
                     ca.ExRate= dt.Rows[0]["EXCRATERATE"].ToString();
-                    ca.RefNo= dt.Rows[0]["PARTYREFNO"].ToString();
+                    ca.RefNo= dt.Rows[0]["ENQREF"].ToString();
+                    ca.Enqassignid = dt.Rows[0]["ASSIGNTO"].ToString();
+                    ca.EnqRecid = dt.Rows[0]["ENQRECDBY"].ToString();
                 }
                 DataTable dt2 = new DataTable();
                 dt2 = PurenqService.GetPurchaseEnqItemDetails(id);

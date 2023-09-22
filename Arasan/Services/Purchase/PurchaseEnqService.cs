@@ -114,20 +114,20 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,ENQNO,to_char(ENQDATE,'dd-MON-yyyy') ENQDATE,EXCRATERATE,PARTYREFNO,CURRENCYID,PARTYMAST.PARTYNAME,PURENQID,PURENQ.STATUS,PURENQ.ACTIVE from PURENQ LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PURENQ.BRANCHID LEFT OUTER JOIN  PARTYMAST on PURENQ.PARTYMASTID=PARTYMAST.PARTYMASTID Where PARTYMAST.TYPE IN ('Supplier','BOTH')";
+                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,ENQNO,to_char(ENQDATE,'dd-MON-yyyy') ENQDATE,EXCRATERATE,PARTYREFNO,CURRENCYID,PARTYMAST.PARTYNAME,PURENQBASICID,PURENQBASIC.STATUS,PURENQBASIC.ACTIVE from PURENQBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PURENQBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on PURENQBASIC.PARTYMASTID=PARTYMAST.PARTYMASTID Where PARTYMAST.TYPE IN ('Supplier','BOTH') and PURENQBASIC.ACTIVE='" + status +"'";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
                         PurchaseEnquiry cmp = new PurchaseEnquiry
                         {
-                            ID = rdr["PURENQID"].ToString(),
+                            ID = rdr["PURENQBASICID"].ToString(),
                             Branch = rdr["BRANCHID"].ToString(),
                             RefNo = rdr["ENQNO"].ToString(),
                             Enqdate = rdr["ENQDATE"].ToString(),
                             ExRate = rdr["EXCRATERATE"].ToString(),
                             ParNo = rdr["PARTYREFNO"].ToString(),
                             Cur = rdr["CURRENCYID"].ToString(),
-                            Supplier = rdr["PARTY"].ToString(),
+                            Supplier = rdr["PARTYNAME"].ToString(),
                             Status= rdr["STATUS"].ToString(),
                               Active = rdr["ACTIVE"].ToString()
 
@@ -168,7 +168,7 @@ namespace Arasan.Services
        public DataTable GetPurchaseEnqByID(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select BRANCHMAST.BRANCHID,ENQNO,to_char(ENQDATE,'dd-MON-yyyy') ENQDATE,EXCRATERATE,PARTYREFNO,CURRENCYID,PARTYMAST.PARTYNAME,PURENQID,PURENQ.STATUS from PURENQ LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PURENQ.BRANCHID LEFT OUTER JOIN  PARTYMAST on PURENQ.PARTYMASTID=PARTYMAST.PARTYMASTID  Where PARTYMAST.TYPE IN ('Supplier','BOTH')  AND PURENQID='" + id + "'";
+            SvSql = "Select BRANCHMAST.BRANCHID,ENQNO,to_char(ENQDATE,'dd-MON-yyyy') ENQDATE,EXCRATERATE,PARTYREFNO,CURRENCYID,PARTYMAST.PARTYNAME,PURENQBASICID,PURENQBASIC.STATUS from PURENQBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PURENQBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on PURENQBASIC.PARTYMASTID=PARTYMAST.PARTYMASTID  Where PARTYMAST.TYPE IN ('Supplier','BOTH')  AND PURENQBASICID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -208,7 +208,7 @@ namespace Arasan.Services
         public DataTable GetPurchaseEnqDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select BRANCHID,ENQNO,to_char(ENQDATE,'dd-MON-yyyy') ENQDATE,EXCRATERATE,PARTYREFNO,CURRENCYID,PARTYMASTID,PURENQID,PURENQ.STATUS,ENQREF  from PURENQ Where PURENQID='" + id + "'";
+            SvSql = "Select BRANCHID,ENQNO,to_char(ENQDATE,'dd-MON-yyyy') ENQDATE,EXCRATERATE,PARTYREFNO,CURRENCYID,PARTYMASTID,PURENQBASICID,PURENQBASIC.STATUS,ENQREF,ASSIGNTO,ENQRECDBY  from PURENQBASIC Where PURENQBASICID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -273,12 +273,16 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                     objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
                     objCmd.Parameters.Add("ENQNO", OracleDbType.NVarchar2).Value = cy.EnqNo;
-                    objCmd.Parameters.Add("RefNo", OracleDbType.NVarchar2).Value = cy.RefNo; 
+                    objCmd.Parameters.Add("ENQREF", OracleDbType.NVarchar2).Value = cy.RefNo; 
                     objCmd.Parameters.Add("ENQDATE", OracleDbType.Date).Value = DateTime.Parse(cy.Enqdate);
                     objCmd.Parameters.Add("EXCRATERATE", OracleDbType.NVarchar2).Value = cy.ExRate;
                     objCmd.Parameters.Add("PARTYREFNO", OracleDbType.NVarchar2).Value = cy.ParNo;
                     objCmd.Parameters.Add("CURRENCYID", OracleDbType.NVarchar2).Value = cy.Cur;
                     objCmd.Parameters.Add("PARTYMASTID", OracleDbType.NVarchar2).Value = cy.Supplier;
+                    objCmd.Parameters.Add("ACTIVE", OracleDbType.NVarchar2).Value = "YES";
+                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "1";
+                    objCmd.Parameters.Add("ENQRECDBY", OracleDbType.NVarchar2).Value = cy.EnqRecid;
+                    objCmd.Parameters.Add("ASSIGNTO", OracleDbType.NVarchar2).Value = cy.Enqassignid;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
@@ -472,33 +476,12 @@ namespace Arasan.Services
             {
                 string StatementType = string.Empty; string svSQL = "";
                 datatrans = new DataTransactions(_connectionString);
-                DateTime theDate = DateTime.Now;
-                DateTime todate; DateTime fromdate;
-                string t; string f;
-                if (DateTime.Now.Month >= 4)
-                {
-                    todate = theDate.AddYears(1);
-                }
-                else
-                {
-                    todate = theDate;
-                }
-                if (DateTime.Now.Month >= 4)
-                {
-                    fromdate = theDate;
-                }
-                else
-                {
-                    fromdate = theDate.AddYears(-1);
-                }
-                t = todate.ToString("yy");
-                f = fromdate.ToString("yy");
-                string disp = string.Format("{0}-{1}", f, t);
 
-                int idc = datatrans.GetDataId(" SELECT COMMON_TEXT FROM COMMON_MASTER WHERE COMMON_TYPE = 'QUO' AND IS_ACTIVE = 'Y'");
-                string QuoNo = string.Format("{0} - {1} / {2}", "QUO", (idc + 1).ToString(), disp);
 
-                string updateCMd = " UPDATE COMMON_MASTER SET COMMON_TEXT ='" + (idc + 1).ToString() + "' WHERE COMMON_TYPE ='QUO' AND IS_ACTIVE ='Y'";
+                int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'PQU1' AND ACTIVESEQUENCE = 'T'");
+                string QuoNo = string.Format("{0}{1}", "PQU1", (idc + 1).ToString());
+
+                string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='PQU1' AND ACTIVESEQUENCE ='T'";
                 try
                 {
                     datatrans.UpdateStatus(updateCMd);
@@ -510,7 +493,7 @@ namespace Arasan.Services
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
-                    svSQL = "Insert into PURQUOTBASIC (ENQID,BRANCHID,EXRATE,MAINCURRENCY,PARTYID,DOCID,DOCDATE,IS_ACTIVE) (Select PURENQID,BRANCHID,EXCRATERATE,CURRENCYID,PARTYMASTID'" + QuoNo + "','"+ DateTime.Now.ToString("dd-MMM-yyyy") + "' ,'yes' from PURENQ where PURENQID='" + enqid + "')";
+                    svSQL = "Insert into PURQUOTBASIC (ENQNO,BRANCHID,EXRATE,MAINCURRENCY,PARTYID,DOCID,DOCDATE,IS_ACTIVE) (Select PURENQBASICID,BRANCHID,EXCRATERATE,CURRENCYID,PARTYMASTID,'" + QuoNo + "','"+ DateTime.Now.ToString("dd-MMM-yyyy") + "' ,'Yes' from PURENQBASIC where PURENQBASICID='" + enqid + "')";
                     OracleCommand objCmd = new OracleCommand(svSQL, objConn);
                     try
                     {
@@ -524,7 +507,7 @@ namespace Arasan.Services
                     objConn.Close();
                 }
 
-                string quotid = datatrans.GetDataString("Select PURQUOTBASICID from PURQUOTBASIC Where ENQID="+ enqid + "");
+                string quotid = datatrans.GetDataString("Select PURQUOTBASICID from PURQUOTBASIC Where ENQNO="+ enqid + "");
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
                     string Sql = "Insert into PURQUOTDETAIL (PURQUOTBASICID,ITEMID,RATE,QTY,UNIT,CF) (Select '"+ quotid  + "',ITEMID,RATE,QTY,UNIT,CF from PURENQDETAIL WHERE PURENQBASICID=" + enqid + ")";
@@ -536,7 +519,7 @@ namespace Arasan.Services
 
                 using (OracleConnection objConnE = new OracleConnection(_connectionString))
                 {
-                    string Sql = "UPDATE PURENQ SET STATUS=2 where PURENQID='" + enqid + "'";
+                    string Sql = "UPDATE PURENQBASIC SET STATUS=2 where PURENQBASICID='" + enqid + "'";
                     OracleCommand objCmds = new OracleCommand(Sql, objConnE);
                     objConnE.Open();
                     objCmds.ExecuteNonQuery();

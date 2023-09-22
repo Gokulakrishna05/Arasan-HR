@@ -244,10 +244,10 @@ namespace Arasan.Services
             return dtt;
         }
 
-        public DataTable GetItem(string value)
+        public DataTable GetItem()
         {
             string SvSql = string.Empty;
-            SvSql = "select ITEMID,ITEMMASTERID from ITEMMASTER WHERE SUBGROUPCODE='" + value + "'";
+            SvSql = "select ITEMID,ITEMMASTERID,IGROUP from ITEMMASTER WHERE IGROUP NOT IN ('SEMI FINISHED GOODS','FINISHED')";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -303,43 +303,25 @@ namespace Arasan.Services
             {
                 string StatementType = string.Empty; string svSQL = "";
 
-                
-                    DateTime theDate = DateTime.Now;
-                    DateTime todate; DateTime fromdate;
-                    string t; string f;
-                    if (DateTime.Now.Month >= 4)
-                    {
-                        todate = theDate.AddYears(1);
-                    }
-                    else
-                    {
-                        todate = theDate;
-                    }
-                    if (DateTime.Now.Month >= 4)
-                    {
-                        fromdate = theDate;
-                    }
-                    else
-                    {
-                        fromdate = theDate.AddYears(-1);
-                    }
-                    t = todate.ToString("yy");
-                    f = fromdate.ToString("yy");
-                    string disp = string.Format("{0}-{1}", f, t);
+ 
+                    datatrans = new DataTransactions(_connectionString);
 
-                    int idc = GetDataId(" SELECT COMMON_TEXT FROM COMMON_MASTER WHERE COMMON_TYPE = 'ENQ' AND IS_ACTIVE = 'Y'");
-                    string EnqNo = string.Format("{0} - {1} / {2}", "ENQ", (idc + 1).ToString(), disp);
 
-                    string updateCMd = " UPDATE COMMON_MASTER SET COMMON_TEXT ='" + (idc + 1).ToString() + "' WHERE COMMON_TYPE ='ENQ' AND IS_ACTIVE ='Y'";
+                    int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'PENQ' AND ACTIVESEQUENCE = 'T'");
+                    string EnqNo = string.Format("{0}{1}", "PENQ", (idc + 1).ToString());
+
+                    string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='PENQ' AND ACTIVESEQUENCE ='T'";
                     try
                     {
-                        UpdateStatus(updateCMd);
+                        datatrans.UpdateStatus(updateCMd);
                     }
                     catch (Exception ex)
                     {
                         throw ex;
                     }
-               
+                     
+                 
+
 
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
@@ -351,13 +333,16 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
                     objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = "10061000000002";
                     objCmd.Parameters.Add("ENQNO", OracleDbType.NVarchar2).Value = EnqNo;
-                    objCmd.Parameters.Add("RefNo", OracleDbType.NVarchar2).Value = "";
+                    objCmd.Parameters.Add("ENQREF", OracleDbType.NVarchar2).Value = "";
                     objCmd.Parameters.Add("ENQDATE", OracleDbType.Date).Value = DateTime.Now;
                     objCmd.Parameters.Add("EXCRATERATE", OracleDbType.NVarchar2).Value = "";
                     objCmd.Parameters.Add("PARTYREFNO", OracleDbType.NVarchar2).Value = "";
                     objCmd.Parameters.Add("CURRENCYID", OracleDbType.NVarchar2).Value = "";
                     objCmd.Parameters.Add("PARTYMASTID", OracleDbType.NVarchar2).Value = supid;
                     objCmd.Parameters.Add("ACTIVE", OracleDbType.NVarchar2).Value = "YES";
+                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "1";
+                    objCmd.Parameters.Add("ENQRECDBY", OracleDbType.NVarchar2).Value = "";
+                    objCmd.Parameters.Add("ASSIGNTO", OracleDbType.NVarchar2).Value = "";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
@@ -439,41 +424,22 @@ namespace Arasan.Services
 
                 if (cy.ID == null)
                 {
-                    DateTime theDate = DateTime.Now;
-                    DateTime todate; DateTime fromdate;
-                    string t; string f;
-                    if (DateTime.Now.Month >= 4)
-                    {
-                        todate = theDate.AddYears(1);
-                    }
-                    else
-                    {
-                        todate = theDate;
-                    }
-                    if (DateTime.Now.Month >= 4)
-                    {
-                        fromdate = theDate;
-                    }
-                    else
-                    {
-                        fromdate = theDate.AddYears(-1);
-                    }
-                    t = todate.ToString("yy");
-                    f = fromdate.ToString("yy");
-                    string disp = string.Format("{0}-{1}", f, t);
+                    datatrans = new DataTransactions(_connectionString);
 
-                    int idc = GetDataId(" SELECT COMMON_TEXT FROM COMMON_MASTER WHERE COMMON_TYPE = 'PI' AND IS_ACTIVE = 'Y'");
-                    cy.IndentId = string.Format("{0} - {1} / {2}", "IND", (idc + 1).ToString(), disp);
 
-                    string updateCMd = " UPDATE COMMON_MASTER SET COMMON_TEXT ='" + (idc + 1).ToString() + "' WHERE COMMON_TYPE ='PI' AND IS_ACTIVE ='Y'";
+                    int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'Ind-' AND ACTIVESEQUENCE = 'T'");
+                    string docid = string.Format("{0}{1}", "Ind-", (idc + 1).ToString());
+
+                    string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='Ind-' AND ACTIVESEQUENCE ='T'";
                     try
                     {
-                        UpdateStatus(updateCMd);
+                        datatrans.UpdateStatus(updateCMd);
                     }
                     catch (Exception ex)
                     {
                         throw ex;
                     }
+                    cy.IndentId = docid;
                 }
 
 
@@ -496,8 +462,8 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("Branch", OracleDbType.NVarchar2).Value = cy.Branch;
                     objCmd.Parameters.Add("Location", OracleDbType.NVarchar2).Value = cy.SLocation;
                     objCmd.Parameters.Add("IndentNo", OracleDbType.NVarchar2).Value = cy.IndentId;
-                    objCmd.Parameters.Add("IndentDate", OracleDbType.Date).Value = DateTime.Parse(cy.IndentDate); 
-                    objCmd.Parameters.Add("RefDate", OracleDbType.Date).Value = DateTime.Parse(cy.RefDate); 
+                    objCmd.Parameters.Add("IndentDate", OracleDbType.NVarchar2).Value =cy.IndentDate; 
+                    objCmd.Parameters.Add("RefDate", OracleDbType.NVarchar2).Value = cy.RefDate; 
                     objCmd.Parameters.Add("Erecation", OracleDbType.NVarchar2).Value =cy.Erection;
                     objCmd.Parameters.Add("PurchaseType", OracleDbType.NVarchar2).Value = cy.Purtype;
                     objCmd.Parameters.Add("EnterBy", OracleDbType.NVarchar2).Value = "10032000091118";
