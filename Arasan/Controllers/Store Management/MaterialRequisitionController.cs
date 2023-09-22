@@ -38,16 +38,16 @@ namespace Arasan.Controllers.Store_Management
             MR.assignList = BindEmp();
             MR.Statuslst = BindStatus();
             MR.Branch = Request.Cookies["BranchId"];
-            MR.Entered= Request.Cookies["UserId"];
-            MR.Location= Request.Cookies["LocationName"];
+            MR.Entered = Request.Cookies["UserId"];
+            MR.Location = Request.Cookies["LocationName"];
             MR.Storeid = storeid;
             MR.DocDa = DateTime.Now.ToString("dd-MMM-yyyy");
-            
+
             List<MaterialRequistionItem> TData = new List<MaterialRequistionItem>();
             MaterialRequistionItem tda = new MaterialRequistionItem();
             if (id == null)
             {
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < 1; i++)
                 {
                     tda = new MaterialRequistionItem();
                     tda.ItemGrouplst = BindItemGrplst();
@@ -61,7 +61,7 @@ namespace Arasan.Controllers.Store_Management
                 //st = StoreAccService.GetStoreAccById(id);
 
                 DataTable dt = new DataTable();
-                
+
                 dt = materialReq.GetmaterialReqDetails(id);
                 if (dt.Rows.Count > 0)
                 {
@@ -84,10 +84,10 @@ namespace Arasan.Controllers.Store_Management
                     for (int i = 0; i < dtt.Rows.Count; i++)
                     {
                         tda = new MaterialRequistionItem();
-                         
+
                         tda.ItemGrouplst = BindItemGrplst();
                         DataTable dt3 = new DataTable();
-                       dt3 = materialReq.GetItemGroup(dtt.Rows[i]["ITEMID"].ToString());
+                        dt3 = materialReq.GetItemGroup(dtt.Rows[i]["ITEMID"].ToString());
                         if (dt3.Rows.Count > 0)
                         {
                             tda.ItemGroupId = dt3.Rows[0]["ITEMGROUP"].ToString();
@@ -102,8 +102,8 @@ namespace Arasan.Controllers.Store_Management
                         {
                             tda.ClosingStock = dt1.Rows[0]["QTY"].ToString();
                         }
-                        
-                        
+
+
                         tda.Isvalid = "Y";
                         TData.Add(tda);
                     }
@@ -149,7 +149,7 @@ namespace Arasan.Controllers.Store_Management
                 throw ex;
             }
         }
-        public ActionResult GetItemDetail(string ItemId,string branch)
+        public ActionResult GetItemDetail(string ItemId, string branch)
         {
             try
             {
@@ -165,18 +165,18 @@ namespace Arasan.Controllers.Store_Management
                 if (dt.Rows.Count > 0)
                 {
                     unit = dt.Rows[0]["UNITID"].ToString();
-                    unitid= dt.Rows[0]["UNITMASTID"].ToString();
+                    unitid = dt.Rows[0]["UNITMASTID"].ToString();
                 }
-                dt1 = materialReq.Getstkqty(ItemId, storeid,branch);
-                if(dt1.Rows.Count > 0)
+                dt1 = materialReq.Getstkqty(ItemId, storeid, branch);
+                if (dt1.Rows.Count > 0)
                 {
-                    stk= dt1.Rows[0]["QTY"].ToString();
+                    stk = dt1.Rows[0]["QTY"].ToString();
                 }
-                if(stk == "")
+                if (stk == "")
                 {
                     stk = "0";
                 }
-                var result = new { unit = unit , stk = stk , unitid = unitid };
+                var result = new { unit = unit, stk = stk, unitid = unitid };
                 return Json(result);
             }
             catch (Exception ex)
@@ -362,9 +362,9 @@ namespace Arasan.Controllers.Store_Management
         //    return items;
 
         //}
-        public IActionResult ListMaterialRequisition(string status)
+        public IActionResult ListMaterialRequisition(string status, string st, string ed)
         {
-            IEnumerable<MaterialRequisition> cmp = materialReq.GetAllMaterial(status);
+            IEnumerable<MaterialRequisition> cmp = materialReq.GetAllMaterial(status, st, ed);
             return View(cmp);
         }
 
@@ -378,14 +378,14 @@ namespace Arasan.Controllers.Store_Management
             {
                 MR.Location = dt.Rows[0]["LOCID"].ToString();
                 MR.Branch = dt.Rows[0]["BRANCHID"].ToString();
-                MR.DocId= dt.Rows[0]["DOCID"].ToString();
-                MR.DocDa= dt.Rows[0]["DOCDATE"].ToString();
+                MR.DocId = dt.Rows[0]["DOCID"].ToString();
+                MR.DocDa = dt.Rows[0]["DOCDATE"].ToString();
                 MR.WorkCenter = dt.Rows[0]["WCID"].ToString();
                 MR.Process = dt.Rows[0]["PROCESSNAME"].ToString();
                 MR.Storeid = storeid;
                 MR.RequestType = dt.Rows[0]["REQTYPE"].ToString();
                 MR.BranchId = dt.Rows[0]["BRANCHIDS"].ToString();
-                MR.LocationId= dt.Rows[0]["FROMLOCID"].ToString();
+                MR.LocationId = dt.Rows[0]["FROMLOCID"].ToString();
                 MR.ID = id;
             }
             List<MaterialRequistionItem> TData = new List<MaterialRequistionItem>();
@@ -397,14 +397,14 @@ namespace Arasan.Controllers.Store_Management
                 {
                     tda = new MaterialRequistionItem();
                     tda.Item = dtt.Rows[i]["ITEMID"].ToString();
-                    tda.ItemId =  dtt.Rows[i]["ITEMMASTERID"].ToString();
+                    tda.ItemId = dtt.Rows[i]["ITEMMASTERID"].ToString();
                     tda.UnitID = dtt.Rows[i]["UNIT"].ToString();
                     tda.Unit = dtt.Rows[i]["UNITID"].ToString();
                     tda.ReqQty = dtt.Rows[i]["QTY"].ToString();
 
-                    tda.indentid= dtt.Rows[i]["STORESREQDETAILID"].ToString();
+                    tda.indentid = dtt.Rows[i]["STORESREQDETAILID"].ToString();
                     tda.Isvalid = "Y";
-                    double reqqty = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString() == "" ? "0" : dtt.Rows[i]["QTY"].ToString()); 
+                    double reqqty = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString() == "" ? "0" : dtt.Rows[i]["QTY"].ToString());
                     DataTable dt1 = materialReq.Getstkqty(dtt.Rows[i]["ITEMMASTERID"].ToString(), storeid, dt.Rows[0]["BRANCHIDS"].ToString());
                     if (dt1.Rows.Count > 0)
                     {
@@ -418,11 +418,11 @@ namespace Arasan.Controllers.Store_Management
                         }
                     }
                     double stkqty = 0;
-                    if(!string.IsNullOrEmpty(tda.ClosingStock))
+                    if (!string.IsNullOrEmpty(tda.ClosingStock))
                     {
                         stkqty = Convert.ToDouble(tda.ClosingStock);
                     }
-                    if(stkqty > reqqty)
+                    if (stkqty > reqqty)
                     {
                         tda.InvQty = reqqty;
                         tda.IndQty = 0;
@@ -430,14 +430,14 @@ namespace Arasan.Controllers.Store_Management
                     else
                     {
                         tda.InvQty = stkqty;
-                        tda.IndQty = (reqqty- stkqty);
+                        tda.IndQty = (reqqty - stkqty);
                     }
                     //tda.Itemlst = BindItemlst();
-                  
+
                     TData.Add(tda);
                 }
             }
-            MR.MRlst=TData;
+            MR.MRlst = TData;
             return View(MR);
         }
         public IActionResult IssueToindent(string id)
@@ -585,7 +585,7 @@ namespace Arasan.Controllers.Store_Management
             return Json(BindItemlst(itemid));
 
         }
-       
+
         public JsonResult GetItemGrpJSON()
         {
             //EnqItem model = new EnqItem();
@@ -606,7 +606,7 @@ namespace Arasan.Controllers.Store_Management
                 throw ex;
             }
         }
- 
+
         public IActionResult MaterialStatus(string id)
         {
             MaterialRequisition MR = new MaterialRequisition();
@@ -709,7 +709,7 @@ namespace Arasan.Controllers.Store_Management
 
         public ActionResult DeleteMR(string tag, int id)
         {
-         
+
             string flag = materialReq.StatusChange(tag, id);
             if (string.IsNullOrEmpty(flag))
             {
@@ -722,6 +722,6 @@ namespace Arasan.Controllers.Store_Management
                 return RedirectToAction("ListMaterialRequisition");
             }
         }
-        
+
     }
 }

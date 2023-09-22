@@ -26,8 +26,8 @@ namespace Arasan.Controllers.Master
         public IActionResult EmpMultipleAllocation(string piid, string tag)
         {
             EmpMultipleAllocation ca = new EmpMultipleAllocation();
-            
-           
+
+
 
             //ca.Location = Request.Cookies["LocationId"];
             ca.EDate = DateTime.Now.ToString("dd-MMM-yyyy");
@@ -41,11 +41,11 @@ namespace Arasan.Controllers.Master
             {
                 ca.Emolst = BindEmp("update");
                 DataTable dt = datatrans.GetData("select * from EMPALLOCATION WHERE IS_ACTIVE='Y' AND EMPALLOCATIONID='" + piid + "'");
-                if(dt.Rows.Count > 0)
+                if (dt.Rows.Count > 0)
                 {
                     ca.Emp = dt.Rows[0]["EMPID"].ToString();
                 }
-                ca.Loclst = BindMlocation(piid); 
+                ca.Loclst = BindMlocation(piid);
 
                 //dt = DebitNoteBillService.GetDebitNoteBillDetail(id);
                 //if (dt.Rows.Count > 0)
@@ -56,7 +56,7 @@ namespace Arasan.Controllers.Master
                 //}
 
             }
-           
+
             return View(ca);
         }
         [HttpPost]
@@ -139,12 +139,12 @@ namespace Arasan.Controllers.Master
                 string ViewPage = string.Empty;
                 string EditRow = string.Empty;
                 string ReAssign = string.Empty;
-                
+
                 EditRow = "<a href=EmpMultipleAllocation?piid=" + dtUsers.Rows[i]["EMPALLOCATIONID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
                 ViewPage = "<a href=ViewEmpMultipleAllocation?piid=" + dtUsers.Rows[i]["EMPALLOCATIONID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Waiting for approval' /></a>";
                 ReAssign = "<a href=ReassignEmpMultipleAllocation?piid=" + dtUsers.Rows[i]["EMPALLOCATIONID"].ToString() + "><img src='../Images/D2.png' alt='Waiting for approval' /></a>";
                 DeleteRow = "<a href=EmpMultipleAllocation?tag=Del&piid=" + dtUsers.Rows[i]["EMPALLOCATIONID"].ToString() + ")'><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
-                
+
 
                 Reg.Add(new EmpBindList
                 {
@@ -176,7 +176,7 @@ namespace Arasan.Controllers.Master
                 {
                     piid = Convert.ToInt64(dtEnq.Rows[i]["EMPALLOCATIONID"].ToString()),
                     location = dtEnq.Rows[i]["LOCID"].ToString(),
-                   
+
                 });
             }
 
@@ -188,6 +188,8 @@ namespace Arasan.Controllers.Master
         public IActionResult ViewEmpMultipleAllocation(string id)
         {
             EmpView ca = new EmpView();
+            List<Viewdetails> TData = new List<Viewdetails>();
+            Viewdetails tda = new Viewdetails();
             DataTable dt = new DataTable();
             dt = EmpMultipleAllocationService.GetEmpMultipleAllocationServiceName(id);
             if (dt.Rows.Count > 0)
@@ -198,12 +200,16 @@ namespace Arasan.Controllers.Master
                 dt1 = EmpMultipleAllocationService.GetEmpLocation(id);
                 for (int i = 0; i < dt1.Rows.Count; i++)
                 {
-                    ca.Location = dt1.Rows[i]["LOCID"].ToString();
+
+                    tda = new Viewdetails();
+                    tda.Location = dt1.Rows[i]["LOCID"].ToString();
+                    TData.Add(tda);
                 }
+                ca.Viewlst = TData;
                 ca.ID = id;
             }
             return View(ca);
-           
+
         }
         public IActionResult ReassignEmpMultipleAllocation(string piid)
         {
@@ -214,8 +220,10 @@ namespace Arasan.Controllers.Master
             dt1 = EmpMultipleAllocationService.GetEmpMultipleAllocationReassign(piid);
             if (dt1.Rows.Count > 0)
             {
-                ca.EDate = dt1.Rows[0]["EMPDATE"].ToString();
-             
+                ca.Emp = dt1.Rows[0]["EMPNAME"].ToString();
+                ca.EDate = dt1.Rows[0]["CREATEDDATE"].ToString();
+                ca.ID = piid;
+
             }
             return View(ca);
 
@@ -272,7 +280,7 @@ namespace Arasan.Controllers.Master
                     }
                 }
                 return items;
-                
+
             }
             catch (Exception ex)
             {

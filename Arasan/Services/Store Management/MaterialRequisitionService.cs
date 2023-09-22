@@ -1,5 +1,7 @@
 ﻿using Arasan.Interface;
 using Arasan.Models;
+using Microsoft.CodeAnalysis.Host.Mef;
+using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 using Microsoft.Extensions.Configuration;
 using Oracle.ManagedDataAccess.Client;
 using Org.BouncyCastle.Asn1;
@@ -50,7 +52,7 @@ namespace Arasan.Services
         public DataTable GetmaterialReqItemDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select STORESREQDETAIL.UNIT,ITEMMASTER.ITEMMASTERID,UNITMAST.UNITID,STORESREQDETAIL.ITEMID,STORESREQDETAIL.QTY,NARR from STORESREQDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=STORESREQDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=STORESREQDETAIL.UNIT WHERE STORESREQDETAIL.STORESREQBASICID='" + id + "'";
+            SvSql = "Select STORESREQDETAIL.UNIT,ITEMMASTER.ITEMMASTERID,UNITMAST.UNITID,STORESREQDETAIL.STOCK,STORESREQDETAIL.ITEMID,STORESREQDETAIL.QTY,NARR from STORESREQDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=STORESREQDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=STORESREQDETAIL.UNIT WHERE STORESREQDETAIL.STORESREQBASICID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -131,7 +133,7 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        public IEnumerable<MaterialRequisition> GetAllMaterial(string status)
+        public IEnumerable<MaterialRequisition> GetAllMaterial(string status, string st, string ed)
         {
             if (string.IsNullOrEmpty(status))
             {
@@ -140,29 +142,59 @@ namespace Arasan.Services
             List<MaterialRequisition> cmpList = new List<MaterialRequisition>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
-
-                using (OracleCommand cmd = con.CreateCommand())
+                if (st != null && ed != null)
                 {
-                    con.Open();
-                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,STORESREQBASIC.DOCID,to_char(STORESREQBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,LOCDETAILS.LOCID,PROCESSID,REQTYPE,STORESREQBASICID,STORESREQBASIC.STATUS from STORESREQBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=STORESREQBASIC.BRANCHID LEFT OUTER JOIN  LOCDETAILS on STORESREQBASIC.FROMLOCID=LOCDETAILS.LOCDETAILSID where STORESREQBASIC.STATUS='"+ status +"' order by STORESREQBASICID desc";
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
+                    using (OracleCommand cmd = con.CreateCommand())
                     {
-                        MaterialRequisition cmp = new MaterialRequisition
+                        con.Open();
+                        cmd.CommandText = "Select BRANCHMAST.BRANCHID,STORESREQBASIC.DOCID,to_char(STORESREQBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,LOCDETAILS.LOCID,PROCESSID,REQTYPE,STORESREQBASICID from STORESREQBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=STORESREQBASIC.BRANCHID LEFT OUTER JOIN  LOCDETAILS on STORESREQBASIC.FROMLOCID=LOCDETAILS.LOCDETAILSID WHERE STORESREQBASIC.DOCDATE BETWEEN '" + st + "'  AND '" + ed + "'  order by STORESREQBASICID desc";
+                        OracleDataReader rdr = cmd.ExecuteReader();
+                        while (rdr.Read())
                         {
-                            ID = rdr["STORESREQBASICID"].ToString(),
-                            Branch = rdr["BRANCHID"].ToString(),
-                            Location = rdr["LOCID"].ToString(),
-                            Process = rdr["PROCESSID"].ToString(),
-                            RequestType = rdr["REQTYPE"].ToString(),
-                            DocId = rdr["DOCID"].ToString(),
-                            DocDa = rdr["DOCDATE"].ToString(),
-                            status = rdr["STATUS"].ToString()
+                            MaterialRequisition cmp = new MaterialRequisition
+                            {
+                                ID = rdr["STORESREQBASICID"].ToString(),
+                                Branch = rdr["BRANCHID"].ToString(),
+                                Location = rdr["LOCID"].ToString(),
+                                Process = rdr["PROCESSID"].ToString(),
+                                RequestType = rdr["REQTYPE"].ToString(),
+                                DocId = rdr["DOCID"].ToString(),
+                                DocDa = rdr["DOCDATE"].ToString()
 
 
-                        };
-                        cmpList.Add(cmp);
+
+                            };
+                            cmpList.Add(cmp);
+                        }
                     }
+
+                }
+                else
+                {
+                    using (OracleCommand cmd = con.CreateCommand())
+                    {
+                        con.Open();
+                        cmd.CommandText = "Select BRANCHMAST.BRANCHID,STORESREQBASIC.DOCID,to_char(STORESREQBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,LOCDETAILS.LOCID,PROCESSID,REQTYPE,STORESREQBASICID from STORESREQBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=STORESREQBASIC.BRANCHID LEFT OUTER JOIN  LOCDETAILS on STORESREQBASIC.FROMLOCID=LOCDETAILS.LOCDETAILSID WHERE STORESREQBASIC.DOCDATE > sysdate-30  order by STORESREQBASICID desc";
+                        OracleDataReader rdr = cmd.ExecuteReader();
+                        while (rdr.Read())
+                        {
+                            MaterialRequisition cmp = new MaterialRequisition
+                            {
+                                ID = rdr["STORESREQBASICID"].ToString(),
+                                Branch = rdr["BRANCHID"].ToString(),
+                                Location = rdr["LOCID"].ToString(),
+                                Process = rdr["PROCESSID"].ToString(),
+                                RequestType = rdr["REQTYPE"].ToString(),
+                                DocId = rdr["DOCID"].ToString(),
+                                DocDa = rdr["DOCDATE"].ToString()
+
+
+
+                            };
+                            cmpList.Add(cmp);
+                        }
+                    }
+
                 }
             }
             return cmpList;
@@ -188,7 +220,7 @@ namespace Arasan.Services
         //    adapter.Fill(dtt);
         //    return dtt;
         //}
-        
+
         //public MaterialRequisition GetMaterialById(string eid)
         //{
         //    MaterialRequisition Material = new MaterialRequisition();
@@ -429,7 +461,7 @@ namespace Arasan.Services
                                                 objCmds.ExecuteNonQuery();
                                                 objConnT.Close();
                                             }
-                                            
+
                                             break;
                                         }
                                         else
@@ -565,7 +597,7 @@ namespace Arasan.Services
                     }
                     cy.matno = MATNo;
                 }
-              
+
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
 
@@ -622,7 +654,7 @@ namespace Arasan.Services
 
                         foreach (MaterialRequistionItem cp in cy.MRlst)
                         {
-                            
+
 
                             if (cp.Isvalid == "Y" && cp.ItemId != "0")
                             {
@@ -655,7 +687,7 @@ namespace Arasan.Services
                 string StatementType = string.Empty; string svSQL = "";
                 datatrans = new DataTransactions(_connectionString);
 
-                   
+
                 if (cy.status == "CLOSE")
                 {
                     using (OracleConnection objConnT = new OracleConnection(_connectionString))

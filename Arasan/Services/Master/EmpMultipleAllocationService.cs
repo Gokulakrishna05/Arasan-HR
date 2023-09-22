@@ -84,7 +84,7 @@ namespace Arasan.Services.Master
 
                     for (int i = 0; i < cy.Location.Length; i++)
                     {
-                        svSQL = "Insert into EMPALLOCATIONDETAILS (EMPALLOCATIONID,LOCATIONID) VALUES ('"+ Pid + "','"+ cy.Location[i] + "')";
+                        svSQL = "Insert into EMPALLOCATIONDETAILS (EMPALLOCATIONID,LOCATIONID) VALUES ('" + Pid + "','" + cy.Location[i] + "')";
                         OracleCommand objCmddts = new OracleCommand(svSQL, objConn);
                         objCmddts.ExecuteNonQuery();
 
@@ -101,7 +101,7 @@ namespace Arasan.Services.Master
             return msg;
         }
 
-       
+
 
         public DataTable GetEmp(string action)
         {
@@ -175,7 +175,7 @@ namespace Arasan.Services.Master
         public DataTable GetEmpMultipleAllocationReassign(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select to_char(EMPDATE,'dd-MON-yyyy')EMPDATE,LOCDETAILS.LOCID,EMPALLOCATIONID from EMPALLOCATION LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=EMPALLOCATIONDETAILS.LOCATIONID  Where EMPALLOCATION.EMPALLOCATIONID='" + id + "'";
+            SvSql = "select EMPMAST.EMPNAME,to_char(CREATEDDATE,'dd-MON-yyyy')CREATEDDATE,EMPALLOCATIONID from EMPALLOCATION LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID=EMPALLOCATION.EMPID Where EMPALLOCATION.EMPALLOCATIONID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -197,20 +197,11 @@ namespace Arasan.Services.Master
                     objCmd.CommandText = "CITYPROC";*/
 
                     objCmd.CommandType = CommandType.StoredProcedure;
-                    if (cy.ID == null)
-                    {
-                        StatementType = "Insert";
-                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-                    }
-                    else
-                    {
-                        StatementType = "Update";
-                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
-                    }
-
-                    objCmd.Parameters.Add("EMPNAME", OracleDbType.NVarchar2).Value = cy.Emp;
-                    objCmd.Parameters.Add("EMPDATE", OracleDbType.NVarchar2).Value = cy.EDate;
-                    objCmd.Parameters.Add("LOCATIONNAME", OracleDbType.NVarchar2).Value = cy.Location;
+                    
+                    StatementType = "Update";
+                    objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                    objCmd.Parameters.Add("REASSIGNNAME", OracleDbType.NVarchar2).Value = cy.Reassign;
+                    objCmd.Parameters.Add("REASON", OracleDbType.NVarchar2).Value = cy.Reason;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     try
                     {

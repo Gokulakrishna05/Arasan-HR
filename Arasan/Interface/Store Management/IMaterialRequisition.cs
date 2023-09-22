@@ -7,31 +7,31 @@ namespace Arasan.Interface
 {
     public interface IMaterialRequisition
     {
-         // DataTable GetLocation();
-         // DataTable GetBranch();
-       //DataTable GetWorkCenter(string LocationId);
+        // DataTable GetLocation();
+        // DataTable GetBranch();
+        //DataTable GetWorkCenter(string LocationId);
         //   DataTable GetItem(string value);
         //  DataTable GetItemGrp();
         DataTable GetItem(string id);
         DataTable GetItemGrp();
         DataTable GetItemGroup(string id);
         DataTable GetItemDetails(string ItemId);
-       //  string MaterialRequestCRUD(MaterialRequisition mr);
+        //  string MaterialRequestCRUD(MaterialRequisition mr);
         string MaterialCRUD(MaterialRequisition cy);
-        IEnumerable<MaterialRequisition> GetAllMaterial(string status);
-       // MaterialRequisition GetMaterialById(string id);
+        IEnumerable<MaterialRequisition> GetAllMaterial(string status, string st, string ed);
+        // MaterialRequisition GetMaterialById(string id);
         DataTable GetmaterialReqDetails(string id);
         DataTable GetmaterialReqItemDetails(string id);
-        DataTable Getstkqty(string ItemId,string locid, string brid);
+        DataTable Getstkqty(string ItemId, string locid, string brid);
         DataTable GetMatbyID(string MatId);
         DataTable GetMatItemByID(string MatId);
-        DataTable GetLocation(string id );
+        DataTable GetLocation(string id);
         DataTable GetWorkCenter(string id);
         DataTable BindProcess(string id);
         string IssuetoIndent(MaterialRequisition cy);
         string ApproveMaterial(MaterialRequisition cy);
 
-         string MaterialStatus(MaterialRequisition cy);
+        string MaterialStatus(MaterialRequisition cy);
         DataTable GetMatStabyID(string MatId);
         DataTable GetMatStaItemByID(string MatId);
         string StatusChange(string tag, int id);

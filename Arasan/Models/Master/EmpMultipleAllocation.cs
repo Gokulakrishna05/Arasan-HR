@@ -31,14 +31,22 @@ namespace Arasan.Models
         public string view { get; set; }
         public string reassign { get; set; }
     }
-    public class  EmpMultipleItemBindList
+    public class EmpMultipleItemBindList
     {
         public long piid { get; set; }
 
         public string location { get; set; }
     }
+    public class Viewdetails
+    {
+        public string ID { get; set; }
+
+        public string Location { get; set; }
+    }
     public class EmpView
     {
+        public List<Viewdetails> Viewlst { get; set; }
+
         public string EDate { get; set; }
         public string ID { get; set; }
 
@@ -51,6 +59,8 @@ namespace Arasan.Models
 
         public List<SelectListItem> Emolst { get; set; }
         public string Emp { get; set; }
+        public string Reassign { get; set; }
+        public string Reason { get; set; }
         public string EDate { get; set; }
         public List<SelectListItem> Loclst { get; set; }
         public string Location { get; set; }

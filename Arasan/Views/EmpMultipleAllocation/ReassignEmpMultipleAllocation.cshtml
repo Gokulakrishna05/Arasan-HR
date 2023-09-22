@@ -50,7 +50,7 @@
 
                                         <br /><label for="inputName3" class="col-sm-4 control-label">Employee Name<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Emp, Model.Emolst," -- Please Select -- ", new { @id = "ddlEmp", @Class = "form-control _select", @TabIndex = 1 })
+                                            @Html.DisplayFor(C => C.Emp)
                                         </div>
                                     </div>
                                 </div>
@@ -60,7 +60,7 @@
                                         <br />   <label for="inputName3" class="col-sm-4 control-label">Date<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                             @Html.DisplayFor(C => C.EDate)
-                                            @Html.HiddenFor(C => C.EDate)
+                                            @Html.HiddenFor(C => C.ID)
                                         </div>
                                     </div>
                                 </div>
@@ -77,7 +77,26 @@
                                 </div>
 
                             </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
 
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Reassign Emp Name<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.Reassign, Model.Emolst," -- Please Select -- ", new { @id = "ddlReassign", @Class = "form-control _select", @TabIndex = 1 })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br />   <label for="inputName3" class="col-sm-4 control-label">Reason<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.Reason, new { @id = "ddlReason", @class = "form-control", @TabIndex = 2 })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div style="height:30px;"></div>
                             <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
                             <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListEmpMultipleAllocation", "EmpMultipleAllocation")'">Cancel</button>
