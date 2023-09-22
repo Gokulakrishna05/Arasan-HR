@@ -54,6 +54,10 @@ namespace Arasan.Models
         public List<PEmpDetails> EmplLst { get; set; }
         public List<PLogDetails> LogLst { get; set; }
 
+        public string CLocation { get; set; }
+
+        public List<SelectListItem> Wclst { get; set; }
+
     }
     public class PProInput
     {

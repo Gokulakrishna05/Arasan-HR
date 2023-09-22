@@ -25,14 +25,20 @@ namespace Arasan.Controllers
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public IActionResult PyroProduction(string id,string tag,string shift)
+        public IActionResult PyroProductionentry(string id, string tag, string shift)
+        {
+            return View(Pyro);
+        }
+
+
+            public IActionResult PyroProduction(string id,string tag,string shift)
         {
             PyroProduction ca = new PyroProduction();
             ca.Eng = Request.Cookies["UserName"];
             ca.super = Request.Cookies["UserId"];
             ca.worklst = BindWork(ca.super);
             ca.Shiftlst = BindShift();
-
+            ca.Wclst= BindWorkedit(ca.super);
             List<PBreakDet> TData3 = new List<PBreakDet>();
             PBreakDet tda3 = new PBreakDet();
             List<PProInput> TData = new List<PProInput>();
@@ -675,6 +681,24 @@ namespace Arasan.Controllers
             try
             {
                 DataTable dtDesg = Pyro.GetWork(id);
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["LOCID"].ToString(), Value = dtDesg.Rows[i]["LOCATIONNAME"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<SelectListItem> BindWorkedit(string id)
+        {
+            try
+            {
+                DataTable dtDesg = Pyro.GetWorkedit(id);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {

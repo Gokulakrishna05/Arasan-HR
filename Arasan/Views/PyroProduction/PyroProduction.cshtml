@@ -145,6 +145,54 @@
                             @Html.AntiForgeryToken()
                              <form>
 
+
+                           
+                                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                    <div class="panel panel-default">
+
+                                        <div class="panel-heading" role="tab" id="headingWc">
+                                            <h4 class="panel-title">
+                                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseWC" aria-expanded="false" aria-controls="collapseWC">
+                                                    View Work center Details
+                                                </a>
+                                            </h4>
+                                        </div>
+                                    <div id="collapseWC" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingWc">
+                                            <div class="panel-body">
+
+                                            <div class="row">
+                                                
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+
+                                                        <label for="inputName3" class="col-sm-4 control-label">Work Center <label class="mandatory"></label></label>
+                                                        <div class="col-sm-8">
+                                                            @Html.DropDownListFor(C => C.CLocation, Model.Wclst," -- Please Select -- ", new { @id = "ddleditWC", @Class = "form-control _select", @TabIndex = 1 ,@onchange="changewc(this.value)" })<br />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="inputName3" class="col-sm-4 control-label">Shift<label class="mandatory"> </label></label>
+                                               <div class="col-sm-8">
+                                                            @Html.DropDownListFor(C => C.Shift, Model.Shiftlst," -- Please Select -- ", new { @id = "ddleditShift", @Class = "form-control _select", @TabIndex = 1 ,onchange = "changeshift1(this.value)"})<br />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            </div>
+                                        </div>
+
+
+
+
+
+                                    </div>
+                                </div>
+                        
+
+
   <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -380,6 +428,9 @@
                                </div>
                                </div>
                                </div>
+
+
+                                    </div>
                                         <div class="panel panel-default">
                                                     <div class="panel-heading" role="tab" id="headingTwo">
                                                         <h4 class="panel-title">
@@ -738,7 +789,7 @@
                                             </div>
                                         </div>
 
- </div>
+
 
  </div>
                 
