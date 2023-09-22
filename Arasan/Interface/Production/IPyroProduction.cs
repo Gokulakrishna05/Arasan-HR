@@ -9,8 +9,8 @@ namespace Arasan.Interface
     {
         DataTable GetWork(string id);
         DataTable ShiftDeatils();
-         
-     
+        DataTable GetWorkedit(string id);
+
         DataTable GetItemDetails(string id);
         string  PyroProductionEntry(PyroProduction Cy);
 
