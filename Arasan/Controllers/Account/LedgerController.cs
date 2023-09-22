@@ -33,18 +33,15 @@ namespace Arasan.Controllers
             if (id == null)
             {
 
-
             }
             else
             {
-
-
                 DataTable dt = new DataTable();
 
                 dt = ledger.GetLedger(id);
                 if (dt.Rows.Count > 0)
                 {
-                    ca.AType = dt.Rows[0]["ACCTYPE"].ToString();
+                    ca.AType = dt.Rows[0]["ACCOUNTTYPE"].ToString();
                     ca.AccGroup = dt.Rows[0]["ACCGROUP"].ToString();
                     ca.LedName = dt.Rows[0]["LEDNAME"].ToString();
                     ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
@@ -55,7 +52,6 @@ namespace Arasan.Controllers
                     ca.ID = id;
 
                 }
-
             }
             return View(ca);
         }
