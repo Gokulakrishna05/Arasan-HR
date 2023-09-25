@@ -19,8 +19,9 @@ namespace Arasan.Models
 
         public List<SelectListItem> Brlst;
 
+        
         public List<SelectListItem> Typelst;
-
+        public string Accounttype { get; set; }
         public string Status { get; set; }
         public string Display { get; set; }
     }
