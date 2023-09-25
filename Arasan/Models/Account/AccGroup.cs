@@ -11,8 +11,9 @@ namespace Arasan.Models
           
         }
         public List<SelectListItem> Brlst;
-
-        public string Branch { get; set; }
+        public string Branch { get; set; }  
+        
+       
 
         public string CPMName { get; set; }
         public string ID { get; set; }
