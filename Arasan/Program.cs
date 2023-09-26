@@ -154,6 +154,7 @@ internal class Program
 		builder.Services.TryAddSingleton<IEmpMultipleAllocationService, EmpMultipleAllocationService>();
 
         builder.Services.TryAddSingleton<IPyroProduction, PyroProductionService>();
+        builder.Services.TryAddSingleton<IItemDescriptionService, ItemDescriptionService>();
 
 
 
