@@ -42,7 +42,7 @@ namespace Arasan.Controllers
                 if (dt.Rows.Count > 0)
                 {
                     ca.AType = dt.Rows[0]["ACCOUNTTYPE"].ToString();
-                    ca.AccGroup = dt.Rows[0]["ACCOUNTGROUP"].ToString();
+                    ca.AccGroup = dt.Rows[0]["ACCGROUP"].ToString();
                     ca.LedName = dt.Rows[0]["LEDNAME"].ToString();
                     ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
                     ca.OpStock = dt.Rows[0]["OPSTOCK"].ToString();
@@ -92,13 +92,7 @@ namespace Arasan.Controllers
 
             return View(Cy);
         }
-        //public JsonResult GetItemJSON(string supid)
-        //{
-        //    Ledger model = new Ledger();
-        //    model.Itemlst = BindItemlst(supid);
-        //    return Json(BindItemlst(supid));
-
-        //}
+       
         public IActionResult ListLedger()
         {
             IEnumerable<Ledger> cmp = ledger.GetAllLedger();

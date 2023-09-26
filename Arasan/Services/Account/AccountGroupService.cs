@@ -26,8 +26,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    //cmd.CommandText = "Select BRANCHMAST.BRANCHID,ACCOUNTGROUP,ACCOUNTTYPE,GROUPCODE,DISPLAY_NAME,ACCGROUP.STATUS,ACCGROUPID from ACCGROUP LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=ACCGROUP.BRANCHID where ACCGROUP.STATUS='Active'";
-                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,ACCOUNTGROUP,ACCTYPE.ACCOUNTTYPE,GROUPCODE,DISPLAY_NAME,ACCGROUP.STATUS,ACCGROUPID from ACCGROUP LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=ACCGROUP.BRANCHID LEFT OUTER JOIN ACCTYPE ON ACCOUNTTYPEID =ACCGROUP.ACCOUNTTYPE where ACCGROUP.STATUS='Active'\r\n";
+                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,ACCOUNTGROUP,ACCTYPE.ACCOUNTTYPE,GROUPCODE,DISPLAY_NAME,ACCGROUP.STATUS,ACCGROUPID from ACCGROUP LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=ACCGROUP.BRANCHID LEFT OUTER JOIN ACCTYPE ON ACCOUNTTYPEID =ACCGROUP.ACCOUNTTYPE where ACCGROUP.STATUS='Active'";
                    
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
@@ -58,7 +57,7 @@ namespace Arasan.Services
                 if (cy.ID == null)
                 {
 
-                    svSQL = " SELECT Count(*) as cnt FROM ACCGROUP WHERE ACCOUNTGROUP =LTRIM(RTRIM('" + cy.AccGroup + "')) and GROUPCODE =LTRIM(RTRIM('" + cy.GCode + "'))";
+                    svSQL = " SELECT Count(*) as cnt FROM ACCGROUP WHERE ACCOUNTTYPE =LTRIM(RTRIM('" + cy.AType + "')) and GROUPCODE =LTRIM(RTRIM('" + cy.GCode + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "Account Group Already Existed";
@@ -148,7 +147,7 @@ namespace Arasan.Services
         public DataTable GetAccType()
         {
             string SvSql = string.Empty;
-            SvSql = "SELECT ACCOUNTTYPEID,ACCOUNTTYPE FROM ACCTYPE order by ACCOUNTTYPEID asc";
+            SvSql = "SELECT ACCOUNTTYPEID,ACCOUNTTYPE FROM ACCTYPE ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
