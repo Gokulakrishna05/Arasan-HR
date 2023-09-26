@@ -150,26 +150,26 @@
         }
         $(dropDownId).trigger("liszt:updated");
     }
-    function changeGroup(itemid) {
-        //alert(itemid);
-        //debugger;
-        $.ajax({
-            url: "GetItemJSON",
-            type: "post",
-            data: { 'itemid': itemid },
-            cache: false,
-            success: function (response) {
-                var newlist;
-                //alert(JSON.stringify(response));
-                newlist = response.Ilst;
-                PopulateDropDown("#ddlAccGroup", response);
-            },
-            error: function () {
-                debugger;
-                alert("Please Select Account Group");
-            }
-        });
-    }
+    //function changeGroup(itemid) {
+    //    alert(itemid);
+    //    debugger;
+    //    $.ajax({
+    //        url: "GetItemJSON",
+    //        type: "post",
+    //        data: { 'itemid': itemid },
+    //        cache: false,
+    //        success: function (response) {
+    //            var newlist;
+    //            alert(JSON.stringify(response));
+    //            newlist = response.Ilst;
+    //            PopulateDropDown("#ddlAccGroup", response);
+    //        },
+    //        error: function () {
+    //            debugger;
+    //            alert("Please Select Account Group");
+    //        }
+    //    });
+    //}
     $('.form_date').datetimepicker({
         //   language:  'fr',
         weekStart: 1,
@@ -181,23 +181,7 @@
 
         forceParse: 0
     });
-    //function changeGroup(ItemId, i) {
-    //    $.ajax({
-    //        url: 'GetGroupDetail',
-    //        data: { "ItemId": ItemId },
-    //        type: "GET",
-    //        success: function (result) {
-
-    //            document.getElementById("txtAccGroup").value = result.accgroup;
-
-
-
-    //        },
-    //        error: function () {
-    //            alert("Data Not Found");
-    //        }
-    //    });
-    //}
+   
     $(".chosen-select").chosen();
     $(document).ready(function () {
         $('#btnSave').click(function (e) {
@@ -218,6 +202,24 @@
                     "background": ""
                 });
             }
+
+            if (document.getElementById("ddlAccGroup").value == "") {
+                isValid = false;
+                $(ddlAccGroup).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Account Group");
+                return false;
+            }
+            else {
+                $(ddlAccGroup).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
             if (document.getElementById("txtLedName").value == "") {
                 isValid = false;
                 $(txtLedName).css({

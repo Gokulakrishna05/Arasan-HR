@@ -31,8 +31,8 @@ namespace Arasan.Services
 
                 {
                     con.Open();
-                    cmd.CommandText = "Select ACCTYPE.ACCOUNTTYPE,ACCGROUP.ACCOUNTGROUP,LEDNAME,to_char(LEDGER.DOCDATE,'dd-MON-yyyy')DOCDATE,DISPLAY_NAME,OPSTOCK,CLSTOCK,CATEGORY,ACCGROUP ,LEDGERID from LEDGER LEFT OUTER JOIN ACCTYPE ON ACCTYPE.ACCOUNTTYPEID=LEDGER.ACCOUNTTYPE LEFT OUTER JOIN ACCGROUP ON ACCGROUP.ACCGROUPID = LEDGER.ACCGROUP where LEDGER.STATUS= 'Active' ";
-                    //cmd.CommandText = "Select ACCTYPE.ACCOUNTTYPE,LEDNAME,to_char(LEDGER.DOCDATE,'dd-MON-yyyy')DOCDATE,DISPLAY_NAME,OPSTOCK,CLSTOCK,CATEGORY,ACCGROUP ,LEDGERID from LEDGER LEFT OUTER JOIN ACCTYPE ON ACCTYPE.ACCOUNTTYPEID=LEDGER.ACCOUNTTYPE  where LEDGER.STATUS= 'Active' ";
+                    //cmd.CommandText = "Select ACCTYPE.ACCOUNTTYPE,ACCGROUP.ACCOUNTGROUP,LEDNAME,to_char(LEDGER.DOCDATE,'dd-MON-yyyy')DOCDATE,DISPLAY_NAME,OPSTOCK,CLSTOCK,CATEGORY,ACCGROUP ,LEDGERID from LEDGER LEFT OUTER JOIN ACCTYPE ON ACCTYPE.ACCOUNTTYPEID=LEDGER.ACCOUNTTYPE LEFT OUTER JOIN ACCGROUP ON ACCGROUP.ACCGROUPID = LEDGER.ACCGROUP where LEDGER.STATUS= 'Active' ";
+                    cmd.CommandText = "Select ACCTYPE.ACCOUNTTYPE,ACCGROUP.ACCOUNTGROUP,LEDGER.LEDNAME,to_char(LEDGER.DOCDATE,'dd-MON-yyyy')DOCDATE,LEDGER.DISPLAY_NAME,LEDGER.OPSTOCK,LEDGER.CLSTOCK,LEDGER.CATEGORY ,LEDGER.LEDGERID from LEDGER LEFT OUTER JOIN ACCTYPE ON ACCTYPE.ACCOUNTTYPEID=LEDGER.ACCOUNTTYPE LEFT OUTER JOIN ACCGROUP ON ACCGROUP.ACCGROUPID = LEDGER.ACCGROUP where LEDGER.STATUS= 'Active'  ";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -40,7 +40,7 @@ namespace Arasan.Services
                         {
                             ID = rdr["LEDGERID"].ToString(),
                             AType = rdr["ACCOUNTTYPE"].ToString(),
-                            AccGroup = rdr["ACCGROUP"].ToString(),
+                            AccGroup = rdr["ACCOUNTGROUP"].ToString(),
                             LedName = rdr["LEDNAME"].ToString(),
                             DisplayName = rdr["DISPLAY_NAME"].ToString(),
                             OpStock = rdr["OPSTOCK"].ToString(),
@@ -91,7 +91,7 @@ namespace Arasan.Services
                     }
 
                     objCmd.Parameters.Add("ACCOUNTTYPE", OracleDbType.NVarchar2).Value = cy.AType;
-                    objCmd.Parameters.Add("ACCGROUP", OracleDbType.NVarchar2).Value = cy.AccGroup;
+                    objCmd.Parameters.Add("ACCOUNTGROUP", OracleDbType.NVarchar2).Value = cy.AccGroup;
                     objCmd.Parameters.Add("LEDNAME", OracleDbType.NVarchar2).Value = cy.LedName;
                     objCmd.Parameters.Add("DISPLAY_NAME", OracleDbType.NVarchar2).Value = cy.DisplayName;
                     objCmd.Parameters.Add("OPSTOCK", OracleDbType.NVarchar2).Value = cy.OpStock;

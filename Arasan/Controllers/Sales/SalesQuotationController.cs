@@ -83,7 +83,7 @@ namespace Arasan.Controllers.Sales
                     ca.Mobile = dt.Rows[0]["CONTACT_PERSON_MOBILE"].ToString();
                     ca.Country = dt.Rows[0]["COUNTRYSHIPMENT"].ToString();
                     ca.Pro = dt.Rows[0]["PRIORITY"].ToString();
-                    ca.narr = dt.Rows[0]["NARRATION"].ToString();
+                    //ca.narr = dt.Rows[0]["NARRATION"].ToString();
                     ca.Assign = dt.Rows[0]["ASSIGNED_TO"].ToString();
                     
                     ca.ID = id;
