@@ -133,18 +133,16 @@ namespace Arasan.Services.Store_Management
                                     objCmds.Parameters.Add("UNIT", OracleDbType.NVarchar2).Value = cp.Unit;
                                     objCmds.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = cp.rate;
                                     objCmds.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = cp.Amount;
-
                                     //objCmds.Parameters.Add("CF", OracleDbType.NVarchar2).Value = cp.ConFac;
                                     objCmds.Parameters.Add("BINID", OracleDbType.NVarchar2).Value = cp.BinID;
-
                                     objCmds.Parameters.Add("PROCESSID", OracleDbType.NVarchar2).Value = cp.Process;
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
-                                objCmds.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
-                                objCmds.ExecuteNonQuery();
-                                   Object Prid = objCmds.Parameters["OUTID"].Value;
-                                //string Prid = "0";
-                                /////////////////////////Inventory Details
-
+                                    objCmds.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
+                                    objCmds.ExecuteNonQuery();
+                                    Object Prid = objCmds.Parameters["OUTID"].Value;
+                                    //string Prid = "0";
+                                    /////////////////////////Inventory Details
+ 
                                 OracleCommand objCmdI = new OracleCommand("INVENTORYITEMPROC", objConn);
                                         objCmdI.CommandType = CommandType.StoredProcedure;
                                         objCmdI.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
