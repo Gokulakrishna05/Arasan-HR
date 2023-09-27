@@ -8,7 +8,7 @@ namespace Arasan.Interface
 {
     public interface IAccDescrip
     {
-        DataTable GetAccDescrip(string id);
-        IEnumerable<AccountType> GetAllAccDescrip(string status);
+        //DataTable GetAccDescrip(string id);
+        //IEnumerable<AccountType> GetAllAccDescrip(string status);
     }
 }
