@@ -26,38 +26,38 @@ namespace Arasan.Controllers
 
         }
 
-        public IActionResult AccDescrip(string id)
-        {
-            AccountType AG = new AccountType();
-            AG.CreatedBy = Request.Cookies["UserId"];
+        //public IActionResult AccDescrip(string id)
+        //{
+        //    AccountType AG = new AccountType();
+        //    AG.CreatedBy = Request.Cookies["UserId"];
 
 
-            //for edit & delete
-            if (id != null)
-            {
-                DataTable dt = new DataTable();
-                double total = 0;
-                dt = AccDescripService.GetAccDescrip(id);
-                if (dt.Rows.Count > 0)
-                {
-                    AG.TransName = dt.Rows[0]["ADTRANSDESC"].ToString();
-                    AG.TransID = dt.Rows[0]["ADTRANSID"].ToString();
-                    AG.Scheme = dt.Rows[0]["ADSCHEME"].ToString();
-                    AG.Descrip = dt.Rows[0]["ADSCHEMEDESC"].ToString();
-                    AG.Status = dt.Rows[0]["STATUS"].ToString();
+        //    //for edit & delete
+        //    if (id != null)
+        //    {
+        //        DataTable dt = new DataTable();
+        //        double total = 0;
+        //        dt = AccDescripService.GetAccDescrip(id);
+        //        if (dt.Rows.Count > 0)
+        //        {
+        //            AG.TransName = dt.Rows[0]["ADTRANSDESC"].ToString();
+        //            AG.TransID = dt.Rows[0]["ADTRANSID"].ToString();
+        //            AG.Scheme = dt.Rows[0]["ADSCHEME"].ToString();
+        //            AG.Descrip = dt.Rows[0]["ADSCHEMEDESC"].ToString();
+        //            AG.Status = dt.Rows[0]["STATUS"].ToString();
                     
-                    AG.ID = id;
+        //            AG.ID = id;
 
 
-                }
-            }
-            return View();
-        }
+        //        }
+        //    }
+        //    return View();
+        //}
 
-        public IActionResult ListAccDescrip()
-        {
-            IEnumerable<AccountType> cmp = AccountTypeService.GetAllAccDescrip(status);
-            return View(cmp);
-        }
+        //public IActionResult ListAccDescrip()
+        //{
+        //    IEnumerable<AccountType> cmp = AccountTypeService.GetAllAccDescrip(status);
+        //    return View(cmp);
+        //}
     }
 }
