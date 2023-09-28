@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data;
+using System.Net.Mail;
 using Arasan.Interface;
 using Arasan.Interface.Master;
 using Arasan.Models;
@@ -88,6 +89,36 @@ namespace Arasan.Controllers
 
             return View(Cy);
         }
-       
+        [HttpPost]
+        public ActionResult SendMail(PromotionMail br)
+        {
+            try
+            {
+
+                datatrans = new DataTransactions(_connectionString);
+                MailRequest requestwer = new MailRequest();
+                requestwer.ToEmail = "deepa@icand.in";
+                requestwer.Subject = "Enquiry";
+                
+                string To = br.To;
+                string Subject = br.Sub;
+                string Content = br.editors;
+                //if (files.HasFile)
+                //{
+                //    mail.Attachments.Add(new Attachment(files.PostedFile.InputStream, files.FileName));
+                //}
+                requestwer.Body = Content;
+                //request.Attachments = "Yes";
+                datatrans.sendemail(Subject, Content, To, "kesavanmoorthi70@gmail.com", "spabnjcirlfipjco", "587", "true", "smtp.gmail.com", "IcanD");
+                return Ok();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
     }
 }
