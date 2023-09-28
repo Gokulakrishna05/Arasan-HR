@@ -12,5 +12,7 @@ namespace Arasan.Models
         public string Bcc { get; set; }
         public string Sub { get; set; }
         public string editors { get; set; }
+        public string files { get; set; }
+        //public HttpPostedFileBase Empsign { get; set; }
     }
 }
