@@ -46,6 +46,40 @@ namespace Arasan.Models
         public string ProdQty { get; set; }
         public List<SelectListItem> Shiftlst { get; set; }
         public List<SelectListItem> worklst { get; set; }
+       
+        public string Shift { get; set; }
+        
+
+        public string CLocation { get; set; }
+
+        public List<SelectListItem> Wclst { get; set; }
+
+    }
+    public class PyroProductionentryDet
+    {
+
+        public string ID { get; set; }
+        public string change { get; set; }
+        public object APID { get; set; }
+        public string Location { get; set; }
+        public string Branch { get; set; }
+        public string DocId { get; set; }
+        public string super { get; set; }
+        public string Docdate { get; set; }
+        public string Eng { get; set; }
+        public bool Complete { get; set; }
+        public List<SelectListItem> Shiftlst { get; set; }
+        public List<SelectListItem> worklst { get; set; }
+        public List<SelectListItem> Wclst { get; set; }
+
+
+
+        public string CLocation { get; set; }
+        public string BatchNo { get; set; }
+        public string batchcomplete { get; set; }
+        public string SchQty { get; set; }
+        public string ProdQty { get; set; }
+
         public List<PBreakDet> BreakLst { get; set; }
         public string Shift { get; set; }
         public List<PProInput> inplst { get; set; }
@@ -54,9 +88,11 @@ namespace Arasan.Models
         public List<PEmpDetails> EmplLst { get; set; }
         public List<PLogDetails> LogLst { get; set; }
 
-        public string CLocation { get; set; }
+        public List<string> ShiftNames { get; set; }
 
-        public List<SelectListItem> Wclst { get; set; }
+        public string LOCID { get; set; }
+
+        public string BranchId { get; set; }
 
     }
     public class PProInput

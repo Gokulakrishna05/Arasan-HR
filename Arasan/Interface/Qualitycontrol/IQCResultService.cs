@@ -12,7 +12,7 @@ namespace Arasan.Interface.Qualitycontrol
         //QCResult GetQCResultById(string id);
         string QCResultCRUD(QCResult cy);
         DataTable GetQCResult(string id);
-        IEnumerable<QCResult> GetAllQCResult();
+        IEnumerable<QCResult> GetAllQCResult(string st,string ed);
        
         DataTable GetParty(string value);
         DataTable GetItembyId(string value);

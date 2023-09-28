@@ -34,22 +34,22 @@
 
                     <form>
                         <div class="row">
-                            <div class="col-md-6">
+                            @*<div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">Type<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.DropDownListFor(C => C.Type, Model.Typlst, new { @id = "Type", @Class = "form-control chosen-select", @TabIndex = 1, @onchange = "changeType(this.value)"})<br />
+                                        @Html.DropDownListFor(C => C.Type, Model.Typlst, new { @id = "Type", @Class = "form-control _select", @TabIndex = 1, @onchange = "changeType(this.value)"})<br />
                                         <br />
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">GRN/PO.No<label class="mandatory">*</label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">GRN<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.GRNNo, Model.lst, new { @id = "ddlGRNNo", @Class = "form-control chosen-select", @TabIndex = 1, @onchange = "changeItem(this.value)"})<br />
+                                            @Html.DropDownListFor(C => C.GRNNo, Model.lst, new { @id = "ddlGRNNo", @Class = "form-control _select", @TabIndex = 1, @onchange = "changeItem(this.value)"})<br />
                                             <br />
                                         </div>
                                     </div>
@@ -58,7 +58,7 @@
                              <div class="row">
                                <div class="col-md-6">
                                  <div class="form-group">
-                                        <label for="inputName3" class="col-sm-4 control-label">GRN/PO Date<label class="mandatory">*</label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">GRN Date<label class="mandatory">*</label></label>
 
                                     <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                         @Html.TextBoxFor(C => C.GRNDate, new { @id = "GRNDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
@@ -74,7 +74,7 @@
 
                                         <label for="inputName3" class="col-sm-4 control-label">Party <label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Party, Model.Supplst, new { @id = "ddlParty", @Class = "form-control chosen-select", @TabIndex = 1,@readonly="readonly" })<br />
+                                            @Html.DropDownListFor(C => C.Party, Model.Supplst, new { @id = "ddlParty", @Class = "form-control _select", @TabIndex = 1,@readonly="readonly" })<br />
 
                                     </div>
                                 </div>
@@ -88,7 +88,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Doc Id<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.DocId, new { @id = "DocId", @class = "form-control", @TabIndex = 2 })
+                                            @Html.TextBoxFor(C => C.DocId, new { @id = "DocId", @class = "form-control", @TabIndex = 2,@readonly="readonly" })
                                             @Html.HiddenFor(C => C.ID)
                                     </div>
                                 </div>
@@ -119,7 +119,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Item <label class="mandatory">*</label></label>
                                                 <div class="col-sm-8">
-                                        @Html.DropDownListFor(C => C.ItemId, Model.Itemlst, new { @id = "ddlItemId", @Class = "form-control chosen-select", @TabIndex = 1 })<br />
+                                            @Html.DropDownListFor(C => C.ItemId, Model.Itemlst, new { @id = "ddlItemId", @Class = "form-control _select", @TabIndex = 1 })<br />
                                                 </div>
                                             </div>
                                         </div>
@@ -243,7 +243,7 @@
                                                                 </td>
                                                                  <td>
                                                                     @Html.HiddenFor(o => o.QCLst[i].Isvalid, new { @id = "Isvalid" + i })
-                                                                                <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(i)" />
+                                                                                <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="QCLst.Index" type="hidden" value="@(i)" />
                                                                             </td>
                                                             </tr>
                                                     i = i + 1;
@@ -426,7 +426,7 @@
         minView: 2,
         forceParse: 0
     });
-      function changeType(id) {
+    @*  function changeType(id) {
         $.ajax({
             url: "GetTypeJSON",
             type: "post",
@@ -442,12 +442,12 @@
                 alert("Please Select Type");
             }
         });
-      }
+      }*@
     function changeItem(ItemId) {
-         var type=document.getElementById("Type").value;
+         
         $.ajax({
             url: 'GetGRNDetail',
-            data: { "ItemId": ItemId ,"Type":type },
+            data: { "ItemId": ItemId  },
             type: "GET",
             success: function (result) {
 
@@ -462,7 +462,7 @@
           $.ajax({
             url: "GetGRNItemJSON",
             type: "post",
-                data: { 'supid': ItemId, "Type": type },
+                data: { 'supid': ItemId },
             cache: false,
             success: function (response) {
                 var newlist;
@@ -479,7 +479,7 @@
           $.ajax({
             url: "GetGRNSuppJSON",
             type: "post",
-                data: { 'suppid': ItemId, "Type": type },
+                data: { 'suppid': ItemId },
             cache: false,
             success: function (response) {
                 var newlist;
@@ -507,7 +507,9 @@
             }
         })
     }
-      $(".chosen-select").chosen();
+    $(function () {
+        $('._select').select2();
+    });
     function removeRow(id) {
         var table = document.getElementById("dataTable");
         var rowCount = table.rows.length;
@@ -528,7 +530,7 @@
   }
     function PopulateDropDown(dropDownId, list) {
         //alert(list);
-        $(dropDownId).empty().append();
+        $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
         if (list != null && list.length > 0) {
             $(dropDownId).removeAttr("disabled");
             $.each(list, function () {

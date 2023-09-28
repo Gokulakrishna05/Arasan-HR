@@ -13,6 +13,19 @@
         </ol>
     </div>
 </div>
+
+<style>
+    .newwidth {
+        width: 120px;
+    }
+
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
 <div class="wrapper-content ">
     <div class="row">
         <div class="col-lg-12 top20">
@@ -40,10 +53,11 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
 
-                                                            <br /> <label for="inputName3" class="col-sm-4 control-label">Branch<label class="Mandatory"></label></label>
+                                                            <br /> <label for="inputName3" class="col-sm-4 control-label">Branch<label class="mandatory">*</label></label>
                                                         <div class="col-sm-8">
                                                                 @Html.DropDownListFor(C => C.Branch, Model.Brlst," -- Please Select -- ", new { @id = "ddlBranch", @Class = "form-control _select", @TabIndex = 1 })
                                                                 @Html.HiddenFor(C => C.APID)
+                                                                @Html.HiddenFor(C => C.ID)
                                                         </div>
                                                     </div>
                                                 </div>
@@ -53,9 +67,9 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
 
-                                                            <br />  <label for="inputName3" class="col-sm-4 control-label">Doc Id<label class="Mandatory"></label></label>
+                                                            <br />  <label for="inputName3" class="col-sm-4 control-label">Doc Id<label class="mandatory">*</label></label>
                                                         <div class="col-sm-8">
-                                                                @Html.TextBoxFor(C => C.DocId, new { @id = "txtDocId", @class = "form-control", @TabIndex = 2 })
+                                                                @Html.TextBoxFor(C => C.DocId, new { @id = "txtDocId", @class = "form-control", @TabIndex = 2,@readonly="readonly" })
                                                                 
                                                         </div>
                                                     </div>
@@ -63,7 +77,7 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
 
-                                                            <br />   <label for="inputName3" class="col-sm-4 control-label">Doc Date<label class="Mandatory"></label></label>
+                                                            <br />   <label for="inputName3" class="col-sm-4 control-label">Doc Date<label class="mandatory">*</label></label>
                                                             <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                                                 @Html.TextBoxFor(C => C.Docdate, new { @id = "Docdate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
                                                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -97,15 +111,15 @@
                                                     <div class="form-group">
                                                             <br /><label for="inputName3" class="col-sm-4 control-label">Process Lot No<label class="Mandatory"></label></label>
                                                         <div class="col-sm-8">
-                                                                @Html.TextBoxFor(C => C.Process, new { @id = "txtRefBatch", @class = "form-control", @TabIndex = 2 })
+                                                                @Html.TextBoxFor(C => C.Process, new { @id = "txtProcess", @class = "form-control", @TabIndex = 2 })
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                            <br /> <label for="inputName3" class="col-sm-4 control-label">Drum No/Sample No<label class="Mandatory"></label></label>
+                                                            <br /> <label for="inputName3" class="col-sm-4 control-label">Drum No<label class="mandatory">*</label></label>
                                                         <div class="col-sm-8">
-                                                                @Html.TextBoxFor(C => C.Drum, new { @id = "txtRefBatch", @class = "form-control", @TabIndex = 2 ,@readonly="readonly"})
+                                                                @Html.TextBoxFor(C => C.Drum, new { @id = "txtDrum", @class = "form-control", @TabIndex = 2 ,@readonly="readonly"})
                                                         </div>
                                                     </div>
                                                 </div>
@@ -117,7 +131,7 @@
 
                                                             <br /> <label for="inputName3" class="col-sm-4 control-label">Sample No<label class="Mandatory"></label></label>
                                                         <div class="col-sm-8">
-                                                                @Html.TextBoxFor(C => C.Sample, new { @id = "txtRefBatch", @class = "form-control", @TabIndex = 2 })
+                                                                @Html.TextBoxFor(C => C.Sample, new { @id = "txtSample", @class = "form-control", @TabIndex = 2 })
                                                                 
                                                         </div>
                                                     </div>
@@ -127,7 +141,7 @@
                                                             <br /><label for="inputName3" class="col-sm-4 control-label">SampleTime<label class="Mandatory"></label></label>
 
                                                         <div class="col-sm-8">
-                                                                @Html.TextBoxFor(C => C.Sampletime, new { @id = "txtRefBatch", @class = "form-control", @TabIndex = 2 })
+                                                                @Html.TextBoxFor(C => C.Sampletime, new { @id = "txtSampletime", @class = "form-control", @TabIndex = 2 })
                                                                 
                                                         </div>
 
@@ -138,9 +152,9 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
 
-                                                            <br /> <label for="inputName3" class="col-sm-4 control-label">Item ID<label class="Mandatory"></label></label>
+                                                            <br /> <label for="inputName3" class="col-sm-4 control-label">Item ID<label class="mandatory">*</label></label>
                                                         <div class="col-sm-8">
-                                                                @Html.TextBoxFor(C => C.Item, new { @id = "txtRefBatch", @class = "form-control", @TabIndex = 2 ,@readonly="readonly"})
+                                                                @Html.TextBoxFor(C => C.Item, new { @id = "txtItem", @class = "form-control", @TabIndex = 2 ,@readonly="readonly"})
                                                                 
                                                         </div>
                                                     </div>
@@ -148,7 +162,7 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
 
-                                                            <br />  <label for="inputName3" class="col-sm-4 control-label">Production Date<label class="Mandatory"></label></label>
+                                                            <br />  <label for="inputName3" class="col-sm-4 control-label">Production Date<label class="mandatory">*</label></label>
                                                             <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                                                 @Html.TextBoxFor(C => C.Prodate, new { @id = "Prodate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
                                                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -163,9 +177,9 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
 
-                                                            <br /><label for="inputName3" class="col-sm-4 control-label">Rate/Hr<label class="Mandatory"></label></label>
+                                                            <br /><label for="inputName3" class="col-sm-4 control-label">Rate/Hr<label class="mandatory">*</label></label>
                                                         <div class="col-sm-8">
-                                                                @Html.TextBoxFor(C => C.Rate, new { @id = "txtRefBatch", @class = "form-control", @TabIndex = 2 })
+                                                                @Html.TextBoxFor(C => C.Rate, new { @id = "txtRate", @class = "form-control", @TabIndex = 2 })
                                                                 
                                                         </div>
                                                     </div>
@@ -175,7 +189,7 @@
                                                             <br /><label for="inputName3" class="col-sm-4 control-label">Nozzle No<label class="Mandatory"></label></label>
 
                                                         <div class="col-sm-8">
-                                                                @Html.TextBoxFor(C => C.Nozzle, new { @id = "txtRefBatch", @class = "form-control", @TabIndex = 2 })
+                                                                @Html.TextBoxFor(C => C.Nozzle, new { @id = "txtNozzle", @class = "form-control", @TabIndex = 2 })
                                                                
                                                         </div>
 
@@ -186,19 +200,19 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
 
-                                                            <br /><label for="inputName3" class="col-sm-4 control-label">Air Pressure<label class="Mandatory"></label></label>
+                                                            <br /><label for="inputName3" class="col-sm-4 control-label">Air Pressure<label class="mandatory">*</label></label>
                                                         <div class="col-sm-8">
-                                                                @Html.TextBoxFor(C => C.Air, new { @id = "txtRefBatch", @class = "form-control", @TabIndex = 2 })
+                                                                @Html.TextBoxFor(C => C.Air, new { @id = "txtAir", @class = "form-control", @TabIndex = 2 })
                                                                
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                            <br /> <label for="inputName3" class="col-sm-4 control-label">Additive Charged[%]<label class="Mandatory"></label></label>
+                                                            <br /> <label for="inputName3" class="col-sm-4 control-label">Additive Charged[%]<label class="mandatory"></label></label>
 
                                                         <div class="col-sm-8">
-                                                                @Html.TextBoxFor(C => C.AddCharge, new { @id = "txtRefBatch", @class = "form-control", @TabIndex = 2 })
+                                                                @Html.TextBoxFor(C => C.AddCharge, new { @id = "txtAddCharge", @class = "form-control", @TabIndex = 2 })
                                                                 
                                                         </div>
 
@@ -209,9 +223,9 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
 
-                                                            <br /> <label for="inputName3" class="col-sm-4 control-label">Champer Temp<label class="Mandatory"></label></label>
+                                                            <br /> <label for="inputName3" class="col-sm-4 control-label">Champer Temp<label class="mandatory"></label></label>
                                                         <div class="col-sm-8">
-                                                                @Html.TextBoxFor(C => C.Ctemp, new { @id = "txtRefBatch", @class = "form-control", @TabIndex = 2 })
+                                                                @Html.TextBoxFor(C => C.Ctemp, new { @id = "txtCtemp", @class = "form-control", @TabIndex = 2 })
                                                                
                                                         </div>
                                                     </div>
@@ -512,4 +526,211 @@
             $('._select').select2();
         });
     }
+
+
+
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+            if (document.getElementById("ddlBranch").value == "" || document.getElementById("ddlBranch").value == 0) {
+                isValid = false;
+                $(ddlBranch).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Branch");
+                return false;
+            }
+            else {
+                $(ddlBranch).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+       
+            if (document.getElementById("txtDocId").value == "") {
+                isValid = false;
+                $(txtDocId).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter  Doc Id");
+                return false;
+            }
+            else {
+                $(txtDocId).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("Docdate").value == "") {
+                isValid = false;
+                $(Docdate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select  Date");
+                return false;
+            }
+            else {
+                $(Docdate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+          
+            if (document.getElementById("txtDrum").value == "") {
+                isValid = false;
+                $(txtDrum).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Drum");
+                return false;
+            }
+            else {
+                $(txtDrum).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtItem").value == "") {
+                isValid = false;
+                $(txtItem).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter  Item");
+                return false;
+            }
+            else {
+                $(txtItem).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("Prodate").value == "") {
+                isValid = false;
+                $(Prodate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Production Date");
+                return false;
+            }
+            else {
+                $(Prodate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtRate").value == "") {
+                isValid = false;
+                $(txtRate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Rate");
+                return false;
+            }
+            else {
+                $(txtRate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtAir").value == "") {
+                isValid = false;
+                $(txtAir).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Air Pressure");
+                return false;
+            }
+            else {
+                $(txtAir).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            //Grid validation
+            var j = 0;
+            $('tr.chkitemlst').each(function () {
+                if ($(this).css('display') !== 'none') {
+
+
+
+                    if ($(this).find('#txtStartvalue' + j.toString()).val() == "" ) {
+                        isValid = false;
+                        $(this).find('#txtStartvalue' + j.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+                        alert("Please Enter Start Value");
+                        $(this).find('#txtStartvalue' + j.toString()).focus();
+                        return false;
+                    }
+                    else {
+                        $(this).find('#txtStartvalue' + j.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+
+                    if ($(this).find('#txtEndvalue' + j.toString()).val() == "" ) {
+                        isValid = false;
+                        $(this).find('#txtEndvalue' + j.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Enter End Value");
+                        $(this).find('#txtEndvalue' + j.toString()).focus();
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#txtEndvalue' + j.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+
+                    if ($(this).find('#txtTestResult' + j.toString()).val() == "") {
+                        isValid = false;
+                        $(this).find('#txtTestResult' + j.toString()).css({
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        alert("Please Enter Test Result");
+                        $(this).find('#txtTestResult' + j.toString()).focus();
+                        return false;
+
+                    }
+                    else {
+                        $(this).find('#txtTestResult' + j.toString()).css({
+                            "border": "",
+                            "background": ""
+                        });
+                    }
+                    }
+                
+                j += 1;
+            });
+            if (isValid == false)
+                e.preventDefault();
+        });
+
+    });
 </script>

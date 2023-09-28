@@ -12,6 +12,7 @@ using Org.BouncyCastle.Crypto.Macs;
 using System.Net.Mail;
 using System.Net.Mime;
 using System.Text;
+using Microsoft.CodeAnalysis.Text;
 
 namespace Arasan.Models
 {
@@ -409,6 +410,42 @@ namespace Arasan.Models
                     AlternateView avHtml = AlternateView.CreateAlternateViewFromString(sb3.ToString(), null, MediaTypeNames.Text.Html);
                     mail.AlternateViews.Add(avHtml);
                     mail.IsBodyHtml = true;
+                   
+                    SmtpServer.Port = Convert.ToInt32(CompanySMTPPort);
+                    SmtpServer.Credentials = new System.Net.NetworkCredential(SenderID, SenderPassword);
+                    SmtpServer.EnableSsl = Convert.ToBoolean(SmtpEnableSsl);
+                    //SmtpServer.Timeout = 10000;
+                    SmtpServer.Send(mail);
+                    mail.Dispose();
+                }
+                catch (Exception ex)
+                {
+                    strerr = ex.Message;
+                }
+            }
+        }
+        public void sendemailpo(string Subject, string Message, string EmailID, string SenderID, string SenderPassword, string CompanySMTPPort, string SmtpEnableSsl, string sSmtpServer, string CompanyName)
+        {
+            string strerr = "";
+            if (EmailID != "" && EmailID != null)
+            {
+                try
+                {
+                    MailMessage mail = new MailMessage();
+                    System.Net.Mail.SmtpClient SmtpServer = new System.Net.Mail.SmtpClient(sSmtpServer);
+                    mail.From = new MailAddress(SenderID, CompanyName);
+                    mail.To.Add(EmailID);
+                    mail.Subject = Subject;
+                    StringBuilder sb3 = new StringBuilder();
+                    sb3.Append(Message);
+                    mail.Body = sb3.ToString();
+                    AlternateView avHtml = AlternateView.CreateAlternateViewFromString(sb3.ToString(), null, MediaTypeNames.Text.Html);
+                    mail.AlternateViews.Add(avHtml);
+                    mail.IsBodyHtml = true;
+                    System.Net.Mail.Attachment attachment;
+                    attachment = new System.Net.Mail.Attachment("C:/Users/ace/Downloads/Basic.pdf");
+
+                    mail.Attachments.Add(attachment);
                     SmtpServer.Port = Convert.ToInt32(CompanySMTPPort);
                     SmtpServer.Credentials = new System.Net.NetworkCredential(SenderID, SenderPassword);
                     SmtpServer.EnableSsl = Convert.ToBoolean(SmtpEnableSsl);

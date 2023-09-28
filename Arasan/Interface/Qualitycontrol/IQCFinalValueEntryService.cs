@@ -10,7 +10,7 @@ namespace Arasan.Interface.Qualitycontrol
         DataTable GetWorkCenter();
         DataTable GetProcess();
         string QCFinalValueEntryCRUD(QCFinalValueEntry cy);
-        IEnumerable<QCFinalValueEntry> GetAllQCFinalValueEntry();
+        IEnumerable<QCFinalValueEntry> GetAllQCFinalValueEntry(string st,string ed);
         DataTable DrumDeatils();
         DataTable BatchDeatils(string id);
         DataTable GetItem(string value);

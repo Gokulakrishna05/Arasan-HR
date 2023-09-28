@@ -111,23 +111,22 @@ namespace Arasan.Services.Qualitycontrol
                 {
                    cy.ID = null;
                 }
-                //string[] sdateList = cy.startdate.Split(" - ");
-                //string sdate = "";
-                //string stime = "";
-                //if (sdateList.Length > 0)
-                //{
-                //    sdate = sdateList[0];
-                //    stime = sdateList[1];
-                //}
-                //string[] edateList = cy.enddate.Split(" - ");
-                //string endate = "";
-                //string endtime = "";
-                //if (sdateList.Length > 0)
-                //{
-                //    endate = edateList[0];
-                //    endtime = edateList[1];
-                //}
-                //string StatementType = string.Empty; string svSQL = "";
+                
+
+
+                int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'QTV#' AND ACTIVESEQUENCE = 'T'  ");
+                string DocId = string.Format("{0}{1}", "QTV#", (idc + 1).ToString());
+
+                string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='QTV#' AND ACTIVESEQUENCE ='T'  ";
+                try
+                {
+                    datatrans.UpdateStatus(updateCMd);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+
                 string ITEMID = datatrans.GetDataString("Select ITEMMASTERID from ITEMMASTER where ITEMID='" + cy.Itemid +"' ");
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
@@ -144,8 +143,8 @@ namespace Arasan.Services.Qualitycontrol
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                     }
                     objCmd.Parameters.Add("BRANCH", OracleDbType.NVarchar2).Value = cy.Branch;
-                    objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.DocId;
-                    objCmd.Parameters.Add("DOCDATE", OracleDbType.Date).Value = DateTime.Parse(cy.DocDate);
+                    objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = DocId;
+                    objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = cy.DocDate;
                     objCmd.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = cy.WorkCenter;
                     objCmd.Parameters.Add("PROCESSID", OracleDbType.NVarchar2).Value = cy.Process;
                     objCmd.Parameters.Add("DRUMNO", OracleDbType.NVarchar2).Value = cy.DrumNo;
@@ -154,7 +153,7 @@ namespace Arasan.Services.Qualitycontrol
                     objCmd.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = ITEMID;
                     objCmd.Parameters.Add("PRODID", OracleDbType.NVarchar2).Value = cy.ProNo;
                     objCmd.Parameters.Add("RATEPHR", OracleDbType.NVarchar2).Value = cy.Rate;
-                    objCmd.Parameters.Add("PRODDATE", OracleDbType.Date).Value = DateTime.Parse(cy.ProDate);
+                    objCmd.Parameters.Add("PRODDATE", OracleDbType.NVarchar2).Value = cy.ProDate;
                     objCmd.Parameters.Add("SAMPLENO", OracleDbType.NVarchar2).Value = cy.SampleNo;
                     objCmd.Parameters.Add("NOZZLENO", OracleDbType.NVarchar2).Value = cy.NozzleNo;
                     objCmd.Parameters.Add("AIRPRESS", OracleDbType.NVarchar2).Value = cy.AirPress;
@@ -248,7 +247,7 @@ namespace Arasan.Services.Qualitycontrol
 
                             }
                         }
-                        string updateCMd = " UPDATE QCNOTIFICATION SET IS_COMPLETED ='YES' , FINALRESULT='" + cy.FResult + "' WHERE DOCID ='" + cy.ProNo + "' ";
+                        updateCMd = " UPDATE QCNOTIFICATION SET IS_COMPLETED ='YES' , FINALRESULT='" + cy.FResult + "' WHERE DOCID ='" + cy.ProNo + "' ";
                         datatrans.UpdateStatus(updateCMd);
 
                     }
@@ -271,31 +270,61 @@ namespace Arasan.Services.Qualitycontrol
             return msg;
         }
 
-        public IEnumerable<QCFinalValueEntry> GetAllQCFinalValueEntry()
+        public IEnumerable<QCFinalValueEntry> GetAllQCFinalValueEntry(string st, string ed)
         {
             List<QCFinalValueEntry> cmpList = new List<QCFinalValueEntry>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
-
-                using (OracleCommand cmd = con.CreateCommand())
+                if (st != null && ed != null)
                 {
-                    con.Open();
-                    cmd.CommandText = "select BRANCHMAST.BRANCHID,PROCESSMAST.PROCESSID,WCBASIC.WCID,FQTVEBASICID,FQTVEBASIC.STATUS FROM FQTVEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=FQTVEBASIC.BRANCH LEFT OUTER JOIN PROCESSMAST ON PROCESSMASTID=FQTVEBASIC.PROCESSID LEFT OUTER JOIN WCBASIC ON WCBASICID=FQTVEBASIC.WCID";
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
+                    using (OracleCommand cmd = con.CreateCommand())
                     {
-                        QCFinalValueEntry cmp = new QCFinalValueEntry
+                        con.Open();
+                        cmd.CommandText = "select BRANCHMAST.BRANCHID,PROCESSMAST.PROCESSID,WCBASIC.WCID,FQTVEBASIC.DOCID,to_char(FQTVEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,FQTVEBASICID,FQTVEBASIC.ISACTIVE FROM FQTVEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=FQTVEBASIC.BRANCH LEFT OUTER JOIN PROCESSMAST ON PROCESSMASTID=FQTVEBASIC.PROCESSID LEFT OUTER JOIN WCBASIC ON WCBASICID=FQTVEBASIC.WCID WHERE FQTVEBASIC.DOCDATE BETWEEN '" + st + "'  AND ' " + ed + "' order by FQTVEBASICID desc";
+                        OracleDataReader rdr = cmd.ExecuteReader();
+                        while (rdr.Read())
                         {
+                            QCFinalValueEntry cmp = new QCFinalValueEntry
+                            {
 
-                            ID = rdr["FQTVEBASICID"].ToString(),
-                            Branch = rdr["BRANCHID"].ToString(),
-                            WorkCenter = rdr["WCID"].ToString(),
-                            Process = rdr["PROCESSID"].ToString(),
+                                ID = rdr["FQTVEBASICID"].ToString(),
+                                DocId = rdr["DOCID"].ToString(),
+                                DocDate = rdr["DOCDATE"].ToString(),
+                                Branch = rdr["BRANCHID"].ToString(),
+                                WorkCenter = rdr["WCID"].ToString(),
+                                Process = rdr["PROCESSID"].ToString(),
 
 
 
-                        };
-                        cmpList.Add(cmp);
+                            };
+                            cmpList.Add(cmp);
+                        }
+                    }
+                }
+                else
+                {
+                    using (OracleCommand cmd = con.CreateCommand())
+                    {
+                        con.Open();
+                        cmd.CommandText = "select BRANCHMAST.BRANCHID,PROCESSMAST.PROCESSID,WCBASIC.WCID,FQTVEBASIC.DOCID,to_char(FQTVEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,FQTVEBASICID,FQTVEBASIC.ISACTIVE FROM FQTVEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=FQTVEBASIC.BRANCH LEFT OUTER JOIN PROCESSMAST ON PROCESSMASTID=FQTVEBASIC.PROCESSID LEFT OUTER JOIN WCBASIC ON WCBASICID=FQTVEBASIC.WCID WHERE FQTVEBASIC.DOCDATE > sysdate-30 order by FQTVEBASICID desc";
+                        OracleDataReader rdr = cmd.ExecuteReader();
+                        while (rdr.Read())
+                        {
+                            QCFinalValueEntry cmp = new QCFinalValueEntry
+                            {
+
+                                ID = rdr["FQTVEBASICID"].ToString(),
+                                DocId = rdr["DOCID"].ToString(),
+                                DocDate = rdr["DOCDATE"].ToString(),
+                                Branch = rdr["BRANCHID"].ToString(),
+                                WorkCenter = rdr["WCID"].ToString(),
+                                Process = rdr["PROCESSID"].ToString(),
+
+
+
+                            };
+                            cmpList.Add(cmp);
+                        }
                     }
                 }
             }

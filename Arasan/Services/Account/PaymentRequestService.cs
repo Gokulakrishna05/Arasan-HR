@@ -244,7 +244,7 @@ namespace Arasan.Services
                             ID = rdr["PAYMENTREQUESTID"].ToString(),
                             DocId = rdr["DOCID"].ToString(),
                             Date = rdr["DOCDATE"].ToString(),
-                            Supplier = rdr["PARTY"].ToString(),
+                            Supplier = rdr["PARTYNAME"].ToString(),
                             status = rdr["ACTIVE"].ToString(),
                             GRN = rdr["PO_OR_GRN"].ToString(),
                             Type = rdr["TYPE"].ToString(),
