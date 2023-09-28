@@ -33,6 +33,11 @@ namespace Arasan.Controllers.Qualitycontrol
             ca.Worklst = BindWorkCenter();
             ca.Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
             ca.Shiftlst = BindShift();
+            DataTable dtv = datatrans.GetSequence("QTVE");
+            if (dtv.Rows.Count > 0)
+            {
+                ca.DocId = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
+            }
             List<QCTestValueEntryItem> TData = new List<QCTestValueEntryItem>();
             QCTestValueEntryItem tda = new QCTestValueEntryItem();
             if (id == null)
@@ -54,20 +59,20 @@ namespace Arasan.Controllers.Qualitycontrol
                     dt = QCTestValueEntryService.GetQCTestValueEntryDetails(id);
                     if (dt.Rows.Count > 0)
                     {
-                        ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                        ca.Branch = dt.Rows[0]["BRANCH"].ToString();
                         ca.DocId = dt.Rows[0]["DOCID"].ToString();
                         ca.Docdate = dt.Rows[0]["DOCDATE"].ToString();
                         ca.Work = dt.Rows[0]["WCID"].ToString();
                         ca.Shift = dt.Rows[0]["SHIFTNO"].ToString();
                         ca.Process = dt.Rows[0]["PROCESSLOTNO"].ToString();
-                        ca.Drum = dt.Rows[0]["DRUMNO"].ToString();
+                        ca.Drum = dt.Rows[0]["CDRUMNO"].ToString();
                         ca.Prodate = dt.Rows[0]["PRODDATE"].ToString();
-                        ca.Sample = dt.Rows[0]["DSAMPLE"].ToString();
-                        ca.Sampletime = dt.Rows[0]["DSAMPLETIME"].ToString();
+                        ca.Sample = dt.Rows[0]["SAMPLENO"].ToString();
+                        ca.Sampletime = dt.Rows[0]["STIME"].ToString();
                         ca.Item = dt.Rows[0]["ITEMID"].ToString();
                         ca.Entered = dt.Rows[0]["ENTEREDBY"].ToString();
                         ca.Remarks = dt.Rows[0]["REMARKS"].ToString();
-
+                        ca.ID = id;
 
 
                     }
@@ -130,7 +135,7 @@ namespace Arasan.Controllers.Qualitycontrol
                     {
                         TempData["notice"] = "QCTestValueEntry Updated Successfully...!";
                     }
-                    return RedirectToAction("QCTestValueEntry", new { Cy.APID});
+                    return RedirectToAction("ListQCTestValueEntry", new { Cy.APID});
                 }
 
                 else
@@ -149,17 +154,17 @@ namespace Arasan.Controllers.Qualitycontrol
 
             return View(Cy);
         }
-        public IActionResult ListQCTestValueEntry()
+        public IActionResult ListQCTestValueEntry(string st, string ed)
         {
-            IEnumerable<QCTestValueEntry> sta = QCTestValueEntryService.GetAllQCTestValueEntry();
+            IEnumerable<QCTestValueEntry> sta = QCTestValueEntryService.GetAllQCTestValueEntry(st,ed);
             return View(sta);
         }
-        //public JsonResult GetItemGrpJSON()
-        //{
-        //    //EnqItem model = new EnqItem();
-        //    //  model.ItemGrouplst = BindItemGrplst(value);
-        //    return Json(BindProcessid());
-        //}
+        public JsonResult GetItemGrpJSON()
+        {
+            QCTestValueEntryItem model = new QCTestValueEntryItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(model);
+        }
         public List<SelectListItem> BindShift()
         {
             try
@@ -226,6 +231,21 @@ namespace Arasan.Controllers.Qualitycontrol
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+        public ActionResult DeleteQC(string tag, string id)
+        {
+
+            string flag = QCTestValueEntryService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListQCTestValueEntry");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListQCTestValueEntry");
             }
         }
     }

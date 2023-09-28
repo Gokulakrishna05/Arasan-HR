@@ -34,7 +34,13 @@ namespace Arasan.Controllers.Qualitycontrol
             ca.Processlst = BindProcess("");
             ca.drumlst = Binddrum();
             ca.Itemlst = BindItemlst("");
+            ca.DocDate = DateTime.Now.ToString("dd-MMM-yyyy");
             ca.Batchlst = BindBatch("");
+            DataTable dtv = datatrans.GetSequence("FQTVE");
+            if (dtv.Rows.Count > 0)
+            {
+                ca.DocId = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
+            }
             List<QCFVItem> TData = new List<QCFVItem>();
             QCFVItem tda = new QCFVItem();
             List<QCFVItemDeatils> TData1 = new List<QCFVItemDeatils>();
@@ -232,9 +238,9 @@ namespace Arasan.Controllers.Qualitycontrol
 
             return View(Cy);
         }
-        public IActionResult ListQCFinalValueEntry()
+        public IActionResult ListQCFinalValueEntry(string st, string ed)
         {
-            IEnumerable<QCFinalValueEntry> cmp = QCFinalValueEntryService.GetAllQCFinalValueEntry();
+            IEnumerable<QCFinalValueEntry> cmp = QCFinalValueEntryService.GetAllQCFinalValueEntry(st,ed);
             return View(cmp);
         }
         //public JsonResult GetGRNItemJSON(string supid)
@@ -399,6 +405,18 @@ namespace Arasan.Controllers.Qualitycontrol
                 TempData["notice"] = flag;
                 return RedirectToAction("ListQCFinalValueEntry");
             }
+        }
+        public JsonResult GetItemGrpJSON()
+        {
+            QCFVItem model = new QCFVItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(model);
+        }
+        public JsonResult GetItemJSON()
+        {
+            QCFVItemDeatils model = new QCFVItemDeatils();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(model);
         }
     }
 }

@@ -31,6 +31,13 @@ namespace Arasan.Controllers.Qualitycontrol
             ca.lst = BindGRNlist();
             ca.assignList = BindEmp();
             ca.Loc = BindLocation();
+            ca.Branch = Request.Cookies["BranchId"];
+            DataTable dtv = datatrans.GetSequence("Qinin");
+            ca.DocDate = DateTime.Now.ToString("dd-MMM-yyyy");
+            if (dtv.Rows.Count > 0)
+            {
+                ca.DocId = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
+            }
             List<QCResultItem> TData = new List<QCResultItem>();
             QCResultItem tda = new QCResultItem();
             if (id == null)
@@ -57,7 +64,8 @@ namespace Arasan.Controllers.Qualitycontrol
                     ca.GRNNo = dt.Rows[0]["GRNNO"].ToString();
                     ca.GRNDate = dt.Rows[0]["GRNDATE"].ToString();          
                     ca.ID = id;
-                    ca.Party = dt.Rows[0]["PARTY"].ToString();
+                    ca.Supplst = BindSupplst(ca.GRNNo);
+                    ca.Party = dt.Rows[0]["PARTYID"].ToString();
                     ca.Location = dt.Rows[0]["LOCATION"].ToString();
                     ca.Remarks = dt.Rows[0]["REMARKS"].ToString();
                     ca.QcLocation = dt.Rows[0]["QCLOCATION"].ToString();
@@ -71,8 +79,9 @@ namespace Arasan.Controllers.Qualitycontrol
                     for (int i = 0; i < dt2.Rows.Count; i++)
                     {
                         tda = new QCResultItem();
-                        tda.ItemId = dt2.Rows[0]["ITEMID"].ToString();
                         tda.Itemlst = BindItemlst(ca.GRNNo);
+                        tda.ItemId = dt2.Rows[0]["ITEMID"].ToString();
+                       
                         tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
                         tda.GrnQty = dt2.Rows[0]["GRNQTY"].ToString();
                         //tda.InsQty = dt2.Rows[0]["INSQTY"].ToString();
@@ -125,10 +134,10 @@ namespace Arasan.Controllers.Qualitycontrol
 
             return View(Cy);
         }
-        public IActionResult ListQCResult()
+        public IActionResult ListQCResult(string st,string ed)
         {
 
-            IEnumerable<QCResult> cmp = QCResultService.GetAllQCResult();
+            IEnumerable<QCResult> cmp = QCResultService.GetAllQCResult(st,ed);
             return View(cmp);
         }
         public List<SelectListItem> BindGRNlist()
@@ -140,7 +149,7 @@ namespace Arasan.Controllers.Qualitycontrol
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
                    
-                        lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DOCID"].ToString(), Value = dtDesg.Rows[i]["GRNBLBASICID"].ToString() });
+                        lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DOCID"].ToString(), Value = dtDesg.Rows[i]["GRNNO"].ToString() });
                  
                 }
                 return lstdesg;
@@ -217,7 +226,7 @@ namespace Arasan.Controllers.Qualitycontrol
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["GRNBLDETAILID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["item"].ToString() });
                 }
                 return lstdesg;
             }
@@ -234,7 +243,7 @@ namespace Arasan.Controllers.Qualitycontrol
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTY"].ToString(), Value = dtDesg.Rows[i]["GRNBLBASICID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTYNAME"].ToString(), Value = dtDesg.Rows[i]["PARTYID"].ToString() });
                 }
                 return lstdesg;
             }

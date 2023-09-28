@@ -7,28 +7,30 @@ using System.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using AspNetCore.Reporting;
 using NuGet.Packaging.Signing;
+using System.Net.Mail;
 
 namespace Arasan.Controllers
 {
-    public class POController : Controller
+    public class PO : Controller
     {
         IPO PoService;
         private string? _connectionString;
         private readonly IWebHostEnvironment _WebHostEnvironment;
         IConfiguration? _configuratio;
         DataTransactions datatrans;
-        public POController(IPO _PoService, IConfiguration _configuratio, IWebHostEnvironment WebHostEnvironment)
+        public PO(IPO _PoService, IConfiguration _configuratio, IWebHostEnvironment WebHostEnvironment)
         {
             this._WebHostEnvironment = WebHostEnvironment;
             PoService = _PoService;
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+            //object value = InitializeComponent();
         }
-        
+
         public IActionResult PurchaseOrder(string id)
         {
-            PO po = new PO();
+            Models.PO po = new Models.PO();
             po.Brlst = BindBranch();
             po.Suplst = BindSupplier();
             po.Curlst = BindCurrency();
@@ -53,10 +55,10 @@ namespace Arasan.Controllers
                 if (dt.Rows.Count > 0)
                 {
                     po.Branch = dt.Rows[0]["BRANCHID"].ToString();
-                   po.BranchId= dt.Rows[0]["BRANCHID"].ToString();
+                    po.BranchId = dt.Rows[0]["BRANCHID"].ToString();
                     po.POdate = dt.Rows[0]["DOCDATE"].ToString();
                     po.Supplier = dt.Rows[0]["PARTYID"].ToString();
-                    po.SuppId= dt.Rows[0]["PARTYID"].ToString();
+                    po.SuppId = dt.Rows[0]["PARTYID"].ToString();
                     po.PONo = dt.Rows[0]["DOCID"].ToString();
                     po.ID = id;
                     po.QuoteNo = dt.Rows[0]["Quotno"].ToString();
@@ -116,7 +118,7 @@ namespace Arasan.Controllers
                         tda.Unit = dt2.Rows[i]["UNITID"].ToString();
                         tda.PURLst = BindPurType();
                         //tda.unitprim= dt2.Rows[i]["UNITID"].ToString();
-                        tda.CGSTPer= Convert.ToDouble(dt2.Rows[i]["CGSTP"].ToString() == "" ? "0" : dt2.Rows[i]["CGSTP"].ToString());
+                        tda.CGSTPer = Convert.ToDouble(dt2.Rows[i]["CGSTP"].ToString() == "" ? "0" : dt2.Rows[i]["CGSTP"].ToString());
                         tda.SGSTPer = Convert.ToDouble(dt2.Rows[i]["SGSTP"].ToString() == "" ? "0" : dt2.Rows[i]["SGSTP"].ToString());
                         tda.IGSTPer = Convert.ToDouble(dt2.Rows[i]["IGSTP"].ToString() == "" ? "0" : dt2.Rows[i]["IGSTP"].ToString());
                         tda.CGSTAmt = Convert.ToDouble(dt2.Rows[i]["CGST"].ToString() == "" ? "0" : dt2.Rows[i]["CGST"].ToString());
@@ -138,7 +140,7 @@ namespace Arasan.Controllers
             return View(po);
         }
         [HttpPost]
-        public ActionResult PurchaseOrder(PO Cy, string id)
+        public ActionResult PurchaseOrder(Models.PO Cy, string id)
         {
 
             try
@@ -176,10 +178,10 @@ namespace Arasan.Controllers
         }
         public IActionResult ListPO(string status)
         {
-            IEnumerable<PO> cmp = PoService.GetAllPO(status);
+            IEnumerable<Models.PO> cmp = PoService.GetAllPO(status);
             return View(cmp);
         }
-        public IActionResult ListGateInWard(string fromdate,string todate)
+        public IActionResult ListGateInWard(string fromdate, string todate)
         {
             GateInward cmp = new GateInward();
             DateTime now = DateTime.Now;
@@ -194,7 +196,7 @@ namespace Arasan.Controllers
             cmp.todate = todate;
             List<GateInwardItem> TData = new List<GateInwardItem>();
             GateInwardItem tda = new GateInwardItem();
-            if(dt.Rows.Count > 0)
+            if (dt.Rows.Count > 0)
             {
                 for (int i = 0; i < dt.Rows.Count; i++)
                 {
@@ -205,7 +207,7 @@ namespace Arasan.Controllers
                     tda.GateInTime = dt.Rows[i]["GATE_IN_TIME"].ToString();
                     tda.PONo = dt.Rows[i]["DOCID"].ToString();
                     tda.POID = dt.Rows[i]["GATE_IN_ID"].ToString();
-                    tda.TotalQty= dt.Rows[i]["TOTAL_QTY"].ToString()=="" ? 0 : Convert.ToDouble(dt.Rows[i]["TOTAL_QTY"].ToString());
+                    tda.TotalQty = dt.Rows[i]["TOTAL_QTY"].ToString() == "" ? 0 : Convert.ToDouble(dt.Rows[i]["TOTAL_QTY"].ToString());
                     TData.Add(tda);
                 }
             }
@@ -214,7 +216,7 @@ namespace Arasan.Controllers
         }
         public IActionResult GateInward()
         {
-            GateInward GI=new GateInward();
+            GateInward GI = new GateInward();
             GI.Suplst = BindSupplier();
             GI.GateInDate = DateTime.Now.ToString("dd-MMM-yyyy");
             GI.GateInTime = DateTime.Now.ToString("h:mm");
@@ -277,7 +279,7 @@ namespace Arasan.Controllers
                 {
                     tda = new POGateItem();
                     tda.itemid = dtt.Rows[i]["Itemi"].ToString();
-                    tda.itemname= dtt.Rows[i]["ITEMID"].ToString();
+                    tda.itemname = dtt.Rows[i]["ITEMID"].ToString();
                     tda.unit = dtt.Rows[i]["UNITID"].ToString();
                     tda.quantity = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString());
                     DataTable dt4 = new DataTable();
@@ -285,7 +287,7 @@ namespace Arasan.Controllers
                     if (dt4.Rows.Count > 0)
                     {
                         tda.Conversionfactor = dt4.Rows[0]["CF"].ToString();
-                        tda.qc= dt4.Rows[0]["QCCOMPFLAG"].ToString(); 
+                        tda.qc = dt4.Rows[0]["QCCOMPFLAG"].ToString();
                     }
                     Data.Add(tda);
                 }
@@ -299,7 +301,7 @@ namespace Arasan.Controllers
         {
             try
             {
-               
+
                 DataTable dtDesg = datatrans.GetBranch();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
@@ -337,7 +339,7 @@ namespace Arasan.Controllers
                 lstdesg.Add(new SelectListItem() { Text = "30 Days  Credit", Value = "30 Days  Credit" });
                 lstdesg.Add(new SelectListItem() { Text = "10 Days  Credit", Value = "10 Days  Credit" });
                 lstdesg.Add(new SelectListItem() { Text = "Against Proforma Invoice", Value = "Against Proforma Invoice" });
-               
+
                 return lstdesg;
             }
             catch (Exception ex)
@@ -506,7 +508,7 @@ namespace Arasan.Controllers
         }
         public IActionResult ViewPO(string id)
         {
-            PO ca = new PO();
+            Models.PO ca = new Models.PO();
             DataTable dt = new DataTable();
             DataTable dtt = new DataTable();
             dt = PoService.GetPObyID(id);
@@ -562,7 +564,7 @@ namespace Arasan.Controllers
             return View(ca);
         }
         [HttpPost]
-        public ActionResult ViewPO(PO Cy, string id)
+        public ActionResult ViewPO(Models.PO Cy, string id)
         {
             try
             {
@@ -623,16 +625,7 @@ namespace Arasan.Controllers
             Dictionary<string, string> Parameters = new Dictionary<string, string>();
             //  Parameters.Add("rp1", " Hi Everyone");
             var Poitem = await PoService.GetPOItem(id, DrumID);
-            ////var po = await PoService.GetPO(id);
-            //DataTable dt = new DataTable("POBASIC");
-            //DataTable dt2 = new DataTable("PODETAIL");
-            // dt= PoService.GetPO(id);
-            // dt2= PoService.GetPOItem(id);
-
-            //ds.Tables.Add(dt);
-            //ds.Tables.Add(dt2);
-            //ds.Tables.AddRange(new DataTable[] { dt, dt2 });
-            //ReportDataSource rds = new AspNetCore.Reporting.ReportDataSource("DataSet_Reservaties", ds.Tables[0]);
+        
             LocalReport localReport = new LocalReport(path);
             localReport.AddDataSource("DataSet1", Poitem);
             //localReport.AddDataSource("DataSet1_DataTable1", po);
@@ -641,6 +634,35 @@ namespace Arasan.Controllers
             return File(result.MainStream, "application/Pdf");
         }
 
+     
+         public ActionResult SendMail(string id)
+        {
+
+
+            try
+            {
+                datatrans = new DataTransactions(_connectionString);
+                MailRequest requestwer = new MailRequest();
+
+                requestwer.ToEmail = "deepa@icand.in";
+                requestwer.Subject = "Purchase Order";
+                //string Content = "";
+
+                string Content = "Attached my file";
+               
+
+                requestwer.Body = Content;
+                //request.Attachments = "No";
+                datatrans.sendemailpo("Test mail", Content, "gokulakrishna76@gmail.com", "kesavanmoorthi70@gmail.com", "spabnjcirlfipjco", "587", "true", "smtp.gmail.com", "IcanD");
+                return Ok();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
 
     }
 }

@@ -22,7 +22,7 @@ namespace Arasan.Interface
         string QCTestingCRUD(QCTesting cy);
         //DataTable GetPO(string id);
         DataTable GetQCTesting(string id);
-        IEnumerable<QCTesting> GetAllQCTesting();
+        IEnumerable<QCTesting> GetAllQCTesting(string st, string ed);
 
         string StatusChange(string tag, int id);
     }

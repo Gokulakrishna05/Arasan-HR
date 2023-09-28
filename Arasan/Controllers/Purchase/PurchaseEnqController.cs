@@ -189,6 +189,8 @@ namespace Arasan.Controllers
         //public async Task<IActionResult> Send([FromForm] MailRequest request)
         public ActionResult SendMail(string id)
         {
+
+
             try
             {
                 datatrans = new DataTransactions(_connectionString);

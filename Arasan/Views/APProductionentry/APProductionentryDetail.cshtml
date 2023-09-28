@@ -1402,7 +1402,9 @@ a{
             $('tr.chkEmpitemlst').each(function () {
                 if ($(this).css('display') !== 'none') {
                     var emp = {};
-                    
+                emp.Employee = document.getElementById("ddlEmployee" + e).value;
+                emp.EmpCode = document.getElementById("txtEmpCode" + e).value;
+                emp.Depart = document.getElementById("txtDepart" + e).value;
                     emp.StartDate = document.getElementById("txtStartDate" + e).value;
                      emp.StartTime = document.getElementById("txtStartTime" + e).value;
                 emp.APID = document.getElementById("hdapid").value;

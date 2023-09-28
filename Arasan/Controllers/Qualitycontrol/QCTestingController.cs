@@ -26,9 +26,16 @@ namespace Arasan.Controllers
         public IActionResult QCTesting(string id)
         {
             QCTesting ca = new QCTesting();
-            ca.Typlst = BindType();
+           
             ca.lst = BindGRNlist("");
             ca.assignList = BindEmp();
+            ca.Branch = Request.Cookies["BranchId"];
+            ca.DocDate = DateTime.Now.ToString("dd-MMM-yyyy");
+            DataTable dtv = datatrans.GetSequence("testv");
+            if (dtv.Rows.Count > 0)
+            {
+                ca.DocId = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
+            }
             //ca.lst = BindGRNlist("");
             List<QCItem> TData = new List<QCItem>();
             QCItem tda = new QCItem();
@@ -51,15 +58,17 @@ namespace Arasan.Controllers
                 {
                     ca.DocId = dt.Rows[0]["DOCID"].ToString();
                     ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
-                    ca.GRNNo = dt.Rows[0]["DOCID"].ToString();
+                    ca.GRNNo = dt.Rows[0]["GRNNO"].ToString();
                     ca.GRNDate = dt.Rows[0]["GRNDATE"].ToString();
                     ca.ID = id;
-                    ca.Party = dt.Rows[0]["PARTY"].ToString();
+                    ca.Supplst = BindSupplst(ca.GRNNo );
+                    ca.Party = dt.Rows[0]["PARTYID"].ToString();
+                    ca.Itemlst = BindItemlst(ca.GRNNo );
                     ca.ItemId = dt.Rows[0]["ITEMID"].ToString();
                     ca.SNo = dt.Rows[0]["SLNO"].ToString();
                     ca.LotNo = dt.Rows[0]["LOTSERIALNO"].ToString();
                     ca.TestResult = dt.Rows[0]["TESTRESULT"].ToString();
-                    ca.TestBy = dt.Rows[0]["TESTEDBY"].ToString();
+                    ca.TestBy = dt.Rows[0]["TESTBY"].ToString();
                     ca.Remarks = dt.Rows[0]["REMARKS"].ToString();
                     ca.ClassCode = dt.Rows[0]["CLASSCODE"].ToString();
                 }
@@ -121,34 +130,34 @@ namespace Arasan.Controllers
 
             return View(Cy);
         }
-        public IActionResult ListQCTesting()
+        public IActionResult ListQCTesting(string st, string ed)
         {
 
-            IEnumerable<QCTesting> cmp = QCTestingService.GetAllQCTesting();
+            IEnumerable<QCTesting> cmp = QCTestingService.GetAllQCTesting(st,ed);
             return View(cmp);
         }
-        public List<SelectListItem> BindType()
-        {
-            try
-            {
-                List<SelectListItem> lstdesg = new List<SelectListItem>();
+        //public List<SelectListItem> BindType()
+        //{
+        //    try
+        //    {
+        //        List<SelectListItem> lstdesg = new List<SelectListItem>();
 
-                lstdesg.Add(new SelectListItem() { Text = "PO", Value = "PO" });
-                lstdesg.Add(new SelectListItem() { Text = "GRN", Value = "GRN" });
-                return lstdesg;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        public JsonResult GetTypeJSON(string GPID)
-        {
-            QCTesting model = new QCTesting();
-            model.Typlst = BindGRNlist(GPID);
-            return Json(BindGRNlist(GPID));
+        //        lstdesg.Add(new SelectListItem() { Text = "PO", Value = "PO" });
+        //        lstdesg.Add(new SelectListItem() { Text = "GRN", Value = "GRN" });
+        //        return lstdesg;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
+        //public JsonResult GetTypeJSON(string GPID)
+        //{
+        //    QCTesting model = new QCTesting();
+        //    model.Typlst = BindGRNlist(GPID);
+        //    return Json(BindGRNlist(GPID));
 
-        }
+        //}
 
         public List<SelectListItem> BindGRNlist(string value)
         {
@@ -156,25 +165,14 @@ namespace Arasan.Controllers
 
             {
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
-                if (value == "GRN")
-                {
+               
                     DataTable dtDesg = QCTestingService.GetGRN(value);
 
                     for (int i = 0; i < dtDesg.Rows.Count; i++)
                     {
                         lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DOCID"].ToString(), Value = dtDesg.Rows[i]["GRNBLBASICID"].ToString() });
                     }
-                }
-
-                else
-                {
-                    DataTable dtDesg = QCTestingService.GetPO(value);
-
-                    for (int i = 0; i < dtDesg.Rows.Count; i++)
-                    {
-                        lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DOCID"].ToString(), Value = dtDesg.Rows[i]["POBASICID"].ToString() });
-                    }
-                }
+                
                 return lstdesg;
             }
             catch (Exception ex)
@@ -207,32 +205,21 @@ namespace Arasan.Controllers
             return Json(model);
 
         }
-        public ActionResult GetGRNDetail(string ItemId,string Type)
+        public ActionResult GetGRNDetail(string ItemId)
         {
             try
             {
                 DataTable dt = new DataTable();
                 string grndate = "";
              
-                if (Type == "GRN")
-                {
+                 
                     dt = QCTestingService.GetGRNDetails(ItemId);
                     if (dt.Rows.Count > 0)
                     {
                         grndate = dt.Rows[0]["DOCDATE"].ToString();
 
                     }
-                }
-                else
-                {
-                    dt = QCTestingService.GetPODetails(ItemId);
-                    if (dt.Rows.Count > 0)
-                    {
-                        grndate = dt.Rows[0]["DOCDATE"].ToString();
-
-                    }
-
-                }
+                
                 var result = new { grndate = grndate};
                 return Json(result);
             }
@@ -263,11 +250,11 @@ namespace Arasan.Controllers
         //        throw ex;
         //    }
         //}
-        public JsonResult GetGRNItemJSON(string supid, string Type)
+        public JsonResult GetGRNItemJSON(string supid )
         {
             QCTesting model = new QCTesting();
-            model.Itemlst = BindItemlst(supid, Type);
-            return Json(BindItemlst(supid, Type));
+            model.Itemlst = BindItemlst(supid );
+            return Json(BindItemlst(supid));
 
         }
         //public JsonResult GetPOItemJSON(string Poid)
@@ -277,11 +264,11 @@ namespace Arasan.Controllers
         //    return Json(BindPOItemlst(Poid));
 
         //}
-        public JsonResult GetGRNSuppJSON(string suppid,string Type)
+        public JsonResult GetGRNSuppJSON(string suppid )
         {
             QCTesting model = new QCTesting();
-            model.Supplst = BindSupplst(suppid, Type);
-            return Json(BindSupplst(suppid, Type));
+            model.Supplst = BindSupplst(suppid );
+            return Json(BindSupplst(suppid ));
 
         }
         //public JsonResult GetPOSuppJSON(string POsuppid)
@@ -291,30 +278,21 @@ namespace Arasan.Controllers
         //    return Json(BindPOSupplst(POsuppid));
 
         //}
-        public List<SelectListItem> BindItemlst(string value,string Type)
+        public List<SelectListItem> BindItemlst(string value)
         {
             try
             {
 
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
-                if(Type == "GRN")
-                { 
+               
                 DataTable dtDesg = QCTestingService.GetItembyId(value);
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["GRNBLDETAILID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["item"].ToString() });
 
                 }
-                }
-                else
-                {
-                    DataTable dtDesg = QCTestingService.GetPOItembyId(value);
-                    for (int i = 0; i < dtDesg.Rows.Count; i++)
-                    {
-                        lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["PODETAILID"].ToString() });
-
-                    }
-                }
+                
+               
 
 
                 return lstdesg;
@@ -349,27 +327,18 @@ namespace Arasan.Controllers
             //    }
             //}
         
-        public List<SelectListItem> BindSupplst(string value,string Type)
+        public List<SelectListItem> BindSupplst(string value)
         {
             try
             {
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
-                if (Type == "GRN")
-                {
+                
                     DataTable dtDesg = QCTestingService.GetParty(value);
                     for (int i = 0; i < dtDesg.Rows.Count; i++)
                     {
-                        lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTY"].ToString(), Value = dtDesg.Rows[i]["GRNBLBASICID"].ToString() });
+                        lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTYNAME"].ToString(), Value = dtDesg.Rows[i]["PARTYID"].ToString() });
                     }
-                }
-                else 
-                {
-                    DataTable dtDesg = QCTestingService.GetPOParty(value);
-                    for (int i = 0; i < dtDesg.Rows.Count; i++)
-                    {
-                        lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTY"].ToString(), Value = dtDesg.Rows[i]["POBASICID"].ToString() });
-                    }
-                }
+               
                 return lstdesg;
             }
             catch (Exception ex)

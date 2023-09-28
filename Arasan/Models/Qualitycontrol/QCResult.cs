@@ -30,6 +30,7 @@ namespace Arasan.Models
         public List<SelectListItem> Loc;
         public List<QCResultItem> QCRLst;
 
+        public string Branch { get; set; }
         public string Location { get; set; }
 
         public string QcLocation { get; set; }

@@ -5,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+
 namespace Arasan.Services
 {
     public class PyroProductionService : IPyroProduction
@@ -305,12 +307,12 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("LOC", OracleDbType.NVarchar2).Value = cy.Location;
 
                     objCmd.Parameters.Add("SUPERVISOR", OracleDbType.NVarchar2).Value = cy.super;
-                    
+
                     objCmd.Parameters.Add("SHIFT", OracleDbType.NVarchar2).Value = cy.Shift;
-                    
-                   // objCmd.Parameters.Add("IS_CURRENT", OracleDbType.NVarchar2).Value = "Yes";
+
+                    // objCmd.Parameters.Add("IS_CURRENT", OracleDbType.NVarchar2).Value = "Yes";
                     objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
-                    objCmd.Parameters.Add("IS_COMPLETE", OracleDbType.NVarchar2).Value = "NO";
+                    objCmd.Parameters.Add("IS_COMPLETE", OracleDbType.NVarchar2).Value = "No";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
@@ -323,109 +325,110 @@ namespace Arasan.Services
                         {
                             Pid = cy.ID;
                         }
-                      
-                        if (cy.inplst != null)
-                        {
-                            foreach (PProInput cp in cy.inplst)
-                            {
-                                if (cp.Isvalid == "Y" && cp.ItemId != "0")
-                                {
-                                    svSQL = "Insert into PYROPRODINPDET (PYROPRODBASICID,ITEMID,BINID,BATCH,STOCK,QTY,TIME) VALUES ('" + Pid + "','" + cp.ItemId + "','" + cp.Bin + "','" + cp.batchno + "','" + cp.StockAvailable + "','" + cp.IssueQty + "','" + cp.Time +"')";
-                                    OracleCommand objCmds = new OracleCommand(svSQL, objConn);
-                                    objCmds.ExecuteNonQuery();
+                        cy.APID = Pid;
+                        //            if (cy.inplst != null)
+                        //            {
+                        //                foreach (PProInput cp in cy.inplst)
+                        //                {
+                        //                    if (cp.Isvalid == "Y" && cp.ItemId != "0")
+                        //                    {
+                        //                        svSQL = "Insert into PYROPRODINPDET (PYROPRODBASICID,ITEMID,BINID,BATCH,STOCK,QTY,TIME) VALUES ('" + Pid + "','" + cp.ItemId + "','" + cp.Bin + "','" + cp.batchno + "','" + cp.StockAvailable + "','" + cp.IssueQty + "','" + cp.Time +"')";
+                        //                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                        //                        objCmds.ExecuteNonQuery();
 
 
-                                }
+                        //                    }
 
-                            }
-                        }
-                        if (cy.Binconslst != null)
-                        {
-                            foreach (PAPProInCons cp in cy.Binconslst)
-                            {
-                                if (cp.Isvalid == "Y" && cp.ItemId != "0")
-                                {
-                                    svSQL = "Insert into PYROPRODCONSDET (PYROPRODBASICID,ITEMID,UNIT,STOCK,QTY,CONSQTY) VALUES ('" + Pid + "','" + cp.ItemId + "','" + cp.consunit + "','" + cp.ConsStock + "','" + cp.Qty + "','" + cp.consQty + "')";
-                                    OracleCommand objCmds = new OracleCommand(svSQL, objConn);
-                                    objCmds.ExecuteNonQuery();
-
-
-                                }
-
-                            }
-                        }
-                        if (cy.EmplLst != null)
-                        {
-                            foreach (PEmpDetails cp in cy.EmplLst)
-                            {
-                                if (cp.Isvalid == "Y" && cp.Employee != "0")
-                                {
-                                    svSQL = "Insert into PYROPRODEMPDET (PYROPRODBASICID,EMPID,EMPCODE,DEPARTMENT,STARTDATE,ENDDATE,STARTTIME,ENDTIME,OTHRS,ETOTHER,NORMELHRS,NATUREOFWORK) VALUES ('" + Pid + "','" + cp.Employee + "','" + cp.EmpCode + "','" + cp.Depart + "','" + cp.StartDate + "','" + cp.EndDate + "','" + cp.StartTime + "','" + cp.EndTime + "','" + cp.OTHrs + "','" + cp.ETOther + "','" + cp.Normal + "','" + cp.NOW + "')";
-                                    OracleCommand objCmds = new OracleCommand(svSQL, objConn);
-                                    objCmds.ExecuteNonQuery();
+                        //                }
+                        //            }
+                        //            if (cy.Binconslst != null)
+                        //            {
+                        //                foreach (PAPProInCons cp in cy.Binconslst)
+                        //                {
+                        //                    if (cp.Isvalid == "Y" && cp.ItemId != "0")
+                        //                    {
+                        //                        svSQL = "Insert into PYROPRODCONSDET (PYROPRODBASICID,ITEMID,UNIT,STOCK,QTY,CONSQTY) VALUES ('" + Pid + "','" + cp.ItemId + "','" + cp.consunit + "','" + cp.ConsStock + "','" + cp.Qty + "','" + cp.consQty + "')";
+                        //                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                        //                        objCmds.ExecuteNonQuery();
 
 
-                                }
+                        //                    }
 
-                            }
-                        }
-
-                        if (cy.BreakLst != null)
-                        {
-                            foreach (PBreakDet cp in cy.BreakLst)
-                            {
-                                if (cp.Isvalid == "Y" && cp.MachineId != "0")
-                                {
-                                    svSQL = "Insert into PYROPRODBREAKDET (PYROPRODBASICID,MEACHINECODE,MEACHDES,DTYPE,MTYPE,STARTTIME,ENDTIME,PB,ALLOTTEDTO,REASON) VALUES ('" + Pid + "','" + cp.MachineId + "','" + cp.MachineDes + "','" + cp.DType + "','" + cp.MType + "','" + cp.StartTime + "','" + cp.EndTime + "','" + cp.PB + "','" + cp.Alloted + "','" + cp.Reason + "')";
-                                    OracleCommand objCmds = new OracleCommand(svSQL, objConn);
-                                    objCmds.ExecuteNonQuery();
-
-
-                                }
-
-                            }
-                        }
-                        if (cy.outlst != null)
-                        {
-                            foreach (PProOutput cp in cy.outlst)
-                            {
-                                if (cp.Isvalid == "Y" && cp.ItemId != "0")
-                                {
-                                    svSQL = "Insert into PYROPRODOUTDET (PYROPRODBASICID,ITEMID,BINID,DRUM,OUTQTY,STARTTIME,ENDTIME) VALUES ('" + Pid + "','" + cp.ItemId + "','" + cp.Bin + "','" + cp.drumno + "','" + cp.OutputQty + "','" + cp.FromTime + "','" + cp.ToTime +"')";
-                                    OracleCommand objCmds = new OracleCommand(svSQL, objConn);
-                                    objCmds.ExecuteNonQuery();
+                        //                }
+                        //            }
+                        //            if (cy.EmplLst != null)
+                        //            {
+                        //                foreach (PEmpDetails cp in cy.EmplLst)
+                        //                {
+                        //                    if (cp.Isvalid == "Y" && cp.Employee != "0")
+                        //                    {
+                        //                        svSQL = "Insert into PYROPRODEMPDET (PYROPRODBASICID,EMPID,EMPCODE,DEPARTMENT,STARTDATE,ENDDATE,STARTTIME,ENDTIME,OTHRS,ETOTHER,NORMELHRS,NATUREOFWORK) VALUES ('" + Pid + "','" + cp.Employee + "','" + cp.EmpCode + "','" + cp.Depart + "','" + cp.StartDate + "','" + cp.EndDate + "','" + cp.StartTime + "','" + cp.EndTime + "','" + cp.OTHrs + "','" + cp.ETOther + "','" + cp.Normal + "','" + cp.NOW + "')";
+                        //                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                        //                        objCmds.ExecuteNonQuery();
 
 
-                                }
+                        //                    }
 
-                            }
-                        }
-                        if (cy.LogLst != null)
-                        {
-                            foreach (PLogDetails cp in cy.LogLst)
-                            {
-                                if (cp.Isvalid == "Y" && cp.StartDate != "0")
-                                {
-                                    svSQL = "Insert into PYROPRODLOGDET (PYROPRODBASICID,STARTDATE,STARTTIME,ENDDATE,ENDTIME,TOTALHRS,REASON) VALUES ('" + Pid + "','" + cp.StartDate + "','" + cp.StartTime + "','" + cp.EndDate + "','" + cp.EndTime + "','" + cp.tothrs + "','" + cp.Reason + "')";
-                                    OracleCommand objCmds = new OracleCommand(svSQL, objConn);
-                                    objCmds.ExecuteNonQuery();
+                        //                }
+                        //            }
+
+                        //            if (cy.BreakLst != null)
+                        //            {
+                        //                foreach (PBreakDet cp in cy.BreakLst)
+                        //                {
+                        //                    if (cp.Isvalid == "Y" && cp.MachineId != "0")
+                        //                    {
+                        //                        svSQL = "Insert into PYROPRODBREAKDET (PYROPRODBASICID,MEACHINECODE,MEACHDES,DTYPE,MTYPE,STARTTIME,ENDTIME,PB,ALLOTTEDTO,REASON) VALUES ('" + Pid + "','" + cp.MachineId + "','" + cp.MachineDes + "','" + cp.DType + "','" + cp.MType + "','" + cp.StartTime + "','" + cp.EndTime + "','" + cp.PB + "','" + cp.Alloted + "','" + cp.Reason + "')";
+                        //                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                        //                        objCmds.ExecuteNonQuery();
 
 
-                                }
+                        //                    }
 
-                            }
-                        }
-                        objConn.Close();
-                    
-            }
-            
+                        //                }
+                        //            }
+                        //            if (cy.outlst != null)
+                        //            {
+                        //                foreach (PProOutput cp in cy.outlst)
+                        //                {
+                        //                    if (cp.Isvalid == "Y" && cp.ItemId != "0")
+                        //                    {
+                        //                        svSQL = "Insert into PYROPRODOUTDET (PYROPRODBASICID,ITEMID,BINID,DRUM,OUTQTY,STARTTIME,ENDTIME) VALUES ('" + Pid + "','" + cp.ItemId + "','" + cp.Bin + "','" + cp.drumno + "','" + cp.OutputQty + "','" + cp.FromTime + "','" + cp.ToTime +"')";
+                        //                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                        //                        objCmds.ExecuteNonQuery();
+
+
+                        //                    }
+
+                        //                }
+                        //            }
+                        //            if (cy.LogLst != null)
+                        //            {
+                        //                foreach (PLogDetails cp in cy.LogLst)
+                        //                {
+                        //                    if (cp.Isvalid == "Y" && cp.StartDate != "0")
+                        //                    {
+                        //                        svSQL = "Insert into PYROPRODLOGDET (PYROPRODBASICID,STARTDATE,STARTTIME,ENDDATE,ENDTIME,TOTALHRS,REASON) VALUES ('" + Pid + "','" + cp.StartDate + "','" + cp.StartTime + "','" + cp.EndDate + "','" + cp.EndTime + "','" + cp.tothrs + "','" + cp.Reason + "')";
+                        //                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                        //                        objCmds.ExecuteNonQuery();
+
+
+                        //                    }
+
+                        //                }
+                        //            }
+                        //            objConn.Close();
+
+                    }
+
 
                     catch (Exception ex)
                     {
                         //System.Console.WriteLine("Exception: {0}", ex.ToString());
                     }
-                    objConn.Close();
-                }
+                    
+                
+            }
             }
             catch (Exception ex)
             {
@@ -436,6 +439,17 @@ namespace Arasan.Services
             return msg;
         }
         public DataTable GetPyroProductionName(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select PYROPRODBASICID,PYROPRODBASIC.DOCID,to_char(PYROPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,LOCDETAILS.LOCID,EMPMAST.EMPNAME,SHIFT from PYROPRODBASIC left outer join LOCDETAILS ON LOCDETAILSID= PYROPRODBASIC.LOCID left outer join EMPMAST ON EMPMASTID= PYROPRODBASIC.SUPERVISOR  where PYROPRODBASICID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetPyroProd(string id)
         {
             string SvSql = string.Empty;
             SvSql = "select PYROPRODBASICID,PYROPRODBASIC.DOCID,to_char(PYROPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,LOCDETAILS.LOCID,EMPMAST.EMPNAME,SHIFT from PYROPRODBASIC left outer join LOCDETAILS ON LOCDETAILSID= PYROPRODBASIC.LOCID left outer join EMPMAST ON EMPMASTID= PYROPRODBASIC.SUPERVISOR  where PYROPRODBASICID='" + id + "' ";
@@ -510,6 +524,190 @@ namespace Arasan.Services
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
+        }
+
+        public DataTable SaveInputDetails(string id, string item, string bin, string time, string qty, string stock, string batch)
+        {
+            string SvSql = string.Empty;
+            using (OracleConnection objConnT = new OracleConnection(_connectionString))
+            {
+                objConnT.Open();
+                SvSql = "Delete PYROPRODINPDET WHERE PYROPRODBASICID='" + id + "'";
+                OracleCommand objCmdd = new OracleCommand(SvSql, objConnT);
+                objCmdd.ExecuteNonQuery();
+            }
+            SvSql = "Insert into PYROPRODINPDET (PYROPRODBASICID,ITEMID,BINID,TIME,QTY,STOCK,BATCH) VALUES ('" + id + "','" + item + "','" + bin + "','" + time + "','" + qty + "','" + stock + "','" + batch + "')";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable SaveConsDetails(string id, string item, string bin, string unit, string usedqty, string qty, string stock)
+        {
+            string SvSql = string.Empty;
+            using (OracleConnection objConnT = new OracleConnection(_connectionString))
+            {
+                objConnT.Open();
+                SvSql = "Delete PYROPRODCONSDET WHERE PYROPRODBASICID='" + id + "'";
+                OracleCommand objCmdd = new OracleCommand(SvSql, objConnT);
+                objCmdd.ExecuteNonQuery();
+            }
+
+            SvSql = "Insert into PYROPRODCONSDET (PYROPRODBASICID,ITEMID,BINID,UNITID,QTY,CONSQTY,STOCK) VALUES ('" + id + "','" + item + "','" + bin + "','" + unit + "','" + usedqty + "','" + qty + "','" + stock + "')";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable SaveOutputDetails(string id, string item, string bin, string stime, string ttime, string qty, string drum)
+        {
+            string SvSql = string.Empty;
+            using (OracleConnection objConnT = new OracleConnection(_connectionString))
+            {
+                objConnT.Open();
+                SvSql = "Delete PYROPRODOUTDET WHERE PYROPRODBASICID='" + id + "'";
+                OracleCommand objCmdd = new OracleCommand(SvSql, objConnT);
+                objCmdd.ExecuteNonQuery();
+            }
+            SvSql = "Insert into PYROPRODOUTDET (PYROPRODBASICID,ITEMID,BINID,STARTTIME,ENDTIME,OUTQTY,DRUM) VALUES ('" + id + "','" + item + "','" + bin + "','" + stime + "','" + ttime + "','" + qty + "','" + drum + "')";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable SaveEmpDetails(string id, string empname, string code, string depat, string sdate, string stime, string edate, string etime, string ot, string et, string normal, string now)
+        {
+            string SvSql = string.Empty;
+            using (OracleConnection objConnT = new OracleConnection(_connectionString))
+            {
+                objConnT.Open();
+                SvSql = "Delete PYROPRODEMPDET WHERE PYROPRODBASICID='" + id + "'";
+                OracleCommand objCmdd = new OracleCommand(SvSql, objConnT);
+                objCmdd.ExecuteNonQuery();
+            }
+
+            SvSql = "Insert into PYROPRODEMPDET (PYROPRODBASICID,EMPID,EMPCODE,DEPARTMENT,STARTDATE,STARTTIME,ENDDATE,ENDTIME,OTHRS,ETOTHER,NORMELHRS,NATUREOFWORK) VALUES ('" + id + "','" + empname + "','" + code + "','" + depat + "','" + sdate + "','" + stime + "','" + edate + "','" + etime + "','" + ot + "','" + et + "','" + normal + "','" + now + "')";
+
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable SaveBreakDetails(string id, string machine, string des, string dtype, string mtype, string stime, string etime, string pb, string all, string reason)
+        {
+            string SvSql = string.Empty;
+            using (OracleConnection objConnT = new OracleConnection(_connectionString))
+            {
+                objConnT.Open();
+                SvSql = "Delete PYROPRODBREAKDET WHERE PYROPRODBASICID='" + id + "'";
+                OracleCommand objCmdd = new OracleCommand(SvSql, objConnT);
+                objCmdd.ExecuteNonQuery();
+            }
+            SvSql = "Insert into PYROPRODBREAKDET (PYROPRODBASICID,MEACHINECODE,MEACHDES,DTYPE,MTYPE,STARTTIME,ENDTIME,PB,ALLOTTEDTO,REASON) VALUES ('" + id + "','" + machine + "','" + des + "','" + dtype + "','" + mtype + "','" + stime + "','" + etime + "','" + pb + "','" + all + "','" + reason + "')";
+
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable SaveLogDetails(string id, string sdate, string stime, string edate, string etime, string tot, string reason)
+
+        {
+            string SvSql = string.Empty;
+            using (OracleConnection objConnT = new OracleConnection(_connectionString))
+            {
+                objConnT.Open();
+                SvSql = "Delete PYROPRODLOGDET WHERE PYROPRODBASICID='" + id + "'";
+                OracleCommand objCmdd = new OracleCommand(SvSql, objConnT);
+                objCmdd.ExecuteNonQuery();
+            }
+            SvSql = "Insert into PYROPRODLOGDET (PYROPRODBASICID,STARTDATE,STARTTIME,ENDDATE,ENDTIME,TOTALHRS,REASON) VALUES ('" + id + "','" + sdate + "','" + stime + "','" + edate + "','" + etime + "','" + tot + "','" + reason + "')";
+
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public string PyroProEntryCRUD(PyroProductionentryDet cy)
+        {
+            string msg = "";
+
+
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
+
+                if (cy.change != "Complete")
+                {
+                    using (OracleConnection objConn = new OracleConnection(_connectionString))
+                    {
+                        objConn.Open();
+
+                        if (cy.change == "Complete")
+                        {
+                            svSQL = "Update PYROPRODBASIC SET IS_CURRENT='No' WHERE PYROPRODBASICID='" + cy.APID + "'";
+                            OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
+                            objCmdd.ExecuteNonQuery();
+                        }
+
+                        DataTable ap = datatrans.GetData("select PYROPRODBASICID,DOCID,LOCID,to_char(PYROPRODBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,SHIFT,SUPERVISOR,BRANCHID from PYROPRODBASIC WHERE IS_CURRENT='Yes'");
+                        //svSQL = "Update APPRODUCTIONBASIC SET IS_CURRENT='No'";
+                        //OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
+                        //objCmdd.ExecuteNonQuery();
+
+                        OracleCommand objCmd = new OracleCommand("PYROPRODUCTIONPROC", objConn);
+
+                        objCmd.CommandType = CommandType.StoredProcedure;
+
+                        StatementType = "Insert";
+                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+
+                        objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = ap.Rows[0]["DOCID"].ToString();
+                        objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = ap.Rows[0]["DOCDATE"].ToString();
+                        objCmd.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = ap.Rows[0]["LOCID"].ToString();
+
+                        objCmd.Parameters.Add("SUPERVISOR", OracleDbType.NVarchar2).Value = ap.Rows[0]["SUPERVISOR"].ToString();
+                        objCmd.Parameters.Add("SHIFT", OracleDbType.NVarchar2).Value = cy.change;
+
+                        objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = ap.Rows[0]["BRANCHID"].ToString();
+                        objCmd.Parameters.Add("IS_COMPLETE", OracleDbType.NVarchar2).Value = "Yes";
+                   
+                        objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                        objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
+                        try
+                        {
+
+                            objCmd.ExecuteNonQuery();
+                            Object Pid = objCmd.Parameters["OUTID"].Value;
+
+                            if (cy.ID != null)
+                            {
+                                Pid = cy.ID;
+                            }
+                            cy.APID = Pid;
+                        }
+                        catch (Exception ex)
+                        {
+                            //System.Console.WriteLine("Exception: {0}", ex.ToString());
+                        }
+                        objConn.Close();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
         }
     }
 }

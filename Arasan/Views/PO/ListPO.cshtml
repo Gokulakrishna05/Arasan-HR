@@ -50,6 +50,7 @@
                           <th>PO Date</th>
                           <th>Quotation No.</th>
                           <th>Currency</th>
+                                                            <th>Send Mail</th>
                           <th>Generate PO</th>
                          <th>Move To GRN</th>
                           <th>Edit</th>
@@ -80,10 +81,13 @@
                                                                         <td> </td>
                                                                         <td></td>
                                                                         <td> </td>
+                                                                        <td> </td>
 
                                                                     }
                                                                     else
                                                                     {
+                                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("SendMail", "PO",new { id=item.ID })"><img src='../Images/mail_icon.png' alt='Send Email' /></a></div></td>
+
                                                                         <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("Print", "PO" ,new { id=item.ID})"><img src='../Images/pdf.png' alt='Generate PO' width='20' />@Html.HiddenFor(modelItem => item.Supplier)</a></div></td>
                                                                     @if(string.IsNullOrEmpty(item.Status))
                                                                         {

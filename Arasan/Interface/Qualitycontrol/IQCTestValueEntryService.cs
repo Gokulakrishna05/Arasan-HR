@@ -12,9 +12,11 @@ namespace Arasan.Interface.Qualitycontrol
         DataTable GetBranch();
         DataTable GetWorkCenter();
         string QCTestValueEntryCRUD(QCTestValueEntry cy);
-        IEnumerable<QCTestValueEntry> GetAllQCTestValueEntry();
+        IEnumerable<QCTestValueEntry> GetAllQCTestValueEntry(string st, string ed);
         DataTable GetQCTestValueEntryDetails(string id);
         DataTable GetAPOutDetails(string id);
         DataTable GetAPOutItemDetails(string id);
+
+        string StatusChange(string tag, string id);
     }
 }

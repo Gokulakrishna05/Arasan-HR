@@ -5,6 +5,7 @@ using Arasan.Interface.Qualitycontrol;
 using Arasan.Models;
 using Microsoft.AspNetCore.Mvc;
 using Oracle.ManagedDataAccess.Client;
+using PdfSharp.Charting;
 
 namespace Arasan.Services.Qualitycontrol
 {
@@ -17,35 +18,68 @@ namespace Arasan.Services.Qualitycontrol
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public IEnumerable<QCTestValueEntry> GetAllQCTestValueEntry()
+        public IEnumerable<QCTestValueEntry> GetAllQCTestValueEntry(string st, string ed)
         {
             List<QCTestValueEntry> cmpList = new List<QCTestValueEntry>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
-                using (OracleCommand cmd = con.CreateCommand())
-                {
-                    con.Open();
-                    cmd.CommandText = "Select BRANCH,DOCID,DOCDATE,WCID,SHIFTNO,PROCESSLOTNO,DRUMNO,PRODDATE,DSAMPLE,DSAMPLETIME,ITEMID,ENTEREDBY,REMARKS,QTVEBASICID from QTVEBASIC";
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
-                    {
-                        QCTestValueEntry cmp = new QCTestValueEntry
-                        {
-                            ID = rdr["QTVEBASICID"].ToString(),
-                            DocId = rdr["DOCID"].ToString(),
-                            Docdate = rdr["DOCDATE"].ToString(),
-                            Work = rdr["WCID"].ToString(),
-                            Shift = rdr["SHIFTNO"].ToString(),
-                            Process = rdr["PROCESSLOTNO"].ToString(),
-                            Prodate = rdr["PRODDATE"].ToString(),
-                            Sample = rdr["DSAMPLE"].ToString(),
-                            Sampletime = rdr["DSAMPLETIME"].ToString(),
-                            Item = rdr["ITEMID"].ToString(),
-                            Entered = rdr["ENTEREDBY"].ToString(),
-                            Remarks = rdr["REMARKS"].ToString(),
-                        };
 
-                        cmpList.Add(cmp);
+                if (st != null && ed != null)
+                {
+                    using (OracleCommand cmd = con.CreateCommand())
+                    {
+                        con.Open();
+                        cmd.CommandText = "Select BRANCH,DOCID,to_char(QTVEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,WCBASIC.WCID,SHIFTNO,PROCESSLOTNO,DRUMNO,PRODDATE,DSAMPLE,DSAMPLETIME,ITEMID,ENTEREDBY,QTVEBASIC.REMARKS,QTVEBASICID from QTVEBASIC left outer join WCBASIC on WCBASIC.WCBASICID=QTVEBASIC.WCID WHERE QTVEBASIC.DOCDATE BETWEEN ' " + st + "'  AND ' " + ed + "' order by QTVEBASICID desc ";
+                        OracleDataReader rdr = cmd.ExecuteReader();
+                        while (rdr.Read())
+                        {
+                            QCTestValueEntry cmp = new QCTestValueEntry
+                            {
+                                ID = rdr["QTVEBASICID"].ToString(),
+                                DocId = rdr["DOCID"].ToString(),
+                                Docdate = rdr["DOCDATE"].ToString(),
+                                Work = rdr["WCID"].ToString(),
+                                Shift = rdr["SHIFTNO"].ToString(),
+                                Process = rdr["PROCESSLOTNO"].ToString(),
+                                Prodate = rdr["PRODDATE"].ToString(),
+                                Sample = rdr["DSAMPLE"].ToString(),
+                                Sampletime = rdr["DSAMPLETIME"].ToString(),
+                                Item = rdr["ITEMID"].ToString(),
+                                Entered = rdr["ENTEREDBY"].ToString(),
+                                Remarks = rdr["REMARKS"].ToString(),
+                            };
+
+                            cmpList.Add(cmp);
+                        }
+                    }
+                }
+                else
+                {
+                    using (OracleCommand cmd = con.CreateCommand())
+                    {
+                        con.Open();
+                        cmd.CommandText = "Select BRANCH,DOCID,to_char(QTVEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,WCBASIC.WCID,SHIFTNO,PROCESSLOTNO,DRUMNO,PRODDATE,DSAMPLE,DSAMPLETIME,ITEMID,ENTEREDBY,QTVEBASIC.REMARKS,QTVEBASICID from QTVEBASIC left outer join WCBASIC on WCBASIC.WCBASICID=QTVEBASIC.WCID WHERE QTVEBASIC.DOCDATE > sysdate-30 order by QTVEBASICID desc ";
+                        OracleDataReader rdr = cmd.ExecuteReader();
+                        while (rdr.Read())
+                        {
+                            QCTestValueEntry cmp = new QCTestValueEntry
+                            {
+                                ID = rdr["QTVEBASICID"].ToString(),
+                                DocId = rdr["DOCID"].ToString(),
+                                Docdate = rdr["DOCDATE"].ToString(),
+                                Work = rdr["WCID"].ToString(),
+                                Shift = rdr["SHIFTNO"].ToString(),
+                                Process = rdr["PROCESSLOTNO"].ToString(),
+                                Prodate = rdr["PRODDATE"].ToString(),
+                                Sample = rdr["DSAMPLE"].ToString(),
+                                Sampletime = rdr["DSAMPLETIME"].ToString(),
+                                Item = rdr["ITEMID"].ToString(),
+                                Entered = rdr["ENTEREDBY"].ToString(),
+                                Remarks = rdr["REMARKS"].ToString(),
+                            };
+
+                            cmpList.Add(cmp);
+                        }
                     }
                 }
             }
@@ -54,26 +88,30 @@ namespace Arasan.Services.Qualitycontrol
         public string QCTestValueEntryCRUD(QCTestValueEntry cy)
         {
             string msg = "";
-            //datatrans = new DataTransactions(_connectionString);
-
-
-            //int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'AP-Pro' AND ACTIVESEQUENCE = 'T'");
-            //string docid = string.Format("{0}{1}", "AP-Pro", (idc + 1).ToString());
-
-            //string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='AP-Pro' AND ACTIVESEQUENCE ='T'";
-            //try
-            //{
-            //    datatrans.UpdateStatus(updateCMd);
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw ex;
-            //}
-            //cy.DocId = docid;
+        
             try
             {
                 string StatementType = string.Empty; string svSQL = "";
+                if (cy.ID == null)
+                {
+                    datatrans = new DataTransactions(_connectionString);
 
+
+                    int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'QTV2' AND ACTIVESEQUENCE = 'T' AND TRANSTYPE='QTVE'");
+                    string Doc = string.Format("{0}{1}", "QTV2", (idc + 1).ToString());
+
+                    string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='QTV2' AND ACTIVESEQUENCE ='T' AND TRANSTYPE='QTVE'";
+                    try
+                    {
+                        datatrans.UpdateStatus(updateCMd);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                    cy.DocId = Doc;
+                }
+               
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("QTVEBASICPROC", objConn);
@@ -93,7 +131,7 @@ namespace Arasan.Services.Qualitycontrol
                     }
 
                     objCmd.Parameters.Add("BRANCH", OracleDbType.NVarchar2).Value = cy.Branch;
-                    objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.DocId;
+                    objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value =cy.DocId;
                     objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = cy.Docdate;
                     objCmd.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = cy.Work;
                     objCmd.Parameters.Add("SHIFTNO", OracleDbType.NVarchar2).Value = cy.Shift;
@@ -215,7 +253,7 @@ namespace Arasan.Services.Qualitycontrol
         public DataTable GetQCTestValueEntryDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select COUNTRYNAME,COUNTRYMASTID from CONMAST order by COUNTRYMASTID asc";
+            SvSql = "select BRANCH,DOCID,DOCDATE,WCID,SHIFTNO,PROCESSLOTNO,CDRUMNO,PRODDATE,SAMPLENO,STIME,ITEMID,RATEPHR,NOZZLENO,AIRPRESS,ADDCH,BCT,ENTEREDBY,REMARKS,QTVEBASICID from QTVEBASIC WHERE QTVEBASICID='"+ id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -243,6 +281,29 @@ namespace Arasan.Services.Qualitycontrol
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
+        }
+        public string StatusChange(string tag, string id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE QTVEBASIC SET ISACTIVE ='N' WHERE QTVEBASICID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
         }
     }
 }

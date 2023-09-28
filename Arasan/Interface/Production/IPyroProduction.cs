@@ -32,6 +32,7 @@ namespace Arasan.Interface
 
         DataTable GetAPProd(string id);
 
+        DataTable GetPyroProd(string id);
         DataTable GetInput(string id);
         DataTable GetOutput(string id);
         DataTable GetLogdetail(string id);
@@ -48,6 +49,15 @@ namespace Arasan.Interface
         DataTable GetBreakDeatils(string id);
         DataTable GetOutputDeatils(string id);
         DataTable GetLogdetailDeatils(string id);
+
+        DataTable SaveInputDetails(string id, string item, string bin, string time, string qty, string stock, string batch);
+        DataTable SaveOutputDetails(string id, string item, string bin, string stime, string ttime, string qty, string drum);
+        DataTable SaveConsDetails(string id, string item, string bin, string unit, string usedqty, string qty, string stock);
+        DataTable SaveEmpDetails(string id, string empname, string code, string depat, string sdate, string stime, string edate, string etime, string ot, string et, string normal, string now);
+        DataTable SaveBreakDetails(string id, string machine, string des, string dtype, string mtype, string stime, string etime, string pb, string all, string reason);
+        DataTable SaveLogDetails(string id, string sdate, string stime, string edate, string etime, string tot, string reason);
+
+        string PyroProEntryCRUD(PyroProductionentryDet Cy);
 
     }
 }

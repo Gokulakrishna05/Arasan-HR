@@ -1,0 +1,88 @@
+﻿@model Arasan.Models.PyroProductionentryDet
+@{
+    Layout = "_PopupLayout";
+    ViewData["Title"] = "Pyro Production";
+}
+<style>
+    .newwidth {
+        width: 120px;
+    }
+
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a>Production</a> </li>
+            <li class="active"> <strong>Pyro Production</strong> </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    <h5 style="font-size:14px">AP Production</h5>
+                    <hr>
+                    @using (Html.BeginForm("PyroProdApprove", "PyroProduction", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <form>
+
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br />      <label for="inputName3" class="col-sm-4 control-label">Are you Complete Or Change Shift<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group">
+                                                @Html.HiddenFor(C => C.ID)
+                                                @{
+
+                                                    int i = 0;
+                                                    foreach (var item in Model.ShiftNames.ToList())
+                                                    {
+                                                        var st = Model.ShiftNames[i].ToString();
+                                                        @Html.RadioButtonFor(C => C.change, st, new { @TabIndex = 2 })
+                                                        <label id="mt-radio">@Html.DisplayFor(o => o.ShiftNames[i])</label>
+                                                        i = i + 1;
+                                                    }
+                                                }
+                                                @*   @Html.RadioButtonFor(C => C.change, "A", new { @TabIndex = 2 })
+                                            <label id="mt-radio">A</label>
+                                            @Html.RadioButtonFor(C => C.change, "B", new { @TabIndex = 3})
+                                            <label id="mt-radio">B</label>
+                                            @Html.RadioButtonFor(C => C.change, "C", new { @TabIndex = 2 })
+                                            <label id="mt-radio">C</label>
+                                            @Html.RadioButtonFor(C => C.change, "Complete", new { @TabIndex = 3})
+                                            <label id="mt-radio">Complete</label>*@
+
+                                            </div><br />
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <div style="height:30px;"></div>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+                          @*  <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("PyroProductionentryDetail", "PyroProduction")'">Cancel</button>*@
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

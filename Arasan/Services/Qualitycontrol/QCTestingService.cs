@@ -18,42 +18,79 @@ namespace Arasan.Services
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
         }
-        public IEnumerable<QCTesting> GetAllQCTesting()
+        public IEnumerable<QCTesting> GetAllQCTesting(string st, string ed)
         {
             List<QCTesting> cmpList = new List<QCTesting>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
-
-                using (OracleCommand cmd = con.CreateCommand())
+                if (st != null && ed != null)
                 {
-                    con.Open();
-  
-                    cmd.CommandText = "Select ITEMMASTER.ITEMID,QCVALUEBASIC.GRNNO,QCVALUEBASIC.DOCID,to_char(QCVALUEBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,to_char(QCVALUEBASIC.GRNDATE,'dd-MON-yyyy')GRNDATE,QCVALUEBASIC.CLASSCODE,PARTYRCODE.PARTY,QCVALUEBASICID,QCVALUEBASIC.LOTSERIALNO,SLNO,QCVALUEBASIC.TESTRESULT,QCVALUEBASIC.TESTBY,QCVALUEBASIC.REMARKS, QCVALUEBASIC.STATUS from QCVALUEBASIC LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=QCVALUEBASIC.ITEMID LEFT OUTER JOIN  PARTYMAST on QCVALUEBASIC.PARTYID=PARTYMAST.PARTYMASTID  LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID WHERE QCVALUEBASIC.STATUS='ACTIVE'";
- 
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
+                    using (OracleCommand cmd = con.CreateCommand())
                     {
-                        QCTesting cmp = new QCTesting
-                        {
+                        con.Open();
 
-                            ID = rdr["QCVALUEBASICID"].ToString(),
-                            DocId = rdr["DOCID"].ToString(),
-                            GRNNo = rdr["GRNNO"].ToString(),
-                            GRNDate = rdr["GRNDATE"].ToString(),                           
-                            DocDate = rdr["DOCDATE"].ToString(),
-                            ClassCode = rdr["CLASSCODE"].ToString(),
-                            SNo = rdr["SLNO"].ToString(),
-                            LotNo = rdr["LOTSERIALNO"].ToString(),
-                            Party = rdr["PARTY"].ToString(),
-                            ItemId = rdr["ITEMID"].ToString(),
-                            TestResult = rdr["TESTRESULT"].ToString(),
- 
-                            TestBy = rdr["TESTBY"].ToString(),
- 
-                            Remarks = rdr["REMARKS"].ToString()
-                           
-                        };
-                        cmpList.Add(cmp);
+                        cmd.CommandText = "Select ITEMMASTER.ITEMID,QCVALUEBASIC.GRNNO,QCVALUEBASIC.DOCID,to_char(QCVALUEBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,to_char(QCVALUEBASIC.GRNDATE,'dd-MON-yyyy')GRNDATE,QCVALUEBASIC.CLASSCODE,PARTYMAST.PARTYNAME,QCVALUEBASICID,QCVALUEBASIC.LOTSERIALNO,SLNO,QCVALUEBASIC.TESTRESULT,QCVALUEBASIC.TESTBY,QCVALUEBASIC.REMARKS, QCVALUEBASIC.STATUS from QCVALUEBASIC LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=QCVALUEBASIC.ITEMID LEFT OUTER JOIN  PARTYMAST on QCVALUEBASIC.PARTYID=PARTYMAST.PARTYMASTID  WHERE QCVALUEBASIC.DOCDATE BETWEEN '" + st + "'  AND ' " + ed + "' order by QCVALUEBASICID desc";
+
+                        OracleDataReader rdr = cmd.ExecuteReader();
+                        while (rdr.Read())
+                        {
+                            QCTesting cmp = new QCTesting
+                            {
+
+                                ID = rdr["QCVALUEBASICID"].ToString(),
+                                DocId = rdr["DOCID"].ToString(),
+                                GRNNo = rdr["GRNNO"].ToString(),
+                                GRNDate = rdr["GRNDATE"].ToString(),
+                                DocDate = rdr["DOCDATE"].ToString(),
+                                ClassCode = rdr["CLASSCODE"].ToString(),
+                                SNo = rdr["SLNO"].ToString(),
+                                LotNo = rdr["LOTSERIALNO"].ToString(),
+                                Party = rdr["PARTYNAME"].ToString(),
+                                ItemId = rdr["ITEMID"].ToString(),
+                                TestResult = rdr["TESTRESULT"].ToString(),
+
+                                TestBy = rdr["TESTBY"].ToString(),
+
+                                Remarks = rdr["REMARKS"].ToString()
+
+                            };
+                            cmpList.Add(cmp);
+                        }
+                    }
+                }
+                else
+                {
+                    using (OracleCommand cmd = con.CreateCommand())
+                    {
+                        con.Open();
+
+                        cmd.CommandText = "Select ITEMMASTER.ITEMID,QCVALUEBASIC.GRNNO,QCVALUEBASIC.DOCID,to_char(QCVALUEBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,to_char(QCVALUEBASIC.GRNDATE,'dd-MON-yyyy')GRNDATE,QCVALUEBASIC.CLASSCODE,PARTYMAST.PARTYNAME,QCVALUEBASICID,QCVALUEBASIC.LOTSERIALNO,SLNO,QCVALUEBASIC.TESTRESULT,QCVALUEBASIC.TESTBY,QCVALUEBASIC.REMARKS, QCVALUEBASIC.STATUS from QCVALUEBASIC LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=QCVALUEBASIC.ITEMID LEFT OUTER JOIN  PARTYMAST on QCVALUEBASIC.PARTYID=PARTYMAST.PARTYMASTID  WHERE QCVALUEBASIC.DOCDATE > sysdate-30 order by QCVALUEBASICID desc";
+
+                        OracleDataReader rdr = cmd.ExecuteReader();
+                        while (rdr.Read())
+                        {
+                            QCTesting cmp = new QCTesting
+                            {
+
+                                ID = rdr["QCVALUEBASICID"].ToString(),
+                                DocId = rdr["DOCID"].ToString(),
+                                GRNNo = rdr["GRNNO"].ToString(),
+                                GRNDate = rdr["GRNDATE"].ToString(),
+                                DocDate = rdr["DOCDATE"].ToString(),
+                                ClassCode = rdr["CLASSCODE"].ToString(),
+                                SNo = rdr["SLNO"].ToString(),
+                                LotNo = rdr["LOTSERIALNO"].ToString(),
+                                Party = rdr["PARTYNAME"].ToString(),
+                                ItemId = rdr["ITEMID"].ToString(),
+                                TestResult = rdr["TESTRESULT"].ToString(),
+
+                                TestBy = rdr["TESTBY"].ToString(),
+
+                                Remarks = rdr["REMARKS"].ToString()
+
+                            };
+                            cmpList.Add(cmp);
+                        }
                     }
                 }
             }
@@ -65,6 +102,30 @@ namespace Arasan.Services
             try
             {
                 string StatementType = string.Empty; string svSQL = "";
+
+                datatrans = new DataTransactions(_connectionString);
+
+
+                if (cy.ID == null)
+                {
+
+
+
+
+                    int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'TE--' AND ACTIVESEQUENCE = 'T'  ");
+                    string DocId = string.Format("{0}{1}", "TE--", (idc + 1).ToString());
+
+                    string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='TE--' AND ACTIVESEQUENCE ='T'  ";
+                    try
+                    {
+                        datatrans.UpdateStatus(updateCMd);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                    cy.DocId = DocId;
+                }
 
                 using ( OracleConnection objConn = new OracleConnection(_connectionString))
                  {
@@ -182,7 +243,7 @@ namespace Arasan.Services
         public DataTable GetQCTesting(string id)  
         {
             string SvSql = string.Empty;
-            SvSql = "Select ITEMMASTER.ITEMID,GRNBLBASIC.DOCID,QCVALUEBASIC.DOCID,to_char(QCVALUEBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,to_char(QCVALUEBASIC.GRNDATE,'dd-MON-yyyy')GRNDATE,QCVALUEBASIC.CLASSCODE,PARTYRCODE.PARTY,QCVALUEBASICID,QCVALUEBASIC.LOTSERIALNO,SLNO,QCVALUEBASIC.TESTRESULT,QCVALUEBASIC.TESTBY,QCVALUEBASIC.REMARKS from QCVALUEBASIC LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=QCVALUEBASIC.ITEMID LEFT OUTER JOIN GRNBLBASIC ON GRNBLBASICID=QCVALUEBASIC.GRNNO  LEFT OUTER JOIN  PARTYMAST on QCVALUEBASIC.PARTYID=PARTYMAST.PARTYMASTID  LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH')  AND QCVALUEBASIC.QCVALUEBASICID='" + id +"' ";
+            SvSql = "Select ITEMID,GRNNO,QCVALUEBASIC.DOCID,to_char(QCVALUEBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,to_char(QCVALUEBASIC.GRNDATE,'dd-MON-yyyy')GRNDATE,QCVALUEBASIC.CLASSCODE,PARTYID,QCVALUEBASICID,QCVALUEBASIC.LOTSERIALNO,SLNO,QCVALUEBASIC.TESTRESULT,QCVALUEBASIC.TESTBY,QCVALUEBASIC.REMARKS from QCVALUEBASIC Where QCVALUEBASIC.QCVALUEBASICID='" + id +"' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -193,7 +254,7 @@ namespace Arasan.Services
         {
             string SvSql = string.Empty;
 
-            SvSql = "Select PARTYRCODE.ID,to_char(GRNBLBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,GRNBLBASICID from GRNBLBASIC LEFT OUTER JOIN  PARTYMAST on GRNBLBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID where GRNBLBASIC.GRNBLBASICID='" + id +"'";
+            SvSql = "Select to_char(GRNBLBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,GRNBLBASICID from GRNBLBASIC where GRNBLBASIC.GRNBLBASICID='" + id +"'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -214,7 +275,7 @@ namespace Arasan.Services
         public DataTable GetItembyId(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select ITEMMASTER.ITEMID,GRNBLBASICID,GRNBLDETAILID from GRNBLDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=GRNBLDETAIL.ITEMID where GRNBLDETAIL.GRNBLBASICID='" + id + "'";
+            SvSql = "Select ITEMMASTER.ITEMID,GRNBLDETAIL.ITEMID as item,GRNBLBASICID,GRNBLDETAILID from GRNBLDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=GRNBLDETAIL.ITEMID where GRNBLDETAIL.GRNBLBASICID='" + id + "'";
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -225,7 +286,7 @@ namespace Arasan.Services
         public DataTable GetPOItembyId(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select ITEMMASTER.ITEMID,POBASICID,PODETAILID from PODETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PODETAIL.ITEMID where PODETAIL.POBASICID='" + id + "'";
+            SvSql = "Select ITEMMASTER.ITEMID,POBASICID,PODETAIL.ITEMID as item,PODETAILID from PODETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PODETAIL.ITEMID where PODETAIL.POBASICID='" + id + "'";
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -236,7 +297,7 @@ namespace Arasan.Services
         public DataTable GetParty(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select PARTYRCODE.PARTY,GRNBLBASICID from GRNBLBASIC LEFT OUTER JOIN  PARTYMAST on GRNBLBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID where GRNBLBASIC.GRNBLBASICID='" + id + "'";
+            SvSql = "Select PARTYMAST.PARTYNAME,GRNBLBASIC.PARTYID,GRNBLBASICID from GRNBLBASIC LEFT OUTER JOIN  PARTYMAST on GRNBLBASIC.PARTYID=PARTYMAST.PARTYMASTID where GRNBLBASIC.GRNBLBASICID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -246,7 +307,7 @@ namespace Arasan.Services
         public DataTable GetPOParty(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select PARTYRCODE.PARTY,POBASICID from POBASIC LEFT OUTER JOIN  PARTYMAST on POBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID where POBASIC.POBASICID='" + id + "'";
+            SvSql = "Select PARTYMAST.PARTYNAME,POBASICID,POBASIC.PARTYID from POBASIC LEFT OUTER JOIN  PARTYMAST on POBASIC.PARTYID=PARTYMAST.PARTYMASTID where POBASIC.POBASICID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

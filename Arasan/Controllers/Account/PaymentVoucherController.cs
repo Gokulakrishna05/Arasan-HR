@@ -43,7 +43,7 @@ namespace Arasan.Controllers
             pv.PType = "CASH";
             if(dtv.Rows.Count > 0)
             {
-                pv.VoucherNo = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["LASTNO"].ToString();
+                pv.VoucherNo = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
             }
             if (id == null)
             {

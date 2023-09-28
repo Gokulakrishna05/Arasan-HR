@@ -25,6 +25,7 @@ namespace Arasan.Models
         public string GRNNo { get; set; }
         public string DocId { get; set; }
         public string DocDate { get; set; }
+        public string Branch { get; set; }
         public string GRNDate { get; set; }
         public string SNo { get; set; }
         public string LotNo { get; set; }
