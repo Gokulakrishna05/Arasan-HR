@@ -47,8 +47,8 @@
                                         <label for="inputName3" class="col-sm-4 control-label">Scheme Name<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                             @Html.HiddenFor(C => C.ID)
-                                            @Html.DropDownListFor(C => C.Scheme, Model.Schemelst, new { @id = "ddlScheme", @Class = "form-control chosen-select", @TabIndex = 1,@onchange = "changeItem(this.value);" })<br>
-
+                                            @Html.DropDownListFor(C => C.Scheme, Model.Schemelst,"--Please select--", new { @id = "ddlScheme", @Class = "form-control chosen-select", @TabIndex = 1,@onchange = "changeItem(this.value);" })<br>
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -253,8 +253,8 @@
             success: function (result) {
            
                
-                document.getElementById("txtTrasactionName").value = result.transactionName;
-                document.getElementById("txtTrasactionID").value = result.transactionID;
+                document.getElementById("txtTrasactionName").value = result.transactionname;
+                document.getElementById("txtTrasactionID").value = result.transactionid;
 
 
                 var $example = $("#ddlScheme").select2();
