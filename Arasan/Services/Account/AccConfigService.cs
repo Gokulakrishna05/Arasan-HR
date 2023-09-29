@@ -18,8 +18,12 @@ namespace Arasan.Services
             datatrans = new DataTransactions(_connectionString);
         }
 
-        public IEnumerable<AccConfig> GetAllAccConfig()
+        public IEnumerable<AccConfig> GetAllAccConfig(string Active)
         {
+            if (string.IsNullOrEmpty(Active))
+            {
+                Active = "Yes";
+            }
             List<AccConfig> cmpList = new List<AccConfig>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
@@ -28,7 +32,8 @@ namespace Arasan.Services
                 {
                     con.Open();
 
-                    cmd.CommandText = " SELECT ADCOMPH.ADSCHEME,TRANSDESC,TRANSID,ADCOMPDID from ADCOMPD LEFT OUTER JOIN ADCOMPH ON ADCOMPH.ADSCHEME = ADCOMPD.ADSCHEME WHERE ADCOMPH.ACTIVE =' + Active + ' order by ADCOMPH.ADCOMPHID DESC ";
+                    //cmd.CommandText = " SELECT ADCOMPH.ADSCHEME ,ADCOMPD.ADSCHEMENAME,ADTYPE,ADNAME,ADACCOUNT,TRANSDESC,TRANSID ,ADCOMPDID,ADCOMPD.ACTIVE FROM ADCOMPD LEFT OUTER JOIN ADCOMPH ON ADCOMPH.ADSCHEME = ADCOMPD.ADSCHEME WHERE ADCOMPD.ACTIVE =' + Active + ' ";
+                    cmd.CommandText = " SELECT ADSCHEME ,ADCOMPD.ADSCHEMENAME,ADTYPE,ADNAME,ADACCOUNT,TRANSDESC,TRANSID ,ADCOMPDID,ADCOMPD.ACTIVE FROM ADCOMPD  WHERE ADCOMPD.ACTIVE =' + Active + '  ";
 
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
@@ -40,12 +45,13 @@ namespace Arasan.Services
 
                             Scheme = rdr["ADSCHEME"].ToString(),
                             TransactionName = rdr["TRANSDESC"].ToString(),
-                            TransactionID = rdr["TRANSID"].ToString()
-                            //Type = rdr["ADTYPE"].ToString(),
-                            //Tname = rdr["ADNAME"].ToString(),
-                            //Schname = rdr["ADSCHEMENAME"].ToString(),
-                            //ledger = rdr["ADACCOUNT"].ToString()
-                            
+                            TransactionID = rdr["TRANSID"].ToString(),
+                            Type = rdr["ADTYPE"].ToString(),
+                            Tname = rdr["ADNAME"].ToString(),
+                            Schname = rdr["ADSCHEMENAME"].ToString(),
+                            ledger = rdr["ADACCOUNT"].ToString(),
+                            Active = rdr["ACTIVE"].ToString()
+
 
                         };
                         cmpList.Add(cmp);
@@ -68,7 +74,7 @@ namespace Arasan.Services
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
-                    OracleCommand objCmd = new OracleCommand("ADCOMPD_PROC", objConn);
+                    OracleCommand objCmd = new OracleCommand("ADCOMPDPROC", objConn);
                     /*objCmd.Connection = objConn;
                     objCmd.CommandText = "DIRECTPURCHASEPROC";*/
 
@@ -94,7 +100,7 @@ namespace Arasan.Services
 
                     objCmd.Parameters.Add("ACTIVE", OracleDbType.NVarchar2).Value = "YES";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
-                    objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
+                    
 
                     try
                     {
@@ -193,7 +199,7 @@ namespace Arasan.Services
         public DataTable Getschemebyid(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select ADCOMPD.ADCOMPDID,ADCOMPH.ADSCHEME ,ADCOMPH.ADCOMPHID from ADCOMPH LEFT OUTER JOIN ADCOMPD ON ADCOMPD.ADCOMPDID= ADCOMPH.ADCOMPHID where ADCOMPH.ADCOMPHID ='" + id + "'";
+            SvSql = "select ADSCHEME,ADCOMPHID from ADCOMPH where ACTIVE = 'Yes' ";
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -205,7 +211,8 @@ namespace Arasan.Services
         public DataTable GetAccConfig(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select ADSCHEME,ADCOMPHID,TRANSDESC,TRANSID FROM ADCOMPH where ADCOMPHID ='" + id + "' ";
+            //SvSql = "Select ADSCHEMENAME,ADTYPE,ADNAME,ADACCOUNT,ADSCHEME,TRANSDESC,TRANSID ,ADCOMPDID FROM ADCOMPD WHERE ADCOMPDID ='" + id + "' ";
+            SvSql = "select ADSCHEME,ADCOMPHID from ADCOMPH where ACTIVE = 'Yes' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -233,16 +240,16 @@ namespace Arasan.Services
             return dtt;
         }
 
-        public DataTable GetAccConfigItem(string id)
-        {
-            string SvSql = string.Empty;
-            SvSql = "Select ADCOMPDID,ADTYPE,ADNAME,ADSCHEMENAME,ADACCOUNT  from ADCOMPD  where ADCOMPD.ADCOMPDID= '" + id + "' ";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
+        //public DataTable GetAccConfigItem(string id)
+        //{
+        //    string SvSql = string.Empty;
+        //    SvSql = "Select ADCOMPDID,ADTYPE,ADNAME,ADSCHEMENAME,ADACCOUNT  from ADCOMPD  where ADCOMPD.ADCOMPDID= '" + id + "' ";
+        //    DataTable dtt = new DataTable();
+        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
+        //}
 
     }
 }

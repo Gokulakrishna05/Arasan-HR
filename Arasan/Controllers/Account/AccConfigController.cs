@@ -106,7 +106,7 @@ namespace Arasan.Controllers
                     {
                         TempData["notice"] = "AccConfig Updated Successfully...!";
                     }
-                    return RedirectToAction("AccConfig");
+                    return RedirectToAction("ListAccConfig");
                 }
 
                 else
@@ -126,9 +126,9 @@ namespace Arasan.Controllers
             return View(Cy);
         }
 
-        public IActionResult ListAccConfig()
+        public IActionResult ListAccConfig(string Active)
         {
-            IEnumerable<AccConfig> cmp = AccConfigService.GetAllAccConfig();
+            IEnumerable<AccConfig> cmp = AccConfigService.GetAllAccConfig(Active);
             return View(cmp);
         }
 
@@ -139,9 +139,9 @@ namespace Arasan.Controllers
             {
                 DataTable dt = new DataTable();
 
-                string scheme = "";
-                string transactionName = "";
-                string transactionID = "";
+                //string scheme = "";
+                string transactionname = "";
+                string transactionid = "";
                 
 
 
@@ -149,14 +149,14 @@ namespace Arasan.Controllers
 
                 if (dt.Rows.Count > 0)
                 {
-                    scheme = dt.Rows[0]["ADSCHEME"].ToString();
-                    transactionName = dt.Rows[0]["ADTRANSDESC"].ToString();
-                    transactionID = dt.Rows[0]["ADTRANSID"].ToString();
+                    //scheme = dt.Rows[0]["ADSCHEME"].ToString();
+                    transactionname = dt.Rows[0]["ADTRANSDESC"].ToString();
+                    transactionid = dt.Rows[0]["ADTRANSID"].ToString();
                    
                    
                 }
 
-                var result = new { scheme = scheme, transactionName = transactionName, transactionID = transactionID };
+                var result = new { transactionname = transactionname, transactionid = transactionid };
                 return Json(result);
             }
             catch (Exception ex)
@@ -198,7 +198,7 @@ namespace Arasan.Controllers
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ADSCHEME"].ToString(), Value = dtDesg.Rows[i]["ADCOMPHID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ADSCHEME"].ToString(), Value = dtDesg.Rows[i]["ADSCHEME"].ToString() });
                 }
                 return lstdesg;
             }

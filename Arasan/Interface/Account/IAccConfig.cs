@@ -10,10 +10,11 @@ namespace Arasan.Interface
         string  ConfigCRUD(AccConfig Cy);
         DataTable GetConfig();
         DataTable Getledger();
-        DataTable GetAccConfigItem(string id);
+
+        //DataTable GetAccConfigItem(string id);
         DataTable GetAccConfig(string id);
         DataTable Getschemebyid(string id);
-        IEnumerable<AccConfig> GetAllAccConfig();
+        IEnumerable<AccConfig> GetAllAccConfig(string Active);
 
         DataTable GetSchemeDetails(string itemId);
     }

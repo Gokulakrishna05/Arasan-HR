@@ -22,6 +22,7 @@ namespace Arasan.Models
         public string ledger { get; set; }
         public string saveledger { get; set; }
         public string Isvalid { get; set; }
+        public string Active { get; set; }
 
     }
     //public class ConfigItem
