@@ -6,9 +6,16 @@ namespace Arasan.Interface
 {
     public interface IAccConfig
     {
-        DataTable GetLedger();
+        
         string  ConfigCRUD(AccConfig Cy);
-
         DataTable GetConfig();
+        DataTable Getledger();
+        DataTable GetAccConfigItem(string id);
+        DataTable GetAccConfig(string id);
+        DataTable Getschemebyid(string id);
+        IEnumerable<AccConfig> GetAllAccConfig();
+
+        DataTable GetSchemeDetails(string itemId);
     }
 }
+
