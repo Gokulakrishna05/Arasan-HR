@@ -41,10 +41,13 @@ namespace Arasan.Models
         public List<SelectListItem> Bin { get; set; }
 
         public List<BinItem> Binlst;
-
+        public List<SelectListItem> qclst;
+        public List<SelectListItem> fqclst;
         public string ID { get; set; }
         public string ItemG { get; set; }
         public string ItemSub { get; set; }
+        public string QCTemp { get; set; }
+        public string FQCTemp { get; set; }
         public string SubCat { get; set; }
         public string ItemCode { get; set; }
         //public List<SelectListItem> Itemlst;

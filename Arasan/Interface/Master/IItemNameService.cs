@@ -14,6 +14,7 @@ namespace Arasan.Interface.Master
         DataTable GetItemGroup();
         DataTable GetItemCategory();
         DataTable GetItemSubGroup();
+        DataTable GetQCTemp();
         DataTable GetHSNcode();
         DataTable GetSupplier();
         DataTable BindBinID();

@@ -26,6 +26,8 @@ namespace Arasan.Controllers.Master
             ca.Isglst = BindItemSubGroup();
             ca.Hsn = BindHSNcode();
             ca.Bin = BindBinID();
+            ca.qclst = BindQCTemp();
+            ca.fqclst = BindQCTemp();
             ca.Ledgerlst = BindLedger();
             //ca.Itemlst = BindItem();
             List<SupItem> TData = new List<SupItem>();
@@ -277,6 +279,23 @@ namespace Arasan.Controllers.Master
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["SGCODE"].ToString(), Value = dtDesg.Rows[i]["SGCODE"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindQCTemp()
+        {
+            try
+            {
+                DataTable dtDesg = ItemNameService.GetQCTemp();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["TEMPLATEID"].ToString(), Value = dtDesg.Rows[i]["TESTTBASICID"].ToString() });
                 }
                 return lstdesg;
             }
