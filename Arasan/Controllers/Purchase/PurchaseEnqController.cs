@@ -24,6 +24,7 @@ namespace Arasan.Controllers
         {
             PurenqService = _PurenqService;
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
+            datatrans = new DataTransactions(_connectionString);
         }
         public IActionResult PurchaseEnquiry(String id)
         {
@@ -296,7 +297,8 @@ namespace Arasan.Controllers
             try
             {
                 Cy.ID = id;
-                string Strout = PurenqService.EnquirytoQuote(Cy.ID);
+                string Strout = "";//PurenqService.EnquirytoQuote(Cy.ID);
+                datatrans.UpdateStatus("UPDATE PURENQBASIC SET STATUS = 2 where PURENQBASICID = '" + id + "'");
                 if (string.IsNullOrEmpty(Strout))
                 {
                     if (Cy.ID == null)
