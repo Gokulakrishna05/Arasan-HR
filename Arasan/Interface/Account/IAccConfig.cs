@@ -1,6 +1,6 @@
 ﻿using Arasan.Models;
 using System.Data;
-using static Org.BouncyCastle.Math.EC.ECCurve;
+//using static Org.BouncyCastle.Math.EC.ECCurve;
 
 namespace Arasan.Interface 
 {
@@ -17,6 +17,10 @@ namespace Arasan.Interface
         IEnumerable<AccConfig> GetAllAccConfig(string Active);
 
         DataTable GetSchemeDetails(string itemId);
+
+        string StatusChange(string tag, int id);
+
+        string RemoveChange(string tag, int id);
     }
 }
 

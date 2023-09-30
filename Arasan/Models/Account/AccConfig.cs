@@ -12,9 +12,7 @@ namespace Arasan.Models
         public string TransactionName { get; set; }
         public string TransactionID { get; set; }
 
-        //public List<ConfigItem> ConfigLst { get; set; }
-
-
+        
         public string Type { get; set; }
         public string Tname { get; set; }
         public string Schname { get; set; }

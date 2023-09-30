@@ -23,7 +23,7 @@
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Account</a> </li>
-            <li class="active"> <strong> AccConfig </strong> </li>
+            <li class="active"> <strong> Account Config  </strong> </li>
         </ol>
     </div>
 </div>
@@ -32,27 +32,27 @@
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="widgets-container">
-
+                    @*<h5 style="font-size:14px"> Account Config </h5>*@
                     <hr>
                     @using (Html.BeginForm("AccConfig", "AccConfig", FormMethod.Post))
                     {
                         @Html.AntiForgeryToken()
                         <form>
 
+                            
                             <div class="row">
                                 <div class="col-lg-3"></div>
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Scheme Name<label class="mandatory">*</label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Scheme Name<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.HiddenFor(C => C.ID)
-                                            @Html.DropDownListFor(C => C.Scheme, Model.Schemelst,"--Please select--", new { @id = "ddlScheme", @Class = "form-control chosen-select", @TabIndex = 1,@onchange = "changeItem(this.value);" })<br>
-                                            
+                                            @Html.DropDownListFor(C => C.Scheme, Model.Schemelst,"Please Select", new { @id = "ddlScheme", @Class = "form-control _select", @TabIndex = 1, @onchange = "changeScheme(this.value);" })<br><br>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                             </div>
+                            
                             <div class="row">
                                 <div class="col-lg-3"></div>
                                 <div class="col-md-6">
@@ -61,6 +61,7 @@
                                         <label for="inputName3" class="col-sm-4 control-label"> Transaction Name<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.TransactionName, new { @id = "txtTrasactionName", @class = "form-control", @TabIndex = 2, @size="30" })<br>
+                                            @Html.HiddenFor(C => C.ID)
                                         </div>
 
 
@@ -82,7 +83,7 @@
                                 </div>
                             </div>
 
-                            <div style="height:30px;"></div>
+                          
                             <div style="height:30px;"></div>
                             <div class="row">
                                 <div class="col-md-12">
@@ -92,7 +93,6 @@
                                 </div>
                             </div>
 
-
                             <div class="row">
                                 <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
 
@@ -101,8 +101,8 @@
                                         <thead>
                                             <tr>
                                                
-                                                <th> Transaction Type </th>
-                                                <th>Transaction Name</th>
+                                                <th> Type </th>
+                                                <th> Name</th>
                                                 <th> Scheme Name </th>
                                                 <th> Ledger </th>
                                             </tr>
@@ -122,7 +122,6 @@
                                                             @Html.TextBoxFor(o => o.Type, new { @id = "txtType" + i, @class = "form-control", style = "width:180px;" , @TabIndex = 2})
                                                             
                                                         </td>
-                                                        
                                                         <td>
                                                             @Html.TextBoxFor(o => o.Tname, new { @id = "txtTname" + i, @class = "form-control", style = "width: 180px;, @TabIndex = 2"})
                                                             
@@ -132,7 +131,7 @@
                                                             
                                                         </td>
                                                         <td>
-                                                                @Html.DropDownListFor(o => o.ledger, Model.ledlst, "-- Please Select --", new { @class = "form-control chosen-select newcss", @id = "ddlledger" + i, style = "width: 200px;" /*, onchange = "changeItemDetail(this.value," + i + ")"*/ })
+                                                                @Html.DropDownListFor(o => o.ledger, Model.ledlst, "-- Please Select --", new { @class = "form-control chosen-select newcss", @id = "ddlledger" + i, style = "width: 200px;"  })
                                                                 @Html.HiddenFor(o => o.saveledger)
                                                             
                                                         </td>
@@ -245,7 +244,7 @@
     });
 
 
-    function changeItem(ItemId) {
+    function changeScheme(ItemId) {
         $.ajax({
             url: 'GetSchemeDetail',
             data: { "ItemId": ItemId },
@@ -257,8 +256,8 @@
                 document.getElementById("txtTrasactionID").value = result.transactionid;
 
 
-                var $example = $("#ddlScheme").select2();
-                $example.val(result.scheme).trigger("change");
+                //var $example = $("#ddlScheme").select2();
+                //$example.val(result.scheme).trigger("change");
 
 
                 },
@@ -267,5 +266,61 @@
             }
         });
 
+ $(".chosen-select").chosen();
+    function removeRow(id) {
+        var table = document.getElementById("dataTable");
+        var rowCount = table.rows.length;
+        var row = document.getElementById('trBook' + id);
+        var j = 0;
+        $('tr.chkitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+                j += 1;
+            }
+        });
+        if (j > 1) {
+            row.style.display = "none";
+            document.getElementById('Isvalid' + id).value = "N";
+        }
+        else {
+            alert("Cannot delete all the rows.")
+        }
+    }
+    //    function AppendRow(opt) {
+    //        var index = $("#tbBooks").children("tr").length;
 
+    //        var Type = "<td><input class='form-control' id='txtType" + index + "' name='Schemelst[" + index + "].Type'  style='width: 80px;' type='text'onkeydown='return isNumeric2(event.keyCode,this.value)'  onchange = 'changeQty(this.value," + index + ")'  readonly='True' /></td>";
+
+    //        var Tname = "<td><input class='form-control' id='txtTname" + index + "' name='Schemelst[" + index + "].Tname'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;text-align:right' type='text'readonly='True'  /></td>";
+
+    //        var Schname = "<td><input class='form-control' id='txtSchname" + index + "' name='Schemelst[" + index + "].Schname'  style='width: 90px;' type='text'/></td>"
+
+    //        var ledger = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlledger" + index + "' name='Schemelst[" + index + "].ItemId' onchange = 'changeItemDetail(this.value," + index + ")'><option value=''>Please select</option></select></td>";
+
+            
+    //        var removeCell = "<td><input id='Isvalid" + index + "' name='Schemelst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='QuoLst.Index' type='hidden' value='" + index + "'  /></td>";
+
+    //        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Type + Tname + Schname + ledger + removeCell + "</tr>";
+    //@*//alert(Packing);*@
+    //            $("#tbBooks").append(newRow);
+    //        $(function () {
+    //            $('._select').select2();
+    //        })
+    //    }
+
+    //function AddRow() {
+    //    var opt = "";
+    //    $.ajax({
+    //        type: "POST",
+    //                url: 'GetledgerJSON',
+    //        success: function (data) {
+
+    //            $.each(data, function () {
+    //                opt += "<option value=" + this.value + ">" + this.text + "</option>";
+    //            });
+    //            AppendRow(opt);
+    //        }
+    //    })
+    //}
+
+  
 </script>
