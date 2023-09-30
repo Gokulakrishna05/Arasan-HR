@@ -33,14 +33,15 @@ namespace Arasan.Controllers
             //ConfigItem tda = new ConfigItem();
             if (id == null)
             {
-                //for (int i = 0; i < 1; i++)
+                //for (int i = 0; i < 3; i++)
                 //{
-                //    tda = new ConfigItem();
+                //    ac = new AccConfig();
 
-                //    tda.ledlst = Bindledlst();
-                //    tda.Isvalid = "Y";
-                //    TData.Add(tda);
+                //    ac.ledlst = Bindledlst();
+                //    ac.Isvalid = "Y";
+                //    TData.Add(ac);
                 //}
+
             }
             else
             {
@@ -85,7 +86,7 @@ namespace Arasan.Controllers
             //    }
             //}
 
-            //ac.Schemelst = TData;
+            //ac.ledlst = TData;
             return View(ac);
         }
         [HttpPost]
@@ -138,12 +139,10 @@ namespace Arasan.Controllers
             try
             {
                 DataTable dt = new DataTable();
-
                 //string scheme = "";
                 string transactionname = "";
                 string transactionid = "";
                 
-
 
                 dt = AccConfigService.GetSchemeDetails(ItemId);
 
@@ -152,7 +151,6 @@ namespace Arasan.Controllers
                     //scheme = dt.Rows[0]["ADSCHEME"].ToString();
                     transactionname = dt.Rows[0]["ADTRANSDESC"].ToString();
                     transactionid = dt.Rows[0]["ADTRANSID"].ToString();
-                   
                    
                 }
 
@@ -165,30 +163,39 @@ namespace Arasan.Controllers
             }
         }
 
-        public JsonResult GetschemeJSON(string ItemId)
-        {
-            AccConfig model = new AccConfig();
-            model.Schemelst = BindSchemelst(ItemId);
-            return Json(BindSchemelst(ItemId));
 
-        }
-        public List<SelectListItem> BindSchemelst(string value)
+        public JsonResult GetledgerJSON()
         {
-            try
-            {
-                DataTable dtDesg = AccConfigService.Getschemebyid(value);
-                List<SelectListItem> lstdesg = new List<SelectListItem>();
-                for (int i = 0; i < dtDesg.Rows.Count; i++)
-                {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ADSCHEME"].ToString(), Value = dtDesg.Rows[i]["ADCOMPHID"].ToString() });
-                }
-                return lstdesg;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            //DeductionItem model = new DeductionItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(Bindledlst());
         }
+
+        //public JsonResult GetschemeJSON(string ItemId)
+        //{
+        //    AccConfig model = new AccConfig();
+        //    model.Schemelst = BindSchemelst(ItemId);
+        //    return Json(BindSchemelst(ItemId));
+
+        //}
+
+        //public List<SelectListItem> BindSchemelst(string value)
+        //{
+        //    try
+        //    {
+        //        DataTable dtDesg = AccConfigService.Getschemebyid(value);
+        //        List<SelectListItem> lstdesg = new List<SelectListItem>();
+        //        for (int i = 0; i < dtDesg.Rows.Count; i++)
+        //        {
+        //            lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ADSCHEME"].ToString(), Value = dtDesg.Rows[i]["ADCOMPHID"].ToString() });
+        //        }
+        //        return lstdesg;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
 
         public List<SelectListItem> BindScheme()
         {
@@ -198,7 +205,7 @@ namespace Arasan.Controllers
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ADSCHEME"].ToString(), Value = dtDesg.Rows[i]["ADSCHEME"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ADSCHEME"].ToString(), Value = dtDesg.Rows[i]["ADCOMPHID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -224,6 +231,37 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-       
+
+        public ActionResult DeleteMR(string tag, int id)
+        {
+
+            string flag = AccConfigService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListAccConfig");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListAccConfig");
+            }
+        }
+
+        public ActionResult Remove(string tag, int id)
+        {
+
+            string flag = AccConfigService.RemoveChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListAccConfig");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListAccConfig");
+            }
+        }
     }
 }
