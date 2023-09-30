@@ -345,10 +345,8 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("ASSIGNTO", OracleDbType.NVarchar2).Value = "";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
-                    try
-                    {
-                        objConn.Open();
-                        objCmd.ExecuteNonQuery();
+                     objConn.Open();
+                     objCmd.ExecuteNonQuery();
                         Object Pid = objCmd.Parameters["OUTID"].Value;
                         datatrans = new DataTransactions(_connectionString);
                         foreach (string itemid in selectedRecord)
@@ -363,23 +361,17 @@ namespace Arasan.Services
                                 EnquiryQty = dr.Rows[0]["QTY"].ToString();
                                 Unit = dr.Rows[0]["UNITMASTID"].ToString();
                             }
-                            using (OracleConnection objConnT = new OracleConnection(_connectionString))
-                                {
+                           
                                     string Sql = string.Empty;
-                                    if (StatementType == "Insert")
-                                    {
-                                        Sql = "Insert into PURENQDETAIL (PURENQBASICID,ITEMID,QTY,UNIT) Values ('" + Pid + "','" + itemid + "','" + EnquiryQty + "','" + Unit + "')";
-                                    }
-                                    else
-                                    {
-                                        Sql = "";
-                                    }
-                                    OracleCommand objCmds = new OracleCommand(Sql, objConnT);
-                                    objConnT.Open();
-                                    objCmds.ExecuteNonQuery();
-                                    objConnT.Close();
-                                }
-                            string EnqId = datatrans.GetDataString("SELECT PURENQDETAIL_seq.currval FROM dual");
+                                    
+                        Sql = "Insert into PURENQDETAIL (PURENQBASICID,ITEMID,QTY,UNIT) Values ('" + Pid + "','" + itemid + "','" + EnquiryQty + "','" + Unit + "') RETURNING PURENQDETAILID INTO :LASTCID";
+
+                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                        objCmds.Parameters.Add("LASTCID", OracleDbType.Int64, ParameterDirection.ReturnValue);
+                        objCmds.ExecuteNonQuery();
+                        string EnqId = objCmds.Parameters["LASTCID"].Value.ToString();
+
+                        //string EnqId = datatrans.GetDataString("SELECT PURENQDETAIL_seq.currval FROM dual");
                             DataTable dt = new DataTable();
                             dt = GetIndentItembyItemd(itemid);
                             if (dt.Rows.Count > 0)
@@ -397,13 +389,9 @@ namespace Arasan.Services
 
 
                         //datatrans = new DataTransactions(_connectionString);
-                        //bool result = datatrans.UpdateStatus("UPDATE PINDDETAIL SET APPROVED1='YES',APPROVAL1U='SRRAJAN',APP1DT='" + DateTime.Now.ToString("dd-MMM-yyyy") + "' Where PINDDETAILID='" + id + "'");
+                       // bool result = datatrans.UpdateStatus("UPDATE PINDDETAIL SET APPROVED1='YES',APPROVAL1U='SRRAJAN',APP1DT='" + DateTime.Now.ToString("dd-MMM-yyyy") + "' Where PINDDETAILID='" + id + "'");
 
-                    }
-                    catch (Exception ex)
-                    {
-                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
-                    }
+                  
                     objConn.Close();
                 }
             }

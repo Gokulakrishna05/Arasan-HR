@@ -17,7 +17,7 @@ namespace Arasan.Services
         public DataTable GetAccType()
         {
             string SvSql = string.Empty;
-            SvSql = "select ACCOUNTTYPEID,ACCOUNTTYPE from ACCTYPE where STATUS='Active'";
+            SvSql = "select ACCOUNTTYPEID,ACCOUNTTYPE from ACCTYPE where STATUS='ACTIVE'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -28,7 +28,7 @@ namespace Arasan.Services
         public DataTable GetAccGroup(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select ACCGROUPID,ACCOUNTGROUP from ACCGROUP where STATUS='Active' AND ACCTYPE='" + id + "'";
+            SvSql = "select ACCGROUPID,ACCOUNTGROUP from ACCGROUP where STATUS='Active' AND ACCOUNTTYPE='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
