@@ -46,11 +46,11 @@ namespace Arasan.Services
                             Scheme = rdr["ADSCHEME"].ToString(),
                             TransactionName = rdr["TRANSDESC"].ToString(),
                             TransactionID = rdr["TRANSID"].ToString(),
-                            Type = rdr["ADTYPE"].ToString(),
-                            Tname = rdr["ADNAME"].ToString(),
-                            Schname = rdr["ADSCHEMENAME"].ToString(),
-                            ledger = rdr["ADACCOUNT"].ToString(),
-                            Active = rdr["ACTIVE"].ToString()
+                            //Type = rdr["ADTYPE"].ToString(),
+                            //Tname = rdr["ADNAME"].ToString(),
+                            //Schname = rdr["ADSCHEMENAME"].ToString(),
+                            //ledger = rdr["ADACCOUNT"].ToString(),
+                            //Active = rdr["ACTIVE"].ToString()
 
 
                         };

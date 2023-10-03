@@ -93,7 +93,7 @@ namespace Arasan.Controllers
                 }
             }
 
-            tda.ledlst = TData;
+            //tda.ledlst = TData;
             return View(ac);
         }
         [HttpPost]
