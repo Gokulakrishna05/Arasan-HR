@@ -7,6 +7,7 @@ using Arasan.Services;
 using Arasan.Services.Master;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+
 namespace Arasan.Controllers.Master
 {
     public class ItemDescriptionController : Controller
@@ -24,7 +25,7 @@ namespace Arasan.Controllers.Master
         public IActionResult ItemDescription(string id)
         {
             ItemDescription br = new ItemDescription();
-            //br.Deslst = BindDes();
+            br.Unitlst = BindUnit();
             if (id != null)
             {
                 DataTable dt = new DataTable();
@@ -96,6 +97,23 @@ namespace Arasan.Controllers.Master
         //        throw ex;
         //    }
         //}
+        public List<SelectListItem> BindUnit()
+        {
+            try
+            {
+                DataTable dtDesg = ItemDescriptionService.GetUnit();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["UNITID"].ToString(), Value = dtDesg.Rows[i]["UNITMASTID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
     }
 }

@@ -152,9 +152,11 @@ internal class Program
 		builder.Services.TryAddSingleton<IEmailConfig, EmailConfigService>();
 		builder.Services.TryAddSingleton<IDebitNoteBillService, DebitNoteBillService>();
 		builder.Services.TryAddSingleton<IEmpMultipleAllocationService, EmpMultipleAllocationService>();
+		builder.Services.TryAddSingleton<IItemDescriptionService, ItemDescriptionService>();
 
         builder.Services.TryAddSingleton<IPyroProduction, PyroProductionService>();
         builder.Services.TryAddSingleton<IPromotionMailService, PromotionMailService>();
+        builder.Services.TryAddSingleton<IQcTemplateService, QcTemplateService>();
 
 
 

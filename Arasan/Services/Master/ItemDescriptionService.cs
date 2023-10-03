@@ -1,4 +1,5 @@
 ﻿using Arasan.Interface;
+using Arasan.Interface.Master;
 using Arasan.Models;
 using Microsoft.Extensions.Configuration;
 using Oracle.ManagedDataAccess.Client;
@@ -52,6 +53,16 @@ namespace Arasan.Services.Master
         {
             string SvSql = string.Empty;
             SvSql = "SELECT TESTDESCMASTERID,TESTDESC,UNITMAST.UNITID,VALUEORMANUAL FROM TESTDESCMASTER LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=TESTDESCMASTER.UNIT  where TESTDESCMASTERID=" + id + "";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetUnit()
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT UNITMASTID,UNITID FROM UNITMAST";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
