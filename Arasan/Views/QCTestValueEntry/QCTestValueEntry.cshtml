@@ -154,7 +154,9 @@
 
                                                             <br /> <label for="inputName3" class="col-sm-4 control-label">Item ID<label class="mandatory">*</label></label>
                                                         <div class="col-sm-8">
-                                                                @Html.TextBoxFor(C => C.Item, new { @id = "txtItem", @class = "form-control", @TabIndex = 2 ,@readonly="readonly"})
+                                                              @*  @Html.TextBoxFor(C => C.Item, new { @id = "txtItem", @class = "form-control", @TabIndex = 2 ,@readonly="readonly"})*@
+                                                                @Html.DropDownListFor(C => C.Item, Model.itemlst," -- Please Select -- ", new { @id = "ddlItem", @Class = "form-control _select", @TabIndex = 1, @onchange = "changeItem(this.value)"  })
+
                                                                 
                                                         </div>
                                                     </div>
@@ -275,32 +277,32 @@
                                                                         <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
                                                                            
                                                                             <td>
-                                                                                @Html.TextBoxFor(o => o.QCTestLst[i].Description, new { @id = "txtDescription" + i, @class = "form-control", style = "width: 90px;"})
-                                                                                @Html.HiddenFor(o => o.QCTestLst[i].APID, new { @id = "txtAPID" + i, @class = "form-control", style = "width: 100px;"})
+                                                                                @Html.TextBoxFor(o => o.QCTestLst[i].description, new { @id = "txtDescription" + i, @class = "form-control", style = "width: 90px;",@readonly="readonly"})
+                                                                                @Html.HiddenFor(o => o.QCTestLst[i].apid, new { @id = "txtAPID" + i, @class = "form-control", style = "width: 100px;"})
                                                                                 </td>
                                                                             <td>
-                                                                                @Html.TextBoxFor(o => o.QCTestLst[i].Value, new { @id = "txtValue" + i, @class = "form-control", style = "width: 90px;"})
+                                                                                @Html.TextBoxFor(o => o.QCTestLst[i].value, new { @id = "txtValue" + i, @class = "form-control", style = "width: 90px;",@readonly="readonly"})
                                                                             </td>
                                                                             <td>
-                                                                                @Html.TextBoxFor(o => o.QCTestLst[i].Unit, new { @id = "txtUnit" + i, @class = "form-control", style = "width: 90px;"})
+                                                                                @Html.TextBoxFor(o => o.QCTestLst[i].unit, new { @id = "txtUnit" + i, @class = "form-control", style = "width: 90px;",@readonly="readonly"})
                                                                             </td>
                                                                             <td>
-                                                                                @Html.TextBoxFor(o => o.QCTestLst[i].Startvalue, new { @id = "txtStartvalue" + i, @class = "form-control", style = "width: 90px;"})
+                                                                                @Html.TextBoxFor(o => o.QCTestLst[i].startvalue, new { @id = "txtStartvalue" + i, @class = "form-control", style = "width: 90px;"})
                                                                             </td>
                                                                             <td>
-                                                                                @Html.TextBoxFor(o => o.QCTestLst[i].Endvalue, new { @id = "txtEndvalue" + i, @class = "form-control", style = "width: 90px;"})
+                                                                                @Html.TextBoxFor(o => o.QCTestLst[i].endvalue, new { @id = "txtEndvalue" + i, @class = "form-control", style = "width: 90px;"})
                                                                             </td>
                                                                             <td>
-                                                                                @Html.TextBoxFor(o => o.QCTestLst[i].Test, new { @id = "txtTeste" + i, @class = "form-control", style = "width: 90px;"})
+                                                                                @Html.TextBoxFor(o => o.QCTestLst[i].test, new { @id = "txtTeste" + i, @class = "form-control", style = "width: 90px;"})
                                                                             </td>
                                                                             <td>
-                                                                                @Html.TextBoxFor(o => o.QCTestLst[i].Manual, new { @id = "txtManual" + i, @class = "form-control", style = "width: 90px;"})
+                                                                                @Html.TextBoxFor(o => o.QCTestLst[i].manual, new { @id = "txtManual" + i, @class = "form-control", style = "width: 90px;"})
                                                                             </td>
                                                                             <td>
-                                                                                @Html.TextBoxFor(o => o.QCTestLst[i].Actual, new { @id = "txtActual" + i, @class = "form-control", style = "width: 90px;"})
+                                                                                @Html.TextBoxFor(o => o.QCTestLst[i].actual, new { @id = "txtActual" + i, @class = "form-control", style = "width: 90px;"})
                                                                             </td>
                                                                             <td>
-                                                                                @Html.TextBoxFor(o => o.QCTestLst[i].TestResult, new { @id = "txtTestResult" + i, @class = "form-control", style = "width: 90px;"})
+                                                                                @Html.TextBoxFor(o => o.QCTestLst[i].testresult, new { @id = "txtTestResult" + i, @class = "form-control", style = "width: 90px;"})
                                                                             </td>
                                                                
                                                                            
@@ -598,9 +600,9 @@
                     "background": ""
                 });
             }
-            if (document.getElementById("txtItem").value == "") {
+            if (document.getElementById("ddlItem").value == "") {
                 isValid = false;
-                $(txtItem).css({
+                $(ddlItem).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
@@ -609,7 +611,7 @@
                 return false;
             }
             else {
-                $(txtItem).css({
+                $(ddlItem).css({
                     "border": "",
                     "background": ""
                 });
@@ -733,4 +735,58 @@
         });
 
     });
+
+   @* $(function () {
+        var ItemId = '@ViewBag.Item';
+        changeItem(ItemId);
+    });*@
+    function changeItem(ItemId) {
+
+
+
+        document.getElementById("tbBooks").innerHTML = "";
+        $.ajax({
+            url: 'GetItemDetails',
+            type: "post",
+            data: { "id": ItemId },
+            cache: false,
+
+            success: function (list) {
+                //if (list != null && list.length > 0) {
+                list.forEach((item) => {
+
+                    var index = $("#tbBooks").children("tr").length;
+                    //alert(item.batch);
+                    var Description = "<td><input class='form-control' id='txtDescription" + index + "' name='QCTestLst[" + index + "].description'  style='width: 90px;' type='text' readonly='readonly' value=" + item.description + "   /></td>"
+
+                    var Value = "<td><input class='form-control' id='txtValue" + index + "' name='QCTestLst[" + index + "].value'  style='width: 90px;' type='text' readonly='readonly' value=" + item.value + "  /></td>"
+
+                    var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='QCTestLst[" + index + "].unit'  style='width: 90px;' type='text' readonly='readonly'  value=" + item.unit + " /></td>"
+
+                    var Startvalue = "<td><input class='form-control' id='txtStartvalue" + index + "' name='QCTestLst[" + index + "].startvalue'  style='width: 90px;' type='text'  value=" + item.startvalue + " /></td>"
+
+                    var Endvalue = "<td><input class='form-control' id='txtEndvalue" + index + "' name='QCTestLst[" + index + "].endvalue'  style='width: 90px;' type='text'  value=" + item.endvalue + " /></td>"
+
+                    var Test = "<td><input class='form-control' id='txtTest" + index + "' name='QCTestLst[" + index + "].test'  style='width: 90px;' type='text'   /></td>"
+
+                    var Manual = "<td><input class='form-control' id='txtManual" + index + "' name='QCTestLst[" + index + "].manual'  style='width: 90px;' type='text'   /></td>"
+
+                    var Actual = "<td><input class='form-control' id='txtActual" + index + "' name='QCTestLst[" + index + "].actual'  style='width: 90px;' type='text'   /></td>"
+
+                    var TestResult = "<td><input class='form-control' id='txtTestResult" + index + "' name='QCTestLst[" + index + "].testresult'  style='width: 90px;' type='text'   /></td>"
+
+
+                    var removeCell = "<td><input id='Isvalid" + index + "' name='QCTestLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='QCTestLst.Index' type='hidden' value='" + index + "'  /></td>";
+
+                    var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Description + Value + Unit + Startvalue + Endvalue + Test + Manual + Actual + TestResult + removeCell + "</tr>";
+
+                    $("#tbBooks").append(newRow);
+                });
+                //}
+            },
+            error: function () {
+                alert("Data Not Found");
+            }
+        });
+    }
 </script>

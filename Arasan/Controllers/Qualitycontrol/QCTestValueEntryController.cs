@@ -31,6 +31,7 @@ namespace Arasan.Controllers.Qualitycontrol
             ca.Branch = Request.Cookies["BranchId"];
             ca.assignList = BindEmp();
             ca.Worklst = BindWorkCenter();
+            ca.itemlst = BindItem();
             ca.Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
             ca.Shiftlst = BindShift();
             DataTable dtv = datatrans.GetSequence("QTVE");
@@ -52,10 +53,11 @@ namespace Arasan.Controllers.Qualitycontrol
             }
             else
             {
+                DataTable dt = new DataTable();
                 if (tag == null)
                 {
                     //ca = QCTestValueEntryService.GetQCTestValueEntryById(id);
-                    DataTable dt = new DataTable();
+                    //DataTable dt = new DataTable();
                     dt = QCTestValueEntryService.GetQCTestValueEntryDetails(id);
                     if (dt.Rows.Count > 0)
                     {
@@ -76,6 +78,28 @@ namespace Arasan.Controllers.Qualitycontrol
 
 
                     }
+                    DataTable dt1 = new DataTable();
+                    dt1 = QCTestValueEntryService.GetQCTestDetails(id);
+                    if (dt1.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dt1.Rows.Count; i++)
+                        {
+
+                            tda = new QCTestValueEntryItem();
+                            //ViewBag.Item = dt.Rows[0]["ITEMID"].ToString();
+                            tda.description = dt1.Rows[i]["TDESC"].ToString();
+                            tda.startvalue = dt1.Rows[i]["STARTVALUE"].ToString();
+                            tda.actual = dt1.Rows[i]["ACTTESTVALUE"].ToString();
+                            tda.test = dt1.Rows[i]["TESTVALUE"].ToString();
+                            tda.testresult = dt1.Rows[i]["TESTRESULT"].ToString();
+                            tda.endvalue = dt1.Rows[i]["ENDVALUE"].ToString();
+                            tda.unit = dt1.Rows[i]["UNIT"].ToString();
+                            tda.value = dt1.Rows[i]["VALUEORMANUAL"].ToString();
+                            tda.manual = dt1.Rows[i]["MANUALVALUE"].ToString();
+                            tda.apid = id;
+                            TData.Add(tda);
+                        }
+                    }
                 }
                 else
                 {
@@ -83,7 +107,7 @@ namespace Arasan.Controllers.Qualitycontrol
                     {
                         tda = new QCTestValueEntryItem();
                         tda.Isvalid = "Y";
-                        tda.APID = id;
+                        tda.apid = id;
                         TData.Add(tda);
                     }
                     DataTable dt1 = new DataTable();
@@ -108,7 +132,7 @@ namespace Arasan.Controllers.Qualitycontrol
                             ca.Item = dtt1.Rows[0]["ITEMID"].ToString();
                         }
 
-
+                        ViewBag.Item = dt.Rows[0]["ITEMID"].ToString();
 
                     }
                 }
@@ -199,6 +223,23 @@ namespace Arasan.Controllers.Qualitycontrol
                 throw ex;
             }
         }
+        public List<SelectListItem> BindItem()
+        {
+            try
+            {
+                DataTable dtDesg = QCTestValueEntryService.GetItem();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEMID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<SelectListItem> BindBranch()
         {
             try
@@ -248,5 +289,33 @@ namespace Arasan.Controllers.Qualitycontrol
                 return RedirectToAction("ListQCTestValueEntry");
             }
         }
+        public ActionResult GetItemDetails(string id)
+        {
+            QCTestValueEntry model = new QCTestValueEntry();
+            DataTable dtt = new DataTable();
+            
+            List<QCTestValueEntryItem> Data = new List<QCTestValueEntryItem>();
+            QCTestValueEntryItem tda = new QCTestValueEntryItem();
+            string itemid = datatrans.GetDataString(" SELECT ITEMMASTERID FROM ITEMMASTER WHERE ITEMID='" + id + "'");
+            string temp = datatrans.GetDataString(" SELECT TEMPLATEID FROM ITEMMASTER WHERE ITEMMASTERID='"+ itemid + "'");
+            dtt = QCTestValueEntryService.GetItemDetail(temp);
+            if (dtt.Rows.Count > 0)
+            {
+                for (int i = 0; i < dtt.Rows.Count; i++)
+                {
+                    tda = new QCTestValueEntryItem();
+
+                    tda.description = dtt.Rows[i]["TESTDESC"].ToString();
+                    tda.value = dtt.Rows[i]["VALUEORMANUAL"].ToString();
+                    tda.unit = dtt.Rows[i]["UNITID"].ToString();
+                    tda.startvalue = dtt.Rows[i]["STARTVALUE"].ToString();
+                    tda.endvalue = dtt.Rows[i]["ENDVALUE"].ToString();
+
+                    Data.Add(tda);
+                }
+            }
+            model.QCTestLst = Data;
+            return Json(model.QCTestLst);
+        }
+        }
     }
-}

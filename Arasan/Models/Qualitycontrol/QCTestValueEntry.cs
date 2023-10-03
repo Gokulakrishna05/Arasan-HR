@@ -15,6 +15,7 @@ namespace Arasan.Models
         }
         public List<SelectListItem> Worklst;
         public List<SelectListItem> Shiftlst;
+        public List<SelectListItem> itemlst;
         
         public List<SelectListItem> Brlst;
         public string Branch { get; set; }
@@ -44,16 +45,16 @@ namespace Arasan.Models
     }
     public class QCTestValueEntryItem
     {
-        public string Description { get; set; }
-        public string Value { get; set; }
-        public string Unit { get; set; }
-        public string Startvalue { get; set; }
-        public string Endvalue { get; set; }
-        public string Test { get; set; }
-        public string Manual { get; set; }
-        public string Actual { get; set; }
-        public string APID { get; set; }
-        public string TestResult { get; set; }
+        public string description { get; set; }
+        public string value { get; set; }
+        public string unit { get; set; }
+        public string startvalue { get; set; }
+        public string endvalue { get; set; }
+        public string test { get; set; }
+        public string manual { get; set; }
+        public string actual { get; set; }
+        public string apid { get; set; }
+        public string testresult { get; set; }
         public string Isvalid { get; set; }
 
     }

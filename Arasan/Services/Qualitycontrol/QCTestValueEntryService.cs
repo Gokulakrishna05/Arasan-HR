@@ -166,14 +166,14 @@ namespace Arasan.Services.Qualitycontrol
                             {
                                 foreach (QCTestValueEntryItem cp in cy.QCTestLst)
                                 {
-                                    if (cp.Isvalid == "Y" && cp.Description != "0")
+                                    if (cp.Isvalid == "Y" && cp.description != "0")
                                     {
 
-                                        svSQL = "Insert into QTVEDETAIL (QTVEBASICID,TDESC,VALUEORMANUAL,UNIT,STARTVALUE,ENDVALUE,TESTVALUE,MANUALVALUE,ACTTESTVALUE,TESTRESULT) VALUES ('" + Pid + "','" + cp.Description + "','" + cp.Value + "','" + cp.Unit + "','" + cp.Startvalue + "','" + cp.Endvalue + "','" + cp.Test + "','" + cp.Manual + "','" + cp.Actual + "','" + cp.TestResult + "')";
+                                        svSQL = "Insert into QTVEDETAIL (QTVEBASICID,TDESC,VALUEORMANUAL,UNIT,STARTVALUE,ENDVALUE,TESTVALUE,MANUALVALUE,ACTTESTVALUE,TESTRESULT) VALUES ('" + Pid + "','" + cp.description + "','" + cp.value + "','" + cp.unit + "','" + cp.startvalue + "','" + cp.endvalue + "','" + cp.test + "','" + cp.manual + "','" + cp.actual + "','" + cp.testresult + "')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
 
-                                        svSQL = "Update APPRODOUTDET SET TESTRESULT='" + cp.TestResult + "',MOVETOQC='Moved' WHERE APPRODUCTIONBASICID='"+ cp.APID +"'";
+                                        svSQL = "Update APPRODOUTDET SET TESTRESULT='" + cp.testresult + "',MOVETOQC='Moved' WHERE APPRODUCTIONBASICID='"+ cp.apid +"'";
                                         OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
                                         objCmdd.ExecuteNonQuery();
 
@@ -190,10 +190,10 @@ namespace Arasan.Services.Qualitycontrol
                                 foreach (QCTestValueEntryItem cp in cy.QCTestLst)
                                 {
 
-                                    if (cp.Isvalid == "Y" && cp.Description != "0")
+                                    if (cp.Isvalid == "Y" && cp.description != "0")
                                     {
 
-                                        svSQL = "Insert into QTVEDETAIL (QTVEBASICID,TDESC,VALUEORMANUAL,UNIT,STARTVALUE,ENDVALUE,TESTVALUE,MANUALVALUE,ACTTESTVALUE,TESTRESULT) VALUES ('" + Pid + "','" + cp.Description + "','" + cp.Value + "','" + cp.Unit + "','" + cp.Startvalue + "','" + cp.Endvalue + "','" + cp.Test + "','" + cp.Manual + "','" + cp.Actual + "','" + cp.TestResult + "')";
+                                        svSQL = "Insert into QTVEDETAIL (QTVEBASICID,TDESC,VALUEORMANUAL,UNIT,STARTVALUE,ENDVALUE,TESTVALUE,MANUALVALUE,ACTTESTVALUE,TESTRESULT) VALUES ('" + Pid + "','" + cp.description + "','" + cp.value + "','" + cp.unit + "','" + cp.startvalue + "','" + cp.endvalue + "','" + cp.test + "','" + cp.manual + "','" + cp.actual + "','" + cp.testresult + "')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
 
@@ -253,14 +253,23 @@ namespace Arasan.Services.Qualitycontrol
         public DataTable GetQCTestValueEntryDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select BRANCH,DOCID,DOCDATE,WCID,SHIFTNO,PROCESSLOTNO,CDRUMNO,PRODDATE,SAMPLENO,STIME,ITEMID,RATEPHR,NOZZLENO,AIRPRESS,ADDCH,BCT,ENTEREDBY,REMARKS,QTVEBASICID from QTVEBASIC WHERE QTVEBASICID='"+ id + "'";
+            SvSql = "select BRANCH,DOCID,to_char(QTVEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,WCID,SHIFTNO,PROCESSLOTNO,CDRUMNO,to_char(QTVEBASIC.DOCDATE,'dd-MON-yyyy')PRODDATE,SAMPLENO,STIME,ITEMID,RATEPHR,NOZZLENO,AIRPRESS,ADDCH,BCT,ENTEREDBY,REMARKS,QTVEBASICID from QTVEBASIC WHERE QTVEBASICID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
         }
-
+        public DataTable GetQCTestDetails(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select QTVEBASICID,TDESC,VALUEORMANUAL,UNIT,STARTVALUE,ENDVALUE,TESTVALUE,MANUALVALUE,ACTTESTVALUE,TESTRESULT from QTVEDETAIL WHERE QTVEBASICID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetAPOutDetails(string id)
         {
             string SvSql = string.Empty;
@@ -275,7 +284,7 @@ namespace Arasan.Services.Qualitycontrol
         public DataTable GetAPOutItemDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select ITEMMASTER.ITEMID,DRUMMAST.DRUMNO,FROMTIME from APPRODOUTDET  LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=APPRODOUTDET.ITEMID LEFT OUTER JOIN DRUMMAST ON DRUMMASTID=APPRODOUTDET.DRUMNO WHERE APPRODUCTIONBASICID='" + id + "' ";
+            SvSql = "select ITEMID,DRUMMAST.DRUMNO,FROMTIME from APPRODOUTDET  LEFT OUTER JOIN DRUMMAST ON DRUMMASTID=APPRODOUTDET.DRUMNO WHERE APPRODUCTIONBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -304,6 +313,27 @@ namespace Arasan.Services.Qualitycontrol
             }
             return "";
 
+        }
+        public DataTable GetItem()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select ITEMID,ITEMMASTERID from ITEMMASTER where IGROUP in ('SEMI FINISHED GOODS','FINISHED') ";
+
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetItemDetail(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select TESTDESC,UNITMAST.UNITID,VALUEORMANUAL,STARTVALUE,ENDVALUE from TESTTDETAIL left outer join UNITMAST ON UNITMASTID =TESTTDETAIL.UNIT   WHERE TESTTBASICID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
         }
     }
 }

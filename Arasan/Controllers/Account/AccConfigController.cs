@@ -13,71 +13,80 @@ namespace Arasan.Controllers
 {
     public class AccConfigController : Controller
     {
-        IAccConfig Config;
+        IAccConfig AccConfigService;
         IConfiguration? _configuratio;
         private string? _connectionString;
         DataTransactions datatrans;
-        public AccConfigController(IAccConfig _Config, IConfiguration _configuratio)
+        public AccConfigController(IAccConfig _AccConfigService, IConfiguration _configuratio)
         {
-            Config = _Config;
+            AccConfigService = _AccConfigService;
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
         public IActionResult AccConfig(string id)
         {
             AccConfig ac = new AccConfig();
-            
-            
-            List<ConfigItem> TData = new List<ConfigItem>();
-            ConfigItem tda = new ConfigItem();
-            if (id==null)
+            ac.Schemelst = BindScheme();
+            ac.ledlst = Bindledlst();
+
+            //List<ConfigItem> TData = new List<ConfigItem>();
+            //ConfigItem tda = new ConfigItem();
+            if (id == null)
             {
-                DataTable dt = new DataTable();
-                dt = Config.GetConfig();
-                if (dt.Rows.Count > 0)
-                {
-                    for (int i = 0; i < dt.Rows.Count; i++)
-                    {
-                        tda = new ConfigItem();
-                        tda.Type = dt.Rows[i]["TYPE"].ToString();
-                        tda.Ledlst = BindLedger();
-                        tda.Ledger = dt.Rows[i]["LEDGERID"].ToString();
-                        tda.ID = dt.Rows[i]["ACCOUNTCONFIGID"].ToString();
-                        TData.Add(tda);
-                        //sq.ID = id;
-                    }
-                }
-
-                //for (int i = 0; i < 8; i++)
+                //for (int i = 0; i < 3; i++)
                 //{
-                //    tda = new ConfigItem();
-                //    tda.Ledlst = BindLedger();
+                //    ac = new AccConfig();
 
-               
-                //    TData.Add(tda);
-
-                   
-                //    //TData.Add(tda);
+                //    ac.ledlst = Bindledlst();
+                //    ac.Isvalid = "Y";
+                //    TData.Add(ac);
                 //}
+
             }
             else
             {
-                //DataTable dt = new DataTable();
-                //dt = Config.GetConfig();
-                //if (dt.Rows.Count > 0)
-                //{
-                //    for (int i = 0; i < dt.Rows.Count; i++)
-                //    {
-                //        tda = new ConfigItem();
-                //        tda.Type = dt.Rows[i]["TYPE"].ToString();
-                //        tda.Ledlst = BindLedger();
-                //        tda.Ledger = dt.Rows[i]["LEDGERID"].ToString();
-                //        TData.Add(tda);
-                //        //sq.ID = id;
-                //    }
-                //}
+                DataTable dt = new DataTable();
+
+                dt = AccConfigService.GetAccConfig(id);
+                if (dt.Rows.Count > 0)
+                {
+                    ac.Scheme = dt.Rows[0]["ADSCHEME"].ToString();
+                    ac.TransactionName = dt.Rows[0]["TRANSDESC"].ToString();
+                    ac.TransactionID = dt.Rows[0]["TRANSID"].ToString();
+                    
+                    //tda.saveledger = dt2.Rows[i]["ADACCOUNT"].ToString();
+
+                    ac.Type = dt.Rows[0]["ADTYPE"].ToString();
+                    ac.Tname = dt.Rows[0]["ADNAME"].ToString();
+                    ac.Schname = dt.Rows[0]["ADSCHEMENAME"].ToString();
+                    ac.ledger = dt.Rows[0]["ADACCOUNT"].ToString();
+
+                    ac.ID = id;
+
+                }
             }
-            ac.ConfigLst = TData;
+            //DataTable dt2 = new DataTable();
+
+            //dt2 = AccConfigService.GetAccConfigItem(id);
+            //if (dt2.Rows.Count > 0)
+            //{
+            //    for (int i = 0; i < dt2.Rows.Count; i++)
+            //    {
+            //        tda = new ConfigItem();
+            //        double toaamt = 0;
+            //        tda.ledlst = Bindledlst();
+
+            //        tda.ledger = dt2.Rows[i]["ADACCOUNT"].ToString();
+            //        tda.saveledger = dt2.Rows[i]["ADACCOUNT"].ToString();
+
+            //        tda.Type = dt2.Rows[i]["ADTYPE"].ToString();
+            //        tda.Tname = dt2.Rows[i]["ADNAME"].ToString();
+            //        tda.Scheme = dt2.Rows[i]["ADSCHEMENAME"].ToString();
+            //        TData.Add(tda);
+            //    }
+            //}
+
+            //ac.ledlst = TData;
             return View(ac);
         }
         [HttpPost]
@@ -87,7 +96,7 @@ namespace Arasan.Controllers
             try
             {
                 Cy.ID = id;
-                string Strout = Config.ConfigCRUD(Cy);
+                string Strout = AccConfigService.ConfigCRUD(Cy);
                 if (string.IsNullOrEmpty(Strout))
                 {
                     if (Cy.ID == null)
@@ -98,7 +107,7 @@ namespace Arasan.Controllers
                     {
                         TempData["notice"] = "AccConfig Updated Successfully...!";
                     }
-                    return RedirectToAction("AccConfig");
+                    return RedirectToAction("ListAccConfig");
                 }
 
                 else
@@ -117,11 +126,99 @@ namespace Arasan.Controllers
 
             return View(Cy);
         }
-        public List<SelectListItem> BindLedger()
+
+        public IActionResult ListAccConfig(string Active)
+        {
+            IEnumerable<AccConfig> cmp = AccConfigService.GetAllAccConfig(Active);
+            return View(cmp);
+        }
+
+
+        public ActionResult GetSchemeDetail(string ItemId)
         {
             try
             {
-                DataTable dtDesg = Config.GetLedger();
+                DataTable dt = new DataTable();
+                //string scheme = "";
+                string transactionname = "";
+                string transactionid = "";
+                
+
+                dt = AccConfigService.GetSchemeDetails(ItemId);
+
+                if (dt.Rows.Count > 0)
+                {
+                    //scheme = dt.Rows[0]["ADSCHEME"].ToString();
+                    transactionname = dt.Rows[0]["ADTRANSDESC"].ToString();
+                    transactionid = dt.Rows[0]["ADTRANSID"].ToString();
+                   
+                }
+
+                var result = new { transactionname = transactionname, transactionid = transactionid };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+        public JsonResult GetledgerJSON()
+        {
+            //DeductionItem model = new DeductionItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(Bindledlst());
+        }
+
+        //public JsonResult GetschemeJSON(string ItemId)
+        //{
+        //    AccConfig model = new AccConfig();
+        //    model.Schemelst = BindSchemelst(ItemId);
+        //    return Json(BindSchemelst(ItemId));
+
+        //}
+
+        //public List<SelectListItem> BindSchemelst(string value)
+        //{
+        //    try
+        //    {
+        //        DataTable dtDesg = AccConfigService.Getschemebyid(value);
+        //        List<SelectListItem> lstdesg = new List<SelectListItem>();
+        //        for (int i = 0; i < dtDesg.Rows.Count; i++)
+        //        {
+        //            lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ADSCHEME"].ToString(), Value = dtDesg.Rows[i]["ADCOMPHID"].ToString() });
+        //        }
+        //        return lstdesg;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
+
+        public List<SelectListItem> BindScheme()
+        {
+            try
+            {
+                DataTable dtDesg = AccConfigService.GetConfig();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ADSCHEME"].ToString(), Value = dtDesg.Rows[i]["ADCOMPHID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> Bindledlst()
+        {
+            try
+            {
+                DataTable dtDesg = AccConfigService.Getledger();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -132,6 +229,38 @@ namespace Arasan.Controllers
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+
+        public ActionResult DeleteMR(string tag, int id)
+        {
+
+            string flag = AccConfigService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListAccConfig");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListAccConfig");
+            }
+        }
+
+        public ActionResult Remove(string tag, int id)
+        {
+
+            string flag = AccConfigService.RemoveChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListAccConfig");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListAccConfig");
             }
         }
     }

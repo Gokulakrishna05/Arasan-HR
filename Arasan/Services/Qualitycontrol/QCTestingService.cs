@@ -145,8 +145,8 @@ namespace Arasan.Services
 
                     objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.DocId;
                     objCmd.Parameters.Add("GRNNO", OracleDbType.NVarchar2).Value = cy.GRNNo;
-                    objCmd.Parameters.Add("DOCDATE", OracleDbType.Date).Value = DateTime.Parse(cy.DocDate);
-                    objCmd.Parameters.Add("GRNDATE", OracleDbType.Date).Value = DateTime.Parse(cy.GRNDate);
+                    objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value =  cy.DocDate ;
+                    objCmd.Parameters.Add("GRNDATE", OracleDbType.NVarchar2).Value =  cy.GRNDate ;
                     objCmd.Parameters.Add("CLASSCODE", OracleDbType.NVarchar2).Value = cy.ClassCode;
                     objCmd.Parameters.Add("PARTYID", OracleDbType.NVarchar2).Value = cy.Party;
                     objCmd.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cy.ItemId;

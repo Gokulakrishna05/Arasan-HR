@@ -18,6 +18,7 @@ using System.Collections.Generic;
 
 using Arasan.Models;
 using Microsoft.AspNetCore.Http.Features;
+using Arasan.Services;
 
 //using Arasan.Services.Store_Management;
 
@@ -156,7 +157,11 @@ internal class Program
 
         builder.Services.TryAddSingleton<IPyroProduction, PyroProductionService>();
         builder.Services.TryAddSingleton<IPromotionMailService, PromotionMailService>();
+
         builder.Services.TryAddSingleton<IQcTemplateService, QcTemplateService>();
+
+        builder.Services.TryAddSingleton<IAccDescrip, AccDescripService>();
+
 
 
 
