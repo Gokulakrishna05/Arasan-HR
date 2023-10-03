@@ -11,7 +11,7 @@ namespace Arasan.Interface
         DataTable GetConfig();
         DataTable Getledger();
 
-        //DataTable GetAccConfigItem(string id);
+        DataTable GetAccConfigItem(string id);
         DataTable GetAccConfig(string id);
         DataTable Getschemebyid(string id);
         IEnumerable<AccConfig> GetAllAccConfig(string Active);
