@@ -247,7 +247,7 @@
 
                                        
                                     </tr>
-                      </thead>
+                               </thead>
                                         <tbody id="tbBooks">
 
                                             @{
@@ -314,8 +314,6 @@
                                                         <td>
                                                             @Html.TextBoxFor(o => o.QuoLst[i].totalamount, new { @id = "txtTotalAmount" + i, @class = "form-control", style = "width: 80px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)", @readonly = "readonly"})
                                                         </td>
-
-
 
 
                                                         <td>
@@ -758,7 +756,7 @@
                 var $pri = $("#ddlPro").select2();
                    $pri.val(result.pri).trigger("change");
 
-                },
+            },
             error: function () {
                 alert("Data Not Found");
             }

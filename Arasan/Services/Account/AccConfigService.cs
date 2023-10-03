@@ -74,7 +74,7 @@ namespace Arasan.Services
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
-                    OracleCommand objCmd = new OracleCommand("ADCOMPDPROC", objConn);
+                    OracleCommand objCmd = new OracleCommand("ACONFIGPROC", objConn);
                     /*objCmd.Connection = objConn;
                     objCmd.CommandText = "DIRECTPURCHASEPROC";*/
 
@@ -90,13 +90,22 @@ namespace Arasan.Services
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
 
                     }
+                    objCmd.Parameters.Add("ADSCHEMEDESC", OracleDbType.NVarchar2).Value = cy.SchemeDes;
                     objCmd.Parameters.Add("ADSCHEME", OracleDbType.NVarchar2).Value = cy.Scheme;
                     objCmd.Parameters.Add("TRANSDESC", OracleDbType.NVarchar2).Value = cy.TransactionName;
                     objCmd.Parameters.Add("TRANSID", OracleDbType.NVarchar2).Value = cy.TransactionID;
-                    objCmd.Parameters.Add("ADTYPE", OracleDbType.NVarchar2).Value = cy.Type;
-                    objCmd.Parameters.Add("ADNAME", OracleDbType.NVarchar2).Value = cy.Tname;
-                    objCmd.Parameters.Add("ADSCHEMENAME", OracleDbType.NVarchar2).Value = cy.Schname;
-                    objCmd.Parameters.Add("ADACCOUNT", OracleDbType.NVarchar2).Value = cy.ledger;
+                    objCmd.Parameters.Add("ADACTION", OracleDbType.NVarchar2).Value = cy.TransactionID;
+                    objCmd.Parameters.Add("ADPLUS", OracleDbType.NVarchar2).Value = cy.TransactionID;
+                    objCmd.Parameters.Add("ADMINUS", OracleDbType.NVarchar2).Value = cy.TransactionID;
+                    objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = cy.TransactionID;
+                    objCmd.Parameters.Add("CREATED_ON", OracleDbType.NVarchar2).Value = cy.TransactionID;
+                    objCmd.Parameters.Add("CURRENT_DATE", OracleDbType.NVarchar2).Value = cy.TransactionID;
+                    objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.TransactionID;
+
+                    //objCmd.Parameters.Add("ADTYPE", OracleDbType.NVarchar2).Value = cy.Type;
+                    //objCmd.Parameters.Add("ADNAME", OracleDbType.NVarchar2).Value = cy.Tname;
+                    //objCmd.Parameters.Add("ADSCHEMENAME", OracleDbType.NVarchar2).Value = cy.Schname;
+                    //objCmd.Parameters.Add("ADACCOUNT", OracleDbType.NVarchar2).Value = cy.ledger;
 
                     objCmd.Parameters.Add("ACTIVE", OracleDbType.NVarchar2).Value = "YES";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
@@ -183,12 +192,11 @@ namespace Arasan.Services
         //    }
 
         //    return msg;
-        //}
 
         public DataTable GetSchemeDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select ADSCHEME,ADTRANSDESC,ADTRANSID from ADCOMPH where ADCOMPH.ADCOMPHID =  '" + id + "' ";
+            SvSql = "select ADSCHEME,ADTRANSDESC,ADTRANSID from ADCOMPH where ADCOMPH.ADSCHEME =  '" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -211,7 +219,8 @@ namespace Arasan.Services
         public DataTable GetAccConfig(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select ADSCHEMENAME,ADTYPE,ADNAME,ADACCOUNT,ADSCHEME,TRANSDESC,TRANSID ,ADCOMPDID FROM ADCOMPD WHERE ADCOMPDID ='" + id + "' ";
+            //SvSql = "Select ADSCHEMENAME,ADTYPE,ADNAME,ADACCOUNT,ADSCHEME,TRANSDESC,TRANSID ,ADCOMPDID FROM ADCOMPD WHERE ADCOMPDID ='" + id + "' ";
+            SvSql = "Select ADSCHEMEDESC,ADSCHEME,ADTRANSDESC,ADTRANSID,ADACTION,ADPLUS,ADMINUS,CURRENT_DATE ,CREATED_BY,CREATED_ON,CURRENT_DATE,BRANCHID FROM ADCOMPH WHERE ADCOMPHID = '" + id + "' ";
             
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -240,16 +249,16 @@ namespace Arasan.Services
             return dtt;
         }
 
-        //public DataTable GetAccConfigItem(string id)
-        //{
-        //    string SvSql = string.Empty;
-        //    SvSql = "Select ADCOMPDID,ADTYPE,ADNAME,ADSCHEMENAME,ADACCOUNT  from ADCOMPD  where ADCOMPD.ADCOMPDID= '" + id + "' ";
-        //    DataTable dtt = new DataTable();
-        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-        //    adapter.Fill(dtt);
-        //    return dtt;
-        //}
+        public DataTable GetAccConfigItem(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select ADCOMPDID,ADTYPE,ADNAME,ADSCHEMENAME,ADACCOUNT  from ADCOMPD  where ADCOMPD.ADCOMPDID= '" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
 
         public string StatusChange(string tag, int id)
         {

@@ -26,21 +26,19 @@ namespace Arasan.Controllers
         public IActionResult AccConfig(string id)
         {
             AccConfig ac = new AccConfig();
-            ac.Schemelst = BindScheme();
-            ac.ledlst = Bindledlst();
-
-            //List<ConfigItem> TData = new List<ConfigItem>();
-            //ConfigItem tda = new ConfigItem();
+           
+            List<ConfigItem> TData = new List<ConfigItem>();
+            ConfigItem tda = new ConfigItem();
             if (id == null)
             {
-                //for (int i = 0; i < 3; i++)
-                //{
-                //    ac = new AccConfig();
+                for (int i = 0; i < 3; i++)
+                {
+                    ac = new AccConfig();
 
-                //    ac.ledlst = Bindledlst();
-                //    ac.Isvalid = "Y";
-                //    TData.Add(ac);
-                //}
+                    tda.ledlst = Bindledlst();
+                    tda.Isvalid = "Y";
+                    TData.Add(tda);
+                }
 
             }
             else
@@ -50,43 +48,52 @@ namespace Arasan.Controllers
                 dt = AccConfigService.GetAccConfig(id);
                 if (dt.Rows.Count > 0)
                 {
+                    ac.SchemeDes = dt.Rows[0]["ADSCHEMEDESC"].ToString();
                     ac.Scheme = dt.Rows[0]["ADSCHEME"].ToString();
                     ac.TransactionName = dt.Rows[0]["TRANSDESC"].ToString();
                     ac.TransactionID = dt.Rows[0]["TRANSID"].ToString();
+                    ac.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                    ac.Adact = dt.Rows[0]["ADACTION"].ToString();
+                    ac.Adplus = dt.Rows[0]["ADPLUS"].ToString();
+                    ac.Adminus = dt.Rows[0]["ADMINUS"].ToString();
+                    ac.CreatBy = dt.Rows[0]["CREATED_BY"].ToString();
+                    ac.CreatOn = dt.Rows[0]["CREATED_ON"].ToString();
+                    ac.CurrDate = dt.Rows[0]["CURRENT_DATE"].ToString();
                     
+
                     //tda.saveledger = dt2.Rows[i]["ADACCOUNT"].ToString();
 
-                    ac.Type = dt.Rows[0]["ADTYPE"].ToString();
-                    ac.Tname = dt.Rows[0]["ADNAME"].ToString();
-                    ac.Schname = dt.Rows[0]["ADSCHEMENAME"].ToString();
-                    ac.ledger = dt.Rows[0]["ADACCOUNT"].ToString();
+                    //ac.Type = dt.Rows[0]["ADTYPE"].ToString();
+                    //ac.Tname = dt.Rows[0]["ADNAME"].ToString();
+                    //ac.Schname = dt.Rows[0]["ADSCHEMENAME"].ToString();
+                    //ac.ledger = dt.Rows[0]["ADACCOUNT"].ToString();
 
                     ac.ID = id;
 
                 }
             }
-            //DataTable dt2 = new DataTable();
+            DataTable dt2 = new DataTable();
 
-            //dt2 = AccConfigService.GetAccConfigItem(id);
-            //if (dt2.Rows.Count > 0)
-            //{
-            //    for (int i = 0; i < dt2.Rows.Count; i++)
-            //    {
-            //        tda = new ConfigItem();
-            //        double toaamt = 0;
-            //        tda.ledlst = Bindledlst();
+            dt2 = AccConfigService.GetAccConfigItem(id);
+            if (dt2.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt2.Rows.Count; i++)
+                {
+                    tda = new ConfigItem();
+                    double toaamt = 0;
+                    //tda.ledlst = Bindledlst();
 
-            //        tda.ledger = dt2.Rows[i]["ADACCOUNT"].ToString();
-            //        tda.saveledger = dt2.Rows[i]["ADACCOUNT"].ToString();
+                    tda.ledger = dt2.Rows[i]["ADACCOUNT"].ToString();
+                    tda.saveledger = dt2.Rows[i]["ADACCOUNT"].ToString();
 
-            //        tda.Type = dt2.Rows[i]["ADTYPE"].ToString();
-            //        tda.Tname = dt2.Rows[i]["ADNAME"].ToString();
-            //        tda.Scheme = dt2.Rows[i]["ADSCHEMENAME"].ToString();
-            //        TData.Add(tda);
-            //    }
-            //}
+                    tda.Type = dt2.Rows[i]["ADTYPE"].ToString();
+                    tda.Tname = dt2.Rows[i]["ADNAME"].ToString();
+                    tda.Schname = dt2.Rows[i]["ADSCHEMENAME"].ToString();
+                    TData.Add(tda);
+                }
+            }
 
-            //ac.ledlst = TData;
+            tda.ledlst = TData;
             return View(ac);
         }
         [HttpPost]
@@ -205,7 +212,7 @@ namespace Arasan.Controllers
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ADSCHEME"].ToString(), Value = dtDesg.Rows[i]["ADCOMPHID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ADSCHEME"].ToString(), Value = dtDesg.Rows[i]["ADSCHEME"].ToString() });
                 }
                 return lstdesg;
             }
