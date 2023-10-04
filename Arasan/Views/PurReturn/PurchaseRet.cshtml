@@ -37,9 +37,9 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Branch <label class="Mandatory"></label></label>
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Branch <label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Branch, Model.Brlst, new { @id = "ddlBranch", @Class = "form-control chosen-select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.Branch, Model.Brlst, new { @id = "ddlBranch", @Class = "form-control _select", @TabIndex = 1 })
 
                                         </div>
                                     </div>
@@ -47,22 +47,22 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Ware House<label class="Mandatory"></label></label>
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Ware House<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Location, Model.Loclst, new { @id = "ddllocation", @Class = "form-control chosen-select", @TabIndex = 4 })
+                                            @Html.DropDownListFor(C => C.Location, Model.Loclst, new { @id = "ddllocation", @Class = "form-control _select", @TabIndex = 4 })
                                         </div>
                                     </div>
                                 </div>
 
                             </div>
-                            <div style="height:15px;"></div>
+                           
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">P.Return.No<label class="mandatory">*</label></label>
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">P.Return.No<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.RetNo, new { @id = "txtRetNo", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
+                                            @Html.TextBoxFor(C => C.RetNo, new { @id = "txtRetNo", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)",@readonly=true})
                                             @Html.HiddenFor(C => C.ID)
                                         </div>
                                     </div>
@@ -70,7 +70,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">P.Return Date<label class="mandatory">*</label></label>
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">P.Return Date<label class="mandatory">*</label></label>
 
                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                             @Html.TextBoxFor(C => C.RetDate, new { @id = "RetDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
@@ -81,37 +81,36 @@
                                 </div>
                             </div>
 
-                             <div style="height:15px;"></div>
 
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">GRN No<label class="Mandatory"></label></label>
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">GRN No<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(o => o.Grn, Model.POlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlGRN" , onchange = "changeItem(this.value," + 0 + ")" })<br />
+                                            @Html.DropDownListFor(o => o.Grn, Model.POlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlGRN" , onchange = "changeItem(this.value," + 0 + ")" })
                                         </div>
                                     </div>
                                 </div>
                                  <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Party <label class="Mandatory"></label></label>
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Party <label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Supplier, Model.Suplst, new { @id = "ddlParty", @Class = "form-control chosen-select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.Supplier, Model.Suplst, new { @id = "ddlParty", @Class = "form-control _select", @TabIndex = 1 })
                                         </div>
                                     </div>
                                 </div>
                                 
                                 </div>
-                                <div style="height:15px;"></div>
+                           
                                  <div class="row">
                                      <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Currency<label class="Mandatory"></label></label>
+                                       <br /> <label for="inputName3" class="col-sm-4 control-label">Currency<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Currency, Model.Curlst, new { @id = "ddlCurrency", @Class = "form-control chosen-select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.Currency, Model.Curlst, new { @id = "ddlCurrency", @Class = "form-control _select", @TabIndex = 1 })
 
                                         </div>
                                     </div>
@@ -119,10 +118,10 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Exchange Rate<label class="Mandatory"></label></label>
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Exchange Rate<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
 
-                                            @Html.TextBoxFor(C => C.ExRate, new { @id = "txtExRate", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)"})<br />
+                                            @Html.TextBoxFor(C => C.ExRate, new { @id = "txtExRate", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
 
                                         </div>
                                     </div>
@@ -135,7 +134,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Req No<label class="mandatory">*</label></label>
+                                       <br /> <label for="inputName3" class="col-sm-4 control-label">Req No<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.ReqNo, new { @id = "txtReqNo", @class = "form-control", @TabIndex = "2"})
                                         </div>
@@ -144,7 +143,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Req Date<label class="mandatory">*</label></label>
+                                        <br />   <label for="inputName3" class="col-sm-4 control-label">Req Date<label class="mandatory">*</label></label>
                                         <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                             @Html.TextBoxFor(C => C.ReqDate, new { @id = "ReqDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -202,7 +201,7 @@
 
                                         <br />  <label for="inputName3" class="col-sm-4 control-label">Transit LocID<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Trans, Model.Loclst, new { @id = "ddlTrans", @Class = "form-control chosen-select", @TabIndex = 4 })
+                                            @Html.DropDownListFor(C => C.Trans, Model.Loclst, new { @id = "ddlTrans", @Class = "form-control _select", @TabIndex = 4 })
                                         </div>
                                     </div>
                                 </div>
@@ -211,10 +210,10 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Rejected By<label class="Mandatory"></label></label>
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Rejected By<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
 
-                                            @Html.DropDownListFor(C => C.Rej, Model.assignList, new { @id = "ddlRej", @Class = "form-control chosen-select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.Rej, Model.assignList, new { @id = "ddlRej", @Class = "form-control _select", @TabIndex = 1 })
 
                                         </div>
                                     </div>
@@ -280,7 +279,7 @@
                                                                             <div class="col-md-6">
                                                                                 <div class="form-group">
 
-                                                                                    <label for="inputName3" class="col-sm-4 control-label">Packing and Forwarding ( + ) <label class="Mandatory"></label></label>
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Packing and Forwarding ( + ) <label class="Mandatory"></label></label>
                                                                                     <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.Packingcharges, new { @id = "txtPackingcharges", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
                                                                                     </div>
@@ -289,19 +288,19 @@
                                                                             <div class="col-md-6">
                                                                                 <div class="form-group">
 
-                                                                                    <label for="inputName3" class="col-sm-4 control-label">Freight Charges ( + ) <label class="Mandatory"></label></label>
+                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Freight Charges ( + ) <label class="Mandatory"></label></label>
                                                                                     <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.Frieghtcharge, new { @id = "txtFrieghtcharge", @class = "form-control", @TabIndex = 2, onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                        <div style="height:30px;"></div>
+                                                                      
                                                                         <div class="row">
                                                                             <div class="col-md-6">
                                                                                 <div class="form-group">
 
-                                                                                    <label for="inputName3" class="col-sm-4 control-label">Other Charges ( + )<label class="Mandatory"></label></label>
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Other Charges ( + )<label class="Mandatory"></label></label>
                                                                                     <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.Othercharges, new { @id = "txtOthercharges", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                                                                     </div>
@@ -309,7 +308,7 @@
                                                                             </div>
                                                                             <div class="col-md-6">
                                                                                 <div class="form-group">
-                                                                                    <label for="inputName3" class="col-sm-4 control-label">Round Off ( + )<label class="Mandatory"></label></label>
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Round Off ( + )<label class="Mandatory"></label></label>
 
                                                                                     <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.Round, new { @id = "txtRound", @class = "form-control", @TabIndex = 2 ,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
@@ -318,12 +317,12 @@
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                        <div style="height:30px;"></div>
+                                                                      
                                                                         <div class="row">
                                                                             <div class="col-md-6">
                                                                                 <div class="form-group">
 
-                                                                                    <label for="inputName3" class="col-sm-4 control-label">Other Deductions ( - )<label class="Mandatory"></label></label>
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Other Deductions ( - )<label class="Mandatory"></label></label>
                                                                                     <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.otherdeduction, new { @id = "txtotherdeduction", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                                                                     </div>
@@ -331,7 +330,7 @@
                                                                             </div>
                                                                             <div class="col-md-6">
                                                                                 <div class="form-group">
-                                                                                    <label for="inputName3" class="col-sm-4 control-label">Round Off ( - )<label class="Mandatory"></label></label>
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Round Off ( - )<label class="Mandatory"></label></label>
 
                                                                                     <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.Roundminus, new { @id = "txtRoundminus", @class = "form-control", @TabIndex = 2 ,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
@@ -340,12 +339,12 @@
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                        <div style="height:30px;"></div>
+                                                                       
                                                                         <div class="row">
                                                                             <div class="col-md-6">
                                                                                 <div class="form-group">
 
-                                                                                    <label for="inputName3" class="col-sm-4 control-label">Gross<label class="Mandatory"></label></label>
+                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Gross<label class="Mandatory"></label></label>
                                                                                     <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.Gross, new { @id = "txtGross", @class = "form-control", @TabIndex = 2 ,onkeydown = "return isNumeric2(event.keyCode,this.value)",@readonly=true})
                                                                                     </div>
@@ -353,7 +352,7 @@
                                                                             </div>
                                                                             <div class="col-md-6">
                                                                                 <div class="form-group">
-                                                                                    <label for="inputName3" class="col-sm-4 control-label">Net<label class="Mandatory"></label></label>
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Net<label class="Mandatory"></label></label>
 
                                                                                     <div class="col-sm-8">
                                                                                         <input type="hidden" id="hidnet" />
@@ -445,7 +444,7 @@
                             </div>
                         </div>*@
 
-                                                                        <div style="height:30px;"></div>
+                                                                       
                                                                         <div class="row">
                                                                             <div class="col-md-12">
 
@@ -487,9 +486,9 @@
                                                                                                 <div class="col-md-6">
                                                                                                     <div class="form-group">
 
-                                                                                                        <label for="inputName3" class="col-sm-4 control-label">Narration<label class="Mandatory"></label></label>
+                                                <br />  <label for="inputName3" class="col-sm-4 control-label">Narration<label class="Mandatory"></label></label>
                                                                                                         <div class="col-sm-8">
-                                                                                                             @Html.TextAreaFor(C => C.Narration, new { @id = "txtNarration", @class = "form-control", @TabIndex = 2})<br />
+                                                                                                             @Html.TextAreaFor(C => C.Narration, new { @id = "txtNarration", @class = "form-control", @TabIndex = 2})
                                                                                                         </div>
                                                                                                     </div> 
                                                                                                 </div>
@@ -511,9 +510,9 @@
                                                                                             <div class="row">
                                                                                                 <div class="col-md-6">
                                                                                                     <div class="form-group">
-                                                                                                         <label for="inputName3" class="col-sm-4 control-label">Area ID<label class="Mandatory"></label></label>
+                                                                                                     <br />    <label for="inputName3" class="col-sm-4 control-label">Area ID<label class="Mandatory"></label></label>
                                                                                                         <div class="col-sm-8">
-                                                                @Html.TextBoxFor(C => C.Addr, new { @id = "txtAddr", @class = "form-control", @TabIndex = 2})<br />
+                                                                @Html.TextBoxFor(C => C.Addr, new { @id = "txtAddr", @class = "form-control", @TabIndex = 2})
                                                             </div>
                                                                                                     </div>
                                                                                                 </div>
@@ -522,9 +521,9 @@
                                                                                                 <div class="col-md-6">
                                                                                                     <div class="form-group">
 
-                                                                                                        <label for="inputName3" class="col-sm-4 control-label">Address<label class="Mandatory"></label></label>
+                                                <br /> <label for="inputName3" class="col-sm-4 control-label">Address<label class="Mandatory"></label></label>
                                                                                                         <div class="col-sm-8">
-                                                                @Html.TextAreaFor(C => C.Addr, new { @id = "txtAddr", @class = "form-control", @TabIndex = 2})<br />
+                                                                @Html.TextAreaFor(C => C.Addr, new { @id = "txtAddr", @class = "form-control", @TabIndex = 2})
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 </div>
@@ -536,9 +535,9 @@
                                                                                                 <div class="col-md-6">
                                                                                                     <div class="form-group">
 
-                                                                                                        <label for="inputName3" class="col-sm-4 control-label">State<label class="Mandatory"></label></label>
+                                                <br /> <label for="inputName3" class="col-sm-4 control-label">State<label class="Mandatory"></label></label>
                                                                                                         <div class="col-sm-8">
-                                                    @Html.DropDownListFor(C => C.State, Model.Satlst, new { @id = "ddlState", @Class = "form-control chosen-select", @TabIndex = 1 , @onchange = "changeCity(this.value)"})<br />
+                                                    @Html.DropDownListFor(C => C.State, Model.Satlst, new { @id = "ddlState", @Class = "form-control _select", @TabIndex = 1 , @onchange = "changeCity(this.value)"})
     <br />
                                                                                                         </div>
                                                                                                     </div>
@@ -546,9 +545,9 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
 
-                                                            <label for="inputName3" class="col-sm-4 control-label">City<label class="Mandatory"></label></label>
+                                                <br /> <label for="inputName3" class="col-sm-4 control-label">City<label class="Mandatory"></label></label>
                                                             <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.City, Model.Citylst, new { @id = "ddlCity", @Class = "form-control chosen-select", @TabIndex = 1 })<br />
+                                            @Html.DropDownListFor(C => C.City, Model.Citylst, new { @id = "ddlCity", @Class = "form-control _select", @TabIndex = 1 })
                                                             </div>
                                                         </div>
                                                     </div>
@@ -557,9 +556,9 @@
                                                                                                 <div class="col-md-6">
                                                                                                     <div class="form-group">
 
-                                                                                                        <label for="inputName3" class="col-sm-4 control-label">Pincode<label class="Mandatory"></label></label>
+                                                                                                      <br />  <label for="inputName3" class="col-sm-4 control-label">Pincode<label class="Mandatory"></label></label>
                                                                                                         <div class="col-sm-8">
-                                                                @Html.TextBoxFor(C => C.Pin, new { @id = "txtPin", @class = "form-control", @TabIndex = 2})<br />
+                                                                @Html.TextBoxFor(C => C.Pin, new { @id = "txtPin", @class = "form-control", @TabIndex = 2})
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 </div>
@@ -567,9 +566,9 @@
                                                                                                 <div class="col-md-6">
                                                                                                     <div class="form-group">
 
-                                                                                                        <label for="inputName3" class="col-sm-4 control-label">Phone<label class="Mandatory"></label></label>
+                                                <br />  <label for="inputName3" class="col-sm-4 control-label">Phone<label class="Mandatory"></label></label>
                                                                                                         <div class="col-sm-8">
-                                                                @Html.TextBoxFor(C => C.Phone, new { @id = "txtPhone", @class = "form-control", @TabIndex = 2})<br />
+                                                                @Html.TextBoxFor(C => C.Phone, new { @id = "txtPhone", @class = "form-control", @TabIndex = 2})
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 </div>
@@ -793,7 +792,7 @@
 
         var index = $("#tbBooks").children("tr").length;
 
-        var ItemId = "<td><label style='font-weight: 200;'>" + item.itemname + "</label><input type='hidden' value=" + item.itemid + " id='txtItem" + index + "' name='returnlist[" + index + "].itemid'></td>";
+                        var ItemId = "<td><label style='width: 200px;'>" + item.itemname + "</label><input type='hidden' value=" + item.itemid + " id='txtItem" + index + "' name='returnlist[" + index + "].itemid'></td>";
         
         var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='returnlist[" + index + "].unit'  style='width: 60px;' type='text'  readonly='True'  value=" + item.unit + " /><input type='hidden' value=" + item.unitid + " id='hdunit" + index + "' name='returnlist[" + index + "].unitid'></td>";
 
@@ -893,7 +892,7 @@
     }
     function PopulateDropDown(dropDownId, list) {
         //alert(list);
-        $(dropDownId).empty().append();
+        $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
 
         if (list != null && list.length > 0) {
             $(dropDownId).removeAttr("disabled");
@@ -1084,9 +1083,9 @@
     function AppendRow(opt) {
         var index = $("#tbBooks").children("tr").length;
 
-        var GRNNo = "<td><select style = 'width: 170px;' class='form-control chosen-select newcss' id='ddlGRN" + index + "' name='RetLst[" + index + "].GRNNo' onchange = 'changeItem(this.value, " + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
+        var GRNNo = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlGRN" + index + "' name='RetLst[" + index + "].GRNNo' onchange = 'changeItem(this.value, " + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
 
-        var ItemId = "<td><select style = 'width: 170px;' class='form-control chosen-select newcss' id='ddlItemId" + index + "' name='Itemlst[" + index + "].ItemId'><option value=''>Please select</option></select></td>";
+        var ItemId = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlItemId" + index + "' name='Itemlst[" + index + "].ItemId'><option value=''>Please select</option></select></td>";
         
         var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='RetLst[" + index + "].Unit'  style='width: 60px;' type='text'  readonly='True' /></td>";
 
@@ -1127,11 +1126,19 @@
         //alert(Packing);
         $("#tbBooks").append(newRow);
 
-        $(".chosen-select").chosen();
+        $(function () {
+            $('._select').select2();
+        });
     }
 
   
 </script>
+<script>
+    $(function () {
+        $('._select').select2();
+    });
+</script>
+
 <script>
     $(document).ready(function () {
         $('#btnSave').click(function (e) {

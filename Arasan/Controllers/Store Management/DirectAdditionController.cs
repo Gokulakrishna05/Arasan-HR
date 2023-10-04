@@ -27,12 +27,13 @@ namespace Arasan.Controllers.Store_Management
             DirectAddition st = new DirectAddition();
             st.Loc = BindLocation();
             st.Brlst = BindBranch();
+            st.Branch = Request.Cookies["BranchId"];
             st.assignList = BindEmp();
             List<DirectItem> TData = new List<DirectItem>();
             DirectItem tda = new DirectItem();
             if (id == null)
             {
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < 1; i++)
                 {
                     tda = new DirectItem();
                     tda.ItemGrouplst = BindItemGrplst();
@@ -189,7 +190,7 @@ namespace Arasan.Controllers.Store_Management
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["EMPNAME"].ToString(), Value = dtDesg.Rows[i]["EMPMASTID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["EMPNAME"].ToString(), Value = dtDesg.Rows[i]["EMPNAME"].ToString() });
                 }
                 return lstdesg;
             }

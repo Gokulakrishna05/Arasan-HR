@@ -41,7 +41,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Branch <label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Branch, Model.Brlst, new { @id = "ddlBranch", @Class = "form-control chosen-select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.Branch, Model.Brlst, new { @id = "ddlBranch", @Class = "form-control _select", @TabIndex = 1 })
                                     </div>
                                 </div>
                             </div>
@@ -51,7 +51,7 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Location<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
 
-                                            @Html.DropDownListFor(C => C.Location, Model.Loc, new { @id = "ddlLocation", @Class = "form-control chosen-select", @TabIndex = 1 })<br />
+                                            @Html.DropDownListFor(C => C.Location, Model.Loc, new { @id = "ddlLocation", @Class = "form-control _select", @TabIndex = 1 })<br />
 
                                     </div>
                                 </div>
@@ -100,7 +100,7 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Material Supply<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
 
-                                        <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
+                                            @Html.TextBoxFor(C => C.Material, new { @id = "txtMaterial", @class = "form-control", @TabIndex = 1 })<br />
 
                                     </div>
                                 </div>
@@ -176,11 +176,11 @@
 
 
                                                 <td>
-                                                            @Html.DropDownListFor(o => o.Itlst[i].ItemGroupId, Model.Itlst[i].ItemGrouplst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItemGrp" + i, style = "width: 200px;", onchange = "Grup_Change(this.value," + i + ")"})
+                                                            @Html.DropDownListFor(o => o.Itlst[i].ItemGroupId, Model.Itlst[i].ItemGrouplst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItemGrp" + i, style = "width: 200px;", onchange = "Grup_Change(this.value," + i + ")"})
 
                                                                 </td>
                                                 <td>
-                                                            @Html.DropDownListFor(o => o.Itlst[i].ItemId, Model.Itlst[i].Itemlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItem" + i, style = "width: 200px;", onchange = "changeItem(this.value," + i + ")" })
+                                                            @Html.DropDownListFor(o => o.Itlst[i].ItemId, Model.Itlst[i].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 200px;", onchange = "changeItem(this.value," + i + ")" })
                                                             @Html.HiddenFor(o => o.Itlst[i].saveItemId)
                                                 </td>
                                                 <td>
@@ -206,10 +206,9 @@
                                                 </td>
                                                 <td>
                                                             @Html.TextBoxFor(o => o.Itlst[i].rate, new { @id = "txtRate" + i, @class = "form-control", style = "width: 80px;",@readonly="readonly",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")" })
-                                                        </td>
-                                                <td>.
-                                                            @Html.HiddenFor(o => o.Itlst[i].Isvalid, new { @id = "Isvalid" + i })
-                                                            @Html.TextBoxFor(o => o.Itlst[i]. Amount, new { @id = "txtAmount" + i , @class = "form-control",onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;" ,@readonly = "readonly" })
+                                                </td>
+                                                <td>
+                                                            @Html.TextBoxFor(o => o.Itlst[i].Amount, new { @id = "txtAmount" + i , @class = "form-control",onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;" ,@readonly = "readonly" })
                                                 </td>
                                                 @*<td>
                                                     @Html.TextBoxFor(o => o.Itlst[i]. Number, new { @id = "txtNumber" + i, @class = "form-control", style = "width: 90px;"})
@@ -252,7 +251,7 @@
                                   <br />  <label for="inputName3" class="col-sm-4 control-label">Gross<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
 
-                                            @Html.TextBoxFor(C => C.Gro, new { @id = "txtgross", @class = "form-control", @TabIndex = 1 })
+                                            @Html.TextBoxFor(C => C.Gro, new { @id = "gross", @class = "form-control", @TabIndex = 1 })
 
                                     </div>
                                 </div>
@@ -276,20 +275,19 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Entered By<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Entered, Model.assignList, new { @id = "ddlEnterd", @Class = "form-control chosen-select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.Entered, Model.assignList, new { @id = "ddlEnterd", @Class = "form-control _select", @TabIndex = 1 })
                                     </div>
                                 </div>
                             </div>
-                            
+                         </div>
 
-                        
-                       
+                        <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Narration<label class="Mandatory"></label></label>
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Narration<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Narr, new { @id = "txtNarr", @class = "form-control", @TabIndex = 1 })<br />
+                                            @Html.TextAreaFor(C => C.Narr, new { @id = "txtNarr", @class = "form-control", @TabIndex = 1 })
                                     </div>
                                 </div>
                             </div>
@@ -311,10 +309,14 @@
     </div>
 </div>
 <script>
-    $(".chosen-select").chosen();
+    $(function () {
+        $('._select').select2();
+    });
 </script>
 <script>
-    $(".chosen-select").chosen();
+    $(function () {
+        $('._select').select2();
+    });
 
     function PopulateDropDown(dropDownId, list) {
         //alert(list);
@@ -396,10 +398,9 @@
     function changeQty(_this, i) {
         try {
             var qty = document.getElementById("txtQuantity" + i).value;
-
             var up = document.getElementById("txtRate" + i).value;
-
             var CF = document.getElementById("txtConFac" + i).value;
+
             if (qty == "")
                 qty = 0;
 
@@ -408,6 +409,7 @@
 
             if (CF == "")
                 CF = 0;
+
 
             if (up > 0) {
                 var tot = eval(qty) * eval(up) * eval(CF);
@@ -423,27 +425,23 @@
             $('tr.chkitemlst').each(function () {
                 if ($(this).css('display') !== 'none') {
                     var unit = $(this).find('#txtQuantity' + j.toString()).val();
-
                     var qtys = $(this).find('#txtRate' + j.toString()).val();
-
                     var CFs = $(this).find('#txtConFac' + j.toString()).val();
+                    if (qtys == "")
+                        qtys = 0;
+
                     if (CFs == "")
                         CFs = 0;
 
                     if (unit == "")
                         unit = 0;
-
-                    if (qtys == "")
-                        qtys = 0;
                     var tots = eval(qtys) * eval(unit) * eval(CFs);
                     GTot = eval(tots) + eval(GTot);
                 }
                 j += 1;
             });
 
-
             document.getElementById("gross").value = GTot;
-
             document.getElementById("net").value = GTot;
             // document.getElementById('words').value = inWords(GTot);
 
@@ -499,10 +497,10 @@
     function AppendRow(opt) {
         var index = $("#tbBooks").children("tr").length;
 
-        var ItemGrp = "<td><select style = 'width: 200px;' class='form-control chosen-select newcss' id='ddlItemGrp" + index + "' name='Itlst[" + index + "].ItemGroupId' onchange = 'Grup_Change(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
+        var ItemGrp = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItemGrp" + index + "' name='Itlst[" + index + "].ItemGroupId' onchange = 'Grup_Change(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
 
 
-        var Item = "<td><select style = 'width: 200px;' class='form-control chosen-select newcss' id='ddlItem" + index + "' name='Itemlst[" + index + "].ItemId' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option></select></td>";
+        var Item = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItem" + index + "' name='Itemlst[" + index + "].ItemId' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option></select></td>";
 
         var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='Itlst[" + index + "].Unit'  style='width: 80px;' type='text'  readonly='True' /></td>";
 
@@ -541,7 +539,9 @@
         //alert(Packing);
         $("#tbBooks").append(newRow);
 
-        $(".chosen-select").chosen();
+        $(function () {
+            $('._select').select2();
+        });
     }
 </script>
 <script>

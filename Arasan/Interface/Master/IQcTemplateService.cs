@@ -11,6 +11,10 @@ namespace Arasan.Interface.Master
     {
         IEnumerable<QcTemplate> GetAllQcTemplate();
         DataTable GetDesc();
+        DataTable GetQcTemplateEdit(string id);
+        DataTable GetQcTemplateItemEdit(string id);
+        DataTable GetQcTemplateViewEdit(string id);
+        DataTable GetQcTemplateViewItemEdit(string id);
         DataTable GetQCTestDetails(string itemId);
         string QcTemplateCRUD(QcTemplate cy);
     }

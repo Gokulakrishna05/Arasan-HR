@@ -28,12 +28,13 @@ namespace Arasan.Controllers.Store_Management
             DirectDeduction st = new DirectDeduction();
             st.Loc = BindLocation();
             st.Brlst = BindBranch();
+            st.Branch = Request.Cookies["BranchId"];
             st.assignList = BindEmp();
             List<DeductionItem> TData = new List<DeductionItem>();
             DeductionItem tda = new DeductionItem();
             if (id == null)
             {
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < 1; i++)
                 {
                     tda = new DeductionItem();
                     tda.ItemGrouplst = BindItemGrplst();
@@ -190,7 +191,7 @@ namespace Arasan.Controllers.Store_Management
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["EMPNAME"].ToString(), Value = dtDesg.Rows[i]["EMPMASTID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["EMPNAME"].ToString(), Value = dtDesg.Rows[i]["EMPNAME"].ToString() });
                 }
                 return lstdesg;
             }

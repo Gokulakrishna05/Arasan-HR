@@ -47,6 +47,7 @@
                                                             <th>Qc Template</th>
                                                             <th>Test Type</th>
                                                             <th>Template Description</th>
+                                                            <th>View</th>
                                                             <th>Edit</th>
                                                             <th>Close</th>
                                                         </tr>
@@ -61,6 +62,7 @@
                                                                     <td>@Html.DisplayFor(modelItem => item.Qc)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.Test)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewQcTemplate", "QcTemplate",new { id=item.ID })"><img src='../Images/view_icon.png' alt='Waiting for approval' /></a></div></td>
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("QcTemplate", "QcTemplate",new { id=item.ID })"></a></div></td>
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("QcTemplate", "QcTemplate",new { id=item.ID })"></a></div></td>
                                                                 </tr>
