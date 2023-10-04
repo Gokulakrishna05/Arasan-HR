@@ -38,7 +38,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Branch <label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Branch, Model.Brlst, new { @id = "ddlBranch", @Class = "form-control chosen-select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.Branch, Model.Brlst, new { @id = "ddlBranch", @Class = "form-control _select", @TabIndex = 1 })
                                     </div>
                                 </div>
                             </div>
@@ -48,7 +48,7 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Location<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
 
-                                            @Html.DropDownListFor(C => C.Location, Model.Loc, new { @id = "ddlLocation", @Class = "form-control chosen-select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.Location, Model.Loc, new { @id = "ddlLocation", @Class = "form-control _select", @TabIndex = 1 })
                                           
                                     </div>
                                 </div>
@@ -158,12 +158,12 @@
                                                             {
                                                             <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
                                                             <td>
-                                                                @Html.DropDownListFor(o => o.Itlst[i].ItemGroupId, Model.Itlst[i].ItemGrouplst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItemGrp" + i, style = "width: 200px;", onchange = "Grup_Change(this.value," + i + ")"})
+                                                            @Html.DropDownListFor(o => o.Itlst[i].ItemGroupId, Model.Itlst[i].ItemGrouplst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItemGrp" + i, style = "width: 200px;", onchange = "Grup_Change(this.value," + i + ")"})
 
                                                             </td>
 
                                                            <td>
-                                                                @Html.DropDownListFor(o => o.Itlst[i].ItemId, Model.Itlst[i].Itemlst, "Please Select", new { @class = "form-control chosen-select newcss", @id = "ddlItem" + i, style = "width: 200px;", onchange = "changeItem(this.value," + i + ")" })
+                                                            @Html.DropDownListFor(o => o.Itlst[i].ItemId, Model.Itlst[i].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 200px;", onchange = "changeItem(this.value," + i + ")" })
                                                                 @Html.HiddenFor(o => o.Itlst[i].saveItemId)
                                                                     </td>
                                                             <td>
@@ -256,7 +256,7 @@
 
                                     <label for="inputName3" class="col-sm-4 control-label">Entered By<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Entered, Model.assignList, new { @id = "ddlEnterd", @Class = "form-control chosen-select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.Entered, Model.assignList, new { @id = "ddlEnterd", @Class = "form-control _select", @TabIndex = 1 })
                                     </div>
                                 </div>
                             </div>
@@ -302,6 +302,9 @@
         }
         $(dropDownId).trigger("liszt:updated");
     }
+    $(function () {
+        $('._select').select2();
+    });
     $(".chosen-select").chosen();
     $('.form_date').datetimepicker({
         //   language:  'fr',
@@ -474,10 +477,10 @@
     function AppendRow(opt) {
         var index = $("#tbBooks").children("tr").length;
 
-        var ItemGrp = "<td><select style = 'width: 200px;' class='form-control chosen-select newcss' id='ddlItemGrp" + index + "' name='Itlst[" + index + "].ItemGroupId' onchange = 'Grup_Change(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
+        var ItemGrp = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItemGrp" + index + "' name='Itlst[" + index + "].ItemGroupId' onchange = 'Grup_Change(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
 
 
-        var Item = "<td><select style = 'width: 200px;' class='form-control chosen-select newcss' id='ddlItem" + index + "' name='Itemlst[" + index + "].ItemId' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option></select></td>";
+        var Item = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItem" + index + "' name='Itemlst[" + index + "].ItemId' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option></select></td>";
 
         var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='Itlst[" + index + "].Unit'  style='width: 80px;' type='text'  readonly='True' /></td>";
 
@@ -510,7 +513,9 @@
         //alert(Packing);
         $("#tbBooks").append(newRow);
 
-        $(".chosen-select").chosen();
+        $(function () {
+            $('._select').select2();
+        });
     }
 </script>
 <script>

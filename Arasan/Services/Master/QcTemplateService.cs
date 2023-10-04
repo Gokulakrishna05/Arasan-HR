@@ -58,6 +58,50 @@ namespace Arasan.Services.Master
             return dtt;
         }
 
+        public DataTable GetQcTemplateEdit(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT TESTTBASICID,TEMPLATEID,SETBY,TESTTYPE,TEMPLATEDESC,QCTYPE,TESTPROCEDURE,SAMPLINGPER,ILEVEL FROM TESTTBASIC where TESTTBASICID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetQcTemplateItemEdit(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT TESTTBASICID,TESTDESC,UNITMAST.UNITID,VALUEORMANUAL,STARTVALUE,ENDVALUE FROM TESTTDETAIL LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=TESTTDETAIL.UNIT where TESTTBASICID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetQcTemplateViewEdit(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT TESTTBASICID,TEMPLATEID,EMPMAST.EMPNAME,TESTTYPE,TEMPLATEDESC,QCTYPE,TESTPROCEDURE,SAMPLINGPER,ILEVEL FROM TESTTBASIC LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID =TESTTBASIC.SETBY where TESTTBASICID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetQcTemplateViewItemEdit(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT TESTTBASICID,TESTDESC,UNITMAST.UNITID,VALUEORMANUAL,STARTVALUE,ENDVALUE FROM TESTTDETAIL LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=TESTTDETAIL.UNIT where TESTTBASICID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
         public DataTable GetQCTestDetails(string itemId)
         {
             string SvSql = string.Empty;

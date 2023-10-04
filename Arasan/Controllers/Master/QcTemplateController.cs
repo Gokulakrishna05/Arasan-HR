@@ -48,45 +48,46 @@ namespace Arasan.Controllers.Master
                 // ca = directPurchase.GetDirectPurById(id);
 
 
-                //DataTable dt = new DataTable();
-                
-                //dt = Batch.GetBatchCreation(id);
-                //if (dt.Rows.Count > 0)
-                //{
-                //    ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
-                //    ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
-                //    ca.WorkCenter = dt.Rows[0]["WCID"].ToString();
-                //    ca.BatchNo = dt.Rows[0]["DOCID"].ToString();
-                //    ca.ID = id;
-                //    ca.Prod = dt.Rows[0]["PSCHNO"].ToString();
-                //    ca.Process = dt.Rows[0]["WPROCESSID"].ToString();
-                //    ca.RefBatch = dt.Rows[0]["REFDOCID"].ToString();
-                //    ca.Enterd = dt.Rows[0]["ENTEREDBY"].ToString();
-                  
+                DataTable dt = new DataTable();
 
-                //}
-                //DataTable dt2 = new DataTable();
+                dt = QcTemplateService.GetQcTemplateEdit(id);
+                if (dt.Rows.Count > 0)
+                {
+                    br.Qc = dt.Rows[0]["TEMPLATEID"].ToString();
+                    br.Test = dt.Rows[0]["TESTTYPE"].ToString();
+                    //br.assignList = BindEmp();
+                    br.Set = dt.Rows[0]["SETBY"].ToString();
+                    br.Description = dt.Rows[0]["TEMPLATEDESC"].ToString();
+                    br.ID = id;
+                    br.Type = dt.Rows[0]["QCTYPE"].ToString();
+                    br.Procedure = dt.Rows[0]["TESTPROCEDURE"].ToString();
+                    br.Samplingper = dt.Rows[0]["SAMPLINGPER"].ToString();
+                    br.Level = dt.Rows[0]["ILEVEL"].ToString();
+                    
 
-                //dt2 = Batch.GetBatchCreationDetail(id);
-                //if (dt2.Rows.Count > 0)
-                //{
-                //    for (int i = 0; i < dt2.Rows.Count; i++)
-                //    {
-                //        tda = new BatchItem();
-                //        tda.WorkCenterlst = BindWorkCenter();
-                //        tda.Processidlst = BindProcess(tda.WorkId);
-                //        tda.WorkId = dt2.Rows[i]["BWCID"].ToString();
-                //        tda.ProcessId = dt2.Rows[i]["PROCESSID"].ToString();
-                //        tda.saveItemId = dt2.Rows[i]["PROCESSID"].ToString();
-                //        tda.Seq = dt2.Rows[i]["PSEQ"].ToString();
-                //        tda.Req = dt2.Rows[i]["INSREQ"].ToString();
-                //        tda.ID = id;
-                //        TData.Add(tda);
-                //        tda.Isvalid = "Y";
-                //    }
 
-                //}
-               
+                }
+                DataTable dt2 = new DataTable();
+
+                dt2 = QcTemplateService.GetQcTemplateItemEdit(id);
+                if (dt2.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt2.Rows.Count; i++)
+                    {
+                        tda = new QcTemplateItem();
+                        tda.Desclst = BindTDesc();
+                        tda.ItemDesc = dt2.Rows[i]["TESTDESC"].ToString();
+                        tda.Unit = dt2.Rows[i]["UNITID"].ToString();
+                        tda.Value = dt2.Rows[i]["VALUEORMANUAL"].ToString();
+                        tda.Start = dt2.Rows[i]["STARTVALUE"].ToString();
+                        tda.End = dt2.Rows[i]["ENDVALUE"].ToString();
+                        tda.ID = id;
+                        TData.Add(tda);
+                        tda.Isvalid = "Y";
+                    }
+
+                }
+
             }
 
             br.QcLst = TData;
@@ -133,6 +134,46 @@ namespace Arasan.Controllers.Master
         public IActionResult ListQcTemplate()
         {
             IEnumerable<QcTemplate> br = QcTemplateService.GetAllQcTemplate();
+            return View(br);
+        }
+        public IActionResult ViewQcTemplate(string id)
+        {
+            QcTemplate br = new QcTemplate();
+            DataTable dt = new DataTable();
+            //DataTable dtt = new DataTable();
+            dt = QcTemplateService.GetQcTemplateViewEdit(id);
+            if (dt.Rows.Count > 0)
+            {
+                br.Qc = dt.Rows[0]["TEMPLATEID"].ToString();
+                br.Test = dt.Rows[0]["TESTTYPE"].ToString();
+                //br.assignList = BindEmp();
+                br.Set = dt.Rows[0]["EMPNAME"].ToString();
+                br.Description = dt.Rows[0]["TEMPLATEDESC"].ToString();
+                br.ID = id;
+                br.Type = dt.Rows[0]["QCTYPE"].ToString();
+                br.Procedure = dt.Rows[0]["TESTPROCEDURE"].ToString();
+                br.Samplingper = dt.Rows[0]["SAMPLINGPER"].ToString();
+                br.Level = dt.Rows[0]["ILEVEL"].ToString();
+
+                List<QcTemplateItem> TData = new List<QcTemplateItem>();
+                QcTemplateItem tda = new QcTemplateItem();
+                DataTable dt2 = QcTemplateService.GetQcTemplateViewItemEdit(id);
+                for (int i = 0; i < dt2.Rows.Count; i++)
+                {
+                    tda = new QcTemplateItem();
+                    tda.Desclst = BindTDesc();
+                    tda.ItemDesc = dt2.Rows[i]["TESTDESC"].ToString();
+                    tda.Unit = dt2.Rows[i]["UNITID"].ToString();
+                    tda.Value = dt2.Rows[i]["VALUEORMANUAL"].ToString();
+                    tda.Start = dt2.Rows[i]["STARTVALUE"].ToString();
+                    tda.End = dt2.Rows[i]["ENDVALUE"].ToString();
+                    tda.ID = id;
+                    TData.Add(tda);
+                    
+                }
+                br.QcLst = TData;
+               
+            }
             return View(br);
         }
         public ActionResult GetQCTestDetail(string ItemId)

@@ -21,6 +21,7 @@ namespace Arasan.Models
         public string Entered { get; set; }
         public string Narr { get; set; }
         public string NoDurms { get; set; }
+        public string Material { get; set; }
 
         public string status { get; set; }
 
