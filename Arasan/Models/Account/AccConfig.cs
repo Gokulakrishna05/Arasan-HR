@@ -4,9 +4,7 @@ namespace Arasan.Models
 {
     public class AccConfig
     {
-       
-
-        //public List<SelectListItem> Schemelst { get; set; }
+        
         public string Scheme { get; set; }
         public string SchemeDes { get; set; }
         public string ID { get; set; }
@@ -14,23 +12,16 @@ namespace Arasan.Models
         public string TransactionName { get; set; }
         public string TransactionID { get; set; }
         public string Branch { get; set; }
-        public string Adact { get; set; }
-        public string Adplus { get; set; }
-        public string Adminus { get; set; }
+        
         public string CreatBy { get; set; }
         public string CreatOn { get; set; }
         public string CurrDate { get; set; }
 
+        public string Active { get; set; }
 
+        //public List<ConfigItem> ConfigLst { get; set; }
 
-        //public string Type { get; set; }
-        //public string Tname { get; set; }
-        //public string Schname { get; set; }
-        //public List<SelectListItem> ledlst { get; set; }
-        //public string ledger { get; set; }
-        //public string saveledger { get; set; }
-        //public string Isvalid { get; set; }
-        //public string Active { get; set; }
+        public List<ConfigItem> ConfigLst { get; set; }
 
     }
 

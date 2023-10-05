@@ -26,14 +26,17 @@ namespace Arasan.Controllers
         public IActionResult AccConfig(string id)
         {
             AccConfig ac = new AccConfig();
+            ac.CreatBy = Request.Cookies["UserId"];
+            //ac.CreatOn = Request.Cookies["Date"];
+            ac.Branch = Request.Cookies["BRANCHID"];
            
             List<ConfigItem> TData = new List<ConfigItem>();
             ConfigItem tda = new ConfigItem();
             if (id == null)
             {
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < 1; i++)
                 {
-                    ac = new AccConfig();
+                    tda = new ConfigItem();
 
                     tda.ledlst = Bindledlst();
                     tda.Isvalid = "Y";
@@ -50,50 +53,35 @@ namespace Arasan.Controllers
                 {
                     ac.SchemeDes = dt.Rows[0]["ADSCHEMEDESC"].ToString();
                     ac.Scheme = dt.Rows[0]["ADSCHEME"].ToString();
-                    ac.TransactionName = dt.Rows[0]["TRANSDESC"].ToString();
-                    ac.TransactionID = dt.Rows[0]["TRANSID"].ToString();
-                    ac.Branch = dt.Rows[0]["BRANCHID"].ToString();
-                    ac.Adact = dt.Rows[0]["ADACTION"].ToString();
-                    ac.Adplus = dt.Rows[0]["ADPLUS"].ToString();
-                    ac.Adminus = dt.Rows[0]["ADMINUS"].ToString();
-                    ac.CreatBy = dt.Rows[0]["CREATED_BY"].ToString();
-                    ac.CreatOn = dt.Rows[0]["CREATED_ON"].ToString();
-                    ac.CurrDate = dt.Rows[0]["CURRENT_DATE"].ToString();
-                    
-
-                    //tda.saveledger = dt2.Rows[i]["ADACCOUNT"].ToString();
-
-                    //ac.Type = dt.Rows[0]["ADTYPE"].ToString();
-                    //ac.Tname = dt.Rows[0]["ADNAME"].ToString();
-                    //ac.Schname = dt.Rows[0]["ADSCHEMENAME"].ToString();
-                    //ac.ledger = dt.Rows[0]["ADACCOUNT"].ToString();
-
                     ac.ID = id;
-
+                    ac.TransactionName = dt.Rows[0]["ADTRANSDESC"].ToString();
+                    ac.TransactionID = dt.Rows[0]["ADTRANSID"].ToString();
+                    
                 }
-            }
-            DataTable dt2 = new DataTable();
 
-            dt2 = AccConfigService.GetAccConfigItem(id);
-            if (dt2.Rows.Count > 0)
-            {
-                for (int i = 0; i < dt2.Rows.Count; i++)
+                DataTable dt2 = new DataTable();
+
+                dt2 = AccConfigService.GetAccConfigItem(id);
+                if (dt2.Rows.Count > 0)
                 {
-                    tda = new ConfigItem();
-                    double toaamt = 0;
-                    //tda.ledlst = Bindledlst();
+                    for (int i = 0; i < dt2.Rows.Count; i++)
+                    {
+                        tda = new ConfigItem();
+                        //double toaamt = 0;
+                        //tda.ledlst = Bindledlst();
 
-                    tda.ledger = dt2.Rows[i]["ADACCOUNT"].ToString();
-                    tda.saveledger = dt2.Rows[i]["ADACCOUNT"].ToString();
 
-                    tda.Type = dt2.Rows[i]["ADTYPE"].ToString();
-                    tda.Tname = dt2.Rows[i]["ADNAME"].ToString();
-                    tda.Schname = dt2.Rows[i]["ADSCHEMENAME"].ToString();
-                    TData.Add(tda);
+                        tda.Type = dt2.Rows[i]["ADTYPE"].ToString();
+                        tda.Tname = dt2.Rows[i]["ADNAME"].ToString();
+                        tda.Schname = dt2.Rows[i]["ADSCHEMENAME"].ToString();
+                        tda.ledger = dt2.Rows[i]["ADACCOUNT"].ToString();
+                        
+
+                        TData.Add(tda);
+                    }
                 }
             }
-
-            //tda.ledlst = TData;
+            ac.ConfigLst = TData;
             return View(ac);
         }
         [HttpPost]
@@ -141,34 +129,34 @@ namespace Arasan.Controllers
         }
 
 
-        public ActionResult GetSchemeDetail(string ItemId)
-        {
-            try
-            {
-                DataTable dt = new DataTable();
-                //string scheme = "";
-                string transactionname = "";
-                string transactionid = "";
+        //public ActionResult GetSchemeDetail(string ItemId)
+        //{
+        //    try
+        //    {
+        //        DataTable dt = new DataTable();
+        //        //string scheme = "";
+        //        string transactionname = "";
+        //        string transactionid = "";
                 
 
-                dt = AccConfigService.GetSchemeDetails(ItemId);
+        //        dt = AccConfigService.GetSchemeDetails(ItemId);
 
-                if (dt.Rows.Count > 0)
-                {
-                    //scheme = dt.Rows[0]["ADSCHEME"].ToString();
-                    transactionname = dt.Rows[0]["ADTRANSDESC"].ToString();
-                    transactionid = dt.Rows[0]["ADTRANSID"].ToString();
+        //        if (dt.Rows.Count > 0)
+        //        {
+        //            //scheme = dt.Rows[0]["ADSCHEME"].ToString();
+        //            transactionname = dt.Rows[0]["ADTRANSDESC"].ToString();
+        //            transactionid = dt.Rows[0]["ADTRANSID"].ToString();
                    
-                }
+        //        }
 
-                var result = new { transactionname = transactionname, transactionid = transactionid };
-                return Json(result);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        //        var result = new { transactionname = transactionname, transactionid = transactionid };
+        //        return Json(result);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
 
 
         public JsonResult GetledgerJSON()
@@ -204,23 +192,22 @@ namespace Arasan.Controllers
         //    }
         //}
 
-        public List<SelectListItem> BindScheme()
-        {
-            try
-            {
-                DataTable dtDesg = AccConfigService.GetConfig();
-                List<SelectListItem> lstdesg = new List<SelectListItem>();
-                for (int i = 0; i < dtDesg.Rows.Count; i++)
-                {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ADSCHEME"].ToString(), Value = dtDesg.Rows[i]["ADSCHEME"].ToString() });
-                }
-                return lstdesg;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        //public List<SelectListItem> BindAction()
+        //{
+        //    try
+        //    {
+        //        List<SelectListItem> lstdesg = new List<SelectListItem>();
+        //        lstdesg.Add(new SelectListItem() { Text = "Debited", Value = "Debited" });
+        //        lstdesg.Add(new SelectListItem() { Text = "Credited", Value = "Credited" });
+                
+
+        //        return lstdesg;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
         public List<SelectListItem> Bindledlst()
         {
             try
