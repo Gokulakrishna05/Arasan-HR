@@ -95,7 +95,7 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("ADSCHEMEDESC", OracleDbType.NVarchar2).Value = cy.Description;
                     objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
                     objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = cy.Createdby;
-                    objCmd.Parameters.Add("CREATED_ON", OracleDbType.NVarchar2).Value = cy.CreatedOn;
+                    objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
                     objCmd.Parameters.Add("CURRENT_DATE", OracleDbType.Date).Value = DateTime.Now;
                     
                     objCmd.Parameters.Add("ACTIVE", OracleDbType.NVarchar2).Value = "Yes";

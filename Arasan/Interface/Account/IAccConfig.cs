@@ -1,22 +1,26 @@
-﻿using Arasan.Models;
+﻿using System.Collections.Generic;
+using System.Collections;
 using System.Data;
-//using static Org.BouncyCastle.Math.EC.ECCurve;
+using Arasan.Models;                                                    
 
-namespace Arasan.Interface 
+namespace Arasan.Interface
 {
     public interface IAccConfig
     {
         
         string  ConfigCRUD(AccConfig Cy);
-        DataTable GetConfig();
+        //DataTable GetConfig();
         DataTable Getledger();
 
         DataTable GetAccConfigItem(string id);
         DataTable GetAccConfig(string id);
-        DataTable Getschemebyid(string id);
+
+        //DataTable Getschemebyid(string id);
         IEnumerable<AccConfig> GetAllAccConfig(string Active);
 
-        DataTable GetSchemeDetails(string itemId);
+        //IEnumerable<ConfigItem> GetAllConfigItem(string id);
+
+        //DataTable GetSchemeDetails(string itemId);
 
         string StatusChange(string tag, int id);
 

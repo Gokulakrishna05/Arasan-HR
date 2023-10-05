@@ -27,7 +27,7 @@ namespace Arasan.Controllers
                 datatrans = new DataTransactions(_connectionString);
             }
             public IActionResult Sales_Enquiry(string id )
-            {
+          {
             SalesEnquiry ca = new SalesEnquiry();
             //ca.CreatedBy = Request.Cookies["UserId"];
             //ca.UpdatedBy = Request.Cookies["UserId"];

@@ -39,27 +39,6 @@
                         @Html.AntiForgeryToken()
                         <form>
 
-                            
-                           @* <div class="row">
-                                <div class="col-lg-3"></div>*@
-                                @*<div class="col-md-6">
-                                    <div class="form-group">
-
-                                        <label for="inputName3" class="col-sm-4 control-label">Scheme Name<label class="mandatory">*</label></label>
-                                        <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Scheme, Model.Schemelst,"-- Please Select --", new { @id = "ddlScheme", @Class = "form-control _select", @TabIndex = 1, @onchange = "changeScheme(this.value);" })<br>
-                                        </div>
-                                    </div>
-                                </div>*@
-                                @*<div class="col-md-6">
-                                    <div class="form-group">
-                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Scheme Name <label class="mandatory">*</label></label>
-                                        <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Scheme, Model.Schemelst,"--Please select--",new { @id = "ddlScheme", @Class = "form-control _select", @TabIndex = 1, @onchange = "changeScheme(this.value);" })<br><br> 
-                                        </div>
-                                    </div>
-                                </div>
-                             </div>*@
                                 <div class="row">
                                     <div class="col-lg-3"></div>
                                     <div class="col-md-6">
@@ -96,6 +75,9 @@
                                         <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.TransactionName, new { @id = "txtTrasactionName", @class = "form-control", @TabIndex = 2, @size="30" })<br>
                                             @Html.HiddenFor(C => C.ID)
+                                            @Html.HiddenFor(C => C.Branch)
+                                            @Html.HiddenFor(C => C.CreatBy)
+                                            @Html.HiddenFor(C => C.CreatOn)
                                         </div>
 
 
@@ -116,6 +98,23 @@
                                     </div>
                                 </div>
                             </div>
+                           @* <div class="row">
+                                <div class="col-lg-3"></div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label"> Action<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            
+                                            @Html.DropDownListFor(C => C.Adact, Model.Adactlst,"--Please select--",new { @id = "ddlAdact", @Class = "form-control _select", @TabIndex = 1, @onchange = "changeAdact(this.value);" })<br><br>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>*@
+
                             @*<div style="height:30px;"></div>
                             <div class="row">
                                 <div class="col-md-12">
@@ -134,7 +133,7 @@
                                 </div>
                             </div>
 
-                            @*<div class="row">
+                            <div class="row">
                                 <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
 
 
@@ -146,53 +145,87 @@
                                                 <th> Name</th>
                                                 <th> Scheme </th>
                                                 <th> Ledger </th>
+                                               
+                                                
                                             </tr>
                                         </thead>
                                         <tbody id="tbBooks">
                                             @{
 
                                                 int i = 0;
-                                                int j = 1;
-
-                                                foreach (var item in Model.ledlst[i].ToList())
+                                              
+                                                foreach (var item in Model.ConfigLst.ToList())
                                                 {
                                                     <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
-                                                        
                                                         <td>
-                                                            @Html.TextBoxFor(o => o.ledlst[i].Type, new { @id = "txtType" + i, @class = "form-control", style = "width:180px;" , @TabIndex = 2 })
-                                                            
+                                                            @Html.TextBoxFor(o => o.ConfigLst[i].Type, new { @id = "txtType" + i, @class = "form-control", style = "width:180px;" , @TabIndex = 2 })
+
                                                         </td>
                                                         <td>
-                                                            @Html.TextBoxFor(o => o.ledlst[i].Tname, new { @id = "txtTname" + i, @class = "form-control", style = "width: 180px;", @TabIndex = 2})
-                                                            
+                                                            @Html.TextBoxFor(o => o.ConfigLst[i].Tname, new { @id = "txtTname" + i, @class = "form-control", style = "width: 180px;", @TabIndex = 2})
+
                                                         </td>
                                                         <td>
-                                                            @Html.TextBoxFor(o => o.ledlst[i].Schname, new { @id = "txtSchname"+ i , @class = "form-control", style = "width: 180px;" , @TabIndex = 2})
-                                                            
+                                                            @Html.TextBoxFor(o => o.ConfigLst[i].Schname, new { @id = "txtSchname"+ i , @class = "form-control", style = "width: 180px;" , @TabIndex = 2})
+
                                                         </td>
                                                         <td>
-                                                            @Html.DropDownListFor(o => o.ledlst[i].ledger, Model.ledlst[i].ledlst, "-- Please Select --", new { @class = "form-control chosen-select newcss", @id = "ddlledger" + i, style = "width: 200px;" , onchange = "Grup_Change(this.value," + i + ") "}) 
-                                                                @Html.HiddenFor(o => o.ledlst[i].saveledger)
-                                                            
-                                                        </td>
-                                                        <td>
-                                                            @Html.HiddenFor(o => o.Isvalid, new { @id = "Isvalid" + i })
-                                                            <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="ledlst.Index" type="hidden" value="@(i)" />
-                                                            
+                                                            @Html.DropDownListFor(o => o.ConfigLst[i].ledger, Model.ConfigLst[i].ledlst, "-- Please Select --", new { @class = "form-control _select newcss", @id = "ddlledger" + i, style = "width: 200px;" })
+                                                            @Html.HiddenFor(o => o.ConfigLst[i].saveledger)
+
                                                         </td>
                                                        
+
+                                                        <td>
+                                                            @Html.HiddenFor(o => o.ConfigLst[i].Isvalid, new { @id = "Isvalid" + i })
+                                                            <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="ConfigLst.Index" type="hidden" value="@(i)" />
+
+                                                        </td>
+
                                                     </tr>
                                                     i = i + 1;
-                                                    j = j + 1;
+                                                  
 
                                                 }
+                                                //foreach (var item in Model.ConfigLst[i].ToList())
+                                                //{
+                                                //    <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+
+                                                //        <td>
+                                                //            @Html.TextBoxFor(o => o.ConfigLst[i].Type, new { @id = "txtType" + i, @class = "form-control", style = "width:180px;" , @TabIndex = 2 })
+                                                            
+                                                //        </td>
+                                                //        <td>
+                                                //            @Html.TextBoxFor(o => o.ConfigLst[i].Tname, new { @id = "txtTname" + i, @class = "form-control", style = "width: 180px;", @TabIndex = 2})
+                                                            
+                                                //        </td>
+                                                //        <td>
+                                                //            @Html.TextBoxFor(o => o.ConfigLst[i].Schname, new { @id = "txtSchname"+ i , @class = "form-control", style = "width: 180px;" , @TabIndex = 2})
+                                                            
+                                                //        </td>
+                                                //        <td>
+                                                //            @Html.DropDownListFor(o => o.ConfigLst[i].ledger, Model.ConfigLst[i].ledlst, "-- Please Select --", new { @class = "form-control chosen-select newcss", @id = "ddlledger" + i, style = "width: 200px;" , onchange = "Grup_Change(this.value," + i + ") "})
+                                                //            @Html.HiddenFor(o => o.ConfigLst[i].saveledger)
+                                                            
+                                                //        </td>
+                                                //        <td>
+                                                //            @Html.HiddenFor(o => o.ConfigLst[i].Isvalid, new { @id = "Isvalid" + i })
+                                                //            <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="ledlst.Index" type="hidden" value="@(i)" />
+                                                            
+                                                //        </td>
+                                                       
+                                                //    </tr>
+                                                //    i = i + 1;
+                                                //    j = j + 1;
+
+                                                //}
                                             }
 
                                         </tbody>
                                     </table>
                                 </div>
-                            </div>*@
+                            </div>
 
                             <div style="height:30px;"></div>
                             <div class="col-lg-10"></div>
@@ -236,16 +269,16 @@
         function AppendRow(opt) { 
             var index = $("#tbBooks").children("tr").length;
 
-            var Type = "<td><input class='form-control' id='txtType" + index + "' name='ledlst[" + index + "].Type'  style='width: 180px;' type='text'  /></td>";
+        var Type = "<td><input class='form-control' id='txtType" + index + "' name='ConfigLst[" + index + "].Type'  style='width: 180px;' type='text'  /></td>";
 
-            var Tname = "<td><input class='form-control' id='txtTname" + index + "' name='ledlst[" + index + "].Tname'   style='width: 180px; type='text' /></td>";
+            var Tname = "<td><input class='form-control' id='txtTname" + index + "' name='ConfigLst[" + index + "].Tname'   style='width: 180px; type='text' /></td>";
 
-            var Schname = "<td><input class='form-control' id='txtSchname" + index + "' name='ledlst[" + index + "].Schname'  style='width: 180px;' type='text'/></td>"
+            var Schname = "<td><input class='form-control' id='txtSchname" + index + "' name='ConfigLst[" + index + "].Schname'  style='width: 180px;' type='text'/></td>"
 
-            var ledger = "<td><select style = 'width: 200px;' class='form-control chosen-select newcss' id='ddlledger" + index + "' name='ledlst[" + index + "].ledger'  onchange = 'Grup_Change(this.value, " + index + ")'><option value=''>-- Please select -- </option>" + opt + "</select></td>";  //onchange = 'Grup_Change(this.value, " + i + ")'
+        var ledger = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlledger" + index + "' name='ConfigLst[" + index + "].ledger'  ><option value=''>-- Please select -- </option>" + opt + "</select></td>";  //onchange = 'Grup_Change(this.value, " + i + ")'
 
 
-            var removeCell = "<td><input id='Isvalid" + index + "' name='ledlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='ledlst.Index' type='hidden' value='" + index + "'  /></td>";
+        var removeCell = "<td><input id='Isvalid" + index + "' name='ConfigLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='ConfigLst.Index' type='hidden' value='" + index + "'  /></td>";
 
             var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Type + Tname + Schname + ledger + removeCell + "</tr>";
    
@@ -271,26 +304,9 @@
         })
     }
 
-     function Grup_Change(itemid, i) {
-        //alert(itemid);
-        //debugger;
-        $.ajax({
-            url: "GetledgerJSON",
-            type: "post",
-            data: { 'itemid': itemid },
-            cache: false,
-            success: function (response) {
-                var newlist;
-                //alert(JSON.stringify(response));
-                newlist = response.ledlst;
-                PopulateDropDown("#ddlledger" + i, response);
-            },
-            error: function () {
-                debugger;
-                alert("Please Select ledger");
-            }
-        });
-    }
+
+
+   
 
     $(".chosen-select").chosen();
     function removeRow(id) {
@@ -312,23 +328,15 @@
         }
     }
 
-    //$(".chosen-select").chosen();
-    //function removeRow(id) {
-    //    var table = document.getElementById("dataTable");
-    //    var rowCount = table.rows.length;
-    //    var row = document.getElementById('trBook' + id);
-    //    var j = 0;
-    //    $('tr.chkitemlst').each(function () {
-    //        if ($(this).css('display') !== 'none') {
-    //            j += 1;
-    //        }
-    //    });
-    //    if (j > 1) {
-    //        row.style.display = "none";
-    //        document.getElementById('Isvalid' + id).value = "N";
+    //function changeAdact(typeid, i) {
+    //    if (typeid == "Dr") {
+    //        document.getElementById("txtCreditAmount" + i).readOnly = true;
+    //        document.getElementById("txtDepitAmount" + i).readOnly = false;
     //    }
-    //    else {
-    //        alert("Cannot delete all the rows.")
+
+    //    else (typeid == "Cr") {
+    //        document.getElementById("txtDepitAmount" + i).readOnly = true;
+    //        document.getElementById("txtCreditAmount" + i).readOnly = false;
     //    }
     //}
 
