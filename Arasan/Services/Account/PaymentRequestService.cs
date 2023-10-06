@@ -12,9 +12,11 @@ namespace Arasan.Services
     public class PaymentRequestService :IPaymentRequest
     {
         private readonly string _connectionString;
+        DataTransactions datatrans;
         public PaymentRequestService(IConfiguration _configuratio)
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
+            datatrans = new DataTransactions(_connectionString);
         }
         public DataTable GetSupplier()
         {
@@ -30,7 +32,8 @@ namespace Arasan.Services
         public DataTable GetGRN(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select DOCID ,GRNBLBASICID from GRNBLBASIC where PARTYID='"+ id +"'";
+            //SvSql = "Select DOCID ,GRNBLBASICID from GRNBLBASIC where PARTYID='"+ id +"'";
+            SvSql = "Select DOCID ,GRNBLBASICID from GRNBLBASIC ";
             DataTable dtt = new DataTable(); OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
@@ -39,7 +42,8 @@ namespace Arasan.Services
         public DataTable GetPO(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select DOCID ,POBASICID from POBASIC where PARTYID='"+ id +"' ";
+            //SvSql = "Select DOCID ,POBASICID from POBASIC where PARTYID='"+ id +"' ";
+            SvSql = "Select DOCID ,POBASICID from POBASIC ";
             DataTable dtt = new DataTable(); OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
@@ -72,13 +76,12 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select  DOCID,to_char(PAYMENTREQUEST.DOCDATE,'dd-MON-yyyy')DOCDATE,PARTYMAST.PARTYNAME,PAYMENTREQUEST.TYPE,PO_OR_GRN,AMOUNT,REQUESTEDBY,PAYMENTREQUEST.ACTIVE,PAYMENTREQUESTID from PAYMENTREQUEST LEFT OUTER JOIN  PARTYMAST on PAYMENTREQUEST.SUPPLIERID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH')  AND PAYMENTREQUEST.ACTIVE IS NOT NULL ORDER BY PAYMENTREQUESTID ASC ";
+                    cmd.CommandText = "Select  DOCID,to_char(PAYMENTREQUEST.DOCDATE,'dd-MON-yyyy')DOCDATE,PARTYMAST.PARTYNAME,PAYMENTREQUEST.TYPE,PO_OR_GRN,AMOUNT,REQUESTEDBY,PAYMENTREQUEST.ACTIVE,PAYMENTREQUESTID from PAYMENTREQUEST LEFT OUTER JOIN  PARTYMAST on PAYMENTREQUEST.SUPPLIERID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH')  AND PAYMENTREQUEST.ACTIVE = 'YES' ORDER BY PAYMENTREQUESTID ASC ";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
                         PaymentRequest cmp = new PaymentRequest
                         {
-
                             ID = rdr["PAYMENTREQUESTID"].ToString(),
                             DocId = rdr["DOCID"].ToString(),
                             Date = rdr["DOCDATE"].ToString(),
@@ -89,8 +92,6 @@ namespace Arasan.Services
                             Final = rdr["AMOUNT"].ToString(),
                             ReqBy = rdr["REQUESTEDBY"].ToString()
                            
-
-
                         };
                         cmpList.Add(cmp);
                     }
@@ -104,7 +105,16 @@ namespace Arasan.Services
             try
             {
                 string StatementType = string.Empty; string svSQL = "";
+                if (cy.ID == null)
+                {
 
+                    svSQL = " SELECT Count(*) as cnt FROM PAYMENTREQUEST WHERE DOCID =LTRIM(RTRIM('" + cy.DocId + "')) ";
+                    if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "DocId Already Existed";
+                        return msg;
+                    }
+                }
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("PAYMENTREQPROC", objConn);
@@ -201,16 +211,37 @@ namespace Arasan.Services
             return "";
 
         }
+        //public string StatusChange(string tag, int id)
+        //{
+        //    try
+        //    {
+        //        string svSQL = string.Empty;
+        //        using (OracleConnection objConnT = new OracleConnection(_connectionString))
+        //        {
+        //            //svSQL = "UPDATE PAYMENTREQUEST SET ACTIVE ='NO' WHERE STORESREQBASICID='" + id + "'";
+        //            svSQL = "UPDATE PAYMENTREQUEST SET ACTIVE ='NO' WHERE PAYMENTREQUESTID='" + id + "' ";
+        //            OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+        //            objConnT.Open();
+        //            objCmds.ExecuteNonQuery();
+        //            objConnT.Close();
+        //        }
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //    return "";
+
+        //}
         public string StatusChange(string tag, int id)
         {
-
             try
             {
-
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE PAYMENTREQUEST SET ACTIVE ='NO' WHERE STORESREQBASICID='" + id + "'";
+                    svSQL = "UPDATE PAYMENTREQUEST SET ACTIVE ='NO' WHERE PAYMENTREQUESTID='" + id + "' ";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
