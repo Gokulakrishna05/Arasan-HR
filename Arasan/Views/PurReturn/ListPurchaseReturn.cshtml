@@ -45,10 +45,8 @@
                                                     <thead>
                                                         <tr>
                                                             <th>Branch</th>
-                                                            <th>Suppliar</th>
                                                             <th>Return.No</th>
                                                             <th>Return Date</th>
-                                                            <th>Currency</th>
                                                             <th>Send Mail</th>
                                                             @* <th>Followup</th>
                                                             <th>Move To Quote</th>*@
@@ -66,15 +64,11 @@
 
                                                                 <tr>
                                                                     <td>@Html.DisplayFor(modelItem => item.Branch)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.Supplier)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.RetNo)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.RetDate)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.Currency)</td>
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a href="#"><img src='../Images/mail_icon.png' alt='Send Email' /></a></div></td>
                                                                     @*<td> <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("PurchaseFollowup", "PurchaseEnq")"><img src='../Images/followup.png' alt='FollowUp' /> - (1)</a></div></td>*@
-
-
-                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("PurReturn", "PurReturn",new { id=item.ID })"></a></div></td>
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("PurchaseRet","PurReturn",new { id=item.ID })"></a></div></td>
                                                                     <td> <a href="@Url.Action("DeleteMR","PurReturn",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
 
                                                                 </tr>

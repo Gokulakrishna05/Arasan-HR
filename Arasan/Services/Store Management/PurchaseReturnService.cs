@@ -61,7 +61,7 @@ namespace Arasan.Services
         public DataTable GetPurchaseReturnDetail(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select PRETDETAIL.GRNNO,PRETDETAIL.ITEMID,PRETDETAIL.QTY,PRETDETAIL.UNIT,PRETDETAIL.RATE,PRETDETAIL.AMOUNT,PRETDETAIL.TOTAMT,PRETDETAIL.CF,PRETDETAIL.CGSTPER,PRETDETAIL.CGSTAMT,PRETDETAIL.SGSTPER,PRETDETAIL.SGSTAMT,PRETDETAIL.IGSTPER,PRETDETAIL.IGSTAMT,PRETBASICID,PRETDETAILID  from PRETDETAIL where PRETDETAIL.PRETBASICID=" + id + "";
+            SvSql = "Select PRETDETAIL.GRNNO,ITEMMASTER.ITEMID,BINBASIC.BINID,PRIQTY,CLSTOCK,PRETDETAIL.QTY,UNITMAST.UNITID,PRETDETAIL.RATE,PRETDETAIL.AMOUNT,PRETDETAIL.TOTAMT,PRETDETAIL.CF,PRETDETAIL.CGSTPER,PRETDETAIL.CGSTAMT,PRETDETAIL.SGSTPER,PRETDETAIL.SGSTAMT,PRETDETAIL.IGSTPER,PRETDETAIL.IGSTAMT,PRETBASICID,PRETDETAILID  from PRETDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PRETDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=PRETDETAIL.UNIT LEFT OUTER JOIN BINBASIC ON ITEMMASTER.BINNO=BINBASIC.BINBASICID  where PRETDETAIL.PRETBASICID=" + id + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -430,21 +430,21 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetItem(string id)
-        {
-            string SvSql = string.Empty;
-            SvSql = "Select ITEMMASTER.ITEMID,GRNBLBASICID,GRNBLDETAIL.ITEMID,GRNBLDETAILID from GRNBLDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=GRNBLDETAIL.ITEMID where GRNBLDETAIL.GRNBLBASICID='" + id + "'";
+        //public DataTable GetItem(string id)
+        //{
+        //    string SvSql = string.Empty;
+        //    SvSql = "Select ITEMMASTER.ITEMID,GRNBLBASICID,GRNBLDETAIL.ITEMID,GRNBLDETAILID from GRNBLDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=GRNBLDETAIL.ITEMID where GRNBLDETAIL.GRNBLBASICID='" + id + "'";
 
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
+        //    DataTable dtt = new DataTable();
+        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
+        //}
         public DataTable GetSupplier(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select PARTYMAST.PARTYNAME,GRNBLBASICID from GRNBLBASIC LEFT OUTER JOIN  PARTYMAST on PARTYMAST.PARTYMASTID=GRNBLBASIC.PARTYID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID where GRNBLBASIC.GRNBLBASICID='" + id + "'";
+            SvSql = "Select PARTYMAST.PARTYNAME,GRNBLBASICID from GRNBLBASIC LEFT OUTER JOIN  PARTYMAST on PARTYMAST.PARTYMASTID=GRNBLBASIC.PARTYID  where GRNBLBASIC.GRNBLBASICID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
