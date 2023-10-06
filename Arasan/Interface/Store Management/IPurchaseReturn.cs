@@ -8,7 +8,7 @@ namespace Arasan.Interface
     public interface IPurchaseReturn
     {
         DataTable GetGRN();
-        DataTable GetItem(string id);
+        //DataTable GetItem(string id);
         DataTable GetState();
         DataTable GetGRNDetails(string ItemId);
         DataTable GetGRNBlDetails(string ItemId);
