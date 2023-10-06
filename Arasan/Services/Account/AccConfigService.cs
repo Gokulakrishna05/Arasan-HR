@@ -20,10 +20,10 @@ namespace Arasan.Services
 
         public IEnumerable<AccConfig> GetAllAccConfig(string Active)
         {
-            if (string.IsNullOrEmpty(Active))
-            {
-                Active = "Yes";
-            }
+            //if (string.IsNullOrEmpty(Active))
+            //{
+            //    Active = "Yes";
+            //}
             List<AccConfig> cmpList = new List<AccConfig>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
@@ -222,7 +222,7 @@ namespace Arasan.Services
         public DataTable GetAccConfigItem(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select ADCOMPDID,ADTYPE,ADNAME,ADSCHEMENAME,ADACCOUNT from ADCOMPD  where ADCOMPD.ADCOMPDID= '" + id + "' ";
+            SvSql = "Select ADCOMPDID,ADTYPE,ADNAME,ADSCHEMENAME,ADACCOUNT from ADCOMPD  where ADCOMPD.ADCOMPHID= '" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -253,29 +253,29 @@ namespace Arasan.Services
 
         }
 
-        public string RemoveChange(string tag, int id)
-        {
+        //public string RemoveChange(string tag, int id)
+        //{
 
-            try
-            {
-                string svSQL = string.Empty;
-                using (OracleConnection objConnT = new OracleConnection(_connectionString))
-                {
-                    svSQL = "UPDATE ADCOMPD SET ACTIVE ='YES' WHERE ADCOMPDID='" + id + "'";
-                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
-                    objConnT.Open();
-                    objCmds.ExecuteNonQuery();
-                    objConnT.Close();
-                }
+        //    try
+        //    {
+        //        string svSQL = string.Empty;
+        //        using (OracleConnection objConnT = new OracleConnection(_connectionString))
+        //        {
+        //            svSQL = "UPDATE ADCOMPD SET ACTIVE ='YES' WHERE ADCOMPDID='" + id + "'";
+        //            OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+        //            objConnT.Open();
+        //            objCmds.ExecuteNonQuery();
+        //            objConnT.Close();
+        //        }
 
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            return "";
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //    return "";
 
-        }
+        //}
 
     }
 }

@@ -47,7 +47,7 @@ namespace Arasan.Controllers
             else
             {
                 DataTable dt = new DataTable();
-
+                double total = 0;
                 dt = AccConfigService.GetAccConfig(id);
                 if (dt.Rows.Count > 0)
                 {
@@ -67,16 +67,17 @@ namespace Arasan.Controllers
                     for (int i = 0; i < dt2.Rows.Count; i++)
                     {
                         tda = new ConfigItem();
-                        //double toaamt = 0;
-                        //tda.ledlst = Bindledlst();
+                        double toaamt = 0;
+                        tda.ledlst = Bindledlst();
 
 
                         tda.Type = dt2.Rows[i]["ADTYPE"].ToString();
                         tda.Tname = dt2.Rows[i]["ADNAME"].ToString();
                         tda.Schname = dt2.Rows[i]["ADSCHEMENAME"].ToString();
+                        //tda.ledlst = Bindledlst();
                         tda.ledger = dt2.Rows[i]["ADACCOUNT"].ToString();
-                        
 
+                        tda.Isvalid = "Y";
                         TData.Add(tda);
                     }
                 }
@@ -242,20 +243,20 @@ namespace Arasan.Controllers
             }
         }
 
-        public ActionResult Remove(string tag, int id)
-        {
+        //public ActionResult Remove(string tag, int id)
+        //{
 
-            string flag = AccConfigService.RemoveChange(tag, id);
-            if (string.IsNullOrEmpty(flag))
-            {
+        //    string flag = AccConfigService.RemoveChange(tag, id);
+        //    if (string.IsNullOrEmpty(flag))
+        //    {
 
-                return RedirectToAction("ListAccConfig");
-            }
-            else
-            {
-                TempData["notice"] = flag;
-                return RedirectToAction("ListAccConfig");
-            }
-        }
+        //        return RedirectToAction("ListAccConfig");
+        //    }
+        //    else
+        //    {
+        //        TempData["notice"] = flag;
+        //        return RedirectToAction("ListAccConfig");
+        //    }
+        //}
     }
 }
