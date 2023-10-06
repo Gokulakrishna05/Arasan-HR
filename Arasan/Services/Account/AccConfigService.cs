@@ -237,7 +237,7 @@ namespace Arasan.Services
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE ADCOMPD SET ACTIVE ='NO' WHERE ADCOMPDID='" + id + "'";
+                    svSQL = "UPDATE ADCOMPH SET ACTIVE ='NO' WHERE ADCOMPHID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();

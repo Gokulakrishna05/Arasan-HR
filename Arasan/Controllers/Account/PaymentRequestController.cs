@@ -33,7 +33,6 @@ namespace Arasan.Controllers
             pr.Date = DateTime.Now.ToString("dd-MMM-yyyy");
             if (id == null)
             {
-                 
 
             }
             else
@@ -49,9 +48,7 @@ namespace Arasan.Controllers
                     pr.Amount = dt.Rows[0]["AMOUNT"].ToString();
                     pr.Final = dt.Rows[0]["FINAL_AMOUNT"].ToString();
                     pr.Date = dt.Rows[0]["DOCDATE"].ToString();
-                    
-                   
-
+                    pr.ReqBy = dt.Rows[0]["REQUESTEDBY"].ToString();
 
                 }
 
