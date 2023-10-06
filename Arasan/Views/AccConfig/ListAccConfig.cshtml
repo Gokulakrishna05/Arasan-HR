@@ -1,9 +1,9 @@
 ﻿@model IEnumerable<Arasan.Models.AccConfig>
 @{
     ViewData["Title"] = "ListAccConfig";
-    string query = ViewContext.HttpContext.Request.Query["Active"];
-    string Qid = string.Empty;
-    if (!string.IsNullOrEmpty(query)) { Qid = ViewContext.HttpContext.Request.Query["Active"]; }
+    //string query = ViewContext.HttpContext.Request.Query["Active"];
+    //string Qid = string.Empty;
+    //if (!string.IsNullOrEmpty(query)) { Qid = ViewContext.HttpContext.Request.Query["Active"]; }
 }
 
 <script type="text/javascript">
@@ -58,6 +58,7 @@
                                                     <thead>
                                                         <tr>
 
+                                                            <th>Scheme Descrip</th>
                                                             <th>Scheme</th>
                                                             <th>Transaction Name</th>
                                                             <th>Transaction ID</th>
@@ -75,12 +76,13 @@
                                                                 <tr>
 
 
+                                                                    <td>@Html.DisplayFor(modelItem => item.SchemeDes)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.Scheme)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.TransactionName)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.TransactionID)</td>
 
 
-                                                                    @if (item.Active == "No")
+                                                                    @* @if (item.Active == "No") 
                                                                     {
                                                                         <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("AccConfig", "AccConfig",new { id=item.ID })"></a></div></td>
                                                                         <td> <a href="@Url.Action("Remove","AccConfig",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
@@ -89,16 +91,17 @@
                                                                     {
                                                                         <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("AccConfig", "AccConfig",new { id=item.ID })"></a></div></td>
                                                                         <td> <a href="@Url.Action("DeleteMR","AccConfig",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
-                                                                    }
+                                                                        } *@
+
+                                                                     <td>
+
+                                                                        <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("AccConfig", "AccConfig",new { id=item.ID })"></a></div>
+                                                                     </td>
+
+                                                                    <td> <a href="@Url.Action("DeleteMR","AccConfig",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
+
                                                                 </tr>
-                                                                    //<td>
-
-                                                                    //    <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("AccConfig", "AccConfig",new { id=item.ID })"></a></div>
-                                                                    //</td>
-
-                                                                    //<td> <a href="@Url.Action("DeleteMR","AccConfig",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
-
-                                                                //</tr>
+                                                                    
                                                                 i++;
                                                             }
                                                         }

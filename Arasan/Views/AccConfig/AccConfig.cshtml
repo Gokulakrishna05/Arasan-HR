@@ -32,32 +32,30 @@
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="widgets-container">
-                    @*<h5 style="font-size:14px"> Account Config </h5>*@
+                    <h5 style="font-size:14px"> Account Config </h5>
                     <hr>
                     @using (Html.BeginForm("AccConfig", "AccConfig", FormMethod.Post))
                     {
                         @Html.AntiForgeryToken()
                         <form>
-
+                            <br>
                                 <div class="row">
-                                    <div class="col-lg-3"></div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
+                                <div class="col-md-6">
+                                    <div class="form-group">
 
-                                            <label for="inputName3" class="col-sm-4 control-label"> Scheme Description<label class="mandatory">*</label></label>
+                                       <label for="inputName3" class="col-sm-4 control-label"> Scheme Description<label class="mandatory">*</label></label>
                                             <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.SchemeDes, new { @id = "txtSchemeDes", @class = "form-control", @TabIndex = 2, @size="30" })<br>
-                                                @Html.HiddenFor(C => C.ID)
+                                               
                                             </div>
 
 
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-3"></div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
+
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
 
                                             <label for="inputName3" class="col-sm-4 control-label"> Scheme Name <label class="mandatory"></label></label>
                                             <div class="col-sm-8">
@@ -67,7 +65,6 @@
                                     </div>
                                 </div>
                             <div class="row">
-                                <div class="col-lg-3"></div>
                                 <div class="col-md-6">
                                     <div class="form-group">
 
@@ -83,9 +80,7 @@
 
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-3"></div>
+
                                 <div class="col-md-6">
                                     <div class="form-group">
 
@@ -98,31 +93,7 @@
                                     </div>
                                 </div>
                             </div>
-                           @* <div class="row">
-                                <div class="col-lg-3"></div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-
-                                        <label for="inputName3" class="col-sm-4 control-label"> Action<label class="mandatory"></label></label>
-                                        <div class="col-sm-8">
-                                            
-                                            @Html.DropDownListFor(C => C.Adact, Model.Adactlst,"--Please select--",new { @id = "ddlAdact", @Class = "form-control _select", @TabIndex = 1, @onchange = "changeAdact(this.value);" })<br><br>
-
-                                        </div>
-
-
-                                    </div>
-                                </div>
-                            </div>*@
-
-                            @*<div style="height:30px;"></div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="btn-group">
-                                        <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" /></p>
-                                    </div>
-                                </div>
-                            </div>*@
+                           
                           
                             <div style="height:30px;"></div>
                             <div class="row">
@@ -352,22 +323,39 @@
         $('#btnSave').click(function (e) {
             var isValid = true;
 
-            if (document.getElementById("ddlScheme").value == "" || document.getElementById("ddlScheme").value == 0) {
+           
+            if (document.getElementById("txtSchemeDes").value == "") {
                 isValid = false;
-                $(ddlScheme).css({
+                $(txtSchemeDes).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select Scheme Name");
+                alert("Please Enter SchemeDescrip");
                 return false;
             }
             else {
-                $(ddlScheme).css({
+                $(txtSchemeDes).css({
                     "border": "",
                     "background": ""
                 });
+            } 
+            if (document.getElementById("txtScheme").value == "") {
+                isValid = false;
+                $(txtScheme).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Scheme");
+                return false;
             }
+            else {
+                $(txtScheme).css({
+                    "border": "",
+                    "background": ""
+                });
+            } 
             if (document.getElementById("txtTrasactionName").value == "") {
                 isValid = false;
                 $(txtTrasactionName).css({
