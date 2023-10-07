@@ -1,4 +1,4 @@
-﻿@model Arasan.Models.Home
+﻿@model Arasan.Models.QcDashboard
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -74,8 +74,8 @@
         font-size: 14px;
         white-space: initial;
         /*white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;*/
+                    overflow: hidden;
+                    text-overflow: ellipsis;*/
     }
 
     .info-box-text {
@@ -122,14 +122,14 @@
         margin: 10px !important;
     }
 
-     Style the tab 
+    Style the tab
     .tab {
         overflow: hidden;
         border: 1px solid #ccc;
         background-color: #f1f1f1;
     }
 
-     Style the buttons that are used to open the tab content 
+    Style the buttons that are used to open the tab content
     .tab button {
         background-color: inherit;
         float: left;
@@ -145,17 +145,17 @@
         border-right: none;
     }
 
-     Change background color of buttons on hover 
+    Change background color of buttons on hover
     .tab button:hover {
         background-color: #ddd;
     }
 
-    Create an active current tablink class 
+    Create an active current tablink class
     .tab button.active {
         background-color: #ccc;
     }
 
-     Style the tab content 
+    Style the tab content
     .tabcontent {
         display: none;
         padding: 6px 12px;
@@ -166,8 +166,8 @@
 
 </style>
 
-<div class="row">
-    <div class="col-lg-6 top15">
+
+   @* <div class="col-lg-6 top15">
 
         <!-- begin col-3 -->
         <div class="col-lg-6">
@@ -276,17 +276,16 @@
 
 
     </div>
-    </div>
-
-    @*
+</div>*@
+<div class="row">
     <!-- Column Chart-->
     <div class="col-lg-6 top15">
-        <div class="ibox float-e-margins ">
+        <div class="ibox float-e-margins " style="padding-left : 20px;">
 
             <div class="ibox-content top10" id="demo2">
                 <div class="demo-container">
                     <div class="table-responsive">
-                        <h3><span style="color:brown">Waiting for QC</span></h3><br />
+                        <h3><span style="color:red">Waiting for QC</span></h3><br />
                         <table class="table table-bordered table-hover">
                             <thead>
                                 <tr>
@@ -317,40 +316,24 @@
                                 }
                             </tbody>
                         </table>
-                        <table class="table table-bordered table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Doc Id</th>
-                                    <th>Date</th>
-                                    <th>Type</th>
-                                    <th>Item Name</th>
-                                    <th>Drum No</th>
-                                    <th> </th>
+                    </div>
+                </div>
 
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @{
+            </div>
+        </div>
 
-                                    int j = 0;
+    </div>
+</div>
 
-                                    foreach (var item in Model.Notifies.ToList())
-                                    {
-                                        <tr>
-                                            <td>@Html.DisplayFor(o => o.Notifies[j].Doc)</td>
-                                            <td>@Html.DisplayFor(o => o.Notifies[j].Date)</td>
-                                            <td>@Html.DisplayFor(o => o.Notifies[j].Type)</td>
-                                            <td>@Html.DisplayFor(o => o.Notifies[j].Item)</td>
-                                            <td>@Html.DisplayFor(o => o.Notifies[j].Drum)</td>
-                                            <td> <a class="nav-link" href="@Url.Action("QCFinalValueEntry", "QCFinalValueEntry",new { id=item.ID })"> <span class="title">Go To QC </span> </a></td>
+<div class="row">
+    <!-- Column Chart-->
+    <div class="col-lg-6 top15">
+        <div class="ibox float-e-margins " style="padding-left : 20px;">
 
-                                        </tr>
-                                        j = j + 1;
-
-                                    }
-                                }
-                            </tbody>
-                        </table>
+            <div class="ibox-content top10" id="demo2">
+                <div class="demo-container">
+                    <div class="table-responsive">
+                        <h3><span style="color:blue">AP ProductionEntry QC</span></h3><br />
                         <table class="table table-bordered table-hover">
                             <thead>
                                 <tr>
@@ -358,7 +341,8 @@
                                     <th>Drum No</th>
                                     <th>Time</th>
                                     <th>Qty</th>
-                                    <th> </th>
+                                    <th>Go To</th>
+                                    
 
                                 </tr>
                             </thead>
@@ -391,6 +375,7 @@
         </div>
 
     </div>
+</div>
 
     <div class="row">
         <div class="col-lg-6 top5">
@@ -442,8 +427,60 @@
 
         </div>
     </div>
+<div class="row">
+    <!-- Column Chart-->
+    <div class="col-lg-6 top15">
+        <div class="ibox float-e-margins " style="padding-left : 20px;">
+
+            <div class="ibox-content top10" id="demo2">
+                <div class="demo-container">
+                    <div class="table-responsive">
+                        <h3><span style="color:green">QC</span></h3><br />
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Doc Id</th>
+                                    <th>Date</th>
+                                    <th>Type</th>
+                                    <th>Item Name</th>
+                                    <th>Drum No</th>
+                                    <th>Go To</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+
+                                    int j = 0;
+
+                                    foreach (var item in Model.Notifies.ToList())
+                                    {
+                                        <tr>
+                                            <td>@Html.DisplayFor(o => o.Notifies[j].Doc)</td>
+                                            <td>@Html.DisplayFor(o => o.Notifies[j].Date)</td>
+                                            <td>@Html.DisplayFor(o => o.Notifies[j].Type)</td>
+                                            <td>@Html.DisplayFor(o => o.Notifies[j].Item)</td>
+                                            <td>@Html.DisplayFor(o => o.Notifies[j].Drum)</td>
+                                            <td> <a class="nav-link" href="@Url.Action("QCFinalValueEntry", "QCFinalValueEntry",new { id=item.ID })"> <span class="title">Go To QC </span> </a></td>
+
+                                        </tr>
+                                        j = j + 1;
+
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
 </div>
-*@
+<br />
+<br />
+@*
 <div style="height:30px;"></div>
 <div id="divshiftrowdetail">
 
@@ -460,141 +497,141 @@
             <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
                 <div class="panel-body">
 
-        <div class="box-body">
-            <div class="row">
-                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12">
                                 <p style="font-weight:bold;color:darkgreen">Enquiry Followup -<label id="EnqFollowcunt">(@Html.DisplayFor(m => m.EnqFollowcunt))</label></p>
 
-                    <div class="info-boxalert">
-                        <table class="table table-bordered table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Enq No</th>
-                                    <th>Follwed By</th>
-                                    <th>Next Follow Date</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @{
+                                <div class="info-boxalert">
+                                    <table class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Enq No</th>
+                                                <th>Follwed By</th>
+                                                <th>Next Follow Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{
 
 
-                                    int t = 0;
+                                                int t = 0;
 
-                                    foreach (var item in Model.Enqlllst.ToList())
-                                    {
-                                        <tr>
-                                            <td>@Html.DisplayFor(o => o.Enqlllst[t].displaytext)</td>
+                                                foreach (var item in Model.Enqlllst.ToList())
+                                                {
+                                                    <tr>
+                                                        <td>@Html.DisplayFor(o => o.Enqlllst[t].displaytext)</td>
 
-                                            <td>@Html.DisplayFor(o => o.Enqlllst[t].followedby)</td>
+                                                        <td>@Html.DisplayFor(o => o.Enqlllst[t].followedby)</td>
 
-                                            <td>@Html.DisplayFor(o => o.Enqlllst[t].status)</td>
+                                                        <td>@Html.DisplayFor(o => o.Enqlllst[t].status)</td>
 
-                                        </tr>
-                                        t = t + 1;
+                                                    </tr>
+                                                    t = t + 1;
 
-                                    }
-                                }
+                                                }
+                                            }
 
-                            </tbody>
-                        </table>
+                                        </tbody>
+                                    </table>
 
-                    </div>
-                    <!-- /.info-box -->
-                </div>
-                <div class="col-md-6 col-sm-6 col-xs-12">
+                                </div>
+                                <!-- /.info-box -->
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
                                 <p style="font-weight:bold;color:darkgreen">Quote Followup -<label id="Quotefollowcunt">(@Html.DisplayFor(m => m.Quotefollowcunt))</label></p>
 
-                    <div class="info-boxalert">
-                        <table class="table table-bordered table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Quo No</th>
-                                    <th>Follwed By</th>
-                                    <th>Next Follow Date</th>
+                                <div class="info-boxalert">
+                                    <table class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Quo No</th>
+                                                <th>Follwed By</th>
+                                                <th>Next Follow Date</th>
 
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @{
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{
 
-                                    int e = 0;
+                                                int e = 0;
 
-                                    foreach (var item in Model.Folllst.ToList())
-                                    {
-                                        <tr>
-                                            <td>@Html.DisplayFor(o => o.Folllst[e].displaytext)</td>
+                                                foreach (var item in Model.Folllst.ToList())
+                                                {
+                                                    <tr>
+                                                        <td>@Html.DisplayFor(o => o.Folllst[e].displaytext)</td>
 
-                                            <td>@Html.DisplayFor(o => o.Folllst[e].followedby)</td>
+                                                        <td>@Html.DisplayFor(o => o.Folllst[e].followedby)</td>
 
-                                            <td>@Html.DisplayFor(o => o.Folllst[e].status)</td>
+                                                        <td>@Html.DisplayFor(o => o.Folllst[e].status)</td>
 
-                                        </tr>
-                                        e = e + 1;
+                                                    </tr>
+                                                    e = e + 1;
 
-                                    }
-                                }
+                                                }
+                                            }
 
-                           </tbody>
-                        </table>
+                                        </tbody>
+                                    </table>
 
-                    </div>
-                    <!-- /.info-box -->
-                </div>
+                                </div>
+                                <!-- /.info-box -->
+                            </div>
 
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <br />
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <br />
                                 <p style="font-weight:bold;color:darkgreen">SalesQuote Followup -<label id="SalesQuoteFollowcunt">(@Html.DisplayFor(m => m.SalesQuoteFollowcunt))</label></p>
 
-                    <div class="info-boxalert">
-                        <table class="table table-bordered table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Quote No</th>
-                                    <th>Follwed By</th>
-                                    <th>Next Follow Date</th>
+                                <div class="info-boxalert">
+                                    <table class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Quote No</th>
+                                                <th>Follwed By</th>
+                                                <th>Next Follow Date</th>
 
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @{
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{
 
 
-                                    int d = 0;
+                                                int d = 0;
 
-                                    foreach (var item in Model.SalesQuotelllst.ToList())
-                                    {
-                                        <tr>
-                                            <td>@Html.DisplayFor(o => o.SalesQuotelllst[d].displaytext)</td>
+                                                foreach (var item in Model.SalesQuotelllst.ToList())
+                                                {
+                                                    <tr>
+                                                        <td>@Html.DisplayFor(o => o.SalesQuotelllst[d].displaytext)</td>
 
-                                            <td>@Html.DisplayFor(o => o.SalesQuotelllst[d].followby)</td>
+                                                        <td>@Html.DisplayFor(o => o.SalesQuotelllst[d].followby)</td>
 
-                                            <td>@Html.DisplayFor(o => o.SalesQuotelllst[d].status)</td>
+                                                        <td>@Html.DisplayFor(o => o.SalesQuotelllst[d].status)</td>
 
-                                        </tr>
-                                        d = d + 1;
+                                                    </tr>
+                                                    d = d + 1;
 
-                                    }
-                                }
+                                                }
+                                            }
 
-                            <tbody></tbody>
-                        </table>
+                                        <tbody></tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+
 
                     </div>
                 </div>
             </div>
-
-
-        </div>
-        </div>
-        </div>
         </div>
     </div>
 </div>
-    
+
 <br />
 <br />
 
-
+*@
 
 @*<script>
 
