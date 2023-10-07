@@ -6,12 +6,12 @@ namespace Arasan.Interface
 {
     public interface IHomeService
     {
-        DataTable IsQCNotify();
-        DataTable GetQCNotify();
+        //DataTable IsQCNotify();
+        //DataTable GetQCNotify();
         DataTable CuringGroup();
         DataTable curingsubgroup(string curingset);
-        DataTable GetMaterialnot();
-        DataTable GetAPout();
+        //DataTable GetMaterialnot();
+        //DataTable GetAPout();
         DataTable GetquoteFollowupnextReport();
         DataTable GetEnqFollowupnextReport();
         DataTable GetSalesQuoteFollowupnextReport();
