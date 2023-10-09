@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Options;
+using Org.BouncyCastle.Bcpg;
 using Org.BouncyCastle.Utilities;
 using System.Data;
 using System.DirectoryServices.ActiveDirectory;
@@ -379,10 +380,12 @@ namespace Arasan.Controllers
                     tda4.ItemId = dt6.Rows[i]["ITEMID"].ToString();
                     tda4.BinId = dt6.Rows[i]["BINID"].ToString();
                     tda4.drumlst = BindDrum();
+                    tda4.statuslst = BindStatus();
                     tda4.drumno = dt6.Rows[i]["DRUMNO"].ToString();
                     tda4.FromTime = dt6.Rows[i]["FROMTIME"].ToString();
                     tda4.ToTime = dt6.Rows[i]["TOTIME"].ToString();
                     tda4.OutputQty = Convert.ToDouble(dt6.Rows[i]["OUTQTY"].ToString() == "" ? "0" : dt6.Rows[i]["OUTQTY"].ToString());
+                    tda4.ExcessQty= Convert.ToDouble(dt6.Rows[i]["EXQTY"].ToString() == "" ? "0" : dt6.Rows[i]["EXQTY"].ToString());
                     DataTable dt7 = new DataTable();
                     dt7 = IProductionEntry.GetResult(id);
                     if (dt7.Rows.Count > 0)
@@ -541,6 +544,7 @@ namespace Arasan.Controllers
                     tda4.ItemId = dt6.Rows[i]["ITEMID"].ToString();
                     tda4.BinId = dt6.Rows[i]["BINID"].ToString();
                     tda4.drumlst = BindDrum();
+                    tda4.statuslst = BindStatus();
                     tda4.drumno = dt6.Rows[i]["DRUMNO"].ToString();
                     tda4.FromTime = dt6.Rows[i]["FROMTIME"].ToString();
                     tda4.ToTime = dt6.Rows[i]["TOTIME"].ToString();
@@ -950,7 +954,7 @@ namespace Arasan.Controllers
 			EmpDetails tda2 = new EmpDetails();
             List<LogDetails> TTData5 = new List<LogDetails>();
             LogDetails tda5 = new LogDetails();
-            if (tag == "2" || tag==null)
+            if (tag == "2")
 			{
 				for (int i = 0; i < 3; i++)
 				{
@@ -979,6 +983,7 @@ namespace Arasan.Controllers
 					tda4.APID = id;
 					tda4.Itemlst = BindOutItemlst();
 					tda4.drumlst = BindDrum();
+                    tda4.statuslst=BindStatus();
 					tda4.Isvalid = "Y";
 					TData4.Add(tda4);
 
@@ -1057,15 +1062,17 @@ namespace Arasan.Controllers
                 ca.Shift = dt.Rows[0]["SHIFT"].ToString();
                 ViewBag.shift= dt.Rows[0]["SHIFT"].ToString();
                     ca.SchQty = dt.Rows[0]["SCHQTY"].ToString();
-               
-                //ca.ParNo = dt.Rows[0]["PARTYREFNO"].ToString();
-                ca.ProdQty = dt.Rows[0]["PRODQTY"].ToString();
+               ca.LOCID= dt.Rows[0]["ILOCATION"].ToString();
+                    ca.BranchId= dt.Rows[0]["BRANCHID"].ToString();
+                    //ca.ParNo = dt.Rows[0]["PARTYREFNO"].ToString();
+                    ca.ProdQty = dt.Rows[0]["PRODQTY"].ToString();
                 //ca.ExRate = dt.Rows[0]["EXCRATERATE"].ToString();
                 ca.BatchNo = dt.Rows[0]["BATCH"].ToString();
                 ca.batchcomplete = dt.Rows[0]["BATCHYN"].ToString();
-            }
+                    ca.APID = id;
+                }
             DataTable dt2 = new DataTable();
-
+                DataTable dtstk = new DataTable();
             dt2 = IProductionEntry.GetInput(id);
             if (dt2.Rows.Count > 0)
             {
@@ -1078,8 +1085,12 @@ namespace Arasan.Controllers
                         tda.BinId = dt2.Rows[i]["BINID"].ToString();
                     tda.batchno = dt2.Rows[i]["BATCHNO"].ToString();
                     tda.IssueQty = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString() == "" ? "0" : dt2.Rows[i]["QTY"].ToString());
-                    tda.StockAvailable = Convert.ToDouble(dt2.Rows[i]["STOCK"].ToString() == "" ? "0" : dt2.Rows[i]["STOCK"].ToString());
-                    tda.APID = id;
+                        dtstk = IProductionEntry.Getstkqty(tda.ItemId, ca.LOCID, ca.BranchId);
+                        if (dtstk.Rows.Count > 0)
+                        {
+                            tda.StockAvailable = Convert.ToDouble(dtstk.Rows[0]["QTY"].ToString() == "" ? "0" : dtstk.Rows[0]["QTY"].ToString());
+                        }
+                        tda.APID = id;
 					 tda.Isvalid = "Y";
                     TData.Add(tda);
                     
@@ -1173,7 +1184,10 @@ namespace Arasan.Controllers
                     tda4.ItemId = dt6.Rows[i]["ITEMID"].ToString();
                     tda4.BinId = dt6.Rows[i]["BINID"].ToString();
                     tda4.drumlst = BindDrum();
-                    tda4.drumno = dt6.Rows[i]["DRUMNO"].ToString();
+                        tda4.statuslst = BindStatus();
+                        tda4.StID = dt6.Rows[i]["STATUS"].ToString();
+                        tda4.ExcessQty = Convert.ToDouble(dt6.Rows[i]["EXQTY"].ToString() == "" ? "0" : dt6.Rows[i]["EXQTY"].ToString());
+                        tda4.drumno = dt6.Rows[i]["DRUMNO"].ToString();
                         tda4.FromTime = dt6.Rows[i]["FROMTIME"].ToString();
                         tda4.ToTime = dt6.Rows[i]["TOTIME"].ToString();
                         tda4.OutputQty = Convert.ToDouble(dt6.Rows[i]["OUTQTY"].ToString() == "" ? "0" : dt6.Rows[i]["OUTQTY"].ToString());
@@ -1239,6 +1253,8 @@ namespace Arasan.Controllers
                         ca.Shift = adt.Rows[0]["SHIFT"].ToString();
                         ca.SchQty = adt.Rows[0]["SCHQTY"].ToString();
                         ViewBag.shift = adt.Rows[0]["SHIFT"].ToString();
+                        ca.LOCID = adt.Rows[0]["ILOCATION"].ToString();
+                        ca.BranchId = adt.Rows[0]["BRANCHID"].ToString();
                         //ca.ParNo = dt.Rows[0]["PARTYREFNO"].ToString();
                         ca.ProdQty = adt.Rows[0]["PRODQTY"].ToString();
                         //ca.ExRate = dt.Rows[0]["EXCRATERATE"].ToString();
@@ -1248,7 +1264,7 @@ namespace Arasan.Controllers
                     }
                   
                     DataTable adt2 = new DataTable();
-
+                    DataTable dtstk = new DataTable();
                     adt2 = IProductionEntry.GetInput(apID);
                     if (adt2.Rows.Count > 0)
                     {
@@ -1261,7 +1277,12 @@ namespace Arasan.Controllers
                             tda.Time = adt2.Rows[i]["CHARGINGTIME"].ToString();
                             tda.batchno = adt2.Rows[i]["BATCHNO"].ToString();
                             tda.IssueQty = Convert.ToDouble(adt2.Rows[i]["QTY"].ToString() == "" ? "0" : adt2.Rows[i]["QTY"].ToString());
-                            tda.StockAvailable = Convert.ToDouble(adt2.Rows[i]["STOCK"].ToString() == "" ? "0" : adt2.Rows[i]["STOCK"].ToString());
+                            dtstk = IProductionEntry.Getstkqty(tda.ItemId, ca.LOCID, ca.BranchId);
+                            if(dtstk.Rows.Count > 0)
+                            {
+                                tda.StockAvailable = Convert.ToDouble(dtstk.Rows[0]["QTY"].ToString() == "" ? "0" : dtstk.Rows[0]["QTY"].ToString());
+                            }
+                            //tda.StockAvailable = Convert.ToDouble(adt2.Rows[i]["STOCK"].ToString() == "" ? "0" : adt2.Rows[i]["STOCK"].ToString());
                             tda.APID = apID;
                             TData.Add(tda);
                             tda.Isvalid = "Y";
@@ -1405,6 +1426,9 @@ namespace Arasan.Controllers
                             tda4.saveitemId= adt6.Rows[i]["ITEMNAME"].ToString();
                             tda4.BinId = adt6.Rows[i]["BINID"].ToString();
                             tda4.drumlst = BindDrum();
+                            tda4.statuslst=BindStatus();
+                            tda4.StID = adt6.Rows[i]["STATUS"].ToString();
+                            tda4.ExcessQty= Convert.ToDouble(adt6.Rows[i]["EXQTY"].ToString() == "" ? "0" : adt6.Rows[i]["EXQTY"].ToString());
                             tda4.drumno = adt6.Rows[i]["DRUMNO"].ToString();
                             tda4.FromTime = adt6.Rows[i]["FROMTIME"].ToString();
                             tda4.ToTime = adt6.Rows[i]["TOTIME"].ToString();
@@ -1433,6 +1457,8 @@ namespace Arasan.Controllers
                             tda4.APID = apID;
                             tda4.Itemlst = BindOutItemlst();
                             tda4.drumlst = BindDrum();
+                            tda4.statuslst = BindStatus();
+                            tda4.StID = "COMPLETED";
                             tda4.Isvalid = "Y";
                             TData4.Add(tda4);
 
@@ -1524,6 +1550,21 @@ namespace Arasan.Controllers
 
             return View(ca);
 		}
+        public List<SelectListItem> BindStatus()
+        {
+            try
+            {
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                lstdesg.Add(new SelectListItem() { Text = "COMPLETED", Value = "COMPLETED" });
+                lstdesg.Add(new SelectListItem() { Text = "PENDING", Value = "PENDING" });
+                
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         [HttpPost]
         public ActionResult APProductionentryDetail(APProductionentryDet Cy, string id)
         {
@@ -1565,7 +1606,7 @@ namespace Arasan.Controllers
         public ActionResult APProdApprove(string id)
         {
             APProductionentryDet ca = new APProductionentryDet();
-            ca.APID = id;
+            ca.ID = id;
             DataTable dt = datatrans.GetData("Select SHIFTNO from SHIFTMAST WHERE SHIFTNO IN ('A','B','C') and SHIFTNO not IN  (Select Shift from  APPRODUCTIONBASIC where DOCID=(select DOCID from APPRODUCTIONBASIC where APPRODUCTIONBASICID='" + id + "'))");
             List<string> list = new List<string>();
            
@@ -1578,17 +1619,16 @@ namespace Arasan.Controllers
             return View(ca);
         }
         [HttpPost]
-        public ActionResult APProdApproves(APProductionentryDet Cy, string id)
+        public ActionResult APProdApprove(APProductionentryDet Cy, string id)
         {
-			if (Cy.change != "Complete")
-			{
+			
 				try
 				{
-					Cy.ID = id;
-					string Strout = IProductionEntry.APProEntryCRUD(Cy);
+                //Cy.ID = id;
+                string Strout = IProductionEntry.APProEntryCRUD(Cy);
 					if (string.IsNullOrEmpty(Strout))
 					{
-						return RedirectToAction("APProductionentryDetail", new { id = Cy.APID });
+						return RedirectToAction("APProductionentryDetail", new { idasd = Cy.APID });
 					}
 
 					else
@@ -1604,14 +1644,13 @@ namespace Arasan.Controllers
 				{
 					throw ex;
 				}
-			}
-			else
-			{
+			
+			
                 return RedirectToAction("ListAPProductionentry");
-            }
-            return View(Cy);
+            
+            //return View(Cy);
         }
-        public ActionResult GetItemDetail(string ItemId)
+        public ActionResult GetItemDetail(string ItemId, string branch,string loc)
 		{
 			try
 			{
@@ -1620,7 +1659,8 @@ namespace Arasan.Controllers
 
 				string bin = "";
 				string binid = "";
-				dt = IProductionEntry.GetItemDetails(ItemId);
+                string stk = "";
+                dt = IProductionEntry.GetItemDetails(ItemId);
 
 				if (dt.Rows.Count > 0)
 				{
@@ -1629,8 +1669,16 @@ namespace Arasan.Controllers
 					binid = dt.Rows[0]["bin"].ToString();
 
 				}
-
-				var result = new { bin = bin, binid= binid };
+                dt1 = IProductionEntry.Getstkqty(ItemId, loc, branch);
+                if (dt1.Rows.Count > 0)
+                {
+                    stk = dt1.Rows[0]["QTY"].ToString();
+                }
+                if (stk == "")
+                {
+                    stk = "0";
+                }
+                var result = new { bin = bin, binid= binid, stk = stk };
 				return Json(result);
 			}
 			catch (Exception ex)
@@ -1658,7 +1706,7 @@ namespace Arasan.Controllers
         {
             return Json(BindDrum());
         }
-        public ActionResult SaveOutDetail(string id,string ItemId,string drum,string time,string qty,string totime)
+        public ActionResult SaveOutDetail(string id,string ItemId,string drum,string time,string qty,string totime,string exqty,string stat)
         {
             try
             {
@@ -1667,7 +1715,7 @@ namespace Arasan.Controllers
 
                 string bin = "";
                 string binid = "";
-                dt = IProductionEntry.SaveOutDetails(id,ItemId, drum, time, qty, totime);
+                dt = IProductionEntry.SaveOutDetails(id,ItemId, drum, time, qty, totime,exqty,stat);
 
                  
 

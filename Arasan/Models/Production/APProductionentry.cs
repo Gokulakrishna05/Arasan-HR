@@ -102,7 +102,7 @@ namespace Arasan.Models
         public string saveitemId { get; set; }
 
         public List<SelectListItem> Itemlst { get; set; }
-      
+        public List<SelectListItem> statuslst { get; set; }
         public string BinId { get; set; }
         public string outBin { get; set; }
         public string FromTime { get; set; }
@@ -117,9 +117,11 @@ namespace Arasan.Models
         public double IssueQty { get; set; }
         public string MillLoadAdd { get; set; }
         public string Result { get; set; }
-
+        public string StID { get; set; }
         public string Status { get; set; }
         public double OutputQty { get; set; }
+
+        public double ExcessQty { get; set; }
         public string Isvalid { get; set; }
         public List<SelectListItem> outputlst;
         public string Purchasestock { get; set; }

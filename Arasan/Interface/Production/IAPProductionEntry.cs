@@ -20,7 +20,7 @@ namespace Arasan.Interface
         IEnumerable<APProductionentry>  GetAllAPProductionentry();
 		DataTable GetItemDetails(string id);
 
-        DataTable SaveOutDetails(string id, string item,string drum, string time, string qty, string totime);
+        DataTable SaveOutDetails(string id, string item,string drum, string time, string qty, string totime, string exqty, string stat);
 
         DataTable GetOutItemDetails(string id);
         DataTable GetConItemDetails(string id);
@@ -64,5 +64,7 @@ namespace Arasan.Interface
         DataTable GetBreakDeatils(string id);
         DataTable GetOutputDeatils(string id);
         DataTable GetLogdetailDeatils(string id);
+
+        DataTable Getstkqty(string ItemId, string locid, string brid);
     }
 }
