@@ -30,10 +30,8 @@ namespace Arasan.Controllers
             QcNotify tda = new QcNotify();
             List<Notify> TData1 = new List<Notify>();
             Notify tda1 = new Notify();
-
             List<APOut> TDatao1 = new List<APOut>();
             APOut tdao1 = new APOut();
-
             DataTable dt2 = new DataTable();
             dt2 = QcDashboardService.IsQCNotify();
             if (dt2.Rows.Count > 0)
