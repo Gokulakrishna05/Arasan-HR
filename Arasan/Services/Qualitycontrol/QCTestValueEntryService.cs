@@ -284,7 +284,7 @@ namespace Arasan.Services.Qualitycontrol
         public DataTable GetAPOutItemDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select ITEMID,DRUMMAST.DRUMNO,FROMTIME from APPRODOUTDET  LEFT OUTER JOIN DRUMMAST ON DRUMMASTID=APPRODOUTDET.DRUMNO WHERE APPRODUCTIONBASICID='" + id + "' ";
+            SvSql = "select ITEMMASTER.ITEMID,APPRODOUTDET.ITEMID as item,DRUMMAST.DRUMNO,FROMTIME from APPRODOUTDET  LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=APPRODOUTDET.ITEMID  LEFT OUTER JOIN DRUMMAST ON DRUMMASTID=APPRODOUTDET.DRUMNO WHERE APPRODUCTIONBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -317,7 +317,7 @@ namespace Arasan.Services.Qualitycontrol
         public DataTable GetItem()
         {
             string SvSql = string.Empty;
-            SvSql = "select ITEMID,ITEMMASTERID from ITEMMASTER where IGROUP in ('SEMI FINISHED GOODS','FINISHED') ";
+            SvSql = "select ITEMID,ITEMMASTERID from ITEMMASTER  ";
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);

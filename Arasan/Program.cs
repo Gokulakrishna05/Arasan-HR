@@ -156,7 +156,7 @@ internal class Program
         builder.Services.TryAddSingleton<IPyroProduction, PyroProductionService>();
         builder.Services.TryAddSingleton<IPromotionMailService, PromotionMailService>();
 
-
+        builder.Services.TryAddSingleton<IIssueToProduction, IssueToProductionService>();
 
 
         builder.Services.AddSession();
