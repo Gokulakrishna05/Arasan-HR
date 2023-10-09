@@ -96,6 +96,7 @@ namespace Arasan.Controllers.Qualitycontrol
                             tda.unit = dt1.Rows[i]["UNIT"].ToString();
                             tda.value = dt1.Rows[i]["VALUEORMANUAL"].ToString();
                             tda.manual = dt1.Rows[i]["MANUALVALUE"].ToString();
+
                             tda.apid = id;
                             TData.Add(tda);
                         }
@@ -103,13 +104,7 @@ namespace Arasan.Controllers.Qualitycontrol
                 }
                 else
                 {
-                    for (int i = 0; i < 3; i++)
-                    {
-                        tda = new QCTestValueEntryItem();
-                        tda.Isvalid = "Y";
-                        tda.apid = id;
-                        TData.Add(tda);
-                    }
+                  
                     DataTable dt1 = new DataTable();
                     dt1 = QCTestValueEntryService.GetAPOutDetails(id);
                     if (dt1.Rows.Count > 0)
@@ -130,11 +125,36 @@ namespace Arasan.Controllers.Qualitycontrol
 
                             ca.Sampletime = dtt1.Rows[0]["FROMTIME"].ToString();
                             ca.Item = dtt1.Rows[0]["ITEMID"].ToString();
+                            ca.ItemId = dtt1.Rows[0]["item"].ToString();
+                            ViewBag.Item = dtt1.Rows[0]["ITEMID"].ToString();
                         }
 
-                        ViewBag.Item = dt.Rows[0]["ITEMID"].ToString();
+                      
 
                     }
+                    DataTable dtt = new DataTable();
+
+                    List<QCTestValueEntryItem> Data = new List<QCTestValueEntryItem>();
+                    QCTestValueEntryItem tda1 = new QCTestValueEntryItem();
+                    //string itemid = datatrans.GetDataString(" SELECT ITEMMASTERID FROM ITEMMASTER WHERE ITEMID='" + ca.ItemId + "'");
+                    string temp = datatrans.GetDataString(" SELECT TEMPLATEID FROM ITEMMASTER WHERE ITEMMASTERID='" + ca.ItemId + "'");
+                    dtt = QCTestValueEntryService.GetItemDetail(temp);
+                    if (dtt.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dtt.Rows.Count; i++)
+                        {
+                            tda1 = new QCTestValueEntryItem();
+
+                            tda1.description = dtt.Rows[i]["TESTDESC"].ToString();
+                            tda1.value = dtt.Rows[i]["VALUEORMANUAL"].ToString();
+                            tda1.unit = dtt.Rows[i]["UNITID"].ToString();
+                            tda1.startvalue = dtt.Rows[i]["STARTVALUE"].ToString();
+                            tda1.endvalue = dtt.Rows[i]["ENDVALUE"].ToString();
+
+                            Data.Add(tda1);
+                        }
+                    }
+                    ca.QCTestLst = Data;
                 }
                 
             }

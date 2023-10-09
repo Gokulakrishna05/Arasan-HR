@@ -33,6 +33,7 @@ namespace Arasan.Models
         public string Sample { get; set; }
         public string Sampletime { get; set; }
         public string Item { get; set; }
+        public string ItemId { get; set; }
         public string Rate { get; set; }
         public string Nozzle { get; set; }
         public string Air { get; set; }

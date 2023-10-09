@@ -158,6 +158,9 @@ internal class Program
         builder.Services.TryAddSingleton<IPyroProduction, PyroProductionService>();
         builder.Services.TryAddSingleton<IPromotionMailService, PromotionMailService>();
 
+ 
+        builder.Services.TryAddSingleton<IIssueToProduction, IssueToProductionService>();
+ 
         builder.Services.TryAddSingleton<IQcTemplateService, QcTemplateService>();
 
         builder.Services.TryAddSingleton<IAccDescrip, AccDescripService>();
@@ -165,6 +168,7 @@ internal class Program
 
 
 
+ 
 
 
         builder.Services.AddSession();
