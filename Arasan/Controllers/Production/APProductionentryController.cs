@@ -328,7 +328,10 @@ namespace Arasan.Controllers
                 {
                     tda = new ProInput();
                     tda.Itemlst = BindItemlst();
+                   
                     tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
+                    tda.Item = dt2.Rows[i]["item"].ToString();
+                    tda.lotlist = BindLotNo(tda.Item, ca.LOCID, ca.BranchId);
                     tda.Time = dt2.Rows[i]["CHARGINGTIME"].ToString();
                     tda.BinId = dt2.Rows[i]["BINID"].ToString();
                     tda.batchno = dt2.Rows[i]["BATCHNO"].ToString();
@@ -352,6 +355,7 @@ namespace Arasan.Controllers
                     tda1 = new APProInCons();
                     tda1.Itemlst = BindItemlstCon();
                     tda1.ItemId = dt3.Rows[i]["ITEMID"].ToString();
+                    tda1.saveitemId = dt3.Rows[i]["item"].ToString();
                     tda1.consunit = dt3.Rows[i]["UNITID"].ToString();
                     tda1.BinId = dt3.Rows[i]["BIN"].ToString();
                     tda1.Qty = Convert.ToDouble(dt3.Rows[i]["QTY"].ToString() == "" ? "0" : dt3.Rows[i]["QTY"].ToString());
@@ -378,10 +382,12 @@ namespace Arasan.Controllers
                     tda4 = new ProOutput();
                     tda4.Itemlst = BindOutItemlst();
                     tda4.ItemId = dt6.Rows[i]["ITEMID"].ToString();
+                    tda4.saveitemId = dt6.Rows[i]["item"].ToString();
                     tda4.BinId = dt6.Rows[i]["BINID"].ToString();
                     tda4.drumlst = BindDrum();
                     tda4.statuslst = BindStatus();
                     tda4.drumno = dt6.Rows[i]["DRUMNO"].ToString();
+                    tda4.drumid = dt6.Rows[i]["drum"].ToString();
                     tda4.FromTime = dt6.Rows[i]["FROMTIME"].ToString();
                     tda4.ToTime = dt6.Rows[i]["TOTIME"].ToString();
                     tda4.OutputQty = Convert.ToDouble(dt6.Rows[i]["OUTQTY"].ToString() == "" ? "0" : dt6.Rows[i]["OUTQTY"].ToString());
@@ -407,6 +413,24 @@ namespace Arasan.Controllers
             ca.Binconslst = TData1;
             return View(ca);
 
+        }
+        public List<SelectListItem> BindLotNo(string item,string loc,string branch)
+        {
+            string locid = datatrans.GetDataString("Select ILOCATION from WCBASIC where WCBASICID='" + loc + "' ");
+            try
+            {
+                DataTable dtDesg = IProductionEntry.GetLotNo(item, locid, branch);
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["LOT_NO"].ToString(), Value = dtDesg.Rows[i]["LOT_NO"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public IActionResult ViewAPProductionentry(string id)
         {
@@ -1686,6 +1710,33 @@ namespace Arasan.Controllers
 				throw ex;
 			}
 		}
+        public ActionResult GetStockQty(string Lot, string branch, string loc)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                DataTable dt1 = new DataTable();
+                string locid = datatrans.GetDataString("Select ILOCATION from WCBASIC where WCBASICID='" + loc + "' ");
+
+                string stk = "";
+                dt = IProductionEntry.GetStkDetails(Lot, branch, locid);
+
+                if (dt.Rows.Count > 0)
+                {
+
+                    stk = dt.Rows[0]["BALANCE_QTY"].ToString();
+                   
+
+                }
+               
+                var result = new { stk = stk };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public JsonResult GetItemJSON()
         {
             //EnqItem model = new EnqItem();
