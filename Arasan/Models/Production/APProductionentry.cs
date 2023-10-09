@@ -67,6 +67,7 @@ namespace Arasan.Models
     public class ProInput
     {
         public string ItemId { get; set; }
+        public string Item { get; set; }
         public string APID { get; set; }
         public string saveitemId { get; set; }
 
