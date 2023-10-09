@@ -32,7 +32,7 @@ namespace Arasan.Services.Store_Management
                 {
                     con.Open();
 
-                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,LOCDETAILS.LOCID,DOCID,to_char(DEDBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,DCNO,REASON,GROSS,ENTBY,NARRATION,NOOFD,DEDBASICID ,DEDBASIC.IS_ACTIVE from DEDBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=DEDBASIC.BRANCHID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=DEDBASIC.LOCID WHERE DEDBASIC.IS_ACTIVE= '"+ status +"'";
+                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,LOCDETAILS.LOCID,DOCID,to_char(DEDBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,DCNO,REASON,GROSS,ENTBY,NARRATION,DEDBASICID ,DEDBASIC.IS_ACTIVE from DEDBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=DEDBASIC.BRANCHID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=DEDBASIC.LOCID WHERE DEDBASIC.IS_ACTIVE= '"+ status +"'";
 
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
@@ -49,7 +49,6 @@ namespace Arasan.Services.Store_Management
                             Gro = rdr["GROSS"].ToString(),
                             Entered = rdr["ENTBY"].ToString(),
                             Narr = rdr["NARRATION"].ToString(),
-                            NoDurms = rdr["NOOFD"].ToString(),
                             status = rdr["IS_ACTIVE"].ToString(),
                         };
                         staList.Add(sta);
@@ -58,39 +57,6 @@ namespace Arasan.Services.Store_Management
             }
             return staList;
         }
-
-        //public DirectDeduction GetDirectDeductionById(string eid)
-        //{
-        //    DirectDeduction DirectDeduction = new DirectDeduction();
-        //    using (OracleConnection con = new OracleConnection(_connectionString))
-        //    {
-        //        using (OracleCommand cmd = con.CreateCommand())
-        //        {
-        //            con.Open();
-        //            cmd.CommandText = "Select BRANCHID,LOCID,DOCID,DOCDATE,DCNO,REASON,GROSS,ENTBY,NARRATION,NOOFD,DEDBASICID  from DEDBASIC where DEDBASICID=" + eid + "";
-        //            OracleDataReader rdr = cmd.ExecuteReader();
-        //            while (rdr.Read())
-        //            {
-        //                DirectDeduction sta = new DirectDeduction
-        //                {
-        //                    ID = rdr["DEDBASICID"].ToString(),
-        //                    Branch = rdr["BRANCHID"].ToString(),
-        //                    Location = rdr["LOCID"].ToString(),
-        //                    DocId = rdr["DOCID"].ToString(),
-        //                    Docdate = rdr["DOCDATE"].ToString(),
-        //                    Dcno = rdr["DCNO"].ToString(),
-        //                    Reason = rdr["REASON"].ToString(),
-        //                    Gro = rdr["GROSS"].ToString(),
-        //                    Entered = rdr["ENTBY"].ToString(),
-        //                    Narr = rdr["NARRATION"].ToString(),
-        //                    NoDurms = rdr["NOOFD"].ToString(),
-        //                };
-        //                DirectDeduction = sta;
-        //            }
-        //        }
-        //    }
-        //    return DirectDeduction;
-        //}
 
         public string DirectDeductionCRUD(DirectDeduction ss)
            {
@@ -123,10 +89,12 @@ namespace Arasan.Services.Store_Management
                     objCmd.Parameters.Add("DCNO", OracleDbType.NVarchar2).Value = ss.Dcno;
                     objCmd.Parameters.Add("REASON", OracleDbType.NVarchar2).Value = ss.Reason;
                     objCmd.Parameters.Add("GROSS", OracleDbType.NVarchar2).Value = ss.Gro;
+                    objCmd.Parameters.Add("NET", OracleDbType.NVarchar2).Value = ss.net;
                     objCmd.Parameters.Add("ENTBY", OracleDbType.NVarchar2).Value = ss.Entered;
                     objCmd.Parameters.Add("NARRATION", OracleDbType.NVarchar2).Value = ss.Narr;
-                    objCmd.Parameters.Add("NOOFD", OracleDbType.NVarchar2).Value = ss.NoDurms;
+                    objCmd.Parameters.Add("MATSUPP", OracleDbType.NVarchar2).Value = ss.Material;
                     objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Yes";
+                    objCmd.Parameters.Add("NOOFD", OracleDbType.NVarchar2).Value = ss.NoDurms;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
@@ -164,10 +132,6 @@ namespace Arasan.Services.Store_Management
                                     objCmds.Parameters.Add("UNIT", OracleDbType.NVarchar2).Value = cp.Unit;
                                     objCmds.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = cp.rate;
                                     objCmds.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = cp.Amount;
-
-                                    //objCmds.Parameters.Add("TOTAMT", OracleDbType.NVarchar2).Value = cp.TotalAmount;
-                                    //objCmds.Parameters.Add("CF", OracleDbType.NVarchar2).Value = cp.ConFac;
-
                                     objCmds.Parameters.Add("BINID", OracleDbType.NVarchar2).Value = cp.BinID;
                                     objCmds.Parameters.Add("PROCESSID", OracleDbType.NVarchar2).Value = cp.Process;
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;

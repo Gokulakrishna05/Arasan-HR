@@ -90,6 +90,9 @@ namespace Arasan.Models
         public double IGSTAmt { get; set; }
         public string TotalAmount { get; set; }
         public string Isvalid { get; set; }
+        public string binid { get; set; }
+        public string Current { get; set; }
+        public string Return { get; set; }
 
     }
     public class ReturnItem
@@ -118,6 +121,7 @@ namespace Arasan.Models
         public string stkqty { get; set; }
         public string binid { get; set; }
         public string grnitemid { get; set; }
+        public string Isvalid { get; set; }
 
     }
 }

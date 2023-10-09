@@ -52,7 +52,7 @@
                 <div class="widgets-container">
 
                     <hr>
-                    @using (Html.BeginForm("PromotionMail", "PromotionMail", FormMethod.Post))
+                    @using (Html.BeginForm("SendMail", "PromotionMail", FormMethod.Post))
                     {
                         @Html.AntiForgeryToken()
                         <form>
@@ -113,18 +113,28 @@
                                     </div>
                                 </div>
                             </div>
-                            <div style="height:30px;"></div>
-                            <form action="/action_page.php">
-                                <label for="inputName3" class="col-sm-4 control-label">Select Files<label class="mandatory">*</label></label>
-                                <div class="col-sm-8">
-                                    <input type="file" id="files" name="files" multiple>
-                                </div>
-                            </form>
-                            <div style="height:30px;"></div>
-                            <div class="col-lg-10"></div>
-                            <button type="submit" name="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" value="Save" tabindex="18">Send</button>
-                            <a button class="btn btn-danger" type="submit" href="@Url.Action("ListPromotionMail", "PromotionMail")">Cancel</a>
+                           
+                         <div class="row">
+                             <div class="col-md-6">
+                                    <div class="form-group">
+                                        
+                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Select Files<label class="mandatory">*</label></label>
 
+                                             <div class="col-sm-8">
+                                                <input type="file" id="files" name="files" multiple>
+                                             </div>
+                                    </div>
+                             </div>
+                         </div>
+
+                            <div style="height:30px;"></div>
+                            <div class="row">
+                                <div class="col-md-9"></div>
+                                <div class="col-md-3">
+                            <button type="submit" name="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" value="Save" tabindex="18">Send</button>
+                            <button type="button" class="btn btn-danger marginright" onclick="location.href='@Url.Action("PromotionMail", "PromotionMail")'" value="Cancel" causesvalidation="false" tabindex="9">Cancel</button>
+                                </div>
+                            </div>
                         </form>
                     }
                 </div>
@@ -166,5 +176,46 @@
         }
         $(dropDownId).trigger("liszt:updated");
     }
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
 
+            if (document.getElementById("txtTo").value == "") {
+                isValid = false;
+                $(txtTo).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter To");
+                return false;
+            }
+            else {
+                $(txtTo).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            if (document.getElementById("txtSub").value == "") {
+                isValid = false;
+                $(txtSub).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter  Subject");
+                return false;
+            }
+            else {
+                $(txtSub).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (isValid == false)
+                e.preventDefault();
+        });
+
+    });
 </script>

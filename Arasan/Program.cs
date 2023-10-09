@@ -18,6 +18,7 @@ using System.Collections.Generic;
 
 using Arasan.Models;
 using Microsoft.AspNetCore.Http.Features;
+using Arasan.Services;
 
 //using Arasan.Services.Store_Management;
 
@@ -152,11 +153,22 @@ internal class Program
 		builder.Services.TryAddSingleton<IEmailConfig, EmailConfigService>();
 		builder.Services.TryAddSingleton<IDebitNoteBillService, DebitNoteBillService>();
 		builder.Services.TryAddSingleton<IEmpMultipleAllocationService, EmpMultipleAllocationService>();
+		builder.Services.TryAddSingleton<IItemDescriptionService, ItemDescriptionService>();
 
         builder.Services.TryAddSingleton<IPyroProduction, PyroProductionService>();
         builder.Services.TryAddSingleton<IPromotionMailService, PromotionMailService>();
 
+ 
         builder.Services.TryAddSingleton<IIssueToProduction, IssueToProductionService>();
+ 
+        builder.Services.TryAddSingleton<IQcTemplateService, QcTemplateService>();
+
+        builder.Services.TryAddSingleton<IAccDescrip, AccDescripService>();
+        builder.Services.TryAddSingleton<IQcDashboardService, QcDashboardService>();
+
+
+
+ 
 
 
         builder.Services.AddSession();

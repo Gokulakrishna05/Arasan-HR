@@ -1,9 +1,9 @@
 ﻿@model Arasan.Models.AccConfig
+
 @{
-    ViewData["Title"] = "Account Config";
+    ViewData["Title"] = "AccConfig";
 }
 <style>
-
     .mandatory {
         color: red;
         position: relative;
@@ -11,19 +11,19 @@
         left: 5px;
     }
 </style>
-@*<script type="text/javascript">
+<script type="text/javascript">
     @if (TempData["notice"] != null)
     {
         @:alert('@TempData["notice"]');
     }
-</script>*@
+</script>
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
 
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Account</a> </li>
-            <li class="active"> <strong>  Account Config</strong> </li>
+            <li class="active"> <strong> Account Config  </strong> </li>
         </ol>
     </div>
 </div>
@@ -38,292 +38,364 @@
                     {
                         @Html.AntiForgeryToken()
                         <form>
-                            
+                            <br>
+                                <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                       <label for="inputName3" class="col-sm-4 control-label"> Scheme Description<label class="mandatory">*</label></label>
+                                            <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.SchemeDes, new { @id = "txtSchemeDes", @class = "form-control", @TabIndex = 2, @size="30" })<br>
+                                               
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                            <label for="inputName3" class="col-sm-4 control-label"> Scheme Name <label class="mandatory"></label></label>
+                                            <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.Scheme, new { @id = "txtScheme", @class = "form-control", @TabIndex = 2, @size="30" })<br>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label"> Transaction Name<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.TransactionName, new { @id = "txtTrasactionName", @class = "form-control", @TabIndex = 2, @size="30" })<br>
+                                            @Html.HiddenFor(C => C.ID)
+                                            @Html.HiddenFor(C => C.Branch)
+                                            @Html.HiddenFor(C => C.CreatBy)
+                                            @Html.HiddenFor(C => C.CreatOn)
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Transaction ID<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.TransactionID, new { @id = "txtTrasactionID", @class = "form-control", @TabIndex = 2, @size="30" })<br>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                           
+                          
+                            <div style="height:30px;"></div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="btn-group">
+                                        <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" /></p>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="row">
                                 <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
+
 
                                     <table class="table table-striped table-hover" id="dataTable">
                                         <thead>
                                             <tr>
-                                                <th>  Type </th>
-                                                <th> Ledger Name </th>
-                                              
-
+                                               
+                                                <th> Type </th>
+                                                <th> Name</th>
+                                                <th> Scheme </th>
+                                                <th> Ledger </th>
+                                               
+                                                
                                             </tr>
-
                                         </thead>
                                         <tbody id="tbBooks">
-
                                             @{
 
                                                 int i = 0;
-
+                                              
                                                 foreach (var item in Model.ConfigLst.ToList())
                                                 {
                                                     <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
-                                                        <td>
-                                                            @Html.TextBoxFor(o => o.ConfigLst[i].Type, new { @id = "txtType" + i, @class = "form-control", style = "width: 200px;" ,@readonly="readonly"}) @Html.HiddenFor(o => o.ID)
-                                                        </td>
 
                                                         <td>
-                                                            @Html.DropDownListFor( o => o.ConfigLst[i].Ledger, Model.ConfigLst[i].Ledlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlLedger" + i, style = "width: 130px;" })
+                                                            @Html.TextBoxFor(o => o.ConfigLst[i].Type, new { @id = "txtType" + i, @class = "form-control", style = "width:180px;" , @TabIndex = 2 })
 
                                                         </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(o => o.ConfigLst[i].Tname, new { @id = "txtTname" + i, @class = "form-control", style = "width: 180px;", @TabIndex = 2})
 
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBoxFor(o => o.ConfigLst[i].Schname, new { @id = "txtSchname"+ i , @class = "form-control", style = "width: 180px;" , @TabIndex = 2})
 
+                                                        </td>
+                                                        <td>
+                                                            @Html.DropDownListFor(o => o.ConfigLst[i].ledger, Model.ConfigLst[i].ledlst, "-- Please Select --", new { @class = "form-control _select newcss", @id = "ddlledger" + i, style = "width: 200px;" })
+                                                            @Html.HiddenFor(o => o.ConfigLst[i].saveledger)
 
+                                                        </td>
+                                                       
+
+                                                        <td>
+                                                            @Html.HiddenFor(o => o.ConfigLst[i].Isvalid, new { @id = "Isvalid" + i })
+                                                            <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="ConfigLst.Index" type="hidden" value="@(i)" />
+
+                                                        </td>
 
                                                     </tr>
-
                                                     i = i + 1;
-                                                }
+                                                  
 
+                                                }
+                                                //foreach (var item in Model.ConfigLst[i].ToList())
+                                                //{
+                                                //    <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+
+                                                //        <td>
+                                                //            @Html.TextBoxFor(o => o.ConfigLst[i].Type, new { @id = "txtType" + i, @class = "form-control", style = "width:180px;" , @TabIndex = 2 })
+                                                            
+                                                //        </td>
+                                                //        <td>
+                                                //            @Html.TextBoxFor(o => o.ConfigLst[i].Tname, new { @id = "txtTname" + i, @class = "form-control", style = "width: 180px;", @TabIndex = 2})
+                                                            
+                                                //        </td>
+                                                //        <td>
+                                                //            @Html.TextBoxFor(o => o.ConfigLst[i].Schname, new { @id = "txtSchname"+ i , @class = "form-control", style = "width: 180px;" , @TabIndex = 2})
+                                                            
+                                                //        </td>
+                                                //        <td>
+                                                //            @Html.DropDownListFor(o => o.ConfigLst[i].ledger, Model.ConfigLst[i].ledlst, "-- Please Select --", new { @class = "form-control chosen-select newcss", @id = "ddlledger" + i, style = "width: 200px;" , onchange = "Grup_Change(this.value," + i + ") "})
+                                                //            @Html.HiddenFor(o => o.ConfigLst[i].saveledger)
+                                                            
+                                                //        </td>
+                                                //        <td>
+                                                //            @Html.HiddenFor(o => o.ConfigLst[i].Isvalid, new { @id = "Isvalid" + i })
+                                                //            <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="ledlst.Index" type="hidden" value="@(i)" />
+                                                            
+                                                //        </td>
+                                                       
+                                                //    </tr>
+                                                //    i = i + 1;
+                                                //    j = j + 1;
+
+                                                //}
                                             }
 
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
-                           
+
                             <div style="height:30px;"></div>
                             <div class="col-lg-10"></div>
                             <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
-                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("AccConfig", "AccConfig")'">Cancel</button>
+                            <a button class="btn btn-danger" type="submit" href="@Url.Action("ListAccConfig", "AccConfig")">Cancel</a>
 
                         </form>
+
                     }
                 </div>
+
             </div>
+
         </div>
 
     </div>
+
 </div>
+
 <script>
-    //function changeDeAmount(_this, i) {
-    //    try {
 
-    //        var j = 0;
-    //        var qty = 0;
-    //        var tot = 0;
-    //        $('tr.chkitemlst').each(function () {
-    //            if ($(this).css('display') !== 'none') {
-    //                qty = $(this).find('#txtDepitAmount' + j.toString()).val();
-    //                if (qty == "")
-    //                    qty = 0;
-
-    //                tot += eval(qty);
-    //            }
-    //            j += 1;
-    //        });
-    //        document.getElementById("txtTotalDeAmount").value = tot.toFixed(2);
-    //    }
-    //    catch (ex) {
-    //        alert(ex.message);
-    //    }
-    //}
-    //function changeCrAmount(_this, i) {
-    //    try {
-
-    //        var j = 0;
-    //        var qty = 0;
-    //        var tot = 0;
-    //        $('tr.chkitemlst').each(function () {
-    //            if ($(this).css('display') !== 'none') {
-    //                qty = $(this).find('#txtCreditAmount' + j.toString()).val();
-    //                if (qty == "")
-    //                    qty = 0;
-
-    //                tot += eval(qty);
-    //            }
-    //            j += 1;
-    //        });
-    //        document.getElementById("txtTotalCrAmount").value = tot.toFixed(2);
-    //    }
-    //    catch (ex) {
-    //        alert(ex.message);
-    //    }
-    //}
-    //function totAmount(_this) {
-    //    try {
-
-    //        var j = 0;
-    //        var dqty = 0;
-    //        var cqty = 0;
-    //        var tot = 0;
-    //        $('tr.chkitemlst').each(function () {
-    //            if ($(this).css('display') !== 'none') {
-    //                dqty = $(this).find('#txtDepitAmount' + j.toString()).val();
-    //                cqty = $(this).find('#txtCreditAmount' + j.toString()).val();
-    //                //if (qty == "")
-    //                //    qty = 0;
-
-    //                tot = dqty - cqty;
-    //            }
-
-    //        });
-    //        document.getElementById("txtTotalAmount").value = tot.toFixed(2);
-    //    }
-    //    catch (ex) {
-    //        alert(ex.message);
-    //    }
-    //}
-    //$(function () {
-    //    $('._select').select2();
-    //});
-
-    //$('.form_date').datetimepicker({
-    //    //   language:  'fr',
-    //    weekStart: 1,
-    //    todayBtn: 1,
-    //    autoclose: 1,
-    //    todayHighlight: 1,
-    //    startView: 2,
-    //    minView: 2,
-
-    //    forceParse: 0
-    //});
     $(function () {
         $('._select').select2();
     });
+
+    function changeScheme(ItemId) {
+        $.ajax({
+            url: 'GetSchemeDetail',
+            data: { "ItemId": ItemId },
+            type: "GET",
+            success: function (result) {
+
+                document.getElementById("txtTrasactionName").value = result.transactionname;
+                document.getElementById("txtTrasactionID").value = result.transactionid;
+            },
+            error: function () {
+            }
+        });
+    }
+
+        function AppendRow(opt) { 
+            var index = $("#tbBooks").children("tr").length;
+
+        var Type = "<td><input class='form-control' id='txtType" + index + "' name='ConfigLst[" + index + "].Type'  style='width: 180px;' type='text'  /></td>";
+
+            var Tname = "<td><input class='form-control' id='txtTname" + index + "' name='ConfigLst[" + index + "].Tname'   style='width: 180px; type='text' /></td>";
+
+            var Schname = "<td><input class='form-control' id='txtSchname" + index + "' name='ConfigLst[" + index + "].Schname'  style='width: 180px;' type='text'/></td>"
+
+        var ledger = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlledger" + index + "' name='ConfigLst[" + index + "].ledger'  ><option value=''>-- Please select -- </option>" + opt + "</select></td>";  //onchange = 'Grup_Change(this.value, " + i + ")'
+
+
+        var removeCell = "<td><input id='Isvalid" + index + "' name='ConfigLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='ConfigLst.Index' type='hidden' value='" + index + "'  /></td>";
+
+            var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Type + Tname + Schname + ledger + removeCell + "</tr>";
+   
+            
+            $("#tbBooks").append(newRow);
+            $(function () {
+                $('._select').select2();
+            })
+        }
+
+    function AddRow() {
+        var opt = "";
+        $.ajax({
+            type: "POST",
+            url: 'GetledgerJSON',
+            success: function (data) {
+
+                $.each(data, function () {
+                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
+                });
+                AppendRow(opt);
+            }
+        })
+    }
+
+
+
+   
+
     $(".chosen-select").chosen();
+    function removeRow(id) {
+        var table = document.getElementById("dataTable");
+        var rowCount = table.rows.length;
+        var row = document.getElementById('trBook' + id);
+        var j = 0;
+        $('tr.chkitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+                j += 1;
+            }
+        });
+        if (j > 1) {
+            row.style.display = "none";
+            document.getElementById('Isvalid' + id).value = "N";
+        }
+        else {
+            alert("Cannot delete all the rows.")
+        }
+    }
+
+    //function changeAdact(typeid, i) {
+    //    if (typeid == "Dr") {
+    //        document.getElementById("txtCreditAmount" + i).readOnly = true;
+    //        document.getElementById("txtDepitAmount" + i).readOnly = false;
+    //    }
+
+    //    else (typeid == "Cr") {
+    //        document.getElementById("txtDepitAmount" + i).readOnly = true;
+    //        document.getElementById("txtCreditAmount" + i).readOnly = false;
+    //    }
+    //}
+
+</script>
+
+<script>
+
+    $(function () {
+        $('._select').select2();
+    });
+
     $(document).ready(function () {
         $('#btnSave').click(function (e) {
             var isValid = true;
 
-            if (document.getElementById("ddllocation").value == "" || document.getElementById("ddllocation").value == 0) {
+           
+            if (document.getElementById("txtSchemeDes").value == "") {
                 isValid = false;
-                $(ddllocation).css({
+                $(txtSchemeDes).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select Location ");
-                return false; Center
-            }
-            else {
-                $(ddllocation).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-            if (document.getElementById("txtVoucherNo").value == "") {
-                isValid = false;
-                $(txtVoucherNo).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Enter Voucher No");
+                alert("Please Enter SchemeDescrip");
                 return false;
             }
             else {
-                $(txtVoucherNo).css({
+                $(txtSchemeDes).css({
                     "border": "",
                     "background": ""
                 });
-            }
-            if (document.getElementById("txtPType").value == "") {
+            } 
+            if (document.getElementById("txtScheme").value == "") {
                 isValid = false;
-                $(txtPType).css({
+                $(txtScheme).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Choose Payment Type");
+                alert("Please Enter Scheme");
                 return false;
             }
             else {
-                $(txtPType).css({
+                $(txtScheme).css({
                     "border": "",
                     "background": ""
                 });
-            }
-            if (document.getElementById("txtVdate").value == "") {
+            } 
+            if (document.getElementById("txtTrasactionName").value == "") {
                 isValid = false;
-                $(txtVdate).css({
+                $(txtTrasactionName).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select Voucher Date");
+                alert("Please Enter Trasaction Name");
                 return false;
             }
             else {
-                $(txtVdate).css({
+                $(txtTrasactionName).css({
                     "border": "",
                     "background": ""
                 });
             }
-            if (document.getElementById("txtRefDate").value == "") {
+            if (document.getElementById("txtTrasactionID").value == "") {
                 isValid = false;
-                $(txtRefDate).css({
+                $(txtTrasactionID).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select Reference Date");
+                alert("Please Enter Trasaction ID");
                 return false;
             }
             else {
-                $(txtRefDate).css({
+                $(txtTrasactionID).css({
                     "border": "",
                     "background": ""
                 });
             }
+            
+
+
+            if (isValid == false)
+                e.preventDefault();
 
         });
 
     });
-    //$(document).ready(function () {
-    //    $('#btnSave').click(function (e) {
-    //        var depit = document.getElementById("txtTotalDeAmount");
-    //        var credit = document.getElementById("txtTotalCrAmount");
-    //        var req = document.getElementById("txtReqAmount");
-    //       var tot= depit-credit;
-    //       if (req!=tot)
-    //       {
-    //            alert("Enter Correct Amount")
-    //       }
-
-    //    });
-
-    //});
-    //function AddRow() {
-    //    var opt = "";
-    //    $.ajax({
-    //        type: "POST",
-    //        url: 'GetTypeJSON',
-    //        success: function (data) {
-
-    //            $.each(data, function () {
-    //                opt += "<option value=" + this.value + ">" + this.text + "</option>";
-    //            });
-    //            AppendRow(opt);
-    //        }
-    //    })
-    //}
-    //function AppendRow(opt) {
-    //    var index = $("#tbBooks").children("tr").length;
-
-    //    var Type = "<td><select style = 'width: 100px;' class='form-control _select newcss' id='ddlCredit" + index + "' name='VoucherLst[" + index + "].Credit' ><option value=''>Please select</option><option value='Dr'>Dr</option><option value='Cr'>Cr</option></select></td>";
-
-
-
-    //    var Account = "<td><input class='form-control' id='txtAccount" + index + "' name='VoucherLst[" + index + "].Account'  style='width: 200px;' type='text'   /></td>";
-    //    var depit = "<td><input class='form-control' id='txtDepitAmount" + index + "' name='VoucherLst[" + index + "].DepitAmount'  style='width: 100px;' type='text'  onkeydown = 'return isNumeric2(event.keyCode,this.value)'  /></td>";
-
-    //    var credit = "<td><input class='form-control' id='txtVoucherLst" + index + "' name='VoucherLst[" + index + "].VoucherLst'  style='width: 100px;' type='text' onkeydown = 'return isNumeric2(event.keyCode,this.value)'   /></td>";
-
-
-
-    //    var removeCell = "<td><input id='Isvalid" + index + "' name='VoucherLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='DrumDetlst.Index' type='hidden' value='" + index + "'  /></td>";
-
-
-    //    var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Type + Account + depit + credit + removeCell + "</tr>";
-    //    //alert(Packing);
-    //    $("#tbBooks").append(newRow);
-
-    //    $('._select').select2();
-    //}
-   
 </script>
+
