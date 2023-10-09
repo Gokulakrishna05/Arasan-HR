@@ -32,7 +32,7 @@
                 <div class="widgets-container">
                     <h5 style="font-size:14px">AP Production</h5>
                     <hr>
-                        @using (Html.BeginForm("APProdApproves", "APProductionentry", FormMethod.Post))
+                    @using (Html.BeginForm("APProdApprove", "APProductionentry", FormMethod.Post))
                         {
                             @Html.AntiForgeryToken()
                              <form>
@@ -45,7 +45,7 @@
                               <br />      <label for="inputName3" class="col-sm-4 control-label">Are you Complete Or Change Shift<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
                                                     <div class="input-group">
-                                                @Html.HiddenFor(C => C.APID)
+                                                @Html.HiddenFor(C => C.ID)
                                                 @{
 
                                                     int i = 0;
@@ -76,8 +76,8 @@
                         </div>
                        
                         <div style="height:30px;"></div>
-                          <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
-                        <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("APProductionentryDetail", "APProductionentry")'">Cancel</button>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave" onClick="window.parent.jQuery.fancybox.close();">Submit</button>
+                            <input type="button" class="btn btn-danger" value="Close" onClick="window.parent.jQuery.fancybox.close();" />
                         </form>
                     }
                 </div>

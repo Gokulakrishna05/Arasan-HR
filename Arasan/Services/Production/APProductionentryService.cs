@@ -42,6 +42,7 @@ namespace Arasan.Services
 							Location = rdr["WCID"].ToString(),
 							Eng = rdr["EMPNAME"].ToString(),
                             isapprove= rdr["IS_APPROVE"].ToString(),
+                            iscurrent= rdr["IS_CURRENT"].ToString(),
                             Shift = rdr["SHIFT"].ToString(),
 						};
 						cmpList.Add(cmp);
@@ -295,10 +296,10 @@ namespace Arasan.Services
                                                 objCmdIn.Parameters.Add("INVENTORY_ITEM_ID", OracleDbType.NVarchar2).Value = cp.saveitemId;
                                                 objCmdIn.Parameters.Add("GRN_ID", OracleDbType.NVarchar2).Value = dt.Rows[i]["GRN_ID"].ToString();
                                                 objCmdIn.Parameters.Add("ITEM_ID", OracleDbType.NVarchar2).Value = dt.Rows[i]["INVENTORY_ITEM_ID"].ToString();
-                                                objCmdIn.Parameters.Add("TRANS_TYPE", OracleDbType.NVarchar2).Value = "ISSUETOBPROD";
+                                                objCmdIn.Parameters.Add("TRANS_TYPE", OracleDbType.NVarchar2).Value = "ISSUETOAPROD";
                                                 objCmdIn.Parameters.Add("TRANS_IMPACT", OracleDbType.NVarchar2).Value = "O";
                                                 objCmdIn.Parameters.Add("TRANS_QTY", OracleDbType.NVarchar2).Value = qty;
-                                                objCmdIn.Parameters.Add("TRANS_NOTES", OracleDbType.NVarchar2).Value = "ISSUETOBPROD";
+                                                objCmdIn.Parameters.Add("TRANS_NOTES", OracleDbType.NVarchar2).Value = "ISSUETOAPROD";
                                                 objCmdIn.Parameters.Add("TRANS_DATE", OracleDbType.Date).Value = DateTime.Now;
                                                 objCmdIn.Parameters.Add("FINANCIAL_YEAR", OracleDbType.NVarchar2).Value = datatrans.GetFinancialYear(DateTime.Now);
                                                 objCmdIn.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = "1"; /*HttpContext.*/
@@ -561,7 +562,16 @@ namespace Arasan.Services
 
             return msg;
         }
-
+        public DataTable Getstkqty(string ItemId, string locid, string brid)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select SUM(BALANCE_QTY) as QTY from INVENTORY_ITEM where BALANCE_QTY > 0 AND LOCATION_ID='" + locid + "' AND BRANCH_ID='" + brid + "' AND ITEM_ID='" + ItemId + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public string APProductionEntryDetCRUD(APProductionentryDet cy)
         {
             string msg = "";
@@ -664,29 +674,26 @@ namespace Arasan.Services
         public string APProEntryCRUD(APProductionentryDet cy)
         {
             string msg = "";
-          
-          
+        
             try
             {
                 string StatementType = string.Empty; string svSQL = "";
-
-                if(cy.change!="Complete")
-                {
                     using (OracleConnection objConn = new OracleConnection(_connectionString))
                     {
                         objConn.Open();
 
                         if (cy.change == "Complete")
                         {
-                            svSQL = "Update APPRODUCTIONBASIC SET IS_CURRENT='No' WHERE APPRODUCTIONBASICID='"+ cy.APID +"'";
+                            svSQL = "Update APPRODUCTIONBASIC SET IS_CURRENT='No' WHERE APPRODUCTIONBASICID='"+ cy.ID +"'";
                             OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
                             objCmdd.ExecuteNonQuery();
                         }
-
+                        else 
+                    { 
                         DataTable ap = datatrans.GetData("select APPRODUCTIONBASICID,DOCID,WCID,to_char(APPRODUCTIONBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,SHIFT,ASSIGNENG,SCHQTY,PRODQTY,BATCH,BATCHYN,BRANCHID from APPRODUCTIONBASIC WHERE IS_CURRENT='Yes'");
-                        //svSQL = "Update APPRODUCTIONBASIC SET IS_CURRENT='No'";
-                        //OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
-                        //objCmdd.ExecuteNonQuery();
+                        svSQL = "Update APPRODUCTIONBASIC SET IS_CURRENT='No' WHERE APPRODUCTIONBASICID='"+ cy.ID + "'";
+                        OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
+                        objCmdd.ExecuteNonQuery();
 
                         OracleCommand objCmd = new OracleCommand("APPRODUCTIONPROC", objConn);
 
@@ -709,10 +716,7 @@ namespace Arasan.Services
                         objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = ap.Rows[0]["BRANCHID"].ToString();
                         objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                         objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
-                        try
-                        {
-                          
-                            objCmd.ExecuteNonQuery();
+                         objCmd.ExecuteNonQuery();
                             Object Pid = objCmd.Parameters["OUTID"].Value;
 
                             if (cy.ID != null)
@@ -720,14 +724,11 @@ namespace Arasan.Services
                                 Pid = cy.ID;
                             }
                             cy.APID = Pid;
-                        }
-                        catch (Exception ex)
-                        {
-                            //System.Console.WriteLine("Exception: {0}", ex.ToString());
-                        }
-                        objConn.Close();
+                      
                     }
+                    objConn.Close();
                 }
+                
             }
             catch (Exception ex)
             {
@@ -741,7 +742,7 @@ namespace Arasan.Services
         public DataTable GetAPProd(string id)
 		{
 			string SvSql = string.Empty;
-			SvSql = "select APPRODUCTIONBASICID,APPRODUCTIONBASIC.DOCID,to_char(APPRODUCTIONBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,WCBASIC.WCID,EMPMAST.EMPNAME,SCHQTY,PRODQTY,BATCH,SHIFT,BATCHYN from APPRODUCTIONBASIC left outer join WCBASIC ON WCBASICID= APPRODUCTIONBASIC.WCID left outer join EMPMAST ON EMPMASTID= APPRODUCTIONBASIC.ASSIGNENG  where APPRODUCTIONBASICID='" + id + "' ";
+			SvSql = "select APPRODUCTIONBASICID,APPRODUCTIONBASIC.DOCID,to_char(APPRODUCTIONBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,WCBASIC.WCID,EMPMAST.EMPNAME,SCHQTY,PRODQTY,BATCH,SHIFT,BATCHYN,WCBASIC.ILOCATION,APPRODUCTIONBASIC.BRANCHID from APPRODUCTIONBASIC left outer join WCBASIC ON WCBASICID= APPRODUCTIONBASIC.WCID left outer join EMPMAST ON EMPMASTID= APPRODUCTIONBASIC.ASSIGNENG  where APPRODUCTIONBASICID='" + id + "' ";
 
 			DataTable dtt = new DataTable();
 			OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -794,7 +795,7 @@ namespace Arasan.Services
         public DataTable GetOutput(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select APPRODOUTDETID,APPRODUCTIONBASICID,APPRODOUTDET.ITEMID,BINBASIC.BINID,OUTQTY,DRUMNO,FROMTIME,TOTIME,ITEMMASTER.ITEMID as ITEMNAME,TESTRESULT,MOVETOQC from APPRODOUTDET left outer join BINBASIC ON BINBASICID= APPRODOUTDET.BINID LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=APPRODOUTDET.ITEMID  where APPRODUCTIONBASICID='" + id + "' ";
+            SvSql = "select APPRODOUTDETID,APPRODUCTIONBASICID,APPRODOUTDET.ITEMID,BINBASIC.BINID,OUTQTY,DRUMNO,FROMTIME,TOTIME,ITEMMASTER.ITEMID as ITEMNAME,TESTRESULT,MOVETOQC,STATUS,EXQTY from APPRODOUTDET left outer join BINBASIC ON BINBASICID= APPRODOUTDET.BINID LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=APPRODOUTDET.ITEMID  where APPRODUCTIONBASICID='" + id + "' ";
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -824,10 +825,15 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable SaveOutDetails(string id, string item, string drum, string time, string qty,string totime)
+        public DataTable SaveOutDetails(string id, string item, string drum, string time, string qty,string totime, string exqty, string stat)
         {
             string SvSql = string.Empty;
-            SvSql = "Insert into APPRODOUTDET (APPRODUCTIONBASICID,ITEMID,DRUMNO,FROMTIME,OUTQTY,TOTIME) VALUES ('" + id + "','" + item + "','" + drum + "','" + time + "','" + qty + "','" + totime + "')";
+            string is_account=string.Empty;
+            if(stat== "Pending")
+            {
+                is_account = "N";
+            }
+            SvSql = "Insert into APPRODOUTDET (APPRODUCTIONBASICID,ITEMID,DRUMNO,FROMTIME,OUTQTY,TOTIME,EXQTY,STATUS,IS_ACCOUNTED) VALUES ('" + id + "','" + item + "','" + drum + "','" + time + "','" + qty + "','" + totime + "','" + exqty + "','" + stat + "','"+ is_account + "')";
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -1018,7 +1024,7 @@ namespace Arasan.Services
         public DataTable GetOutputDeatils(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select APPRODOUTDETID,APPRODUCTIONBASICID,ITEMMASTER.ITEMID,BINBASIC.BINID,OUTQTY,DRUMMAST.DRUMNO,FROMTIME,TOTIME,ITEMMASTER.ITEMID as ITEMNAME,TESTRESULT,MOVETOQC from APPRODOUTDET left outer join BINBASIC ON BINBASICID= APPRODOUTDET.BINID LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=APPRODOUTDET.ITEMID LEFT OUTER JOIN DRUMMAST ON DRUMMAST.DRUMMASTID=APPRODOUTDET.DRUMNO  where APPRODUCTIONBASICID='" + id + "' ";
+            SvSql = "select APPRODOUTDETID,APPRODUCTIONBASICID,ITEMMASTER.ITEMID,BINBASIC.BINID,OUTQTY,DRUMMAST.DRUMNO,FROMTIME,TOTIME,ITEMMASTER.ITEMID as ITEMNAME,TESTRESULT,MOVETOQC,EXQTY from APPRODOUTDET left outer join BINBASIC ON BINBASICID= APPRODOUTDET.BINID LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=APPRODOUTDET.ITEMID LEFT OUTER JOIN DRUMMAST ON DRUMMAST.DRUMMASTID=APPRODOUTDET.DRUMNO  where APPRODUCTIONBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

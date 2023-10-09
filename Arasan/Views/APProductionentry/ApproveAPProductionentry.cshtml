@@ -447,7 +447,7 @@
                                                                     <th>From Time </th>
                                                                     <th>To Time </th>
                                                                     <th> Qty </th>
-
+                                                                    <th>Excess Qty</th>
                                                                     <th>Test Result</th>
 
                                                                 </tr>
@@ -476,9 +476,11 @@
                                                                             <td>
                                                                                 @Html.DisplayFor(o => o.outlst[m].ToTime)
                                                                             </td>
-
                                                                             <td>
                                                                                 @Html.DisplayFor(o => o.outlst[m].OutputQty)
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.DisplayFor(o => o.outlst[m].ExcessQty)
                                                                             </td>
                                                                             @if (item.Result=="")
                                                                             {
