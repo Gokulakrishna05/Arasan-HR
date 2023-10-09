@@ -355,6 +355,7 @@ namespace Arasan.Controllers
                     tda1 = new APProInCons();
                     tda1.Itemlst = BindItemlstCon();
                     tda1.ItemId = dt3.Rows[i]["ITEMID"].ToString();
+                    tda1.saveitemId = dt3.Rows[i]["item"].ToString();
                     tda1.consunit = dt3.Rows[i]["UNITID"].ToString();
                     tda1.BinId = dt3.Rows[i]["BIN"].ToString();
                     tda1.Qty = Convert.ToDouble(dt3.Rows[i]["QTY"].ToString() == "" ? "0" : dt3.Rows[i]["QTY"].ToString());
@@ -381,10 +382,12 @@ namespace Arasan.Controllers
                     tda4 = new ProOutput();
                     tda4.Itemlst = BindOutItemlst();
                     tda4.ItemId = dt6.Rows[i]["ITEMID"].ToString();
+                    tda4.saveitemId = dt6.Rows[i]["item"].ToString();
                     tda4.BinId = dt6.Rows[i]["BINID"].ToString();
                     tda4.drumlst = BindDrum();
                     tda4.statuslst = BindStatus();
                     tda4.drumno = dt6.Rows[i]["DRUMNO"].ToString();
+                    tda4.drumid = dt6.Rows[i]["drum"].ToString();
                     tda4.FromTime = dt6.Rows[i]["FROMTIME"].ToString();
                     tda4.ToTime = dt6.Rows[i]["TOTIME"].ToString();
                     tda4.OutputQty = Convert.ToDouble(dt6.Rows[i]["OUTQTY"].ToString() == "" ? "0" : dt6.Rows[i]["OUTQTY"].ToString());
