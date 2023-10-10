@@ -166,35 +166,35 @@
                                                 int j = 1;
 
 
-                                                foreach (var item in Model.QCRLst.ToList())
+                                                foreach (var item in Model.QResLst.ToList())
                                                 {
                                                             <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
                                                                 <td>
-                                                            @Html.DropDownListFor(o => o.QCRLst[i].ItemId, Model.QCRLst[i].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItemId" + i, style = "width: 170px;", onchange = "changeItemDetail(this.value," + i + ")"})
-                                                                    @Html.HiddenFor(o => o.QCRLst[i].saveItemId)
+                                                            @Html.DropDownListFor(o => o.QResLst[i].ItemId, Model.QResLst[i].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItemId" + i, style = "width: 170px;", onchange = "changeItemDetail(this.value," + i + ")"})
+                                                                    @Html.HiddenFor(o => o.QResLst[i].saveItemId)
                                                                 </td>
                                                                @*<td>
-                                                                @Html.TextBoxFor(o => o.QCRLst[i].Unit, new { @id = "txtGrnQty" + i, @class = "form-control", style = "width: 130px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
+                                                                @Html.TextBoxFor(o => o.QResLst[i].Unit, new { @id = "txtGrnQty" + i, @class = "form-control", style = "width: 130px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
                                                                  </td>*@
                                                                 <td>
 
-                                                                @Html.TextBoxFor(o => o.QCRLst[i].GrnQty, new { @id = "txtGrnQty" + i, @class = "form-control", style = "width: 130px;",onkeydown = "return isNumeric2(event.keyCode,this.value)"})
+                                                                 @Html.TextBoxFor(o => o.QResLst[i].GrnQty, new { @id = "txtGrnQty" + i, @class = "form-control", style = "width: 130px;",onkeydown = "return isNumeric2(event.keyCode,this.value)"})
+                                                                 </td>
+                                                                    <td>
+                                                                    @Html.TextBoxFor(o => o.QResLst[i].RejQty, new { @id = "txtRejQty" + i, @class = "form-control", style = "width: 130px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
                                                                     </td>
                                                                     <td>
-                                                                    @Html.TextBoxFor(o => o.QCRLst[i].RejQty, new { @id = "txtRejQty" + i, @class = "form-control", style = "width: 130px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
+                                                                    @Html.TextBoxFor(o => o.QResLst[i].AccQty, new { @id = "txtAccQty" + i, @class = "form-control", style = "width: 130px;" })
                                                                     </td>
                                                                     <td>
-                                                                    @Html.TextBoxFor(o => o.QCRLst[i].AccQty, new { @id = "txtAccQty" + i, @class = "form-control", style = "width: 130px;" })
-                                                                    </td>
-                                                                    <td>
-                                                                       @Html.TextBoxFor(o => o.QCRLst[i].CostRate, new { @id = "txtCostRate" + i, @class = "form-control", style = "width: 130px;" })
+                                                            @Html.TextBoxFor(o => o.QResLst[i].CostRate, new { @id = "txtCostRate" + i, @class = "form-control", style = "width: 130px;" })
                                                                     </td>
 
                                                                    
                                                                  <td>
-                                                                    @Html.HiddenFor(o => o.QCRLst[i].Isvalid, new { @id = "Isvalid" + i })
-                                                            <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="QCRLst.Index" type="hidden" value="@(i)" />
+                                                                    @Html.HiddenFor(o => o.QResLst[i].Isvalid, new { @id = "Isvalid" + i })
+                                                            <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="QResLst.Index" type="hidden" value="@(i)" />
                                                                  </td>
 
                                                             </tr>
@@ -397,9 +397,10 @@
             type: "GET",
             success: function (result) {
 
-                
-
                 document.getElementById("GRNDate").value = result.grndate;
+
+                var $party = $("#ddlParty").select2();
+                $party.val(result.party).trigger("change");
               
             },
             error: function () {
@@ -437,7 +438,7 @@
             }
         });
     }
-    //function Item_Change(itemid) {
+   @* //function Item_Change(itemid) {
     //    //alert(itemid);
     //    //debugger;
     //    $.ajax({
@@ -455,7 +456,7 @@
     //            alert("Please Select GRN ID");
     //        }
     //    });
-    //}
+    //}*@
     function AddRow() {
         var opt = "";
         $.ajax({
@@ -471,8 +472,8 @@
         })
     }
     function PopulateDropDown(dropDownId, list) {
-        //alert(list);
-        $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
+       @* alert(list);*@
+        $(dropDownId).empty().append('<option selected="selected" value="0"></option>');
         if (list != null && list.length > 0) {
             $(dropDownId).removeAttr("disabled");
             $.each(list, function () {
@@ -481,7 +482,7 @@
         }
         $(dropDownId).trigger("liszt:updated");
     }
-        //function Grup_Change(itemid) {
+        @*//function Grup_Change(itemid) {
         //    //alert(itemid);
         //    //debugger;
         //    $.ajax({
@@ -497,12 +498,15 @@
         //        },
         //        error: function () {
         //            debugger;
+
         //            alert("Please Select Type");
         //        }
         //    });
-        //}
+        //}*@
+
+
          $(".chosen-select").chosen();
-    function removeRow(id) 
+ function removeRow(id) 
   {
         var table = document.getElementById("dataTable");
         var rowCount = table.rows.length;
@@ -526,13 +530,13 @@
 
         var ItemId = "<td><select style = 'width: 170px;' class='form-control chosen-select newcss' id='ddlItemId" + index + "' name='Itemlst[" + index + "].ItemId'onchange = 'changeItemDetail(this.value," + index + ")'><option value=''>Please select</option></select></td>";
 
-        var GrnQty = "<td><input class='form-control' id='txtGrnQty" + index + "' name='QCRLst[" + index + "].GrnQty' onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 130px;'  type='text'  /></td>";
+        var GrnQty = "<td><input class='form-control' id='txtGrnQty" + index + "' name='QResLst[" + index + "].GrnQty' onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 130px;'  type='text'  /></td>";
 
-       @* var InsQty = "<td><input class='form-control' id='txtInsQty" + index + "' name='QCRLst[" + index + "].InsQty'  style='width: 130px;'  type='text'    /></td>";*@
+       @* var InsQty = "<td><input class='form-control' id='txtInsQty" + index + "' name='QResLst[" + index + "].InsQty'  style='width: 130px;'  type='text'    /></td>";*@
 
-        var RejQty = "<td><input class='form-control' id='txtRejQty" + index + "' name='QCRLst[" + index + "].RejQty' onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 130px;'  type='text'    /></td>";
+        var RejQty = "<td><input class='form-control' id='txtRejQty" + index + "' name='QResLst[" + index + "].RejQty' onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 130px;'  type='text'    /></td>";
 
-        var AccQty = "<td><input class='form-control' id='txtAccQty" + index + "' name='QCRLst[" + index + "].AccQty' onkeydown='return isNumeric2(event.keyCode,this.value)'  style='width: 130px;'  type='text'    /></td>";
+        var AccQty = "<td><input class='form-control' id='txtAccQty" + index + "' name='QResLst[" + index + "].AccQty' onkeydown='return isNumeric2(event.keyCode,this.value)'  style='width: 130px;'  type='text'    /></td>";
 
         var CostRate = "<td><input class='form-control' id='txtCostRate" + index + "' name='QCLst[" + index + "].CostRate'onkeydown='return isNumeric2(event.keyCode,this.value)'  style='width: 130px;'  type='text'    /></td>";
 

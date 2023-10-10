@@ -16,6 +16,7 @@ namespace Arasan.Services
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
+
         public DataTable GetLocation(string id)
         {
             string SvSql = string.Empty;
@@ -106,13 +107,11 @@ namespace Arasan.Services
                         StatementType = "Update";
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                     }
-
                     objCmd.Parameters.Add("VOUCHERNO", OracleDbType.NVarchar2).Value = cy.VoucherNo;
                     objCmd.Parameters.Add("DOCDATE", OracleDbType.Date).Value = DateTime.Parse(cy.Vdate);
                     objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
                     objCmd.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = cy.Location;
                     objCmd.Parameters.Add("PAYMENTTYPE", OracleDbType.NVarchar2).Value = cy.PType;
-
                     objCmd.Parameters.Add("REFNO", OracleDbType.NVarchar2).Value = cy.RefNo;
                     objCmd.Parameters.Add("REFDATE", OracleDbType.Date).Value = DateTime.Parse(cy.RefDate);
                     objCmd.Parameters.Add("CURRENCY", OracleDbType.NVarchar2).Value = cy.Currency;
