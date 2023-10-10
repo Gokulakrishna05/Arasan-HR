@@ -28,7 +28,9 @@ namespace Arasan.Models
         public List<SelectListItem> Supplst;
      
         public List<SelectListItem> Loc;
-        public List<QCResultItem> QCRLst;
+
+        //public List<QCResultItem> QCRLst;
+        public List<QCResultItem> QResLst;
 
         public string Branch { get; set; }
         public string Location { get; set; }

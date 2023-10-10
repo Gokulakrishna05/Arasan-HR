@@ -122,9 +122,6 @@ namespace Arasan.Services.Qualitycontrol
                 if (cy.ID == null)
                 {
 
-
-
-
                     int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'INS-' AND ACTIVESEQUENCE = 'T'  ");
                     string DocId = string.Format("{0}{1}", "INS-", (idc + 1).ToString());
 
@@ -177,7 +174,7 @@ namespace Arasan.Services.Qualitycontrol
                         {
                             Pid = cy.ID;
                         }
-                        foreach (QCResultItem ca in cy.QCRLst)
+                        foreach (QCResultItem ca in cy.QResLst)
                         {
                             if (ca.Isvalid == "Y" && ca.ItemId != "0")
                             {   
@@ -239,14 +236,27 @@ namespace Arasan.Services.Qualitycontrol
         public DataTable GetGRNDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select to_char(QCVALUEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,QCVALUEBASICID from QCVALUEBASIC where QCVALUEBASIC.GRNNO='" + id + "'";
+            //SvSql = "Select to_char(QCVALUEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,QCVALUEBASICID from QCVALUEBASIC where QCVALUEBASIC.GRNNO='" + id + "'";
+            SvSql = "Select to_char(QCVALUEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,QCVALUEBASIC.QCVALUEBASICID,PARTYMAST.PARTYNAME,PARTYMAST.PARTYMASTID from QCVALUEBASIC LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID = QCVALUEBASIC.PARTYID where QCVALUEBASIC.GRNNO ='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetGRNItemDetails(string id)
+
+        //public DataTable GetPartybyId(string id)
+        //{
+        //    string SvSql = string.Empty;
+        //    SvSql = "Select SALES_QUOTE.SALESQUOTEID,ENQ_TYPE,SALESENQUIRYID from SALES_ENQUIRY LEFT OUTER JOIN SALES_QUOTE ON SALESQUOTEID=SALES_ENQUIRY.SALESENQUIRYID WHERE SALES_ENQUIRY.SALESENQUIRYID='" + id + "'";
+
+        //    DataTable dtt = new DataTable();
+        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
+        //}
+        public DataTable GetGRNItemDetails(string id) 
         {
             string SvSql = string.Empty;
             SvSql = "Select GRNBLDETAIL.QTY,GRNBLDETAIL.ACCQTY,GRNBLDETAIL.REJQTY,GRNBLDETAIL.COSTRATE,GRNBLDETAILID from GRNBLDETAIL where GRNBLDETAIL.ITEMID   ='" + id + "'";

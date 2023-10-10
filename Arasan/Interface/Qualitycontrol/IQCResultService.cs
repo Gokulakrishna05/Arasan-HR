@@ -16,6 +16,7 @@ namespace Arasan.Interface.Qualitycontrol
        
         DataTable GetParty(string value);
         DataTable GetItembyId(string value);
+        //DataTable GetPartybyId(string value);
         DataTable GetGRNDetails(string itemId);
         DataTable GetGRN();
         DataTable GetQCResultDetail(string id);

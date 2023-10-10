@@ -6,6 +6,7 @@ using Arasan.Interface.Master;
 using Arasan.Interface.Qualitycontrol;
 using Arasan.Models;
 using Arasan.Services;
+using Arasan.Services.Sales;
 using Arasan.Services.Store_Management;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -42,7 +43,7 @@ namespace Arasan.Controllers.Qualitycontrol
             QCResultItem tda = new QCResultItem();
             if (id == null)
             {
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < 1; i++)
                 {
                     tda = new QCResultItem();
                     tda.Itemlst = BindItemlst("");
@@ -95,7 +96,7 @@ namespace Arasan.Controllers.Qualitycontrol
                 }
 
             }
-            ca.QCRLst = TData;
+            ca.QResLst = TData;
             return View(ca);
         }
         [HttpPost]
@@ -188,15 +189,17 @@ namespace Arasan.Controllers.Qualitycontrol
             {
                 DataTable dt = new DataTable();
                 string grndate = "";
+                string party = "";
 
                 dt = QCResultService.GetGRNDetails(ItemId);
                 if (dt.Rows.Count > 0)
                 {
                     grndate = dt.Rows[0]["DOCDATE"].ToString();
+                    party = dt.Rows[0]["PARTYNAME"].ToString();
 
                 }
 
-                var result = new { grndate = grndate };
+                var result = new { grndate = grndate, party = party };
                 return Json(result);
             }
             catch (Exception ex)
@@ -204,6 +207,14 @@ namespace Arasan.Controllers.Qualitycontrol
                 throw ex;
             }
         }
+
+        //public JsonResult GetPartyJSON(string ItemId)
+        //{
+        //    QCResult model = new QCResult();
+        //    model.Supplst = BindSupplst(ItemId);
+        //    return Json(BindSupplst(ItemId));
+
+        //}
         public JsonResult GetGRNItemJSON(string supid)
         {
             QCResultItem model = new QCResultItem();
@@ -218,6 +229,26 @@ namespace Arasan.Controllers.Qualitycontrol
             return Json(BindSupplst(suppid));
 
         }
+
+        //public List<SelectListItem> BindPartylst(string value)
+        //{
+        //    try
+        //    {
+        //        List<SelectListItem> lstdesg = new List<SelectListItem>();
+
+        //        DataTable dtDesg = QCResultService.GetPartybyId(value);
+        //        for (int i = 0; i < dtDesg.Rows.Count; i++)
+        //        {
+        //            lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTYNAME"].ToString(), Value = dtDesg.Rows[i]["PARTYMASTID"].ToString() });
+
+        //        }
+        //        return lstdesg;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
         public List<SelectListItem> BindItemlst(string value)
         {
             try
@@ -314,9 +345,6 @@ namespace Arasan.Controllers.Qualitycontrol
                     rejqty = dt.Rows[0]["REJQTY"].ToString();
                     //dt1 = PurReturn.GetItemCF(ItemId, dt.Rows[0]["UNITMASTID"].ToString());
                     cost = dt.Rows[0]["COSTRATE"].ToString();
-
-
-                  
 
                 }
 

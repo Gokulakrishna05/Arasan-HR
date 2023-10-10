@@ -80,6 +80,9 @@ namespace Arasan.Controllers.Master
                     ca.DrumLoc = dt.Rows[0]["DRUMILOCATION"].ToString();
                     ca.Energy = dt.Rows[0]["ENRMETF"].ToString();
                     ca.Man = dt.Rows[0]["MANREQ"].ToString();
+                    ca.Cost = dt.Rows[0]["COST"].ToString();
+                    ca.Unit = dt.Rows[0]["COSTUNIT"].ToString();
+                    ca.Remarks = dt.Rows[0]["REMARKS"].ToString();
                     ca.ID = id;
 
                 }

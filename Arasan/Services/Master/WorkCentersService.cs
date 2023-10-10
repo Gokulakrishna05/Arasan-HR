@@ -67,7 +67,7 @@ namespace Arasan.Services.Master
         public DataTable GetWorkCenters(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select WCID,WCTYPE,DOCDATE,ILOCATION,QCLOCATION,PARTYID,WIPITEMID,WIPLOCID,CONVITEMID,CONVLOCID,BUNKERYN,OPBBAL,MLYN,OPMLBAL,PROCLOTYN,CAPACITY,PRODSCHYN,UTILPERCENT,PRODYN,DRUMILOCATION,ENRMETF,MANREQ,COST,COSTUNIT,REMARKS,WCBASICID from WCBASIC";
+            SvSql = "select WCID,WCTYPE,DOCDATE,ILOCATION,QCLOCATION,PARTYID,WIPITEMID,WIPLOCID,CONVITEMID,CONVLOCID,BUNKERYN,OPBBAL,MLYN,OPMLBAL,PROCLOTYN,CAPACITY,PRODSCHYN,UTILPERCENT,PRODYN,DRUMILOCATION,ENRMETF,MANREQ,COST,COSTUNIT,REMARKS,WCBASICID from WCBASIC WHERE WCBASIC.WCBASICID ='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -78,7 +78,8 @@ namespace Arasan.Services.Master
         public DataTable GetWorkCentersDetail(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select WCBASICID,MACHINEID,MCOST,WCMDETAILID from WCMDETAIL";
+            //SvSql = "select WCBASICID,MACHINEID,MCOST,WCMDETAILID from WCMDETAIL LEFT OUTER JOIN WCBASIC ON WCBASIC.WCBASICID = WCMDETAIL.WCBASICID WHERE WCMDETAILID ='" + id + "' ";
+            SvSql = "select WCBASICID,MACHINEID,MCOST,WCMDETAILID from WCMDETAIL  WHERE WCBASICID ='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -148,6 +149,7 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("COSTUNIT", OracleDbType.NVarchar2).Value = cy.Unit;
                     objCmd.Parameters.Add("REMARKS", OracleDbType.NVarchar2).Value = cy.Remarks;
                     objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
+
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
