@@ -60,7 +60,9 @@ namespace Arasan.Services.Qualitycontrol
                     using (OracleCommand cmd = con.CreateCommand())
                     {
                         con.Open();
-                        cmd.CommandText = "Select QCRESULTBASIC.GRNNO,QCRESULTBASIC.DOCID,to_char(QCRESULTBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,to_char(QCRESULTBASIC.GRNDATE,'dd-MON-yyyy')GRNDATE,PARTYMAST.PARTYNAME,QCRESULTBASIC.TESTEDBY,LOCDETAILS.LOCID,QCRESULTBASIC.REMARKS,QCRESULTBASIC.QCLOCATION,QCRESULTBASICID,QCRESULTBASIC.STATUS from QCRESULTBASIC LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=QCRESULTBASIC.LOCATION LEFT OUTER JOIN  PARTYMAST on QCRESULTBASIC.PARTYID=PARTYMAST.PARTYMASTID  WHERE QCRESULTBASIC.DOCDATE BETWEEN '" + st + "'  AND ' " + ed + "' order by QCRESULTBASICID desc";
+                        //cmd.CommandText = "Select QCRESULTBASIC.GRNNO,QCRESULTBASIC.DOCID,to_char(QCRESULTBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,to_char(QCRESULTBASIC.GRNDATE,'dd-MON-yyyy')GRNDATE,PARTYMAST.PARTYNAME,QCRESULTBASIC.TESTEDBY,LOCDETAILS.LOCID,QCRESULTBASIC.REMARKS,QCRESULTBASIC.QCLOCATION,QCRESULTBASICID,QCRESULTBASIC.STATUS from QCRESULTBASIC LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=QCRESULTBASIC.LOCATION LEFT OUTER JOIN  PARTYMAST on QCRESULTBASIC.PARTYID=PARTYMAST.PARTYMASTID  WHERE QCRESULTBASIC.DOCDATE BETWEEN '" + st + "'  AND ' " + ed + "' AND  QCRESULTBASIC.STATUS = 'ACTIVE' order by QCRESULTBASICID desc";
+
+                         cmd.CommandText = "Select QCRESULTBASIC.GRNNO,QCRESULTBASIC.DOCID,to_char(QCRESULTBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,to_char(QCRESULTBASIC.GRNDATE,'dd-MON-yyyy')GRNDATE,PARTYMAST.PARTYNAME,QCRESULTBASIC.TESTEDBY,LOCDETAILS.LOCID,QCRESULTBASIC.REMARKS,QCRESULTBASIC.QCLOCATION,QCRESULTBASICID,QCRESULTBASIC.STATUS from QCRESULTBASIC LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=QCRESULTBASIC.LOCATION LEFT OUTER JOIN  PARTYMAST on QCRESULTBASIC.PARTYID=PARTYMAST.PARTYMASTID where QCRESULTBASIC.STATUS = 'ACTIVE' ";
                         OracleDataReader rdr = cmd.ExecuteReader();
                         while (rdr.Read())
                         {
@@ -76,6 +78,7 @@ namespace Arasan.Services.Qualitycontrol
                                 Location = rdr["LOCID"].ToString(),
                                 Remarks = rdr["REMARKS"].ToString(),
                                 QcLocation = rdr["QCLOCATION"].ToString(),
+                                Stat = rdr["STATUS"].ToString()
                             };
                             cmpList.Add(cmp);
                         }
@@ -286,10 +289,8 @@ namespace Arasan.Services.Qualitycontrol
             adapter.Fill(dtt);
             return dtt;
         }
-
         public string StatusChange(string tag, int id)
         {
-
             try
             {
                 string svSQL = string.Empty;
@@ -308,8 +309,6 @@ namespace Arasan.Services.Qualitycontrol
                 throw ex;
             }
             return "";
-
         }
-
-    }
+     }
 }

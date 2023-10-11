@@ -59,16 +59,24 @@
                                 </div>
 
 
-                                <div class="col-md-6">
+                               @* <div class="col-md-6">
                                     <div class="form-group">
 
                                         <br /><label for="inputName3" class="col-sm-4 control-label">WorkCenter Type <label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
 
                                             @Html.DropDownListFor(C => C.WType , Model.Typelst," -- Please Select -- ", new { @id = "ddlWType", @Class = "form-control chosen-select", @TabIndex = 1 })
-                                           @* @Html.HiddenFor(C => C.ID)*@
+                                          
                                         </div>
 
+                                    </div>
+                                </div>*@
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                       <br />  <label for="inputName3" class="col-sm-4 control-label">WorkCenter Type<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.WType , Model.Typelst,"-- Please Select --", new { @id = "ddlWType", @Class = "form-control _select", @TabIndex = 1 })
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -84,7 +92,7 @@
 
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                @*<div class="col-md-6">
                                     <div class="form-group">
 
                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Issuse Location<label class="mandatory">*</label></label>
@@ -94,73 +102,79 @@
                                         </div>
 
                                     </div>
+                                </div>*@
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                      <br/>  <label for="inputName3" class="col-sm-4 control-label">Issuse Location<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.Iloc, Model.Loc,"-- Please Select --", new { @id = "ddIloc", @Class = "form-control _select", @TabIndex = 1 })
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                          
+                            <div style="height:30px;"></div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <br /><label for="inputName3" class="col-sm-4 control-label">QC Location<label class="mandatory">*</label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">QC Location<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                      
-                                            @Html.DropDownListFor(C => C.QcLoc , Model.QCLst," -- Please Select -- ", new { @id = "ddlQcLoc", @Class = "form-control chosen-select", @TabIndex = 1 })
-                                        </div>
+                                            @Html.DropDownListFor(C => C.QcLoc , Model.QCLst,"-- Please Select --" ,new { @id = "ddlQcLoc", @Class = "form-control _select", @TabIndex = 1 })
 
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-
-                                       <br /> <label for="inputName3" class="col-sm-4 control-label">Party Name<label class="Mandatory"></label></label>
+                                            <label for="inputName3" class="col-sm-4 control-label">Party Name<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-
-                                            @Html.DropDownListFor(C => C.Party , Model.Suplst," -- Please Select -- ", new { @id = "ddlParty", @Class = "form-control chosen-select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.Party , Model.Suplst,"-- Please Select --", new { @id = "ddlParty", @Class = "form-control _select", @TabIndex = 1 })
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
+                            
+                            <div style="height:30px;"></div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                       <br /> <label for="inputName3" class="col-sm-4 control-label">WIP Item ID<label class="mandatory">*</label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">WIP Item ID<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.WipItemid , Model.Itemlst," -- Please Select -- ", new { @id = "ddlWipItemid", @Class = "form-control chosen-select", @TabIndex = 1 })
-                                        </div>
+                                            @Html.DropDownListFor(C => C.WipItemid , Model.Itemlst,"-- Please Select --", new { @id = "ddlWipItemid", @Class = "form-control _select", @TabIndex = 1 })
 
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-
-                                       <br /> <label for="inputName3" class="col-sm-4 control-label">WIP Loc ID<label class="mandatory">*</label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">WIP Loc ID<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.WipLocid , Model.WIPLst," -- Please Select -- ", new { @id = "ddlWipLocid", @Class = "form-control chosen-select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.WipLocid , Model.WIPLst,"-- Please Select --", new { @id = "ddlWipLocid", @Class = "form-control _select", @TabIndex = 1 })
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
+                         
+                            <div style="height:30px;"></div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                      <br />  <label for="inputName3" class="col-sm-4 control-label">Conv.Item Name<label class="mandatory">*</label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Conv.Item Name<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.ConvItem , Model.ConItemlst," -- Please Select -- ", new { @id = "ddlConvItem", @Class = "form-control chosen-select", @TabIndex = 1 })
-                                        </div>
+                                            @Html.DropDownListFor(C => C.ConvItem , Model.ConItemlst,"-- Please Select --", new { @id = "ddlConvItem", @Class = "form-control _select", @TabIndex = 1 })
 
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-
-                                       <br /> <label for="inputName3" class="col-sm-4 control-label">Conv.Location<label class="mandatory">*</label></label>
+                                          <label for="inputName3" class="col-sm-4 control-label">Conv.Location<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.ConvLoc , Model.CONLst," -- Please Select -- ", new { @id = "ddlConvLoc", @Class = "form-control chosen-select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.ConvLoc , Model.CONLst,"-- Please Select --", new { @id = "ddlConvLoc", @Class = "form-control _select", @TabIndex = 1 })
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -176,11 +190,8 @@
                                                 <label id="mt-radio">YES</label>&emsp;
                                                 @Html.RadioButtonFor(C => C.Bunker, "NO", new { @TabIndex = 3 })
                                                         <label id="mt-radio">NO</label>
-
-
                                              </div>
                                         </div>
-
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -304,14 +315,13 @@
 
                                     </div>
                                 </div>
+                                
                                 <div class="col-md-6">
                                     <div class="form-group">
-
-                                        <br /><label for="inputName3" class="col-sm-4 control-label">Drum Issuse Location<label class="mandatory">*</label></label>
+                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Drum Issuse Location<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.DrumLoc , Model.Drumlst," -- Please Select -- ", new { @id = "ddlDrumLoc", @Class = "form-control chosen-select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.DrumLoc , Model.Drumlst,"-- Please Select --" ,new { @id = "ddlDrumLoc", @Class = "form-control _select", @TabIndex = 1 })
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -358,12 +368,7 @@
                             <div class="row">
                                 <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
 
-                                    @* <div class="ibox float-e-margins">*@
-
-                                    <!-- / ibox-title -->
-                                    @* <div id="demo3" class="ibox-content collapse in">
-                                  <div class="borderedTable">
-                                   <div class="table-scrollable">*@
+                                   
                                     <table class="table table-striped table-hover" id="dataTable">
                                         <thead>
                                             <tr>
@@ -590,9 +595,9 @@
                 });
             }
 
-          if (document.getElementById("txtWType").value == "") {
+          if (document.getElementById("ddlWType").value == "") {
                 isValid = false;
-                $(txtWType).css({
+                $(ddlWType).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
@@ -601,7 +606,7 @@
                 return false;
           }
             else {
-                $(txtWType).css({
+                $(ddlWType).css({
                     "border": "",
                     "background": ""
                 });

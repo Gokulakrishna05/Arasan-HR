@@ -35,6 +35,12 @@ namespace Arasan.Controllers.Master
             ca.ConItemlst = BindItemlst("");
             ca.Suplst = BindSupplier();
             ca.Typelst = BindType();
+            ca.Bunker = "NO";
+            ca.Mill = "NO";
+            ca.ProcLot = "NO";
+            ca.ProdSch = "NO";
+            ca.Production = "NO";
+            ca.Energy = "NO";
             List<WorkCentersDetail> TData = new List<WorkCentersDetail>();
             WorkCentersDetail tda = new WorkCentersDetail();
             if (id == null)
