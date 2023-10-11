@@ -7,6 +7,7 @@ using System.Xml.Linq;
 using System.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc;
+using Arasan.Services.Qualitycontrol;
 
 namespace Arasan.Controllers.Qualitycontrol
 {
@@ -23,7 +24,7 @@ namespace Arasan.Controllers.Qualitycontrol
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public IActionResult QCFinalValueEntry(string id)
+        public IActionResult QCFinalValueEntry(string id,string tag)
         {
             QCFinalValueEntry ca = new QCFinalValueEntry();
             ca.Brlst = BindBranch();
@@ -64,137 +65,187 @@ namespace Arasan.Controllers.Qualitycontrol
             else
             {
                 DataTable dt = new DataTable();
-                dt = QCFinalValueEntryService.GetQCFVDeatil(id);
-                if (dt.Rows.Count > 0)
+                if (tag == null)
                 {
-                    ca.Branch = dt.Rows[0]["BRANCH"].ToString();
-                    ca.DocId = dt.Rows[0]["DOCID"].ToString();
-                    ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
-                    ca.WorkCenter = dt.Rows[0]["WCID"].ToString();
-                    ca.Process = dt.Rows[0]["PROCESSID"].ToString();
-                    ca.ID = id;
-                    ca.DrumNo = dt.Rows[0]["DRUMNO"].ToString();
-                    ca.Batch = dt.Rows[0]["BATCH"].ToString();
-                    ca.BatchNo = dt.Rows[0]["BATCHNO"].ToString();
-                    ca.Itemid = dt.Rows[0]["ITEMID"].ToString();
-                    ca.ProNo = dt.Rows[0]["PRODID"].ToString();
-                    ca.Rate = dt.Rows[0]["RATEPHR"].ToString();
-                    ca.ProDate = dt.Rows[0]["PRODDATE"].ToString();
-                    ca.SampleNo = dt.Rows[0]["SAMPLENO"].ToString();
-                    ca.NozzleNo = dt.Rows[0]["NOZZLENO"].ToString();
-                    ca.AirPress = dt.Rows[0]["AIRPRESS"].ToString();
-                    ca.Additive = dt.Rows[0]["ADDCH"].ToString();
-                    ca.Stime = dt.Rows[0]["STIME"].ToString();
-                    ca.CTemp = dt.Rows[0]["BCT"].ToString();
-                    ca.FResult = dt.Rows[0]["FINALRESULT"].ToString();
-                    ca.RType = dt.Rows[0]["RESULTTYPE"].ToString();
-                    ca.Enterd = dt.Rows[0]["ENTEREDBY"].ToString();
-                    ca.Reamarks = dt.Rows[0]["REMARKS"].ToString();
-
-                }
-
-                DataTable dtt = new DataTable();
-                dtt = QCFinalValueEntryService.GetQC(id);
-                if (dtt.Rows.Count > 0)
-                {
-                    ca.Type = dtt.Rows[0]["TYPE"].ToString();
-                    if (ca.Type == "Production Entry")
+                    dt = QCFinalValueEntryService.GetQCFVDeatil(id);
+                    if (dt.Rows.Count > 0)
                     {
-                        ca.ProNo = dtt.Rows[0]["DOCID"].ToString();
-                        ca.DocDate = dtt.Rows[0]["CREATED_ON"].ToString();
-                        ca.QCID = dtt.Rows[0]["ID"].ToString();
+                        ca.Branch = dt.Rows[0]["BRANCH"].ToString();
+                        ca.DocId = dt.Rows[0]["DOCID"].ToString();
+                        ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
+                        ca.WorkCenter = dt.Rows[0]["WCID"].ToString();
+                        ca.Process = dt.Rows[0]["PROCESSID"].ToString();
+                        ca.ID = id;
+                        ca.DrumNo = dt.Rows[0]["DRUMNO"].ToString();
+                        ca.Batch = dt.Rows[0]["BATCH"].ToString();
+                        ca.BatchNo = dt.Rows[0]["BATCHNO"].ToString();
+                        ca.Itemid = dt.Rows[0]["ITEMID"].ToString();
+                        ca.ProNo = dt.Rows[0]["PRODID"].ToString();
+                        ca.Rate = dt.Rows[0]["RATEPHR"].ToString();
+                        ca.ProDate = dt.Rows[0]["PRODDATE"].ToString();
+                        ca.SampleNo = dt.Rows[0]["SAMPLENO"].ToString();
+                        ca.NozzleNo = dt.Rows[0]["NOZZLENO"].ToString();
+                        ca.AirPress = dt.Rows[0]["AIRPRESS"].ToString();
+                        ca.Additive = dt.Rows[0]["ADDCH"].ToString();
+                        ca.Stime = dt.Rows[0]["STIME"].ToString();
+                        ca.CTemp = dt.Rows[0]["BCT"].ToString();
+                        ca.FResult = dt.Rows[0]["FINALRESULT"].ToString();
+                        ca.RType = dt.Rows[0]["RESULTTYPE"].ToString();
+                        ca.Enterd = dt.Rows[0]["ENTEREDBY"].ToString();
+                        ca.Reamarks = dt.Rows[0]["REMARKS"].ToString();
+
+                    }
+
+                    DataTable dtt = new DataTable();
+                    dtt = QCFinalValueEntryService.GetQC(id);
+                    if (dtt.Rows.Count > 0)
+                    {
+                        ca.Type = dtt.Rows[0]["TYPE"].ToString();
+                        if (ca.Type == "Production Entry")
+                        {
+                            ca.ProNo = dtt.Rows[0]["DOCID"].ToString();
+                            ca.DocDate = dtt.Rows[0]["CREATED_ON"].ToString();
+                            ca.QCID = dtt.Rows[0]["ID"].ToString();
+                            DataTable dtt1 = new DataTable();
+                            dtt1 = QCFinalValueEntryService.GetQCDetails(ca.QCID);
+                            ca.ProDate = dtt1.Rows[0]["DOCDATE"].ToString();
+                            ca.WorkCenter = dtt1.Rows[0]["WCID"].ToString();
+                            ca.Process = dtt1.Rows[0]["PROCESSID"].ToString();
+                            DataTable dtt2 = new DataTable();
+                            dtt2 = QCFinalValueEntryService.GetQCOutDeatil(ca.QCID);
+                            ca.DrumNo = dtt2.Rows[0]["ODRUMNO"].ToString();
+                            ca.Itemid = dtt2.Rows[0]["ITEMID"].ToString();
+                            ca.BatchNo = dtt2.Rows[0]["OBATCHNO"].ToString();
+                        }
+                        //ca.Branch = dt.Rows[0]["BRANCH"].ToString();
+                        //ca.DocId = dt.Rows[0]["DOCID"].ToString();
+                        //ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
+                        //ca.WorkCenter = dt.Rows[0]["WCID"].ToString();
+                        //ca.Process = dt.Rows[0]["PROCESSID"].ToString();
+                        //ca.ID = id;
+                        //ca.DrumNo = dt.Rows[0]["DRUMNO"].ToString();
+                        //ca.Batch = dt.Rows[0]["BATCH"].ToString();
+                        //ca.BatchNo = dt.Rows[0]["BATCHNO"].ToString();
+                        //ca.Itemid = dt.Rows[0]["ITEMID"].ToString();
+                        //ca.ProNo = dt.Rows[0]["PRODID"].ToString();
+                        //ca.Rate = dt.Rows[0]["RATEPHR"].ToString();pas
+                        //ca.ProDate = dt.Rows[0]["PRODDATE"].ToString();
+                        //ca.SampleNo = dt.Rows[0]["SAMPLENO"].ToString();
+                        //ca.NozzleNo = dt.Rows[0]["NOZZLENO"].ToString();
+                        //ca.AirPress = dt.Rows[0]["AIRPRESS"].ToString();
+                        //ca.Additive = dt.Rows[0]["ADDCH"].ToString();
+                        //ca.Stime = dt.Rows[0]["STIME"].ToString();
+                        //ca.CTemp = dt.Rows[0]["BCT"].ToString();
+                        //ca.FResult = dt.Rows[0]["FINALRESULT"].ToString();
+                        //ca.RType = dt.Rows[0]["RESULTTYPE"].ToString();
+                        //ca.Enterd = dt.Rows[0]["ENTEREDBY"].ToString();
+                        //ca.Reamarks = dt.Rows[0]["REMARKS"].ToString();
+
+                    }
+                    DataTable dt2 = new DataTable();
+                    dt2 = QCFinalValueEntryService.GetQCFVResultDetail(id);
+                    if (dt2.Rows.Count > 0)
+                    {
+
+                        for (int i = 0; i < dt2.Rows.Count; i++)
+                        {
+                            tda = new QCFVItem();
+                            tda.Des = dt2.Rows[0]["TDESC"].ToString();
+                            tda.Value = dt2.Rows[0]["VALUEORMANUAL"].ToString();
+                            tda.Unit = dt2.Rows[0]["UNIT"].ToString();
+                            tda.Sta = dt2.Rows[0]["STARTVALUE"].ToString();
+                            tda.En = dt2.Rows[0]["ENDVALUE"].ToString();
+                            tda.Test = dt2.Rows[0]["TESTVALUE"].ToString();
+                            tda.Manual = dt2.Rows[0]["MANUALVALUE"].ToString();
+                            tda.Actual = dt2.Rows[0]["ACTTESTVALUE"].ToString();
+                            tda.Result = dt2.Rows[0]["TESTRESULT"].ToString();
+                            TData.Add(tda);
+                        }
+                    }
+
+                    else
+                    {
+                        for (int i = 0; i < 1; i++)
+                        {
+                            tda = new QCFVItem();
+                            tda.Isvalid = "Y";
+                            TData.Add(tda);
+                        }
+                    }
+                    DataTable dt3 = new DataTable();
+                    dt3 = QCFinalValueEntryService.GetQCFVGasDetail(id);
+
+                    if (dt3.Rows.Count > 0)
+                    {
+
+                        for (int i = 0; i < dt3.Rows.Count; i++)
+                        {
+                            tda1 = new QCFVItemDeatils();
+                            tda1.Time = dt3.Rows[0]["MINS"].ToString();
+                            tda1.Vol = dt3.Rows[0]["VOL25C"].ToString();
+                            tda1.Volat = dt3.Rows[0]["VOL35C"].ToString();
+                            tda1.Volc = dt3.Rows[0]["VOL45C"].ToString();
+                            tda1.Stp = dt3.Rows[0]["VOLSTP"].ToString();
+                            TData1.Add(tda1);
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < 1; i++)
+                        {
+                            tda1 = new QCFVItemDeatils();
+                            tda1.Isvalid = "Y";
+                            TData1.Add(tda1);
+                        }
+                    }
+                }
+                if(tag!=null)
+                {
+                    DataTable dt1 = new DataTable();
+                    dt1 = QCFinalValueEntryService.GetAPOutDetails(id);
+                    if (dt1.Rows.Count > 0)
+                    {
+                        ca.WorkCenter = dt1.Rows[0]["WCID"].ToString();
+                        ca.DocDate = dt1.Rows[0]["DOCDATE"].ToString();
+                        ca.APID = id;
                         DataTable dtt1 = new DataTable();
-                        dtt1 = QCFinalValueEntryService.GetQCDetails(ca.QCID);
-                        ca.ProDate = dtt1.Rows[0]["DOCDATE"].ToString();
-                        ca.WorkCenter = dtt1.Rows[0]["WCID"].ToString();
-                        ca.Process = dtt1.Rows[0]["PROCESSID"].ToString();
-                        DataTable dtt2 = new DataTable();
-                        dtt2 = QCFinalValueEntryService.GetQCOutDeatil(ca.QCID);
-                        ca.DrumNo = dtt2.Rows[0]["ODRUMNO"].ToString();
-                        ca.Itemid = dtt2.Rows[0]["ITEMID"].ToString();
-                        ca.BatchNo = dtt2.Rows[0]["OBATCHNO"].ToString();
-                    }       
-                    //ca.Branch = dt.Rows[0]["BRANCH"].ToString();
-                    //ca.DocId = dt.Rows[0]["DOCID"].ToString();
-                    //ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
-                    //ca.WorkCenter = dt.Rows[0]["WCID"].ToString();
-                    //ca.Process = dt.Rows[0]["PROCESSID"].ToString();
-                    //ca.ID = id;
-                    //ca.DrumNo = dt.Rows[0]["DRUMNO"].ToString();
-                    //ca.Batch = dt.Rows[0]["BATCH"].ToString();
-                    //ca.BatchNo = dt.Rows[0]["BATCHNO"].ToString();
-                    //ca.Itemid = dt.Rows[0]["ITEMID"].ToString();
-                    //ca.ProNo = dt.Rows[0]["PRODID"].ToString();
-                    //ca.Rate = dt.Rows[0]["RATEPHR"].ToString();pas
-                    //ca.ProDate = dt.Rows[0]["PRODDATE"].ToString();
-                    //ca.SampleNo = dt.Rows[0]["SAMPLENO"].ToString();
-                    //ca.NozzleNo = dt.Rows[0]["NOZZLENO"].ToString();
-                    //ca.AirPress = dt.Rows[0]["AIRPRESS"].ToString();
-                    //ca.Additive = dt.Rows[0]["ADDCH"].ToString();
-                    //ca.Stime = dt.Rows[0]["STIME"].ToString();
-                    //ca.CTemp = dt.Rows[0]["BCT"].ToString();
-                    //ca.FResult = dt.Rows[0]["FINALRESULT"].ToString();
-                    //ca.RType = dt.Rows[0]["RESULTTYPE"].ToString();
-                    //ca.Enterd = dt.Rows[0]["ENTEREDBY"].ToString();
-                    //ca.Reamarks = dt.Rows[0]["REMARKS"].ToString();
+                        dtt1 = QCFinalValueEntryService.GetAPOutItemDetails(id);
+                        if (dtt1.Rows.Count > 0)
+                        {
+                            ca.DrumNo = dtt1.Rows[0]["DRUMNO"].ToString();
+                            ca.Stime = dtt1.Rows[0]["FROMTIME"].ToString();
+                            ca.Itemid = dtt1.Rows[0]["ITEMID"].ToString();
+                            ca.Item = dtt1.Rows[0]["item"].ToString();
+                            ViewBag.Item = dtt1.Rows[0]["ITEMID"].ToString();
+                        }
 
-                }
-                DataTable dt2 = new DataTable();
-                dt2 = QCFinalValueEntryService.GetQCFVResultDetail(id);
-                if (dt2.Rows.Count > 0)
-                {
 
-                    for (int i = 0; i < dt2.Rows.Count; i++)
-                    {
-                        tda = new QCFVItem();
-                        tda.Des = dt2.Rows[0]["TDESC"].ToString();
-                        tda.Value = dt2.Rows[0]["VALUEORMANUAL"].ToString();
-                        tda.Unit = dt2.Rows[0]["UNIT"].ToString();
-                        tda.Sta = dt2.Rows[0]["STARTVALUE"].ToString();
-                        tda.En = dt2.Rows[0]["ENDVALUE"].ToString();
-                        tda.Test = dt2.Rows[0]["TESTVALUE"].ToString();
-                        tda.Manual = dt2.Rows[0]["MANUALVALUE"].ToString();
-                        tda.Actual = dt2.Rows[0]["ACTTESTVALUE"].ToString();
-                        tda.Result = dt2.Rows[0]["TESTRESULT"].ToString();
-                        TData.Add(tda);
-                    }
-                }
-                else
-                {
-                    for (int i = 0; i < 1; i++)
-                    {
-                        tda = new QCFVItem();
-                        tda.Isvalid = "Y";
-                        TData.Add(tda);
-                    }
-                }
-                DataTable dt3 = new DataTable();
-                dt3 = QCFinalValueEntryService.GetQCFVGasDetail(id);
 
-                if (dt3.Rows.Count > 0)
-                {
+                    }
+                    DataTable dtt = new DataTable();
+                    List<QCFinalValueEntryItem> Datan = new List<QCFinalValueEntryItem>();
+                    QCFinalValueEntryItem tdan = new QCFinalValueEntryItem();
+                    //string itemid = datatrans.GetDataString(" SELECT ITEMMASTERID FROM ITEMMASTER WHERE ITEMID='" + ca.ItemId + "'");
+                    string temp = datatrans.GetDataString(" SELECT TEMPLATEID FROM ITEMMASTER WHERE ITEMMASTERID='" + ca.Itemid + "'");
+                    dtt = QCFinalValueEntryService.GetItemDetail(temp);
+                    if (dtt.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dtt.Rows.Count; i++)
+                        {
+                            tdan = new QCFinalValueEntryItem();
 
-                    for (int i = 0; i < dt3.Rows.Count; i++)
-                    {
-                        tda1 = new QCFVItemDeatils();
-                        tda1.Time = dt3.Rows[0]["MINS"].ToString();
-                        tda1.Vol = dt3.Rows[0]["VOL25C"].ToString();
-                        tda1.Volat = dt3.Rows[0]["VOL35C"].ToString();
-                        tda1.Volc = dt3.Rows[0]["VOL45C"].ToString();
-                        tda1.Stp = dt3.Rows[0]["VOLSTP"].ToString();
-                        TData1.Add(tda1);
+                            tdan.Des = dtt.Rows[i]["TESTDESC"].ToString();
+                            tdan.Value = dtt.Rows[i]["VALUEORMANUAL"].ToString();
+                            tdan.Unit = dtt.Rows[i]["UNITID"].ToString();
+                            tdan.Sta = dtt.Rows[i]["STARTVALUE"].ToString();
+                            tdan.En = dtt.Rows[i]["ENDVALUE"].ToString();
+
+                            Datan.Add(tdan);
+                        }
                     }
+                    ca.QCFlst = Datan;
                 }
-                else
-                {
-                    for (int i = 0; i < 1; i++)
-                    {
-                        tda1 = new QCFVItemDeatils();
-                        tda1.Isvalid = "Y";
-                        TData1.Add(tda1);
-                    }
-                }
-                //st = StateService.GetStateById(id);
+               
 
             }
             ca.QCFVLst = TData;

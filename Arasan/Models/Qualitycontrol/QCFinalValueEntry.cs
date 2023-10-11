@@ -34,6 +34,7 @@ namespace Arasan.Models
 
         public List<SelectListItem> Itemlst;
         public string Itemid { get; set; }
+        public string Item { get; set; }
 
         public List<SelectListItem> Batchlst;
         public string BatchNo { get; set; }
@@ -55,11 +56,15 @@ namespace Arasan.Models
         public string Reamarks { get; set; }
         public string Type { get; set; }
         public string QCID { get; set; }
+         public string APID { get; set; } 
         public List<QCFVItem> QCFVLst { get; set; }
 
         public List<QCFVItemDeatils> QCFVDLst { get; set; }
+        public List<QCFinalValueEntryItem> QCFlst { get; set; }
+       
 
     }
+   
     public class QCFVItem
     {
         public string Des { get; set; }
@@ -72,6 +77,19 @@ namespace Arasan.Models
         public string Actual { get; set; }
         public string Result { get; set; }
         public string Isvalid { get; set; }
+
+    }
+    public class QCFinalValueEntryItem
+    {
+        public string Des { get; set; }
+        public string Value { get; set; }
+        public string Unit { get; set; }
+        public string Sta { get; set; }
+        public string En { get; set; }
+        public string Test { get; set; }
+        public string Manual { get; set; }
+        public string Actual { get; set; }
+        public string Result { get; set; }
 
     }
     public class QCFVItemDeatils

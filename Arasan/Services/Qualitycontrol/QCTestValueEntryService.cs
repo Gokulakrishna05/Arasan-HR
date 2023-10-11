@@ -91,7 +91,11 @@ namespace Arasan.Services.Qualitycontrol
         
             try
             {
-                string StatementType = string.Empty; string svSQL = "";
+                if (cy.ID != null)
+                {
+                    cy.ID = null;
+                }
+                    string StatementType = string.Empty; string svSQL = "";
                 if (cy.ID == null)
                 {
                     datatrans = new DataTransactions(_connectionString);
@@ -148,6 +152,7 @@ namespace Arasan.Services.Qualitycontrol
                     objCmd.Parameters.Add("BCT", OracleDbType.NVarchar2).Value = cy.Ctemp;
                     objCmd.Parameters.Add("ENTEREDBY", OracleDbType.NVarchar2).Value = cy.Entered;
                     objCmd.Parameters.Add("REMARKS", OracleDbType.NVarchar2).Value = cy.Remarks;
+                    objCmd.Parameters.Add("APPROID", OracleDbType.NVarchar2).Value = cy.ApId;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try

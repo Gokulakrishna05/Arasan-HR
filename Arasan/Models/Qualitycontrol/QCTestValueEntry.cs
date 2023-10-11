@@ -41,6 +41,7 @@ namespace Arasan.Models
         public string Ctemp { get; set; }
         public string Entered { get; set; }
         public string Remarks { get; set; }
+        public string ApId { get; set; } 
 
         public List<QCTestValueEntryItem> QCTestLst { get; set; }
     }

@@ -13,6 +13,7 @@ namespace Arasan.Interface.Qualitycontrol
         IEnumerable<QCFinalValueEntry> GetAllQCFinalValueEntry(string st,string ed);
         DataTable DrumDeatils();
         DataTable BatchDeatils(string id);
+        DataTable GetItemDetail(string id);
         DataTable GetItem(string value);
         DataTable GetQCFVDeatil(string id);
         DataTable GetQCFVResultDetail(string id);
@@ -22,5 +23,7 @@ namespace Arasan.Interface.Qualitycontrol
         DataTable GetQCOutDeatil(string id);
 
         string StatusChange(string tag, int id);
+        DataTable GetAPOutDetails(string id);
+        DataTable GetAPOutItemDetails(string id);
     }
 }
