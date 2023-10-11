@@ -85,6 +85,7 @@ namespace Arasan.Controllers
                     TDatan.Add(tdan);
                 }
             }
+
             DataTable Outdt = new DataTable();
             Outdt = QcDashboardService.GetAPout();
             if (Outdt.Rows.Count > 0)
@@ -95,12 +96,32 @@ namespace Arasan.Controllers
                     tdao1.id = Outdt.Rows[i]["APPRODUCTIONBASICID"].ToString();
                     tdao1.ItemName = Outdt.Rows[i]["ITEMID"].ToString();
                     tdao1.Drum = Outdt.Rows[i]["DRUMNO"].ToString();
-
                     tdao1.Time = Outdt.Rows[i]["FROMTIME"].ToString();
-
                     tdao1.TotalQty = Outdt.Rows[i]["OUTQTY"].ToString();
-
-                    TDatao1.Add(tdao1);
+                    DataTable Outdt1 = new DataTable();
+                    Outdt1 = QcDashboardService.GetAPout1(tdao1.id);
+                    if (Outdt1.Rows.Count > 0)
+                    {
+                        tdao1.ApId = Outdt1.Rows[0]["Ap"].ToString();
+                    }
+                   TDatao1.Add(tdao1);
+                }
+            }
+            List<APOutItem> TDatak = new List<APOutItem>();
+            APOutItem tda2 = new APOutItem();
+            DataTable dt = new DataTable();
+            dt = QcDashboardService.GetAPoutItem();
+            if (dt.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    tda2 = new APOutItem();
+                    tda2.id = dt.Rows[i]["APPRODUCTIONBASICID"].ToString();
+                    tda2.ItemName = dt.Rows[i]["ITEMID"].ToString();
+                    tda2.Drum = dt.Rows[i]["DRUMNO"].ToString();
+                    tda2.Time = dt.Rows[i]["FROMTIME"].ToString();
+                    tda2.TotalQty = dt.Rows[i]["OUTQTY"].ToString();
+                    TDatak.Add(tda2);
                 }
             }
             //GridDisplay Reg = new GridDisplay();
@@ -154,6 +175,7 @@ namespace Arasan.Controllers
             H.Notifies = TData1;
             H.APOutlist = TDatao1;
             H.Materialnotification = TDatan;
+            H.Aplast = TDatak;
             //H.Quotefollowcunt = dt.Rows.Count;
             //H.EnqFollowcunt = dt1.Rows.Count;
             //H.SalesQuoteFollowcunt = dt5.Rows.Count;

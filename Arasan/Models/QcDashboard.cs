@@ -21,6 +21,7 @@ namespace Arasan.Models
         //public int EnqFollowcunt { get; set; }
         //public int SalesQuoteFollowcunt { get; set; }
         public List<APOut> APOutlist { get; set; }
+        public List<APOutItem> Aplast { get; set; }
     }
     public class QcNotify
     {
@@ -47,6 +48,17 @@ namespace Arasan.Models
         public string ItemName { get; set; }
         public string TotalQty { get; set; }
         public string Time { get; set; }
+        public string ApId { get; set; }
+
+    }
+    public class APOutItem
+    {
+        public string id { get; set; }
+        public string Drum { get; set; }
+        public string ItemName { get; set; }
+        public string TotalQty { get; set; }
+        public string Time { get; set; }
+        
 
     }
     public class Notify
@@ -57,6 +69,7 @@ namespace Arasan.Models
         public string Drum { get; set; }
         public string Type { get; set; }
         public string Date { get; set; }
+        
     }
    
     //public class GridDisplay

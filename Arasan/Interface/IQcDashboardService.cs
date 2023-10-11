@@ -13,6 +13,8 @@ namespace Arasan.Interface
         DataTable curingsubgroup(string curingset);
         DataTable GetMaterialnot();
         DataTable GetAPout();
+        DataTable GetAPout1(string id);
+        DataTable GetAPoutItem();
         //DataTable GetquoteFollowupnextReport();
         //DataTable GetEnqFollowupnextReport();
         //DataTable GetSalesQuoteFollowupnextReport();

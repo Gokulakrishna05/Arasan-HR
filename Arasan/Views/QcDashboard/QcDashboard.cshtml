@@ -341,8 +341,9 @@
                                     <th>Drum No</th>
                                     <th>Time</th>
                                     <th>Qty</th>
-                                    <th>Go To</th>
-                                    
+                                    <th>Count</th>
+                                    <th>TestValue Entry</th>
+                                    <th>FinalValue Entry</th>
 
                                 </tr>
                             </thead>
@@ -358,9 +359,10 @@
                                             <td>@Html.DisplayFor(o => o.APOutlist[g].Drum)</td>
                                             <td>@Html.DisplayFor(o => o.APOutlist[g].Time)</td>
                                             <td>@Html.DisplayFor(o => o.APOutlist[g].TotalQty)</td>
-
-                                            <td> <a class="nav-link" href="@Url.Action("QCTestValueEntry", "QCTestValueEntry",new { id=item.id ,tag=1})"> <span class="title">Go To QC </span> </a></td>
-
+                                            <td>@Html.DisplayFor(o => o.APOutlist[g].ApId)</td>
+                                            <td> <a class="nav-link" href="@Url.Action("QCTestValueEntry", "QCTestValueEntry",new { id=item.id ,tag=1})"> <span class="title">Go To QCTVEntry </span> </a></td>
+                                            <td> <a class="nav-link" href="@Url.Action("QCFinalValueEntry", "QCFinalValueEntry",new { id=item.id ,tag=1})"> <span class="title">Go To QCFVEntry </span> </a></td>
+                                                            
                                         </tr>
                                         g = g + 1;
 

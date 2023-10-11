@@ -17,6 +17,26 @@ namespace Arasan.Services.Qualitycontrol
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
+        public DataTable GetAPOutDetails(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select WCID,to_char(APPRODUCTIONBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE from APPRODUCTIONBASIC WHERE APPRODUCTIONBASICID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetAPOutItemDetails(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select ITEMMASTER.ITEMID,APPRODOUTDET.ITEMID as item,DRUMMAST.DRUMNO,FROMTIME from APPRODOUTDET  LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=APPRODOUTDET.ITEMID  LEFT OUTER JOIN DRUMMAST ON DRUMMASTID=APPRODOUTDET.DRUMNO WHERE APPRODUCTIONBASICID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetWorkCenter()
         {
             string SvSql = string.Empty;
@@ -331,7 +351,16 @@ namespace Arasan.Services.Qualitycontrol
             return cmpList;
         }
 
-       
+        public DataTable GetItemDetail(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select TESTDESC,UNITMAST.UNITID,VALUEORMANUAL,STARTVALUE,ENDVALUE from TESTTDETAIL left outer join UNITMAST ON UNITMASTID =TESTTDETAIL.UNIT   WHERE TESTTBASICID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
 
         public DataTable GetQCFVDeatil(string id)
         {
