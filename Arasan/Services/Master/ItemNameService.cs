@@ -127,7 +127,6 @@ namespace Arasan.Services.Master
                 string StatementType = string.Empty; string svSQL = "";
                 if (ss.ID == null)
                 {
-
                     svSQL = " SELECT Count(ITEMID) as cnt FROM ITEMMASTER WHERE ITEMID =LTRIM(RTRIM('" + ss.Item + "')) and ITEMCODE =LTRIM(RTRIM('" + ss.ItemCode + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
@@ -135,8 +134,6 @@ namespace Arasan.Services.Master
                         return msg;
                     }
                 }
-              
-
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
@@ -187,6 +184,7 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("LEDGERNAME", OracleDbType.NVarchar2).Value = ss.Ledger;
                     objCmd.Parameters.Add("IQCTEMP", OracleDbType.NVarchar2).Value = ss.QCTemp;
                     objCmd.Parameters.Add("FGQCTEMP", OracleDbType.NVarchar2).Value = ss.FQCTemp;
+
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try

@@ -172,7 +172,6 @@ namespace Arasan.Services.Master
                                 {
                                     StatementType = "Insert";
                                     objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-
                                 }
                                 else
                                 {

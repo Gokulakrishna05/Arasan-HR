@@ -82,7 +82,6 @@ namespace Arasan.Controllers.Qualitycontrol
                         tda = new QCResultItem();
                         tda.Itemlst = BindItemlst(ca.GRNNo);
                         tda.ItemId = dt2.Rows[0]["ITEMID"].ToString();
-                       
                         tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
                         tda.GrnQty = dt2.Rows[0]["GRNQTY"].ToString();
                         //tda.InsQty = dt2.Rows[0]["INSQTY"].ToString();
