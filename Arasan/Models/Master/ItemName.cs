@@ -31,7 +31,7 @@ namespace Arasan.Models
         public string ItemSubGroup { get; set; }
 
         public List<SelectListItem> Isglst;
-        public List<SupItem> Suplst;
+        
 
         public string HSNcode { get; set; }
 
@@ -88,14 +88,16 @@ namespace Arasan.Models
         public string PercentageAdd { get; set; }
         public string Additive { get; set; }
         public string RawMaterial { get; set; }
+        public string Curing { get; set; }
 
-
+        public List<SupItem> Suplst { get; set; }
     }
 
     public class SupItem
     {
 
         public List<SelectListItem> Suplierlst { get; set; }
+        
         public string SupName { get; set; }
         public string SupplierPart { get; set; }
         public string PurchasePrice { get; set; }
