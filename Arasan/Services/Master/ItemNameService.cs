@@ -28,7 +28,8 @@ namespace Arasan.Services.Master
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMCODE,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MAXSTOCKLVL,MINSTOCKLVL,CONVERAT,UOM,HSN,SELLINGPRI,ITEMACC,EXPYN,VALMETHOD,SERIALYN,BSTATEMENTYN,QCT,QCCOMPFLAG,LATPURPRICE,TARIFFHEADING,REJRAWMATPER,RAWMATPER,ADD1PER,ADD1,RAWMATCAT,ITEMMASTERID from ITEMMASTER";
+                    //cmd.CommandText = "Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMCODE,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MAXSTOCKLVL,MINSTOCKLVL,CONVERAT,UOM,HSN,SELLINGPRICE,ITEMACC,EXPYN,VALMETHOD,SERIALYN,BSTATEMENTYN,QCT,QCCOMPFLAG,LATPURPRICE,TARIFFHEADING,REJRAWMATPER,RAWMATPER,ADD1PER,ADD1,RAWMATCAT,ITEMMASTERID from ITEMMASTER ORDER BY ITEMMASTER.ITEMMASTERID ASC";
+                    cmd.CommandText = "Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMCODE,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MAXSTOCKLVL,MINSTOCKLVL,CONVERAT,UOM,HSN,SELLINGPRICE,ITEMACC,EXPYN,VALMETHOD,SERIALYN,BSTATEMENTYN,QCT,QCCOMPFLAG,LATPURPRICE,TARIFFHEADING,REJRAWMATPER,RAWMATPER,ADD1PER,ADD1,RAWMATCAT,CURINGDAYS,ITEMMASTERID from ITEMMASTER ORDER BY ITEMMASTER.ITEMMASTERID ASC ";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -48,7 +49,7 @@ namespace Arasan.Services.Master
                             Con = rdr["CONVERAT"].ToString(),
                             Uom = rdr["UOM"].ToString(),
                             Hcode = rdr["HSN"].ToString(),
-                            Selling = rdr["SELLINGPRI"].ToString(),
+                            Selling = rdr["SELLINGPRICE"].ToString(),
                             StackAccount = rdr["ITEMACC"].ToString(),
                             Expiry = rdr["EXPYN"].ToString(),
                             ValuationMethod = rdr["VALMETHOD"].ToString(),
@@ -63,6 +64,7 @@ namespace Arasan.Services.Master
                             PercentageAdd = rdr["ADD1PER"].ToString(),
                             Additive = rdr["ADD1"].ToString(),
                             RawMaterial = rdr["RAWMATCAT"].ToString(),
+                            Curing = rdr["CURINGDAYS"].ToString()
 
 
                         };
@@ -75,7 +77,8 @@ namespace Arasan.Services.Master
         public DataTable GetAllItems()
         {
             string SvSql = string.Empty;
-            SvSql = "Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMCODE,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MAXSTOCKLVL,MINSTOCKLVL,CONVERAT,UOM,HSN,SELLINGPRICE,ITEMMASTERID from ITEMMASTER";
+            //SvSql = "Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMCODE,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MAXSTOCKLVL,MINSTOCKLVL,CONVERAT,UOM,HSN,SELLINGPRICE,ITEMMASTERID from ITEMMASTER";
+            SvSql = "Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMCODE,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MAXSTOCKLVL,MINSTOCKLVL,CONVERAT,UOM,HSN,SELLINGPRICE,ITEMACC,EXPYN,VALMETHOD,SERIALYN,BSTATEMENTYN,QCT,QCCOMPFLAG,LATPURPRICE,TARIFFHEADING,REJRAWMATPER,RAWMATPER,ADD1PER,ADD1,RAWMATCAT,ITEMMASTERID from ITEMMASTER ORDER BY ITEMMASTER.ITEMMASTERID ASC ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -134,7 +137,6 @@ namespace Arasan.Services.Master
                         return msg;
                     }
                 }
-
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("ITEMMASTERPROC", objConn);
@@ -184,6 +186,7 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("LEDGERNAME", OracleDbType.NVarchar2).Value = ss.Ledger;
                     objCmd.Parameters.Add("IQCTEMP", OracleDbType.NVarchar2).Value = ss.QCTemp;
                     objCmd.Parameters.Add("FGQCTEMP", OracleDbType.NVarchar2).Value = ss.FQCTemp;
+                    objCmd.Parameters.Add("CURINGDAYS", OracleDbType.NVarchar2).Value = ss.Curing;
 
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
@@ -207,7 +210,7 @@ namespace Arasan.Services.Master
                                 OracleCommand objCmds = new OracleCommand("BINMASTEPROC", objConns);
                                 StatementType = "Insert";
                                 objCmds.CommandType = CommandType.StoredProcedure;
-                                objCmds.Parameters.Add("BINMASTERID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
                                 objCmds.Parameters.Add("BINID", OracleDbType.NVarchar2).Value = ss.BinID;
                                 objCmds.Parameters.Add("BINYN", OracleDbType.NVarchar2).Value = ss.BinYN;
                                 objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = Pid;
@@ -217,10 +220,10 @@ namespace Arasan.Services.Master
                                 objConns.Close();
                             }
                         }
-                        bool result = datatrans.UpdateStatus("DELETE SUPPLIERPARTNO  Where ITEMMASTERID='" + Pid + "'");
+                        bool result = datatrans.UpdateStatus("DELETE SUPPLIERPARTNO  Where ITEMMASTERID='" + Pid + "' ");
                         if (ss.Suplst != null)
                         {
-                            foreach (SupItem cp in ss.Suplst)
+                            foreach (SupItem cp in ss.Suplst) 
                             {
                                 using (OracleConnection objConnI = new OracleConnection(_connectionString))
                                 {
@@ -233,6 +236,7 @@ namespace Arasan.Services.Master
                                     objCmdI.Parameters.Add("SUPPLIERPARTNO", OracleDbType.NVarchar2).Value = cp.SupplierPart;
                                     objCmdI.Parameters.Add("SPURPRICE", OracleDbType.NVarchar2).Value = cp.PurchasePrice;
                                     objCmdI.Parameters.Add("DELDAYS", OracleDbType.NVarchar2).Value = cp.Delivery;
+                                    objCmdI.Parameters.Add("ITEMMASTERID", OracleDbType.NVarchar2).Value = Pid;
                                     objCmdI.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                     try
                                     {
@@ -251,7 +255,6 @@ namespace Arasan.Services.Master
                             }
 
                         }
-
                     }
                     catch (Exception ex)
                     {
@@ -271,7 +274,7 @@ namespace Arasan.Services.Master
         public DataTable GetItemNameDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMCODE,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MAXSTOCKLVL,MINSTOCKLVL,CONVERAT,UOM,HSN,SELLINGPRICE SELLINGPRI,ITEMACC,EXPYN,VALMETHOD,SERIALYN,BSTATEMENTYN,QCT,QCCOMPFLAG,LATPURPRICE,TARIFFHEADING,REJRAWMATPER,RAWMATPER,ADD1PER,ADD1,RAWMATCAT,LEDGERNAME,ITEMMASTERID  from ITEMMASTER where ITEMMASTERID=" + id + "";
+            SvSql = "Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMCODE,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MAXSTOCKLVL,MINSTOCKLVL,CONVERAT,UOM,HSN,SELLINGPRICE SELLINGPRI,ITEMACC,EXPYN,VALMETHOD,SERIALYN,BSTATEMENTYN,QCT,QCCOMPFLAG,LATPURPRICE,TARIFFHEADING,REJRAWMATPER,RAWMATPER,ADD1PER,ADD1,RAWMATCAT,LEDGERNAME,ITEMMASTERID ,CURINGDAYS from ITEMMASTER where ITEMMASTERID=" + id + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -281,7 +284,7 @@ namespace Arasan.Services.Master
         public DataTable GetBinDeatils(string data)
         {
             string SvSql = string.Empty;
-            SvSql = "Select BINMASTER.BINID,BINMASTER.BINYN,BINMASTERID  from BINMASTER where BINMASTER.BINMASTERID=" + data + "";
+            SvSql = "Select BINMASTER.BINID,BINMASTER.BINYN,BINMASTERID  from BINMASTER where BINMASTER.ITEMID=" + data + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -301,7 +304,7 @@ namespace Arasan.Services.Master
         public DataTable BindBinID()
         {
             string SvSql = string.Empty;
-            SvSql = "Select BINBASICID,BINID from BINBASIC";
+            SvSql = "Select BINID from BINBASIC";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -462,7 +465,6 @@ namespace Arasan.Services.Master
             {
                 string StatementType = string.Empty; string svSQL = "";
 
-
             }
             catch (Exception ex)
             {
@@ -472,8 +474,5 @@ namespace Arasan.Services.Master
 
             return msg;
         }
-
-
     }
-
 }

@@ -262,6 +262,15 @@
 
                                                     </div>
                                                 </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Curing Days<label class="mandatory">*</label></label>
+                                                        <div class="col-sm-8">
+                                                        @Html.TextBoxFor(C => C.Curing, new { @id = "txtCuring", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
+                                                    </div>
+
+                                                    </div>
+                                                </div>
                                                 </div>
                                             @*1st atb*@
                                         
@@ -275,7 +284,7 @@
 
                                                     <label for="inputName3" class="col-sm-4 control-label">Stack Account <label class="mandatory">*</label></label>
                                                     <div class="col-sm-8">
-                                                        @Html.TextBoxFor(C => C.StackAccount , new { @id = "txtStackAccount", @class = "form-control", @TabIndex = 1 })
+                                                        @Html.TextBoxFor(C => C.StackAccount , new { @id = "txtStackAccount", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                                     </div>
 
                                                 </div>
@@ -306,7 +315,7 @@
 
                                                     <br /> <label for="inputName3" class="col-sm-4 control-label">Valuation Method <label class="Mandatory"></label></label>
                                                     <div class="col-sm-8">
-                                                        @Html.TextBoxFor(C => C.ValuationMethod , new { @id = "txtValuationMethod", @class = "form-control", @TabIndex = 1 })
+                                                        @Html.TextBoxFor(C => C.ValuationMethod , new { @id = "txtValuationMethod", @class = "form-control", @TabIndex = 1 , @maxlength = 1})
                                                     </div>
 
                                                 </div>
@@ -339,12 +348,10 @@
                                                     <div class="col-sm-8">
                                                         <div class="input-group">
 
-                                                            @Html.RadioButtonFor(C => C.Batch, "YES", new { @TabIndex = 2 })
-                                                            <label id="mt-radio">YES</label>&emsp;
-                                                            @Html.RadioButtonFor(C => C.Batch, "NO", new { @TabIndex = 3 })
-                                                            <label id="mt-radio">NO</label>
-
-
+                                                            @Html.RadioButtonFor(C => C.Batch, "Y", new { @TabIndex = 2 })
+                                                            <label id="mt-radio">Y</label>&emsp;
+                                                            @Html.RadioButtonFor(C => C.Batch, "N", new { @TabIndex = 3 })
+                                                            <label id="mt-radio">N</label>
                                                         </div>
                                                     </div>
 
@@ -699,6 +706,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <br>
                             <div class="row">
                                 <div class="col-lg-10"></div>
                                 <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
@@ -1088,6 +1096,21 @@
             }
             else {
                 $(ddlBinID).css({
+                    "border": "",
+                    "background": ""
+                });
+            }if (document.getElementById("txtCuring").value == "") {
+                isValid = false;
+                $(txtCuring).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Curing ");
+                return false;
+            }
+            else {
+                $(txtCuring).css({
                     "border": "",
                     "background": ""
                 });

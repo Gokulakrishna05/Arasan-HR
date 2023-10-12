@@ -29,7 +29,7 @@ namespace Arasan.Controllers.Master
             ca.qclst = BindQCTemp();
             ca.fqclst = BindQCTemp();
             ca.Ledgerlst = BindLedger();
-            //ca.Itemlst = BindItem();
+            
             List<SupItem> TData = new List<SupItem>();
             SupItem tda = new SupItem();
 
@@ -39,7 +39,7 @@ namespace Arasan.Controllers.Master
             if (id == null)
 
             {
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < 1; i++)
                 {
                     tda = new SupItem();
                     tda.Suplierlst = BindSupplier();
@@ -47,7 +47,7 @@ namespace Arasan.Controllers.Master
                     TData.Add(tda);
                 }
 
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < 1; i++)
                 {
                     tdaB = new BinItem();
                     tdaB.Isvalid = "Y";
@@ -91,6 +91,9 @@ namespace Arasan.Controllers.Master
                     ca.Additive = dt.Rows[0]["ADD1"].ToString();
                     ca.RawMaterial = dt.Rows[0]["RAWMATCAT"].ToString();
                     ca.Ledger = dt.Rows[0]["LEDGERNAME"].ToString();
+                    ca.QCTemp = dt.Rows[0]["IQCTEMP"].ToString();
+                    ca.FQCTemp = dt.Rows[0]["FGQCTEMP"].ToString();
+                    ca.Curing = dt.Rows[0]["CURINGDAYS"].ToString();
                 }
                 DataTable dt2 = new DataTable();
                 dt2 = ItemNameService.GetBinDeatils(id);
@@ -161,7 +164,7 @@ namespace Arasan.Controllers.Master
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["BINID"].ToString(), Value = dtDesg.Rows[i]["BINBASICID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["BINID"].ToString(), Value = dtDesg.Rows[i]["BINID"].ToString() });
                 }
                 return lstdesg;
             }
