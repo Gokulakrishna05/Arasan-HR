@@ -1710,7 +1710,7 @@ namespace Arasan.Controllers
 				throw ex;
 			}
 		}
-        public ActionResult GetStockQty(string Lot, string branch, string loc)
+        public ActionResult GetStockQty(string Lot, string branch, string loc,string item)
         {
             try
             {
@@ -1719,7 +1719,7 @@ namespace Arasan.Controllers
                 string locid = datatrans.GetDataString("Select ILOCATION from WCBASIC where WCBASICID='" + loc + "' ");
 
                 string stk = "";
-                dt = IProductionEntry.GetStkDetails(Lot, branch, locid);
+                dt = IProductionEntry.GetStkDetails(Lot, branch, locid, item);
 
                 if (dt.Rows.Count > 0)
                 {

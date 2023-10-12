@@ -309,6 +309,7 @@
                                                                             <tr>
                                                                                 <th>Item ID</th>
                                                                                 <th>Bin ID</th>
+                                                                                <th>Drum No</th>
 
                                                                                 <th> Batch No </th>
                                                                                 <th> Charging Time </th>
@@ -332,11 +333,12 @@
                                                                                             @Html.HiddenFor(o => o.inplst[i].APID, new { @id = "txtAPID" + i, @class = "form-control", style = "width: 100px;"})
                                                                                         </td>
                                                                                         <td>@Html.TextBoxFor(o => o.inplst[i].BinId, new { @id = "txtBinId" + i, @class = "form-control", style = "width: 100px;",@readonly=true})@Html.HiddenFor(o => o.inplst[i].Bin, new { @id = "txtBin" + i, @class = "form-control", style = "width: 100px;"})</td>
+                                                                                      <td>  @Html.DropDownListFor(o => o.inplst[i].drumno, Model.inplst[i].drumlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlInpdrumno" + i, style = "width: 170px;" , onchange = "changeStock(this.value," + i + ")"})</td>
 
                                                                                         <td>@Html.TextBoxFor(o => o.inplst[i].batchno, new { @id = "txtbatchno" + i, @class = "form-control", style = "width: 200px;"})</td>
                                                                                         <td>@Html.TextBoxFor(o => o.inplst[i].Time, new { @id = "txtITime" + i, @class = "form-control", style = "width: 100px;"})</td>
 
-                                                                                        <td>@Html.TextBoxFor(o => o.inplst[i].StockAvailable, new { @id = "txtStockAvailable" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;text-align:right" })</td>
+                                                                                        <td>@Html.TextBoxFor(o => o.inplst[i].StockAvailable, new { @id = "txtStockAvailable" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;text-align:right",@readonly="readonly" })</td>
                                                                                         <td>@Html.TextBoxFor(o => o.inplst[i].IssueQty, new { @id = "txtIssueQty" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeQty(this," + i + ")" })</td>
 
                                                                                         <td>
@@ -922,8 +924,43 @@
                 alert("Data Not Found");
             }
         });
+           $.ajax({
+            url: "GetDrumnoJSON",
+            type: "post",
+            data: { 'itemid': ItemId },
+            cache: false,
+            success: function (response) {
+                var newlist;
+                //alert(JSON.stringify(response));
+                newlist = response.Ilst;
+                PopulateDropDown("#ddlInpdrumno" + i, response);
+            },
+            error: function () {
+                debugger;
+                alert("Please Select Item ");
+            }
+        });
     }
+     function changeStock(ItemId, i) {
+            var item = document.getElementById("ddlItem" + i).value;
+  
+        $.ajax({
+            url: 'GetStockDetail',
+            data: { "ItemId": ItemId ,'item':item},
+            type: "GET",
+            success: function (result) {
 
+                document.getElementById("txtStockAvailable" + i).value = result.stock;
+                document.getElementById("txtIssueQty" + i).value = result.stock;
+                
+
+            },
+            error: function () {
+                alert("Data Not Found");
+            }
+        });
+         
+    }
     function outputsave(i) {
 
         var id = document.getElementById("hdapid").value;
@@ -981,7 +1018,7 @@
     }
     function AddRow() {
         var opt = "";
-
+        var remopt = "";
 
         $.ajax({
             type: "POST",
@@ -991,9 +1028,16 @@
                     opt += "<option value=" + this.value + ">" + this.text + "</option>";
                 });
 
-
-                AppendRow(opt);
-
+                 $.ajax({
+                    type: "POST",
+                    url: 'GetDrumIdJSON',
+                    success: function (data) {
+                        $.each(data, function () {
+                            remopt += "<option value=" + this.value + ">" + this.text + "</option>";
+                        });
+                         AppendRow(opt, remopt);
+                   }
+                })
 
             }
         })
@@ -1054,18 +1098,20 @@
         }
         $(dropDownId).trigger("liszt:updated");
     }
-    function AppendRow(opt) {
+    function AppendRow(opt,remopt) {
         var index = $("#tbBooks").children("tr").length;
 
         var itemid = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlItem" + index + "' name='inputlst[" + index + "].ItemId' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
         var binid = "<td><input class='form-control'  id='txtBinId" + index + "' name='inputlst[" + index + "].BinId' style='width: 100px;' type='text' value='' readonly='true'></td>";
+        var drum = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlInpdrumno" + index + "' name='inputlst[" + index + "].drumno' onchange = 'changeStock(this.value," + index + ")'><option value=''>Please select</option>" + remopt + "</select></td>";
+
         var batchno = "<td><input class='form-control'  id='txtbatchno" + index + "' name='inputlst[" + index + "].batchno' style='width: 200px;' type='text' value=''></td>";
         var time = "<td><input class='form-control'  id='txtITime" + index + "' name='inputlst[" + index + "].Time' style='width: 100px;' type='text' value='' onkeydown = 'return isNumeric2(event.keyCode,this.value)'></td>";
 
-        var stock = "<td><input class='form-control'  id='txtStockAvailable" + index + "' name='inputlst[" + index + "].StockAvailable' style='width: 80px; text-align:right' type='text' value='' onkeydown = 'return isNumeric2(event.keyCode,this.value)'></td>";
+        var stock = "<td><input class='form-control'  id='txtStockAvailable" + index + "' name='inputlst[" + index + "].StockAvailable' style='width: 80px; text-align:right' type='text' readonly='true' value='' onkeydown = 'return isNumeric2(event.keyCode,this.value)'></td>";
         var issueqty = "<td><input class='form-control'  id='txtIssueQty" + index + "' name='inputlst[" + index + "].IssueQty'  type='text' value='' style = 'width: 100px;text-align:right' onkeydown = 'return isNumeric2(event.keyCode,this.value)' ></td>";
         var removeCell = "<td><input id='Isvalid" + index + "' name='inputlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='inputlst.Index' type='hidden' value='" + index + "'  /></td>";
-        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + itemid + binid + batchno + time + stock + issueqty + removeCell + "</tr>";
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + itemid + binid + drum + batchno + time + stock + issueqty + removeCell + "</tr>";
         $("#tbBooks").append(newRow);
 
         $(function () {
@@ -1396,6 +1442,7 @@
                 var order = {};
 
                 order.ItemId = document.getElementById("ddlItem" + j).value;
+                order.drumno = document.getElementById("ddlInpdrumno" + j).value;
                 order.BinId = document.getElementById("txtBinId" + j).value;
                 order.batchno = document.getElementById("txtbatchno" + j).value;
                 order.IssueQty = document.getElementById("txtIssueQty" + j).value;

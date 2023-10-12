@@ -34,6 +34,7 @@ namespace Arasan.Models
         public string change { get; set; }
         public object APID { get; set; }
         public string Location { get; set; }
+        public string Approve { get; set; }
         public string Branch { get; set; }
         public string DocId { get; set; }
         public string Docdate { get; set; }
@@ -111,6 +112,7 @@ namespace Arasan.Models
         public List<SelectListItem> drumlst { get; set; }
         public string batchno { get; set; }
         public string Time { get; set; }
+        public string inpid { get; set; }
         public double batchqty { get; set; }
         public double StockAvailable { get; set; }
         public double IssueQty { get; set; }
@@ -132,8 +134,11 @@ namespace Arasan.Models
         public string saveitemId { get; set; }
 
         public List<SelectListItem> Itemlst { get; set; }
+        public List<SelectListItem> shedlst { get; set; }
 
+        public string ShedNo { get; set; }
         public string BinId { get; set; }
+        public string outid { get; set; }
         public string outBin { get; set; }
         public string FromTime { get; set; }
         public string ToTime { get; set; }
@@ -169,6 +174,8 @@ namespace Arasan.Models
         public string consunit { get; set; }
         public string unitid { get; set; }
         public string consBin { get; set; }
+        public string drumno { get; set; }
+        public List<SelectListItem> drumlst { get; set; }
         public double consQty { get; set; }
         public double Qty { get; set; }
         public string Isvalid { get; set; }

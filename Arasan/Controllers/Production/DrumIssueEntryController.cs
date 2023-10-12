@@ -31,7 +31,7 @@ namespace Arasan.Controllers.Production
             ca.Bin = BindBinID();
             ca.ToBin = BindBinID();
             ca.Loc = BindLocation();
-            ca.ToLoc = BindLocation();
+            ca.ToLoc = BindLoc();
             ca.Type = BindType();
             ca.RecList = BindEmp();
             ca.Entered = Request.Cookies["UserId"];
@@ -263,7 +263,7 @@ namespace Arasan.Controllers.Production
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEMMASTERID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["item"].ToString() });
                 }
                 return lstdesg;
             }
@@ -307,6 +307,23 @@ namespace Arasan.Controllers.Production
             }
         }
         public List<SelectListItem> BindLocation()
+        {
+            try
+            {
+                DataTable dtDesg = DrumIssueEntryService.GetLocation();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["LOCID"].ToString(), Value = dtDesg.Rows[i]["loc"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindLoc()
         {
             try
             {
@@ -472,9 +489,8 @@ namespace Arasan.Controllers.Production
                     tda = new DrumIssueEntryItem();
 
                     tda.drum = dtt.Rows[i]["DRUM_NO"].ToString();
-                    tda.batch = dtt.Rows[i]["BATCHNO"].ToString();
-                    tda.batchno = dtt.Rows[i]["batch"].ToString();
-                    tda.qty = dtt.Rows[i]["QTY"].ToString();
+                  
+                    tda.qty = dtt.Rows[i]["BALANCE_QTY"].ToString();
                    
 
                     Data.Add(tda);
