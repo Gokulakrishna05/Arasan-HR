@@ -1,7 +1,7 @@
-﻿@model Arasan.Models.APProductionentryDet
+﻿@model Arasan.Models.PyroProductionentryDet
 @{
-    //Layout = "_PopupLayout";
-    ViewData["Title"] = "APProductionentry";
+  
+    ViewData["Title"] = "PyroProduction";
 }
 <style>
     .newwidth {
@@ -129,7 +129,7 @@
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Production</a> </li>
-            <li class="active"> <strong>AP Production Entry</strong> </li>
+            <li class="active"> <strong>Pyro Production Entry</strong> </li>
         </ol>
     </div>
 </div>
@@ -138,9 +138,9 @@
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="widgets-container">
-                    <h5 style="font-size:14px">AP Production Entry</h5>
+                    <h5 style="font-size:14px">Pyro Production Entry</h5>
                     <hr>
-                    @using (Html.BeginForm("ApproveAPProductionentry", "APProductionentry", FormMethod.Post))
+                    @using (Html.BeginForm("ApprovePyroProduction", "PyroProduction", FormMethod.Post))
                         {
                             @Html.AntiForgeryToken()
                     <form>
@@ -150,8 +150,6 @@
                                     <br />   <label for="inputName3" class="col-sm-4 control-label">Work Center<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
                                         @Html.HiddenFor(C => C.ID)
-                                        @Html.HiddenFor(C=>C.BranchId,new{@id="branch"})
-                                        @Html.HiddenFor(C=>C.LOCID,new{@id="loc"})
                                         @Html.DisplayFor(C => C.Location)
                                     </div>
                                 </div>
@@ -194,56 +192,7 @@
                             </div>
 
                         </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
 
-                                    <br />   <label for="inputName3" class="col-sm-4 control-label">Sch Qty<label class="mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                        @Html.DisplayFor(C => C.SchQty)
-                                    </div>
-
-                                </div>
-
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                    <br />   <label for="inputName3" class="col-sm-4 control-label">Prod Qty<label class="mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                        @Html.DisplayFor(C => C.ProdQty)
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                    <br />   <label for="inputName3" class="col-sm-4 control-label">Batch Comp.Y/N<label class="mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                        @Html.DisplayFor(C => C.batchcomplete)
-                                    </div>
-
-                                </div>
-
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                    <br />   <label for="inputName3" class="col-sm-4 control-label">Batch<label class="mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                        @Html.DisplayFor(C => C.BatchNo)
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                        </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -303,14 +252,14 @@
                                                                         <tr>
                                                                             <th>Item ID</th>
                                                                             <th>Bin ID</th>
+                                                                            <th>Drum No</th>
 
                                                                             <th> Batch No </th>
                                                                             <th> Charging Time </th>
-                                                                            <th> Lot No </th>
 
                                                                             <th> Stock</th>
                                                                             <th> Issue Qty </th>
-                                                                            @*<th> Remove </th>*@
+
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody id="tbBooks">
@@ -323,30 +272,35 @@
 
                                                                                     <td>
 
-                                                                                            @Html.HiddenFor(o => o.inplst[i].Item,new{@id="item" + i})
-                                                                                            @Html.DisplayFor(o => o.inplst[i].ItemId)
+                                                                                        @Html.DisplayFor(o => o.inplst[i].ItemId)
+                                                                                        @Html.HiddenFor(o => o.inplst[i].saveitemId)
+                                                                                        @Html.HiddenFor(o => o.inplst[i].inpid)
+                                                                                        @Html.HiddenFor(o => o.inplst[i].ItemId)
 
-                                                                                        </td>
+                                                                                    </td>
                                                                                     <td>
                                                                                         @Html.DisplayFor(o => o.inplst[i].BinId)
                                                                                     </td>
-
+                                                                                    <td>
+                                                                                        @Html.DisplayFor(o => o.inplst[i].drumno)
+                                                                                        @Html.HiddenFor(o => o.inplst[i].drumno)
+                                                                                        @Html.HiddenFor(o => o.inplst[i].drumid)
+                                                                                    </td>
                                                                                     <td>
                                                                                         @Html.DisplayFor(o => o.inplst[i].batchno)
                                                                                     </td>
                                                                                     <td>
                                                                                         @Html.DisplayFor(o => o.inplst[i].Time)
                                                                                     </td>
-                                                                                    <td>
-                                                                                        @Html.DropDownListFor(o => o.inplst[i].Lotno, Model.inplst[i].lotlist, "Please Select", new { @class = "form-control _select newcss", @id = "ddlLotno" + i, style = "width: 120px;", @onchange = "changeStk(this.value," + i + ")" })
 
+                                                                                    <td>
+                                                                                        @Html.DisplayFor(o => o.inplst[i].StockAvailable)
                                                                                     </td>
                                                                                     <td>
-                                                                                        @Html.TextBoxFor(o => o.inplst[i].StockAvailable,new{@id="Stock" + i,@readonly="readonly"})
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        @Html.DisplayFor(o => o.inplst[i].IssueQty)@Html.HiddenFor(o => o.inplst[i].IssueQty)
-                                                                                            @Html.HiddenFor(o => o.inplst[i].Isvalid, new { @id = "Isvalid" + i })
+                                                                                        @Html.DisplayFor(o => o.inplst[i].IssueQty)
+                                                                                        @Html.HiddenFor(o => o.inplst[i].IssueQty)
+                                                                                        @Html.HiddenFor(o => o.inplst[i].Isvalid)
+                                                                                         
                                                                                     </td>
 
 
@@ -390,7 +344,8 @@
                                                                                 <tr id="trBookinc@(j)" class="chkitemlstinc" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
                                                                                     <td>
-                                                                                            @Html.DisplayFor(o => o.Binconslst[j].ItemId)@Html.HiddenFor(o => o.Binconslst[j].saveitemId)
+                                                                                        @Html.DisplayFor(o => o.Binconslst[j].ItemId)
+                                                                                        @Html.HiddenFor(o => o.Binconslst[j].saveitemId)
                                                                                     </td>
                                                                                     <td>
                                                                                         @Html.DisplayFor(o => o.Binconslst[j].consunit)
@@ -404,9 +359,10 @@
                                                                                     </td>
                                                                                     <td>
                                                                                         @Html.DisplayFor(o => o.Binconslst[j].consQty)
+                                                                                        @Html.HiddenFor(o => o.Binconslst[j].consQty)
                                                                                     </td>
                                                                                     <td>
-                                                                                        @Html.DisplayFor(o => o.Binconslst[j].Qty) @Html.HiddenFor(o => o.Binconslst[j].Isvalid, new { @id = "Isvalid" + j })
+                                                                                        @Html.DisplayFor(o => o.Binconslst[j].Qty)
                                                                                     </td>
 
 
@@ -455,8 +411,8 @@
                                                                     <th>From Time </th>
                                                                     <th>To Time </th>
                                                                     <th> Qty </th>
-                                                                    <th>Excess Qty</th>
-                                                                    <th>Test Result</th>
+
+                                                                    <th>Shed No</th>
 
                                                                 </tr>
                                                             </thead>
@@ -470,9 +426,9 @@
 
                                                                             <td>
                                                                                 @Html.DisplayFor(o => o.outlst[m].ItemId)
-                                                                                @Html.HiddenFor(o => o.outlst[m].saveitemId)
                                                                                 @Html.HiddenFor(o => o.outlst[m].ItemId)
                                                                                 @Html.HiddenFor(o => o.outlst[m].outid)
+                                                                                @Html.HiddenFor(o => o.outlst[m].saveitemId)
 
                                                                             </td>
                                                                             <td>
@@ -489,25 +445,17 @@
                                                                             <td>
                                                                                 @Html.DisplayFor(o => o.outlst[m].ToTime)
                                                                             </td>
+
                                                                             <td>
                                                                                 @Html.DisplayFor(o => o.outlst[m].OutputQty)
                                                                                 @Html.HiddenFor(o => o.outlst[m].OutputQty)
+                                                                                @Html.HiddenFor(o => o.outlst[m].Isvalid)
                                                                             </td>
+
                                                                             <td>
-                                                                                @Html.DisplayFor(o => o.outlst[m].ExcessQty)
-                                                                                    @Html.HiddenFor(o => o.outlst[m].Isvalid, new { @id = "Isvalid" + m })
+                                                                                    @Html.DropDownListFor(o => o.outlst[m].ShedNo, Model.outlst[m].shedlst," -- Please Select -- ", new { @id = "ddlShedNo", @Class = "form-control _select",style = "width: 200px;", @TabIndex = 1})<br />
+
                                                                             </td>
-                                                                            @if (item.Result=="")
-                                                                            {
-                                                                                <td bgcolor="red" align="center" style="font-weight:600;color:white">Not Yet Received</td>
-                                                                            }
-                                                                            else
-                                                                            {
-                                                                                <td bgcolor="green" align="center" style="font-weight:600">
-                                                                                    @Html.DisplayFor(o => o.outlst[m].Result)
-                                                                                </td>
-                                                                            }
-                                                                            
 
 
 
@@ -525,19 +473,18 @@
                                             </div>
                                         </div>
                                     </div>
-                               
+                                  
 
-                                
+                             
 
                                 </div>
 
                             </div>
                         </div>
-
-                        <div class="col-lg-10">
+                            <div class="col-lg-10">
                                 <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
-                            <button class="btn btn-danger" type="button" causesvalidation="false" id="btnCansel" onclick="location.href='@Url.Action("ListAPProductionentry", "APProductionentry")'">Cancel</button>
-                        </div>
+                                <button class="btn btn-danger" type="button" causesvalidation="false" id="btnCansel" onclick="location.href='@Url.Action("ListPyroProduction", "PyroProduction")'">Cancel</button>
+                            </div>
                     </form>
                     }
                 </div>
@@ -559,46 +506,6 @@
             type: "GET",
             success: function (result) {
                 document.getElementById("shiftdetails").innerHTML = result.fromtime + " to " + result.totime + "  Total Hours : " + result.tothrs;
-            },
-            error: function () {
-                alert("Data Not Found");
-            }
-        });
-    }
-
-
-   //function changeStk(lot, i) {
-   //     var branch = document.getElementById("branch").value;
-   //     var loc = document.getElementById("loc").value;
-   //     var item = document.getElementById("item").value;
-   //     $.ajax({
-   //         url: 'GetStockQty',
-   //         data: { 'lot': lot,'item':item 'branch': branch, 'loc': loc },
-   //         type: "GET",
-   //         success: function (result) {
-   //             document.getElementById("Stock" + i).value = result.stk;
-                
-
-   //         },
-   //         error: function () {
-   //             alert("Data Not Found");
-   //         }
-   //     });
-   // }
-
-
-    function changeStk(ItemId, i) {
-        var branch = document.getElementById("branch").value;
-        var loc = document.getElementById("loc").value;
-        var item = document.getElementById("item" + i).value;
-        $.ajax({
-            url: 'GetStockQty',
-            data: { 'Lot': ItemId, 'branch': branch, 'loc': loc, 'item': item },
-            type: "GET",
-            success: function (result) {
-                document.getElementById("Stock" + i).value = result.stk;
-                 
-
             },
             error: function () {
                 alert("Data Not Found");

@@ -8,6 +8,7 @@ namespace Arasan.Interface.Production
     public interface IDrumIssueEntryService
     {
         DataTable BindBinID();
+        DataTable GetLocation();
         DataTable DrumDeatils(string id,string item);
         string DrumIssueEntryCRUD(DrumIssueEntry cy);
         IEnumerable<DrumIssueEntry> GetAllDrumIssueEntry(string st, string ed);

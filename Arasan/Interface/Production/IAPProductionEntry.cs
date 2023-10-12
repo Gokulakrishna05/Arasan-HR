@@ -65,7 +65,7 @@ namespace Arasan.Interface
         DataTable GetOutputDeatils(string id);
         DataTable GetLogdetailDeatils(string id);
 
-        DataTable GetStkDetails(string Lot, string brid, string loc);
+        DataTable GetStkDetails(string Lot, string brid, string loc,string item);
         DataTable Getstkqty(string ItemId, string locid, string brid);
         DataTable GetLotNo(string item, string loc, string branch);
     }

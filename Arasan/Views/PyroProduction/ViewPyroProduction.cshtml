@@ -250,6 +250,7 @@
                                                                         <tr>
                                                                             <th>Item ID</th>
                                                                             <th>Bin ID</th>
+                                                                            <th>Drum No</th>
 
                                                                             <th> Batch No </th>
                                                                             <th> Charging Time </th>
@@ -275,7 +276,9 @@
                                                                                     <td>
                                                                                         @Html.DisplayFor(o => o.inplst[i].BinId)
                                                                                     </td>
-
+                                                                                    <td>
+                                                                                        @Html.DisplayFor(o => o.inplst[i].drumno)
+                                                                                    </td>
                                                                                     <td>
                                                                                         @Html.DisplayFor(o => o.inplst[i].batchno)
                                                                                     </td>
