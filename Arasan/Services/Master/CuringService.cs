@@ -41,7 +41,7 @@ namespace Arasan.Services
         {
             if (string.IsNullOrEmpty(status))
             {
-                status = "ACTIVE";
+                status = "Active";
             }
             List<Curing> cmpList = new List<Curing>();
             using (OracleConnection con = new OracleConnection(_connectionString))
@@ -50,7 +50,7 @@ namespace Arasan.Services
                 {
                     con.Open();
 
-                    cmd.CommandText = "Select LOCDETAILS.LOCID,SUBGROUP,SHEDNUMBER,CAPACITY,CURINGMASTERID  from CURINGMASTER LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID=CURINGMASTER.LOCATIONID WHERE CURINGMASTER.STATUS='" + status + "' order by CURINGMASTER.CURINGMASTERID DESC";
+                    cmd.CommandText = "Select LOCDETAILS.LOCID,SUBGROUP,SHEDNUMBER,CAPACITY,CURINGMASTERID  from CURINGMASTER LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID=CURINGMASTER.LOCATIONID WHERE CURINGMASTER.STATUS='" + status + "' order by CURINGMASTER.CURINGMASTERID ASC";
 
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
@@ -139,7 +139,7 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("SUBGROUP", OracleDbType.NVarchar2).Value = cy.Sub;
                     objCmd.Parameters.Add("SHEDNUMBER", OracleDbType.NVarchar2).Value = cy.Shed;
                     objCmd.Parameters.Add("CAPACITY", OracleDbType.NVarchar2).Value = cy.Cap;
-                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
+                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "Active";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     try
                     {
@@ -192,7 +192,7 @@ namespace Arasan.Services
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE CURINGMASTER SET STATUS ='INACTIVE' WHERE CURINGMASTERID='" + id + "'";
+                    svSQL = "UPDATE CURINGMASTER SET STATUS ='InActive' WHERE CURINGMASTERID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -213,7 +213,7 @@ namespace Arasan.Services
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE CURINGMASTER SET STATUS ='ACTIVE' WHERE CURINGMASTERID='" + id + "'";
+                    svSQL = "UPDATE CURINGMASTER SET STATUS ='Active' WHERE CURINGMASTERID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();

@@ -40,7 +40,6 @@ namespace Arasan.Services.Sales
                             Docdate = rdr["DOCDATE"].ToString(),
                             custname = rdr["PARTYNAME"].ToString(),
                             //Location = rdr["LOCID"].ToString(),
-
                             Branch = rdr["BRANCHID"].ToString(),
                             status = rdr["STATUS"].ToString()
                         };
@@ -72,8 +71,6 @@ namespace Arasan.Services.Sales
                     throw ex;
                 }
                 cy.DocId = docid;
-
-
             
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
@@ -92,29 +89,21 @@ namespace Arasan.Services.Sales
                         StatementType = "Update";
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                     }
-
-
-                    //objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                    
                     objCmd.Parameters.Add("INVOICENO", OracleDbType.NVarchar2).Value = cy.invoiceid;
                     objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.DocId;
                     objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
                     objCmd.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = cy.location;
                     objCmd.Parameters.Add("PARTYNAME", OracleDbType.NVarchar2).Value = cy.custname;
-                    //objCmd.Parameters.Add("PARTYNAME", OracleDbType.NVarchar2).Value = party;
-
                     objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = cy.Docdate;
                     objCmd.Parameters.Add("REFNO", OracleDbType.NVarchar2).Value = cy.RefNo;
                     objCmd.Parameters.Add("REFDT", OracleDbType.NVarchar2).Value = cy.RefDate;
-
                     objCmd.Parameters.Add("INVOICEDATE", OracleDbType.NVarchar2).Value = cy.invoicedate;
                     objCmd.Parameters.Add("GROSS", OracleDbType.NVarchar2).Value = cy.gross;
                     objCmd.Parameters.Add("NET", OracleDbType.NVarchar2).Value = cy.net;
-
                     objCmd.Parameters.Add("TRANSITLOCID", OracleDbType.NVarchar2).Value = cy.transitlocation;
                     objCmd.Parameters.Add("NARRATION", OracleDbType.NVarchar2).Value = cy.Narr;
                     objCmd.Parameters.Add("TYPE", OracleDbType.NVarchar2).Value = cy.Vtype;
-
-                    //objCmd.Parameters.Add("CONTACT_PERSON_MOBILE", OracleDbType.NVarchar2).Value = cy.SalesValue;
 
                     objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
@@ -135,7 +124,6 @@ namespace Arasan.Services.Sales
                             {
                                 foreach (SalesReturnItem cp in cy.returnlist)
                                 {
-
                                     string UnitId = datatrans.GetDataString("Select UNITMASTID from UNITMAST where UNITID='" + cp.unit + "' ");
 
                                     if (cp.Isvalid == "Y" && cp.itemid != "0")
@@ -163,9 +151,6 @@ namespace Arasan.Services.Sales
                                     }
                                 }
                             }
-
-
-
                         }
 
                     }
@@ -229,7 +214,7 @@ namespace Arasan.Services.Sales
         public DataTable GetSalesRet(string invoiceid)
         {
             string SvSql = string.Empty;
-            SvSql = "select SALERETBASICID,INVOICENO,SALERETBASIC.DOCID,SALERETBASIC.BRANCHID,SALERETBASIC.LOCID,SALERETBASIC. PARTYNAME,to_char(SALERETBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,REFNO,to_char(SALERETBASIC.REFDT,'dd-MON-yyyy')REFDT,to_char(SALERETBASIC.INVOICEDATE,'dd-MON-yyyy')INVOICEDATE,SALERETBASIC.GROSS,SALERETBASIC.NET,TRANSITLOCID,SALERETBASIC.NARRATION,SALERETBASIC.TYPE from SALERETBASIC  WHERE SALERETBASICID='" + invoiceid + "'";
+            SvSql = "select SALERETBASICID,INVOICENO,SALERETBASIC.DOCID,SALERETBASIC.BRANCHID,SALERETBASIC.PARTYNAME,SALERETBASIC.LOCID,SALERETBASIC. PARTYNAME,to_char(SALERETBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,REFNO,to_char(SALERETBASIC.REFDT,'dd-MON-yyyy')REFDT,to_char(SALERETBASIC.INVOICEDATE,'dd-MON-yyyy')INVOICEDATE,SALERETBASIC.GROSS,SALERETBASIC.NET,TRANSITLOCID,SALERETBASIC.NARRATION,SALERETBASIC.TYPE from SALERETBASIC  WHERE SALERETBASICID='" + invoiceid + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
