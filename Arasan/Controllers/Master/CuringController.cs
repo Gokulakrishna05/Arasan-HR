@@ -182,7 +182,8 @@ namespace Arasan.Controllers
                 TempData["notice"] = flag;
                 return RedirectToAction("ListCuring");
             }
-        }public ActionResult Remove(string tag, int id)
+        }
+        public ActionResult Remove(string tag, int id)
         {
 
             string flag = CuringService.RemoveChange(tag, id);

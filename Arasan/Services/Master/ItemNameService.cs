@@ -152,7 +152,7 @@ namespace Arasan.Services.Master
                     else
                     {
                         StatementType = "Update";
-                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = ss.ID;
+                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = ss.ID; 
                     }
 
                     objCmd.Parameters.Add("IGROUP", OracleDbType.NVarchar2).Value = ss.ItemG;

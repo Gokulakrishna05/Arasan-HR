@@ -52,13 +52,10 @@
                                                              <th>Branch</th>
                                                             <th>Doc Id</th>
                                                             <th>Doc Date</th>
-                                                            @*<th>Party</th>*@
+                                                          
                                                             <th>Customer Name</th>
-                                                            @* <th>Currency</th>*@
-                                                           @* <th>Send Mail</th>
-                                                            <th>Followup</th>*@
-                                                            @* <th>Generate PO</th>*@
-                                                            <th>Edit</th>
+                                                            
+                                                            <th>View</th>
                                                              
                                                             <th>Close</th>
                                                         </tr>
@@ -88,9 +85,9 @@
                                                                     {
                                                                         //<td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("SendMail", "SalesQuotation",new { id=item.ID })"><img src='../Images/mail_icon.png' alt='Send Email' /></a></div></td>
                                                                         //<td> <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("Followup", "SalesQuotation",new { id=item.ID })"><img src='../Images/followup.png' alt='FollowUp' /> - (1)</a></div></td>
-                                                                        <td>
-                                                                            <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("SalesReturn", "SalesReturn",new { id=item.ID })"></a></div>
-                                                                        </td>
+                                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewSalesReturn", "SalesReturn",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Waiting for approval' /></a></div></td>
+
+                                                                      
                                                                        
                                                                         <td>
                                                                             <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("CloseQuote", "SalesReturn",new { id=item.ID })" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/close_icon.png' alt='close' /></a></div>

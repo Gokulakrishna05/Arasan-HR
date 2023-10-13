@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿ using System.Collections.Generic;
 using System.Data;
 using System.Security.Cryptography.Pkcs;
 using System.Xml.Linq;
@@ -59,8 +59,6 @@ namespace Arasan.Controllers.Sales
                     SR.Docdate = dt.Rows[0]["DOCDATE"].ToString();
 
                     SR.DocId = dt.Rows[0]["DOCID"].ToString();
-
-
                     SR.custname = dt.Rows[0]["PARTYNAME"].ToString();
                     SR.ID = id;
                     SR.invoiceid = dt.Rows[0]["INVOICENO"].ToString();
@@ -75,7 +73,9 @@ namespace Arasan.Controllers.Sales
                     SR.net = Convert.ToDouble(dt.Rows[0]["NET"].ToString() == "" ? "0" : dt.Rows[0]["NET"].ToString());
                     ViewBag.invoiceid = id;
                 }
+
             }
+            
             return View(SR);
         }
         [HttpPost]
@@ -319,6 +319,62 @@ namespace Arasan.Controllers.Sales
             return Json(model.returnlist);
 
         }
+
+        //public ActionResult ViewSalesReturn(string id)
+        //{
+        //    WDrumAllocation ca = new WDrumAllocation();
+        //    DataTable dt = new DataTable();
+        //    dt = WorkOrderService.GetDrumAllByID(id);
+        //    if (dt.Rows.Count > 0)
+        //    {
+        //        //ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+        //        ca.Location = dt.Rows[0]["LOCID"].ToString();
+        //        ca.JobId = dt.Rows[0]["jobid"].ToString();
+        //        //ca.JobDate = dt.Rows[0]["DOCDATE"].ToString();
+        //        ca.Customername = dt.Rows[0]["PARTYNAME"].ToString();
+
+
+        //        //ca.JOId = dt.Rows[0]["JOBASICID"].ToString();
+        //        ca.DOCId = dt.Rows[0]["DOCID"].ToString();
+        //        ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
+        //    }
+
+        //    List<WorkItem> TData = new List<WorkItem>();
+        //    WorkItem tda = new WorkItem();
+        //    DataTable dtt = new DataTable();
+        //    dtt = WorkOrderService.GetDrumAllDetails(id);
+        //    if (dtt.Rows.Count > 0)
+        //    {
+
+        //        tda = new WorkItem();
+
+        //        tda.items = dtt.Rows[0]["ITEMID"].ToString();
+        //        //tda.orderqty = dtt.Rows[i]["QTY"].ToString();
+
+        //        List<Drumdetails> tlstdrum = new List<Drumdetails>();
+        //        Drumdetails tdrum = new Drumdetails();
+        //        DataTable dt3 = new DataTable();
+        //        dt3 = WorkOrderService.GetAllocationDrumDetails(id);
+        //        if (dt3.Rows.Count > 0)
+        //        {
+        //            for (int j = 0; j < dt3.Rows.Count; j++)
+        //            {
+        //                tdrum = new Drumdetails();
+        //                tdrum.lotno = dt3.Rows[j]["LOTNO"].ToString();
+        //                tdrum.drumno = dt3.Rows[j]["DRUMNO"].ToString();
+        //                tdrum.qty = dt3.Rows[j]["QTY"].ToString();
+        //                tdrum.rate = dt3.Rows[j]["RATE"].ToString();
+
+        //                tlstdrum.Add(tdrum);
+        //            }
+        //        }
+        //        tda.drumlst = tlstdrum;
+        //        TData.Add(tda);
+
+        //    }
+        //    ca.Worklst = TData;
+        //    return View(ca);
+        //}
         public ActionResult CloseQuote(string tag, int id)
         {
 
