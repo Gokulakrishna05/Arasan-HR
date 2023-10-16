@@ -108,13 +108,8 @@ namespace Arasan.Services
 
                 if (cy.ID == null)
                 {
-
-
-
-
                     int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'TE--' AND ACTIVESEQUENCE = 'T'  ");
                     string DocId = string.Format("{0}{1}", "TE--", (idc + 1).ToString());
-
                     string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='TE--' AND ACTIVESEQUENCE ='T'  ";
                     try
                     {
@@ -347,6 +342,17 @@ namespace Arasan.Services
             }
             return "";
 
+        }
+
+        public DataTable GetPoQcTesting(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select POBASICID,DOCID FROM POBASIC WHERE POBASICID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
         }
     }
 }
