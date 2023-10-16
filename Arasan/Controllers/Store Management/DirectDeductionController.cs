@@ -313,6 +313,60 @@ namespace Arasan.Controllers.Store_Management
             }
         }
 
+        public IActionResult viewDirectDeduction(string id)
+        {
+            DirectDeduction st = new DirectDeduction();
+            DataTable dt = new DataTable();
+            DataTable dtt = new DataTable();
+
+            dt = DirectDeductionService.GetDDByName(id);
+            if (dt.Rows.Count > 0)
+            {
+                st.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                st.Location = dt.Rows[0]["LOCID"].ToString();
+                st.DocId = dt.Rows[0]["DOCID"].ToString();
+                st.Docdate = dt.Rows[0]["DOCDATE"].ToString();
+                st.Dcno = dt.Rows[0]["DCNO"].ToString();
+                st.Reason = dt.Rows[0]["REASON"].ToString();
+                st.Gro = dt.Rows[0]["GROSS"].ToString();
+                st.Entered = dt.Rows[0]["ENTBY"].ToString();
+                st.Narr = dt.Rows[0]["NARRATION"].ToString();
+                st.NoDurms = dt.Rows[0]["NOOFD"].ToString();
+                st.Material = dt.Rows[0]["MATSUPP"].ToString();
+                st.net = dt.Rows[0]["NET"].ToString();
+
+                st.ID = id;
+
+                List<DeductionItem> Data = new List<DeductionItem>();
+                DeductionItem tda = new DeductionItem();
+                //double tot = 0;
+
+                dtt = DirectDeductionService.GetDDItem(id);
+                if (dtt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dtt.Rows.Count; i++)
+                    {
+                        tda.ItemGroupId = dtt.Rows[i]["ITEMID"].ToString();
+                        tda.ItemId = dtt.Rows[i]["ITEMACC"].ToString();
+                        tda.ConFac = dtt.Rows[i]["CONFAC"].ToString();
+                        tda.Unit = dtt.Rows[i]["UNITID"].ToString();
+                        tda.BinID = Convert.ToDouble(dtt.Rows[i]["BINID"].ToString());
+                        tda.Quantity = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString());
+                        tda.rate = Convert.ToDouble(dtt.Rows[i]["RATE"].ToString());
+                        //tda.disc = Convert.ToDouble(dtt.Rows[i]["DISCPER"].ToString());
+                        tda.Amount = Convert.ToDouble(dtt.Rows[i]["AMOUNT"].ToString());
+                       
+                        tda.Process = Convert.ToDouble(dtt.Rows[i]["PROCESSID"].ToString());
+                        
+                        Data.Add(tda);
+                    }
+                }
+
+                st.Itlst = Data;
+            }
+            return View(st);
+        }
+
 
     }
 

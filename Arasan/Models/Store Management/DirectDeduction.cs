@@ -43,6 +43,7 @@ namespace Arasan.Models
         public List<SelectListItem> ItemGrouplst { get; set; }
 
         public string ItemGroupId { get; set; }
+        //public string Itemname { get; set; }
         public string Isvalid { get; set; }
         public string ConFac { get; set; }
         public string Unit { get; set; }

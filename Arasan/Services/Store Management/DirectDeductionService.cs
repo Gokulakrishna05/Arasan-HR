@@ -117,28 +117,29 @@ namespace Arasan.Services.Store_Management
                                     {
                                         StatementType = "Insert";
                                         objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-
                                     }
                                     else
                                     {
                                         StatementType = "Update";
                                          objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = ss.ID;
-
                                     }
                                     objCmds.CommandType = CommandType.StoredProcedure;
                                     objCmds.Parameters.Add("DEDBASICID", OracleDbType.NVarchar2).Value = Pid;
-                                    objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cp.ItemId;
+                                    objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cp.ItemGroupId;
+                                    //objCmds.Parameters.Add("ITEMACC", OracleDbType.NVarchar2).Value = cp.ItemId;
                                     objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = cp.Quantity;
                                     objCmds.Parameters.Add("UNIT", OracleDbType.NVarchar2).Value = cp.Unit;
                                     objCmds.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = cp.rate;
                                     objCmds.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = cp.Amount;
                                     objCmds.Parameters.Add("BINID", OracleDbType.NVarchar2).Value = cp.BinID;
                                     objCmds.Parameters.Add("PROCESSID", OracleDbType.NVarchar2).Value = cp.Process;
+                                    objCmds.Parameters.Add("CONFAC", OracleDbType.NVarchar2).Value = cp.ConFac;
+                                    objCmds.Parameters.Add("ITEMACC", OracleDbType.NVarchar2).Value = cp.ItemId;
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                     objCmds.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                                     objCmds.ExecuteNonQuery();
                                     Object Prid = objCmds.Parameters["OUTID"].Value;
-                                ///////////////////////////Inventory details
+                                //Inventory details
                                 double qty = Convert.ToDouble(cp.Quantity);
                                 DataTable dt = datatrans.GetData("Select INVENTORY_ITEM.BALANCE_QTY,INVENTORY_ITEM.ITEM_ID,INVENTORY_ITEM.LOCATION_ID,INVENTORY_ITEM.BRANCH_ID,INVENTORY_ITEM_ID,GRN_ID,GRN_DATE from INVENTORY_ITEM where INVENTORY_ITEM.ITEM_ID='" + cp.ItemId + "' AND INVENTORY_ITEM.LOCATION_ID='" + ss.Location + "' and INVENTORY_ITEM.BRANCH_ID='" + ss.Branch + "' and BALANCE_QTY!=0 order by GRN_DATE ASC");
                                 if (dt.Rows.Count > 0)
@@ -355,6 +356,29 @@ namespace Arasan.Services.Store_Management
 
         }
 
+        public DataTable GetDDByName(string id)
+        {
+            string SvSql = string.Empty;
+            //SvSql = "Select BRANCHMAST.BRANCHID, ENQ_NO,to_char(ENQ_DATE,'dd-MON-yyyy') ENQ_DATE ,PARTYRCODE.PARTY,SALES_ENQUIRY.CURRENCY_TYPE,SALES_ENQUIRY.CONTACT_PERSON,SALES_ENQUIRY.CUSTOMER_TYPE,SALES_ENQUIRY.ENQ_TYPE,SALES_ENQUIRY.ADDRESS,SALES_ENQUIRY.CITY,SALES_ENQUIRY.PINCODE,PRIORITY,SALES_ENQUIRY.SALESENQUIRYID,SALES_ENQUIRY.STATUS from SALES_ENQUIRY  LEFT OUTER JOIN BRANCHMAST ON BRANCHMAST.BRANCHMASTID=SALES_ENQUIRY.BRANCH_ID LEFT OUTER JOIN  PARTYMAST on SALES_ENQUIRY.CUSTOMER_NAME=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.PARTY Where PARTYMAST.TYPE IN ('Customer','BOTH') AND SALES_ENQUIRY.SALESENQUIRYID='" + name + "'";
+            SvSql = "Select BRANCHID,LOCID,DOCID,DOCDATE,DCNO,REASON,GROSS,MATSUPP,NET,ENTBY,NARRATION,NOOFD,DEDBASICID  from DEDBASIC where DEDBASICID=" + id + "";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetDDItem(string id)
+        {
+            string SvSql = string.Empty;
+            //SvSql = "Select SALES_ENQ_ITEM.SALESENQITEMID,SALES_ENQ_ITEM.SAL_ENQ_ID,SALES_ENQ_ITEM.QUANTITY,ITEMMASTER.ITEMID,SALES_ENQ_ITEM.UNIT,SALES_ENQ_ITEM.ITEM_DESCRIPTION from SALES_ENQ_ITEM LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=SALES_ENQ_ITEM.ITEM_ID   where SALES_ENQ_ITEM.SALESENQITEMID='" + name + "'";
+            SvSql = "Select DEDDETAIL.QTY,DEDDETAIL.ITEMACC,DEDDETAIL.CONFAC,DEDDETAIL.DEDDETAILID,DEDDETAIL.ITEMID,UNITMAST.UNITID,RATE,AMOUNT,BINID,PROCESSID  from DEDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=DEDDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  where DEDDETAIL.DEDBASICID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
     }
 }
 
