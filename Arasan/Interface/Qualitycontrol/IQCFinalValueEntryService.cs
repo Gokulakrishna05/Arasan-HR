@@ -22,7 +22,7 @@ namespace Arasan.Interface.Qualitycontrol
         DataTable GetQCDetails(string id);
         DataTable GetQCOutDeatil(string id);
 
-        string StatusChange(string tag, int id);
+        //string StatusChange(string tag, int id);
         DataTable GetAPOutDetails(string id);
         DataTable GetAPOutItemDetails(string id);
     }

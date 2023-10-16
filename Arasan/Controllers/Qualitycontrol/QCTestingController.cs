@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Arasan.Services;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Data;
+using Arasan.Services.Qualitycontrol;
 //using PdfSharp.Pdf;
 
 namespace Arasan.Controllers
@@ -136,30 +137,56 @@ namespace Arasan.Controllers
             IEnumerable<QCTesting> cmp = QCTestingService.GetAllQCTesting(st,ed);
             return View(cmp);
         }
-        //public List<SelectListItem> BindType()
-        //{
-        //    try
-        //    {
-        //        List<SelectListItem> lstdesg = new List<SelectListItem>();
+        public IActionResult POQcTesting(string id)
+        {
+            QCTesting ca = new QCTesting();
+            DataTable dt1 = new DataTable();
+            dt1 = QCTestingService.GetPoQcTesting(id);
+            if (dt1.Rows.Count > 0)
+            {
+                ca.Po = dt1.Rows[0]["DOCID"].ToString();
+                //ca.Shift = dt1.Rows[0]["SHIFT"].ToString();
+                //ca.Prodate = dt1.Rows[0]["DOCDATE"].ToString();
+                //ca.APID = id;
+                //DataTable dtt1 = new DataTable();
+                //dtt1 = QCTestingService.GetGetPoQcTestingDetails(id);
+                //if (dtt1.Rows.Count > 0)
+                //{
+                //    ca.Drum = dtt1.Rows[0]["DRUMNO"].ToString();
+                //    ca.Sampletime = dtt1.Rows[0]["FROMTIME"].ToString();
+                //    ca.Item = dtt1.Rows[0]["ITEMID"].ToString();
+                //    ca.ItemId = dtt1.Rows[0]["item"].ToString();
+                //    ViewBag.Item = dtt1.Rows[0]["ITEMID"].ToString();
+                //}
 
-        //        lstdesg.Add(new SelectListItem() { Text = "PO", Value = "PO" });
-        //        lstdesg.Add(new SelectListItem() { Text = "GRN", Value = "GRN" });
-        //        return lstdesg;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
-        //public JsonResult GetTypeJSON(string GPID)
-        //{
-        //    QCTesting model = new QCTesting();
-        //    model.Typlst = BindGRNlist(GPID);
-        //    return Json(BindGRNlist(GPID));
 
-        //}
 
-        public List<SelectListItem> BindGRNlist(string value)
+            }
+            return View(ca);
+        }
+            //public List<SelectListItem> BindType()
+            //{
+            //    try
+            //    {
+            //        List<SelectListItem> lstdesg = new List<SelectListItem>();
+
+            //        lstdesg.Add(new SelectListItem() { Text = "PO", Value = "PO" });
+            //        lstdesg.Add(new SelectListItem() { Text = "GRN", Value = "GRN" });
+            //        return lstdesg;
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        throw ex;
+            //    }
+            //}
+            //public JsonResult GetTypeJSON(string GPID)
+            //{
+            //    QCTesting model = new QCTesting();
+            //    model.Typlst = BindGRNlist(GPID);
+            //    return Json(BindGRNlist(GPID));
+
+            //}
+            public List<SelectListItem> BindGRNlist(string value)
         {
             try
 

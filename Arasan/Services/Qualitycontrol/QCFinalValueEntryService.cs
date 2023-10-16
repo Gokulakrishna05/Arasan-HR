@@ -167,7 +167,7 @@ namespace Arasan.Services.Qualitycontrol
                     objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = cy.DocDate;
                     objCmd.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = cy.WorkCenter;
                     objCmd.Parameters.Add("PROCESSID", OracleDbType.NVarchar2).Value = cy.Process;
-                    objCmd.Parameters.Add("DRUMNO", OracleDbType.NVarchar2).Value = cy.DrumNo;
+                    objCmd.Parameters.Add("CDRUMNO", OracleDbType.NVarchar2).Value = cy.DrumNo;
                     objCmd.Parameters.Add("BATCH", OracleDbType.NVarchar2).Value = cy.Batch;
                     objCmd.Parameters.Add("BATCHNO", OracleDbType.NVarchar2).Value = cy.BatchNo;
                     objCmd.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = ITEMID;
@@ -184,7 +184,8 @@ namespace Arasan.Services.Qualitycontrol
                     objCmd.Parameters.Add("RESULTTYPE", OracleDbType.NVarchar2).Value = cy.RType;
                     objCmd.Parameters.Add("ENTEREDBY", OracleDbType.NVarchar2).Value = cy.Enterd;
                     objCmd.Parameters.Add("REMARKS", OracleDbType.NVarchar2).Value = cy.Reamarks;
-                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
+                    objCmd.Parameters.Add("APPROID", OracleDbType.NVarchar2).Value = cy.ApId;
+                    //objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
@@ -197,9 +198,9 @@ namespace Arasan.Services.Qualitycontrol
                         {
                             Pid = cy.ID;
                         }
-                        foreach (QCFVItem ca in cy.QCFVLst)
+                        foreach (QCFinalValueEntryItem ca in cy.QCFlst)
                         {
-                            if (ca.Isvalid == "Y" && ca.Des != "0")
+                            if (ca.Isvalid == "Y" && ca.des != "0")
                             {
                                 using (OracleConnection objConns = new OracleConnection(_connectionString))
                                 {
@@ -216,15 +217,15 @@ namespace Arasan.Services.Qualitycontrol
                                     }
                                     objCmds.CommandType = CommandType.StoredProcedure;
                                     objCmds.Parameters.Add("FQTVEBASICID", OracleDbType.NVarchar2).Value = Pid;
-                                    objCmds.Parameters.Add("TDESC", OracleDbType.NVarchar2).Value = ca.Des;
-                                    objCmds.Parameters.Add("VALUEORMANUAL", OracleDbType.NVarchar2).Value = ca.Value;
-                                    objCmds.Parameters.Add("UNIT", OracleDbType.NVarchar2).Value = ca.Unit;
-                                    objCmds.Parameters.Add("STARTVALUE", OracleDbType.NVarchar2).Value = ca.Sta;
-                                    objCmds.Parameters.Add("ENDVALUE", OracleDbType.NVarchar2).Value = ca.En;
-                                    objCmds.Parameters.Add("TESTVALUE", OracleDbType.NVarchar2).Value = ca.Test;
-                                    objCmds.Parameters.Add("MANUALVALUE", OracleDbType.NVarchar2).Value = ca.Manual;
-                                    objCmds.Parameters.Add("ACTTESTVALUE", OracleDbType.NVarchar2).Value = ca.Actual;
-                                    objCmds.Parameters.Add("TESTRESULT", OracleDbType.NVarchar2).Value = ca.Result;
+                                    objCmds.Parameters.Add("TDESC", OracleDbType.NVarchar2).Value = ca.des;
+                                    objCmds.Parameters.Add("VALUEORMANUAL", OracleDbType.NVarchar2).Value = ca.value;
+                                    objCmds.Parameters.Add("UNIT", OracleDbType.NVarchar2).Value = ca.unit;
+                                    objCmds.Parameters.Add("STARTVALUE", OracleDbType.NVarchar2).Value = ca.sta;
+                                    objCmds.Parameters.Add("ENDVALUE", OracleDbType.NVarchar2).Value = ca.en;
+                                    objCmds.Parameters.Add("TESTVALUE", OracleDbType.NVarchar2).Value = ca.test;
+                                    objCmds.Parameters.Add("MANUALVALUE", OracleDbType.NVarchar2).Value = ca.manual;
+                                    objCmds.Parameters.Add("ACTTESTVALUE", OracleDbType.NVarchar2).Value = ca.actual;
+                                    objCmds.Parameters.Add("TESTRESULT", OracleDbType.NVarchar2).Value = ca.result;
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                     objConns.Open();
                                     objCmds.ExecuteNonQuery();
@@ -253,7 +254,7 @@ namespace Arasan.Services.Qualitycontrol
                                     objCmds.CommandType = CommandType.StoredProcedure;
                                     objCmds.Parameters.Add("FQTVEBASICID", OracleDbType.NVarchar2).Value = Pid;
                                     objCmds.Parameters.Add("MINS", OracleDbType.NVarchar2).Value = cp.Time;
-                                    objCmds.Parameters.Add("VOL25C", OracleDbType.NVarchar2).Value =cp.Vol;
+                                    objCmds.Parameters.Add("VOL25C", OracleDbType.NVarchar2).Value = cp.Vol;
                                     objCmds.Parameters.Add("VOL35C", OracleDbType.NVarchar2).Value = cp.Volat;
                                     objCmds.Parameters.Add("VOL45C", OracleDbType.NVarchar2).Value = cp.Volc;
                                     objCmds.Parameters.Add("VOLSTP", OracleDbType.NVarchar2).Value = cp.Stp;
@@ -300,7 +301,7 @@ namespace Arasan.Services.Qualitycontrol
                     using (OracleCommand cmd = con.CreateCommand())
                     {
                         con.Open();
-                        cmd.CommandText = "select BRANCHMAST.BRANCHID,PROCESSMAST.PROCESSID,WCBASIC.WCID,FQTVEBASIC.DOCID,to_char(FQTVEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,FQTVEBASICID,FQTVEBASIC.ISACTIVE FROM FQTVEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=FQTVEBASIC.BRANCH LEFT OUTER JOIN PROCESSMAST ON PROCESSMASTID=FQTVEBASIC.PROCESSID LEFT OUTER JOIN WCBASIC ON WCBASICID=FQTVEBASIC.WCID WHERE FQTVEBASIC.DOCDATE BETWEEN '" + st + "'  AND ' " + ed + "' order by FQTVEBASICID desc";
+                        cmd.CommandText = "select BRANCHMAST.BRANCHID,PROCESSMAST.PROCESSID,WCBASIC.WCID,FQTVEBASIC.DOCID,to_char(FQTVEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,FQTVEBASICID FROM FQTVEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=FQTVEBASIC.BRANCH LEFT OUTER JOIN PROCESSMAST ON PROCESSMASTID=FQTVEBASIC.PROCESSID LEFT OUTER JOIN WCBASIC ON WCBASICID=FQTVEBASIC.WCID WHERE FQTVEBASIC.DOCDATE BETWEEN '" + st + "'  AND ' " + ed + "' order by FQTVEBASICID desc";
                         OracleDataReader rdr = cmd.ExecuteReader();
                         while (rdr.Read())
                         {
@@ -326,7 +327,7 @@ namespace Arasan.Services.Qualitycontrol
                     using (OracleCommand cmd = con.CreateCommand())
                     {
                         con.Open();
-                        cmd.CommandText = "select BRANCHMAST.BRANCHID,PROCESSMAST.PROCESSID,WCBASIC.WCID,FQTVEBASIC.DOCID,to_char(FQTVEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,FQTVEBASICID,FQTVEBASIC.ISACTIVE FROM FQTVEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=FQTVEBASIC.BRANCH LEFT OUTER JOIN PROCESSMAST ON PROCESSMASTID=FQTVEBASIC.PROCESSID LEFT OUTER JOIN WCBASIC ON WCBASICID=FQTVEBASIC.WCID WHERE FQTVEBASIC.DOCDATE > sysdate-30 order by FQTVEBASICID desc";
+                        cmd.CommandText = "select BRANCHMAST.BRANCHID,PROCESSMAST.PROCESSID,WCBASIC.WCID,FQTVEBASIC.DOCID,to_char(FQTVEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,FQTVEBASICID FROM FQTVEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=FQTVEBASIC.BRANCH LEFT OUTER JOIN PROCESSMAST ON PROCESSMASTID=FQTVEBASIC.PROCESSID LEFT OUTER JOIN WCBASIC ON WCBASICID=FQTVEBASIC.WCID WHERE FQTVEBASIC.DOCDATE > sysdate-30 order by FQTVEBASICID desc";
                         OracleDataReader rdr = cmd.ExecuteReader();
                         while (rdr.Read())
                         {
@@ -395,29 +396,29 @@ namespace Arasan.Services.Qualitycontrol
             return dtt;
         }
 
-        public string StatusChange(string tag, int id)
-        {
+        //public string StatusChange(string tag, int id)
+        //{
 
-            try
-            {
-                string svSQL = string.Empty;
-                using (OracleConnection objConnT = new OracleConnection(_connectionString))
-                {
-                    svSQL = "UPDATE FQTVEBASIC SET STATUS ='ISACTIVE' WHERE FQTVEBASICID='" + id + "'";
-                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
-                    objConnT.Open();
-                    objCmds.ExecuteNonQuery();
-                    objConnT.Close();
-                }
+        //    try
+        //    {
+        //        string svSQL = string.Empty;
+        //        using (OracleConnection objConnT = new OracleConnection(_connectionString))
+        //        {
+        //            svSQL = "UPDATE FQTVEBASIC SET STATUS ='ISACTIVE' WHERE FQTVEBASICID='" + id + "'";
+        //            OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+        //            objConnT.Open();
+        //            objCmds.ExecuteNonQuery();
+        //            objConnT.Close();
+        //        }
 
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            return "";
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //    return "";
 
-        }
+        //}
 
     }
 }
