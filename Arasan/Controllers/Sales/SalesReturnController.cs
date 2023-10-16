@@ -37,7 +37,7 @@ namespace Arasan.Controllers.Sales
             }
             //SR.Vtype = "1";
             SR.Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
-            List<SalesReturnItem> Data = new List<SalesReturnItem>();
+            List<SalesReturnItem> TData = new List<SalesReturnItem>();
             SalesReturnItem tda = new SalesReturnItem();
             if (id == null)
             {
@@ -46,7 +46,7 @@ namespace Arasan.Controllers.Sales
                     tda = new SalesReturnItem();
                    
                     tda.Isvalid = "Y";
-                    Data.Add(tda);
+                    TData.Add(tda);
                 }
             }
             else {
@@ -320,61 +320,6 @@ namespace Arasan.Controllers.Sales
 
         }
 
-        //public ActionResult ViewSalesReturn(string id)
-        //{
-        //    WDrumAllocation ca = new WDrumAllocation();
-        //    DataTable dt = new DataTable();
-        //    dt = WorkOrderService.GetDrumAllByID(id);
-        //    if (dt.Rows.Count > 0)
-        //    {
-        //        //ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
-        //        ca.Location = dt.Rows[0]["LOCID"].ToString();
-        //        ca.JobId = dt.Rows[0]["jobid"].ToString();
-        //        //ca.JobDate = dt.Rows[0]["DOCDATE"].ToString();
-        //        ca.Customername = dt.Rows[0]["PARTYNAME"].ToString();
-
-
-        //        //ca.JOId = dt.Rows[0]["JOBASICID"].ToString();
-        //        ca.DOCId = dt.Rows[0]["DOCID"].ToString();
-        //        ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
-        //    }
-
-        //    List<WorkItem> TData = new List<WorkItem>();
-        //    WorkItem tda = new WorkItem();
-        //    DataTable dtt = new DataTable();
-        //    dtt = WorkOrderService.GetDrumAllDetails(id);
-        //    if (dtt.Rows.Count > 0)
-        //    {
-
-        //        tda = new WorkItem();
-
-        //        tda.items = dtt.Rows[0]["ITEMID"].ToString();
-        //        //tda.orderqty = dtt.Rows[i]["QTY"].ToString();
-
-        //        List<Drumdetails> tlstdrum = new List<Drumdetails>();
-        //        Drumdetails tdrum = new Drumdetails();
-        //        DataTable dt3 = new DataTable();
-        //        dt3 = WorkOrderService.GetAllocationDrumDetails(id);
-        //        if (dt3.Rows.Count > 0)
-        //        {
-        //            for (int j = 0; j < dt3.Rows.Count; j++)
-        //            {
-        //                tdrum = new Drumdetails();
-        //                tdrum.lotno = dt3.Rows[j]["LOTNO"].ToString();
-        //                tdrum.drumno = dt3.Rows[j]["DRUMNO"].ToString();
-        //                tdrum.qty = dt3.Rows[j]["QTY"].ToString();
-        //                tdrum.rate = dt3.Rows[j]["RATE"].ToString();
-
-        //                tlstdrum.Add(tdrum);
-        //            }
-        //        }
-        //        tda.drumlst = tlstdrum;
-        //        TData.Add(tda);
-
-        //    }
-        //    ca.Worklst = TData;
-        //    return View(ca);
-        //}
         public ActionResult CloseQuote(string tag, int id)
         {
 
@@ -390,5 +335,106 @@ namespace Arasan.Controllers.Sales
                 return RedirectToAction("ListSalesReturn");
             }
         }
+        public IActionResult ViewSalesReturn(string id)
+        {
+            SalesReturn SR = new SalesReturn();
+            DataTable dt = new DataTable();
+            DataTable dtt = new DataTable();
+
+            dt = SRInterface.GetRetByName(id);
+            if (dt.Rows.Count > 0)
+            {
+                SR.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                SR.Docdate = dt.Rows[0]["DOCDATE"].ToString();
+
+                SR.DocId = dt.Rows[0]["DOCID"].ToString();
+                SR.custname = dt.Rows[0]["PARTYNAME"].ToString();
+                SR.ID = id;
+                SR.invoiceid = dt.Rows[0]["INVOICENO"].ToString();
+                SR.transitlocation = dt.Rows[0]["TRANSITLOCID"].ToString();
+                SR.invoicedate = dt.Rows[0]["INVOICEDATE"].ToString();
+                SR.Vtype = dt.Rows[0]["TYPE"].ToString();
+                SR.RefNo = dt.Rows[0]["REFNO"].ToString();
+                SR.RefDate = dt.Rows[0]["REFDT"].ToString();
+                SR.location = dt.Rows[0]["LOCID"].ToString();
+
+                SR.gross = Convert.ToDouble(dt.Rows[0]["GROSS"].ToString());
+                SR.net = Convert.ToDouble(dt.Rows[0]["NET"].ToString());
+
+                SR.ID = id;
+
+
+                List<SalesReturnItem> Data = new List<SalesReturnItem>();
+                SalesReturnItem tda = new SalesReturnItem();
+                //double tot = 0;
+
+                dtt = SRInterface.GetRetItem(id);
+                if (dtt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dtt.Rows.Count; i++)
+                    {
+                        tda.itemname = dtt.Rows[i]["ITEMID"].ToString();
+                        tda.unit = dtt.Rows[i]["UNITID"].ToString();
+                        tda.quantity = dtt.Rows[i]["QTY"].ToString();
+                        tda.soldqty = dtt.Rows[i]["QTY"].ToString();
+                        tda.rate = dtt.Rows[i]["RATE"].ToString();
+                        tda.amount = dtt.Rows[i]["AMOUNT"].ToString();
+                        //tda.disc = Convert.ToDouble(dtt.Rows[i]["DISCPER"].ToString());
+                        tda.discamount = Convert.ToDouble(dtt.Rows[i]["DISCOUNT"].ToString());
+                        tda.cgstamt = Convert.ToDouble(dtt.Rows[i]["CGSTAMT"].ToString());
+                        tda.cgstper = Convert.ToDouble(dtt.Rows[i]["CGSTPER"].ToString());
+                        tda.sgstamt = Convert.ToDouble(dtt.Rows[i]["SGSTAMT"].ToString());
+                        tda.sgstper = Convert.ToDouble(dtt.Rows[i]["SGSTPER"].ToString());
+                        tda.igstamt = Convert.ToDouble(dtt.Rows[i]["IGSTAMT"].ToString());
+                        tda.igstper = Convert.ToDouble(dtt.Rows[i]["IGSTPER"].ToString());
+                        tda.totalamount =  Convert.ToDouble(dtt.Rows[i]["TOTAMT"].ToString());
+                        tda.exicetype = dtt.Rows[i]["EXCISETYPE"].ToString();
+                        tda.traiffid = dtt.Rows[i]["TARIFFID"].ToString();
+                        Data.Add(tda);
+                    }
+                }
+               
+                SR.returnlist = Data;
+            }
+            return View(SR);
+        }
+
+
+
+        //[HttpPost]
+        //public ActionResult ViewQuote(SalesEnquiry Cy, string id)
+        //{
+        //    try
+        //    {
+        //        Cy.ID = id;
+        //        string Strout = Sales.EnquirytoQuote(Cy.ID);
+        //        if (string.IsNullOrEmpty(Strout))
+        //        {
+        //            if (Cy.ID == null)
+        //            {
+        //                TempData["notice"] = "SalesQuotation Generated Successfully...!";
+        //            }
+        //            else
+        //            {
+        //                TempData["notice"] = "SalesQuotation Generated Successfully...!";
+        //            }
+        //            return RedirectToAction("ListSalesEnquiry");
+        //        }
+
+        //        else
+        //        {
+        //            ViewBag.PageTitle = "Edit Sales_Enquiry";
+        //            TempData["notice"] = Strout;
+        //        }
+
+        //        // }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+
+        //    return RedirectToAction("ListSalesEnquiry");
+        //}
     }
 }

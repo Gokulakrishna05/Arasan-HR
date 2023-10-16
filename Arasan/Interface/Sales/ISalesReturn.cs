@@ -12,7 +12,8 @@ namespace Arasan.Interface
         IEnumerable<SalesReturn> GetAllSalesReturn(string status);
         DataTable GetSalesRetDetails(string invoiceid);
         DataTable GetSalesRet (string invoiceid);
-        //DataTable GetSalesReturn(string invoiceid);
+        DataTable GetRetByName(string invoiceid);
+        DataTable GetRetItem(string invoiceid);
         string StatusChange(string tag, int id);
     }
 }

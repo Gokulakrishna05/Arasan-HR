@@ -128,7 +128,7 @@ namespace Arasan.Services.Sales
 
                                     if (cp.Isvalid == "Y" && cp.itemid != "0")
                                     {
-                                        svSQL = "Insert into SALERETDETAIL (SALERETBASICID,QTY,QTYSOLD,ITEMID,RATE,AMOUNT,UNIT,TARIFFID,TOTAMT,INVDT,INVNO,CGSTPER,CGSTAMT,SGSTPER,SGSTAMT,IGSTPER,IGSTAMT,EXCISETYPE,DISECOUNT) VALUES ('" + Pid + "','" + cp.quantity + "','" + cp.soldqty + "','" + cp.itemid + "','" + cp.rate + "','" + cp.amount + "','" + UnitId + "','" + cp.traiffid + "','" + cp.totalamount + "','" + cy.invoicedate + "','" + cy.invoiceid + "','" + cp.cgstper + "','" + cp.cgstamt + "','" + cp.sgstper + "','" + cp.sgstamt + "','" + cp.igstper + "','" + cp.igstamt + "','" + cp.exicetype + "','" + cp.disc + "')";
+                                        svSQL = "Insert into SALERETDETAIL (SALERETBASICID,QTY,QTYSOLD,ITEMID,RATE,AMOUNT,UNIT,TARIFFID,TOTAMT,INVDT,INVNO,CGSTPER,CGSTAMT,SGSTPER,SGSTAMT,IGSTPER,IGSTAMT,EXCISETYPE,DISCOUNT) VALUES ('" + Pid + "','" + cp.quantity + "','" + cp.soldqty + "','" + cp.itemid + "','" + cp.rate + "','" + cp.amount + "','" + UnitId + "','" + cp.traiffid + "','" + cp.totalamount + "','" + cy.invoicedate + "','" + cy.invoiceid + "','" + cp.cgstper + "','" + cp.cgstamt + "','" + cp.sgstper + "','" + cp.sgstamt + "','" + cp.igstper + "','" + cp.igstamt + "','" + cp.exicetype + "','" + cp.disc + "')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
                                     }
@@ -145,7 +145,7 @@ namespace Arasan.Services.Sales
                                     string UnitId = datatrans.GetDataString("Select UNITMASTID from UNITMAST where UNITID='" + cp.unit + "' ");
                                     if (cp.Isvalid == "Y" && cp.itemid != "0")
                                     {
-                                        svSQL = "Insert into SALERETDETAIL (SALERETBASICID,QTY,QTYSOLD,ITEMID,RATE,AMOUNT,UNIT,TARIFFID,TOTAMT,INVDT,INVNO,CGSTPER,CGSTAMT,SGSTPER,SGSTAMT,IGSTPER,IGSTAMT,EXCISETYPE,DISECOUNT) VALUES ('" + Pid + "','" + cp.quantity + "','" + cp.soldqty + "','" + cp.itemid + "','" + cp.rate + "','" + cp.amount + "','" + UnitId + "','" + cp.traiffid + "','" + cp.totalamount + "','" + cy.invoicedate + "','" + cy.invoiceid + "','" + cp.cgstper + "','" + cp.cgstamt + "','" + cp.sgstper + "','" + cp.sgstamt + "','" + cp.igstper + "','" + cp.igstamt + "','" + cp.exicetype + "','" + cp.disc + "')";
+                                        svSQL = "Insert into SALERETDETAIL (SALERETBASICID,QTY,QTYSOLD,ITEMID,RATE,AMOUNT,UNIT,TARIFFID,TOTAMT,INVDT,INVNO,CGSTPER,CGSTAMT,SGSTPER,SGSTAMT,IGSTPER,IGSTAMT,EXCISETYPE,DISCOUNT) VALUES ('" + Pid + "','" + cp.quantity + "','" + cp.soldqty + "','" + cp.itemid + "','" + cp.rate + "','" + cp.amount + "','" + UnitId + "','" + cp.traiffid + "','" + cp.totalamount + "','" + cy.invoicedate + "','" + cy.invoiceid + "','" + cp.cgstper + "','" + cp.cgstamt + "','" + cp.sgstper + "','" + cp.sgstamt + "','" + cp.igstper + "','" + cp.igstamt + "','" + cp.exicetype + "','" + cp.disc + "')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
                                     }
@@ -253,5 +253,29 @@ namespace Arasan.Services.Sales
         //    adapter.Fill(dtt);
         //    return dtt;
         //}
+
+        public DataTable GetRetByName(string invoiceid)
+        {
+            string SvSql = string.Empty;
+            //SvSql = "Select BRANCHMAST.BRANCHID, ENQ_NO,to_char(ENQ_DATE,'dd-MON-yyyy') ENQ_DATE ,PARTYRCODE.PARTY,SALES_ENQUIRY.CURRENCY_TYPE,SALES_ENQUIRY.CONTACT_PERSON,SALES_ENQUIRY.CUSTOMER_TYPE,SALES_ENQUIRY.ENQ_TYPE,SALES_ENQUIRY.ADDRESS,SALES_ENQUIRY.CITY,SALES_ENQUIRY.PINCODE,PRIORITY,SALES_ENQUIRY.SALESENQUIRYID,SALES_ENQUIRY.STATUS from SALES_ENQUIRY  LEFT OUTER JOIN BRANCHMAST ON BRANCHMAST.BRANCHMASTID=SALES_ENQUIRY.BRANCH_ID LEFT OUTER JOIN  PARTYMAST on SALES_ENQUIRY.CUSTOMER_NAME=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.PARTY Where PARTYMAST.TYPE IN ('Customer','BOTH') AND SALES_ENQUIRY.SALESENQUIRYID='" + name + "'";
+            SvSql = "select SALERETBASICID,INVOICENO,SALERETBASIC.DOCID,SALERETBASIC.BRANCHID,SALERETBASIC.PARTYNAME,SALERETBASIC.LOCID,SALERETBASIC. PARTYNAME,to_char(SALERETBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,REFNO,to_char(SALERETBASIC.REFDT,'dd-MON-yyyy')REFDT,to_char(SALERETBASIC.INVOICEDATE,'dd-MON-yyyy')INVOICEDATE,SALERETBASIC.GROSS,SALERETBASIC.NET,TRANSITLOCID,SALERETBASIC.NARRATION,SALERETBASIC.TYPE from SALERETBASIC  WHERE SALERETBASICID='" + invoiceid + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetRetItem(string invoiceid)
+        {
+            string SvSql = string.Empty;
+            //SvSql = "Select SALES_ENQ_ITEM.SALESENQITEMID,SALES_ENQ_ITEM.SAL_ENQ_ID,SALES_ENQ_ITEM.QUANTITY,ITEMMASTER.ITEMID,SALES_ENQ_ITEM.UNIT,SALES_ENQ_ITEM.ITEM_DESCRIPTION from SALES_ENQ_ITEM LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=SALES_ENQ_ITEM.ITEM_ID   where SALES_ENQ_ITEM.SALESENQITEMID='" + name + "'";
+            SvSql = "select SALERETBASICID,SALERETDETAIL.QTY,QTYSOLD,SALERETDETAIL.ITEMID as item,ITEMMASTER.ITEMID,SALERETDETAIL.RATE,SALERETDETAIL.AMOUNT,UNITMAST.UNITID,SALERETDETAIL.TARIFFID,TOTAMT,INVDT,INVNO,CGSTPER,CGSTAMT,SGSTPER,SGSTAMT,IGSTPER,IGSTAMT,SALERETDETAIL.EXCISETYPE,DISCOUNT from SALERETDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=SALERETDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=SALERETDETAIL.UNIT WHERE SALERETBASICID='" + invoiceid + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
     }
 }
