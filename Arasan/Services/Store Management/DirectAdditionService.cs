@@ -156,13 +156,16 @@ namespace Arasan.Services.Store_Management
                                         objCmdI.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
                                         objCmdI.Parameters.Add("WASTAGE", OracleDbType.NVarchar2).Value = "0";
                                         objCmdI.Parameters.Add("LOCATION_ID", OracleDbType.NVarchar2).Value = ss.Location;
-                                        objCmdI.Parameters.Add("BRANCH_ID", OracleDbType.NVarchar2).Value = ss.Branch;
-                                        objCmdI.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = "Insert";
+                                objCmdI.Parameters.Add("TO_WCID", OracleDbType.NVarchar2).Value = "0";
+                                objCmdI.Parameters.Add("TO_LOCID", OracleDbType.NVarchar2).Value = "0";
+                                objCmdI.Parameters.Add("BRANCH_ID", OracleDbType.NVarchar2).Value = ss.Branch;
+                                        
                                 objCmdI.Parameters.Add("INV_OUT_ID", OracleDbType.NVarchar2).Value = "0";
                                 objCmdI.Parameters.Add("DRUM_NO", OracleDbType.NVarchar2).Value = "";
                                 objCmdI.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = "0";
                                 objCmdI.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = "0";
                                 objCmdI.Parameters.Add("LOT_NO", OracleDbType.NVarchar2).Value = "";
+                                objCmdI.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = "Insert";
                                 objCmdI.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                                         objCmdI.ExecuteNonQuery();
                                         Object Invid = objCmdI.Parameters["OUTID"].Value;
