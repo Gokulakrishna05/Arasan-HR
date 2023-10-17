@@ -251,7 +251,7 @@
                                                     <th> Process ID</th>
 
 
-                                                    </tr>
+                                                    
                                                     </thead>
 
                                                     <tbody>
@@ -262,8 +262,8 @@
                                                             {
 
                                                                 <tr>
-                                                                    <td>@Html.DisplayFor(o => o.Itlst[i].ItemGrouplst)</td>
-                                                                    <td>@Html.DisplayFor(o => o.Itlst[i].Itemlst)</td>
+                                                                    <td>@Html.DisplayFor(o => o.Itlst[i].ItemGroupId)</td>
+                                                                    <td>@Html.DisplayFor(o => o.Itlst[i].ItemId)</td>
                                                                     <td>@Html.DisplayFor(o => o.Itlst[i].Unit)</td>
                                                                     <td>@Html.DisplayFor(o => o.Itlst[i].ConFac)</td>
                                                                     <td>@Html.DisplayFor(o => o.Itlst[i].BinID)</td>
@@ -330,6 +330,12 @@
                           </div>
 
                     </form>
+                    <div style="height:30px;"></div>
+                   @* <div class="col-lg-10"></div>*@
+
+                    <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListDirectDeduction", "DirectDeduction")'">Cancel</button>
+
+
 
                 </div>
             </div>

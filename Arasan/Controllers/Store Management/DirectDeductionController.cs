@@ -200,7 +200,7 @@ namespace Arasan.Controllers.Store_Management
                 throw ex;
             }
         }
-        public List<SelectListItem> BindItemlst(string value)
+        public List<SelectListItem> BindItemlst(string value) 
         {
             try
             {
@@ -346,8 +346,9 @@ namespace Arasan.Controllers.Store_Management
                 {
                     for (int i = 0; i < dtt.Rows.Count; i++)
                     {
-                        tda.ItemGroupId = dtt.Rows[i]["ITEMID"].ToString();
-                        tda.ItemId = dtt.Rows[i]["ITEMACC"].ToString();
+
+                        tda.ItemGroupId = dtt.Rows[i]["SGCODE"].ToString();
+                        tda.ItemId = dtt.Rows[i]["SGDESC"].ToString();
                         tda.ConFac = dtt.Rows[i]["CONFAC"].ToString();
                         tda.Unit = dtt.Rows[i]["UNITID"].ToString();
                         tda.BinID = Convert.ToDouble(dtt.Rows[i]["BINID"].ToString());
@@ -369,8 +370,5 @@ namespace Arasan.Controllers.Store_Management
 
 
     }
-
-
-
 }
 

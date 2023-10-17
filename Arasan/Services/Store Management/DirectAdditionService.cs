@@ -268,6 +268,29 @@ namespace Arasan.Services.Store_Management
             adapter.Fill(dtt);
             return dtt;
         }
+
+        public DataTable GetDirectAddition(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select BRANCHID,LOCID,DOCID,DOCDATE,DCNO,REASON,GROSS,ENTBY,NARRATION,NET,ADDBASICID  from ADDBASIC where ADDBASICID=" + id + "";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetDirectAdditionItem(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select ITEMSUBGROUP.SGCODE,ITEMSUBGROUP.SGDESC,ADDDETAIL.QTY,ADDDETAIL.CF,ADDDETAIL.ADDDETAILID,ADDDETAIL.ITEMID,UNITMAST.UNITID,RATE,AMOUNT,BINID,PROCESSID  from ADDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=ADDDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT LEFT OUTER JOIN ITEMSUBGROUP on ITEMSUBGROUP.ITEMSUBGROUPID=ADDDETAIL.ADDDETAILID  where ADDDETAIL.ADDBASICID='" + id + "'";
+
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public IEnumerable<DirectItem> GetAllDirectAdditionItem(string id)
         {
             List<DirectItem> cmpList = new List<DirectItem>();

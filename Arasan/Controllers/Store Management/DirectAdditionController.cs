@@ -56,7 +56,7 @@ namespace Arasan.Controllers.Store_Management
                     st.DocId = dt.Rows[0]["DOCID"].ToString();
                     st.Docdate = dt.Rows[0]["DOCDATE"].ToString();
                     st.ChellanNo = dt.Rows[0]["DCNO"].ToString();
-                    st.Reason = dt.Rows[0]["REASON"].ToString();     
+                    st.Reason = dt.Rows[0]["REASON"].ToString();
                     //st.Gro = dt.Rows[0]["GROSS"].ToString();
                     st.Entered = dt.Rows[0]["ENTBY"].ToString();
                     st.Narr = dt.Rows[0]["NARRATION"].ToString();
@@ -156,7 +156,7 @@ namespace Arasan.Controllers.Store_Management
             catch (Exception ex)
             {
                 throw ex;
-            }                                               
+            }
 
             return View(ss);
         }
@@ -312,6 +312,61 @@ namespace Arasan.Controllers.Store_Management
             }
         }
 
+        public IActionResult ViewDirectAddition(string id)
+        {
+
+            DirectAddition st = new DirectAddition();
+            DataTable dt = new DataTable();
+            DataTable dtt = new DataTable();
+
+            dt = DirectAdditionService.GetDirectAddition(id);
+            if (dt.Rows.Count > 0)
+            {
+                st.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                st.Location = dt.Rows[0]["LOCID"].ToString();
+                st.DocId = dt.Rows[0]["DOCID"].ToString();
+                st.Docdate = dt.Rows[0]["DOCDATE"].ToString();
+                st.ChellanNo = dt.Rows[0]["DCNO"].ToString();
+                st.Reason = dt.Rows[0]["REASON"].ToString();
+                //st.Gro = dt.Rows[0]["GROSS"].ToString();
+                st.Entered = dt.Rows[0]["ENTBY"].ToString();
+                st.Narr = dt.Rows[0]["NARRATION"].ToString();
+
+                st.Gro = Convert.ToDouble(dt.Rows[0]["GROSS"].ToString());
+                st.Net = Convert.ToDouble(dt.Rows[0]["NET"].ToString());
+
+                st.ID = id;
+
+                List<DirectItem> Data = new List<DirectItem>();
+                DirectItem tda = new DirectItem();
+                //double tot = 0;
+
+                dtt = DirectAdditionService.GetDirectAdditionItem(id);
+                if (dtt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dtt.Rows.Count; i++)
+                    {
+                        tda.ItemGroupId = dtt.Rows[i]["SGCODE"].ToString();
+                        tda.ItemId = dtt.Rows[i]["SGDESC"].ToString();
+                        tda.ConFac = dtt.Rows[i]["CF"].ToString();
+                        tda.Unit = dtt.Rows[i]["UNITID"].ToString();
+                        tda.BinID = Convert.ToDouble(dtt.Rows[i]["BINID"].ToString());
+                        tda.Quantity = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString());
+                        tda.rate = Convert.ToDouble(dtt.Rows[i]["RATE"].ToString());
+                        //tda.disc = Convert.ToDouble(dtt.Rows[i]["DISCPER"].ToString());
+                        tda.Amount = Convert.ToDouble(dtt.Rows[i]["AMOUNT"].ToString());
+
+                        tda.Process = Convert.ToDouble(dtt.Rows[i]["PROCESSID"].ToString());
+
+                        Data.Add(tda);
+                    }
+                }
+
+                st.Itlst = Data;
+
+            }
+            return View(st);
+        }
     }
     
 }
