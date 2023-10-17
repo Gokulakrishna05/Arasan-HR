@@ -310,5 +310,27 @@ namespace Arasan.Services.Qualitycontrol
             }
             return "";
         }
-     }
+
+        public DataTable GetViewQCResult(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select QCRESULTBASIC.GRNNO,QCRESULTBASIC.DOCID,to_char(QCRESULTBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,to_char(QCRESULTBASIC.GRNDATE,'dd-MON-yyyy')GRNDATE,QCRESULTBASIC.PARTYID,QCRESULTBASICID,QCRESULTBASIC.TESTEDBY,QCRESULTBASIC.LOCATION,QCRESULTBASIC.REMARKS,QCRESULTBASIC.QCLOCATION  from QCRESULTBASIC  WHERE QCRESULTBASIC.QCRESULTBASICID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetViewQCResultDetail(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select ITEMMASTER.ITEMID,GRNQTY,REJQTY,ACCQTY,COSTRATE,QCRESULTBASICID from QCRESULTDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=QCRESULTDETAIL.ITEMID Where QCRESULTDETAIL.QCRESULTBASICID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+    }
 }

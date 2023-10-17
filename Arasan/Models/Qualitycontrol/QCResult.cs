@@ -30,7 +30,7 @@ namespace Arasan.Models
         public List<SelectListItem> Loc;
 
         //public List<QCResultItem> QCRLst;
-        public List<QCResultItem> QResLst { get; set; }
+        
 
         public string Branch { get; set; }
         public string Location { get; set; }
@@ -47,8 +47,8 @@ namespace Arasan.Models
         public string GRNDate { get; set; }
         public string TestedBy { get; set; }
         public string Stat { get; set; }
-       
-        
+
+        public List<QCResultItem> QResLst { get; set; }
     }
     public class QCResultItem
     {
@@ -56,6 +56,7 @@ namespace Arasan.Models
         public string GrnQty { get; set; }
         public string ItemId { get; set; }
         public string saveItemId { get; set; }
+
         public List<SelectListItem> Itemlst;
         public string InsQty { get; set; }
         public string RejQty { get; set; }

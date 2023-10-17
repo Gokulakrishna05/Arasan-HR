@@ -329,20 +329,14 @@ namespace Arasan.Controllers.Qualitycontrol
 
                 string rejqty = "";
                 string cost = "";
-                //string Disc = "";
-
-
 
                 dt = QCResultService.GetGRNItemDetails(ItemId);
 
                 if (dt.Rows.Count > 0)
-                {
-
-                   
+                {                   
                     qty = dt.Rows[0]["QTY"].ToString();
                     accqty = dt.Rows[0]["ACCQTY"].ToString();
                     rejqty = dt.Rows[0]["REJQTY"].ToString();
-                    //dt1 = PurReturn.GetItemCF(ItemId, dt.Rows[0]["UNITMASTID"].ToString());
                     cost = dt.Rows[0]["COSTRATE"].ToString();
 
                 }
@@ -370,6 +364,51 @@ namespace Arasan.Controllers.Qualitycontrol
                 TempData["notice"] = flag;
                 return RedirectToAction("ListQCResult");
             }
+        }
+
+        public IActionResult ViewQCResult(string id)
+        {
+            QCResult ca = new QCResult();
+            DataTable dt = new DataTable();
+            DataTable dtt = new DataTable();
+
+            dt = QCResultService.GetViewQCResult(id);
+            if (dt.Rows.Count > 0)
+            {
+                ca.DocId = dt.Rows[0]["DOCID"].ToString();
+                ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
+                ca.GRNNo = dt.Rows[0]["GRNNO"].ToString();
+                ca.GRNDate = dt.Rows[0]["GRNDATE"].ToString();
+                ca.Party = dt.Rows[0]["PARTYID"].ToString();
+                ca.Location = dt.Rows[0]["LOCATION"].ToString();
+                ca.Remarks = dt.Rows[0]["REMARKS"].ToString();
+                ca.QcLocation = dt.Rows[0]["QCLOCATION"].ToString();
+                ca.TestedBy = dt.Rows[0]["TESTEDBY"].ToString();
+
+                ca.ID = id;
+
+
+                List<QCResultItem> Data = new List<QCResultItem>();
+                QCResultItem tda = new QCResultItem();
+                //double tot = 0;
+
+                dtt = QCResultService.GetViewQCResultDetail(id);
+                if (dtt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dtt.Rows.Count; i++)
+                    {
+                        tda.ItemId = dtt.Rows[0]["ITEMID"].ToString();
+                        tda.GrnQty = dtt.Rows[0]["GRNQTY"].ToString();
+                        tda.RejQty = dtt.Rows[0]["REJQTY"].ToString();
+                        tda.AccQty = dtt.Rows[0]["ACCQTY"].ToString();
+                        tda.CostRate = dtt.Rows[0]["COSTRATE"].ToString();
+                        Data.Add(tda);
+                    }
+                }
+
+                ca.QResLst = Data;
+            }
+            return View(ca);
         }
 
     }
