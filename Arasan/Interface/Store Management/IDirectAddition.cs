@@ -15,6 +15,8 @@ namespace Arasan.Interface.Store_Management
         //DataTable GetItem(string value);
         DataTable GetDirectAdditionDetails(string id);
         DataTable GetDAItemDetails(string id);
+        DataTable GetDirectAddition(string id);
+        DataTable GetDirectAdditionItem(string id);
         DataTable GetItemCF(string ItemId, string unitid);
         IEnumerable<DirectItem> GetAllDirectAdditionItem(string id);
 

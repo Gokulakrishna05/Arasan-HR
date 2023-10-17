@@ -360,6 +360,7 @@ namespace Arasan.Controllers.Sales
 
                 SR.gross = Convert.ToDouble(dt.Rows[0]["GROSS"].ToString());
                 SR.net = Convert.ToDouble(dt.Rows[0]["NET"].ToString());
+                SR.Narr = dt.Rows[0]["NARRATION"].ToString(); 
 
                 SR.ID = id;
 
