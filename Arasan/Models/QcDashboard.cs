@@ -11,6 +11,8 @@ namespace Arasan.Models
         //public double empty { get; set; }
         //public int res { get; set; }
         //public double rem { get; set; }
+        public string dis { get; set; }
+
         //public string Quotefollowcount { get; set; }
         public List<MatNotify> Materialnotification { get; set; }
 
@@ -30,6 +32,7 @@ namespace Arasan.Models
         public string ItemName { get; set; }
         public string TotalQty { get; set; }
         public string Unit { get; set; }
+        public string id { get; set; }
 
     }
     public class MatNotify
@@ -49,6 +52,7 @@ namespace Arasan.Models
         public string TotalQty { get; set; }
         public string Time { get; set; }
         public string ApId { get; set; }
+        public string dis { get; set; }
 
     }
     public class APOutItem

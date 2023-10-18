@@ -40,7 +40,7 @@ namespace Arasan.Controllers
                 {
                     tda = new QcNotify();
                     tda.GateDate = dt2.Rows[i]["GATE_IN_DATE"].ToString() + " & " + dt2.Rows[i]["GATE_IN_TIME"].ToString();
-                    tda.PartyName = dt2.Rows[i]["PARTY"].ToString();
+                    tda.PartyName = dt2.Rows[i]["PARTYNAME"].ToString();
                     tda.ItemName = dt2.Rows[i]["ITEMID"].ToString();
                     tda.TotalQty = dt2.Rows[i]["TOTAL_QTY"].ToString();
                     tda.Unit = dt2.Rows[i]["UNITID"].ToString();
@@ -104,8 +104,20 @@ namespace Arasan.Controllers
                     {
                         tdao1.ApId = Outdt1.Rows[0]["Ap"].ToString();
                     }
-                   TDatao1.Add(tdao1);
+                    DataTable DIS = new DataTable();
+                    DIS = QcDashboardService.GetDis(tdao1.id);
+                    if (DIS.Rows.Count > 0)
+                    {
+                        for (int j = 0; j < DIS.Rows.Count; j++)
+                        {
+
+                            tdao1.dis = DIS.Rows[j]["APPROID"].ToString();
+
+                        }
+                    }
+                    TDatao1.Add(tdao1);
                 }
+               
             }
             List<APOutItem> TDatak = new List<APOutItem>();
             APOutItem tda2 = new APOutItem();
@@ -124,54 +136,55 @@ namespace Arasan.Controllers
                     TDatak.Add(tda2);
                 }
             }
-            //GridDisplay Reg = new GridDisplay();
+           
+                //GridDisplay Reg = new GridDisplay();
 
-            //List<GridDisplay> Data1 = new List<GridDisplay>();
-            //DataTable dt = new DataTable();
-            //dt = QcDashboardService.GetquoteFollowupnextReport();
-            //for (int i = 0; i < dt.Rows.Count; i++)
-            //{
-            //    Reg = new GridDisplay();
-            //    Reg.displaytext = dt.Rows[i]["QUO_ID"].ToString();
-            //    Reg.followedby = dt.Rows[i]["FOLLOWED_BY"].ToString();
-            //    Reg.status = dt.Rows[i]["NEXT_FOLLOW_DATE"].ToString();
-            //    Data1.Add(Reg);
+                //List<GridDisplay> Data1 = new List<GridDisplay>();
+                //DataTable dt = new DataTable();
+                //dt = QcDashboardService.GetquoteFollowupnextReport();
+                //for (int i = 0; i < dt.Rows.Count; i++)
+                //{
+                //    Reg = new GridDisplay();
+                //    Reg.displaytext = dt.Rows[i]["QUO_ID"].ToString();
+                //    Reg.followedby = dt.Rows[i]["FOLLOWED_BY"].ToString();
+                //    Reg.status = dt.Rows[i]["NEXT_FOLLOW_DATE"].ToString();
+                //    Data1.Add(Reg);
 
-            //}
-            //EnqDisplay tdas = new EnqDisplay();
-            //List<EnqDisplay> Data2 = new List<EnqDisplay>();
-            //DataTable dt1 = new DataTable();
-            //dt1 = QcDashboardService.GetEnqFollowupnextReport();
-            //for (int i = 0; i < dt1.Rows.Count; i++)
-            //{
-            //    tdas = new EnqDisplay();
-            //    tdas.displaytext = dt1.Rows[i]["ENQ_ID"].ToString();
-            //    tdas.followedby = dt1.Rows[i]["FOLLOWED_BY"].ToString();
-            //    tdas.status = dt1.Rows[i]["NEXT_FOLLOW_DATE"].ToString();
+                //}
+                //EnqDisplay tdas = new EnqDisplay();
+                //List<EnqDisplay> Data2 = new List<EnqDisplay>();
+                //DataTable dt1 = new DataTable();
+                //dt1 = QcDashboardService.GetEnqFollowupnextReport();
+                //for (int i = 0; i < dt1.Rows.Count; i++)
+                //{
+                //    tdas = new EnqDisplay();
+                //    tdas.displaytext = dt1.Rows[i]["ENQ_ID"].ToString();
+                //    tdas.followedby = dt1.Rows[i]["FOLLOWED_BY"].ToString();
+                //    tdas.status = dt1.Rows[i]["NEXT_FOLLOW_DATE"].ToString();
 
-            //    Data2.Add(tdas);
+                //    Data2.Add(tdas);
 
-            //}
+                //}
 
-            //SalesQuoteDisplay sq = new SalesQuoteDisplay();
-            //List<SalesQuoteDisplay> Data3 = new List<SalesQuoteDisplay>();
-            //DataTable dt5 = new DataTable();
-            //dt5 = QcDashboardService.GetSalesQuoteFollowupnextReport();
-            //for (int i = 0; i < dt5.Rows.Count; i++)
-            //{
-            //    sq = new SalesQuoteDisplay();
-            //    sq.displaytext = dt5.Rows[i]["QUOTE_NO"].ToString();
-            //    sq.followby = dt5.Rows[i]["FOLLOW_BY"].ToString();
-            //    sq.status = dt5.Rows[i]["NEXT_FOLLOW_DATE"].ToString();
+                //SalesQuoteDisplay sq = new SalesQuoteDisplay();
+                //List<SalesQuoteDisplay> Data3 = new List<SalesQuoteDisplay>();
+                //DataTable dt5 = new DataTable();
+                //dt5 = QcDashboardService.GetSalesQuoteFollowupnextReport();
+                //for (int i = 0; i < dt5.Rows.Count; i++)
+                //{
+                //    sq = new SalesQuoteDisplay();
+                //    sq.displaytext = dt5.Rows[i]["QUOTE_NO"].ToString();
+                //    sq.followby = dt5.Rows[i]["FOLLOW_BY"].ToString();
+                //    sq.status = dt5.Rows[i]["NEXT_FOLLOW_DATE"].ToString();
 
-            //    Data3.Add(sq);
+                //    Data3.Add(sq);
 
-            //}
+                //}
 
-            //H.Folllst = Data1;
-            //H.Enqlllst = Data2;
-            //H.SalesQuotelllst = Data3;
-            H.qcNotifies = TData;
+                //H.Folllst = Data1;
+                //H.Enqlllst = Data2;
+                //H.SalesQuotelllst = Data3;
+                H.qcNotifies = TData;
             H.Notifies = TData1;
             H.APOutlist = TDatao1;
             H.Materialnotification = TDatan;

@@ -147,7 +147,7 @@
 
 
                            
-                                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                               @* <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                                     <div class="panel panel-default">
 
                                         <div class="panel-heading" role="tab" id="headingWc">
@@ -189,7 +189,7 @@
 
 
                                     </div>
-                                </div>
+                                </div>*@
                         
 
 
@@ -213,7 +213,7 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Work Center <label class="mandatory"></label></label>
                                     <div class="col-sm-8">
                                         @Html.HiddenFor(C => C.APID)
-                           @Html.DropDownListFor(C => C.Location, Model.worklst," -- Please Select -- ", new { @id = "ddlLocation", @Class = "form-control _select", @TabIndex = 1 ,@onchange="changewc(this.value)" })<br />
+                           @Html.DropDownListFor(C => C.Location, Model.worklst," -- Please Select -- ", new { @id = "ddlLocation", @Class = "form-control _select", @TabIndex = 1 })<br />
 <br>                                
 </div>
                                 </div>
@@ -254,7 +254,7 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Shift<label class="mandatory"> </label></label>
 
                                     <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Shift, Model.Shiftlst," -- Please Select -- ", new { @id = "ddlShift", @Class = "form-control _select", @TabIndex = 1 ,onchange = "changeshift(this.value);changeshift1(this.value)"})<br />
+                                            @Html.DropDownListFor(C => C.Shift, Model.Shiftlst," -- Please Select -- ", new { @id = "ddlShift", @Class = "form-control _select", @TabIndex = 1 ,onchange = "changeshift(this.value);"})<br />
                                             <br>
                                         </div>
                                 </div>

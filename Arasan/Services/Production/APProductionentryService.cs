@@ -541,6 +541,7 @@ namespace Arasan.Services
                                 objCmdIn.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = wcid;
                                 objCmdIn.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = qty;
                                 objCmdIn.Parameters.Add("BALANCE_QTY", OracleDbType.NVarchar2).Value = qty;
+
                                 objCmdIn.Parameters.Add("OUT_ID", OracleDbType.NVarchar2).Value = "0";
                                 objCmdIn.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
 
@@ -549,6 +550,15 @@ namespace Arasan.Services
 
                                 objCmdIn.ExecuteNonQuery();
                                 Object Pid1 = objCmdIn.Parameters["OUTID"].Value;
+
+
+                                objCmdIn.Parameters.Add("OUT_ID", OracleDbType.NVarchar2).Value = cp.outid;
+                                objCmdIn.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
+
+
+                                objCmdIn.ExecuteNonQuery();
+                                Object Pid1 = objCmdIn.Parameters["OUTID"].Value;
+
 
                                 //if (cy.ID != null)
                                 //{
@@ -589,9 +599,18 @@ namespace Arasan.Services
                                 OracleCommand objCmds = new OracleCommand(Sql, objConn);
                                 objCmds.ExecuteNonQuery();
                                 /////////////////////////output inventory
+
                                 Sql = "Update APPRODUCTIONBASIC SET  IS_APPROVE='Y' WHERE APPRODUCTIONBASICID='" + cy.ID + "'";
                                 objCmds = new OracleCommand(Sql, objConn);
                                 objCmds.ExecuteNonQuery();
+
+                                Sql = "Update APPRODUCTIONBASIC SET  IS_APPROVED='Y' WHERE APPRODUCTIONBASICID='" + cy.ID + "'";
+                                objCmds = new OracleCommand(Sql, objConn);
+                                objCmds.ExecuteNonQuery();
+
+
+                            }
+
 
 
 
@@ -600,6 +619,9 @@ namespace Arasan.Services
                                 objConn.Close();
                             }
                         }
+
+            objConn.Close();
+
                     }
                 }
                             

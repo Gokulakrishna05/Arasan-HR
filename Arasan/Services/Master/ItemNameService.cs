@@ -29,7 +29,7 @@ namespace Arasan.Services.Master
                 {
                     con.Open();
                     //cmd.CommandText = "Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMCODE,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MAXSTOCKLVL,MINSTOCKLVL,CONVERAT,UOM,HSN,SELLINGPRICE,ITEMACC,EXPYN,VALMETHOD,SERIALYN,BSTATEMENTYN,QCT,QCCOMPFLAG,LATPURPRICE,TARIFFHEADING,REJRAWMATPER,RAWMATPER,ADD1PER,ADD1,RAWMATCAT,ITEMMASTERID from ITEMMASTER ORDER BY ITEMMASTER.ITEMMASTERID ASC";
-                    cmd.CommandText = "Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMCODE,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MAXSTOCKLVL,MINSTOCKLVL,CONVERAT,UOM,HSN,SELLINGPRICE,ITEMACC,EXPYN,VALMETHOD,SERIALYN,BSTATEMENTYN,QCT,QCCOMPFLAG,LATPURPRICE,TARIFFHEADING,REJRAWMATPER,RAWMATPER,ADD1PER,ADD1,RAWMATCAT,CURINGDAYS,ITEMMASTERID from ITEMMASTER ORDER BY ITEMMASTER.ITEMMASTERID ASC ";
+                    cmd.CommandText = "Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMCODE,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MAXSTOCKLVL,MINSTOCKLVL,CONVERAT,UOM,HSN,SELLINGPRICE,ITEMACC,EXPYN,VALMETHOD,SERIALYN,BSTATEMENTYN,QCT,QCCOMPFLAG,LATPURPRICE,TARIFFHEADING,REJRAWMATPER,RAWMATPER,ADD1PER,ADD1,RAWMATCAT,CURINGDAY,ITEMMASTERID from ITEMMASTER ORDER BY ITEMMASTER.ITEMMASTERID ASC ";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -64,7 +64,7 @@ namespace Arasan.Services.Master
                             PercentageAdd = rdr["ADD1PER"].ToString(),
                             Additive = rdr["ADD1"].ToString(),
                             RawMaterial = rdr["RAWMATCAT"].ToString(),
-                            Curing = rdr["CURINGDAYS"].ToString()
+                            Curing = rdr["CURINGDAY"].ToString()
 
 
                         };
@@ -152,7 +152,7 @@ namespace Arasan.Services.Master
                     else
                     {
                         StatementType = "Update";
-                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = ss.ID;
+                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = ss.ID; 
                     }
 
                     objCmd.Parameters.Add("IGROUP", OracleDbType.NVarchar2).Value = ss.ItemG;
@@ -186,7 +186,7 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("LEDGERNAME", OracleDbType.NVarchar2).Value = ss.Ledger;
                     objCmd.Parameters.Add("IQCTEMP", OracleDbType.NVarchar2).Value = ss.QCTemp;
                     objCmd.Parameters.Add("FGQCTEMP", OracleDbType.NVarchar2).Value = ss.FQCTemp;
-                    objCmd.Parameters.Add("CURINGDAYS", OracleDbType.NVarchar2).Value = ss.Curing;
+                    objCmd.Parameters.Add("CURINGDAY", OracleDbType.NVarchar2).Value = ss.Curing;
 
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
@@ -274,7 +274,7 @@ namespace Arasan.Services.Master
         public DataTable GetItemNameDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMCODE,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MAXSTOCKLVL,MINSTOCKLVL,CONVERAT,UOM,HSN,SELLINGPRICE SELLINGPRI,ITEMACC,EXPYN,VALMETHOD,SERIALYN,BSTATEMENTYN,QCT,QCCOMPFLAG,LATPURPRICE,TARIFFHEADING,REJRAWMATPER,RAWMATPER,ADD1PER,ADD1,RAWMATCAT,LEDGERNAME,ITEMMASTERID ,CURINGDAYS from ITEMMASTER where ITEMMASTERID=" + id + "";
+            SvSql = "Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMCODE,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MAXSTOCKLVL,MINSTOCKLVL,CONVERAT,UOM,HSN,SELLINGPRICE SELLINGPRI,ITEMACC,EXPYN,VALMETHOD,SERIALYN,BSTATEMENTYN,QCT,QCCOMPFLAG,LATPURPRICE,TARIFFHEADING,REJRAWMATPER,RAWMATPER,ADD1PER,ADD1,RAWMATCAT,LEDGERNAME,ITEMMASTERID ,CURINGDAY from ITEMMASTER where ITEMMASTERID=" + id + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

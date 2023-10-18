@@ -263,7 +263,7 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("NARRATION", OracleDbType.NVarchar2).Value = cy.Narration;
                     objCmd.Parameters.Add("PARTYID", OracleDbType.NVarchar2).Value = cy.Supplier;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
-                    objCmd.Parameters.Add("status", OracleDbType.NVarchar2).Value = "Waiting";
+                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "Waiting";
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
                     {

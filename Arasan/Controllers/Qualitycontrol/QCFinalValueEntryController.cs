@@ -42,15 +42,15 @@ namespace Arasan.Controllers.Qualitycontrol
             {
                 ca.DocId = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
             }
-            List<QCFVItem> TData = new List<QCFVItem>();
-            QCFVItem tda = new QCFVItem();
+            List<QCFinalValueEntryItem> TData = new List<QCFinalValueEntryItem>();
+            QCFinalValueEntryItem tda = new QCFinalValueEntryItem();
             List<QCFVItemDeatils> TData1 = new List<QCFVItemDeatils>();
             QCFVItemDeatils tda1 = new QCFVItemDeatils();
             if (id == null)
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    tda = new QCFVItem();
+                    tda = new QCFinalValueEntryItem();
                     tda.Isvalid = "Y";
                     TData.Add(tda);
                 }
@@ -149,16 +149,16 @@ namespace Arasan.Controllers.Qualitycontrol
 
                         for (int i = 0; i < dt2.Rows.Count; i++)
                         {
-                            tda = new QCFVItem();
-                            tda.Des = dt2.Rows[0]["TDESC"].ToString();
-                            tda.Value = dt2.Rows[0]["VALUEORMANUAL"].ToString();
-                            tda.Unit = dt2.Rows[0]["UNIT"].ToString();
-                            tda.Sta = dt2.Rows[0]["STARTVALUE"].ToString();
-                            tda.En = dt2.Rows[0]["ENDVALUE"].ToString();
-                            tda.Test = dt2.Rows[0]["TESTVALUE"].ToString();
-                            tda.Manual = dt2.Rows[0]["MANUALVALUE"].ToString();
-                            tda.Actual = dt2.Rows[0]["ACTTESTVALUE"].ToString();
-                            tda.Result = dt2.Rows[0]["TESTRESULT"].ToString();
+                            tda = new QCFinalValueEntryItem();
+                            tda.des = dt2.Rows[0]["TDESC"].ToString();
+                            tda.value = dt2.Rows[0]["VALUEORMANUAL"].ToString();
+                            tda.unit = dt2.Rows[0]["UNIT"].ToString();
+                            tda.sta = dt2.Rows[0]["STARTVALUE"].ToString();
+                            tda.en = dt2.Rows[0]["ENDVALUE"].ToString();
+                            tda.test = dt2.Rows[0]["TESTVALUE"].ToString();
+                            tda.manual = dt2.Rows[0]["MANUALVALUE"].ToString();
+                            tda.actual = dt2.Rows[0]["ACTTESTVALUE"].ToString();
+                            tda.result = dt2.Rows[0]["TESTRESULT"].ToString();
                             TData.Add(tda);
                         }
                     }
@@ -167,7 +167,7 @@ namespace Arasan.Controllers.Qualitycontrol
                     {
                         for (int i = 0; i < 1; i++)
                         {
-                            tda = new QCFVItem();
+                            tda = new QCFinalValueEntryItem();
                             tda.Isvalid = "Y";
                             TData.Add(tda);
                         }
@@ -216,7 +216,7 @@ namespace Arasan.Controllers.Qualitycontrol
                             ca.Stime = dtt1.Rows[0]["FROMTIME"].ToString();
                             ca.Itemid = dtt1.Rows[0]["ITEMID"].ToString();
                             ca.Item = dtt1.Rows[0]["item"].ToString();
-                            ViewBag.Item = dtt1.Rows[0]["ITEMID"].ToString();
+                            ViewBag.Itemid = dtt1.Rows[0]["ITEMID"].ToString();
                         }
 
 
@@ -226,7 +226,7 @@ namespace Arasan.Controllers.Qualitycontrol
                     List<QCFinalValueEntryItem> Datan = new List<QCFinalValueEntryItem>();
                     QCFinalValueEntryItem tdan = new QCFinalValueEntryItem();
                     //string itemid = datatrans.GetDataString(" SELECT ITEMMASTERID FROM ITEMMASTER WHERE ITEMID='" + ca.ItemId + "'");
-                    string temp = datatrans.GetDataString(" SELECT TEMPLATEID FROM ITEMMASTER WHERE ITEMMASTERID='" + ca.Itemid + "'");
+                    string temp = datatrans.GetDataString(" SELECT TEMPLATEID FROM ITEMMASTER WHERE ITEMMASTERID='" + ca.Item + "'");
                     dtt = QCFinalValueEntryService.GetItemDetail(temp);
                     if (dtt.Rows.Count > 0)
                     {
@@ -234,21 +234,27 @@ namespace Arasan.Controllers.Qualitycontrol
                         {
                             tdan = new QCFinalValueEntryItem();
 
-                            tdan.Des = dtt.Rows[i]["TESTDESC"].ToString();
-                            tdan.Value = dtt.Rows[i]["VALUEORMANUAL"].ToString();
-                            tdan.Unit = dtt.Rows[i]["UNITID"].ToString();
-                            tdan.Sta = dtt.Rows[i]["STARTVALUE"].ToString();
-                            tdan.En = dtt.Rows[i]["ENDVALUE"].ToString();
-
+                            tdan.des = dtt.Rows[i]["TESTDESC"].ToString();
+                            tdan.value = dtt.Rows[i]["VALUEORMANUAL"].ToString();
+                            tdan.unit = dtt.Rows[i]["UNITID"].ToString();
+                            tdan.sta = dtt.Rows[i]["STARTVALUE"].ToString();
+                            tdan.en = dtt.Rows[i]["ENDVALUE"].ToString();
+                            tdan.Isvalid = "Y";
                             Datan.Add(tdan);
                         }
                     }
                     ca.QCFlst = Datan;
                 }
-               
+                for (int i = 0; i < 1; i++)
+                {
+                    tda1 = new QCFVItemDeatils();
+                    tda1.Isvalid = "Y";
+                    TData1.Add(tda1);
+                }
+
 
             }
-            ca.QCFVLst = TData;
+            ca.QCFlst = TData;
             ca.QCFVDLst = TData1;
             return View(ca);
         }
@@ -301,13 +307,13 @@ namespace Arasan.Controllers.Qualitycontrol
         //    return Json(BindItemlst(supid));
 
         //}
-        public JsonResult GetItemJSON(string supid)
-        {
-            QCFinalValueEntry model = new QCFinalValueEntry();
-            model.Itemlst = BindItemlst(supid);
-            return Json(BindItemlst(supid));
+        //public JsonResult GetItemJSON(string supid)
+        //{
+        //    QCFinalValueEntry model = new QCFinalValueEntry();
+        //    model.Itemlst = BindItemlst(supid);
+        //    return Json(BindItemlst(supid));
 
-        }
+        //}
         //public JsonResult GetDrumJSON(string Drmid)
         //{
         //    QCFinalValueEntry model = new QCFinalValueEntry();
@@ -442,32 +448,59 @@ namespace Arasan.Controllers.Qualitycontrol
             }
         }
 
-        public ActionResult DeleteMR(string tag, int id)
-        {
+        //public ActionResult DeleteMR(string tag, int id)
+        //{
 
-            string flag = QCFinalValueEntryService.StatusChange(tag, id);
-            if (string.IsNullOrEmpty(flag))
-            {
+        //    string flag = QCFinalValueEntryService.StatusChange(tag, id);
+        //    if (string.IsNullOrEmpty(flag))
+        //    {
 
-                return RedirectToAction("ListQCFinalValueEntry");
-            }
-            else
-            {
-                TempData["notice"] = flag;
-                return RedirectToAction("ListQCFinalValueEntry");
-            }
-        }
+        //        return RedirectToAction("ListQCFinalValueEntry");
+        //    }
+        //    else
+        //    {
+        //        TempData["notice"] = flag;
+        //        return RedirectToAction("ListQCFinalValueEntry");
+        //    }
+        //}
         public JsonResult GetItemGrpJSON()
         {
-            QCFVItem model = new QCFVItem();
+            QCFinalValueEntryItem model = new QCFinalValueEntryItem();
             //  model.ItemGrouplst = BindItemGrplst(value);
             return Json(model);
         }
         public JsonResult GetItemJSON()
         {
             QCFVItemDeatils model = new QCFVItemDeatils();
-            //  model.ItemGrouplst = BindItemGrplst(value);
+            // model.ItemGrouplst = BindItemGrplst(value);
             return Json(model);
+        }
+        public ActionResult GetItemDetails(string id)
+        {
+            QCFinalValueEntry model = new QCFinalValueEntry();
+            DataTable dtt = new DataTable();
+
+            List<QCFinalValueEntryItem> Datan = new List<QCFinalValueEntryItem>();
+            QCFinalValueEntryItem tdan = new QCFinalValueEntryItem();
+            string Itemid = datatrans.GetDataString(" SELECT ITEMMASTERID FROM ITEMMASTER WHERE ITEMID='" + id + "'");
+            string temp = datatrans.GetDataString(" SELECT TEMPLATEID FROM ITEMMASTER WHERE ITEMMASTERID='" + Itemid + "'");
+            dtt = QCFinalValueEntryService.GetItemDetail(temp);
+            if (dtt.Rows.Count > 0)
+            {
+                for (int i = 0; i < dtt.Rows.Count; i++)
+                {
+                    tdan = new QCFinalValueEntryItem();
+                    tdan.des = dtt.Rows[i]["TESTDESC"].ToString();
+                    tdan.value = dtt.Rows[i]["VALUEORMANUAL"].ToString();
+                    tdan.unit = dtt.Rows[i]["UNITID"].ToString();
+                    tdan.sta = dtt.Rows[i]["STARTVALUE"].ToString();
+                    tdan.en = dtt.Rows[i]["ENDVALUE"].ToString();
+                    tdan.Isvalid = "Y";
+                    Datan.Add(tdan);
+                }
+            }
+            model.QCFlst = Datan;
+            return Json(model.QCFlst);
         }
     }
 }

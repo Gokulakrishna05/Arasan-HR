@@ -35,9 +35,14 @@ namespace Arasan.Models
         public string TestResult { get; set; }
         public List<SelectListItem> assignList;
         public string TestBy { get; set; }
+
         public string Remarks { get; set; }
-        public List<QCItem> QCLst;
-  
+        public string Stat { get; set; }
+        public string GRNProd { get; set; }
+        public string Po { get; set; }
+       
+        public List<QCItem> QCLst { get; set; }
+
 
     }
     public class QCItem

@@ -39,6 +39,7 @@
                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Branch<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                            @Html.HiddenFor(C => C.ID)
+                                            @Html.HiddenFor(C => C.APID)
                                             @Html.DropDownListFor(C => C.Branch, Model.Brlst, new { @id = "ddlBranch", @Class = "form-control _select", @TabIndex = 1 })
                                            
                                     </div>
@@ -73,7 +74,7 @@
                                          <br />   <label for="inputName3" class="col-sm-4 control-label">Work Center<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                             @Html.HiddenFor(C => C.ID)
-                                            @Html.DropDownListFor(C => C.WorkCenter, Model.Worklst, new { @id = "ddlWorkCenter", @Class = "form-control _select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.WorkCenter, Model.Worklst," -- Please Select -- ", new { @id = "ddlWorkCenter", @Class = "form-control _select", @TabIndex = 1 })
                                     </div>
                                 </div>
                             </div>
@@ -82,7 +83,7 @@
                                  <br />  <label for="inputName3" class="col-sm-4 control-label">Processer ID<label class="mandatory">*</label></label>
 
                                     <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Process, Model.Processlst, new { @id = "ddlProcess", @Class = "form-control _select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.Process, Model.Processlst," -- Please Select -- ", new { @id = "ddlProcess", @Class = "form-control _select", @TabIndex = 1 })
                                     </div>
                                 </div>
                             </div>
@@ -92,9 +93,10 @@
                                 <div class="form-group">
 
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Drum No<label class="mandatory">*</label></label>
-                                    <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.DrumNo, Model.drumlst, new { @id = "ddlDrumNo", @Class = "form-control _select", @TabIndex = 1,onchange = "changeItem(this.value)"})
-                                              
+                                   <div class="col-sm-8">
+                                       @Html.TextBoxFor(C => C.DrumNo, new { @id = "txtDrumNo", @class = "form-control", @TabIndex = 1 })
+                                           @* @Html.DropDownListFor(C => C.DrumNo, Model.drumlst, new { @id = "ddlDrumNo", @Class = "form-control _select", @TabIndex = 1 })
+                                           *@
                                     </div>
                                 </div>
                             </div>
@@ -126,8 +128,7 @@
 
                                            <br /> <label for="inputName3" class="col-sm-4 control-label">Item ID<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
-                                           @* @Html.DropDownListFor(C => C.Itemid, Model.Itemlst, " -- Please Select -- ",new { @id = "ddlItemid", @Class = "form-control _select", @TabIndex = 1 })*@
-
+                                          
                                             @Html.TextBoxFor(C => C.Itemid, new { @id = "txtItemid", @class = "form-control", @TabIndex = 1 })
                                     </div>
                                 </div>
@@ -237,7 +238,7 @@
                                     <ul class="nav nav-tabs">
                                         <li class="active"><a href="#tab-1" data-toggle="tab"> Result Detail</a></li>
                                         @*<li><a href="#tab-2" data-toggle="tab">Other Drums </a></li>*@
-                                      @*  <li><a href="#tab-2" data-toggle="tab">Gas Evoluation Details </a></li>*@
+                                        <li><a href="#tab-2" data-toggle="tab">Gas Evoluation Details </a></li>
                                     </ul>
                                      <div class="tab-content">
                                     <div class="tab-pane active" id="tab-1">
@@ -279,40 +280,41 @@
                                                 int i = 0;
                                          
 
-                                                    foreach (var item in Model.QCFVLst.ToList())
+                                                    foreach (var item in Model.QCFlst.ToList())
                                                 {
                                                             <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
                                                     <td>
-                                                                @Html.TextBoxFor(o => o.QCFVLst[i].Des, new { @id = "txtDes" + i, @class = "form-control", style = "width: 120px;" })
+                                                                @Html.TextBoxFor(o => o.QCFlst[i].des, new { @id = "txtDes" + i, @class = "form-control", style = "width: 120px;" })
                                                     </td>
                                                     <td>
-                                                                @Html.TextBoxFor(o => o.QCFVLst[i].Value, new { @id = "txtValue" + i, @class = "form-control", style = "width: 120px;" })
+
+                                                                @Html.TextBoxFor(o => o.QCFlst[i].value, new { @id = "txtValue" + i, @class = "form-control", style = "width: 120px;" })
                                                     </td>
                                                     <td>
-                                                                @Html.TextBoxFor(o => o.QCFVLst[i].Unit, new { @id = "txtUnit" + i, @class = "form-control", style = "width: 120px;" })
+                                                                @Html.TextBoxFor(o => o.QCFlst[i].unit, new { @id = "txtUnit" + i, @class = "form-control", style = "width: 120px;" })
                                                     </td>
                                                     <td>
-                                                                @Html.TextBoxFor(o => o.QCFVLst[i].Sta, new { @id = "txtSta" + i, @class = "form-control", style = "width: 120px;" })
+                                                                @Html.TextBoxFor(o => o.QCFlst[i].sta, new { @id = "txtSta" + i, @class = "form-control", style = "width: 120px;" })
                                                     </td>
                                                     <td>
-                                                                @Html.TextBoxFor(o => o.QCFVLst[i].En, new { @id = "txtEn" + i, @class = "form-control", style = "width: 120px;" })
+                                                                @Html.TextBoxFor(o => o.QCFlst[i].en, new { @id = "txtEn" + i, @class = "form-control", style = "width: 120px;" })
                                                     </td>
                                                     <td>
-                                                                @Html.TextBoxFor(o => o.QCFVLst[i].Test, new { @id = "txtTest" + i, @class = "form-control", style = "width: 120px;" })
+                                                                @Html.TextBoxFor(o => o.QCFlst[i].test, new { @id = "txtTest" + i, @class = "form-control", style = "width: 120px;" })
                                                     </td>
                                                     <td>
-                                                                @Html.TextBoxFor(o => o.QCFVLst[i].Manual, new { @id = "txtManual" + i, @class = "form-control", style = "width: 120px;" })
+                                                                @Html.TextBoxFor(o => o.QCFlst[i].manual, new { @id = "txtManual" + i, @class = "form-control", style = "width: 120px;" })
                                                     </td>
                                                     <td>
-                                                                @Html.TextBoxFor(o => o.QCFVLst[i].Actual, new { @id = "txtActual" + i, @class = "form-control", style = "width: 120px;" })
+                                                          @Html.TextBoxFor(o => o.QCFlst[i].actual, new { @id = "txtActual" + i, @class = "form-control", style = "width: 120px;" })
                                                     </td>
                                                     <td>
-                                                                @Html.TextBoxFor(o => o.QCFVLst[i].Result, new { @id = "txtResulth" + i, @class = "form-control", style = "width: 120px;" })
+                                                           @Html.TextBoxFor(o => o.QCFlst[i].result, new { @id = "txtResulth" + i, @class = "form-control", style = "width: 120px;" })
                                                     </td>
                                                     
                                                     <td>
-                                                                @Html.HiddenFor(o => o.QCFVLst[i].Isvalid, new { @id = "Isvalid" + i })
+                                                                @Html.HiddenFor(o => o.QCFlst[i].Isvalid, new { @id = "Isvalid" + i })
                                                                                                 <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" />  <input name="QCFVLst.Index" type="hidden" value="@(i)" />
                                                                                             </td>
 
@@ -393,7 +395,7 @@
                                             </div>
                                             <!-- 2nd tab  -->
                                         </div>*@
-                                        @*<div class="tab-pane" id="tab-2">
+                                        <div class="tab-pane" id="tab-2">
                                             <!-- 2nd tab  -->
                                              <div style="height:30px;"></div>
                                         <div class="row">
@@ -472,7 +474,7 @@
                                                 </div>
                                            
                                             <!-- 2rd tab  -->
-                                        </div>*@
+                                        </div>
                                        
                                    </div>
                                 </div>
@@ -540,9 +542,8 @@
     $(function () {
         $('._select').select2();
     });
-    function changeItem(ItemId) {
-        
-
+   @* function changeItem(ItemId) 
+    {
         $.ajax({
             url: "GetItemJSON",
             type: "post",
@@ -573,8 +574,8 @@
                 alert("Please Select Drum No");
             }
         });
-        }
-   
+    }*@
+     
     function PopulateDropDown(dropDownId, list) {
         //alert(list);
         $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
@@ -662,26 +663,75 @@
             alert("Cannot delete all the rows.")
         }
     }
+    $(function () {
+        var Itemid = '@ViewBag.Itemid';
+        changeItem(Itemid);
+    });
+    function changeItem(ItemId) {
+        document.getElementById("tbBooks").innerHTML = "";
+        $.ajax({
+            url: 'GetItemDetails',
+            type: "post",
+            data: { "id": ItemId },
+            cache: false,
+
+            success: function (list) {
+                //if (list != null && list.length > 0) {
+                list.forEach((item) => {
+
+                    var index = $("#tbBooks").children("tr").length;
+
+                    var Des = "<td><input class='form-control' id='txtDes" + index + "' name='QCFlst[" + index + "].des'  style='width: 120px;' type='text 'readonly='readonly' value=" + item.des + "  /></td>";
+
+                    var Value = "<td><input class='form-control' id='txtValue" + index + "' name='QCFlst[" + index + "].value'  style='width: 120px;' type='text' readonly='readonly' value=" + item.value + "  /></td>";
+
+                    var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='QCFlst[" + index + "].unit'  style='width: 120px;' type='text' readonly='readonly' value=" + item.unit + "  /></td>";
+
+                    var Sta = "<td><input class='form-control' id='txtSta" + index + "' name='QCFlst[" + index + "].sta'  style='width: 120px;' type='text' readonly='readonly' value=" + item.sta + " /></td>";
+
+                    var En = "<td><input class='form-control' id='txtEn" + index + "' name='QCFlst[" + index + "].en'  style='width: 120px;' type='text' readonly='readonly' value=" + item.en + "  /></td>";
+
+                    var Test = "<td><input class='form-control' id='txtTest" + index + "' name='QCFlst[" + index + "].test'  style='width: 120px;' type='text'  /></td>";
+
+                    var Manual = "<td><input class='form-control' id='txtManual" + index + "' name='QCFlst[" + index + "].manual'  style='width: 120px;' type='text'  /></td>";
+
+                    var Actual = "<td><input class='form-control' id='txtActual" + index + "' name='QCFlst[" + index + "].actual'  style='width: 120px;' type='text'  /></td>";
+
+                    var Result = "<td><input class='form-control' id='txtResultl" + index + "' name='QCFlst[" + index + "].result'  style='width: 120px;' type='text'  /></td>";
+
+                    var removeCell = "<td><input id='Isvalid" + index + "' name='QCFlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='QCFlst.Index' type='hidden' value='" + index + "'  /></td>";
+
+                    var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Des + Value + Unit + Sta + En + Test + Manual + Actual + Result + removeCell + "</tr>";
+
+                    $("#tbBooks").append(newRow);
+                });
+                //}
+            },
+            error: function () {
+                alert("Data Not Found");
+            }
+        });
+    }
     function AppendRow(opt) {
         var index = $("#tbBooks").children("tr").length;
 
-        var Des = "<td><input class='form-control' id='txtDes" + index + "' name='QCFVLst[" + index + "].Des'  style='width: 120px;' type='text'  /></td>";
+        var Des = "<td><input class='form-control' id='txtDes" + index + "' name='QCFVLst[" + index + "].des'  style='width: 120px;' type='text'  /></td>";
 
-        var Value = "<td><input class='form-control' id='txtValue" + index + "' name='QCFVLst[" + index + "].Value'  style='width: 120px;' type='text'  /></td>";
+        var Value = "<td><input class='form-control' id='txtValue" + index + "' name='QCFVLst[" + index + "].value'  style='width: 120px;' type='text'  /></td>";
 
-        var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='QCFVLst[" + index + "].Unit'  style='width: 120px;' type='text'  /></td>";
+        var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='QCFVLst[" + index + "].unit'  style='width: 120px;' type='text'  /></td>";
 
-        var Sta = "<td><input class='form-control' id='txtSta" + index + "' name='QCFVLst[" + index + "].Sta'  style='width: 120px;' type='text'  /></td>";
+        var Sta = "<td><input class='form-control' id='txtSta" + index + "' name='QCFVLst[" + index + "].sta'  style='width: 120px;' type='text'  /></td>";
 
-        var En = "<td><input class='form-control' id='txtEn" + index + "' name='QCFVLst[" + index + "].En'  style='width: 120px;' type='text'  /></td>";
+        var En = "<td><input class='form-control' id='txtEn" + index + "' name='QCFVLst[" + index + "].en'  style='width: 120px;' type='text'  /></td>";
 
-        var Test = "<td><input class='form-control' id='txtTest" + index + "' name='QCFVLst[" + index + "].Test'  style='width: 120px;' type='text'  /></td>";
+        var Test = "<td><input class='form-control' id='txtTest" + index + "' name='QCFVLst[" + index + "].test'  style='width: 120px;' type='text'  /></td>";
 
-        var Manual = "<td><input class='form-control' id='txtManual" + index + "' name='QCFVLst[" + index + "].Manual'  style='width: 120px;' type='text'  /></td>";
+        var Manual = "<td><input class='form-control' id='txtManual" + index + "' name='QCFVLst[" + index + "].manual'  style='width: 120px;' type='text'  /></td>";
 
-        var Actual = "<td><input class='form-control' id='txtActual" + index + "' name='QCFVLst[" + index + "].Actual'  style='width: 120px;' type='text'  /></td>";
+        var Actual = "<td><input class='form-control' id='txtActual" + index + "' name='QCFVLst[" + index + "].actual'  style='width: 120px;' type='text'  /></td>";
 
-        var Result = "<td><input class='form-control' id='txtResultl" + index + "' name='QCFVLst[" + index + "].Result'  style='width: 120px;' type='text'  /></td>";
+        var Result = "<td><input class='form-control' id='txtResultl" + index + "' name='QCFVLst[" + index + "].result'  style='width: 120px;' type='text'  /></td>";
 
         var removeCell = "<td><input id='Isvalid" + index + "' name='Itemlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='QCFVLst.Index' type='hidden' value='" + index + "'  /></td>";
 

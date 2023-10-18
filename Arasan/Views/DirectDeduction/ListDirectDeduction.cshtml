@@ -55,42 +55,34 @@
                                                             <th>DOC Date</th>
                                                             <th>Gross</th>
                                                             <th>Reason</th>
-                                                            <th>Edit</th>
+                                                            <th>View</th>
                                                             <th>Delete</th>
                                                         </tr>
                                                     </thead>
 
                                                     <tbody>
                                                         @{
-                                                            
-
                                                             foreach (var item in Model)
                                                             {
                                                         <tr>
-
                                                                     <td>@Html.DisplayFor(modelItem => item.Branch)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.DocId)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.Docdate)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.Gro)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.Reason)</td>
 
-                                                                    
                                                                     @if (item.status == "No")
                                                                     {
                                                                         <td></td>
                                                                         <td> </td>
 
-
-
                                                                     }
                                                                     else
                                                                     {
-                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("DirectDeduction", "DirectDeduction",new { id=item.ID })"></a></div></td>
-                                                                    <td> <a href="@Url.Action("DeleteMR","DirectDeduction",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
+                                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("viewDirectDeduction", "DirectDeduction",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Waiting for approval' /></a></div></td>
+                                                                        <td> <a href="@Url.Action("DeleteMR","DirectDeduction",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
                                                                      }
                                                         </tr>
-
-                                                              
                                                             }
                                                         }
 
