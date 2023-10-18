@@ -404,6 +404,7 @@
                                                                                     </td>
                                                                                     <td>
                                                                                         @Html.DisplayFor(o => o.Binconslst[j].consQty)
+                                                                                        @Html.HiddenFor(o => o.Binconslst[j].consQty)
                                                                                     </td>
                                                                                     <td>
                                                                                         @Html.DisplayFor(o => o.Binconslst[j].Qty) @Html.HiddenFor(o => o.Binconslst[j].Isvalid, new { @id = "Isvalid" + j })

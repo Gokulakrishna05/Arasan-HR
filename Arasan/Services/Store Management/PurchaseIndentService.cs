@@ -366,7 +366,7 @@ namespace Arasan.Services
                                     
                         Sql = "Insert into PURENQDETAIL (PURENQBASICID,ITEMID,QTY,UNIT) Values ('" + Pid + "','" + itemid + "','" + EnquiryQty + "','" + Unit + "') RETURNING PURENQDETAILID INTO :LASTCID";
 
-                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                        OracleCommand objCmds = new OracleCommand(Sql, objConn);
                         objCmds.Parameters.Add("LASTCID", OracleDbType.Int64, ParameterDirection.ReturnValue);
                         objCmds.ExecuteNonQuery();
                         string EnqId = objCmds.Parameters["LASTCID"].Value.ToString();

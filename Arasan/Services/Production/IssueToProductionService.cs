@@ -107,9 +107,9 @@ namespace Arasan.Services
                                             objCmdIn.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = "1"; /*HttpContext.*/
                                             objCmdIn.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
                                             objCmdIn.Parameters.Add("WASTAGE", OracleDbType.NVarchar2).Value = "0";
-                                            objCmdIn.Parameters.Add("LOCATION_ID", OracleDbType.NVarchar2).Value = "0";
-                                            objCmdIn.Parameters.Add("TO_WCID", OracleDbType.NVarchar2).Value = cy.Toloc;
-                                            objCmdIn.Parameters.Add("TO_LOCID", OracleDbType.NVarchar2).Value = locid;
+                                            objCmdIn.Parameters.Add("LOCATION_ID", OracleDbType.NVarchar2).Value = locid;
+                                            objCmdIn.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = cy.Toloc;
+                                            objCmdIn.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = locid;
                                             objCmdIn.Parameters.Add("BRANCH_ID", OracleDbType.NVarchar2).Value = cy.Branch;
                                             objCmdIn.Parameters.Add("INV_OUT_ID", OracleDbType.NVarchar2).Value = dt.Rows[i]["INVENTORY_ITEM_ID"].ToString();
 
@@ -161,9 +161,9 @@ namespace Arasan.Services
                                             objCmdIn.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = "1"; /*HttpContext.*/
                                             objCmdIn.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
                                             objCmdIn.Parameters.Add("WASTAGE", OracleDbType.NVarchar2).Value = "0";
-                                            objCmdIn.Parameters.Add("LOCATION_ID", OracleDbType.Date).Value = "0";
-                                            objCmdIn.Parameters.Add("TO_WCID", OracleDbType.NVarchar2).Value = cy.Toloc;
-                                            objCmdIn.Parameters.Add("TO_LOCID", OracleDbType.NVarchar2).Value = locid;
+                                            objCmdIn.Parameters.Add("LOCATION_ID", OracleDbType.Date).Value = locid;
+                                            objCmdIn.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = cy.Toloc;
+                                            objCmdIn.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = locid;
                                             objCmdIn.Parameters.Add("BRANCH_ID", OracleDbType.NVarchar2).Value = cy.Branch;
                                             objCmdIn.Parameters.Add("INV_OUT_ID", OracleDbType.NVarchar2).Value = dt.Rows[i]["INV_OUT_ID"].ToString();
 

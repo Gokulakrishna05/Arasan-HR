@@ -60,7 +60,7 @@ namespace Arasan.Services
         public DataTable GetIndentItem(string Itemid) 
         {
             string SvSql = string.Empty;
-            SvSql = "Select PINDDETAIL.PINDDETAILID,PINDDETAIL.DEPARTMENT,ITEMMASTER.ITEMID,UNITMAST.UNITID,PINDDETAIL.QTY,PINDDETAIL.PINDBASICID,LOCDETAILS.LOCID,PINDDETAIL.PINDDETAILID ,to_char(PINDDETAIL.DUEDATE,'dd-MON-yyyy') DUEDATE,DOCID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE,PINDDETAIL.ITEMID as ITEM_ID from PINDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PINDDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=PINDDETAIL.UNIT LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PINDDETAIL.DEPARTMENT LEFT OUTER JOIN PINDBASIC ON PINDBASIC.PINDBASICID=PINDDETAIL.PINDBASICID WHERE PINDDETAIL.ISISSUED='N' AND PINDDETAIL.BAL_QTY=0 AND PINDDETAIL.ITEMID='" + Itemid  + "'";
+            SvSql = "Select PINDDETAIL.PINDDETAILID,PINDDETAIL.DEPARTMENT,ITEMMASTER.ITEMID,UNITMAST.UNITID,PINDDETAIL.QTY,PINDDETAIL.PINDBASICID,LOCDETAILS.LOCID,PINDDETAIL.PINDDETAILID ,to_char(PINDDETAIL.DUEDATE,'dd-MON-yyyy') DUEDATE,DOCID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE,PINDDETAIL.ITEMID as ITEM_ID from PINDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PINDDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=PINDDETAIL.UNIT LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PINDDETAIL.DEPARTMENT LEFT OUTER JOIN PINDBASIC ON PINDBASIC.PINDBASICID=PINDDETAIL.PINDBASICID WHERE PINDDETAIL.ISISSUED='N' AND (PINDDETAIL.BAL_QTY=0 OR PINDDETAIL.BAL_QTY is null) AND PINDDETAIL.ITEMID='" + Itemid  + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -114,6 +114,7 @@ namespace Arasan.Services
                                         objCmds.ExecuteNonQuery();
                                         objConnT.Close();
                                     }
+                                    string wcid = datatrans.GetDataString("Select WCBASICID from WCBASIC where ILOCATION='"+ cp.LocationID + "' ");
 
                                     using (OracleConnection objConnI = new OracleConnection(_connectionString))
                                     {
@@ -129,14 +130,18 @@ namespace Arasan.Services
                                         objCmdI.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = "1"; /*HttpContext.*/
                                         objCmdI.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
                                         objCmdI.Parameters.Add("WASTAGE", OracleDbType.NVarchar2).Value = "0";/*cp.DamageQty*/;
+
                                         objCmdI.Parameters.Add("LOCATION_ID", OracleDbType.NVarchar2).Value = cp.LocationID;
+                                        objCmdI.Parameters.Add("TO_WCID", OracleDbType.NVarchar2).Value = wcid;
+                                        objCmdI.Parameters.Add("TO_LOCID", OracleDbType.NVarchar2).Value = "0";
                                         objCmdI.Parameters.Add("BRANCH_ID", OracleDbType.NVarchar2).Value = cy.Branch;
-                                        objCmdI.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = "Insert";
+                                        
                                         objCmdI.Parameters.Add("INV_OUT_ID", OracleDbType.NVarchar2).Value = dt.Rows[i]["INVENTORY_ITEM_ID"].ToString();
                                         objCmdI.Parameters.Add("DRUM_NO", OracleDbType.NVarchar2).Value = "";
                                         objCmdI.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = "0";
                                         objCmdI.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = "0";
                                         objCmdI.Parameters.Add("LOT_NO", OracleDbType.NVarchar2).Value = dt.Rows[i]["LOT_NO"].ToString();
+                                        objCmdI.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = "Insert";
                                         objCmdI.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                                         objConnI.Open();
                                         objCmdI.ExecuteNonQuery();

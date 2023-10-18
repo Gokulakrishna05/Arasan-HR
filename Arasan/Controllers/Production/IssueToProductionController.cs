@@ -207,7 +207,7 @@ namespace Arasan.Controllers
                     tda.lotno = dtt.Rows[i]["LOT_NO"].ToString();
                     tda.lotnoid = dtt.Rows[i]["lot"].ToString();
                     tda.totalqty = Convert.ToDouble(dtt.Rows[i]["BALANCE_QTY"].ToString() == "" ? "0" : dtt.Rows[i]["BALANCE_QTY"].ToString());
-                    
+                    tda.qty = Convert.ToDouble(dtt.Rows[i]["BALANCE_QTY"].ToString() == "" ? "0" : dtt.Rows[i]["BALANCE_QTY"].ToString());
 
 
 

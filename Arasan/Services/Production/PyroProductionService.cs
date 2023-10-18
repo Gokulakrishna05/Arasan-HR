@@ -117,7 +117,7 @@ namespace Arasan.Services
         public DataTable GetDrum(string item)
         {
             string SvSql = string.Empty;
-            SvSql = "select DRUM_NO,DRUM_ID from DRUM_STOCK where ITEMID='"+item+"' ";
+            SvSql = "select DRUM_NO,DRUM_ID from DRUM_STOCK where ITEMID='"+item+ "' AND LOCID='10035000000038' ";
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);

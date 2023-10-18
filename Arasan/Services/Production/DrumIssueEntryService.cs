@@ -203,13 +203,14 @@ namespace Arasan.Services.Production
                                     objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = ca.qty;
                                     objCmds.Parameters.Add("BATCHNO", OracleDbType.NVarchar2).Value = ca.batchno;
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+
                                     objConns.Open();
                                     objCmds.ExecuteNonQuery();
                                     objConns.Close();
                                 }
 
 
-                                DataTable dt = datatrans.GetData("Select INVENTORY_ITEM_ID,ITEMID,IN_DATE,DRUM_ID,DRUM_NO,TSOURCEID,STOCKTRANSTYPE,LOCID,QTY,BALANCE_QTY,OUT_ID,BATCHNO,BATCH_QTY,ISPRODINV,DRUM_STOCK_ID from DRUM_STOCK where DRUM_STOCK.DRUM_NO='" + ca.drum + "'");
+                                DataTable dt = datatrans.GetData("Select ITEMID,DOC_DATE,DRUM_ID,DRUM_NO,TSOURCEID,STOCKTRANSTYPE,LOCID,QTY,BALANCE_QTY,OUT_ID,DRUM_STOCK_ID from DRUM_STOCK where DRUM_STOCK.DRUM_NO='" + ca.drum + "'");
 
 
                                 //double qty = ca.Qty;
@@ -264,7 +265,8 @@ namespace Arasan.Services.Production
 
 
                                             string wc = datatrans.GetDataString("Select WCID from WCBASIC where WCBASICID='" + wcid + "' ");
-                                            string item = cy.Itemid;
+                                            string itemname = datatrans.GetDataString("Select ITEMID from ITEMMASTER where ITEMMASTERID='" + cy.Itemid + "' ");
+                                            string item = itemname;
                                             string drum = ca.drum;
                                             string wcenter = wc;
                                             string lot = string.Format("{0}-{1}-{2}", item, wcenter, drum.ToString());

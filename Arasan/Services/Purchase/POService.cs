@@ -176,7 +176,7 @@ namespace Arasan.Services
                 datatrans = new DataTransactions(_connectionString);
 
 
-                int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'GR-F-' AND ACTIVESEQUENCE = 'T'");
+                int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'GR-F' AND ACTIVESEQUENCE = 'T'");
                 string PONo = string.Format("{0}{1}", "GR-F", (idc + 1).ToString());
 
                 string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='GR-F' AND ACTIVESEQUENCE ='T'";
