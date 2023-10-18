@@ -25,5 +25,8 @@ namespace Arasan.Interface.Qualitycontrol
         //string StatusChange(string tag, int id);
         DataTable GetAPOutDetails(string id);
         DataTable GetAPOutItemDetails(string id);
+        DataTable GetViewQCFVDeatil(string id);
+        DataTable GetViewQCFVResultDetail(string id);
+        DataTable GetViewQCFVGasDetail(string id);
     }
 }

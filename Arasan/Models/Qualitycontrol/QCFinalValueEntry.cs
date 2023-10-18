@@ -62,7 +62,7 @@ namespace Arasan.Models
 
         public List<QCFVItemDeatils> QCFVDLst { get; set; }
         public List<QCFinalValueEntryItem> QCFlst { get; set; }
-       
+
 
     }
 

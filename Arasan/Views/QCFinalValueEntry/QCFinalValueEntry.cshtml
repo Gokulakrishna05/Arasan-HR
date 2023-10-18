@@ -225,7 +225,7 @@
 
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Champer Temp<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.CTemp, new { @id = "txtCTemp", @class = "form-control", @TabIndex = 1 })
+                                            @Html.TextBoxFor(C => C.CTemp, new { @id = "txtCTemp", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                     </div>
                                 </div>
                             </div>
@@ -315,7 +315,7 @@
                                                     
                                                     <td>
                                                                 @Html.HiddenFor(o => o.QCFlst[i].Isvalid, new { @id = "Isvalid" + i })
-                                                                                                <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" />  <input name="QCFVLst.Index" type="hidden" value="@(i)" />
+                                                                                                <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" />  <input name="QCFlst.Index" type="hidden" value="@(i)" />
                                                                                             </td>
 
                                                             </tr>
@@ -715,25 +715,25 @@
     function AppendRow(opt) {
         var index = $("#tbBooks").children("tr").length;
 
-        var Des = "<td><input class='form-control' id='txtDes" + index + "' name='QCFVLst[" + index + "].des'  style='width: 120px;' type='text'  /></td>";
+        var Des = "<td><input class='form-control' id='txtDes" + index + "' name='QCFlst[" + index + "].des'  style='width: 120px;' type='text'  /></td>";
 
-        var Value = "<td><input class='form-control' id='txtValue" + index + "' name='QCFVLst[" + index + "].value'  style='width: 120px;' type='text'  /></td>";
+        var Value = "<td><input class='form-control' id='txtValue" + index + "' name='QCFlst[" + index + "].value'  style='width: 120px;' type='text'  /></td>";
 
-        var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='QCFVLst[" + index + "].unit'  style='width: 120px;' type='text'  /></td>";
+        var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='QCFlst[" + index + "].unit'  style='width: 120px;' type='text'  /></td>";
 
-        var Sta = "<td><input class='form-control' id='txtSta" + index + "' name='QCFVLst[" + index + "].sta'  style='width: 120px;' type='text'  /></td>";
+        var Sta = "<td><input class='form-control' id='txtSta" + index + "' name='QCFlst[" + index + "].sta'  style='width: 120px;' type='text'  /></td>";
 
-        var En = "<td><input class='form-control' id='txtEn" + index + "' name='QCFVLst[" + index + "].en'  style='width: 120px;' type='text'  /></td>";
+        var En = "<td><input class='form-control' id='txtEn" + index + "' name='QCFlst[" + index + "].en'  style='width: 120px;' type='text'  /></td>";
 
-        var Test = "<td><input class='form-control' id='txtTest" + index + "' name='QCFVLst[" + index + "].test'  style='width: 120px;' type='text'  /></td>";
+        var Test = "<td><input class='form-control' id='txtTest" + index + "' name='QCFlst[" + index + "].test'  style='width: 120px;' type='text'  /></td>";
 
-        var Manual = "<td><input class='form-control' id='txtManual" + index + "' name='QCFVLst[" + index + "].manual'  style='width: 120px;' type='text'  /></td>";
+        var Manual = "<td><input class='form-control' id='txtManual" + index + "' name='QCFlst[" + index + "].manual'  style='width: 120px;' type='text'  /></td>";
 
-        var Actual = "<td><input class='form-control' id='txtActual" + index + "' name='QCFVLst[" + index + "].actual'  style='width: 120px;' type='text'  /></td>";
+        var Actual = "<td><input class='form-control' id='txtActual" + index + "' name='QCFlst[" + index + "].actual'  style='width: 120px;' type='text'  /></td>";
 
-        var Result = "<td><input class='form-control' id='txtResultl" + index + "' name='QCFVLst[" + index + "].result'  style='width: 120px;' type='text'  /></td>";
+        var Result = "<td><input class='form-control' id='txtResultl" + index + "' name='QCFlst[" + index + "].result'  style='width: 120px;' type='text'  /></td>";
 
-        var removeCell = "<td><input id='Isvalid" + index + "' name='Itemlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='QCFVLst.Index' type='hidden' value='" + index + "'  /></td>";
+        var removeCell = "<td><input id='Isvalid" + index + "' name='Itemlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='QCFlst.Index' type='hidden' value='" + index + "'  /></td>";
 
         var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Des + Value + Unit + Sta + En + Test + Manual + Actual + Result + removeCell + "</tr>";
 

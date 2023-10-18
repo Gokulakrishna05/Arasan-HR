@@ -340,5 +340,27 @@ namespace Arasan.Services.Qualitycontrol
             adapter.Fill(dtt);
             return dtt;
         }
+
+        public DataTable GetViewQCTestValueEntry(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select BRANCH,DOCID,to_char(QTVEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,WCID,SHIFTNO,PROCESSLOTNO,CDRUMNO,to_char(QTVEBASIC.DOCDATE,'dd-MON-yyyy')PRODDATE,SAMPLENO,STIME,ITEMID,RATEPHR,NOZZLENO,AIRPRESS,ADDCH,BCT,ENTEREDBY,REMARKS,QTVEBASICID from QTVEBASIC WHERE QTVEBASICID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetViewQCTestDetails(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select QTVEBASICID,TDESC,VALUEORMANUAL,UNIT,STARTVALUE,ENDVALUE,TESTVALUE,MANUALVALUE,ACTTESTVALUE,TESTRESULT from QTVEDETAIL WHERE QTVEBASICID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
     }
 }
