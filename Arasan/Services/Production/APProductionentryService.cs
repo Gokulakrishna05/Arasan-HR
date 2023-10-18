@@ -552,12 +552,7 @@ namespace Arasan.Services
                                 Object Pid1 = objCmdIn.Parameters["OUTID"].Value;
 
 
-                                objCmdIn.Parameters.Add("OUT_ID", OracleDbType.NVarchar2).Value = cp.outid;
-                                objCmdIn.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
-
-
-                                objCmdIn.ExecuteNonQuery();
-                                Object Pid1 = objCmdIn.Parameters["OUTID"].Value;
+                               
 
 
                                 //if (cy.ID != null)
@@ -620,9 +615,7 @@ namespace Arasan.Services
                             }
                         }
 
-            objConn.Close();
-
-                    }
+             
                 }
                             
                             }
