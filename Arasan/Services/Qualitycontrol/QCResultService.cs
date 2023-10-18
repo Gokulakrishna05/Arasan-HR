@@ -207,7 +207,6 @@ namespace Arasan.Services.Qualitycontrol
                                     objCmds.ExecuteNonQuery();
                                     objConns.Close();
                                 }
-
                             }
                         }
                     }

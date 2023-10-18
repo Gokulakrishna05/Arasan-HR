@@ -198,79 +198,83 @@ namespace Arasan.Services.Qualitycontrol
                         {
                             Pid = cy.ID;
                         }
-                        foreach (QCFinalValueEntryItem ca in cy.QCFlst)
-                        {
-                            if (ca.Isvalid == "Y" && ca.des != "0")
-                            {
-                                using (OracleConnection objConns = new OracleConnection(_connectionString))
+
+                        //if (cy.QCFlst!= null)
+                        //{
+                        //    if (cy.ID == null)
+                        //    {
+                                foreach (QCFinalValueEntryItem ca in cy.QCFlst)
                                 {
-                                    OracleCommand objCmds = new OracleCommand("FQTVEDETAILPROC", objConns);
-                                    if (cy.ID == null)
+                                    if (ca.Isvalid == "Y" && ca.des != "0")
                                     {
-                                        StatementType = "Insert";
-                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                        using (OracleConnection objConns = new OracleConnection(_connectionString))
+                                        {
+                                            OracleCommand objCmds = new OracleCommand("FQTVEDETAILPROC", objConns);
+                                            if (cy.ID == null)
+                                            {
+                                                StatementType = "Insert";
+                                                objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                            }
+                                            else
+                                            {
+                                                StatementType = "Update";
+                                                objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                                            }
+                                            objCmds.CommandType = CommandType.StoredProcedure;
+                                            objCmds.Parameters.Add("FQTVEBASICID", OracleDbType.NVarchar2).Value = Pid;
+                                            objCmds.Parameters.Add("TDESC", OracleDbType.NVarchar2).Value = ca.des;
+                                            objCmds.Parameters.Add("VALUEORMANUAL", OracleDbType.NVarchar2).Value = ca.value;
+                                            objCmds.Parameters.Add("UNIT", OracleDbType.NVarchar2).Value = ca.unit;
+                                            objCmds.Parameters.Add("STARTVALUE", OracleDbType.NVarchar2).Value = ca.sta;
+                                            objCmds.Parameters.Add("ENDVALUE", OracleDbType.NVarchar2).Value = ca.en;
+                                            objCmds.Parameters.Add("TESTVALUE", OracleDbType.NVarchar2).Value = ca.test;
+                                            objCmds.Parameters.Add("MANUALVALUE", OracleDbType.NVarchar2).Value = ca.manual;
+                                            objCmds.Parameters.Add("ACTTESTVALUE", OracleDbType.NVarchar2).Value = ca.actual;
+                                            objCmds.Parameters.Add("TESTRESULT", OracleDbType.NVarchar2).Value = ca.result;
+                                            objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                                            objConns.Open();
+                                            objCmds.ExecuteNonQuery();
+                                            objConns.Close();
+                                        }
                                     }
-                                    else
-                                    {
-                                        StatementType = "Update";
-                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
-                                    }
-                                    objCmds.CommandType = CommandType.StoredProcedure;
-                                    objCmds.Parameters.Add("FQTVEBASICID", OracleDbType.NVarchar2).Value = Pid;
-                                    objCmds.Parameters.Add("TDESC", OracleDbType.NVarchar2).Value = ca.des;
-                                    objCmds.Parameters.Add("VALUEORMANUAL", OracleDbType.NVarchar2).Value = ca.value;
-                                    objCmds.Parameters.Add("UNIT", OracleDbType.NVarchar2).Value = ca.unit;
-                                    objCmds.Parameters.Add("STARTVALUE", OracleDbType.NVarchar2).Value = ca.sta;
-                                    objCmds.Parameters.Add("ENDVALUE", OracleDbType.NVarchar2).Value = ca.en;
-                                    objCmds.Parameters.Add("TESTVALUE", OracleDbType.NVarchar2).Value = ca.test;
-                                    objCmds.Parameters.Add("MANUALVALUE", OracleDbType.NVarchar2).Value = ca.manual;
-                                    objCmds.Parameters.Add("ACTTESTVALUE", OracleDbType.NVarchar2).Value = ca.actual;
-                                    objCmds.Parameters.Add("TESTRESULT", OracleDbType.NVarchar2).Value = ca.result;
-                                    objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
-                                    objConns.Open();
-                                    objCmds.ExecuteNonQuery();
-                                    objConns.Close();
-                                }
-
+                                //}
                             }
-                        }
-                        foreach (QCFVItemDeatils cp in cy.QCFVDLst)
-                        {
-                            if (cp.Isvalid == "Y" && cp.Vol != "0")
+                            foreach (QCFVItemDeatils cp in cy.QCFVDLst)
                             {
-                                using (OracleConnection objConns = new OracleConnection(_connectionString))
+                                if (cp.Isvalid == "Y" && cp.Vol != "0")
                                 {
-                                    OracleCommand objCmds = new OracleCommand("FQTVEGEDETAILPROC", objConns);
-                                    if (cy.ID == null)
+                                    using (OracleConnection objConns = new OracleConnection(_connectionString))
                                     {
-                                        StatementType = "Insert";
-                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                        OracleCommand objCmds = new OracleCommand("FQTVEGEDETAILPROC", objConns);
+                                        if (cy.ID == null)
+                                        {
+                                            StatementType = "Insert";
+                                            objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                        }
+                                        else
+                                        {
+                                            StatementType = "Update";
+                                            objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                                        }
+                                        objCmds.CommandType = CommandType.StoredProcedure;
+                                        objCmds.Parameters.Add("FQTVEBASICID", OracleDbType.NVarchar2).Value = Pid;
+                                        objCmds.Parameters.Add("MINS", OracleDbType.NVarchar2).Value = cp.Time;
+                                        objCmds.Parameters.Add("VOL25C", OracleDbType.NVarchar2).Value = cp.Vol;
+                                        objCmds.Parameters.Add("VOL35C", OracleDbType.NVarchar2).Value = cp.Volat;
+                                        objCmds.Parameters.Add("VOL45C", OracleDbType.NVarchar2).Value = cp.Volc;
+                                        objCmds.Parameters.Add("VOLSTP", OracleDbType.NVarchar2).Value = cp.Stp;
+                                        objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                                        objConns.Open();
+                                        objCmds.ExecuteNonQuery();
+                                        objConns.Close();
                                     }
-                                    else
-                                    {
-                                        StatementType = "Update";
-                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
-                                    }
-                                    objCmds.CommandType = CommandType.StoredProcedure;
-                                    objCmds.Parameters.Add("FQTVEBASICID", OracleDbType.NVarchar2).Value = Pid;
-                                    objCmds.Parameters.Add("MINS", OracleDbType.NVarchar2).Value = cp.Time;
-                                    objCmds.Parameters.Add("VOL25C", OracleDbType.NVarchar2).Value = cp.Vol;
-                                    objCmds.Parameters.Add("VOL35C", OracleDbType.NVarchar2).Value = cp.Volat;
-                                    objCmds.Parameters.Add("VOL45C", OracleDbType.NVarchar2).Value = cp.Volc;
-                                    objCmds.Parameters.Add("VOLSTP", OracleDbType.NVarchar2).Value = cp.Stp;
-                                    objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
-                                    objConns.Open();
-                                    objCmds.ExecuteNonQuery();
-                                    objConns.Close();
+
                                 }
-
-
-
                             }
-                        }
-                        updateCMd = " UPDATE QCNOTIFICATION SET IS_COMPLETED ='YES' , FINALRESULT='" + cy.FResult + "' WHERE DOCID ='" + cy.ProNo + "' ";
-                        datatrans.UpdateStatus(updateCMd);
+                            updateCMd = " UPDATE QCNOTIFICATION SET IS_COMPLETED ='YES' , FINALRESULT='" + cy.FResult + "' WHERE DOCID ='" + cy.ProNo + "' ";
+                            datatrans.UpdateStatus(updateCMd);
 
+                       // }
                     }
                     catch (Exception ex)
                     {
@@ -420,5 +424,37 @@ namespace Arasan.Services.Qualitycontrol
 
         //}
 
+        public DataTable GetViewQCFVDeatil(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select BRANCH,DOCID,to_char(FQTVEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,WCID,PROCESSID,DRUMNO,BATCH,BATCHNO,ITEMID,PRODID,RATEPHR,to_char(FQTVEBASIC.PRODDATE,'dd-MON-yyyy')PRODDATE,SAMPLENO,NOZZLENO,AIRPRESS,ADDCH,STIME,BCT,FINALRESULT,RESULTTYPE,ENTEREDBY,REMARKS,FQTVEBASICID from FQTVEBASIC Where FQTVEBASICID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetViewQCFVResultDetail(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select FQTVEBASICID,TDESC,VALUEORMANUAL,UNIT,STARTVALUE,ENDVALUE,TESTVALUE,MANUALVALUE,ACTTESTVALUE,TESTRESULT from FQTVEDETAIL where FQTVEBASICID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetViewQCFVGasDetail(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select FQTVEBASICID,MINS,VOL25C,VOL35C,VOL45C,VOLSTP from FQTVEGEDETAIL where FQTVEBASICID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
     }
 }
