@@ -1459,13 +1459,13 @@ namespace Arasan.Controllers
                             tda4.OutputQty = Convert.ToDouble(adt6.Rows[i]["OUTQTY"].ToString() == "" ? "0" : adt6.Rows[i]["OUTQTY"].ToString());
                             tda4.Result = adt6.Rows[i]["TESTRESULT"].ToString();
                             tda4.Status = adt6.Rows[i]["MOVETOQC"].ToString();
-                            //DataTable dt7 = new DataTable();
-                            //dt7 = IProductionEntry.GetResult(id);
-                            //if (dt7.Rows.Count > 0)
-                            //{
-                            //    tda4.Result = dt7.Rows[i]["TESTRESULT"].ToString();
-                            //    tda4.Status = dt7.Rows[i]["MOVETOQC"].ToString();
-                            //}
+                           DataTable dt7 = new DataTable();
+                            dt7 = IProductionEntry.GetResult(id);
+                            if (dt7.Rows.Count > 0)
+                            {
+                                tda4.Result = dt7.Rows[i]["TESTRESULT"].ToString();
+                                tda4.Status = dt7.Rows[i]["MOVETOQC"].ToString();
+                            }
                             tda4.APID = adt6.Rows[i]["APPRODOUTDETID"].ToString();
                             tda4.Isvalid = "Y";
                             TData4.Add(tda4);
@@ -1483,6 +1483,7 @@ namespace Arasan.Controllers
                             tda4.drumlst = BindDrum();
                             tda4.statuslst = BindStatus();
                             tda4.StID = "COMPLETED";
+                            tda4.Result = "";
                             tda4.Isvalid = "Y";
                             TData4.Add(tda4);
 
@@ -1737,6 +1738,7 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+
         public JsonResult GetItemJSON()
         {
             //EnqItem model = new EnqItem();

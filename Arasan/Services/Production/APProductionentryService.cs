@@ -541,12 +541,24 @@ namespace Arasan.Services
                                 objCmdIn.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = wcid;
                                 objCmdIn.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = qty;
                                 objCmdIn.Parameters.Add("BALANCE_QTY", OracleDbType.NVarchar2).Value = qty;
+
+                                objCmdIn.Parameters.Add("OUT_ID", OracleDbType.NVarchar2).Value = "0";
+                                objCmdIn.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
+
+                                //try
+                                //{
+
+                                objCmdIn.ExecuteNonQuery();
+                                Object Pid1 = objCmdIn.Parameters["OUTID"].Value;
+
+
                                 objCmdIn.Parameters.Add("OUT_ID", OracleDbType.NVarchar2).Value = cp.outid;
                                 objCmdIn.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
 
 
                                 objCmdIn.ExecuteNonQuery();
                                 Object Pid1 = objCmdIn.Parameters["OUTID"].Value;
+
 
                                 //if (cy.ID != null)
                                 //{
@@ -587,6 +599,11 @@ namespace Arasan.Services
                                 OracleCommand objCmds = new OracleCommand(Sql, objConn);
                                 objCmds.ExecuteNonQuery();
                                 /////////////////////////output inventory
+
+                                Sql = "Update APPRODUCTIONBASIC SET  IS_APPROVE='Y' WHERE APPRODUCTIONBASICID='" + cy.ID + "'";
+                                objCmds = new OracleCommand(Sql, objConn);
+                                objCmds.ExecuteNonQuery();
+
                                 Sql = "Update APPRODUCTIONBASIC SET  IS_APPROVED='Y' WHERE APPRODUCTIONBASICID='" + cy.ID + "'";
                                 objCmds = new OracleCommand(Sql, objConn);
                                 objCmds.ExecuteNonQuery();
@@ -594,23 +611,35 @@ namespace Arasan.Services
 
                             }
 
+
+
+
+
+
+                                objConn.Close();
+                            }
                         }
-                        objConn.Close();
+
+            objConn.Close();
+
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                msg = "Error Occurs, While inserting / updating Data";
-                throw ex;
-            }
-
+                            
+                            }
+                                catch (Exception ex)
+                                {
+                                    msg = "Error Occurs, While inserting / updating Data";
+                                    throw ex;
+                                }
+                            
+                        
+                   
             return msg;
         }
         public DataTable Getstkqty(string ItemId, string locid, string brid)
         {
             string SvSql = string.Empty;
-            SvSql = "select SUM(BALANCE_QTY) as QTY from INVENTORY_ITEM where BALANCE_QTY > 0 AND LOCATION_ID='" + locid + "' AND BRANCH_ID='" + brid + "' AND ITEM_ID='" + ItemId + "'";
+            SvSql = "select SUM(BALANCE_QTY) as QTY from INVENTORY_ITEM where BALANCE_QTY > 0 AND TO_LOCID='" + locid + "' AND BRANCH_ID='" + brid + "' AND ITEM_ID='" + ItemId + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -911,6 +940,7 @@ namespace Arasan.Services
             string SvSql = string.Empty;
             using (OracleConnection objConnT = new OracleConnection(_connectionString))
             {
+                objConnT.Open();
                  SvSql = "Delete APPRODINPDET WHERE APPRODUCTIONBASICID='" + id + "'";
                  OracleCommand objCmdd = new OracleCommand(SvSql, objConnT);
                  objCmdd.ExecuteNonQuery();
@@ -928,6 +958,7 @@ namespace Arasan.Services
             string SvSql = string.Empty;
             using (OracleConnection objConnT = new OracleConnection(_connectionString))
             {
+                objConnT.Open();
                 SvSql = "Delete APPRODCONSDET WHERE APPRODUCTIONBASICID='" + id + "'";
                 OracleCommand objCmdd = new OracleCommand(SvSql, objConnT);
                 objCmdd.ExecuteNonQuery();
@@ -945,6 +976,7 @@ namespace Arasan.Services
             string SvSql = string.Empty;
             using (OracleConnection objConnT = new OracleConnection(_connectionString))
             {
+                objConnT.Open();
                 SvSql = "Delete APPRODEMPDET WHERE APPRODUCTIONBASICID='" + id + "'";
                 OracleCommand objCmdd = new OracleCommand(SvSql, objConnT);
                 objCmdd.ExecuteNonQuery();
@@ -963,6 +995,7 @@ namespace Arasan.Services
             string SvSql = string.Empty;
             using (OracleConnection objConnT = new OracleConnection(_connectionString))
             {
+                objConnT.Open();
                 SvSql = "Delete APPRODBREAKDET WHERE APPRODUCTIONBASICID='" + id + "'";
                 OracleCommand objCmdd = new OracleCommand(SvSql, objConnT);
                 objCmdd.ExecuteNonQuery();
@@ -981,6 +1014,7 @@ namespace Arasan.Services
             string SvSql = string.Empty;
             using (OracleConnection objConnT = new OracleConnection(_connectionString))
             {
+                objConnT.Open();
                 SvSql = "Delete APPRODLOGDET WHERE APPRODUCTIONBASICID='" + id + "'";
                 OracleCommand objCmdd = new OracleCommand(SvSql, objConnT);
                 objCmdd.ExecuteNonQuery();

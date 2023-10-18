@@ -92,7 +92,7 @@ namespace Arasan.Services
         public DataTable EditGRNbyID(string name)
         {
             string SvSql = string.Empty;
-            SvSql = "Select GRNBLBASIC.BRANCHID,GRNBLBASIC.DOCID,to_char(GRNBLBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,GRNBLBASIC.EXRATE,GRNBLBASIC.MAINCURRENCY,GRNBLBASIC.PARTYID,GRNBLBASICID,GRNBLBASIC.STATUS,POBASIC.DOCID as PONO,to_char(POBASIC.DOCDATE,'dd-MON-yyyy') PODate,GRNBLBASIC.PACKING_CHRAGES,GRNBLBASIC.OTHER_CHARGES,GRNBLBASIC.OTHER_DEDUCTION,GRNBLBASIC.ROUND_OFF_PLUS,GRNBLBASIC.ROUND_OFF_MINUS,GRNBLBASIC.NARRATION,GRNBLBASIC.REFNO,to_char(GRNBLBASIC.REFDT,'dd-MON-yyyy') REFDT,GRNBLBASIC.FREIGHT,GRNBLBASIC.GROSS,GRNBLBASIC.NET,DESPTHRU,LRNO,to_char(LRDT,'dd-MON-yyyy') LRDT,TRNSPNAME,truckno from GRNBLBASIC LEFT OUTER JOIN POBASIC ON POBASIC.POBASICID=GRNBLBASIC.POBASICID  Where  GRNBLBASIC.GRNBLBASICID='" + name + "'";
+            SvSql = "Select GRNBLBASIC.BRANCHID,GRNBLBASIC.DOCID,to_char(GRNBLBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,GRNBLBASIC.EXRATE,GRNBLBASIC.MAINCURRENCY,PARTYMAST.PARTYNAME,GRNBLBASIC.PARTYID,GRNBLBASICID,GRNBLBASIC.STATUS,POBASIC.DOCID as PONO,to_char(POBASIC.DOCDATE,'dd-MON-yyyy') PODate,GRNBLBASIC.PACKING_CHRAGES,GRNBLBASIC.OTHER_CHARGES,GRNBLBASIC.OTHER_DEDUCTION,GRNBLBASIC.ROUND_OFF_PLUS,GRNBLBASIC.ROUND_OFF_MINUS,GRNBLBASIC.NARRATION,GRNBLBASIC.REFNO,to_char(GRNBLBASIC.REFDT,'dd-MON-yyyy') REFDT,GRNBLBASIC.FREIGHT,GRNBLBASIC.GROSS,GRNBLBASIC.NET,DESPTHRU,LRNO,to_char(LRDT,'dd-MON-yyyy') LRDT,TRNSPNAME,truckno from GRNBLBASIC LEFT OUTER JOIN POBASIC ON POBASIC.POBASICID=GRNBLBASIC.POBASICID LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID=GRNBLBASIC.PARTYID  Where  GRNBLBASIC.GRNBLBASICID='" + name + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -202,8 +202,9 @@ namespace Arasan.Services
                                 /////////////////////////Inventory details
 
                                 string GRNITEMID = datatrans.GetDataString("Select GRNBLDETAILID from GRNBLDETAIL where GRNBLBASICID='" + cy.GRNID + "'  AND ITEMID='" + cp.saveItemId + "' ");
+                                //string wcid = datatrans.GetDataString("Select WCBASICID from WCBASIC where ILOCATION='10001000000827' ");
                                 using (OracleConnection objConnI = new OracleConnection(_connectionString))
-                                {
+                                {  
                                     OracleCommand objCmdI = new OracleCommand("INVENTORYITEMPROC", objConn);
                                     objCmdI.CommandType = CommandType.StoredProcedure;
                                     objCmdI.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
@@ -217,13 +218,16 @@ namespace Arasan.Services
                                     objCmdI.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
                                     objCmdI.Parameters.Add("WASTAGE", OracleDbType.NVarchar2).Value = cp.DamageQty;
                                     objCmdI.Parameters.Add("LOCATION_ID", OracleDbType.NVarchar2).Value = "10001000000827";
+                                    objCmdI.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = "0";
+                                    objCmdI.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = "0";
                                     objCmdI.Parameters.Add("BRANCH_ID", OracleDbType.NVarchar2).Value = cy.BranchID;
-                                    objCmdI.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = "Insert";
+                                  
                                     objCmdI.Parameters.Add("INV_OUT_ID", OracleDbType.NVarchar2).Value = "0";
                                     objCmdI.Parameters.Add("DRUM_NO", OracleDbType.NVarchar2).Value = "";
                                     objCmdI.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = "0";
                                     objCmdI.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = "0";
                                     objCmdI.Parameters.Add("LOT_NO", OracleDbType.NVarchar2).Value = cp.Lotno;
+                                    objCmdI.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = "Insert";
                                     objCmdI.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                                     objConnI.Open();
                                     objCmdI.ExecuteNonQuery();

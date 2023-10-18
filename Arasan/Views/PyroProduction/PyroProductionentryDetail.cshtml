@@ -821,7 +821,7 @@
                                 
                                 <div class="col-lg-10" hidden id="go">
                                 <div class="col-lg-10"></div>
-                                    <button type="button" href="@Url.Action("PyroProdApprove", "PyroProduction", new { id = Model.APID })" class="btn aqua fancybox" data-fancybox-type='iframe' id="btnSave">Submit</button>
+                                    <button type="button" href="@Url.Action("PyroProdApprove", "PyroProduction", new { id = Model.APID })" class="btn aqua fancybox" data-fancybox-type='iframe' id="btnSave"  onClick="window.parent.jQuery.fancybox.close();">Submit</button>
                             <button class="btn btn-danger" type="button"  causesvalidation="false" id="btnCansel" onclick="location.href='@Url.Action("ListPyroProduction", "PyroProduction")'">Cancel</button>
                                @*@* <button class="btn btn-danger" type="button" causesvalidation="false" id="btnCansel" onclick="location.href='@Url.Action("PyroProduction", "PyroProduction")'">Cancel</button>*@
                                 @*</div>*@
@@ -1746,7 +1746,8 @@
             width: '80%',
             height: '10%',
             arrows: false,
-
+            afterClose: function () {
+                location.href = "/PyroProduction/ListPyroProduction";
         });
         fancybox123 = $.fancybox;
     });

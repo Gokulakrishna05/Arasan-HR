@@ -41,6 +41,7 @@ namespace Arasan.Models
         public List<SelectListItem> Itemlst;
 
         public String Itemid { get; set; }
+        public String Item { get; set; }
 
         public List<SelectListItem> Type;
         public String type { get; set; }

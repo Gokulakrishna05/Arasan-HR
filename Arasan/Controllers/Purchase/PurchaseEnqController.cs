@@ -299,8 +299,8 @@ namespace Arasan.Controllers
             try
             {
                 Cy.ID = id;
-                string Strout = "";//PurenqService.EnquirytoQuote(Cy.ID);
-                datatrans.UpdateStatus("UPDATE PURENQBASIC SET STATUS = 2 where PURENQBASICID = '" + id + "'");
+                string Strout = PurenqService.EnquirytoQuote(Cy.ID);
+                //datatrans.UpdateStatus("UPDATE PURENQBASIC SET STATUS = 2 where PURENQBASICID = '" + id + "'");
                 if (string.IsNullOrEmpty(Strout))
                 {
                     if (Cy.ID == null)
