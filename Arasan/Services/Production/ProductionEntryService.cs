@@ -115,7 +115,7 @@ public class ProductionEntryService : IProductionEntry
     public DataTable GetInward()
     {
         string SvSql = string.Empty;
-        SvSql = "select DOCID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE,CURINPBASICID,BRANCHMAST.BRANCHID from CURINPBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=CURINPBASIC.BRANCHID WHERE CURINPBASIC.ISOUTWARD='N'  Order by CURINPBASICID DESC ";
+        SvSql = "select DOCID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE,CURINPBASICID,BRANCHMAST.BRANCHID from CURINPBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=CURINPBASIC.BRANCHID  Order by CURINPBASICID DESC ";
         DataTable dtt = new DataTable();
         OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
         OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

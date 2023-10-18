@@ -552,12 +552,7 @@ namespace Arasan.Services
                                 Object Pid1 = objCmdIn.Parameters["OUTID"].Value;
 
 
-                                objCmdIn.Parameters.Add("OUT_ID", OracleDbType.NVarchar2).Value = cp.outid;
-                                objCmdIn.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
-
-
-                                objCmdIn.ExecuteNonQuery();
-                                Object Pid1 = objCmdIn.Parameters["OUTID"].Value;
+                               
 
 
                                 //if (cy.ID != null)
@@ -591,7 +586,7 @@ namespace Arasan.Services
                                 objCmdInp.Parameters.Add("MINSQTY", OracleDbType.NVarchar2).Value = "0";
                                 objCmdInp.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = "0";
                                 objCmdInp.Parameters.Add("LOTNO", OracleDbType.NVarchar2).Value = docid;
-                                objCmdInp.Parameters.Add("SHEDNO", OracleDbType.NVarchar2).Value = "0";
+                                objCmdInp.Parameters.Add("SHEDNO", OracleDbType.NVarchar2).Value = "";
 
                                 objCmdInp.ExecuteNonQuery();
                                 string Sql = string.Empty;
@@ -620,9 +615,7 @@ namespace Arasan.Services
                             }
                         }
 
-            objConn.Close();
-
-                    }
+             
                 }
                             
                             }
@@ -639,7 +632,7 @@ namespace Arasan.Services
         public DataTable Getstkqty(string ItemId, string locid, string brid)
         {
             string SvSql = string.Empty;
-            SvSql = "select SUM(BALANCE_QTY) as QTY from INVENTORY_ITEM where BALANCE_QTY > 0 AND TO_LOCID='" + locid + "' AND BRANCH_ID='" + brid + "' AND ITEM_ID='" + ItemId + "'";
+            SvSql = "select SUM(BALANCE_QTY) as QTY from INVENTORY_ITEM where BALANCE_QTY > 0 AND LOCATION_ID='" + locid + "' AND BRANCH_ID='" + brid + "' AND ITEM_ID='" + ItemId + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

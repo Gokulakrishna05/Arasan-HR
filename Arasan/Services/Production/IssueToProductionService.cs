@@ -123,12 +123,36 @@ namespace Arasan.Services
                                              
                                                 objCmdIn.ExecuteNonQuery();
                                                 Object Pid = objCmdIn.Parameters["OUTID"].Value;
-                                                //string Pid = "0";
-                                                if (cy.ID != null)
-                                                {
-                                                    Pid = cy.ID;
-                                                }
-                                                
+                                            using (OracleConnection objConnIn = new OracleConnection(_connectionString))
+                                            {
+                                                OracleCommand objCmdIns = new OracleCommand("INVITEMTRANSPROC", objConn);
+                                                objCmdIns.CommandType = CommandType.StoredProcedure;
+                                                objCmdIns.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                                objCmdIns.Parameters.Add("INVENTORY_ITEM_ID", OracleDbType.NVarchar2).Value = cp.itemid;
+                                                objCmdIns.Parameters.Add("GRN_ID", OracleDbType.NVarchar2).Value = "0";
+                                                objCmdIns.Parameters.Add("ITEM_ID", OracleDbType.NVarchar2).Value = Pid;
+                                                objCmdIns.Parameters.Add("TRANS_TYPE", OracleDbType.NVarchar2).Value = "ISSUEPROD";
+                                                objCmdIns.Parameters.Add("TRANS_IMPACT", OracleDbType.NVarchar2).Value = "I";
+                                                objCmdIns.Parameters.Add("TRANS_QTY", OracleDbType.NVarchar2).Value = qty;
+                                                objCmdIns.Parameters.Add("TRANS_NOTES", OracleDbType.NVarchar2).Value = "ISSUEPROD";
+                                                objCmdIns.Parameters.Add("TRANS_DATE", OracleDbType.Date).Value = DateTime.Now;
+                                                objCmdIns.Parameters.Add("FINANCIAL_YEAR", OracleDbType.NVarchar2).Value = datatrans.GetFinancialYear(DateTime.Now);
+                                                objCmdIns.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = "1"; /*HttpContext.*/
+                                                objCmdIns.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                                                objCmdIns.Parameters.Add("LOCATION_ID", OracleDbType.NVarchar2).Value = locid;
+                                                objCmdIns.Parameters.Add("BRANCH_ID", OracleDbType.NVarchar2).Value = cy.Branch;
+                                                objCmdIns.Parameters.Add("DRUM_NO", OracleDbType.NVarchar2).Value = "";
+                                                objCmdIns.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = "0";
+                                                objCmdIns.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = "0";
+                                                objCmdIns.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = "Insert";
+                                                objConnIn.Open();
+                                                objCmdIns.ExecuteNonQuery();
+                                                objConnIn.Close();
+
+                                            }
+
+                                            
+
 
 
 
@@ -176,13 +200,33 @@ namespace Arasan.Services
                                               
                                                 objCmdIn.ExecuteNonQuery();
                                                 Object Pid = objCmdIn.Parameters["OUTID"].Value;
-                                                //string Pid = "0";
-                                                if (cy.ID != null)
-                                                {
-                                                    Pid = cy.ID;
-                                                }
-                                               
-                                               
+                                            using (OracleConnection objConnIn = new OracleConnection(_connectionString))
+                                            {
+                                                OracleCommand objCmdIns = new OracleCommand("INVITEMTRANSPROC", objConn);
+                                                objCmdIns.CommandType = CommandType.StoredProcedure;
+                                                objCmdIns.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                                objCmdIns.Parameters.Add("INVENTORY_ITEM_ID", OracleDbType.NVarchar2).Value = cp.itemid;
+                                                objCmdIns.Parameters.Add("GRN_ID", OracleDbType.NVarchar2).Value = "0";
+                                                objCmdIns.Parameters.Add("ITEM_ID", OracleDbType.NVarchar2).Value = Pid;
+                                                objCmdIns.Parameters.Add("TRANS_TYPE", OracleDbType.NVarchar2).Value = "ISSUEPROD";
+                                                objCmdIns.Parameters.Add("TRANS_IMPACT", OracleDbType.NVarchar2).Value = "I";
+                                                objCmdIns.Parameters.Add("TRANS_QTY", OracleDbType.NVarchar2).Value = qty;
+                                                objCmdIns.Parameters.Add("TRANS_NOTES", OracleDbType.NVarchar2).Value = "ISSUEPROD";
+                                                objCmdIns.Parameters.Add("TRANS_DATE", OracleDbType.Date).Value = DateTime.Now;
+                                                objCmdIns.Parameters.Add("FINANCIAL_YEAR", OracleDbType.NVarchar2).Value = datatrans.GetFinancialYear(DateTime.Now);
+                                                objCmdIns.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = "1"; /*HttpContext.*/
+                                                objCmdIns.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                                                objCmdIns.Parameters.Add("LOCATION_ID", OracleDbType.NVarchar2).Value = locid;
+                                                objCmdIns.Parameters.Add("BRANCH_ID", OracleDbType.NVarchar2).Value = cy.Branch;
+                                                objCmdIns.Parameters.Add("DRUM_NO", OracleDbType.NVarchar2).Value = "";
+                                                objCmdIns.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = "0";
+                                                objCmdIns.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = "0";
+                                                objCmdIns.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = "Insert";
+                                                objConnIn.Open();
+                                                objCmdIns.ExecuteNonQuery();
+                                                objConnIn.Close();
+
+                                            }
 
 
 
