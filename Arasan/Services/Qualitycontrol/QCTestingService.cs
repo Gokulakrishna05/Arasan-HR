@@ -48,9 +48,6 @@ namespace Arasan.Services
                                 ItemId = rdr["ITEMID"].ToString(),
                                 TestResult = rdr["TESTRESULT"].ToString(),
                                 TestBy = rdr["TESTBY"].ToString(),
-
-                                Remarks = rdr["REMARKS"].ToString()
-
                                 Remarks = rdr["REMARKS"].ToString(),
                                 Stat = rdr["STATUS"].ToString(),
                                 GRNProd = rdr["GRNPROD"].ToString(),
