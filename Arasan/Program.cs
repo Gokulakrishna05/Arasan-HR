@@ -165,6 +165,7 @@ internal class Program
 
         builder.Services.TryAddSingleton<IAccDescrip, AccDescripService>();
         builder.Services.TryAddSingleton<IQcDashboardService, QcDashboardService>();
+        builder.Services.TryAddSingleton<IPackingQCFinalValueEntry, PackingQCFinalValueEntryService>();
 
 
 

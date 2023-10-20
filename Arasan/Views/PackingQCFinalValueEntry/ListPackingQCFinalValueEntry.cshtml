@@ -1,0 +1,134 @@
+﻿@model IEnumerable<Arasan.Models.PackingQCFinalValueEntry>
+@{
+    ViewData["Title"] = "PackingQCFinalValueEntry";
+   
+}
+
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a>Quality Control</a> </li>
+            <li class="active"> <strong>Packing QCFinalValueEntry</strong> </li>
+        </ol>
+    </div>
+</div>
+<style>
+    .newwidth {
+        width: 120px;
+    }
+
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+
+                    <form>
+                        
+
+                           @*</div>*@
+                            <div class="col-md-12 ">
+                                <div class=" textalignright">
+                                    <a href="@Url.Action("PackingQCFinalValueEntry","PackingQCFinalValueEntry")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add PackingQCFinalValueEntry</a>
+                                    <br>
+                                </div>
+
+                            </div>
+                        @*</div>*@
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="ibox float-e-margins">
+                                    <div class="ibox-content collapse in">
+                                        <div class="widgets-container">
+                                            <div>
+                                                <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            
+                                                           
+                                                            <th>Doc Id</th>
+                                                            <th>Doc Date</th>
+                                                            <th>Packing Entry ID</th>
+                                                            <th>No.Of Test Requried</th>
+                                                            <th>View</th>
+                                                            <th>Delete</th>
+                                                        </tr>
+                                                    </thead>
+
+                                                    <tbody>
+                                                        @{
+                                                            int i = 1;
+
+                                                            foreach (var item in Model)
+                                                            {
+                                                                <tr>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Docid)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.DocDate)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.PEntryid)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.TestReq)</td>
+                                                                   
+
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewPackingQCFinalValueEntry", "PackingQCFinalValueEntry",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Waiting for approval' /></a></div></td>
+                                                                    <td> <a href="@Url.Action("DeleteMR","PackingQCFinalValueEntry",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
+                                                               </tr>
+                                                                i++;
+                                                            }
+                                                        }
+                                                       
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#example7').DataTable({
+            dom: 'Bfrtip',
+            buttons: [{
+                text: 'copy',
+                extend: "copy",
+                className: 'btn dark btn-outline'
+            }, {
+                text: 'csv',
+                extend: "csv",
+                className: 'btn aqua btn-outline'
+            }, {
+                text: 'excel',
+                extend: "excel",
+                className: 'btn aqua btn-outline'
+            }, {
+                text: 'pdf',
+                extend: "pdf",
+                className: 'btn yellow  btn-outline'
+            }, {
+                text: 'print',
+                extend: "print",
+                className: 'btn purple  btn-outline'
+            }]
+        });
+
+
+
+    });
+
+</script>
+

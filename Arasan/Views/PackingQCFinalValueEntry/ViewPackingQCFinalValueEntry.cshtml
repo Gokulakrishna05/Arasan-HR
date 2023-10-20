@@ -1,7 +1,7 @@
-﻿@model Arasan.Models.QCFinalValueEntry
+﻿@model Arasan.Models.PackingQCFinalValueEntry
 @{
     Layout = "_PopupLayout";
-    ViewData["Title"] = "QCFinalValueEntry";
+    ViewData["Title"] = "PackingQCFinalValueEntry";
 }
 <style>
     .newwidth {
@@ -127,7 +127,7 @@
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Sales</a> </li>
-            <li class="active"> <strong>QCFinalValueEntry</strong> </li>
+            <li class="active"> <strong>PackingQCFinalValueEntry</strong> </li>
         </ol>
     </div>
 </div>
@@ -136,7 +136,7 @@
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="widgets-container">
-                    <h5 style="font-size:14px">QCFinalValueEntry</h5>
+                    <h5 style="font-size:14px">PackingQCFinalValueEntry</h5>
                     <hr>
 
                     <form>
@@ -145,10 +145,10 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Branch<label class="mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Doc Id<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
 
-                                        @Html.DisplayFor(C => C.Branch) @Html.HiddenFor(C => C.Branch)<br>
+                                        @Html.DisplayFor(C => C.Docid) @Html.HiddenFor(C => C.Docid)<br>
 
                                     </div>
                                 </div>
@@ -158,10 +158,10 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Doc Id<label class="mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Doc Date<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
 
-                                        @Html.DisplayFor(C => C.DocId) @Html.HiddenFor(C => C.DocId)<br>
+                                        @Html.DisplayFor(C => C.DocDate) @Html.HiddenFor(C => C.DocDate)<br>
                                     </div>
                                 </div>
                             </div>
@@ -181,9 +181,9 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="inputName3" class="col-sm-4 control-label">Work Center<label class="mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Packing Entry ID<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.DisplayFor(C => C.WorkCenter) @Html.HiddenFor(C => C.WorkCenter)<br>
+                                        @Html.DisplayFor(C => C.PEntryid) @Html.HiddenFor(C => C.PEntryid)<br>
                                         <br />
                                     </div>
                                 </div>
@@ -194,18 +194,18 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Processer ID<label class="mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Packing Entry Dt<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
 
-                                        @Html.DisplayFor(C => C.Process) @Html.HiddenFor(C => C.Process)<br>
+                                        @Html.DisplayFor(C => C.PEntrydt) @Html.HiddenFor(C => C.PEntrydt)<br>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="inputName3" class="col-sm-4 control-label">Drum No<label class="mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Packing Note ID<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.DisplayFor(C => C.DrumNo) @Html.HiddenFor(C => C.DrumNo)<br>
+                                        @Html.DisplayFor(C => C.PNoteid) @Html.HiddenFor(C => C.PNoteid)<br>
                                         <br />
                                     </div>
                                 </div>
@@ -215,18 +215,18 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Batch<label class="mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Schedule No<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
 
-                                        @Html.DisplayFor(C => C.Batch) @Html.HiddenFor(C => C.Batch)<br>
+                                        @Html.DisplayFor(C => C.Schedule) @Html.HiddenFor(C => C.Schedule)<br>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="inputName3" class="col-sm-4 control-label">Batch No<label class="mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Pac.Lot.No<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.DisplayFor(C => C.BatchNo) @Html.HiddenFor(C => C.BatchNo)<br>
+                                        @Html.DisplayFor(C => C.PacNo) @Html.HiddenFor(C => C.PacNo)<br>
                                         <br />
                                     </div>
                                 </div>
@@ -240,15 +240,15 @@
                                     <label for="inputName3" class="col-sm-4 control-label">Item ID<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
 
-                                        @Html.DisplayFor(C => C.Itemid) @Html.HiddenFor(C => C.Itemid)<br>
+                                        @Html.DisplayFor(C => C.Item) @Html.HiddenFor(C => C.Item)<br>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="inputName3" class="col-sm-4 control-label">Prod No<label class="mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">No.Of Test Requried<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.DisplayFor(C => C.ProNo) @Html.HiddenFor(C => C.ProNo)<br>
+                                        @Html.DisplayFor(C => C.TestReq) @Html.HiddenFor(C => C.TestReq)<br>
                                         <br />
                                     </div>
                                 </div>
@@ -259,18 +259,18 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Rate/Hr<label class="mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Drum Nos<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
 
-                                        @Html.DisplayFor(C => C.Rate) @Html.HiddenFor(C => C.Rate)<br>
+                                        @Html.DisplayFor(C => C.drumnos) @Html.HiddenFor(C => C.drumnos)<br>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="inputName3" class="col-sm-4 control-label">Prod Date<label class="mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Same Taken By<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.DisplayFor(C => C.ProDate) @Html.HiddenFor(C => C.ProDate)<br>
+                                        @Html.DisplayFor(C => C.Same) @Html.HiddenFor(C => C.Same)<br>
                                         <br />
                                     </div>
                                 </div>
@@ -281,68 +281,25 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Sample No<label class="mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Checked By<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
 
-                                        @Html.DisplayFor(C => C.SampleNo) @Html.HiddenFor(C => C.SampleNo)<br>
+                                        @Html.DisplayFor(C => C.Checked) @Html.HiddenFor(C => C.Checked)<br>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="inputName3" class="col-sm-4 control-label">Nozzle No<label class="mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Remarks<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.DisplayFor(C => C.NozzleNo) @Html.HiddenFor(C => C.NozzleNo)<br>
+                                        @Html.DisplayFor(C => C.Remarks) @Html.HiddenFor(C => C.Remarks)<br>
                                         <br />
                                     </div>
                                 </div>
                             </div>
 
                         </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                    <label for="inputName3" class="col-sm-4 control-label">Air Pressure<label class="mandatory"></label></label>
-                                    <div class="col-sm-8">
-
-                                        @Html.DisplayFor(C => C.AirPress) @Html.HiddenFor(C => C.AirPress)<br>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="inputName3" class="col-sm-4 control-label">Additive Charged[%]<label class="mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                        @Html.DisplayFor(C => C.Additive) @Html.HiddenFor(C => C.Additive)<br>
-                                        <br />
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div> 
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                    <label for="inputName3" class="col-sm-4 control-label">Sample Time<label class="mandatory"></label></label>
-                                    <div class="col-sm-8">
-
-                                        @Html.DisplayFor(C => C.Stime) @Html.HiddenFor(C => C.Stime)<br>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="inputName3" class="col-sm-4 control-label">Champer Temp<label class="mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                        @Html.DisplayFor(C => C.CTemp) @Html.HiddenFor(C => C.CTemp)<br>
-                                        <br />
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
+                        
 
                         <br />
 
@@ -358,15 +315,11 @@
                                                 <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
                                                     <thead>
 
-                                                    <th>Description</th>
-                                                    <th> ValueOrManual </th>
-                                                    <th> Unit </th>
-                                                    <th> Start Value </th>
-                                                    <th> End Value</th>
-                                                    <th> Test Value </th>
-                                                    <th> Manual Value </th>
-                                                    <th> Actual TestValue </th>
-                                                    <th> Test Result </th>
+                                                    <th>Drum No</th>
+                                                                                <th> Batch No </th>
+                                                                                <th> Comn No </th>
+                                                                                <th> Result </th>
+                                                                                
 
                                                     </thead>
 
@@ -374,19 +327,15 @@
                                                         @{
                                                             int i = 0;
 
-                                                            foreach (var item in Model.QCFlst.ToList())
+                                                            foreach (var item in Model.DrumLst.ToList())
                                                             {
 
                                                                 <tr>
-                                                                    <td>@Html.DisplayFor(o => o.QCFlst[i].des)</td>
-                                                                    <td>@Html.DisplayFor(o => o.QCFlst[i].value)</td>
-                                                                    <td>@Html.DisplayFor(o => o.QCFlst[i].unit)</td>
-                                                                    <td>@Html.DisplayFor(o => o.QCFlst[i].sta)</td>
-                                                                    <td>@Html.DisplayFor(o => o.QCFlst[i].en)</td>
-                                                                    <td>@Html.DisplayFor(o => o.QCFlst[i].test)</td>
-                                                                    <td>@Html.DisplayFor(o => o.QCFlst[i].manual)</td>
-                                                                    <td>@Html.DisplayFor(o => o.QCFlst[i].actual)</td>
-                                                                    <td>@Html.DisplayFor(o => o.QCFlst[i].result)</td>
+                                                                    <td>@Html.DisplayFor(o => o.DrumLst[i].Drum)</td>
+                                                                    <td>@Html.DisplayFor(o => o.DrumLst[i].Batch)</td>
+                                                                    <td>@Html.DisplayFor(o => o.DrumLst[i].Com)</td>
+                                                                    <td>@Html.DisplayFor(o => o.DrumLst[i].Result)</td>
+                                                                   
                                                                     
 
 
@@ -416,11 +365,11 @@
                                                 <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
                                                     <thead>
 
-                                                    <th>Time [Mins]</th>
-                                                    <th> Vol. at 25 C </th>
-                                                    <th> Vol. at 35 C </th>
-                                                    <th> Vol. at 45 C </th>
-                                                    <th> Vol. at STP </th>
+                                                     <th>Time [Mins]</th>
+                                                                                <th> Vol. at 25 C </th>
+                                                                                <th> Vol. at 35 C </th>
+                                                                                <th> Vol. at 45 C </th>
+                                                                                <th> Vol. at STP </th>
 
                                                     </thead>
 
@@ -428,15 +377,16 @@
                                                         @{
                                                             int j = 0;
 
-                                                            foreach (var item in Model.QCFVDLst.ToList())
+                                                            foreach (var item in Model.TimeLst.ToList())
                                                             {
 
                                                                 <tr>
-                                                                    <td>@Html.DisplayFor(o => o.QCFVDLst[j].Time)</td>
-                                                                    <td>@Html.DisplayFor(o => o.QCFVDLst[j].Vol)</td>
-                                                                    <td>@Html.DisplayFor(o => o.QCFVDLst[j].Volat)</td>
-                                                                    <td>@Html.DisplayFor(o => o.QCFVDLst[j].Volc)</td>
-                                                                    <td>@Html.DisplayFor(o => o.QCFVDLst[j].Stp)</td>
+                                                                    <td>@Html.DisplayFor(o => o.TimeLst[j].Time)</td>
+                                                                    <td>@Html.DisplayFor(o => o.TimeLst[j].vol25)</td>
+                                                                    <td>@Html.DisplayFor(o => o.TimeLst[j].vol35)</td>
+                                                                    <td>@Html.DisplayFor(o => o.TimeLst[j].vol45)</td>
+                                                                    <td>@Html.DisplayFor(o => o.TimeLst[j].vol)</td>
+                                                                    
                                                                     
 
                                                                 </tr>
@@ -453,33 +403,13 @@
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                    <label for="inputName3" class="col-sm-4 control-label">Final Result<label class="mandatory"></label></label>
-                                    <div class="col-sm-8">
-
-                                        @Html.DisplayFor(C => C.FResult) @Html.HiddenFor(C => C.FResult)<br>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="inputName3" class="col-sm-4 control-label">Result Type<label class="mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                        @Html.DisplayFor(C => C.RType) @Html.HiddenFor(C => C.RType)<br>
-                                        <br />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                       
 
                     </form>
                 </div>
                 <div style="height:30px;"></div>
 
-                <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListQCFinalValueEntry", "QCFinalValueEntry")'">Cancel</button>
+                <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListPackingQCFinalValueEntry", "PackingQCFinalValueEntry")'">Cancel</button>
 
             </div>
         </div>
