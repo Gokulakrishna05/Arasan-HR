@@ -36,7 +36,6 @@ namespace Arasan.Services
                         {
                             QCTesting cmp = new QCTesting
                             {
-
                                 ID = rdr["QCVALUEBASICID"].ToString(),
                                 DocId = rdr["DOCID"].ToString(),
                                 GRNNo = rdr["GRNNO"].ToString(),
@@ -49,10 +48,14 @@ namespace Arasan.Services
                                 ItemId = rdr["ITEMID"].ToString(),
                                 TestResult = rdr["TESTRESULT"].ToString(),
                                 TestBy = rdr["TESTBY"].ToString(),
+
+                                Remarks = rdr["REMARKS"].ToString()
+
                                 Remarks = rdr["REMARKS"].ToString(),
                                 Stat = rdr["STATUS"].ToString(),
                                 GRNProd = rdr["GRNPROD"].ToString(),
                                 Procedure = rdr["TESTPROCEDURE"].ToString()
+
 
                             };
                             cmpList.Add(cmp);
@@ -217,6 +220,127 @@ namespace Arasan.Services
 
             return msg;
         }
+        public string POQCTestingCRUD(QCTesting cy)
+        {
+            string msg = "";
+            try
+            {
+                if (cy.ID != null)
+                {
+                    cy.ID = null;
+                }
+                string StatementType = string.Empty; string svSQL = "";
+                datatrans = new DataTransactions(_connectionString);
+                if (cy.ID == null)
+                {
+                    int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'TE--' AND ACTIVESEQUENCE = 'T'  ");
+                    string DocId = string.Format("{0}{1}", "TE--", (idc + 1).ToString());
+                    string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='TE--' AND ACTIVESEQUENCE ='T'  ";
+                    try
+                    {
+                        datatrans.UpdateStatus(updateCMd);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                    cy.DocId = DocId;
+                }
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    OracleCommand objCmd = new OracleCommand("QCTESTINGPROC", objConn);
+
+                    objCmd.CommandType = CommandType.StoredProcedure;
+                    if (cy.ID == null)
+                    {
+                        StatementType = "Insert";
+                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                    }
+                    else
+                    {
+                        StatementType = "Update";
+                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                    }
+
+                    objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.DocId;
+                    objCmd.Parameters.Add("GRNNO", OracleDbType.NVarchar2).Value = cy.PoId;
+                    objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = cy.DocDate;
+                    objCmd.Parameters.Add("GRNDATE", OracleDbType.NVarchar2).Value = cy.PoDate;
+                    objCmd.Parameters.Add("CLASSCODE", OracleDbType.NVarchar2).Value = cy.ClassCode;
+                    objCmd.Parameters.Add("PARTYID", OracleDbType.NVarchar2).Value = cy.Par;
+                    objCmd.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cy.Item;
+                    objCmd.Parameters.Add("SLNO", OracleDbType.NVarchar2).Value = cy.SNo;
+                    objCmd.Parameters.Add("LOTSERIALNO", OracleDbType.NVarchar2).Value = cy.LotNo;
+                    objCmd.Parameters.Add("TESTRESULT", OracleDbType.NVarchar2).Value = cy.TestResult;
+                    objCmd.Parameters.Add("TESTBY", OracleDbType.NVarchar2).Value = cy.TestBy;
+                    objCmd.Parameters.Add("REMARKS", OracleDbType.NVarchar2).Value = cy.Remarks;
+                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
+                    objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                    objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
+
+                    try
+                    {
+                        objConn.Open();
+                        objCmd.ExecuteNonQuery();
+                        Object Pid = objCmd.Parameters["OUTID"].Value;
+                        //string Pid = "0";
+                        if (cy.ID != null)
+                        {
+                            Pid = cy.ID;
+                        }
+
+                        foreach (QCPOItem cp in cy.QCPOLst)
+                        {
+                            if (cp.Isvalid == "Y" && cp.unit != "0")
+                            {
+                                using (OracleConnection objConns = new OracleConnection(_connectionString))
+                                {
+                                    OracleCommand objCmds = new OracleCommand("QCDETAILPROC", objConns);
+                                    if (cy.ID == null)
+                                    {
+                                        StatementType = "Insert";
+                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                    }
+                                    else
+                                    {
+                                        StatementType = "Update";
+                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                                    }
+                                    objCmds.CommandType = CommandType.StoredProcedure;
+                                    objCmds.Parameters.Add("QCVALUEBASICID", OracleDbType.NVarchar2).Value = Pid;
+                                    objCmds.Parameters.Add("TESTDESC", OracleDbType.NVarchar2).Value = cp.testid;
+                                    objCmds.Parameters.Add("UNIT", OracleDbType.NVarchar2).Value = cp.unit;
+                                    objCmds.Parameters.Add("VALUEORMANUAL", OracleDbType.NVarchar2).Value = cp.value;
+                                    objCmds.Parameters.Add("STARTVALUE", OracleDbType.NVarchar2).Value = cp.startvalue;
+                                    objCmds.Parameters.Add("ENDVALUE", OracleDbType.NVarchar2).Value = cp.endvalue;
+                                    objCmds.Parameters.Add("TESTVALUE", OracleDbType.NVarchar2).Value = cp.test;
+                                    objCmds.Parameters.Add("MANUALVALUE", OracleDbType.NVarchar2).Value = cp.manual;
+                                    objCmds.Parameters.Add("ACTTESTVALUE", OracleDbType.NVarchar2).Value = cp.actual;
+                                    objCmds.Parameters.Add("RESULT", OracleDbType.NVarchar2).Value = cp.testresult;
+                                    objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                                    objConns.Open();
+                                    objCmds.ExecuteNonQuery();
+                                    objConns.Close();
+                                }
+                            }
+                            }
+
+                        }
+                    catch (Exception ex)
+                    {
+                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
+                    }
+                    objConn.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
+        }
         public DataTable GetGRN(string id)
         {
             string SvSql = string.Empty;
@@ -350,7 +474,29 @@ namespace Arasan.Services
         public DataTable GetPoQcTesting(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select POBASICID,DOCID FROM POBASIC WHERE POBASICID='" + id + "'";
+            SvSql = "select POBASICID ,DOCID,to_char(POBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PARTYMAST.PARTYNAME,POBASIC.PARTYID as par FROM POBASIC LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID=POBASIC.PARTYID WHERE POBASICID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetGetPoQcTestingDetails(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select ITEMMASTER.ITEMID,PODETAIL.ITEMID as item,QTY from PODETAIL  LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PODETAIL.ITEMID  WHERE POBASICID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetPOItemDetail(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select TESTDESC,UNITMAST.UNITID,VALUEORMANUAL,STARTVALUE,ENDVALUE,TESTTDETAILID from TESTTDETAIL left outer join UNITMAST ON UNITMASTID =TESTTDETAIL.UNIT   WHERE TESTTBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

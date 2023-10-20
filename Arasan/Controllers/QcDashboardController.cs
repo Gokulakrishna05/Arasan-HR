@@ -44,7 +44,7 @@ namespace Arasan.Controllers
                     tda.ItemName = dt2.Rows[i]["ITEMID"].ToString();
                     tda.TotalQty = dt2.Rows[i]["TOTAL_QTY"].ToString();
                     tda.Unit = dt2.Rows[i]["UNITID"].ToString();
-
+                    tda.id = dt2.Rows[i]["POBASICID"].ToString();
                     TData.Add(tda);
                 }
             }
