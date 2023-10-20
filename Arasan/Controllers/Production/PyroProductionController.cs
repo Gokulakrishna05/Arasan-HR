@@ -1088,6 +1088,7 @@ namespace Arasan.Controllers
         {
             PyroProductionentryDet ca = new PyroProductionentryDet();
             DataTable dt = new DataTable();
+            ca.Branch = Request.Cookies["BranchId"];
             dt = Pyro.GetPyroProductionName(id);
             if (dt.Rows.Count > 0)
             {

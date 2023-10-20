@@ -985,16 +985,121 @@ namespace Arasan.Services
                                     Sql = "Update PYROPRODBASIC SET  IS_APPROVED='Y' WHERE PYROPRODBASICID='" + cy.ID + "'";
                                      objCmds = new OracleCommand(Sql, objConn);
                                     objCmds.ExecuteNonQuery();
+                                    Sql = "Update CURINGMASTER SET  STATUS='Occupied' WHERE SHEDNUMBER='" + cp.ShedNo + "'";
+                                    objCmds = new OracleCommand(Sql, objConn);
+                                    objCmds.ExecuteNonQuery();
+                                    datatrans = new DataTransactions(_connectionString);
+
+
+                                    int occupied = datatrans.GetDataId(" SELECT OCCUPIED FROM CURINGMASTER WHERE SHEDNUMBER = '"+ cp.ShedNo+"' ");
+                                     
+
+                                    string updateoccupied = " UPDATE CURINGMASTER SET OCCUPIED ='" + (occupied + 1).ToString() + "' WHERE SHEDNUMBER ='"+ cp.ShedNo+"'";
+                                    try
+                                    {
+                                        datatrans.UpdateStatus(updateoccupied);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        throw ex;
+                                    }
                                 }
                                 catch (Exception ex)
                                 {
                                     //System.Console.WriteLine("Exception: {0}", ex.ToString());
                                 }
                                 /////////////////////////output inventory
+                                ///
+                                  /////////////////////////Curing Inward
+                                datatrans = new DataTransactions(_connectionString);
+
+
+                                int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'CURI' AND ACTIVESEQUENCE = 'T'");
+                                string curid = string.Format("{0}{1}", "CURI", (idc + 1).ToString());
+
+                                string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='CURI' AND ACTIVESEQUENCE ='T'";
+                                try
+                                {
+                                    datatrans.UpdateStatus(updateCMd);
+                                }
+                                catch (Exception ex)
+                                {
+                                    throw ex;
+                                }
+                                string shiftid = datatrans.GetDataString("Select SHIFTMASTID from SHIFTMAST where SHIFTNO='"+ cy.Shift+"' ");
+                                OracleCommand objCmdsss = new OracleCommand("CURINGINWARDPPROC", objConn);
+                                objCmdsss.CommandType = CommandType.StoredProcedure;
+                                objCmdsss.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                objCmdsss.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
+                                objCmdsss.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = curid;
+                                objCmdsss.Parameters.Add("DOCDATE", OracleDbType.Date).Value = DateTime.Now;
+                                objCmdsss.Parameters.Add("LOCDETAILSID", OracleDbType.NVarchar2).Value = "10044000011739";
+                                objCmdsss.Parameters.Add("SHIFT", OracleDbType.NVarchar2).Value = shiftid;
+                                objCmdsss.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = "10932000000839";
+                                objCmdsss.Parameters.Add("STARTTIME", OracleDbType.NVarchar2).Value =cp.FromTime;
+                                objCmdsss.Parameters.Add("ENDTIME", OracleDbType.NVarchar2).Value = cp.ToTime;
+                                objCmdsss.Parameters.Add("ENTEREDBY", OracleDbType.NVarchar2).Value = "";
+                                objCmdsss.Parameters.Add("REMARKS", OracleDbType.NVarchar2).Value = "";
+                                objCmdsss.Parameters.Add("NPRODBASICID", OracleDbType.NVarchar2).Value = "";
+                                objCmdsss.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = "Insert";
+                                objCmdsss.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
+
+                                try
+                                {
+
+                                    objCmdsss.ExecuteNonQuery();
+                                    Object crdid = objCmdsss.Parameters["OUTID"].Value;
+
+                                    //if (cy.ID != null)
+                                    //{
+                                    //    Pid = cy.ID;
+                                    //}
+
+                                    //string wcid = datatrans.GetDataString("Select WCBASICID from WCBASIC where ILOCATION='10044000011739' ");
+                                    string item = cp.ItemId;
+                                    string drum = cp.drumno;
+                                    
+                                    string batch = string.Format("{0}-{1}", item, drum.ToString());
+                                    DataTable dttt = datatrans.GetData("Select SHEDNUMBER,CAPACITY,OCCUPIED from CURINGMASTER where SHEDNUMBER='" + cp.ShedNo + "'");
+                                    int curday = datatrans.GetDataId("Select CURINGDAY from ITEMMASTER where ITEMMASTERID='"+ cp.saveitemId+"' ");
+                                    DateTime due = DateTime.Now.AddDays(curday);
+                                    
+                                    for (int i = 0; i < dttt.Rows.Count; i++)
+                                    {
+
+                                        OracleCommand objCmdInp1 = new OracleCommand("CURINPDETAILPROC", objConn);
+                                      
+                                        objCmdInp1.CommandType = CommandType.StoredProcedure;
+                                        objCmdInp1.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                        objCmdInp1.Parameters.Add("CURINGESBASICID", OracleDbType.NVarchar2).Value = crdid;
+                                        objCmdInp1.Parameters.Add("FDATE", OracleDbType.Date).Value = DateTime.Now;
+                                        objCmdInp1.Parameters.Add("FTIME", OracleDbType.NVarchar2).Value = cp.FromTime;
+                                        objCmdInp1.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cp.saveitemId;
+                                        objCmdInp1.Parameters.Add("DRUMNO", OracleDbType.NVarchar2).Value = cp.drumno;
+                                        objCmdInp1.Parameters.Add("BATCHNO", OracleDbType.NVarchar2).Value = batch;
+                                        objCmdInp1.Parameters.Add("BATCHQTY", OracleDbType.NVarchar2).Value = qty;
+                                        objCmdInp1.Parameters.Add("BINID", OracleDbType.NVarchar2).Value = "";
+                                        objCmdInp1.Parameters.Add("CURDAY", OracleDbType.NVarchar2).Value = curday;
+                                        objCmdInp1.Parameters.Add("BINMASTERID", OracleDbType.NVarchar2).Value ="";
+                                        objCmdInp1.Parameters.Add("CAPACITY", OracleDbType.NVarchar2).Value = dttt.Rows[i]["CAPACITY"].ToString();
+                                        objCmdInp1.Parameters.Add("OCCUPIED", OracleDbType.NVarchar2).Value = dttt.Rows[i]["OCCUPIED"].ToString();
+                                        objCmdInp1.Parameters.Add("DUEDATE", OracleDbType.Date).Value = due;
+                                        objCmdInp1.Parameters.Add("CBINID", OracleDbType.NVarchar2).Value = dttt.Rows[i]["SHEDNUMBER"].ToString();
+                                        objCmdInp1.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = "Insert";
+
+                                        objCmdInp1.ExecuteNonQuery();
+
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    //System.Console.WriteLine("Exception: {0}", ex.ToString());
+                                }
                             }
 
                         }
                     }
+
                     objConn.Close();
                 }
             }
