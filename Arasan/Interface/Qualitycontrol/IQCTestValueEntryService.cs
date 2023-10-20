@@ -19,6 +19,8 @@ namespace Arasan.Interface.Qualitycontrol
         DataTable GetAPOutDetails(string id);
         DataTable GetItemDetail(string id);
         DataTable GetAPOutItemDetails(string id);
+        DataTable GetViewQCTestValueEntry(string id);
+        DataTable GetViewQCTestDetails(string id);
 
         string StatusChange(string tag, string id);
     }

@@ -93,7 +93,7 @@ namespace Arasan.Controllers.Master
                     ca.Ledger = dt.Rows[0]["LEDGERNAME"].ToString();
                     ca.QCTemp = dt.Rows[0]["IQCTEMP"].ToString();
                     ca.FQCTemp = dt.Rows[0]["FGQCTEMP"].ToString();
-                    ca.Curing = dt.Rows[0]["CURINGDAYS"].ToString();
+                    ca.Curing = dt.Rows[0]["CURINGDAY"].ToString();
                 }
                 DataTable dt2 = new DataTable();
                 dt2 = ItemNameService.GetBinDeatils(id);

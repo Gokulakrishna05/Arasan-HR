@@ -1,0 +1,370 @@
+﻿@model Arasan.Models.QCTesting
+@{
+    Layout = "_PopupLayout";
+    ViewData["Title"] = "QCTesting";
+}
+<style>
+    .newwidth {
+        width: 120px;
+    }
+
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+
+    a {
+        outline: none;
+        text-decoration: none;
+        color: #000;
+    }
+
+        a:hover, a:active, a:focus {
+            outline: none;
+            text-decoration: none;
+            color: #000;
+        }
+
+    .container {
+        max-width: 960px;
+    }
+
+    .panel-default > .panel-heading {
+        color: #333;
+        background-color: #fff;
+        border-color: #e4e5e7;
+        padding: 0;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+        .panel-default > .panel-heading a {
+            display: block;
+            padding: 10px 15px;
+        }
+
+            .panel-default > .panel-heading a:after {
+                content: "";
+                position: relative;
+                top: 1px;
+                display: inline-block;
+                /*    font-family: 'Glyphicons Halflings';*/
+                font-style: normal;
+                font-weight: 400;
+                line-height: 1;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+                float: right;
+                transition: transform .25s linear;
+                -webkit-transition: -webkit-transform .25s linear;
+            }
+
+            .panel-default > .panel-heading a[aria-expanded="true"] {
+                background-color: #49B6D6;
+            }
+
+                .panel-default > .panel-heading a[aria-expanded="true"]:after {
+                    content: "\2212";
+                    -webkit-transform: rotate(180deg);
+                    transform: rotate(180deg);
+                }
+
+            .panel-default > .panel-heading a[aria-expanded="false"]:after {
+                content: "\002b";
+                -webkit-transform: rotate(90deg);
+                transform: rotate(90deg);
+            }
+
+    .accordion-option {
+        width: 100%;
+        float: left;
+        clear: both;
+        margin: 15px 0;
+    }
+
+        .accordion-option .title {
+            font-size: 20px;
+            font-weight: bold;
+            float: left;
+            padding: 0;
+            margin: 0;
+        }
+
+        .accordion-option .toggle-accordion {
+            float: right;
+            font-size: 16px;
+            color: #AAB7B8;
+        }
+
+            .accordion-option .toggle-accordion:before {
+                content: "Expand All";
+            }
+
+            .accordion-option .toggle-accordion.active:before {
+                content: "Collapse All";
+            }
+
+    .panel-title a {
+        background-color: #AAB7B8;
+    }
+
+    .panel-body table tr td {
+        padding: 5px;
+    }
+
+    .panel-body table {
+        /* font-size: 15px;*/
+        font-weight: normal;
+    }
+</style>
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a>Sales</a> </li>
+            <li class="active"> <strong>QCTesting</strong> </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    <h5 style="font-size:14px">QCTesting</h5>
+                    <hr>
+
+                    <form>
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">GRN<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+
+                                        @Html.DisplayFor(C => C.GRNNo) @Html.HiddenFor(C => C.GRNNo)<br>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">GRN Date<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+
+                                        @Html.DisplayFor(C => C.GRNDate) @Html.HiddenFor(C => C.GRNDate)<br>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div style="height:10px;"></div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Party<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.DisplayFor(C => C.Party) @Html.HiddenFor(C => C.Party)<br>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Doc Id<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.DisplayFor(C => C.DocId) @Html.HiddenFor(C => C.DocId)<br>
+                                        <br />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Doc Date<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+
+                                        @Html.DisplayFor(C => C.DocId) @Html.HiddenFor(C => C.DocId)<br>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Item<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.DisplayFor(C => C.ItemId) @Html.HiddenFor(C => C.ItemId)<br>
+                                        <br />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">SI No<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+
+                                        @Html.DisplayFor(C => C.SNo) @Html.HiddenFor(C => C.SNo)<br>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Class Code<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.DisplayFor(C => C.ClassCode) @Html.HiddenFor(C => C.ClassCode)<br>
+                                        <br />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Lot No<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+
+                                        @Html.DisplayFor(C => C.LotNo) @Html.HiddenFor(C => C.LotNo)<br>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">GRN/Prod.Qty<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.DisplayFor(C => C.GRNProd) @Html.HiddenFor(C => C.GRNProd)<br>
+                                        <br />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Test Procedure<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+
+                                        @Html.DisplayFor(C => C.Procedure) @Html.HiddenFor(C => C.Procedure)<br>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+
+                        <div style="height:30px;"></div>
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="ibox float-e-margins">
+
+                                    <div class="ibox-content collapse in">
+                                        <div class="widgets-container">
+                                            <div>
+                                                <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
+                                                    <thead>
+
+                                                        <th>Test Description</th>
+                                                        <th>Acc.Value</th>
+                                                        <th>Test Value</th>
+                                                        <th>Manual Value</th>
+                                                        <th> Actual Test Value </th>
+                                                        <th> Result </th>
+                                                    
+                                                    </thead>
+
+                                                    <tbody>
+                                                        @{
+                                                            int i = 0;
+
+                                                                foreach (var item in Model.QCLst.ToList())
+                                                            {
+
+                                                                <tr>
+                                                                        <td>@Html.DisplayFor(o => o.QCLst[i].TestDec)</td>
+                                                                        <td>@Html.DisplayFor(o => o.QCLst[i].AccVale)</td>
+                                                                        <td>@Html.DisplayFor(o => o.QCLst[i].TestValue)</td>
+                                                                        <td>@Html.DisplayFor(o => o.QCLst[i].ManualValue)</td>
+                                                                        <td>@Html.DisplayFor(o => o.QCLst[i].AcTestValue)</td>
+                                                                        <td>@Html.DisplayFor(o => o.QCLst[i].Result)</td>
+                                                                    
+
+
+                                                                </tr>
+                                                              
+                                                                i++;
+                                                            }
+                                                        }
+
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Test Result<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+
+                                            @Html.DisplayFor(C => C.TestResult) @Html.HiddenFor(C => C.TestResult)<br>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                        <label for="inputName3" class="col-sm-4 control-label">Tested By<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.TestBy) @Html.HiddenFor(C => C.TestBy)<br>
+                                        <br />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Remarks<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+
+                                            @Html.DisplayFor(C => C.Remarks) @Html.HiddenFor(C => C.Remarks)<br>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div style="height:30px;"></div>
+                
+
+                <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListQCTesting", "QCTesting")'">Cancel</button>
+
+
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+

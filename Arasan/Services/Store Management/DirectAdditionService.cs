@@ -156,13 +156,16 @@ namespace Arasan.Services.Store_Management
                                         objCmdI.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
                                         objCmdI.Parameters.Add("WASTAGE", OracleDbType.NVarchar2).Value = "0";
                                         objCmdI.Parameters.Add("LOCATION_ID", OracleDbType.NVarchar2).Value = ss.Location;
-                                        objCmdI.Parameters.Add("BRANCH_ID", OracleDbType.NVarchar2).Value = ss.Branch;
-                                        objCmdI.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = "Insert";
+                                objCmdI.Parameters.Add("TO_WCID", OracleDbType.NVarchar2).Value = "0";
+                                objCmdI.Parameters.Add("TO_LOCID", OracleDbType.NVarchar2).Value = "0";
+                                objCmdI.Parameters.Add("BRANCH_ID", OracleDbType.NVarchar2).Value = ss.Branch;
+                                        
                                 objCmdI.Parameters.Add("INV_OUT_ID", OracleDbType.NVarchar2).Value = "0";
                                 objCmdI.Parameters.Add("DRUM_NO", OracleDbType.NVarchar2).Value = "";
                                 objCmdI.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = "0";
                                 objCmdI.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = "0";
                                 objCmdI.Parameters.Add("LOT_NO", OracleDbType.NVarchar2).Value = "";
+                                objCmdI.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = "Insert";
                                 objCmdI.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                                         objCmdI.ExecuteNonQuery();
                                         Object Invid = objCmdI.Parameters["OUTID"].Value;
@@ -259,6 +262,29 @@ namespace Arasan.Services.Store_Management
         {
             string SvSql = string.Empty;
             SvSql = "Select ADDDETAIL.QTY,ADDDETAIL.ADDDETAILID,ADDDETAIL.ITEMID,UNITMAST.UNITID,RATE,AMOUNT,BINID,PROCESSID  from ADDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=ADDDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  where ADDDETAIL.ADDBASICID='" + id + "'"; 
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetDirectAddition(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select BRANCHID,LOCID,DOCID,DOCDATE,DCNO,REASON,GROSS,ENTBY,NARRATION,NET,ADDBASICID  from ADDBASIC where ADDBASICID=" + id + "";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetDirectAdditionItem(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select ITEMSUBGROUP.SGCODE,ITEMSUBGROUP.SGDESC,ADDDETAIL.QTY,ADDDETAIL.CF,ADDDETAIL.ADDDETAILID,ADDDETAIL.ITEMID,UNITMAST.UNITID,RATE,AMOUNT,BINID,PROCESSID  from ADDDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=ADDDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT LEFT OUTER JOIN ITEMSUBGROUP on ITEMSUBGROUP.ITEMSUBGROUPID=ADDDETAIL.ADDDETAILID  where ADDDETAIL.ADDBASICID='" + id + "'";
+
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

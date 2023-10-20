@@ -29,7 +29,7 @@ namespace Arasan.Services
                     {
                         con.Open();
 
-                        cmd.CommandText = "Select ITEMMASTER.ITEMID,QCVALUEBASIC.GRNNO,QCVALUEBASIC.DOCID,to_char(QCVALUEBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,to_char(QCVALUEBASIC.GRNDATE,'dd-MON-yyyy')GRNDATE,QCVALUEBASIC.CLASSCODE,PARTYMAST.PARTYNAME,QCVALUEBASICID,QCVALUEBASIC.LOTSERIALNO,SLNO,QCVALUEBASIC.TESTRESULT,QCVALUEBASIC.TESTBY,QCVALUEBASIC.REMARKS, QCVALUEBASIC.STATUS from QCVALUEBASIC LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=QCVALUEBASIC.ITEMID LEFT OUTER JOIN  PARTYMAST on QCVALUEBASIC.PARTYID=PARTYMAST.PARTYMASTID  WHERE QCVALUEBASIC.DOCDATE BETWEEN '" + st + "'  AND ' " + ed + "' order by QCVALUEBASICID desc";
+                        cmd.CommandText = "Select ITEMMASTER.ITEMID,QCVALUEBASIC.GRNNO,QCVALUEBASIC.DOCID,to_char(QCVALUEBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,to_char(QCVALUEBASIC.GRNDATE,'dd-MON-yyyy')GRNDATE,QCVALUEBASIC.CLASSCODE,PARTYMAST.PARTYNAME,QCVALUEBASICID,QCVALUEBASIC.LOTSERIALNO,SLNO,QCVALUEBASIC.TESTRESULT,QCVALUEBASIC.TESTBY,QCVALUEBASIC.REMARKS, QCVALUEBASIC.STATUS,QCVALUEBASIC.GRNPROD,QCVALUEBASIC.TESTPROCEDURE from QCVALUEBASIC LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=QCVALUEBASIC.ITEMID LEFT OUTER JOIN  PARTYMAST on QCVALUEBASIC.PARTYID=PARTYMAST.PARTYMASTID  WHERE QCVALUEBASIC.DOCDATE BETWEEN '" + st + "'  AND ' " + ed + "' order by QCVALUEBASICID desc";
 
                         OracleDataReader rdr = cmd.ExecuteReader();
                         while (rdr.Read())
@@ -48,7 +48,15 @@ namespace Arasan.Services
                                 ItemId = rdr["ITEMID"].ToString(),
                                 TestResult = rdr["TESTRESULT"].ToString(),
                                 TestBy = rdr["TESTBY"].ToString(),
+
                                 Remarks = rdr["REMARKS"].ToString()
+
+                                Remarks = rdr["REMARKS"].ToString(),
+                                Stat = rdr["STATUS"].ToString(),
+                                GRNProd = rdr["GRNPROD"].ToString(),
+                                Procedure = rdr["TESTPROCEDURE"].ToString()
+
+
                             };
                             cmpList.Add(cmp);
                         }
@@ -147,6 +155,8 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("TESTBY", OracleDbType.NVarchar2).Value = cy.TestBy;
                     objCmd.Parameters.Add("REMARKS", OracleDbType.NVarchar2).Value = cy.Remarks;
                     objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
+                    objCmd.Parameters.Add("GRNPROD", OracleDbType.NVarchar2).Value = cy.GRNProd;
+                    objCmd.Parameters.Add("TESTPROCEDURE", OracleDbType.NVarchar2).Value = cy.Procedure;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                    
@@ -487,6 +497,27 @@ namespace Arasan.Services
         {
             string SvSql = string.Empty;
             SvSql = "select TESTDESC,UNITMAST.UNITID,VALUEORMANUAL,STARTVALUE,ENDVALUE,TESTTDETAILID from TESTTDETAIL left outer join UNITMAST ON UNITMASTID =TESTTDETAIL.UNIT   WHERE TESTTBASICID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetViewQCTesting(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select ITEMID,GRNNO,QCVALUEBASIC.DOCID,to_char(QCVALUEBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,to_char(QCVALUEBASIC.GRNDATE,'dd-MON-yyyy')GRNDATE,QCVALUEBASIC.CLASSCODE,PARTYID,QCVALUEBASICID,QCVALUEBASIC.LOTSERIALNO,SLNO,QCVALUEBASIC.TESTRESULT,QCVALUEBASIC.TESTBY,QCVALUEBASIC.REMARKS ,QCVALUEBASIC.GRNPROD ,QCVALUEBASIC.TESTPROCEDURE from QCVALUEBASIC Where QCVALUEBASIC.QCVALUEBASICID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetViewQCDetail(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select TESTDESC,ACVAL,TESTVALUE,RESULT,MANUALVALUE,ACTTESTVALUE from QCVALUEDETAIL Where QCVALUEBASICID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

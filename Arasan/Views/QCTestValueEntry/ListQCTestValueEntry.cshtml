@@ -82,7 +82,7 @@
                                                             <th>Doc Id</th>
                                                             <th>Doc Date</th>
                                                             <th>Work Center</th>
-                                                            <th>Edit</th>
+                                                            <th>View</th>
                                                             <th>Close</th>
                                                         </tr>
                                                     </thead>
@@ -98,7 +98,7 @@
                                                                     <td>@Html.DisplayFor(modelItem => item.DocId)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.Docdate)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.Work)</td>
-                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("QCTestValueEntry", "QCTestValueEntry",new { id=item.ID })"></a></div></td>
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewQCTestValueEntry", "QCTestValueEntry",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Waiting for approval' /></a></div></td>
                                                                     <td> <a href="@Url.Action("DeleteQC","QCTestValueEntry",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
 
 

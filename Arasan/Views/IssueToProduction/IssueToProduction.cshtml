@@ -210,7 +210,7 @@
                     var Lot = "<td><label>" + item.lotno + "</label><input type='hidden' value=" + item.lotnoid + " id='txtlotno" + index + "' name='Issuelst[" + index + "].lotnoid'></td>";
 
                     var Qty = "<td><input class='form-control' id='txttotalqty" + index + "' name='Issuelst[" + index + "].'totalqty  style='width: 80px;' type='text' readonly='True' value=" + item.totalqty + "   /><input type='hidden' value=" + item.totalqty + " id='txttotalqty" + index + "' name='Issuelst[" + index + "].totalqty' ></td>";
-                    var IssueQty = "<td><input class='form-control' id='txtqty" + index + "' name='Issuelst[" + index + "].'qty  style='width: 80px;' type='text'    /><input type='hidden'  id='txtqty" + index + "' name='Issuelst[" + index + "].qty' ></td>";
+                    var IssueQty = "<td><input class='form-control' id='txtqty" + index + "' name='Issuelst[" + index + "].'qty  style='width: 80px;' type='text'    value=" + item.qty + "/><input type='hidden'  id='txtqty" + index + "' name='Issuelst[" + index + "].qty' value=" + item.qty + " ></td>";
 
                     var removeCell = "<td><input id='Isvalid" + index + "' name='Issuelst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + "); '  style='cursor:pointer' /><input name='Drumlst.Index' type='hidden' value='" + index + "'  /></td>";
 

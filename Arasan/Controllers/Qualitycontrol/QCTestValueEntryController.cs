@@ -74,6 +74,11 @@ namespace Arasan.Controllers.Qualitycontrol
                         ca.Item = dt.Rows[0]["ITEMID"].ToString();
                         ca.Entered = dt.Rows[0]["ENTEREDBY"].ToString();
                         ca.Remarks = dt.Rows[0]["REMARKS"].ToString();
+                        ca.Rate = dt.Rows[0]["RATEPHR"].ToString();
+                        ca.Nozzle = dt.Rows[0]["NOZZLENO"].ToString();
+                        ca.Air = dt.Rows[0]["AIRPRESS"].ToString();
+                        ca.AddCharge = dt.Rows[0]["ADDCH"].ToString();
+                        ca.Ctemp = dt.Rows[0]["CDRUMNO"].ToString();
                         ca.ID = id;
 
 
@@ -128,8 +133,6 @@ namespace Arasan.Controllers.Qualitycontrol
                             ca.ItemId = dtt1.Rows[0]["item"].ToString();
                             ViewBag.Item = dtt1.Rows[0]["ITEMID"].ToString();
                         }
-
-                      
 
                     }
                     DataTable dtt = new DataTable();
@@ -337,5 +340,66 @@ namespace Arasan.Controllers.Qualitycontrol
             model.QCTestLst = Data;
             return Json(model.QCTestLst);
         }
+
+        public IActionResult ViewQCTestValueEntry(string id)
+        {
+
+            QCTestValueEntry ca = new QCTestValueEntry();
+            DataTable dt = new DataTable();
+            DataTable dtt = new DataTable();
+
+            dt = QCTestValueEntryService.GetViewQCTestValueEntry(id);
+            if (dt.Rows.Count > 0)
+            {
+                ca.Branch = dt.Rows[0]["BRANCH"].ToString();
+                ca.DocId = dt.Rows[0]["DOCID"].ToString();
+                ca.Docdate = dt.Rows[0]["DOCDATE"].ToString();
+                ca.Work = dt.Rows[0]["WCID"].ToString();
+                ca.Shift = dt.Rows[0]["SHIFTNO"].ToString();
+                ca.Process = dt.Rows[0]["PROCESSLOTNO"].ToString();
+                ca.Drum = dt.Rows[0]["CDRUMNO"].ToString();
+                ca.Prodate = dt.Rows[0]["PRODDATE"].ToString();
+                ca.Sample = dt.Rows[0]["SAMPLENO"].ToString();
+                ca.Sampletime = dt.Rows[0]["STIME"].ToString();
+                ca.Item = dt.Rows[0]["ITEMID"].ToString();
+                ca.Entered = dt.Rows[0]["ENTEREDBY"].ToString();
+                ca.Remarks = dt.Rows[0]["REMARKS"].ToString();
+                ca.Rate = dt.Rows[0]["RATEPHR"].ToString();
+                ca.Nozzle = dt.Rows[0]["NOZZLENO"].ToString();
+                ca.Air = dt.Rows[0]["AIRPRESS"].ToString();
+                ca.AddCharge = dt.Rows[0]["ADDCH"].ToString();
+                ca.Ctemp = dt.Rows[0]["CDRUMNO"].ToString();
+                ca.ID = id;
+
+
+
+                List<QCTestValueEntryItem> Data = new List<QCTestValueEntryItem>();
+                QCTestValueEntryItem tda = new QCTestValueEntryItem();
+                //double tot = 0;
+
+                dtt = QCTestValueEntryService.GetViewQCTestDetails(id);
+                if (dtt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dtt.Rows.Count; i++)
+                    {
+                        tda.description = dtt.Rows[i]["TDESC"].ToString();
+                        tda.value = dtt.Rows[i]["VALUEORMANUAL"].ToString();
+                        tda.unit = dtt.Rows[i]["UNIT"].ToString();
+                        tda.startvalue = dtt.Rows[i]["STARTVALUE"].ToString();
+                        tda.endvalue = dtt.Rows[i]["ENDVALUE"].ToString();
+                        tda.test = dtt.Rows[i]["TESTVALUE"].ToString();
+                        tda.manual = dtt.Rows[i]["MANUALVALUE"].ToString();
+                        tda.actual = dtt.Rows[i]["ACTTESTVALUE"].ToString();
+                        tda.testresult = dtt.Rows[i]["TESTRESULT"].ToString();
+
+                        Data.Add(tda);
+                    }
+                }
+
+                ca.QCTestLst = Data;
+            }
+            return View(ca);
         }
+
+    }
     }

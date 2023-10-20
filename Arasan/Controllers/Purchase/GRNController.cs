@@ -48,6 +48,7 @@ namespace Arasan.Controllers
                     po.GRNNo= dt.Rows[0]["DOCID"].ToString();
                     po.GRNdate = dt.Rows[0]["DOCDATE"].ToString();
                     po.Supplier = dt.Rows[0]["PARTYID"].ToString();
+                    po.party = dt.Rows[0]["PARTYNAME"].ToString();
                     po.PONo = dt.Rows[0]["DOCID"].ToString();
                     po.ID = id;
                     po.PONo = dt.Rows[0]["PONO"].ToString();
@@ -121,6 +122,7 @@ namespace Arasan.Controllers
                         tda.DiscAmt = Convert.ToDouble(dt2.Rows[i]["DISC"].ToString() == "" ? "0" : dt2.Rows[i]["DISC"].ToString());
                         tda.TotalAmount = Convert.ToDouble(dt2.Rows[i]["TOTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["TOTAMT"].ToString());
                         tda.Purtype = dt2.Rows[i]["PURTYPE"].ToString();
+                        tda.Lotno = po.party+" LotNo1234";
                         tda.Isvalid = "Y";
                         TData.Add(tda);
                     }

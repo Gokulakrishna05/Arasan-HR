@@ -500,5 +500,85 @@ namespace Arasan.Controllers.Production
             return Json(model.Drumlst);
 
         }
+
+        //public IActionResult ApprovePyroProduction(string id)
+        //{
+        //    DrumIssueEntry ca = new DrumIssueEntry();
+        //    DataTable dt = DrumIssueEntryService.EditDrumIssue(id);
+        //    if (dt.Rows.Count > 0)
+        //    {
+        //        ca.Docid = dt.Rows[0]["DOCID"].ToString();
+        //        ca.Docdate = dt.Rows[0]["DOCDATE"].ToString();
+        //        ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+        //        ca.Itemid = dt.Rows[0]["ITEMID"].ToString();
+        //        ca.FromLoc = dt.Rows[0]["LOCID"].ToString();
+        //        ca.Toloc = dt.Rows[0]["loc"].ToString();
+        //        //ca.Frombin = dt.Rows[0]["FROMBINID"].ToString();
+        //        //ca.Tobin = dt.Rows[0]["TOBINID"].ToString();
+        //        ca.Unit = dt.Rows[0]["UNIT"].ToString();
+        //        ca.Stock = dt.Rows[0]["LOTSTOCK"].ToString();
+        //        ca.type = dt.Rows[0]["TYPE"].ToString();
+        //        ca.Drum = dt.Rows[0]["STOCK"].ToString();
+        //        ca.Entered = dt.Rows[0]["ENTEREDBY"].ToString();
+        //        ca.Approved = dt.Rows[0]["APPROVEDBY"].ToString();
+        //        ca.Qty = Convert.ToDouble(dt.Rows[0]["TOTQTY"].ToString() == "" ? "0" : dt.Rows[0]["TOTQTY"].ToString());
+               
+        //        //ca.Purpose = dt.Rows[0]["REMARKS"].ToString();
+        //        //ViewBag.entrytype = ca.EntryType;
+        //        List<DrumIssueEntryItem> TData = new List<DrumIssueEntryItem>();
+        //        DrumIssueEntryItem tda = new DrumIssueEntryItem();
+        //        DataTable dtDrum = DrumIssueEntryService.EditDrumDetail(id);
+        //        for (int i = 0; i < dtDrum.Rows.Count; i++)
+        //        {
+        //            tda = new DrumIssueEntryItem();
+                 
+        //            tda.drum = dtDrum.Rows[i]["DRUMNO"].ToString();
+        //            tda.qty = dtDrum.Rows[i]["QTY"].ToString();
+                  
+                    
+        //            TData.Add(tda);
+        //        }
+
+
+        //        ca.Drumlst = TData;
+        //    }
+
+        //    return View(ca);
+
+        //}
+        //[HttpPost]
+        //public IActionResult IssueToIndent(StockIn Cy, string id)
+        //{
+           
+        //    try
+        //    {
+        //        Cy.ID = id;
+        //        string Strout = DrumIssueEntryService.IssueToStockCRUD(Cy);
+        //        if (string.IsNullOrEmpty(Strout))
+        //        {
+        //            if (Cy.ID == null)
+        //            {
+        //                TempData["notice"] = "Stock Issued Successfully...!";
+        //            }
+        //            else
+        //            {
+        //                TempData["notice"] = "Stock Issued Successfully...!";
+        //            }
+        //            return RedirectToAction("ListStockIn");
+        //        }
+
+        //        else
+        //        {
+        //            ViewBag.PageTitle = "Edit Indent";
+        //            TempData["notice"] = Strout;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //    //}
+        //    return View(Cy);
+        //}
     }
 }

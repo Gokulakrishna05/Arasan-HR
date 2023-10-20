@@ -474,7 +474,7 @@ a{
                                                                                 <td>@Html.DropDownListFor(o => o.outlst[m].StID, Model.outlst[m].statuslst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlstatus" + m, style = "width: 120px;" })</td>
                                                                                 @if (item.Result != "Ok")
                                                                                 {
-                                                                                    <td>   <button type="button" class="btn aqua m-t-xs bottom15-xs" id="Save" onclick="outputsave(@(m))" disabled>Save </button></td>
+                                                                                    <td>   <button type="button" class="btn aqua m-t-xs bottom15-xs" id="Save" onclick="outputsave(@(m))" >Save </button></td>
                                                                                 }
                                                                                 else
                                                                                 {
@@ -1593,6 +1593,8 @@ a{
             forceParse: 0
         });
     }
+
+
 </script>
 <a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
 <a class="fancyboxe1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>

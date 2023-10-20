@@ -38,6 +38,8 @@ namespace Arasan.Models
         public string TestBy { get; set; }
 
         public string Remarks { get; set; }
+        public string Stat { get; set; }
+        public string GRNProd { get; set; }
         public string Po { get; set; }
         public string PoDate { get; set; }
         public string Partyid { get; set; }
@@ -45,6 +47,7 @@ namespace Arasan.Models
         public string PoId { get; set; }
        
         public List<QCItem> QCLst { get; set; }
+
         public List<QCPOItem> QCPOLst { get; set; }
 
 
@@ -63,6 +66,8 @@ namespace Arasan.Models
         public string testresult { get; set; }
         public string Isvalid { get; set; }
         public string testid { get; set; }
+
+
 
     }
     public class QCItem

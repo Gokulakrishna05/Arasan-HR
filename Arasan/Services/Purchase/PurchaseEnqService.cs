@@ -514,17 +514,21 @@ namespace Arasan.Services
                     OracleCommand objCmds = new OracleCommand(Sql, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
+                    string Svql = "UPDATE PURENQBASIC SET STATUS=2 where PURENQBASICID='" + enqid + "'";
+                    OracleCommand objCmds1 = new OracleCommand(Svql, objConnT);
+
+                    objCmds1.ExecuteNonQuery();
                     objConnT.Close();
                 }
 
-                using (OracleConnection objConnE = new OracleConnection(_connectionString))
-                {
-                    string Sql = "UPDATE PURENQBASIC SET STATUS=2 where PURENQBASICID='" + enqid + "'";
-                    OracleCommand objCmds = new OracleCommand(Sql, objConnE);
-                    objConnE.Open();
-                    objCmds.ExecuteNonQuery();
-                    objConnE.Close();
-                }
+                //using (OracleConnection objConnE = new OracleConnection(_connectionString))
+                //{
+                //    string Sql = "UPDATE PURENQBASIC SET STATUS=2 where PURENQBASICID='" + enqid + "'";
+                //    OracleCommand objCmds = new OracleCommand(Sql, objConnE);
+                //    objConnE.Open();
+                //    objCmds.ExecuteNonQuery();
+                //    objConnE.Close();
+                //}
 
             }
             catch (Exception ex)
