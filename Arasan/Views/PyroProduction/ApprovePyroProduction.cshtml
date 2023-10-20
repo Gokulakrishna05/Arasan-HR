@@ -151,6 +151,7 @@
                                     <div class="col-sm-8">
                                         @Html.HiddenFor(C => C.ID)
                                         @Html.DisplayFor(C => C.Location)
+                                        @Html.HiddenFor(C => C.Branch)
                                     </div>
                                 </div>
                             </div>
@@ -200,6 +201,7 @@
                                     <br />   <label for="inputName3" class="col-sm-4 control-label">Shift<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
                                         @Html.DisplayFor(C => C.Shift)
+                                        @Html.HiddenFor(C => C.Shift)
                                     </div>
 
                                 </div>
@@ -441,9 +443,11 @@
                                                                             </td>
                                                                             <td>
                                                                                 @Html.DisplayFor(o => o.outlst[m].FromTime)
+                                                                                @Html.HiddenFor(o => o.outlst[m].FromTime)
                                                                             </td>
                                                                             <td>
                                                                                 @Html.DisplayFor(o => o.outlst[m].ToTime)
+                                                                                @Html.HiddenFor(o => o.outlst[m].ToTime)
                                                                             </td>
 
                                                                             <td>
