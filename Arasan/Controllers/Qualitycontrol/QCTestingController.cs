@@ -145,48 +145,106 @@ namespace Arasan.Controllers
             if (dt1.Rows.Count > 0)
             {
                 ca.Po = dt1.Rows[0]["DOCID"].ToString();
-                //ca.Shift = dt1.Rows[0]["SHIFT"].ToString();
-                //ca.Prodate = dt1.Rows[0]["DOCDATE"].ToString();
-                //ca.APID = id;
-                //DataTable dtt1 = new DataTable();
-                //dtt1 = QCTestingService.GetGetPoQcTestingDetails(id);
-                //if (dtt1.Rows.Count > 0)
-                //{
-                //    ca.Drum = dtt1.Rows[0]["DRUMNO"].ToString();
-                //    ca.Sampletime = dtt1.Rows[0]["FROMTIME"].ToString();
-                //    ca.Item = dtt1.Rows[0]["ITEMID"].ToString();
-                //    ca.ItemId = dtt1.Rows[0]["item"].ToString();
-                //    ViewBag.Item = dtt1.Rows[0]["ITEMID"].ToString();
-                //}
+                ca.PoDate = dt1.Rows[0]["DOCDATE"].ToString();
+                ca.Partyid = dt1.Rows[0]["PARTYNAME"].ToString();
+                ca.Par = dt1.Rows[0]["par"].ToString();
+                ca.PoId = id;
+                DataTable dtt1 = new DataTable();
+                dtt1 = QCTestingService.GetGetPoQcTestingDetails(id);
+                if (dtt1.Rows.Count > 0)
+                {
+                    ca.Qty = dtt1.Rows[0]["QTY"].ToString();
+                    ca.ItemId = dtt1.Rows[0]["ITEMID"].ToString();
+                    ca.Item = dtt1.Rows[0]["item"].ToString();
+                    ViewBag.ItemId = dtt1.Rows[0]["ITEMID"].ToString();
+                }
+                DataTable dtt = new DataTable();
 
+                List<QCPOItem> Data = new List<QCPOItem>();
+                QCPOItem tda1 = new QCPOItem();
+                //string itemid = datatrans.GetDataString(" SELECT ITEMMASTERID FROM ITEMMASTER WHERE ITEMID='" + ca.ItemId + "'");
+                string temp = datatrans.GetDataString(" SELECT TEMPLATEID FROM ITEMMASTER WHERE ITEMMASTERID='" + ca.Item + "'");
+                dtt = QCTestingService.GetPOItemDetail(temp);
+                if (dtt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dtt.Rows.Count; i++)
+                    {
+                        tda1 = new QCPOItem();
 
+                        tda1.description = dtt.Rows[i]["TESTDESC"].ToString();
+                        tda1.value = dtt.Rows[i]["VALUEORMANUAL"].ToString();
+                        tda1.unit = dtt.Rows[i]["UNITID"].ToString();
+                        tda1.startvalue = dtt.Rows[i]["STARTVALUE"].ToString();
+                        tda1.endvalue = dtt.Rows[i]["ENDVALUE"].ToString();
+
+                        Data.Add(tda1);
+                    }
+                }
+                ca.QCPOLst = Data;
 
             }
             return View(ca);
         }
-            //public List<SelectListItem> BindType()
-            //{
-            //    try
-            //    {
-            //        List<SelectListItem> lstdesg = new List<SelectListItem>();
+        [HttpPost]
+        public ActionResult POQcTesting(QCTesting Cy, string id)
+        {
 
-            //        lstdesg.Add(new SelectListItem() { Text = "PO", Value = "PO" });
-            //        lstdesg.Add(new SelectListItem() { Text = "GRN", Value = "GRN" });
-            //        return lstdesg;
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        throw ex;
-            //    }
-            //}
-            //public JsonResult GetTypeJSON(string GPID)
-            //{
-            //    QCTesting model = new QCTesting();
-            //    model.Typlst = BindGRNlist(GPID);
-            //    return Json(BindGRNlist(GPID));
+            try
+            {
+                Cy.ID = id;
+                string Strout = QCTestingService.POQCTestingCRUD(Cy);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Cy.ID == null)
+                    {
+                        TempData["notice"] = "QCTesting Inserted Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "QCTesting Updated Successfully...!";
+                    }
+                    return RedirectToAction("ListQCTesting");
+                }
 
-            //}
-            public List<SelectListItem> BindGRNlist(string value)
+                else
+                {
+                    ViewBag.PageTitle = "Edit QCTesting";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(Cy);
+        }
+        //public List<SelectListItem> BindType()
+        //{
+        //    try
+        //    {
+        //        List<SelectListItem> lstdesg = new List<SelectListItem>();
+
+        //        lstdesg.Add(new SelectListItem() { Text = "PO", Value = "PO" });
+        //        lstdesg.Add(new SelectListItem() { Text = "GRN", Value = "GRN" });
+        //        return lstdesg;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
+        //public JsonResult GetTypeJSON(string GPID)
+        //{
+        //    QCTesting model = new QCTesting();
+        //    model.Typlst = BindGRNlist(GPID);
+        //    return Json(BindGRNlist(GPID));
+
+        //}
+        public List<SelectListItem> BindGRNlist(string value)
         {
             try
 
@@ -297,6 +355,34 @@ namespace Arasan.Controllers
             model.Supplst = BindSupplst(suppid );
             return Json(BindSupplst(suppid ));
 
+        }
+        public ActionResult GetItemDetails(string id)
+        {
+            QCTesting model = new QCTesting();
+            DataTable dtt = new DataTable();
+
+            List<QCPOItem> Data = new List<QCPOItem>();
+            QCPOItem tda1 = new QCPOItem();
+            string itemid = datatrans.GetDataString(" SELECT ITEMMASTERID FROM ITEMMASTER WHERE ITEMID='" + id + "'");
+            string temp = datatrans.GetDataString(" SELECT TEMPLATEID FROM ITEMMASTER WHERE ITEMMASTERID='" + itemid + "'");
+            dtt = QCTestingService.GetPOItemDetail(temp);
+            if (dtt.Rows.Count > 0)
+            {
+                for (int i = 0; i < dtt.Rows.Count; i++)
+                {
+                    tda1 = new QCPOItem();
+                    tda1.testid = dtt.Rows[i]["TESTTDETAILID"].ToString();
+                    tda1.description = dtt.Rows[i]["TESTDESC"].ToString();
+                    tda1.value = dtt.Rows[i]["VALUEORMANUAL"].ToString();
+                    tda1.unit = dtt.Rows[i]["UNITID"].ToString();
+                    tda1.startvalue = dtt.Rows[i]["STARTVALUE"].ToString();
+                    tda1.endvalue = dtt.Rows[i]["ENDVALUE"].ToString();
+
+                    Data.Add(tda1);
+                }
+            }
+            model.QCPOLst = Data;
+            return Json(model.QCPOLst);
         }
         //public JsonResult GetPOSuppJSON(string POsuppid)
         //{
