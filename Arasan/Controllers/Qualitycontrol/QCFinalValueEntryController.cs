@@ -344,7 +344,7 @@ namespace Arasan.Controllers.Qualitycontrol
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["OITEMID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEMID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -483,6 +483,7 @@ namespace Arasan.Controllers.Qualitycontrol
             QCFinalValueEntry ca = new QCFinalValueEntry();
             DataTable dt = new DataTable();
             DataTable dtt = new DataTable();
+            DataTable dtt1 = new DataTable();
 
             dt = QCFinalValueEntryService.GetViewQCFVDeatil(id);
             if (dt.Rows.Count > 0)
@@ -535,28 +536,28 @@ namespace Arasan.Controllers.Qualitycontrol
                         Data.Add(tda);
                     }
                 }
-                
 
-                //List<QCFVItemDeatils> DData = new List<QCFVItemDeatils>();
-                //QCFVItemDeatils tda1 = new QCFVItemDeatils();
-                ////double tot = 0;
 
-                //dtt1 = QCFinalValueEntryService.GetViewQCFVResultDetail(id);
-                //if (dtt1.Rows.Count > 0)
-                //{
-                //    for (int i = 0; i < dtt1.Rows.Count; i++)
-                //    {
-                //        tda1.Time = dtt1.Rows[0]["MINS"].ToString();
-                //        tda1.Vol = dtt1.Rows[0]["VOL25C"].ToString();
-                //        tda1.Volat = dtt1.Rows[0]["VOL35C"].ToString();
-                //        tda1.Volc = dtt1.Rows[0]["VOL45C"].ToString();
-                //        tda1.Stp = dtt1.Rows[0]["VOLSTP"].ToString();
+                List<QCFVItemDeatils> DData = new List<QCFVItemDeatils>();
+                QCFVItemDeatils tda1 = new QCFVItemDeatils();
+                //double tot = 0;
 
-                //        DData.Add(tda1);
-                //    }
-                //}
+                dtt1 = QCFinalValueEntryService.GetViewQCFVResultDetail(id);
+                if (dtt1.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dtt1.Rows.Count; i++)
+                    {
+                        tda1.Time = dtt1.Rows[0]["MINS"].ToString();
+                        tda1.Vol = dtt1.Rows[0]["VOL25C"].ToString();
+                        tda1.Volat = dtt1.Rows[0]["VOL35C"].ToString();
+                        tda1.Volc = dtt1.Rows[0]["VOL45C"].ToString();
+                        tda1.Stp = dtt1.Rows[0]["VOLSTP"].ToString();
+
+                        DData.Add(tda1);
+                    }
+                }
                 ca.QCFlst = Data;
-               // ca.QCFVDLst = DData;
+               ca.QCFVDLst = DData;
 
             }
             return View(ca);
