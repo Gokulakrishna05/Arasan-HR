@@ -45,10 +45,8 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="col-md-6">
-                                    <div class="form-group">
+                                   <div class="form-group">
 
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Doc Date<label class="Mandatory"></label></label>
                                     <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
@@ -57,19 +55,23 @@
                                     </div>
                                     <input type="hidden" id="dtp_input2" value="" readonly />
                                 </div>
-                                    </div>
-                               @* </div>*@
+                                </div>
+                            </div>
+                            
+                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
 
                                     <br /> <label for="inputName3" class="col-sm-4 control-label">Packing Entry ID<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.PEntryid, new { @id = "txtPEntryid", @class = "form-control", @TabIndex = 2 })
+@*                                        @Html.TextBoxFor(C => C.PEntryid, new { @id = "txtPEntryid", @class = "form-control", @TabIndex = 2 })
+*@                                         
+                                       @Html.DropDownListFor(C => C.PEntryid, Model.Entrylst," -- Please Select -- ", new { @id = "ddlPEntryid", @Class = "form-control _select", @TabIndex = 1, @onchange = "changeItem(this.value)" })<br />
+
                                     </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="row">
+                                  </div>
+                               
                                 <div class="col-md-6">
                                     <div class="form-group">
 
@@ -80,15 +82,8 @@
                                 </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                <br /> <label for="inputName3" class="col-sm-4 control-label">Packing Note ID<label class="Mandatory"></label></label>
-                                <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.PNoteid, new { @id = "txtPEntryid", @class = "form-control", @TabIndex = 2, @onchange = "changeItem(this.value)"})
-                                </div>
-                                    </div>
-                                </div>
                             </div>
+                            
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -323,18 +318,6 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Same Taken By<label class="Mandatory"></label></label>
-
-                                        <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.Same, new { @id = "txtSame", @class = "form-control", @TabIndex = 1, @onchange = "changeItem(this.value)" })
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
 
                                         <br />   <label for="inputName3" class="col-sm-4 control-label">Checked By<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
@@ -342,11 +325,14 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
+                               
 
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="form-group">
 
-                                        <br /><label for="inputName3" class="col-sm-4 control-label">Remarks<label class="Mandatory"></label></label>
+                                        <br /><label for="inputName3" class="col-sm-2 control-label">Remarks<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
                                         @Html.TextBoxFor(C => C.Remarks, new { @id = "txtRemarks", @class = "form-control", @TabIndex = 1 })
                                         </div>

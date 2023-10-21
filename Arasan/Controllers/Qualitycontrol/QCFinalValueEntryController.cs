@@ -136,6 +136,7 @@ namespace Arasan.Controllers.Qualitycontrol
                             tda.manual = dt2.Rows[0]["MANUALVALUE"].ToString();
                             tda.actual = dt2.Rows[0]["ACTTESTVALUE"].ToString();
                             tda.result = dt2.Rows[0]["TESTRESULT"].ToString();
+                            tda.Isvalid = "Y";
                             TData.Add(tda);
                         }
                     }
@@ -163,6 +164,7 @@ namespace Arasan.Controllers.Qualitycontrol
                             tda1.Volat = dt3.Rows[0]["VOL35C"].ToString();
                             tda1.Volc = dt3.Rows[0]["VOL45C"].ToString();
                             tda1.Stp = dt3.Rows[0]["VOLSTP"].ToString();
+                            tda1.Isvalid = "Y";
                             TData1.Add(tda1);
                         }
                     }
@@ -542,7 +544,7 @@ namespace Arasan.Controllers.Qualitycontrol
                 QCFVItemDeatils tda1 = new QCFVItemDeatils();
                 //double tot = 0;
 
-                dtt1 = QCFinalValueEntryService.GetViewQCFVResultDetail(id);
+                dtt1 = QCFinalValueEntryService.GetViewQCFVGasDetail(id);
                 if (dtt1.Rows.Count > 0)
                 {
                     for (int i = 0; i < dtt1.Rows.Count; i++)

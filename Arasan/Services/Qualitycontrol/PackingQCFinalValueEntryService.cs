@@ -125,10 +125,7 @@ namespace Arasan.Services.Qualitycontrol
                             Pid = cy.ID;
                         }
 
-                        //if (cy.QCFlst!= null)
-                        //{
-                        //    if (cy.ID == null)
-                        //    {
+                        
                         foreach (Packingitem ca in cy.DrumLst)
                         {
                             if (ca.Isvalid == "Y" && ca.Drum != "0")

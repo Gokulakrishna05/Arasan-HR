@@ -8,7 +8,11 @@ namespace Arasan.Models
         {
 
             this.Doclst = new List<SelectListItem>();
+            this.Entrylst = new List<SelectListItem>();
         }
+
+        public List<SelectListItem> Entrylst;
+        public string PEntryid { get; set; }
 
         public List<SelectListItem> Doclst;
         public string Docid { get; set; }
@@ -16,7 +20,7 @@ namespace Arasan.Models
         public string ID { get; set; }
        
         public string DocDate { get; set; }
-        public string PEntryid { get; set; }
+        
         public string PEntrydt { get; set; }
         public string PNoteid { get; set; }
         public string Schedule { get; set; }

@@ -66,19 +66,7 @@ namespace Arasan.Models
 
     }
 
-    //public class QCFVItem
-    //{
-    //    public string des { get; set; }
-    //    public string value { get; set; }
-    //    public string unit { get; set; }
-    //    public string sta { get; set; }
-    //    public string en { get; set; }
-    //    public string test { get; set; }
-    //    public string manual { get; set; }
-    //    public string actual { get; set; }
-    //    public string result { get; set; }
-
-    //}
+   
     public class QCFinalValueEntryItem
     {
         public string des { get; set; }
