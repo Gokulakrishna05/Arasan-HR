@@ -288,7 +288,6 @@
                                                                 @Html.TextBoxFor(o => o.QCFlst[i].des, new { @id = "txtDes" + i, @class = "form-control", style = "width: 120px;" })
                                                     </td>
                                                     <td>
-
                                                                 @Html.TextBoxFor(o => o.QCFlst[i].value, new { @id = "txtValue" + i, @class = "form-control", style = "width: 120px;" })
                                                     </td>
                                                     <td>
@@ -315,13 +314,11 @@
                                                     
                                                     <td>
                                                                 @Html.HiddenFor(o => o.QCFlst[i].Isvalid, new { @id = "Isvalid" + i })
-                                                                                                <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" />  <input name="QCFlst.Index" type="hidden" value="@(i)" />
-                                                                                            </td>
+                                                                <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" />  <input name="QCFlst.Index" type="hidden" value="@(i)" />
+                                                    </td>
 
                                                             </tr>
                                                         i = i + 1;
-                                                      
-
                                                     }
                                                 }
                                                                         </tbody>
@@ -666,8 +663,10 @@
     $(function () {
         var Itemid = '@ViewBag.Itemid';
         changeItem(Itemid);
+
     });
-    function changeItem(ItemId) {
+
+    @*function changeItem(ItemId) {
         document.getElementById("tbBooks").innerHTML = "";
         $.ajax({
             url: 'GetItemDetails',
@@ -711,7 +710,7 @@
                 alert("Data Not Found");
             }
         });
-    }
+    }*@
     function AppendRow(opt) {
         var index = $("#tbBooks").children("tr").length;
 

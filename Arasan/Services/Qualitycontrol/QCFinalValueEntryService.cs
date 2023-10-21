@@ -199,10 +199,7 @@ namespace Arasan.Services.Qualitycontrol
                             Pid = cy.ID;
                         }
 
-                        //if (cy.QCFlst!= null)
-                        //{
-                        //    if (cy.ID == null)
-                        //    {
+                       
                                 foreach (QCFinalValueEntryItem ca in cy.QCFlst)
                                 {
                                     if (ca.Isvalid == "Y" && ca.des != "0")
@@ -237,8 +234,8 @@ namespace Arasan.Services.Qualitycontrol
                                             objConns.Close();
                                         }
                                     }
-                                //}
-                            }
+                                
+                                }
                             foreach (QCFVItemDeatils cp in cy.QCFVDLst)
                             {
                                 if (cp.Isvalid == "Y" && cp.Vol != "0")
@@ -274,7 +271,7 @@ namespace Arasan.Services.Qualitycontrol
                             updateCMd = " UPDATE QCNOTIFICATION SET IS_COMPLETED ='YES' , FINALRESULT='" + cy.FResult + "' WHERE DOCID ='" + cy.ProNo + "' ";
                             datatrans.UpdateStatus(updateCMd);
 
-                       // }
+                       
                     }
                     catch (Exception ex)
                     {
@@ -305,7 +302,7 @@ namespace Arasan.Services.Qualitycontrol
                     using (OracleCommand cmd = con.CreateCommand())
                     {
                         con.Open();
-                        cmd.CommandText = "select BRANCHMAST.BRANCHID,PROCESSMAST.PROCESSID,WCBASIC.WCID,FQTVEBASIC.DOCID,to_char(FQTVEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,FQTVEBASICID FROM FQTVEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=FQTVEBASIC.BRANCH LEFT OUTER JOIN PROCESSMAST ON PROCESSMASTID=FQTVEBASIC.PROCESSID LEFT OUTER JOIN WCBASIC ON WCBASICID=FQTVEBASIC.WCID WHERE FQTVEBASIC.DOCDATE BETWEEN '" + st + "'  AND ' " + ed + "' order by FQTVEBASICID desc";
+                        cmd.CommandText = "select BRANCHMAST.BRANCHID,PROCESSMAST.PROCESSID,WCBASIC.WCID,FQTVEBASIC.DOCID,to_char(FQTVEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,FQTVEBASICID FROM FQTVEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=FQTVEBASIC.BRANCH LEFT OUTER JOIN PROCESSMAST ON PROCESSMASTID=FQTVEBASIC.PROCESSID LEFT OUTER JOIN WCBASIC ON WCBASICID=FQTVEBASIC.WCID WHERE FQTVEBASIC.DOCDATE BETWEEN '" + st + "'  AND ' " + ed + "' order by FQTVEBASICID ASC";
                         OracleDataReader rdr = cmd.ExecuteReader();
                         while (rdr.Read())
                         {
