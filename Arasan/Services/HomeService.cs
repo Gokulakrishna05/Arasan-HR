@@ -70,5 +70,25 @@ namespace Arasan.Services
             return dtt;
         }
 
+        public DataTable GetCurInward()
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT CURINPBASICID,CURINPDETAILID,DRUMNO,ITEMMASTER.ITEMID ,SYSDATE,SYSDATE + 2,TO_CHAR(DUEDATE,'dd-MON-yyyy')DUEDATE  from CURINPDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=CURINPDETAIL.ITEMID  where DUEDATE  between SYSDATE  and  SYSDATE + 2  ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetCurInwardDoc(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT CURINPBASICID,DOCID  from CURINPBASIC  where CURINPBASICID='"+id+"'  ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
     }
 }

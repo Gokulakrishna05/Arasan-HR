@@ -276,9 +276,9 @@
 
 
     </div>
-    </div>
+   
 
-    @*
+   
     <!-- Column Chart-->
     <div class="col-lg-6 top15">
         <div class="ibox float-e-margins ">
@@ -286,15 +286,15 @@
             <div class="ibox-content top10" id="demo2">
                 <div class="demo-container">
                     <div class="table-responsive">
-                        <h3><span style="color:brown">Waiting for QC</span></h3><br />
+                        <h3><span style="color:brown">Curing Inward</span></h3><br />
                         <table class="table table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th>Gate In Date &Time</th>
-                                    <th>Party Name</th>
-                                    <th>Item Name</th>
-                                    <th>Total Qty</th>
-                                    <th>Unit</th>
+                                    <th>Docid</th>
+                                    <th>Item</th>
+                                    <th>Drum</th>
+                                    <th>Due Date</th>
+                                     
                                 </tr>
                             </thead>
                             <tbody>
@@ -302,14 +302,14 @@
 
                                     int i = 0;
 
-                                    foreach (var item in Model.qcNotifies.ToList())
+                                    foreach (var item in Model.CurInlst.ToList())
                                     {
                                         <tr>
-                                            <td>@Html.DisplayFor(o => o.qcNotifies[i].GateDate)</td>
-                                            <td>@Html.DisplayFor(o => o.qcNotifies[i].PartyName)</td>
-                                            <td>@Html.DisplayFor(o => o.qcNotifies[i].ItemName)</td>
-                                            <td>@Html.DisplayFor(o => o.qcNotifies[i].TotalQty)</td>
-                                            <td>@Html.DisplayFor(o => o.qcNotifies[i].Unit)</td>
+                                            <td>@Html.DisplayFor(o => o.CurInlst[i].Docid)</td>
+                                            <td>@Html.DisplayFor(o => o.CurInlst[i].Item)</td>
+                                            <td>@Html.DisplayFor(o => o.CurInlst[i].Drum)</td>
+                                            <td>@Html.DisplayFor(o => o.CurInlst[i].Due)</td>
+                                         
                                         </tr>
                                         i = i + 1;
 
@@ -317,7 +317,13 @@
                                 }
                             </tbody>
                         </table>
-                        <table class="table table-bordered table-hover">
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+</div>
+                    @* <table class="table table-bordered table-hover">
                             <thead>
                                 <tr>
                                     <th>Doc Id</th>

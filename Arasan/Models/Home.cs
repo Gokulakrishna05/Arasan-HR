@@ -15,8 +15,8 @@ namespace Arasan.Models
         public int Quotefollowcunt { get; set; }
         public int EnqFollowcunt { get; set; }
         public int SalesQuoteFollowcunt { get; set; }
+        public List<CurIn> CurInlst { get; set; }
 
-        
     }
    
     public class CuringGroup
@@ -70,6 +70,19 @@ namespace Arasan.Models
         public string status { get; set; }
 
         public string CPerson { get; set; }
+
+    }
+    public class CurIn
+    {
+        public string Docid { get; set; }
+
+        public string Drum { get; set; }
+
+        public string Item { get; set; }
+
+        public string Due { get; set; }
+
+        public string Id { get; set; }
 
     }
 }

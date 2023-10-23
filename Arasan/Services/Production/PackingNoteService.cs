@@ -412,7 +412,7 @@ return msg;
         public DataTable GetDrumDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select BATCHNO,QTY from DRUM_STOCK where DRUM_ID= '" + id + "'";
+            SvSql = "select QTY from DRUM_STOCK where DRUM_ID= '" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

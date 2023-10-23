@@ -68,10 +68,30 @@ namespace Arasan.Controllers
                 Data3.Add(sq);
 
             }
+            CurIn ci = new CurIn();
+            List<CurIn> Data4 = new List<CurIn>();
+            DataTable dt6 = new DataTable();
+            dt6 = HomeService.GetCurInward();
+            for (int i = 0; i < dt6.Rows.Count; i++)
+            {
+                ci = new CurIn();
+                ci.Item = dt6.Rows[i]["ITEMID"].ToString();
+                ci.Drum = dt6.Rows[i]["DRUMNO"].ToString();
+                ci.Due = dt6.Rows[i]["DUEDATE"].ToString();
+                ci.Id = dt6.Rows[i]["CURINPBASICID"].ToString();
+                DataTable dt7 = new DataTable();
+                dt7 = HomeService.GetCurInwardDoc(ci.Id);
+                if (dt7.Rows.Count > 0)
+                {
+                    ci.Docid = dt7.Rows[0]["DOCID"].ToString();
+                }
+                    Data4.Add(ci);
 
+            }
             H.Folllst = Data1;
             H.Enqlllst = Data2;
             H.SalesQuotelllst = Data3;
+            H.CurInlst = Data4;
             H.Quotefollowcunt = dt.Rows.Count;
             H.EnqFollowcunt = dt1.Rows.Count;
             H.SalesQuoteFollowcunt = dt5.Rows.Count;
