@@ -320,7 +320,7 @@ namespace Arasan.Controllers
             {
                 DataTable dt = new DataTable();
 
-                string batch = "";
+               
                 string qty = "";
 
                 dt = Packing.GetDrumDetails(ItemId);
@@ -328,14 +328,14 @@ namespace Arasan.Controllers
                 if (dt.Rows.Count > 0)
                 {
 
-                    batch = dt.Rows[0]["BATCHNO"].ToString();
+                   
                     qty = dt.Rows[0]["QTY"].ToString();
 
 
 
                 }
 
-                var result = new { batch = batch, qty = qty };
+                var result = new { qty = qty };
                 return Json(result);
             }
             catch (Exception ex)
