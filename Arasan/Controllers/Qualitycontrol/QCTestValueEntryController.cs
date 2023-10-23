@@ -24,7 +24,7 @@ namespace Arasan.Controllers.Qualitycontrol
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public IActionResult QCTestValueEntry(string id,string tag)
+        public IActionResult QCTestValueEntry(string id, string tag)
         {
             QCTestValueEntry ca = new QCTestValueEntry();
             ca.Brlst = BindBranch();
@@ -109,7 +109,7 @@ namespace Arasan.Controllers.Qualitycontrol
                 }
                 else
                 {
-                  
+
                     DataTable dt1 = new DataTable();
                     dt1 = QCTestValueEntryService.GetAPOutDetails(id);
                     if (dt1.Rows.Count > 0)
@@ -159,7 +159,7 @@ namespace Arasan.Controllers.Qualitycontrol
                     }
                     ca.QCTestLst = Data;
                 }
-                
+
             }
             ca.QCTestLst = TData;
             return View(ca);
@@ -182,7 +182,7 @@ namespace Arasan.Controllers.Qualitycontrol
                     {
                         TempData["notice"] = "QCTestValueEntry Updated Successfully...!";
                     }
-                    return RedirectToAction("ListQCTestValueEntry", new { Cy.APID});
+                    return RedirectToAction("ListQCTestValueEntry", new { Cy.APID });
                 }
 
                 else
@@ -203,8 +203,49 @@ namespace Arasan.Controllers.Qualitycontrol
         }
         public IActionResult ListQCTestValueEntry(string st, string ed)
         {
-            IEnumerable<QCTestValueEntry> sta = QCTestValueEntryService.GetAllQCTestValueEntry(st,ed);
+            IEnumerable<QCTestValueEntry> sta = QCTestValueEntryService.GetAllQCTestValueEntry(st, ed);
             return View(sta);
+        }
+        public IActionResult ViewQCVEntry(string id)
+        {
+
+            QCTestValueEntry ca = new QCTestValueEntry();
+            //List<ViewAPOut> TDatao1 = new 9List<ViewAPOut>();
+            //ViewAPOut tdao1 = new ViewAPOut();
+            DataTable Outdt = new DataTable();
+            Outdt = QCTestValueEntryService.GetAPout(id);
+            if (Outdt.Rows.Count > 0)
+            {
+                for (int i = 0; i < Outdt.Rows.Count; i++)
+                {
+                    //tdao1 = new ViewAPOut();
+                    ca.id = Outdt.Rows[i]["APPRODUCTIONBASICID"].ToString();
+                    ca.Item = Outdt.Rows[i]["ITEMID"].ToString();
+                    ca.Drum = Outdt.Rows[i]["DRUMNO"].ToString();
+                    ca.Sampletime = Outdt.Rows[i]["FROMTIME"].ToString();
+                    ca.TotalQty = Outdt.Rows[i]["OUTQTY"].ToString();
+                    DataTable Outdt1 = new DataTable();
+                    Outdt1 = QCTestValueEntryService.GetAPout1(ca.id);
+                    if (Outdt1.Rows.Count > 0)
+                    {
+                        ca.ApId = Outdt1.Rows[0]["Ap"].ToString();
+                    }
+                    DataTable DIS = new DataTable();
+                    DIS = QCTestValueEntryService.GetDis(ca.id);
+                    if (DIS.Rows.Count > 0)
+                    {
+                        for (int j = 0; j < DIS.Rows.Count; j++)
+                        {
+
+                            ca.dis = DIS.Rows[j]["APPROID"].ToString();
+
+                        }
+                    }
+                    //TDatao1.Add(ca);
+                }
+            }
+            //ca.ViewAPOutlist = TDatao1;
+            return View(ca);
         }
         public JsonResult GetItemGrpJSON()
         {
@@ -316,11 +357,11 @@ namespace Arasan.Controllers.Qualitycontrol
         {
             QCTestValueEntry model = new QCTestValueEntry();
             DataTable dtt = new DataTable();
-            
+
             List<QCTestValueEntryItem> Data = new List<QCTestValueEntryItem>();
             QCTestValueEntryItem tda = new QCTestValueEntryItem();
             string itemid = datatrans.GetDataString(" SELECT ITEMMASTERID FROM ITEMMASTER WHERE ITEMID='" + id + "'");
-            string temp = datatrans.GetDataString(" SELECT TEMPLATEID FROM ITEMMASTER WHERE ITEMMASTERID='"+ itemid + "'");
+            string temp = datatrans.GetDataString(" SELECT TEMPLATEID FROM ITEMMASTER WHERE ITEMMASTERID='" + itemid + "'");
             dtt = QCTestValueEntryService.GetItemDetail(temp);
             if (dtt.Rows.Count > 0)
             {
@@ -402,4 +443,4 @@ namespace Arasan.Controllers.Qualitycontrol
         }
 
     }
-    }
+}

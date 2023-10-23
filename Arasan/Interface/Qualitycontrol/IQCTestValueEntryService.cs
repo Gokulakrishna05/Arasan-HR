@@ -23,5 +23,8 @@ namespace Arasan.Interface.Qualitycontrol
         DataTable GetViewQCTestDetails(string id);
 
         string StatusChange(string tag, string id);
+        DataTable GetAPout(string id);
+        DataTable GetAPout1(string id);
+        DataTable GetDis(string id);
     }
 }

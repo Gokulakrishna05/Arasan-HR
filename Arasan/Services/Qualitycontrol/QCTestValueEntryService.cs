@@ -88,14 +88,14 @@ namespace Arasan.Services.Qualitycontrol
         public string QCTestValueEntryCRUD(QCTestValueEntry cy)
         {
             string msg = "";
-        
+
             try
             {
                 if (cy.ID != null)
                 {
                     cy.ID = null;
                 }
-                    string StatementType = string.Empty; string svSQL = "";
+                string StatementType = string.Empty; string svSQL = "";
                 if (cy.ID == null)
                 {
                     datatrans = new DataTransactions(_connectionString);
@@ -115,7 +115,7 @@ namespace Arasan.Services.Qualitycontrol
                     }
                     cy.DocId = Doc;
                 }
-               
+
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("QTVEBASICPROC", objConn);
@@ -135,7 +135,7 @@ namespace Arasan.Services.Qualitycontrol
                     }
 
                     objCmd.Parameters.Add("BRANCH", OracleDbType.NVarchar2).Value = cy.Branch;
-                    objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value =cy.DocId;
+                    objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.DocId;
                     objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = cy.Docdate;
                     objCmd.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = cy.Work;
                     objCmd.Parameters.Add("SHIFTNO", OracleDbType.NVarchar2).Value = cy.Shift;
@@ -178,12 +178,12 @@ namespace Arasan.Services.Qualitycontrol
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
 
-                                        svSQL = "Update APPRODOUTDET SET TESTRESULT='" + cp.testresult + "',MOVETOQC='Moved' WHERE APPRODUCTIONBASICID='"+ cp.apid +"'";
+                                        svSQL = "Update APPRODOUTDET SET TESTRESULT='" + cp.testresult + "',MOVETOQC='Moved' WHERE APPRODUCTIONBASICID='" + cp.apid + "'";
                                         OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
                                         objCmdd.ExecuteNonQuery();
 
                                     }
-                                  
+
                                 }
 
                             }
@@ -206,7 +206,7 @@ namespace Arasan.Services.Qualitycontrol
                                     }
                                 }
                             }
-                       
+
                         }
                     }
                     catch (Exception ex)
@@ -356,6 +356,36 @@ namespace Arasan.Services.Qualitycontrol
         {
             string SvSql = string.Empty;
             SvSql = "select QTVEBASICID,TDESC,VALUEORMANUAL,UNIT,STARTVALUE,ENDVALUE,TESTVALUE,MANUALVALUE,ACTTESTVALUE,TESTRESULT from QTVEDETAIL WHERE QTVEBASICID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetAPout1(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT APPROID, COUNT(*) as Ap FROM QTVEBASIC WHERE APPROID ='" + id + "' GROUP BY APPROID";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetAPout(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select APPRODUCTIONBASICID,ITEMMASTER.ITEMID,DRUMMAST.DRUMNO,FROMTIME,OUTQTY from APPRODOUTDET LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=APPRODOUTDET.ITEMID LEFT OUTER JOIN DRUMMAST ON DRUMMASTID=APPRODOUTDET.DRUMNO AND TESTRESULT is null where APPRODUCTIONBASICID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetDis(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select APPROID from FQTVEBASIC where APPROID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

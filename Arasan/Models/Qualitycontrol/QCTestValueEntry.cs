@@ -16,13 +16,16 @@ namespace Arasan.Models
         public List<SelectListItem> Worklst;
         public List<SelectListItem> Shiftlst;
         public List<SelectListItem> itemlst;
-        
+
         public List<SelectListItem> Brlst;
         public string Branch { get; set; }
 
         public List<SelectListItem> assignList;
 
         public string DocId { get; set; }
+        public string TotalQty { get; set; }
+        public string dis { get; set; }
+        public string id { get; set; }
         public string Docdate { get; set; }
         public string Work { get; set; }
         public string Shift { get; set; }
@@ -41,9 +44,10 @@ namespace Arasan.Models
         public string Ctemp { get; set; }
         public string Entered { get; set; }
         public string Remarks { get; set; }
-        public string ApId { get; set; } 
+        public string ApId { get; set; }
 
         public List<QCTestValueEntryItem> QCTestLst { get; set; }
+        public List<ViewAPOut> ViewAPOutlist { get; set; }
     }
     public class QCTestValueEntryItem
     {
@@ -58,6 +62,17 @@ namespace Arasan.Models
         public string apid { get; set; }
         public string testresult { get; set; }
         public string Isvalid { get; set; }
+
+    }
+    public class ViewAPOut
+    {
+        public string id { get; set; }
+        public string Drum { get; set; }
+        public string ItemName { get; set; }
+        public string TotalQty { get; set; }
+        public string Time { get; set; }
+        public string ApId { get; set; }
+        public string dis { get; set; }
 
     }
 }
