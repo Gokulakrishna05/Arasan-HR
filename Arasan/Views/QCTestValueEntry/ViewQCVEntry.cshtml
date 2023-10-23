@@ -1,0 +1,141 @@
+﻿@model Arasan.Models.QCTestValueEntry
+@{
+    Layout = "_PopupLayout";
+    ViewData["Title"] = "QCTestValueEntry";
+}
+<style>
+    .newwidth {
+        width: 120px;
+    }
+
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
+
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a>Sales</a> </li>
+            <li class="active"> <strong>QC TestValue Entry</strong> </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    <h5 style="font-size:14px">QC TestValue Entry</h5>
+                    <hr>
+
+                    <form>
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Item<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+
+                                        @Html.DisplayFor(C => C.Item)<br>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Drum No<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.DisplayFor(C => C.Drum)<br>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div style="height:10px;"></div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Time<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.DisplayFor(C => C.Sampletime)<br>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Qty<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.DisplayFor(C => C.TotalQty)<br>
+                                        <br />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Count<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.HiddenFor(C => C.ID)
+                                        @Html.DisplayFor(C => C.ApId)<br>
+                                    </div>
+                                </div>
+                            </div>
+                            @*<div class="col-md-6">
+                            <div class="form-group">
+                            <label for="inputName3" class="col-sm-4 control-label">Item<label class="mandatory"></label></label>
+                            <div class="col-sm-8">
+                            @Html.DisplayFor(C => C.ItemId) @Html.HiddenFor(C => C.ItemId)<br>
+                            <br />
+                            </div>
+                            </div>
+                            </div>*@
+                        </div>
+                        @* <div class="row">
+                        <div class="col-md-6">
+                        <div class="form-group">
+
+                        <label for="inputName3" class="col-sm-4 control-label">SI No<label class="mandatory"></label></label>
+                        <div class="col-sm-8">
+
+                        @Html.DisplayFor(C => C.SNo) @Html.HiddenFor(C => C.SNo)<br>
+                        </div>
+                        </div>
+                        </div>
+                        <div class="col-md-6">
+                        <div class="form-group">
+                        <label for="inputName3" class="col-sm-4 control-label">Class Code<label class="mandatory"></label></label>
+                        <div class="col-sm-8">
+                        @Html.DisplayFor(C => C.ClassCode) @Html.HiddenFor(C => C.ClassCode)<br>
+                        <br />
+                        </div>
+                        </div>
+                        </div>
+                        </div>*@
+                    </form>
+                </div>
+                @* <div style="height:30px;"></div>
+                <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListQCTesting", "QCTesting")'">Cancel</button>
+                *@
+
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
