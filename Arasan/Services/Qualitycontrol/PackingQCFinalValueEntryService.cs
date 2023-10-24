@@ -19,34 +19,35 @@ namespace Arasan.Services.Qualitycontrol
             datatrans = new DataTransactions(_connectionString);
         }
 
-        public IEnumerable<PackingQCFinalValueEntry> GetAllPackingQCFinalValueEntry(string active)
+        public IEnumerable<PackingQCFinalValueEntry> GetAllPackingQCFinalValueEntry(string st, string ed)
         {
-            if (string.IsNullOrEmpty(active))
-            {
-                active = "YES";
-            }
+            //if (string.IsNullOrEmpty(active))
+            //{
+            //    active = "YES";
+            //}
             List<PackingQCFinalValueEntry> cmpList = new List<PackingQCFinalValueEntry>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
-
-                using (OracleCommand cmd = con.CreateCommand())
+                if (st != null && ed != null)
                 {
-                    con.Open();
-                    cmd.CommandText = " Select PAKQBASICID,DOCID,to_char(PAKQBASIC.DOCDT,'dd-MON-yyyy')DOCDT,PENTRYID,TESTREQ,PAKQBASIC.ACTIVE from PAKQBASIC  where PAKQBASIC.ACTIVE='" + active + "'  order by PAKQBASIC.PAKQBASICID DESC ";
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
+                    using (OracleCommand cmd = con.CreateCommand())
                     {
-                        PackingQCFinalValueEntry cmp = new PackingQCFinalValueEntry
+                        con.Open();
+                        cmd.CommandText = " Select PACKNOTEBASIC.DOCID AS PENTRYID ,PAKQBASIC.DOCID,PAKQBASICID,to_char(PAKQBASIC.DOCDT,'dd-MON-yyyy')DOCDT,TESTREQ,ACTIVE from PAKQBASIC LEFT OUTER JOIN PACKNOTEBASIC ON PACKNOTEBASICID =PAKQBASIC.PENTRYID WHERE PAKQBASIC.DOCDT BETWEEN '" + st + "'  AND ' " + ed + "'  order by PAKQBASIC.PAKQBASICID DESC ";
+                        OracleDataReader rdr = cmd.ExecuteReader();
+                        while (rdr.Read())
                         {
-                            ID = rdr["PAKQBASICID"].ToString(),
-                            Docid = rdr["DOCID"].ToString(),
-                            DocDate = rdr["DOCDT"].ToString(),
-                            PEntryid = rdr["PENTRYID"].ToString(),
-
-                            TestReq = rdr["TESTREQ"].ToString(),
-                            active = rdr["ACTIVE"].ToString()
-                        };
-                        cmpList.Add(cmp);
+                            PackingQCFinalValueEntry cmp = new PackingQCFinalValueEntry
+                            {
+                                ID = rdr["PAKQBASICID"].ToString(),
+                                Docid = rdr["DOCID"].ToString(),
+                                DocDate = rdr["DOCDT"].ToString(),
+                                PEntryid = rdr["DOCID"].ToString(),
+                                TestReq = rdr["TESTREQ"].ToString(),
+                                active = rdr["ACTIVE"].ToString()
+                            };
+                            cmpList.Add(cmp);
+                        }
                     }
                 }
             }
@@ -101,13 +102,13 @@ namespace Arasan.Services.Qualitycontrol
                     objCmd.Parameters.Add("DOCDT", OracleDbType.Date).Value = DateTime.Parse(cy.DocDate);
                     objCmd.Parameters.Add("PENTRYID", OracleDbType.NVarchar2).Value = cy.PEntryid;
                     objCmd.Parameters.Add("PENTRYDT", OracleDbType.Date).Value = DateTime.Parse(cy.PEntrydt);
-                    objCmd.Parameters.Add("PACKNOTEID", OracleDbType.NVarchar2).Value = cy.PNoteid;
+                    //objCmd.Parameters.Add("PACKNOTEID", OracleDbType.NVarchar2).Value = cy.PNoteid;
                     objCmd.Parameters.Add("PSCHNO", OracleDbType.NVarchar2).Value = cy.Schedule;
                     objCmd.Parameters.Add("PACLOTNO", OracleDbType.NVarchar2).Value = cy.PacNo;
                     objCmd.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cy.Item;
                     objCmd.Parameters.Add("TESTREQ", OracleDbType.NVarchar2).Value = cy.TestReq;
                     objCmd.Parameters.Add("PKDRUMNOS", OracleDbType.NVarchar2).Value = cy.drumnos;
-                    objCmd.Parameters.Add("SAMPLETAKENBY", OracleDbType.NVarchar2).Value = cy.Same;
+                    //objCmd.Parameters.Add("SAMPLETAKENBY", OracleDbType.NVarchar2).Value = cy.Same;
                     objCmd.Parameters.Add("CHECKEDBY", OracleDbType.NVarchar2).Value = cy.Checked;
                     objCmd.Parameters.Add("REMARKS", OracleDbType.NVarchar2).Value = cy.Remarks;
 
@@ -125,10 +126,10 @@ namespace Arasan.Services.Qualitycontrol
                             Pid = cy.ID;
                         }
 
-                        
+
                         foreach (Packingitem ca in cy.DrumLst)
                         {
-                            if (ca.Isvalid == "Y" && ca.Drum != "0")
+                            if (ca.Isvalid == "Y" && ca.drum != "0")
                             {
                                 using (OracleConnection objConns = new OracleConnection(_connectionString))
                                 {
@@ -145,11 +146,11 @@ namespace Arasan.Services.Qualitycontrol
                                     }
                                     objCmds.CommandType = CommandType.StoredProcedure;
                                     objCmds.Parameters.Add("PAKQBASICID", OracleDbType.NVarchar2).Value = Pid;
-                                    objCmds.Parameters.Add("DRUMNO", OracleDbType.NVarchar2).Value = ca.Drum;
-                                    objCmds.Parameters.Add("COMBNO", OracleDbType.NVarchar2).Value = ca.Com;
-                                    objCmds.Parameters.Add("BATCHNO", OracleDbType.NVarchar2).Value = ca.Batch;
-                                    objCmds.Parameters.Add("FINALRESULT", OracleDbType.NVarchar2).Value = ca.Result;
-                                    
+                                    objCmds.Parameters.Add("DRUMNO", OracleDbType.NVarchar2).Value = ca.drum;
+                                    objCmds.Parameters.Add("COMBNO", OracleDbType.NVarchar2).Value = ca.com;
+                                    objCmds.Parameters.Add("BATCHNO", OracleDbType.NVarchar2).Value = ca.batch;
+                                    objCmds.Parameters.Add("FINALRESULT", OracleDbType.NVarchar2).Value = ca.result;
+
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                     objConns.Open();
                                     objCmds.ExecuteNonQuery();
@@ -241,13 +242,14 @@ namespace Arasan.Services.Qualitycontrol
         public DataTable GetViewPacking(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select DOCID,DOCDT,PENTRYID,PENTRYDT,PACKNOTEID,PSCHNO,PACLOTNO,ITEMID,TESTREQ,PKDRUMNOS,SAMPLETAKENBY,CHECKEDBY,REMARKS from PAKQBASIC where PAKQBASIC.PAKQBASICID ='" + id + "'";
+            SvSql = "select DOCID,DOCDT,PENTRYID,PENTRYDT,PSCHNO,PACLOTNO,ITEMID,TESTREQ,PKDRUMNOS,SAMPLETAKENBY,CHECKEDBY,REMARKS from PAKQBASIC where PAKQBASIC.PAKQBASICID ='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
-        } public DataTable GetViewPackingItem(string id)
+        }
+        public DataTable GetViewPackingItem(string id) 
         {
             string SvSql = string.Empty;
             SvSql = "SELECT DRUMNO,COMBNO,BATCHNO,FINALRESULT FROM PAKQDETAIL where PAKQDETAIL.PAKQBASICID ='" + id + "'";
@@ -256,7 +258,8 @@ namespace Arasan.Services.Qualitycontrol
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
-        } public DataTable GetViewPackingGas(string id)
+        }
+        public DataTable GetViewPackingGas(string id)
         {
             string SvSql = string.Empty;
             SvSql = "SELECT MINS,VOL25C,VOL35C,VOL45C,VOLSTP FROM PAKQGEDETAIL where PAKQGEDETAIL.PAKQBASICID ='" + id + "'";
@@ -267,5 +270,47 @@ namespace Arasan.Services.Qualitycontrol
             return dtt;
         }
 
+        public DataTable GetPackingQCFinal()
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select DOCID,PACKNOTEBASICID from PACKNOTEBASIC";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+
+        }
+        public DataTable GetPackingEntryDetails(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = " select PACKNOTEBASIC.DOCDATE,PACKNOTEBASIC.ENDDATE,PACKNOTEBASIC.PACLOTNO,PSBASIC.SCHPLANTYPE,ITEMMASTER.ITEMID from PACKNOTEBASIC LEFT OUTER JOIN PSBASIC ON PACKNOTEBASIC.PSCHNO=PSBASIC.PSBASICID LEFT OUTER JOIN ITEMMASTER ON  PACKNOTEBASIC.OITEMID = ITEMMASTER.ITEMMASTERID  where PACKNOTEBASIC.PACKNOTEBASICID = '" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        } 
+        public DataTable GetPEntryItemgrpDetails(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = " select DOCDATE,ENDDATE,PSCHNO,PACLOTNO,OITEMID from PACKNOTEBASIC where PACKNOTEBASIC.PACKNOTEBASICID = '" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+       
+        public DataTable GetPackingitemDetail(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select DRUMMAST.DRUMNO,IBATCHNO,COMBNO,PACKNOTEBASICID from PACKNOTEINPDETAIL left outer join DRUMMAST on DRUMMASTID =PACKNOTEINPDETAIL.IDRUMNO  where PACKNOTEBASICID = '" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
     }
 }

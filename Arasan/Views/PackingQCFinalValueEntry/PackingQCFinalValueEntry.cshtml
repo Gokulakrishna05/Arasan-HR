@@ -38,9 +38,9 @@
 
                                         <br />  <label for="inputName3" class="col-sm-4 control-label">Doc Id<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                           @Html.TextBoxFor(C => C.Docid, new { @id = "txtDocId", @class = "form-control", @TabIndex = 2 })
+                                          @Html.TextBoxFor(C => C.Docid, new { @id = "txtDocId", @class = "form-control", @TabIndex = 2 })
 @*                                          @Html.DropDownListFor(C => C.Docid, Model.Doclst, new { @id = "ddlDocid", @Class = "form-control _select", @TabIndex = 1 })
-*@                                            @Html.HiddenFor(C => C.ID)
+*@                                           @Html.HiddenFor(C => C.ID)
 
                                         </div>
                                     </div>
@@ -66,7 +66,7 @@
                                     <div class="col-sm-8">
 @*                                        @Html.TextBoxFor(C => C.PEntryid, new { @id = "txtPEntryid", @class = "form-control", @TabIndex = 2 })
 *@                                         
-                                       @Html.DropDownListFor(C => C.PEntryid, Model.Entrylst," -- Please Select -- ", new { @id = "ddlPEntryid", @Class = "form-control _select", @TabIndex = 1, @onchange = "changeItem(this.value)" })<br />
+                                       @Html.DropDownListFor(C => C.PEntryid, Model.Entrylst," -- Please Select -- ", new { @id = "ddlPEntryid", @Class = "form-control _select", @TabIndex = 1, @onchange = "changeNote(this.value)" })<br />
 
                                     </div>
                                     </div>
@@ -77,7 +77,7 @@
 
                                 <br /> <label for="inputName3" class="col-sm-4 control-label">Packing Entry Dt<label class="Mandatory"></label></label>
                                 <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                        @Html.TextBoxFor(C => C.PEntrydt, new { @id = "PEntrydt", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
+                                        @Html.TextBoxFor(C => C.PEntrydt, new { @id = "txtPEntrydt", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                 </div>
                                     </div>
@@ -99,7 +99,7 @@
                                     <div class="form-group">
                                 <br /> <label for="inputName3" class="col-sm-4 control-label">Pac.Lot.No<label class="Mandatory"></label></label>
                                 <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.PacNo, new { @id = "txtPacNo", @class = "form-control", @TabIndex = 2})
+                                        @Html.TextBoxFor(C => C.PacNo, new { @id = "txtPacNo", @class = "form-control", @readonly = true})
                                 </div>
                                     </div>
                                 </div>
@@ -145,11 +145,11 @@
                                             <div class="tab-pane active" id="tab-1">
                                                 <!-- 1st tab  -->
                                                 <div class="row">
-                                                    <div class="col-md-12">
+                                                    @*<div class="col-md-12">
                                                         <div class="btn-group">
                                                             <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" /></p>
                                                         </div>
-                                                    </div>
+                                                    </div>*@
 
                                                     <div class="col-lg-12">
                                                         <div class="ibox float-e-margins">
@@ -167,6 +167,7 @@
                                                                                 <th> Batch No </th>
                                                                                 <th> Comn No </th>
                                                                                 <th> Result </th>
+                                                                                <TH></TH>
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody id="tbBooks">
@@ -182,17 +183,17 @@
                                                                                         <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
                                                                                             <td>
-                                                                                                    @Html.TextBoxFor(o => o.DrumLst[i].Drum, new { @id = "txtDrum" + i, @class = "form-control", style = "width: 120px;" })
+                                                                                                    @Html.TextBoxFor(o => o.DrumLst[i].drum, new { @id = "txtDrum" + i, @class = "form-control", style = "width: 120px;" })
                                                                                             </td>
                                                                                             <td>
 
-                                                                                                    @Html.TextBoxFor(o => o.DrumLst[i].Batch, new { @id = "txtBatch" + i, @class = "form-control", style = "width: 120px;" })
+                                                                                                    @Html.TextBoxFor(o => o.DrumLst[i].batch, new { @id = "txtBatch" + i, @class = "form-control", style = "width: 700px;" })
                                                                                             </td>
                                                                                             <td>
-                                                                                                    @Html.TextBoxFor(o => o.DrumLst[i].Com, new { @id = "txtCom" + i, @class = "form-control", style = "width: 120px;" })
+                                                                                                    @Html.TextBoxFor(o => o.DrumLst[i].com, new { @id = "txtCom" + i, @class = "form-control", style = "width: 120px;" })
                                                                                             </td>
                                                                                             <td>
-                                                                                                    @Html.TextBoxFor(o => o.DrumLst[i].Result, new { @id = "txtResult" + i, @class = "form-control", style = "width: 120px;", @maxlength ="maxlength"})
+                                                                                                    @Html.TextBoxFor(o => o.DrumLst[i].result, new { @id = "txtResult" + i, @class = "form-control", style = "width: 120px;", @maxlength ="maxlength"})
                                                                                             </td>
                                                                                            
                                                                                             <td>
@@ -200,7 +201,7 @@
                                                                                             <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" />  <input name="DrumLst.Index" type="hidden" value="@(i)" />
                                                                                             </td>
 
-                                                                                        </tr>
+                                                                               </tr>
                                                                                             i = i + 1;
 
 
@@ -220,13 +221,13 @@
                                             <div class="tab-pane" id="tab-2">
                                                 <!-- 2nd tab  -->
                                                 <div style="height:30px;"></div>
-                            <div class="row">
+                          @*  <div class="row">
                                 <div class="col-md-12">
                                     <div class="btn-group">
                                         <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" /></p>
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
 
                                                 <div class="col-lg-12">
                                                     <div class="ibox float-e-margins">
@@ -321,7 +322,7 @@
 
                                         <br />   <label for="inputName3" class="col-sm-4 control-label">Checked By<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.Checked, new { @id = "txtChecked", @class = "form-control", @TabIndex = 1, @onchange = "changeItem(this.value)" })
+                                        @Html.TextBoxFor(C => C.Checked, new { @id = "txtChecked", @class = "form-control", @TabIndex = 1 })
                                         </div>
                                     </div>
                                 </div>
@@ -341,6 +342,7 @@
                             </div>
 
                             <div style="height:30px;"></div>
+                            <div class="col-lg-10"></div>
                             <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
                             <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListPackingQCFinalValueEntry", "PackingQCFinalValueEntry")'">Cancel</button>
                         </form>
@@ -351,12 +353,98 @@
 
     </div>
 </div>
+
+
 <script>
     $(function () {
         $('._select').select2();
     });
-   
+    function PopulateDropDown(dropDownId, list)
+    {
+       @* alert(list);*@
+        $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
+        if (list != null && list.length > 0) {
+            $(dropDownId).removeAttr("disabled");
+            $.each(list, function () {
+                $(dropDownId).append($("<option> </option>").val(this['value']).html(this['text']));
+            });
+        }
+        
+        $(dropDownId).trigger("liszt:updated");
+    }
+  $('._select').select2();
+    $('.form_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
 
+     
+        
+    
+   
+    function changeNote(ItemId) {
+    
+     $.ajax({
+            url: 'GetPackingEntryDetail',
+            data: { "ItemId": ItemId },
+            type: "GET",
+            success: function (result) {
+               
+                document.getElementById("DocDate").value = result.docdate;
+                document.getElementById("txtPEntrydt").value = result.entrydate;
+                document.getElementById("txtSchedule").value = result.schedule;
+                document.getElementById("txtPacNo").value = result.lot;
+                document.getElementById("txtItemd").value = result.item;
+                 @*document.getElementById("txtdrumnos").value = result.drumnos;*@
+            },
+            error: function () {
+                alert("Data Not Found");
+            }
+        });
+
+        document.getElementById("tbBooks").innerHTML="";
+        $.ajax({
+            url: 'GetPackingitemDetails',
+            type: "post",
+            data: { "id": ItemId },
+            cache: false,
+             
+             success: function (list) {
+               
+                     list.forEach((item) => {
+
+         var index = $("#tbBooks").children("tr").length;
+                         
+         var Drum = "<td><input class='form-control' id='txtDrum" + index + "' name='DrumLst[" + index + "].drum'  style='width: 100px;' type='text'  readonly='True'  value=" + item.drum + " /></td>";
+
+         var Batch = "<td><label>" + item.batch + "</label></td>";
+
+
+         var Com = "<td><input class='form-control' id='txtCom" + index + "' name='DrumLst[" + index + "].com'  style='width: 60px;' type='text' readonly='True'  value=" + item.com + " /></td>";
+
+         var Shed = "<td><input class='form-control' id='txtshed" + index + "' name='DrumLst[" + index + "].shed'  style='width: 60px;' type='text' @*input id='Isvalid" + index + "' name='DrumLst[" + index + "].Isvalid' type='hidden'*@ @*value='Y'*@ /></td>";
+
+         var removeCell = "<td><input id='Isvalid" + index + "' name='DrumLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='DrumLst.Index' type='hidden' value='" + index + "'  /></td>";
+      
+         var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Drum + Batch + Com + Shed + removeCell +"</tr>";
+        
+        $("#tbBooks").append(newRow);
+        });
+                },
+            error: function () {
+                alert("Data Not Found");
+            }
+        });
+        
+    }
+      
+        
         function PopulateDropDown(dropDownId, list) {
             //alert(list);
             $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
@@ -368,32 +456,9 @@
             }
             $(dropDownId).trigger("liszt:updated");
         }
-    $(".chosen-select").chosen();
-    $('.form_date').datetimepicker({
-        //   language:  'fr',
-        weekStart: 1,
-        todayBtn: 1,
-        autoclose: 1,
-        todayHighlight: 1,
-        startView: 2,
-        minView: 2,
-        forceParse: 0
-    });
+   
     
-    function AddRow1() {
-        var opt = "";
-        $.ajax({
-            type: "POST",
-            url: 'GetDocJSON',
-            success: function (data) {
-
-                $.each(data, function () {
-                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
-                });
-                AppendRow1(opt);
-            }
-        })
-    }
+    
 
      function AddRow() {
         var opt = "";
@@ -409,6 +474,7 @@
             }
         })
     }
+  
     function removeRow(id) {
         var table = document.getElementById("dataTable");
         var rowCount = table.rows.length;
@@ -445,56 +511,6 @@
             alert("Cannot delete all the rows.")
         }
     }
-    $(function () {
-        var Itemid = '@ViewBag.Itemid';
-        changeItem(Itemid);
-    });
-   @* function changeItem(ItemId) {
-        document.getElementById("tbBooks").innerHTML = "";
-        $.ajax({
-            url: 'GetItemDetails',
-            type: "post",
-            data: { "id": ItemId },
-            cache: false,
-
-            success: function (list) {
-                //if (list != null && list.length > 0) {
-                list.forEach((item) => {
-
-                    var index = $("#tbBooks").children("tr").length;
-
-                    var Des = "<td><input class='form-control' id='txtDes" + index + "' name='QCFlst[" + index + "].des'  style='width: 120px;' type='text 'readonly='readonly' value=" + item.des + "  /></td>";
-
-                    var Value = "<td><input class='form-control' id='txtValue" + index + "' name='QCFlst[" + index + "].value'  style='width: 120px;' type='text' readonly='readonly' value=" + item.value + "  /></td>";
-
-                    var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='QCFlst[" + index + "].unit'  style='width: 120px;' type='text' readonly='readonly' value=" + item.unit + "  /></td>";
-
-                    var Sta = "<td><input class='form-control' id='txtSta" + index + "' name='QCFlst[" + index + "].sta'  style='width: 120px;' type='text' readonly='readonly' value=" + item.sta + " /></td>";
-
-                    var En = "<td><input class='form-control' id='txtEn" + index + "' name='QCFlst[" + index + "].en'  style='width: 120px;' type='text' readonly='readonly' value=" + item.en + "  /></td>";
-
-                    var Test = "<td><input class='form-control' id='txtTest" + index + "' name='QCFlst[" + index + "].test'  style='width: 120px;' type='text'  /></td>";
-
-                    var Manual = "<td><input class='form-control' id='txtManual" + index + "' name='QCFlst[" + index + "].manual'  style='width: 120px;' type='text'  /></td>";
-
-                    var Actual = "<td><input class='form-control' id='txtActual" + index + "' name='QCFlst[" + index + "].actual'  style='width: 120px;' type='text'  /></td>";
-
-                    var Result = "<td><input class='form-control' id='txtResultl" + index + "' name='QCFlst[" + index + "].result'  style='width: 120px;' type='text'  /></td>";
-
-                    var removeCell = "<td><input id='Isvalid" + index + "' name='QCFlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='QCFlst.Index' type='hidden' value='" + index + "'  /></td>";
-
-                    var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Des + Value + Unit + Sta + En + Test + Manual + Actual + Result + removeCell + "</tr>";
-
-                    $("#tbBooks").append(newRow);
-                });
-                //}
-            },
-            error: function () {
-                alert("Data Not Found");
-            }
-        });
-    }*@
-
     function AppendRow(opt) {
         var index = $("#tbBooks").children("tr").length;
 
@@ -510,10 +526,17 @@
 
         var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Drum + Batch + Com + Result + removeCell + "</tr>";
 
-        //alert(Packing);
+       
         $("#tbBooks").append(newRow);
+           $(function () {
+        $('._select').select2();
+    });
 
     }
+    </script>
+
+    
+@*
     function AppendRow1(opt) {
         var index = $("#tbBooks1").children("tr").length;
 
@@ -531,15 +554,10 @@
 
         var newRow = "<tr class='chkitemlst1'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook1" + index + "'>" + Time + vol25 + vol35 + vol45 + vol + removeCell + "</tr>";
 
-        //alert(Packing);
-        $("#tbBooks1").append(newRow);
+        
+        $("#tbBooks1").append(newRow);*@
 
-    }
-    $(function () {
-        $('._select').select2();
-    });
-</script>
-
+       
 
 
 <script>
