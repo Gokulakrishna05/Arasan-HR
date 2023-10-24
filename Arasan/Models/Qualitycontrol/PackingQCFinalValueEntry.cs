@@ -22,7 +22,7 @@ namespace Arasan.Models
         public string DocDate { get; set; }
         
         public string PEntrydt { get; set; }
-        public string PNoteid { get; set; }
+        
         public string Schedule { get; set; }
         public string PacNo { get; set; }
         public string Item { get; set; }
@@ -40,11 +40,12 @@ namespace Arasan.Models
 
     public class Packingitem
     {
-        public string Drum { get; set; }
-        public string Batch { get; set; }
-        public string Com { get; set; }
-        public string Result { get; set; }
+        public string drum { get; set; }
+        public string batch { get; set; }
+        public string com { get; set; }
+        public string result { get; set; }
         public string Isvalid { get; set; }
+        public string shed { get; set; }
     }
     public class PackingGasitem
     {

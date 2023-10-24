@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc;
 using Arasan.Services.Qualitycontrol;
 using Arasan.Services;
+using Arasan.Interface;
+using Arasan.Services.Sales;
 
 namespace Arasan.Controllers
 {
@@ -29,6 +31,7 @@ namespace Arasan.Controllers
         {
             PackingQCFinalValueEntry ca = new PackingQCFinalValueEntry();
             ca.Doclst = BindDoc();
+            ca.Entrylst = BindEntry();
 
             List<Packingitem> TData = new List<Packingitem>();
             Packingitem tda = new Packingitem();
@@ -97,9 +100,9 @@ namespace Arasan.Controllers
 
             return View(Cy);
         }
-        public IActionResult ListPackingQCFinalValueEntry (string active)
+        public IActionResult ListPackingQCFinalValueEntry (string st, string ed)
         {
-            IEnumerable<PackingQCFinalValueEntry> cmp = PackingQCFinalValueEntryService.GetAllPackingQCFinalValueEntry(active);
+            IEnumerable<PackingQCFinalValueEntry> cmp = PackingQCFinalValueEntryService.GetAllPackingQCFinalValueEntry(st, ed);
             return View(cmp);
         }
         //public IActionResult ListQCFinalValueEntry(string st, string ed)
@@ -123,7 +126,23 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-
+        public List<SelectListItem> BindEntry()
+        {
+            try
+            {
+                DataTable dtDesg = PackingQCFinalValueEntryService.GetPackingQCFinal();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DOCID"].ToString(), Value = dtDesg.Rows[i]["PACKNOTEBASICID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public JsonResult GetDocJSON()
         {
             Packingitem model = new Packingitem();
@@ -162,7 +181,7 @@ namespace Arasan.Controllers
                 ca.DocDate = dt.Rows[0]["DOCDT"].ToString();
                 ca.PEntryid = dt.Rows[0]["PENTRYID"].ToString();
                 ca.PEntrydt = dt.Rows[0]["PENTRYDT"].ToString();
-                ca.PNoteid = dt.Rows[0]["PACKNOTEID"].ToString();
+                //ca.PNoteid = dt.Rows[0]["PACKNOTEID"].ToString();
 
                 ca.Schedule = dt.Rows[0]["PSCHNO"].ToString();
                 ca.PacNo = dt.Rows[0]["PACLOTNO"].ToString();
@@ -185,10 +204,11 @@ namespace Arasan.Controllers
                 {
                     for (int i = 0; i < dtt.Rows.Count; i++)
                     {
-                        tda.Drum = dtt.Rows[0]["DRUMNO"].ToString();
-                        tda.Com = dtt.Rows[0]["COMBNO"].ToString();
-                        tda.Batch = dtt.Rows[0]["BATCHNO"].ToString();
-                        tda.Result = dtt.Rows[0]["FINALRESULT"].ToString();
+                        tda.drum = dtt.Rows[0]["DRUMNO"].ToString();
+                        tda.com = dtt.Rows[0]["COMBNO"].ToString();
+                        tda.batch = dtt.Rows[0]["BATCHNO"].ToString();
+                        tda.result = dtt.Rows[0]["FINALRESULT"].ToString();
+                        tda.Isvalid = "Y";
 
                         Data.Add(tda);
                     }
@@ -208,6 +228,7 @@ namespace Arasan.Controllers
                         tda1.vol35 = dtt1.Rows[0]["VOL35C"].ToString();
                         tda1.vol45 = dtt1.Rows[0]["VOL45C"].ToString();
                         tda1.vol = dtt1.Rows[0]["VOLSTP"].ToString();
+                        tda1.Isvalid = "Y";
 
                         DData.Add(tda1);
                     }
@@ -218,5 +239,70 @@ namespace Arasan.Controllers
             }
             return View(ca);
         }
+        public ActionResult GetPackingEntryDetail(string ItemId)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+
+                string docdate = "";
+                string entrydate = "";
+                string schedule = "";
+                string lot = "";
+                string item = "";
+                //string drumnos = "";
+
+
+                dt = PackingQCFinalValueEntryService.GetPackingEntryDetails(ItemId);
+
+                if (dt.Rows.Count > 0)
+                {
+                    docdate = dt.Rows[0]["DOCDATE"].ToString(); 
+                    entrydate = dt.Rows[0]["ENDDATE"].ToString(); 
+
+                    schedule = dt.Rows[0]["SCHPLANTYPE"].ToString();
+                    lot = dt.Rows[0]["PACLOTNO"].ToString();
+                    item = dt.Rows[0]["ITEMID"].ToString();
+                    //drumnos = dt.Rows[0]["CONTACT_PERSON_MOBILE"].ToString();
+
+                   
+                }
+
+                var result = new { docdate = docdate,entrydate = entrydate, schedule = schedule, lot = lot, item = item/*, drumnos = drumnos*/ };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public ActionResult GetPackingitemDetails(string id)   //10001000001122
+        {
+            PackingQCFinalValueEntry model = new PackingQCFinalValueEntry();
+            DataTable dtt = new DataTable();
+            List<Packingitem> Data = new List<Packingitem>();
+            Packingitem tda = new Packingitem();
+            dtt = PackingQCFinalValueEntryService.GetPackingitemDetail(id);
+            if (dtt.Rows.Count > 0)
+            {
+                for (int i = 0; i < dtt.Rows.Count; i++)
+                {
+                    tda = new Packingitem();
+
+                    tda.drum = dtt.Rows[i]["DRUMNO"].ToString();
+                    tda.batch = dtt.Rows[i]["IBATCHNO"].ToString();
+                    
+                    tda.com = dtt.Rows[i]["COMBNO"].ToString();
+                    model.drumnos = tda.drum;
+                    Data.Add(tda);
+                }
+            }
+            model.DrumLst = Data;
+            return Json(model.DrumLst);
+
+        }
+
+
     }
 }
