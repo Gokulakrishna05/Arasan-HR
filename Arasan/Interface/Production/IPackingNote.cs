@@ -12,8 +12,8 @@ namespace Arasan.Interface
         string PackingNoteCRUD(PackingNote Cy);
         DataTable GetItembyId(string id);
         DataTable GetDrumLocation();
-        DataTable DrumDeatils(string id,string loc);
-        DataTable GetDrumDetails(string id);
+        //DataTable DrumDeatils(string id,string loc);
+        DataTable GetDrumDetails(string id,string item);
         DataTable GetBatch(string id);
         DataTable GetPackingNote(string id);
         //DataTable GetItemDet(string id); 

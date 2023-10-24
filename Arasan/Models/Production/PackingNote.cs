@@ -42,16 +42,16 @@ namespace Arasan.Models
     public class DrumDetail
     {
         public string ID { get; set; }
-        public string DrumNo { get; set; }
+        public string drum { get; set; }
         public List<SelectListItem> DrumNolst { get; set; }
 
         public List<SelectListItem> Batchlst { get; set; }
-        public string BatchNo { get; set; }
+        public string batch { get; set; }
   
-        public string BatchQty { get; set; }
+        public string qty { get; set; }
              
         
-        public string Comp { get; set; }
+        public string comp { get; set; }
         //public string Output { get; set; }
         public string Isvalid { get; set; }
         //public List<SelectListItem> outputlst;

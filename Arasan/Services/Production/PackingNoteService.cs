@@ -237,7 +237,7 @@ namespace Arasan.Services
                         }
                         foreach (DrumDetail cp in cy.DrumDetlst)
                         {
-                            if (cp.Isvalid == "Y" && cp.DrumNo != "0")
+                            if (cp.Isvalid == "Y" && cp.drum != "0")
                             {
                                 using (OracleConnection objConns = new OracleConnection(_connectionString))
                                 {
@@ -254,18 +254,18 @@ namespace Arasan.Services
                                     }
                                     objCmds.CommandType = CommandType.StoredProcedure;
                                     objCmds.Parameters.Add("PACKNOTEBASICID", OracleDbType.NVarchar2).Value = Pid;
-                                    objCmds.Parameters.Add("IDRUMNO", OracleDbType.NVarchar2).Value = cp.DrumNo;
-                                    objCmds.Parameters.Add("IBATCHNO", OracleDbType.NVarchar2).Value = cp.BatchNo;
-                                    objCmds.Parameters.Add("IBATCHQTY", OracleDbType.NVarchar2).Value = cp.BatchQty;
-                                    objCmds.Parameters.Add("COMBNO", OracleDbType.NVarchar2).Value = cp.Comp;
+                                    objCmds.Parameters.Add("IDRUMNO", OracleDbType.NVarchar2).Value = cp.drum;
+                                    objCmds.Parameters.Add("IBATCHNO", OracleDbType.NVarchar2).Value = cp.batch;
+                                    objCmds.Parameters.Add("IBATCHQTY", OracleDbType.NVarchar2).Value = cp.qty;
+                                    objCmds.Parameters.Add("COMBNO", OracleDbType.NVarchar2).Value = cp.comp;
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                     objConns.Open();
                                     objCmds.ExecuteNonQuery();
                                     objConns.Close();
                                 }
-                                DataTable dt = datatrans.GetData("Select INVENTORY_ITEM_ID,ITEMID,IN_DATE,DRUM_ID,DRUM_NO,TSOURCEID,STOCKTRANSTYPE,LOCID,QTY,BALANCE_QTY,OUT_ID,BATCHNO,BATCH_QTY,ISPRODINV,DRUM_STOCK_ID from DRUM_STOCK where DRUM_STOCK.DRUM_ID='" + cp.DrumNo + "'");
+                                DataTable dt = datatrans.GetData("Select INVENTORY_ITEM_ID,ITEMID,IN_DATE,DRUM_ID,DRUM_NO,TSOURCEID,STOCKTRANSTYPE,LOCID,QTY,BALANCE_QTY,OUT_ID,BATCHNO,BATCH_QTY,ISPRODINV,DRUM_STOCK_ID from DRUM_STOCK where DRUM_STOCK.DRUM_NO='" + cp.drum + "'");
 
-                                string DrumID = datatrans.GetDataString("Select DRUM_NO from DRUM_STOCK where DRUM_ID='" + cp.DrumNo + "' ");
+                                string DrumID = datatrans.GetDataString("Select DRUM_ID from DRUM_STOCK where DRUM_NO='" + cp.drum + "' ");
 
                                 //double qty = ca.Qty;
 
@@ -292,20 +292,18 @@ namespace Arasan.Services
                                             objCmds.CommandType = CommandType.StoredProcedure;
 
                                             objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-                                            objCmds.Parameters.Add("INVENTORY_ITEM_ID", OracleDbType.NVarchar2).Value = "0";
+                                           
                                             objCmds.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cy.ItemId;
-                                            objCmds.Parameters.Add("IN_DATE", OracleDbType.Date).Value = DateTime.Now;
-                                            objCmds.Parameters.Add("DRUM_ID", OracleDbType.NVarchar2).Value = cp.DrumNo;
-                                            objCmds.Parameters.Add("DRUM_NO", OracleDbType.NVarchar2).Value = DrumID;
+                                            objCmds.Parameters.Add("DOC_DATE", OracleDbType.Date).Value = DateTime.Now;
+                                            objCmds.Parameters.Add("DRUM_ID", OracleDbType.NVarchar2).Value = DrumID;
+                                            objCmds.Parameters.Add("DRUM_NO", OracleDbType.NVarchar2).Value = cp.drum;
                                             objCmds.Parameters.Add("TSOURCEID", OracleDbType.NVarchar2).Value = "0";
                                             objCmds.Parameters.Add("STOCKTRANSTYPE", OracleDbType.NVarchar2).Value = "PACKNOTE";
                                             objCmds.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = cy.WorkId;
-                                            objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = cp.BatchQty;
-                                            objCmds.Parameters.Add("BALANCE_QTY", OracleDbType.NVarchar2).Value = cp.BatchQty;
+                                            objCmds.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = cp.qty;
+                                            objCmds.Parameters.Add("BALANCE_QTY", OracleDbType.NVarchar2).Value = cp.qty;
                                             objCmds.Parameters.Add("OUT_ID", OracleDbType.NVarchar2).Value = dt.Rows[i]["DRUM_STOCK_ID"].ToString();
-                                            objCmds.Parameters.Add("BATCHNO", OracleDbType.NVarchar2).Value = cp.BatchNo;
-                                            objCmds.Parameters.Add("BATCH_QTY", OracleDbType.NVarchar2).Value = "0";
-                                            objCmds.Parameters.Add("ISPRODINV", OracleDbType.NVarchar2).Value = "Y";
+                                           
                                             objConns.Open();
                                             objCmds.ExecuteNonQuery();
 
@@ -392,33 +390,33 @@ return msg;
         public DataTable GetItembyId(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select ITEMMASTER.ITEMID from DRUM_STOCK left outer join ITEMMASTER on ITEMMASTERID =DRUM_STOCK.ITEMID  where LOCID= '" + id + "' GROUP BY ITEMMASTER.ITEMID";
+            SvSql = "select ITEMMASTER.ITEMID,DRUM_STOCK.ITEMID as item from DRUM_STOCK left outer join ITEMMASTER on ITEMMASTERID =DRUM_STOCK.ITEMID  where LOCID= '" + id + "' and CURINGDUEDATE=SYSDATE GROUP BY ITEMMASTER.ITEMID";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable DrumDeatils(string id, string item)
+        public DataTable GetDrumDetails(string id, string item)
         {
             string SvSql = string.Empty;
-            SvSql = "select DRUM_NO,DRUM_ID  from DRUM_STOCK where BALANCE_QTY  > 0 AND ITEMID= '" + id + "' AND LOCID ='" + item + "'";
+            SvSql = "select DRUM_NO,DRUM_ID,LOTNO  from DRUM_STOCK where BALANCE_QTY  > 0 AND ITEMID= '" + id + "' AND LOCID ='" + item + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetDrumDetails(string id)
-        {
-            string SvSql = string.Empty;
-            SvSql = "select QTY from DRUM_STOCK where DRUM_ID= '" + id + "'";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
+        //public DataTable GetDrumDetails(string id, string item)
+        //{
+        //    string SvSql = string.Empty;
+        //    SvSql = "select QTY from DRUM_STOCK where DRUM_ID= '" + id + "'";
+        //    DataTable dtt = new DataTable();
+        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
+        //}
         public DataTable GetBatch(string id)
         {
             string SvSql = string.Empty;
