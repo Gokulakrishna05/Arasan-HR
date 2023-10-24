@@ -35,6 +35,7 @@ namespace Arasan.Controllers
             ca.RecList = BindEmp();
             ca.DrumLoclst = BindDrumLoc();
             ca.Schlst = BindSche( );
+            ca.Itemlst = BindItemlst("");
             ca.Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
             List<DrumDetail> TData = new List<DrumDetail>();
             DrumDetail tda = new DrumDetail();
@@ -95,14 +96,14 @@ namespace Arasan.Controllers
                         tda = new DrumDetail();
                         //tda.DrumNolst = BindDrumNo(ca.DrumLoc);
                         tda.DrumNolst = Binddrum(ca.ItemId, ca.DrumLoc);
-                        tda.DrumNo = dt2.Rows[i]["IDRUMNO"].ToString();
+                        tda.drum = dt2.Rows[i]["IDRUMNO"].ToString();
                         //tda.Batchlst = BindBatch(tda.DrumNo);
 
 
                         tda.Isvalid = "Y";
-                        tda.BatchNo = dt2.Rows[i]["IBATCHNO"].ToString();
-                        tda.BatchQty = dt2.Rows[i]["IBATCHQTY"].ToString();
-                        tda.Comp = dt2.Rows[i]["COMBNO"].ToString();
+                        tda.batch = dt2.Rows[i]["IBATCHNO"].ToString();
+                        tda.qty = dt2.Rows[i]["IBATCHQTY"].ToString();
+                        tda.comp = dt2.Rows[i]["COMBNO"].ToString();
                         
 
                         tda.ID = id;
@@ -237,13 +238,13 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public JsonResult GetDrumJSON(string id, string item)
-        {
-            string DrumID = datatrans.GetDataString("Select ITEMMASTERID from ITEMMASTER where ITEMID='" + id + "' ");
-            DrumIssueEntryItem model = new DrumIssueEntryItem();
-            model.drumlst = Binddrum(DrumID, item);
-            return Json(Binddrum(DrumID, item));
-        }
+        //public JsonResult GetDrumJSON(string id, string item)
+        //{
+        //    string DrumID = datatrans.GetDataString("Select ITEMMASTERID from ITEMMASTER where ITEMID='" + id + "' ");
+        //    DrumIssueEntryItem model = new DrumIssueEntryItem();
+        //    model.drumlst = Binddrum(DrumID, item);
+        //    return Json(Binddrum(DrumID, item));
+        //}
         public List<SelectListItem> Binddrum(string value, string item)
         {
             try
@@ -314,35 +315,35 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public ActionResult GetDrumDetail(string ItemId)
-        {
-            try
-            {
-                DataTable dt = new DataTable();
+        //public ActionResult GetDrumDetail(string ItemId)
+        //{
+        //    try
+        //    {
+        //        DataTable dt = new DataTable();
 
                
-                string qty = "";
+        //        string qty = "";
 
-                dt = Packing.GetDrumDetails(ItemId);
+        //        dt = Packing.GetDrumDetails(ItemId);
 
-                if (dt.Rows.Count > 0)
-                {
+        //        if (dt.Rows.Count > 0)
+        //        {
 
                    
-                    qty = dt.Rows[0]["QTY"].ToString();
+        //            qty = dt.Rows[0]["QTY"].ToString();
 
 
 
-                }
+        //        }
 
-                var result = new { qty = qty };
-                return Json(result);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        //        var result = new { qty = qty };
+        //        return Json(result);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
         //public ActionResult GetDrumDetail(string ItemId)
         //{
         //    try
@@ -407,14 +408,14 @@ namespace Arasan.Controllers
                 {
                     tda = new DrumDetail();
                     //tda.DrumNolst = BindDrumNo(ca.DrumLoc);
-                    tda.DrumNo = dtDrum.Rows[i]["DRUMNO"].ToString();
+                    tda.drum = dtDrum.Rows[i]["DRUMNO"].ToString();
                     //tda.Batchlst = BindBatch(tda.DrumNo);
 
 
 
-                    tda.BatchNo = dtDrum.Rows[i]["IBATCHNO"].ToString();
-                    tda.BatchQty = dtDrum.Rows[i]["IBATCHQTY"].ToString();
-                    tda.Comp = dtDrum.Rows[i]["COMBNO"].ToString();
+                    tda.batch = dtDrum.Rows[i]["IBATCHNO"].ToString();
+                    tda.qty = dtDrum.Rows[i]["IBATCHQTY"].ToString();
+                    tda.comp = dtDrum.Rows[i]["COMBNO"].ToString();
 
 
                    
@@ -466,6 +467,32 @@ namespace Arasan.Controllers
                 TempData["notice"] = flag;
                 return RedirectToAction("ListPackingNote");
             }
+        }
+        public ActionResult GetDrumStockDetails(string id, string item)
+        {
+            PackingNote model = new PackingNote();
+            DataTable dtt = new DataTable();
+            List<DrumDetail> Data = new List<DrumDetail>();
+            DrumDetail tda = new DrumDetail();
+            dtt = Packing.GetDrumDetails(id, item);
+            if (dtt.Rows.Count > 0)
+            {
+                for (int i = 0; i < dtt.Rows.Count; i++)
+                {
+                    tda = new DrumDetail();
+
+                    tda.drum = dtt.Rows[i]["DRUM_NO"].ToString();
+                    tda.batch = dtt.Rows[i]["DRUM_NO"].ToString();
+
+                    tda.qty = dtt.Rows[i]["BALANCE_QTY"].ToString();
+
+
+                    Data.Add(tda);
+                }
+            }
+            model.DrumDetlst = Data;
+            return Json(model.DrumDetlst);
+
         }
     }
 }

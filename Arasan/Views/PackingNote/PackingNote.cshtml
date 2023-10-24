@@ -263,16 +263,15 @@
                                                 {
                                                         <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
-                                                                <td>@Html.DropDownListFor(o => o.DrumDetlst[i].DrumNo, Model.DrumDetlst[i].DrumNolst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlDrumNo" + i, style = "width: 170px;",onchange = "changeDrumDetail(this.value," + i + ")" })
-                                                                          </td>
+                                                            <td>  @Html.TextBoxFor(o => o.DrumDetlst[i].drum, new { @id = "ddlDrumNo" + i, @class = "form-control", style = "width: 130px;" }) </td>
                                                             <td>
-                                                                @Html.TextBoxFor(o => o.DrumDetlst[i].BatchNo, new { @id = "txtBatchNo" + i, @class = "form-control", style = "width: 130px;" })
+                                                                @Html.TextBoxFor(o => o.DrumDetlst[i].batch, new { @id = "ddlDrumNo" + i, @class = "form-control", style = "width: 130px;" })
  </td>
                                                             <td>
-                                                                @Html.TextBoxFor(o => o.DrumDetlst[i].BatchQty, new { @id = "txtBatchQty" + i, @class = "form-control", style = "width: 130px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)",ReadOnly="readonly"})
+                                                                @Html.TextBoxFor(o => o.DrumDetlst[i].qty, new { @id = "ddlDrumNo" + i, @class = "form-control", style = "width: 130px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)",ReadOnly="readonly"})
                                                             </td>
                                                             <td>
-                                                                @Html.TextBoxFor(o => o.DrumDetlst[i].Comp, new { @id = "txtComp" + i, @class = "form-control", style = "width: 130px;" })
+                                                                @Html.TextBoxFor(o => o.DrumDetlst[i].comp, new { @id = "txtComp" + i, @class = "form-control", style = "width: 130px;" })
                                                             </td>
                                                             
                                                             <td>
@@ -407,27 +406,41 @@
      function changeDrum(ItemId,i) {
         var item = document.getElementById("ddlDrumLoc").value;
 
-        
 
+       
         $.ajax({
-            url: "GetDrumJSON",
+            url: 'GetDrumStockDetails',
             type: "post",
-            data: { 'item' : item,'id': ItemId },
+            data: { "item": item, "id": ItemId },
             cache: false,
-            success: function (response) {
-               var j = 0;
-                  $('tr.chkitemlst').each(function () {
-                        if ($(this).css('display') !== 'none') {
-                        PopulateDropDown("#ddlDrumNo" + j, response);
-                              }
-                        j += 1;
-                    }); 
+
+            success: function (list) {
+                //if (list != null && list.length > 0) {
+                list.forEach((item) => {
+
+                    var index = $("#tbBooks").children("tr").length;
+                    //alert(item.batch);
+                    var Drum = "<td><input class='form-control' id='ddlDrumNo" + index + "' name='DrumDetlst[" + index + "].drum'  style='width: 100px;' type='text'  readonly='True'  value=" + item.drum + " /><input id='txtdrum" + index + "' name='DrumDetlst[" + index + "].drum' type='hidden'  value=" + item.drum + "></td>";
+
+                    var Batch = "<td><label>" + item.batch + "</label><input type='hidden' value=" + item.batchno + " id='ddlDrumNo" + index + "' name='DrumDetlst[" + index + "].batchno'></td>";
+
+                    var Qty = "<td><input class='form-control' id='ddlDrumNo" + index + "' name='DrumDetlst[" + index + "].'qty  style='width: 80px;' type='text' readonly='True' value=" + item.qty + " onkeyup = 'changeQty(this, " + index + ")'  /><input id='txtqty" + index + "' name='DrumDetlst[" + index + "].qty' type='hidden'  value=" + item.qty + "></td>";
+
+                    var Comp = "<td><input class='form-control' id='txtComp" + index + "' name='DrumDetlst[" + index + "].'comp  style='width: 80px;' type='text'  onkeyup = 'changeQty(this, " + index + ")'  /><input id='txtComp" + index + "' name='DrumDetlst[" + index + "].qty' type='hidden'  value=" + item.qty + "></td>";
+                    var removeCell = "<td><input id='Isvalid" + index + "' name='DrumDetlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='DrumDetlst.Index' type='hidden' value='" + index + "'  /></td>";
+
+
+                    var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Drum + Batch + Qty +Comp+removeCell + "</tr>";
+
+                    $("#tbBooks").append(newRow);
+                });
+                //}
             },
             error: function () {
-                debugger;
-                alert("Please Select From Location");
+                alert("Data Not Found");
             }
         });
+
         }
     function changeDrumDetail(ItemId, i) {
         $.ajax({
@@ -552,7 +565,7 @@
        
     
 
-        var removeCell = "<td><input id='Isvalid" + index + "' name='Batchlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='DrumDetlst.Index' type='hidden' value='" + index + "'  /></td>";
+        var removeCell = "<td><input id='Isvalid" + index + "' name='DrumDetlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='DrumDetlst.Index' type='hidden' value='" + index + "'  /></td>";
 
 
         var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Drum + Batch + Qty + Comp + removeCell + "</tr>";

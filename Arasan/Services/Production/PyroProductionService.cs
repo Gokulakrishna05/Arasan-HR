@@ -1088,6 +1088,10 @@ namespace Arasan.Services
                                         objCmdInp1.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = "Insert";
 
                                         objCmdInp1.ExecuteNonQuery();
+                                        string Sql = string.Empty;
+                                        Sql = "Update DRUM_STOCKDET SET  CURINGDUEDATE='"+ due + "'";
+                                        OracleCommand objCmds = new OracleCommand(Sql, objConn);
+                                        objCmds.ExecuteNonQuery();
 
                                     }
                                 }
