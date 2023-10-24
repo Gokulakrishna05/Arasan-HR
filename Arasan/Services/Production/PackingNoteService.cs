@@ -69,6 +69,11 @@ namespace Arasan.Services
             }
             return cmpList;
         }
+        public DataTable DrumDeatils(string id, string loc)
+        {
+            DataTable _Dt = new DataTable();
+            return _Dt;
+        }
         //public DataTable GetData(string sql)
         //{
         //    DataTable _Dt = new DataTable();
