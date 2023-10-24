@@ -1,0 +1,577 @@
+﻿@model Arasan.Models.ORSAT
+@{
+    ViewData["Title"] = "ORSAT";
+}
+<style>
+
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a>Quality Control</a> </li>
+            <li class="active"> <strong>ORSAT</strong> </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    <h5 style="font-size:14px">ORSAT</h5>
+                    <hr>
+                      @using (Html.BeginForm("ORSAT", "ORSAT", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                    <form>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                       <br />  <label for="inputName3" class="col-sm-4 control-label">Branch<label class="mandatory">*</label></label>
+                                    <div class="col-sm-8">
+                                           @Html.HiddenFor(C => C.ID)
+                                           
+                                            @Html.DropDownListFor(C => C.Branch, Model.Brlst, new { @id = "ddlBranch", @Class = "form-control _select", @TabIndex = 1 })
+                                           
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                      <br /> <label for="inputName3" class="col-sm-4 control-label">Doc Id<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                       @Html.DropDownListFor(C => C.docid, Model.Doclst, new { @id = "ddlBranch", @Class = "form-control _select", @TabIndex = 1 })
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                      <br /> <label for="inputName3" class="col-sm-4 control-label">Doc Date<label class="Mandatory"></label></label>
+                                    <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                            @Html.TextBoxFor(C => C.docdate, new { @id = "docdate", @class = "form-control", @TabIndex = 2,@size="31",@readonly="readonly" })
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                         <br />   <label for="inputName3" class="col-sm-4 control-label">Shift No<label class="mandatory">*</label></label>
+                                    <div class="col-sm-8">
+                                          
+                                          @Html.TextBoxFor(C => C.shift, new { @id = "txtshift", @class = "form-control", @TabIndex = 1 })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                <br />   <label for="inputName3" class="col-sm-4 control-label">Work Center<label class="mandatory">*</label></label>
+                                     <div class="col-sm-8">
+                                         @Html.TextBoxFor(C => C.work, new { @id = "txtwork", @class = "form-control", @TabIndex = 1 })
+
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                       <br />  <label for="inputName3" class="col-sm-4 control-label">Entry Date<label class="mandatory">*</label></label>
+                                       <div class="col-sm-8">
+                                           @Html.TextBoxFor(C => C.entry, new { @id = "txtentry", @class = "form-control", @TabIndex = 1 })
+
+                                </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                 <br />    <label for="inputName3" class="col-sm-4 control-label">Time<label class="Mandatory"></label></label>
+
+                                    <div class="col-sm-8">
+                                          @Html.TextBoxFor(C => C.time, new { @id = "txttime", @class = "form-control", @TabIndex = 1 })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                       
+                       
+                        <div style="height:30px;"></div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="btn-group">
+                                            <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" /></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            <div class="row">
+                                <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
+
+                                    @* <div class="ibox float-e-margins">*@
+
+                                    <!-- / ibox-title -->
+                                    @* <div id="demo3" class="ibox-content collapse in">
+                                <div class="borderedTable">
+                                <div class="table-scrollable">*@
+                                    <table class="table table-striped table-hover" id="dataTable">
+                              <thead>
+                                <tr>
+                          
+                                          <th> Parameters </th>
+                                          <th> Values </th>
+                                       
+                                    </tr>
+                               </thead>
+                                        <tbody id="tbBooks">
+
+                                            @{
+
+                                                int i = 0;
+                                                
+                                                //foreach (var item in Model.OBSATlst.ToList())
+                                                //{
+                                                //    <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                       
+                                                //                                            <td>
+                                                //                                                    @Html.TextBoxFor(o => o.OBSATlst[i].para, new { @id = "txtCom" + i, @class = "form-control", style = "width: 120px;" })
+                                                //                                            </td>
+                                                //                                            <td>
+                                                //                                                    @Html.TextBoxFor(o => o.OBSATlst[i].value, new { @id = "txtResult" + i, @class = "form-control", style = "width: 120px;", @maxlength ="maxlength"})
+                                                //                                            </td>
+
+                                                //        <td>
+                                                //            @Html.HiddenFor(o => o.OBSATlst[i].Isvalid, new { @id = "Isvalid" + i })
+                                                //            <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="Suplst.Index" type="hidden" value="@(i)" />
+                                                //        </td>
+
+                                                //    </tr>
+
+                                                //    i = i + 1;
+                                                    
+                                                //}
+                                            }
+                                           
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+
+                        <div style="height:30px;"></div>
+                         <div class="row">
+                           
+                       
+                             <div class="col-md-12">
+                                <div class="form-group">
+
+                                    <br /><label for="inputName3" class="col-sm-2 control-label">Remarks<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.remarks, new { @id = "txtremarks", @class = "form-control", @TabIndex = 1 })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div style="height:30px;"></div>
+                            <div class="col-lg-10"></div>
+                            <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListORSAT", "ORSAT")'">Cancel</button>
+                    </form>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    $(function () {
+        $('._select').select2();
+    });
+  
+     
+    function PopulateDropDown(dropDownId, list) {
+        //alert(list);
+        $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
+        if (list != null && list.length > 0) {
+            $(dropDownId).removeAttr("disabled");
+            $.each(list, function () {
+                $(dropDownId).append($("<option></option>").val(this['value']).html(this['text']));
+            });
+        }
+        $(dropDownId).trigger("liszt:updated");
+    }
+    $(".chosen-select").chosen();
+    $('.form_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+    function AddRow() {
+        var opt = "";
+        $.ajax({
+            type: "POST",
+            url: 'GetItemGrpJSON',
+            success: function (data) {
+
+                $.each(data, function () {
+                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
+                });
+                AppendRow(opt);
+            }
+        })
+    }
+     function AddRow1() {
+        var opt = "";
+        $.ajax({
+            type: "POST",
+            url: 'GetItemJSON',
+            success: function (data) {
+
+                $.each(data, function () {
+                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
+                });
+                AppendRow1(opt);
+            }
+        })
+    }
+   
+    function removeRow(id) {
+        var table = document.getElementById("dataTable");
+        var rowCount = table.rows.length;
+        var row = document.getElementById('trBook' + id);
+        var j = 0;
+        $('tr.chkitemlst').each(function () {
+            if ($(this).css('display') !== 'none') {
+                j += 1;
+            }
+        });
+        if (j > 1) {
+            row.style.display = "none";
+            document.getElementById('Isvalid' + id).value = "N";
+        }
+        else {
+            alert("Cannot delete all the rows.")
+        }
+    }
+     function removeRow1(id) {
+        var table = document.getElementById("dataTable1");
+        var rowCount = table.rows.length;
+        var row = document.getElementById('trBook1' + id);
+        var j = 0;
+        $('tr.chkitemlst1').each(function () {
+            if ($(this).css('display') !== 'none') {
+                j += 1;
+            }
+        });
+        if (j > 1) {
+            row.style.display = "none";
+            document.getElementById('Isvalid' + id).value = "N";
+        }
+        else {
+            alert("Cannot delete all the rows.")
+        }
+    }
+    $(function () {
+        var Itemid = '@ViewBag.Itemid';
+        changeItem(Itemid);
+
+    });
+
+    @*function changeItem(ItemId) {
+        document.getElementById("tbBooks").innerHTML = "";
+        $.ajax({
+            url: 'GetItemDetails',
+            type: "post",
+            data: { "id": ItemId },
+            cache: false,
+
+            success: function (list) {
+                //if (list != null && list.length > 0) {
+                list.forEach((item) => {
+
+                    var index = $("#tbBooks").children("tr").length;
+
+                    var Des = "<td><input class='form-control' id='txtDes" + index + "' name='QCFlst[" + index + "].des'  style='width: 120px;' type='text 'readonly='readonly' value=" + item.des + "  /></td>";
+
+                    var Value = "<td><input class='form-control' id='txtValue" + index + "' name='QCFlst[" + index + "].value'  style='width: 120px;' type='text' readonly='readonly' value=" + item.value + "  /></td>";
+
+                    var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='QCFlst[" + index + "].unit'  style='width: 120px;' type='text' readonly='readonly' value=" + item.unit + "  /></td>";
+
+                    var Sta = "<td><input class='form-control' id='txtSta" + index + "' name='QCFlst[" + index + "].sta'  style='width: 120px;' type='text' readonly='readonly' value=" + item.sta + " /></td>";
+
+                    var En = "<td><input class='form-control' id='txtEn" + index + "' name='QCFlst[" + index + "].en'  style='width: 120px;' type='text' readonly='readonly' value=" + item.en + "  /></td>";
+
+                    var Test = "<td><input class='form-control' id='txtTest" + index + "' name='QCFlst[" + index + "].test'  style='width: 120px;' type='text'  /></td>";
+
+                    var Manual = "<td><input class='form-control' id='txtManual" + index + "' name='QCFlst[" + index + "].manual'  style='width: 120px;' type='text'  /></td>";
+
+                    var Actual = "<td><input class='form-control' id='txtActual" + index + "' name='QCFlst[" + index + "].actual'  style='width: 120px;' type='text'  /></td>";
+
+                    var Result = "<td><input class='form-control' id='txtResultl" + index + "' name='QCFlst[" + index + "].result'  style='width: 120px;' type='text'  /></td>";
+
+                    var removeCell = "<td><input id='Isvalid" + index + "' name='QCFlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='QCFlst.Index' type='hidden' value='" + index + "'  /></td>";
+
+                    var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Des + Value + Unit + Sta + En + Test + Manual + Actual + Result + removeCell + "</tr>";
+
+                    $("#tbBooks").append(newRow);
+                });
+                //}
+            },
+            error: function () {
+                alert("Data Not Found");
+            }
+        });
+    }*@
+    function AppendRow(opt) {
+        var index = $("#tbBooks").children("tr").length;
+
+        var Des = "<td><input class='form-control' id='txtDes" + index + "' name='QCFlst[" + index + "].des'  style='width: 120px;' type='text'  /></td>";
+
+        var Value = "<td><input class='form-control' id='txtValue" + index + "' name='QCFlst[" + index + "].value'  style='width: 120px;' type='text'  /></td>";
+
+        var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='QCFlst[" + index + "].unit'  style='width: 120px;' type='text'  /></td>";
+
+        var Sta = "<td><input class='form-control' id='txtSta" + index + "' name='QCFlst[" + index + "].sta'  style='width: 120px;' type='text'  /></td>";
+
+        var En = "<td><input class='form-control' id='txtEn" + index + "' name='QCFlst[" + index + "].en'  style='width: 120px;' type='text'  /></td>";
+
+        var Test = "<td><input class='form-control' id='txtTest" + index + "' name='QCFlst[" + index + "].test'  style='width: 120px;' type='text'  /></td>";
+
+        var Manual = "<td><input class='form-control' id='txtManual" + index + "' name='QCFlst[" + index + "].manual'  style='width: 120px;' type='text'  /></td>";
+
+        var Actual = "<td><input class='form-control' id='txtActual" + index + "' name='QCFlst[" + index + "].actual'  style='width: 120px;' type='text'  /></td>";
+
+        var Result = "<td><input class='form-control' id='txtResultl" + index + "' name='QCFlst[" + index + "].result'  style='width: 120px;' type='text'  /></td>";
+
+        var removeCell = "<td><input id='Isvalid" + index + "' name='Itemlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='QCFlst.Index' type='hidden' value='" + index + "'  /></td>";
+
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Des + Value + Unit + Sta + En + Test + Manual + Actual + Result + removeCell + "</tr>";
+
+        //alert(Packing);
+        $("#tbBooks").append(newRow);
+       
+    }
+    function AppendRow1(opt) {
+        var index = $("#tbBooks1").children("tr").length;
+
+        var Time = "<td><input class='form-control' id='Time" + index + "' name='QCFVDLst[" + index + "].Time'  style='width: 120px;' type='time'    /></td>";
+
+        var Vol = "<td><input class='form-control' id='txtVol" + index + "' name='QCFVDLst[" + index + "].Vol'  style='width: 120px;' type='text'  /></td>";
+
+        var Volat = "<td><input class='form-control' id='txtVolat" + index + "' name='QCFVDLst[" + index + "].Volat'  style='width: 120px;' type='text'  /></td>";
+
+        var Volc = "<td><input class='form-control' id='txtVolc" + index + "' name='QCFVDLst[" + index + "].Volc'  style='width: 120px;' type='text'  /></td>";
+
+        var Stp = "<td><input class='form-control' id='txtStp" + index + "' name='QCFVDLst[" + index + "].Stp'  style='width: 120px;' type='text'  /></td>";
+
+        var removeCell = "<td><input id='Isvalid" + index + "' name='QCFVDLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow1(" + index + ");'  style='cursor:pointer' /><input name='QCFVDLst.Index' type='hidden' value='" + index + "'  /></td>";
+
+        var newRow = "<tr class='chkitemlst1'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook1" + index + "'>" + Time + Vol + Volat + Volc + Stp + removeCell + "</tr>";
+
+        //alert(Packing);
+        $("#tbBooks1").append(newRow);
+        
+    }
+    $(function () {
+        $('._select').select2();
+    });
+</script>
+
+
+
+<script>
+
+    $(function () {
+        $('._select').select2();
+    });
+
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var isValid = true;
+
+            if (document.getElementById("ddlBranch").value == "" || document.getElementById("ddlBranch").value == 0) {
+                isValid = false;
+                $(ddlBranch).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Branch");
+                return false;
+            }
+            else {
+                $(ddlBranch).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("ddlWorkCenter").value == "" || document.getElementById("ddlWorkCenter").value == 0) {
+                isValid = false;
+                $(ddlWorkCenter).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select WorkCenter");
+                return false;
+            }
+            else {
+                $(ddlWorkCenter).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("ddlProcess").value == "" || document.getElementById("ddlProcess").value == 0) {
+                isValid = false;
+                $(ddlProcess).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Process ID");
+                return false;
+            }
+            else {
+                $(ddlProcess).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("ddlDrumNo").value == "" || document.getElementById("ddlDrumNo").value == 0) {
+                isValid = false;
+                $(ddlDrumNo).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select DrumNo");
+                return false;
+            }
+            else {
+                $(ddlDrumNo).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("txtBatchNo").value == "") {
+                isValid = false;
+                $(txtBatchNo).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter BatchNo");
+                return false;
+            }
+            else {
+                $(txtBatchNo).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("txtItemid").value == "") {
+                isValid = false;
+                $(txtItemid).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Item ID");
+                return false;
+            }
+            else {
+                $(txtItemid).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("txtRate").value == "") {
+                isValid = false;
+                $(txtRate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Rate/Hr");
+                return false;
+            }
+            else {
+                $(txtRate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            
+            if (document.getElementById("ProDate").value == "") {
+                isValid = false;
+                $(ProDate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Prod Date");
+                return false;
+            }
+            else {
+                $(ProDate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("txtFResult").value == "") {
+                isValid = false;
+                $(txtFResult).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Final Result");
+                return false;
+            }
+            else {
+                $(txtFResult).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (isValid == false)
+                e.preventDefault();
+
+        });
+
+    });
+
+</script>
