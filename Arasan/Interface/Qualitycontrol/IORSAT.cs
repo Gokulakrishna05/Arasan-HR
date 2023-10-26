@@ -3,16 +3,19 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Data;
 
-namespace Arasan.Interface.Qualitycontrol
+namespace Arasan.Interface
 {
     public interface IORSAT
     {
         DataTable GetBranch();
+        DataTable Getshift();
+        DataTable Getwork();
 
-        //string ORSATCRUD(ORSAT cy);
+        string ORSATCRUD(ORSAT cy);
 
-        //IEnumerable<QCFinalValueEntry> GetAllQCFinalValueEntry(string st, string ed);
-        //DataTable DrumDeatils();
-        //DataTable BatchDeatils(string id);
+        IEnumerable<ORSAT> GetAllORSAT(string st, string ed);
+        
+        DataTable GetViewORSAT(string id);
+        DataTable GetViewORSATDetail(string id);
     }
 }

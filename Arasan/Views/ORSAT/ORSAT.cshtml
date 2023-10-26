@@ -52,7 +52,7 @@
 
                                       <br /> <label for="inputName3" class="col-sm-4 control-label">Doc Id<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                       @Html.DropDownListFor(C => C.docid, Model.Doclst, new { @id = "ddlBranch", @Class = "form-control _select", @TabIndex = 1 })
+                                       @Html.TextBoxFor(C => C.docid, new { @id = "txtDocID", @class = "form-control", @TabIndex = 1 })
 
                                     </div>
                                 </div>
@@ -74,8 +74,8 @@
 
                                          <br />   <label for="inputName3" class="col-sm-4 control-label">Shift No<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
-                                          
-                                          @Html.TextBoxFor(C => C.shift, new { @id = "txtshift", @class = "form-control", @TabIndex = 1 })
+                                         @Html.DropDownListFor(C => C.shift, Model.shiftlst, new { @id = "ddlshift", @Class = "form-control _select", @TabIndex = 1 })
+
                                     </div>
                                 </div>
                             </div>
@@ -83,7 +83,7 @@
                                 <div class="form-group">
                                 <br />   <label for="inputName3" class="col-sm-4 control-label">Work Center<label class="mandatory">*</label></label>
                                      <div class="col-sm-8">
-                                         @Html.TextBoxFor(C => C.work, new { @id = "txtwork", @class = "form-control", @TabIndex = 1 })
+                                          @Html.DropDownListFor(C => C.work, Model.worklst, new { @id = "ddlwork", @Class = "form-control _select", @TabIndex = 1 })
 
                                 </div>
                                 </div>
@@ -94,10 +94,10 @@
                                 <div class="form-group">
 
                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Entry Date<label class="mandatory">*</label></label>
-                                       <div class="col-sm-8">
-                                           @Html.TextBoxFor(C => C.entry, new { @id = "txtentry", @class = "form-control", @TabIndex = 1 })
-
-                                </div>
+                                       <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                            @Html.TextBoxFor(C => C.entry, new { @id = "txtentryDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly="readonly" })
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -119,7 +119,7 @@
                                             <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" /></p>
                                         </div>
                                     </div>
-                                </div>
+                              
 
 
                             <div class="row">
@@ -146,34 +146,34 @@
 
                                                 int i = 0;
                                                 
-                                                //foreach (var item in Model.OBSATlst.ToList())
-                                                //{
-                                                //    <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                foreach (var item in Model.ORSATlst.ToList())
+                                                {
+                                                    <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
                                                        
-                                                //                                            <td>
-                                                //                                                    @Html.TextBoxFor(o => o.OBSATlst[i].para, new { @id = "txtCom" + i, @class = "form-control", style = "width: 120px;" })
-                                                //                                            </td>
-                                                //                                            <td>
-                                                //                                                    @Html.TextBoxFor(o => o.OBSATlst[i].value, new { @id = "txtResult" + i, @class = "form-control", style = "width: 120px;", @maxlength ="maxlength"})
-                                                //                                            </td>
+                                                                                            <td>
+                                                                                                    @Html.TextBoxFor(o => o.ORSATlst[i].para, new { @id = "txtpara" + i, @class = "form-control", style = "width: 120px;" })
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                    @Html.TextBoxFor(o => o.ORSATlst[i].value, new { @id = "txtvalue" + i, @class = "form-control", style = "width: 120px;", @maxlength ="maxlength"})
+                                                                                            </td>
 
-                                                //        <td>
-                                                //            @Html.HiddenFor(o => o.OBSATlst[i].Isvalid, new { @id = "Isvalid" + i })
-                                                //            <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="Suplst.Index" type="hidden" value="@(i)" />
-                                                //        </td>
+                                                        <td>
+                                                            @Html.HiddenFor(o => o.ORSATlst[i].Isvalid, new { @id = "Isvalid" + i })
+                                                            <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="Suplst.Index" type="hidden" value="@(i)" />
+                                                        </td>
 
-                                                //    </tr>
+                                                    </tr>
 
-                                                //    i = i + 1;
+                                                    i = i + 1;
                                                     
-                                                //}
+                                                }
                                             }
                                            
                       </tbody>
                     </table>
                   </div>
                 </div>
-
+                  </div>
 
                         <div style="height:30px;"></div>
                          <div class="row">
@@ -244,20 +244,7 @@
             }
         })
     }
-     function AddRow1() {
-        var opt = "";
-        $.ajax({
-            type: "POST",
-            url: 'GetItemJSON',
-            success: function (data) {
-
-                $.each(data, function () {
-                    opt += "<option value=" + this.value + ">" + this.text + "</option>";
-                });
-                AppendRow1(opt);
-            }
-        })
-    }
+     
    
     function removeRow(id) {
         var table = document.getElementById("dataTable");
@@ -295,110 +282,7 @@
             alert("Cannot delete all the rows.")
         }
     }
-    $(function () {
-        var Itemid = '@ViewBag.Itemid';
-        changeItem(Itemid);
-
-    });
-
-    @*function changeItem(ItemId) {
-        document.getElementById("tbBooks").innerHTML = "";
-        $.ajax({
-            url: 'GetItemDetails',
-            type: "post",
-            data: { "id": ItemId },
-            cache: false,
-
-            success: function (list) {
-                //if (list != null && list.length > 0) {
-                list.forEach((item) => {
-
-                    var index = $("#tbBooks").children("tr").length;
-
-                    var Des = "<td><input class='form-control' id='txtDes" + index + "' name='QCFlst[" + index + "].des'  style='width: 120px;' type='text 'readonly='readonly' value=" + item.des + "  /></td>";
-
-                    var Value = "<td><input class='form-control' id='txtValue" + index + "' name='QCFlst[" + index + "].value'  style='width: 120px;' type='text' readonly='readonly' value=" + item.value + "  /></td>";
-
-                    var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='QCFlst[" + index + "].unit'  style='width: 120px;' type='text' readonly='readonly' value=" + item.unit + "  /></td>";
-
-                    var Sta = "<td><input class='form-control' id='txtSta" + index + "' name='QCFlst[" + index + "].sta'  style='width: 120px;' type='text' readonly='readonly' value=" + item.sta + " /></td>";
-
-                    var En = "<td><input class='form-control' id='txtEn" + index + "' name='QCFlst[" + index + "].en'  style='width: 120px;' type='text' readonly='readonly' value=" + item.en + "  /></td>";
-
-                    var Test = "<td><input class='form-control' id='txtTest" + index + "' name='QCFlst[" + index + "].test'  style='width: 120px;' type='text'  /></td>";
-
-                    var Manual = "<td><input class='form-control' id='txtManual" + index + "' name='QCFlst[" + index + "].manual'  style='width: 120px;' type='text'  /></td>";
-
-                    var Actual = "<td><input class='form-control' id='txtActual" + index + "' name='QCFlst[" + index + "].actual'  style='width: 120px;' type='text'  /></td>";
-
-                    var Result = "<td><input class='form-control' id='txtResultl" + index + "' name='QCFlst[" + index + "].result'  style='width: 120px;' type='text'  /></td>";
-
-                    var removeCell = "<td><input id='Isvalid" + index + "' name='QCFlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='QCFlst.Index' type='hidden' value='" + index + "'  /></td>";
-
-                    var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Des + Value + Unit + Sta + En + Test + Manual + Actual + Result + removeCell + "</tr>";
-
-                    $("#tbBooks").append(newRow);
-                });
-                //}
-            },
-            error: function () {
-                alert("Data Not Found");
-            }
-        });
-    }*@
-    function AppendRow(opt) {
-        var index = $("#tbBooks").children("tr").length;
-
-        var Des = "<td><input class='form-control' id='txtDes" + index + "' name='QCFlst[" + index + "].des'  style='width: 120px;' type='text'  /></td>";
-
-        var Value = "<td><input class='form-control' id='txtValue" + index + "' name='QCFlst[" + index + "].value'  style='width: 120px;' type='text'  /></td>";
-
-        var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='QCFlst[" + index + "].unit'  style='width: 120px;' type='text'  /></td>";
-
-        var Sta = "<td><input class='form-control' id='txtSta" + index + "' name='QCFlst[" + index + "].sta'  style='width: 120px;' type='text'  /></td>";
-
-        var En = "<td><input class='form-control' id='txtEn" + index + "' name='QCFlst[" + index + "].en'  style='width: 120px;' type='text'  /></td>";
-
-        var Test = "<td><input class='form-control' id='txtTest" + index + "' name='QCFlst[" + index + "].test'  style='width: 120px;' type='text'  /></td>";
-
-        var Manual = "<td><input class='form-control' id='txtManual" + index + "' name='QCFlst[" + index + "].manual'  style='width: 120px;' type='text'  /></td>";
-
-        var Actual = "<td><input class='form-control' id='txtActual" + index + "' name='QCFlst[" + index + "].actual'  style='width: 120px;' type='text'  /></td>";
-
-        var Result = "<td><input class='form-control' id='txtResultl" + index + "' name='QCFlst[" + index + "].result'  style='width: 120px;' type='text'  /></td>";
-
-        var removeCell = "<td><input id='Isvalid" + index + "' name='Itemlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='QCFlst.Index' type='hidden' value='" + index + "'  /></td>";
-
-        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Des + Value + Unit + Sta + En + Test + Manual + Actual + Result + removeCell + "</tr>";
-
-        //alert(Packing);
-        $("#tbBooks").append(newRow);
-       
-    }
-    function AppendRow1(opt) {
-        var index = $("#tbBooks1").children("tr").length;
-
-        var Time = "<td><input class='form-control' id='Time" + index + "' name='QCFVDLst[" + index + "].Time'  style='width: 120px;' type='time'    /></td>";
-
-        var Vol = "<td><input class='form-control' id='txtVol" + index + "' name='QCFVDLst[" + index + "].Vol'  style='width: 120px;' type='text'  /></td>";
-
-        var Volat = "<td><input class='form-control' id='txtVolat" + index + "' name='QCFVDLst[" + index + "].Volat'  style='width: 120px;' type='text'  /></td>";
-
-        var Volc = "<td><input class='form-control' id='txtVolc" + index + "' name='QCFVDLst[" + index + "].Volc'  style='width: 120px;' type='text'  /></td>";
-
-        var Stp = "<td><input class='form-control' id='txtStp" + index + "' name='QCFVDLst[" + index + "].Stp'  style='width: 120px;' type='text'  /></td>";
-
-        var removeCell = "<td><input id='Isvalid" + index + "' name='QCFVDLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow1(" + index + ");'  style='cursor:pointer' /><input name='QCFVDLst.Index' type='hidden' value='" + index + "'  /></td>";
-
-        var newRow = "<tr class='chkitemlst1'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook1" + index + "'>" + Time + Vol + Volat + Volc + Stp + removeCell + "</tr>";
-
-        //alert(Packing);
-        $("#tbBooks1").append(newRow);
-        
-    }
-    $(function () {
-        $('._select').select2();
-    });
+    
 </script>
 
 
@@ -412,6 +296,7 @@
     $(document).ready(function () {
         $('#btnSave').click(function (e) {
             var isValid = true;
+
 
             if (document.getElementById("ddlBranch").value == "" || document.getElementById("ddlBranch").value == 0) {
                 isValid = false;
@@ -429,143 +314,156 @@
                     "background": ""
                 });
             }
-
-            if (document.getElementById("ddlWorkCenter").value == "" || document.getElementById("ddlWorkCenter").value == 0) {
+             if (document.getElementById("txtDocID").value == "") {
                 isValid = false;
-                $(ddlWorkCenter).css({
+                $(txtDocID).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select WorkCenter");
+                alert("Please Enter DocID");
                 return false;
             }
             else {
-                $(ddlWorkCenter).css({
+                $(txtDocID).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+             if (document.getElementById("docdate").value == "") {
+                isValid = false;
+                $(docdate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter docdate");
+                return false;
+            }
+            else {
+                $(docdate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+            
+            
+            if (document.getElementById("ddlshift").value == "" || document.getElementById("ddlshift").value == 0) {
+                isValid = false;
+                $(ddlshift).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select shift");
+                return false;
+            }
+            else {
+                $(ddlshift).css({
                     "border": "",
                     "background": ""
                 });
             }
 
-            if (document.getElementById("ddlProcess").value == "" || document.getElementById("ddlProcess").value == 0) {
+            if (document.getElementById("ddlwork").value == "" || document.getElementById("ddlwork").value == 0) {
                 isValid = false;
-                $(ddlProcess).css({
+                $(ddlwork).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select Process ID");
+                alert("Please Select ddlwork");
                 return false;
             }
             else {
-                $(ddlProcess).css({
+                $(ddlwork).css({
                     "border": "",
                     "background": ""
                 });
             }
 
-            if (document.getElementById("ddlDrumNo").value == "" || document.getElementById("ddlDrumNo").value == 0) {
+            if (document.getElementById("txtentryDate").value == "") {
                 isValid = false;
-                $(ddlDrumNo).css({
+                $(txtentryDate).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select DrumNo");
+                alert("Please Enter entryDate");
                 return false;
             }
             else {
-                $(ddlDrumNo).css({
+                $(txtentryDate).css({
                     "border": "",
                     "background": ""
                 });
             }
 
-            if (document.getElementById("txtBatchNo").value == "") {
+            if (document.getElementById("txttime").value == "") {
                 isValid = false;
-                $(txtBatchNo).css({
+                $(txttime).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Enter BatchNo");
+                alert("Please Enter time");
                 return false;
             }
             else {
-                $(txtBatchNo).css({
+                $(txttime).css({
                     "border": "",
                     "background": ""
                 });
             }
 
-            if (document.getElementById("txtItemid").value == "") {
+            if (document.getElementById("txtremarks").value == "") {
                 isValid = false;
-                $(txtItemid).css({
+                $(txtremarks).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Enter Item ID");
+                alert("Please Enter remarks");
                 return false;
             }
             else {
-                $(txtItemid).css({
+                $(txtremarks).css({
                     "border": "",
                     "background": ""
                 });
-            }
-
-            if (document.getElementById("txtRate").value == "") {
+            }if (document.getElementById("txtpara").value == "") {
                 isValid = false;
-                $(txtRate).css({
+                $(txtpara).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Enter Rate/Hr");
+                alert("Please Enter para");
                 return false;
             }
             else {
-                $(txtRate).css({
+                $(txtpara).css({
+                    "border": "",
+                    "background": ""
+                });
+            }if (document.getElementById("txtvalue").value == "") {
+                isValid = false;
+                $(txtvalue).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter value");
+                return false;
+            }
+            else {
+                $(txtvalue).css({
                     "border": "",
                     "background": ""
                 });
             }
 
             
-            if (document.getElementById("ProDate").value == "") {
-                isValid = false;
-                $(ProDate).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Enter Prod Date");
-                return false;
-            }
-            else {
-                $(ProDate).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-
-            if (document.getElementById("txtFResult").value == "") {
-                isValid = false;
-                $(txtFResult).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Enter Final Result");
-                return false;
-            }
-            else {
-                $(txtFResult).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
 
             if (isValid == false)
                 e.preventDefault();
