@@ -32,6 +32,7 @@ namespace Arasan.Models
         public string BranchID { get; set; }
         public string GRNdate { get; set; }
         public string PONo { get; set; }
+        public string Qcstatus { get; set; }
         public string ExRate { get; set; }
         public string ParNo { get; set; }
         public string QuoteDate { get; set; }
