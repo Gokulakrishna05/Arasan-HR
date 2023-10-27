@@ -112,6 +112,17 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
+
+        public DataTable GetGRNItem()
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT GRNBLBASICID,DOCID,DOCDATE,PARTYNAME,CURRENCY.MAINCURR FROM GRNBLBASIC LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=GRNBLBASIC.MAINCURRENCY";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         //public DataTable GetquoteFollowupnextReport()
         //{
         //    string SvSql = string.Empty;

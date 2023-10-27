@@ -50,6 +50,7 @@
                           <th>GRN Date</th>
                           <th>PO No.</th>
                           <th>Currency</th>
+                           <th>Qc Testing</th>
                           <th>Status</th>
                           <th>Account</th>
                           <th>Edit</th>
@@ -73,6 +74,7 @@
                                                                             <td>@Html.DisplayFor(modelItem => item.GRNdate)</td>
                                                                             <td>@Html.DisplayFor(modelItem => item.PONo)</td>
                                                                             <td>@Html.DisplayFor(modelItem => item.Cur)</td>
+                                                                            <td>@Html.DisplayFor(modelItem => item.Qcstatus)</td>
                                                                     @if (item.Active == "No")
                                                                     {
                                                                         <td></td>

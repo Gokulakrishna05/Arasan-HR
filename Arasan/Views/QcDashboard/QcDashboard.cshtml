@@ -334,6 +334,54 @@
 
             <div class="ibox-content top10" id="demo2">
                 <div class="demo-container">
+                    <div class="table-responsive">
+                        <h3><span style="color:red">GRN</span></h3><br />
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Doc ID</th>
+                                    <th>Doc Date</th>
+                                    <th>Party Name</th>
+                                    <th>Currency</th>
+                                    <th>GoTo QC Testing</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+
+                                    int a = 0;
+
+                                    foreach (var item in Model.Grnplst.ToList())
+                                    {
+                                        <tr>
+                                            <td>@Html.DisplayFor(o => o.Grnplst[a].Docid)</td>
+                                            <td>@Html.DisplayFor(o => o.Grnplst[a].Docdate)</td>
+                                            <td>@Html.DisplayFor(o => o.Grnplst[a].Party)</td>
+                                            <td>@Html.DisplayFor(o => o.Grnplst[a].Cur)</td>
+                                            <td> <a class="nav-link" href="@Url.Action("QCTesting", "QCTesting",new { id=item.id ,tag=1})"> <img src='../Images/GoTo.jpg' alt='View Details' width='80' /></a></td>
+                                        </tr>
+                                        a = a + 1;
+
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="row">
+    <!-- Column Chart-->
+    <div class="col-lg-6 top15">
+        <div class="ibox float-e-margins " style="padding-left : 20px;">
+
+            <div class="ibox-content top10" id="demo2">
+                <div class="demo-container">
 
                     <div class="table-responsive">
                         <h3><span style="color:blue">AP ProductionEntry QC</span></h3><br />

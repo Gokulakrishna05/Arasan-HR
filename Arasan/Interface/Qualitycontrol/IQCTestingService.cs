@@ -27,12 +27,13 @@ namespace Arasan.Interface
 
         string StatusChange(string tag, int id);
         DataTable GetPoQcTesting(string id);
-
+        DataTable GetItemDetail(string id);
         DataTable GetGetPoQcTestingDetails(string id);
         DataTable GetPOItemDetail(string id);
 
         DataTable GetViewQCTesting(string id);
         DataTable GetViewQCDetail(string id);
-
+        DataTable GetGrnDetails(string id);
+        DataTable GetGrnItemDetails(string id);
     }
 }

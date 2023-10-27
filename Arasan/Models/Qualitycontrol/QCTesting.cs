@@ -32,6 +32,7 @@ namespace Arasan.Models
         public string LotNo { get; set; }
         public string Qty { get; set; }
         public string Procedure { get; set; }
+        public string APID { get; set; }
         public string ClassCode { get; set; }
         public string TestResult { get; set; }
         public List<SelectListItem> assignList;
@@ -49,6 +50,7 @@ namespace Arasan.Models
         public List<QCItem> QCLst { get; set; }
 
         public List<QCPOItem> QCPOLst { get; set; }
+        public List<QCGRNItem> QCGRNLst { get; set; }
 
 
     }
@@ -79,9 +81,26 @@ namespace Arasan.Models
         public string AccVale { get; set; }
         public string AcTestValue { get; set; }
         public string Isvalid { get; set; }
+        public string apid { get; set; }
 
       
 
+    }
+    public class QCGRNItem
+    {
+
+        public string testid { get; set; }
+        public string description { get; set; }
+        public string unit { get; set; }
+        public string value { get; set; }
+        public string startvalue { get; set; }
+        public string endvalue { get; set; }
+        public string test { get; set; }
+        public string manual { get; set; }
+        public string actual { get; set; }
+        public string testresult { get; set; }
+        public string Isvalid { get; set; }
+        public string apid { get; set; }
     }
 
 }

@@ -24,6 +24,7 @@ namespace Arasan.Models
         //public int SalesQuoteFollowcunt { get; set; }
         public List<APOut> APOutlist { get; set; }
         public List<APOutItem> Aplast { get; set; }
+        public List<GRNItem> Grnplst { get; set; }
     }
     public class QcNotify
     {
@@ -75,20 +76,17 @@ namespace Arasan.Models
         public string Date { get; set; }
         
     }
-   
-    //public class GridDisplay
-    //{
-    //    public string displaytext { get; set; }
 
-    //    public string followedby { get; set; }
+    public class GRNItem
+    {
+        public string id { get; set; }
+        public string Docid { get; set; }
+        public string Docdate { get; set; }
+        public string Party { get; set; }
+        public string Cur { get; set; }
 
-    //    public string Count { get; set; }
 
-    //    public string status { get; set; }
-
-    //    public string CPerson { get; set; }
-
-    //}
+    }
     //public class EnqDisplay
     //{
     //    public string displaytext { get; set; }
