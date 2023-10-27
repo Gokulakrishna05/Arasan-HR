@@ -19,179 +19,156 @@ namespace Arasan.Services.Qualitycontrol
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
         }
 
-        //public string ORSATCRUD(ORSAT cy)
-        //{
-        //    string msg = "";
-        //    try
-        //    {
-        //        string StatementType = string.Empty; string svSQL = "";
-        //        datatrans = new DataTransactions(_connectionString);
+
+        public IEnumerable<ORSAT> GetAllORSAT(string st, string ed)
+        {
+            List<ORSAT> cmpList = new List<ORSAT>();
+            using (OracleConnection con = new OracleConnection(_connectionString))
+            {
+                if (st != null && ed != null)
+                {
+                    using (OracleCommand cmd = con.CreateCommand())
+                    {
+                        con.Open();
+
+                        cmd.CommandText = "SELECT BRANCHMAST.BRANCHID,ORSATBASICID,DOCID,to_char(ORSATBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,SHIFTNO,WCID,to_char(ORSATBASIC.ENTDATE,'dd-MON-yyyy') ENTDATE,ETIME,REMARKS,ACTIVE FROM ORSATBASIC left outer join BRANCHMAST on BRANCHMAST.BRANCHMASTID = ORSATBASIC.BRANCH AND ORSATBASIC.DOCDATE BETWEEN '" + st + "'  AND ' " + ed + "' order by ORSATBASICID desc";
+                        ;
+
+                        OracleDataReader rdr = cmd.ExecuteReader();
+                        while (rdr.Read())
+                        {
+                            ORSAT cmp = new ORSAT
+                            {
+                                ID = rdr["ORSATBASICID"].ToString(),
+                                Branch = rdr["BRANCHID"].ToString(),
+                                docid = rdr["DOCID"].ToString(),
+                                docdate = rdr["DOCDATE"].ToString(),
+                                entry = rdr["ENTDATE"].ToString(),
+                                time = rdr["ETIME"].ToString()
+
+                            };
+                            cmpList.Add(cmp);
+                        }
+                    }
+                }
+            }
+            return cmpList;
+        }
+        public string ORSATCRUD(ORSAT cy)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
+                datatrans = new DataTransactions(_connectionString);
 
 
-        //        if (cy.ID != null)
-        //        {
-        //            cy.ID = null;
-        //        }
-
-
-
-        //        int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'OSA-' AND ACTIVESEQUENCE = 'T'  ");
-        //        string DocId = string.Format("{0}{1}", "OSA-", (idc + 1).ToString());
-
-        //        string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='OSA-' AND ACTIVESEQUENCE ='T'  ";
-        //        try
-        //        {
-        //            datatrans.UpdateStatus(updateCMd);
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            throw ex;
-        //        }
-
-        //        //string ITEMID = datatrans.GetDataString("Select ITEMMASTERID from ITEMMASTER where ITEMID='" + cy.Itemid + "' ");
-        //        using (OracleConnection objConn = new OracleConnection(_connectionString))
-        //        {
-        //            OracleCommand objCmd = new OracleCommand("ORSATBASICPROC", objConn);
-        //            objCmd.CommandType = CommandType.StoredProcedure;
-        //            if (cy.ID == null)
-        //            {
-        //                StatementType = "Insert";
-        //                objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-        //            }
-        //            else
-        //            {
-        //                StatementType = "Update";
-        //                objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
-        //            }
-        //            objCmd.Parameters.Add("BRANCH", OracleDbType.NVarchar2).Value = cy.Branch;
-        //            objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = DocId;
-        //            objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = cy.DocDate;
-        //            objCmd.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = cy.WorkCenter;
-        //            objCmd.Parameters.Add("PROCESSID", OracleDbType.NVarchar2).Value = cy.Process;
-        //            objCmd.Parameters.Add("CDRUMNO", OracleDbType.NVarchar2).Value = cy.DrumNo;
-        //            objCmd.Parameters.Add("BATCH", OracleDbType.NVarchar2).Value = cy.Batch;
-        //            objCmd.Parameters.Add("BATCHNO", OracleDbType.NVarchar2).Value = cy.BatchNo;
-        //            objCmd.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = ITEMID;
-        //            objCmd.Parameters.Add("PRODID", OracleDbType.NVarchar2).Value = cy.ProNo;
-        //            objCmd.Parameters.Add("RATEPHR", OracleDbType.NVarchar2).Value = cy.Rate;
-        //            objCmd.Parameters.Add("PRODDATE", OracleDbType.NVarchar2).Value = cy.ProDate;
-        //            objCmd.Parameters.Add("SAMPLENO", OracleDbType.NVarchar2).Value = cy.SampleNo;
-        //            objCmd.Parameters.Add("NOZZLENO", OracleDbType.NVarchar2).Value = cy.NozzleNo;
-        //            objCmd.Parameters.Add("AIRPRESS", OracleDbType.NVarchar2).Value = cy.AirPress;
-        //            objCmd.Parameters.Add("ADDCH", OracleDbType.NVarchar2).Value = cy.Additive;
-        //            objCmd.Parameters.Add("STIME", OracleDbType.NVarchar2).Value = cy.Stime;
-        //            objCmd.Parameters.Add("BCT", OracleDbType.NVarchar2).Value = cy.CTemp;
-        //            objCmd.Parameters.Add("FINALRESULT", OracleDbType.NVarchar2).Value = cy.FResult;
-        //            objCmd.Parameters.Add("RESULTTYPE", OracleDbType.NVarchar2).Value = cy.RType;
-        //            objCmd.Parameters.Add("ENTEREDBY", OracleDbType.NVarchar2).Value = cy.Enterd;
-        //            objCmd.Parameters.Add("REMARKS", OracleDbType.NVarchar2).Value = cy.Reamarks;
-        //            objCmd.Parameters.Add("APPROID", OracleDbType.NVarchar2).Value = cy.ApId;
-        //            //objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
-        //            objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
-        //            objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
-        //            try
-        //            {
-        //                objConn.Open();
-        //                objCmd.ExecuteNonQuery();
-        //                Object Pid = objCmd.Parameters["OUTID"].Value;
-        //                //string Pid = "0";
-        //                if (cy.ID != null)
-        //                {
-        //                    Pid = cy.ID;
-        //                }
-
-
-        //                foreach (QCFinalValueEntryItem ca in cy.QCFlst)
-        //                {
-        //                    if (ca.Isvalid == "Y" && ca.des != "0")
-        //                    {
-        //                        using (OracleConnection objConns = new OracleConnection(_connectionString))
-        //                        {
-        //                            OracleCommand objCmds = new OracleCommand("FQTVEDETAILPROC", objConns);
-        //                            if (cy.ID == null)
-        //                            {
-        //                                StatementType = "Insert";
-        //                                objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-        //                            }
-        //                            else
-        //                            {
-        //                                StatementType = "Update";
-        //                                objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
-        //                            }
-        //                            objCmds.CommandType = CommandType.StoredProcedure;
-        //                            objCmds.Parameters.Add("FQTVEBASICID", OracleDbType.NVarchar2).Value = Pid;
-        //                            objCmds.Parameters.Add("TDESC", OracleDbType.NVarchar2).Value = ca.des;
-        //                            objCmds.Parameters.Add("VALUEORMANUAL", OracleDbType.NVarchar2).Value = ca.value;
-        //                            objCmds.Parameters.Add("UNIT", OracleDbType.NVarchar2).Value = ca.unit;
-        //                            objCmds.Parameters.Add("STARTVALUE", OracleDbType.NVarchar2).Value = ca.sta;
-        //                            objCmds.Parameters.Add("ENDVALUE", OracleDbType.NVarchar2).Value = ca.en;
-        //                            objCmds.Parameters.Add("TESTVALUE", OracleDbType.NVarchar2).Value = ca.test;
-        //                            objCmds.Parameters.Add("MANUALVALUE", OracleDbType.NVarchar2).Value = ca.manual;
-        //                            objCmds.Parameters.Add("ACTTESTVALUE", OracleDbType.NVarchar2).Value = ca.actual;
-        //                            objCmds.Parameters.Add("TESTRESULT", OracleDbType.NVarchar2).Value = ca.result;
-        //                            objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
-        //                            objConns.Open();
-        //                            objCmds.ExecuteNonQuery();
-        //                            objConns.Close();
-        //                        }
-        //                    }
-
-        //                }
-        //                foreach (QCFVItemDeatils cp in cy.QCFVDLst)
-        //                {
-        //                    if (cp.Isvalid == "Y" && cp.Vol != "0")
-        //                    {
-        //                        using (OracleConnection objConns = new OracleConnection(_connectionString))
-        //                        {
-        //                            OracleCommand objCmds = new OracleCommand("FQTVEGEDETAILPROC", objConns);
-        //                            if (cy.ID == null)
-        //                            {
-        //                                StatementType = "Insert";
-        //                                objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-        //                            }
-        //                            else
-        //                            {
-        //                                StatementType = "Update";
-        //                                objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
-        //                            }
-        //                            objCmds.CommandType = CommandType.StoredProcedure;
-        //                            objCmds.Parameters.Add("FQTVEBASICID", OracleDbType.NVarchar2).Value = Pid;
-        //                            objCmds.Parameters.Add("MINS", OracleDbType.NVarchar2).Value = cp.Time;
-        //                            objCmds.Parameters.Add("VOL25C", OracleDbType.NVarchar2).Value = cp.Vol;
-        //                            objCmds.Parameters.Add("VOL35C", OracleDbType.NVarchar2).Value = cp.Volat;
-        //                            objCmds.Parameters.Add("VOL45C", OracleDbType.NVarchar2).Value = cp.Volc;
-        //                            objCmds.Parameters.Add("VOLSTP", OracleDbType.NVarchar2).Value = cp.Stp;
-        //                            objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
-        //                            objConns.Open();
-        //                            objCmds.ExecuteNonQuery();
-        //                            objConns.Close();
-        //                        }
-
-        //                    }
-        //                }
-        //                updateCMd = " UPDATE QCNOTIFICATION SET IS_COMPLETED ='YES' , FINALRESULT='" + cy.FResult + "' WHERE DOCID ='" + cy.ProNo + "' ";
-        //                datatrans.UpdateStatus(updateCMd);
-
-
-        //            }
-        //            catch (Exception ex)
-        //            {
-        //                //System.Console.WriteLine("Exception: {0}", ex.ToString());
-        //            }
-        //            objConn.Close();
-        //        }
+                if (cy.ID != null)
+                {
+                    cy.ID = null;
+                }
 
 
 
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        msg = "Error Occurs, While inserting / updating Data";
-        //        throw ex;
-        //    }
+                int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'OSA-' AND ACTIVESEQUENCE = 'T'  ");
+                string DocId = string.Format("{0}{1}", "OSA-", (idc + 1).ToString());
 
-        //    return msg;
-        //}
+                string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='OSA-' AND ACTIVESEQUENCE ='T'  ";
+                try
+                {
+                    datatrans.UpdateStatus(updateCMd);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+
+                //string ITEMID = datatrans.GetDataString("Select ITEMMASTERID from ITEMMASTER where ITEMID='" + cy.Itemid + "' ");
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    OracleCommand objCmd = new OracleCommand("ORSATBASICPROC", objConn);
+                    objCmd.CommandType = CommandType.StoredProcedure;
+                    if (cy.ID == null)
+                    {
+                        StatementType = "Insert";
+                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                    }
+                    else
+                    {
+                        StatementType = "Update";
+                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                    }
+                    objCmd.Parameters.Add("BRANCH", OracleDbType.NVarchar2).Value = cy.Branch;
+                    objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.docid;
+                    objCmd.Parameters.Add("DOCDATE", OracleDbType.Date).Value = DateTime.Parse(cy.docdate);
+                    objCmd.Parameters.Add("SHIFTNO", OracleDbType.NVarchar2).Value = cy.shift;
+                    objCmd.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = cy.work;
+                    objCmd.Parameters.Add("ENTDATE", OracleDbType.Date).Value = DateTime.Parse(cy.entry);
+                    objCmd.Parameters.Add("ETIME", OracleDbType.NVarchar2).Value = cy.time;
+                    objCmd.Parameters.Add("REMARKS", OracleDbType.NVarchar2).Value = cy.remarks;
+                    objCmd.Parameters.Add("ACTIVE", OracleDbType.NVarchar2).Value = "YES";
+
+                    objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                    objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
+                    try
+                    {
+
+                        objConn.Open();
+                        objCmd.ExecuteNonQuery();
+                        Object Pid = objCmd.Parameters["OUTID"].Value;
+                        //string Pid = "0";
+                        if (cy.ID != null)
+                        {
+                            Pid = cy.ID;
+                        }
+                        foreach (ORSATdetails cp in cy.ORSATlst)
+                        {
+                            if (cp.Isvalid == "Y" && cp.para != "0")
+                            {
+                                using (OracleConnection objConns = new OracleConnection(_connectionString))
+                                {
+                                    OracleCommand objCmds = new OracleCommand("ORSATDETAILPROC", objConns);
+                                    if (cy.ID == null)
+                                    {
+                                        StatementType = "Insert";
+                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                    }
+                                    else
+                                    {
+                                        StatementType = "Update";
+                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                                    }
+                                    objCmds.CommandType = CommandType.StoredProcedure;
+                                    objCmds.Parameters.Add("ORSATBASICID", OracleDbType.NVarchar2).Value = Pid;
+                                    objCmds.Parameters.Add("PARAMETERS", OracleDbType.NVarchar2).Value = cp.para;
+                                    objCmds.Parameters.Add("PARAMVAL", OracleDbType.NVarchar2).Value = cp.value;
+
+                                    objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                                    objConns.Open();
+                                    objCmds.ExecuteNonQuery();
+                                    objConns.Close();
+                                }
+
+                            }
+
+                        }
+                    }
+
+                    catch (Exception ex)
+                    {
+                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
+                    }
+                    objConn.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
+        }
         public DataTable GetBranch()
         {
             string SvSql = string.Empty;
@@ -202,7 +179,49 @@ namespace Arasan.Services.Qualitycontrol
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable Getshift()
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT SHIFTMASTID,SHIFTNO FROM SHIFTMAST";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable Getwork()
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT WCBASICID,WCID FROM WCBASIC";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+
+        public DataTable GetViewORSAT(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT ORSATBASICID,BRANCH,DOCID,to_char(ORSATBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,SHIFTNO,WCID,to_char(ORSATBASIC.ENTDATE,'dd-MON-yyyy') ENTDATE,ETIME,REMARKS,ACTIVE FROM ORSATBASIC WHERE ORSATBASIC.ORSATBASICID ='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetViewORSATDetail(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT PARAMETERS,PARAMVAL FROM ORSATDETAIL WHERE ORSATDETAIL.ORSATBASICID ='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
     }
 
-    
 }
