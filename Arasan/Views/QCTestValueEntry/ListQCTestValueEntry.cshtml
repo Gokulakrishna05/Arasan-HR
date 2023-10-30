@@ -98,7 +98,7 @@
                                                                     <td>@Html.DisplayFor(modelItem => item.DocId)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.Docdate)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.Work)</td>
-                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewQCTestValueEntry", "QCTestValueEntry",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Waiting for approval' /></a></div></td>
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewQCTestValueEntry", "QCTestValueEntry",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View' /></a></div></td>
                                                                     <td> <a href="@Url.Action("DeleteQC","QCTestValueEntry",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
 
 
@@ -238,8 +238,14 @@ $('.to_date').datetimepicker({
     }
 </script>
 
+<!-- /container -->
+
+<a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+
+
 
                 <a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+
 <a class="fancyboxe1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
 <link rel="stylesheet" href="@Url.Content("~/css/jquery.fancybox.css?v=2.1.5")" type="text/css" media="screen" />
 <script type="text/javascript" src="@Url.Content("~/css/jquery.fancybox.pack.js?v=2.1.5")"></script>
@@ -250,6 +256,12 @@ $('.to_date').datetimepicker({
             width: '80%',
             height: '10%',
             arrows: false,
+
+
+        });
+        fancybox123 = $.fancybox;
+    });
+
             afterClose: function () {
                 location.reload();
                 return;
@@ -257,6 +269,7 @@ $('.to_date').datetimepicker({
         });
         fancybox123 = $.fancybox;
     });
+
 
     function close_popup() {
         fancybox123.close();
@@ -267,4 +280,8 @@ $('.to_date').datetimepicker({
         });
         $(".fancybox1").eq(0).trigger('click');
     }
+
+</script>
+
     </script>
+

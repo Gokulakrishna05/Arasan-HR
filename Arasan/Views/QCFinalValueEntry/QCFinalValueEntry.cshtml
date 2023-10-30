@@ -94,7 +94,7 @@
 
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Drum No<label class="mandatory">*</label></label>
                                    <div class="col-sm-8">
-                                       @Html.TextBoxFor(C => C.DrumNo, new { @id = "txtDrumNo", @class = "form-control", @TabIndex = 1 })
+                                       @Html.TextBoxFor(C => C.DrumNo, new { @id = "txtDrumNo", @class = "form-control", @TabIndex = 1,@readonly="readonly" })
                                            @* @Html.DropDownListFor(C => C.DrumNo, Model.drumlst, new { @id = "ddlDrumNo", @Class = "form-control _select", @TabIndex = 1 })
                                            *@
                                     </div>
@@ -129,7 +129,7 @@
                                            <br /> <label for="inputName3" class="col-sm-4 control-label">Item ID<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                           
-                                            @Html.TextBoxFor(C => C.Itemid, new { @id = "txtItemid", @class = "form-control", @TabIndex = 1 })
+                                            @Html.TextBoxFor(C => C.Itemid, new { @id = "txtItemid", @class = "form-control", @TabIndex = 1,@readonly="readonly" })
                                     </div>
                                 </div>
                             </div>
@@ -214,7 +214,7 @@
 
                                      <br />  <label for="inputName3" class="col-sm-4 control-label">Sample Time<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                         @Html.TextBoxFor(C => C.Stime, new { @id = "txtStime", @class = "form-control", @TabIndex = 1 })
+                                            @Html.TextBoxFor(C => C.Stime, new { @id = "txtStime", @class = "form-control", @TabIndex = 1 ,@readonly="readonly"})
                                     </div>
                                 </div>
                             </div>
@@ -666,7 +666,7 @@
 
     });*@
 
-    @*function changeItem(ItemId) {
+    function changeItem(ItemId) {
         document.getElementById("tbBooks").innerHTML = "";
         $.ajax({
             url: 'GetItemDetails',
@@ -710,7 +710,7 @@
                 alert("Data Not Found");
             }
         });
-    }*@
+    }
     function AppendRow(opt) {
         var index = $("#tbBooks").children("tr").length;
 
