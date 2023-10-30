@@ -17,6 +17,7 @@ namespace Arasan.Interface
         DataTable GetDis(string id);
         DataTable GetAPoutItem();
         DataTable GetGRNItem();
+        DataTable GetFinal(string id);
         //DataTable GetquoteFollowupnextReport();
         //DataTable GetEnqFollowupnextReport();
         //DataTable GetSalesQuoteFollowupnextReport();

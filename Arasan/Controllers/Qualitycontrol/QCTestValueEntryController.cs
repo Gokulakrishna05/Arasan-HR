@@ -126,8 +126,6 @@ namespace Arasan.Controllers.Qualitycontrol
                         if (dtt1.Rows.Count > 0)
                         {
                             ca.Drum = dtt1.Rows[0]["DRUMNO"].ToString();
-
-
                             ca.Sampletime = dtt1.Rows[0]["FROMTIME"].ToString();
                             ca.Item = dtt1.Rows[0]["ITEMID"].ToString();
                             ca.ItemId = dtt1.Rows[0]["item"].ToString();
@@ -232,8 +230,10 @@ namespace Arasan.Controllers.Qualitycontrol
                     {
                         for (int j = 0; j < Outdt2.Rows.Count; j++)
                         {
-                            tdao1 = new QCTestValueEntryItem();
                             tdao1.testid = Outdt2.Rows[j]["QTVEBASICID"].ToString();
+                            tdao1.ItemName = Outdt2.Rows[j]["ITEMID"].ToString();
+                            tdao1.Drum = Outdt2.Rows[j]["CDRUMNO"].ToString();
+                            tdao1.Time = Outdt2.Rows[j]["STIME"].ToString();
                             DataTable Outdt3 = new DataTable();
                             Outdt3 = QCTestValueEntryService.GetResultItemDeatils(tdao1.testid);
                             tdao1.testresult = Outdt3.Rows[0]["TESTRESULT"].ToString();
@@ -246,7 +246,7 @@ namespace Arasan.Controllers.Qualitycontrol
                     Outdt1 = QCTestValueEntryService.GetAPout1(ca.id);
                     if (Outdt1.Rows.Count > 0)
                     {
-                        ca.ApId = Outdt1.Rows[0]["Ap"].ToString();
+                        ca.APID = Outdt1.Rows[0]["Ap"].ToString();
                     }
                     DataTable DIS = new DataTable();
                     DIS = QCTestValueEntryService.GetDis(ca.id);
@@ -371,7 +371,7 @@ namespace Arasan.Controllers.Qualitycontrol
                 return RedirectToAction("ListQCTestValueEntry");
             }
         }
-        public ActionResult GetItemDetails(string id)
+        public ActionResult GetItemDetails2(string id)
         {
             QCTestValueEntry model = new QCTestValueEntry();
             DataTable dtt = new DataTable();

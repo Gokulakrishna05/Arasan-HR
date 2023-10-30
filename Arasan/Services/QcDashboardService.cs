@@ -123,6 +123,17 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
+
+        public DataTable GetFinal(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT APPROID, COUNT(*) as Ap FROM FQTVEBASIC WHERE APPROID ='" + id + "' GROUP BY APPROID";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         //public DataTable GetquoteFollowupnextReport()
         //{
         //    string SvSql = string.Empty;

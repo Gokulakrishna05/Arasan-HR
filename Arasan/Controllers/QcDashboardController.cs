@@ -115,6 +115,17 @@ namespace Arasan.Controllers
 
                         }
                     }
+                    DataTable FIN = new DataTable();
+                    FIN = QcDashboardService.GetFinal(tdao1.id);
+                    if (FIN.Rows.Count > 0)
+                    {
+                        for (int k = 0; k < FIN.Rows.Count; k++)
+                        {
+
+                            tdao1.Fin = DIS.Rows[k]["APPROID"].ToString();
+
+                        }
+                    }
                     TDatao1.Add(tdao1);
                 }
                

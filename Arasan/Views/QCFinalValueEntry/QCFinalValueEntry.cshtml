@@ -649,8 +649,8 @@
         var j = 0;
         $('tr.chkitemlst1').each(function () {
             if ($(this).css('display') !== 'none') {
-                j += 1;
             }
+                j += 1;
         });
         if (j > 1) {
             row.style.display = "none";
@@ -660,11 +660,11 @@
             alert("Cannot delete all the rows.")
         }
     }
-    @*$(function () {
+    $(function () {
         var Itemid = '@ViewBag.Itemid';
         changeItem(Itemid);
 
-    });*@
+    });
 
     function changeItem(ItemId) {
         document.getElementById("tbBooks").innerHTML = "";
