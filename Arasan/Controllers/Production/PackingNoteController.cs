@@ -37,18 +37,23 @@ namespace Arasan.Controllers
             ca.Schlst = BindSche( );
             ca.Itemlst = BindItemlst("");
             ca.Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
+            DataTable dtv = datatrans.GetSequence("PackN");
+            if (dtv.Rows.Count > 0)
+            {
+                ca.DocId = dtv.Rows[0]["PREFIX"].ToString() + "" + dtv.Rows[0]["last"].ToString();
+            }
             List<DrumDetail> TData = new List<DrumDetail>();
             DrumDetail tda = new DrumDetail();
             if (id == null)
             {
-                for (int i = 0; i < 3; i++)
-                {
-                    tda = new DrumDetail();
-                    tda.DrumNolst = Binddrum("","");
+                //for (int i = 0; i < 3; i++)
+                //{
+                //    tda = new DrumDetail();
+                //    tda.DrumNolst = Binddrum("","");
                     
-                    tda.Isvalid = "Y";
-                    TData.Add(tda);
-                }
+                //    tda.Isvalid = "Y";
+                //    TData.Add(tda);
+                //}
             }
             else
             {
@@ -298,14 +303,26 @@ namespace Arasan.Controllers
         {
             try
             {
-                DataTable dtDesg = Packing.GetItembyId(value);
+               
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
-                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                if (value == "10044000011739")
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEMID"].ToString() });
+                    DataTable dtDesg = Packing.GetItembyId(value);
+                    for (int i = 0; i < dtDesg.Rows.Count; i++)
+                    {
+                        lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["item"].ToString() });
 
+                    }
                 }
+                else
+                {
+                    DataTable dtDesg = Packing.GetItem(value);
+                    for (int i = 0; i < dtDesg.Rows.Count; i++)
+                    {
+                        lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["item"].ToString() });
 
+                    }
+                }
 
                 return lstdesg;
 
@@ -482,11 +499,18 @@ namespace Arasan.Controllers
                     tda = new DrumDetail();
 
                     tda.drum = dtt.Rows[i]["DRUM_NO"].ToString();
-                    tda.batch = dtt.Rows[i]["DRUM_NO"].ToString();
+                    tda.drumid = dtt.Rows[i]["DRUM_ID"].ToString();
+                   
 
                     tda.qty = dtt.Rows[i]["BALANCE_QTY"].ToString();
 
-
+                    DataTable dtt1 = new DataTable();
+                    dtt1 = Packing.GetDrumLot(id, item, tda.drumid);
+                    for (int j = 0; j < dtt1.Rows.Count; j++)
+                    {
+                        tda.batch = dtt1.Rows[j]["LOTNO"].ToString();
+                    }
+                    tda.Isvalid = "Y";
                     Data.Add(tda);
                 }
             }

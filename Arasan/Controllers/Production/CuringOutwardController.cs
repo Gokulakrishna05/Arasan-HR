@@ -38,6 +38,11 @@ namespace Arasan.Controllers
             ca.DrumLoclst = BindDrumLoc();
             ca.Itemlst = BindItemlst("");
             ca.Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
+            DataTable dtv = datatrans.GetSequence("CurO");
+            if (dtv.Rows.Count > 0)
+            {
+                ca.DocId = dtv.Rows[0]["PREFIX"].ToString() + "" + dtv.Rows[0]["last"].ToString();
+            }
             List<CuringDetail> TData = new List<CuringDetail>();
             CuringDetail tda = new CuringDetail();
             if (id == null)
@@ -396,6 +401,7 @@ namespace Arasan.Controllers
                     tda = new CuringDetail();
                      
                     tda.drum = dtt.Rows[i]["DRUMNO"].ToString();
+                    tda.drumid = dtt.Rows[i]["IDRUMNO"].ToString();
                     tda.batch = dtt.Rows[i]["IBATCHNO"].ToString();
                     tda.qty = dtt.Rows[i]["IBATCHQTY"].ToString();
                     tda.comp = dtt.Rows[i]["COMBNO"].ToString();
@@ -407,9 +413,9 @@ namespace Arasan.Controllers
             return Json(model.Curinglst);
 
         }
-        public IActionResult ListCuringOutward()
+        public IActionResult ListCuringOutward(string st, string ed)
         {
-            IEnumerable<CuringOutward> cmp = curingoutward.GetAllCuringOutward();
+            IEnumerable<CuringOutward> cmp = curingoutward.GetAllCuringOutward(st, ed);
             return View(cmp);
         }
         public ActionResult GetItemDetail(string ItemId)

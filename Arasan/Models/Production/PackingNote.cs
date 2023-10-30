@@ -43,6 +43,8 @@ namespace Arasan.Models
     {
         public string ID { get; set; }
         public string drum { get; set; }
+        public string drumid { get; set; }
+        public string soid { get; set; }
         public List<SelectListItem> DrumNolst { get; set; }
 
         public List<SelectListItem> Batchlst { get; set; }
