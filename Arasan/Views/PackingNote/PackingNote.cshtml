@@ -58,7 +58,7 @@
                                                     <label for="inputName3" class="col-sm-4 control-label">Doc No<label class="mandatory">*</label></label>
                                                 <div class="col-sm-8">
 
-                                                @Html.TextBoxFor(C => C.DocId, new { @id = "DocId", @class = "form-control", @TabIndex = 1 })<br />
+                                                @Html.TextBoxFor(C => C.DocId, new { @id = "DocId", @class = "form-control", @TabIndex = 1,@readonly="readonly" })<br />
 
 
                                                 </div>
@@ -112,7 +112,7 @@
 
                                               <label for="inputName3" class="col-sm-4 control-label">To Location<label class="mandatory">*</label></label>
                                             <div class="col-sm-8">
-                                                @Html.DropDownListFor(C => C.WorkId, Model.DrumLoclst, " -- Please Select -- ",new { @id = "ddlDrumLoc", @Class = "form-control _select", @TabIndex = 1  })<br />
+                                                @Html.DropDownListFor(C => C.WorkId, Model.DrumLoclst, " -- Please Select -- ",new { @id = "ddlToDrumLoc", @Class = "form-control _select", @TabIndex = 1  })<br />
 
                                             </div>
                                         </div>
@@ -214,9 +214,9 @@
                                         <div class="col-sm-8">
   <div class="input-group">
 
-                                                        @Html.RadioButtonFor(C => C.PackYN, "YES", new { @TabIndex = 2 })
+                                                        @Html.RadioButtonFor(C => C.PackYN, "Yes", new { @TabIndex = 2 })
                                                         <label id="mt-radio">YES</label>&emsp;
-                                            @Html.RadioButtonFor(C => C.PackYN, "NO", new { @TabIndex = 3 })
+                                            @Html.RadioButtonFor(C => C.PackYN, "No", new { @TabIndex = 3 })
                                                         <label id="mt-radio">NO</label>
 
 
@@ -265,10 +265,10 @@
 
                                                             <td>  @Html.TextBoxFor(o => o.DrumDetlst[i].drum, new { @id = "ddlDrumNo" + i, @class = "form-control", style = "width: 130px;" }) </td>
                                                             <td>
-                                                                @Html.TextBoxFor(o => o.DrumDetlst[i].batch, new { @id = "ddlDrumNo" + i, @class = "form-control", style = "width: 130px;" })
+                                                                @Html.TextBoxFor(o => o.DrumDetlst[i].batch, new { @id = "txtbatch" + i, @class = "form-control", style = "width: 130px;" })
  </td>
                                                             <td>
-                                                                @Html.TextBoxFor(o => o.DrumDetlst[i].qty, new { @id = "ddlDrumNo" + i, @class = "form-control", style = "width: 130px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)",ReadOnly="readonly"})
+                                                                @Html.TextBoxFor(o => o.DrumDetlst[i].qty, new { @id = "txtqty" + i, @class = "form-control", style = "width: 130px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)",ReadOnly="readonly"})
                                                             </td>
                                                             <td>
                                                                 @Html.TextBoxFor(o => o.DrumDetlst[i].comp, new { @id = "txtComp" + i, @class = "form-control", style = "width: 130px;" })
@@ -403,7 +403,13 @@
             }
         });
         }
-     function changeDrum(ItemId,i) {
+          $(function () {
+        var ItemId = '@ViewBag.ItemId';
+        changeDrum(ItemId);
+    });
+     function changeDrum(ItemId) {
+        document.getElementById("tbBooks").innerHTML = "";
+
         var item = document.getElementById("ddlDrumLoc").value;
 
 
@@ -420,17 +426,17 @@
 
                     var index = $("#tbBooks").children("tr").length;
                     //alert(item.batch);
-                    var Drum = "<td><input class='form-control' id='ddlDrumNo" + index + "' name='DrumDetlst[" + index + "].drum'  style='width: 100px;' type='text'  readonly='True'  value=" + item.drum + " /><input id='txtdrum" + index + "' name='DrumDetlst[" + index + "].drum' type='hidden'  value=" + item.drum + "></td>";
+                    var Drum = "<td><input class='form-control' id='ddlDrumNo" + index + "' name='DrumDetlst[" + index + "].drum'  style='width: 100px;' type='text'  readonly='True'  value=" + item.drum + " /><input class='form-control' id='ddlDrumNo" + index + "' name='DrumDetlst[" + index + "].drum'  style='width: 100px;' type='hidden'  readonly='True'  value=" + item.drum + " /><input id='txtdrumid" + index + "' name='DrumDetlst[" + index + "].drumid' type='hidden'  value=" + item.drumid + "></td>";
 
-                    var Batch = "<td><label>" + item.batch + "</label><input type='hidden' value=" + item.batchno + " id='ddlDrumNo" + index + "' name='DrumDetlst[" + index + "].batchno'></td>";
+                    var Batch = "<td><label>" + item.batch + "</label><input type='hidden' value=" + item.batch + " id='txtbatch" + index + "' name='DrumDetlst[" + index + "].batch'></td>";
 
-                    var Qty = "<td><input class='form-control' id='ddlDrumNo" + index + "' name='DrumDetlst[" + index + "].'qty  style='width: 80px;' type='text' readonly='True' value=" + item.qty + " onkeyup = 'changeQty(this, " + index + ")'  /><input id='txtqty" + index + "' name='DrumDetlst[" + index + "].qty' type='hidden'  value=" + item.qty + "></td>";
+                    var Qty = "<td><input class='form-control' id='txtqty" + index + "' name='DrumDetlst[" + index + "].qty'  style='width: 80px;' type='text' readonly='True' value=" + item.qty + " onkeyup = 'changeQty(this, " + index + ")'  /><input id='txtqty" + index + "' name='DrumDetlst[" + index + "].qty' type='hidden'  value=" + item.qty + "></td>";
 
-                    var Comp = "<td><input class='form-control' id='txtComp" + index + "' name='DrumDetlst[" + index + "].'comp  style='width: 80px;' type='text'  onkeyup = 'changeQty(this, " + index + ")'  /><input id='txtComp" + index + "' name='DrumDetlst[" + index + "].qty' type='hidden'  value=" + item.qty + "></td>";
+                    var Comp = "<td><input class='form-control' id='txtComp" + index + "' name='DrumDetlst[" + index + "].comp'  style='width: 80px;' type='text'  /></td>";
                     var removeCell = "<td><input id='Isvalid" + index + "' name='DrumDetlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='DrumDetlst.Index' type='hidden' value='" + index + "'  /></td>";
 
 
-                    var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Drum + Batch + Qty +Comp+removeCell + "</tr>";
+                    var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Drum + Batch + Qty + Comp + removeCell + "</tr>";
 
                     $("#tbBooks").append(newRow);
                 });
@@ -554,14 +560,14 @@
      function AppendRow(opt) {
         var index = $("#tbBooks").children("tr").length;
 
-        var Drum = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlDrumNo" + index + "' name='DrumDetlst[" + index + "].DrumNo' onchange = 'changeBatch(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
+        var Drum = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlDrumNo" + index + "' name='DrumDetlst[" + index + "].drum' onchange = 'changeBatch(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
 
 
 
-        var Batch = "<td><input class='form-control' id='txtBatchNo" + index + "' name='DrumDetlst[" + index + "].BatchNo'  style='width: 130px;' type='text'   /></td>";
-        var Qty = "<td><input class='form-control' id='txtBatchQty" + index + "' name='DrumDetlst[" + index + "].BatchQty'  style='width: 130px;' type='text'  readonly='True' /></td>";
+        var Batch = "<td><input class='form-control' id='txtBatchNo" + index + "' name='DrumDetlst[" + index + "].batch'  style='width: 130px;' type='text'   /></td>";
+        var Qty = "<td><input class='form-control' id='txtBatchQty" + index + "' name='DrumDetlst[" + index + "].qty'  style='width: 130px;' type='text'  readonly='True' /></td>";
 
-        var Comp = "<td><input class='form-control' id='txtComp" + index + "' name='DrumDetlst[" + index + "].Comp'  style='width: 130px;' type='text'    /></td>";
+        var Comp = "<td><input class='form-control' id='txtComp" + index + "' name='DrumDetlst[" + index + "].comp'  style='width: 130px;' type='text'    /></td>";
        
     
 
@@ -626,22 +632,7 @@
                 });
             }
 
-            if (document.getElementById("ddlWorkCenter").value == "" || document.getElementById("ddlWorkCenter").value == 0) {
-                ddlWorkCenter = false;
-                $(ddlPackingNote).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Select Work Center");
-                return false;
-            }
-            else {
-                $(ddlWorkCenter).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
+          
             if (document.getElementById("ddlShift").value == "" || document.getElementById("ddlShift").value == 0) {
                 isValid = false;
                 $(ddlShift).css({
@@ -706,9 +697,9 @@
                     "background": ""
                 });
             }
-            if (document.getElementById("ddlToWork").value == "" || document.getElementById("ddlToWork").value == 0) {
+            if (document.getElementById("ddlToDrumLoc").value == "" || document.getElementById("ddlToDrumLoc").value == 0) {
                 isValid = false;
-                $(ddlToWork).css({
+                $(ddlToDrumLoc).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
@@ -717,7 +708,7 @@
                 return false;
             }
             else {
-                $(ddlToWork).css({
+                $(ddlToDrumLoc).css({
                     "border": "",
                     "background": ""
                 });
