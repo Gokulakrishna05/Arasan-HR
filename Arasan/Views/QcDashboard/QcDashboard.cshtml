@@ -416,6 +416,17 @@
                                             <td>@Html.DisplayFor(o => o.APOutlist[g].Time)</td>
                                             <td>@Html.DisplayFor(o => o.APOutlist[g].TotalQty)</td>
                                             <td>@Html.DisplayFor(o => o.APOutlist[g].ApId)</td>
+                                            @if (item.Fin == item.id)
+                                            {
+                                                <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewQCVEntry", "QCTestValueEntry",new { id=item.id})" class='fancybox' data-fancybox-type='#iframe'><img src='../Images/view_icon.png' /></a></div></td>
+                                             
+
+                                            }
+                                            else
+                                            {
+
+                                                <td></td>
+                                            }
                                             @if (item.dis == item.id)
                                             {
                                                 <td></td>
@@ -424,7 +435,7 @@
                                             }
                                             else
                                             {
-                                                <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewQCVEntry", "QCTestValueEntry",new { id=item.id})" class='fancybox' data-fancybox-type='#iframe'><img src='../Images/view_icon.png' /></a></div></td>
+                                                
                                                 <td> <a class="nav-link" href="@Url.Action("QCTestValueEntry", "QCTestValueEntry",new { id=item.id ,tag=1})"> <img src='../Images/exam.png'  width='20' /></a></td>
                                                 <td> <a class="nav-link" href="@Url.Action("QCFinalValueEntry", "QCFinalValueEntry",new { id=item.id ,tag=1})"> <img src='../Images/exam.png'  width='20' /> </a></td>
                                             }

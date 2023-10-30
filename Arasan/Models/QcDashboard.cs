@@ -54,6 +54,7 @@ namespace Arasan.Models
         public string Time { get; set; }
         public string ApId { get; set; }
         public string dis { get; set; }
+        public string Fin { get; set; }
 
     }
     public class APOutItem

@@ -148,6 +148,7 @@ namespace Arasan.Services.Qualitycontrol
                 }
 
                 string ITEMID = datatrans.GetDataString("Select ITEMMASTERID from ITEMMASTER where ITEMID='" + cy.Itemid +"' ");
+                string DRUMID = datatrans.GetDataString("Select DRUMMASTID from DRUMMAST where DRUMNO='" + cy.DrumNo + "' ");
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("FQTVEBASICPROC", objConn);
@@ -167,7 +168,7 @@ namespace Arasan.Services.Qualitycontrol
                     objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = cy.DocDate;
                     objCmd.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = cy.WorkCenter;
                     objCmd.Parameters.Add("PROCESSID", OracleDbType.NVarchar2).Value = cy.Process;
-                    objCmd.Parameters.Add("CDRUMNO", OracleDbType.NVarchar2).Value = cy.DrumNo;
+                    objCmd.Parameters.Add("DRUMNO", OracleDbType.NVarchar2).Value = DRUMID;
                     objCmd.Parameters.Add("BATCH", OracleDbType.NVarchar2).Value = cy.Batch;
                     objCmd.Parameters.Add("BATCHNO", OracleDbType.NVarchar2).Value = cy.BatchNo;
                     objCmd.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = ITEMID;

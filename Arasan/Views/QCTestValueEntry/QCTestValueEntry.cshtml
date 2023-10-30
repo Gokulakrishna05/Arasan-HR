@@ -735,15 +735,18 @@
         });
 
     });
+</script>
+<script>
 
-   $(function () {
+
+    $(function () {
         var ItemId = '@ViewBag.Item';
         changeItem(ItemId);
     });
     function changeItem(ItemId) {
         document.getElementById("tbBooks").innerHTML = "";
         $.ajax({
-            url: 'GetItemDetails',
+            url: 'GetItemDetails2',
             type: "post",
             data: { "id": ItemId },
             cache: false,
@@ -760,9 +763,9 @@
 
                     var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='QCTestLst[" + index + "].unit'  style='width: 90px;' type='text' readonly='readonly'  value=" + item.unit + " /></td>"
 
-                    var Startvalue = "<td><input class='form-control' id='txtStartvalue" + index + "' name='QCTestLst[" + index + "].startvalue'  style='width: 90px;' type='text' readonly='readonly' value=" + item.startvalue + " /></td>"
+                    var Startvalue = "<td><input class='form-control' id='txtStartvalue" + index + "' name='QCTestLst[" + index + "].startvalue'  style='width: 90px;' type='text'  value=" + item.startvalue + " /></td>"
 
-                    var Endvalue = "<td><input class='form-control' id='txtEndvalue" + index + "' name='QCTestLst[" + index + "].endvalue'  style='width: 90px;' type='text'readonly='readonly'  value=" + item.endvalue + " /></td>"
+                    var Endvalue = "<td><input class='form-control' id='txtEndvalue" + index + "' name='QCTestLst[" + index + "].endvalue'  style='width: 90px;' type='text'  value=" + item.endvalue + " /></td>"
 
                     var Test = "<td><input class='form-control' id='txtTest" + index + "' name='QCTestLst[" + index + "].test'  style='width: 90px;' type='text'   /></td>"
 
