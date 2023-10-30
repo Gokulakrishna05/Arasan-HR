@@ -189,6 +189,11 @@ namespace Arasan.Controllers
         public IActionResult POQcTesting(string id)
         {
             QCTesting ca = new QCTesting();
+            DataTable dtv = datatrans.GetSequence("testv");
+            if (dtv.Rows.Count > 0)
+            {
+                ca.DocId = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
+            }
             DataTable dt1 = new DataTable();
             dt1 = QCTestingService.GetPoQcTesting(id);
             if (dt1.Rows.Count > 0)

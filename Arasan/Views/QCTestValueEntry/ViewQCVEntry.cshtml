@@ -47,8 +47,6 @@
                                     </div>
                                 </div>
                             </div>
-
-
                             <div class="col-md-6">
                                 <div class="form-group">
 
@@ -82,7 +80,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -94,42 +91,53 @@
                                     </div>
                                 </div>
                             </div>
-                            @*<div class="col-md-6">
-                            <div class="form-group">
-                            <label for="inputName3" class="col-sm-4 control-label">Item<label class="mandatory"></label></label>
-                            <div class="col-sm-8">
-                            @Html.DisplayFor(C => C.ItemId) @Html.HiddenFor(C => C.ItemId)<br>
-                            <br />
-                            </div>
-                            </div>
-                            </div>*@
                         </div>
-                        @* <div class="row">
-                        <div class="col-md-6">
-                        <div class="form-group">
 
-                        <label for="inputName3" class="col-sm-4 control-label">SI No<label class="mandatory"></label></label>
-                        <div class="col-sm-8">
+                        <div style="height:30px;"></div>
 
-                        @Html.DisplayFor(C => C.SNo) @Html.HiddenFor(C => C.SNo)<br>
+                        <div class="row">
+                            <div class="col-lg-10">
+                                <div class="ibox float-e-margins">
+
+                                    <div class="ibox-content collapse in">
+                                        <div class="widgets-container">
+                                            <div>
+                                                <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
+                                                    <thead>
+
+                                                    <th> Result </th>
+
+                                                    </thead>
+
+                                                    <tbody>
+                                                        @{
+                                                            int i = 0;
+
+                                                            foreach (var item in Model.QCTestLst.ToList())
+                                                            {
+
+                                                                <tr>
+                                                                    <td>@Html.DisplayFor(o => o.QCTestLst[i].testresult)</td>
+
+
+                                                                </tr>
+
+                                                                i++;
+                                                            }
+                                                        }
+
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        </div>
-                        </div>
-                        <div class="col-md-6">
-                        <div class="form-group">
-                        <label for="inputName3" class="col-sm-4 control-label">Class Code<label class="mandatory"></label></label>
-                        <div class="col-sm-8">
-                        @Html.DisplayFor(C => C.ClassCode) @Html.HiddenFor(C => C.ClassCode)<br>
-                        <br />
-                        </div>
-                        </div>
-                        </div>
-                        </div>*@
                     </form>
                 </div>
-                @* <div style="height:30px;"></div>
-                <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListQCTesting", "QCTesting")'">Cancel</button>
-                *@
+                 <div style="height:30px;"></div>
+                <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("QcDashboard", "QcDashboard")'">Cancel</button>
+                
 
 
             </div>

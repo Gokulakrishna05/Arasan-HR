@@ -310,7 +310,8 @@
                                             <td>@Html.DisplayFor(o => o.qcNotifies[i].ItemName)</td>
                                             <td>@Html.DisplayFor(o => o.qcNotifies[i].TotalQty)</td>
                                             <td>@Html.DisplayFor(o => o.qcNotifies[i].Unit)</td>
-                                            <td> <a class="nav-link" href="@Url.Action("POQcTesting", "QCTesting",new { id=item.id,tag=1})"> <img src='../Images/GoTo.jpg' alt='View Details' width='80' /></a></td>
+                                            @*<td> <a class="nav-link" href="@Url.Action("POQcTesting", "QCTesting",new { id=item.id,tag=1})"> <img src='../Images/GoTo.jpg' alt='View Details' width='80' /></a></td>*@
+                                            <td> <a class="nav-link" href="@Url.Action("POQcTesting", "QCTesting",new { id=item.id ,tag=1})"> <img src='../Images/exam.png' width='20' /> </a></td>
                                         </tr>
                                         i = i + 1;
 
@@ -335,7 +336,7 @@
             <div class="ibox-content top10" id="demo2">
                 <div class="demo-container">
                     <div class="table-responsive">
-                        <h3><span style="color:red">GRN</span></h3><br />
+                        <h3><span style="color:blueviolet">GRN To QcTesting</span></h3><br />
                         <table class="table table-bordered table-hover">
                             <thead>
                                 <tr>
@@ -358,7 +359,7 @@
                                             <td>@Html.DisplayFor(o => o.Grnplst[a].Docdate)</td>
                                             <td>@Html.DisplayFor(o => o.Grnplst[a].Party)</td>
                                             <td>@Html.DisplayFor(o => o.Grnplst[a].Cur)</td>
-                                            <td> <a class="nav-link" href="@Url.Action("QCTesting", "QCTesting",new { id=item.id ,tag=1})"> <img src='../Images/GoTo.jpg' alt='View Details' width='80' /></a></td>
+                                            <td> <a class="nav-link" href="@Url.Action("QCTesting", "QCTesting",new { id=item.id ,tag=1})"> <img src='../Images/exam.png' width='20' /> </a></td>
                                         </tr>
                                         a = a + 1;
 
@@ -424,8 +425,8 @@
                                             else
                                             {
                                                 <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewQCVEntry", "QCTestValueEntry",new { id=item.id})" class='fancybox' data-fancybox-type='#iframe'><img src='../Images/view_icon.png' /></a></div></td>
-                                                <td> <a class="nav-link" href="@Url.Action("QCTestValueEntry", "QCTestValueEntry",new { id=item.id ,tag=1})"> <img src='../Images/GoTo.jpg' alt='View Details' width='80' /></a></td>
-                                                <td> <a class="nav-link" href="@Url.Action("QCFinalValueEntry", "QCFinalValueEntry",new { id=item.id ,tag=1})"> <img src='../Images/GoTo.jpg' alt='View Details' width='80' /> </a></td>
+                                                <td> <a class="nav-link" href="@Url.Action("QCTestValueEntry", "QCTestValueEntry",new { id=item.id ,tag=1})"> <img src='../Images/exam.png'  width='20' /></a></td>
+                                                <td> <a class="nav-link" href="@Url.Action("QCFinalValueEntry", "QCFinalValueEntry",new { id=item.id ,tag=1})"> <img src='../Images/exam.png'  width='20' /> </a></td>
                                             }
                                         </tr>
 

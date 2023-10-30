@@ -136,7 +136,6 @@ namespace Arasan.Controllers.Qualitycontrol
 
                     }
                     DataTable dtt = new DataTable();
-
                     List<QCTestValueEntryItem> Data = new List<QCTestValueEntryItem>();
                     QCTestValueEntryItem tda1 = new QCTestValueEntryItem();
                     //string itemid = datatrans.GetDataString(" SELECT ITEMMASTERID FROM ITEMMASTER WHERE ITEMID='" + ca.ItemId + "'");
@@ -224,6 +223,25 @@ namespace Arasan.Controllers.Qualitycontrol
                     ca.Drum = Outdt.Rows[i]["DRUMNO"].ToString();
                     ca.Sampletime = Outdt.Rows[i]["FROMTIME"].ToString();
                     ca.TotalQty = Outdt.Rows[i]["OUTQTY"].ToString();
+
+                    DataTable Outdt2 = new DataTable();
+                    List<QCTestValueEntryItem> TDatao1 = new List<QCTestValueEntryItem>();
+                    QCTestValueEntryItem tdao1 = new QCTestValueEntryItem();
+                    Outdt2 = QCTestValueEntryService.GetResultItem(ca.id);
+                    if (Outdt2.Rows.Count > 0)
+                    {
+                        for (int j = 0; j < Outdt2.Rows.Count; j++)
+                        {
+                            tdao1 = new QCTestValueEntryItem();
+                            tdao1.testid = Outdt2.Rows[j]["QTVEBASICID"].ToString();
+                            DataTable Outdt3 = new DataTable();
+                            Outdt3 = QCTestValueEntryService.GetResultItemDeatils(tdao1.testid);
+                            tdao1.testresult = Outdt3.Rows[0]["TESTRESULT"].ToString();
+                            TDatao1.Add(tdao1);
+                        }
+                    }
+                    ca.QCTestLst = TDatao1;
+
                     DataTable Outdt1 = new DataTable();
                     Outdt1 = QCTestValueEntryService.GetAPout1(ca.id);
                     if (Outdt1.Rows.Count > 0)
@@ -244,7 +262,7 @@ namespace Arasan.Controllers.Qualitycontrol
                     //TDatao1.Add(ca);
                 }
             }
-            //ca.ViewAPOutlist = TDatao1;
+            
             return View(ca);
         }
         public JsonResult GetItemGrpJSON()

@@ -51,7 +51,9 @@ namespace Arasan.Models
     }
     public class QCTestValueEntryItem
     {
+
         public string description { get; set; }
+        public string testid { get; set; }
         public string value { get; set; }
         public string unit { get; set; }
         public string startvalue { get; set; }
