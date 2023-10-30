@@ -11,9 +11,11 @@ namespace Arasan.Interface
         IEnumerable<PackingNote>  GetAllPackingNote(string st, string ed);
         string PackingNoteCRUD(PackingNote Cy);
         DataTable GetItembyId(string id);
+        DataTable GetItem(string id);
         DataTable GetDrumLocation();
         DataTable DrumDeatils(string id,string loc);
         DataTable GetDrumDetails(string id,string item);
+        DataTable GetDrumLot(string id,string item,string drum);
         DataTable GetBatch(string id);
         DataTable GetPackingNote(string id);
         //DataTable GetItemDet(string id); 

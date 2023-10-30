@@ -64,6 +64,7 @@ namespace Arasan.Models
     {
         public string ID { get; set; }
         public string drum { get; set; }
+        public string drumid { get; set; }
         
         public string batch  { get; set; }
 

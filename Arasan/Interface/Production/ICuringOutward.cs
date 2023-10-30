@@ -16,7 +16,7 @@ namespace Arasan.Interface
         DataTable GetItembyId(string id);
         DataTable GetQty(string id);
         DataTable GetPackingDetail(string id);
-        IEnumerable<CuringOutward> GetAllCuringOutward();
+        IEnumerable<CuringOutward> GetAllCuringOutward(string st,string ed);
         string  CuringOutwardCRUD(CuringOutward Cy);
         DataTable Getcuringoutward(string id);
         DataTable GetCuringDetail(string id);

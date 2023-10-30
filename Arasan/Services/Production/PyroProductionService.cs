@@ -938,11 +938,12 @@ namespace Arasan.Services
                                 objCmdIn.Parameters.Add("BALANCE_QTY", OracleDbType.NVarchar2).Value = qty;
                                 objCmdIn.Parameters.Add("OUT_ID", OracleDbType.NVarchar2).Value = "0";
                                 objCmdIn.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
+                                objCmdIn.ExecuteNonQuery();
+                                Object Pid1 = objCmdIn.Parameters["OUTID"].Value;
                                 try
                                 {
 
-                                    objCmdIn.ExecuteNonQuery();
-                                    Object Pid1 = objCmdIn.Parameters["OUTID"].Value;
+                                   
 
                                     //if (cy.ID != null)
                                     //{
@@ -1089,7 +1090,7 @@ namespace Arasan.Services
 
                                         objCmdInp1.ExecuteNonQuery();
                                         string Sql = string.Empty;
-                                        Sql = "Update DRUM_STOCKDET SET  CURINGDUEDATE='"+ due + "'";
+                                        Sql = "Update DRUM_STOCK SET  CURINGDUEDATE='"+ due + "' where DRUM_STOCK_ID='"+ Pid1 + "' ";
                                         OracleCommand objCmds = new OracleCommand(Sql, objConn);
                                         objCmds.ExecuteNonQuery();
 
