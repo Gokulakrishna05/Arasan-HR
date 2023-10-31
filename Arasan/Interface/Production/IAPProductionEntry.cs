@@ -24,6 +24,7 @@ namespace Arasan.Interface
 
         DataTable GetOutItemDetails(string id);
         DataTable GetConItemDetails(string id);
+        
 		DataTable GetItem();
 
         DataTable GetOutItem();
@@ -67,6 +68,7 @@ namespace Arasan.Interface
 
         DataTable GetStkDetails(string Lot, string brid, string loc,string item);
         DataTable Getstkqty(string ItemId, string locid, string brid);
+        DataTable GetConstkqty(string ItemId, string locid, string brid);
         DataTable GetLotNo(string item, string loc, string branch);
     }
 }

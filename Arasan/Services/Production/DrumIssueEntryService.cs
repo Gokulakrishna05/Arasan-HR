@@ -210,7 +210,7 @@ namespace Arasan.Services.Production
                                 }
 
 
-                                DataTable dt = datatrans.GetData("Select ITEMID,DOC_DATE,DRUM_ID,DRUM_NO,TSOURCEID,STOCKTRANSTYPE,LOCID,QTY,BALANCE_QTY,OUT_ID,DRUM_STOCK_ID from DRUM_STOCK where DRUM_STOCK.DRUM_NO='" + ca.drum + "'");
+                                DataTable dt = datatrans.GetData("Select ITEMID,DOC_DATE,DRUM_ID,DRUM_NO,TSOURCEID,STOCKTRANSTYPE,LOCID,QTY,BALANCE_QTY,OUT_ID,DRUM_STOCK_ID from DRUM_STOCK where BALANCE_QTY >0 and DRUM_STOCK.DRUM_NO='" + ca.drum + "'");
 
 
                                 //double qty = ca.Qty;

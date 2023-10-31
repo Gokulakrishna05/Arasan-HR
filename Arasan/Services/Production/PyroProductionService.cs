@@ -106,7 +106,7 @@ namespace Arasan.Services
         public DataTable GetDrum()
         {
             string SvSql = string.Empty;
-            SvSql = "select DRUMNO,DRUMMASTID from DRUMMAST ";
+            SvSql = "select DRUMNO,DRUMMASTID from DRUMMAST WHERE IS_EMPTY='Y'";
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -225,7 +225,7 @@ namespace Arasan.Services
         public DataTable GetInput(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select PYROPRODBASICID,ITEMID,BINBASIC.BINID,BATCH BATCHNO,STOCK,QTY,TIME from PYROPRODINPDET left outer join BINBASIC ON BINBASICID= PYROPRODINPDET.BINID  where PYROPRODBASICID='" + id + "' ";
+            SvSql = "select PYROPRODBASICID,ITEMID,BINID,BATCH BATCHNO,STOCK,QTY,TIME from PYROPRODINPDET   where PYROPRODBASICID='" + id + "' ";
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -236,7 +236,7 @@ namespace Arasan.Services
         public DataTable GetCons(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select PYROPRODBASICID,ITEMID,UNITMAST.UNITID,BINBASIC.BINID,STOCK,QTY,CONSQTY from PYROPRODCONSDET left outer join BINBASIC ON BINBASICID= PYROPRODCONSDET.BINID left outer join UNITMAST ON UNITMASTID= PYROPRODCONSDET.UNITID  where PYROPRODBASICID='" + id + "' ";
+            SvSql = "select PYROPRODBASICID,ITEMID,UNITMAST.UNITID,BINID,STOCK,QTY,CONSQTY from PYROPRODCONSDET  left outer join UNITMAST ON UNITMASTID= PYROPRODCONSDET.UNITID  where PYROPRODBASICID='" + id + "' ";
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -269,7 +269,7 @@ namespace Arasan.Services
         public DataTable GetOutput(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select PYROPRODOUTDETID,PYROPRODBASICID,PYROPRODOUTDET.ITEMID,BINBASIC.BINID,OUTQTY,DRUM DRUMNO,STARTTIME FROMTIME,ENDTIME TOTIME,ITEMMASTER.ITEMID as ITEMNAME from PYROPRODOUTDET left outer join BINBASIC ON BINBASICID= PYROPRODOUTDET.BINID LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PYROPRODOUTDET.ITEMID  where PYROPRODBASICID='" + id + "' ";
+            SvSql = "select PYROPRODOUTDETID,PYROPRODBASICID,PYROPRODOUTDET.ITEMID,BINID,OUTQTY,DRUM DRUMNO,STARTTIME FROMTIME,ENDTIME TOTIME,ITEMMASTER.ITEMID as ITEMNAME from PYROPRODOUTDET  LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PYROPRODOUTDET.ITEMID  where PYROPRODBASICID='" + id + "' ";
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -530,7 +530,7 @@ namespace Arasan.Services
         public DataTable GetOutputDeatils(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select PYROPRODBASICID,ITEMMASTER.ITEMID,BINBASIC.BINID,OUTQTY,PYROPRODOUTDET.ITEMID as item,DRUMMAST.DRUMNO,PYROPRODOUTDET.DRUM,STARTTIME,ENDTIME,ITEMMASTER.ITEMID as ITEMNAME,PYROPRODOUTDET.PYROPRODOUTDETID from PYROPRODOUTDET left outer join BINBASIC ON BINBASICID= PYROPRODOUTDET.BINID LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PYROPRODOUTDET.ITEMID LEFT OUTER JOIN DRUMMAST ON DRUMMAST.DRUMMASTID=PYROPRODOUTDET.DRUM  where PYROPRODBASICID='" + id + "' ";
+            SvSql = "select PYROPRODBASICID,ITEMMASTER.ITEMID,BINID,OUTQTY,PYROPRODOUTDET.ITEMID as item,DRUMMAST.DRUMNO,PYROPRODOUTDET.DRUM,STARTTIME,ENDTIME,ITEMMASTER.ITEMID as ITEMNAME,PYROPRODOUTDET.PYROPRODOUTDETID from PYROPRODOUTDET  LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PYROPRODOUTDET.ITEMID LEFT OUTER JOIN DRUMMAST ON DRUMMAST.DRUMMASTID=PYROPRODOUTDET.DRUM  where PYROPRODBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -796,9 +796,12 @@ namespace Arasan.Services
                                         
                                         objCmdIn.ExecuteNonQuery();
 
+                                        string Sqla = string.Empty;
+                                        Sqla = "Update DRUMMAST SET  DRUMLOC='10044000011739',IS_EMPTY='Y' WHERE DRUMMASTID='" + cp.drumid + "'";
+                                        OracleCommand objCmdsss = new OracleCommand(Sqla, objConn);
+                                        objCmdsss.ExecuteNonQuery();
 
 
-                                       
 
                                     }
                                         }
@@ -1127,5 +1130,6 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
+       
     }
 }

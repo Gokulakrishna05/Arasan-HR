@@ -331,7 +331,7 @@ namespace Arasan.Services
                     objCmd.CommandType = CommandType.StoredProcedure;
                     StatementType = "Insert";
                     objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-                    objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = "10061000000002";
+                    objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = "10001000000001";
                     objCmd.Parameters.Add("ENQNO", OracleDbType.NVarchar2).Value = EnqNo;
                     objCmd.Parameters.Add("ENQREF", OracleDbType.NVarchar2).Value = "";
                     objCmd.Parameters.Add("ENQDATE", OracleDbType.Date).Value = DateTime.Now;
