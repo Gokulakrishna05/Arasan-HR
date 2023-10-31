@@ -357,7 +357,7 @@ namespace Arasan.Controllers
                     tda1.ItemId = dt3.Rows[i]["ITEMID"].ToString();
                     tda1.saveitemId = dt3.Rows[i]["item"].ToString();
                     tda1.consunit = dt3.Rows[i]["UNITID"].ToString();
-                    tda1.BinId = dt3.Rows[i]["BIN"].ToString();
+                    tda1.BinId = dt3.Rows[i]["BINID"].ToString();
                     tda1.Qty = Convert.ToDouble(dt3.Rows[i]["QTY"].ToString() == "" ? "0" : dt3.Rows[i]["QTY"].ToString());
                     tda1.consQty = Convert.ToDouble(dt3.Rows[i]["CONSQTY"].ToString() == "" ? "0" : dt3.Rows[i]["CONSQTY"].ToString());
                     tda1.ConsStock = Convert.ToDouble(dt3.Rows[i]["STOCK"].ToString() == "" ? "0" : dt3.Rows[i]["STOCK"].ToString());
@@ -1039,8 +1039,8 @@ namespace Arasan.Controllers
                     //TimeSpan t1 = new TimeSpan(24,0,0);
 
 
-                    int hours = int.Parse(ShiftTime);
-                    TimeSpan t2 = new TimeSpan(hours, 0, 0);
+                    //int hours = int.Parse(ShiftTime);
+                    TimeSpan t2 = new TimeSpan(8, 0, 0);
                     DateTime resultDateTime = dateTime + t2;
                     tda5.EndDate = resultDateTime.ToString("dd-MMM-yyyy - HH:mm");
 
@@ -1335,7 +1335,7 @@ namespace Arasan.Controllers
                             tda1 = new APProInCons();
                             tda1.Itemlst = BindItemlstCon();
                             tda1.ItemId = adt3.Rows[i]["ITEMID"].ToString();
-                            tda1.consunit = adt3.Rows[i]["UNITID"].ToString();
+                            tda1.consunit = adt3.Rows[i]["UNIT"].ToString();
                             tda1.BinId = adt3.Rows[i]["BINID"].ToString();
                             tda1.Qty = Convert.ToDouble(adt3.Rows[i]["QTY"].ToString() == "" ? "0" : adt3.Rows[i]["QTY"].ToString());
                             tda1.consQty = Convert.ToDouble(adt3.Rows[i]["CONSQTY"].ToString() == "" ? "0" : adt3.Rows[i]["CONSQTY"].ToString());
@@ -1828,7 +1828,7 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public ActionResult GetConItemDetail(string ItemId)
+        public ActionResult GetConItemDetail(string ItemId,string loc,string branch)
 		{
 			try
 			{
@@ -1839,8 +1839,8 @@ namespace Arasan.Controllers
 				string binid = "";
 				string unit = "";
 				string unitid = "";
-
-				dt = IProductionEntry.GetConItemDetails(ItemId);
+                string stk = "";
+                dt = IProductionEntry.GetConItemDetails(ItemId);
 
 				if (dt.Rows.Count > 0)
 				{
@@ -1851,8 +1851,17 @@ namespace Arasan.Controllers
 					unitid = dt.Rows[0]["unit"].ToString();
 
 				}
+                dt1 = IProductionEntry.GetConstkqty(ItemId, loc, branch);
+                if (dt1.Rows.Count > 0)
+                {
+                    stk = dt1.Rows[0]["QTY"].ToString();
+                }
+                if (stk == "")
+                {
+                    stk = "0";
+                }
 
-				var result = new { bin = bin, binid = binid, unit= unit , unitid = unitid };
+                var result = new { bin = bin, binid = binid, unit= unit , unitid = unitid, stk= stk };
 				return Json(result);
 			}
 			catch (Exception ex)
@@ -1860,6 +1869,7 @@ namespace Arasan.Controllers
 				throw ex;
 			}
 		}
+      
         public async Task<IActionResult> Print(string id)
 
         {

@@ -804,7 +804,7 @@ a{
               
                             <div class="col-lg-10" hidden id="go">
                                 <div class="col-lg-10"></div>
-                                    <button type="button" href="@Url.Action("APProdApprove", "APProductionentry", new { id = Model.APID })" class="btn aqua fancybox" data-fancybox-type='iframe' id="btnSave" onClick="window.parent.jQuery.fancybox.close();">Submit</button>
+                                    <button type="button" href="@Url.Action("APProdApprove", "APProductionentry", new { id = Model.APID })" class="btn aqua fancybox" data-fancybox-type='iframe' id="btnSave">Submit</button>
                             <button class="btn btn-danger" type="button"  causesvalidation="false" id="btnCansel" onclick="location.href='@Url.Action("ListAPProductionentry", "APProductionentry")'">Cancel</button>
                             </div>
                             </div>
@@ -884,26 +884,30 @@ a{
     }
 
     function outputsave(i){
+         
+                    var id = document.getElementById("hdapid").value;
+                    var ItemId = document.getElementById("ddlOutItem" + i).value;
+                    var drum = document.getElementById("ddldrumno" + i).value;
+                    var time = document.getElementById("txtFromTime" + i).value;
+                    var qty = document.getElementById("txtOutputQty" + i).value;
+                    var totime = document.getElementById("txtToTime" + i).value;
+                    var exqty = document.getElementById("txtExcessQty" + i).value;
+                    var stat = document.getElementById("ddlstatus" + i).value;
+                    $.ajax({
+                        url: 'SaveOutDetail',
+                        data: { "id": id, "ItemId": ItemId, "drum": drum, "time": time, "qty": qty, "totime": totime, "exqty": exqty, "stat": stat },
+                        type: "POST",
+                        success: function (result) {
+
+                        },
+                        error: function () {
+
+                        }
+                    });
+               
+           
         
-        var id = document.getElementById("hdapid").value;
-        var ItemId = document.getElementById("ddlOutItem" + i).value;
-        var drum = document.getElementById("ddldrumno" + i).value;
-        var time = document.getElementById("txtFromTime" + i).value;
-        var qty = document.getElementById("txtOutputQty" + i).value;
-        var totime = document.getElementById("txtToTime" + i).value;
-        var exqty = document.getElementById("txtExcessQty" + i).value;
-        var stat = document.getElementById("ddlstatus" + i).value;
-        $.ajax({
-            url: 'SaveOutDetail',
-                data: { "id": id, "ItemId": ItemId, "drum": drum, "time": time, "qty": qty, "totime": totime,"exqty" : exqty,"stat" : stat},
-            type: "POST",
-            success: function (result) {
-
-            },
-            error: function () {
-
-            }
-        });
+        
     }
 
 
@@ -924,9 +928,11 @@ a{
         });
     }
       function changeconsItem(ItemId, i) {
-        $.ajax({
+       var branch = document.getElementById("hdbranch").value;
+        var loc = document.getElementById("hdlocation").value;
+          $.ajax({
             url: 'GetConItemDetail',
-            data: { "ItemId": ItemId },
+            data: { 'ItemId': ItemId , 'branch': branch, 'loc': loc },
             type: "GET",
             success: function (result) {
                 
@@ -934,6 +940,7 @@ a{
                 document.getElementById("txtConsBin" + i).value = result.binid;
                   document.getElementById("txtconsunit" + i).value = result.unit;
                 document.getElementById("txtconsunitid" + i).value = result.unitid;
+                document.getElementById("txtConsStock" + i).value = result.stk;
             },
             error: function () {
                 alert("Data Not Found");
@@ -1059,12 +1066,15 @@ a{
         var itemid = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlConsItem" + index + "' name='Binconslst[" + index + "].ItemId' onchange = 'changeconsItem(this.value," + index + ")' ><option value=''>Please select</option>" + opt + "</select></td>";
         var unit = "<td><input class='form-control'  id='txtconsunit" + index + "' name='Binconslst[" + index + "].consunit' readonly='True' style='width: 100px;' type='text'><input class='form-control' id='txtconsunitid" + index + "' name='Binconslst[" + index + "].unitid' style='width: 100px;' type='hidden' ></td>";
         var bin = "<td><input class='form-control'  id='txtConsBinId" + index + "' name='Binconslst[" + index + "].BinId' readonly='True' style='width: 100px;' type='text' ><input class='form-control'  id='txtConsBin" + index + "' name='Binconslst[" + index + "].consBin' style='width: 100px;' type='hidden'></td>";
-        var stock = "<td><input class='form-control' id='txtConsStock" + index + "' name='Binconslst[" + index + "].ConsStock' onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;text-align:right' type='text' value='0'></td>";
+        var stock = "<td><input class='form-control' id='txtConsStock" + index + "' name='Binconslst[" + index + "].ConsStock' onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;text-align:right' type='text' value='0' readonly='true'></td>";
         var qty = "<td><input class='form-control' id='txtconsQty" + index + "' name='Binconslst[" + index + "].consQty' onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 100px;text-align:right' type='text' value='0'></td>";
         var consqty = "<td><input class='form-control'  id='txtQty" + index + "' name='Binconslst[" + index + "].Qty' onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 100px;text-align:right' type='text' value='0'></td>";
         var removeCell = "<td> <input  id='IsConsvalid" + index + "' name='Binconslst[" + index + "].Isvalid' type='hidden' value='Y'> <img onclick='removeConsRow(" + index + ");' src='../Images/delete.png' style='cursor:pointer'></td>"
         var newRow = "<tr class='chkitemlstinc'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookinc" + index + "'>" + itemid + unit + bin + stock +  qty + consqty +  removeCell + "</tr>";
         $("#tbBooksinc").append(newRow);
+          $(function () {
+            $('._select').select2();
+        });
     }
   @*  $(document).ready(function () {
 
@@ -1353,6 +1363,17 @@ a{
     function insertinputdetails(){
             var j = 0;
             var i=0;
+             var stk = document.getElementById("txtStockAvailable" + j).value;
+        var constk = document.getElementById("txtConsStock" + j).value;
+              var isValid = true;
+            
+             if(stk==0 && constk==0)
+             {
+                 alert("Stock Qty is Empty So Change the item");
+            return false;
+             }
+             else
+             {
             var ProInput = new Array();
             $('tr.chkitemlst').each(function () {
                 if ($(this).css('display') !== 'none') {
@@ -1406,6 +1427,7 @@ a{
                 //alert(r + " record(s) inserted.");
             }
         });
+        }
     }    
  function insertempdetails(){
             var e = 0;

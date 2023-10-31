@@ -388,7 +388,7 @@
                     //alert(item.batch);
                     var Drum = "<td><input class='form-control' id='txtdrum" + index + "' name='Drumlst[" + index + "].drum'  style='width: 100px;' type='text'  readonly='True'  value=" + item.drum + " /><input id='txtdrum" + index + "' name='Drumlst[" + index + "].drum' type='hidden'  value=" + item.drum + "></td>";
 
-                    var Batch = "<td><label>" + item.batch + "</label><input type='hidden' value=" + item.batchno + " id='txtbatchno" + index + "' name='Drumlst[" + index + "].batchno'></td>";
+                    var Batch = "<td><input class='form-control' id='txtbatchno" + index + "' name='Drumlst[" + index + "].batchno'  style='width: 200px;' type='text'   value=" + item.batchno + " /><input type='hidden' value=" + item.batchno + " id='txtbatchno" + index + "' name='Drumlst[" + index + "].batchno'></td>";
 
                     var Qty = "<td><input class='form-control' id='txtqty" + index + "' name='Drumlst[" + index + "].'qty  style='width: 80px;' type='text' readonly='True' value=" + item.qty + " onkeyup = 'changeQty(this, " + index + ")'  /><input id='txtqty" + index + "' name='Drumlst[" + index + "].qty' type='hidden'  value=" + item.qty + "></td>";
 

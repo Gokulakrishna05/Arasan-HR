@@ -1142,12 +1142,16 @@
         var itemid = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlConsItem" + index + "' name='Binconslst[" + index + "].ItemId' onchange = 'changeconsItem(this.value," + index + ")' ><option value=''>Please select</option>" + opt + "</select></td>";
         var unit = "<td><input class='form-control'  id='txtconsunit" + index + "' name='Binconslst[" + index + "].consunit' readonly='True' style='width: 100px;' type='text'><input class='form-control' id='txtconsunitid" + index + "' name='Binconslst[" + index + "].unitid' style='width: 100px;' type='hidden' ></td>";
         var bin = "<td><input class='form-control'  id='txtConsBinId" + index + "' name='Binconslst[" + index + "].BinId' readonly='True' style='width: 100px;' type='text' ><input class='form-control'  id='txtConsBin" + index + "' name='Binconslst[" + index + "].consBin' style='width: 100px;' type='hidden'></td>";
-        var stock = "<td><input class='form-control' id='txtConsStock" + index + "' name='Binconslst[" + index + "].ConsStock' onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;text-align:right' type='text' value='0'></td>";
+        var stock = "<td><input class='form-control' id='txtConsStock" + index + "' name='Binconslst[" + index + "].ConsStock' onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;text-align:right' type='text' value='0' readonly='true'></td>";
         var qty = "<td><input class='form-control' id='txtconsQty" + index + "' name='Binconslst[" + index + "].consQty' onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 100px;text-align:right' type='text' value='0'></td>";
         var consqty = "<td><input class='form-control'  id='txtQty" + index + "' name='Binconslst[" + index + "].Qty' onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 100px;text-align:right' type='text' value='0'></td>";
         var removeCell = "<td> <input  id='IsConsvalid" + index + "' name='Binconslst[" + index + "].Isvalid' type='hidden' value='Y'> <img onclick='removeConsRow(" + index + ");' src='../Images/delete.png' style='cursor:pointer'></td>"
         var newRow = "<tr class='chkitemlstinc'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookinc" + index + "'>" + itemid + unit + bin + stock + qty + consqty + removeCell + "</tr>";
         $("#tbBooksinc").append(newRow);
+
+        $(function () {
+            $('._select').select2();
+        });
     }
     @*  $(document).ready(function () {
 
@@ -1436,6 +1440,17 @@
     function insertinputdetails() {
         var j = 0;
         var i = 0;
+        var stk = document.getElementById("txtStockAvailable" + j).value;
+        var constk = document.getElementById("txtConsStock" + j).value;
+         var isValid = true;
+            
+             if(stk==0 && constk==0)
+             {
+                 alert("Stock Qty is Empty So Change the item");
+            return false;
+             }
+             else
+             {
         var ProInput = new Array();
         $('tr.chkitemlst').each(function () {
             if ($(this).css('display') !== 'none') {
@@ -1459,9 +1474,9 @@
             if ($(this).css('display') !== 'none') {
                 var proincons = {};
                 proincons.ItemId = document.getElementById("ddlConsItem" + i).value;
-                proincons.BinId = document.getElementById("txtConsBin" + i).value;
+                    proincons.BinId = document.getElementById("txtConsBinId" + i).value;
                 proincons.Qty = document.getElementById("txtQty" + i).value;
-                proincons.consunit = document.getElementById("txtconsunitid" + i).value;
+                    proincons.consunit = document.getElementById("txtconsunit" + i).value;
                 proincons.consQty = document.getElementById("txtconsQty" + i).value;
                 proincons.APID = document.getElementById("hdapid").value;
                 proincons.ConsStock = document.getElementById("txtConsStock" + i).value;
@@ -1490,39 +1505,41 @@
                 //alert(r + " record(s) inserted.");
             }
         });
+        }
     }
      function insertoutputdetails() {
         var e = 0;
 
-        var OutDetails = new Array();
-        $('tr.chkitemlstout').each(function () {
-            if ($(this).css('display') !== 'none') {
-                var out = {};
+                    var OutDetails = new Array();
+                    $('tr.chkitemlstout').each(function () {
+                        if ($(this).css('display') !== 'none') {
+                            var out = {};
 
-                out.ItemId = document.getElementById("ddlOutItem" + e).value;
-                out.drumno = document.getElementById("ddldrumno" + e).value;
-                out.APID = document.getElementById("hdapid").value;
-                out.BinId = document.getElementById("txtOutBinId" + e).value;
-                out.FromTime = document.getElementById("txtFromTime" + e).value;
-                out.ToTime = document.getElementById("txtToTime" + e).value;
-                out.OutputQty = document.getElementById("txtOutputQty" + e).value;
-              
-                OutDetails.push(out);
-                e += 1;
-            }
-        });
+                            out.ItemId = document.getElementById("ddlOutItem" + e).value;
+                            out.drumno = document.getElementById("ddldrumno" + e).value;
+                            out.APID = document.getElementById("hdapid").value;
+                            out.BinId = document.getElementById("txtOutBinId" + e).value;
+                            out.FromTime = document.getElementById("txtFromTime" + e).value;
+                            out.ToTime = document.getElementById("txtToTime" + e).value;
+                            out.OutputQty = document.getElementById("txtOutputQty" + e).value;
+
+                            OutDetails.push(out);
+                            e += 1;
+                        }
+                    });
 
 
-        $.ajax({
-            type: "POST",
-            url: "InsertProOut",
-            data: JSON.stringify(OutDetails),
-            contentType: "application/json",
-            dataType: "json",
-            success: function (r) {
-                //alert(r + " record(s) inserted.");
-            }
-        });
+                    $.ajax({
+                        type: "POST",
+                        url: "InsertProOut",
+                        data: JSON.stringify(OutDetails),
+                        contentType: "application/json",
+                        dataType: "json",
+                        success: function (r) {
+                            //alert(r + " record(s) inserted.");
+                        }
+                    });
+       
 
 
     }
@@ -1748,6 +1765,7 @@
             arrows: false,
             afterClose: function () {
                 location.href = "/PyroProduction/ListPyroProduction";
+            }
         });
         fancybox123 = $.fancybox;
     });
