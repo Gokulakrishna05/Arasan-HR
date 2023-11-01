@@ -29,13 +29,14 @@ namespace Arasan.Services.Qualitycontrol
                     using (OracleCommand cmd = con.CreateCommand())
                     {
                         con.Open();
-                        cmd.CommandText = "Select BRANCH,DOCID,to_char(QTVEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,WCBASIC.WCID,SHIFTNO,PROCESSLOTNO,DRUMNO,PRODDATE,DSAMPLE,DSAMPLETIME,ITEMID,ENTEREDBY,QTVEBASIC.REMARKS,QTVEBASICID from QTVEBASIC left outer join WCBASIC on WCBASIC.WCBASICID=QTVEBASIC.WCID WHERE QTVEBASIC.DOCDATE BETWEEN ' " + st + "'  AND ' " + ed + "' order by QTVEBASICID desc ";
+                        cmd.CommandText = "Select BRANCHMAST.BRANCHID,DOCID,to_char(QTVEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,WCBASIC.WCID,SHIFTNO,PROCESSLOTNO,DRUMNO,PRODDATE,DSAMPLE,DSAMPLETIME,ITEMID,ENTEREDBY,QTVEBASIC.REMARKS,QTVEBASICID from QTVEBASIC  left outer join BRANCHMAST on BRANCHMAST.BRANCHMASTID = QTVEBASIC.BRANCH left outer join WCBASIC on WCBASIC.WCBASICID=QTVEBASIC.WCID \r\n WHERE QTVEBASIC.DOCDATE BETWEEN ' " + st + "'  AND ' " + ed + "' order by QTVEBASICID desc ";
                         OracleDataReader rdr = cmd.ExecuteReader();
                         while (rdr.Read())
                         {
                             QCTestValueEntry cmp = new QCTestValueEntry
                             {
                                 ID = rdr["QTVEBASICID"].ToString(),
+                                Branch = rdr["BRANCHID"].ToString(),
                                 DocId = rdr["DOCID"].ToString(),
                                 Docdate = rdr["DOCDATE"].ToString(),
                                 Work = rdr["WCID"].ToString(),
@@ -46,7 +47,7 @@ namespace Arasan.Services.Qualitycontrol
                                 Sampletime = rdr["DSAMPLETIME"].ToString(),
                                 Item = rdr["ITEMID"].ToString(),
                                 Entered = rdr["ENTEREDBY"].ToString(),
-                                Remarks = rdr["REMARKS"].ToString(),
+                                Remarks = rdr["REMARKS"].ToString()
                             };
 
                             cmpList.Add(cmp);
@@ -344,7 +345,7 @@ namespace Arasan.Services.Qualitycontrol
         public DataTable GetViewQCTestValueEntry(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select BRANCH,DOCID,to_char(QTVEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,WCID,SHIFTNO,PROCESSLOTNO,CDRUMNO,to_char(QTVEBASIC.DOCDATE,'dd-MON-yyyy')PRODDATE,SAMPLENO,STIME,ITEMID,RATEPHR,NOZZLENO,AIRPRESS,ADDCH,BCT,ENTEREDBY,REMARKS,QTVEBASICID from QTVEBASIC WHERE QTVEBASICID='" + id + "'";
+            SvSql = "select BRANCHID,DOCID,to_char(QTVEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,WCID,SHIFTNO,PROCESSLOTNO,CDRUMNO,to_char(QTVEBASIC.DOCDATE,'dd-MON-yyyy')PRODDATE,SAMPLENO,STIME,ITEMID,RATEPHR,NOZZLENO,AIRPRESS,ADDCH,BCT,ENTEREDBY,REMARKS,QTVEBASICID from QTVEBASIC WHERE QTVEBASICID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

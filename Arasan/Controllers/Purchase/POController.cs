@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using AspNetCore.Reporting;
 using NuGet.Packaging.Signing;
 using System.Net.Mail;
+using Arasan.Services.Qualitycontrol;
 
 namespace Arasan.Controllers
 {
@@ -662,6 +663,47 @@ namespace Arasan.Controllers
                 throw ex;
             }
 
+        }
+
+        public IActionResult ViewGateInward(string id)
+        {
+            GateInward ca = new GateInward();
+            DataTable dt = new DataTable();
+            DataTable dtt = new DataTable();
+
+            dt = PoService.GetViewGateInward(id);
+            if (dt.Rows.Count > 0)
+            {
+                ca.Supplier = dt.Rows[0]["PARTYNAME"].ToString();
+                ca.POId = dt.Rows[0]["DOCID"].ToString();
+                ca.GateInDate = dt.Rows[0]["GATE_IN_DATE"].ToString();
+                ca.GateInTime = dt.Rows[0]["GATE_IN_TIME"].ToString();
+                ca.ID = id;
+                ca.TotalQty = Convert.ToDouble(dt.Rows[0]["TOTAL_QTY"].ToString());
+                ca.Narration = dt.Rows[0]["NARRATION"].ToString();
+
+                List<GateInwardItem> Data = new List<GateInwardItem>();
+                GateInwardItem tda = new GateInwardItem();
+                //double tot = 0;
+
+                dtt = PoService.GetViewGateItems(id);
+                if (dtt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dtt.Rows.Count; i++)
+                    {
+                        tda.ItemId = dtt.Rows[0]["ITEMID"].ToString();
+                        tda.QC = dtt.Rows[0]["QCT"].ToString();
+                        tda.Unit = dtt.Rows[0]["UNITID"].ToString();
+                        tda.Quantity = dtt.Rows[0]["QCFLAG"].ToString();
+                        tda.inQuantity = dtt.Rows[0]["IN_QTY"].ToString();
+
+                        Data.Add(tda);
+                    }
+                }
+
+                ca.GateInlst = Data;
+            }
+            return View(ca);
         }
 
     }

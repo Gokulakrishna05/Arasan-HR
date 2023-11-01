@@ -17,5 +17,7 @@ namespace Arasan.Interface
         
         DataTable GetViewORSAT(string id);
         DataTable GetViewORSATDetail(string id);
+
+        string StatusChange(string tag, int id);
     }
 }

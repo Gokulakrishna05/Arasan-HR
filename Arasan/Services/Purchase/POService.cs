@@ -539,5 +539,28 @@ namespace Arasan.Services
                 return await db.QueryAsync<POItemDetail>(" SELECT PARTYMAST.PARTYID, POBASIC.GROSS,POBASIC.NET,POBASIC.POBASICID,POBASIC.DOCID,to_char(POBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,POBASIC.PAYTERMS,POBASIC.DESP,POBASIC.DELTERMS,POBASIC.WARRTERMS,POBASIC.AMTINWORDS,ITEMMASTER.ITEMID,PODETAIL.RATE,PODETAIL.AMOUNT, PODETAIL.QTY, PODETAIL.PUNIT,PODETAIL.SGST, PODETAIL.CGST, PODETAIL.IGST, PODETAIL.TOTAMT,PARTYMAST.PARTYID AS EXPR1, PARTYMAST.ADD1, PARTYMAST.ADD2, PARTYMAST.ADD3, PARTYMAST.CITY, PARTYMAST.PINCODE,PARTYMAST.STATE,PARTYMAST.CSTNO, PARTYMAST.MOBILE   FROM  POBASIC INNER JOIN PARTYMAST ON POBASIC.PARTYID = PARTYMAST.PARTYMASTID, PODETAIL  LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PODETAIL.ITEMID where POBASIC.POBASICID='"+supid+ "' and PODETAIL.POBASICID='" + supid+ "'  and PARTYMAST.PARTYMASTID='"+ s + "'", commandType: CommandType.Text);
             }
         }
+
+        public DataTable GetViewGateInward(string Poid)
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT POBASIC.DOCID,GATE_INWARD.GATE_IN_TIME,to_char(GATE_IN_DATE,'dd-MON-yyyy') GATE_IN_DATE,GATE_INWARD.TOTAL_QTY,PARTYMAST.PARTYNAME,GATE_INWARD.NARRATION FROM GATE_INWARD LEFT OUTER JOIN POBASIC ON GATE_INWARD.POBASICID=POBASIC.POBASICID LEFT OUTER JOIN  PARTYMAST on POBASIC.PARTYID=PARTYMAST.PARTYMASTID where GATE_INWARD.GATE_IN_ID ='" + Poid + "'";
+
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetViewGateItems(string Poid)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select ITEMMASTER.ITEMID,ITEMMASTER.QCT,UNITMAST.UNITID ,QCFLAG,IN_QTY from GATE_INWARD_DETAILS left outer join ITEMMASTER on ITEMMASTERID=GATE_INWARD_DETAILS.GATE_IN_ID left outer join UNITMAST on UNITMASTID=GATE_INWARD_DETAILS.GATE_IN_ID  where GATE_INWARD_DETAILS.GATE_IN_ID  ='" + Poid + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
     }
 }

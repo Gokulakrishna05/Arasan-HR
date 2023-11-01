@@ -199,5 +199,22 @@ namespace Arasan.Controllers.Qualitycontrol
             return View(ca);
         }
 
+
+        public ActionResult DeleteMR(string tag, int id)
+        {
+
+            string flag = ORSATService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListORSAT");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListORSAT");
+            }
+        }
+
     }
 }

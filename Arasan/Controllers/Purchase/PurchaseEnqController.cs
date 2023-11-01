@@ -294,7 +294,7 @@ namespace Arasan.Controllers
         }
 
         [HttpPost]
-        public ActionResult ViewEnq(PurchaseQuo Cy, string id)
+        public ActionResult ViewEnquiry(PurchaseQuo Cy, string id)
         {
             try
             {
@@ -329,9 +329,9 @@ namespace Arasan.Controllers
 
             return RedirectToAction("ListPurchaseQuo");
         }
-        public IActionResult ListEnquiry(string status)
+        public IActionResult ListEnquiry(string Active)
         {
-            IEnumerable<PurchaseEnquiry> cmp = PurenqService.GetAllPurenquriy(status);
+            IEnumerable<PurchaseEnquiry> cmp = PurenqService.GetAllPurenquriy(Active);
             return View(cmp);
         }
         public List<SelectListItem> BindBranch()

@@ -108,14 +108,19 @@ namespace Arasan.Models
     }
     public class GateInwardItem
     {
+        public string POID { get; set; }
         public string Supplier { get; set; }
         public string Status { get; set; }
         public string GateInDate { get; set; }
         public string GateInTime { get; set; }
         public string Narration { get; set; }
         public string PONo { get; set; }
-        public string POID { get; set; }
         public double TotalQty { get; set; }
+         public string Unit { get; set; }
+        public string Quantity { get; set; }
+        public string inQuantity { get; set; }
+        public string QC { get; set; }
+        public string ItemId { get; set; }
     }
     public class POItemlst
     {
