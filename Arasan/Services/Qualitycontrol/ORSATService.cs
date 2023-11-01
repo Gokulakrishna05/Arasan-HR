@@ -31,8 +31,8 @@ namespace Arasan.Services.Qualitycontrol
                     {
                         con.Open();
 
-                        cmd.CommandText = "SELECT BRANCHMAST.BRANCHID,ORSATBASICID,DOCID,to_char(ORSATBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,SHIFTNO,WCID,to_char(ORSATBASIC.ENTDATE,'dd-MON-yyyy') ENTDATE,ETIME,REMARKS,ACTIVE FROM ORSATBASIC left outer join BRANCHMAST on BRANCHMAST.BRANCHMASTID = ORSATBASIC.BRANCH AND ORSATBASIC.DOCDATE BETWEEN '" + st + "'  AND ' " + ed + "' order by ORSATBASICID desc";
-                        ;
+                        cmd.CommandText = "SELECT BRANCHMAST.BRANCHID,ORSATBASICID,DOCID,to_char(ORSATBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,SHIFTNO,WCID,to_char(ORSATBASIC.ENTDATE,'dd-MON-yyyy') ENTDATE,ETIME,REMARKS,ACTIVE FROM ORSATBASIC left outer join BRANCHMAST on BRANCHMAST.BRANCHMASTID = ORSATBASIC.BRANCH AND ORSATBASIC.ACTIVE = 'YES' WHERE  ORSATBASIC.DOCDATE BETWEEN '" + st + "'  AND ' " + ed + "' order by ORSATBASICID desc";
+                        
 
                         OracleDataReader rdr = cmd.ExecuteReader();
                         while (rdr.Read())
@@ -44,7 +44,8 @@ namespace Arasan.Services.Qualitycontrol
                                 docid = rdr["DOCID"].ToString(),
                                 docdate = rdr["DOCDATE"].ToString(),
                                 entry = rdr["ENTDATE"].ToString(),
-                                time = rdr["ETIME"].ToString()
+                                time = rdr["ETIME"].ToString(),
+                                 active= rdr["ACTIVE"].ToString()
 
                             };
                             cmpList.Add(cmp);
@@ -221,6 +222,31 @@ namespace Arasan.Services.Qualitycontrol
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
+        }
+
+
+        public string StatusChange(string tag, int id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE ORSATBASIC SET ACTIVE ='NO' WHERE ORSATBASICID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
         }
     }
 

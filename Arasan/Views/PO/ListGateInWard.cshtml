@@ -78,6 +78,8 @@
                           <th>IN Date</th>
                           <th>IN Time</th>
                           <th>Total Qty.</th>
+                          <th>View</th>
+                          
                           
                         </tr>
                       </thead>
@@ -93,12 +95,13 @@
 
                                 <tr>
                                                                             <td>@Html.DisplayFor(modelItem => item.Supplier)</td>
-                                                                            <td><a href="@Url.Action("GateInwardDetails", "PO",new { id=item.POID })" class='fancybox' data-fancybox-type='iframe'>@Html.DisplayFor(modelItem => item.PONo)</a></td>
+                                                                              <td>@Html.DisplayFor(modelItem => item.PONo)</td>
                                                                             <td>@Html.DisplayFor(modelItem => item.GateInDate)</td>
                                                                             <td>@Html.DisplayFor(modelItem => item.GateInTime)</td>
                                                                             <td>@Html.DisplayFor(modelItem => item.TotalQty)</td>
-                                                                          
-                                                                           
+
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewGateInward", "PO",new { id=item.POID})" class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Waiting for approval' /></a></div></td>
+
 
                                                                         
                                  </tr>

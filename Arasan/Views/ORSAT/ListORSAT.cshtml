@@ -3,6 +3,9 @@
     ViewData["Title"] = "ORSAT";
     string sdate = ViewContext.HttpContext.Request.Query["st"];
     string edate = ViewContext.HttpContext.Request.Query["ed"];
+    string query = ViewContext.HttpContext.Request.Query["status"];
+    string Qid = string.Empty;
+    if (!string.IsNullOrEmpty(query)) { Qid = ViewContext.HttpContext.Request.Query["status"]; }
    
 }
 
@@ -269,4 +272,27 @@
         });
         $(".fancybox1").eq(0).trigger('click');
     }
+
+
+    function changeStatus(status) {
+        var url = "/ORSAT/ListORSAT?status=" + status;
+        window.location.href = url;
+        //$.ajax({
+        //    url: 'AssignSession',
+        //    data: { "status": status },
+        //    type: "GET",
+        //    success: function (result) {
+        //        document.getElementById("hdstatus").value = result;
+        //    },
+        //    error: function () {
+        //        alert("Data Not Found");
+        //    }
+        //});
+        //window.location.reload();
+
+    }
+    $(document).ready(function () {
+        var val2 = "@Qid";
+        $('#dllstatus').val(val2);
+    });
     </script>

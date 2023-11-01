@@ -280,14 +280,16 @@
                             </div>
                         </div>
 
+                            <div style="height:30px;"></div>
+
+
+                            @*                <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListORSAT", "ORSAT")'">Cancel</button>
+                            *@                <input type="button" class="btn btn-danger" value="Close" onClick="window.parent.jQuery.fancybox.close();" />
+
+
                     </form>
                 </div>
-                <div style="height:30px;"></div>
-                
-
-                <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListORSAT", "ORSAT")'">Cancel</button>
-
-
+               
 
             </div>
         </div>
@@ -295,4 +297,11 @@
     </div>
 </div>
 
-
+<script>
+    <script>
+    $(function(){
+    $(document).on('click','.closeFancybox',function(){
+            $.fancybox.close();
+    })
+})
+</script>

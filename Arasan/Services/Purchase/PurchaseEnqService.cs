@@ -100,12 +100,12 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        public IEnumerable<PurchaseEnquiry> GetAllPurenquriy(string status)
+        public IEnumerable<PurchaseEnquiry> GetAllPurenquriy(string Active)
         {
 
-            if (string.IsNullOrEmpty(status))
+            if (string.IsNullOrEmpty(Active))
             {
-                status = "YES";
+                Active = "YES";
             }
             List<PurchaseEnquiry> cmpList = new List<PurchaseEnquiry>();
             using (OracleConnection con = new OracleConnection(_connectionString))
@@ -114,7 +114,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,ENQNO,to_char(ENQDATE,'dd-MON-yyyy') ENQDATE,EXCRATERATE,PARTYREFNO,CURRENCYID,PARTYMAST.PARTYNAME,PURENQBASICID,PURENQBASIC.STATUS,PURENQBASIC.ACTIVE from PURENQBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PURENQBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on PURENQBASIC.PARTYMASTID=PARTYMAST.PARTYMASTID Where PARTYMAST.TYPE IN ('Supplier','BOTH') and PURENQBASIC.ACTIVE='" + status + "' order by PURENQBASICID DESC";
+                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,ENQNO,to_char(ENQDATE,'dd-MON-yyyy') ENQDATE,EXCRATERATE,PARTYREFNO,CURRENCYID,PARTYMAST.PARTYNAME,PURENQBASICID,PURENQBASIC.STATUS,PURENQBASIC.ACTIVE from PURENQBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PURENQBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on PURENQBASIC.PARTYMASTID=PARTYMAST.PARTYMASTID Where PARTYMAST.TYPE IN ('Supplier','BOTH') and PURENQBASIC.ACTIVE='" + Active + "' order by PURENQBASICID DESC";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -548,7 +548,8 @@ namespace Arasan.Services
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE PURENQ SET ACTIVE ='NO' WHERE PURENQID='" + id + "'";
+                    //svSQL = "UPDATE PURENQ SET ACTIVE ='NO' WHERE PURENQID='" + id + "'";
+                    svSQL = "UPDATE PURENQBASIC SET ACTIVE ='NO' WHERE PURENQBASICID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();

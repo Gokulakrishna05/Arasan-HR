@@ -18,6 +18,9 @@ namespace Arasan.Interface
         string POtoGRN(string POID);
         DataTable GetPObySuppID(string supid);
 
+        DataTable GetViewGateInward(string Poid);
+        DataTable GetViewGateItems(string Poid);
+
         string StatusChange(string tag, int id);
 
 

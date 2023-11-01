@@ -392,7 +392,7 @@ namespace Arasan.Controllers.Qualitycontrol
             dt = QCTestValueEntryService.GetViewQCTestValueEntry(id);
             if (dt.Rows.Count > 0)
             {
-                ca.Branch = dt.Rows[0]["BRANCH"].ToString();
+                ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
                 ca.DocId = dt.Rows[0]["DOCID"].ToString();
                 ca.Docdate = dt.Rows[0]["DOCDATE"].ToString();
                 ca.Work = dt.Rows[0]["WCID"].ToString();
