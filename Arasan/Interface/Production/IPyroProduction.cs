@@ -53,6 +53,7 @@ namespace Arasan.Interface
         DataTable GetEmpdetDeatils(string id);
         DataTable GetBreakDeatils(string id);
         DataTable GetOutputDeatils(string id);
+        DataTable CuringsetDetails(string id);
         DataTable GetLogdetailDeatils(string id);
 
         DataTable SaveInputDetails(string id, string item, string bin, string time, string qty, string stock, string batch, string drum);

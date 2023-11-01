@@ -1067,7 +1067,7 @@ namespace Arasan.Services
                                     DataTable dttt = datatrans.GetData("Select SHEDNUMBER,CAPACITY,OCCUPIED from CURINGMASTER where SHEDNUMBER='" + cp.ShedNo + "'");
                                     int curday = datatrans.GetDataId("Select CURINGDAY from ITEMMASTER where ITEMMASTERID='"+ cp.saveitemId+"' ");
                                     DateTime due = DateTime.Now.AddDays(curday);
-                                    
+                                    string dueda = due.ToString("dd-MMM-yyyy");
                                     for (int i = 0; i < dttt.Rows.Count; i++)
                                     {
 
@@ -1093,7 +1093,7 @@ namespace Arasan.Services
 
                                         objCmdInp1.ExecuteNonQuery();
                                         string Sql = string.Empty;
-                                        Sql = "Update DRUM_STOCK SET  CURINGDUEDATE='"+ due + "' where DRUM_STOCK_ID='"+ Pid1 + "' ";
+                                        Sql = "Update DRUM_STOCK SET  CURINGDUEDATE='"+ dueda + "' where DRUM_STOCK_ID='"+ Pid1 + "' ";
                                         OracleCommand objCmds = new OracleCommand(Sql, objConn);
                                         objCmds.ExecuteNonQuery();
 
@@ -1123,13 +1123,22 @@ namespace Arasan.Services
         public DataTable GetShedNo()
         {
             string SvSql = string.Empty;
-            SvSql = "Select SHEDNUMBER,CURINGMASTERID from CURINGMASTER WHERE STATUS='Active' ";
+            SvSql = "Select SHEDNUMBER,CURINGMASTERID,CAPACITY from CURINGMASTER WHERE STATUS='Active' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
         }
-       
+        public DataTable CuringsetDetails(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select SHEDNUMBER,CAPACITY from CURINGMASTER WHERE SHEDNUMBER='"+ id +"' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
     }
 }

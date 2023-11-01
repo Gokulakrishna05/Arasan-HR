@@ -137,6 +137,7 @@ namespace Arasan.Models
         public List<SelectListItem> shedlst { get; set; }
 
         public string ShedNo { get; set; }
+        public string ShedOccu { get; set; }
         public string BinId { get; set; }
         public string outid { get; set; }
         public string outBin { get; set; }
