@@ -1209,6 +1209,7 @@ namespace Arasan.Controllers
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["SHEDNUMBER"].ToString(), Value = dtDesg.Rows[i]["SHEDNUMBER"].ToString() });
+                   
                 }
                 return lstdesg;
             }
@@ -1224,7 +1225,7 @@ namespace Arasan.Controllers
             try
             {
                 Cy.ID = id;
-                string Strout = Pyro.ApprovePyroProductionEntryGURD(Cy);
+                string Strout =  Pyro.ApprovePyroProductionEntryGURD(Cy) ;
                 if (string.IsNullOrEmpty(Strout))
                 {
                     if (Cy.ID == null)
@@ -1778,6 +1779,39 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-      
+        public ActionResult Curingset(string ItemId)
+        {
+            try
+            {
+
+
+
+                string shed = "";
+
+
+                DataTable dt = new DataTable();
+
+                dt = Pyro.CuringsetDetails(ItemId);
+
+
+                if (dt.Rows.Count > 0)
+                {
+
+                    shed = dt.Rows[0]["CAPACITY"].ToString();
+
+
+                }
+
+                var result = new { shed = shed };
+                return Json(result);
+            }
+
+
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

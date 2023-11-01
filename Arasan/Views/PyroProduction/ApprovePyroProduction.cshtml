@@ -140,9 +140,9 @@
                 <div class="widgets-container">
                     <h5 style="font-size:14px">Pyro Production Entry</h5>
                     <hr>
-                    @using (Html.BeginForm("ApprovePyroProduction", "PyroProduction", FormMethod.Post))
+                  @using (Html.BeginForm("ApprovePyroProduction", "PyroProduction", FormMethod.Post))
                         {
-                            @Html.AntiForgeryToken()
+                            @Html.AntiForgeryToken() 
                     <form>
                         <div class="row">
                             <div class="col-md-6">
@@ -457,7 +457,7 @@
                                                                             </td>
 
                                                                             <td>
-                                                                                    @Html.DropDownListFor(o => o.outlst[m].ShedNo, Model.outlst[m].shedlst," -- Please Select -- ", new { @id = "ddlShedNo", @Class = "form-control _select",style = "width: 200px;", @TabIndex = 1})<br />
+                                                                                @Html.DropDownListFor(o => o.outlst[m].ShedNo, Model.outlst[m].shedlst," -- Please Select -- ", new { @id = "ddlShedNo" + m, @Class = "form-control _select",style = "width: 200px;",onchange = "getshed(this.value," + m + ")", @TabIndex = 1})  @Html.HiddenFor(o => o.outlst[m].ShedOccu, new { @id = "txtShedOccu" + m})<br />
 
                                                                             </td>
 
@@ -490,7 +490,7 @@
                                 <button class="btn btn-danger" type="button" causesvalidation="false" id="btnCansel" onclick="location.href='@Url.Action("ListPyroProduction", "PyroProduction")'">Cancel</button>
                             </div>
                     </form>
-                    }
+                   } 
                 </div>
             </div>
         </div>
@@ -516,4 +516,57 @@
             }
         });
     }
+
+
+   
+     function getshed(ItemId, i) {
+        $.ajax({
+            url: 'Curingset',
+            data: { "ItemId": ItemId },
+            type: "GET",
+            success: function (result) {
+
+                document.getElementById("txtShedOccu" + i).value = result.shed;
+                
+
+            },
+            error: function () {
+                alert("Data Not Found");
+            }
+        });
+
+    }
+
+     $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+
+            var e = 0;
+            var shed;
+            var isValid = true;
+            $('tr.chkitemlstout').each(function () {
+                if ($(this).css('display') !== 'none') {
+
+                     shed = document.getElementById("txtShedOccu" + e).value;
+                    
+                    e += 1;
+                  
+                }
+                alert(e);
+                alert(shed);
+                
+                if (shed < e) {
+                    isValid = false;
+                    alert("Shed Capacity is Low");
+                    return false;
+                }
+            });
+
+            if (isValid == false)
+                e.preventDefault();
+           
+
+           
+            
+        });
+        });
 </script>
