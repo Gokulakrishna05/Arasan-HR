@@ -45,6 +45,7 @@ namespace Arasan.Models
         public string Entered { get; set; }
         public string Remarks { get; set; }
         //public string ApId { get; set; }
+      
 
         public List<QCTestValueEntryItem> QCTestLst { get; set; }
         public List<ViewAPOut> ViewAPOutlist { get; set; }
@@ -67,6 +68,11 @@ namespace Arasan.Models
         public string ItemName { get; set; }
         public string Drum { get; set; }
           public string Time { get; set; }
+        public string Docid { get; set; }
+        public string DocDate { get; set; }
+        public string ProDate { get; set; }
+        public string id { get; set; }
+        public string Proid { get; set; }
         //public string ApId { get; set; }
 
     }

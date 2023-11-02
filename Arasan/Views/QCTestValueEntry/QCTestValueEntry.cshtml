@@ -111,7 +111,7 @@
                                                     <div class="form-group">
                                                             <br /><label for="inputName3" class="col-sm-4 control-label">Process Lot No<label class="Mandatory"></label></label>
                                                         <div class="col-sm-8">
-                                                                @Html.TextBoxFor(C => C.Process, new { @id = "txtProcess", @class = "form-control", @TabIndex = 2 })
+                                                                @Html.TextBoxFor(C => C.Process, new { @id = "txtProcess", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                                         </div>
                                                     </div>
                                                 </div>
@@ -131,7 +131,7 @@
 
                                                             <br /> <label for="inputName3" class="col-sm-4 control-label">Sample No<label class="Mandatory"></label></label>
                                                         <div class="col-sm-8">
-                                                                @Html.TextBoxFor(C => C.Sample, new { @id = "txtSample", @class = "form-control", @TabIndex = 2 })
+                                                                @Html.TextBoxFor(C => C.Sample, new { @id = "txtSample", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                                                 
                                                         </div>
                                                     </div>
@@ -141,7 +141,7 @@
                                                             <br /><label for="inputName3" class="col-sm-4 control-label">SampleTime<label class="Mandatory"></label></label>
 
                                                         <div class="col-sm-8">
-                                                                @Html.TextBoxFor(C => C.Sampletime, new { @id = "txtSampletime", @class = "form-control", @TabIndex = 2,@readonly="readonly" })
+                                                                @Html.TextBoxFor(C => C.Sampletime, new { @id = "txtSampletime", @class = "form-control", @TabIndex = 2})
                                                                 
                                                         </div>
 
@@ -181,7 +181,7 @@
 
                                                             <br /><label for="inputName3" class="col-sm-4 control-label">Rate/Hr<label class="mandatory">*</label></label>
                                                         <div class="col-sm-8">
-                                                                @Html.TextBoxFor(C => C.Rate, new { @id = "txtRate", @class = "form-control", @TabIndex = 2 })
+                                                                @Html.TextBoxFor(C => C.Rate, new { @id = "txtRate", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                                                 
                                                         </div>
                                                     </div>
@@ -204,7 +204,7 @@
 
                                                             <br /><label for="inputName3" class="col-sm-4 control-label">Air Pressure<label class="mandatory">*</label></label>
                                                         <div class="col-sm-8">
-                                                                @Html.TextBoxFor(C => C.Air, new { @id = "txtAir", @class = "form-control", @TabIndex = 2 })
+                                                                @Html.TextBoxFor(C => C.Air, new { @id = "txtAir", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                                                
                                                         </div>
                                                     </div>
@@ -214,7 +214,7 @@
                                                             <br /> <label for="inputName3" class="col-sm-4 control-label">Additive Charged[%]<label class="mandatory"></label></label>
 
                                                         <div class="col-sm-8">
-                                                                @Html.TextBoxFor(C => C.AddCharge, new { @id = "txtAddCharge", @class = "form-control", @TabIndex = 2 })
+                                                                @Html.TextBoxFor(C => C.AddCharge, new { @id = "txtAddCharge", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                                                 
                                                         </div>
 
@@ -227,7 +227,7 @@
 
                                                             <br /> <label for="inputName3" class="col-sm-4 control-label">Champer Temp<label class="mandatory"></label></label>
                                                         <div class="col-sm-8">
-                                                                @Html.TextBoxFor(C => C.Ctemp, new { @id = "txtCtemp", @class = "form-control", @TabIndex = 2 })
+                                                                @Html.TextBoxFor(C => C.Ctemp, new { @id = "txtCtemp", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
                                                                
                                                         </div>
                                                     </div>
@@ -763,9 +763,9 @@
 
                     var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='QCTestLst[" + index + "].unit'  style='width: 90px;' type='text' readonly='readonly'  value=" + item.unit + " /></td>"
 
-                    var Startvalue = "<td><input class='form-control' id='txtStartvalue" + index + "' name='QCTestLst[" + index + "].startvalue'  style='width: 90px;' type='text'  value=" + item.startvalue + " /></td>"
+                    var Startvalue = "<td><input class='form-control' id='txtStartvalue" + index + "' name='QCTestLst[" + index + "].startvalue'  style='width: 90px;' type='text' readonly='readonly' value=" + item.startvalue + " /></td>"
 
-                    var Endvalue = "<td><input class='form-control' id='txtEndvalue" + index + "' name='QCTestLst[" + index + "].endvalue'  style='width: 90px;' type='text'  value=" + item.endvalue + " /></td>"
+                    var Endvalue = "<td><input class='form-control' id='txtEndvalue" + index + "' name='QCTestLst[" + index + "].endvalue'  style='width: 90px;' type='text' readonly='readonly' value=" + item.endvalue + " /></td>"
 
                     var Test = "<td><input class='form-control' id='txtTest" + index + "' name='QCTestLst[" + index + "].test'  style='width: 90px;' type='text'   /></td>"
 

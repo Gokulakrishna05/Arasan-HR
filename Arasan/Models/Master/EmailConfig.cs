@@ -14,5 +14,6 @@ namespace Arasan.Models
         public String SSL { get; set; }
         public String Signature { get; set; }
         public String status { get; set; }
+        public object Attachment { get; internal set; }
     }
 }
