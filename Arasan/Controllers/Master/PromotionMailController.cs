@@ -92,7 +92,7 @@ namespace Arasan.Controllers
         //    return View(Cy);
         //}
         [HttpPost]
-        public ActionResult PromotionMail(PromotionMail Cy, PromotionMail _email)
+        public ActionResult PromotionMail(Arasan.Models.PromotionMail Cy, PromotionMail fileUploader)
         {
            
                 datatrans = new DataTransactions(_connectionString);
@@ -137,10 +137,10 @@ namespace Arasan.Controllers
                 smtp.Credentials = NetworkCred;
                 smtp.Port = port;
                 smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-            if (_email.Attachment.Length > 0)
+            if (fileUploader != null)
             {
-                string fileName = Path.GetFileName(_email.Attachment.FileName);
-                mailMessage.Attachments.Add(new Attachment(_email.Attachment.OpenReadStream(), fileName));
+                string fileName = Path.GetFileName(fileUploader.FileName);
+                mailMessage.Attachments.Add(new Attachment(fileUploader.InputStream,fileName));
             }
             //foreach (Customeremailattach cp in Cy.Upload)
             //{
