@@ -126,7 +126,7 @@ namespace Arasan.Controllers.Qualitycontrol
                         if (dtt1.Rows.Count > 0)
                         {
                             ca.Drum = dtt1.Rows[0]["DRUMNO"].ToString();
-                            ca.Sampletime = dtt1.Rows[0]["FROMTIME"].ToString();
+                            //ca.Sampletime = dtt1.Rows[0]["FROMTIME"].ToString();
                             ca.Item = dtt1.Rows[0]["ITEMID"].ToString();
                             ca.ItemId = dtt1.Rows[0]["item"].ToString();
                             ViewBag.Item = dtt1.Rows[0]["ITEMID"].ToString();
@@ -228,17 +228,26 @@ namespace Arasan.Controllers.Qualitycontrol
                     Outdt2 = QCTestValueEntryService.GetResultItem(ca.id);
                     if (Outdt2.Rows.Count > 0)
                     {
-                        for (int j = 0; j < Outdt2.Rows.Count; j++)
+                        for (int k = 0; k < Outdt2.Rows.Count; k++)
                         {
-                            tdao1.testid = Outdt2.Rows[j]["QTVEBASICID"].ToString();
-                            tdao1.ItemName = Outdt2.Rows[j]["ITEMID"].ToString();
-                            tdao1.Drum = Outdt2.Rows[j]["CDRUMNO"].ToString();
-                            tdao1.Time = Outdt2.Rows[j]["STIME"].ToString();
-                            DataTable Outdt3 = new DataTable();
-                            Outdt3 = QCTestValueEntryService.GetResultItemDeatils(tdao1.testid);
-                            tdao1.testresult = Outdt3.Rows[0]["TESTRESULT"].ToString();
+                            tdao1 = new QCTestValueEntryItem();
+                            tdao1.testid = Outdt2.Rows[k]["QTVEBASICID"].ToString();
+                            tdao1.Docid = Outdt2.Rows[k]["DOCID"].ToString();
+                            tdao1.DocDate = Outdt2.Rows[k]["DOCDATE"].ToString();
+                            tdao1.ProDate = Outdt2.Rows[k]["PRODDATE"].ToString();
+                            tdao1.ItemName = Outdt2.Rows[k]["ITEMID"].ToString();
+                            tdao1.Drum = Outdt2.Rows[k]["CDRUMNO"].ToString();
+                            tdao1.Time = Outdt2.Rows[k]["STIME"].ToString();
+                            DataTable dt7 = new DataTable();
+                            dt7 = QCTestValueEntryService.GetProDeatils(ca.id);
+                            if (dt7.Rows.Count > 0)
+                            {
+                                tdao1.Proid = dt7.Rows[0]["DOCID"].ToString();
+                            }
                             TDatao1.Add(tdao1);
                         }
+                       
+
                     }
                     ca.QCTestLst = TDatao1;
 

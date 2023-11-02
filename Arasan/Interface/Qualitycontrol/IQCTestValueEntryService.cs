@@ -27,6 +27,6 @@ namespace Arasan.Interface.Qualitycontrol
         DataTable GetAPout1(string id);
         DataTable GetDis(string id);
         DataTable GetResultItem(string id);
-        DataTable GetResultItemDeatils(string id);
+        DataTable GetProDeatils(string id);
     }
 }

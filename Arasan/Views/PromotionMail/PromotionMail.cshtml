@@ -52,7 +52,7 @@
                 <div class="widgets-container">
 
                     <hr>
-                    @using (Html.BeginForm("SendMail", "PromotionMail", FormMethod.Post))
+                    @using (Html.BeginForm("PromotionMail", "PromotionMail", FormMethod.Post))
                     {
                         @Html.AntiForgeryToken()
                         <form>
@@ -64,6 +64,7 @@
                                         <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.To, new { @id = "txtTo", @class = "form-control", @TabIndex = 2 })
                                             @Html.HiddenFor(C => C.ID)
+
                                         </div>
                                     </div>
                                 </div>
@@ -117,12 +118,12 @@
                          <div class="row">
                              <div class="col-md-6">
                                     <div class="form-group">
-                                        
-                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Select Files<label class="mandatory">*</label></label>
+                                        @Html.LabelFor(C => C.Upload, new { @class = "col-md-2 control-label" })
 
-                                             <div class="col-sm-8">
-                                                <input type="file" id="files" name="files" multiple>
-                                             </div>
+                                        <div class="col-md-10">
+                                            <input type="file" id="Upload" name="Upload" multiple>
+
+                                        </div>
                                     </div>
                              </div>
                          </div>

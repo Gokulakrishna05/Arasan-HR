@@ -290,7 +290,7 @@ namespace Arasan.Services.Qualitycontrol
         public DataTable GetAPOutItemDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select ITEMMASTER.ITEMID,APPRODOUTDET.ITEMID as item,DRUMMAST.DRUMNO,FROMTIME from APPRODOUTDET  LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=APPRODOUTDET.ITEMID  LEFT OUTER JOIN DRUMMAST ON DRUMMASTID=APPRODOUTDET.DRUMNO WHERE APPRODUCTIONBASICID='" + id + "' ";
+            SvSql = "select ITEMMASTER.ITEMID,APPRODOUTDET.ITEMID as item,DRUMMAST.DRUMNO from APPRODOUTDET  LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=APPRODOUTDET.ITEMID  LEFT OUTER JOIN DRUMMAST ON DRUMMASTID=APPRODOUTDET.DRUMNO WHERE APPRODUCTIONBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -397,7 +397,7 @@ namespace Arasan.Services.Qualitycontrol
         public DataTable GetResultItem(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select CDRUMNO,STIME,ITEMID,QTVEBASICID from QTVEBASIC WHERE APPROID='" + id + "'";
+            SvSql = "select DOCID,to_char(QTVEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,to_char(QTVEBASIC.PRODDATE,'dd-MON-yyyy')PRODDATE,CDRUMNO,STIME,ITEMID,QTVEBASICID from QTVEBASIC WHERE APPROID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -405,15 +405,26 @@ namespace Arasan.Services.Qualitycontrol
             return dtt;
         }
 
-        public DataTable GetResultItemDeatils(string id)
+        public DataTable GetProDeatils(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select TESTRESULT from QTVEDETAIL WHERE QTVEBASICID='" + id + "'";
+            SvSql = "SELECT DOCID,APPRODUCTIONBASICID FROM APPRODUCTIONBASIC WHERE APPRODUCTIONBASICID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
         }
+
+        //public DataTable GetResultItemDeatils(string id)
+        //{
+        //    string SvSql = string.Empty;
+        //    SvSql = "select FINALRESULT from FQTVEBASIC WHERE QTVEBASICID='" + id + "'";
+        //    DataTable dtt = new DataTable();
+        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
+        //}
     }
 }
