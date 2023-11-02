@@ -126,7 +126,7 @@
                                             
                                                 <label for="inputName3" class="col-sm-4 control-label">Address<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
-                                                    <textarea class="form-control" id="inputEmail3" type="text" rows="3"></textarea>
+                                            @Html.TextBoxFor(C => C.address, new { @id = "address", @class = "form-control", @TabIndex = 2 })<br />
                                                 </div>
                                             </div>
                                         </div>
@@ -156,10 +156,9 @@
                                  <th>Rate </th>
                                 <th> Amount</th>
                                  <th> Disc %</th>
-                         <th> Disc amount</th>
-                  <th> Cost Rate</th>
-                            @* <th>Assessable Value</th>
-                                  <th>Tariff Id</th>*@
+                            <th> Disc amount</th>
+                            <th> Cost Rate</th>
+                            
                               <th>CGSTP</th>
                                <th>SGSTP</th>
                                 <th>IGSTP</th>

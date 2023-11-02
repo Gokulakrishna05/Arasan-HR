@@ -15,7 +15,7 @@ public interface IPurchaseEnqService
         DataTable GetItemDetails(string ItemId);
         DataTable GetItemCF(string ItemId, string unitid);
         string PurenquriyCRUD(PurchaseEnquiry cy);
-        IEnumerable<PurchaseEnquiry> GetAllPurenquriy(string Active);
+        IEnumerable<PurchaseEnquiry> GetAllPurenquriy(string st, string ed);
         IEnumerable<EnqItem> GetAllPurenquriyItem(string id);
         PurchaseEnquiry GetPurenqServiceById(string id);
         string PurchaseFollowupCRUD(PurchaseFollowup pf);

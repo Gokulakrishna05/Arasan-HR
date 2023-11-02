@@ -5,6 +5,7 @@ using Arasan.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Arasan.Services.Qualitycontrol;
 
 namespace Arasan.Controllers
 {
@@ -294,9 +295,9 @@ namespace Arasan.Controllers
             IEnumerable<POItem> cmp = GRNService.GetAllGRNItem(id);
             return View(cmp);
         }
-        public IActionResult ListGRN(string status)
+        public IActionResult ListGRN(string st, string ed)
         {
-            IEnumerable<GRN> cmp = GRNService.GetAllGRN(status);
+            IEnumerable<GRN> cmp = GRNService.GetAllGRN(st, ed);
             return View(cmp);
         }
         public IActionResult GRNAccount(string id)
@@ -562,6 +563,82 @@ namespace Arasan.Controllers
                 TempData["notice"] = flag;
                 return RedirectToAction("ListGRN");
             }
+        }
+
+
+        public IActionResult ViewGRN(string id)
+        {
+            GRN po = new GRN();
+            DataTable dt = new DataTable();
+            DataTable dtt = new DataTable();
+
+            dt = GRNService.GetViewGRN(id);
+            if (dt.Rows.Count > 0)
+            {
+                po.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                po.GRNNo = dt.Rows[0]["DOCID"].ToString();
+                po.GRNdate = dt.Rows[0]["DOCDATE"].ToString();
+                po.ExRate = dt.Rows[0]["EXRATE"].ToString();
+                po.Cur = dt.Rows[0]["MAINCURRENCY"].ToString();
+                po.Supplier = dt.Rows[0]["PARTYID"].ToString();
+                po.party = dt.Rows[0]["PARTYNAME"].ToString();
+                po.PONo = dt.Rows[0]["DOCID"].ToString();
+                po.ID = id;
+                
+                po.POdt = dt.Rows[0]["PODate"].ToString();
+                po.Packingcharges = Convert.ToDouble(dt.Rows[0]["PACKING_CHRAGES"].ToString());
+                po.Othercharges = Convert.ToDouble(dt.Rows[0]["OTHER_CHARGES"].ToString());
+                po.otherdeduction = Convert.ToDouble(dt.Rows[0]["OTHER_DEDUCTION"].ToString());
+                po.Round = Convert.ToDouble(dt.Rows[0]["ROUND_OFF_PLUS"].ToString());
+                po.Roundminus = Convert.ToDouble(dt.Rows[0]["ROUND_OFF_MINUS"].ToString());
+                po.Narration = dt.Rows[0]["NARRATION"].ToString();
+
+
+                po.RefNo = dt.Rows[0]["REFNO"].ToString();
+                po.RefDate = dt.Rows[0]["REFDT"].ToString();
+
+                po.Frieghtcharge = Convert.ToDouble(dt.Rows[0]["FREIGHT"].ToString());
+
+                po.Gross = Convert.ToDouble(dt.Rows[0]["GROSS"].ToString());
+                po.Net = Convert.ToDouble(dt.Rows[0]["NET"].ToString());
+                po.dispatchname = dt.Rows[0]["DESPTHRU"].ToString(); 
+                po.LRno = dt.Rows[0]["LRNO"].ToString();
+                po.LRdate = dt.Rows[0]["LRDT"].ToString();
+                po.drivername = dt.Rows[0]["TRNSPNAME"].ToString();
+                po.truckno = dt.Rows[0]["truckno"].ToString();
+
+                List<POItem> Data = new List<POItem>();
+                POItem tda = new POItem();
+                //double tot = 0;
+
+                dtt = GRNService.GetViewGRNDetail(id);
+                if (dtt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dtt.Rows.Count; i++)
+                    {
+                        tda.ItemId = dtt.Rows[i]["ITEMID"].ToString();
+                        tda.Unit = dtt.Rows[i]["UNITID"].ToString();
+                        tda.rate = Convert.ToDouble(dtt.Rows[i]["RATE"].ToString());
+                        tda.Quantity = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString());
+                        
+                        tda.CGSTPer = Convert.ToDouble(dtt.Rows[i]["CGSTP"].ToString());
+                        tda.SGSTPer = Convert.ToDouble(dtt.Rows[i]["SGSTP"].ToString());
+                        tda.IGSTPer = Convert.ToDouble(dtt.Rows[i]["IGSTP"].ToString());
+                        tda.CGSTAmt = Convert.ToDouble(dtt.Rows[i]["CGST"].ToString());
+                        tda.SGSTAmt = Convert.ToDouble(dtt.Rows[i]["SGST"].ToString());
+                        tda.IGSTAmt = Convert.ToDouble(dtt.Rows[i]["IGST"].ToString());
+                        tda.DiscPer = Convert.ToDouble(dtt.Rows[i]["DISCPER"].ToString());
+                        tda.DiscAmt = Convert.ToDouble(dtt.Rows[i]["DISC"].ToString());
+                        tda.TotalAmount = Convert.ToDouble(dtt.Rows[i]["TOTAMT"].ToString());
+                        tda.Purtype = dtt.Rows[i]["PURTYPE"].ToString();
+                       
+                        Data.Add(tda);
+                    }
+                }
+
+                po.PoItem = Data;
+            }
+            return View(po);
         }
 
     }

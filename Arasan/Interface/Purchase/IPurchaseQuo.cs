@@ -16,7 +16,7 @@ namespace Arasan.Interface
 
         //DataTable GetItemDetails(string ItemId);
         string PurQuotationCRUD(PurchaseQuo cy);
-        IEnumerable<PurchaseQuo> GetAllPurQuotation(string status);
+        IEnumerable<PurchaseQuo> GetAllPurQuotation(string st, string ed);
         IEnumerable<QoItem> GetAllPurQuotationItem(string id);
         //PurchaseQuo GetPurQuotationById(string id);
         DataTable GetPurQuotationByName(string name);

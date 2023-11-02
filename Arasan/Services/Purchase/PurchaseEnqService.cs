@@ -100,42 +100,50 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        public IEnumerable<PurchaseEnquiry> GetAllPurenquriy(string Active)
+        public IEnumerable<PurchaseEnquiry> GetAllPurenquriy(string st, string ed)
         {
 
-            if (string.IsNullOrEmpty(Active))
-            {
-                Active = "YES";
-            }
+           
             List<PurchaseEnquiry> cmpList = new List<PurchaseEnquiry>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
-
-                using (OracleCommand cmd = con.CreateCommand())
-                {
-                    con.Open();
-                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,ENQNO,to_char(ENQDATE,'dd-MON-yyyy') ENQDATE,EXCRATERATE,PARTYREFNO,CURRENCYID,PARTYMAST.PARTYNAME,PURENQBASICID,PURENQBASIC.STATUS,PURENQBASIC.ACTIVE from PURENQBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PURENQBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on PURENQBASIC.PARTYMASTID=PARTYMAST.PARTYMASTID Where PARTYMAST.TYPE IN ('Supplier','BOTH') and PURENQBASIC.ACTIVE='" + Active + "' order by PURENQBASICID DESC";
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
+               
+                    using (OracleCommand cmd = con.CreateCommand())
                     {
-                        PurchaseEnquiry cmp = new PurchaseEnquiry
-                        {
-                            ID = rdr["PURENQBASICID"].ToString(),
-                            Branch = rdr["BRANCHID"].ToString(),
-                            RefNo = rdr["ENQNO"].ToString(),
-                            Enqdate = rdr["ENQDATE"].ToString(),
-                            ExRate = rdr["EXCRATERATE"].ToString(),
-                            ParNo = rdr["PARTYREFNO"].ToString(),
-                            Cur = rdr["CURRENCYID"].ToString(),
-                            Supplier = rdr["PARTYNAME"].ToString(),
-                            Status= rdr["STATUS"].ToString(),
-                              Active = rdr["ACTIVE"].ToString()
+                        con.Open();
+                    if (st != null && ed != null)
+                    {
+                        cmd.CommandText = "Select BRANCHMAST.BRANCHID,ENQNO,to_char(ENQDATE,'dd-MON-yyyy') ENQDATE,EXCRATERATE,PARTYREFNO,CURRENCYID,PARTYMAST.PARTYNAME,PURENQBASICID,PURENQBASIC.STATUS,PURENQBASIC.ACTIVE from PURENQBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PURENQBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on PURENQBASIC.PARTYMASTID=PARTYMAST.PARTYMASTID Where PARTYMAST.TYPE IN ('Supplier','BOTH') and PURENQBASIC.ENQDATE BETWEEN '" + st + "'  AND ' " + ed + "'order by PURENQBASICID DESC";
 
-
-                        };
-                        cmpList.Add(cmp);
                     }
+                    else
+                    {
+                        cmd.CommandText = "Select BRANCHMAST.BRANCHID,ENQNO,to_char(ENQDATE,'dd-MON-yyyy') ENQDATE,EXCRATERATE,PARTYREFNO,CURRENCYID,PARTYMAST.PARTYNAME,PURENQBASICID,PURENQBASIC.STATUS,PURENQBASIC.ACTIVE from PURENQBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PURENQBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on PURENQBASIC.PARTYMASTID=PARTYMAST.PARTYMASTID Where PARTYMAST.TYPE IN ('Supplier','BOTH') and  PURENQBASIC.ENQDATE > sysdate-30 order by PURENQBASICID desc ";
+
+                    }
+                    OracleDataReader rdr = cmd.ExecuteReader();
+                        while (rdr.Read())
+                        {
+                            PurchaseEnquiry cmp = new PurchaseEnquiry
+                            {
+                                ID = rdr["PURENQBASICID"].ToString(),
+                                Branch = rdr["BRANCHID"].ToString(),
+                                RefNo = rdr["ENQNO"].ToString(),
+                                Enqdate = rdr["ENQDATE"].ToString(),
+                                ExRate = rdr["EXCRATERATE"].ToString(),
+                                ParNo = rdr["PARTYREFNO"].ToString(),
+                                Cur = rdr["CURRENCYID"].ToString(),
+                                Supplier = rdr["PARTYNAME"].ToString(),
+                                Status = rdr["STATUS"].ToString(),
+                                Active = rdr["ACTIVE"].ToString()
+
+
+                            };
+                            cmpList.Add(cmp);
+                        }
+                    
                 }
+              
             }
             return cmpList;
         }

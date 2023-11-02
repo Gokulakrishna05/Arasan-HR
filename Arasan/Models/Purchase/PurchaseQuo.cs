@@ -45,6 +45,8 @@ namespace Arasan.Models
 
         public string EnqDate { get; set; }
         public double Net { get; set; }
+        public string fromdate { get; set; }
+        public string todate { get; set; }
     }
         public class QoItem
         {
@@ -65,9 +67,9 @@ namespace Arasan.Models
         public double TotalAmount { get; set; }
     
         public string Isvalid { get; set; }
+       
 
-
-        }
+    }
     public class QuoFollowup
     {
         public string FolID { get; set; }

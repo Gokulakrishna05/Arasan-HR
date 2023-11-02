@@ -329,9 +329,9 @@ namespace Arasan.Controllers
 
             return RedirectToAction("ListPurchaseQuo");
         }
-        public IActionResult ListEnquiry(string Active)
+        public IActionResult ListEnquiry(string st, string ed)
         {
-            IEnumerable<PurchaseEnquiry> cmp = PurenqService.GetAllPurenquriy(Active);
+            IEnumerable<PurchaseEnquiry> cmp = PurenqService.GetAllPurenquriy(st,ed);
             return View(cmp);
         }
         public List<SelectListItem> BindBranch()
