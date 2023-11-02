@@ -138,9 +138,9 @@ namespace Arasan.Controllers
 
             return View(Cy);
         }
-        public IActionResult ListPurchaseQuo(string status)
+        public IActionResult ListPurchaseQuo(string st, string ed)
         {
-            IEnumerable<PurchaseQuo> cmp = PurquoService.GetAllPurQuotation(status);
+            IEnumerable<PurchaseQuo> cmp = PurquoService.GetAllPurQuotation(st, ed);
             return View(cmp);
         }
         public ActionResult SendMail(string id)

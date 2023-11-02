@@ -5,7 +5,7 @@ namespace Arasan.Interface
 {
     public interface IPO
     {
-        IEnumerable<PO> GetAllPO(string status);
+        IEnumerable<PO> GetAllPO(string st, string ed);
         DataTable GetAllGateInward(string fromdate, string todate);
         IEnumerable<POItem> GetAllPOItem(string Poid);
         IEnumerable<POItem> GetAllGateInwardItem(string GateInwardId);

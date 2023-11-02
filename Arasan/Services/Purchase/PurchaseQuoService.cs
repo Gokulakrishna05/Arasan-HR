@@ -97,42 +97,50 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        public IEnumerable<PurchaseQuo> GetAllPurQuotation(string status)
+        public IEnumerable<PurchaseQuo> GetAllPurQuotation(string st, string ed)
         {
-            if (string.IsNullOrEmpty(status))
-            {
-                status = "Yes";
-            }
+           
             List<PurchaseQuo> cmpList = new List<PurchaseQuo>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
+               
 
-                using (OracleCommand cmd = con.CreateCommand())
-                {
-                    con.Open();
-                    cmd.CommandText = "Select  BRANCHMAST.BRANCHID, DOCID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE ,PARTYMAST.PARTYNAME,PURENQBASIC.ENQNO,PURENQBASIC.ENQDATE,MAINCURRENCY,EXRATE,PURQUOTBASICID,PURQUOTBASIC.STATUS,PURQUOTBASIC.IS_ACTIVE from PURQUOTBASIC LEFT OUTER JOIN PURENQBASIC on PURENQBASIC.PURENQBASICID=PURQUOTBASIC.ENQNO LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PURQUOTBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on PURQUOTBASIC.PARTYID=PARTYMAST.PARTYMASTID Where PARTYMAST.TYPE IN ('Supplier','BOTH') and PURQUOTBASIC.IS_ACTIVE='"+ status + "' ORDER BY PURQUOTBASIC.PURQUOTBASICID DESC";
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
+                    using (OracleCommand cmd = con.CreateCommand())
                     {
-                        PurchaseQuo cmp = new PurchaseQuo
-                        {
-                            ID = rdr["PURQUOTBASICID"].ToString(),
-                            Branch = rdr["BRANCHID"].ToString(),
-                            QuoId = rdr["DOCID"].ToString(),
-                            DocDate = rdr["DOCDATE"].ToString(),
-                            Supplier = rdr["PARTYNAME"].ToString(),
-                            status= rdr["STATUS"].ToString(),
-                            EnqNo = rdr["ENQNO"].ToString(),
-                            EnqDate = rdr["ENQDATE"].ToString(),
-                            Currency = rdr["MAINCURRENCY"].ToString(),
-                            ExRate = rdr["EXRATE"].ToString(),
-                            Active = rdr["IS_ACTIVE"].ToString(),
+                        con.Open();
+                    if (st != null && ed != null)
+                    {
+                        cmd.CommandText = "Select  BRANCHMAST.BRANCHID, DOCID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE ,PARTYMAST.PARTYNAME,PURENQBASIC.ENQNO,PURENQBASIC.ENQDATE,MAINCURRENCY,EXRATE,PURQUOTBASICID,PURQUOTBASIC.STATUS,PURQUOTBASIC.IS_ACTIVE from PURQUOTBASIC LEFT OUTER JOIN PURENQBASIC on PURENQBASIC.PURENQBASICID=PURQUOTBASIC.ENQNO LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PURQUOTBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on PURQUOTBASIC.PARTYID=PARTYMAST.PARTYMASTID Where PARTYMAST.TYPE IN ('Supplier','BOTH') and  PURQUOTBASIC.DOCDATE BETWEEN '" + st + "'  AND ' " + ed + "' ORDER BY PURQUOTBASIC.PURQUOTBASICID DESC";
 
-                        };
-                        cmpList.Add(cmp);
+                    }
+                    else
+                    {
+                        cmd.CommandText = "Select  BRANCHMAST.BRANCHID, DOCID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE ,PARTYMAST.PARTYNAME,PURENQBASIC.ENQNO,PURENQBASIC.ENQDATE,MAINCURRENCY,EXRATE,PURQUOTBASICID,PURQUOTBASIC.STATUS,PURQUOTBASIC.IS_ACTIVE from PURQUOTBASIC LEFT OUTER JOIN PURENQBASIC on PURENQBASIC.PURENQBASICID=PURQUOTBASIC.ENQNO LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PURQUOTBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on PURQUOTBASIC.PARTYID=PARTYMAST.PARTYMASTID Where PARTYMAST.TYPE IN ('Supplier','BOTH') and  PURQUOTBASIC.DOCDATE  > sysdate-30 order by PURQUOTBASICID desc ";
+
+                    }
+                    OracleDataReader rdr = cmd.ExecuteReader();
+                        while (rdr.Read())
+                        {
+                            PurchaseQuo cmp = new PurchaseQuo
+                            {
+                                ID = rdr["PURQUOTBASICID"].ToString(),
+                                Branch = rdr["BRANCHID"].ToString(),
+                                QuoId = rdr["DOCID"].ToString(),
+                                DocDate = rdr["DOCDATE"].ToString(),
+                                Supplier = rdr["PARTYNAME"].ToString(),
+                                status = rdr["STATUS"].ToString(),
+                                EnqNo = rdr["ENQNO"].ToString(),
+                                EnqDate = rdr["ENQDATE"].ToString(),
+                                Currency = rdr["MAINCURRENCY"].ToString(),
+                                ExRate = rdr["EXRATE"].ToString(),
+                                Active = rdr["IS_ACTIVE"].ToString(),
+
+                            };
+                            cmpList.Add(cmp);
+                        }
                     }
                 }
-            }
+            
             return cmpList;
         }
 

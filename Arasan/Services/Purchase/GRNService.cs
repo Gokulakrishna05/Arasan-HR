@@ -16,40 +16,47 @@ namespace Arasan.Services
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
         }
 
-        public IEnumerable<GRN> GetAllGRN(string status)
+        public IEnumerable<GRN> GetAllGRN(string st, string ed)
         {
-            if (string.IsNullOrEmpty(status))
-            {
-                status = "Yes";
-            }
+           
             List<GRN> cmpList = new List<GRN>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
-
-                using (OracleCommand cmd = con.CreateCommand())
-                {
-                    con.Open();
-                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,GRNBLBASIC.DOCID,QCSTATUS,to_char(GRNBLBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,GRNBLBASIC.EXRATE,CURRENCY.MAINCURR,PARTYMAST.PARTYNAME,GRNBLBASIC.GRNBLBASICID,GRNBLBASIC.STATUS,POBASIC.DOCID as PONO,GRNBLBASIC.IS_ACTIVE from GRNBLBASIC LEFT OUTER JOIN POBASIC ON POBASIC.POBASICID=GRNBLBASIC.POBASICID LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=GRNBLBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on POBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=GRNBLBASIC.MAINCURRENCY  ORDER BY GRNBLBASIC.GRNBLBASICID DESC";
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
+               
+                    using (OracleCommand cmd = con.CreateCommand())
                     {
-                        GRN cmp = new GRN
+                        con.Open();
+                        if (st != null && ed != null)
                         {
-                            ID = rdr["GRNBLBASICID"].ToString(),
-                            Branch = rdr["BRANCHID"].ToString(),
-                            PONo = rdr["PONO"].ToString(),
-                            GRNNo = rdr["DOCID"].ToString(),
-                            GRNdate = rdr["DOCDATE"].ToString(),
-                            ExRate = rdr["EXRATE"].ToString(),
-                            Cur = rdr["MAINCURR"].ToString(),
-                            Supplier = rdr["PARTYNAME"].ToString(),
-                            Status = rdr["STATUS"].ToString(),
-                            Active = rdr["IS_ACTIVE"].ToString(),
-                            Qcstatus = rdr["QCSTATUS"].ToString()
+                            cmd.CommandText = "Select BRANCHMAST.BRANCHID,GRNBLBASIC.DOCID,QCSTATUS,to_char(GRNBLBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,GRNBLBASIC.EXRATE,CURRENCY.MAINCURR,PARTYMAST.PARTYNAME,GRNBLBASIC.GRNBLBASICID,GRNBLBASIC.STATUS,POBASIC.DOCID as PONO,GRNBLBASIC.IS_ACTIVE from GRNBLBASIC LEFT OUTER JOIN POBASIC ON POBASIC.POBASICID=GRNBLBASIC.POBASICID LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=GRNBLBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on POBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=GRNBLBASIC.MAINCURRENCY WHERE GRNBLBASIC.DOCDATE BETWEEN '" + st + "'  AND ' " + ed + "' ORDER BY GRNBLBASIC.GRNBLBASICID DESC";
 
-                        };
-                        cmpList.Add(cmp);
-                    }
+                        }
+                        else
+                        {
+                            cmd.CommandText = "Select BRANCHMAST.BRANCHID,GRNBLBASIC.DOCID,QCSTATUS,to_char(GRNBLBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,GRNBLBASIC.EXRATE,CURRENCY.MAINCURR,PARTYMAST.PARTYNAME,GRNBLBASIC.GRNBLBASICID,GRNBLBASIC.STATUS,POBASIC.DOCID as PONO,GRNBLBASIC.IS_ACTIVE from GRNBLBASIC LEFT OUTER JOIN POBASIC ON POBASIC.POBASICID=GRNBLBASIC.POBASICID LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=GRNBLBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on POBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=GRNBLBASIC.MAINCURRENCY WHERE  GRNBLBASIC.DOCDATE  > sysdate-30 order by GRNBLBASICID desc ";
+
+                        }
+                        OracleDataReader rdr = cmd.ExecuteReader();
+                        while (rdr.Read())
+                        {
+                            GRN cmp = new GRN
+                            {
+                                ID = rdr["GRNBLBASICID"].ToString(),
+                                Branch = rdr["BRANCHID"].ToString(),
+                                PONo = rdr["PONO"].ToString(),
+                                GRNNo = rdr["DOCID"].ToString(),
+                                GRNdate = rdr["DOCDATE"].ToString(),
+                                ExRate = rdr["EXRATE"].ToString(),
+                                Cur = rdr["MAINCURR"].ToString(),
+                                Supplier = rdr["PARTYNAME"].ToString(),
+                                Status = rdr["STATUS"].ToString(),
+                                Active = rdr["IS_ACTIVE"].ToString(),
+                                Qcstatus = rdr["QCSTATUS"].ToString()
+
+                            };
+                            cmpList.Add(cmp);
+                        }
+                    
                 }
             }
             return cmpList;
@@ -322,6 +329,28 @@ namespace Arasan.Services
             }
             return "";
 
+        }
+
+        public DataTable GetViewGRN(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select GRNBLBASIC.BRANCHID,GRNBLBASIC.DOCID,to_char(GRNBLBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,GRNBLBASIC.EXRATE,GRNBLBASIC.MAINCURRENCY,PARTYMAST.PARTYNAME,GRNBLBASIC.PARTYID,GRNBLBASICID,GRNBLBASIC.STATUS,POBASIC.DOCID as PONO,to_char(POBASIC.DOCDATE,'dd-MON-yyyy') PODate,GRNBLBASIC.PACKING_CHRAGES,GRNBLBASIC.OTHER_CHARGES,GRNBLBASIC.OTHER_DEDUCTION,GRNBLBASIC.ROUND_OFF_PLUS,GRNBLBASIC.ROUND_OFF_MINUS,GRNBLBASIC.NARRATION,GRNBLBASIC.REFNO,to_char(GRNBLBASIC.REFDT,'dd-MON-yyyy') REFDT,GRNBLBASIC.FREIGHT,GRNBLBASIC.GROSS,GRNBLBASIC.NET,DESPTHRU,LRNO,to_char(LRDT,'dd-MON-yyyy') LRDT,TRNSPNAME,truckno from GRNBLBASIC LEFT OUTER JOIN POBASIC ON POBASIC.POBASICID=GRNBLBASIC.POBASICID LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID=GRNBLBASIC.PARTYID  Where  GRNBLBASIC.GRNBLBASICID ='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetViewGRNDetail(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select GRNBLDETAIL.QTY,GRNBLDETAIL.GRNBLBASICID,GRNBLDETAIL.ITEMID,UNITMAST.UNITID,GRNBLDETAIL.RATE,CGSTP,CGST,SGSTP,SGST,IGSTP,IGST,TOTAMT,DISCPER,DISC,PURTYPE from GRNBLDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=GRNBLDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  where GRNBLDETAIL.GRNBLBASICID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
         }
 
     }

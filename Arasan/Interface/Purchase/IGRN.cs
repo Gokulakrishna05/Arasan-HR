@@ -4,7 +4,7 @@ namespace Arasan.Interface
 {
     public interface IGRN
     {
-        IEnumerable<GRN> GetAllGRN(string status);
+        IEnumerable<GRN> GetAllGRN(string st, string ed);
         IEnumerable<POItem> GetAllGRNItem(string Poid);
         DataTable GetGRNbyID(string Poid);
         DataTable GetGRNItembyID(string Poid);
@@ -13,5 +13,7 @@ namespace Arasan.Interface
         DataTable FetchAccountRec(string GRNId);
         DataTable LedgerList();
         string StatusChange(string tag, int id);
+        DataTable GetViewGRN(string id);
+        DataTable GetViewGRNDetail(string id);
     }
 }

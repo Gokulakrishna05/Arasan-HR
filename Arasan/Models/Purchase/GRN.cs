@@ -32,6 +32,7 @@ namespace Arasan.Models
         public string BranchID { get; set; }
         public string GRNdate { get; set; }
         public string PONo { get; set; }
+        public string POdt{ get; set; }
         public string Qcstatus { get; set; }
         public string ExRate { get; set; }
         public string ParNo { get; set; }
@@ -89,8 +90,14 @@ namespace Arasan.Models
         public double CGST { get; set; }
         public double SGST { get; set; }
         public double IGST { get; set; }
+        public double address { get; set; }
+        
     }
-    public class GRNAccount
+    public class GRNitems
+    {
+    }
+
+        public class GRNAccount
     {
         public string Ledgername { get;set; }   
         public List<SelectListItem> Ledgerlist { get; set; }
