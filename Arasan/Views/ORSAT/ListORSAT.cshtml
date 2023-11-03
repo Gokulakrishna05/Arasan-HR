@@ -85,7 +85,7 @@
                                                         <tr>
                                                             
                                                            
-                                                            <th>Branch</th>
+                                                           @* <th>Branch</th>*@
                                                             <th>Doc Id</th>
                                                             <th>Doc Date</th>
                                                             <th>Time</th>
@@ -101,7 +101,6 @@
                                                             foreach (var item in Model)
                                                             {
                                                                 <tr>
-                                                                    <td>@Html.DisplayFor(modelItem => item.Branch)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.docid)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.docdate)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.time)</td>

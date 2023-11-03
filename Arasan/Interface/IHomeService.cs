@@ -17,5 +17,6 @@ namespace Arasan.Interface
         DataTable GetSalesQuoteFollowupnextReport();
         DataTable GetCurInward();
         DataTable GetCurInwardDoc(string id);
+        DataTable GetMaterialnot();
     }
 }

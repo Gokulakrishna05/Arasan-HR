@@ -600,6 +600,57 @@
 <br />
 <br />
 
+<div class="row">
+    <div class="col-lg-6 top5">
+        <div class="ibox float-e-margins " style="padding-left : 20px;">
+
+            <div class="ibox-content top10" id="demo2">
+                <div class="demo-container">
+                    <div class="table-responsive">
+                        <h3><span style="color:brown">Out of Stock in Store</span></h3><br />
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Location Name</th>
+                                    <th>Date</th>
+                                    <th>Item Name</th>
+                                    <th>Available Stock</th>
+                                    <th>Rquested Qty</th>
+                                    <th>Unit</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+
+                                    int k = 0;
+
+                                    foreach (var item in Model.Materialnotification.ToList())
+                                    {
+                                        <tr>
+                                            <td>@Html.DisplayFor(o => o.Materialnotification[k].Date)</td>
+                                            <td>@Html.DisplayFor(o => o.Materialnotification[k].LocationName)</td>
+                                            <td>@Html.DisplayFor(o => o.Materialnotification[k].ItemName)</td>
+                                            <td><span style="color:red">@Html.DisplayFor(o => o.Materialnotification[k].stockQty)</span></td>
+                                            <td>@Html.DisplayFor(o => o.Materialnotification[k].TotalQty)</td>
+                                            <td>@Html.DisplayFor(o => o.Materialnotification[k].Unit)</td>
+                                        </tr>
+                                        k = k + 1;
+
+                                    }
+                                }
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
 
 
 @*<script>

@@ -80,6 +80,7 @@ namespace Arasan.Models
 
         public string BranchId { get; set; }
         public string SuppId { get; set; }
+        public string Amount { get; set; }
         public string fromdate { get; set; }
         public string todate { get; set; }
 

@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Purchase Return";
+    string sdate = ViewContext.HttpContext.Request.Query["st"];
+    string edate = ViewContext.HttpContext.Request.Query["ed"];
 }
 <style>
     .newwidth {
@@ -33,6 +35,32 @@
                                     <br>
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="inputName3" class="col-sm-3 control-label">From Date  <label class="mandatory">*</label></label>
+                                <div class="col-sm-7">
+                                    <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                        <input id="SStart" class="form-control" readonly="readonly" value="@sdate" />
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputName3" class="col-sm-3 control-label"> To date  <label class="mandatory">*</label></label>
+                                <div class="col-sm-7">
+
+                                    <div class="input-group date to_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                        <input id="SEnd" class="form-control" readonly="readonly" value="@edate" />
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                    </div>
+                                    <button type="button" class="btn  btn-round btn-primary" onclick="changesearch()" style="float: right; color:white;">Search </button>
+                                </div>
+
+                            </div>
+
                         </div>
                         <div class="row">
                             <div class="col-lg-12">
@@ -157,9 +185,90 @@
 
 
     });
+
+</script>
+<script>
+
+    $('.to_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        endDate: new Date(),
+        forceParse: 0
+    });
+
+    $('.form_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        endDate: new Date(),
+        forceParse: 0
+    }).on('changeDate', function (selected) {
+        var minDate = new Date(selected.date.valueOf());
+        $('.to_date').datetimepicker('setStartDate', minDate);
+    });
+
+    function changesearch() {
+
+        var isValid = true;
+
+        if (document.getElementById("SStart").value == "" || document.getElementById("SStart").value == 0) {
+            isValid = false;
+            $(SStart).css({
+                "border": "1px solid red",
+                "background": "#FFCECE"
+            });
+
+            alert("Please Select From Date");
+            isValid = false;
+        }
+        else {
+            $(SStart).css({
+                "border": "",
+                "background": ""
+            });
+        }
+
+
+        if (document.getElementById("SEnd").value == "" || document.getElementById("SEnd").value == 0) {
+            isValid = false;
+            $(SEnd).css({
+                "border": "1px solid red",
+                "background": "#FFCECE"
+            });
+
+            alert("Please Select To date");
+            isValid = false;
+        }
+        else {
+            $(SEnd).css({
+                "border": "",
+                "background": ""
+            });
+        }
+
+        if (isValid == true) {
+
+            var fromDate = document.getElementById("SStart").value;
+            var toDate = document.getElementById("SEnd").value;
+            var url = '@Url.Action("ListPurchaseQuo", "PurchaseQuo")?st=' + fromDate + '&ed=' + toDate;
+            window.location.href = url;
+        }
+
+
+    }
+
+
 </script>
 
-<!-- /container -->
 
 <a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
 <a class="fancyboxe1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
@@ -172,10 +281,14 @@
             width: '80%',
             height: '10%',
             arrows: false,
-
+            afterClose: function () {
+                location.reload();
+                return;
+            }
         });
         fancybox123 = $.fancybox;
     });
+
     function close_popup() {
         fancybox123.close();
         $(".fancybox1").fancybox({
@@ -185,4 +298,27 @@
         });
         $(".fancybox1").eq(0).trigger('click');
     }
+
+
+    function changeStatus(status) {
+        var url = "/PurchaseQuo/ListPurchaseQuo?status=" + status;
+        window.location.href = url;
+        //$.ajax({
+        //    url: 'AssignSession',
+        //    data: { "status": status },
+        //    type: "GET",
+        //    success: function (result) {
+        //        document.getElementById("hdstatus").value = result;
+        //    },
+        //    error: function () {
+        //        alert("Data Not Found");
+        //    }
+        //});
+        //window.location.reload();
+
+    }
+    $(document).ready(function () {
+        var val2 = "@Qid";
+        $('#dllstatus').val(val2);
+    });
 </script>

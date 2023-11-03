@@ -11,7 +11,7 @@ namespace Arasan.Interface
         DataTable GetQCNotify();
         DataTable CuringGroup();
         DataTable curingsubgroup(string curingset);
-        DataTable GetMaterialnot();
+        //DataTable GetMaterialnot();
         DataTable GetAPout();
         DataTable GetAPout1(string id);
         DataTable GetDis(string id);
