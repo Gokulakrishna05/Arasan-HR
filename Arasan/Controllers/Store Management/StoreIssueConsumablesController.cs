@@ -28,6 +28,14 @@ namespace Arasan.Controllers
             ca.Brlst = BindBranch();
             ca.Loclst = GetLoc();
             ca.EnqassignList = BindEmp();
+            ca.Branch = Request.Cookies["BranchId"];
+            ca.User = Request.Cookies["UserName"];
+            ca.DocDate = DateTime.Now.ToString("dd-MMM-yyyy");
+            DataTable dtv = datatrans.GetSequence("ScIss");
+            if (dtv.Rows.Count > 0)
+            {
+                ca.DocNo = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
+            }
             List<SICItem> TData = new List<SICItem>();
             SICItem tda = new SICItem();
             if (id == null)
@@ -36,7 +44,7 @@ namespace Arasan.Controllers
                 for (int i = 0; i < 3; i++)
                 {
                     tda = new SICItem();
-                    tda.ItemGrouplst = BindItemGrplst();
+                    
                     tda.Itemlst = BindItemlst("");
                     tda.Isvalid = "Y";
                     TData.Add(tda);
@@ -56,14 +64,17 @@ namespace Arasan.Controllers
                     ca.ReqNo = dt.Rows[0]["REQNO"].ToString();
                     ca.ID = id;
                     ca.ReqDate = dt.Rows[0]["REQDATE"].ToString();
-                    ca.Location = dt.Rows[0]["TOLOCID"].ToString();
+                    ca.Location = dt.Rows[0]["FROMLOCID"].ToString();
+                    ca.ToLoc = dt.Rows[0]["TOLOCID"].ToString();
                     ca.LocCon = dt.Rows[0]["LOCIDCONS"].ToString();
-                    ca.Process = dt.Rows[0]["PROCESSID"].ToString();
+                    ca.Process = dt.Rows[0]["PROCESSNAME"].ToString();
+                    ca.Processid = dt.Rows[0]["PROCESSID"].ToString();
                     ca.MCNo = dt.Rows[0]["MCID"].ToString();
                     ca.MCNa = dt.Rows[0]["MCNAME"].ToString();
                     ca.Narr = dt.Rows[0]["NARRATION"].ToString();
                     ca.User = dt.Rows[0]["USERID"].ToString();
                     ca.Work = dt.Rows[0]["WCID"].ToString();
+                    ca.Workid = dt.Rows[0]["work"].ToString();
                 }
                 DataTable dt2 = new DataTable();
                 dt2 = StoreIssService.GetSICItemDetails(id);
@@ -73,14 +84,8 @@ namespace Arasan.Controllers
                     {
                         tda = new SICItem();
                         double toaamt = 0;
-                        tda.ItemGrouplst = BindItemGrplst();
-                        DataTable dt3 = new DataTable();
-                        dt3 = datatrans.GetItemSubGroup(dt2.Rows[i]["ITEMID"].ToString());
-                        if (dt3.Rows.Count > 0)
-                        {
-                            tda.ItemGroupId = dt3.Rows[0]["SUBGROUPCODE"].ToString();
-                        }
-                        tda.Itemlst = BindItemlst(tda.ItemGroupId);
+                       
+                        tda.Itemlst = BindItemlst(ca.Location);
                         tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
                         tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
                         DataTable dt4 = new DataTable();
@@ -98,6 +103,7 @@ namespace Arasan.Controllers
                         tda.Amount = toaamt;
 
                         tda.Unit = dt2.Rows[i]["UNITID"].ToString();
+                        tda.Unitid = dt2.Rows[i]["UNIT"].ToString();
                      
                         //tda.DRLst = BindDrum();
                         //tda.SRLst = BindSerial();
@@ -220,11 +226,11 @@ namespace Arasan.Controllers
         {
             try
             {
-                DataTable dtDesg = datatrans.GetItem(value);
+                DataTable dtDesg = StoreIssService.GetItem(value);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEMMASTERID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEM_ID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -281,22 +287,27 @@ namespace Arasan.Controllers
             //        throw ex;
             //    }
             //}
-            public ActionResult GetItemDetail(string ItemId)
+            public ActionResult GetItemDetail(string ItemId,string loc,string branch)
         {
             try
             {
                 DataTable dt = new DataTable();
                 DataTable dt1 = new DataTable();
+                DataTable dt2 = new DataTable();
                 string Desc = "";
                 string unit = "";
+                string unitid = "";
                 string CF = "";
                 string price = "";
+                string stk = "";
+                string lot = "";
                 dt = datatrans.GetItemDetails(ItemId);
 
                 if (dt.Rows.Count > 0)
                 {
                     Desc = dt.Rows[0]["ITEMDESC"].ToString();
-                    unit = dt.Rows[0]["UNITMASTID"].ToString();
+                    unit = dt.Rows[0]["UNITID"].ToString();
+                    unitid = dt.Rows[0]["UNITMASTID"].ToString();
                     price = dt.Rows[0]["LATPURPRICE"].ToString();
                     dt1 = StoreIssService.GetItemCF(ItemId, dt.Rows[0]["UNITMASTID"].ToString());
                     if (dt1.Rows.Count > 0)
@@ -304,8 +315,17 @@ namespace Arasan.Controllers
                         CF = dt1.Rows[0]["CF"].ToString();
                     }
                 }
-
-                var result = new { Desc = Desc, unit = unit, CF = CF, price = price };
+                dt2 = StoreIssService.Getstkqty(ItemId, loc, branch);
+                if (dt2.Rows.Count > 0)
+                {
+                    stk = dt2.Rows[0]["QTY"].ToString();
+                    lot = dt2.Rows[0]["LOT_NO"].ToString();
+                }
+                if (stk == "")
+                {
+                    stk = "0";
+                }
+                var result = new { Desc = Desc, unit = unit, CF = CF, price = price, stk= stk , lot = lot, unitid= unitid };
                 return Json(result);
             }
             catch (Exception ex)
@@ -316,21 +336,92 @@ namespace Arasan.Controllers
 
         public JsonResult GetItemJSON(string itemid)
         {
-            SICItem model = new SICItem();
+            SIPItem model = new SIPItem();
             model.Itemlst = BindItemlst(itemid);
             return Json(BindItemlst(itemid));
 
         }
-        public JsonResult GetItemGrpJSON()
+        public JsonResult GetItemGrpJSON(string id)
         {
             //EnqItem model = new EnqItem();
             //  model.ItemGrouplst = BindItemGrplst(value);
-            return Json(BindItemGrplst());
+            return Json(BindItemlst(id));
         }
 
-        public IActionResult ListStoreIssueCons()
+        public ActionResult GetLocDetail(string ItemId)
         {
-            IEnumerable<StoreIssueConsumables> cmp = StoreIssService.GetAllStoreIssue();
+            try
+            {
+                DataTable dt = new DataTable();
+                DataTable dt1 = new DataTable();
+
+                string narr = "";
+                string narr1 = "";
+                dt = StoreIssService.Getloc(ItemId);
+                if (dt.Rows.Count > 0)
+                {
+                    narr = dt.Rows[0]["LOCID"].ToString();
+                }
+                narr1 = "Issue To " + narr;
+
+                var result = new { narr = narr, narr1 = narr1 };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult GetWorkProcess(string ItemId)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                DataTable dt1 = new DataTable();
+
+                string work = "";
+                string workid = "";
+                string prcess = "";
+                string prcessid = "";
+
+                dt = StoreIssService.Getwork(ItemId);
+
+                if (dt.Rows.Count == 1)
+                {
+
+                    work = dt.Rows[0]["WCID"].ToString();
+                    workid = dt.Rows[0]["WCBASICID"].ToString();
+
+                    prcessid = dt.Rows[0]["PROCESSID"].ToString();
+                    dt1 = StoreIssService.GetProcess(prcessid);
+                    if (dt1.Rows.Count > 0)
+                    {
+                        prcess = dt1.Rows[0]["PROCESSID"].ToString();
+                    }
+
+
+                }
+
+                if (workid == "")
+                {
+                    workid = "0";
+                }
+                if (prcessid == "")
+                {
+                    prcessid = "0";
+                }
+                var result = new { work = work, workid = workid, prcess = prcess, prcessid = prcessid };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public IActionResult ListStoreIssueCons(string st, string ed)
+        {
+            IEnumerable<StoreIssueConsumables> cmp = StoreIssService.GetAllStoreIssue(st,ed);
             return View(cmp);
         }
     }

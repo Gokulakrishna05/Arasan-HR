@@ -1,6 +1,8 @@
 ﻿@model IEnumerable<Arasan.Models.StoresReturn>
 @{
     ViewData["Title"] = "Stores Return";
+    string sdate = ViewContext.HttpContext.Request.Query["st"];
+    string edate = ViewContext.HttpContext.Request.Query["ed"];
 }
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
@@ -11,7 +13,14 @@
         </ol>
     </div>
 </div>
-
+<style>
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
 <div class="wrapper-content ">
     <div class="row">
         <div class="col-lg-12">
@@ -20,6 +29,33 @@
 
                     <form>
                         <div class="row">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="inputName3" class="col-sm-3 control-label">From Date  <label class="mandatory">*</label></label>
+                                    <div class="col-sm-7">
+                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                            @*@Html.TextBoxFor(C => C.SStart, new { @id = "SStart", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })*@
+                                            <input id="SStart" class="form-control" readonly="readonly" value="@sdate" />
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="inputName3" class="col-sm-3 control-label"> To date  <label class="mandatory">*</label></label>
+                                    <div class="col-sm-7">
+
+                                        <div class="input-group date to_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                            @*  @Html.TextBoxFor(C => C.SEnd, new { @id = "SEnd", @class = "form-control", @TabIndex = 2,@size="32",@readonly=true })*@
+                                            <input id="SEnd" class="form-control" readonly="readonly" value="@edate" />
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
+                                        <button type="button" class="btn  btn-round btn-primary" onclick="changesearch()" style="float: right; color:white;">Search </button>
+                                    </div>
+
+                                </div>
+
+                            </div>
                             <div class="col-md-12 ">
                                 <div class=" textalignright">
                                     <a href="@Url.Action("StoresReturn","StoresReturn")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add StoresReturn</a>
@@ -122,6 +158,78 @@
 
 
     });
+    $('.to_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        endDate: new Date(),
+        forceParse: 0
+    });
 
+    $('.form_date').datetimepicker({
+        //   language:  'fr',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        endDate: new Date(),
+        forceParse: 0
+    }).on('changeDate', function (selected) {
+        var minDate = new Date(selected.date.valueOf());
+        $('.to_date').datetimepicker('setStartDate', minDate);
+    });
+    function changesearch() {
+
+        var isValid = true;
+
+        if (document.getElementById("SStart").value == "" || document.getElementById("SStart").value == 0) {
+            isValid = false;
+            $(SStart).css({
+                "border": "1px solid red",
+                "background": "#FFCECE"
+            });
+
+            alert("Please Select From Date");
+            isValid = false;
+        }
+        else {
+            $(SStart).css({
+                "border": "",
+                "background": ""
+            });
+        }
+
+
+        if (document.getElementById("SEnd").value == "" || document.getElementById("SEnd").value == 0) {
+            isValid = false;
+            $(SEnd).css({
+                "border": "1px solid red",
+                "background": "#FFCECE"
+            });
+
+            alert("Please Select To date");
+            isValid = false;
+        }
+        else {
+            $(SEnd).css({
+                "border": "",
+                "background": ""
+            });
+        }
+
+        if (isValid == true) {
+
+            var fromDate = document.getElementById("SStart").value;
+            var toDate = document.getElementById("SEnd").value;
+            var url = '@Url.Action("ListStoresReturn", "StoresReturn")?st=' + fromDate + '&ed=' + toDate;
+            window.location.href = url;
+        }
+    }
 </script>
 

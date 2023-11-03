@@ -19,6 +19,7 @@ namespace Arasan.Models
         public List<SICItem> SICLst { get; set; }
         public List<SelectListItem> Loclst;
         public string Location { get; set; }
+        public string ToLoc { get; set; }
       
         public string ReqNo { get; set; }
         //public string Voucher { get; set; }
@@ -35,6 +36,8 @@ namespace Arasan.Models
         public string Narr { get; set; }
         public string LocCon { get; set; }
         public string Process { get; set; }
+        public string Processid { get; set; }
+        public string Workid { get; set; }
 
 
 
@@ -44,6 +47,7 @@ namespace Arasan.Models
         public string ID { get; set; }
         public string ItemId { get; set; }
         public string saveItemId { get; set; }
+        public string lotno { get; set; }
         public List<SelectListItem> Itemlst { get; set; }
 
         public List<SelectListItem> ItemGrouplst { get; set; }
@@ -53,6 +57,7 @@ namespace Arasan.Models
 
         public string ConFac { get; set; }
         public string Unit { get; set; }
+        public string Unitid { get; set; }
         public string Serial { get; set; }
         public double Quantity { get; set; }
         //   public string unitprim { get; set; }
@@ -64,6 +69,7 @@ namespace Arasan.Models
         public double IndCtr { get; set; }
         public double PendQty { get; set; }
         public double ReqQty { get; set; }
+        public double Stock { get; set; }
         public double FromBin { get; set; }
         //public double SGSTP { get; set; }
         //public double IGSTP { get; set; }

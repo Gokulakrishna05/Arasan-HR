@@ -6,13 +6,16 @@ namespace Arasan.Interface.Stores_Management
 {
     public interface IStoresReturnService
     {
-        IEnumerable<StoresReturn> GetAllStoresReturn();
+        IEnumerable<StoresReturn> GetAllStoresReturn(string st, string ed);
         DataTable GetLocation();
         DataTable GetBranch();
         string StoresReturnCRUD(StoresReturn cy);
+        DataTable GetItem(string id);
         DataTable GetStoresReturn(string id);
         DataTable GetSRItemDetails(string id);
         IEnumerable<StoreItem> GetAllStoresReturnItem(string id);
         DataTable GetItemCF(string ItemId, string unitid);
+        DataTable Getstkqty(string ItemId, string loc, string branch);
+        DataTable Getloc(string Poid);
     }
 }

@@ -30,6 +30,8 @@ namespace Arasan.Models
         public string ID { get; set; }
         public string ItemId { get; set; }
         public string saveItemId { get; set; }
+        public string lotno { get; set; }
+        public string Unitid { get; set; }
         public List<SelectListItem> Itemlst { get; set; }
 
         public List<SelectListItem> ItemGrouplst { get; set; }
@@ -38,6 +40,7 @@ namespace Arasan.Models
         public string ConFac { get; set; }
         public string Unit { get; set; }
         public double Quantity { get; set; }
+        public double Stock { get; set; }
 
         public double rate { get; set; }
         public double Amount { get; set; }
