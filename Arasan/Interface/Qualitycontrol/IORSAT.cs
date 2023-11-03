@@ -7,7 +7,7 @@ namespace Arasan.Interface
 {
     public interface IORSAT
     {
-        DataTable GetBranch();
+        //DataTable GetBranch();
         DataTable Getshift();
         DataTable Getwork();
 

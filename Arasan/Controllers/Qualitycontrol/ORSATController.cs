@@ -28,10 +28,16 @@ namespace Arasan.Controllers.Qualitycontrol
         public IActionResult ORSAT(string id, string tag)
         {
             ORSAT ca = new ORSAT();
-            ca.Brlst = BindBranch();
+            //ca.Brlst = BindBranch();
+            ca.Branch = Request.Cookies["BranchId"];
+            ca.docdate = DateTime.Now.ToString("dd-MMM-yyyy");
             ca.shiftlst = Bindshift();
             ca.worklst = Bindwork();
-
+            //DataTable dtv = datatrans.GetSequence("testv");
+            //if (dtv.Rows.Count > 0)
+            //{
+            //    ca.docid = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
+            //}
             List<ORSATdetails> TData = new List<ORSATdetails>();
             ORSATdetails tda = new ORSATdetails();
             List<ORSATdetails> TData1 = new List<ORSATdetails>();
@@ -91,23 +97,23 @@ namespace Arasan.Controllers.Qualitycontrol
 
             return View(Cy);
         }
-        public List<SelectListItem> BindBranch()
-        {
-            try
-            {
-                DataTable dtDesg = datatrans.GetBranch();
-                List<SelectListItem> lstdesg = new List<SelectListItem>();
-                for (int i = 0; i < dtDesg.Rows.Count; i++)
-                {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["BRANCHID"].ToString(), Value = dtDesg.Rows[i]["BRANCHMASTID"].ToString() });
-                }
-                return lstdesg;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        } 
+        //public List<SelectListItem> BindBranch()
+        //{
+        //    try
+        //    {
+        //        DataTable dtDesg = datatrans.GetBranch();
+        //        List<SelectListItem> lstdesg = new List<SelectListItem>();
+        //        for (int i = 0; i < dtDesg.Rows.Count; i++)
+        //        {
+        //            lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["BRANCHID"].ToString(), Value = dtDesg.Rows[i]["BRANCHMASTID"].ToString() });
+        //        }
+        //        return lstdesg;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //} 
         
         
 
@@ -168,7 +174,8 @@ namespace Arasan.Controllers.Qualitycontrol
             dt = ORSATService.GetViewORSAT(id);
             if (dt.Rows.Count > 0)
             {
-                ca.Branch = dt.Rows[0]["BRANCH"].ToString();
+
+                //ca.Branch = dt.Rows[0]["BRANCH"].ToString();
                 ca.docid = dt.Rows[0]["DOCID"].ToString();
                 ca.docdate = dt.Rows[0]["DOCDATE"].ToString();
                 ca.shift = dt.Rows[0]["SHIFTNO"].ToString();

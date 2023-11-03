@@ -16,7 +16,18 @@ namespace Arasan.Models
         public int EnqFollowcunt { get; set; }
         public int SalesQuoteFollowcunt { get; set; }
         public List<CurIn> CurInlst { get; set; }
+        public List<MatNotifys> Materialnotification { get; set; }
 
+    }
+
+     public class MatNotifys
+    {
+        public string Date { get; set; }
+        public string LocationName { get; set; }
+        public string ItemName { get; set; }
+        public string TotalQty { get; set; }
+        public string Unit { get; set; }
+        public string stockQty { get; set; }
     }
    
     public class CuringGroup

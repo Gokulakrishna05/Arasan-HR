@@ -25,13 +25,20 @@ namespace Arasan.Services.Qualitycontrol
             List<ORSAT> cmpList = new List<ORSAT>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
-                if (st != null && ed != null)
-                {
+               
                     using (OracleCommand cmd = con.CreateCommand())
                     {
                         con.Open();
-
+                        if (st != null && ed != null)
+                        {
                         cmd.CommandText = "SELECT BRANCHMAST.BRANCHID,ORSATBASICID,DOCID,to_char(ORSATBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,SHIFTNO,WCID,to_char(ORSATBASIC.ENTDATE,'dd-MON-yyyy') ENTDATE,ETIME,REMARKS,ACTIVE FROM ORSATBASIC left outer join BRANCHMAST on BRANCHMAST.BRANCHMASTID = ORSATBASIC.BRANCH AND ORSATBASIC.ACTIVE = 'YES' WHERE  ORSATBASIC.DOCDATE BETWEEN '" + st + "'  AND ' " + ed + "' order by ORSATBASICID desc";
+
+                    }
+                    else
+                        {
+                        cmd.CommandText = "SELECT BRANCHMAST.BRANCHID,ORSATBASICID,DOCID,to_char(ORSATBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,SHIFTNO,WCID,to_char(ORSATBASIC.ENTDATE,'dd-MON-yyyy') ENTDATE,ETIME,REMARKS,ACTIVE FROM ORSATBASIC left outer join BRANCHMAST on BRANCHMAST.BRANCHMASTID = ORSATBASIC.BRANCH AND ORSATBASIC.ACTIVE = 'YES' WHERE  ORSATBASIC.DOCDATE > sysdate-30 order by ORSATBASICID desc ";
+
+                        }
                         
 
                         OracleDataReader rdr = cmd.ExecuteReader();
@@ -40,7 +47,7 @@ namespace Arasan.Services.Qualitycontrol
                             ORSAT cmp = new ORSAT
                             {
                                 ID = rdr["ORSATBASICID"].ToString(),
-                                Branch = rdr["BRANCHID"].ToString(),
+                                //Branch = rdr["BRANCHID"].ToString(),
                                 docid = rdr["DOCID"].ToString(),
                                 docdate = rdr["DOCDATE"].ToString(),
                                 entry = rdr["ENTDATE"].ToString(),
@@ -51,7 +58,7 @@ namespace Arasan.Services.Qualitycontrol
                             cmpList.Add(cmp);
                         }
                     }
-                }
+                
             }
             return cmpList;
         }
@@ -99,9 +106,9 @@ namespace Arasan.Services.Qualitycontrol
                         StatementType = "Update";
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                     }
-                    objCmd.Parameters.Add("BRANCH", OracleDbType.NVarchar2).Value = cy.Branch;
+                    //objCmd.Parameters.Add("BRANCH", OracleDbType.NVarchar2).Value = cy.Branch;
                     objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.docid;
-                    objCmd.Parameters.Add("DOCDATE", OracleDbType.Date).Value = DateTime.Parse(cy.docdate);
+                    objCmd.Parameters.Add("DOCDATE", OracleDbType.Date).Value = cy.docdate;
                     objCmd.Parameters.Add("SHIFTNO", OracleDbType.NVarchar2).Value = cy.shift;
                     objCmd.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = cy.work;
                     objCmd.Parameters.Add("ENTDATE", OracleDbType.Date).Value = DateTime.Parse(cy.entry);
@@ -170,16 +177,16 @@ namespace Arasan.Services.Qualitycontrol
 
             return msg;
         }
-        public DataTable GetBranch()
-        {
-            string SvSql = string.Empty;
-            SvSql = "select BRANCHID,BRANCHMASTID from BRANCHMAST";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
+        //public DataTable GetBranch()
+        //{
+        //    string SvSql = string.Empty;
+        //    SvSql = "select BRANCHID,BRANCHMASTID from BRANCHMAST";
+        //    DataTable dtt = new DataTable();
+        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
+        //}
         public DataTable Getshift()
         {
             string SvSql = string.Empty;
@@ -205,7 +212,7 @@ namespace Arasan.Services.Qualitycontrol
         public DataTable GetViewORSAT(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "SELECT ORSATBASICID,BRANCH,DOCID,to_char(ORSATBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,SHIFTNO,WCID,to_char(ORSATBASIC.ENTDATE,'dd-MON-yyyy') ENTDATE,ETIME,REMARKS,ACTIVE FROM ORSATBASIC WHERE ORSATBASIC.ORSATBASICID ='" + id + "' ";
+            SvSql = "SELECT ORSATBASICID,DOCID,to_char(ORSATBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,SHIFTMAST.SHIFTNO,WCID,to_char(ORSATBASIC.ENTDATE,'dd-MON-yyyy') ENTDATE,ETIME,REMARKS,ACTIVE FROM ORSATBASIC LEFT OUTER JOIN SHIFTMAST ON SHIFTMASTID = ORSATBASIC.ORSATBASICID WHERE ORSATBASIC.ORSATBASICID ='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
