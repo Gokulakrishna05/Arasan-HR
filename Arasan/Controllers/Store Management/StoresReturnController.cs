@@ -28,6 +28,13 @@ namespace Arasan.Controllers.Stores_Management
             StoresReturn ca = new StoresReturn();
             ca.Brlst = BindBranch();
             ca.Loc = BindLocation();
+            DataTable dtv = datatrans.GetSequence("sRet");
+            if (dtv.Rows.Count > 0)
+            {
+                ca.DocId = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
+            }
+            ca.Docdate = DateTime.Now.ToString("dd-MMM-yyyy");
+            ca.Branch = Request.Cookies["BranchId"];
             List<StoreItem> TData = new List<StoreItem>();
             StoreItem tda = new StoreItem();
             if (id == null)
@@ -35,7 +42,7 @@ namespace Arasan.Controllers.Stores_Management
                 for (int i = 0; i < 3; i++)
                 {
                     tda = new StoreItem();
-                    tda.ItemGrouplst = BindItemGrplst();
+                   
                     tda.Itemlst = BindItemlst("");
                     tda.Isvalid = "Y";
                     TData.Add(tda);
@@ -60,7 +67,7 @@ namespace Arasan.Controllers.Stores_Management
                     //ca.Currency = dt.Rows[0]["MAINCURRENCY"].ToString();
                     //ca.RefDate = dt.Rows[0]["REFDT"].ToString();
                     //ca.Voucher = dt.Rows[0]["VOUCHER"].ToString();
-                    //ca.Location = dt.Rows[0]["LOCID"].ToString();
+                    ca.Location = dt.Rows[0]["LOCID"].ToString();
                     //ca.Narration = dt.Rows[0]["NARR"].ToString();
 
                 }
@@ -72,14 +79,8 @@ namespace Arasan.Controllers.Stores_Management
                     {
                         tda = new StoreItem();
                         double toaamt = 0;
-                        tda.ItemGrouplst = BindItemGrplst();
-                        DataTable dt3 = new DataTable();
-                        dt3 = datatrans.GetItemSubGroup(dt2.Rows[i]["ITEMID"].ToString());
-                        if (dt3.Rows.Count > 0)
-                        {
-                            tda.ItemGroupId = dt3.Rows[0]["SUBGROUPCODE"].ToString();
-                        }
-                        tda.Itemlst = BindItemlst(tda.ItemGroupId);
+                         
+                        tda.Itemlst = BindItemlst(ca.Location);
                         tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
                         tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
 
@@ -155,9 +156,9 @@ namespace Arasan.Controllers.Stores_Management
 
             return View(Cy);
         }
-        public IActionResult ListStoresReturn()
+        public IActionResult ListStoresReturn(string st, string ed)
         {
-            IEnumerable<StoresReturn> cmp = StoresReturnService.GetAllStoresReturn();
+            IEnumerable<StoresReturn> cmp = StoresReturnService.GetAllStoresReturn(st,ed);
             return View(cmp);
         }
         public List<SelectListItem> BindBranch()
@@ -198,11 +199,11 @@ namespace Arasan.Controllers.Stores_Management
         {
             try
             {
-                DataTable dtDesg = datatrans.GetItem(value);
+                DataTable dtDesg = StoresReturnService.GetItem(value);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEMMASTERID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEM_ID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -212,40 +213,29 @@ namespace Arasan.Controllers.Stores_Management
             }
         }
 
-        public List<SelectListItem> BindItemGrplst()
-        {
-            try
-            {
-                DataTable dtDesg = datatrans.GetItemSubGrp();
-                List<SelectListItem> lstdesg = new List<SelectListItem>();
-                for (int i = 0; i < dtDesg.Rows.Count; i++)
-                {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["SGCODE"].ToString(), Value = dtDesg.Rows[i]["ITEMSUBGROUPID"].ToString() });
-                }
-                return lstdesg;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        public ActionResult GetItemDetail(string ItemId)
+        
+        public ActionResult GetItemDetail(string ItemId,string loc,string branch)
         {
             try
             {
                 DataTable dt = new DataTable();
                 DataTable dt1 = new DataTable();
+                DataTable dt2 = new DataTable();
 
                 string unit = "";
+                string unitid = "";
                 string CF = "";
                 string price = "";
+                string stk = "";
+                string lot = "";
                 dt = datatrans.GetItemDetails(ItemId);
 
                 if (dt.Rows.Count > 0)
                 {
 
                     unit = dt.Rows[0]["UNITID"].ToString();
+                    unitid = dt.Rows[0]["UNITMASTID"].ToString();
+
                     price = dt.Rows[0]["LATPURPRICE"].ToString();
                     dt1 = StoresReturnService.GetItemCF(ItemId, dt.Rows[0]["UNITMASTID"].ToString());
                     if (dt1.Rows.Count > 0)
@@ -253,8 +243,18 @@ namespace Arasan.Controllers.Stores_Management
                         CF = dt1.Rows[0]["CF"].ToString();
                     }
                 }
+                dt2 = StoresReturnService.Getstkqty(ItemId, loc, branch);
+                if (dt2.Rows.Count > 0)
+                {
+                    stk = dt2.Rows[0]["QTY"].ToString();
+                    lot = dt2.Rows[0]["LOT_NO"].ToString();
+                }
+                if (stk == "")
+                {
+                    stk = "0";
+                }
 
-                var result = new { unit = unit, CF = CF, price = price };
+                var result = new { unit = unit, CF = CF, price = price, stk= stk , lot = lot, unitid= unitid };
                 return Json(result);
             }
             catch (Exception ex)
@@ -269,76 +269,42 @@ namespace Arasan.Controllers.Stores_Management
             return Json(BindItemlst(itemid));
 
         }
-        public JsonResult GetItemGrpJSON()
+        public JsonResult GetItemGrpJSON(string itemid)
         {
             //StoreItem model = new StoreItem();
             //  model.ItemGrouplst = BindItemGrplst(value);
-            return Json(BindItemGrplst());
+            return Json(BindItemlst(itemid));
         }
 
+        public ActionResult GetLocDetail(string ItemId)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                DataTable dt1 = new DataTable();
 
+                string narr = "";
+                string narr1 = "";
+                dt = StoresReturnService.Getloc(ItemId);
+                if (dt.Rows.Count > 0)
+                {
+                    narr = dt.Rows[0]["LOCID"].ToString();
+                }
+                narr1 = "Returned From " + narr;
+
+                var result = new {  narr1 = narr1 };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
 
 
 
-//public IActionResult Returnable_NonReturnable_Dc()
-//{
-//    return View();
-//}
-//public IActionResult Stores_Acceptance()
-//{
-//    return View();
-//}
-//public IActionResult Receipt_Against_Returnable_DC()
-//{
-//    return View();
-//}
-//public IActionResult Stores_Issuse_Consumbables()
-//{
-//    return View();
-//}
-////public IActionResult Purchase_Indent()
-////{
-////    return View();
-////}
-////public IActionResult List_Purchase_Indent()
-////{
-////    return View();
-////}
-//public IActionResult Stores_Issuse_Production()
-//{
-//    return View();
-//}
-//public IActionResult Material_Requisition_Short_Close()
-//{
-//    return View();
-//}
 
-
-//public IActionResult Receipt_for_SubContract()
-//{
-//    return View();
-//}
-////public IActionResult Direct_Deducation()
-////{
-////    return View();
-////}
-////public IActionResult Direct_Addition()
-////{
-////    return View();
-////}
-//public IActionResult Sub_Contracting_DC()
-//{
-//    return View();
-//}
-//public IActionResult Item_Transfer()
-//{
-//    return View();
-//}
-//public IActionResult Sub_Contracting_Material_Receipt()
-//{
-//    return View();
-//}
 
 

@@ -9,7 +9,7 @@ namespace Arasan.Interface
         //DataTable GetBranch();
        // DataTable GetLocation();
         string StoreIssueCRUD(StoreIssueConsumables cy);
-        IEnumerable<StoreIssueConsumables> GetAllStoreIssue();
+        IEnumerable<StoreIssueConsumables> GetAllStoreIssue(string st, string ed);
        // DataTable GetEmp();
         DataTable EditSICbyID(string Poid);
         //DataTable GetItem(string value);
@@ -18,9 +18,12 @@ namespace Arasan.Interface
         DataTable GetItemCF(string ItemId, string unitid);
         DataTable GetSICItemDetails(string id);
         IEnumerable<SICItem> GetAllStoreIssueItem(string id);
+        DataTable Getstkqty(string ItemId, string loc, string branch);
 
-        // DataTable GetItemGrp();
-
+        DataTable GetItem(string Poid);
+        DataTable Getloc(string Poid);
+        DataTable Getwork(string Poid);
+        DataTable GetProcess(string Poid);
 
     }
 }
