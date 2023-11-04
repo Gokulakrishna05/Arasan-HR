@@ -211,7 +211,7 @@ namespace Arasan.Services.Production
 
 
                                 DataTable dt = datatrans.GetData("Select ITEMID,DOC_DATE,DRUM_ID,DRUM_NO,TSOURCEID,STOCKTRANSTYPE,LOCID,QTY,BALANCE_QTY,OUT_ID,DRUM_STOCK_ID from DRUM_STOCK where BALANCE_QTY >0 and DRUM_STOCK.DRUM_NO='" + ca.drum + "'");
-
+                                string did = datatrans.GetDataString("Select DIEDETAILID from DIEDETAIL where DIEBASICID='" + Pid + "'");
 
                                 //double qty = ca.Qty;
 
@@ -242,7 +242,8 @@ namespace Arasan.Services.Production
                                             objCmds.Parameters.Add("DOC_DATE", OracleDbType.Date).Value = DateTime.Now;
                                             objCmds.Parameters.Add("DRUM_ID", OracleDbType.NVarchar2).Value = DrumID;
                                             objCmds.Parameters.Add("DRUM_NO", OracleDbType.NVarchar2).Value = ca.drum;
-                                            objCmds.Parameters.Add("TSOURCEID", OracleDbType.NVarchar2).Value = Pid;
+                                            objCmds.Parameters.Add("TSOURCEID", OracleDbType.NVarchar2).Value = did;
+                                            objCmds.Parameters.Add("TSOURCEBASICID", OracleDbType.NVarchar2).Value = Pid;
                                             objCmds.Parameters.Add("STOCKTRANSTYPE", OracleDbType.NVarchar2).Value = "DRUMISSUE";
                                             objCmds.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = cy.Toloc;
                                             objCmds.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = wcid;
@@ -279,7 +280,8 @@ namespace Arasan.Services.Production
                                             objCmdInp.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cy.Itemid;
                                             objCmdInp.Parameters.Add("DOCDATE", OracleDbType.Date).Value = DateTime.Now;
                                             objCmdInp.Parameters.Add("DRUMNO", OracleDbType.NVarchar2).Value = DrumID;
-                                            objCmdInp.Parameters.Add("T1SOURCEID", OracleDbType.NVarchar2).Value = "0";
+                                            objCmdInp.Parameters.Add("T1SOURCEID", OracleDbType.NVarchar2).Value = did;
+                                            objCmdInp.Parameters.Add("T1SOURCEBASICID", OracleDbType.NVarchar2).Value = Pid;
                                             objCmdInp.Parameters.Add("SOURCETYPE", OracleDbType.NVarchar2).Value = "DRUMISSUE";
                                             objCmdInp.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = cy.Toloc;
                                             objCmdInp.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = wcid;

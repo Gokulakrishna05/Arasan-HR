@@ -76,7 +76,8 @@
 
                                                             <th>Branch </th>
                                                             <th>Location</th>
-                                                            <th>Document ID</th>
+                                                            <th>Doc ID</th>
+                                                            <th>Doc Date</th>
                                                             @*<th>Document Date</th>*@
                                                             <th>Edit</th>
                                                             <th>Delete</th>
@@ -93,26 +94,14 @@
                                                                     <td>@Html.DisplayFor(modelItem => item.Branch)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.Location)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.DocId)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Docdate)</td>
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("StoresReturn", "StoresReturn",new { id=item.ID })"></a></div></td>
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("StoresReturn", "StoresReturn",new { id=item.ID })"></a></div></td>
                                                                 </tr>
                                                                 i++;
                                                             }
                                                         }
-                                                        @*<tr>
-                                                            <td>2</td>
-                                                            <td>SGST</td>
-                                                            <td>2%</td>
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("StoresReturn", "StoresReturn")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("StoresReturn", "StoresReturn")"></a></div></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>3</td>
-                                                            <td>IGST</td>
-                                                            <td>10%</td>
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("StoresReturn", "StoresReturn")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("StoresReturn", "StoresReturn")"></a></div></td>
-                                                        </tr>*@
+                                                       
                                                     </tbody>
                                                 </table>
                                             </div>

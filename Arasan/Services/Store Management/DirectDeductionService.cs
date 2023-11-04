@@ -162,7 +162,8 @@ namespace Arasan.Services.Store_Management
                                                 objCmdIn.CommandType = CommandType.StoredProcedure;
                                                 objCmdIn.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
                                                 objCmdIn.Parameters.Add("INVENTORY_ITEM_ID", OracleDbType.NVarchar2).Value = cp.ItemId;
-                                                objCmdIn.Parameters.Add("GRN_ID", OracleDbType.NVarchar2).Value = dt.Rows[i]["GRN_ID"].ToString();
+                                                objCmdIn.Parameters.Add("T1SOURCEID", OracleDbType.NVarchar2).Value = Prid;
+                                                objCmdIn.Parameters.Add("T1SOURCEBASICID", OracleDbType.NVarchar2).Value = Pid;
                                                 objCmdIn.Parameters.Add("ITEM_ID", OracleDbType.NVarchar2).Value = dt.Rows[i]["INVENTORY_ITEM_ID"].ToString();
                                                 objCmdIn.Parameters.Add("TRANS_TYPE", OracleDbType.NVarchar2).Value = "DDED";
                                                 objCmdIn.Parameters.Add("TRANS_IMPACT", OracleDbType.NVarchar2).Value = "O";
@@ -202,7 +203,8 @@ namespace Arasan.Services.Store_Management
                                                 objCmdIn.CommandType = CommandType.StoredProcedure;
                                                 objCmdIn.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
                                                 objCmdIn.Parameters.Add("INVENTORY_ITEM_ID", OracleDbType.NVarchar2).Value = cp.ItemId;
-                                                objCmdIn.Parameters.Add("GRN_ID", OracleDbType.NVarchar2).Value = dt.Rows[i]["GRN_ID"].ToString();
+                                                objCmdIn.Parameters.Add("T1SOURCEID", OracleDbType.NVarchar2).Value = Prid;
+                                                objCmdIn.Parameters.Add("T1SOURCEBASICID", OracleDbType.NVarchar2).Value = Pid;
                                                 objCmdIn.Parameters.Add("ITEM_ID", OracleDbType.NVarchar2).Value = dt.Rows[i]["INVENTORY_ITEM_ID"].ToString();
                                                 objCmdIn.Parameters.Add("TRANS_TYPE", OracleDbType.NVarchar2).Value = "DDED";
                                                 objCmdIn.Parameters.Add("TRANS_IMPACT", OracleDbType.NVarchar2).Value = "O";
