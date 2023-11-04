@@ -44,6 +44,7 @@ namespace Arasan.Controllers.Stores_Management
                     tda = new StoreItem();
                    
                     tda.Itemlst = BindItemlst("");
+                    tda.Binlst = BindBin();
                     tda.Isvalid = "Y";
                     TData.Add(tda);
                 }
@@ -67,8 +68,8 @@ namespace Arasan.Controllers.Stores_Management
                     //ca.Currency = dt.Rows[0]["MAINCURRENCY"].ToString();
                     //ca.RefDate = dt.Rows[0]["REFDT"].ToString();
                     //ca.Voucher = dt.Rows[0]["VOUCHER"].ToString();
-                    ca.Location = dt.Rows[0]["LOCID"].ToString();
-                    //ca.Narration = dt.Rows[0]["NARR"].ToString();
+                    ca.Location = dt.Rows[0]["FROMLOCID"].ToString();
+                    ca.Narr = dt.Rows[0]["NARRATION"].ToString();
 
                 }
                 DataTable dt2 = new DataTable();
@@ -98,7 +99,10 @@ namespace Arasan.Controllers.Stores_Management
                         //tda.QtyPrim= Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
                         tda.Amount = toaamt;
                         tda.Unit = dt2.Rows[i]["UNITID"].ToString();
-
+                        tda.Unitid = dt2.Rows[i]["UNIT"].ToString();
+                        tda.FromBin = dt2.Rows[i]["FROMBINID"].ToString();
+                        tda.Binlst = BindBin();
+                        tda.ToBin = dt2.Rows[i]["TOBINID"].ToString();
                         //tda.FromBin = Convert.ToDouble(dt2.Rows[i]["FROMBINID"].ToString() == "" ? "0" : dt2.Rows[i]["FROMBINID"].ToString());
                         //tda.ToBin = Convert.ToDouble(dt2.Rows[i]["TOBINID"].ToString() == "" ? "0" : dt2.Rows[i]["TOBINID"].ToString());
 
@@ -195,6 +199,23 @@ namespace Arasan.Controllers.Stores_Management
                 throw ex;
             }
         }
+        public List<SelectListItem> BindBin()
+        {
+            try
+            {
+                DataTable dtDesg = StoresReturnService.GetBin();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["BINID"].ToString(), Value = dtDesg.Rows[i]["BINBASICID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<SelectListItem> BindItemlst(string value)
         {
             try
@@ -228,6 +249,7 @@ namespace Arasan.Controllers.Stores_Management
                 string price = "";
                 string stk = "";
                 string lot = "";
+                string bin = "";
                 dt = datatrans.GetItemDetails(ItemId);
 
                 if (dt.Rows.Count > 0)
@@ -235,6 +257,7 @@ namespace Arasan.Controllers.Stores_Management
 
                     unit = dt.Rows[0]["UNITID"].ToString();
                     unitid = dt.Rows[0]["UNITMASTID"].ToString();
+                    bin = dt.Rows[0]["BINID"].ToString();
 
                     price = dt.Rows[0]["LATPURPRICE"].ToString();
                     dt1 = StoresReturnService.GetItemCF(ItemId, dt.Rows[0]["UNITMASTID"].ToString());
@@ -254,7 +277,7 @@ namespace Arasan.Controllers.Stores_Management
                     stk = "0";
                 }
 
-                var result = new { unit = unit, CF = CF, price = price, stk= stk , lot = lot, unitid= unitid };
+                var result = new { unit = unit, CF = CF, price = price, stk= stk , lot = lot, unitid= unitid , bin = bin };
                 return Json(result);
             }
             catch (Exception ex)
@@ -274,6 +297,12 @@ namespace Arasan.Controllers.Stores_Management
             //StoreItem model = new StoreItem();
             //  model.ItemGrouplst = BindItemGrplst(value);
             return Json(BindItemlst(itemid));
+        }
+        public JsonResult GetItemBinJSON()
+        {
+            //StoreItem model = new StoreItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(BindBin());
         }
 
         public ActionResult GetLocDetail(string ItemId)

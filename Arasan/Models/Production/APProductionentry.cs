@@ -69,6 +69,7 @@ namespace Arasan.Models
         public string ItemId { get; set; }
         public string Item { get; set; }
         public string APID { get; set; }
+        public string inpid { get; set; }
         public string saveitemId { get; set; }
 
         public List<SelectListItem> Itemlst { get; set; }
@@ -140,6 +141,7 @@ namespace Arasan.Models
         public List<SelectListItem> Itemlst { get; set; }
 		public double ConsStock { get; set; }
 		public string consunit { get; set; }
+		public string consid { get; set; }
 		public string unitid { get; set; }
 		public string consBin { get; set; }
 		public double consQty { get; set; }

@@ -34,7 +34,7 @@ namespace Arasan.Models
         public string Unitid { get; set; }
         public List<SelectListItem> Itemlst { get; set; }
 
-        public List<SelectListItem> ItemGrouplst { get; set; }
+        public List<SelectListItem> Binlst { get; set; }
 
         public string ItemGroupId { get; set; }
         public string ConFac { get; set; }

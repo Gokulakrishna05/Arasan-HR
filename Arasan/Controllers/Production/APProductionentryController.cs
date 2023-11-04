@@ -330,6 +330,7 @@ namespace Arasan.Controllers
                     tda.Itemlst = BindItemlst();
                    
                     tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
+                    
                     tda.Item = dt2.Rows[i]["item"].ToString();
                     tda.lotlist = BindLotNo(tda.Item, ca.LOCID, ca.BranchId);
                     tda.Time = dt2.Rows[i]["CHARGINGTIME"].ToString();
@@ -337,6 +338,7 @@ namespace Arasan.Controllers
                     tda.batchno = dt2.Rows[i]["BATCHNO"].ToString();
                     tda.IssueQty = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString() == "" ? "0" : dt2.Rows[i]["QTY"].ToString());
                     tda.StockAvailable = Convert.ToDouble(dt2.Rows[i]["STOCK"].ToString() == "" ? "0" : dt2.Rows[i]["STOCK"].ToString());
+                    tda.inpid = dt2.Rows[i]["APPRODINPDETID"].ToString();
                     tda.APID = id;
                     tda.Isvalid = "Y";
                     TData.Add(tda);
@@ -357,6 +359,7 @@ namespace Arasan.Controllers
                     tda1.ItemId = dt3.Rows[i]["ITEMID"].ToString();
                     tda1.saveitemId = dt3.Rows[i]["item"].ToString();
                     tda1.consunit = dt3.Rows[i]["UNITID"].ToString();
+                    tda1.consid = dt3.Rows[i]["APPRODCONSDETID"].ToString();
                     tda1.BinId = dt3.Rows[i]["BINID"].ToString();
                     tda1.Qty = Convert.ToDouble(dt3.Rows[i]["QTY"].ToString() == "" ? "0" : dt3.Rows[i]["QTY"].ToString());
                     tda1.consQty = Convert.ToDouble(dt3.Rows[i]["CONSQTY"].ToString() == "" ? "0" : dt3.Rows[i]["CONSQTY"].ToString());

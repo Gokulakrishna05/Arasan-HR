@@ -1142,6 +1142,7 @@ namespace Arasan.Controllers
                     tda1.ItemId = dt3.Rows[i]["ITEMID"].ToString();
                     tda1.saveitemId = dt3.Rows[i]["item"].ToString();
                     tda1.consunit = dt3.Rows[i]["UNITID"].ToString();
+                    tda1.consid = dt3.Rows[i]["PYROPRODCONSDETID"].ToString();
                     tda1.BinId = dt3.Rows[i]["BINID"].ToString();
                     tda1.Qty = Convert.ToDouble(dt3.Rows[i]["QTY"].ToString() == "" ? "0" : dt3.Rows[i]["QTY"].ToString());
                     tda1.consQty = Convert.ToDouble(dt3.Rows[i]["CONSQTY"].ToString() == "" ? "0" : dt3.Rows[i]["CONSQTY"].ToString());

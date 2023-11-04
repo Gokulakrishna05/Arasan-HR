@@ -325,6 +325,7 @@
 
                                                                                             @Html.HiddenFor(o => o.inplst[i].Item,new{@id="item" + i})
                                                                                             @Html.DisplayFor(o => o.inplst[i].ItemId)
+                                                                                            @Html.DisplayFor(o => o.inplst[i].inpid)
 
                                                                                         </td>
                                                                                     <td>
@@ -391,6 +392,7 @@
 
                                                                                     <td>
                                                                                             @Html.DisplayFor(o => o.Binconslst[j].ItemId)@Html.HiddenFor(o => o.Binconslst[j].saveitemId)
+                                                                                             @Html.HiddenFor(o => o.Binconslst[j].consid)
                                                                                     </td>
                                                                                     <td>
                                                                                         @Html.DisplayFor(o => o.Binconslst[j].consunit)

@@ -8,6 +8,7 @@ namespace Arasan.Interface.Stores_Management
     {
         IEnumerable<StoresReturn> GetAllStoresReturn(string st, string ed);
         DataTable GetLocation();
+        DataTable GetBin();
         DataTable GetBranch();
         string StoresReturnCRUD(StoresReturn cy);
         DataTable GetItem(string id);

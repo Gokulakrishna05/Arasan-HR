@@ -212,10 +212,12 @@ namespace Arasan.Services
                                     objCmds.Parameters.Add("CLSTOCK", OracleDbType.NVarchar2).Value = cp.Stock;
                                     objCmds.Parameters.Add("CONVFACTOR", OracleDbType.NVarchar2).Value = cp.ConFac;
                                     objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                                    objCmds.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                                     objConns.Open();
                                     objCmds.ExecuteNonQuery();
+                                    Object did = objCmds.Parameters["OUTID"].Value;
                                     objConns.Close();
-                                }
+                             
 
                                 try
                                 {
@@ -240,8 +242,8 @@ namespace Arasan.Services
 
                                                     string Sql = string.Empty;
                                                     Sql = "Update INVENTORY_ITEM SET  BALANCE_QTY='" + bqty + "' WHERE INVENTORY_ITEM_ID='" + dt.Rows[i]["INVENTORY_ITEM_ID"].ToString() + "'";
-                                                    OracleCommand objCmds = new OracleCommand(Sql, objConnT);
-                                                    objCmds.ExecuteNonQuery();
+                                                    OracleCommand objCmdsa = new OracleCommand(Sql, objConnT);
+                                                        objCmdsa.ExecuteNonQuery();
 
 
 
@@ -250,7 +252,8 @@ namespace Arasan.Services
                                                     objCmdIn.CommandType = CommandType.StoredProcedure;
                                                     objCmdIn.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
                                                     objCmdIn.Parameters.Add("ITEM_ID", OracleDbType.NVarchar2).Value = cp.ItemId;
-                                                    objCmdIn.Parameters.Add("GRN_ID", OracleDbType.NVarchar2).Value = "0";
+                                                    objCmdIn.Parameters.Add("TSOURCEID", OracleDbType.NVarchar2).Value = did;
+                                                    objCmdIn.Parameters.Add("TSOURCEBASICID", OracleDbType.NVarchar2).Value = Pid;
                                                     objCmdIn.Parameters.Add("GRN_DATE", OracleDbType.NVarchar2).Value = cy.DocDate;
                                                     objCmdIn.Parameters.Add("REC_GOOD_QTY", OracleDbType.NVarchar2).Value = qty;
                                                     objCmdIn.Parameters.Add("BALANCE_QTY", OracleDbType.NVarchar2).Value = qty;
@@ -280,7 +283,8 @@ namespace Arasan.Services
                                                         objCmdIns.CommandType = CommandType.StoredProcedure;
                                                         objCmdIns.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
                                                         objCmdIns.Parameters.Add("INVENTORY_ITEM_ID", OracleDbType.NVarchar2).Value = cp.ItemId;
-                                                        objCmdIns.Parameters.Add("GRN_ID", OracleDbType.NVarchar2).Value = "0";
+                                                        objCmdIns.Parameters.Add("TSOURCEID", OracleDbType.NVarchar2).Value = did;
+                                                        objCmdIns.Parameters.Add("TSOURCEBASICID", OracleDbType.NVarchar2).Value = Pid;
                                                         objCmdIns.Parameters.Add("ITEM_ID", OracleDbType.NVarchar2).Value = inid;
                                                         objCmdIns.Parameters.Add("TRANS_TYPE", OracleDbType.NVarchar2).Value = "ISSUEPROD";
                                                         objCmdIns.Parameters.Add("TRANS_IMPACT", OracleDbType.NVarchar2).Value = "I";
@@ -319,8 +323,8 @@ namespace Arasan.Services
 
                                                     string Sql = string.Empty;
                                                     Sql = "Update INVENTORY_ITEM SET  BALANCE_QTY='" + rqty + "' WHERE INVENTORY_ITEM_ID='" + dt.Rows[i]["INVENTORY_ITEM_ID"].ToString() + "'";
-                                                    OracleCommand objCmds = new OracleCommand(Sql, objConn);
-                                                    objCmds.ExecuteNonQuery();
+                                                    OracleCommand objCmdsz = new OracleCommand(Sql, objConn);
+                                                        objCmdsz.ExecuteNonQuery();
 
 
 
@@ -328,7 +332,8 @@ namespace Arasan.Services
                                                     objCmdIn.CommandType = CommandType.StoredProcedure;
                                                     objCmdIn.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
                                                     objCmdIn.Parameters.Add("ITEM_ID", OracleDbType.NVarchar2).Value = cp.ItemId;
-                                                    objCmdIn.Parameters.Add("GRN_ID", OracleDbType.NVarchar2).Value = "0";
+                                                    objCmdIn.Parameters.Add("TSOURCEID", OracleDbType.NVarchar2).Value = did;
+                                                    objCmdIn.Parameters.Add("TSOURCEBASICID", OracleDbType.NVarchar2).Value = Pid;
                                                     objCmdIn.Parameters.Add("GRN_DATE", OracleDbType.NVarchar2).Value = cy.DocDate;
                                                     objCmdIn.Parameters.Add("REC_GOOD_QTY", OracleDbType.NVarchar2).Value = qty;
                                                     objCmdIn.Parameters.Add("BALANCE_QTY", OracleDbType.NVarchar2).Value = qty;
@@ -357,7 +362,8 @@ namespace Arasan.Services
                                                         objCmdIns.CommandType = CommandType.StoredProcedure;
                                                         objCmdIns.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
                                                         objCmdIns.Parameters.Add("INVENTORY_ITEM_ID", OracleDbType.NVarchar2).Value = cp.ItemId;
-                                                        objCmdIns.Parameters.Add("GRN_ID", OracleDbType.NVarchar2).Value = "0";
+                                                        objCmdIns.Parameters.Add("TSOURCEID", OracleDbType.NVarchar2).Value = did;
+                                                        objCmdIns.Parameters.Add("TSOURCEBASICID", OracleDbType.NVarchar2).Value = Pid;
                                                         objCmdIns.Parameters.Add("ITEM_ID", OracleDbType.NVarchar2).Value = inid;
                                                         objCmdIns.Parameters.Add("TRANS_TYPE", OracleDbType.NVarchar2).Value = "ISSUEPROD";
                                                         objCmdIns.Parameters.Add("TRANS_IMPACT", OracleDbType.NVarchar2).Value = "I";
@@ -402,7 +408,7 @@ namespace Arasan.Services
                                     msg = "Error Occurs, While inserting / updating Data";
                                     throw ex;
                                 }
-
+                            }
                             }
                         }
 

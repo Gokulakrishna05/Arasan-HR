@@ -295,12 +295,13 @@ namespace Arasan.Services
                                             objCmdIn.CommandType = CommandType.StoredProcedure;
                                             objCmdIn.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
                                             objCmdIn.Parameters.Add("INVENTORY_ITEM_ID", OracleDbType.NVarchar2).Value = cp.Item;
-                                            objCmdIn.Parameters.Add("GRN_ID", OracleDbType.NVarchar2).Value = dt.Rows[i]["GRN_ID"].ToString();
+                                            objCmdIn.Parameters.Add("TSOURCEID", OracleDbType.NVarchar2).Value = cp.inpid;
+                                            objCmdIn.Parameters.Add("TSOURCEBASICID", OracleDbType.NVarchar2).Value = cy.ID;
                                             objCmdIn.Parameters.Add("ITEM_ID", OracleDbType.NVarchar2).Value = dt.Rows[i]["INVENTORY_ITEM_ID"].ToString();
-                                            objCmdIn.Parameters.Add("TRANS_TYPE", OracleDbType.NVarchar2).Value = "ISSUETOAPROD";
+                                            objCmdIn.Parameters.Add("TRANS_TYPE", OracleDbType.NVarchar2).Value = "APROD";
                                             objCmdIn.Parameters.Add("TRANS_IMPACT", OracleDbType.NVarchar2).Value = "O";
                                             objCmdIn.Parameters.Add("TRANS_QTY", OracleDbType.NVarchar2).Value = qty;
-                                            objCmdIn.Parameters.Add("TRANS_NOTES", OracleDbType.NVarchar2).Value = "ISSUETOAPROD";
+                                            objCmdIn.Parameters.Add("TRANS_NOTES", OracleDbType.NVarchar2).Value = "APROD";
                                             objCmdIn.Parameters.Add("TRANS_DATE", OracleDbType.Date).Value = DateTime.Now;
                                             objCmdIn.Parameters.Add("FINANCIAL_YEAR", OracleDbType.NVarchar2).Value = datatrans.GetFinancialYear(DateTime.Now);
                                             objCmdIn.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = "1"; /*HttpContext.*/
@@ -360,12 +361,13 @@ namespace Arasan.Services
                                             objCmdIn.CommandType = CommandType.StoredProcedure;
                                             objCmdIn.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
                                             objCmdIn.Parameters.Add("INVENTORY_ITEM_ID", OracleDbType.NVarchar2).Value = cp.Item;
-                                            objCmdIn.Parameters.Add("GRN_ID", OracleDbType.NVarchar2).Value = dt.Rows[i]["GRN_ID"].ToString();
+                                            objCmdIn.Parameters.Add("TSOURCEID", OracleDbType.NVarchar2).Value = cp.inpid;
+                                            objCmdIn.Parameters.Add("TSOURCEBASICID", OracleDbType.NVarchar2).Value = cy.ID;
                                             objCmdIn.Parameters.Add("ITEM_ID", OracleDbType.NVarchar2).Value = dt.Rows[i]["INVENTORY_ITEM_ID"].ToString();
-                                            objCmdIn.Parameters.Add("TRANS_TYPE", OracleDbType.NVarchar2).Value = "ISSUETOBPROD";
+                                            objCmdIn.Parameters.Add("TRANS_TYPE", OracleDbType.NVarchar2).Value = "APROD";
                                             objCmdIn.Parameters.Add("TRANS_IMPACT", OracleDbType.NVarchar2).Value = "O";
                                             objCmdIn.Parameters.Add("TRANS_QTY", OracleDbType.NVarchar2).Value = rqty;
-                                            objCmdIn.Parameters.Add("TRANS_NOTES", OracleDbType.NVarchar2).Value = "ISSUETOBPROD";
+                                            objCmdIn.Parameters.Add("TRANS_NOTES", OracleDbType.NVarchar2).Value = "APROD";
                                             objCmdIn.Parameters.Add("TRANS_DATE", OracleDbType.Date).Value = DateTime.Now;
                                             objCmdIn.Parameters.Add("FINANCIAL_YEAR", OracleDbType.NVarchar2).Value = datatrans.GetFinancialYear(DateTime.Now);
                                             objCmdIn.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = "1"; /*HttpContext.*/
@@ -449,7 +451,8 @@ namespace Arasan.Services
                                             objCmdIn.CommandType = CommandType.StoredProcedure;
                                             objCmdIn.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
                                             objCmdIn.Parameters.Add("INVENTORY_ITEM_ID", OracleDbType.NVarchar2).Value = cp.saveitemId;
-                                            objCmdIn.Parameters.Add("GRN_ID", OracleDbType.NVarchar2).Value = dt.Rows[i]["GRN_ID"].ToString();
+                                            objCmdIn.Parameters.Add("TSOURCEID", OracleDbType.NVarchar2).Value =cp.consid;
+                                            objCmdIn.Parameters.Add("TSOURCEBASICID", OracleDbType.NVarchar2).Value =cy.ID;
                                             objCmdIn.Parameters.Add("ITEM_ID", OracleDbType.NVarchar2).Value = dt.Rows[i]["INVENTORY_ITEM_ID"].ToString();
                                             objCmdIn.Parameters.Add("TRANS_TYPE", OracleDbType.NVarchar2).Value = "ISSUETOBPROD";
                                             objCmdIn.Parameters.Add("TRANS_IMPACT", OracleDbType.NVarchar2).Value = "O";
@@ -486,7 +489,8 @@ namespace Arasan.Services
                                             objCmdIn.CommandType = CommandType.StoredProcedure;
                                             objCmdIn.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
                                             objCmdIn.Parameters.Add("INVENTORY_ITEM_ID", OracleDbType.NVarchar2).Value = cp.saveitemId;
-                                            objCmdIn.Parameters.Add("GRN_ID", OracleDbType.NVarchar2).Value = dt.Rows[i]["GRN_ID"].ToString();
+                                            objCmdIn.Parameters.Add("TSOURCEID", OracleDbType.NVarchar2).Value = cp.consid;
+                                            objCmdIn.Parameters.Add("TSOURCEBASICID", OracleDbType.NVarchar2).Value = cy.ID;
                                             objCmdIn.Parameters.Add("ITEM_ID", OracleDbType.NVarchar2).Value = dt.Rows[i]["INVENTORY_ITEM_ID"].ToString();
                                             objCmdIn.Parameters.Add("TRANS_TYPE", OracleDbType.NVarchar2).Value = "ISSUETOBPROD";
                                             objCmdIn.Parameters.Add("TRANS_IMPACT", OracleDbType.NVarchar2).Value = "O";
@@ -536,6 +540,7 @@ namespace Arasan.Services
                                 objCmdIn.Parameters.Add("DRUM_ID", OracleDbType.NVarchar2).Value = cp.drumid;
                                 objCmdIn.Parameters.Add("DRUM_NO", OracleDbType.NVarchar2).Value = cp.drumno;
                                 objCmdIn.Parameters.Add("TSOURCEID", OracleDbType.NVarchar2).Value = cp.outid;
+                                objCmdIn.Parameters.Add("TSOURCEBASICID", OracleDbType.NVarchar2).Value = cy.ID;
                                 objCmdIn.Parameters.Add("STOCKTRANSTYPE", OracleDbType.NVarchar2).Value = "APOUTDET";
                                 objCmdIn.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = "10036000012392";
                                 objCmdIn.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = wcid;
@@ -578,6 +583,7 @@ namespace Arasan.Services
                                 objCmdInp.Parameters.Add("DOCDATE", OracleDbType.Date).Value = DateTime.Now;
                                 objCmdInp.Parameters.Add("DRUMNO", OracleDbType.NVarchar2).Value = cp.drumid;
                                 objCmdInp.Parameters.Add("T1SOURCEID", OracleDbType.NVarchar2).Value = cp.outid;
+                                objCmdInp.Parameters.Add("TSOURCEBASICID", OracleDbType.NVarchar2).Value = cy.ID;
                                 objCmdInp.Parameters.Add("SOURCETYPE", OracleDbType.NVarchar2).Value = "APOUTDET";
                                 objCmdInp.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = "10036000012392";
                                 objCmdInp.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = wcid;
@@ -1080,7 +1086,7 @@ namespace Arasan.Services
         public DataTable GetInputDeatils(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select APPRODUCTIONBASICID,ITEMMASTER.ITEMID,APPRODINPDET.ITEMID as item ,BATCHNO,BINID,STOCK,QTY,CHARGINGTIME from APPRODINPDET  left outer join ITEMMASTER ON ITEMMASTER.ITEMMASTERID= APPRODINPDET.ITEMID  where APPRODUCTIONBASICID='" + id + "' ";
+            SvSql = "select APPRODUCTIONBASICID,ITEMMASTER.ITEMID,APPRODINPDET.ITEMID as item,APPRODINPDETID ,BATCHNO,BINID,STOCK,QTY,CHARGINGTIME from APPRODINPDET  left outer join ITEMMASTER ON ITEMMASTER.ITEMMASTERID= APPRODINPDET.ITEMID  where APPRODUCTIONBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -1091,7 +1097,7 @@ namespace Arasan.Services
         public DataTable GetConsDeatils(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select APPRODUCTIONBASICID,ITEMMASTER.ITEMID, APPRODCONSDET.ITEMID as item,APPRODCONSDET.UNIT,APPRODCONSDET.BINID,STOCK,QTY,UNITMAST.UNITID,CONSQTY from APPRODCONSDET left outer join ITEMMASTER ON ITEMMASTER.ITEMMASTERID= APPRODCONSDET.ITEMID  LEFT OUTER JOIN UNITMAST  on ITEMMASTER.PRIUNIT=UNITMAST.UNITMASTID where APPRODUCTIONBASICID='" + id + "' ";
+            SvSql = "select APPRODUCTIONBASICID,ITEMMASTER.ITEMID, APPRODCONSDET.ITEMID as item,APPRODCONSDET.UNIT,APPRODCONSDET.BINID,STOCK,QTY,UNITMAST.UNITID,CONSQTY,APPRODCONSDETID from APPRODCONSDET left outer join ITEMMASTER ON ITEMMASTER.ITEMMASTERID= APPRODCONSDET.ITEMID  LEFT OUTER JOIN UNITMAST  on ITEMMASTER.PRIUNIT=UNITMAST.UNITMASTID where APPRODUCTIONBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

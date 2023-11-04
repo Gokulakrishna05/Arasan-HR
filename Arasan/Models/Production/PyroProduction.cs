@@ -173,6 +173,7 @@ namespace Arasan.Models
         public List<SelectListItem> Itemlst { get; set; }
         public double ConsStock { get; set; }
         public string consunit { get; set; }
+        public string consid { get; set; }
         public string unitid { get; set; }
         public string consBin { get; set; }
         public string drumno { get; set; }

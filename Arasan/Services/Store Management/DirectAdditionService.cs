@@ -147,8 +147,9 @@ namespace Arasan.Services.Store_Management
                                         objCmdI.CommandType = CommandType.StoredProcedure;
                                         objCmdI.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
                                         objCmdI.Parameters.Add("ITEM_ID", OracleDbType.NVarchar2).Value = cp.ItemId;
-                                        objCmdI.Parameters.Add("GRN_ID", OracleDbType.NVarchar2).Value = Prid;
-                                        objCmdI.Parameters.Add("GRN_DATE", OracleDbType.Date).Value = DateTime.Parse(ss.Docdate);
+                                        objCmdI.Parameters.Add("T1SOURCEID", OracleDbType.NVarchar2).Value = Prid;
+                                        objCmdI.Parameters.Add("TSOURCEBASICID", OracleDbType.NVarchar2).Value = Pid;
+                                        objCmdI.Parameters.Add("GRN_DATE", OracleDbType.NVarchar2).Value = ss.Docdate;
                                         objCmdI.Parameters.Add("REC_GOOD_QTY", OracleDbType.NVarchar2).Value = cp.Quantity;
                                         objCmdI.Parameters.Add("BALANCE_QTY", OracleDbType.NVarchar2).Value = cp.Quantity;
                                         objCmdI.Parameters.Add("FINANCIAL_YEAR", OracleDbType.NVarchar2).Value = datatrans.GetFinancialYear(DateTime.Now);
@@ -156,8 +157,8 @@ namespace Arasan.Services.Store_Management
                                         objCmdI.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
                                         objCmdI.Parameters.Add("WASTAGE", OracleDbType.NVarchar2).Value = "0";
                                         objCmdI.Parameters.Add("LOCATION_ID", OracleDbType.NVarchar2).Value = ss.Location;
-                                objCmdI.Parameters.Add("TO_WCID", OracleDbType.NVarchar2).Value = "0";
-                                objCmdI.Parameters.Add("TO_LOCID", OracleDbType.NVarchar2).Value = "0";
+                                objCmdI.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = "0";
+                                objCmdI.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = "0";
                                 objCmdI.Parameters.Add("BRANCH_ID", OracleDbType.NVarchar2).Value = ss.Branch;
                                         
                                 objCmdI.Parameters.Add("INV_OUT_ID", OracleDbType.NVarchar2).Value = "0";
@@ -175,7 +176,8 @@ namespace Arasan.Services.Store_Management
                                             objCmdIn.CommandType = CommandType.StoredProcedure;
                                             objCmdIn.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
                                             objCmdIn.Parameters.Add("INVENTORY_ITEM_ID", OracleDbType.NVarchar2).Value = cp.saveItemId;
-                                            objCmdIn.Parameters.Add("GRN_ID", OracleDbType.NVarchar2).Value = Prid;
+                                            objCmdIn.Parameters.Add("T1SOURCEID", OracleDbType.NVarchar2).Value = Prid;
+                                            objCmdIn.Parameters.Add("TSOURCEBASICID", OracleDbType.NVarchar2).Value = Pid;
                                             objCmdIn.Parameters.Add("ITEM_ID", OracleDbType.NVarchar2).Value = Invid;
                                             objCmdIn.Parameters.Add("TRANS_TYPE", OracleDbType.NVarchar2).Value = "DADD";
                                             objCmdIn.Parameters.Add("TRANS_IMPACT", OracleDbType.NVarchar2).Value = "I";
