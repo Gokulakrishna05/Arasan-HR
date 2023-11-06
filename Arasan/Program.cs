@@ -168,6 +168,7 @@ internal class Program
         builder.Services.TryAddSingleton<IQcDashboardService, QcDashboardService>();
         builder.Services.TryAddSingleton<IPackingQCFinalValueEntry, PackingQCFinalValueEntryService>();
         builder.Services.TryAddSingleton<IORSAT, ORSATService>();
+        builder.Services.TryAddSingleton<IItemConversionEntryService,ItemConversionEntryService>();
 
 
 
