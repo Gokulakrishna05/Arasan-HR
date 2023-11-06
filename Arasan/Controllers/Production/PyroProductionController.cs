@@ -1097,7 +1097,7 @@ namespace Arasan.Controllers
                 ca.DocId = dt.Rows[0]["DOCID"].ToString();
                 ca.Eng = dt.Rows[0]["EMPNAME"].ToString();
                 ca.Shift = dt.Rows[0]["SHIFT"].ToString();
-                //ViewBag.shift = dt.Rows[0]["SHIFT"].ToString();
+                ViewBag.shift = dt.Rows[0]["SHIFT"].ToString();
 
                 ca.ID = id;
             }

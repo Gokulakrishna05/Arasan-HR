@@ -325,7 +325,7 @@
 
                                                                                             @Html.HiddenFor(o => o.inplst[i].Item,new{@id="item" + i})
                                                                                             @Html.DisplayFor(o => o.inplst[i].ItemId)
-                                                                                            @Html.DisplayFor(o => o.inplst[i].inpid)
+                                                                                            @Html.HiddenFor(o => o.inplst[i].inpid)
 
                                                                                         </td>
                                                                                     <td>
@@ -459,6 +459,8 @@
                                                                     <th>To Time </th>
                                                                     <th> Qty </th>
                                                                     <th>Excess Qty</th>
+                                                                    <th>Stock Qty</th>
+                                                                    <th>Status</th>
                                                                     <th>Test Result</th>
 
                                                                 </tr>
@@ -499,6 +501,14 @@
                                                                             <td>
                                                                                 @Html.DisplayFor(o => o.outlst[m].ExcessQty)
                                                                                     @Html.HiddenFor(o => o.outlst[m].Isvalid, new { @id = "Isvalid" + m })
+                                                                            </td>
+                                                                             <td>
+                                                                                @Html.DisplayFor(o => o.outlst[m].StockQty)
+                                                                                    
+                                                                            </td>
+                                                                             <td>
+                                                                                    @Html.DisplayFor(o => o.outlst[m].Status)
+                                                                                   
                                                                             </td>
                                                                             @if (item.Result=="")
                                                                             {

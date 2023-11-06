@@ -114,16 +114,17 @@ namespace Arasan.Models
         public string drumno { get; set; }
         public List<SelectListItem> drumlst { get; set; }
         public string batchno { get; set; }
-        public double batchqty { get; set; }
-        public double Stock  { get; set; }
+      
+        
         public double IssueQty { get; set; }
-        public string MillLoadAdd { get; set; }
+         
         public string Result { get; set; }
         public string StID { get; set; }
         public string Status { get; set; }
         public double OutputQty { get; set; }
 
         public double ExcessQty { get; set; }
+        public double StockQty { get; set; }
         public string Isvalid { get; set; }
         public List<SelectListItem> outputlst;
         public string Purchasestock { get; set; }
