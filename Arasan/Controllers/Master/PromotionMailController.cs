@@ -2,6 +2,7 @@
 using System.Data;
 using System.Net;
 using System.Net.Mail;
+using System.Reflection;
 using Arasan.Interface;
 using Arasan.Interface.Master;
 using Arasan.Models;
@@ -92,7 +93,7 @@ namespace Arasan.Controllers
         //    return View(Cy);
         //}
         [HttpPost]
-        public ActionResult PromotionMail(Arasan.Models.PromotionMail Cy, PromotionMail fileUploader)
+        public ActionResult PromotionMail(Arasan.Models.PromotionMail Cy, List<IFormFile> files)
         {
            
                 datatrans = new DataTransactions(_connectionString);
@@ -137,18 +138,16 @@ namespace Arasan.Controllers
                 smtp.Credentials = NetworkCred;
                 smtp.Port = port;
                 smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-            if (fileUploader != null)
+            foreach (var formFile in files)
             {
-                string fileName = Path.GetFileName(fileUploader.FileName);
-                mailMessage.Attachments.Add(new Attachment(fileUploader.InputStream,fileName));
+                if (formFile.Length > 0)
+                {
+                    var filePath = Path.GetTempFileName(); 
+                    string fileName = Path.GetFileName(formFile.FileName);
+                    mailMessage.Attachments.Add(new Attachment(formFile.OpenReadStream(), fileName));
+                }
             }
-            //foreach (Customeremailattach cp in Cy.Upload)
-            //{
-            //    if (cp.Isvalid == "Y")
-            //    {
-            //        mailMessage.Attachments.Add(new System.Net.Mail.Attachment(cp.FilePath));
-            //    }
-            //}
+          
             smtp.Send(mailMessage);
             return Ok();
 

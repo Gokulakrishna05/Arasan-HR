@@ -1,0 +1,87 @@
+﻿@model Arasan.Models.Drumhistory
+
+@{
+    ViewData["Title"] = "Drum History";
+}
+<style>
+
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+</style>
+<script type="text/javascript">
+    @if (TempData["notice"] != null)
+    {
+        @:alert('@TempData["notice"]');
+    }
+</script>
+
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a>Production</a> </li>
+            <li class="active"> <strong> Drum History</strong> </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    <h5 style="font-size:14px">Drum History</h5>
+                    <hr>
+                    @using (Html.BeginForm("Drumhistory", "DrumLocation", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <form>
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Drum No.<label class="mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.DrumNo, new { @id = "txtDrumNo", @class = "form-control", @TabIndex = 2  })<br />
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <button type="button" class="btn  btn-round btn-primary" onclick="changesearch()" style="float: right; color:white;">Search </button>
+                                </div>
+                                <div class="col-lg-4">
+                                    </div>
+                            </div>
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function changesearch(){
+        var drumno=document.getElementById("txtDrumNo").value;
+         $.ajax({
+                    url: "GetDrumJSON",
+                    type: "post",
+                    data: {'drumno': drumno},
+                    cache: false,
+                    success: function (response) {
+                        //var newlist;
+                        //newlist = response.POlst;
+                        //PopulateDropDown("#ddlPO", response);
+                    },
+                    error: function () {
+                        debugger;
+                        alert("Please Select Supplier");
+                    }
+                });
+    }
+</script>

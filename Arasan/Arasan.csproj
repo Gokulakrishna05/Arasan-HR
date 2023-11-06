@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\Reports\Basic.rdlc" />
     <Content Remove="wwwroot\Reports\EnqReport.rdlc" />
     <Content Remove="wwwroot\Reports\QuotationReport.rdlc" />
     <Content Remove="wwwroot\Reports\SEqubasic.rdlc" />
@@ -22,6 +23,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="wwwroot\Reports\Basic.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
     <None Include="Views\ProFormaInvoice\ListProFormaInvoice.cshtml" />
     <None Include="Views\ProFormaInvoice\ProFormaInvoice.cshtml" />
@@ -34,8 +41,12 @@
   <ItemGroup>
     <PackageReference Include="AspNetCore.Reporting" Version="2.1.0" />
     <PackageReference Include="Dapper" Version="2.0.143" />
+    <PackageReference Include="GrapeCity.ActiveReports.Aspnetcore.Viewer" Version="17.2.0" />
     <PackageReference Include="jsTree" Version="3.1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.0.1" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.0.1" />
+    <PackageReference Include="Microsoft.CodeAnalysis.VisualBasic" Version="4.0.1" />
     <PackageReference Include="Microsoft.ReportingServices.ReportViewerControl.WebForms" Version="150.1586.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.8" />
     <PackageReference Include="NETCore.MailKit" Version="2.1.0" />
@@ -88,9 +99,6 @@
     </Compile> 
   </ItemGroup>
   <ItemGroup>
-    <Content Update="wwwroot\Reports\Basic.rdlc">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Update="wwwroot\Reports\Production.rdlc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -146,6 +154,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\assets\js\vendor\editorsjs\" />
+    <Folder Include="wwwroot\pdfdownload\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="https://json.schemastore.org/artifacthub-repo.json" /></VisualStudio></ProjectExtensions>
