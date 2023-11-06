@@ -209,8 +209,9 @@ namespace Arasan.Services
                                                 objCmdsT.Parameters.Add("DOC_DATE", OracleDbType.Date).Value = DateTime.Now;
                                                 objCmdsT.Parameters.Add("DRUM_ID", OracleDbType.NVarchar2).Value = cp.drumid;
                                                 objCmdsT.Parameters.Add("DRUM_NO", OracleDbType.NVarchar2).Value = cp.drum;
-                                                objCmdsT.Parameters.Add("TSOURCEID", OracleDbType.NVarchar2).Value = Pid1;
-                                                objCmdsT.Parameters.Add("STOCKTRANSTYPE", OracleDbType.NVarchar2).Value = "CURIOUTWARD";
+                                                objCmdsT.Parameters.Add("TSOURCEID", OracleDbType.NVarchar2).Value = Pid1; 
+                                            objCmdsT.Parameters.Add("TSOURCEBASICID", OracleDbType.NVarchar2).Value = Pid;
+                                            objCmdsT.Parameters.Add("STOCKTRANSTYPE", OracleDbType.NVarchar2).Value = "CURIOUTWARD";
                                                 objCmdsT.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = wcid;
                                                 objCmdsT.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = cy.ToWork;
                                                 objCmdsT.Parameters.Add("QTY", OracleDbType.NVarchar2).Value = cp.qty;
@@ -231,6 +232,7 @@ namespace Arasan.Services
                                                 objCmdInp.Parameters.Add("DOCDATE", OracleDbType.Date).Value = DateTime.Now;
                                                 objCmdInp.Parameters.Add("DRUMNO", OracleDbType.NVarchar2).Value = cp.drumid;
                                                 objCmdInp.Parameters.Add("T1SOURCEID", OracleDbType.NVarchar2).Value = Pid1;
+                                                objCmdInp.Parameters.Add("TSOURCEBASICID", OracleDbType.NVarchar2).Value = Pid;
                                                 objCmdInp.Parameters.Add("SOURCETYPE", OracleDbType.NVarchar2).Value = "CURIOUTWARD";
                                                 objCmdInp.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = wcid;
                                                 objCmdInp.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = cy.ToWork;

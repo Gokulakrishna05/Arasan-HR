@@ -79,7 +79,8 @@
                                                                         
                                                                         if (item.iscurrent == "Yes")
                                                                         {
-                                                                            <td></td>
+                                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ApproveAPProductionentry", "APProductionentry",new { id=item.ID })"><img src='../Images/checklist.png' alt='Approve' /></a></div></td>
+
                                                                             <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("APProductionentryDetail", "APProductionentry",new { id=item.ID })"></a></div></td>
                                                                             <td><a href="@Url.Action("DeleteMR","BatchProduction",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
                                                                         }
