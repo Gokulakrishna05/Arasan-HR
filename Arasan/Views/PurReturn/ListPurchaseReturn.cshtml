@@ -75,10 +75,10 @@
                                                             <th>Branch</th>
                                                             <th>Return.No</th>
                                                             <th>Return Date</th>
-                                                            <th>Send Mail</th>
+                                                            @*<th>Send Mail</th>*@
                                                             @* <th>Followup</th>
                                                             <th>Move To Quote</th>*@
-                                                            <th>Edit</th>
+                                                            <th>View</th>
                                                             <th>Delete</th>
                                                         </tr>
                                                     </thead>
@@ -94,9 +94,9 @@
                                                                     <td>@Html.DisplayFor(modelItem => item.Branch)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.RetNo)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.RetDate)</td>
-                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a href="#"><img src='../Images/mail_icon.png' alt='Send Email' /></a></div></td>
-                                                                    @*<td> <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("PurchaseFollowup", "PurchaseEnq")"><img src='../Images/followup.png' alt='FollowUp' /> - (1)</a></div></td>*@
-                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("PurchaseRet","PurReturn",new { id=item.ID })"></a></div></td>
+
+                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("viewPurchaseReturn", "PurReturn",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Waiting for approval' /></a></div></td>
+
                                                                     <td> <a href="@Url.Action("DeleteMR","PurReturn",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
 
                                                                 </tr>
@@ -259,7 +259,7 @@
 
             var fromDate = document.getElementById("SStart").value;
             var toDate = document.getElementById("SEnd").value;
-            var url = '@Url.Action("ListPurchaseQuo", "PurchaseQuo")?st=' + fromDate + '&ed=' + toDate;
+            var url = '@Url.Action("ListPurchaseReturn", "PurchaseReturn")?st=' + fromDate + '&ed=' + toDate;
             window.location.href = url;
         }
     }
@@ -299,7 +299,7 @@
 
 
     function changeStatus(status) {
-        var url = "/PurchaseQuo/ListPurchaseQuo?status=" + status;
+        var url = "/PurchaseReturn/ListPurchaseReturn?status=" + status;
         window.location.href = url;
         //$.ajax({
         //    url: 'AssignSession',

@@ -33,11 +33,11 @@ namespace Arasan.Controllers.Qualitycontrol
             ca.docdate = DateTime.Now.ToString("dd-MMM-yyyy");
             ca.shiftlst = Bindshift();
             ca.worklst = Bindwork();
-            //DataTable dtv = datatrans.GetSequence("testv");
-            //if (dtv.Rows.Count > 0)
-            //{
-            //    ca.docid = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
-            //}
+            DataTable dtv = datatrans.GetSequence("testv");
+            if (dtv.Rows.Count > 0)
+            {
+                ca.docid = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
+            }
             List<ORSATdetails> TData = new List<ORSATdetails>();
             ORSATdetails tda = new ORSATdetails();
             List<ORSATdetails> TData1 = new List<ORSATdetails>();

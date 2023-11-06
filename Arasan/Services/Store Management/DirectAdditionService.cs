@@ -16,12 +16,9 @@ namespace Arasan.Services.Store_Management
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
         }
-        public IEnumerable<DirectAddition> GetAllDirectAddition(string status)
+        public IEnumerable<DirectAddition> GetAllDirectAddition(string st, string ed)
         {
-            if (string.IsNullOrEmpty(status))
-            {
-                status = "ACTIVE";
-            }
+            
             List<DirectAddition> staList = new List<DirectAddition>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
@@ -29,7 +26,16 @@ namespace Arasan.Services.Store_Management
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,LOCDETAILS.LOCID,DOCID,to_char(ADDBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,DCNO,REASON,GROSS,ENTBY,NARRATION,ADDBASICID,ADDBASIC.STATUS from ADDBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=ADDBASIC.BRANCHID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=ADDBASIC.LOCID WHERE ADDBASIC.STATUS='"+ status +"'";
+                    if (st != null && ed != null)
+                    {
+                        cmd.CommandText = "Select BRANCHMAST.BRANCHID,LOCDETAILS.LOCID,DOCID,to_char(ADDBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,DCNO,REASON,GROSS,ENTBY,NARRATION,ADDBASICID,ADDBASIC.STATUS from ADDBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=ADDBASIC.BRANCHID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=ADDBASIC.LOCID WHERE  ADDBASIC.DOCDATE BETWEEN '" + st + "'  AND ' " + ed + "' ORDER BY ADDBASIC.ADDBASICID DESC";
+
+                    }
+                    else
+                    {
+                        cmd.CommandText = "Select BRANCHMAST.BRANCHID,LOCDETAILS.LOCID,DOCID,to_char(ADDBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,DCNO,REASON,GROSS,ENTBY,NARRATION,ADDBASICID,ADDBASIC.STATUS from ADDBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=ADDBASIC.BRANCHID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=ADDBASIC.LOCID WHERE ADDBASIC.DOCDATE  > sysdate-30 order by ADDBASICID desc ";
+
+                    }
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -272,7 +278,7 @@ namespace Arasan.Services.Store_Management
         public DataTable GetDirectAddition(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select BRANCHID,LOCID,DOCID,DOCDATE,DCNO,REASON,GROSS,ENTBY,NARRATION,NET,ADDBASICID  from ADDBASIC where ADDBASICID=" + id + "";
+            SvSql = "Select BRANCHMAST.BRANCHID,LOCDETAILS.LOCID,DOCID,DOCDATE,DCNO,REASON,GROSS,ENTBY,NARRATION,NET,ADDBASICID  from ADDBASIC left outer join BRANCHMAST on BRANCHMAST.BRANCHMASTID = ADDBASIC.BRANCHID left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID = ADDBASIC.LOCID where ADDBASICID=" + id + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
