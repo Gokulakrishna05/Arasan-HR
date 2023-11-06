@@ -1,6 +1,6 @@
 ﻿@model Arasan.Models.QcTemplate
 @{
-  
+    Layout = "_PopupLayout";
     ViewData["Title"] = "Qc Template";
 }
 <style>
@@ -190,7 +190,7 @@
 
                             <div style="height:30px;"></div>
                             <button type="button" class="btn aqua m-t-xs bottom15-xs" id="btnSave" onclick="location.href='@Url.Action("ListQcTemplate", "QcTemplate")'">Submit</button>
-                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListQcTemplate", "QcTemplate")'">Cancel</button>
+                            <button class="btn btn-danger" type="button" causesvalidation="false" onClick="window.parent.jQuery.fancybox.close();">Cancel</button>
                         </form>
                     }
                 </div>

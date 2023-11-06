@@ -9,6 +9,7 @@ using AspNetCore.Reporting;
 using NuGet.Packaging.Signing;
 using System.Net.Mail;
 using Arasan.Services.Qualitycontrol;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Arasan.Controllers
 {
@@ -630,12 +631,50 @@ namespace Arasan.Controllers
             localReport.AddDataSource("DataSet1", Poitem);
             //localReport.AddDataSource("DataSet1_DataTable1", po);
             var result = localReport.Execute(RenderType.Pdf, extension, Parameters, mimtype);
-
+            
             return File(result.MainStream, "application/Pdf");
+//            FunctionExecutor.Run((string[] args) =>
+//            {
+
+//                using (var fs = new FileStream(args[1], FileMode.Create, FileAccess.Write))
+//            {
+//                fs.Write(result.MainStream);
+//            }
+//        }, new string[] {jsonDataFilePath, generatedFilePath, rdlcFilePath, DataSetName
+//    });
+
+//            var memory = new MemoryStream();
+//            using (var stream = new FileStream(Path.Combine("", generatedFilePath), FileMode.Open))
+//            {
+//                stream.CopyTo(memory);
+//            }
+
+//File.Delete(generatedFilePath);
+//File.Delete(jsonDataFilePath);
+//memory.Position = 0;
+//return memory.ToArray();
+        }
+        public IActionResult DownloadFile()
+        {
+            string webRootPath = $"{this._WebHostEnvironment.WebRootPath}\\Reports\\Basic.rdlc";
+            string outputFilePath = Path.Combine(webRootPath, "pdf", "sample.pdf");
+
+            if (!System.IO.File.Exists(outputFilePath))
+            {
+                // Return a 404 Not Found error if the file does not exist
+                return NotFound();
+            }
+
+            var fileInfo = new System.IO.FileInfo(outputFilePath);
+            Response.ContentType = "application/pdf";
+            Response.Headers.Add("Content-Disposition", "attachment;filename=\"" + fileInfo.Name + "\"");
+            Response.Headers.Add("Content-Length", fileInfo.Length.ToString());
+
+            // Send the file to the client
+            return File(System.IO.File.ReadAllBytes(outputFilePath), "application/pdf", fileInfo.Name);
         }
 
-     
-         public ActionResult SendMail(string id)
+        public ActionResult SendMail(string id)
         {
 
 

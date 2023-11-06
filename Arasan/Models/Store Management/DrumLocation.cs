@@ -9,5 +9,9 @@ namespace Arasan.Models
         public string Location { get; set; }
        
     }
+    public class Drumhistory
+    {
+        public string DrumNo { get; set; }
     }
+}
  
