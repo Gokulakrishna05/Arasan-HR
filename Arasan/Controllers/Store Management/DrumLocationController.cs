@@ -38,16 +38,29 @@ namespace Arasan.Controllers
             try
             {
                 DataTable dt = new DataTable();
+                DataTable dt2 = new DataTable();
                 string locid = "";
                 string wcid = "";
                 string stkid = "";
-                dt = datatrans.GetData("select LOCID,WCID,DRUM_STOCK_ID from DRUM_STOCK where DOC_DATE = (SELECT MAX(DOC_DATE) AS latest_effective_date FROM DRUM_STOCK) AND DRUM_NO='" + drumno + "'");
+                string tsourid = "";
+                string tsourbasicid = "";
+                string drum = "";
+                string drumid = "";
+                dt = datatrans.GetData("select LOCID,WCID,DRUMSTKID,T1SOURCEID,TSOURCEBASICID,DRUM from DRUM_STOCKDET where DOCDATE = (SELECT MAX(DOCDATE) AS latest_effective_date FROM DRUM_STOCKDET) AND DRUM='" + drumno + "'");
                 if (dt.Rows.Count > 0)
                 {
 
                     locid = dt.Rows[0]["LOCID"].ToString();
                     wcid = dt.Rows[0]["WCID"].ToString();
-                    stkid = dt.Rows[0]["DRUM_STOCK_ID"].ToString();
+                    stkid = dt.Rows[0]["DRUMSTKID"].ToString();
+                    tsourbasicid = dt.Rows[0]["TSOURCEBASICID"].ToString();
+                    drumid = dt.Rows[0]["DRUM"].ToString();
+                    dt2 = datatrans.GetData("select LOCID,WCID,DRUMSTKID,T1SOURCEID,TSOURCEBASICID,DRUM,LOCID,WCID,DRUMSTKID,SOURCETYPE from DRUM_STOCKDET where DRUM='" + drumid + "'  AND TSOURCEBASICID NOT IN '" + tsourbasicid + "'");
+                    drum = dt2.Rows[0]["DRUM"].ToString();
+                  string  loc = dt2.Rows[0]["LOCID"].ToString();
+                  string  work = dt2.Rows[0]["WCID"].ToString();
+                  string  type = dt2.Rows[0]["SOURCETYPE"].ToString();
+
                 }
 
 
