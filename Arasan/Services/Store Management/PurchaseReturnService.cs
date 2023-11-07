@@ -18,7 +18,7 @@ namespace Arasan.Services
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public IEnumerable<PurchaseReturn> GetAllPurReturn()
+        public IEnumerable<PurchaseReturn> GetAllPurReturn(string st, string ed)
         {
             List<PurchaseReturn> cmpList = new List<PurchaseReturn>();
             using (OracleConnection con = new OracleConnection(_connectionString))
@@ -27,7 +27,16 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,PRETBASIC.DOCID,to_char(PRETBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,PRETBASIC.EXCHANGERATE,PRETBASIC.REFNO,to_char(PRETBASIC.REFDT,'dd-MON-yyyy')REFDT,PRETBASIC.LOCID,PRETBASIC.REJBY,PRETBASIC.TRANSITLOCID,PRETBASIC.TEMPFIELD,CURRENCY.MAINCURR,PRETBASIC.RGRNNO,PRETBASIC.GROSS,PRETBASIC.NET,PRETBASIC.NARR,PRETBASICID,PRETBASIC.IS_ACTIVE from PRETBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PRETBASIC.BRANCHID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=PRETBASIC.MAINCURRENCY  ORDER BY PRETBASIC.PRETBASICID DESC";
+                    if (st != null && ed != null)
+                    {
+                        cmd.CommandText = "Select BRANCHMAST.BRANCHID,PRETBASIC.DOCID,to_char(PRETBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,PRETBASIC.EXCHANGERATE,PRETBASIC.REFNO,to_char(PRETBASIC.REFDT,'dd-MON-yyyy')REFDT,PRETBASIC.LOCID,PRETBASIC.REJBY,PRETBASIC.TRANSITLOCID,PRETBASIC.TEMPFIELD,CURRENCY.MAINCURR,PRETBASIC.RGRNNO,PRETBASIC.GROSS,PRETBASIC.NET,PRETBASIC.NARR,PRETBASICID,PRETBASIC.IS_ACTIVE from PRETBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PRETBASIC.BRANCHID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=PRETBASIC.MAINCURRENCY  WHERE PRETBASIC.DOCDATE BETWEEN '" + st + "'  AND ' " + ed + "' ORDER BY PRETBASIC.PRETBASICID DESC";
+
+                    }
+                    else
+                    {
+                        cmd.CommandText = "Select BRANCHMAST.BRANCHID,PRETBASIC.DOCID,to_char(PRETBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,PRETBASIC.EXCHANGERATE,PRETBASIC.REFNO,to_char(PRETBASIC.REFDT,'dd-MON-yyyy')REFDT,PRETBASIC.LOCID,PRETBASIC.REJBY,PRETBASIC.TRANSITLOCID,PRETBASIC.TEMPFIELD,CURRENCY.MAINCURR,PRETBASIC.RGRNNO,PRETBASIC.GROSS,PRETBASIC.NET,PRETBASIC.NARR,PRETBASICID,PRETBASIC.IS_ACTIVE from PRETBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PRETBASIC.BRANCHID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=PRETBASIC.MAINCURRENCY WHERE  PRETBASIC.DOCDATE  > sysdate-35 order by PRETBASICID desc ";
+
+                    }
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -39,8 +48,6 @@ namespace Arasan.Services
                             RetDate = rdr["DOCDATE"].ToString(),
                             ExRate = rdr["EXCHANGERATE"].ToString(),
                             Currency = rdr["MAINCURR"].ToString(),
-                          
-                            
 
                         };
                         cmpList.Add(cmp);
@@ -92,7 +99,12 @@ namespace Arasan.Services
         public DataTable Getstkqty(string grnid, string locid, string brid)
         {
             string SvSql = string.Empty;
+
             SvSql = "select SUM(BALANCE_QTY) as QTY from INVENTORY_ITEM where BALANCE_QTY > 0 AND LOCATION_ID='" + locid  + "' AND BRANCH_ID='"+ brid  + "' AND TSOURCEID='"+ grnid  + "'";
+
+            //SvSql = "select SUM(BALANCE_QTY) as QTY from INVENTORY_ITEM where BALANCE_QTY > 0 AND LOCATION_ID='" + locid  + "' AND BRANCH_ID='"+ brid  + "' AND GRN_ID='"+ grnid  + "'";
+           // SvSql = "select SUM(BALANCE_QTY) as QTY from INVENTORY_ITEM where BALANCE_QTY > 0 AND LOCATION_ID='" + locid  + "' AND BRANCH_ID='"+ brid  + "' ";
+
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -385,7 +397,7 @@ namespace Arasan.Services
         public DataTable GetGRN()
         {
             string SvSql = string.Empty;
-            SvSql = "Select * from GRNBLBASIC where STATUS='GRN Completed'";
+            SvSql = "Select DOCID,GRNBLBASICID from GRNBLBASIC where STATUS='GRN Completed'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -431,11 +443,31 @@ namespace Arasan.Services
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
+        } 
+        public DataTable GetLocation()
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT LOCID,LOCDETAILSID FROM LOCDETAILS";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        } 
+        public DataTable GetEmp()
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT EMPNAME,EMPMASTID FROM EMPMAST";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
         }
         public DataTable GetCity(string ItemId)
         {
             string SvSql = string.Empty;
-            SvSql = "select CITYNAME,CITYID from CITYMASTER where STATEID='"+ ItemId+"'  ";
+            SvSql = "select CITYNAME,CITYID from CITYMASTER  ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -456,7 +488,17 @@ namespace Arasan.Services
         public DataTable GetSupplier(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select PARTYMAST.PARTYNAME,GRNBLBASICID from GRNBLBASIC LEFT OUTER JOIN  PARTYMAST on PARTYMAST.PARTYMASTID=GRNBLBASIC.PARTYID  where GRNBLBASIC.GRNBLBASICID='" + id + "'";
+            SvSql = "Select PARTYMAST.PARTYNAME,PARTYMASTID from PARTYMAST";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        } 
+        public DataTable Getparty()
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select PARTYMAST.PARTYNAME,PARTYMASTID from PARTYMAST";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -466,7 +508,7 @@ namespace Arasan.Services
         public DataTable GetCurrency(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select CURRENCY.MAINCURR,GRNBLBASICID from GRNBLBASIC LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=GRNBLBASIC.MAINCURRENCY where GRNBLBASIC.GRNBLBASICID='" + id + "'";
+            SvSql = "Select CURRENCY.MAINCURR,CURRENCYID from CURRENCY";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -496,6 +538,29 @@ namespace Arasan.Services
             }
             return "";
 
+        }
+
+        public DataTable GetviewPurchaseReturn(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select EMPMAST.EMPNAME ,CURRENCY.MAINCURR ,BRANCHMAST.BRANCHID,PARTYMAST.PARTYNAME,PRETBASIC.DOCID,to_char(PRETBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PRETBASIC.REFNO,to_char(PRETBASIC.REFDT,'dd-MON-yyyy')REFDT,LOCDETAILS.LOCID,PRETBASIC.EXCHANGERATE,PRETBASIC.REASONCODE,PRETBASIC.TEMPFIELD,PRETBASIC.RGRNNO,PRETBASIC.GROSS,PRETBASIC.NET,PRETBASIC.NARR,PRETBASICID  from PRETBASIC left outer join BRANCHMAST on BRANCHMAST.BRANCHMASTID = PRETBASIC.BRANCHID left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID = PRETBASIC.LOCID left outer join PARTYMAST on PARTYMAST.PARTYMASTID = PRETBASIC.PARTYID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=PRETBASIC.MAINCURRENCY LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID=PRETBASIC.REJBY LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PRETBASIC.TRANSITLOCID where PRETBASIC.PRETBASICID=" + id + "";
+            //SvSql = "Select PRETBASIC.REJBY,CURRENCY.MAINCURR ,BRANCHMAST.BRANCHID,PARTYMAST.PARTYNAME,PRETBASIC.DOCID,to_char(PRETBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PRETBASIC.REFNO,to_char(PRETBASIC.REFDT,'dd-MON-yyyy')REFDT,LOCDETAILS.LOCID,PRETBASIC.EXCHANGERATE,PRETBASIC.REASONCODE,PRETBASIC.TEMPFIELD,PRETBASIC.RGRNNO,PRETBASIC.GROSS,PRETBASIC.NET,PRETBASIC.NARR,PRETBASICID  from PRETBASIC left outer join BRANCHMAST on BRANCHMAST.BRANCHMASTID = PRETBASIC.BRANCHID left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID = PRETBASIC.LOCID left outer join PARTYMAST on PARTYMAST.PARTYMASTID = PRETBASIC.PARTYID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=PRETBASIC.MAINCURRENCY LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PRETBASIC.TRANSITLOCID where PRETBASIC.PRETBASICID=" + id + "";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetviewPurchaseReturnDetail(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select PRETDETAIL.GRNNO,ITEMMASTER.ITEMID,BINBASIC.BINID,PRIQTY,CLSTOCK,PRETDETAIL.QTY,UNITMAST.UNITID,PRETDETAIL.RATE,PRETDETAIL.AMOUNT,PRETDETAIL.TOTAMT,PRETDETAIL.CF,PRETDETAIL.CGSTPER,PRETDETAIL.CGSTAMT,PRETDETAIL.SGSTPER,PRETDETAIL.SGSTAMT,PRETDETAIL.IGSTPER,PRETDETAIL.IGSTAMT,PRETBASICID,PRETDETAILID  from PRETDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PRETDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=PRETDETAIL.UNIT LEFT OUTER JOIN BINBASIC ON ITEMMASTER.BINNO=BINBASIC.BINBASICID  where PRETDETAIL.PRETBASICID=" + id + "";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
         }
     }
 }

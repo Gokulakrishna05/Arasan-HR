@@ -443,6 +443,7 @@ a{
                                                                         <th>To Time </th>
                                                                         <th> Qty </th>
                                                                         <th> Excess Qty </th>
+                                                                        <th> Stock Qty </th>
                                                                         <th>Status</th>
                                                                         <th></th>
                                                                         <th>Test Result</th>
@@ -471,6 +472,7 @@ a{
                                                                     *@
                                                                                 <td>@Html.TextBoxFor(o => o.outlst[m].OutputQty, new { @id = "txtOutputQty" + m, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right" })   @Html.HiddenFor(o => o.outlst[m].Isvalid, new { @id = "Isoutvalid" + m })</td>
                                                                                 <td>@Html.TextBoxFor(o => o.outlst[m].ExcessQty, new { @id = "txtExcessQty" + m, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;text-align:right" })</td>
+                                                                                <td>@Html.TextBoxFor(o => o.outlst[m].StockQty, new { @id = "txtStockQty" + m, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 80px;text-align:right",@readonly="readonly" })</td>
                                                                                 <td>@Html.DropDownListFor(o => o.outlst[m].StID, Model.outlst[m].statuslst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlstatus" + m, style = "width: 120px;" })</td>
                                                                                 @if (item.Result != "Ok")
                                                                                 {
@@ -893,9 +895,10 @@ a{
                     var totime = document.getElementById("txtToTime" + i).value;
                     var exqty = document.getElementById("txtExcessQty" + i).value;
                     var stat = document.getElementById("ddlstatus" + i).value;
+        var stock = document.getElementById("txtStockQty" + i).value;
                     $.ajax({
                         url: 'SaveOutDetail',
-                        data: { "id": id, "ItemId": ItemId, "drum": drum, "time": time, "qty": qty, "totime": totime, "exqty": exqty, "stat": stat },
+                        data: { "id": id, "ItemId": ItemId, "drum": drum, "time": time, "qty": qty, "totime": totime, "exqty": exqty, "stat": stat,"stock":stock },
                         type: "POST",
                         success: function (result) {
 

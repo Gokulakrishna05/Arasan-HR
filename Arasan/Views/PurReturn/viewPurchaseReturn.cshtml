@@ -1,0 +1,545 @@
+﻿@model Arasan.Models.PurchaseReturn
+@{
+    Layout = "_PopupLayout";
+    ViewData["Title"] = "PurchaseReturn";
+}
+<style>
+    .newwidth {
+        width: 120px;
+    }
+
+    .mandatory {
+        color: red;
+        position: relative;
+        top: 2px;
+        left: 5px;
+    }
+
+    a {
+        outline: none;
+        text-decoration: none;
+        color: #000;
+    }
+
+        a:hover, a:active, a:focus {
+            outline: none;
+            text-decoration: none;
+            color: #000;
+        }
+
+    .container {
+        max-width: 960px;
+    }
+
+    .panel-default > .panel-heading {
+        color: #333;
+        background-color: #fff;
+        border-color: #e4e5e7;
+        padding: 0;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+        .panel-default > .panel-heading a {
+            display: block;
+            padding: 10px 15px;
+        }
+
+            .panel-default > .panel-heading a:after {
+                content: "";
+                position: relative;
+                top: 1px;
+                display: inline-block;
+                /*    font-family: 'Glyphicons Halflings';*/
+                font-style: normal;
+                font-weight: 400;
+                line-height: 1;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+                float: right;
+                transition: transform .25s linear;
+                -webkit-transition: -webkit-transform .25s linear;
+            }
+
+            .panel-default > .panel-heading a[aria-expanded="true"] {
+                background-color: #49B6D6;
+            }
+
+                .panel-default > .panel-heading a[aria-expanded="true"]:after {
+                    content: "\2212";
+                    -webkit-transform: rotate(180deg);
+                    transform: rotate(180deg);
+                }
+
+            .panel-default > .panel-heading a[aria-expanded="false"]:after {
+                content: "\002b";
+                -webkit-transform: rotate(90deg);
+                transform: rotate(90deg);
+            }
+
+    .accordion-option {
+        width: 100%;
+        float: left;
+        clear: both;
+        margin: 15px 0;
+    }
+
+        .accordion-option .title {
+            font-size: 20px;
+            font-weight: bold;
+            float: left;
+            padding: 0;
+            margin: 0;
+        }
+
+        .accordion-option .toggle-accordion {
+            float: right;
+            font-size: 16px;
+            color: #AAB7B8;
+        }
+
+            .accordion-option .toggle-accordion:before {
+                content: "Expand All";
+            }
+
+            .accordion-option .toggle-accordion.active:before {
+                content: "Collapse All";
+            }
+
+    .panel-title a {
+        background-color: #AAB7B8;
+    }
+
+    .panel-body table tr td {
+        padding: 5px;
+    }
+
+    .panel-body table {
+        /* font-size: 15px;*/
+        font-weight: normal;
+    }
+</style>
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a>Sales</a> </li>
+            <li class="active"> <strong>PurchaseReturn</strong> </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container">
+                    <h5 style="font-size:14px">PurchaseReturn</h5>
+                    <hr>
+
+                    <form>
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Branch<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+
+                                        @Html.DisplayFor(C => C.Branch) @Html.HiddenFor(C => C.Branch)<br>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Ware House <label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+
+                                        @Html.DisplayFor(C => C.Location) @Html.HiddenFor(C => C.Location)<br>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div style="height:10px;"></div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">P.Return.No<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.DisplayFor(C => C.RetNo) @Html.HiddenFor(C => C.RetNo)<br>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">P.Return Date<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.DisplayFor(C => C.RetDate) @Html.HiddenFor(C => C.RetDate)<br>
+                                        <br />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">GRN No<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+
+                                        @Html.DisplayFor(C => C.Grn) @Html.HiddenFor(C => C.Grn)<br>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Party<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.DisplayFor(C => C.Supplier) @Html.HiddenFor(C => C.Supplier)<br>
+                                        <br />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Currency<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+
+                                        @Html.DisplayFor(C => C.Currency) @Html.HiddenFor(C => C.Currency)<br>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Exchange Rate<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.DisplayFor(C => C.ExRate) @Html.HiddenFor(C => C.ExRate)<br>
+                                        <br />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Req No<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+
+                                        @Html.DisplayFor(C => C.ReqNo) @Html.HiddenFor(C => C.ReqNo)<br>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Req Date<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.DisplayFor(C => C.ReqDate) @Html.HiddenFor(C => C.ReqDate)<br>
+                                        <br />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Transit LocID<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+
+                                        @Html.DisplayFor(C => C.Trans) @Html.HiddenFor(C => C.Trans)<br>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Rejected By<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.DisplayFor(C => C.Rej) @Html.HiddenFor(C => C.Rej)<br>
+                                        <br />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+
+
+                        <div style="height:30px;"></div>
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="ibox float-e-margins">
+
+                                    <div class="ibox-content collapse in">
+                                        <div class="widgets-container">
+                                            <div>
+                                                 <div class="col-lg-12" style="overflow-x:scroll; min-width:300px; min-height:200px;">
+
+                                          
+                                                <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
+                                                    <thead>
+
+                                                    <th> Item  </th>
+                                                    <th>Unit</th>
+                                                    <th>CF</th>
+                                                    <th> Qty</th>
+                                                    <th>Bin ID</th>
+                                                    <th>Current Stock</th>
+                                                    <th>Return Qty</th>
+                                                    <th>Rate</th>
+                                                    <th>Amount</th>
+                                                    <th>Disc %</th>
+                                                    <th>Discount</th>
+                                                    <th>Freight</th>
+
+                                                    <th>SGST%</th>
+                                                    <th>CGST%</th>
+                                                    <th>IGST%</th>
+                                                    <th>SGSTAMT</th>
+                                                    <th>CGSTAMT</th>
+                                                    <th>IGSTAMT</th>
+                                                    <th>Total Amount</th>
+
+
+
+                                                    </thead>
+
+                                                    <tbody>
+                                                        @{
+                                                            int i = 0;
+
+                                                            foreach (var item in Model.RetLst.ToList())
+                                                            {
+
+                                                                <tr>
+                                                                    <td>@Html.DisplayFor(o => o.RetLst[i].ItemId)</td>
+                                                                    <td>@Html.DisplayFor(o => o.RetLst[i].Unit)</td>
+                                                                    <td>@Html.DisplayFor(o => o.RetLst[i].ConFac)</td>
+                                                                    <td>@Html.DisplayFor(o => o.RetLst[i].Quantity)</td>
+                                                                    <td>@Html.DisplayFor(o => o.RetLst[i].binid)</td>
+                                                                    <td>@Html.DisplayFor(o => o.RetLst[i].Current)</td>
+                                                                    <td>@Html.DisplayFor(o => o.RetLst[i].Return)</td>
+                                                                    <td>@Html.DisplayFor(o => o.RetLst[i].rate)</td>
+                                                                    <td>@Html.DisplayFor(o => o.RetLst[i].Amount)</td>
+                                                                    <td>@Html.DisplayFor(o => o.RetLst[i].Disc)</td>
+                                                                    <td>@Html.DisplayFor(o => o.RetLst[i].DiscAmount)</td>
+                                                                    <td>@Html.DisplayFor(o => o.RetLst[i].FrigCharge)</td>
+                                                                    <td>@Html.DisplayFor(o => o.RetLst[i].CGSTPer)</td>
+                                                                    <td>@Html.DisplayFor(o => o.RetLst[i].SGSTPer)</td>
+                                                                    <td>@Html.DisplayFor(o => o.RetLst[i].IGSTPer)</td>
+                                                                    <td>@Html.DisplayFor(o => o.RetLst[i].CGSTAmt)</td>
+                                                                    <td>@Html.DisplayFor(o => o.RetLst[i].SGSTAmt)</td>
+                                                                    <td>@Html.DisplayFor(o => o.RetLst[i].IGSTAmt)</td>
+                                                                    <td>@Html.DisplayFor(o => o.RetLst[i].TotalAmount)</td>
+                                                                    
+
+                                                                </tr>
+                                                                //i = i + 1;
+                                                                i++;
+                                                            }
+                                                        }
+
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                           </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Packing and Forwarding ( + )<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+
+                                        @Html.DisplayFor(C => C.Packingcharges) @Html.HiddenFor(C => C.Packingcharges)<br>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Freight Charges ( + )<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.DisplayFor(C => C.Frieghtcharge) @Html.HiddenFor(C => C.Frieghtcharge)<br>
+                                        <br />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Other Charges ( + )<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.DisplayFor(C => C.Othercharges) @Html.HiddenFor(C => C.Othercharges)<br>
+                                        <br />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Round Off ( + )<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+
+                                        @Html.DisplayFor(C => C.Round) @Html.HiddenFor(C => C.Round)<br>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Other Deductions ( - )<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.DisplayFor(C => C.otherdeduction) @Html.HiddenFor(C => C.otherdeduction)<br>
+                                        <br />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Round Off ( - )<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+
+                                        @Html.DisplayFor(C => C.Roundminus) @Html.HiddenFor(C => C.Roundminus)<br>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                            <label for="inputName3" class="col-sm-4 control-label">Gross<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                @Html.DisplayFor(C => C.Gross) @Html.HiddenFor(C => C.Gross)<br>
+                                        <br />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                            <label for="inputName3" class="col-sm-4 control-label">Net<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+
+                                @Html.DisplayFor(C => C.Net) @Html.HiddenFor(C => C.Net)<br>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                            <label for="inputName3" class="col-sm-4 control-label">Narration<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.DisplayFor(C => C.Narration) @Html.HiddenFor(C => C.Narration)<br>
+                                        <br />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Area ID<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+
+                                        @Html.DisplayFor(C => C.Addr) @Html.HiddenFor(C => C.Addr)<br>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">Address<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.DisplayFor(C => C.Address) @Html.HiddenFor(C => C.Address)<br>
+                                        <br />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">State<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+
+                                        @Html.DisplayFor(C => C.State) @Html.HiddenFor(C => C.State)<br>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputName3" class="col-sm-4 control-label">City<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                        @Html.DisplayFor(C => C.City) @Html.HiddenFor(C => C.City)<br>
+                                        <br />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Pincode<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+
+                                        @Html.DisplayFor(C => C.Pin) @Html.HiddenFor(C => C.Pin)<br>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+                        
+                          <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <label for="inputName3" class="col-sm-4 control-label">Phone<label class="mandatory"></label></label>
+                                    <div class="col-sm-8">
+
+                                        @Html.DisplayFor(C => C.Phone) @Html.HiddenFor(C => C.Phone)<br>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                    <div style="height:30px;"></div>
+                   
+
+                    <input type="button" class="btn btn-danger" value="Close" onClick="window.parent.jQuery.fancybox.close();" />
+
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+
+    $(function () {
+        $(document).on('click', '.closeFancybox', function () {
+            $.fancybox.close();
+        })
+    })
+</script>
