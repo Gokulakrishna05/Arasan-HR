@@ -16,6 +16,7 @@ namespace Arasan.Services
         public PurchaseReturnService(IConfiguration _configuratio)
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
+            datatrans = new DataTransactions(_connectionString);
         }
         public IEnumerable<PurchaseReturn> GetAllPurReturn(string st, string ed)
         {
@@ -98,8 +99,12 @@ namespace Arasan.Services
         public DataTable Getstkqty(string grnid, string locid, string brid)
         {
             string SvSql = string.Empty;
+
+            SvSql = "select SUM(BALANCE_QTY) as QTY from INVENTORY_ITEM where BALANCE_QTY > 0 AND LOCATION_ID='" + locid  + "' AND BRANCH_ID='"+ brid  + "' AND TSOURCEID='"+ grnid  + "'";
+
             //SvSql = "select SUM(BALANCE_QTY) as QTY from INVENTORY_ITEM where BALANCE_QTY > 0 AND LOCATION_ID='" + locid  + "' AND BRANCH_ID='"+ brid  + "' AND GRN_ID='"+ grnid  + "'";
-            SvSql = "select SUM(BALANCE_QTY) as QTY from INVENTORY_ITEM where BALANCE_QTY > 0 AND LOCATION_ID='" + locid  + "' AND BRANCH_ID='"+ brid  + "' ";
+           // SvSql = "select SUM(BALANCE_QTY) as QTY from INVENTORY_ITEM where BALANCE_QTY > 0 AND LOCATION_ID='" + locid  + "' AND BRANCH_ID='"+ brid  + "' ";
+
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -113,8 +118,9 @@ namespace Arasan.Services
             {
                 string StatementType = string.Empty; string svSQL = "";
                 datatrans = new DataTransactions(_connectionString);
-                if (cy.ID == null)
-                {
+
+                //if (cy.ID == null)
+                //{
 
                     int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'Prt-' AND ACTIVESEQUENCE = 'T'  ");
                     string DocId = string.Format("{0}{1}", "Prt-", (idc + 1).ToString());
@@ -129,7 +135,11 @@ namespace Arasan.Services
                         throw ex;
                     }
                     cy.RetNo = DocId;
-                }
+                //}
+
+                string PARTYID = datatrans.GetDataString("Select PARTYMASTID from PARTYMAST where PARTYNAME='" + cy.Supplier + "' ");
+                string CURR = datatrans.GetDataString("Select CURRENCYID from CURRENCY where MAINCURR='" + cy.Currency + "' ");
+
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("PURRETURNPROC", objConn);
@@ -149,14 +159,14 @@ namespace Arasan.Services
 
                     }
                     objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
-                    objCmd.Parameters.Add("PARTYID", OracleDbType.NVarchar2).Value = cy.Supplier;
+                    objCmd.Parameters.Add("PARTYID", OracleDbType.NVarchar2).Value = PARTYID;
                     objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.RetNo;
                     objCmd.Parameters.Add("DOCDATE", OracleDbType.Date).Value = DateTime.Parse(cy.RetDate);
                     objCmd.Parameters.Add("EXCHANGERATE", OracleDbType.NVarchar2).Value = cy.ExRate;
                     objCmd.Parameters.Add("REFNO", OracleDbType.NVarchar2).Value = cy.ReqNo;
                     objCmd.Parameters.Add("REFDT", OracleDbType.Date).Value = DateTime.Parse(cy.ReqDate);
                     objCmd.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = cy.Location;
-                    objCmd.Parameters.Add("MAINCURRENCY", OracleDbType.NVarchar2).Value = cy.Currency;
+                    objCmd.Parameters.Add("MAINCURRENCY", OracleDbType.NVarchar2).Value = CURR;
                     objCmd.Parameters.Add("REASONCODE", OracleDbType.NVarchar2).Value = cy.Reason;
                     objCmd.Parameters.Add("REJBY", OracleDbType.NVarchar2).Value = cy.Rej;
                     objCmd.Parameters.Add("TRANSITLOCID", OracleDbType.NVarchar2).Value = cy.Trans;
@@ -165,6 +175,12 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("NET", OracleDbType.NVarchar2).Value = cy.Net;
                     objCmd.Parameters.Add("NARR", OracleDbType.NVarchar2).Value = cy.Narration;
                     objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
+                    objCmd.Parameters.Add("AREA", OracleDbType.NVarchar2).Value = cy.Addr;
+                    objCmd.Parameters.Add("ADDRESS", OracleDbType.NVarchar2).Value = cy.Addr;
+                    objCmd.Parameters.Add("CITY", OracleDbType.NVarchar2).Value = cy.State;
+                    objCmd.Parameters.Add("STATE", OracleDbType.NVarchar2).Value = cy.City;
+                    objCmd.Parameters.Add("PINCODE", OracleDbType.NVarchar2).Value = cy.Pin;
+                    objCmd.Parameters.Add("PHONE", OracleDbType.NVarchar2).Value = cy.Phone;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
@@ -411,7 +427,7 @@ namespace Arasan.Services
         public DataTable GetGRNBlDetails(string GRNID)
         {
             string SvSql = string.Empty;
-            SvSql = "SELECT EXRATE,FREIGHT,OTHER_CHARGES,ROUND_OFF_PLUS,ROUND_OFF_MINUS,OTHER_DEDUCTION,GROSS,NET,PACKING_CHRAGES FROM GRNBLBASIC WHERE GRNBLBASICID='" + GRNID + "'";
+            SvSql = "SELECT PARTYMAST.PARTYNAME,CURRENCY.MAINCURR,EXRATE,FREIGHT,OTHER_CHARGES,ROUND_OFF_PLUS,ROUND_OFF_MINUS,OTHER_DEDUCTION,GROSS,NET,PACKING_CHRAGES FROM GRNBLBASIC LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=GRNBLBASIC.MAINCURRENCY LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID=GRNBLBASIC.PARTYID WHERE GRNBLBASICID='" + GRNID + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

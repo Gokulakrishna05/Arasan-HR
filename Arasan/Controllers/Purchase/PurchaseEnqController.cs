@@ -294,7 +294,7 @@ namespace Arasan.Controllers
         }
 
         [HttpPost]
-        public ActionResult ViewEnquiry(PurchaseQuo Cy, string id)
+        public ActionResult ViewEnq(PurchaseQuo Cy, string id)
         {
             try
             {

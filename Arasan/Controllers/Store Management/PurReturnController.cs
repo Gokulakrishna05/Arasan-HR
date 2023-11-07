@@ -27,6 +27,7 @@ namespace Arasan.Controllers
             PurchaseReturn ca = new PurchaseReturn();
             ca.Brlst = BindBranch();
             ca.Branch = Request.Cookies["BranchId"];
+            ca.Location = Request.Cookies["LocationId"];
             ca.Loclst = GetLoc();
             ca.Satlst = GetSat();
             ca.assignList = BindEmp();
@@ -36,6 +37,7 @@ namespace Arasan.Controllers
           
            
             ca.ReqDate = DateTime.Now.ToString("dd-MMM-yyyy");
+            ca.RetDate = DateTime.Now.ToString("dd-MMM-yyyy");
             DataTable dtv = datatrans.GetSequence("PURRE");
             if (dtv.Rows.Count > 0)
             {
@@ -114,6 +116,11 @@ namespace Arasan.Controllers
                 {
 
                     ca.Reason = dt3.Rows[0]["REASON"].ToString();
+
+
+                }
+                DataTable dt4 = new DataTable();
+
 
 
 
@@ -203,54 +210,6 @@ namespace Arasan.Controllers
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["BRANCHID"].ToString(), Value = dtDesg.Rows[i]["BRANCHMASTID"].ToString() });
-                }
-                return lstdesg;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        public JsonResult GetGRNCurrencyJSON(string suppid)
-        {
-            PurchaseReturn model = new PurchaseReturn();
-            model.Curlst = BindCurrency(suppid);
-            return Json(BindCurrency(suppid));
-
-        }
-        public List<SelectListItem> BindCurrency(string id)
-        {
-            try
-            {
-                DataTable dtDesg = PurReturn.GetCurrency(id);
-                List<SelectListItem> lstdesg = new List<SelectListItem>();
-                for (int i = 0; i < dtDesg.Rows.Count; i++)
-                {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["MAINCURR"].ToString(), Value = dtDesg.Rows[i]["GRNBLBASICID"].ToString() });
-                }
-                return lstdesg;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        public JsonResult GetGRNSuppJSON(string suppid)
-        {
-            PurchaseReturn model = new PurchaseReturn();
-            model.Suplst = BindSupplier(suppid);
-            return Json(BindSupplier(suppid));
-
-        }
-        public List<SelectListItem> BindSupplier(string id)
-        {
-            try
-            {
-                DataTable dtDesg = PurReturn.GetSupplier(id);
-                List<SelectListItem> lstdesg = new List<SelectListItem>();
-                for (int i = 0; i < dtDesg.Rows.Count; i++)
-                {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTYNAME"].ToString(), Value = dtDesg.Rows[i]["GRNBLBASICID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -432,23 +391,8 @@ namespace Arasan.Controllers
             return Json(model.returnlist);
 
         }
-        //public List<SelectListItem> BindItemlst(string value)
-        //{
-        //    try
-        //    {
-        //        DataTable dtDesg = PurReturn.GetItem(value);
-        //        List<SelectListItem> lstdesg = new List<SelectListItem>();
-        //        for (int i = 0; i < dtDesg.Rows.Count; i++)
-        //        {
-        //            lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEMID"].ToString() });
-        //        }
-        //        return lstdesg;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
+       
+
         public ActionResult GetStkqty(string grnid,string loc,string branch)
         {
             try
@@ -471,12 +415,15 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+
         public ActionResult GetGRNBL(string GRNID)
         {
             try
             {
                 DataTable dt = new DataTable();
-          
+
+                string party = "";
+                string currency = "";
                 string ex = "";
                 string frig = "";
                 string other = "";
@@ -494,7 +441,8 @@ namespace Arasan.Controllers
 
                 if (dt.Rows.Count > 0)
                 {
-
+                    party = dt.Rows[0]["PARTYNAME"].ToString();
+                    currency = dt.Rows[0]["MAINCURR"].ToString();
                     ex = dt.Rows[0]["EXRATE"].ToString();
                     frig = dt.Rows[0]["FREIGHT"].ToString();
                     other = dt.Rows[0]["OTHER_CHARGES"].ToString();
@@ -509,7 +457,7 @@ namespace Arasan.Controllers
 
                 }
 
-                var result = new { ex = ex, frig = frig, other = other, roundoffplus = roundoffplus, roundoffmin = roundoffmin, otherdedu = otherdedu, gross = gross, net = net, packing = packing };
+                var result = new { ex = ex, frig = frig, other = other, roundoffplus = roundoffplus, roundoffmin = roundoffmin, otherdedu = otherdedu, gross = gross, net = net, packing = packing, party= party, currency= currency };
                 return Json(result);
             }
             catch (Exception ex)
@@ -591,7 +539,6 @@ namespace Arasan.Controllers
             //  model.ItemGrouplst = BindItemGrplst(value);
             return Json(BindGRNlist());
         }
-
         public ActionResult DeleteMR(string tag, int id)
         {
 
