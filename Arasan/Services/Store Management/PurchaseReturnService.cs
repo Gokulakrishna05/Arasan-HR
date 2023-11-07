@@ -99,12 +99,7 @@ namespace Arasan.Services
         public DataTable Getstkqty(string grnid, string locid, string brid)
         {
             string SvSql = string.Empty;
-
             SvSql = "select SUM(BALANCE_QTY) as QTY from INVENTORY_ITEM where BALANCE_QTY > 0 AND LOCATION_ID='" + locid  + "' AND BRANCH_ID='"+ brid  + "' AND TSOURCEID='"+ grnid  + "'";
-
-            //SvSql = "select SUM(BALANCE_QTY) as QTY from INVENTORY_ITEM where BALANCE_QTY > 0 AND LOCATION_ID='" + locid  + "' AND BRANCH_ID='"+ brid  + "' AND GRN_ID='"+ grnid  + "'";
-           // SvSql = "select SUM(BALANCE_QTY) as QTY from INVENTORY_ITEM where BALANCE_QTY > 0 AND LOCATION_ID='" + locid  + "' AND BRANCH_ID='"+ brid  + "' ";
-
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
