@@ -80,10 +80,11 @@
                           <th>Currency</th>
                            <th>Qc Testing</th>
                          
-                          <th>View</th>
-                          <th>Delete</th>
-                                                            <th>Status</th>
-                                                            <th>Account</th>
+                          <th>Status</th>
+                          <th>Account</th>
+                                                            <th>View</th>
+                                                            <th>edit</th>
+                                                            <th>Delete</th>
                         </tr>
                       </thead>
                    
@@ -102,33 +103,38 @@
                                                                             <td>@Html.DisplayFor(modelItem => item.PONo)</td>
                                                                             <td>@Html.DisplayFor(modelItem => item.Cur)</td>
                                                                             <td>@Html.DisplayFor(modelItem => item.Qcstatus)</td>
-                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewGRN", "GRN",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Waiting for approval' /></a></div></td>
-                                                                    <td> <a href="@Url.Action("DeleteMR","GRN",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
-
+                                                                  
                                                                     @if (item.Active == "No")
                                                                     {
                                                                         <td></td>
                                                                         <td> </td>
                                                                         <td></td>
                                                                         <td> </td>
-                                                                        
+                                                                        <td> </td>
+
                                                                     }
-                                                                 
+
+
                                                                     else
                                                                     {
                                                                         <td>@Html.DisplayFor(modelItem => item.Status)</td>
-                                                                               @if(item.Status == "GRN Completed"){
-                                                                      <td> <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("GRNAccount", "GRN",new { id=item.ID })" class="fancybox" data-fancybox-type="iframe"><img src='../Images/checklist.png' alt='' /></a></div></td>
-                                                               
+                                                                        @if (item.Status == "GRN Completed")
+                                                                        {
+                                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("GRNAccount", "GRN",new { id=item.ID })" class="fancybox" data-fancybox-type="iframe"><img src='../Images/checklist.png' alt='' /></a></div></td>
+                                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewGRN", "GRN",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Waiting for approval' /></a></div></td>
+                                                                            <td></td>
+                                                                            <td> <a href="@Url.Action("DeleteMR","GRN",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
+
+
                                                                         }
-                                                                    //else{
-                                                                    //  <td></td>
+                                                                        else
+                                                                        {
+                                                                            <td></td>
+                                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewGRN", "GRN",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Waiting for approval' /></a></div></td>
 
-                                                                    //    }
-
-                                                                    //        <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewGRN", "GRN",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Waiting for approval' /></a></div></td>
-                                                                    //        <td> <a href="@Url.Action("DeleteMR","GRN",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
-                                                                   
+                                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("GRN", "GRN",new { id=item.ID })"></a></div></td>
+                                                                            <td> <a href="@Url.Action("DeleteMR","GRN",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
+                                                                        }
 
                                                                     }
                                  </tr>
