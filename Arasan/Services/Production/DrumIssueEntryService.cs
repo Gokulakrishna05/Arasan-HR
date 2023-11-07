@@ -280,6 +280,7 @@ namespace Arasan.Services.Production
                                             objCmdInp.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cy.Itemid;
                                             objCmdInp.Parameters.Add("DOCDATE", OracleDbType.Date).Value = DateTime.Now;
                                             objCmdInp.Parameters.Add("DRUMNO", OracleDbType.NVarchar2).Value = DrumID;
+                                            objCmdInp.Parameters.Add("DRUM", OracleDbType.NVarchar2).Value = ca.drum;
                                             objCmdInp.Parameters.Add("T1SOURCEID", OracleDbType.NVarchar2).Value = did;
                                             objCmdInp.Parameters.Add("T1SOURCEBASICID", OracleDbType.NVarchar2).Value = Pid;
                                             objCmdInp.Parameters.Add("SOURCETYPE", OracleDbType.NVarchar2).Value = "DRUMISSUE";

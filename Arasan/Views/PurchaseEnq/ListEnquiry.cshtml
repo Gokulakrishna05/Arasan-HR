@@ -87,7 +87,7 @@
                           <th>Supplier Name</th>
                           <th>Send Mail</th>
                           <th>Followup</th>
-                          @*<th>Move To Quote</th>*@
+                          <th>Move To Quote</th>
                           <th>View</th>
                           <th>Close</th>
                         </tr>
@@ -125,37 +125,38 @@
                                                                         <td> <a href="@Url.Action("DeleteMR","PurchaseEnq",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
 
                                                                     }
-                                                                </tr>
+                                                             
 
-                                                                    //    @if (item.Status == "1" )
-                                                                    //    {
-                                                                    //        <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewEnq", "PurchaseEnq",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20'/></a></div>
-                                                                    //        </td>
-                                                                    //    }
-                                                                    //    else
-                                                                    //    {
-                                                                    //        <td><div class="fa-hover col-md-2 col-sm-4"> <img src='../Images/view_icon.png' alt='Moved to Quote' width='20' /></div></td>
-                                                                    //    }
+                                                                        @if (item.Status == "1" )
+                                                                        {
+                                                                        <td>
+                                                                            <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewEnquiry", "PurchaseEnq",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a></div>
+                                                                            </td>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <img src='../Images/view_icon.png' alt='Moved to Quote' width='20' /></div></td>
+                                                                        }
                                                                     
                                                                     
 
-                                                                    //<td>
-                                                                    //    @if (item.Status == "1"   )
-                                                                    //    {
-                                                                    //        <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("PurchaseEnquiry", "PurchaseEnq",new { id=item.ID })"></a></div>
-                                                                    //    }
-                                                                    //</td>
-                                                                    //<td>
-                                                                    //    @if (item.Status == "1" )
-                                                                    //    {
-                                                                    //        <a href="@Url.Action("DeleteMR","PurchaseEnq",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a>
-                                                                    //    }
-                                                                    //</td>
+                                                                    <td>
+                                                                        @if (item.Status == "1"   )
+                                                                        {
+                                                                            <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("PurchaseEnquiry", "PurchaseEnq",new { id=item.ID })"></a></div>
+                                                                        }
+                                                                    </td>
+                                                                    <td>
+                                                                        @if (item.Status == "1" )
+                                                                        {
+                                                                            <a href="@Url.Action("DeleteMR","PurchaseEnq",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a>
+                                                                        }
+                                                                    </td>
 
                                                                         
                                                                    @* <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("PurchaseEnquiry", "PurchaseEnq",new { id=item.ID })"></a></div></td>
                                                                    *@
-                                                                   
+                                                                      </tr>
                                                                
 
                                                                 i++;
