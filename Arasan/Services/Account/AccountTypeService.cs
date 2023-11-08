@@ -1,6 +1,7 @@
 ﻿using Arasan.Interface;
-using Arasan.Interface.Master;
+
 using Arasan.Models;
+
 using Microsoft.Extensions.Configuration;
 using Oracle.ManagedDataAccess.Client;
 using System;
@@ -23,7 +24,7 @@ namespace Arasan.Services
         {
             if (string.IsNullOrEmpty(status))
             {
-                status = "ACTIVE";
+                status = "Y";
             }
             List<AccountType> cmpList = new List<AccountType>();
             using (OracleConnection con = new OracleConnection(_connectionString))
@@ -32,7 +33,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select ACCOUNTTYPEID,ACCOUNTCODE,ACCOUNTTYPE,STATUS from ACCTYPE WHERE STATUS='" + status + "' order by ACCTYPE.ACCOUNTTYPEID DESC ";
+                    cmd.CommandText = "Select ACCOUNTTYPEID,ACCOUNTCODE,ACCOUNTTYPE,IS_ACTIVE from ACCTYPE WHERE IS_ACTIVE='" + status + "' order by ACCTYPE.ACCOUNTTYPEID DESC ";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -41,8 +42,8 @@ namespace Arasan.Services
                             ID = rdr["ACCOUNTTYPEID"].ToString(),
                             AccountCode = rdr["ACCOUNTCODE"].ToString(),
                             Accounttype = rdr["ACCOUNTTYPE"].ToString(),
-                            Status = rdr["STATUS"].ToString()
-                            
+                            Status = rdr["IS_ACTIVE"].ToString()
+
 
                         };
                         cmpList.Add(cmp);
@@ -68,12 +69,12 @@ namespace Arasan.Services
                         return msg;
                     }
                 }
-               
+
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("ACCTYPE_PROC", objConn);
-                   
+
 
                     objCmd.CommandType = CommandType.StoredProcedure;
                     if (ss.ID == null)
@@ -91,8 +92,8 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("ACCOUNTTYPE", OracleDbType.NVarchar2).Value = ss.Accounttype;
                     objCmd.Parameters.Add("CREATEDON", OracleDbType.Date).Value = DateTime.Now;
                     objCmd.Parameters.Add("CREATEDBY", OracleDbType.NVarchar2).Value = ss.CreatedBy;
-                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE"; 
-                    
+                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
+
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
 
                     try
@@ -151,7 +152,7 @@ namespace Arasan.Services
             return "";
 
         }
-        
+
         public string RemoveChange(string tag, int id)
         {
 
@@ -160,7 +161,7 @@ namespace Arasan.Services
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE ACCTYPE SET STATUS ='ACTIVE' WHERE ACCOUNTTYPEID='" + id + "'";
+                    svSQL = "UPDATE ACCTYPE SET IS_ACTIVE ='Y' WHERE ACCOUNTTYPEID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -176,5 +177,5 @@ namespace Arasan.Services
 
         }
 
-     }
+    }
 }

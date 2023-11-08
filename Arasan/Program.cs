@@ -17,8 +17,8 @@ using GrapeCity.ActiveReports.Aspnetcore.Viewer;
 using System.Collections.Generic;
 using Arasan.Models;
 using Microsoft.AspNetCore.Http.Features;
-using Arasan.Services;
 using Microsoft.AspNetCore.Hosting;
+
 
 
 //using Arasan.Services.Store_Management;

@@ -1,11 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 using Arasan.Interface;
-using Arasan.Interface.Master;
 using Arasan.Models;
-
 using Arasan.Services;
-using Arasan.Services.Master;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -13,24 +10,24 @@ namespace Arasan.Controllers
 {
     public class AccountTypeController : Controller
     {
-       
-            IAccountType AccountTypeService;
 
-            IConfiguration? _configuration;
-            private string? _connectionString;
+        IAccountType AccountTypeService;
 
-       public AccountTypeController(IAccountType _AccountTypeService, IConfiguration _configuration)
+        IConfiguration? _configuration;
+        private string? _connectionString;
+
+        public AccountTypeController(IAccountType _AccountTypeService, IConfiguration _configuration)
         {
             AccountTypeService = _AccountTypeService;
             _connectionString = _configuration.GetConnectionString("OracleDBConnection");
-            
+
         }
 
         public IActionResult AccountType(string id)
         {
             AccountType AG = new AccountType();
             AG.CreatedBy = Request.Cookies["UserId"];
-           
+
 
             //for edit & delete
             if (id != null)
@@ -44,8 +41,8 @@ namespace Arasan.Controllers
                     AG.Accounttype = dt.Rows[0]["ACCOUNTTYPE"].ToString();
                     AG.Status = dt.Rows[0]["STATUS"].ToString();
                     AG.ID = id;
-                    
-                   
+
+
                 }
             }
             return View(AG);
@@ -108,8 +105,8 @@ namespace Arasan.Controllers
                 return RedirectToAction("ListAccountType");
             }
         }
-         public ActionResult Remove(string tag, int id)
-         {
+        public ActionResult Remove(string tag, int id)
+        {
 
             string flag = AccountTypeService.RemoveChange(tag, id);
             if (string.IsNullOrEmpty(flag))
@@ -123,6 +120,6 @@ namespace Arasan.Controllers
                 return RedirectToAction("ListAccountType");
             }
         }
-        
+
     }
 }

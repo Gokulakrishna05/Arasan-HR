@@ -10,6 +10,16 @@ using NuGet.Packaging.Signing;
 using System.Net.Mail;
 using Arasan.Services.Qualitycontrol;
 using Microsoft.AspNetCore.Hosting;
+using System.Net;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Reporting.WebForms;
+using Microsoft.Reporting.WinForms;
+using Org.BouncyCastle.Utilities.IO;
+using AspNetCore.ReportingServices.ReportProcessing.ReportObjectModel;
+using static GrapeCity.Enterprise.Data.DataEngine.DataProcessing.DataProcessor;
+using Microsoft.Reporting.Map.WebForms.BingMaps;
+using DocumentFormat.OpenXml.Vml.Office;
+using Microsoft.Extensions.Hosting.Internal;
 
 namespace Arasan.Controllers
 {
@@ -625,13 +635,14 @@ namespace Arasan.Controllers
             string mimtype = "";
             int extension = 1;
             string DrumID = datatrans.GetDataString("Select PARTYID from POBASIC where POBASICID='" + id + "' ");
-            DataSet ds = new DataSet();
+
+            System.Data.DataSet ds = new System.Data.DataSet();
             var path = $"{this._WebHostEnvironment.WebRootPath}\\Reports\\Basic.rdlc";
             Dictionary<string, string> Parameters = new Dictionary<string, string>();
             //  Parameters.Add("rp1", " Hi Everyone");
             var Poitem = await PoService.GetPOItem(id, DrumID);
-        
-            LocalReport localReport = new LocalReport(path);
+
+            AspNetCore.Reporting.LocalReport localReport = new AspNetCore.Reporting.LocalReport(path);
             localReport.AddDataSource("DataSet1", Poitem);
             //localReport.AddDataSource("DataSet1_DataTable1", po);
             var result = localReport.Execute(RenderType.Pdf, extension, Parameters, mimtype);
@@ -661,7 +672,7 @@ namespace Arasan.Controllers
         public IActionResult DownloadFile()
         {
             string webRootPath = $"{this._WebHostEnvironment.WebRootPath}\\Reports\\Basic.rdlc";
-            string outputFilePath = Path.Combine(webRootPath, "pdf", "sample.pdf");
+            string outputFilePath = Path.Combine(webRootPath, "pdfdownload", "sample.pdf");
 
             if (!System.IO.File.Exists(outputFilePath))
             {
@@ -671,32 +682,86 @@ namespace Arasan.Controllers
 
             var fileInfo = new System.IO.FileInfo(outputFilePath);
             Response.ContentType = "application/pdf";
-            Response.Headers.Add("Content-Disposition", "attachment;filename=\"" + fileInfo.Name + "\"");
+            Response.Headers.Add("Content-Disposition", "attachment;filename=" + fileInfo.Name + "");
             Response.Headers.Add("Content-Length", fileInfo.Length.ToString());
-
+            //var file= File(System.IO.File.ReadAllBytes(outputFilePath), "application/pdf", fileInfo.Name);
             // Send the file to the client
             return File(System.IO.File.ReadAllBytes(outputFilePath), "application/pdf", fileInfo.Name);
+            //var stream = HostingEnvironment.VirtualPathProvider.OpenFile(file);
+            //var text = new StreamReader(stream).ReadToEnd();
+
+
+        }
+        public void CreatePDF(string id, string pid)
+        {
+
+            Microsoft.Reporting.WebForms.Warning[] warnings;
+            string[] streamIds;
+            string mimeType = string.Empty;
+            string encoding = string.Empty;
+            string extension = "pdf";
+            ReportViewer viewer = new ReportViewer();
+            viewer.ProcessingMode = ProcessingMode.Local;
+            viewer.LocalReport.ReportPath = $"{this._WebHostEnvironment.WebRootPath}\\Reports\\Basic.rdlc";
+            //Datasource
+            DataTable dataTable = new DataTable();
+            dataTable = PoService.GetPOItemrep(id);
+            var rds = new ReportDataSource();
+            rds.Name = "DataSet1";
+            rds.Value = dataTable;
+
+            //DataSource
+            viewer.LocalReport.DataSources.Add(rds);
+            viewer.LocalReport.EnableExternalImages = true;
+            byte[] bytes = viewer.LocalReport.Render("PDF", null, out mimeType, out encoding, out extension, out streamIds, out warnings);
+
+
+
+            // Now that you have all the bytes representing the PDF report, buffer it and send it to the client.
+            //Response.BufferOutput = true;
+            Response.Clear();
+            Response.ContentType = mimeType;
+            Response.Headers.Add("content-disposition", "attachment; filename=" + "Employee" + "." + extension);
+            Response.Body.WriteAsync(bytes); // create the file
+            Response.Body.Flush(); // send it to the client to download
         }
 
-        public ActionResult SendMail(string id)
+            public ActionResult SendMail(string id)
         {
 
 
             try
             {
                 datatrans = new DataTransactions(_connectionString);
-                MailRequest requestwer = new MailRequest();
+                DataTable ddt1 = new DataTable();
+                ddt1 = datatrans.GetEmailConfig();
+                string HostAdd = ddt1.Rows[0]["SMTP_HOST"].ToString();
+                string FromEmailid = ddt1.Rows[0]["EMAIL_ID"].ToString();
+                string password = ddt1.Rows[0]["PASSWORD"].ToString();
+                int port = Convert.ToInt32(ddt1.Rows[0]["PORT_NO"].ToString());
+                Boolean ssl = ddt1.Rows[0]["SSL"].ToString() == "No" ? false : true;
 
-                requestwer.ToEmail = "deepa@icand.in";
-                requestwer.Subject = "Purchase Order";
-                //string Content = "";
-
-                string Content = "Attached my file";
+                MailMessage mailMessage = new MailMessage();
+                mailMessage.From = new MailAddress(FromEmailid); //From Email Id  
+                mailMessage.Subject = "PO"; //Subject of Email  
+                mailMessage.Body ="PO"; //body or message of Email  
+                mailMessage.IsBodyHtml = true;
+                mailMessage.To.Add(new MailAddress("deepa@icand.in")); //adding multiple TO Email Id  
+              
+                SmtpClient smtp = new SmtpClient();  // creating object of smptpclient  
+                smtp.Host = HostAdd;              //host of emailaddress for example smtp.gmail.com etc  
+                smtp.EnableSsl = ssl;
+                NetworkCredential NetworkCred = new NetworkCredential();
+                NetworkCred.UserName = mailMessage.From.Address;
+                NetworkCred.Password = password;
+                smtp.UseDefaultCredentials = false;
+                smtp.Credentials = NetworkCred;
+                smtp.Port = port;
+                smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+              //  mailMessage.Attachments.Add(new Attachment(DownloadFile()));
                
 
-                requestwer.Body = Content;
-                //request.Attachments = "No";
-                datatrans.sendemailpo("Test mail", Content, "gokulakrishna76@gmail.com", "kesavanmoorthi70@gmail.com", "spabnjcirlfipjco", "587", "true", "smtp.gmail.com", "IcanD");
+                smtp.Send(mailMessage);
                 return Ok();
 
             }
