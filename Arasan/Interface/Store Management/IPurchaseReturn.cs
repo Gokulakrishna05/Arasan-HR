@@ -12,6 +12,7 @@ namespace Arasan.Interface
         DataTable GetState();
         DataTable GetEmp();
         DataTable Getparty();
+        DataTable Getcurr();
         
         DataTable GetLocation();
         DataTable GetGRNDetails(string ItemId);

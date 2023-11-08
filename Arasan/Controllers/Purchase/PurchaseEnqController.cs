@@ -530,22 +530,12 @@ namespace Arasan.Controllers
                     dt = PurenqService.GetPurchaseEnqFolwDetails(id);
                     if (dt.Rows.Count > 0)
                     {
-                        cmp.Enqno = dt.Rows[0]["ENQNO"].ToString();
-                        cmp.Supname = dt.Rows[0]["PARTY"].ToString();
+                        cmp.EnqNo = dt.Rows[0]["ENQNO"].ToString();
+                        cmp.Supname = dt.Rows[0]["PARTYID"].ToString();
                     }
-                    //DataTable dt1 = new DataTable();
-                    //dt1 = PurenqService.GetFollowupDetail(id);
-                    //if (dt1.Rows.Count > 0)
-                    //{
-                    //    cmp.Enqno = dt1.Rows[0]["ENQNO"].ToString();
-                    //    cmp.Followby = dt1.Rows[0]["EMPNAME"].ToString();
-                    //    cmp.Followdate = dt1.Rows[0]["FOLLOW_DATE"].ToString();
-                    //    cmp.Nfdate = dt1.Rows[0]["NEXT_FOLLOW_DATE"].ToString();
-                    //    cmp.Rmarks = dt1.Rows[0]["REMARKS"].ToString();
-                    //    cmp.Enquiryst = dt1.Rows[0]["FOLLOW_STATUS"].ToString();
-                    //}
+                   
                     DataTable dtt = new DataTable();
-                    string e = cmp.Enqno;
+                    string e = cmp.EnqNo;
                     dtt = PurenqService.GetFolowup(e);
                     PurchaseFollowupDetails tda = new PurchaseFollowupDetails();
 
@@ -557,7 +547,7 @@ namespace Arasan.Controllers
                             tda.Followby = dtt.Rows[i]["EMPNAME"].ToString();
                             tda.Followdate = dtt.Rows[i]["FOLLOW_DATE"].ToString();
                             tda.Nfdate = dtt.Rows[i]["NEXT_FOLLOW_DATE"].ToString();
-                           // tda.ID = id;
+                           
                             tda.Rmarks = dtt.Rows[i]["REMARKS"].ToString();
                             tda.Enquiryst = dtt.Rows[i]["FOLLOW_STATUS"].ToString();
                             TData.Add(tda);

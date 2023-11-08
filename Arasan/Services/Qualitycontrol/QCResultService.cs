@@ -29,17 +29,26 @@ namespace Arasan.Services.Qualitycontrol
            adapter.Fill(dtt);
             return dtt;
         }
-        
-        //public DataTable GetLocation()
-        //{
-        //    string SvSql = string.Empty;
-        //    SvSql = "Select LOCID,LOCDETAILSID from LOCDETAILS ";
-        //    DataTable dtt = new DataTable();
-        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-        //    adapter.Fill(dtt);
-        //    return dtt;
-        //}
+
+        public DataTable GetLocation()
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select LOCID,LOCDETAILSID from LOCDETAILS ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        } public DataTable GetEmp()
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select EMPNAME,EMPMASTID from EMPMAST ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetQCResultDetail(string id)
         {
             string SvSql = string.Empty;
@@ -313,7 +322,8 @@ namespace Arasan.Services.Qualitycontrol
         public DataTable GetViewQCResult(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select QCRESULTBASIC.GRNNO,QCRESULTBASIC.DOCID,to_char(QCRESULTBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,to_char(QCRESULTBASIC.GRNDATE,'dd-MON-yyyy')GRNDATE,QCRESULTBASIC.PARTYID,QCRESULTBASICID,QCRESULTBASIC.TESTEDBY,QCRESULTBASIC.LOCATION,QCRESULTBASIC.REMARKS,QCRESULTBASIC.QCLOCATION  from QCRESULTBASIC  WHERE QCRESULTBASIC.QCRESULTBASICID='" + id + "' ";
+            SvSql = "Select EMPMAST.EMPNAME,LOCDETAILS.LOCID ,LOCDETAILS.LOCID,GRNBLBASIC.DOCID,QCRESULTBASIC.DOCID,to_char(QCRESULTBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,to_char(QCRESULTBASIC.GRNDATE,'dd-MON-yyyy')GRNDATE,PARTYMAST.PARTYID ,QCRESULTBASICID,QCRESULTBASIC.REMARKS from QCRESULTBASIC left outer join GRNBLBASIC on GRNBLBASIC.GRNBLBASICID= QCRESULTBASIC.GRNNO LEFT OUTER JOIN  PARTYMAST on PARTYMAST.PARTYMASTID = QCRESULTBASIC.PARTYID LEFT OUTER JOIN  LOCDETAILS on LOCDETAILS.LOCDETAILSID = QCRESULTBASIC.LOCATION LEFT OUTER JOIN  EMPMAST on EMPMAST.EMPMASTID = QCRESULTBASIC.TESTEDBY LEFT OUTER JOIN  LOCDETAILS on LOCDETAILS.LOCDETAILSID = QCRESULTBASIC.LOCATION WHERE QCRESULTBASIC.QCRESULTBASICID='" + id + "' ";
+
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
