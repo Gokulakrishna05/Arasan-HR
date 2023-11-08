@@ -27,12 +27,18 @@ namespace Arasan.Controllers
             PurchaseReturn ca = new PurchaseReturn();
             ca.Brlst = BindBranch();
             ca.Branch = Request.Cookies["BranchId"];
+            ca.Location = Request.Cookies["LocationId"];
             ca.Loclst = GetLoc();
             ca.Satlst = GetSat();
             ca.assignList = BindEmp();
             ca.Citylst = BindCity("");
             ca.POlst = BindGRNlist();
+            ca.Partylst = Bindpartylist();
+            ca.currlst = Bindcurrlist();
+          
+           
             ca.ReqDate = DateTime.Now.ToString("dd-MMM-yyyy");
+            ca.RetDate = DateTime.Now.ToString("dd-MMM-yyyy");
             DataTable dtv = datatrans.GetSequence("PURRE");
             if (dtv.Rows.Count > 0)
             {
@@ -40,18 +46,18 @@ namespace Arasan.Controllers
             }
             List<RetItem> TData = new List<RetItem>();
             RetItem tda = new RetItem();
-           
+
             if (id == null)
             {
                 for (int i = 0; i < 1; i++)
                 {
                     tda = new RetItem();
-                   
+
                     //tda.Itemlst = BindItemlst("");
 
                     TData.Add(tda);
                 }
-               
+
             }
             else
             {
@@ -60,7 +66,7 @@ namespace Arasan.Controllers
 
 
                 DataTable dt = new DataTable();
-              
+
                 dt = PurReturn.GetPurchaseReturn(id);
                 if (dt.Rows.Count > 0)
                 {
@@ -77,7 +83,7 @@ namespace Arasan.Controllers
                     ca.Location = dt.Rows[0]["LOCID"].ToString();
                     ca.ExRate = dt.Rows[0]["EXCHANGERATE"].ToString();
                     ca.Rej = dt.Rows[0]["REJBY"].ToString();
-                  
+
                     ca.Trans = dt.Rows[0]["TRANSITLOCID"].ToString();
                     ca.Grn = dt.Rows[0]["RGRNNO"].ToString();
                     ca.Narration = dt.Rows[0]["NARR"].ToString();
@@ -95,15 +101,15 @@ namespace Arasan.Controllers
                 dt2 = PurReturn.GetPurchaseReturnDes(id);
                 if (dt2.Rows.Count > 0)
                 {
-                 
-                        ca.Addr = dt2.Rows[0]["SADD1"].ToString();
 
-                        ca.City = dt2.Rows[0]["SCITY"].ToString();
-                        ca.State = dt2.Rows[0]["SSTATE"].ToString();
-                        ca.Pin = dt2.Rows[0]["SPINCODE"].ToString();
-                        ca.ID = id;
-                        ca.Phone = dt2.Rows[0]["SPHONE"].ToString();
-                      
+                    ca.Addr = dt2.Rows[0]["SADD1"].ToString();
+
+                    ca.City = dt2.Rows[0]["SCITY"].ToString();
+                    ca.State = dt2.Rows[0]["SSTATE"].ToString();
+                    ca.Pin = dt2.Rows[0]["SPINCODE"].ToString();
+                    ca.ID = id;
+                    ca.Phone = dt2.Rows[0]["SPHONE"].ToString();
+
                 }
                 DataTable dt3 = new DataTable();
                 dt3 = PurReturn.GetPurchaseReturnReason(id);
@@ -112,43 +118,52 @@ namespace Arasan.Controllers
 
                     ca.Reason = dt3.Rows[0]["REASON"].ToString();
 
-                   
-                   
 
                 }
                 DataTable dt4 = new DataTable();
 
-                dt4 = PurReturn.GetPurchaseReturnDetail(id);
-                if (dt4.Rows.Count > 0)
-                {
 
-                    for (int i = 0; i < dt4.Rows.Count; i++)
-                    {
-                        tda = new RetItem();
-                       
-                        //tda.Itemlst = BindItemlst(ca.Grn);
-                        tda.ItemId = dt4.Rows[i]["ITEMID"].ToString();
-                        tda.saveItemId = dt4.Rows[i]["ITEMID"].ToString();
-                        tda.rate = dt4.Rows[i]["RATE"].ToString();
-                        tda.Amount = dt4.Rows[i]["AMOUNT"].ToString();
-                        tda.Quantity = dt4.Rows[i]["QTY"].ToString();
-                        tda.binid = dt4.Rows[i]["BINID"].ToString();
-                        tda.Current = dt4.Rows[i]["CLSTOCK"].ToString();
-                        tda.Return = dt4.Rows[i]["PRIQTY"].ToString();
-                        tda.TotalAmount = dt4.Rows[i]["TOTAMT"].ToString();
-                        tda.ConFac = dt4.Rows[i]["CF"].ToString();
-                        tda.Unit = dt4.Rows[i]["UNITID"].ToString();
-                        tda.CGSTPer = Convert.ToDouble(dt4.Rows[i]["CGSTPER"].ToString() == "" ? "0" : dt4.Rows[i]["CGSTPER"].ToString());
-                        tda.SGSTPer = Convert.ToDouble(dt4.Rows[i]["SGSTPER"].ToString() == "" ? "0" : dt4.Rows[i]["SGSTPER"].ToString());
-                        tda.IGSTPer = Convert.ToDouble(dt4.Rows[i]["IGSTPER"].ToString() == "" ? "0" : dt4.Rows[i]["IGSTPER"].ToString());
-                        tda.CGSTAmt = Convert.ToDouble(dt4.Rows[i]["CGSTAMT"].ToString() == "" ? "0" : dt4.Rows[i]["CGSTAMT"].ToString());
-                        tda.SGSTAmt = Convert.ToDouble(dt4.Rows[i]["SGSTAMT"].ToString() == "" ? "0" : dt4.Rows[i]["SGSTAMT"].ToString());
-                        tda.IGSTAmt = Convert.ToDouble(dt4.Rows[i]["IGSTAMT"].ToString() == "" ? "0" : dt4.Rows[i]["IGSTAMT"].ToString());
-                        tda.Isvalid = "Y";
-                        TData.Add(tda);
-                    }
+
+
+
                 }
-                }
+                //DataTable dt4 = new DataTable();
+
+                //dt4 = PurReturn.GetPurchaseReturnDetail(id);
+                //if (dt4.Rows.Count > 0)
+                //{
+
+                //    for (int i = 0; i < dt4.Rows.Count; i++)
+                //    {
+                //        tda = new RetItem();
+
+                //        //tda.Itemlst = BindItemlst(ca.Grn);
+                //        tda.ItemId = dt4.Rows[i]["ITEMID"].ToString();
+                //        tda.saveItemId = dt4.Rows[i]["ITEMID"].ToString();
+                //        tda.rate = dt4.Rows[i]["RATE"].ToString();
+                //        tda.Amount = dt4.Rows[i]["AMOUNT"].ToString();
+                //        tda.Quantity = dt4.Rows[i]["QTY"].ToString();
+                //        tda.binid = dt4.Rows[i]["BINID"].ToString();
+                //        tda.Current = dt4.Rows[i]["CLSTOCK"].ToString();
+                //        tda.Return = dt4.Rows[i]["PRIQTY"].ToString();
+                //        tda.TotalAmount = dt4.Rows[i]["TOTAMT"].ToString();
+                //        tda.ConFac = dt4.Rows[i]["CF"].ToString();
+                //        tda.Unit = dt4.Rows[i]["UNITID"].ToString();
+                //        tda.CGSTPer = Convert.ToDouble(dt4.Rows[i]["CGSTPER"].ToString() == "" ? "0" : dt4.Rows[i]["CGSTPER"].ToString());
+                //        tda.SGSTPer = Convert.ToDouble(dt4.Rows[i]["SGSTPER"].ToString() == "" ? "0" : dt4.Rows[i]["SGSTPER"].ToString());
+                //        tda.IGSTPer = Convert.ToDouble(dt4.Rows[i]["IGSTPER"].ToString() == "" ? "0" : dt4.Rows[i]["IGSTPER"].ToString());
+                //        tda.CGSTAmt = Convert.ToDouble(dt4.Rows[i]["CGSTAMT"].ToString() == "" ? "0" : dt4.Rows[i]["CGSTAMT"].ToString());
+                //        tda.SGSTAmt = Convert.ToDouble(dt4.Rows[i]["SGSTAMT"].ToString() == "" ? "0" : dt4.Rows[i]["SGSTAMT"].ToString());
+                //        tda.IGSTAmt = Convert.ToDouble(dt4.Rows[i]["IGSTAMT"].ToString() == "" ? "0" : dt4.Rows[i]["IGSTAMT"].ToString());
+                //        tda.Isvalid = "Y";
+                //        TData.Add(tda);
+                //    }
+                //}
+ 
+            
+ 
+            //}
+ 
            
                 ca.RetLst = TData;
             return View(ca);
@@ -208,6 +223,7 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+
         public JsonResult GetGRNCurrencyJSON(string suppid)
         {
             PurchaseReturn model = new PurchaseReturn();
@@ -223,7 +239,7 @@ namespace Arasan.Controllers
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["MAINCURR"].ToString(), Value = dtDesg.Rows[i]["GRNBLBASICID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["MAINCURR"].ToString(), Value = dtDesg.Rows[i]["CURRENCYID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -247,7 +263,7 @@ namespace Arasan.Controllers
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTYNAME"].ToString(), Value = dtDesg.Rows[i]["GRNBLBASICID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTYNAME"].ToString(), Value = dtDesg.Rows[i]["PARTYMASTID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -256,6 +272,8 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+
+
         public List<SelectListItem> GetLoc()
         {
             try
@@ -287,6 +305,45 @@ namespace Arasan.Controllers
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["STATE"].ToString(), Value = dtDesg.Rows[i]["STATEMASTID"].ToString() });
+                }
+                return lstdesg;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        } 
+        public List<SelectListItem> Bindpartylist()
+        {
+            try
+            {
+                DataTable dtDesg = PurReturn.Getparty();
+
+
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTYNAME"].ToString(), Value = dtDesg.Rows[i]["PARTYMASTID"].ToString() });
+                }
+                return lstdesg;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        } public List<SelectListItem> Bindcurrlist()
+        {
+            try
+            {
+                DataTable dtDesg = PurReturn.Getcurr();
+
+
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["MAINCURR"].ToString(), Value = dtDesg.Rows[i]["CURRENCYID"].ToString() });
                 }
                 return lstdesg;
 
@@ -392,13 +449,17 @@ namespace Arasan.Controllers
                     tda.igstper= dtt.Rows[i]["IGSTPER"].ToString() == "" ? 0 : Convert.ToDouble(dtt.Rows[i]["IGSTPER"].ToString());
                     tda.totalamount= dtt.Rows[i]["TOTAMT"].ToString()=="" ? 0 : Convert.ToDouble(dtt.Rows[i]["TOTAMT"].ToString());
                     tda.binid= dtt.Rows[i]["BINID"].ToString();
+                    tda.binid = "0";
+                    
                     tda.unitid= dtt.Rows[i]["UNIT"].ToString();
+                   
                     DataTable dt = new DataTable();
                     dt = PurReturn.Getstkqty(grnid, loc, branch);
                     if(dt.Rows.Count > 0)
                     {
                         tda.stkqty = dt.Rows[0]["QTY"].ToString();
                     }
+                   
                     Data.Add(tda);
                 }
             }
@@ -406,23 +467,8 @@ namespace Arasan.Controllers
             return Json(model.returnlist);
 
         }
-        //public List<SelectListItem> BindItemlst(string value)
-        //{
-        //    try
-        //    {
-        //        DataTable dtDesg = PurReturn.GetItem(value);
-        //        List<SelectListItem> lstdesg = new List<SelectListItem>();
-        //        for (int i = 0; i < dtDesg.Rows.Count; i++)
-        //        {
-        //            lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEMID"].ToString() });
-        //        }
-        //        return lstdesg;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
+       
+
         public ActionResult GetStkqty(string grnid,string loc,string branch)
         {
             try
@@ -445,12 +491,15 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+
         public ActionResult GetGRNBL(string GRNID)
         {
             try
             {
                 DataTable dt = new DataTable();
-          
+
+                string party = "";
+                string currency = "";
                 string ex = "";
                 string frig = "";
                 string other = "";
@@ -468,7 +517,8 @@ namespace Arasan.Controllers
 
                 if (dt.Rows.Count > 0)
                 {
-
+                    party = dt.Rows[0]["PARTYNAME"].ToString();
+                    currency = dt.Rows[0]["MAINCURR"].ToString();
                     ex = dt.Rows[0]["EXRATE"].ToString();
                     frig = dt.Rows[0]["FREIGHT"].ToString();
                     other = dt.Rows[0]["OTHER_CHARGES"].ToString();
@@ -483,7 +533,7 @@ namespace Arasan.Controllers
 
                 }
 
-                var result = new { ex = ex, frig = frig, other = other, roundoffplus = roundoffplus, roundoffmin = roundoffmin, otherdedu = otherdedu, gross = gross, net = net, packing = packing };
+                var result = new { ex = ex, frig = frig, other = other, roundoffplus = roundoffplus, roundoffmin = roundoffmin, otherdedu = otherdedu, gross = gross, net = net, packing = packing, party= party, currency= currency };
                 return Json(result);
             }
             catch (Exception ex)
@@ -554,9 +604,9 @@ namespace Arasan.Controllers
             }
         }
 
-        public IActionResult ListPurchaseReturn()
+        public IActionResult ListPurchaseReturn(string st, string ed)
         {
-            IEnumerable<PurchaseReturn> cmp = PurReturn.GetAllPurReturn();
+            IEnumerable<PurchaseReturn> cmp = PurReturn.GetAllPurReturn(st, ed);
             return View(cmp);
         }
         public JsonResult GetItemGrpJSON()
@@ -565,7 +615,6 @@ namespace Arasan.Controllers
             //  model.ItemGrouplst = BindItemGrplst(value);
             return Json(BindGRNlist());
         }
-
         public ActionResult DeleteMR(string tag, int id)
         {
 
@@ -580,6 +629,78 @@ namespace Arasan.Controllers
                 TempData["notice"] = flag;
                 return RedirectToAction("ListPurchaseReturn");
             }
+        }
+
+        public IActionResult viewPurchaseReturn(string id)
+        {
+            PurchaseReturn ca = new PurchaseReturn();
+            DataTable dt = new DataTable();
+            DataTable dtt = new DataTable();
+
+            dt = PurReturn.GetviewPurchaseReturn(id);
+            if (dt.Rows.Count > 0)
+            {
+                ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+
+                ca.Supplier = dt.Rows[0]["PARTYNAME"].ToString();
+                ca.RetNo = dt.Rows[0]["DOCID"].ToString();
+                ca.RetDate = dt.Rows[0]["DOCDATE"].ToString();
+                ca.ID = id;
+                ca.Currency = dt.Rows[0]["MAINCURR"].ToString();
+                ca.ReqNo = dt.Rows[0]["REFNO"].ToString();
+                ca.ReqDate = dt.Rows[0]["REFDT"].ToString();
+                ca.Reason = dt.Rows[0]["REASONCODE"].ToString();
+                ca.Location = dt.Rows[0]["LOCID"].ToString();
+                ca.ExRate = dt.Rows[0]["EXCHANGERATE"].ToString();
+                ca.Rej = dt.Rows[0]["EMPNAME"].ToString();
+               
+
+                ca.Trans = dt.Rows[0]["LOCID"].ToString();
+                ca.Grn = dt.Rows[0]["RGRNNO"].ToString();
+                ca.Narration = dt.Rows[0]["NARR"].ToString();
+                
+                ca.Gross = Convert.ToDouble(dt.Rows[0]["GROSS"].ToString());
+                ca.Net = Convert.ToDouble(dt.Rows[0]["NET"].ToString());
+
+
+                ca.ID = id;
+
+                List<RetItem> Data = new List<RetItem>();
+                RetItem tda = new RetItem();
+                double tot = 0;
+
+                dtt = PurReturn.GetviewPurchaseReturnDetail(id);
+                if (dtt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dtt.Rows.Count; i++)
+                    {
+                        tda = new RetItem();
+                        tda.ItemId = dtt.Rows[i]["ITEMID"].ToString();
+                        tda.rate = dtt.Rows[i]["RATE"].ToString();
+                        tda.Amount = dtt.Rows[i]["AMOUNT"].ToString();
+                        tda.Quantity = dtt.Rows[i]["QTY"].ToString();
+                        tda.binid = dtt.Rows[i]["BINID"].ToString();
+                        tda.Current = dtt.Rows[i]["CLSTOCK"].ToString();
+                        tda.Return = dtt.Rows[i]["PRIQTY"].ToString();
+                        tda.TotalAmount = dtt.Rows[i]["TOTAMT"].ToString();
+                        tda.ConFac = dtt.Rows[i]["CF"].ToString();
+                        tda.Unit = dtt.Rows[i]["UNITID"].ToString();
+                        
+                        tda.CGSTPer = Convert.ToDouble(dtt.Rows[i]["CGSTPER"].ToString() == "" ? "0" : dtt.Rows[i]["CGSTPER"].ToString());
+                        tda.SGSTPer = Convert.ToDouble(dtt.Rows[i]["SGSTPER"].ToString() == "" ? "0" : dtt.Rows[i]["SGSTPER"].ToString());
+                        tda.IGSTPer = Convert.ToDouble(dtt.Rows[i]["IGSTPER"].ToString() == "" ? "0" : dtt.Rows[i]["IGSTPER"].ToString());
+                        tda.CGSTAmt = Convert.ToDouble(dtt.Rows[i]["CGSTAMT"].ToString() == "" ? "0" : dtt.Rows[i]["CGSTAMT"].ToString());
+                        tda.SGSTAmt = Convert.ToDouble(dtt.Rows[i]["SGSTAMT"].ToString() == "" ? "0" : dtt.Rows[i]["SGSTAMT"].ToString());
+                        tda.IGSTAmt = Convert.ToDouble(dtt.Rows[i]["IGSTAMT"].ToString() == "" ? "0" : dtt.Rows[i]["IGSTAMT"].ToString());
+
+
+                        Data.Add(tda);
+                    }
+                }
+
+                ca.RetLst = Data;
+            }
+            return View(ca);
         }
     }
 }

@@ -10,6 +10,11 @@ namespace Arasan.Interface
         DataTable GetGRN();
         //DataTable GetItem(string id);
         DataTable GetState();
+        DataTable GetEmp();
+        DataTable Getparty();
+        DataTable Getcurr();
+        
+        DataTable GetLocation();
         DataTable GetGRNDetails(string ItemId);
         DataTable GetGRNBlDetails(string ItemId);
         DataTable GetSupplier(string ItemId);
@@ -19,9 +24,11 @@ namespace Arasan.Interface
         DataTable GetPurchaseReturnDetail(string id);
         DataTable GetPurchaseReturnReason(string id);
         DataTable GetPurchaseReturnDes(string id);
-        IEnumerable<PurchaseReturn> GetAllPurReturn();
+        IEnumerable<PurchaseReturn> GetAllPurReturn(string st, string ed);
         DataTable GetCity(string id);
         DataTable Getstkqty(string grnid,string locid,string brid);
+        DataTable GetviewPurchaseReturn(string id);
+        DataTable GetviewPurchaseReturnDetail(string id);
 
         string StatusChange(string tag, int id);
     }

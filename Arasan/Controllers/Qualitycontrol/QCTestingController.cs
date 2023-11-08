@@ -455,7 +455,7 @@ namespace Arasan.Controllers
                 DataTable dtDesg = QCTestingService.GetItembyId(value);
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["item"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEMID"].ToString() });
 
                 }
                 
@@ -609,12 +609,12 @@ namespace Arasan.Controllers
             {
                 ca.DocId = dt.Rows[0]["DOCID"].ToString();
                 ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
-                ca.GRNNo = dt.Rows[0]["GRNNO"].ToString();
+                ca.GRNNo = dt.Rows[0]["DOCID"].ToString();
                 ca.GRNDate = dt.Rows[0]["GRNDATE"].ToString();
                 ca.ID = id;
-                ca.Supplst = BindSupplst(ca.GRNNo);
+                //ca.Supplst = BindSupplst(ca.GRNNo);
                 ca.Party = dt.Rows[0]["PARTYID"].ToString();
-                ca.Itemlst = BindItemlst(ca.GRNNo);
+                //ca.Itemlst = BindItemlst(ca.GRNNo);
                 ca.ItemId = dt.Rows[0]["ITEMID"].ToString();
                 ca.SNo = dt.Rows[0]["SLNO"].ToString();
                 ca.LotNo = dt.Rows[0]["LOTSERIALNO"].ToString();

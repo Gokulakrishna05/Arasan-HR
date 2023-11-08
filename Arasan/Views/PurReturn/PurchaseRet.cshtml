@@ -37,24 +37,26 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <br /><label for="inputName3" class="col-sm-4 control-label">Branch <label class="Mandatory"></label></label>
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">GRN No<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Branch, Model.Brlst, new { @id = "ddlBranch", @Class = "form-control _select", @TabIndex = 1 })
-
+                                            @Html.DropDownListFor(o => o.Grn, Model.POlst, "---Please Select--", new { @class = "form-control _select newcss", @id = "ddlGRN" , onchange = "changeItem(this.value," + 0 + ")" })
+                                            @Html.HiddenFor(C => C.ID)
+                                            @Html.HiddenFor(C => C.Location, new { @id = "txtLocation"})
+                                            @Html.HiddenFor(C => C.Branch, new { @id = "txtBranch"})
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <br /><label for="inputName3" class="col-sm-4 control-label">Ware House<label class="Mandatory"></label></label>
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Party <label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Location, Model.Loclst, new { @id = "ddllocation", @Class = "form-control _select", @TabIndex = 4 })
+                                            @Html.TextBoxFor(C => C.Supplier, "---Please Select--",new { @id = "txtSupplier", @class = "form-control", @TabIndex = "2",@readonly=true})
+                                            @*@Html.DropDownListFor(C => C.Supplier, Model.Suplst, new { @id = "ddlParty", @Class = "form-control _select", @TabIndex = 1 })*@
                                         </div>
                                     </div>
                                 </div>
-
-                            </div>
+                                </div>
                            
                             <div class="row">
                                 <div class="col-md-6">
@@ -82,6 +84,8 @@
                             </div>
 
 
+
+@*
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -97,21 +101,26 @@
 
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Party <label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Supplier, Model.Suplst, new { @id = "ddlParty", @Class = "form-control _select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.party, Model.Partylst, new { @id = "ddlParty", @Class = "form-control _select", @TabIndex = 1 })
                                         </div>
                                     </div>
                                 </div>
                                 
-                                </div>
+                                </div>*@
                            
+
                                  <div class="row">
                                      <div class="col-md-6">
                                     <div class="form-group">
 
                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Currency<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Currency, Model.Curlst, new { @id = "ddlCurrency", @Class = "form-control _select", @TabIndex = 1 })
 
+                                            @Html.DropDownListFor(C => C.Curr, Model.currlst, new { @id = "ddlCurrency", @Class = "form-control _select", @TabIndex = 1 })
+
+
+
+                                            @Html.TextBoxFor(C => C.Currency, new { @id = "txtCurrency", @class = "form-control", @TabIndex = "2",@readonly=true})
                                         </div>
                                     </div>
                                 </div>
@@ -121,7 +130,7 @@
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Exchange Rate<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
 
-                                            @Html.TextBoxFor(C => C.ExRate, new { @id = "txtExRate", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
+                                            @Html.TextBoxFor(C => C.ExRate, new { @id = "txtExRate", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)",@readonly=true})
 
                                         </div>
                                     </div>
@@ -201,7 +210,7 @@
 
                                         <br />  <label for="inputName3" class="col-sm-4 control-label">Transit LocID<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Trans, Model.Loclst, new { @id = "ddlTrans", @Class = "form-control _select", @TabIndex = 4 })
+                                            @Html.DropDownListFor(C => C.Trans, Model.Loclst, "---Please Select--", new { @id = "ddlTrans", @Class = "form-control _select", @TabIndex = 4 })
                                         </div>
                                     </div>
                                 </div>
@@ -213,7 +222,7 @@
                                         <br /><label for="inputName3" class="col-sm-4 control-label">Rejected By<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
 
-                                            @Html.DropDownListFor(C => C.Rej, Model.assignList, new { @id = "ddlRej", @Class = "form-control _select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.Rej, Model.assignList,  "---Please Select--",new { @id = "ddlRej", @Class = "form-control _select", @TabIndex = 1 })
 
                                         </div>
                                     </div>
@@ -233,7 +242,7 @@
                  <div class="row">
 
 
-              <div class="col-lg-12" style="overflow-x:scroll; min-width:300px; min-height:200px;">
+                       <div class="col-lg-12" style="overflow-x:scroll; min-width:300px; min-height:200px;">
 
                         <table class="table table-striped table-hover" id="dataTable">
                                                         <thead>
@@ -356,7 +365,7 @@
 
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Packing and Forwarding ( + ) <label class="Mandatory"></label></label>
                                                                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Packingcharges, new { @id = "txtPackingcharges", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
+                                            @Html.TextBoxFor(C => C.Packingcharges, new { @id = "txtPackingcharges", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)",@readonly=true})
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -365,7 +374,7 @@
 
                                         <br />  <label for="inputName3" class="col-sm-4 control-label">Freight Charges ( + ) <label class="Mandatory"></label></label>
                                                                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Frieghtcharge, new { @id = "txtFrieghtcharge", @class = "form-control", @TabIndex = 2, onkeydown = "return isNumeric2(event.keyCode,this.value)" })
+                                            @Html.TextBoxFor(C => C.Frieghtcharge, new { @id = "txtFrieghtcharge", @class = "form-control", @TabIndex = 2, onkeydown = "return isNumeric2(event.keyCode,this.value)",@readonly=true })
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -377,7 +386,7 @@
 
                                         <br /><label for="inputName3" class="col-sm-4 control-label">Other Charges ( + )<label class="Mandatory"></label></label>
                                                                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Othercharges, new { @id = "txtOthercharges", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
+                                            @Html.TextBoxFor(C => C.Othercharges, new { @id = "txtOthercharges", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)",@readonly=true })
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -386,7 +395,7 @@
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Round Off ( + )<label class="Mandatory"></label></label>
 
                                                                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Round, new { @id = "txtRound", @class = "form-control", @TabIndex = 2 ,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
+                                            @Html.TextBoxFor(C => C.Round, new { @id = "txtRound", @class = "form-control", @TabIndex = 2 ,onkeydown = "return isNumeric2(event.keyCode,this.value),@readonly=true" ,@readonly=true})
                                                                                     </div>
 
                                                                                 </div>
@@ -399,7 +408,7 @@
 
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Other Deductions ( - )<label class="Mandatory"></label></label>
                                                                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.otherdeduction, new { @id = "txtotherdeduction", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
+                                            @Html.TextBoxFor(C => C.otherdeduction, new { @id = "txtotherdeduction", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)",@readonly=true })
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -408,7 +417,7 @@
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Round Off ( - )<label class="Mandatory"></label></label>
 
                                                                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Roundminus, new { @id = "txtRoundminus", @class = "form-control", @TabIndex = 2 ,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
+                                            @Html.TextBoxFor(C => C.Roundminus, new { @id = "txtRoundminus", @class = "form-control", @TabIndex = 2 ,onkeydown = "return isNumeric2(event.keyCode,this.value)",@readonly=true })
                                                                                     </div>
 
                                                                                 </div>
@@ -598,7 +607,7 @@
 
                                                 <br /> <label for="inputName3" class="col-sm-4 control-label">Address<label class="Mandatory"></label></label>
                                                                                                         <div class="col-sm-8">
-                                                                @Html.TextAreaFor(C => C.Addr, new { @id = "txtAddr", @class = "form-control", @TabIndex = 2})
+                                                    @Html.TextAreaFor(C => C.Address, new { @id = "txtAddress", @class = "form-control", @TabIndex = 2})
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 </div>
@@ -612,7 +621,7 @@
 
                                                 <br /> <label for="inputName3" class="col-sm-4 control-label">State<label class="Mandatory"></label></label>
                                                                                                         <div class="col-sm-8">
-                                                    @Html.DropDownListFor(C => C.State, Model.Satlst, new { @id = "ddlState", @Class = "form-control _select", @TabIndex = 1 , @onchange = "changeCity(this.value)"})
+                                                    @Html.DropDownListFor(C => C.State, Model.Satlst, "---Please Select--", new { @id = "ddlState", @Class = "form-control _select", @TabIndex = 1 , @onchange = "changeCity(this.value)"})
     <br />
                                                                                                         </div>
                                                                                                     </div>
@@ -622,7 +631,11 @@
 
                                                 <br /> <label for="inputName3" class="col-sm-4 control-label">City<label class="Mandatory"></label></label>
                                                             <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.City, Model.Citylst, new { @id = "ddlCity", @Class = "form-control _select", @TabIndex = 1 })
+
+                                                    @Html.DropDownListFor(C => C.City, Model.Citylst, new { @id = "ddlCity", @Class = "form-control _select", @TabIndex = 1 })
+
+                                            @Html.DropDownListFor(C => C.City, Model.Citylst, "---Please Select--", new { @id = "ddlCity", @Class = "form-control _select", @TabIndex = 1 })
+ 
                                                             </div>
                                                         </div>
                                                     </div>
@@ -643,7 +656,7 @@
 
                                                 <br />  <label for="inputName3" class="col-sm-4 control-label">Phone<label class="Mandatory"></label></label>
                                                                                                         <div class="col-sm-8">
-                                                                @Html.TextBoxFor(C => C.Phone, new { @id = "txtPhone", @class = "form-control", @TabIndex = 2})
+                                                    @Html.TextBoxFor(C => C.Phone, new { @id = "txtPhone", @class = "form-control", @TabIndex = 2})
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 </div>
@@ -670,7 +683,7 @@
 
                             @*<div style="height:30px;"></div>*@
                             <div style="height:30px;"></div>
-                            <div class="col-log-10"></div>
+                            <div class="col-log-8"></div>
                             <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
                             <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListPurchaseReturn", "PurReturn")'">Cancel</button>
 
@@ -683,7 +696,7 @@
     </div>
 </div>
 <script>
-    $("#ddlBranch").change(function () {
+    $("#txtBranch").change(function () {
         var branch = this.value;
   var GRNID = document.getElementById("ddlGRN").value;
          var loc = document.getElementById("ddllocation").value;
@@ -708,7 +721,7 @@
             }
         }); 
     });
-      $("#ddllocation").change(function () {
+    $("#txtLocation").change(function () {
         var loc = this.value;
   var GRNID = document.getElementById("ddlGRN").value;
          var branch = document.getElementById("ddlBranch").value;
@@ -780,53 +793,8 @@
         }
     }
     function changeItem(GRNID, i) {
-        var branch = document.getElementById("ddlBranch").value;
-         var loc = document.getElementById("ddllocation").value;
-       @* $.ajax({
-            url: "GetGRNItemJSON",
-            type: "post",
-            data: { 'supid': GRNID },
-            cache: false,
-            success: function (response) {
-                var newlist;
-                newlist = response.Itemlst;
-                PopulateDropDown("#ddlItemId" + i, response);
-            },
-            error: function () {
-                debugger;
-                alert("Please Select GRN ID");
-            }
-        });*@
-          $.ajax({
-            url: "GetGRNSuppJSON",
-            type: "post",
-            data: { 'suppid': GRNID },
-            cache: false,
-            success: function (response) {
-                var newlist;
-                newlist = response.Suppst;
-                PopulateDropDown("#ddlParty", response);
-            },
-            error: function () {
-                debugger;
-                alert("Please Select GRN ID");
-            }
-        });
-      $.ajax({
-            url: "GetGRNCurrencyJSON",
-            type: "post",
-            data: { 'suppid': GRNID },
-            cache: false,
-            success: function (response) {
-                var newlist;
-                newlist = response.Suppst;
-                PopulateDropDown("#ddlCurrency", response);
-            },
-            error: function () {
-                debugger;
-                alert("Please Select GRN ID");
-            }
-        });
+        var branch = document.getElementById("txtBranch").value;
+        var loc = document.getElementById("txtLocation").value;
 
         $.ajax({
             url: 'GetGRNBL',
@@ -834,6 +802,8 @@
             type: "GET",
             success: function (result) {
 
+                document.getElementById("txtSupplier").value = result.party;
+                document.getElementById("txtCurrency").value = result.currency;
                  document.getElementById("txtPackingcharges").value = result.packing;
                 document.getElementById("txtExRate").value = result.ex;
                     document.getElementById("txtFrieghtcharge" ).value = result.frig;
@@ -863,11 +833,12 @@
                     success: function (list) {
                       
                          if (list != null && list.length > 0) {
+                   
                     list.forEach((item) => {
 
-        var index = $("#tbBooks").children("tr").length;
+        var index = $("#tbBooks").children("tr").length; 
 
-                        var ItemId = "<td><label style='width: 200px;'>" + item.itemname + "</label><input type='hidden' value=" + item.itemid + " id='txtItem" + index + "' name='returnlist[" + index + "].itemid'></td>";
+        var ItemId = "<td><label style='width: 200px;'>" + item.itemname + "</label><input type='hidden' value=" + item.itemid + " id='txtItem" + index + "' name='returnlist[" + index + "].itemid'></td>";
         
         var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='returnlist[" + index + "].unit'  style='width: 60px;' type='text'  readonly='True'  value=" + item.unit + " /><input type='hidden' value=" + item.unitid + " id='hdunit" + index + "' name='returnlist[" + index + "].unitid'></td>";
 
@@ -875,11 +846,16 @@
        
         var Qty = "<td><input class='form-control' id='txtquantity" + index + "' name='returnlist[" + index + "].quantity'  style='width: 50px;' type='text' readonly='True' value=" + item.quantity + "  /></td>";
          
-        var binid = "<td><input class='form-control' id='txtbinid" + index + "' name='returnlist[" + index + "].binid'  style='width: 50px;' type='text' readonly='True'  value=" + item.binid + " /></td>";
+       @* var binid = "<td><input class='form-control' id='txtbinid" + index + "' name='returnlist[" + index + "].binid'  style='width: 50px;' type='text' readonly='True'  value=" + item.binid + " /></td>";
           
         var cstock = "<td><input class='form-control' id='txtstkqty" + index + "' name='returnlist[" + index + "].stkqty'  style='width: 50px;' type='text' readonly='True' value=" + item.stkqty + "  /></td>";
-         
-        var RQuantity = "<td><input class='form-control' id='txtrqty" + index + "' name='returnlist[" + index + "].rqty'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;text-align:right' type='text' value=" + item.rqty + " onkeyup = 'changeQty(this.value," + index + ")' /></td>";
+         *@
+
+            var binid = "<td><input class='form-control' id='txtbinid" + index + "' name='returnlist[" + index + "].binid'  style='width: 50px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text' value=" + item.binid + "  /></td>";
+
+                        var cstock = "<td><input class='form-control' id='txtstkqty" + index + "' name='returnlist[" + index + "].stkqty'  style='width: 50px;' onkeydown='return isNumeric2(event.keyCode,this.value)' type='text' value=" + item.stkqty + "  /></td>";
+
+       var RQuantity = "<td><input class='form-control' id='txtrqty" + index + "' name='returnlist[" + index + "].rqty'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;text-align:right' type='text' value=" + item.rqty + " onkeyup = 'changeQty(this.value," + index + ")' /></td>";
 
         var rate = "<td><input class='form-control' id='txtrate" + index + "' name='returnlist[" + index + "].rate'  onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 100px;text-align:right' type='text' value=" + item.rate + " readonly='True' /></td>";
 
@@ -977,20 +953,25 @@
         }
         $(dropDownId).trigger("liszt:updated");
     }
-       function changeQty(_this, i) {
+       function changeQty(_this, i)
+       {
                 try {
-                    var stkqty = document.getElementById("txtstkqty"+ i).value;
+                  
 
-                       var j = 0;
+                    var j = 0;
+                    var qty = 0;
+           
                     var qty = 0;
                     var tot = 0;
                     var totfrieght = 0;
                     var totamt = 0;
                     var totamount = 0;
                     var qty = document.getElementById("txtrqty" + i).value;
+           
                     var up = document.getElementById("txtrate" + i).value;
                     var cf = document.getElementById("txtConFac" + i).value;
-                    //var frieght = document.getElementById("txtFrieghtAmt" + i).value;
+                   @* var stkqty = document.getElementById("txtstkqty" + i).value;*@
+                   
                  
                     var IGST = document.getElementById("txtIGSTPer" + i).value;
 
@@ -1021,18 +1002,18 @@
                     if (Disc == "")
                         Disc = 0;
 
-                    if (eval(qty) > eval(stkqty)) {
+                   @* if (eval(qty) > eval(stkqty));
+                    {
                         document.getElementById("txtrqty" + i).value = "0";
                         alert("Stock Quantity Exceeds the Actual Quantity");
                         qty = 0;
                     }
+                   *@
                    
-                    //if (frieght == "")
-                    //    frieght = 0;
                     var tot = eval(qty) * eval(up) * eval(cf);
-                   @* alert(tot);*@
+                  
                     document.getElementById("txtamount" + i).value = tot.toFixed(2);
-                    var igstperc = (eval(tot) / 100) * eval(IGST);
+    var igstperc = (eval(tot) / 100) * eval(IGST);
                     var cgstperc = (eval(tot) / 100) * eval(CGST);
                     var sgstperc = (eval(tot) / 100) * eval(SGST);
 
@@ -1041,25 +1022,21 @@
                      document.getElementById("txtCGSTAmt" + i).value = cgstperc.toFixed(2);
                       document.getElementById("txtSGSTAmt" + i).value = sgstperc.toFixed(2);
                        document.getElementById("txtIGSTAmt" + i).value = igstperc.toFixed(2);
-                        document.getElementById("txtDiscAmount" + i).value = Discperc.toFixed(2);
+                     document.getElementById("txtDiscAmount" + i).value = Discperc.toFixed(2);
 
-                    var tottax = eval(tot) + eval(igstperc) + eval(cgstperc) + eval(sgstperc); /*+ eval(frieght);*/
+                    var tottax = eval(tot) + eval(igstperc) + eval(cgstperc) + eval(sgstperc); 
                     var totdisc = eval(tottax) - eval(Discperc);
-                    //alert(totdisc);
                     document.getElementById("txtTotalAmount" + i).value = totdisc.toFixed(2);
 
                     $('tr.chkitemlst').each(function () {
                         if ($(this).css('display') !== 'none') {
-                        //    frieght = $(this).find('#txtFrieghtAmt' + j.toString()).val();
-                        //    if (frieght == "")
-                        //frieght = 0;
 
                          var amt = $(this).find('#txtamount' + j.toString()).val();
                             if (amt == "")
                         amt = 0;
 
                          totamt += eval(amt);
-                         //totfrieght += eval(frieght);
+                        
 
                           var tamt = $(this).find('#txtTotalAmount' + j.toString()).val();
                             if (tamt == "")
@@ -1070,19 +1047,19 @@
                               }
                         j += 1;
                     });
-                   document.getElementById("txtGross").value = totamt.toFixed(2);
+                 document.getElementById("txtGross").value = totamt.toFixed(2);
                  document.getElementById("hidnet").value = totamount.toFixed(2);  
 
-                 //////////total net amount
+              
 
-                 var netamt = document.getElementById("hidnet").value;
+                var netamt = document.getElementById("hidnet").value;
                 var frieght =document.getElementById("txtFrieghtcharge").value;
-                 var packing =document.getElementById("txtPackingcharges").value;
-                  var other =document.getElementById("txtOthercharges").value;
-                  var roundoff =document.getElementById("txtRound").value;
-                   var otherdeduct =document.getElementById("txtotherdeduction").value;
-                    var roundoffminus =document.getElementById("txtRoundminus").value;
-                //alert(netamt);
+                var packing =document.getElementById("txtPackingcharges").value;
+                var other =document.getElementById("txtOthercharges").value;
+                var roundoff =document.getElementById("txtRound").value;
+                var otherdeduct =document.getElementById("txtotherdeduction").value;
+                var roundoffminus =document.getElementById("txtRoundminus").value;
+                
                 var totamounts = 0;
                 var rotamt = 0;
                   if (frieght == "")
@@ -1115,6 +1092,7 @@
                     alert(ex.message);
                 }
             }
+            
             
          
    function AddRow() {

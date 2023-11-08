@@ -925,7 +925,7 @@
                                                                                 <td>@Html.DisplayFor(o => o.Notifies[j].Type)</td>
                                                                                 <td>@Html.DisplayFor(o => o.Notifies[j].Item)</td>
                                                                                 <td>@Html.DisplayFor(o => o.Notifies[j].Drum)</td>
-                                                                                  <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("QCFinalValueEntry", "QCFinalValueEntry",new { id=item.ID})" class='fancybox' data-fancybox-type='#iframe'><img src='../Images/view_icon.png' /></a></div></td>
+                                                                                <td> <a class="nav-link" href="@Url.Action("QCFinalValueEntry", "QCFinalValueEntry",new { id=item.ID,tag=1})"> <img src='../Images/exam.png' width='20' /></a></td>
 
 
                                                                             </tr>
