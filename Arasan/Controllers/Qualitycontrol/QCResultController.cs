@@ -377,13 +377,13 @@ namespace Arasan.Controllers.Qualitycontrol
             {
                 ca.DocId = dt.Rows[0]["DOCID"].ToString();
                 ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
-                ca.GRNNo = dt.Rows[0]["GRNNO"].ToString();
+                ca.GRNNo = dt.Rows[0]["DOCID"].ToString();
                 ca.GRNDate = dt.Rows[0]["GRNDATE"].ToString();
                 ca.Party = dt.Rows[0]["PARTYID"].ToString();
-                ca.Location = dt.Rows[0]["LOCATION"].ToString();
+                ca.Location = dt.Rows[0]["LOCID"].ToString();
                 ca.Remarks = dt.Rows[0]["REMARKS"].ToString();
-                ca.QcLocation = dt.Rows[0]["QCLOCATION"].ToString();
-                ca.TestedBy = dt.Rows[0]["TESTEDBY"].ToString();
+                ca.QcLocation = dt.Rows[0]["LOCID"].ToString();
+                ca.TestedBy = dt.Rows[0]["EMPNAME"].ToString();
 
                 ca.ID = id;
 

@@ -56,7 +56,7 @@ namespace Arasan.Models
     public class PurchaseFollowup
     {
         public string FoID { get; set; }
-        public string Enqno { get; set; }
+        public string EnqNo { get; set; }
         public string Supname { get; set; }
         public string Enqdate { get; set; }
         public string Followby { get; set; }

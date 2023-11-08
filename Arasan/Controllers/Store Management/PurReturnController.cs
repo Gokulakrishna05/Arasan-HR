@@ -34,6 +34,7 @@ namespace Arasan.Controllers
             ca.Citylst = BindCity("");
             ca.POlst = BindGRNlist();
             ca.Partylst = Bindpartylist();
+            ca.currlst = Bindcurrlist();
           
            
             ca.ReqDate = DateTime.Now.ToString("dd-MMM-yyyy");
@@ -222,6 +223,57 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+
+        public JsonResult GetGRNCurrencyJSON(string suppid)
+        {
+            PurchaseReturn model = new PurchaseReturn();
+            model.Curlst = BindCurrency(suppid);
+            return Json(BindCurrency(suppid));
+
+        }
+        public List<SelectListItem> BindCurrency(string id)
+        {
+            try
+            {
+                DataTable dtDesg = PurReturn.GetCurrency(id);
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["MAINCURR"].ToString(), Value = dtDesg.Rows[i]["CURRENCYID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public JsonResult GetGRNSuppJSON(string suppid)
+        {
+            PurchaseReturn model = new PurchaseReturn();
+            model.Suplst = BindSupplier(suppid);
+            return Json(BindSupplier(suppid));
+
+        }
+        public List<SelectListItem> BindSupplier(string id)
+        {
+            try
+            {
+                DataTable dtDesg = PurReturn.GetSupplier(id);
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTYNAME"].ToString(), Value = dtDesg.Rows[i]["PARTYMASTID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
         public List<SelectListItem> GetLoc()
         {
             try
@@ -261,7 +313,8 @@ namespace Arasan.Controllers
             {
                 throw ex;
             }
-        } public List<SelectListItem> Bindpartylist()
+        } 
+        public List<SelectListItem> Bindpartylist()
         {
             try
             {
@@ -272,6 +325,25 @@ namespace Arasan.Controllers
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTYNAME"].ToString(), Value = dtDesg.Rows[i]["PARTYMASTID"].ToString() });
+                }
+                return lstdesg;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        } public List<SelectListItem> Bindcurrlist()
+        {
+            try
+            {
+                DataTable dtDesg = PurReturn.Getcurr();
+
+
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["MAINCURR"].ToString(), Value = dtDesg.Rows[i]["CURRENCYID"].ToString() });
                 }
                 return lstdesg;
 
@@ -581,7 +653,7 @@ namespace Arasan.Controllers
                 ca.Location = dt.Rows[0]["LOCID"].ToString();
                 ca.ExRate = dt.Rows[0]["EXCHANGERATE"].ToString();
                 ca.Rej = dt.Rows[0]["EMPNAME"].ToString();
-                ca.Currency = dt.Rows[0]["MAINCURRENCY"].ToString();
+               
 
                 ca.Trans = dt.Rows[0]["LOCID"].ToString();
                 ca.Grn = dt.Rows[0]["RGRNNO"].ToString();

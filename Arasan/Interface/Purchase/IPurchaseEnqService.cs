@@ -17,7 +17,7 @@ public interface IPurchaseEnqService
         string PurenquriyCRUD(PurchaseEnquiry cy);
         IEnumerable<PurchaseEnquiry> GetAllPurenquriy(string st, string ed);
         IEnumerable<EnqItem> GetAllPurenquriyItem(string id);
-        PurchaseEnquiry GetPurenqServiceById(string id);
+        //PurchaseEnquiry GetPurenqServiceById(string id);
         string PurchaseFollowupCRUD(PurchaseFollowup pf);
         //IEnumerable<PurchaseFollowup> GetAllPurchaseFollowup();
         //PurchaseFollowup GetPurchaseFollowupById(string id);

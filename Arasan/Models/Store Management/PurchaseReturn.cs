@@ -12,9 +12,12 @@ namespace Arasan.Models
             this.Loclst = new List<SelectListItem>();
             this.assignList = new List<SelectListItem>();
             this.Partylst = new List<SelectListItem>();
+            this.currlst = new List<SelectListItem>();
         }
         public List<SelectListItem> Partylst;
         public string party { get; set; }
+        public List<SelectListItem> currlst;
+        public string Curr { get; set; }
 
         public List<SelectListItem> Brlst;
         public string ID { get; set; }

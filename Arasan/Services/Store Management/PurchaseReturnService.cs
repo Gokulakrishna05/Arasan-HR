@@ -171,9 +171,15 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("NARR", OracleDbType.NVarchar2).Value = cy.Narration;
                     objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
                     objCmd.Parameters.Add("AREA", OracleDbType.NVarchar2).Value = cy.Addr;
+
+                    objCmd.Parameters.Add("ADDRESS", OracleDbType.NVarchar2).Value = cy.Address;
+                    objCmd.Parameters.Add("CITY", OracleDbType.NVarchar2).Value = cy.City;
+                    objCmd.Parameters.Add("STATE", OracleDbType.NVarchar2).Value = cy.State;
+
                     objCmd.Parameters.Add("ADDRESS", OracleDbType.NVarchar2).Value = cy.Addr;
                     objCmd.Parameters.Add("CITY", OracleDbType.NVarchar2).Value = cy.State;
                     objCmd.Parameters.Add("STATE", OracleDbType.NVarchar2).Value = cy.City;
+
                     objCmd.Parameters.Add("PINCODE", OracleDbType.NVarchar2).Value = cy.Pin;
                     objCmd.Parameters.Add("PHONE", OracleDbType.NVarchar2).Value = cy.Phone;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
@@ -501,6 +507,15 @@ namespace Arasan.Services
             return dtt;
         }
         public DataTable GetCurrency(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select CURRENCY.MAINCURR,CURRENCYID from CURRENCY";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }  public DataTable Getcurr()
         {
             string SvSql = string.Empty;
             SvSql = "Select CURRENCY.MAINCURR,CURRENCYID from CURRENCY";
