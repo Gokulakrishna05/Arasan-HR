@@ -425,7 +425,7 @@ namespace Arasan.Services.Qualitycontrol
         public DataTable GetViewQCFVDeatil(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select BRANCH,DOCID,to_char(FQTVEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,WCID,PROCESSID,DRUMNO,BATCH,BATCHNO,ITEMID,PRODID,RATEPHR,to_char(FQTVEBASIC.PRODDATE,'dd-MON-yyyy')PRODDATE,SAMPLENO,NOZZLENO,AIRPRESS,ADDCH,STIME,BCT,FINALRESULT,RESULTTYPE,ENTEREDBY,REMARKS,FQTVEBASICID from FQTVEBASIC Where FQTVEBASICID='" + id + "'";
+            SvSql = "select ITEMMASTER.ITEMID,PROCESSMAST.PROCESSID,BRANCHMAST.BRANCHID,FQTVEBASIC.DOCID,to_char(FQTVEBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,WCBASIC.WCID,FQTVEBASIC.DRUMNO,FQTVEBASIC.BATCH,FQTVEBASIC.BATCHNO,FQTVEBASIC.PRODID,FQTVEBASIC.RATEPHR,to_char(FQTVEBASIC.PRODDATE,'dd-MON-yyyy')PRODDATE,FQTVEBASIC.SAMPLENO,FQTVEBASIC.NOZZLENO,FQTVEBASIC.AIRPRESS,FQTVEBASIC.ADDCH,FQTVEBASIC.STIME,FQTVEBASIC.BCT,FQTVEBASIC.FINALRESULT,FQTVEBASIC.RESULTTYPE,FQTVEBASIC.ENTEREDBY,FQTVEBASIC.REMARKS,FQTVEBASIC.FQTVEBASICID from FQTVEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID = FQTVEBASIC.BRANCH LEFT OUTER JOIN WCBASIC ON WCBASICID = FQTVEBASIC.WCID LEFT OUTER JOIN PROCESSMAST ON PROCESSMASTID = FQTVEBASIC.PROCESSID LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID = FQTVEBASIC.ITEMID \r\n Where FQTVEBASICID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -433,14 +433,14 @@ namespace Arasan.Services.Qualitycontrol
             return dtt;
         }
 
-        public DataTable GetViewQCFVResultDetail(string id)
+        public DataTable GetViewQCFVResultDetail(string id) 
         {
             string SvSql = string.Empty;
             SvSql = "select FQTVEBASICID,TDESC,VALUEORMANUAL,UNIT,STARTVALUE,ENDVALUE,TESTVALUE,MANUALVALUE,ACTTESTVALUE,TESTRESULT from FQTVEDETAIL where FQTVEBASICID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
+            adapter.Fill(dtt); 
             return dtt;
         }
 

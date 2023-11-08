@@ -169,6 +169,44 @@ namespace Arasan.Controllers
             return View(ca);
         }
 
+        public IActionResult ViewPurEnq(string id)
+        {
+            PurchaseQuo ca = new PurchaseQuo();
+            DataTable dt = new DataTable();
+            DataTable dtt = new DataTable();
+            dt = PurenqService.GetPurchaseEnq(id);
+            if (dt.Rows.Count > 0)
+            {
+                ca.Supplier = dt.Rows[0]["PARTYNAME"].ToString();
+                ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                //ca.QuoId = dt.Rows[0]["DOCID"].ToString();
+                //ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
+                ca.EnqNo = dt.Rows[0]["ENQNO"].ToString();
+                ca.EnqDate = dt.Rows[0]["ENQDATE"].ToString();
+                ca.ID = id;
+            }
+            List<QoItem> Data = new List<QoItem>();
+            QoItem tda = new QoItem();
+            double tot = 0;
+            dtt = PurenqService.GetPurchaseEnqItem(id);
+            if (dtt.Rows.Count > 0)
+            {
+                for (int i = 0; i < dtt.Rows.Count; i++)
+                {
+                    tda = new QoItem();
+                    tda.ItemId = dtt.Rows[i]["ITEMNAME"].ToString();
+                    tda.Unit = dtt.Rows[i]["UNITID"].ToString();
+                    tda.Quantity = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString());
+                    tda.rate = Convert.ToDouble(dtt.Rows[i]["Rate"].ToString() == "" ? "0" : dtt.Rows[i]["Rate"].ToString());
+                    tda.TotalAmount = tda.Quantity * tda.rate;
+                    tot += tda.TotalAmount;
+                    Data.Add(tda);
+                }
+            }
+            ca.Net = tot;
+            ca.QoLst = Data;
+            return View(ca);
+        }
         public IActionResult PurchaseEnquiryDetails(string id)
         {
             IEnumerable<EnqItem> cmp = PurenqService.GetAllPurenquriyItem(id);
@@ -544,7 +582,7 @@ namespace Arasan.Controllers
                         for (int i = 0; i < dtt.Rows.Count; i++)
                         {
                             tda = new PurchaseFollowupDetails();
-                            tda.Followby = dtt.Rows[i]["EMPNAME"].ToString();
+                            tda.Followby = dtt.Rows[i]["FOLLOWED_BY"].ToString();
                             tda.Followdate = dtt.Rows[i]["FOLLOW_DATE"].ToString();
                             tda.Nfdate = dtt.Rows[i]["NEXT_FOLLOW_DATE"].ToString();
                            

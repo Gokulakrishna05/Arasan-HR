@@ -491,7 +491,7 @@ namespace Arasan.Controllers.Qualitycontrol
             if (dt.Rows.Count > 0)
             {
 
-                ca.Branch = dt.Rows[0]["BRANCH"].ToString();
+                ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
                 ca.DocId = dt.Rows[0]["DOCID"].ToString();
                 ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
                 ca.WorkCenter = dt.Rows[0]["WCID"].ToString();

@@ -20,7 +20,9 @@ namespace Arasan.Interface
         IEnumerable<QoItem> GetAllPurQuotationItem(string id);
         //PurchaseQuo GetPurQuotationById(string id);
         DataTable GetPurQuotationByName(string name);
+        DataTable GetPurQuotationName(string name);
         DataTable GetPurQuoteItem(string name);
+        DataTable GetPurQuoteDetails(string name);
         string QuotetoPO(string QuoteId);
         //DataTable GetItemSubGrp();
         DataTable GetPurchaseQuo(string id);
