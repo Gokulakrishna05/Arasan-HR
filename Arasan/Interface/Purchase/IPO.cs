@@ -23,7 +23,7 @@ namespace Arasan.Interface
 
         string StatusChange(string tag, int id);
 
-
+        DataTable GetPOItemrep(string id);
         Task<IEnumerable<POItemDetail>> GetPOItemss (string supid, string s);
 
         Task<IEnumerable<POItemDetail>> GetPOItem(string id,string s);
