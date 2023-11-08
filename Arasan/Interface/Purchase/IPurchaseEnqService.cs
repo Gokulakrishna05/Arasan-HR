@@ -10,6 +10,7 @@ public interface IPurchaseEnqService
         DataTable GetCurency();
         DataTable GetItem(string value);
         DataTable GetPurchaseEnqByID(string id);
+        DataTable GetPurchaseEnq(string id);
         DataTable GetItemGrp();
         DataTable GetEmp();
         DataTable GetItemDetails(string ItemId);
@@ -29,6 +30,7 @@ public interface IPurchaseEnqService
     DataTable GetPurchaseEnqDetails(string id);
     DataTable GetPurchaseEnqFolwDetails(string id);
     DataTable GetPurchaseEnqItemDetails(string id);
+    DataTable GetPurchaseEnqItem(string id);
         DataTable GetItemSubGrp();
         DataTable GetItemSubGroup(string id);
 

@@ -246,6 +246,46 @@ namespace Arasan.Controllers
             ca.QoLst = Data;
             return View(ca);
         }
+
+        public IActionResult ViewPurQuote(string id)
+        {
+            PurchaseQuo ca = new PurchaseQuo();
+            DataTable dt = new DataTable();
+            DataTable dtt = new DataTable();
+            dt = PurquoService.GetPurQuotationName(id);
+            if (dt.Rows.Count > 0)
+            {
+                ca.Supplier = dt.Rows[0]["PARTYNAME"].ToString();
+                ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                ca.QuoId = dt.Rows[0]["DOCID"].ToString();
+                ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
+                ca.EnqNo = dt.Rows[0]["ENQNO"].ToString();
+                ca.EnqDate = dt.Rows[0]["ENQDATE"].ToString();
+                ca.ID = id;
+            }
+            List<QoItem> Data = new List<QoItem>();
+            QoItem tda = new QoItem();
+            double tot = 0;
+            dtt = PurquoService.GetPurQuoteDetails(id);
+            if (dtt.Rows.Count > 0)
+            {
+                for (int i = 0; i < dtt.Rows.Count; i++)
+                {
+                    tda = new QoItem();
+                    tda.ItemId = dtt.Rows[i]["ITEMID"].ToString();
+                    tda.Unit = dtt.Rows[i]["UNITID"].ToString();
+                    tda.Quantity = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString());
+                    tda.rate = Convert.ToDouble(dtt.Rows[i]["RATE"].ToString() == "" ? "0" : dtt.Rows[i]["RATE"].ToString());
+                    tda.TotalAmount = tda.Quantity * tda.rate;
+                    tot += tda.TotalAmount;
+                    Data.Add(tda);
+                }
+            }
+            ca.Net = tot;
+            ca.QoLst = Data;
+            return View(ca);
+        }
+
         [HttpPost]
         public ActionResult ViewQuote(PurchaseQuo Cy, string id)
         {

@@ -82,13 +82,12 @@
                                                 <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
                                                     <thead>
                                                         <tr>
-                                                            <th>S.No</th>
+                                                           
                                                             <th>Branch</th>                                                           
                                                             <th>Supplier</th>
                                                             <th>Enquiry No</th>
                                                             <th>Quo No</th>
                                                             <th>Doc Date</th>
-                                                            @* <th>Currency</th>*@
                                                             <th>Send Mail</th>
                                                             <th>Followup</th>
                                                             <th>View</th>
@@ -106,7 +105,7 @@
                                                             foreach (var item in Model)
                                                             {
                                                                 <tr>
-                                                                    <td>@i</td>
+                                                                    
                                                                     <td>@Html.DisplayFor(modelItem => item.Branch)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.Supplier)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.EnqNo)</td>
@@ -129,7 +128,7 @@
                                                             @if(item.status == "Generated")
 
                                                             {
-                                                                                                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewQuote", "PurchaseQuo",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Waiting for approval' width='20' /></a></div></td>
+                                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewPurQuote", "PurchaseQuo",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Waiting for approval' width='20' /></a></div></td>
                                                                 <td><div class="fa-hover col-md-2 col-sm-4"> <img src='../Images/tick.png' alt='Moved to Quote' width='20' /></div></td>
 
                                                                 <td></td>
@@ -138,7 +137,7 @@
                                                                             <td> <a href="@Url.Action("DeleteMR","PurchaseQuo",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
                                                                  }
                                                                     else{
-                                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewQuote", "PurchaseQuo",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Waiting for approval' width='20' /></a></div></td>
+                                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewPurQuote", "PurchaseQuo",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Waiting for approval' width='20' /></a></div></td>
                                                                             <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewQuote", "PurchaseQuo",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20'/></a></div></td>
                                                                             <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("Print", "PurchaseQuo" ,new { id=item.ID })" target="_blank"><img src='../Images/pdf.png' alt='Generate PO' width='20' /></a></div></td>
                                                                         <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("PurchaseQuotation", "PurchaseQuo",new { id=item.ID })"></a></div></td>

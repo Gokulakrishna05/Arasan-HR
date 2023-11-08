@@ -10,7 +10,9 @@ namespace Arasan.Interface
         IEnumerable<POItem> GetAllPOItem(string Poid);
         IEnumerable<POItem> GetAllGateInwardItem(string GateInwardId);
         DataTable GetPObyID(string Poid);
+        DataTable GetPOrderID(string Poid);
         DataTable GetPOItembyID(string Poid);
+        DataTable GetPOItem(string Poid);
         DataTable EditPObyID(string Poid);
         DataTable GetPOItemDetails(string Poid);
         string PurOrderCRUD(PO Cy);
