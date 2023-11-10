@@ -6,10 +6,20 @@ namespace Arasan.Models
 {
     public class AccountType
     {
+        public AccountType()
+        {
+
+            this.ATypelst = new List<SelectListItem>();
+
+        }
+
+        public string Accountclass { get; set; }
+        public List<SelectListItem> ATypelst;
+
         public string ID { get; set; }
 
         public string AccountCode { get; set; }
-
+        public string AccCode { get; set; }
 
         public string Accounttype { get; set; }
         public string CreatedOn { get; set; }

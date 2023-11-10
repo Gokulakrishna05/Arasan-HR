@@ -169,6 +169,7 @@ internal class Program
         builder.Services.TryAddSingleton<IPackingQCFinalValueEntry, PackingQCFinalValueEntryService>();
         builder.Services.TryAddSingleton<IORSAT, ORSATService>();
         builder.Services.TryAddSingleton<IItemConversionEntryService,ItemConversionEntryService>();
+        builder.Services.TryAddSingleton<IAccClass, AccClassService>();
 
 
 

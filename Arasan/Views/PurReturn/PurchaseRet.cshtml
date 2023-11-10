@@ -60,13 +60,13 @@
                            
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div class="form-group">
+                                    <div class="form-group"> 
 
                                         <br /><label for="inputName3" class="col-sm-4 control-label">P.Return.No<label class="mandatory">*</label></label>
-                                        <div class="col-sm-8">
+                                        <div class="col-sm-8"> 
                                             @Html.TextBoxFor(C => C.RetNo, new { @id = "txtRetNo", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)",@readonly=true})
-                                            @Html.HiddenFor(C => C.ID)
-                                        </div>
+                                            @Html.HiddenFor(C => C.ID) 
+                                        </div> 
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -116,11 +116,10 @@
                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Currency<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
 
-                                            @Html.DropDownListFor(C => C.Curr, Model.currlst, new { @id = "ddlCurrency", @Class = "form-control _select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.Currency, Model.currlst, new { @id = "ddlCurrency", @Class = "form-control _select", @TabIndex = 1 })
 
 
 
-                                            @Html.TextBoxFor(C => C.Currency, new { @id = "txtCurrency", @class = "form-control", @TabIndex = "2",@readonly=true})
                                         </div>
                                     </div>
                                 </div>
@@ -634,13 +633,12 @@
 
                                                     @Html.DropDownListFor(C => C.City, Model.Citylst, new { @id = "ddlCity", @Class = "form-control _select", @TabIndex = 1 })
 
-                                            @Html.DropDownListFor(C => C.City, Model.Citylst, "---Please Select--", new { @id = "ddlCity", @Class = "form-control _select", @TabIndex = 1 })
  
                                                             </div>
                                                         </div>
                                                     </div>
                                                                                             </div>
-                                                                                            <div class="row">
+                                                                                            <div class="row"> 
                                                                                                 <div class="col-md-6">
                                                                                                     <div class="form-group">
 
