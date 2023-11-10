@@ -7,7 +7,8 @@ namespace Arasan.Models
             public string Drum { get; set; }
         public string Item { get; set; }
         public string Location { get; set; }
-       
+        public string Type { get; set; }
+
     }
     public class Drumhistory
     {
@@ -24,8 +25,11 @@ namespace Arasan.Models
         public string Drum { get; set; }
         public string Item { get; set; }
         public string Location { get; set; }
+        public string Location2 { get; set; }
+
         public string Isvalid { get; set; }
         public string Type { get; set; }
+        public string Party { get; set; }
     }
 }
  
