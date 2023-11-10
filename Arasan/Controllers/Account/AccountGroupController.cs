@@ -154,5 +154,44 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+
+        public ActionResult GetItemDetail(string ItemId)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                DataTable dt2 = new DataTable();
+
+                string code = "";
+                string type = "";
+                string grp = "";
+                string acc = "";
+               
+                dt = accountGroup.Getgrpcode(ItemId);
+
+                if (dt.Rows.Count > 0)
+                {
+
+                    code = dt.Rows[0]["ACCOUNTCODE"].ToString();
+                    type = dt.Rows[0]["ACCOUNTCLASS"].ToString();
+                    dt2 = accountGroup.Getaccgrpcode(type);
+                    if (dt2.Rows.Count > 0)
+                    {
+                        grp = dt2.Rows[0]["ACCCLASS_CODE"].ToString();
+                    }
+
+                    }
+
+                acc = code+""+grp;
+
+
+                var result = new { acc = acc };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

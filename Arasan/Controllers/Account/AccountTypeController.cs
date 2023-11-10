@@ -27,7 +27,7 @@ namespace Arasan.Controllers
         {
             AccountType AG = new AccountType();
             AG.CreatedBy = Request.Cookies["UserId"];
-
+            AG.ATypelst = BindATypelst();
 
             //for edit & delete
             if (id != null)
@@ -37,9 +37,10 @@ namespace Arasan.Controllers
                 dt = AccountTypeService.GetAccountType(id);
                 if (dt.Rows.Count > 0)
                 {
+                    AG.Accountclass = dt.Rows[0]["ACCOUNTCLASS"].ToString();
                     AG.AccountCode = dt.Rows[0]["ACCOUNTCODE"].ToString();
                     AG.Accounttype = dt.Rows[0]["ACCOUNTTYPE"].ToString();
-                    AG.Status = dt.Rows[0]["STATUS"].ToString();
+                    //AG.Status = dt.Rows[0]["IS_ACTIVE"].ToString();
                     AG.ID = id;
 
 
@@ -56,6 +57,9 @@ namespace Arasan.Controllers
             try
             {
                 AG.ID = id;
+                int acccode = Convert.ToInt32(AG.AccountCode);
+                string code = GetNumberwithPrefix(acccode, 3);
+                AG.AccCode = code;
                 string Strout = AccountTypeService.AccountTypeCRUD(AG);
                 if (string.IsNullOrEmpty(Strout))
                 {
@@ -88,6 +92,32 @@ namespace Arasan.Controllers
         {
             IEnumerable<AccountType> cmp = AccountTypeService.GetAllAccountType(status);
             return View(cmp);
+        }
+
+        public static string GetNumberwithPrefix(int AccountCode, int totalchar)
+        {
+            string tempnumber = AccountCode.ToString();
+            while (tempnumber.Length < 3)
+                tempnumber = "0" + tempnumber;
+            return tempnumber;
+        }
+
+        public List<SelectListItem> BindATypelst()
+        {
+            try
+            {
+                DataTable dtDesg = AccountTypeService.GetType();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ACCOUNT_CLASS"].ToString(), Value = dtDesg.Rows[i]["ACCCLASSID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public ActionResult DeleteMR(string tag, int id)

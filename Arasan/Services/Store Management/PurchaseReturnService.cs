@@ -161,7 +161,7 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("REFNO", OracleDbType.NVarchar2).Value = cy.ReqNo;
                     objCmd.Parameters.Add("REFDT", OracleDbType.Date).Value = DateTime.Parse(cy.ReqDate);
                     objCmd.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = cy.Location;
-                    objCmd.Parameters.Add("MAINCURRENCY", OracleDbType.NVarchar2).Value = CURR;
+                    objCmd.Parameters.Add("MAINCURRENCY", OracleDbType.NVarchar2).Value = cy.Currency;
                     objCmd.Parameters.Add("REASONCODE", OracleDbType.NVarchar2).Value = cy.Reason;
                     objCmd.Parameters.Add("REJBY", OracleDbType.NVarchar2).Value = cy.Rej;
                     objCmd.Parameters.Add("TRANSITLOCID", OracleDbType.NVarchar2).Value = cy.Trans;
@@ -171,10 +171,6 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("NARR", OracleDbType.NVarchar2).Value = cy.Narration;
                     objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
                     objCmd.Parameters.Add("AREA", OracleDbType.NVarchar2).Value = cy.Addr;
-
-                    objCmd.Parameters.Add("ADDRESS", OracleDbType.NVarchar2).Value = cy.Address;
-                    objCmd.Parameters.Add("CITY", OracleDbType.NVarchar2).Value = cy.City;
-                    objCmd.Parameters.Add("STATE", OracleDbType.NVarchar2).Value = cy.State;
 
                     objCmd.Parameters.Add("ADDRESS", OracleDbType.NVarchar2).Value = cy.Addr;
                     objCmd.Parameters.Add("CITY", OracleDbType.NVarchar2).Value = cy.State;
@@ -556,7 +552,7 @@ namespace Arasan.Services
         public DataTable GetviewPurchaseReturn(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select EMPMAST.EMPNAME ,CURRENCY.MAINCURR ,BRANCHMAST.BRANCHID,PARTYMAST.PARTYNAME,PRETBASIC.DOCID,to_char(PRETBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PRETBASIC.REFNO,to_char(PRETBASIC.REFDT,'dd-MON-yyyy')REFDT,LOCDETAILS.LOCID,PRETBASIC.EXCHANGERATE,PRETBASIC.REASONCODE,PRETBASIC.TEMPFIELD,PRETBASIC.RGRNNO,PRETBASIC.GROSS,PRETBASIC.NET,PRETBASIC.NARR,PRETBASICID  from PRETBASIC left outer join BRANCHMAST on BRANCHMAST.BRANCHMASTID = PRETBASIC.BRANCHID left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID = PRETBASIC.LOCID left outer join PARTYMAST on PARTYMAST.PARTYMASTID = PRETBASIC.PARTYID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=PRETBASIC.MAINCURRENCY LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID=PRETBASIC.REJBY LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PRETBASIC.TRANSITLOCID where PRETBASIC.PRETBASICID=" + id + "";
+            SvSql = "Select PRETBASIC.AREA,PRETBASIC.ADDRESS,PRETBASIC.CITY,PRETBASIC.STATE,PRETBASIC.PINCODE,PRETBASIC.PHONE,EMPMAST.EMPNAME ,CURRENCY.MAINCURR ,BRANCHMAST.BRANCHID,PARTYMAST.PARTYNAME,PRETBASIC.DOCID,to_char(PRETBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PRETBASIC.REFNO,to_char(PRETBASIC.REFDT,'dd-MON-yyyy')REFDT,LOCDETAILS.LOCID,PRETBASIC.EXCHANGERATE,PRETBASIC.REASONCODE,PRETBASIC.TEMPFIELD,PRETBASIC.RGRNNO,PRETBASIC.GROSS,PRETBASIC.NET,PRETBASIC.NARR,PRETBASICID  from PRETBASIC left outer join BRANCHMAST on BRANCHMAST.BRANCHMASTID = PRETBASIC.BRANCHID left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID = PRETBASIC.LOCID left outer join PARTYMAST on PARTYMAST.PARTYMASTID = PRETBASIC.PARTYID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=PRETBASIC.MAINCURRENCY LEFT OUTER JOIN EMPMAST ON EMPMAST.EMPMASTID=PRETBASIC.REJBY LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PRETBASIC.TRANSITLOCID where PRETBASIC.PRETBASICID=" + id + "";
             //SvSql = "Select PRETBASIC.REJBY,CURRENCY.MAINCURR ,BRANCHMAST.BRANCHID,PARTYMAST.PARTYNAME,PRETBASIC.DOCID,to_char(PRETBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PRETBASIC.REFNO,to_char(PRETBASIC.REFDT,'dd-MON-yyyy')REFDT,LOCDETAILS.LOCID,PRETBASIC.EXCHANGERATE,PRETBASIC.REASONCODE,PRETBASIC.TEMPFIELD,PRETBASIC.RGRNNO,PRETBASIC.GROSS,PRETBASIC.NET,PRETBASIC.NARR,PRETBASICID  from PRETBASIC left outer join BRANCHMAST on BRANCHMAST.BRANCHMASTID = PRETBASIC.BRANCHID left outer join LOCDETAILS on LOCDETAILS.LOCDETAILSID = PRETBASIC.LOCID left outer join PARTYMAST on PARTYMAST.PARTYMASTID = PRETBASIC.PARTYID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=PRETBASIC.MAINCURRENCY LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=PRETBASIC.TRANSITLOCID where PRETBASIC.PRETBASICID=" + id + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);

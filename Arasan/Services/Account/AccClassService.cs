@@ -1,5 +1,4 @@
 ﻿using Arasan.Interface;
-
 using Arasan.Models;
 
 using Microsoft.Extensions.Configuration;
@@ -10,40 +9,39 @@ using System.Data;
 
 namespace Arasan.Services
 {
-    public class AccountTypeService : IAccountType
+    public class AccClassService : IAccClass
     {
         private readonly string _connectionString;
         DataTransactions datatrans;
-        public AccountTypeService(IConfiguration _configuration)
+        public AccClassService(IConfiguration _configuration)
         {
             _connectionString = _configuration.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
 
-        public IEnumerable<AccountType> GetAllAccountType(string status)
+        public IEnumerable<AccClass> GetAllAccClass(string active)
         {
-            if (string.IsNullOrEmpty(status))
+            if (string.IsNullOrEmpty(active))
             {
-                status = "Y";
+                active = "ACTIVE";
             }
-            List<AccountType> cmpList = new List<AccountType>();
+            List<AccClass> cmpList = new List<AccClass>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
 
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select ACCOUNTTYPEID,ACCOUNTCLASS,ACCOUNTCODE,ACCOUNTTYPE,IS_ACTIVE from ACCTYPE WHERE IS_ACTIVE='" + status + "' order by ACCTYPE.ACCOUNTTYPEID DESC ";
+                    cmd.CommandText = "select ACCCLASSID,ACCCLASS_CODE,ACCOUNT_CLASS,STATUS from ACCCLASS WHERE STATUS='" + active + "' order by ACCCLASS.ACCCLASSID DESC  ";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
-                        AccountType cmp = new AccountType
+                        AccClass cmp = new AccClass
                         {
-                            ID = rdr["ACCOUNTTYPEID"].ToString(),
-                            Accountclass = rdr["ACCOUNTCLASS"].ToString(),
-                            AccountCode = rdr["ACCOUNTCODE"].ToString(),
-                            Accounttype = rdr["ACCOUNTTYPE"].ToString(),
-                            Status = rdr["IS_ACTIVE"].ToString()
+                            ID = rdr["ACCCLASSID"].ToString(),
+                            AccountCode = rdr["ACCCLASS_CODE"].ToString(),
+                            Accounttype = rdr["ACCOUNT_CLASS"].ToString(),
+                            status = rdr["STATUS"].ToString()
 
 
                         };
@@ -54,7 +52,8 @@ namespace Arasan.Services
             return cmpList;
         }
 
-        public string AccountTypeCRUD(AccountType ss)
+
+        public string AccClassCRUD(AccClass ss)
         {
             string msg = "";
             try
@@ -63,7 +62,7 @@ namespace Arasan.Services
                 if (ss.ID == null)
                 {
 
-                    svSQL = " SELECT Count(ACCOUNTCODE) as cnt FROM ACCTYPE WHERE ACCOUNTCODE = LTRIM(RTRIM('" + ss.AccountCode + "')) and ACCOUNTTYPE =LTRIM(RTRIM('" + ss.Accounttype + "'))";
+                    svSQL = " SELECT Count(ACCCLASS_CODE) as cnt FROM ACCCLASS WHERE ACCCLASS_CODE = LTRIM(RTRIM('" + ss.AccountCode + "')) and ACCOUNT_CLASS =LTRIM(RTRIM('" + ss.Accounttype + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "Account Code Already Existed";
@@ -74,7 +73,7 @@ namespace Arasan.Services
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
-                    OracleCommand objCmd = new OracleCommand("ACCTYPE_PROC", objConn);
+                    OracleCommand objCmd = new OracleCommand("ACCCLASSPROC", objConn);
 
 
                     objCmd.CommandType = CommandType.StoredProcedure;
@@ -88,13 +87,15 @@ namespace Arasan.Services
                         StatementType = "Update";
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = ss.ID;
                     }
+
                     
-                    objCmd.Parameters.Add("ACCOUNTCLASS", OracleDbType.NVarchar2).Value = ss.Accountclass;
-                    objCmd.Parameters.Add("ACCOUNTCODE", OracleDbType.NVarchar2).Value = ss.AccCode;
-                    objCmd.Parameters.Add("ACCOUNTTYPE", OracleDbType.NVarchar2).Value = ss.Accounttype;
-                    objCmd.Parameters.Add("CREATEDON", OracleDbType.Date).Value = DateTime.Now;
-                    objCmd.Parameters.Add("CREATEDBY", OracleDbType.NVarchar2).Value = ss.CreatedBy;
-                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
+                    objCmd.Parameters.Add("ACCCLASS_CODE", OracleDbType.NVarchar2).Value = ss.AccountCode;
+                    objCmd.Parameters.Add("ACCOUNT_CLASS", OracleDbType.NVarchar2).Value = ss.Accounttype;
+                    //objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = ss.CreatedBy;
+                    //objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                    //objCmd.Parameters.Add("UPDATED_BY", OracleDbType.Date).Value = ss.UpdatedBy;
+                    //objCmd.Parameters.Add("UPDATED_ON", OracleDbType.NVarchar2).Value =  DateTime.Now;
+                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
 
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
 
@@ -119,29 +120,27 @@ namespace Arasan.Services
 
             return msg;
         }
-        //for edit & del
-        public DataTable GetAccountType(string id)
+
+        public DataTable GetAccClass(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select  ACCOUNTCLASS,ACCOUNTCODE,ACCOUNTTYPE from ACCTYPE where ACCOUNTTYPEID = '" + id + "' ";
+            SvSql = "select ACCCLASS_CODE,ACCOUNT_CLASS from ACCCLASS where ACCCLASSID = '" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
         }
-
-        public DataTable GetType()
-        {
-            string SvSql = string.Empty;
-            SvSql = "SELECT ACCOUNT_CLASS,ACCCLASSID FROM ACCCLASS WHERE STATUS = 'ACTIVE'";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
-
+        //public DataTable GetType()
+        //{
+        //    string SvSql = string.Empty;
+        //    SvSql = "SELECT ACCOUNTTYPEID,ACCOUNTTYPE FROM ACCTYPE ";
+        //    DataTable dtt = new DataTable();
+        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
+        //}
         public string StatusChange(string tag, int id)
         {
 
@@ -150,7 +149,7 @@ namespace Arasan.Services
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE ACCTYPE SET IS_ACTIVE ='N' WHERE ACCOUNTTYPEID='" + id + "'";
+                    svSQL = "UPDATE ACCCLASS SET STATUS ='INACTIVE' WHERE ACCCLASSID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -174,7 +173,7 @@ namespace Arasan.Services
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE ACCTYPE SET IS_ACTIVE ='Y' WHERE ACCOUNTTYPEID='" + id + "'";
+                    svSQL = "UPDATE ACCCLASS SET STATUS ='ACTIVE' WHERE ACCCLASSID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -189,6 +188,5 @@ namespace Arasan.Services
             return "";
 
         }
-
     }
 }

@@ -61,13 +61,7 @@
                             </div>
 
                             <div style="height:30px;"></div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="btn-group">
-                                        <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" /></p>
-                                    </div>
-                                </div>
-                            </div>
+                             
 
                             <div class="row">
                                 <div class="col-md-12" style="overflow-x:scroll; min-width:300px; min-height:300px;">
@@ -84,8 +78,11 @@
 
 
                                                 <th> Drum Location  </th>
+                                                <th> Item  </th>
+
                                                 <th>Drum</th>
                                                 <th> Type</th>
+                                                <th> Party</th>
                                                  
                                                 
 
@@ -111,19 +108,59 @@
 
                                                         
                                                         <td>
-                                                            @Html.TextBoxFor(o => o.dumlst[i].Location, new { @id = "txtLocation" + i, @class = "form-control", style = "width: 80px;" , @readonly = "readonly"})
+                                                            @Html.TextBoxFor(o => o.dumlst[i].Location, new { @id = "txtLocation" + i, @class = "form-control", style = "width: 180px;" , @readonly = "readonly"})
+                                                            @Html.TextBoxFor(o => o.dumlst[i].Location, new { @id = "txtLocation1" + i, @class = "form-control", style = "width: 180px;" , @readonly = "readonly"})
+                                                            @Html.TextBoxFor(o => o.dumlst[i].Location, new { @id = "txtLocation2" + i, @class = "form-control", style = "width: 180px;" , @readonly = "readonly"})
+                                                            @Html.TextBoxFor(o => o.dumlst[i].Location, new { @id = "txtLocation3" + i, @class = "form-control", style = "width: 180px;" , @readonly = "readonly"})
+                                                            @Html.TextBoxFor(o => o.dumlst[i].Location, new { @id = "txtLocation4" + i, @class = "form-control", style = "width: 180px;" , @readonly = "readonly"})
+                                                            @Html.TextBoxFor(o => o.dumlst[i].Location, new { @id = "txtLocation5" + i, @class = "form-control", style = "width: 180px;" , @readonly = "readonly"})
+                                                            @Html.TextBoxFor(o => o.dumlst[i].Location, new { @id = "txtLocation6" + i, @class = "form-control", style = "width: 180px;" , @readonly = "readonly"})
+                                                            
                                                         </td>
                                                         <td>
-                                                            @Html.TextBoxFor(o => o.dumlst[i].Drum, new { @id = "txtConFac" + i, @class = "form-control", style = "width: 80px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)", @readonly = "readonly"})
+                                                            @Html.TextBoxFor(o => o.dumlst[i].Item, new { @id = "Item" + i, @class = "form-control", style = "width: 230px;" , @readonly = "readonly"})
+                                                            @Html.TextBoxFor(o => o.dumlst[i].Item, new { @id = "Item1" + i, @class = "form-control", style = "width: 230px;" , @readonly = "readonly"})
+                                                            @Html.TextBoxFor(o => o.dumlst[i].Item, new { @id = "Item2" + i, @class = "form-control", style = "width: 230px;" , @readonly = "readonly"})
+                                                            @Html.TextBoxFor(o => o.dumlst[i].Item, new { @id = "Item3" + i, @class = "form-control", style = "width: 230px;" , @readonly = "readonly"})
+                                                            @Html.TextBoxFor(o => o.dumlst[i].Item, new { @id = "Item4" + i, @class = "form-control", style = "width: 230px;" , @readonly = "readonly"})
+                                                            @Html.TextBoxFor(o => o.dumlst[i].Item, new { @id = "Item5" + i, @class = "form-control", style = "width: 230px;" , @readonly = "readonly"})
+                                                            @Html.TextBoxFor(o => o.dumlst[i].Item, new { @id = "Item6" + i, @class = "form-control", style = "width: 230px;" , @readonly = "readonly"})
+                                                            
                                                         </td>
                                                         <td>
-                                                            @Html.TextBoxFor(o => o.dumlst[i].Type, new { @id = "txtReqQty" + i, @class = "form-control", style = "width: 80px;"})
+                                                            @Html.TextBoxFor(o => o.dumlst[i].Drum, new { @id = "Drum" + i, @class = "form-control", style = "width: 180px;" , @readonly = "readonly"})
+                                                            @Html.TextBoxFor(o => o.dumlst[i].Drum, new { @id = "Drum1" + i, @class = "form-control", style = "width: 180px;" , @readonly = "readonly"})
+                                                            @Html.TextBoxFor(o => o.dumlst[i].Drum, new { @id = "Drum2" + i, @class = "form-control", style = "width: 180px;", @readonly = "readonly"})
+                                                            @Html.TextBoxFor(o => o.dumlst[i].Drum, new { @id = "Drum3" + i, @class = "form-control", style = "width: 180px;" , @readonly = "readonly"})
+                                                            @Html.TextBoxFor(o => o.dumlst[i].Drum, new { @id = "Drum4" + i, @class = "form-control", style = "width: 180px;" , @readonly = "readonly"})
                                                         </td>
-                                                        
                                                         <td>
-                                                            @Html.HiddenFor(o => o.dumlst[i].Isvalid, new { @id = "Isvalid" + i })
-                                                            <img onclick="removeRow(@(i));" src="../Images/delete.png" style="cursor:pointer" /> <input name="EnqLst.Index" type="hidden" value="@(i)" />
+                                                            @Html.TextBoxFor(o => o.dumlst[i].Type, new { @id = "Type" + i, @class = "form-control", style = "width: 180px;" , @readonly = "readonly"})
+                                                            @Html.TextBoxFor(o => o.dumlst[i].Type, new { @id = "Type1" + i, @class = "form-control", style = "width: 180px;" , @readonly = "readonly"})
+                                                            @Html.TextBoxFor(o => o.dumlst[i].Type, new { @id = "Type2" + i, @class = "form-control", style = "width: 180px;" , @readonly = "readonly"})
+                                                            @Html.TextBoxFor(o => o.dumlst[i].Type, new { @id = "Type3" + i, @class = "form-control", style = "width: 180px;" , @readonly = "readonly"})
+                                                            @Html.TextBoxFor(o => o.dumlst[i].Type, new { @id = "Type4" + i, @class = "form-control", style = "width: 180px;" , @readonly = "readonly"})
+                                                            @Html.TextBoxFor(o => o.dumlst[i].Type, new { @id = "Type5" + i, @class = "form-control", style = "width: 180px;" , @readonly = "readonly"})
+                                                            @Html.TextBoxFor(o => o.dumlst[i].Type, new { @id = "Type6" + i, @class = "form-control", style = "width: 180px;" , @readonly = "readonly"})
                                                         </td>
+
+                                                        <td>
+                                                        <br>
+                                                        <br>
+                                                        <br>
+                                                        <br>
+                                                        <br>
+                                                        <br>
+                                                        <br>
+                                                        <br>
+                                                        <br>
+                                                        <br>
+                                                        <br>
+                                                       
+
+                                                            @Html.TextBoxFor(o => o.dumlst[i].Party, new { @id = "party" + i, @class = "form-control", style = "width: 260px;" , @readonly = "readonly"})
+                                                               </td>
+
 
 
                                                     </tr>
@@ -150,15 +187,43 @@
 <script>
     function changesearch(){
         var drumno=document.getElementById("txtDrumNo").value;
+        var i=0;
          $.ajax({
                     url: "GetDrumJSON",
                     type: "post",
                     data: {'drumno': drumno},
                     cache: false,
                     success: function (response) {
-                        //var newlist;
-                        //newlist = response.POlst;
-                        //PopulateDropDown("#ddlPO", response);
+                document.getElementById("txtLocation" + i).value = response.locid;
+                document.getElementById("txtLocation1" + i).value = response.locid1;
+                document.getElementById("txtLocation2" + i).value = response.locid2;
+                document.getElementById("txtLocation3" + i).value = response.locid3;
+                document.getElementById("txtLocation4" + i).value = response.locid4;
+                document.getElementById("txtLocation5" + i).value = response.inloc;
+                document.getElementById("txtLocation6" + i).value = response.inloc1;
+
+                document.getElementById("Drum" + i).value = response.drumid;
+                document.getElementById("Drum1"+ i).value = response.drum;
+                document.getElementById("Drum2"+ i).value = response.drum1;
+                document.getElementById("Drum3"+ i).value = response.drum2;
+                document.getElementById("Drum4" + i).value = response.drum3;
+
+                document.getElementById("Type" + i).value = response.type;
+                document.getElementById("Type1"+ i).value = response.type1;
+                document.getElementById("Type2"+ i).value = response.type2;
+                document.getElementById("Type3"+ i).value = response.type3;
+                document.getElementById("Type4" + i).value = response.type4;
+                document.getElementById("Type5" + i).value = response.intype;
+                document.getElementById("Type6" + i).value = response.intype1;
+
+                document.getElementById("Item"+ i).value = response.item;
+                document.getElementById("Item1"+ i).value = response.item1;
+                document.getElementById("Item2"+ i).value = response.item2;
+                document.getElementById("Item3"+ i).value = response.item3;
+                document.getElementById("Item4" + i).value = response.item4;
+                document.getElementById("Item5" + i).value = response.initem;
+                document.getElementById("Item6" + i).value = response.initem1;
+                document.getElementById("party" + i).value = response.party;
                     },
                     error: function () {
                         debugger;

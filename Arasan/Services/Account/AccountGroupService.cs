@@ -26,8 +26,11 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,ACCOUNTGROUP,ACCTYPE.ACCOUNTTYPE,GROUPCODE,DISPLAY_NAME,ACCGROUPID from ACCGROUP LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=ACCGROUP.BRANCHID LEFT OUTER JOIN ACCTYPE ON ACCOUNTTYPEID =ACCGROUP.ACCOUNTTYPE where ACCGROUP.STATUS='Active'";
-                   
+
+                  
+                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,ACCTYPE.ACCOUNTTYPE,ACCOUNTGROUP,GROUPCODE,DISPLAY_NAME,ACCGROUP.IS_ACTIVE,ACCGROUPID from ACCGROUP LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=ACCGROUP.BRANCHID LEFT OUTER JOIN ACCTYPE ON ACCOUNTTYPEID =ACCGROUP.ACCOUNTTYPE where ACCGROUP.IS_ACTIVE='Y' ";
+                    
+
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -39,7 +42,7 @@ namespace Arasan.Services
                             AType= rdr["ACCOUNTTYPE"].ToString(),
                             GCode = rdr["GROUPCODE"].ToString(),
                             Display = rdr["DISPLAY_NAME"].ToString(),
-                            Status = rdr["STATUS"].ToString()
+                            Status = rdr["IS_ACTIVE"].ToString()
 
                         };
                         cmpList.Add(cmp);
@@ -86,7 +89,7 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("GROUPCODE", OracleDbType.NVarchar2).Value = cy.GCode;
                     objCmd.Parameters.Add("DISPLAY_NAME", OracleDbType.NVarchar2).Value = cy.Display;
 
-                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "Active";
+                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
 
                     try
@@ -119,7 +122,7 @@ namespace Arasan.Services
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE ACCGROUP SET STATUS ='InActive' WHERE ACCGROUPID='" + id + "'";
+                    svSQL = "UPDATE ACCGROUP SET IS_ACTIVE ='N' WHERE ACCGROUPID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -148,6 +151,28 @@ namespace Arasan.Services
         {
             string SvSql = string.Empty;
             SvSql = "SELECT ACCOUNTTYPEID,ACCOUNTTYPE FROM ACCTYPE ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable Getgrpcode(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT ACCOUNTCODE,ACCOUNTCLASS FROM ACCTYPE WHERE ACCOUNTTYPEID = '"+ id +"'  ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        
+        public DataTable Getaccgrpcode(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT ACCCLASS_CODE FROM ACCCLASS  WHERE ACCCLASSID = '" + id + "'  ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

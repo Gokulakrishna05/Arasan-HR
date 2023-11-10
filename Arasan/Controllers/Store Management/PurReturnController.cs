@@ -658,6 +658,12 @@ namespace Arasan.Controllers
                 ca.Trans = dt.Rows[0]["LOCID"].ToString();
                 ca.Grn = dt.Rows[0]["RGRNNO"].ToString();
                 ca.Narration = dt.Rows[0]["NARR"].ToString();
+                ca.Addr = dt.Rows[0]["AREA"].ToString();
+                ca.Address = dt.Rows[0]["ADDRESS"].ToString();
+                ca.City = dt.Rows[0]["CITY"].ToString();
+                ca.State = dt.Rows[0]["STATE"].ToString();
+                ca.Pin = dt.Rows[0]["PINCODE"].ToString();
+                ca.Phone = dt.Rows[0]["PHONE"].ToString();
                 
                 ca.Gross = Convert.ToDouble(dt.Rows[0]["GROSS"].ToString());
                 ca.Net = Convert.ToDouble(dt.Rows[0]["NET"].ToString());
