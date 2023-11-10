@@ -151,6 +151,7 @@ namespace Arasan.Services.Qualitycontrol
                     throw ex;
                 }
                 cy.Docid = docid;
+
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("ICEBASICPROC", objConn);

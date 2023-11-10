@@ -38,7 +38,7 @@
 
                                         <br />  <label for="inputName3" class="col-sm-4 control-label">Account Type<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.AType, Model.Typelst," -- Please Select -- ", new { @id = "ddlAType", @Class = "form-control _select", @TabIndex = 1,onchange = "changeGroup(this.value)" })
+                                            @Html.DropDownListFor(C => C.AType, Model.Typelst," -- Please Select -- ", new { @id = "ddlAType", @Class = "form-control _select", @TabIndex = 1, @onchange = "changeGroup(this.value)" })
                                         </div>
                                     </div>
                                 </div>
@@ -49,7 +49,31 @@
                                     <div class="form-group">
                                         <br />  <label for="inputName3" class="col-sm-4 control-label">Account Group<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.AccGroup, Model.AccGrouplst," -- Please Select -- ", new { @id = "ddlAccGroup", @Class = "form-control _select", @TabIndex = 1})
+                                            @Html.DropDownListFor(C => C.AccGroup, Model.AccGrouplst," -- Please Select -- ", new { @id = "ddlAccGroup", @Class = "form-control _select", @TabIndex = 1,@onchange = "changeGroupcode(this.value)" })
+                                            @Html.HiddenFor(C => C.ID)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Group Code<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.Groupcode, new { @id = "txtGroupcode", @class = "form-control", @TabIndex = 1 ,@readonly=true })
+                                          
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Ledger Code<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.Ledgercode, new { @id = "txtLedgercode", @class = "form-control", @TabIndex = 1 ,@maxlength="6" })
                                             @Html.HiddenFor(C => C.ID)
                                         </div>
                                     </div>
@@ -150,26 +174,42 @@
         }
         $(dropDownId).trigger("liszt:updated");
     }
-    //function changeGroup(itemid) {
-    //    alert(itemid);
-    //    debugger;
-    //    $.ajax({
-    //        url: "GetItemJSON",
-    //        type: "post",
-    //        data: { 'itemid': itemid },
-    //        cache: false,
-    //        success: function (response) {
-    //            var newlist;
-    //            alert(JSON.stringify(response));
-    //            newlist = response.Ilst;
-    //            PopulateDropDown("#ddlAccGroup", response);
-    //        },
-    //        error: function () {
-    //            debugger;
-    //            alert("Please Select Account Group");
-    //        }
-    //    });
-    //}
+    function changeGroup(ItemId) {
+
+        $.ajax({
+            url: 'GetItemJSON',
+            data: { "ItemId": ItemId },
+            type: "post",
+            success: function (response) {
+                var newlist;
+                newlist = response.Itemlst;
+                PopulateDropDown("#ddlAccGroup", response);
+            },
+            error: function () {
+                debugger;
+                alert("Please Account Type");
+            }
+        });
+    }
+
+
+    function changeGroupcode(ItemId) 
+        {
+        $.ajax({
+            url: 'GetGroupCodeDetail',
+            data: { "ItemId": ItemId },
+            type: "GET",
+            success: function (result) {
+
+                document.getElementById("txtGroupcode").value = result.code;
+
+            },
+            error: function () {
+                alert("Data Not Found");
+            }
+        });
+
+    }
     $('.form_date').datetimepicker({
         //   language:  'fr',
         weekStart: 1,
