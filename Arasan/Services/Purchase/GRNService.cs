@@ -219,6 +219,7 @@ namespace Arasan.Services
                                     objCmdI.Parameters.Add("ITEM_ID", OracleDbType.NVarchar2).Value = cp.saveItemId;
                                     objCmdI.Parameters.Add("TSOURCEID", OracleDbType.NVarchar2).Value = GRNITEMID;
                                     objCmdI.Parameters.Add("TSOURCEBASICID", OracleDbType.NVarchar2).Value = cy.GRNID;
+                                    objCmdI.Parameters.Add("GRNID", OracleDbType.NVarchar2).Value = cy.GRNID;
                                     objCmdI.Parameters.Add("GRN_DATE", OracleDbType.Date).Value = DateTime.Parse(cy.GRNdate);
                                     objCmdI.Parameters.Add("REC_GOOD_QTY", OracleDbType.NVarchar2).Value = cp.BillQty;
                                     objCmdI.Parameters.Add("BALANCE_QTY", OracleDbType.NVarchar2).Value = cp.BillQty;
@@ -250,6 +251,7 @@ namespace Arasan.Services
                                         objCmdIn.Parameters.Add("INVENTORY_ITEM_ID", OracleDbType.NVarchar2).Value = cp.saveItemId;
                                         objCmdIn.Parameters.Add("TSOURCEID", OracleDbType.NVarchar2).Value = GRNITEMID;
                                         objCmdIn.Parameters.Add("TSOURCEBASICID", OracleDbType.NVarchar2).Value = cy.GRNID;
+                                        objCmdIn.Parameters.Add("GRNID", OracleDbType.NVarchar2).Value = cy.GRNID;
                                         objCmdIn.Parameters.Add("ITEM_ID", OracleDbType.NVarchar2).Value = Invid;
                                         objCmdIn.Parameters.Add("TRANS_TYPE", OracleDbType.NVarchar2).Value = "GRN";
                                         objCmdIn.Parameters.Add("TRANS_IMPACT", OracleDbType.NVarchar2).Value = "I";

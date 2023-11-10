@@ -248,7 +248,7 @@ public class StoresReturnService : IStoresReturnService
 
                                     ///////////////////////////// Input Inventory
                                     double qty = cp.Quantity;
-                                    DataTable dt = datatrans.GetData("Select INVENTORY_ITEM.BALANCE_QTY,INVENTORY_ITEM.ITEM_ID,INVENTORY_ITEM.LOCATION_ID,INV_OUT_ID,INVENTORY_ITEM.BRANCH_ID,INVENTORY_ITEM_ID,GRN_ID,GRN_DATE from INVENTORY_ITEM where INVENTORY_ITEM.ITEM_ID='" + cp.ItemId + "' AND INVENTORY_ITEM.LOCATION_ID='" + cy.Location + "' and INVENTORY_ITEM.BRANCH_ID='" + cy.Branch + "' and BALANCE_QTY!=0 order by GRN_DATE ASC");
+                                    DataTable dt = datatrans.GetData("Select INVENTORY_ITEM.BALANCE_QTY,INVENTORY_ITEM.ITEM_ID,INVENTORY_ITEM.LOCATION_ID,INV_OUT_ID,INVENTORY_ITEM.BRANCH_ID,INVENTORY_ITEM_ID,GRNID,GRN_DATE from INVENTORY_ITEM where INVENTORY_ITEM.ITEM_ID='" + cp.ItemId + "' AND INVENTORY_ITEM.LOCATION_ID='" + cy.Location + "' and INVENTORY_ITEM.BRANCH_ID='" + cy.Branch + "' and BALANCE_QTY!=0 order by GRN_DATE ASC");
                                     if (dt.Rows.Count > 0)
                                     {
                                         for (int i = 0; i < dt.Rows.Count; i++)
@@ -272,6 +272,8 @@ public class StoresReturnService : IStoresReturnService
                                                 objCmdIn.Parameters.Add("ITEM_ID", OracleDbType.NVarchar2).Value = cp.ItemId;
                                                 objCmdIn.Parameters.Add("TSOURCEID", OracleDbType.NVarchar2).Value = did;
                                                 objCmdIn.Parameters.Add("TSOURCEBASICID", OracleDbType.NVarchar2).Value = Pid;
+                                                objCmdIn.Parameters.Add("GRNID", OracleDbType.NVarchar2).Value = dt.Rows[i]["GRNID"].ToString();
+
                                                 objCmdIn.Parameters.Add("GRN_DATE", OracleDbType.NVarchar2).Value = cy.Docdate;
                                                 objCmdIn.Parameters.Add("REC_GOOD_QTY", OracleDbType.NVarchar2).Value = qty;
                                                 objCmdIn.Parameters.Add("BALANCE_QTY", OracleDbType.NVarchar2).Value = qty;
@@ -303,6 +305,8 @@ public class StoresReturnService : IStoresReturnService
                                                     objCmdIns.Parameters.Add("INVENTORY_ITEM_ID", OracleDbType.NVarchar2).Value = cp.ItemId;
                                                     objCmdIns.Parameters.Add("TSOURCEID", OracleDbType.NVarchar2).Value = did;
                                                     objCmdIns.Parameters.Add("TSOURCEBASICID", OracleDbType.NVarchar2).Value = Pid;
+                                                    objCmdIns.Parameters.Add("GRNID", OracleDbType.NVarchar2).Value = dt.Rows[i]["GRNID"].ToString();
+
                                                     objCmdIns.Parameters.Add("ITEM_ID", OracleDbType.NVarchar2).Value = inid;
                                                     objCmdIns.Parameters.Add("TRANS_TYPE", OracleDbType.NVarchar2).Value = "ISSUEPROD";
                                                     objCmdIns.Parameters.Add("TRANS_IMPACT", OracleDbType.NVarchar2).Value = "I";
@@ -352,6 +356,8 @@ public class StoresReturnService : IStoresReturnService
                                                 objCmdIn.Parameters.Add("ITEM_ID", OracleDbType.NVarchar2).Value = cp.ItemId;
                                                 objCmdIn.Parameters.Add("TSOURCEID", OracleDbType.NVarchar2).Value = did;
                                                 objCmdIn.Parameters.Add("TSOURCEBASICID", OracleDbType.NVarchar2).Value = Pid;
+                                                objCmdIn.Parameters.Add("GRNID", OracleDbType.NVarchar2).Value = dt.Rows[i]["GRNID"].ToString();
+
                                                 objCmdIn.Parameters.Add("GRN_DATE", OracleDbType.NVarchar2).Value = cy.Docdate;
                                                 objCmdIn.Parameters.Add("REC_GOOD_QTY", OracleDbType.NVarchar2).Value = qty;
                                                 objCmdIn.Parameters.Add("BALANCE_QTY", OracleDbType.NVarchar2).Value = qty;
@@ -382,6 +388,8 @@ public class StoresReturnService : IStoresReturnService
                                                     objCmdIns.Parameters.Add("INVENTORY_ITEM_ID", OracleDbType.NVarchar2).Value = cp.ItemId;
                                                     objCmdIns.Parameters.Add("TSOURCEID", OracleDbType.NVarchar2).Value = did;
                                                     objCmdIns.Parameters.Add("TSOURCEBASICID", OracleDbType.NVarchar2).Value = Pid;
+                                                    objCmdIns.Parameters.Add("GRNID", OracleDbType.NVarchar2).Value = dt.Rows[i]["GRNID"].ToString();
+
                                                     objCmdIns.Parameters.Add("ITEM_ID", OracleDbType.NVarchar2).Value = inid;
                                                     objCmdIns.Parameters.Add("TRANS_TYPE", OracleDbType.NVarchar2).Value = "ISSUEPROD";
                                                     objCmdIns.Parameters.Add("TRANS_IMPACT", OracleDbType.NVarchar2).Value = "I";
