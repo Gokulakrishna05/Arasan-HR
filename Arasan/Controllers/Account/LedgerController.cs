@@ -62,6 +62,14 @@ namespace Arasan.Controllers
             try
             {
                 Cy.ID = id;
+                int legcode = Convert.ToInt32(Cy.Ledgercode);
+                string code = GetNumberwithPrefix(legcode, 6);
+                Cy.LegCode = code;
+
+                //int grocode = Convert.ToInt32(Cy.Groupcode);
+                //string code1 = GetNumberwithPrefix1(grocode, 6);
+                //Cy.Grocode = code1;
+
                 string Strout = ledger.LedgerCRUD(Cy);
                 if (string.IsNullOrEmpty(Strout))
                 {
@@ -92,7 +100,20 @@ namespace Arasan.Controllers
 
             return View(Cy);
         }
-       
+        public static string GetNumberwithPrefix(int Ledgercode, int totalchar)
+        {
+            string tempnumber = Ledgercode.ToString();
+            while (tempnumber.Length < 6)
+            tempnumber = "0" + tempnumber;
+            return tempnumber;
+        }
+        //public static string GetNumberwithPrefix1(int Groupcode, int totalchar)
+        //{
+        //    string tempnumber = Groupcode.ToString();
+        //    while (tempnumber.Length < 6)
+        //        tempnumber = "0" + tempnumber;
+        //    return tempnumber;
+        //}
         public IActionResult ListLedger()
         {
             IEnumerable<Ledger> cmp = ledger.GetAllLedger();
@@ -138,7 +159,31 @@ namespace Arasan.Controllers
                 return RedirectToAction("ListLedger");
             }
         }
-       
+        public ActionResult GetGroupCodeDetail(string ItemId)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+               
+                string code = "";
+
+                dt = ledger.GetGroupCodeDetails(ItemId);
+
+                if (dt.Rows.Count > 0)
+                {
+                    code = dt.Rows[0]["GROUPCODE"].ToString();
+                   
+                }
+
+                var result = new { code = code };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public List<SelectListItem> BindAccType()
         {
             try

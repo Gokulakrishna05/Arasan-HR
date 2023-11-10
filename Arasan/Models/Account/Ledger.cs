@@ -26,6 +26,11 @@ namespace Arasan.Models
         public string ClStock { get; set; }
         public string Category { get; set; }
         public string Status { get; set; }
+        public string Groupcode { get; set; }
+        public string Ledgercode { get; set; }
+        public string LegCode { get; set; }
+        //public string Grocode { get; set; }
+
         
     }
 }

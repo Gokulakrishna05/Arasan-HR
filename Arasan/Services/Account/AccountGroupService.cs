@@ -26,7 +26,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,ACCOUNTGROUP,ACCTYPE.ACCOUNTTYPE,GROUPCODE,DISPLAY_NAME,ACCGROUP.STATUS,ACCGROUPID from ACCGROUP LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=ACCGROUP.BRANCHID LEFT OUTER JOIN ACCTYPE ON ACCOUNTTYPEID =ACCGROUP.ACCOUNTTYPE where ACCGROUP.STATUS='Active'";
+                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,ACCOUNTGROUP,ACCTYPE.ACCOUNTTYPE,GROUPCODE,DISPLAY_NAME,ACCGROUPID from ACCGROUP LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=ACCGROUP.BRANCHID LEFT OUTER JOIN ACCTYPE ON ACCOUNTTYPEID =ACCGROUP.ACCOUNTTYPE where ACCGROUP.STATUS='Active'";
                    
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
