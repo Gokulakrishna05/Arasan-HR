@@ -716,7 +716,6 @@ namespace Arasan.Controllers
             byte[] bytes = viewer.LocalReport.Render("PDF", null, out mimeType, out encoding, out extension, out streamIds, out warnings);
 
 
-
             // Now that you have all the bytes representing the PDF report, buffer it and send it to the client.
             //Response.BufferOutput = true;
             Response.Clear();
