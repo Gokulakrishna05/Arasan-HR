@@ -11,7 +11,7 @@ namespace Arasan.Interface
         IEnumerable<AccountType> GetAllAccountType(string status);
 
         DataTable GetAccountType(string id);
-
+        DataTable GetType();
         string StatusChange(string tag, int id);
         string RemoveChange(string tag, int id);
     }
