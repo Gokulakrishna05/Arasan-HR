@@ -38,7 +38,7 @@
 
                                         <label for="inputName3" class="col-sm-4 control-label">Doc Id<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.DocId, new { @id = "txtDocId", @class = "form-control", @TabIndex = 1   })
+                                            @Html.TextBoxFor(C => C.DocId, new { @id = "txtDocId", @class = "form-control", @TabIndex = 1 ,@readonly="readonly"  })
 
                                         </div>
                                     </div>
@@ -91,7 +91,7 @@
                                     <div class="form-group">
 
 
-                                        <br />     <label for="inputName3" class="col-sm-4 control-label">GRN/PO<label class="mandatory">*</label></label>
+                                        <br />     <label for="inputName3" class="col-sm-4 control-label">Doc No<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
 
                                             @Html.DropDownListFor(C => C.GRN, Model.Grnlst,"---Please Select---", new { @id = "ddlGRN", @Class = "form-control _select", @TabIndex = 4,@onchange = "changeDetail(this.value)"  })
@@ -119,10 +119,10 @@
                                         <div class="form-group">
 
 
-                                        <br />     <label for="inputName3" class="col-sm-4 control-label">Final Amount<label class="mandatory">*</label></label>
+                                        <br />     <label for="inputName3" class="col-sm-4 control-label">Request Amount<label class="mandatory">*</label></label>
                                             <div class="col-sm-8">
 
-                                            @Html.TextBoxFor(C => C.Final, new { @id = "txtFinal", @class = "form-control", @TabIndex = 1 ,@readonly="readonly" /*onkeydown = "return isNumeric2(event.keyCode,this.value)" */ })
+                                            @Html.TextBoxFor(C => C.Final, new { @id = "txtFinal", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
                                                 <br />
 
                                             </div>
@@ -214,7 +214,7 @@
             success: function (result) {
 
                 document.getElementById("txtAmount").value = result.amount;
-                document.getElementById("txtFinal").value = result.final;
+               
               
             },
             error: function () {
@@ -224,7 +224,7 @@
          }
     function PopulateDropDown(dropDownId, list) {
         //alert(list);
-        $(dropDownId).empty().append();
+        $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
         if (list != null && list.length > 0) {
             $(dropDownId).removeAttr("disabled");
             $.each(list, function () {
@@ -316,22 +316,22 @@
                     "background": ""
                 });
             }
-            //if (document.getElementById("txtFinal").value == "") {
-            //    isValid = false;
-            //    $(txtFinal).css({
-            //        "border": "1px solid red",
-            //        "background": "#FFCECE"
-            //    });
+            if (document.getElementById("txtFinal").value == "") {
+                isValid = false;
+                $(txtFinal).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
 
-            //    alert("Please Enter Final Amount");
-            //    return false;
-            //}
-            //else {
-            //    $(txtFinal).css({
-            //        "border": "",
-            //        "background": ""
-            //    });
-            //}
+                alert("Please Enter Final Amount");
+                return false;
+            }
+            else {
+                $(txtFinal).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
 
         });
 

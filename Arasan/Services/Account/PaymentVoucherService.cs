@@ -185,7 +185,7 @@ namespace Arasan.Services
         public DataTable EditVoucher(string id)
         {
             string SvSql = string.Empty;
-            SvSql = " select BRANCHID,FINAL_AMOUNT from PAYMENTREQUEST where PAYMENTREQUESTID='" + id + "' ";
+            SvSql = " select BRANCHID,REQUESTAMOUNT,PO_OR_GRN,AMOUNT,PARTYMAST.PARTYNAME from PAYMENTREQUEST left outer join PARTYMAST on PARTYMASTID=PAYMENTREQUEST.SUPPLIERID where PAYMENTREQUESTID='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -196,6 +196,16 @@ namespace Arasan.Services
         {
             string SvSql = string.Empty;
             SvSql = " select PAYMENTVOUCHERID,ACCTYPE,ACCNAME,CREDIT_AMOUNT,DEPIT_AMOUNT from PAYMENTVOUCHDET where PAYMENTVOUCHERID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetVoucher()
+        {
+            string SvSql = string.Empty;
+            SvSql = " select VCHTYPEID,DESCRIPTION from VCHTYPE where DESCRIPTION='Payment' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

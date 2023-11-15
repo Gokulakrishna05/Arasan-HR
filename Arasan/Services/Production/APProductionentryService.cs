@@ -530,7 +530,7 @@ namespace Arasan.Services
                         }
                     }
 
-                    if (cy.outlst == null)
+                    if (cy.outlst != null)
                     {
                         foreach (ProOutput cp in cy.outlst)
                         {

@@ -31,7 +31,13 @@ namespace Arasan.Controllers
             pr.Branch = Request.Cookies["BranchId"];
             pr.Suplst = BindSupplier();
             pr.Date = DateTime.Now.ToString("dd-MMM-yyyy");
-            if (id == null)
+			DataTable dtv = datatrans.GetSequence("PAREQ");
+			 
+			if (dtv.Rows.Count > 0)
+			{
+				pr.DocId = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
+			}
+			if (id == null)
             {
 
             }
@@ -46,7 +52,7 @@ namespace Arasan.Controllers
                     pr.Grnlst = BindGRNPO(pr.Type,pr.Supplier);
                     pr.GRN = dt.Rows[0]["PO_OR_GRN"].ToString();
                     pr.Amount = dt.Rows[0]["AMOUNT"].ToString();
-                    pr.Final = dt.Rows[0]["FINAL_AMOUNT"].ToString();
+                    pr.Final = dt.Rows[0]["REQUESTAMOUNT"].ToString();
                     pr.Date = dt.Rows[0]["DOCDATE"].ToString();
                     pr.ReqBy = dt.Rows[0]["REQUESTEDBY"].ToString();
 
@@ -198,7 +204,7 @@ namespace Arasan.Controllers
                     if (dt.Rows.Count > 0)
                     {
                         amount = dt.Rows[0]["GROSS"].ToString();
-                        final = dt.Rows[0]["GROSS"].ToString();
+                      
                     }
                 }
                 else
@@ -211,7 +217,7 @@ namespace Arasan.Controllers
                     }
 
                 }
-                var result = new { amount = amount, final= final };
+                var result = new { amount = amount  };
                 return Json(result);
             }
             catch (Exception ex)
@@ -227,10 +233,11 @@ namespace Arasan.Controllers
             {
                 ca.DocId = dt.Rows[0]["DOCID"].ToString();
                 ca.Supplier = dt.Rows[0]["PARTYNAME"].ToString();
-                ca.Final = dt.Rows[0]["AMOUNT"].ToString();
+                ca.Final = dt.Rows[0]["REQUESTAMOUNT"].ToString();
                 ca.Date = dt.Rows[0]["DOCDATE"].ToString();
                 ca.GRN = dt.Rows[0]["PO_OR_GRN"].ToString();
                 ca.Type = dt.Rows[0]["TYPE"].ToString();
+                ca.Amount = dt.Rows[0]["AMOUNT"].ToString();
               
                 
             }

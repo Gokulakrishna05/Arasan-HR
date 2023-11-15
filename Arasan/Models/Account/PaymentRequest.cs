@@ -35,6 +35,7 @@ namespace Arasan.Models
         public string DocId { get; set; }
         public string Date { get; set; }
         public string status { get; set; }
+        public string Approve { get; set; }
         
     }
     
