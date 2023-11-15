@@ -17,6 +17,8 @@ namespace Arasan.Models
        
         public string ID { get; set; }
         public string Branch { get; set; }
+        public string Supplier { get; set; }
+        public string Grn { get; set; }
 
         public string RefNo { get; set; }
 
@@ -32,6 +34,7 @@ namespace Arasan.Models
         public double TotalDeAmount { get; set; }
         public double TotalCrAmount { get; set; }
         public string VType { get; set; }
+       
         public double TotalAmount { get; set; }
         public List<VoucherItem> VoucherLst { get; set; }
         public double ClaimAmount { get; set; }

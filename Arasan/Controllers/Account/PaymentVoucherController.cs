@@ -34,7 +34,8 @@ namespace Arasan.Controllers
             pv.Brlst = BindBranch();
             pv.Loclst = GetLoc(userId);
             pv.Curlst = BindCurrency();
-            
+            DataTable dtv1 = Voucher.GetVoucher();
+            pv.VType = dtv1.Rows[0]["DESCRIPTION"].ToString();
             List<VoucherItem> TData = new List<VoucherItem>();
             VoucherItem tda = new VoucherItem();
             pv.Vdate = DateTime.Now.ToString("dd-MMM-yyyy");
@@ -66,7 +67,10 @@ namespace Arasan.Controllers
                 {
                    
                     pv.Branch = dt.Rows[0]["BRANCHID"].ToString();
-                    pv.ReqAmount = Convert.ToDouble(dt.Rows[0]["FINAL_AMOUNT"].ToString() == "" ? "0" : dt.Rows[0]["FINAL_AMOUNT"].ToString());
+                    pv.Supplier = dt.Rows[0]["PARTYNAME"].ToString();
+                    pv.Grn = dt.Rows[0]["PO_OR_GRN"].ToString();
+                    pv.ReqAmount = Convert.ToDouble(dt.Rows[0]["REQUESTAMOUNT"].ToString() == "" ? "0" : dt.Rows[0]["REQUESTAMOUNT"].ToString());
+                    pv.TotalAmount = Convert.ToDouble(dt.Rows[0]["AMOUNT"].ToString() == "" ? "0" : dt.Rows[0]["AMOUNT"].ToString());
                 }
                 DataTable dt2 = new DataTable();
                 dt2 = Voucher.GetVoucherDet(id);

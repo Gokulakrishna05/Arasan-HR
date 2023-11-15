@@ -65,7 +65,48 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Supplier<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.Supplier )
+                                          
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+
+                                        <br />     <label for="inputName3" class="col-sm-4 control-label">Doc No<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+
+                                            @Html.DisplayFor(C => C.Grn, new { @id = "txtGrn", @class = "form-control", @TabIndex = 1 ,@readonly=true  })
+                                            <br />
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+
+                                        <br />   <label for="inputName3" class="col-sm-4 control-label">Total Amount<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+
+                                            @Html.DisplayFor(C => C.TotalAmount, new { @id = "txtTotalAmount", @class = "form-control", @TabIndex = 1 , onkeydown = "return isNumeric2(event.keyCode,this.value)",@readonly="readonly"    })
+                                            <br />
+
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+
+                             
                             <div class="row">
 
                                 <div class="col-md-6">
@@ -84,7 +125,37 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <br />     <label for="inputName3" class="col-sm-4 control-label">Payment Type<label class="mandatory">*</label></label>
+                                        <br />   <label for="inputName3" class="col-sm-4 control-label">Voucher Date<label class="mandatory">*</label></label>
+                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
+                                            @Html.TextBoxFor(C => C.Vdate, new { @id = "txtVdate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
+
+                                        <br />
+                                    </div>
+                                </div>
+                               
+                            </div>
+                            <div class="row">
+                                
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+
+                                             <label for="inputName3" class="col-sm-4 control-label">Voucher Type<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+
+                                            @Html.TextBoxFor(C => C.VType, new { @id = "txtVType", @class = "form-control", @TabIndex = 1 ,@readonly="readonly"  })
+                                            <br />
+
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                              <label for="inputName3" class="col-sm-4 control-label">Payment Type<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                             <div class="input-group">
 
@@ -98,36 +169,8 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-
-                                        <label for="inputName3" class="col-sm-4 control-label">Voucher Date<label class="mandatory">*</label></label>
-                                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                            @Html.TextBoxFor(C => C.Vdate, new { @id = "txtVdate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
-                                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                        </div>
-
-                                        <br />
-                                    </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-
-
-                                             <label for="inputName3" class="col-sm-4 control-label">Voucher Type<label class="Mandatory"></label></label>
-                                        <div class="col-sm-8">
-
-                                            @Html.TextBoxFor(C => C.VType, new { @id = "txtVType", @class = "form-control", @TabIndex = 1   })
-                                            <br />
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-
+                                <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
 
@@ -144,17 +187,6 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label">Currency<label class="Mandatory"></label></label>
-                                        <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Currency, Model.Curlst," -- Please Select -- ", new { @id = "ddlCur", @Class = "form-control _select", @TabIndex = 1 })
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-
                                         <label for="inputName3" class="col-sm-4 control-label">Reference Date<label class="mandatory">*</label></label>
                                         <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                             @Html.TextBoxFor(C => C.RefDate, new { @id = "txtRefDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
@@ -164,6 +196,18 @@
                                         <br />
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
+                                 <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label for="inputName3" class="col-sm-4 control-label">Currency<label class="Mandatory"></label></label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(C => C.Currency, Model.Curlst," -- Please Select -- ", new { @id = "ddlCur", @Class = "form-control _select", @TabIndex = 1 })
+                                        </div>
+                                    </div>
+                                </div>
+                               
                                 <div class="col-md-6">
                                     <div class="form-group">
 
@@ -220,8 +264,9 @@
                                     <table class="table table-striped table-hover" id="dataTable">
                                         <thead>
                                             <tr>
-												<th> Account Type </th>
+												
                                                 <th> Account Name </th>
+                                                <th> Account Type </th>
                                                 <th> Depit Amount </th>
                                                 <th> Credit Amount </th>
                                                 
@@ -237,11 +282,15 @@
                                                 {
                                                                     <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
-                                                                        <td>
-                                                                            @Html.DropDownListFor(o => o.VoucherLst[i].Credit, Model.VoucherLst[i].Creditlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlCredit" + i, style = "width: 100px;",@onchange="changeentry(this.value," + i + ")" })
-                                                                        </td>
+                                                                        
                                                                         <td>@Html.DropDownListFor(o => o.VoucherLst[i].Account, Model.VoucherLst[i].Acclst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlAccount" + i, style = "width: 250px;" })
                                                                         </td>
+                                                        <td>
+                                                            @Html.RadioButtonFor(o => o.VoucherLst[i].Credit, "Dr", new { @id = "txtCredit",@TabIndex = 2,@onchange="changeentry(this.value," + i + ")" })
+                                                            <label id="mt-radio">Dr</label>
+                                                            @Html.RadioButtonFor(o => o.VoucherLst[i].Credit, "Cr", new { @id = "txtCredit",@TabIndex = 3,@onchange="changeentry(this.value," + i + ")" })
+                                                            <label id="mt-radio">Cr</label>
+                                                        </td>
                                                                         <td> @Html.TextBoxFor(o => o.VoucherLst[i].DepitAmount, new { @id = "txtDepitAmount" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right" , @onkeyup = "changeDeAmount(this," + i + ")" })</td>
 
                                                                         <td>@Html.TextBoxFor(o => o.VoucherLst[i].CreditAmount, new { @id = "txtCreditAmount" + i, @class = "form-control", onkeydown = "return isNumeric2(event.keyCode,this.value)", style = "width: 100px;text-align:right", @onkeyup = "changeCrAmount(this," + i + ")"})</td>
@@ -289,7 +338,7 @@
                                     </div>
                                 </div>
                             </div>
-                              <div class="row">
+                             @* <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
 
@@ -303,7 +352,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                </div>
+                                </div>*@
                             <div style="height:30px;"></div>
                             <div class="col-lg-10"></div>
                             <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
@@ -543,14 +592,16 @@
     }
       function AppendRow(opt) {
         var index = $("#tbBooks").children("tr").length;
-        var Type = "<td><select style = 'width: 100px;' class='form-control _select newcss' id='ddlCredit" + index + "' name='VoucherLst[" + index + "].Credit' onchange='changeentry(this.value," + index + ")'><option value=''>Please select</option><option value='Dr'>Dr</option><option value='Cr'>Cr</option></select></td>";
         var Account = "<td><select style = 'width: 250px;' class='form-control _select newcss' id='ddlAccount" + index + "' name='VoucherLst[" + index + "].Account' >"+ opt +"</select></td>";
+        var Type = "<td><input id='ddlCredit" + index + "' name='VoucherLst[" + index + "].Credit' onchange='changeentry(this.value," + index + ")' type='radio' value='Dr'> <label id='mt-radio'>Dr</label><input  id='ddlCredit" + index + "' name='VoucherLst[" + index + "].Credit' onchange='changeentry(this.value," + index + ")' type = 'radio' value='Cr'> <label id='mt-radio'>Cr</label></td> ";
+ 
+ 
         var depit = "<td><input class='form-control' id='txtDepitAmount" + index + "' name='VoucherLst[" + index + "].DepitAmount'  style='width: 100px;text-align:right' type='text'  onkeydown = 'return isNumeric2(event.keyCode,this.value)' value='0' /></td>";
         var credit = "<td><input class='form-control' id='txtCreditAmount" + index + "' name='VoucherLst[" + index + "].VoucherLst'  style='width: 100px;text-align:right' type='text' onkeydown = 'return isNumeric2(event.keyCode,this.value)'  value='0' /></td>";
 
         var removeCell = "<td><input id='Isvalid" + index + "' name='VoucherLst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='DrumDetlst.Index' type='hidden' value='" + index + "'  /></td>";
 
-        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Type + Account + depit + credit + removeCell + "</tr>";
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Account + Type + depit + credit + removeCell + "</tr>";
         //alert(Packing);
         $("#tbBooks").append(newRow);
 

@@ -45,8 +45,9 @@
                                                             <th>Doc Id</th>
                                                             <th>Date</th>
                                                             <th>Type</th>
-                                                            <th>PO Or GRN</th>
+                                                            
                                                             <th>Supplier</th>
+                                                            <th>PO Or GRN</th>
                                                             <th>Amount</th>
                                                            <th>Voucher</th>
 
@@ -65,8 +66,9 @@
                                                                     <td>@Html.DisplayFor(modelItem => item.DocId)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.Date)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.Type)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.GRN)</td>
+
                                                                     <td>@Html.DisplayFor(modelItem => item.Supplier)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.GRN)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.Final)</td>
                                                                     <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("PaymentVoucher", "PaymentVoucher",new { id=item.ID })"><img src='../Images/checklist.png' alt='View Details' width='20' /></a></div></td>
 

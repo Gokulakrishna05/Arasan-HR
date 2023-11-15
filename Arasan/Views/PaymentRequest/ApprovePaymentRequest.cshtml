@@ -1,5 +1,6 @@
 ﻿@model Arasan.Models.PaymentRequest
 @{
+    Layout = "_PopupLayout";
     ViewData["Title"] = "Payment Request";
 }
 <style>
@@ -13,7 +14,7 @@
 	left:5px;
 }
 </style>
-<div class="row wrapper border-bottom page-heading">
+@*<div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
 
         <ol class="breadcrumb">
@@ -22,7 +23,7 @@
             <li class="active"> <strong>Payment Request</strong> </li>
         </ol>
     </div>
-</div>
+</div>*@
 <div class="wrapper-content ">
     <div class="row">
         <div class="col-lg-12">
@@ -83,7 +84,7 @@
                         <div class="row">
                              <div class="col-md-6">
                                 <div class="form-group">
-                                        <br> <label for="inputName3" class="col-sm-4 control-label">Po Or GRN<label class="Mandatory"></label></label>
+                                        <br> <label for="inputName3" class="col-sm-4 control-label">Doc No<label class="Mandatory"></label></label>
 
                                     <div class="col-sm-8">
                                         @Html.DisplayFor(C => C.GRN)<br>
@@ -95,7 +96,7 @@
 
                                         <br>  <label for="inputName3" class="col-sm-4 control-label">Amount<label class="mandatory"></label></label>
                                     <div class="col-sm-8">
-                                       @Html.DisplayFor(C => C.Final)<br>
+                                       @Html.DisplayFor(C => C.Amount)<br>
                                         
                                     </div>
                                 </div>
@@ -103,15 +104,25 @@
                         </div>
 
                  
-                       
+                         <div class="row">
+                             <div class="col-md-6">
+                                <div class="form-group">
+                                        <br> <label for="inputName3" class="col-sm-4 control-label">Request Amount<label class="Mandatory"></label></label>
+
+                                    <div class="col-sm-8">
+                                        @Html.DisplayFor(C => C.Final)<br>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
                        
                         
          
                        
                         <div style="height:30px;"></div>
-                          <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
-                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListPaymentRequest", "PaymentRequest")'">Cancel</button>
-                    </form>
+                          <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Approve</button>
+@*                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListPaymentRequest", "PaymentRequest")'">Cancel</button>
+*@                    </form>
                     }
                 </div>
             </div>

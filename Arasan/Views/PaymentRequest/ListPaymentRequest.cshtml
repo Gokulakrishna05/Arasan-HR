@@ -50,10 +50,11 @@
                                                     <thead>
                                                         <tr>
                                                             <th>Doc Id</th>
+                                                            <th>Doc Date</th>
                                                             <th>Type</th>
-                                                            <th>PO Or GRN</th>
-                                                            <th>Supplier</th>
                                                             
+                                                            <th>Supplier</th>
+                                                            <th>PO Or GRN</th>
                                                             <th>Approve</th>
                                                             
                                                             <th>Edit</th>
@@ -69,20 +70,21 @@
                                                             {
                                                                 <tr>
                                                                     <td>@Html.DisplayFor(modelItem => item.DocId)</td>
+                                                                    <td>@Html.DisplayFor(modelItem => item.Date)</td>
                                                                     <td>@Html.DisplayFor(modelItem => item.Type)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.GRN)</td>
+                                                                    
                                                                     <td>@Html.DisplayFor(modelItem => item.Supplier)</td>
-
-                                                                    @if (item.status == "Approved")
+                                                                    <td>@Html.DisplayFor(modelItem => item.GRN)</td>
+                                                                    @if (item.Approve == "Approved")
                                                                     {
                                                                         <td><div class="fa-hover col-md-2 col-sm-4"> <img src='../Images/tick.png' alt='Moved to Quote' width='20' /></div></td>
-                                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <img src='../Images/tick.png' alt='Moved to Quote' width='20' /></div></td>
+                                                                       
                                                                         <td></td>
                                                                         <td></td>
                                                                     }
                                                                     else
                                                                     {
-                                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ApprovePaymentRequest", "PaymentRequest",new { id=item.ID })"><img src='../Images/checklist.png' alt='View Details' width='20' /></a></div></td>
+                                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ApprovePaymentRequest", "PaymentRequest",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/checklist.png' alt='View Details' width='20' /></a></div></td>
 
                                                                         //<td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("PaymentRequest", "PaymentRequest",new { id=item.ID })"></a></div></td>
                                                                         //<td> <a href="@Url.Action("DeleteMR","PaymentRequest",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
