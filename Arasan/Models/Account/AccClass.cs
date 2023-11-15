@@ -14,7 +14,7 @@ namespace Arasan.Models
 
         //}
 
-        public string AccountCode { get; set; }
+        public string Accountclass { get; set; }
 
         //public List<SelectListItem> ATypelst;
         public string ID { get; set; }
@@ -27,7 +27,7 @@ namespace Arasan.Models
         public string UpdatedBy { get; set; }
 
         public string status { get; set; }
-        public string currval { get; set; }
+        
        
     }
 }

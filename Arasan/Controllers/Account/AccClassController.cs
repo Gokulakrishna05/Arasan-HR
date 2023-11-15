@@ -36,11 +36,10 @@ namespace Arasan.Controllers
                 dt = AccClassService.GetAccClass(id);
                 if (dt.Rows.Count > 0)
                 {
-                    AC.AccountCode = dt.Rows[0]["ACCCLASS_CODE"].ToString();
-                    AC.Accounttype = dt.Rows[0]["ACCOUNT_CLASS"].ToString();
+                    AC.Accounttype = dt.Rows[0]["ACCCLASS_CODE"].ToString();
+                    AC.Accountclass = dt.Rows[0]["ACCOUNT_CLASS"].ToString();
                     //AC.status = dt.Rows[0]["STATUS"].ToString();
                     AC.ID = id;
-
 
                 }
             }

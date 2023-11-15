@@ -50,26 +50,27 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                      <br />  <label for="inputName3" class="col-sm-4 control-label">Account Group<label class="mandatory">*</label></label>
+
+
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Account Type<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.AccGroup, new { @id = "txtAccGroup", @class = "form-control", @TabIndex = 1  })
-                                            @Html.HiddenFor(C => C.ID)
+
+                                            @Html.DropDownListFor(C => C.AType, Model.Typelst," -- Please Select -- ", new { @id = "ddlAType", @Class = "form-control _select", @TabIndex = 1,onchange = "changeItem(this.value)" })
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
 
                                <div class="col-md-6">
-                                <div class="form-group"> 
-
-
-                                    <br /><label for="inputName3" class="col-sm-4 control-label">Account Type<label class="mandatory">*</label></label>
-                                    <div class="col-sm-8">
-
-                                            @Html.DropDownListFor(C => C.AType, Model.Typelst," -- Please Select -- ", new { @id = "ddlAType", @Class = "form-control _select", @TabIndex = 1,onchange = "changeItem(this.value)" })
+                               
+                                    <div class="form-group">
+                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Account Group<label class="mandatory">*</label></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.AccGroup, new { @id = "txtAccGroup", @class = "form-control", @TabIndex = 1  })
+                                            @Html.HiddenFor(C => C.ID)
                                         </div>
-
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -77,8 +78,15 @@
 
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Group Code<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.GCode, new { @id = "txtGCode", @class = "form-control", @TabIndex = 1  /*,maxlength="3",oninput="validateThreeDigitNumber()"*/ })
-                                        </div>
+
+                                                @Html.TextBoxFor(C => C.GCode, new { @id = "txtGCode", @class = "form-control", @TabIndex = 1  ,maxlength="3",oninput="validateThreeDigitNumber()",@readonly= true })
+                                                @Html.HiddenFor(C => C.Grouptype,new { @id = "txtcode"}) 
+
+                                           
+                                           
+                                            
+
+                                        </div> 
                                     </div>
                                     
                                 </div>
@@ -231,6 +239,7 @@
         });
 
     });
+
     function changeItem(ItemId) {
         $.ajax({
             url: 'GetItemDetail',
@@ -238,7 +247,8 @@
             type: "GET",
             success: function (result) {
 
-                document.getElementById("txtGCode").value = result.acc;
+                document.getElementById("txtcode").value = result.acc;
+                
 
                
             },
@@ -247,4 +257,5 @@
             }
         });
     }
+
 </script>
