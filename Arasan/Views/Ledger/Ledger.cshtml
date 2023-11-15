@@ -51,6 +51,7 @@
                                         <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.AccGroup, Model.AccGrouplst," -- Please Select -- ", new { @id = "ddlAccGroup", @Class = "form-control _select", @TabIndex = 1,@onchange = "changeGroupcode(this.value)" })
                                             @Html.HiddenFor(C => C.ID)
+                                            @Html.HiddenFor(C => C.DocDate)
                                         </div>
                                     </div>
                                 </div>
@@ -106,7 +107,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Opening Stock<label class="Mandatory"></label></label>
+                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Opening Balance<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.OpStock, new { @id = "txtOpStock", @class = "form-control", @TabIndex = 1,onkeydown = "return isNumeric2(event.keyCode,this.value)"  })
                                         </div>
@@ -114,7 +115,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <br />   <label for="inputName3" class="col-sm-4 control-label">Closing Stock<label class="Mandatory"></label></label>
+                                        <br />   <label for="inputName3" class="col-sm-4 control-label">Closing Balance<label class="Mandatory"></label></label>
                                         <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.ClStock, new { @id = "txtClStock", @class = "form-control", @TabIndex = 1 ,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                             @Html.HiddenFor(C => C.ID)
@@ -122,7 +123,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                          @*  <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
 
@@ -145,7 +146,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
                             <div style="height:30px;"></div>
                             <div class="col-lg-10"></div>
                             <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>

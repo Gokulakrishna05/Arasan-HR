@@ -42,13 +42,13 @@ namespace Arasan.Controllers
                 if (dt.Rows.Count > 0)
                 {
                     ca.AType = dt.Rows[0]["ACCOUNTTYPE"].ToString();
-                    ca.AccGroup = dt.Rows[0]["ACCGROUP"].ToString();
+                    ca.AccGroup = dt.Rows[0]["ACCOUNTGROUP"].ToString();
                     ca.LedName = dt.Rows[0]["LEDNAME"].ToString();
-                    ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
                     ca.OpStock = dt.Rows[0]["OPSTOCK"].ToString();
                     ca.ClStock = dt.Rows[0]["CLSTOCK"].ToString();
                     ca.DisplayName = dt.Rows[0]["DISPLAY_NAME"].ToString();
-                    ca.Category = dt.Rows[0]["CATEGORY"].ToString();
+                    ca.Groupcode = dt.Rows[0]["GROUPCODE"].ToString();
+                    ca.Ledgercode = dt.Rows[0]["LEDGERCODE"].ToString();
                     ca.ID = id;
 
                 }
