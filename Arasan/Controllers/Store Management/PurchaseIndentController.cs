@@ -30,6 +30,7 @@ namespace Arasan.Controllers.Store_Management
             ca.EmpLst = BindEmp();
             ca.Branch = Request.Cookies["BranchId"];
             ca.IndentDate = DateTime.Now.ToString("dd-MMM-yyyy");
+            ca.RefDate = DateTime.Now.ToString("dd-MMM-yyyy");
             List<PIndentItem> TData = new List<PIndentItem>();
             PIndentItem tda = new PIndentItem();
             for (int i = 0; i < 3; i++)
@@ -568,7 +569,7 @@ namespace Arasan.Controllers.Store_Management
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 tda = new IndentSupAllocationList();
-                tda.PartyName = dt.Rows[i]["PARTY"].ToString();
+                tda.PartyName = dt.Rows[i]["PARTYNAME"].ToString();
                 tda.Rate = dt.Rows[i]["RATE"].ToString();
                 tda.Unit = dt.Rows[i]["PUNIT"].ToString();
                 ca.UnitP = tda.Unit;
