@@ -102,7 +102,7 @@ namespace Arasan.Services
         public DataTable GetHistory(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select GRNBLDETAIL.RATE,PARTYRCODE.PARTY,GRNBLDETAIL.PUNIT,to_char(GRNBLBASIC.DOCDATE,'dd-MON-yyyy') as DOCDATE,GRNBLDETAIL.TOTAMT,GRNBLDETAIL.QTY from GRNBLDETAIL LEFT OUTER JOIN GRNBLBASIC on GRNBLBASIC.GRNBLBASICID=GRNBLDETAIL.GRNBLBASICID LEFT OUTER JOIN PARTYMAST on GRNBLBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH')    order by GRNBLDETAIL.GRNBLDETAILID DESC fetch  first 5 rows only";
+            SvSql = "select GRNBLDETAIL.RATE,PARTYMAST.PARTYNAME,GRNBLDETAIL.PUNIT,to_char(GRNBLBASIC.DOCDATE,'dd-MON-yyyy') as DOCDATE,GRNBLDETAIL.TOTAMT,GRNBLDETAIL.QTY from GRNBLDETAIL LEFT OUTER JOIN GRNBLBASIC on GRNBLBASIC.GRNBLBASICID=GRNBLDETAIL.GRNBLBASICID LEFT OUTER JOIN PARTYMAST on GRNBLBASIC.PARTYID=PARTYMAST.PARTYMASTID Where PARTYMAST.TYPE IN ('Supplier','BOTH')    order by GRNBLDETAIL.GRNBLDETAILID DESC fetch  first 5 rows only";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -112,7 +112,7 @@ namespace Arasan.Services
         public DataTable GetLasttwoSupp(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select  PARTYMAST.PARTYNAME,GRNBLBASIC.PARTYID from GRNBLDETAIL LEFT OUTER JOIN GRNBLBASIC on GRNBLBASIC.GRNBLBASICID=GRNBLDETAIL.GRNBLBASICID LEFT OUTER JOIN PARTYMAST on GRNBLBASIC.PARTYID=PARTYMAST.PARTYMASTID  Where PARTYMAST.TYPE IN ('Supplier','BOTH')   group by PARTYRCODE.PARTY,GRNBLBASIC.PARTYID fetch first 2 rows only";
+            SvSql = "select  PARTYMAST.PARTYNAME,GRNBLBASIC.PARTYID from GRNBLDETAIL LEFT OUTER JOIN GRNBLBASIC on GRNBLBASIC.GRNBLBASICID=GRNBLDETAIL.GRNBLBASICID LEFT OUTER JOIN PARTYMAST on GRNBLBASIC.PARTYID=PARTYMAST.PARTYMASTID  Where PARTYMAST.TYPE IN ('Supplier','BOTH')   group by PARTYMAST.PARTYNAME,GRNBLBASIC.PARTYID fetch first 2 rows only";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -123,7 +123,7 @@ namespace Arasan.Services
         public DataTable GetSuppPurchaseDetails(string Partyid,string itemid)
         {
             string SvSql = string.Empty;
-            SvSql = "select GRNBLDETAIL.RATE,PARTYRCODE.PARTY,GRNBLDETAIL.PUNIT,to_char(GRNBLBASIC.DOCDATE,'dd-MON-yyyy') as DOCDATE,GRNBLDETAIL.TOTAMT,GRNBLDETAIL.QTY from GRNBLDETAIL LEFT OUTER JOIN GRNBLBASIC on GRNBLBASIC.GRNBLBASICID=GRNBLDETAIL.GRNBLBASICID LEFT OUTER JOIN PARTYMAST on GRNBLBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN PARTYRCODE ON PARTYMAST.PARTYID=PARTYRCODE.ID Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND  PARTYMAST.PARTYMASTID='"+ Partyid  + "'  order by GRNBLDETAIL.GRNBLDETAILID DESC fetch  first 1 rows only";
+            SvSql = "select GRNBLDETAIL.RATE,PARTYMAST.PARTYNAME,GRNBLDETAIL.PUNIT,to_char(GRNBLBASIC.DOCDATE,'dd-MON-yyyy') as DOCDATE,GRNBLDETAIL.TOTAMT,GRNBLDETAIL.QTY from GRNBLDETAIL LEFT OUTER JOIN GRNBLBASIC on GRNBLBASIC.GRNBLBASICID=GRNBLDETAIL.GRNBLBASICID LEFT OUTER JOIN PARTYMAST on GRNBLBASIC.PARTYID=PARTYMAST.PARTYMASTID Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND  PARTYMAST.PARTYMASTID='"+ Partyid  + "'  order by GRNBLDETAIL.GRNBLDETAILID DESC fetch  first 1 rows only";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
