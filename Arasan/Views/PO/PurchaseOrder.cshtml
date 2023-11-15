@@ -171,9 +171,9 @@
                                                 <label for="inputName3" class="col-sm-4 control-label">Conatct No.<label class="Mandatory"></label></label>
                                                 <div class="col-sm-8">
                                                     <input class="form-control" id="inputEmail3" placeholder="Conatct No." type="text">
-                                                </div>
+                                                </div> 
                                             </div>
-                                        </div>
+                                        </div> 
                                     </div>
 									
 									
@@ -626,8 +626,8 @@
                   document.getElementById("txtFrieghtcharge").value = totfrieght.toFixed(2);
                    document.getElementById("txtGross").value = totamt.toFixed(2);
                    document.getElementById("txtNet").value = totamount.toFixed(2);
-                 document.getElementById("hidnet").value = totamount.toFixed(2);  
-                  document.getElementById("txtAmount").value = withDecimal(roundamount.toFixed(2));
+                 document.getElementById("hidnet").value = totamount.toFixed(2);
+            document.getElementById("txtAmount").value = withDecimal(totamount.toFixed(2));
                 }
                 catch (ex) {
                     alert(ex.message);
@@ -760,7 +760,7 @@ function withDecimal(n) {
     var whole = convertNumberToWords(nums[0])
     if (nums.length == 2) {
         var fraction = convertNumberToWords(nums[1])
-        return whole + 'and ' + fraction;
+        return whole + ' ' + fraction;
     } else {
         return whole;
     }

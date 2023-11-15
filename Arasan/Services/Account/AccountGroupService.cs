@@ -67,6 +67,11 @@ namespace Arasan.Services
                         return msg;
                     }
                 }
+
+                string grouptype = cy.Grouptype;
+                string gcode = cy.GCode;
+                string docid = string.Format("{0}{1}", grouptype, gcode.ToString()); 
+
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("ACCGROPROC", objConn);
@@ -86,7 +91,7 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
                     objCmd.Parameters.Add("ACCOUNTGROUP", OracleDbType.NVarchar2).Value = cy.AccGroup;
                     objCmd.Parameters.Add("ACCOUNTTYPE", OracleDbType.NVarchar2).Value = cy.AType;
-                    objCmd.Parameters.Add("GROUPCODE", OracleDbType.NVarchar2).Value = cy.GCode;
+                    objCmd.Parameters.Add("GROUPCODE", OracleDbType.NVarchar2).Value = docid;
                     objCmd.Parameters.Add("DISPLAY_NAME", OracleDbType.NVarchar2).Value = cy.Display;
 
                     objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
@@ -172,7 +177,7 @@ namespace Arasan.Services
         public DataTable Getaccgrpcode(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "SELECT ACCCLASS_CODE FROM ACCCLASS  WHERE ACCCLASSID = '" + id + "'  ";
+            SvSql = "SELECT ACCCLASS_CODE FROM ACCCLASS  WHERE ACCOUNT_CLASS = '" + id + "'  ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

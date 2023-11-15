@@ -82,7 +82,7 @@
                                                                     <td>@Html.DisplayFor(modelItem => item.AccountCode)</td>
                                                                    @* <td>@Html.DisplayFor(modelItem => item.Status)</td> *@
 
-                                                                    @if (item.status == "INACTIVE")
+                                                                    @if (item.status == "N")
                                                                     {
                                                                         <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("AccountType", "AccountType",new { id=item.ID })"></a></div></td>
                                                                         <td> <a href="@Url.Action("Remove","AccountType",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>

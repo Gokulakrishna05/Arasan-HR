@@ -33,14 +33,14 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select ACCOUNTTYPEID,ACCOUNTCLASS,ACCOUNTCODE,ACCOUNTTYPE,IS_ACTIVE from ACCTYPE WHERE IS_ACTIVE='" + status + "' order by ACCTYPE.ACCOUNTTYPEID DESC ";
+                    cmd.CommandText = "Select ACCTYPE.ACCOUNTTYPEID,ACCCLASS.ACCOUNT_CLASS,ACCTYPE.ACCOUNTCODE,ACCOUNTTYPE,ACCTYPE.IS_ACTIVE from ACCTYPE LEFT OUTER JOIN ACCCLASS ON ACCCLASS.ACCCLASSID = ACCTYPE.ACCOUNTCLASS WHERE ACCTYPE.IS_ACTIVE ='" + status + "' order by ACCTYPE.ACCOUNTTYPEID DESC ";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
                         AccountType cmp = new AccountType
                         {
                             ID = rdr["ACCOUNTTYPEID"].ToString(),
-                            Accountclass = rdr["ACCOUNTCLASS"].ToString(),
+                            Accountclass = rdr["ACCOUNT_CLASS"].ToString(),
                             AccountCode = rdr["ACCOUNTCODE"].ToString(),
                             Accounttype = rdr["ACCOUNTTYPE"].ToString(),
                             Status = rdr["IS_ACTIVE"].ToString()
@@ -134,7 +134,7 @@ namespace Arasan.Services
         public DataTable GetType()
         {
             string SvSql = string.Empty;
-            SvSql = "SELECT ACCOUNT_CLASS,ACCCLASSID FROM ACCCLASS WHERE STATUS = 'ACTIVE'";
+            SvSql = "SELECT ACCOUNT_CLASS,ACCCLASSID FROM ACCCLASS WHERE IS_ACTIVE = 'Y'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
