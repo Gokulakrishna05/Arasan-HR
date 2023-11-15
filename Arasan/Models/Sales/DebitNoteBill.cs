@@ -11,10 +11,12 @@ namespace Arasan.Models
             this.Partylst = new List<SelectListItem>();
             this.RecList = new List<SelectListItem>();
             this.Curlst = new List<SelectListItem>();
+            this.Vocherlst = new List<SelectListItem>();
            
 
         }
         public List<SelectListItem> Curlst;
+        public List<SelectListItem> Vocherlst;
         public string Currency { get; set; }
 
         public List<SelectListItem> RecList;
@@ -67,7 +69,7 @@ namespace Arasan.Models
 
         public string InvNo { get; set; }
         public string Invdate { get; set; }
-
+        public List<SelectListItem> Itemlst;
         public string Item { get; set; }
         public string Cf { get; set; }
         public string Unit { get; set; }

@@ -2,6 +2,7 @@
 using Arasan.Interface.Qualitycontrol;
 using Arasan.Interface.Sales;
 using Arasan.Models;
+using Arasan.Services;
 using Arasan.Services.Qualitycontrol;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -28,7 +29,12 @@ namespace Arasan.Controllers.Sales
             DebitNoteBill ca = new DebitNoteBill();
             ca.Brlst = BindBranch();
             ca.Partylst = BindGParty();
-           
+            ca.Vocherlst = BindVocher();
+            DataTable dtv = datatrans.GetSequence("Dbnot");
+            if (dtv.Rows.Count > 0)
+            {
+                ca.DocId = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["last"].ToString();
+            }
             ca.Location = Request.Cookies["LocationId"];
             ca.Branch = Request.Cookies["BranchId"];
             List<DebitNoteItem> TData = new List<DebitNoteItem>();
@@ -37,6 +43,8 @@ namespace Arasan.Controllers.Sales
             {
                 tda = new DebitNoteItem();
                 tda.Grnlst = BindGrnlst("");
+                tda.Itemlst = BindItemlst("");
+                tda.Invdate = DateTime.Now.ToString("dd-MMM-yyyy");
                 tda.CGSTP = "9";
                 tda.SGSTP = "9";
                 tda.IGSTP = "18";
@@ -204,6 +212,23 @@ namespace Arasan.Controllers.Sales
             ca.Creditlst = TData;
             return View(ca);
         }
+        public List<SelectListItem> BindItemlst(string value)
+        {
+            try
+            {
+                DataTable dtDesg = DebitNoteBillService.GetItem(value);
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["item"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<SelectListItem> BindLedger()
         {
             try
@@ -255,6 +280,23 @@ namespace Arasan.Controllers.Sales
                 throw ex;
             }
         }
+        public List<SelectListItem> BindVocher()
+        {
+            try
+            {
+                DataTable dtDesg = DebitNoteBillService.GetVocher();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DESCRIPTION"].ToString(), Value = dtDesg.Rows[i]["VCHTYPEID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public JsonResult GetPartyJSON(string supid)
         {
             //string CityID = datatrans.GetDataString("Select STATEMASTID from STATEMAST where STATE='" + supid + "' ");
@@ -284,7 +326,7 @@ namespace Arasan.Controllers.Sales
             return Json(BindLedger());
 
         }
-        public ActionResult GetItemDetail(string ItemId)
+        public ActionResult GetItemDetail(string ItemId,string grnid)
         {
             try
             {
@@ -292,7 +334,7 @@ namespace Arasan.Controllers.Sales
 
 
                 //string invDate = "";
-                string item = "";
+                //string item = "";
                 //string ItemType = "";
                 //string ItemSpec = "";
                 string cf = "";
@@ -305,14 +347,14 @@ namespace Arasan.Controllers.Sales
                 string igst = "";
                 string total = "";
 
-                dt = DebitNoteBillService.GetItemDetails(ItemId);
+                dt = DebitNoteBillService.GetItemDetails(ItemId, grnid);
 
                 if (dt.Rows.Count > 0)
                 {
 
 
                     ////invDate = dt.Rows[0]["DOCDATE"].ToString();
-                    item = dt.Rows[0]["ITEMID"].ToString();
+                    //item = dt.Rows[0]["ITEMID"].ToString();
                     //ItemType = dt.Rows[0]["UNITID"].ToString();
                     //ItemSpec = dt.Rows[0]["UNITID"].ToString();
                     cf = dt.Rows[0]["CF"].ToString();
@@ -327,7 +369,7 @@ namespace Arasan.Controllers.Sales
 
                 }
 
-                var result = new { item = item, cf = cf, unit = unit, qty = qty, rate = rate, amount = amount, cgst = cgst, sgst = sgst, igst = igst, total = total };
+                var result = new { cf = cf, unit = unit, qty = qty, rate = rate, amount = amount, cgst = cgst, sgst = sgst, igst = igst, total = total };
                 return Json(result);
             }
             catch (Exception ex)
@@ -335,32 +377,32 @@ namespace Arasan.Controllers.Sales
                 throw ex;
             }
         }
-        public ActionResult GetInvoDate(string ItemId)
-        {
-            try
-            {
-                DataTable dt = new DataTable();
+        //public ActionResult GetInvoDate(string ItemId)
+        //{
+        //    try
+        //    {
+        //        DataTable dt = new DataTable();
 
 
-               string invDate = "";
+        //       string invDate = "";
                
 
-                dt = DebitNoteBillService.GetInvoDates(ItemId);
+        //        dt = DebitNoteBillService.GetInvoDates(ItemId);
 
-                if (dt.Rows.Count > 0)
-                {
+        //        if (dt.Rows.Count > 0)
+        //        {
 
-                    invDate = dt.Rows[0]["DOCDATE"].ToString();
-                }
+        //            invDate = dt.Rows[0]["DOCDATE"].ToString();
+        //        }
 
-                var result = new { invDate = invDate };
-                return Json(result);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        //        var result = new { invDate = invDate };
+        //        return Json(result);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
         public IActionResult ListDebitNoteBill()
         {
             IEnumerable<DebitNoteBill> sta = DebitNoteBillService.GetAllDebitNoteBill();
@@ -387,11 +429,11 @@ namespace Arasan.Controllers.Sales
         {
             try
             {
-                DataTable dtDesg = DebitNoteBillService.GetParty();
+                DataTable dtDesg = datatrans.GetSupplier();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTYNAME"].ToString(), Value = dtDesg.Rows[i]["PARTYID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PARTYNAME"].ToString(), Value = dtDesg.Rows[i]["PARTYMASTID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -417,12 +459,12 @@ namespace Arasan.Controllers.Sales
                 throw ex;
             }
         }
-        //public JsonResult GetDeptitJSON(string supid)
-        //{
-        //    DebitNote model = new DebitNote();
-        //    model.Grnlst = BindGrnlst(supid);
-        //    return Json(BindGrnlst(supid));
+        public JsonResult GetItemJSON(string itemid)
+        {
+            DebitNoteItem model = new DebitNoteItem();
+            model.Itemlst = BindItemlst(itemid);
+            return Json(BindItemlst(itemid));
 
-        //}
+        }
     }
 }

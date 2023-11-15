@@ -5,6 +5,7 @@ using Arasan.Models;
 using Microsoft.AspNetCore.Mvc;
 using Oracle.ManagedDataAccess.Client;
 using System.IO;
+using DocumentFormat.OpenXml.Office2010.Excel;
 
 namespace Arasan.Services.Sales
 {
@@ -51,6 +52,24 @@ namespace Arasan.Services.Sales
 
                 string StatementType = string.Empty;
                 string svSQL = "";
+
+                datatrans = new DataTransactions(_connectionString);
+
+
+                int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'DNBF' AND ACTIVESEQUENCE = 'T'");
+                string docid = string.Format("{0}{1}", "DNBF", (idc + 1).ToString());
+
+                string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='DNBF' AND ACTIVESEQUENCE ='T'";
+                try
+                {
+                    datatrans.UpdateStatus(updateCMd);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                cy.DocId = docid;
+
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("DBNOTEBASICPROC", objConn);
@@ -70,7 +89,7 @@ namespace Arasan.Services.Sales
                     }
                     objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
                     objCmd.Parameters.Add("VTYPE", OracleDbType.NVarchar2).Value = cy.Vocher;
-                    objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.DocId;
+                    objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = docid;
                     objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = cy.Docdate;
                     objCmd.Parameters.Add("REFNO", OracleDbType.NVarchar2).Value = cy.RefNo;
                     objCmd.Parameters.Add("REFDT", OracleDbType.NVarchar2).Value = cy.RefDate;
@@ -246,16 +265,16 @@ namespace Arasan.Services.Sales
 
             return msg;
         }
-        public DataTable GetParty()
-        {
-            string SvSql = string.Empty;
-            SvSql = "select GRNBLBASICID,PARTYNAME,PARTYID FROM GRNBLBASIC";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
+        //public DataTable GetParty()
+        //{
+        //    string SvSql = string.Empty;
+        //    SvSql = "select GRNBLBASICID,PARTYNAME,PARTYID FROM GRNBLBASIC";
+        //    DataTable dtt = new DataTable();
+        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
+        //}
         public DataTable GetGrn(string id)
         {
             string SvSql = string.Empty;
@@ -266,26 +285,26 @@ namespace Arasan.Services.Sales
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetItemDetails(string itemId)
+        public DataTable GetItemDetails(string itemId, string grnid)
         {
             string SvSql = string.Empty;
-            SvSql = "SELECT ITEMMASTER.ITEMID,CF,PUNIT,QTY,RATE,AMOUNT,CGST,SGST,IGST,TOTAMT FROM GRNBLDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID =GRNBLDETAIL.ITEMID WHERE GRNBLBASICID='" + itemId + "'";
+            SvSql = "SELECT CF,PUNIT,QTY,RATE,AMOUNT,CGST,SGST,IGST,TOTAMT FROM GRNBLDETAIL WHERE ITEMID='" + itemId + "' AND GRNBLBASICID='" + grnid + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetInvoDates(string itemId)
-        {
-            string SvSql = string.Empty;
-            SvSql = "select to_char(GRNBLBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,GRNBLBASICID FROM  GRNBLBASIC WHERE GRNBLBASICID='" + itemId + "'";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
+        //public DataTable GetInvoDates(string itemId)
+        //{
+        //    string SvSql = string.Empty;
+        //    SvSql = "select to_char(GRNBLBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,GRNBLBASICID FROM  GRNBLBASIC WHERE GRNBLBASICID='" + itemId + "'";
+        //    DataTable dtt = new DataTable();
+        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
+        //}
 
         public DataTable GetDebitNoteBillDetail(string id)
         {
@@ -310,7 +329,7 @@ namespace Arasan.Services.Sales
         public DataTable EditProEntry(string PROID)
         {
             string SvSql = string.Empty;
-            SvSql = "select  BRANCHMAST.BRANCHID,NET,DBNOTEBASIC.DOCID,DBNOTEBASIC.BRANCHID AS BRA FROM DBNOTEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMAST.BRANCHMASTID =DBNOTEBASIC.BRANCHID where DBNOTEBASIC.DBNOTEBASICID =" + PROID + "";
+            SvSql = "select  BRANCHMAST.BRANCHID,NET,DBNOTEBASIC.DOCID,DBNOTEBASIC.BRANCHID AS BRA FROM DBNOTEBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMAST.BRANCHMASTID =DBNOTEBASIC.BRANCHID where DBNOTEBASIC.DBNOTEBASICID ='" + PROID + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -318,6 +337,26 @@ namespace Arasan.Services.Sales
             return dtt;
         }
 
-        
+        public DataTable GetItem(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT GRNBLDETAILID,GRNBLBASICID,ITEMMASTER.ITEMID,GRNBLDETAIL.ITEMID AS item FROM GRNBLDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=GRNBLDETAIL.ITEMID WHERE GRNBLBASICID ='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetVocher()
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT VCHTYPEID,DESCRIPTION FROM VCHTYPE";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
     }
 }

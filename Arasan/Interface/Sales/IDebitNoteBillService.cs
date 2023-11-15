@@ -10,15 +10,17 @@ namespace Arasan.Interface.Sales
     {
         IEnumerable<DebitNoteBill> GetAllDebitNoteBill();
         string DebitNoteBillCRUD(DebitNoteBill cy);
-        DataTable GetParty();
+        //DataTable GetParty();
         DataTable GetGrn(string id);
-        DataTable GetItemDetails(string itemId);
-        DataTable GetInvoDates(string itemId);
+        DataTable GetItemDetails(string itemId, string grnid);
+        //DataTable GetInvoDates(string itemId);
 
         DataTable EditProEntry(string PROID);
         DataTable GetDebitNoteBillDetail(string id);
         DataTable GetDebitNoteBillItem(string id);
         string CreditNoteStock(DebitNoteBill cy);
+        DataTable GetItem(string id);
+        DataTable GetVocher();
         //DataTable GetItemDetails(string itemId);
     }
 }

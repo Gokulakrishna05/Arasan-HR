@@ -38,37 +38,38 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                        <br /><label for="inputName3" class="col-sm-4 control-label">Branch<label class="mandatory">*</label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label">Branch<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                         @Html.DropDownListFor(C => C.Branch, Model.Brlst," -- Please Select -- ", new { @id = "ddlBranch", @Class = "form-control _select", @TabIndex = 1 })
+                                        @Html.HiddenFor(C => C.ID)
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <br /> <label for="inputName3" class="col-sm-4 control-label">Vocher Type<label class="Mandatory"></label></label>
+                                     <label for="inputName3" class="col-sm-4 control-label">Vocher Type<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.Vocher, new { @id = "txtVocher", @class = "form-control", @TabIndex = 2 })
+                                        @Html.DropDownListFor(C => C.Vocher, Model.Vocherlst," -- Please Select -- ", new { @id = "ddlVocher", @Class = "form-control _select", @TabIndex = 1 })
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
 
                                         <br />  <label for="inputName3" class="col-sm-4 control-label">Document ID<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.DocId, new { @id = "txtDocId", @class = "form-control", @TabIndex = 2 })
+                                            @Html.TextBoxFor(C => C.DocId, new { @id = "txtDocId", @class = "form-control", @TabIndex = 2 ,@readonly="readonly"})
+                                            @Html.HiddenFor(C => C.ID)
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                        <br />   <label for="inputName3" class="col-sm-4 control-label">Document Date<label class="mandatory">*</label></label>
+                                          <br />  <label for="inputName3" class="col-sm-4 control-label">Document Date<label class="mandatory">*</label></label>
                                     <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                         @Html.TextBoxFor(C => C.Docdate, new { @id = "Docdate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
                                         <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -78,12 +79,11 @@
                             </div>
                         </div>
 
-
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <br /> <label for="inputName3" class="col-sm-4 control-label">Ref No<label class="Mandatory"></label></label>
+                                     <label for="inputName3" class="col-sm-4 control-label">Ref No<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
                                         @Html.TextBoxFor(C => C.RefNo, new { @id = "txtRefNo", @class = "form-control", @TabIndex = 2 })
                                     </div>
@@ -91,7 +91,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <br />  <label for="inputName3" class="col-sm-4 control-label">Ref Date<label class="Mandatory"></label></label>
+                                   <label for="inputName3" class="col-sm-4 control-label">Ref Date<label class="Mandatory"></label></label>
                                     <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
                                         @Html.TextBoxFor(C => C.RefDate, new { @id = "RefDate", @class = "form-control", @TabIndex = 2,@size="31",@readonly=true })
                                         <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -107,14 +107,6 @@
                                         <br /><label for="inputName3" class="col-sm-4 control-label">Party ID<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                             @Html.DropDownListFor(C => C.Party, Model.Partylst," -- Please Select -- ", new { @id = "ddlParty", @Class = "form-control _select", @TabIndex = 1,@onchange = "PartyChange(value," + 0 + ")"})
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <br /><label for="inputName3" class="col-sm-4 control-label">Template<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                        <input class="form-control" id="inputEmail3" placeholder="" type="text"><br />
                                     </div>
                                 </div>
                             </div>
@@ -168,7 +160,7 @@
                                                     <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
 
                                                         <td>
-                                                            @Html.DropDownListFor(o => o.Depitlst[i].InvNo, Model.Depitlst[i].Grnlst, "---Please Select---", new { @class = "form-control _select newcss", @id = "ddlInvNo" + i, style = "width: 170px;", onchange = "changeItem(this.value," + i + ")"})
+                                                            @Html.DropDownListFor(o => o.Depitlst[i].InvNo, Model.Depitlst[i].Grnlst, "---Please Select---", new { @class = "form-control _select newcss", @id = "ddlInvNo" + i, style = "width: 170px;",onchange = "Grup_Change(this.value," + i + ")"})
                                                            
                                                         </td>
                                                         <td>
@@ -178,9 +170,10 @@
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            @Html.TextBoxFor(o => o.Depitlst[i].Item, new { @id = "txtItem" + i, @class = "form-control", style = "width: 200px;", @readonly = "readonly"})
-                                            </td>
-                                            <td>
+                                                             @Html.DropDownListFor(o => o.Depitlst[i].Item, Model.Depitlst[i].Itemlst, "---Please Select---", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 170px;", onchange = "changeItem(this.value," + i + ")"})
+                                                           
+                                                         </td>
+                                                         <td>
 
                                                             @Html.TextBoxFor(o => o.Depitlst[i].Cf, new { @id = "txtCf" + i, @class = "form-control", style = "width: 80px;", @readonly = "readonly"})
                                                         </td>
@@ -240,7 +233,7 @@
 
                                     <br />  <label for="inputName3" class="col-sm-4 control-label">Gross<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Gross, new { @id = "txtGross", @class = "form-control", @TabIndex = 2,@readonly="true" })
+                                            @Html.TextBoxFor(C => C.Gross, new { @id = "gross", @class = "form-control", @TabIndex = 2,@readonly="true" })
                                     </div>
                                 </div>
                             </div>
@@ -253,20 +246,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                    <br /><label for="inputName3" class="col-sm-4 control-label">Amount In Words<label class="Mandatory"></label></label>
-                                    <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Amount, new { @id = "txtAmount", @class = "form-control", @TabIndex = 2,@onchange = "numberToWords(value," + 0 + ")" })
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -290,6 +269,17 @@
                                     <br /> <label for="inputName3" class="col-sm-4 control-label">BCGST<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.Bcgst, new { @id = "txtBcgst", @class = "form-control", @TabIndex = 2,@readonly="true" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <br /><label for="inputName3" class="col-sm-4 control-label">Amount In Words<label class="Mandatory"></label></label>
+                                    <div class="col-sm-8">
+                                            @Html.TextBoxFor(C => C.Amount, new { @id = "txtAmount", @class = "form-control", @TabIndex = 2,@onchange = "numberToWords(value," + 0 + ")" })
                                     </div>
                                 </div>
                             </div>
@@ -344,13 +334,13 @@
         forceParse: 0
     });
     function changeItem(ItemId, i) {
+        var grnid = document.getElementById("ddlInvNo" + i).value;
         $.ajax({
             url: 'GetItemDetail',
-            data: { "ItemId": ItemId },
+            data: { "ItemId": ItemId,"grnid":grnid },
             type: "GET",
             success: function (result) {
 
-                document.getElementById("txtItem" + i).value = result.item;
                 document.getElementById("txtCf" + i).value = result.cf;
                 document.getElementById("txtUnit" + i).value = result.unit;
                 document.getElementById("txtQty" + i).value = result.qty;
@@ -366,19 +356,26 @@
             }
             
         });
+          
+    }
+     function Grup_Change(itemid, i) {
+       @* //alert(itemid);
+        //debugger;*@
         $.ajax({
-            url: 'GetInvoDate',
-            data: { "ItemId": ItemId },
-            type: "GET",
-            success: function (result) {
-
-                document.getElementById("txtInvdate" + i).value = result.invDate;
-               
-            },
-            error: function () {
-                alert("Data Not Found");
-            }
-
+                url: "GetItemJSON",
+                type: "post",
+                data: { 'itemid': itemid },
+                cache: false,
+                success: function (response) {
+                    var newlist;
+                    //alert(JSON.stringify(response));
+                    newlist = response.Ilst;
+                    PopulateDropDown("#ddlItem" + i, response);
+                },
+                error: function () {
+                    debugger;
+                    alert("Please Select Invoice Number");
+                }
         });
     }
     function AddRow() {
@@ -416,12 +413,11 @@
     function AppendRow(opt) {
         var index = $("#tbBooks").children("tr").length;
 
-        var InvNo = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlInvNo" + index + "' name='Depitlst[" + index + "].InvNo' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
+        var InvNo = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlInvNo" + index + "' name='Depitlst[" + index + "].InvNo' onchange = 'Grup_Change(this.value," + index + ")' ><option value=''>Please select</option>" + opt + "</select></td>";
 
         var Invdate = "<td><div class='input-group date form_date col-sm-8'  data-date-format='dd-M-yyyy'><input class='form-control' id='txtInvdate" + index + "' name='Depitlst[" + index + "].Invdate' readonly='True' style='width: 100px;' type='text' value=''> <span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div> </td>";
-     @* var InvNo = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlInvNo" + index + "' name='Depitlst[" + index + "].InvNo' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option></select></td>";
-*@
-        var Item = "<td><input class='form-control' id='txtItem" + index + "' name='Depitlst[" + index + "].Item'  style='width: 200px;' type='text'  readonly='True' /></td>";
+
+         var Item = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlItem" + index + "' name='Itemlst[" + index + "].Item' onchange = 'changeItem(this.value," + index + ")' ><option value=''>Please select</option></select></td>";
 
         var Cf = "<td><input class='form-control' id='txtCf" + index + "' name='Depitlst[" + index + "].Cf'  style='width: 80px;' type='text'  readonly='True' /></td>";
 
@@ -567,8 +563,8 @@
                 j += 1;
             });
 
-           
-            document.getElementById("txtGross").value = totamt.toFixed(2);
+
+             document.getElementById("gross").value = totamt.toFixed(2);
             document.getElementById("txtNet").value = totamount.toFixed(2);
             document.getElementById("txtBcgst").value = cgstAmount.toFixed(2);
             document.getElementById("txtBsgst").value = sgstAmount.toFixed(2);
