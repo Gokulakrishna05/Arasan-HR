@@ -92,7 +92,7 @@ namespace Arasan.Services
         public DataTable GetIndent()
         {
             string SvSql = string.Empty;
-            SvSql = "select DOCID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE,PINDBASICID,BRANCHMAST.BRANCHID from PINDBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PINDBASIC.BRANCHID Order by PINDBASICID DESC ";
+            SvSql = "select DOCID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE,PINDBASICID,BRANCHMAST.BRANCHID from PINDBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PINDBASIC.BRANCHID Order by PINDBASIC.DOCDATE DESC fetch  first 5 rows only ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
