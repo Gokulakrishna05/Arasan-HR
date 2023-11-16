@@ -59,21 +59,20 @@
                 {
                     width: '100%',
                     source: dataAdapter, 
-                    height: 510,
+                    height: 450,
                     source: source,
                     sortable: true,
               filterable: true,
               groupable: false,
               pageable: true,
               showfilterrow: true,
-   
+   theme: 'energyblue',
 		enablebrowserselection :true,
                     columns: [
-                    
-                      { text: 'Item Group', datafield: 'itemgroup', width: 150 },
-                      { text: 'Item Sub Group', datafield: 'itemsubgroup', width: 150 },
-                      { text: 'Item Name', datafield: 'itemname', width: 300 },
-                      { text: 'UOM', datafield: 'uom', width: 50, align: 'center' },
+                    { text: 'Item Group', filtertype: 'checkedlist', datafield: 'itemgroup', width: 150 },
+                      { text: 'Item Sub Group', filtertype: 'checkedlist', datafield: 'itemsubgroup', width: 150 },
+                      { text: 'Item Name', filtertype: 'input', datafield: 'itemname', width: 300 },
+                      { text: 'UOM' , datafield: 'uom', width: 50, align: 'center' },
                       { text: 'CF', datafield: 'cf', width: 50 , align: 'center'},
                       { text: 'HSN Code', datafield: 'hsncode', width: 100, align: 'center' },
                       { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },

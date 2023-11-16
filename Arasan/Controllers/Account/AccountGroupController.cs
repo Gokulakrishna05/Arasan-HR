@@ -56,6 +56,9 @@ namespace Arasan.Controllers
             try
             {
                 Cy.ID = id;
+                int grpcode = Convert.ToInt32(Cy.GCode);
+                string code = GetNumberwithPrefix(grpcode, 3);
+                Cy.GrpCode = code;
                 string Strout = accountGroup.AccountGroupCRUD(Cy);
                 if (string.IsNullOrEmpty(Strout))
                 {
@@ -85,6 +88,13 @@ namespace Arasan.Controllers
             }
 
             return View(Cy);
+        }
+        public static string GetNumberwithPrefix(int AccountCode, int totalchar)
+        {
+            string tempnumber = AccountCode.ToString();
+            while (tempnumber.Length < 3)
+                tempnumber = "0" + tempnumber;
+            return tempnumber;
         }
         //public List<SelectListItem> BindStatus()
         //{
