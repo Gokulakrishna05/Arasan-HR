@@ -27,7 +27,7 @@ namespace Arasan.Controllers
         public IActionResult Ledger(string id)
         {
             Ledger ca = new Ledger();
-            ca.Typelst = BindAccType("");
+            ca.Typelst = BindAccType();
             ca.AccGrouplst = BindAccGroup("");
             //ca.Date = DateTime.Now.ToString("dd-MMM-yyyy");
             if (id == null)
@@ -41,9 +41,9 @@ namespace Arasan.Controllers
                 dt = ledger.GetLedger(id);
                 if (dt.Rows.Count > 0)
                 {
-                    //ca.Typelst = BindAccType("");
-                    ca.AccGrouplst = BindAccGroup(ca.AType);
+                    ca.Typelst = BindAccType();
                     ca.AType = dt.Rows[0]["ACCOUNTTYPE"].ToString();
+                    ca.AccGrouplst = BindAccGroup(ca.AType);
                     ca.AccGroup = dt.Rows[0]["ACCOUNTGROUP"].ToString();
                     ca.LedName = dt.Rows[0]["LEDNAME"].ToString();
                     ca.OpStock = dt.Rows[0]["OPSTOCK"].ToString();
@@ -186,11 +186,11 @@ namespace Arasan.Controllers
             }
         }
 
-        public List<SelectListItem> BindAccType(string value)
+        public List<SelectListItem> BindAccType()
         {
             try
             {
-                DataTable dtDesg = ledger.GetAccType(value);
+                DataTable dtDesg = ledger.GetAccType();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {

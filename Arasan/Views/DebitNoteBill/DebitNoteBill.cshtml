@@ -4,8 +4,6 @@
     ViewData["Title"] = "DebitNoteBill";
 }
 <style>
- 
-
     .mandatory {
         color: red;
         position: relative;
@@ -19,7 +17,7 @@
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
             <li> <a>Sales</a> </li>
-            <li class="active"> <strong> Debit_Note_Bill</strong> </li>
+            <li class="active"> <strong> Debit Note Bill</strong> </li>
         </ol>
     </div>
 </div>
@@ -28,7 +26,7 @@
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="widgets-container">
-                    <h5 style="font-size:14px"> Debit_Note_Bill</h5>
+                    <h5 style="font-size:14px"> Debit Note Bill</h5>
                     <hr>
                     @using (Html.BeginForm("DebitNoteBill", "DebitNoteBill", FormMethod.Post))
                         {
@@ -106,7 +104,7 @@
 
                                         <br /><label for="inputName3" class="col-sm-4 control-label">Party ID<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Party, Model.Partylst," -- Please Select -- ", new { @id = "ddlParty", @Class = "form-control _select", @TabIndex = 1,@onchange = "PartyChange(value," + 0 + ")"})
+                                            @Html.DropDownListFor(C => C.Party, Model.Partylst," -- Please Select -- ", new { @id = "ddlParty", @Class = "form-control _select", @TabIndex = 1,@onchange = "PartyChange(this.value)"})
                                     </div>
                                 </div>
                             </div>
@@ -170,7 +168,7 @@
                                                             </div>
                                                         </td>
                                                         <td>
-                                                             @Html.DropDownListFor(o => o.Depitlst[i].Item, Model.Depitlst[i].Itemlst, "---Please Select---", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 170px;", onchange = "changeItem(this.value," + i + ")"})
+                                                             @Html.DropDownListFor(o => o.Depitlst[i].Item, Model.Depitlst[i].Itemlst, new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 170px;", onchange = "changeItem(this.value," + i + ")"})
                                                            
                                                          </td>
                                                          <td>
@@ -198,6 +196,9 @@
                                                         </td>
                                                          <td>
                                                             @Html.TextBoxFor(o => o.Depitlst[i].SGST, new { @id = "txtSGST" + i, @class = "form-control", style = "width: 80px;" , @readonly = "readonly"})
+                                                            @Html.HiddenFor(o => o.Depitlst[i].Cgstp, new { @id = "txtCgstp" + i })
+                                                            @Html.HiddenFor(o => o.Depitlst[i].Sgstp, new { @id = "txtSgstp" + i })
+                                                            @Html.HiddenFor(o => o.Depitlst[i].Igstp, new { @id = "txtIgstp" + i })
                                                         </td>
                                                         <td>
                                                             @Html.TextBoxFor(o => o.Depitlst[i].IGST, new { @id = "txtIGST" + i, @class = "form-control", style = "width: 80px;", @readonly = "readonly" })
@@ -346,6 +347,9 @@
                 document.getElementById("txtQty" + i).value = result.qty;
                 document.getElementById("txtRate" + i).value = result.rate;
                 document.getElementById("txtAmount1" + i).value = result.amount;
+                document.getElementById("txtCgstp" + i).value = result.cgstp;
+                document.getElementById("txtSgstp" + i).value = result.sgstp;
+                document.getElementById("txtIgstp" + i).value = result.igstp;
                 document.getElementById("txtCGST" + i).value = result.cgst;
                 document.getElementById("txtSGST" + i).value = result.sgst;
                 document.getElementById("txtIGST" + i).value = result.igst;
@@ -368,9 +372,13 @@
                 cache: false,
                 success: function (response) {
                     var newlist;
-                    //alert(JSON.stringify(response));
-                    newlist = response.Ilst;
-                    PopulateDropDown("#ddlItem" + i, response);
+                    var i = 0;
+                    $('tr.chkitemlst').each(function () {
+                        if ($(this).css('display') !== 'none') {
+                            PopulateDropDown("#ddlItem" + i, response);
+                            i += 1;
+                              }
+                 });
                 },
                 error: function () {
                     debugger;
@@ -391,6 +399,18 @@
                 AppendRow(opt);
             }
         })
+
+         @*$.ajax({
+             type: "POST",
+            url: 'GetItemJSON',
+             success: function (data) {
+
+                 $.each(data, function () {
+                     opt += "<option value=" + this.value + ">" + this.text + "</option>";
+                 });
+                 AppendRow(opt);
+             }
+         })*@
     }
     function removeRow(id) {
         var table = document.getElementById("dataTable");
@@ -411,29 +431,29 @@
         }
     }
     function AppendRow(opt) {
-        var index = $("#tbBooks").children("tr").length;
+        var index = $("#tbBooks").children("tr").length; 
 
         var InvNo = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlInvNo" + index + "' name='Depitlst[" + index + "].InvNo' onchange = 'Grup_Change(this.value," + index + ")' ><option value=''>Please select</option>" + opt + "</select></td>";
 
         var Invdate = "<td><div class='input-group date form_date col-sm-8'  data-date-format='dd-M-yyyy'><input class='form-control' id='txtInvdate" + index + "' name='Depitlst[" + index + "].Invdate' readonly='True' style='width: 100px;' type='text' value=''> <span class='input-group-addon'><span class='glyphicon glyphicon-remove'></span></span> <span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div> </td>";
 
-         var Item = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlItem" + index + "' name='Itemlst[" + index + "].Item' onchange = 'changeItem(this.value," + index + ")' ><option value=''>Please select</option></select></td>";
+         var Item = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlItem" + index + "' name='Depitlst[" + index + "].Item' onchange = 'changeItem(this.value," + index + ")' ><option value=''>Please select</option></select></td>";
 
         var Cf = "<td><input class='form-control' id='txtCf" + index + "' name='Depitlst[" + index + "].Cf'  style='width: 80px;' type='text'  readonly='True' /></td>";
 
         var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='Depitlst[" + index + "].Unit'  style='width: 80px;' type='text'  readonly='True' /></td>";
 
-        var Qty = "<td><input class='form-control' id='txtQty" + index + "' name='Depitlst[" + index + "].Qty'  style='width: 80px;' type='text'   /></td>";
+        var Qty = "<td><input class='form-control' id='txtQty" + index + "' name='Depitlst[" + index + "].Qty'  style='width: 80px;' type='text' onchange = 'changeQty(this.value," + index + ")'  /></td>";
        
         var Rate = "<td><input class='form-control' id='txtRate" + index + "' name='Depitlst[" + index + "].Rate' style='width: 100px;' type='text' readonly='True' /></td>";
        
-        var Amount = "<td><input class='form-control' id='txtAmount" + index + "' name='Depitlst[" + index + "].Amount' style='width: 100px;' type='text' readonly='True' /></td>";
+        var Amount = "<td><input class='form-control' id='txtAmount1" + index + "' name='Depitlst[" + index + "].Amount' style='width: 100px;' type='text' readonly='True' /></td>";
        
-        var CGST = "<td><input class='form-control' id='txtCGST" + index + "' name='Depitlst[" + index + "].CGST'  style='width: 80px;' type='text' readonly='True' /></td>";
+        var CGST = "<td><input class='form-control' id='txtCgstp" + index + "' name='Depitlst[" + index + "].Cgstp' style='width: 130px;' type='hidden'  /><input class='form-control' id='txtCGST" + index + "' name='Depitlst[" + index + "].CGST'  style='width: 80px;' type='text' readonly='True' /></td>";
        
-        var SGST = "<td><input class='form-control' id='txtSGST" + index + "' name='Depitlst[" + index + "].SGST'  style='width: 80px;' type='text' readonly='True' /></td>";
+        var SGST = "<td><input class='form-control' id='txtSgstp" + index + "' name='Depitlst[" + index + "].Sgstp' style='width: 130px;' type='hidden'  /><input class='form-control' id='txtSGST" + index + "' name='Depitlst[" + index + "].SGST'  style='width: 80px;' type='text' readonly='True' /></td>";
         
-        var IGST = "<td><input class='form-control' id='txtIGST" + index + "' name='Depitlst[" + index + "].IGST'  style='width: 80px;' type='text' readonly='True'  /></td>";
+        var IGST = "<td><input class='form-control' id='txtIgstp" + index + "' name='Depitlst[" + index + "].Igstp' style='width: 130px;' type='hidden'  /><input class='form-control' id='txtIGST" + index + "' name='Depitlst[" + index + "].IGST'  style='width: 80px;' type='text' readonly='True'  /></td>";
         
         var Total = "<td><input class='form-control' id='txtTotal" + index + "' name='Depitlst[" + index + "].Total' style='width: 130px;' type='text'  /></td>";
         
@@ -459,9 +479,14 @@
             cache: false,
             success: function (response) {
                 var newlist;
-                //alert(JSON.stringify(response));
-                newlist = response.Ilst;
-                PopulateDropDown("#ddlInvNo"+ i, response);
+                var i = 0;
+                $('tr.chkitemlst').each(function () {
+                    if ($(this).css('display') !== 'none') {
+                        PopulateDropDown("#ddlInvNo" + i, response);
+                        i += 1;
+                    }
+
+                });
             },
             error: function () {
                 debugger;
@@ -484,9 +509,9 @@
             var qty = document.getElementById("txtQty" + i).value;
             var up = document.getElementById("txtRate" + i).value;
             var CF = document.getElementById("txtCf" + i).value;
-            var IGST = document.getElementById("txtIGSTP" + i).value;
-            var CGST = document.getElementById("txtCGSTP" + i).value;
-            var SGST = document.getElementById("txtSGSTP" + i).value;
+            var IGST = document.getElementById("txtIgstp" + i).value;
+            var CGST = document.getElementById("txtCgstp" + i).value;
+            var SGST = document.getElementById("txtSgstp" + i).value;
             
             if (qty == "")
                 qty = 0;
@@ -577,7 +602,7 @@
             alert(ex.message);
         }
     }
-   @* function numberToWords(number) {
+   @*function numberToWords(number) {
         const units = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
         const teens = ['Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
         const tens = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];

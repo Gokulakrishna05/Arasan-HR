@@ -16,7 +16,7 @@ namespace Arasan.Models
         public string AccGroup { get; set; }
         public string AType { get; set; }
         public string GCode { get; set; }
-
+        public string GrpCode { get; set; }
         public string Branch { get; set; }
 
         public List<SelectListItem> Brlst;

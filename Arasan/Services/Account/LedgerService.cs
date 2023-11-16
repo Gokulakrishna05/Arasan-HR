@@ -126,10 +126,10 @@ namespace Arasan.Services
 
             return msg;
         }
-        public DataTable GetAccType(string id)
+        public DataTable GetAccType()
         {
             string SvSql = string.Empty;
-            SvSql = "SELECT  ACCOUNTTYPEID,ACCOUNTTYPE FROM ACCTYPE WHERE ACCOUNTTYPEID='" + id + "'";
+            SvSql = "SELECT  ACCOUNTTYPEID,ACCOUNTTYPE FROM ACCTYPE";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
