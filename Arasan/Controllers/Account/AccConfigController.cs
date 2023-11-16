@@ -5,6 +5,7 @@ using System.Xml.Linq;
 using Arasan.Interface;
 using Arasan.Models;
 using Arasan.Services;
+using Arasan.Services.Master;
 using Arasan.Services.Production;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -297,5 +298,48 @@ namespace Arasan.Controllers
             }
             return View(ac);
         }
+
+        //public ActionResult MyListItemgrid()
+        //{
+        //    List<AccConfig> Reg = new List<AccConfig>();
+        //    DataTable dtUsers = new DataTable();
+
+        //    dtUsers = AccConfigService.GetAllItems();
+        //    for (int i = 0; i < dtUsers.Rows.Count; i++)
+        //    {
+
+        //        string DeleteRow = string.Empty;
+        //        string EditRow = string.Empty;
+
+        //        EditRow = "<a href=ItemName?id=" + dtUsers.Rows[i]["ADCOMPHID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+        //        DeleteRow = "<a href=ItemName?tag=Del&id=" + dtUsers.Rows[i]["ADCOMPHID"].ToString() + ")'><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+        //        Reg.Add(new ListAccConfig
+        //        {
+        //            id = dtUsers.Rows[i]["ADCOMPHID"].ToString(),
+        //            itemgroup = dtUsers.Rows[i]["IGROUP"].ToString(),
+        //            itemsubgroup = dtUsers.Rows[i]["ISUBGROUP"].ToString(),
+        //            itemcode = dtUsers.Rows[i]["ITEMCODE"].ToString(),
+        //            itemname = dtUsers.Rows[i]["ITEMID"].ToString(),
+        //            //Reorderqu = dtUsers.Rows[i]["REORDERQTY"].ToString(),
+        //            //Reorderlvl = dtUsers.Rows[i]["REORDERLVL"].ToString(),
+        //            //Maxlvl = dtUsers.Rows[i]["MAXSTOCKLVL"].ToString(),
+        //            //Minlvl = dtUsers.Rows[i]["MINSTOCKLVL"].ToString(),
+        //            cf = dtUsers.Rows[i]["CONVERAT"].ToString(),
+        //            uom = dtUsers.Rows[i]["UOM"].ToString(),
+        //            hsncode = dtUsers.Rows[i]["HSN"].ToString(),
+        //            //sellingprice = dtUsers.Rows[i]["SELLINGPRI"].ToString(),
+        //            editrow = EditRow,
+        //            delrow = DeleteRow,
+
+        //        });
+        //    }
+
+        //    return Json(new
+        //    {
+        //        Reg
+        //    });
+
+        //}
     }
 }
