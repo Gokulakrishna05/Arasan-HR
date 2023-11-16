@@ -45,9 +45,9 @@ namespace Arasan.Controllers.Sales
                 tda.Grnlst = BindGrnlst("");
                 tda.Itemlst = BindItemlst("");
                 tda.Invdate = DateTime.Now.ToString("dd-MMM-yyyy");
-                tda.CGSTP = "9";
-                tda.SGSTP = "9";
-                tda.IGSTP = "18";
+                //tda.CGSTP = "9";
+                //tda.SGSTP = "9";
+                //tda.IGSTP = "0";
                 tda.Isvalid = "Y";
                 TData.Add(tda);
 
@@ -90,6 +90,7 @@ namespace Arasan.Controllers.Sales
                         tda.Grnlst = BindGrnlst(ca.Party);
                         tda.InvNo = dt2.Rows[i]["INVNO"].ToString();
                         tda.Invdate = dt2.Rows[i]["INVDT"].ToString();
+                        tda.Itemlst = BindItemlst(tda.InvNo);
                         tda.Item = dt2.Rows[i]["ITEMID"].ToString();
                         tda.Cf = dt2.Rows[i]["CONVFACTOR"].ToString();
                         tda.Unit = dt2.Rows[i]["PRIUNIT"].ToString();
@@ -342,6 +343,10 @@ namespace Arasan.Controllers.Sales
                 string qty = "";
                 string rate = "";
                 string amount = "";
+                string cgstp = "";
+                string sgstp = "";
+                string igstp = "";
+
                 string cgst = "";
                 string sgst = "";
                 string igst = "";
@@ -362,6 +367,9 @@ namespace Arasan.Controllers.Sales
                     qty = dt.Rows[0]["QTY"].ToString();
                     rate = dt.Rows[0]["RATE"].ToString();
                     amount = dt.Rows[0]["AMOUNT"].ToString();
+                    cgstp = dt.Rows[0]["CGSTP"].ToString();
+                    sgstp = dt.Rows[0]["SGSTP"].ToString();
+                    igstp = dt.Rows[0]["IGSTP"].ToString();
                     cgst = dt.Rows[0]["CGST"].ToString();
                     sgst = dt.Rows[0]["SGST"].ToString();
                     igst = dt.Rows[0]["IGST"].ToString();
@@ -369,7 +377,7 @@ namespace Arasan.Controllers.Sales
 
                 }
 
-                var result = new { cf = cf, unit = unit, qty = qty, rate = rate, amount = amount, cgst = cgst, sgst = sgst, igst = igst, total = total };
+                var result = new { cf = cf, unit = unit, qty = qty, rate = rate, amount = amount, cgstp= cgstp, sgstp= sgstp, igstp= igstp, cgst = cgst, sgst = sgst, igst = igst, total = total };
                 return Json(result);
             }
             catch (Exception ex)
