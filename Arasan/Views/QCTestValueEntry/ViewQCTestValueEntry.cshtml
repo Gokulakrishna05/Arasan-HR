@@ -407,7 +407,9 @@
                 </div>
                 <div style="height:30px;"></div>
 
-                <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListQCTestValueEntry", "QCTestValueEntry")'">Cancel</button>
+@*                <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListQCTestValueEntry", "QCTestValueEntry")'">Cancel</button>
+*@               
+              <input type="button" class="btn btn-danger" value="Close" onClick="window.parent.jQuery.fancybox.close();" />
 
             </div>
         </div>
@@ -416,3 +418,11 @@
 </div>
 
 
+<script>
+
+    $(function () {
+        $(document).on('click', '.closeFancybox', function () {
+            $.fancybox.close();
+        })
+    })
+</script>

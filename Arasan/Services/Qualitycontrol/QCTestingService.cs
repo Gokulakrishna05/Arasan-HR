@@ -28,7 +28,7 @@ namespace Arasan.Services
                     using (OracleCommand cmd = con.CreateCommand())
                     {
                         con.Open();
-                        cmd.CommandText = "Select ITEMMASTER.ITEMID,QCVALUEBASIC.GRNNO,QCVALUEBASIC.DOCID,to_char(QCVALUEBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,to_char(QCVALUEBASIC.GRNDATE,'dd-MON-yyyy')GRNDATE,QCVALUEBASIC.CLASSCODE,PARTYMAST.PARTYNAME,QCVALUEBASICID,QCVALUEBASIC.LOTSERIALNO,SLNO,QCVALUEBASIC.TESTRESULT,QCVALUEBASIC.TESTBY,QCVALUEBASIC.REMARKS, QCVALUEBASIC.STATUS,QCVALUEBASIC.GRNPROD,QCVALUEBASIC.TESTPROCEDURE from QCVALUEBASIC LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=QCVALUEBASIC.ITEMID LEFT OUTER JOIN  PARTYMAST on QCVALUEBASIC.PARTYID=PARTYMAST.PARTYMASTID  WHERE QCVALUEBASIC.DOCDATE BETWEEN '" + st + "'  AND ' " + ed + "' order by QCVALUEBASICID desc";
+                        cmd.CommandText = "Select ITEMMASTER.ITEMID,QCVALUEBASIC.GRNNO,QCVALUEBASIC.DOCID,to_char(QCVALUEBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,to_char(QCVALUEBASIC.GRNDATE,'dd-MON-yyyy')GRNDATE,QCVALUEBASIC.CLASSCODE,PARTYMAST.PARTYNAME,QCVALUEBASICID,QCVALUEBASIC.LOTSERIALNO,SLNO,QCVALUEBASIC.TESTRESULT,QCVALUEBASIC.TESTBY,QCVALUEBASIC.REMARKS, QCVALUEBASIC.STATUS,QCVALUEBASIC.GRNPROD,QCVALUEBASIC.TESTPROCEDURE from QCVALUEBASIC LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=QCVALUEBASIC.ITEMID LEFT OUTER JOIN  PARTYMAST on QCVALUEBASIC.PARTYID=PARTYMAST.PARTYMASTID  WHERE QCVALUEBASIC.DOCDATE BETWEEN '" + st + "'  AND ' " + ed + "' and QCVALUEBASIC.STATUS ='ACTIVE' order by QCVALUEBASICID desc";
                         OracleDataReader rdr = cmd.ExecuteReader();
                         while (rdr.Read())
                         {
@@ -63,7 +63,7 @@ namespace Arasan.Services
                     {
                         con.Open();
 
-                        cmd.CommandText = "Select ITEMMASTER.ITEMID,QCVALUEBASIC.GRNNO,QCVALUEBASIC.DOCID,to_char(QCVALUEBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,to_char(QCVALUEBASIC.GRNDATE,'dd-MON-yyyy')GRNDATE,QCVALUEBASIC.CLASSCODE,PARTYMAST.PARTYNAME,QCVALUEBASICID,QCVALUEBASIC.LOTSERIALNO,SLNO,QCVALUEBASIC.TESTRESULT,QCVALUEBASIC.TESTBY,QCVALUEBASIC.REMARKS, QCVALUEBASIC.STATUS from QCVALUEBASIC LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=QCVALUEBASIC.ITEMID LEFT OUTER JOIN  PARTYMAST on QCVALUEBASIC.PARTYID=PARTYMAST.PARTYMASTID  WHERE QCVALUEBASIC.DOCDATE > sysdate-30 order by QCVALUEBASICID desc";
+                        cmd.CommandText = "Select ITEMMASTER.ITEMID,QCVALUEBASIC.GRNNO,QCVALUEBASIC.DOCID,to_char(QCVALUEBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,to_char(QCVALUEBASIC.GRNDATE,'dd-MON-yyyy')GRNDATE,QCVALUEBASIC.CLASSCODE,PARTYMAST.PARTYNAME,QCVALUEBASICID,QCVALUEBASIC.LOTSERIALNO,SLNO,QCVALUEBASIC.TESTRESULT,QCVALUEBASIC.TESTBY,QCVALUEBASIC.REMARKS, QCVALUEBASIC.STATUS from QCVALUEBASIC LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=QCVALUEBASIC.ITEMID LEFT OUTER JOIN  PARTYMAST on QCVALUEBASIC.PARTYID=PARTYMAST.PARTYMASTID  WHERE QCVALUEBASIC.DOCDATE > sysdate-30 and QCVALUEBASIC.STATUS ='ACTIVE' order by QCVALUEBASICID desc";
 
                         OracleDataReader rdr = cmd.ExecuteReader();
                         while (rdr.Read())
@@ -121,6 +121,7 @@ namespace Arasan.Services
                     }
                     cy.DocId = DocId;
                 }
+                
 
                 using ( OracleConnection objConn = new OracleConnection(_connectionString))
                  {
@@ -151,8 +152,7 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("TESTBY", OracleDbType.NVarchar2).Value = cy.TestBy;
                     objCmd.Parameters.Add("REMARKS", OracleDbType.NVarchar2).Value = cy.Remarks;
                     objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
-                    objCmd.Parameters.Add("GRNPROD", OracleDbType.NVarchar2).Value = cy.GRNProd;
-                    objCmd.Parameters.Add("TESTPROCEDURE", OracleDbType.NVarchar2).Value = cy.Procedure;
+                    
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                    
@@ -238,6 +238,7 @@ namespace Arasan.Services
                     int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'TE--' AND ACTIVESEQUENCE = 'T'  ");
                     string DocId = string.Format("{0}{1}", "TE--", (idc + 1).ToString());
                     string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='TE--' AND ACTIVESEQUENCE ='T'  ";
+                   
                     try
                     {
                         datatrans.UpdateStatus(updateCMd);
@@ -248,6 +249,10 @@ namespace Arasan.Services
                     }
                     cy.DocId = DocId;
                 }
+                string DrumID = datatrans.GetDataString("Select ITEMMASTERID from ITEMMASTER where ITEMID='" + cy.Item + "' ");
+                string PARID = datatrans.GetDataString("Select POBASICID from POBASIC where PARTYID='" + cy.Par + "' ");
+
+
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("QCTESTINGPROC", objConn);
@@ -269,14 +274,16 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = cy.DocDate;
                     objCmd.Parameters.Add("GRNDATE", OracleDbType.NVarchar2).Value = cy.PoDate;
                     objCmd.Parameters.Add("CLASSCODE", OracleDbType.NVarchar2).Value = cy.ClassCode;
-                    objCmd.Parameters.Add("PARTYID", OracleDbType.NVarchar2).Value = cy.Par;
-                    objCmd.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cy.Item;
+                    objCmd.Parameters.Add("PARTYID", OracleDbType.NVarchar2).Value = PARID;
+                    objCmd.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = DrumID;
                     objCmd.Parameters.Add("SLNO", OracleDbType.NVarchar2).Value = cy.SNo;
                     objCmd.Parameters.Add("LOTSERIALNO", OracleDbType.NVarchar2).Value = cy.LotNo;
                     objCmd.Parameters.Add("TESTRESULT", OracleDbType.NVarchar2).Value = cy.TestResult;
                     objCmd.Parameters.Add("TESTBY", OracleDbType.NVarchar2).Value = cy.TestBy;
                     objCmd.Parameters.Add("REMARKS", OracleDbType.NVarchar2).Value = cy.Remarks;
                     objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
+                    objCmd.Parameters.Add("GRNPROD", OracleDbType.NVarchar2).Value = cy.Qty;
+                    objCmd.Parameters.Add("TESTPROCEDURE", OracleDbType.NVarchar2).Value = cy.Procedure;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
 
@@ -520,7 +527,7 @@ namespace Arasan.Services
         public DataTable GetViewQCDetail(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select TESTDESC,ACVAL,TESTVALUE,RESULT,MANUALVALUE,ACTTESTVALUE from QCVALUEDETAIL Where QCVALUEBASICID='" + id + "'";
+            SvSql = "Select TESTTDETAIL.TESTDESC,QCVALUEDETAIL.ACVAL,QCVALUEDETAIL.TESTVALUE,QCVALUEDETAIL.RESULT,QCVALUEDETAIL.MANUALVALUE,QCVALUEDETAIL.ACTTESTVALUE from QCVALUEDETAIL LEFT OUTER JOIN  TESTTDETAIL on QCVALUEDETAIL.TESTDESC=TESTTDETAIL.TESTTDETAILID Where QCVALUEBASICID ='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
