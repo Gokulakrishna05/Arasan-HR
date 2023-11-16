@@ -10,8 +10,8 @@ namespace Arasan.Interface
         string AccountGroupCRUD(AccountGroup cy);
         DataTable GetAccountGroup(string id);
         DataTable GetAccType();
-        DataTable Getgrpcode(string id);
-        DataTable Getaccgrpcode(string id);
+        DataTable Gettypecode(string id);
+        DataTable Getclasscode(string id);
         IEnumerable<AccountGroup> GetAllAccountGroup();
         string StatusChange(string tag, int id);
     }
