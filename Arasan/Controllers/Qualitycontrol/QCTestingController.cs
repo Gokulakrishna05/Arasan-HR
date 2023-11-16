@@ -598,6 +598,58 @@ namespace Arasan.Controllers
             return Json(model.QCGRNLst);
         }
 
+        //public IActionResult ViewQCTesting(string id)
+        //{
+        //    QCTesting ca = new QCTesting();
+        //    DataTable dt = new DataTable();
+        //    DataTable dtt = new DataTable();
+
+        //    dt = QCTestingService.GetViewQCTesting(id);
+        //    if (dt.Rows.Count > 0)
+        //    {
+        //        ca.DocId = dt.Rows[0]["DOCID"].ToString();
+        //        ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
+        //        ca.GRNNo = dt.Rows[0]["DOCID"].ToString();
+        //        ca.GRNDate = dt.Rows[0]["GRNDATE"].ToString();
+        //        ca.ID = id;
+        //        //ca.Supplst = BindSupplst(ca.GRNNo);
+        //        ca.Party = dt.Rows[0]["PARTYID"].ToString();
+        //        //ca.Itemlst = BindItemlst(ca.GRNNo);
+        //        ca.ItemId = dt.Rows[0]["ITEMID"].ToString();
+        //        ca.SNo = dt.Rows[0]["SLNO"].ToString();
+        //        ca.LotNo = dt.Rows[0]["LOTSERIALNO"].ToString();
+        //        ca.TestResult = dt.Rows[0]["TESTRESULT"].ToString();
+        //        ca.TestBy = dt.Rows[0]["TESTBY"].ToString();
+        //        ca.Remarks = dt.Rows[0]["REMARKS"].ToString();
+        //        ca.ClassCode = dt.Rows[0]["CLASSCODE"].ToString();
+        //        ca.GRNProd = dt.Rows[0]["GRNPROD"].ToString();
+        //        ca.Procedure = dt.Rows[0]["TESTPROCEDURE"].ToString();
+
+
+        //        List<QCItem> Data = new List<QCItem>();
+        //        QCItem tda = new QCItem();
+        //        //double tot = 0;
+
+        //        dtt = QCTestingService.GetViewQCDetail(id);
+        //        if (dtt.Rows.Count > 0)
+        //        {
+        //            for (int i = 0; i < dtt.Rows.Count; i++)
+        //            {
+        //                tda.TestDec = dtt.Rows[0]["TESTDESC"].ToString();
+        //                tda.TestValue = dtt.Rows[0]["TESTVALUE"].ToString();
+        //                tda.Result = dtt.Rows[0]["RESULT"].ToString();
+        //                tda.AcTestValue = dtt.Rows[0]["ACTTESTVALUE"].ToString();
+        //                tda.AccVale = dtt.Rows[0]["ACVAL"].ToString();
+        //                tda.ManualValue = dtt.Rows[0]["MANUALVALUE"].ToString();
+        //                Data.Add(tda);
+        //            }
+        //        }
+
+        //        ca.QCLst = Data;
+        //    }
+        //    return View(ca);
+        //}
+
         public IActionResult ViewQCTesting(string id)
         {
             QCTesting ca = new QCTesting();
@@ -613,7 +665,7 @@ namespace Arasan.Controllers
                 ca.GRNDate = dt.Rows[0]["GRNDATE"].ToString();
                 ca.ID = id;
                 //ca.Supplst = BindSupplst(ca.GRNNo);
-                ca.Party = dt.Rows[0]["PARTYID"].ToString();
+                ca.Partyid = dt.Rows[0]["PARTYID"].ToString();
                 //ca.Itemlst = BindItemlst(ca.GRNNo);
                 ca.ItemId = dt.Rows[0]["ITEMID"].ToString();
                 ca.SNo = dt.Rows[0]["SLNO"].ToString();
@@ -649,7 +701,5 @@ namespace Arasan.Controllers
             }
             return View(ca);
         }
-
-
     }
 }

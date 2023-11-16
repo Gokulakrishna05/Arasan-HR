@@ -69,18 +69,16 @@ namespace Arasan.Controllers
                         tda = new ConfigItem();
                         double toaamt = 0;
                         tda.ledlst = Bindledlst();
-
-
                         tda.Type = dt2.Rows[i]["ADTYPE"].ToString();
                         tda.Tname = dt2.Rows[i]["ADNAME"].ToString();
                         tda.Schname = dt2.Rows[i]["ADSCHEMENAME"].ToString();
-                        //tda.ledlst = Bindledlst();
-                        tda.ledger = dt2.Rows[i]["ADACCOUNT"].ToString();
+                        tda.ledger = dt2.Rows[i]["LEDNAME"].ToString();
 
                         tda.Isvalid = "Y";
                         TData.Add(tda);
                     }
                 }
+                
             }
             ac.ConfigLst = TData;
             return View(ac);
@@ -258,5 +256,46 @@ namespace Arasan.Controllers
         //        return RedirectToAction("ListAccConfig");
         //    }
         //}
+
+        public IActionResult ViewAccConfig(string id)
+        {
+
+            AccConfig ac = new AccConfig();
+            DataTable dt = new DataTable();
+            DataTable dt2 = new DataTable();
+
+            dt = AccConfigService.GetConfig(id);
+            if (dt.Rows.Count > 0)
+            {
+                ac.SchemeDes = dt.Rows[0]["ADSCHEMEDESC"].ToString();
+                ac.Scheme = dt.Rows[0]["ADSCHEME"].ToString();
+                ac.ID = id;
+                ac.TransactionName = dt.Rows[0]["ADTRANSDESC"].ToString();
+                ac.TransactionID = dt.Rows[0]["ADTRANSID"].ToString();
+
+                List<ConfigItem> Data = new List<ConfigItem>();
+                ConfigItem tda = new ConfigItem();
+                //double tot = 0;
+
+                dt2 = AccConfigService.GetConfigItem(id);
+                if (dt2.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt2.Rows.Count; i++)
+                    {
+                        tda.Type = dt2.Rows[i]["ADTYPE"].ToString();
+                        tda.Tname = dt2.Rows[i]["ADNAME"].ToString();
+                        tda.Schname = dt2.Rows[i]["ADSCHEMENAME"].ToString();
+                        tda.ledger = dt2.Rows[i]["LEDNAME"].ToString();
+
+                        tda.Isvalid = "Y";
+                        Data.Add(tda);
+                    }
+                }
+
+                ac.ConfigLst = Data;
+
+            }
+            return View(ac);
+        }
     }
 }

@@ -25,6 +25,10 @@ namespace Arasan.Interface
         string StatusChange(string tag, int id);
 
         //string RemoveChange(string tag, int id);
+
+        DataTable GetConfigItem(string id);
+
+        DataTable GetConfig(string id);
     }
 }
 

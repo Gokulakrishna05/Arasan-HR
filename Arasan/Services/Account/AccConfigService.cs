@@ -33,7 +33,7 @@ namespace Arasan.Services
                     con.Open();
 
                     //cmd.CommandText = " SELECT ADSCHEME ,ADCOMPD.ADSCHEMENAME,ADTYPE,ADNAME,ADACCOUNT,TRANSDESC,TRANSID ,ADCOMPDID,ADCOMPD.ACTIVE FROM ADCOMPD  WHERE ADCOMPD.ACTIVE ='" + Active + "'  ";
-                    cmd.CommandText = " SELECT BRANCHMAST.BRANCHID,ADSCHEMEDESC,ADSCHEME,ADTRANSDESC,ADTRANSID,ACTIVE,ADCOMPHID FROM ADCOMPH LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=ADCOMPH.BRANCHID WHERE ADCOMPH.ACTIVE = 'Yes' order by ADCOMPH.ADCOMPHID ASC  ";
+                    cmd.CommandText = " SELECT BRANCHMAST.BRANCHID,ADSCHEMEDESC,ADSCHEME,ADTRANSDESC,ADTRANSID,ACTIVE,ADCOMPHID FROM ADCOMPH LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=ADCOMPH.BRANCHID WHERE ADCOMPH.ACTIVE = 'Yes' order by ADCOMPH.ADCOMPHID DESC  ";
 ;
 
                     OracleDataReader rdr = cmd.ExecuteReader();
@@ -211,7 +211,7 @@ namespace Arasan.Services
         public DataTable Getledger()
         {
             string SvSql = string.Empty;
-            SvSql = "select LEDNAME,LEDGERID from LEDGER where LEDGER.STATUS = 'Active' ";
+            SvSql = "select LEDNAME,LEDGERID from ACCLEDGER where ACCLEDGER.STATUS = 'Active'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -222,7 +222,7 @@ namespace Arasan.Services
         public DataTable GetAccConfigItem(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select ADCOMPDID,ADTYPE,ADNAME,ADSCHEMENAME,ADACCOUNT from ADCOMPD  where ADCOMPD.ADCOMPHID= '" + id + "' ";
+            SvSql = "Select ADTYPE,ADNAME,ADSCHEMENAME,ACCLEDGER.LEDNAME from ADCOMPD LEFT OUTER JOIN ACCLEDGER ON ACCLEDGER.LEDGERID = ADCOMPD.ADACCOUNT where ADCOMPD.ADCOMPHID= '" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -237,7 +237,7 @@ namespace Arasan.Services
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE ADCOMPH SET ACTIVE ='NO' WHERE ADCOMPHID='" + id + "'";
+                    svSQL = "UPDATE ADCOMPH SET ACTIVE ='No' WHERE ADCOMPHID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -276,6 +276,28 @@ namespace Arasan.Services
         //    return "";
 
         //}
+
+        public DataTable GetConfig(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select ADSCHEMEDESC,ADSCHEME,ADTRANSDESC,ADTRANSID,ADCOMPHID FROM ADCOMPH WHERE ADCOMPHID = '" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetConfigItem(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select ADTYPE,ADNAME,ADSCHEMENAME,ACCLEDGER.LEDNAME from ADCOMPD LEFT OUTER JOIN ACCLEDGER ON ACCLEDGER.LEDGERID = ADCOMPD.ADACCOUNT where ADCOMPD.ADCOMPHID= '" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
 
     }
 }

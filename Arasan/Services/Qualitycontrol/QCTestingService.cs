@@ -249,8 +249,8 @@ namespace Arasan.Services
                     }
                     cy.DocId = DocId;
                 }
-                string DrumID = datatrans.GetDataString("Select ITEMMASTERID from ITEMMASTER where ITEMID='" + cy.Item + "' ");
-                string PARID = datatrans.GetDataString("Select POBASICID from POBASIC where PARTYID='" + cy.Par + "' ");
+                //string DrumID = datatrans.GetDataString("Select ITEMMASTERID from ITEMMASTER where ITEMID='" + cy.Item + "' ");
+                //string PARID = datatrans.GetDataString("Select POBASICID from POBASIC where PARTYID='" + cy.Par + "' ");
 
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
@@ -274,8 +274,8 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = cy.DocDate;
                     objCmd.Parameters.Add("GRNDATE", OracleDbType.NVarchar2).Value = cy.PoDate;
                     objCmd.Parameters.Add("CLASSCODE", OracleDbType.NVarchar2).Value = cy.ClassCode;
-                    objCmd.Parameters.Add("PARTYID", OracleDbType.NVarchar2).Value = PARID;
-                    objCmd.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = DrumID;
+                    objCmd.Parameters.Add("PARTYID", OracleDbType.NVarchar2).Value = cy.Par;
+                    objCmd.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = cy.Item;
                     objCmd.Parameters.Add("SLNO", OracleDbType.NVarchar2).Value = cy.SNo;
                     objCmd.Parameters.Add("LOTSERIALNO", OracleDbType.NVarchar2).Value = cy.LotNo;
                     objCmd.Parameters.Add("TESTRESULT", OracleDbType.NVarchar2).Value = cy.TestResult;
