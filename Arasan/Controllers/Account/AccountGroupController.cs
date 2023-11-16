@@ -162,9 +162,9 @@ namespace Arasan.Controllers
                 DataTable dt = new DataTable();
                 DataTable dt2 = new DataTable();
 
-                string type = "";
+                string acccocde = "";
                 string clid = "";
-                string cla = "";
+                string clacode = "";
                 string acc = "";
 
                 dt = accountGroup.Gettypecode(ItemId);
@@ -172,17 +172,17 @@ namespace Arasan.Controllers
                 if (dt.Rows.Count > 0)
                 {
 
-                    type = dt.Rows[0]["ACCOUNTCODE"].ToString();
+                    acccocde = dt.Rows[0]["ACCOUNTCODE"].ToString();
                     clid = dt.Rows[0]["ACCOUNTCLASS"].ToString();
                     dt2 = accountGroup.Getclasscode(clid);
                     if (dt2.Rows.Count > 0)
                     {
-                        cla = dt2.Rows[0]["ACCCLASS_CODE"].ToString();
+                        clacode = dt2.Rows[0]["ACCCLASS_CODE"].ToString();
                     }
 
                 }
 
-                acc = cla + "" + clid;
+                acc = clacode + "" + acccocde;
 
 
                 var result = new { acc = acc };

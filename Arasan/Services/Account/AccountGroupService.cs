@@ -28,7 +28,7 @@ namespace Arasan.Services
                     con.Open();
 
                   
-                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,ACCTYPE.ACCOUNTTYPE,ACCOUNTGROUP,GROUPCODE,DISPLAY_NAME,ACCGROUP.IS_ACTIVE,ACCGROUPID from ACCGROUP LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=ACCGROUP.BRANCHID LEFT OUTER JOIN ACCTYPE ON ACCOUNTTYPEID =ACCGROUP.ACCOUNTTYPE where ACCGROUP.IS_ACTIVE='Y' ";
+                    cmd.CommandText = "Select BRANCHMAST.BRANCHID,ACCTYPE.ACCOUNTTYPE,ACCOUNTGROUP,GROUPCODE,DISPLAY_NAME,ACCGROUP.IS_ACTIVE,ACCGROUPID from ACCGROUP LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=ACCGROUP.BRANCHID LEFT OUTER JOIN ACCTYPE ON ACCOUNTTYPEID =ACCGROUP.ACCOUNTTYPE where ACCGROUP.IS_ACTIVE='Y' order by ACCGROUP.ACCGROUPID DESC";
                     
 
                     OracleDataReader rdr = cmd.ExecuteReader();
@@ -36,7 +36,7 @@ namespace Arasan.Services
                     {
                         AccountGroup cmp = new AccountGroup
                         {
-                            ID = rdr["ACCGROUPID"].ToString(),
+                            accGrpId = Convert.ToInt64(rdr["ACCGROUPID"].ToString()),
                             Branch = rdr["BRANCHID"].ToString(),
                             AccGroup = rdr["ACCOUNTGROUP"].ToString(),
                             AType= rdr["ACCOUNTTYPE"].ToString(),

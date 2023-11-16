@@ -57,14 +57,17 @@
           
             $("#grid").jqxGrid(
                 {
-                    width: getWidth('Grid'),
+                    width: '100%',
                     source: dataAdapter, 
-                    height: 365,
+                    height: 510,
                     source: source,
-                    pageable: true,
-                    filterable: true,
-                    autoheight: true,
                     sortable: true,
+              filterable: true,
+              groupable: false,
+              pageable: true,
+              showfilterrow: true,
+   
+		enablebrowserselection :true,
                     columns: [
                     
                       { text: 'Item Group', datafield: 'itemgroup', width: 150 },
@@ -73,8 +76,8 @@
                       { text: 'UOM', datafield: 'uom', width: 50, align: 'center' },
                       { text: 'CF', datafield: 'cf', width: 50 , align: 'center'},
                       { text: 'HSN Code', datafield: 'hsncode', width: 100, align: 'center' },
-                      { text: 'Edit', datafield: 'editrow', width: 70 , align: 'center', cellsalign: 'center'},
-                      { text: 'Delete', datafield: 'delrow', width: 70 , align: 'center', cellsalign: 'center'},
+                      { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                      { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     ]
             });
         });
