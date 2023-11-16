@@ -10,6 +10,8 @@ namespace Arasan.Models
             this.Typelst = new List<SelectListItem>();
 
         }
+
+        public long accGrpId { get; set; }
         public string ID { get; set; }
         public string AccGroup { get; set; }
         public string AType { get; set; }
