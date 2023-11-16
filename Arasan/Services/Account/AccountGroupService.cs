@@ -60,7 +60,7 @@ namespace Arasan.Services
                 if (cy.ID == null)
                 {
 
-                    svSQL = " SELECT Count(*) as cnt FROM ACCGROUP WHERE ACCOUNTTYPE =LTRIM(RTRIM('" + cy.AType + "')) and GROUPCODE =LTRIM(RTRIM('" + cy.GCode + "'))";
+                    svSQL = " SELECT Count(*) as cnt FROM ACCGROUP WHERE ACCOUNTTYPE =LTRIM(RTRIM('" + cy.AType + "')) and ACCOUNTGROUP =LTRIM(RTRIM('" + cy.AccGroup + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "Account Group Already Existed";
@@ -69,9 +69,18 @@ namespace Arasan.Services
                 }
 
                 string grouptype = cy.Grouptype;
-                string gcode = cy.GCode;
-                string docid = string.Format("{0}{1}", grouptype, gcode.ToString()); 
+                string gcode = cy.GrpCode;
+                string docid = string.Format("{0}{1}", grouptype, gcode.ToString());
+                if (cy.ID == null)
+                {
 
+                    svSQL = " SELECT Count(*) as cnt FROM ACCGROUP WHERE GROUPCODE =LTRIM(RTRIM('" + docid + "')) ";
+                    if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "Account Group Already Existed";
+                        return msg;
+                    }
+                }
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("ACCGROPROC", objConn);

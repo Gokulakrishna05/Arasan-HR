@@ -1,6 +1,13 @@
 ﻿@model Arasan.Models.AccountGroup
 @{
     ViewData["Title"] = "AccountGroup";
+
+    <script type="text/javascript">
+        @if (TempData["notice"] != null)
+        {
+        @:alert('@TempData["notice"]');
+                                 }
+    </script>
 }
 <style>
 
