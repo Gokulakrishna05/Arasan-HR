@@ -91,7 +91,8 @@ namespace Arasan.Services.Qualitycontrol
                     throw ex;
                 }
 
-                //string ITEMID = datatrans.GetDataString("Select ITEMMASTERID from ITEMMASTER where ITEMID='" + cy.Itemid + "' ");
+                string SHIFT= datatrans.GetDataString("Select SHIFTMASTID from SHIFTMAST where SHIFTNO='" + cy.shift + "' ");
+                string WID = datatrans.GetDataString("Select WCBASICID from WCBASIC where WCID='" + cy.work + "' ");
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("ORSATBASICPROC", objConn);
@@ -109,8 +110,8 @@ namespace Arasan.Services.Qualitycontrol
                     //objCmd.Parameters.Add("BRANCH", OracleDbType.NVarchar2).Value = cy.Branch;
                     objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.docid;
                     objCmd.Parameters.Add("DOCDATE", OracleDbType.Date).Value = cy.docdate;
-                    objCmd.Parameters.Add("SHIFTNO", OracleDbType.NVarchar2).Value = cy.shift;
-                    objCmd.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = cy.work;
+                    objCmd.Parameters.Add("SHIFTNO", OracleDbType.NVarchar2).Value = SHIFT;
+                    objCmd.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = WID;
                     objCmd.Parameters.Add("ENTDATE", OracleDbType.Date).Value = DateTime.Parse(cy.entry);
                     objCmd.Parameters.Add("ETIME", OracleDbType.NVarchar2).Value = cy.time;
                     objCmd.Parameters.Add("REMARKS", OracleDbType.NVarchar2).Value = cy.remarks;
