@@ -163,7 +163,7 @@ namespace Arasan.Services
             return dtt;
         }
 
-        public DataTable Getgrpcode(string id)
+        public DataTable Gettypecode(string id)
         {
             string SvSql = string.Empty;
             SvSql = "SELECT ACCOUNTCODE,ACCOUNTCLASS FROM ACCTYPE WHERE ACCOUNTTYPEID = '"+ id +"'  ";
@@ -174,10 +174,10 @@ namespace Arasan.Services
             return dtt;
         }
         
-        public DataTable Getaccgrpcode(string id)
+        public DataTable Getclasscode(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "SELECT ACCCLASS_CODE FROM ACCCLASS  WHERE ACCOUNT_CLASS = '" + id + "'  ";
+            SvSql = "SELECT ACCCLASS_CODE FROM ACCCLASS  WHERE ACCCLASSID = '" + id + "'  ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

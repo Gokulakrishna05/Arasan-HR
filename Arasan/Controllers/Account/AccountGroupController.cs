@@ -125,7 +125,7 @@ namespace Arasan.Controllers
             try
             {
                 DataTable dtDesg = datatrans.GetBranch();
-                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();  
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["BRANCHID"].ToString(), Value = dtDesg.Rows[i]["BRANCHMASTID"].ToString() });
@@ -162,27 +162,27 @@ namespace Arasan.Controllers
                 DataTable dt = new DataTable();
                 DataTable dt2 = new DataTable();
 
-                string code = "";
                 string type = "";
-                string grp = "";
+                string clid = "";
+                string cla = "";
                 string acc = "";
-               
-                dt = accountGroup.Getgrpcode(ItemId);
+
+                dt = accountGroup.Gettypecode(ItemId);
 
                 if (dt.Rows.Count > 0)
                 {
 
-                    code = dt.Rows[0]["ACCOUNTCODE"].ToString();
-                    type = dt.Rows[0]["ACCOUNTCLASS"].ToString();
-                    dt2 = accountGroup.Getaccgrpcode(type);
+                    type = dt.Rows[0]["ACCOUNTCODE"].ToString();
+                    clid = dt.Rows[0]["ACCOUNTCLASS"].ToString();
+                    dt2 = accountGroup.Getclasscode(clid);
                     if (dt2.Rows.Count > 0)
                     {
-                        grp = dt2.Rows[0]["ACCCLASS_CODE"].ToString();
+                        cla = dt2.Rows[0]["ACCCLASS_CODE"].ToString();
                     }
 
-                    }
+                }
 
-                acc = code+""+grp;
+                acc = cla + "" + clid;
 
 
                 var result = new { acc = acc };
@@ -193,5 +193,45 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
+
+        //public ActionResult GetItemDetail(string ItemId)
+        //{
+        //    try
+        //    {
+        //        DataTable dt2 = new DataTable();
+        //        DataTable dt = new DataTable();
+
+        //        string code = "";
+        //        string type = "";
+        //        string grp = "";
+        //        string acc = "";
+
+        //        dt = accountGroup.Getaccgrpcode(ItemId);
+
+        //        if (dt2.Rows.Count > 0)
+        //        {
+        //            grp = dt2.Rows[0]["ACCCLASS_CODE"].ToString();
+
+        //            dt2 = accountGroup.Getgrpcode(grp);
+        //            if (dt.Rows.Count > 0)
+        //            {
+
+        //                code = dt.Rows[0]["ACCOUNTCODE"].ToString();
+        //                type = dt.Rows[0]["ACCOUNTCLASS"].ToString();
+        //            }
+
+        //        }
+
+        //        acc = grp + "" + code;
+
+
+        //        var result = new { acc = acc };
+        //        return Json(result);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
     }
 }
