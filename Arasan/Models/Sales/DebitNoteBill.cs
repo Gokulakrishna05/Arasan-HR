@@ -86,5 +86,9 @@ namespace Arasan.Models
 
         public List<SelectListItem> Grnlst;
         public string Isvalid { get; set; }
+        public string Cgstp { get; set; }
+        public string Sgstp { get; set; }
+        public string Igstp { get; set; }
+
     }
 }

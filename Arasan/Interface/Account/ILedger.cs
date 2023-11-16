@@ -10,7 +10,7 @@ namespace Arasan.Interface
         string LedgerCRUD(Ledger Cy);
         IEnumerable<Ledger> GetAllLedger();
         DataTable GetLedger(string id);
-        DataTable GetAccType(string id);
+        DataTable GetAccType();
 
         string StatusChange(string tag, int id);
        
