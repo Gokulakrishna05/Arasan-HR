@@ -54,7 +54,18 @@
                                         </div>
                         
                         </div>
-                        
+                        <div class="row">
+                              <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputName3" class="col-sm-4 control-label">Location<label class="mandatory"></label></label>
+                                              
+													  <div class="col-sm-8">
+                                            @Html.DisplayFor(C => C.Locationname)<br />
+                                                  
+                                                </div>
+                                            </div>
+                                        </div> 
+                                        </div> 
 <div style="height:30px;"></div>
 
 <div class="row">
@@ -67,6 +78,7 @@
                     <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
                       <thead>
                         <tr>
+                            <th></th>
                           <th>Location Name</th>
                           <th>Indent No.</th>
                           <th>Indent Date</th>
@@ -86,6 +98,7 @@
                                                                 
 
                                                                                             <tr id="trBooks@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
+                                                                                                                              <td>@Html.CheckBoxFor(o => o.Indentlist[i].select, new { @id = "select" + i ,@onclick = "checkfunc("+ i +")"}) </td>
                                                                                                                                         <td>@Html.DisplayFor(o => o.Indentlist[i].LocationName)</td>
                                                                                                                                         <td>@Html.DisplayFor(o => o.Indentlist[i].IndentNo)</td>
                                                                                                                                         <td>@Html.DisplayFor(o => o.Indentlist[i].IndentDate)</td>
@@ -162,7 +175,24 @@
     minView: 2,
     forceParse: 0
     });
-
+    //function checkfunc(i) {
+    //    var j = 0;
+    //    var tot = 0;
+    //    var totqty = 0;
+    //    $('tr.chkitemlst' + i).each(function () {
+    //        if ($(this).css('display') !== 'none') {
+    //            if ($('#select' + i ).prop('checked') == true) {
+    //                var qty = document.getElementById('txtQty' + i).value;
+    //                alert(qty);
+    //                totqty += eval(qty);
+    //                tot += 1;
+    //            }
+    //        }
+           
+    //    });
+    //    document.getElementById("txttotalQty").value = totqty.toFixed(2);
+    //    //document.getElementById("totalqty").innerHTML = totqty;
+    //}
     function changeQty(_this, i) {
                 try {
                     ////////
