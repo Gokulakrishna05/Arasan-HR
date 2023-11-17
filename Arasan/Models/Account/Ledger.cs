@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Arasan.Models;
+using System.Collections.Generic;
+using System.Collections;
+using System.Data;
+using Microsoft.AspNetCore.Mvc.Rendering;
 namespace Arasan.Models
 {
     public class Ledger
@@ -29,8 +33,20 @@ namespace Arasan.Models
         public string Groupcode { get; set; }
         public string Ledgercode { get; set; }
         public string LegCode { get; set; }
-        //public string Grocode { get; set; }
 
-        
+
+
+    }
+    public class LedgerItems
+    {
+        public string id { get; set; }
+        public string atype { get; set; }
+        public string accgroup { get; set; }
+        public string ledname { get; set; }
+        public string displayname { get; set; }
+        public string legcode { get; set; }
+        public string editrow { get; set; }
+        public string delrow { get; set; }
+
     }
 }
