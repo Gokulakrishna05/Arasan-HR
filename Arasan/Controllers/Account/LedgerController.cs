@@ -8,6 +8,7 @@ using System.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 using Newtonsoft.Json.Linq;
+using Arasan.Services.Master;
 
 namespace Arasan.Controllers
 {
@@ -41,7 +42,6 @@ namespace Arasan.Controllers
                 dt = ledger.GetLedger(id);
                 if (dt.Rows.Count > 0)
                 {
-                    ca.Typelst = BindAccType();
                     ca.AType = dt.Rows[0]["ACCOUNTTYPE"].ToString();
                     ca.AccGrouplst = BindAccGroup(ca.AType);
                     ca.AccGroup = dt.Rows[0]["ACCOUNTGROUP"].ToString();
@@ -109,6 +109,41 @@ namespace Arasan.Controllers
             tempnumber = "0" + tempnumber;
             return tempnumber;
         }
+        public ActionResult MyListLedgergrid()
+        {
+            List<LedgerItems> Reg = new List<LedgerItems>();
+            DataTable dtUsers = new DataTable();
+
+            dtUsers = (DataTable)ledger.GetAllLedgers();
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+
+                string DeleteRow = string.Empty;
+                string EditRow = string.Empty;
+
+                EditRow = "<a href=Ledger?id=" + dtUsers.Rows[i]["LEDGERID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=Ledger?tag=Del&id=" + dtUsers.Rows[i]["LEDGERID"].ToString() + ")'><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                Reg.Add(new LedgerItems
+                {
+                    id = dtUsers.Rows[i]["LEDGERID"].ToString(),
+                    atype = dtUsers.Rows[i]["ACCOUNTTYPE"].ToString(),
+                    accgroup = dtUsers.Rows[i]["ACCOUNTGROUP"].ToString(),
+                    ledname = dtUsers.Rows[i]["LEDNAME"].ToString(),
+                    displayname = dtUsers.Rows[i]["DISPLAY_NAME"].ToString(),
+                    legcode = dtUsers.Rows[i]["LEDGERCODE"].ToString(),
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
+        }
         //public static string GetNumberwithPrefix1(int Groupcode, int totalchar)
         //{
         //    string tempnumber = Groupcode.ToString();
@@ -118,8 +153,8 @@ namespace Arasan.Controllers
         //}
         public IActionResult ListLedger()
         {
-            IEnumerable<Ledger> cmp = ledger.GetAllLedger();
-            return View(cmp);
+            //IEnumerable<Ledger> cmp = ledger.GetAllLedger();
+            return View();
         }
         public JsonResult GetItemJSON(string itemid)
         {

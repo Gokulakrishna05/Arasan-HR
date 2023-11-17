@@ -18,6 +18,7 @@ namespace Arasan.Interface
         //DataTable GetGroupDetails(string id);
         DataTable GetAccGroup(string id);
         DataTable GetGroupCodeDetails(string id);
+        DataTable GetAllLedgers();
     }
 
 }
