@@ -170,6 +170,7 @@ internal class Program
         builder.Services.TryAddSingleton<IORSAT, ORSATService>();
         builder.Services.TryAddSingleton<IItemConversionEntryService,ItemConversionEntryService>();
         builder.Services.TryAddSingleton<IAccClass, AccClassService>();
+        builder.Services.TryAddSingleton<IPackDrumAllocation, PackDrumAllocationService>();
 
 
 

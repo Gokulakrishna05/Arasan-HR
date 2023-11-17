@@ -78,6 +78,19 @@ namespace Arasan.Services
                         return msg;
                     }
                 }
+                int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'PVouc-' AND ACTIVESEQUENCE = 'T'  ");
+                string DocId = string.Format("{0}{1}", "PVouc-", (idc + 1).ToString());
+
+                string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='PVouc-' AND ACTIVESEQUENCE ='T'  ";
+                try
+                {
+                    datatrans.UpdateStatus(updateCMd);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                cy.VoucherNo = DocId;
                 //if (cy.ID == null)
                 //{
                 //    double depit = cy.TotalDeAmount;
@@ -88,7 +101,7 @@ namespace Arasan.Services
                 //        msg = "Please enter correct Amount";
                 //        return msg;
                 //    }
-                   
+
                 //}
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
@@ -108,16 +121,19 @@ namespace Arasan.Services
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                     }
                     objCmd.Parameters.Add("VOUCHERNO", OracleDbType.NVarchar2).Value = cy.VoucherNo;
-                    objCmd.Parameters.Add("DOCDATE", OracleDbType.Date).Value = DateTime.Parse(cy.Vdate);
+                    objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = cy.Vdate;
                     objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.Branch;
                     objCmd.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = cy.Location;
                     objCmd.Parameters.Add("PAYMENTTYPE", OracleDbType.NVarchar2).Value = cy.PType;
                     objCmd.Parameters.Add("REFNO", OracleDbType.NVarchar2).Value = cy.RefNo;
-                    objCmd.Parameters.Add("REFDATE", OracleDbType.Date).Value = DateTime.Parse(cy.RefDate);
+                    objCmd.Parameters.Add("REFDATE", OracleDbType.NVarchar2).Value = cy.RefDate;
                     objCmd.Parameters.Add("CURRENCY", OracleDbType.NVarchar2).Value = cy.Currency;
                     objCmd.Parameters.Add("EXRATE", OracleDbType.NVarchar2).Value = cy.ExRate;
                     objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
                     objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
+                    objCmd.Parameters.Add("TOTCREDITAMT", OracleDbType.NVarchar2).Value = cy.TotalCrAmount;
+                    objCmd.Parameters.Add("TOTDEPITAMT", OracleDbType.NVarchar2).Value = cy.TotalDeAmount;
+                    objCmd.Parameters.Add("TOTAMT", OracleDbType.NVarchar2).Value = cy.TotalAmount;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try

@@ -1053,11 +1053,13 @@ a{
          var totime = "<td><input class='form-control'  id='txtToTime" + index + "' name='outlst[" + index + "].ToTime' style='width: 80px;' type='text' value='' onkeydown = 'return isNumeric2(event.keyCode,this.value)'></td>";
         var qty = "<td><input class='form-control'  id='txtOutputQty" + index + "' name='outlst[" + index + "].OutputQty'  type='text' value='' style = 'width: 100px;text-align:right' onkeydown = 'return isNumeric2(event.keyCode,this.value)' ></td>";
         var exqty="<td><input class='form-control'  id='txtExcessQty" + index + "' name='outlst[" + index + "].ExcessQty' onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;text-align:right' type='text' value='0'></td>";
-            var stat="<td><select class='form-control _select newcss' id='ddlstatus" + index + "' name='outlst[" + index + "].StID' style='width: 120px;'><option selected='selected' value='COMPLETED'>COMPLETED</option><option value='PENDING'>PENDING</option></select></td>";
+                var stock="<td><input class='form-control'  id='txtStockQty" + index + "' name='outlst[" + index + "].StockQty' onkeydown='return isNumeric2(event.keyCode,this.value)' style='width: 80px;text-align:right' type='text' value='0' readonly='true'></td>";
+   
+        var stat="<td><select class='form-control _select newcss' id='ddlstatus" + index + "' name='outlst[" + index + "].StID' style='width: 120px;'><option selected='selected' value='COMPLETED'>COMPLETED</option><option value='PENDING'>PENDING</option></select></td>";
         var qc = "<td> <button type='button' class='btn aqua m - t - xs bottom15 - xs' id='Save' onclick='outputsave(" + index + ")'>Save </button></td>";
         var test = "<td><input class='form-control'  id='txtResult" + index + "' name='outlst[" + index + "].Result'  type='text' value='' style = 'width: 100px;text-align:right' onkeydown = 'return isNumeric2(event.keyCode,this.value)' readonly='true'></td>";
         var removeCell = "<td><input id='Isoutvalid" + index + "' name='outlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeOutRow(" + index + ");'  style='cursor:pointer' /><input name='outlst.Index' type='hidden' value='" + index + "'  /></td>";
-       var newRow = "<tr class='chkitemlstout'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookout" + index + "'>" + itemid + drum + bin + time + totime + qty + exqty + stat + qc + test + removeCell + "</tr>";
+       var newRow = "<tr class='chkitemlstout'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBookout" + index + "'>" + itemid + drum + bin + time + totime + qty + exqty + stock + stat + qc + test + removeCell + "</tr>";
         $("#tbBooksout").append(newRow);
 
         $(function () {

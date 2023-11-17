@@ -161,7 +161,7 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("REQUESTAMOUNT", OracleDbType.NVarchar2).Value = cy.Final;
                     objCmd.Parameters.Add("REQUESTEDBY", OracleDbType.NVarchar2).Value = cy.ReqBy;
                     objCmd.Parameters.Add("ACTIVE", OracleDbType.NVarchar2).Value = "YES";
-                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "Approved";
+                    //objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "Approved";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     try
                     {

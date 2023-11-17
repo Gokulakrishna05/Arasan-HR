@@ -30,7 +30,7 @@ namespace Arasan.Controllers
             PaymentVoucher pv = new PaymentVoucher();
             var userId = Request.Cookies["UserId"];
             pv.Branch = Request.Cookies["BranchId"];
-            DataTable dtv = datatrans.GetSequence("vchpr"); 
+            DataTable dtv = datatrans.GetSequence("vouch"); 
             pv.Brlst = BindBranch();
             pv.Loclst = GetLoc(userId);
             pv.Curlst = BindCurrency();

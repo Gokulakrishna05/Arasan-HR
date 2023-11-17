@@ -29,6 +29,7 @@ namespace Arasan.Controllers
                 S.Item = dt.Rows[0]["ITEMID"].ToString();
                 S.ItemID = ItemID;
                 S.Location= dt.Rows[0]["LOCATION_ID"].ToString();
+                S.Locationname= dt.Rows[0]["LOCID"].ToString();
                 S.Branch= dt.Rows[0]["BRANCH_ID"].ToString();
                 S.Qty = dt.Rows[0]["QTY"].ToString() + " " + dt.Rows[0]["UNITID"].ToString();
                 S.QtyS = dt.Rows[0]["QTY"].ToString();

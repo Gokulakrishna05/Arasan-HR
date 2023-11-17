@@ -12,6 +12,7 @@ namespace Arasan.Models
         public string QtyS { get; set; }
         public string Branch { get; set; }
         public string Location { get; set; }
+        public string Locationname { get; set; }
         public string TotalQty { get; set; }
         public List<IndentList> Indentlist { get; set; }
 
@@ -27,6 +28,7 @@ namespace Arasan.Models
         public string qty { get; set; }
         public string Unit { get; set; }
         public string LocationName { get; set; }
+        public bool select { get; set; }
         public string StockQty { get; set; }
         public string LocationID { get; set; }
     }
