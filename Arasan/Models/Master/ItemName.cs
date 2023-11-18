@@ -32,7 +32,7 @@ namespace Arasan.Models
 
         public List<SelectListItem> Isglst;
         
-
+        public string ddlStatus { get; set; }
         public string HSNcode { get; set; }
 
         public List<SelectListItem> Hsn;
