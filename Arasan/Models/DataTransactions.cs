@@ -114,6 +114,7 @@ namespace Arasan.Models
             adapter.Fill(dtt);
             return dtt;
         }
+       
         public DataTable GetSequence(string vtype)
         {
             string SvSql = string.Empty;
@@ -129,6 +130,28 @@ namespace Arasan.Models
             string SvSql = string.Empty;
             //SvSql = "select PREFIX,LASTNO from sequence where TRANSTYPE='" + vtype  + "' AND ACTIVESEQUENCE='T'";
             SvSql = " select s.PREFIX, s.LASTNO, s.PREFIX || s.LASTNO  as doc from sequence s,locdetails l where s.TRANSTYPE = 'Deinv' and l.locdetailsid=s.locid  and l.locdetailsid = '" + locid + "' and s.optionname='" + ordtype + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetSequences(string vtype, string locid)
+        {
+            string SvSql = string.Empty;
+            //SvSql = "select PREFIX,LASTNO from sequence where TRANSTYPE='" + vtype  + "' AND ACTIVESEQUENCE='T'";
+            SvSql = " select s.PREFIX, s.LASTNO, s.PREFIX || s.LASTNO  as doc from sequence s,locdetails l where s.TRANSTYPE = 'dp' and l.locdetailsid=s.locid  and l.locdetailsid = '" + locid + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetSequence1(string vtype, string locid)
+        {
+            string SvSql = string.Empty;
+            //SvSql = "select PREFIX,LASTNO from sequence where TRANSTYPE='" + vtype  + "' AND ACTIVESEQUENCE='T'";
+            SvSql = " select PREFIX, LASTNO, PREFIX || '' || LASTNO  as doc from sequence where TRANSTYPE = 'dp' and Locid = '" + locid + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -477,6 +500,5 @@ namespace Arasan.Models
             return Saved;
         }
 
-       
     }
 }

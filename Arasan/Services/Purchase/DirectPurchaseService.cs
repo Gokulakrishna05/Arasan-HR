@@ -1,5 +1,6 @@
 ﻿using Arasan.Interface;
 using Arasan.Models;
+using DocumentFormat.OpenXml.Office2010.Excel;
 using Microsoft.Extensions.Configuration;
 using Oracle.ManagedDataAccess.Client;
 using System;
@@ -88,7 +89,7 @@ namespace Arasan.Services
         public DataTable GetDirectPurchaseItemDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select DPDETAIL.QTY,DPDETAIL.DPDETAILID,DPDETAIL.ITEMID,UNITMAST.UNITID,RATE,TOTAMT,DISC,DISCAMOUNT,IFREIGHTCH,PURTYPE,AMOUNT,CF,CGSTPER,SGSTPER,IGSTPER,CGSTAMT,SGSTAMT,IGSTAMT  from DPDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=DPDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  where DPDETAIL.DPBASICID='" + id + "'";
+            SvSql = " Select DPDETAIL.QTY,DPDETAIL.DPDETAILID,DPDETAIL.ITEMID,UNITMAST.UNITID,RATE,TOTAMT,DISC,DISCAMOUNT,IFREIGHTCH,PURTYPE,AMOUNT,CF,CGSTP,SGSTP,IGSTP,CGST,SGST,IGST  from DPDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=DPDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT   where DPDETAIL.DPBASICID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -113,7 +114,17 @@ namespace Arasan.Services
             try
             {
                 string StatementType = string.Empty; string svSQL = "";
+                int idc = datatrans.GetDataId("select LASTNO from sequence where TRANSTYPE='dp' AND ACTIVESEQUENCE='T'");
 
+                string updateCMd = " UPDATE sequence SET LASTNO ='" + (idc + 1).ToString() + "' where TRANSTYPE='dp' AND ACTIVESEQUENCE='T'";
+                try
+                {
+                    datatrans.UpdateStatus(updateCMd);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("DIRECTPURCHASEPROC", objConn);
@@ -170,7 +181,7 @@ namespace Arasan.Services
                                 {
                                     if (cp.Isvalid == "Y" && cp.ItemId != "0")
                                     {
-                                        svSQL = "Insert into DPDETAIL (DPBASICID,ITEMID,QTY,PUNIT,RATE,RATE,AMOUNT,TOTAMT,CF,DISC,DISCAMOUNT,IFREIGHTCH,CGSTPER,SGSTPER,IGSTPER,CGSTAMT,SGSTAMT,IGSTAMT) VALUES ('" + Pid + "','" + cp.ItemId + "','" + cp.Quantity + "','" + cp.Unit + "','" + cp.rate + "','" + cp.Amount + "','" + cp.TotalAmount + "','" + cp.ConFac + "','" + cp.Disc + "','" + cp.DiscAmount + "','" + cp.FrigCharge + "','" + cp.CGSTP + "','" + cp.SGSTP + "','" + cp.IGSTP + "','" + cp.CGST + "','" + cp.SGST + "','" + cp.IGST + "')";
+                                        svSQL = "Insert into DPDETAIL (DPBASICID,ITEMID,QTY,PUNIT,RATE,AMOUNT,TOTAMT,CF,DISC,DISCAMOUNT,IFREIGHTCH,CGSTP,SGSTP,IGSTP,CGST,SGST,IGST) VALUES ('" + Pid + "','" + cp.ItemId + "','" + cp.Quantity + "','" + cp.Unit + "','" + cp.rate + "','" + cp.Amount + "','" + cp.TotalAmount + "','" + cp.ConFac + "','" + cp.Disc + "','" + cp.DiscAmount + "','" + cp.FrigCharge + "','" + cp.CGSTP + "','" + cp.SGSTP + "','" + cp.IGSTP + "','" + cp.CGST + "','" + cp.SGST + "','" + cp.IGST + "')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
 
@@ -188,7 +199,7 @@ namespace Arasan.Services
                                 {
                                     if (cp.Isvalid == "Y" && cp.ItemId != "0")
                                     {
-                                        svSQL = "Insert into DPDETAIL (DPBASICID,ITEMID,QTY,PUNIT,RATE,RATE,AMOUNT,TOTAMT,CF,DISC,DISCAMOUNT,IFREIGHTCH,CGSTPER,SGSTPER,IGSTPER,CGSTAMT,SGSTAMT,IGSTAMT) VALUES ('" + Pid + "','" + cp.ItemId + "','" + cp.Quantity + "','" + cp.Unit + "','" + cp.rate + "','" + cp.Amount + "','" + cp.TotalAmount + "','" + cp.ConFac + "','" + cp.Disc + "','" + cp.DiscAmount + "','" + cp.FrigCharge + "','" + cp.CGSTP + "','" + cp.SGSTP + "','" + cp.IGSTP + "','" + cp.CGST + "','" + cp.SGST + "','" + cp.IGST + "')";
+                                        svSQL = "Insert into DPDETAIL (DPBASICID,ITEMID,QTY,PUNIT,RATE,AMOUNT,TOTAMT,CF,DISC,DISCAMOUNT,IFREIGHTCH,CGSTP,SGSTP,IGSTP,CGST,SGST,IGST) VALUES ('" + Pid + "','" + cp.ItemId + "','" + cp.Quantity + "','" + cp.Unit + "','" + cp.rate + "','" + cp.Amount + "','" + cp.TotalAmount + "','" + cp.ConFac + "','" + cp.Disc + "','" + cp.DiscAmount + "','" + cp.FrigCharge + "','" + cp.CGSTP + "','" + cp.SGSTP + "','" + cp.IGSTP + "','" + cp.CGST + "','" + cp.SGST + "','" + cp.IGST + "')";
                                         OracleCommand objCmds = new OracleCommand(svSQL, objConn);
                                         objCmds.ExecuteNonQuery();
 
@@ -253,6 +264,39 @@ namespace Arasan.Services
             }
             return "";
 
+        }
+
+        public DataTable GetVocher()
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT VCHTYPEID,DESCRIPTION FROM VCHTYPE";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetAllDirectPurchases()
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select  BRANCHMAST.BRANCHID,PARTYMAST.PARTYNAME,DPBASIC. DOCID,to_char(DPBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,DPBASICID from DPBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=DPBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on DPBASIC.PARTYID=PARTYMAST.PARTYMASTID  Where PARTYMAST.TYPE IN ('Supplier','BOTH') ORDER BY DPBASICID DESC ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetItem()
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT ITEMMASTERID,ITEMID FROM ITEMMASTER";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
         }
     }
 }

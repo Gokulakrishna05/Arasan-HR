@@ -10,8 +10,10 @@ namespace Arasan.Models
             this.Suplst = new List<SelectListItem>();
             this.Curlst = new List<SelectListItem>();
             this.Loclst = new List<SelectListItem>();
+            this.Vocherlst = new List<SelectListItem>();
         }
         public List<SelectListItem> Brlst;
+        public List<SelectListItem> Vocherlst;
         public string ID { get; set; }
 
         public string Branch { get; set; }
@@ -79,5 +81,16 @@ namespace Arasan.Models
         public double TotalAmount { get; set; }
         public string Isvalid { get; set; }
 
+    }
+    public class DirectPurchaseItems
+    {
+        public long id { get; set; }
+        public string branch { get; set; }
+        public string supplier { get; set; }
+        public string docNo { get; set; }
+        public string docDate { get; set; }
+        public string mailrow { get; set; }
+        public string editrow { get; set; }
+        public string delrow { get; set; }
     }
 }
