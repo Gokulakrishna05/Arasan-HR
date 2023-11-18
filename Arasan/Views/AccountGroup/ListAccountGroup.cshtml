@@ -33,8 +33,9 @@
                 // synchronize with the server - send update command
             },
             datafields: [
-                { name: 'accgroup', type: 'string' },
+                
                 { name: 'atype', type: 'string' },
+                { name: 'accgroup', type: 'string' },
                 { name: 'gcode', type: 'string' },
                 { name: 'display', type: 'string' },
                 { name: 'editrow', type: 'string' },
@@ -71,8 +72,9 @@
 
                 columns: [
 
-                    { text: 'Account Group', datafield: 'accgroup', width: 200 },
+                    
                     { text: 'Account Type', datafield: 'atype', width: 150 },
+                    { text: 'Account Group', datafield: 'accgroup', width: 200 },
                     { text: 'Group Code', datafield: 'gcode', width: 200 },
                     { text: 'Display', datafield: 'display', width: 110, align: 'center' },
                     { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },

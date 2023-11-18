@@ -170,7 +170,7 @@ namespace Arasan.Controllers
                 Reg.Add(new AType
                 {
                     id = dtUsers.Rows[i]["ACCOUNTTYPEID"].ToString(),
-                    accountclass = dtUsers.Rows[i]["ACCOUNTCLASS"].ToString(),
+                    accountclass = dtUsers.Rows[i]["ACCOUNT_CLASS"].ToString(),
                     accounttype = dtUsers.Rows[i]["ACCOUNTTYPE"].ToString(),
                     accountCode = dtUsers.Rows[i]["ACCOUNTCODE"].ToString(),
                     editrow = EditRow,

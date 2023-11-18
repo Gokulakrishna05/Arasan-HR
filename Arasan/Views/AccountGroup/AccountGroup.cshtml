@@ -183,6 +183,23 @@
                     "background": ""
                 });
             }
+           
+            if (document.getElementById("ddlAType").value == "") {
+                isValid = false;
+                $(ddlAType).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Select Account Type");
+                return false;
+            }
+            else {
+                $(ddlAType).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
             if (document.getElementById("txtAccGroup").value == "") {
                 isValid = false;
                 $(txtAccGroup).css({
@@ -199,18 +216,18 @@
                     "background": ""
                 });
             }
-            if (document.getElementById("ddlAType").value == "") {
+            if (document.getElementById("txtGCode").value == "") {
                 isValid = false;
-                $(ddlAType).css({
+                $(txtGCode).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select Account Type");
+                alert("Please Enter GroupCode");
                 return false;
             }
             else {
-                $(ddlAType).css({
+                $(txtGCode).css({
                     "border": "",
                     "background": ""
                 });
@@ -231,27 +248,14 @@
                     "background": ""
                 });
             }
-            if (document.getElementById("txtGCode").value  == "") {
-                isValid = false;
-                $(txtGCode).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Enter GroupCode");
-                return false;
-            }
-            else {
-                $(txtGCode).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
            
+            if (isValid == false)
+                e.preventDefault();
 
         });
 
     });
+
 
     function changeItem(ItemId) {
         $.ajax({

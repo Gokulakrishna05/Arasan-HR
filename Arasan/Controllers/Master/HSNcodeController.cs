@@ -51,9 +51,6 @@ namespace Arasan.Controllers.Master
                 {
                     st.HCode = dt.Rows[0]["HSNCODE"].ToString();
                     st.Dec = dt.Rows[0]["DESCRIPTION"].ToString();
-                    st.CGst = dt.Rows[0]["CGST"].ToString();
-                    st.SGst = dt.Rows[0]["SGST"].ToString();
-                    st.IGst = dt.Rows[0]["IGST"].ToString();
 
                 }
                
@@ -74,9 +71,11 @@ namespace Arasan.Controllers.Master
                     }
                 }
             }
-
+            st.hsnlst = TData;
             return View(st);
         }
+
+       
         public JsonResult GettariffJSON()
         {
             //DeductionItem model = new DeductionItem();
@@ -141,61 +140,61 @@ namespace Arasan.Controllers.Master
             return View(ss);
         }
 
-        public List<SelectListItem> BindCGst()
+        //public List<SelectListItem> BindCGst()
+        //{
+        //    try
+        //    {
+        //        DataTable dtDesg = HSNcodeService.GetCGst();
+        //        List<SelectListItem> lstdesg = new List<SelectListItem>();
+        //        for (int i = 0; i < dtDesg.Rows.Count; i++)
+        //        {
+        //            lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PERCENTAGE"].ToString(), Value = dtDesg.Rows[i]["PERCENTAGE"].ToString() });
+        //        }
+        //        return lstdesg;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
+        //public List<SelectListItem> BindSGst()
+        //{
+        //    try
+        //    {
+        //        DataTable dtDesg = HSNcodeService.GetSGst();
+        //        List<SelectListItem> lstdesg = new List<SelectListItem>();
+        //        for (int i = 0; i < dtDesg.Rows.Count; i++)
+        //        {
+        //            lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PERCENTAGE"].ToString(), Value = dtDesg.Rows[i]["PERCENTAGE"].ToString() });
+        //        }
+        //        return lstdesg;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
+        //public List<SelectListItem> BindIGst()
+        //{
+        //    try
+        //    {
+        //        DataTable dtDesg = HSNcodeService.GetIGst();
+        //        List<SelectListItem> lstdesg = new List<SelectListItem>();
+        //        for (int i = 0; i < dtDesg.Rows.Count; i++)
+        //        {
+        //            lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PERCENTAGE"].ToString(), Value = dtDesg.Rows[i]["PERCENTAGE"].ToString() });
+        //        }
+        //        return lstdesg;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
+        public IActionResult ListHSNcode(/*string status*/)
         {
-            try
-            {
-                DataTable dtDesg = HSNcodeService.GetCGst();
-                List<SelectListItem> lstdesg = new List<SelectListItem>();
-                for (int i = 0; i < dtDesg.Rows.Count; i++)
-                {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PERCENTAGE"].ToString(), Value = dtDesg.Rows[i]["PERCENTAGE"].ToString() });
-                }
-                return lstdesg;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        public List<SelectListItem> BindSGst()
-        {
-            try
-            {
-                DataTable dtDesg = HSNcodeService.GetSGst();
-                List<SelectListItem> lstdesg = new List<SelectListItem>();
-                for (int i = 0; i < dtDesg.Rows.Count; i++)
-                {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PERCENTAGE"].ToString(), Value = dtDesg.Rows[i]["PERCENTAGE"].ToString() });
-                }
-                return lstdesg;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        public List<SelectListItem> BindIGst()
-        {
-            try
-            {
-                DataTable dtDesg = HSNcodeService.GetIGst();
-                List<SelectListItem> lstdesg = new List<SelectListItem>();
-                for (int i = 0; i < dtDesg.Rows.Count; i++)
-                {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["PERCENTAGE"].ToString(), Value = dtDesg.Rows[i]["PERCENTAGE"].ToString() });
-                }
-                return lstdesg;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        public IActionResult ListHSNcode(string status)
-        {
-            IEnumerable<HSNcode> sta = HSNcodeService.GetAllHSNcode(status);
-            return View(sta);
+            //IEnumerable<HSNcode> sta = HSNcodeService.GetAllHSNcode(status);
+            return View(/*sta*/);
         }
 
         public ActionResult DeleteMR(string tag, int id)
@@ -228,6 +227,59 @@ namespace Arasan.Controllers.Master
             }
         }
 
+        public ActionResult Myhsncodegrid()
+        {
+            List<HsnList> Reg = new List<HsnList>();
+            DataTable dtUsers = new DataTable();
 
+            dtUsers = HSNcodeService.Gethsncode();
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+
+                string DeleteRow = string.Empty;
+                string EditRow = string.Empty;
+
+                EditRow = "<a href=HSNcode?id=" + dtUsers.Rows[i]["HSNCODEID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=HSNcode?tag=Del&id=" + dtUsers.Rows[i]["HSNCODEID"].ToString() + ")'><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+
+                Reg.Add(new HsnList
+                {
+                    id = Convert.ToInt64(dtUsers.Rows[i]["HSNCODEID"].ToString()),
+                    hcode = dtUsers.Rows[i]["HSNCODE"].ToString(),
+                    dec = dtUsers.Rows[i]["DESCRIPTION"].ToString(),
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+                    
+
+                }); 
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
+        }
+        public ActionResult ListMyhsncodegrid(string PRID)
+        {
+            List<HsnRowList> EnqChkItem = new List<HsnRowList>();
+            DataTable dtEnq = new DataTable();
+            dtEnq = HSNcodeService.Gethsnitem(PRID);
+            for (int i = 0; i < dtEnq.Rows.Count; i++)
+            {
+                EnqChkItem.Add(new HsnRowList
+                {
+                    id = Convert.ToInt64(dtEnq.Rows[i]["HSNCODEID"].ToString()),
+                    tariff = dtEnq.Rows[i]["TARIFFID"].ToString(),
+
+                });
+            }
+
+            return Json(new
+            {
+                EnqChkItem
+            });
+        }
     }
 }
