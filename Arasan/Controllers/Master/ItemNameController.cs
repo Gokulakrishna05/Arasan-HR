@@ -91,8 +91,8 @@ namespace Arasan.Controllers.Master
                     ca.Additive = dt.Rows[0]["ADD1"].ToString();
                     ca.RawMaterial = dt.Rows[0]["RAWMATCAT"].ToString();
                     ca.Ledger = dt.Rows[0]["LEDGERNAME"].ToString();
-                    ca.QCTemp = dt.Rows[0]["IQCTEMP"].ToString();
-                    ca.FQCTemp = dt.Rows[0]["FGQCTEMP"].ToString();
+                    //ca.QCTemp = dt.Rows[0]["IQCTEMP"].ToString();
+                    //ca.FQCTemp = dt.Rows[0]["FGQCTEMP"].ToString();
                     ca.Curing = dt.Rows[0]["CURINGDAY"].ToString();
                 }
                 DataTable dt2 = new DataTable();
@@ -374,11 +374,11 @@ namespace Arasan.Controllers.Master
         {
             return View();
         }
-        public ActionResult MyListItemgrid()
+        public ActionResult MyListItemgrid(string strStatus)
         {
             List<ItemList> Reg = new List<ItemList>();
             DataTable dtUsers = new DataTable();
-
+            strStatus = strStatus == "" ? "Y" : strStatus;
             dtUsers = ItemNameService.GetAllItems();
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {

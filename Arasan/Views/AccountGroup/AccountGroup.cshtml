@@ -85,21 +85,18 @@
 
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Group Code<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-
-                                                @Html.TextBoxFor(C => C.GCode, new { @id = "txtGCode", @class = "form-control", @TabIndex = 1  ,maxlength="3",oninput="validateThreeDigitNumber()" })
-                                                @Html.HiddenFor(C => C.Grouptype,new { @id = "txtcode"}) 
-                                                
-                                           @* @if(ID == null)
+                                                                                            
+                                            @if(Model.ID == null)
                                             {
-                                                @Html.TextBoxFor(C => C.GCode, new { @id = "txtGCode", @class = "form-control", @TabIndex = 1  ,maxlength="3",oninput="validateThreeDigitNumber()" })
+                                                @Html.TextBoxFor(C => C.GCode, new { @id = "txtGCode", @class = "form-control", @TabIndex = 1  ,maxlength="3" })
                                                 @Html.HiddenFor(C => C.Grouptype,new { @id = "txtcode"})
                                             }
                                             else
                                             {
-                                                @Html.TextBoxFor(C => C.GCode, new { @id = "txtGCode", @class = "form-control", @TabIndex = 1  ,maxlength="3",oninput="validateThreeDigitNumber()",@readonly= true })
+                                                @Html.TextBoxFor(C => C.GCode, new { @id = "txtGCode", @class = "form-control", @TabIndex = 1  ,maxlength="3",@readonly= true })
                                                 @Html.HiddenFor(C => C.Grouptype,new { @id = "txtcode"})
                                             }
-*@
+
                                             
 
                                         </div> 

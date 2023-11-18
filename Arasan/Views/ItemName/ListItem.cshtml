@@ -30,6 +30,9 @@
             {
                 url: "/ItemName/MyListItemgrid",
                 //url: "/ItemName/ItemName",
+                data: {
+                    strstatus: ""
+                },
                datatype: "json",
                 updaterow: function (rowid, rowdata) {
                   // synchronize with the server - send update command
@@ -84,6 +87,16 @@
                       { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     ]
             });
+            $("#ddlStatus").change(function () {
+            var value = "Y";
+            if ($(this).val() != "") {
+                value = $(this).val();
+            }
+            source.data = {
+                strstatus: value
+            };
+            $("#grid").jqxGrid({ source: source });
+        });
         });
  </script>
 <div class="wrapper-content ">
@@ -94,7 +107,13 @@
                   
                     <form>
                          <div class="row">
-                             <div class="col-md-12 "> 
+                            <div class="col-md-3 ">
+                                @Html.DropDownListFor(n => n.ddlStatus, new SelectListItem[]
+                { new SelectListItem() {Text = "Enabled", Value="Y"},
+                new SelectListItem() {Text = "Disabled", Value="N"}},
+                new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new" })
+                            </div>
+                             <div class="col-md-9 "> 
                                    <div class=" textalignright">
                                     <a href="@Url.Action("ItemName", "ItemName")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Item</a>
                                      <br>
