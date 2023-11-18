@@ -134,7 +134,7 @@ namespace Arasan.Services
         public DataTable GetAllType()
         {
             string SvSql = string.Empty;
-            SvSql = "select  ACCOUNTTYPEID,ACCOUNTCLASS,ACCOUNTCODE,ACCOUNTTYPE from ACCTYPE  ";
+            SvSql = "select  ACCOUNTTYPEID,ACCCLASS.ACCOUNT_CLASS,ACCOUNTCODE,ACCOUNTTYPE from ACCTYPE LEFT OUTER JOIN ACCCLASS ON ACCCLASS.ACCCLASSID = ACCTYPE.ACCOUNTCLASS  ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

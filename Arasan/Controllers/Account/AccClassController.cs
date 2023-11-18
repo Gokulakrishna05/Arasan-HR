@@ -154,8 +154,8 @@ namespace Arasan.Controllers
                 Reg.Add(new AClass
                 {
                     id = dtUsers.Rows[i]["ACCCLASSID"].ToString(),
-                    accountclass = dtUsers.Rows[i]["ACCCLASS_CODE"].ToString(),
-                    accounttype = dtUsers.Rows[i]["ACCOUNT_CLASS"].ToString(),
+                    accountclass = dtUsers.Rows[i]["ACCOUNT_CLASS"].ToString(),
+                    accounttype = dtUsers.Rows[i]["ACCCLASS_CODE"].ToString(),
                     editrow = EditRow,
                     delrow = DeleteRow,
 

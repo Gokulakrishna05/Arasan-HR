@@ -27,7 +27,7 @@ namespace Arasan.Services.Master
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select HSNCODEID,HSNCODE,DESCRIPTION,CGST,SGST,IGST,STATUS from HSNCODE WHERE STATUS= '" + status + "' order by HSNCODE.HSNCODEID DESC";
+                    cmd.CommandText = "Select HSNCODEID,HSNCODE,DESCRIPTION,CGST,SGST,IGST,STATUS from HSNCODE WHERE STATUS= 'ACTIVE' order by HSNCODE.HSNCODEID DESC";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -36,9 +36,7 @@ namespace Arasan.Services.Master
                             ID = rdr["HSNCODEID"].ToString(),
                             HCode = rdr["HSNCODE"].ToString(),
                             Dec = rdr["DESCRIPTION"].ToString(),
-                            CGst = rdr["CGST"].ToString(),
-                            SGst = rdr["SGST"].ToString(),
-                            IGst = rdr["IGST"].ToString() 
+                           
                         };
                         staList.Add(sta);
                     }
@@ -86,9 +84,7 @@ namespace Arasan.Services.Master
 
                     objCmd.Parameters.Add("HSNCODE", OracleDbType.NVarchar2).Value = ss.HCode;
                     objCmd.Parameters.Add("DESCRIPTION", OracleDbType.NVarchar2).Value = ss.Dec;
-                    objCmd.Parameters.Add("CGST", OracleDbType.NVarchar2).Value = ss.CGst;
-                    objCmd.Parameters.Add("SGST", OracleDbType.NVarchar2).Value = ss.SGst;
-                    objCmd.Parameters.Add("IGST", OracleDbType.NVarchar2).Value = ss.IGst;
+
                     objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
@@ -153,7 +149,7 @@ namespace Arasan.Services.Master
         public DataTable GettariffItem(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select ETARIFFMASTER.TARIFFID,HSNROWID from HSNROW  LEFT OUTER JOIN ETARIFFMASTER ON ETARIFFMASTER.ETARIFFMASTERID = HSNROW.TARIFFID where HSNROW.HSNROWID = '" + id + "' ";
+            SvSql = "select ETARIFFMASTER.TARIFFID from HSNROW  LEFT OUTER JOIN ETARIFFMASTER ON ETARIFFMASTER.ETARIFFMASTERID = HSNROW.TARIFFID where HSNROW.HSNCODEID = '" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -173,7 +169,7 @@ namespace Arasan.Services.Master
         public DataTable GetHSNcode(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select HSNCODEID,HSNCODE,DESCRIPTION,CGST,SGST,IGST from HSNCODE where HSNCODEID = '" + id + "' ";
+            SvSql = "Select HSNCODEID,HSNCODE,DESCRIPTION from HSNCODE where HSNCODEID = '" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -181,36 +177,59 @@ namespace Arasan.Services.Master
             return dtt;
         }
 
-        public DataTable GetCGst()
+        public DataTable Gethsncode()
         {
             string SvSql = string.Empty;
-            SvSql = "select * from TAXMAST where TAX='CGST' AND STATUS= 'ACTIVE'  ";
+            SvSql = "Select HSNCODEID,HSNCODE,DESCRIPTION from HSNCODE  Order by HSNCODEID DESC ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetSGst()
+
+        public DataTable Gethsnitem(string PRID)
         {
             string SvSql = string.Empty;
-            SvSql = "select * from TAXMAST where TAX='SGST' AND STATUS= 'ACTIVE'  ";
+            SvSql = "select ETARIFFMASTER.TARIFFID,HSNCODEID from HSNROW  LEFT OUTER JOIN ETARIFFMASTER ON ETARIFFMASTER.ETARIFFMASTERID = HSNROW.TARIFFID Order by HSNCODEID DESC";
+
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetIGst()
-        {
-            string SvSql = string.Empty;
-            SvSql = "select * from TAXMAST where TAX='IGST' AND STATUS= 'ACTIVE'  ";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
+
+        //public DataTable GetCGst()
+        //{
+        //    string SvSql = string.Empty;
+        //    SvSql = "select * from TAXMAST where TAX='CGST' AND STATUS= 'ACTIVE'  ";
+        //    DataTable dtt = new DataTable();
+        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
+        //}
+        //public DataTable GetSGst()
+        //{
+        //    string SvSql = string.Empty;
+        //    SvSql = "select * from TAXMAST where TAX='SGST' AND STATUS= 'ACTIVE'  ";
+        //    DataTable dtt = new DataTable();
+        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
+        //}
+        //public DataTable GetIGst()
+        //{
+        //    string SvSql = string.Empty;
+        //    SvSql = "select * from TAXMAST where TAX='IGST' AND STATUS= 'ACTIVE'  ";
+        //    DataTable dtt = new DataTable();
+        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
+        //}
 
         public string StatusChange(string tag, int id)
         {

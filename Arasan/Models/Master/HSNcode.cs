@@ -39,4 +39,19 @@ namespace Arasan.Models
 
 
     }
+    public class HsnList
+    {
+        public long id { get; set; }
+        public string hcode { get; set; }
+        public string dec { get; set; }
+        public string editrow { get; set; }
+        public string delrow { get; set; }
+       
+    }
+    public class HsnRowList
+    {
+        public long id { get; set; }
+
+        public string tariff { get; set; }
+    }
 }
