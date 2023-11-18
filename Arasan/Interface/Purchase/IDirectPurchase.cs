@@ -29,5 +29,8 @@ namespace Arasan.Interface
         IEnumerable<DirItem> GetAllDirectPurItem(string id);
 
         string StatusChange(string tag, int id);
+        DataTable GetVocher();
+        DataTable GetAllDirectPurchases();
+        DataTable GetItem();
     }
 }

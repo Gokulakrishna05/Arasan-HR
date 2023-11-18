@@ -26,19 +26,29 @@ namespace Arasan.Controllers
             DirectPurchase ca = new DirectPurchase();
             ca.Brlst = BindBranch();
             ca.Branch = Request.Cookies["BranchId"];
+            ca.Currency = "1";
             ca.Suplst = BindSupplier();
+            ca.RefDate = DateTime.Now.ToString("dd-MMM-yyyy");
             ca.Curlst = BindCurrency();
             ca.Loclst = GetLoc();
+            string loc = ca.Location;
+            //ViewBag.locdisp = ca.Location;
+            ca.Vocherlst = BindVocher();
             ca.DocDate = DateTime.Now.ToString("dd-MMM-yyyy");
+            DataTable dtv = datatrans.GetSequence1("dp", loc);
+            if (dtv.Rows.Count > 0)
+            {
+                ca.DocNo = dtv.Rows[0]["PREFIX"].ToString() + " " + dtv.Rows[0]["LASTNO"].ToString();
+            }
             List<DirItem> TData = new List<DirItem>();
             DirItem tda = new DirItem();
             if (id == null)
             {
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < 1; i++)
                 {
                     tda = new DirItem();
-                    tda.ItemGrouplst = BindItemGrplst();
-                    tda.Itemlst = BindItemlst("");
+                    //tda.ItemGrouplst = BindItemGrplst();
+                    tda.Itemlst = BindItemlst();
                     tda.Isvalid = "Y";
                     TData.Add(tda);
                 }
@@ -82,22 +92,22 @@ namespace Arasan.Controllers
                     {
                         tda = new DirItem();
                         double toaamt = 0;
-                        tda.ItemGrouplst = BindItemGrplst();
-                        DataTable dt3 = new DataTable();
-                        dt3 = datatrans.GetItemSubGroup(dt2.Rows[i]["ITEMID"].ToString());
-                        if (dt3.Rows.Count > 0)
-                        {
-                            tda.ItemGroupId = dt3.Rows[0]["SUBGROUPCODE"].ToString();
-                        }
-                        tda.Itemlst = BindItemlst(tda.ItemGroupId);
+                        //tda.ItemGrouplst = BindItemGrplst();
+                        //DataTable dt3 = new DataTable();
+                        //dt3 = datatrans.GetItemSubGroup(dt2.Rows[i]["ITEMID"].ToString());
+                        //if (dt3.Rows.Count > 0)
+                        //{
+                        //    tda.ItemGroupId = dt3.Rows[0]["SUBGROUPCODE"].ToString();
+                        //}
+                        tda.Itemlst = BindItemlst();
                         tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
                         tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
-                      
+
                         DataTable dt4 = new DataTable();
                         dt4 = datatrans.GetItemDetails(tda.ItemId);
                         if (dt4.Rows.Count > 0)
                         {
-                            
+
                             tda.ConFac = dt4.Rows[0]["CF"].ToString();
                             tda.rate = Convert.ToDouble(dt4.Rows[0]["LATPURPRICE"].ToString());
                         }
@@ -109,26 +119,25 @@ namespace Arasan.Controllers
                         tda.Unit = dt2.Rows[i]["UNITID"].ToString();
                         //tda.PURLst = BindPurType();
                         //tda.unitprim= dt2.Rows[i]["UNITID"].ToString();
-                       
+
                         tda.Disc = Convert.ToDouble(dt2.Rows[i]["DISC"].ToString() == "" ? "0" : dt2.Rows[i]["DISC"].ToString());
                         tda.DiscAmount = Convert.ToDouble(dt2.Rows[i]["DISCAMOUNT"].ToString() == "" ? "0" : dt2.Rows[i]["DISCAMOUNT"].ToString());
-                        
+
                         tda.FrigCharge = Convert.ToDouble(dt2.Rows[i]["IFREIGHTCH"].ToString() == "" ? "0" : dt2.Rows[i]["IFREIGHTCH"].ToString());
                         tda.TotalAmount = Convert.ToDouble(dt2.Rows[i]["TOTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["TOTAMT"].ToString());
-                        tda.CGSTP = Convert.ToDouble(dt2.Rows[i]["CGSTPER"].ToString() == "" ? "0" : dt2.Rows[i]["CGSTPER"].ToString());
-                        tda.SGSTP = Convert.ToDouble(dt2.Rows[i]["SGSTPER"].ToString() == "" ? "0" : dt2.Rows[i]["SGSTPER"].ToString());
-
-                        tda.IGSTP = Convert.ToDouble(dt2.Rows[i]["IGSTPER"].ToString() == "" ? "0" : dt2.Rows[i]["IGSTPER"].ToString());
-                        tda.CGST = Convert.ToDouble(dt2.Rows[i]["CGSTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["CGSTAMT"].ToString());
-                        tda.SGST = Convert.ToDouble(dt2.Rows[i]["SGSTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["SGSTAMT"].ToString());
-                        tda.IGST = Convert.ToDouble(dt2.Rows[i]["IGSTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["IGSTAMT"].ToString());
+                        tda.CGSTP = Convert.ToDouble(dt2.Rows[i]["CGSTP"].ToString() == "" ? "0" : dt2.Rows[i]["CGSTP"].ToString());
+                        tda.SGSTP = Convert.ToDouble(dt2.Rows[i]["SGSTP"].ToString() == "" ? "0" : dt2.Rows[i]["SGSTP"].ToString());
+                        tda.IGSTP = Convert.ToDouble(dt2.Rows[i]["IGSTP"].ToString() == "" ? "0" : dt2.Rows[i]["IGSTP"].ToString());
+                        tda.CGST = Convert.ToDouble(dt2.Rows[i]["CGST"].ToString() == "" ? "0" : dt2.Rows[i]["CGST"].ToString());
+                        tda.SGST = Convert.ToDouble(dt2.Rows[i]["SGST"].ToString() == "" ? "0" : dt2.Rows[i]["SGST"].ToString());
+                        tda.IGST = Convert.ToDouble(dt2.Rows[i]["IGST"].ToString() == "" ? "0" : dt2.Rows[i]["IGST"].ToString());
                         // tda.PurType = dt2.Rows[i]["PURTYPE"].ToString();
                         tda.Isvalid = "Y";
                         TData.Add(tda);
                     }
                 }
-                //ca.net = Math.Round(total, 2);
-               
+                ca.net = Math.Round(total, 2);
+
             }
             ca.DirLst = TData;
             return View(ca);
@@ -176,10 +185,72 @@ namespace Arasan.Controllers
 
             return View(Cy);
         }
-        public IActionResult ListDirectPurchase(string status)
+        public ActionResult MyListDirectPurchaseGrid()
         {
-            IEnumerable<DirectPurchase> cmp = directPurchase.GetAllDirectPur(status);
-            return View(cmp);
+            List<DirectPurchaseItems> Reg = new List<DirectPurchaseItems>();
+            DataTable dtUsers = new DataTable();
+
+            dtUsers = (DataTable)directPurchase.GetAllDirectPurchases();
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+                string MailRow = string.Empty;
+                string DeleteRow = string.Empty;
+                string EditRow = string.Empty;
+               
+                MailRow = "<a href=DirectPurchase?tag=Del&id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + ")'><img src='../Images/mail_icon.png' alt='Send Email' /></a>";
+                EditRow = "<a href=DirectPurchase?id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + ")'><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                
+
+                Reg.Add(new DirectPurchaseItems
+                {
+                    id = Convert.ToInt64(dtUsers.Rows[i]["DPBASICID"].ToString()),
+                    branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
+                    supplier = dtUsers.Rows[i]["PARTYNAME"].ToString(),
+                    docNo = dtUsers.Rows[i]["DOCID"].ToString(),
+                    docDate = dtUsers.Rows[i]["DOCDATE"].ToString(),
+                    mailrow = MailRow,
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+                    
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
+        }
+        public ActionResult GetDocidDetail(string locid)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                DataTable dt1 = new DataTable();
+
+                string doc = "";
+
+                dt = datatrans.GetSequences("dp", locid);
+                if (dt.Rows.Count > 0)
+                {
+                    doc = dt.Rows[0]["doc"].ToString();
+                }
+
+
+                var result = new { doc = doc };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public IActionResult ListDirectPurchase()
+        {
+            //IEnumerable<DirectPurchase> cmp = directPurchase.GetAllDirectPur(status);
+            return View();
         }
         public List<SelectListItem> BindBranch()
         {
@@ -190,6 +261,23 @@ namespace Arasan.Controllers
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["BRANCHID"].ToString(), Value = dtDesg.Rows[i]["BRANCHMASTID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindVocher()
+        {
+            try
+            {
+                DataTable dtDesg = directPurchase.GetVocher();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DESCRIPTION"].ToString(), Value = dtDesg.Rows[i]["VCHTYPEID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -269,11 +357,11 @@ namespace Arasan.Controllers
         //        throw ex;
         //    }
         //}
-        public List<SelectListItem> BindItemlst(string value)
+        public List<SelectListItem> BindItemlst()
         {
             try
             {
-                DataTable dtDesg = datatrans.GetItem(value);
+                DataTable dtDesg = directPurchase.GetItem();
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -287,23 +375,23 @@ namespace Arasan.Controllers
             }
         }
 
-        public List<SelectListItem> BindItemGrplst()
-        {
-            try
-            {
-                DataTable dtDesg = datatrans.GetItemSubGrp();
-                List<SelectListItem> lstdesg = new List<SelectListItem>();
-                for (int i = 0; i < dtDesg.Rows.Count; i++)
-                {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["SGCODE"].ToString(), Value = dtDesg.Rows[i]["ITEMSUBGROUPID"].ToString() });
-                }
-                return lstdesg;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        //public List<SelectListItem> BindItemGrplst()
+        //{
+        //    try
+        //    {
+        //        DataTable dtDesg = datatrans.GetItemSubGrp();
+        //        List<SelectListItem> lstdesg = new List<SelectListItem>();
+        //        for (int i = 0; i < dtDesg.Rows.Count; i++)
+        //        {
+        //            lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["SGCODE"].ToString(), Value = dtDesg.Rows[i]["ITEMSUBGROUPID"].ToString() });
+        //        }
+        //        return lstdesg;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
 
         public ActionResult GetItemDetail(string ItemId)
         {
@@ -337,19 +425,19 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public JsonResult GetItemJSON(string itemid)
+        public JsonResult GetItemJSON()
         {
             DirItem model = new DirItem();
-            model.Itemlst = BindItemlst(itemid);
-            return Json(BindItemlst(itemid));
+            model.Itemlst = BindItemlst();
+            return Json(BindItemlst());
 
         }
-        public JsonResult GetItemGrpJSON()
-        {
-            //EnqItem model = new EnqItem();
-            //  model.ItemGrouplst = BindItemGrplst(value);
-            return Json(BindItemGrplst());
-        }
+        //public JsonResult GetItemGrpJSON()
+        //{
+        //    //EnqItem model = new EnqItem();
+        //    //  model.ItemGrouplst = BindItemGrplst(value);
+        //    return Json(BindItemGrplst());
+        //}
 
         public IActionResult Index()
         {
