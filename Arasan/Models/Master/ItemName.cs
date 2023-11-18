@@ -12,8 +12,10 @@ namespace Arasan.Models
         public ItemName()
         {
             this.IgLst = new List<SelectListItem>();
+            this.Itemlst = new List<SelectListItem>();
             this.Iclst = new List<SelectListItem>();
             this.Isglst = new List<SelectListItem>();
+            this.unitlst = new List<SelectListItem>();
             this.Hsn = new List<SelectListItem>();
             this.Bin = new List<SelectListItem>();
             this.Ledgerlst = new List<SelectListItem>();
@@ -31,9 +33,11 @@ namespace Arasan.Models
         public string ItemSubGroup { get; set; }
 
         public List<SelectListItem> Isglst;
+        public List<SelectListItem> Itemlst;
         
         public string ddlStatus { get; set; }
         public string HSNcode { get; set; }
+        public string AddItem { get; set; }
 
         public List<SelectListItem> Hsn;
         public string BinId { get; set; }
@@ -42,9 +46,12 @@ namespace Arasan.Models
 
         public List<BinItem> Binlst;
         public List<SelectListItem> qclst;
+        public List<SelectListItem> unitlst;
         public List<SelectListItem> fqclst;
         public string ID { get; set; }
+        public string Unit { get; set; }
         public string ItemG { get; set; }
+        public string createdby { get; set; }
         public string ItemSub { get; set; }
         public string QCTemp { get; set; }
         public string FQCTemp { get; set; }
@@ -90,6 +97,7 @@ namespace Arasan.Models
         public string RawMaterial { get; set; }
         public string Curing { get; set; }
 
+        public List<UnitItem> unititemlst { get; set; }
         public List<SupItem> Suplst { get; set; }
     }
 
@@ -110,6 +118,22 @@ namespace Arasan.Models
         //public string BinYN { get; set; }
         // public string ItemMas { get; set; }
 
+
+    }
+    public class UnitItem
+    {
+
+        public List<SelectListItem> UnitLst { get; set; }
+
+        public string Unit { get; set; }
+        public string cf { get; set; }
+        public string unittype { get; set; }
+        public string uniqid { get; set; }
+        
+        public string Isvalid { get; set; }
+
+        public string ID { get; set; }
+         
 
     }
     public class BinItem

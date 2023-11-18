@@ -21,11 +21,14 @@ namespace Arasan.Interface.Master
         string SupplierCRUD(ItemName pf);
         ItemName GetSupplierById(string id);
         DataTable GetAllSupplier(string id);
+        DataTable GetAllUnit(string id);
         DataTable GetItemNameDetails(string id);
         DataTable GetBinDeatils(string id);
         DataTable GetSupplierName(string id);
         DataTable GetLedger();
-        //string StatusChange(string tag, int id);
+        DataTable GetItem();
+        DataTable GetUnit();
+        string StatusChange(string tag, int id);
         //DataTable GetItem();
     }
 }

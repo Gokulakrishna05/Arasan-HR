@@ -14,9 +14,15 @@ namespace Arasan.Controllers.Master
     {
 
         IItemNameService ItemNameService;
-        public ItemNameController(IItemNameService _ItemNameService)
+        IConfiguration? _configuratio;
+        private string? _connectionString;
+
+        DataTransactions datatrans;
+        public ItemNameController(IItemNameService _ItemNameService, IConfiguration _configuratio)
         {
             ItemNameService = _ItemNameService;
+            _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
+            datatrans = new DataTransactions(_connectionString);
         }
         public IActionResult ItemName(string id)
         {
@@ -29,16 +35,28 @@ namespace Arasan.Controllers.Master
             ca.qclst = BindQCTemp();
             ca.fqclst = BindQCTemp();
             ca.Ledgerlst = BindLedger();
-            
+            ca.Itemlst = BindItem();
+            ca.unitlst = BindUnit();
+            ca.createdby = Request.Cookies["UserId"];
             List<SupItem> TData = new List<SupItem>();
             SupItem tda = new SupItem();
 
             List<BinItem> TDatab = new List<BinItem>();
             BinItem tdaB = new BinItem();
 
+            List<UnitItem> TDatau = new List<UnitItem>();
+            UnitItem tdau = new UnitItem();
+
             if (id == null)
 
             {
+                for (int i = 0; i < 1; i++)
+                {
+                    tdau = new UnitItem();
+                    tdau.UnitLst = BindUnit();
+                    tdau.Isvalid = "Y";
+                    TDatau.Add(tdau);
+                }
                 for (int i = 0; i < 1; i++)
                 {
                     tda = new SupItem();
@@ -65,35 +83,41 @@ namespace Arasan.Controllers.Master
                     ca.ItemG = dt.Rows[0]["IGROUP"].ToString();
                     ca.ItemSub = dt.Rows[0]["ISUBGROUP"].ToString();
                     ca.SubCat = dt.Rows[0]["SUBCATEGORY"].ToString();
-                    ca.ItemCode = dt.Rows[0]["ITEMCODE"].ToString();
+                    
                     ca.Item = dt.Rows[0]["ITEMID"].ToString();
                     ca.ItemDes = dt.Rows[0]["ITEMDESC"].ToString();
                     ca.Reorderqu = dt.Rows[0]["REORDERQTY"].ToString();
                     ca.Reorderlvl = dt.Rows[0]["REORDERLVL"].ToString();
-                    ca.Maxlvl = dt.Rows[0]["MAXSTOCKLVL"].ToString();
-                    ca.Minlvl = dt.Rows[0]["MINSTOCKLVL"].ToString();
-                    ca.Con = dt.Rows[0]["CONVERAT"].ToString();
-                    ca.Uom = dt.Rows[0]["UOM"].ToString();
+                     
+                    ca.Minlvl = dt.Rows[0]["MINSTK"].ToString();
+                    
+                    ca.Unit = dt.Rows[0]["PRIUNIT"].ToString();
                     ca.Hcode = dt.Rows[0]["HSN"].ToString();
-                    ca.Selling = dt.Rows[0]["SELLINGPRI"].ToString();
-                    ca.StackAccount = dt.Rows[0]["ITEMACC"].ToString();
+                    ca.Selling = dt.Rows[0]["SELLINGPRICE"].ToString();
+                     
                     ca.Expiry = dt.Rows[0]["EXPYN"].ToString();
                     ca.ValuationMethod = dt.Rows[0]["VALMETHOD"].ToString();
                     ca.Serial = dt.Rows[0]["SERIALYN"].ToString();
                     ca.Batch = dt.Rows[0]["BSTATEMENTYN"].ToString();
-                    ca.QCTemplate = dt.Rows[0]["QCT"].ToString();
+                    ca.QCTemp = dt.Rows[0]["TEMPLATEID"].ToString();
                     ca.QCRequired = dt.Rows[0]["QCCOMPFLAG"].ToString();
                     ca.Latest = dt.Rows[0]["LATPURPRICE"].ToString();
-                    ca.SubHeading = dt.Rows[0]["TARIFFHEADING"].ToString();
+                     
                     ca.Rejection = dt.Rows[0]["REJRAWMATPER"].ToString();
                     ca.Percentage = dt.Rows[0]["RAWMATPER"].ToString();
                     ca.PercentageAdd = dt.Rows[0]["ADD1PER"].ToString();
-                    ca.Additive = dt.Rows[0]["ADD1"].ToString();
+                    ca.AddItem = dt.Rows[0]["ADD1"].ToString();
                     ca.RawMaterial = dt.Rows[0]["RAWMATCAT"].ToString();
                     ca.Ledger = dt.Rows[0]["LEDGERNAME"].ToString();
+
+                     
+                    ca.FQCTemp = dt.Rows[0]["PTEMPLATEID"].ToString();
+
                     //ca.QCTemp = dt.Rows[0]["IQCTEMP"].ToString();
                     //ca.FQCTemp = dt.Rows[0]["FGQCTEMP"].ToString();
+
                     ca.Curing = dt.Rows[0]["CURINGDAY"].ToString();
+                    ca.createdby = Request.Cookies["UserId"];
                 }
                 DataTable dt2 = new DataTable();
                 dt2 = ItemNameService.GetBinDeatils(id);
@@ -126,11 +150,28 @@ namespace Arasan.Controllers.Master
                         TData.Add(tda);
                     }
                 }
-                //ca.Suplst = TData;
+                DataTable dtt1 = new DataTable();
+                dtt1 = ItemNameService.GetAllUnit(id);
+
+                if (dtt1.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dtt1.Rows.Count; i++)
+                    {
+                        tdau = new UnitItem();
+                        tdau.UnitLst = BindUnit();
+                        tdau.Unit = dtt1.Rows[i]["UNIT"].ToString();
+                        tdau.cf = dtt1.Rows[i]["CF"].ToString();
+                        tdau.unittype = dtt1.Rows[i]["UNITTYPE"].ToString();
+                        tdau.uniqid = dtt1.Rows[i]["UNITUNIQUEID"].ToString();
+                        tdau.Isvalid = "Y";
+                        TDatau.Add(tdau);
+                    }
+                }
 
             }
             ca.Binlst = TDatab;
             ca.Suplst = TData;
+            ca.unititemlst = TDatau;
             return View(ca);
         }
         public ActionResult GetSupDetail(string SupId)
@@ -182,6 +223,40 @@ namespace Arasan.Controllers.Master
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["LEDNAME"].ToString(), Value = dtDesg.Rows[i]["LEDGERID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindItem()
+        {
+            try
+            {
+                DataTable dtDesg = ItemNameService.GetItem();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["ITEMID"].ToString(), Value = dtDesg.Rows[i]["ITEMMASTERID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> BindUnit()
+        {
+            try
+            {
+                DataTable dtDesg = ItemNameService.GetUnit();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["UNITID"].ToString(), Value = dtDesg.Rows[i]["UNITMASTID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -387,21 +462,34 @@ namespace Arasan.Controllers.Master
                 string EditRow = string.Empty;
 
                 EditRow = "<a href=ItemName?id=" + dtUsers.Rows[i]["ITEMMASTERID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+
+                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["ITEMMASTERID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
                 DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["ITEMMASTERID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
 
                 Reg.Add(new ItemList
                 {
                     id = dtUsers.Rows[i]["ITEMMASTERID"].ToString(),
                     itemgroup = dtUsers.Rows[i]["IGROUP"].ToString(),
                     itemsubgroup = dtUsers.Rows[i]["ISUBGROUP"].ToString(),
+
+                     
+
                   //  itemcode = dtUsers.Rows[i]["ITEMCODE"].ToString(),
+
                     itemname = dtUsers.Rows[i]["ITEMID"].ToString(),
                     //Reorderqu = dtUsers.Rows[i]["REORDERQTY"].ToString(),
                     //Reorderlvl = dtUsers.Rows[i]["REORDERLVL"].ToString(),
                     //Maxlvl = dtUsers.Rows[i]["MAXSTOCKLVL"].ToString(),
                     //Minlvl = dtUsers.Rows[i]["MINSTOCKLVL"].ToString(),
+
+                     
+                    uom = dtUsers.Rows[i]["UNITID"].ToString(),
+
                   //  cf = dtUsers.Rows[i]["CONVERAT"].ToString(),
                   //  uom = dtUsers.Rows[i]["UOM"].ToString(),
+
                     hsncode = dtUsers.Rows[i]["HSN"].ToString(),
                     //sellingprice = dtUsers.Rows[i]["SELLINGPRI"].ToString(),
                     editrow = EditRow,
@@ -430,6 +518,12 @@ namespace Arasan.Controllers.Master
            //EnqItem model = new EnqItem();
            //  model.ItemGrouplst = BindItemGrplst(value);
             return Json(BindSupplier());
+        }
+        public JsonResult GetUnitJSON()
+        {
+            //EnqItem model = new EnqItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(BindUnit());
         }
         //public IActionResult SupplierDetail(String id)
         //{
@@ -511,6 +605,42 @@ namespace Arasan.Controllers.Master
 
         //    return View(Pf);
         //}
+        public ActionResult GetUniqueDetail(string ItemId,string unit)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                DataTable dt1 = new DataTable();
+                string unique = "";
 
+                string unitid = datatrans.GetDataString("Select UNITID from UNITMAST where UNITMASTID='" + unit + "'");
+
+                unique = unitid + " " + ItemId;
+
+
+
+                var result = new { unique = unique };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult DeleteMR(string tag, int id)
+        {
+
+            string flag = ItemNameService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListItem");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListItem");
+            }
+        }
     }
 }
