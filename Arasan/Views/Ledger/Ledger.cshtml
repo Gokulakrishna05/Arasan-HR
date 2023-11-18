@@ -38,7 +38,8 @@
 
                                         <br />  <label for="inputName3" class="col-sm-4 control-label">Account Type<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.AType, Model.Typelst," -- Please Select -- ", new { @id = "ddlAType", @Class = "form-control _select", @TabIndex = 1, @onchange = "changeGroup(this.value)" })
+                                            @Html.DropDownListFor(C => C.AType, Model.Typelst, new { @id = "ddlAType", @Class = "form-control _select", @TabIndex = 1, @onchange = "changeGroup(this.value)" })
+                                            @Html.HiddenFor(C => C.ID)
                                         </div>
                                     </div>
                                 </div>
@@ -49,7 +50,7 @@
                                     <div class="form-group">
                                         <br />  <label for="inputName3" class="col-sm-4 control-label">Account Group<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.AccGroup, Model.AccGrouplst," -- Please Select -- ", new { @id = "ddlAccGroup", @Class = "form-control _select", @TabIndex = 1,@onchange = "changeGroupcode(this.value)" })
+                                            @Html.DropDownListFor(C => C.AccGroup, Model.AccGrouplst, new { @id = "ddlAccGroup", @Class = "form-control _select", @TabIndex = 1,@onchange = "changeGroupcode(this.value)" })
                                             @Html.HiddenFor(C => C.ID)
                                             @Html.HiddenFor(C => C.DocDate)
                                         </div>
@@ -234,7 +235,7 @@
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select Account Type");
+                alert("Please Select AccountType");
                 return false;
             }
             else {
@@ -251,7 +252,7 @@
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select Account Group");
+                alert("Please Select AccountGroup");
                 return false;
             }
             else {
@@ -268,7 +269,7 @@
                     "background": "#FFCECE"
                 });
 
-                alert("Please Enter Ledger Name");
+                alert("Please Enter LedgerName");
                 return false;
             }
             else {
@@ -277,50 +278,18 @@
                     "background": ""
                 });
             }
-            if (document.getElementById("txtDocDate").value == "") {
+            if (document.getElementById("txtLedgercode").value == "") {
                 isValid = false;
-                $(txtDocDate).css({
+                $(txtLedgercode).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select DocDate ");
+                alert("Please Enter LedgerCode ");
                 return false;
             }
             else {
-                $(txtDocDate).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-            if (document.getElementById("txtOpStock").value == "") {
-                isValid = false;
-                $(txtOpStock).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Enter Opening Stock");
-                return false;
-            }
-            else {
-                $(txtOpStock).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-            if (document.getElementById("txtClStock").value == "") {
-                isValid = false;
-                $(txtClStock).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Enter Closing Stock ");
-                return false;
-            }
-            else {
-                $(txtClStock).css({
+                $(txtLedgercode).css({
                     "border": "",
                     "background": ""
                 });

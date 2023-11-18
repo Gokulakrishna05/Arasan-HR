@@ -1,10 +1,11 @@
-﻿@model IEnumerable<Arasan.Models.AccConfig>
+﻿@model Arasan.Models.AccConfig
 @{
     ViewData["Title"] = "ListAccConfig";
     //string query = ViewContext.HttpContext.Request.Query["Active"];
     //string Qid = string.Empty;
     //if (!string.IsNullOrEmpty(query)) { Qid = ViewContext.HttpContext.Request.Query["Active"]; }
 }
+<partial name="JqxGridPartial" />
 
 <script type="text/javascript">
     @if (TempData["notice"] != null)
@@ -23,111 +24,108 @@
     </div>
 </div>
 
+<script type="text/javascript">
+    $(document).ready(function () {
+        var source =
+        {
+            url: "/AccConfig/MyListItemgrid",
+
+            datatype: "json",
+            updaterow: function (rowid, rowdata) {
+                // synchronize with the server - send update command
+            },
+            datafields: [
+                { name: 'schemedes', type: 'string' },
+                { name: 'scheme', type: 'string' },
+                { name: 'transactionName', type: 'string' },
+                { name: 'transactionid', type: 'string' },
+                { name: 'viewrow', type: 'string' },
+                { name: 'editrow', type: 'string' },
+                { name: 'delrow', type: 'string' },
+
+
+            ],
+            id: 'id',
+        };
+        var dataAdapter = new $.jqx.dataAdapter(source,
+            { contentType: 'application/json; charset=utf-8' }, {
+            loadComplete: function () {
+
+            }
+        }
+        );
+
+        $("#grid").jqxGrid(
+            {
+                width: '100%',
+                source: dataAdapter,
+                height: 510,
+                source: source,
+                sortable: true,
+                filterable: true,
+                groupable: false,
+                pageable: true,
+                showfilterrow: true,
+
+                enablebrowserselection: true,
+
+                theme: 'energyblue',
+                enablebrowserselection: true,
+
+                columns: [
+
+                    { text: 'Scheme Description', datafield: 'schemedes', width: 200 },
+                    { text: 'Scheme', datafield: 'scheme', width: 200 },
+                    { text: 'Transaction Name', datafield: 'transactionName', width: 300 },
+                    { text: 'Transaction ID', datafield: 'transactionid', width: 110, align: 'center' },
+                    { text: 'View', datafield: 'viewrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                    { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                ]
+            });
+
+    });
+</script>
+
 <div class="wrapper-content ">
     <div class="row">
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
-                <div class="widgets-container">
+                <div class="widgets-container"> 
 
                     <form>
                         <div class="row">
-                            @*<div class="col-md-6 ">
-                            <select style='width: 200px;' class='form-control  newcss' id="dllstatus" onchange="changeStatus(this.value)">
-                            <option value="" selected>Open</option>
-                            <option value='INACTIVE'>Close</option>
-
-                            </select>
-                            </div>*@
-
+                           
                             <div class="col-md-12 ">
                                 <div class=" textalignright">
                                     <a href="@Url.Action("AccConfig","AccConfig")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add AccConfig</a>
                                     <br>
-                                </div>
+                                </div> 
 
                             </div>
+                       
                         </div>
-
                         <div class="row">
-                            <div class="col-lg-12">
-                                <div class="ibox float-e-margins">
-                                    <div class="ibox-content collapse in">
-                                        <div class="widgets-container">
-                                            <div>
-                                                <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
-                                                    <thead>
-                                                        <tr>
 
-                                                            <th>Scheme Descrip</th>
-                                                            <th>Scheme</th>
-                                                            <th>Transaction Name</th>
-                                                            <th>Transaction ID</th>
-                                                            <th>View</th>
-                                                            <th>Edit</th>
-                                                            <th>Close</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @{
-                                                            int i = 0;
+                            <div class="col-md-12 ">
+                                <div id="grid">
 
-                                                            foreach (var item in Model)
-                                                            {
-                                                                <tr>
-
-
-                                                                    <td>@Html.DisplayFor(modelItem => item.SchemeDes)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.Scheme)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.TransactionName)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.TransactionID)</td>
-
-
-                                                                    @* @if (item.Active == "No") 
-                                                                    {
-                                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("AccConfig", "AccConfig",new { id=item.ID })"></a></div></td>
-                                                                        <td> <a href="@Url.Action("Remove","AccConfig",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("AccConfig", "AccConfig",new { id=item.ID })"></a></div></td>
-                                                                        <td> <a href="@Url.Action("DeleteMR","AccConfig",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
-                                                                        } *@
-
-                                                                    
-
-                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewAccConfig", "AccConfig",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Waiting for approval' /></a></div></td>
-                                                                    
-                                                                     <td>
-
-                                                                        <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("AccConfig", "AccConfig",new { id=item.ID })"></a></div>
-                                                                     </td>
-
-                                                                    <td> <a href="@Url.Action("DeleteMR","AccConfig",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
-
-                                                                </tr>
-                                                                    
-                                                                i++;
-                                                            }
-                                                        }
-
-
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
                                     </div>
-                                </div>
                             </div>
-                        </div>
+                            </div>
+                              
                     </form>
-
                 </div>
+
             </div>
         </div>
-    </div>
+   </div>
 </div>
+        
 
-<script>
+ 
+
+@*<script>
     $(document).ready(function () {
         $('#example7').DataTable({
             dom: 'Bfrtip',
@@ -207,5 +205,5 @@
    
 </script>
 
-
+*@
 

@@ -25,5 +25,18 @@ namespace Arasan.Models
         public List<SelectListItem> IGstlst;
         public string IGst { get; set; }
         public string status { get; set; }
+
+        public List<HSNItem> hsnlst { get; set; }
+    }
+
+    public class HSNItem
+    {
+        public string ID { get; set; } 
+        public string tariff { get; set; }
+        public string Isvalid { get; set; }
+        public string savetariff { get; set; }
+        public List<SelectListItem> tarifflst { get; set; }
+
+
     }
 }

@@ -30,4 +30,18 @@ namespace Arasan.Models
         public string Accclass { get; set; }
         public string docid { get; set; }
     }
-}
+
+    public class AGroup
+    {
+        public long accgrpid { get; set; }
+        //public double id { get; set; }
+        public string id { get; set; }
+        public string accgroup { get; set; }
+        public string atype { get; set; }
+        public string gcode { get; set; }
+        
+        public string display { get; set; }
+        public string editrow { get; set; }
+        public string delrow { get; set; }
+    }
+    }

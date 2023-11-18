@@ -14,6 +14,8 @@ namespace Arasan.Interface
         string StatusChange(string tag, int id);
         string RemoveChange(string tag, int id);
 
+        DataTable GetAllClass();
+
         //string GetNumberwithPrefix();
     }
 }

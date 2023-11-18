@@ -54,6 +54,16 @@ namespace Arasan.Services
             }
             return cmpList;
         }
+        public DataTable GetAllLedgers()
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select ACCTYPE.ACCOUNTTYPE,ACCGROUP.ACCOUNTGROUP,ACCLEDGER.LEDNAME,ACCLEDGER.DISPLAY_NAME,ACCLEDGER.LEDGERCODE,LEDGERID from ACCLEDGER LEFT OUTER JOIN ACCGROUP ON ACCGROUP.ACCGROUPID=ACCLEDGER.ACCGROUP LEFT OUTER JOIN ACCTYPE ON ACCTYPE.ACCOUNTTYPEID=ACCLEDGER.ACCOUNTTYPE ORDER BY ACCLEDGER.LEDGERID DESC ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public string LedgerCRUD(Ledger cy)
         {
             string msg = "";
@@ -98,11 +108,9 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("DISPLAY_NAME", OracleDbType.NVarchar2).Value = cy.DisplayName;
                     objCmd.Parameters.Add("OPSTOCK", OracleDbType.NVarchar2).Value = cy.OpStock;
                     objCmd.Parameters.Add("CLSTOCK", OracleDbType.NVarchar2).Value = cy.ClStock;
-                    //objCmd.Parameters.Add("DOCDATE", OracleDbType.Date).Value = DateTime.Parse(cy.DocDate);
-                    //objCmd.Parameters.Add("CATEGORY", OracleDbType.NVarchar2).Value = cy.Category;
                     objCmd.Parameters.Add("GROUPCODE", OracleDbType.NVarchar2).Value = cy.Groupcode;
                     objCmd.Parameters.Add("LEDGERCODE", OracleDbType.NVarchar2).Value = docid;
-                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "Active";
+                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
 
                     try
@@ -174,7 +182,7 @@ namespace Arasan.Services
         public DataTable GetLedger(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select ACCTYPE.ACCOUNTTYPE,ACCGROUP.ACCOUNTGROUP,ACCLEDGER.LEDNAME,to_char(DOCDATE,'dd-MON-yyyy')DOCDATE,OPSTOCK,CLSTOCK,ACCLEDGER.DISPLAY_NAME,CATEGORY,ACCLEDGER.GROUPCODE,LEDGERCODE,LEDGERID from ACCLEDGER LEFT OUTER JOIN ACCGROUP ON ACCGROUP.ACCGROUPID=ACCLEDGER.ACCGROUP LEFT OUTER JOIN ACCTYPE ON ACCTYPE.ACCOUNTTYPEID=ACCLEDGER.ACCOUNTTYPE where LEDGERID=" + id + "";
+            SvSql = "Select ACCTYPE.ACCOUNTTYPEID,ACCTYPE.ACCOUNTTYPE,ACCGROUP.ACCOUNTGROUP,ACCLEDGER.LEDNAME,OPSTOCK,CLSTOCK,ACCLEDGER.DISPLAY_NAME,ACCLEDGER.GROUPCODE,LEDGERCODE,LEDGERID from ACCLEDGER LEFT OUTER JOIN ACCGROUP ON ACCGROUP.ACCGROUPID=ACCLEDGER.ACCGROUP LEFT OUTER JOIN ACCTYPE ON ACCTYPE.ACCOUNTTYPEID=ACCLEDGER.ACCOUNTTYPE where LEDGERID=" + id + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

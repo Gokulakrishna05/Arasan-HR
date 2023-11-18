@@ -109,8 +109,13 @@ namespace Arasan.Controllers.Master
                     ca.AddItem = dt.Rows[0]["ADD1"].ToString();
                     ca.RawMaterial = dt.Rows[0]["RAWMATCAT"].ToString();
                     ca.Ledger = dt.Rows[0]["LEDGERNAME"].ToString();
+
                      
                     ca.FQCTemp = dt.Rows[0]["PTEMPLATEID"].ToString();
+
+                    //ca.QCTemp = dt.Rows[0]["IQCTEMP"].ToString();
+                    //ca.FQCTemp = dt.Rows[0]["FGQCTEMP"].ToString();
+
                     ca.Curing = dt.Rows[0]["CURINGDAY"].ToString();
                     ca.createdby = Request.Cookies["UserId"];
                 }
@@ -444,11 +449,11 @@ namespace Arasan.Controllers.Master
         {
             return View();
         }
-        public ActionResult MyListItemgrid()
+        public ActionResult MyListItemgrid(string strStatus)
         {
             List<ItemList> Reg = new List<ItemList>();
             DataTable dtUsers = new DataTable();
-
+            strStatus = strStatus == "" ? "Y" : strStatus;
             dtUsers = ItemNameService.GetAllItems();
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
@@ -457,21 +462,34 @@ namespace Arasan.Controllers.Master
                 string EditRow = string.Empty;
 
                 EditRow = "<a href=ItemName?id=" + dtUsers.Rows[i]["ITEMMASTERID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+
                 DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["ITEMMASTERID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["ITEMMASTERID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
 
                 Reg.Add(new ItemList
                 {
                     id = dtUsers.Rows[i]["ITEMMASTERID"].ToString(),
                     itemgroup = dtUsers.Rows[i]["IGROUP"].ToString(),
                     itemsubgroup = dtUsers.Rows[i]["ISUBGROUP"].ToString(),
+
                      
+
+                  //  itemcode = dtUsers.Rows[i]["ITEMCODE"].ToString(),
+
                     itemname = dtUsers.Rows[i]["ITEMID"].ToString(),
                     //Reorderqu = dtUsers.Rows[i]["REORDERQTY"].ToString(),
                     //Reorderlvl = dtUsers.Rows[i]["REORDERLVL"].ToString(),
                     //Maxlvl = dtUsers.Rows[i]["MAXSTOCKLVL"].ToString(),
                     //Minlvl = dtUsers.Rows[i]["MINSTOCKLVL"].ToString(),
+
                      
                     uom = dtUsers.Rows[i]["UNITID"].ToString(),
+
+                  //  cf = dtUsers.Rows[i]["CONVERAT"].ToString(),
+                  //  uom = dtUsers.Rows[i]["UOM"].ToString(),
+
                     hsncode = dtUsers.Rows[i]["HSN"].ToString(),
                     //sellingprice = dtUsers.Rows[i]["SELLINGPRI"].ToString(),
                     editrow = EditRow,
@@ -486,6 +504,15 @@ namespace Arasan.Controllers.Master
             });
 
         }
+
+        public ActionResult DeleteItem(string tag, int id)
+        {
+            //EnquiryList eqgl = new EnquiryList();
+            //eqgl.StatusChange(tag, id);
+            return RedirectToAction("ListItem");
+
+        }
+       
         public JsonResult GetItemGrpJSON()
         {
            //EnqItem model = new EnqItem();

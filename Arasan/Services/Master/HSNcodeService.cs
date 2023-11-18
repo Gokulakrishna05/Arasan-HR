@@ -91,11 +91,48 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("IGST", OracleDbType.NVarchar2).Value = ss.IGst;
                     objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                    objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
                     {
                         objConn.Open();
                         objCmd.ExecuteNonQuery();
-                        //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
+                        Object Pid = objCmd.Parameters["OUTID"].Value;
+                        //string Pid = "0";
+                        if (ss.ID != null)
+                        {
+                            Pid = ss.ID;
+                        }
+                        foreach (HSNItem cp in ss.hsnlst)
+                        {
+                            if (cp.Isvalid == "Y" && cp.tariff != "0")
+                            {
+                                using (OracleConnection objConns = new OracleConnection(_connectionString))
+                                {
+                                    OracleCommand objCmds = new OracleCommand("HSNROWPROC", objConns);
+                                    if (ss.ID == null)
+                                    {
+                                        StatementType = "Insert";
+                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                    }
+                                    else
+                                    {
+                                        StatementType = "Update";
+                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = ss.ID;
+                                    }
+                                    objCmds.CommandType = CommandType.StoredProcedure;
+                                    objCmds.Parameters.Add("HSNCODEID", OracleDbType.NVarchar2).Value = Pid;
+                                    objCmds.Parameters.Add("TARIFFID", OracleDbType.NVarchar2).Value = cp.tariff;
+                                   
+
+                                    objCmds.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                                    objConns.Open();
+                                    objCmds.ExecuteNonQuery();
+                                    objConns.Close();
+                                }
+
+                            }
+
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -113,6 +150,26 @@ namespace Arasan.Services.Master
             return msg;
         }
 
+        public DataTable GettariffItem(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select ETARIFFMASTER.TARIFFID,HSNROWID from HSNROW  LEFT OUTER JOIN ETARIFFMASTER ON ETARIFFMASTER.ETARIFFMASTERID = HSNROW.TARIFFID where HSNROW.HSNROWID = '" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable Gettariff()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select TARIFFID,ETARIFFMASTERID from ETARIFFMASTER";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetHSNcode(string id)
         {
             string SvSql = string.Empty;

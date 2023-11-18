@@ -3,6 +3,7 @@ using System.Data;
 using Arasan.Interface;
 using Arasan.Interface.Master;
 using Arasan.Models;
+using Arasan.Services;
 using Arasan.Services.Master;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -19,16 +20,27 @@ namespace Arasan.Controllers.Master
         public IActionResult HSNcode(string id)
         {
             HSNcode st = new HSNcode();
-            st.CGstlst = BindCGst();
-            st.SGstlst = BindSGst();
-            st.IGstlst = BindIGst();
+            //st.CGstlst = BindCGst();
+            //st.SGstlst = BindSGst();
+            //st.IGstlst = BindIGst();
 
 
+            List<HSNItem> TData = new List<HSNItem>();
+            HSNItem tda = new HSNItem();
             if (id == null)
             {
+                for (int i = 0; i < 1; i++)
+                {
+                    tda = new HSNItem();
+
+                    
+                    tda.tarifflst = Bindtarifflst();
+                    tda.Isvalid = "Y";
+                    TData.Add(tda);
+                }
 
             }
-           
+
             else
             {
                 DataTable dt = new DataTable();
@@ -44,10 +56,50 @@ namespace Arasan.Controllers.Master
                     st.IGst = dt.Rows[0]["IGST"].ToString();
 
                 }
+               
+                DataTable dt2 = new DataTable();
 
+                dt2 = HSNcodeService.GettariffItem(id);
+                if (dt2.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt2.Rows.Count; i++)
+                    {
+                        tda = new HSNItem();
+                        double toaamt = 0;
+                        tda.tarifflst = Bindtarifflst();
+                        tda.tariff = dt2.Rows[i]["TARIFFID"].ToString();
+                        
+                        tda.Isvalid = "Y";
+                        TData.Add(tda);
+                    }
+                }
             }
 
             return View(st);
+        }
+        public JsonResult GettariffJSON()
+        {
+            //DeductionItem model = new DeductionItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(Bindtarifflst());
+        }
+
+        public List<SelectListItem> Bindtarifflst()
+        {
+            try
+            {
+                DataTable dtDesg = HSNcodeService.Gettariff();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["TARIFFID"].ToString(), Value = dtDesg.Rows[i]["ETARIFFMASTERID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
 

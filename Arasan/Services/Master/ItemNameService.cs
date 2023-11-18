@@ -78,7 +78,12 @@ namespace Arasan.Services.Master
         {
             string SvSql = string.Empty;
             //SvSql = "Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMCODE,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MAXSTOCKLVL,MINSTOCKLVL,CONVERAT,UOM,HSN,SELLINGPRICE,ITEMMASTERID from ITEMMASTER";
+
             SvSql = "    Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MINSTK,UNITMAST.UNITID,PRIUNIT,HSN,SELLINGPRICE,ITEMACC,EXPYN,VALMETHOD,SERIALYN,BSTATEMENTYN,QCT,QCCOMPFLAG,LATPURPRICE,TARIFFHEADING,REJRAWMATPER,RAWMATPER,ADD1PER,ADD1,RAWMATCAT,ITEMMASTERID from ITEMMASTER left outer join UNITMAST ON UNITMASTID=ITEMMASTER.PRIUNIT ORDER BY ITEMMASTER.ITEMMASTERID DESC ";
+
+            //SvSql = "Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMCODE,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MAXSTOCKLVL,MINSTOCKLVL,CONVERAT,UOM,HSN,SELLINGPRICE,ITEMACC,EXPYN,VALMETHOD,SERIALYN,BSTATEMENTYN,QCT,QCCOMPFLAG,LATPURPRICE,TARIFFHEADING,REJRAWMATPER,RAWMATPER,ADD1PER,ADD1,RAWMATCAT,ITEMMASTERID from ITEMMASTER ORDER BY ITEMMASTER.ITEMMASTERID DESC ";
+            SvSql = "Select * from ITEMMASTER ORDER BY ITEMMASTER.ITEMMASTERID DESC";
+
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -379,7 +384,11 @@ namespace Arasan.Services.Master
         public DataTable GetLedger()
         {
             string SvSql = string.Empty;
+
             SvSql = "SELECT LEDGERID,LEDNAME FROM ACCLEDGER";
+
+            SvSql = "SELECT LEDGERID,LEDNAME FROM accledger where IS_ACTIVE='Y'";
+
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

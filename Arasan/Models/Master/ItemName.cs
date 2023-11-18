@@ -35,7 +35,7 @@ namespace Arasan.Models
         public List<SelectListItem> Isglst;
         public List<SelectListItem> Itemlst;
         
-
+        public string ddlStatus { get; set; }
         public string HSNcode { get; set; }
         public string AddItem { get; set; }
 
