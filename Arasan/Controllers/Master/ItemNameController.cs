@@ -463,7 +463,6 @@ namespace Arasan.Controllers.Master
 
                 EditRow = "<a href=ItemName?id=" + dtUsers.Rows[i]["ITEMMASTERID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
 
-                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["ITEMMASTERID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
 
                 DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["ITEMMASTERID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
 
@@ -627,20 +626,6 @@ namespace Arasan.Controllers.Master
                 throw ex;
             }
         }
-        public ActionResult DeleteMR(string tag, int id)
-        {
-
-            string flag = ItemNameService.StatusChange(tag, id);
-            if (string.IsNullOrEmpty(flag))
-            {
-
-                return RedirectToAction("ListItem");
-            }
-            else
-            {
-                TempData["notice"] = flag;
-                return RedirectToAction("ListItem");
-            }
-        }
+        
     }
 }
