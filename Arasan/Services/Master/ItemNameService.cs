@@ -78,7 +78,7 @@ namespace Arasan.Services.Master
         {
             string SvSql = string.Empty;
             //SvSql = "Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMCODE,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MAXSTOCKLVL,MINSTOCKLVL,CONVERAT,UOM,HSN,SELLINGPRICE,ITEMMASTERID from ITEMMASTER";
-            SvSql = "Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMCODE,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MAXSTOCKLVL,MINSTOCKLVL,CONVERAT,UOM,HSN,SELLINGPRICE,ITEMACC,EXPYN,VALMETHOD,SERIALYN,BSTATEMENTYN,QCT,QCCOMPFLAG,LATPURPRICE,TARIFFHEADING,REJRAWMATPER,RAWMATPER,ADD1PER,ADD1,RAWMATCAT,ITEMMASTERID from ITEMMASTER ORDER BY ITEMMASTER.ITEMMASTERID DESC ";
+            SvSql = "    Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MINSTK,UNITMAST.UNITID,PRIUNIT,HSN,SELLINGPRICE,ITEMACC,EXPYN,VALMETHOD,SERIALYN,BSTATEMENTYN,QCT,QCCOMPFLAG,LATPURPRICE,TARIFFHEADING,REJRAWMATPER,RAWMATPER,ADD1PER,ADD1,RAWMATCAT,ITEMMASTERID from ITEMMASTER left outer join UNITMAST ON UNITMASTID=ITEMMASTER.PRIUNIT ORDER BY ITEMMASTER.ITEMMASTERID DESC ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -130,13 +130,15 @@ namespace Arasan.Services.Master
                 string StatementType = string.Empty; string svSQL = "";
                 if (ss.ID == null)
                 {
-                    svSQL = " SELECT Count(ITEMID) as cnt FROM ITEMMASTER WHERE ITEMID =LTRIM(RTRIM('" + ss.Item + "')) and ITEMCODE =LTRIM(RTRIM('" + ss.ItemCode + "'))";
+                    svSQL = " SELECT Count(ITEMID) as cnt FROM ITEMMASTER WHERE ITEMID =LTRIM(RTRIM('" + ss.Item + "')) and ITEMDESC =LTRIM(RTRIM('" + ss.ItemDes + "'))";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "Item Already Existed";
                         return msg;
                     }
                 }
+                string grpid = datatrans.GetDataString("Select ITEMGROUPID from ITEMGROUP where GROUPCODE='" + ss.ItemG + "'");
+                string supid = datatrans.GetDataString("Select ITEMSUBGROUPID from ITEMSUBGROUP where SGCODE='" + ss.ItemSub + "'");
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("ITEMMASTERPROC", objConn);
@@ -157,37 +159,49 @@ namespace Arasan.Services.Master
 
                     objCmd.Parameters.Add("IGROUP", OracleDbType.NVarchar2).Value = ss.ItemG;
                     objCmd.Parameters.Add("ISUBGROUP", OracleDbType.NVarchar2).Value = ss.ItemSub;
+                    objCmd.Parameters.Add("ITEMGROUP", OracleDbType.NVarchar2).Value = grpid;
+                    objCmd.Parameters.Add("SUBGROUPCODE", OracleDbType.NVarchar2).Value = supid;
                     objCmd.Parameters.Add("SUBCATEGORY", OracleDbType.NVarchar2).Value = ss.SubCat;
-                    objCmd.Parameters.Add("ITEMCODE", OracleDbType.NVarchar2).Value = ss.ItemCode;
+                   
                     objCmd.Parameters.Add("ITEMID", OracleDbType.NVarchar2).Value = ss.Item;
                     objCmd.Parameters.Add("ITEMDESC", OracleDbType.NVarchar2).Value = ss.ItemDes;
                     objCmd.Parameters.Add("REORDERQTY", OracleDbType.NVarchar2).Value = ss.Reorderqu;
                     objCmd.Parameters.Add("REORDERLVL", OracleDbType.NVarchar2).Value = ss.Reorderlvl;
-                    objCmd.Parameters.Add("MAXSTOCKLVL", OracleDbType.NVarchar2).Value = ss.Maxlvl;
-                    objCmd.Parameters.Add("MINSTOCKLVL", OracleDbType.NVarchar2).Value = ss.Minlvl;
-                    objCmd.Parameters.Add("CONVERAT", OracleDbType.NVarchar2).Value = ss.Con;
-                    objCmd.Parameters.Add("UOM", OracleDbType.NVarchar2).Value = ss.Uom;
+                 
+                    objCmd.Parameters.Add("MINSTK", OracleDbType.NVarchar2).Value = ss.Minlvl;
+                   
+                    objCmd.Parameters.Add("PRIUNIT", OracleDbType.NVarchar2).Value = ss.Unit;
                     objCmd.Parameters.Add("HSN", OracleDbType.NVarchar2).Value = ss.Hcode;
-                    objCmd.Parameters.Add("SELLINGPRI", OracleDbType.NVarchar2).Value = ss.Selling;
-                    objCmd.Parameters.Add("ITEMACC ", OracleDbType.NVarchar2).Value = ss.StackAccount;
+                    objCmd.Parameters.Add("SELLINGPRICE", OracleDbType.NVarchar2).Value = ss.Selling;
+                 
                     objCmd.Parameters.Add("EXPYN", OracleDbType.NVarchar2).Value = ss.Expiry;
                     objCmd.Parameters.Add("VALMETHOD", OracleDbType.NVarchar2).Value = ss.ValuationMethod;
                     objCmd.Parameters.Add("SERIALYN", OracleDbType.NVarchar2).Value = ss.Serial;
                     objCmd.Parameters.Add("BSTATEMENTYN", OracleDbType.NVarchar2).Value = ss.Batch;
-                    objCmd.Parameters.Add("QCT", OracleDbType.NVarchar2).Value = ss.QCTemplate;
+
+                    objCmd.Parameters.Add("TEMPLATEID", OracleDbType.NVarchar2).Value = ss.QCTemp;
                     objCmd.Parameters.Add("QCCOMPFLAG", OracleDbType.NVarchar2).Value = ss.QCRequired;
                     objCmd.Parameters.Add("LATPURPRICE", OracleDbType.NVarchar2).Value = ss.Latest;
-                    objCmd.Parameters.Add("TARIFFHEADING", OracleDbType.NVarchar2).Value = ss.SubHeading;
+                   
                     objCmd.Parameters.Add("REJRAWMATPER", OracleDbType.NVarchar2).Value = ss.Rejection;
                     objCmd.Parameters.Add("RAWMATPER", OracleDbType.NVarchar2).Value = ss.Percentage;
                     objCmd.Parameters.Add("ADD1PER ", OracleDbType.NVarchar2).Value = ss.PercentageAdd;
-                    objCmd.Parameters.Add("ADD1", OracleDbType.NVarchar2).Value = ss.Additive;
+                    objCmd.Parameters.Add("ADD1", OracleDbType.NVarchar2).Value = ss.AddItem;
                     objCmd.Parameters.Add("RAWMATCAT", OracleDbType.NVarchar2).Value = ss.RawMaterial;
                     objCmd.Parameters.Add("LEDGERNAME", OracleDbType.NVarchar2).Value = ss.Ledger;
-                    objCmd.Parameters.Add("IQCTEMP", OracleDbType.NVarchar2).Value = ss.QCTemp;
-                    objCmd.Parameters.Add("FGQCTEMP", OracleDbType.NVarchar2).Value = ss.FQCTemp;
+                  
+                    objCmd.Parameters.Add("PTEMPLATEID", OracleDbType.NVarchar2).Value = ss.FQCTemp;
                     objCmd.Parameters.Add("CURINGDAY", OracleDbType.NVarchar2).Value = ss.Curing;
-
+                    if (ss.ID == null)
+                    {
+                        objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = ss.createdby;
+                        objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value =DateTime.Now;
+                    }
+                   else
+                    { 
+                    objCmd.Parameters.Add("UPDATED_BY", OracleDbType.NVarchar2).Value = ss.createdby;
+                    objCmd.Parameters.Add("UPDATED_ON", OracleDbType.NVarchar2).Value = DateTime.Now;
+                    }
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
@@ -223,37 +237,78 @@ namespace Arasan.Services.Master
                         bool result = datatrans.UpdateStatus("DELETE SUPPLIERPARTNO  Where ITEMMASTERID='" + Pid + "' ");
                         if (ss.Suplst != null)
                         {
-                            foreach (SupItem cp in ss.Suplst) 
+                            foreach (SupItem cp in ss.Suplst)
                             {
-                                using (OracleConnection objConnI = new OracleConnection(_connectionString))
+                                if (cp.Isvalid == "Y" && cp.SupName != null)
                                 {
-                                    OracleCommand objCmdI = new OracleCommand("SUPPLIERPROC", objConnI);
-
-                                    objCmdI.CommandType = CommandType.StoredProcedure;
-                                    StatementType = "Insert";
-                                    objCmdI.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-                                    objCmdI.Parameters.Add("SUPPLIERID", OracleDbType.NVarchar2).Value = cp.SupName;
-                                    objCmdI.Parameters.Add("SUPPLIERPARTNO", OracleDbType.NVarchar2).Value = cp.SupplierPart;
-                                    objCmdI.Parameters.Add("SPURPRICE", OracleDbType.NVarchar2).Value = cp.PurchasePrice;
-                                    objCmdI.Parameters.Add("DELDAYS", OracleDbType.NVarchar2).Value = cp.Delivery;
-                                    objCmdI.Parameters.Add("ITEMMASTERID", OracleDbType.NVarchar2).Value = Pid;
-                                    objCmdI.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
-                                    try
+                                    using (OracleConnection objConnI = new OracleConnection(_connectionString))
                                     {
-                                        objConnI.Open();
-                                        objCmdI.ExecuteNonQuery();
-                                        //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
+                                        OracleCommand objCmdI = new OracleCommand("SUPPLIERPROC", objConnI);
+
+                                        objCmdI.CommandType = CommandType.StoredProcedure;
+                                        StatementType = "Insert";
+                                        objCmdI.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                                        objCmdI.Parameters.Add("SUPPLIERID", OracleDbType.NVarchar2).Value = cp.SupName;
+                                        objCmdI.Parameters.Add("SUPPLIERPARTNO", OracleDbType.NVarchar2).Value = cp.SupplierPart;
+                                        objCmdI.Parameters.Add("SPURPRICE", OracleDbType.NVarchar2).Value = cp.PurchasePrice;
+                                        objCmdI.Parameters.Add("DELDAYS", OracleDbType.NVarchar2).Value = cp.Delivery;
+                                        objCmdI.Parameters.Add("ITEMMASTERID", OracleDbType.NVarchar2).Value = Pid;
+                                        objCmdI.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                                        try
+                                        {
+                                            objConnI.Open();
+                                            objCmdI.ExecuteNonQuery();
+                                            //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            //System.Console.WriteLine("Exception: {0}", ex.ToString());
+                                        }
+
+                                        objConnI.Close();
                                     }
 
-                                    objConnI.Close();
                                 }
-
                             }
 
+                        }
+                        if (ss.unititemlst != null)
+                        {
+                            if (ss.ID == null)
+                            {
+                                foreach (UnitItem cp in ss.unititemlst)
+                                {
+                                    if (cp.Isvalid == "Y" && cp.Unit != "0")
+                                    {
+                                        int i = 1;
+                                        svSQL = "Insert into ITEMMASTERPUNIT (ITEMMASTERID,ITEMMASTERPUNITROW,UNIT,CF,VALIDROW3,UNITTYPE,UNITUNIQUEID) VALUES ('" + Pid + "','" + i + "','" + cp.Unit + "','" + cp.cf + "','T','" + cp.unittype + "','" + cp.uniqid + "')";
+                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                        objCmds.ExecuteNonQuery();
+
+                                        i++;
+                                    }
+
+                                }
+                            }
+                            else
+                            {
+                                svSQL = "Delete DPDETAIL WHERE DPBASICID='" + ss.ID + "'";
+                                OracleCommand objCmdd = new OracleCommand(svSQL, objConn);
+                                objCmdd.ExecuteNonQuery();
+                                foreach (UnitItem cp in ss.unititemlst)
+                                {
+                                    if (cp.Isvalid == "Y" && cp.Unit != "0")
+                                    {
+                                        int i = 1;
+                                        svSQL = "Insert into ITEMMASTERPUNIT (ITEMMASTERID,ITEMMASTERPUNITROW,UNIT,CF,VALIDROW3,UNITTYPE,UNITUNIQUEID) VALUES ('" + Pid + "','" + i + "','" + cp.Unit + "','" + cp.cf + "','T','" + cp.unittype + "','" + cp.uniqid + "')";
+                                        OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                                        objCmds.ExecuteNonQuery();
+
+                                        i++;
+                                    }
+
+                                }
+                            }
                         }
                     }
                     catch (Exception ex)
@@ -274,7 +329,7 @@ namespace Arasan.Services.Master
         public DataTable GetItemNameDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMCODE,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MAXSTOCKLVL,MINSTOCKLVL,CONVERAT,UOM,HSN,SELLINGPRICE SELLINGPRI,ITEMACC,EXPYN,VALMETHOD,SERIALYN,BSTATEMENTYN,QCT,QCCOMPFLAG,LATPURPRICE,TARIFFHEADING,REJRAWMATPER,RAWMATPER,ADD1PER,ADD1,RAWMATCAT,LEDGERNAME,ITEMMASTERID ,CURINGDAY from ITEMMASTER where ITEMMASTERID=" + id + "";
+            SvSql = "Select IGROUP,ISUBGROUP,ITEMGROUP,SUBGROUPCODE,SUBCATEGORY,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MINSTK,PRIUNIT,HSN,SELLINGPRICE,EXPYN,VALMETHOD,SERIALYN,BSTATEMENTYN,TEMPLATEID,QCCOMPFLAG,LATPURPRICE,REJRAWMATPER,RAWMATPER,ADD1PER,ADD1,RAWMATCAT,LEDGERNAME,PTEMPLATEID,CURINGDAY from ITEMMASTER where ITEMMASTERID=" + id + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -294,7 +349,7 @@ namespace Arasan.Services.Master
         public DataTable GetItemGroup()
         {
             string SvSql = string.Empty;
-            SvSql = "Select ITEMGROUPID,GROUPCODE from ITEMGROUP where STATUS='ACTIVE'";
+            SvSql = "Select ITEMGROUPID,GROUPCODE from ITEMGROUP where ISACTIVE='Y'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -324,7 +379,7 @@ namespace Arasan.Services.Master
         public DataTable GetLedger()
         {
             string SvSql = string.Empty;
-            SvSql = "SELECT LEDGERID,LEDNAME FROM LEDGER";
+            SvSql = "SELECT LEDGERID,LEDNAME FROM ACCLEDGER";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -361,6 +416,26 @@ namespace Arasan.Services.Master
             adapter.Fill(dtt);
             return dtt;
         }
+        public DataTable GetItem()
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select ITEMMASTERID,ITEMID from ITEMMASTER";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetUnit()
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select UNITID,UNITMASTID from UNITMAST";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetQCTemp()
         {
             string SvSql = string.Empty;
@@ -385,6 +460,16 @@ namespace Arasan.Services.Master
         {
             string SvSql = string.Empty;
             SvSql = "Select SUPPLIERID,SUPPLIERPARTNO,SPURPRICE,DELDAYS,SUPPLIERPARTNOID from SUPPLIERPARTNO WHERE SUPPLIERPARTNOID='" + subid + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetAllUnit(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select ITEMMASTERID,ITEMMASTERPUNITROW,UNIT,CF,VALIDROW3,UNITTYPE,UNITUNIQUEID from ITEMMASTERPUNIT WHERE ITEMMASTERID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -473,6 +558,29 @@ namespace Arasan.Services.Master
             }
 
             return msg;
+        }
+        public string StatusChange(string tag, int id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE ITEMMASTER SET ACTIVE ='N' WHERE ITEMMASTERID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
         }
     }
 }

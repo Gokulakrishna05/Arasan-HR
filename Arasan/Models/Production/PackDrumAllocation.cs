@@ -38,9 +38,25 @@ namespace Arasan.Models
     public class DrumCreate
     {
         public string packdrum { get; set; }
+        public string totaldrum { get; set; }
         public string packyn { get; set; }
        
         public string Isvalid { get; set; }
+
+    }
+    public class PackList
+    {
+        public string id { get; set; }
+        public string docid { get; set; }
+        public string docdate { get; set; }
+        public string start { get; set; }
+        public string last { get; set; }
+        public string prefix { get; set; }
+        public string location { get; set; }
+        public string totdrum { get; set; }
+        public string viewrow { get; set; }
+        public string delrow { get; set; }
+    
 
     }
 }
