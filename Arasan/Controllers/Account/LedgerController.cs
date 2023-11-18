@@ -43,7 +43,7 @@ namespace Arasan.Controllers
                 if (dt.Rows.Count > 0)
                 {
                     ca.AType = dt.Rows[0]["ACCOUNTTYPE"].ToString();
-                    ca.AccGrouplst = BindAccGroup(ca.AType);
+                    ca.AccGrouplst = BindAccGroup(dt.Rows[0]["ACCOUNTTYPEID"].ToString());
                     ca.AccGroup = dt.Rows[0]["ACCOUNTGROUP"].ToString();
                     ca.LedName = dt.Rows[0]["LEDNAME"].ToString();
                     ca.OpStock = dt.Rows[0]["OPSTOCK"].ToString();
