@@ -28,4 +28,16 @@ namespace Arasan.Models
         public string Status { get; set; }
         public string status { get; set; }
     }
+    
+    
+    public class AType
+    {
+        public string accountclass { get; set; }
+        public string id { get; set; }
+        public string accountCode { get; set; }
+        public string accounttype { get; set; }
+        public string editrow { get; set; }
+        public string delrow { get; set; }
+
+    }
 }

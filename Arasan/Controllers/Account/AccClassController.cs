@@ -81,10 +81,10 @@ namespace Arasan.Controllers
             return View(AC);
         }
        
-        public IActionResult ListAccClass(string active)
+        public IActionResult ListAccClass(/*string active*/)
         {
-            IEnumerable<AccClass> cmp = AccClassService.GetAllAccClass(active);
-            return View(cmp);
+            //IEnumerable<AccClass> cmp = AccClassService.GetAllAccClass(active);
+            return View(/*cmp*/);
         }
 
         //public List<SelectListItem> BindATypelst()
@@ -136,6 +136,38 @@ namespace Arasan.Controllers
             }
         }
 
+        public ActionResult MyListItemgrid()
+        {
+            List<AClass> Reg = new List<AClass>();
+            DataTable dtUsers = new DataTable();
+
+            dtUsers = AccClassService.GetAllClass();
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+
+                string DeleteRow = string.Empty;
+                string EditRow = string.Empty;
+
+                EditRow = "<a href=AccClass?id=" + dtUsers.Rows[i]["ACCCLASSID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["ACCCLASSID"].ToString() + ")'><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                Reg.Add(new AClass
+                {
+                    id = dtUsers.Rows[i]["ACCCLASSID"].ToString(),
+                    accountclass = dtUsers.Rows[i]["ACCCLASS_CODE"].ToString(),
+                    accounttype = dtUsers.Rows[i]["ACCOUNT_CLASS"].ToString(),
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
+        }
 
     }
 }

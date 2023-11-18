@@ -29,6 +29,8 @@ namespace Arasan.Interface
         DataTable GetConfigItem(string id);
 
         DataTable GetConfig(string id);
+
+        DataTable GetAllConfig();
     }
 }
 

@@ -14,5 +14,7 @@ namespace Arasan.Interface
         DataTable GetType();
         string StatusChange(string tag, int id);
         string RemoveChange(string tag, int id);
+
+        DataTable GetAllType();
     }
 }

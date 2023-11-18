@@ -131,6 +131,16 @@ namespace Arasan.Services
             return dtt;
         }
 
+        public DataTable GetAllType()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select  ACCOUNTTYPEID,ACCOUNTCLASS,ACCOUNTCODE,ACCOUNTTYPE from ACCTYPE  ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public DataTable GetType()
         {
             string SvSql = string.Empty;

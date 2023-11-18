@@ -184,5 +184,16 @@ namespace Arasan.Services
             return "";
 
         }
+
+        public DataTable GetAllClass()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select ACCCLASSID,ACCCLASS_CODE,ACCOUNT_CLASS from ACCCLASS  ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
     }
 }

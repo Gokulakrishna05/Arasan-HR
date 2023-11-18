@@ -211,7 +211,7 @@ namespace Arasan.Services
         public DataTable Getledger()
         {
             string SvSql = string.Empty;
-            SvSql = "select LEDNAME,LEDGERID from ACCLEDGER where ACCLEDGER.STATUS = 'Active'";
+            SvSql = "select LEDNAME,LEDGERID from ACCLEDGER";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -292,6 +292,18 @@ namespace Arasan.Services
         {
             string SvSql = string.Empty;
             SvSql = "Select ADTYPE,ADNAME,ADSCHEMENAME,ACCLEDGER.LEDNAME from ADCOMPD LEFT OUTER JOIN ACCLEDGER ON ACCLEDGER.LEDGERID = ADCOMPD.ADACCOUNT where ADCOMPD.ADCOMPHID= '" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetAllConfig()
+        {
+            string SvSql = string.Empty;
+            //SvSql = "Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMCODE,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MAXSTOCKLVL,MINSTOCKLVL,CONVERAT,UOM,HSN,SELLINGPRICE,ITEMMASTERID from ITEMMASTER";
+            SvSql = "Select ADSCHEMEDESC,ADSCHEME,ADTRANSDESC,ADTRANSID,ADCOMPHID FROM ADCOMPH ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
