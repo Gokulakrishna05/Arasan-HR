@@ -387,21 +387,21 @@ namespace Arasan.Controllers.Master
                 string EditRow = string.Empty;
 
                 EditRow = "<a href=ItemName?id=" + dtUsers.Rows[i]["ITEMMASTERID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                DeleteRow = "<a href=ItemName?tag=Del&id=" + dtUsers.Rows[i]["ITEMMASTERID"].ToString() + ")'><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["ITEMMASTERID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
 
                 Reg.Add(new ItemList
                 {
                     id = dtUsers.Rows[i]["ITEMMASTERID"].ToString(),
                     itemgroup = dtUsers.Rows[i]["IGROUP"].ToString(),
                     itemsubgroup = dtUsers.Rows[i]["ISUBGROUP"].ToString(),
-                    itemcode = dtUsers.Rows[i]["ITEMCODE"].ToString(),
+                  //  itemcode = dtUsers.Rows[i]["ITEMCODE"].ToString(),
                     itemname = dtUsers.Rows[i]["ITEMID"].ToString(),
                     //Reorderqu = dtUsers.Rows[i]["REORDERQTY"].ToString(),
                     //Reorderlvl = dtUsers.Rows[i]["REORDERLVL"].ToString(),
                     //Maxlvl = dtUsers.Rows[i]["MAXSTOCKLVL"].ToString(),
                     //Minlvl = dtUsers.Rows[i]["MINSTOCKLVL"].ToString(),
-                    cf = dtUsers.Rows[i]["CONVERAT"].ToString(),
-                    uom = dtUsers.Rows[i]["UOM"].ToString(),
+                  //  cf = dtUsers.Rows[i]["CONVERAT"].ToString(),
+                  //  uom = dtUsers.Rows[i]["UOM"].ToString(),
                     hsncode = dtUsers.Rows[i]["HSN"].ToString(),
                     //sellingprice = dtUsers.Rows[i]["SELLINGPRI"].ToString(),
                     editrow = EditRow,
@@ -416,6 +416,15 @@ namespace Arasan.Controllers.Master
             });
 
         }
+
+        public ActionResult DeleteItem(string tag, int id)
+        {
+            //EnquiryList eqgl = new EnquiryList();
+            //eqgl.StatusChange(tag, id);
+            return RedirectToAction("ListItem");
+
+        }
+       
         public JsonResult GetItemGrpJSON()
         {
            //EnqItem model = new EnqItem();
