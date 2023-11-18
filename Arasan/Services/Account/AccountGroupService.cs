@@ -154,7 +154,17 @@ namespace Arasan.Services
         public DataTable GetAccountGroup(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select ACCGROUPID,BRANCHID,ACCOUNTGROUP,ACCOUNTTYPE,GROUPCODE,DISPLAY_NAME FROM ACCGROUP where ACCGROUPID='" + id + "' ";
+            SvSql = "Select BRANCHID,ACCOUNTGROUP,ACCOUNTTYPE,GROUPCODE,DISPLAY_NAME FROM ACCGROUP where ACCGROUPID='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetAllAGroup()
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select ACCGROUPID,BRANCHID,ACCOUNTGROUP,ACCTYPE.ACCOUNTTYPE,GROUPCODE,DISPLAY_NAME FROM ACCGROUP LEFT OUTER JOIN ACCTYPE ON ACCOUNTTYPEID =ACCGROUP.ACCOUNTTYPE ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

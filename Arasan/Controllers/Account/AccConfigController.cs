@@ -40,6 +40,7 @@ namespace Arasan.Controllers
                     tda = new ConfigItem();
 
                     tda.ledlst = Bindledlst();
+                    //tda.tarifflst = Bindtarifflst();
                     tda.Isvalid = "Y";
                     TData.Add(tda);
                 }
@@ -122,10 +123,10 @@ namespace Arasan.Controllers
             return View(Cy);
         }
 
-        public IActionResult ListAccConfig(string Active)
+        public IActionResult ListAccConfig(/*string Active*/)
         {
-            IEnumerable<AccConfig> cmp = AccConfigService.GetAllAccConfig(Active);
-            return View(cmp);
+            //IEnumerable<AccConfig> cmp = AccConfigService.GetAllAccConfig(Active);
+            return View(/*cmp*/);
         }
 
 
@@ -299,47 +300,43 @@ namespace Arasan.Controllers
             return View(ac);
         }
 
-        //public ActionResult MyListItemgrid()
-        //{
-        //    List<AccConfig> Reg = new List<AccConfig>();
-        //    DataTable dtUsers = new DataTable();
+        public ActionResult MyListItemgrid()
+        {
+            List<Config> Reg = new List<Config>();
+            DataTable dtUsers = new DataTable();
 
-        //    dtUsers = AccConfigService.GetAllItems();
-        //    for (int i = 0; i < dtUsers.Rows.Count; i++)
-        //    {
+            dtUsers = AccConfigService.GetAllConfig();
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
 
-        //        string DeleteRow = string.Empty;
-        //        string EditRow = string.Empty;
+                string DeleteRow = string.Empty;
+                string EditRow = string.Empty;
+                string ViewRow = string.Empty;
 
-        //        EditRow = "<a href=ItemName?id=" + dtUsers.Rows[i]["ADCOMPHID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-        //        DeleteRow = "<a href=ItemName?tag=Del&id=" + dtUsers.Rows[i]["ADCOMPHID"].ToString() + ")'><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                ViewRow = "<a href=AccConfig?id=" + dtUsers.Rows[i]["ADCOMPHID"].ToString() + "><img src='../Images/view_icon.png' alt='View' /></a>";
+                EditRow = "<a href=AccConfig?id=" + dtUsers.Rows[i]["ADCOMPHID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["ADCOMPHID"].ToString() + ")'><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
 
-        //        Reg.Add(new ListAccConfig
-        //        {
-        //            id = dtUsers.Rows[i]["ADCOMPHID"].ToString(),
-        //            itemgroup = dtUsers.Rows[i]["IGROUP"].ToString(),
-        //            itemsubgroup = dtUsers.Rows[i]["ISUBGROUP"].ToString(),
-        //            itemcode = dtUsers.Rows[i]["ITEMCODE"].ToString(),
-        //            itemname = dtUsers.Rows[i]["ITEMID"].ToString(),
-        //            //Reorderqu = dtUsers.Rows[i]["REORDERQTY"].ToString(),
-        //            //Reorderlvl = dtUsers.Rows[i]["REORDERLVL"].ToString(),
-        //            //Maxlvl = dtUsers.Rows[i]["MAXSTOCKLVL"].ToString(),
-        //            //Minlvl = dtUsers.Rows[i]["MINSTOCKLVL"].ToString(),
-        //            cf = dtUsers.Rows[i]["CONVERAT"].ToString(),
-        //            uom = dtUsers.Rows[i]["UOM"].ToString(),
-        //            hsncode = dtUsers.Rows[i]["HSN"].ToString(),
-        //            //sellingprice = dtUsers.Rows[i]["SELLINGPRI"].ToString(),
-        //            editrow = EditRow,
-        //            delrow = DeleteRow,
+                Reg.Add(new Config
+                {
+                    id = dtUsers.Rows[i]["ADCOMPHID"].ToString(),
+                    schemedes = dtUsers.Rows[i]["ADSCHEMEDESC"].ToString(),
+                    scheme = dtUsers.Rows[i]["ADSCHEME"].ToString(),
+                    transactionName = dtUsers.Rows[i]["ADTRANSDESC"].ToString(),
+                    transactionid = dtUsers.Rows[i]["ADTRANSID"].ToString(),
 
-        //        });
-        //    }
+                    viewrow = ViewRow,
+                    editrow = EditRow,
+                    delrow = DeleteRow,
 
-        //    return Json(new
-        //    {
-        //        Reg
-        //    });
+                });
+            }
 
-        //}
+            return Json(new
+            {
+                Reg
+            });
+
+        }
     }
 }

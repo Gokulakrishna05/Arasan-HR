@@ -127,8 +127,8 @@ namespace Arasan.Controllers
         }
         public IActionResult ListAccountGroup()
         {
-            IEnumerable<AccountGroup> cmp = accountGroup.GetAllAccountGroup();
-            return View(cmp);
+            //IEnumerable<AccountGroup> cmp = accountGroup.GetAllAccountGroup();
+            return View(/*cmp*/);
         }
         public List<SelectListItem> BindBranch()
         {
@@ -243,5 +243,44 @@ namespace Arasan.Controllers
         //        throw ex;
         //    }
         //}
+        public ActionResult MyListItemgrid()
+        {
+            List<AGroup> Reg = new List<AGroup>();
+            DataTable dtUsers = new DataTable();
+
+            dtUsers = accountGroup.GetAllAGroup();
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+
+                string DeleteRow = string.Empty;
+                string EditRow = string.Empty;
+                
+
+                EditRow = "<a href=AccountGroup?id=" + dtUsers.Rows[i]["ACCGROUPID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["ACCGROUPID"].ToString() + ")'><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                Reg.Add(new AGroup
+                {
+                    //id = Convert.ToDouble(dtUsers.Rows[i]["ACCGROUPID"].ToString(),
+                    id = dtUsers.Rows[i]["ACCGROUPID"].ToString(),
+                    
+                    
+                    atype = dtUsers.Rows[i]["ACCOUNTTYPE"].ToString(),
+                    accgroup = dtUsers.Rows[i]["ACCOUNTGROUP"].ToString(),
+                    gcode = dtUsers.Rows[i]["GROUPCODE"].ToString(),
+                    display = dtUsers.Rows[i]["DISPLAY_NAME"].ToString(),
+
+                    editrow = EditRow,
+                    delrow = DeleteRow
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
+        }
     }
 }

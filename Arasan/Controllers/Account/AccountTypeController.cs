@@ -88,10 +88,10 @@ namespace Arasan.Controllers
             return View(AG);
         }
 
-        public IActionResult ListAccountType(string status)
+        public IActionResult ListAccountType(/*string status*/)
         {
-            IEnumerable<AccountType> cmp = AccountTypeService.GetAllAccountType(status);
-            return View(cmp);
+            //IEnumerable<AccountType> cmp = AccountTypeService.GetAllAccountType(status);
+            return View(/*cmp*/);
         }
 
         public static string GetNumberwithPrefix(int AccountCode, int totalchar)
@@ -151,5 +151,39 @@ namespace Arasan.Controllers
             }
         }
 
+        public ActionResult MyListItemgrid()
+        {
+            List<AType> Reg = new List<AType>();
+            DataTable dtUsers = new DataTable();
+
+            dtUsers = AccountTypeService.GetAllType();
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+
+                string DeleteRow = string.Empty;
+                string EditRow = string.Empty;
+                
+
+                EditRow = "<a href=AccountType?id=" + dtUsers.Rows[i]["ACCOUNTTYPEID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["ACCOUNTTYPEID"].ToString() + ")'><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                Reg.Add(new AType
+                {
+                    id = dtUsers.Rows[i]["ACCOUNTTYPEID"].ToString(),
+                    accountclass = dtUsers.Rows[i]["ACCOUNTCLASS"].ToString(),
+                    accounttype = dtUsers.Rows[i]["ACCOUNTTYPE"].ToString(),
+                    accountCode = dtUsers.Rows[i]["ACCOUNTCODE"].ToString(),
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
+        }
     }
 }
