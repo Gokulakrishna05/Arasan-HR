@@ -43,7 +43,7 @@ namespace Arasan.Models
         public double DelCh { get; set; }
         public string status { get; set; }
         public string Narration { get; set; }
-
+        public string ddlStatus { get; set; }
 
 
     }
