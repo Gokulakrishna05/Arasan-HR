@@ -185,11 +185,11 @@ namespace Arasan.Controllers
 
             return View(Cy);
         }
-        public ActionResult MyListDirectPurchaseGrid()
+        public ActionResult MyListDirectPurchaseGrid(string strStatus)
         {
             List<DirectPurchaseItems> Reg = new List<DirectPurchaseItems>();
             DataTable dtUsers = new DataTable();
-
+            strStatus = strStatus == "" ? "Y" : strStatus;
             dtUsers = (DataTable)directPurchase.GetAllDirectPurchases();
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
@@ -199,7 +199,7 @@ namespace Arasan.Controllers
                
                 MailRow = "<a href=DirectPurchase?tag=Del&id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + ")'><img src='../Images/mail_icon.png' alt='Send Email' /></a>";
                 EditRow = "<a href=DirectPurchase?id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + ")'><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
                 
 
                 Reg.Add(new DirectPurchaseItems
@@ -223,6 +223,28 @@ namespace Arasan.Controllers
             });
 
         }
+        public ActionResult DeleteItem(string tag, string id)
+        {
+
+            string flag = directPurchase.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListDirectPurchase");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListDirectPurchase");
+            }
+        }
+        //public ActionResult DeleteItem(string tag, string id)
+        //{
+        //    //EnquiryList eqgl = new EnquiryList();
+        //    //eqgl.StatusChange(tag, id);
+        //    return RedirectToAction("ListDirectPurchase");
+
+        //}
         public ActionResult GetDocidDetail(string locid)
         {
             try
@@ -444,20 +466,6 @@ namespace Arasan.Controllers
             return View();
         }
 
-        public ActionResult DeleteMR(string tag, int id)
-        {
-
-            string flag = directPurchase.StatusChange(tag, id);
-            if (string.IsNullOrEmpty(flag))
-            {
-
-                return RedirectToAction("ListDirectPurchase");
-            }
-            else
-            {
-                TempData["notice"] = flag;
-                return RedirectToAction("ListDirectPurchase");
-            }
-        }
+       
     }
 }
