@@ -190,14 +190,14 @@ namespace Arasan.Controllers
             List<DirectPurchaseItems> Reg = new List<DirectPurchaseItems>();
             DataTable dtUsers = new DataTable();
             strStatus = strStatus == "" ? "Y" : strStatus;
-            dtUsers = (DataTable)directPurchase.GetAllDirectPurchases();
+            dtUsers = (DataTable)directPurchase.GetAllDirectPurchases(strStatus);
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
                 string MailRow = string.Empty;
                 string DeleteRow = string.Empty;
                 string EditRow = string.Empty;
                
-                MailRow = "<a href=DirectPurchase?tag=Del&id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + ")'><img src='../Images/mail_icon.png' alt='Send Email' /></a>";
+                MailRow = "<a href=DirectPurchase?tag=Del&id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + "><img src='../Images/mail_icon.png' alt='Send Email' /></a>";
                 EditRow = "<a href=DirectPurchase?id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
                 DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
                 
