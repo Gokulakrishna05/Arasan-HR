@@ -179,16 +179,46 @@ namespace Arasan.Services
             return msg;
         }
 
-        public DataTable GetAllPackDerum()
+        public DataTable GetAllPackDerum(string strStatus)
         {
             string SvSql = string.Empty;
-            SvSql = "select DOCID,to_char(DOCDATE,'dd-MON-yyyy')DOCDATE,PDABASICID,BRANCH,ITEMID,LOCDETAILS.LOCID,PACKLOCID,STOCK ,STARTNO,LASTNO,USERID,ENTEREDBY,SPREFIX,TOTDRUMS from PDABASIC LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID=PDABASIC.PACKLOCID ORDER BY  PDABASICID DESC";
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "select DOCID,to_char(DOCDATE,'dd-MON-yyyy')DOCDATE,PDABASICID,BRANCH,ITEMID,LOCDETAILS.LOCID,PACKLOCID,STOCK ,STARTNO,LASTNO,USERID,ENTEREDBY,SPREFIX,TOTDRUMS from PDABASIC LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID=PDABASIC.PACKLOCID WHERE IS_ACTIVE='Y' ORDER BY  PDABASICID DESC";
+            }
+            else
+            {
+                SvSql = "select DOCID,to_char(DOCDATE,'dd-MON-yyyy')DOCDATE,PDABASICID,BRANCH,ITEMID,LOCDETAILS.LOCID,PACKLOCID,STOCK ,STARTNO,LASTNO,USERID,ENTEREDBY,SPREFIX,TOTDRUMS from PDABASIC LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID=PDABASIC.PACKLOCID WHERE IS_ACTIVE='N' ORDER BY  PDABASICID DESC";
 
+            }
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
+        }
+        public string StatusChange(string tag, string id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE PDABASIC SET IS_ACTIVE ='N' WHERE PDABASICID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
         }
     }
 }
