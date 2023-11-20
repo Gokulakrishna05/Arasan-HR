@@ -149,7 +149,7 @@ namespace Arasan.Controllers
                 string EditRow = string.Empty;
 
                 EditRow = "<a href=AccClass?id=" + dtUsers.Rows[i]["ACCCLASSID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["ACCCLASSID"].ToString() + ")'><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["ACCCLASSID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
 
                 Reg.Add(new AClass
                 {

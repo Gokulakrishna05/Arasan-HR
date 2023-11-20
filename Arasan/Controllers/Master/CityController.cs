@@ -22,6 +22,7 @@ namespace Arasan.Controllers.Master
           
             st.cuntylst = BindCountry();
             st.sta = BindState("");
+            st.createdby = Request.Cookies["UserId"];
 
             if (id == null)
             {
@@ -84,10 +85,10 @@ namespace Arasan.Controllers.Master
 
             return View(ss);
         }
-        public IActionResult ListCity(string status)
+        public IActionResult ListCity(/*string status*/)
         {
-            IEnumerable<City> sta = city.GetAllCity(status);
-            return View(sta);
+            //IEnumerable<City> sta = city.GetAllCity(status);
+            return View(/*sta*/);
         }
        
         public List<SelectListItem> BindCountry()
@@ -161,6 +162,40 @@ namespace Arasan.Controllers.Master
                 TempData["notice"] = flag;
                 return RedirectToAction("ListCity");
             }
+        }
+
+        public ActionResult MyListItemgrid()
+        {
+            List<Citygrid> Reg = new List<Citygrid>();
+            DataTable dtUsers = new DataTable();
+
+            dtUsers = city.GetAllCity();
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+
+                string DeleteRow = string.Empty;
+                string EditRow = string.Empty;
+
+                EditRow = "<a href=city?id=" + dtUsers.Rows[i]["CITYID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["CITYID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                Reg.Add(new Citygrid
+                {
+                    id = dtUsers.Rows[i]["CITYID"].ToString(),
+                    countryid = dtUsers.Rows[i]["COUNTRY"].ToString(),
+                    state = dtUsers.Rows[i]["STATEID"].ToString(),
+                    cit = dtUsers.Rows[i]["CITYNAME"].ToString(),
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
         }
     }
 }

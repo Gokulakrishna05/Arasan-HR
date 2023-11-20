@@ -25,6 +25,10 @@ namespace Arasan.Models
         public List<SelectListItem> IGstlst;
         public string IGst { get; set; }
         public string status { get; set; }
+        public string createby { get; set; }
+        public string createon { get; set; }
+        public string updateon { get; set; }
+        public string updateby { get; set; }
 
         public List<HSNItem> hsnlst { get; set; }
     }

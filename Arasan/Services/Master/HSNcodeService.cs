@@ -85,7 +85,19 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("HSNCODE", OracleDbType.NVarchar2).Value = ss.HCode;
                     objCmd.Parameters.Add("DESCRIPTION", OracleDbType.NVarchar2).Value = ss.Dec;
 
-                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
+                    objCmd.Parameters.Add("ISACTIVE", OracleDbType.NVarchar2).Value = "Y";
+                    if (ss.ID == null)
+                    {
+                       
+                        objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                        objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = ss.createby;
+                    }
+                    else
+                    {
+                        objCmd.Parameters.Add("UPDATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                        objCmd.Parameters.Add("UPDATED_BY", OracleDbType.NVarchar2).Value = ss.createby;
+                    }
+                   
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
@@ -149,7 +161,7 @@ namespace Arasan.Services.Master
         public DataTable GettariffItem(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select ETARIFFMASTER.TARIFFID from HSNROW  LEFT OUTER JOIN ETARIFFMASTER ON ETARIFFMASTER.ETARIFFMASTERID = HSNROW.TARIFFID where HSNROW.HSNCODEID = '" + id + "' ";
+            SvSql = "select TARIFFID from HSNROW where HSNROW.HSNCODEID = '" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -180,7 +192,7 @@ namespace Arasan.Services.Master
         public DataTable Gethsncode()
         {
             string SvSql = string.Empty;
-            SvSql = "Select HSNCODEID,HSNCODE,DESCRIPTION from HSNCODE  Order by HSNCODEID DESC ";
+            SvSql = "Select HSNCODEID,HSNCODE,DESCRIPTION from HSNCODE WHERE ISACTIVE='Y' Order by HSNCODEID DESC  ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -239,7 +251,7 @@ namespace Arasan.Services.Master
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE HSNCODE SET STATUS ='INACTIVE' WHERE HSNCODEID='" + id + "'";
+                    svSQL = "UPDATE HSNCODE SET ISACTIVE ='N' WHERE HSNCODEID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -262,7 +274,7 @@ namespace Arasan.Services.Master
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE HSNCODE SET STATUS ='ACTIVE' WHERE HSNCODEID='" + id + "'";
+                    svSQL = "UPDATE HSNCODE SET ISACTIVE ='Y' WHERE HSNCODEID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();

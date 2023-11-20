@@ -8,6 +8,7 @@ using System.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 using Newtonsoft.Json.Linq;
+using DocumentFormat.OpenXml.Bibliography;
 //using PdfSharp.Pdf.Content.Objects;
 
 
@@ -95,8 +96,8 @@ namespace Arasan.Controllers
         }
         public IActionResult ListSequence()
         {
-            IEnumerable<Sequence> cmp = sequence.GetAllSequence();
-            return View(cmp);
+            //IEnumerable<Sequence> cmp = sequence.GetAllSequence();
+            return View(/*cmp*/);
         }
         public ActionResult DeleteSeq(string tag, int id)
         {
@@ -112,6 +113,43 @@ namespace Arasan.Controllers
                 TempData["notice"] = flag;
                 return RedirectToAction("ListSequence");
             }
+        }
+
+        public ActionResult MyListItemgrid()
+        {
+            List<Sequencegrid> Reg = new List<Sequencegrid>();
+            DataTable dtUsers = new DataTable();
+
+            dtUsers = sequence.GetAllSeq();
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+
+                string DeleteRow = string.Empty;
+                string EditRow = string.Empty;
+
+                EditRow = "<a href=Sequence?id=" + dtUsers.Rows[i]["SEQUENCEID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=DeleteSeq?tag=Del&id=" + dtUsers.Rows[i]["SEQUENCEID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                Reg.Add(new Sequencegrid
+                {
+                    id = dtUsers.Rows[i]["SEQUENCEID"].ToString(),
+                    prefix = dtUsers.Rows[i]["PREFIX"].ToString(),
+                    trans = dtUsers.Rows[i]["TRANSTYPE"].ToString(),
+                    last = dtUsers.Rows[i]["LASTNO"].ToString(),
+                    des = dtUsers.Rows[i]["DESCRIPTION"].ToString(),
+                    start = dtUsers.Rows[i]["STDATE"].ToString(),
+                    end = dtUsers.Rows[i]["EDDATE"].ToString(),
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
         }
 
     }

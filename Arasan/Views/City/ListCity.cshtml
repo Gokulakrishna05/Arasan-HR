@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Arasan.Models.City>
+﻿@model Arasan.Models.City
 
 @{
     ViewData["Title"] = "City";
@@ -6,6 +6,7 @@
     string Qid = string.Empty;
     if (!string.IsNullOrEmpty(query)) { Qid = ViewContext.HttpContext.Request.Query["status"]; }
 }
+<partial name="JqxGridPartial" />
 
 <script type="text/javascript">
     @if (TempData["notice"] != null)
@@ -24,6 +25,65 @@
     </div>
 </div>
 
+<script type="text/javascript">
+    $(document).ready(function () {
+        var source =
+        {
+            url: "/City/MyListItemgrid",
+
+            datatype: "json",
+            updaterow: function (rowid, rowdata) {
+                // synchronize with the server - send update command
+            },
+            datafields: [
+                { name: 'countryid', type: 'string' },
+                { name: 'state', type: 'string' },
+                { name: 'cit', type: 'string' },
+                { name: 'editrow', type: 'string' },
+                { name: 'delrow', type: 'string' },
+
+
+            ],
+            id: 'id',
+        };
+        var dataAdapter = new $.jqx.dataAdapter(source,
+            { contentType: 'application/json; charset=utf-8' }, {
+            loadComplete: function () {
+
+            }
+        }
+        );
+
+        $("#grid").jqxGrid(
+            {
+                width: '100%',
+                source: dataAdapter,
+                height: 510,
+                source: source,
+                sortable: true,
+                filterable: true,
+                groupable: false,
+                pageable: true,
+                showfilterrow: true,
+
+                enablebrowserselection: true,
+
+                theme: 'energyblue',
+                enablebrowserselection: true,
+
+                columns: [
+
+                    { text: 'Country Name', datafield: 'countryid', width: 200 },
+                    { text: 'State Name', datafield: 'state', width: 200 },
+                    { text: 'City Name', datafield: 'cit', width: 300 },
+                    { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                ]
+            });
+
+    });
+</script>
+
 <div class="wrapper-content ">
     <div class="row">
         <div class="col-lg-12">
@@ -31,14 +91,15 @@
                 <div class="widgets-container">
 
                     <form>
-                        <div class="row">
-                            <div class="col-md-6 ">
+                        @*<div class="row">*@
+                            @*<div class="col-md-6 ">
                                 <select style='width: 200px;' class='form-control  newcss' id="dllstatus" onchange="changeStatus(this.value)">
                                     <option value="" selected>Open</option>
                                     <option value='INACTIVE'>Close</option>
-                                    @* <option value='InActive'>Disabled</option>*@
                                 </select>
                             </div>
+                            </div>*@
+
                             <div class="col-md-12 ">
                                 <div class=" textalignright">
                                     <a href="@Url.Action("City","City")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add City</a>
@@ -46,79 +107,15 @@
                                 </div>
 
                             </div>
-                        </div>
 
                         <div class="row">
-                            <div class="col-lg-12">
-                                <div class="ibox float-e-margins">
-                                    <div class="ibox-content collapse in">
-                                        <div class="widgets-container">
-                                            <div>
-                                                <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>S.No</th>
-                                                            <th>Country Name</th>
-                                                            <th>State Name</th>
-                                                            <th>City Name</th>
-                                                           
 
-                                                            <th>Edit</th>
-                                                            <th>Close</th>
-                                                        </tr>
-                                                    </thead>
-
-                                                    <tbody>
-                                                        @{
-                                                            int i = 1;
-
-                                                            foreach (var item in Model)
-                                                            {
-                                                        <tr>
-
-                                                                    <td>@i</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.countryid)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.State)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.Cit)</td>
-                                                                    @if (item.status == "INACTIVE")
-                                                                    {
-                                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("City", "City",new { id=item.ID })"></a></div></td>
-                                                                        <td> <a href="@Url.Action("Remove","City",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
-
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("City", "City",new { id=item.ID })"></a></div></td>
-                                                                    <td> <a href="@Url.Action("DeleteMR","City",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
-                                                                    }
-                                                                </tr>
-                                                                i++;
-                                                            }
-                                                        }
-
-                                                        @*
-                                                        <tr>
-                                                            <td>2</td>
-                                                            <td>Chennai</td>
-                                                          
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("City", "City")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("City", "City")"></a></div></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>3</td>
-                                                            <td>Virudhunagar</td>
-                                                            
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("City", "City")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("City", "City")"></a></div></td>
-                                                        </tr>*@
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <div class="col-md-12 ">
+                                <div id="grid">
                                 </div>
                             </div>
                         </div>
+                        
                     </form>
                 </div>
             </div>

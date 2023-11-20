@@ -21,7 +21,21 @@ namespace Arasan.Models
 
         public List<SelectListItem> cuntylst;
         public String countryid { get; set; }
+        public String createdby { get; set; }
+       
 
 
     }
-}
+
+    public class Citygrid
+    {
+        public String id { get; set; }
+        public String countryid { get; set; }
+        public String state { get; set; }
+        public String cit { get; set; }
+        public String editrow { get; set; }
+        public String delrow { get; set; }
+
+    }
+
+    }

@@ -112,6 +112,18 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
+
+        public DataTable GetAllSeq()
+        {
+            string SvSql = string.Empty;
+            //SvSql = "Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMCODE,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MAXSTOCKLVL,MINSTOCKLVL,CONVERAT,UOM,HSN,SELLINGPRICE,ITEMMASTERID from ITEMMASTER";
+            SvSql = "Select PREFIX,TRANSTYPE,DESCRIPTION,LASTNO,to_char(STDATE,'dd-MON-yyyy')STDATE,to_char(EDDATE,'dd-MON-yyyy')EDDATE,SEQUENCEID from SEQUENCE  WHERE ACTIVE = 'Yes' ORDER BY SEQUENCEID DESC";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
         public string StatusChange(string tag, int id)
         {
 
