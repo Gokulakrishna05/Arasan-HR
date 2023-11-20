@@ -30,7 +30,7 @@ namespace Arasan.Interface
 
         string StatusChange(string tag, string id);
         DataTable GetVocher();
-        DataTable GetAllDirectPurchases();
+        DataTable GetAllDirectPurchases(string id);
         DataTable GetItem();
     }
 }
