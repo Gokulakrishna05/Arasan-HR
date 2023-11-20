@@ -15,6 +15,7 @@ namespace Arasan.Interface.Master
         DataTable Getcountry();
         string StatusChange(string tag, int id);
         string RemoveChange(string tag, int id);
+        DataTable GetAllCity();
 
     }
 }

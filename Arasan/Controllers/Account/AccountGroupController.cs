@@ -257,7 +257,7 @@ namespace Arasan.Controllers
                 
 
                 EditRow = "<a href=AccountGroup?id=" + dtUsers.Rows[i]["ACCGROUPID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["ACCGROUPID"].ToString() + ")'><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["ACCGROUPID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
 
                 Reg.Add(new AGroup
                 {

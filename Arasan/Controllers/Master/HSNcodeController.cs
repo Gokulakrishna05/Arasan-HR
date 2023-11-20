@@ -20,6 +20,7 @@ namespace Arasan.Controllers.Master
         public IActionResult HSNcode(string id)
         {
             HSNcode st = new HSNcode();
+            st.createby = Request.Cookies["UserId"];
             //st.CGstlst = BindCGst();
             //st.SGstlst = BindSGst();
             //st.IGstlst = BindIGst();
@@ -62,7 +63,7 @@ namespace Arasan.Controllers.Master
                     for (int i = 0; i < dt2.Rows.Count; i++)
                     {
                         tda = new HSNItem();
-                        double toaamt = 0;
+                        //double toaamt = 0;
                         tda.tarifflst = Bindtarifflst();
                         tda.tariff = dt2.Rows[i]["TARIFFID"].ToString();
                         
@@ -240,7 +241,7 @@ namespace Arasan.Controllers.Master
                 string EditRow = string.Empty;
 
                 EditRow = "<a href=HSNcode?id=" + dtUsers.Rows[i]["HSNCODEID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                DeleteRow = "<a href=HSNcode?tag=Del&id=" + dtUsers.Rows[i]["HSNCODEID"].ToString() + ")'><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["HSNCODEID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
 
 
                 Reg.Add(new HsnList

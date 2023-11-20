@@ -222,7 +222,7 @@ namespace Arasan.Services
         public DataTable GetAccConfigItem(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select ADTYPE,ADNAME,ADSCHEMENAME,ACCLEDGER.LEDNAME from ADCOMPD LEFT OUTER JOIN ACCLEDGER ON ACCLEDGER.LEDGERID = ADCOMPD.ADACCOUNT where ADCOMPD.ADCOMPHID= '" + id + "' ";
+            SvSql = "Select ADTYPE,ADNAME,ADSCHEMENAME,ADACCOUNT from ADCOMPD where ADCOMPD.ADCOMPHID = '" + id + "' "; 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -303,7 +303,7 @@ namespace Arasan.Services
         {
             string SvSql = string.Empty;
             //SvSql = "Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMCODE,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MAXSTOCKLVL,MINSTOCKLVL,CONVERAT,UOM,HSN,SELLINGPRICE,ITEMMASTERID from ITEMMASTER";
-            SvSql = "Select ADSCHEMEDESC,ADSCHEME,ADTRANSDESC,ADTRANSID,ADCOMPHID FROM ADCOMPH ";
+            SvSql = "Select ADSCHEMEDESC,ADSCHEME,ADTRANSDESC,ADTRANSID,ADCOMPHID FROM ADCOMPH WHERE ACTIVE = 'Yes' ORDER BY ADCOMPHID DESC";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

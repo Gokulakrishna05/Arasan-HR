@@ -188,7 +188,7 @@ namespace Arasan.Services
         public DataTable GetAllClass()
         {
             string SvSql = string.Empty;
-            SvSql = "select ACCCLASSID,ACCCLASS_CODE,ACCOUNT_CLASS from ACCCLASS  ";
+            SvSql = "select ACCCLASSID,ACCCLASS_CODE,ACCOUNT_CLASS from ACCCLASS WHERE IS_ACTIVE = 'Y' ORDER BY ACCCLASSID DESC";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
