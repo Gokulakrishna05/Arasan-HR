@@ -29,7 +29,7 @@ namespace Arasan.Models
         public string End { get; set; }
         public string Pri { get; set; }
         public string Enter { get; set; }
- 
+        public string ddlStatus { get; set; }
         public string Totdrum { get; set; }
  
         public List<DrumCreate> drumlst { get; set; }

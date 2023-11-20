@@ -8,11 +8,13 @@ namespace Arasan.Interface
     {
        
         DataTable GetLoc();
-        DataTable GetAllPackDerum();
+        DataTable GetAllPackDerum(string strStatus);
         DataTable GetDetails(string id);
         DataTable GetPackDrum(string id);
         DataTable EditDrumDetail(string id);
 
         string PackDrumCRUD(PackDrumAllocation Cy);
+        string StatusChange(string tag, string id);
+
     }
 }

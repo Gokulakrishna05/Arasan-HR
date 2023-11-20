@@ -223,12 +223,12 @@ namespace Arasan.Controllers
         {
             return View();
         }
-        public ActionResult MyListItemgrid()
+        public ActionResult MyListItemgrid(string strStatus)
         {
             List<PackList> Reg = new List<PackList>();
             DataTable dtUsers = new DataTable();
-
-            dtUsers = Pack.GetAllPackDerum();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = Pack.GetAllPackDerum(strStatus);
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
 
@@ -236,7 +236,7 @@ namespace Arasan.Controllers
                 string View = string.Empty;
 
                 View = "<a href=ViewPackDrum?id=" + dtUsers.Rows[i]["PDABASICID"].ToString() + "><img src='../Images/view_icon.png' alt='View' /></a>";
-                DeleteRow = "<a href=ItemName?tag=Del&id=" + dtUsers.Rows[i]["PDABASICID"].ToString() + ")'><img src='../Images/Inactive.png' alt='Deactivate'  /></a>";
+                DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["PDABASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate'  /></a>";
 
                 Reg.Add(new PackList
                 {
@@ -260,6 +260,21 @@ namespace Arasan.Controllers
             {
                 Reg
             });
+
+        }
+        public ActionResult DeleteItem(string tag, string id)
+        {
+            string flag = Pack.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListPackDrum");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListPackDrum");
+            }
 
         }
         public IActionResult ViewPackDrum(string id)
