@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using Arasan.Interface;
 using Arasan.Interface.Master;
 using Arasan.Models;
-
+using Arasan.Services.Master;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Arasan.Controllers
 {
@@ -25,6 +27,7 @@ namespace Arasan.Controllers
             }
             else  
             {
+                //DataTable dt = new DataTable();
                 ic = CountryService.GetCountryById(id);
 
             }
@@ -68,10 +71,9 @@ namespace Arasan.Controllers
             return View(Ic);
         }
 
-        public IActionResult ListCountry(string status)
+        public IActionResult ListCountry()
         {
-            IEnumerable<Country> ic = CountryService.GetAllCountry(status);
-            return View(ic);
+            return View();
         }
 
         public ActionResult DeleteMR(string tag, int id)
@@ -104,5 +106,38 @@ namespace Arasan.Controllers
                 return RedirectToAction("ListCountry");
             }
         }
+        public ActionResult MyListItemgrid()
+        {
+            List<Countrygrid> Reg = new List<Countrygrid>();
+            DataTable dtUsers = new DataTable();
+
+            dtUsers = CountryService.GetAllCountryGRID();
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+
+                string DeleteRow = string.Empty;
+                string EditRow = string.Empty;
+
+                EditRow = "<a href=Country?id=" + dtUsers.Rows[i]["COUNTRYMASTID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["COUNTRYMASTID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                Reg.Add(new Countrygrid
+                {
+                    id = dtUsers.Rows[i]["COUNTRYMASTID"].ToString(),
+                    coname = dtUsers.Rows[i]["COUNTRY"].ToString(),
+                    concode = dtUsers.Rows[i]["COUNTRYCODE"].ToString(),
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
+        }
+
     }
 }

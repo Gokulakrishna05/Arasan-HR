@@ -53,6 +53,7 @@ namespace Arasan.Services.Master
             {
                 string StatementType = string.Empty;
                 string svSQL = "";
+                string sv = "";
                 if (ss.ID == null)
                 {
 
@@ -105,10 +106,14 @@ namespace Arasan.Services.Master
                         objConn.Open();
                         objCmd.ExecuteNonQuery();
                         Object Pid = objCmd.Parameters["OUTID"].Value;
-                        //string Pid = "0";
+
                         if (ss.ID != null)
                         {
                             Pid = ss.ID;
+
+                            sv = "DELETE HSNROW WHERE HSNCODEID = '" + Pid + "' ";
+                            OracleCommand objCmdd = new OracleCommand(sv, objConn);
+                            objCmdd.ExecuteNonQuery();
                         }
                         foreach (HSNItem cp in ss.hsnlst)
                         {
@@ -117,16 +122,10 @@ namespace Arasan.Services.Master
                                 using (OracleConnection objConns = new OracleConnection(_connectionString))
                                 {
                                     OracleCommand objCmds = new OracleCommand("HSNROWPROC", objConns);
-                                    if (ss.ID == null)
-                                    {
+                                   
                                         StatementType = "Insert";
                                         objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-                                    }
-                                    else
-                                    {
-                                        StatementType = "Update";
-                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = ss.ID;
-                                    }
+                                   
                                     objCmds.CommandType = CommandType.StoredProcedure;
                                     objCmds.Parameters.Add("HSNCODEID", OracleDbType.NVarchar2).Value = Pid;
                                     objCmds.Parameters.Add("TARIFFID", OracleDbType.NVarchar2).Value = cp.tariff;

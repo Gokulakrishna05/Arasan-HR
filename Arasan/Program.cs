@@ -171,10 +171,11 @@ internal class Program
         builder.Services.TryAddSingleton<IItemConversionEntryService,ItemConversionEntryService>();
         builder.Services.TryAddSingleton<IAccClass, AccClassService>();
         builder.Services.TryAddSingleton<IPackDrumAllocation, PackDrumAllocationService>();
+        builder.Services.TryAddSingleton<IETariff, ETariffService>();
 
 
 
- 
+
 
 
         builder.Services.AddSession();
