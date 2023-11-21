@@ -97,7 +97,18 @@ namespace Arasan.Services
 
                 string StatementType = string.Empty;
                 string svSQL = "";
+                string sv = "";
+                
+                if (cy.ID == null)
+                {
 
+                    svSQL = " SELECT Count(*) as cnt FROM ADCOMPH WHERE ADSCHEME =LTRIM(RTRIM('" + cy.Scheme + "')) ";
+                    if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "ETariff Already Existed";
+                        return msg;
+                    }
+                }
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("ACONFIGPROC", objConn);
@@ -138,10 +149,13 @@ namespace Arasan.Services
                         objConn.Open();
                         objCmd.ExecuteNonQuery();
                         Object Pid = objCmd.Parameters["OUTID"].Value;
-                        //string Pid = "0";
                         if (cy.ID != null)
                         {
                             Pid = cy.ID;
+
+                            sv = "DELETE ADCOMPD WHERE ADCOMPHID = '" + Pid + "' ";
+                            OracleCommand objCmdd = new OracleCommand(sv, objConn);
+                            objCmdd.ExecuteNonQuery();
                         }
                         foreach (ConfigItem cp in cy.ConfigLst)
                         {
@@ -150,16 +164,10 @@ namespace Arasan.Services
                                 using (OracleConnection objConns = new OracleConnection(_connectionString))
                                 {
                                     OracleCommand objCmds = new OracleCommand("ADCOMPD_PROC", objConns);
-                                    if (cy.ID == null)
-                                    {
+                                   
                                         StatementType = "Insert";
                                         objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-                                    }
-                                    else
-                                    {
-                                        StatementType = "Update";
-                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
-                                    }
+                                   
                                     objCmds.CommandType = CommandType.StoredProcedure;
                                     objCmds.Parameters.Add("ADCOMPHID", OracleDbType.NVarchar2).Value = Pid;
                                     objCmds.Parameters.Add("ADTYPE", OracleDbType.NVarchar2).Value = cp.Type;

@@ -1,52 +1,27 @@
 ﻿using Arasan.Interface;
+
+using Arasan.Interface.Master;
 using Arasan.Models;
+//using Arasan.Models.Master;
 using Microsoft.Extensions.Configuration;
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Data;
-namespace Arasan.Services
+
+namespace Arasan.Services.Master
 {
-    public class SequenceService : ISequence
+    public class ETariffService : IETariff
     {
         private readonly string _connectionString;
         DataTransactions datatrans;
-        public SequenceService(IConfiguration _configuratio)
+        public ETariffService(IConfiguration _configuration)
         {
-            _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
+            _connectionString = _configuration.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public IEnumerable<Sequence> GetAllSequence()
-        {
-            List<Sequence> cmpList = new List<Sequence>();
-            using (OracleConnection con = new OracleConnection(_connectionString))
-            {
 
-                using (OracleCommand cmd = con.CreateCommand())
-                {
-                    con.Open();
-                    cmd.CommandText = "Select PREFIX,TRANSTYPE,DESCRIPTION,LASTNO,to_char(STDATE,'dd-MON-yyyy')STDATE,to_char(EDDATE,'dd-MON-yyyy')EDDATE,SEQUENCEID from SEQUENCE where IS_ACTIVE='T' ORDER BY SEQUENCEID DESC";
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
-                    {
-                        Sequence cmp = new Sequence
-                        {
-                            ID = rdr["SEQUENCEID"].ToString(),
-                            Prefix = rdr["PREFIX"].ToString(),
-                            Trans = rdr["TRANSTYPE"].ToString(),
-                            Des = rdr["DESCRIPTION"].ToString(),
-                            Start = rdr["STDATE"].ToString(),
-                            End = rdr["EDDATE"].ToString(),
-                            Last = rdr["LASTNO"].ToString()
-
-                        };
-                        cmpList.Add(cmp);
-                    }
-                }
-            }
-            return cmpList;
-        }
-        public string SequenceCRUD(Sequence cy)
+        public string ETariffCRUD(ETariff cy)
         {
             string msg = "";
             try
@@ -55,18 +30,16 @@ namespace Arasan.Services
                 if (cy.ID == null)
                 {
 
-                    svSQL = " SELECT Count(*) as cnt FROM SEQUENCE WHERE PREFIX =LTRIM(RTRIM('" + cy.Prefix + "')) ";
+                    svSQL = " SELECT Count(*) as cnt FROM ETARIFFMASTER WHERE TARIFFID =LTRIM(RTRIM('" + cy.Tariff + "')) ";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
-                        msg = "SEQUENCE Already Existed";
+                        msg = "ETariff Already Existed";
                         return msg;
                     }
                 }
-
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
-                    OracleCommand objCmd = new OracleCommand("SEQUENCEPROC", objConn);
-
+                    OracleCommand objCmd = new OracleCommand("ETARIFFPROC", objConn);
 
                     objCmd.CommandType = CommandType.StoredProcedure;
                     if (cy.ID == null)
@@ -80,14 +53,13 @@ namespace Arasan.Services
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                     }
 
-                    objCmd.Parameters.Add("PREFIX", OracleDbType.NVarchar2).Value = cy.Prefix;
-                    objCmd.Parameters.Add("TRANSTYPE", OracleDbType.NVarchar2).Value = cy.Trans;
-                    objCmd.Parameters.Add("DESCRIPTION", OracleDbType.NVarchar2).Value = cy.Des;
-                   
-                    objCmd.Parameters.Add("STDATE", OracleDbType.NVarchar2).Value = cy.Start; 
-                    objCmd.Parameters.Add("EDDATE", OracleDbType.NVarchar2).Value = cy.End;
-                    objCmd.Parameters.Add("LASTNO", OracleDbType.NVarchar2).Value = cy.Last;
-                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "T";
+                    objCmd.Parameters.Add("TARIFFID", OracleDbType.NVarchar2).Value = cy.Tariff;
+                    objCmd.Parameters.Add("TARIFFDESC", OracleDbType.NVarchar2).Value = cy.Tariffdes;
+                    objCmd.Parameters.Add("SGST", OracleDbType.NVarchar2).Value = cy.Sgst;
+                    objCmd.Parameters.Add("CGST", OracleDbType.NVarchar2).Value = cy.Cgst;
+                    objCmd.Parameters.Add("IGST", OracleDbType.NVarchar2).Value = cy.Igst;
+
+                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
 
                     try
@@ -111,10 +83,21 @@ namespace Arasan.Services
 
             return msg;
         }
-        public DataTable GetSequence(string id)
+
+        public DataTable GetETariff(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select PREFIX,TRANSTYPE,DESCRIPTION,LASTNO,to_char(STDATE,'dd-MON-yyyy')STDATE,to_char(EDDATE,'dd-MON-yyyy')EDDATE,SEQUENCEID from SEQUENCE where SEQUENCEID=" + id + "";
+            SvSql = "SELECT TARIFFID,TARIFFDESC,SGST,CGST,IGST FROM ETARIFFMASTER WHERE ETARIFFMASTERID ='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetAllETariff()
+        {
+            string SvSql = string.Empty;
+            SvSql = "SELECT ETARIFFMASTERID,TARIFFID,TARIFFDESC,SGST,CGST,CGST FROM ETARIFFMASTER WHERE IS_ACTIVE = 'Y' ORDER BY ETARIFFMASTERID DESC";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -122,27 +105,15 @@ namespace Arasan.Services
             return dtt;
         }
 
-        public DataTable GetAllSeq()
-        {
-            string SvSql = string.Empty;
-            //SvSql = "Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMCODE,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MAXSTOCKLVL,MINSTOCKLVL,CONVERAT,UOM,HSN,SELLINGPRICE,ITEMMASTERID from ITEMMASTER";
-            SvSql = "Select PREFIX,TRANSTYPE,DESCRIPTION,LASTNO,to_char(STDATE,'dd-MON-yyyy')STDATE,to_char(EDDATE,'dd-MON-yyyy')EDDATE,SEQUENCEID from SEQUENCE  WHERE SEQUENCE.IS_ACTIVE = 'T' ORDER BY SEQUENCEID DESC";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
         public string StatusChange(string tag, int id)
         {
 
             try
             {
-
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE SEQUENCE SET IS_ACTIVE ='F' WHERE SEQUENCEID='" + id + "'";
+                    svSQL = "UPDATE ETARIFFMASTER SET IS_ACTIVE ='N' WHERE ETARIFFMASTERID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();

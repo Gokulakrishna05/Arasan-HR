@@ -18,36 +18,36 @@ namespace Arasan.Services.Master
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public IEnumerable<Currency> GetAllCurrency(string status)
-        {
-            List<Currency> cmpList = new List<Currency>();
-            using (OracleConnection con = new OracleConnection(_connectionString))
-            {
-                if (string.IsNullOrEmpty(status))
-                {
-                    status = "ACTIVE";
-                }
+        //public IEnumerable<Currency> GetAllCurrency(string status)
+        //{
+        //    List<Currency> cmpList = new List<Currency>();
+        //    using (OracleConnection con = new OracleConnection(_connectionString))
+        //    {
+        //        if (string.IsNullOrEmpty(status))
+        //        {
+        //            status = "ACTIVE";
+        //        }
 
-                using (OracleCommand cmd = con.CreateCommand())
-                {
-                    con.Open();
-                    cmd.CommandText = "Select SYMBOL,MAINCURR,CURRENCYID,STATUS from CURRENCY WHERE CURRENCY.STATUS='" + status + "' order by CURRENCY.CURRENCYID DESC";
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
-                    {
-                        Currency cmp = new Currency
-                        {
-                            ID = rdr["CURRENCYID"].ToString(),
-                            CurrencyCode = rdr["SYMBOL"].ToString(),
-                            CurrencyName = rdr["MAINCURR"].ToString(),
-                            status = rdr["STATUS"].ToString()
-                        };
-                        cmpList.Add(cmp);
-                    }
-                }
-            }
-            return cmpList;
-        }
+        //        using (OracleCommand cmd = con.CreateCommand())
+        //        {
+        //            con.Open();
+        //            cmd.CommandText = "Select SYMBOL,MAINCURR,CURRENCYID,STATUS from CURRENCY WHERE CURRENCY.STATUS='" + status + "' order by CURRENCY.CURRENCYID DESC";
+        //            OracleDataReader rdr = cmd.ExecuteReader();
+        //            while (rdr.Read())
+        //            {
+        //                Currency cmp = new Currency
+        //                {
+        //                    ID = rdr["CURRENCYID"].ToString(),
+        //                    CurrencyCode = rdr["SYMBOL"].ToString(),
+        //                    CurrencyName = rdr["MAINCURR"].ToString(),
+        //                    status = rdr["STATUS"].ToString()
+        //                };
+        //                cmpList.Add(cmp);
+        //            }
+        //        }
+        //    }
+        //    return cmpList;
+        //}
 
 
         public Currency GetCurrencyById(string eid)
@@ -126,7 +126,7 @@ namespace Arasan.Services.Master
 
                     objCmd.Parameters.Add("SYMBOL", OracleDbType.NVarchar2).Value = cy.CurrencyCode;
                     objCmd.Parameters.Add("MAINCURR", OracleDbType.NVarchar2).Value = cy.CurrencyName;
-                    objCmd.Parameters.Add("status", OracleDbType.NVarchar2).Value = "ACTIVE";
+                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     try
                     {
@@ -158,7 +158,7 @@ namespace Arasan.Services.Master
                 string svSQL = string.Empty; 
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE CURRENCY SET STATUS ='INACTIVE' WHERE CURRENCYID='" + id + "'";
+                    svSQL = "UPDATE CURRENCY SET IS_ACTIVE ='N' WHERE CURRENCYID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -180,7 +180,7 @@ namespace Arasan.Services.Master
                 string svSQL = string.Empty; 
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE CURRENCY SET STATUS ='ACTIVE' WHERE CURRENCYID='" + id + "'";
+                    svSQL = "UPDATE CURRENCY SET IS_ACTIVE ='Y' WHERE CURRENCYID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -194,6 +194,16 @@ namespace Arasan.Services.Master
             }
             return "";
 
+        }
+        public DataTable GetAllCurrencygrid()
+        {
+            string SvSql = string.Empty;
+            SvSql = " Select SYMBOL,MAINCURR,CURRENCYID from CURRENCY WHERE IS_ACTIVE = 'Y' ORDER BY CURRENCYID DESC";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
         }
     }
 }
