@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Data;
 
-namespace Arasan.Interface.Master
+namespace Arasan.Interface
 {
     public interface ICityService
     {
         string CityCRUD(City by);
-        IEnumerable<City> GetAllCity(string status);
+        //IEnumerable<City> GetAllCity(string status);
         DataTable GetCity(string id);
 
         DataTable GetState(string id);
         DataTable Getcountry();
         string StatusChange(string tag, int id);
         string RemoveChange(string tag, int id);
-        DataTable GetAllCity();
+        DataTable GetAllCitys(string strStatus);
 
     }
 }

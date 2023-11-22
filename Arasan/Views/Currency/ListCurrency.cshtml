@@ -31,7 +31,9 @@
         var source =
         {
             url: "/Currency/MyListItemgrid",
-
+            data: {
+                strstatus: ""
+            },
             datatype: "json",
             updaterow: function (rowid, rowdata) {
                 // synchronize with the server - send update command
@@ -58,28 +60,35 @@
             {
                 width: '100%',
                 source: dataAdapter,
-                height: 510,
+                height: 450,
                 source: source,
                 sortable: true,
                 filterable: true,
                 groupable: false,
                 pageable: true,
-                showfilterrow: true,
-
-                enablebrowserselection: true,
-
-                theme: 'energyblue',
+                showfilterbar: true,
+                //showfilterrow: true,
+                theme: 'darkblue',
                 enablebrowserselection: true,
 
                 columns: [
 
-                    { text: 'Symbol', datafield: 'currencycode', width: 200 },
-                    { text: 'Currency Name', datafield: 'currencyname', width: 200 },
+                    { text: 'Symbol', filtertype: 'checkedlist', datafield: 'currencycode', width: 200 },
+                    { text: 'Currency Name', filtertype: 'input', datafield: 'currencyname', width: 200 },
                     { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                 ]
             });
-
+        $("#ddlStatus").change(function () {
+            var value = "Y";
+            if ($(this).val() != "") {
+                value = $(this).val();
+            }
+            source.data = {
+                strstatus: value
+            };
+            $("#grid").jqxGrid({ source: source });
+        });
     });
 </script>
 <div class="wrapper-content ">
@@ -89,8 +98,13 @@
                 <div class="widgets-container">
 
                     <form>
-                        
-                            <div class="col-md-12 ">
+                        <div class="col-md-2 ">
+                            @Html.DropDownListFor(n => n.ddlStatus, new SelectListItem[]
+                            { new SelectListItem() {Text = "Enabled", Value="Y"},
+                            new SelectListItem() {Text = "Disabled", Value="N"}},
+                            new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" })
+                       
+                            <div class="col-md-10 ">
                                 <div class=" textalignright">
                                     <a href="@Url.Action("Currency", "Currency")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Currency</a>
                                     <br>
@@ -98,11 +112,12 @@
 
 
                             </div>
+                            </div>
                        
 
                         <div class="row">
 
-                            <div class="col-md-12 ">
+                            <div class="col-md-10 ">
                                 <div id="grid">
                                 </div>
                             </div>

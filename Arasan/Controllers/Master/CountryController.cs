@@ -106,12 +106,12 @@ namespace Arasan.Controllers
                 return RedirectToAction("ListCountry");
             }
         }
-        public ActionResult MyListItemgrid()
+        public ActionResult MyListItemgrid(string strStatus)
         {
             List<Countrygrid> Reg = new List<Countrygrid>();
             DataTable dtUsers = new DataTable();
-
-            dtUsers = CountryService.GetAllCountryGRID();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = CountryService.GetAllCountryGRID(strStatus);
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
 

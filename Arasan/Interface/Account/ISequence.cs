@@ -11,6 +11,6 @@ namespace Arasan.Interface
         string SequenceCRUD(Sequence Cy);
         DataTable GetSequence(string id);
         string StatusChange(string tag, int id);
-        DataTable GetAllSeq();
+        DataTable GetAllSeq(string strStatus);
     }
 }

@@ -12,6 +12,6 @@ namespace Arasan.Interface.Master
         Country GetCountryById(string id);
         string StatusChange(string tag, int id);
         string RemoveChange(string tag, int id);
-        DataTable GetAllCountryGRID();
+        DataTable GetAllCountryGRID(string strStatus);
     }
 }

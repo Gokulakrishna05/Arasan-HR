@@ -101,12 +101,13 @@ namespace Arasan.Controllers.Master
                 return RedirectToAction("ListCurrency");
             }
         }
-        public ActionResult MyListItemgrid()
+        public ActionResult MyListItemgrid(string strStatus)
         {
             List<Currencygrid> Reg = new List<Currencygrid>();
             DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
 
-            dtUsers = CurrencyService.GetAllCurrencygrid();
+            dtUsers = CurrencyService.GetAllCurrencygrid(strStatus);
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
 

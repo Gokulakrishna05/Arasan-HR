@@ -28,7 +28,9 @@
         var source =
         {
             url: "/Sequence/MyListItemgrid",
-
+            data: {
+                strstatus: ""
+            },
             datatype: "json",
             updaterow: function (rowid, rowdata) {
                 // synchronize with the server - send update command
@@ -59,24 +61,22 @@
             {
                 width: '100%',
                 source: dataAdapter,
-                height: 510,
+                height: 450,
                 source: source,
                 sortable: true,
                 filterable: true,
                 groupable: false,
                 pageable: true,
-                showfilterrow: true,
-
-                enablebrowserselection: true,
-
-                theme: 'energyblue',
+                showfilterbar: true,
+                //showfilterrow: true,
+                theme: 'darkblue',
                 enablebrowserselection: true,
 
                 columns: [
 
-                    { text: 'Prefix', datafield: 'prefix', width: 200 },
-                    { text: 'Trans', datafield: 'trans', width: 200 },
-                    { text: 'Last', datafield: 'last', width: 300 },
+                    { text: 'Prefix', filtertype: 'checkedlist', datafield: 'prefix', width: 200 },
+                    { text: 'Trans', filtertype: 'checkedlist', datafield: 'trans', width: 200 },
+                    { text: 'Last', filtertype: 'input', datafield: 'last', width: 300 },
                     { text: 'Des', datafield: 'des', width: 110, align: 'center' },
                     { text: 'Start', datafield: 'start', width: 110, align: 'center' },
                     { text: 'End', datafield: 'end', width: 110, align: 'center' },
@@ -84,7 +84,16 @@
                     { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                 ]
             });
-
+        $("#ddlStatus").change(function () {
+            var value = "Y";
+            if ($(this).val() != "") {
+                value = $(this).val();
+            }
+            source.data = {
+                strstatus: value
+            };
+            $("#grid").jqxGrid({ source: source });
+        });
     });
 </script>
 <div class="wrapper-content ">
@@ -95,6 +104,13 @@
 
                     <form>
                         <div class="row">
+                             <div class="col-md-2 ">
+                                @Html.DropDownListFor(n => n.ddlStatus, new SelectListItem[]
+                                { new SelectListItem() {Text = "Enabled", Value="T"},
+                                new SelectListItem() {Text = "Disabled", Value="F"}},
+                                new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" })
+                            </div>
+
                             <div class="col-md-12 ">
                                 <div class=" textalignright">
                                     <a href="@Url.Action("Sequence", "Sequence")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Sequence</a>

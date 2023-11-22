@@ -25,7 +25,7 @@ namespace Arasan.Services
                 using (OracleCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "Select PREFIX,TRANSTYPE,DESCRIPTION,LASTNO,to_char(STDATE,'dd-MON-yyyy')STDATE,to_char(EDDATE,'dd-MON-yyyy')EDDATE,SEQUENCEID from SEQUENCE where IS_ACTIVE='T' ORDER BY SEQUENCEID DESC";
+                    cmd.CommandText = "Select PREFIX,TRANSTYPE,DESCRIPTION,LASTNO,to_char(STDATE,'dd-MON-yyyy')STDATE,to_char(EDDATE,'dd-MON-yyyy')EDDATE,SEQUENCEID from SEQUENCE where ACTIVESEQUENCE='T' ORDER BY SEQUENCEID DESC";
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -87,7 +87,7 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("STDATE", OracleDbType.NVarchar2).Value = cy.Start; 
                     objCmd.Parameters.Add("EDDATE", OracleDbType.NVarchar2).Value = cy.End;
                     objCmd.Parameters.Add("LASTNO", OracleDbType.NVarchar2).Value = cy.Last;
-                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "T";
+                    objCmd.Parameters.Add("ACTIVESEQUENCE", OracleDbType.NVarchar2).Value = "T";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
 
                     try
@@ -122,11 +122,18 @@ namespace Arasan.Services
             return dtt;
         }
 
-        public DataTable GetAllSeq()
+        public DataTable GetAllSeq(string strStatus)
         {
             string SvSql = string.Empty;
-            //SvSql = "Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMCODE,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MAXSTOCKLVL,MINSTOCKLVL,CONVERAT,UOM,HSN,SELLINGPRICE,ITEMMASTERID from ITEMMASTER";
-            SvSql = "Select PREFIX,TRANSTYPE,DESCRIPTION,LASTNO,to_char(STDATE,'dd-MON-yyyy')STDATE,to_char(EDDATE,'dd-MON-yyyy')EDDATE,SEQUENCEID from SEQUENCE  WHERE SEQUENCE.IS_ACTIVE = 'T' ORDER BY SEQUENCEID DESC";
+            if (strStatus == "T" || strStatus == null)
+            {
+                SvSql = "Select PREFIX,TRANSTYPE,DESCRIPTION,LASTNO,to_char(STDATE,'dd-MON-yyyy')STDATE,to_char(EDDATE,'dd-MON-yyyy')EDDATE,SEQUENCEID from SEQUENCE  WHERE SEQUENCE.ACTIVESEQUENCE = 'T' ORDER BY SEQUENCEID DESC";
+            }
+            else
+            {
+                SvSql = "Select PREFIX,TRANSTYPE,DESCRIPTION,LASTNO,to_char(STDATE,'dd-MON-yyyy')STDATE,to_char(EDDATE,'dd-MON-yyyy')EDDATE,SEQUENCEID from SEQUENCE  WHERE SEQUENCE.ACTIVESEQUENCE = 'F' ORDER BY SEQUENCEID DESC";
+
+            }
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -142,7 +149,7 @@ namespace Arasan.Services
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE SEQUENCE SET IS_ACTIVE ='F' WHERE SEQUENCEID='" + id + "'";
+                    svSQL = "UPDATE SEQUENCE SET ACTIVESEQUENCE ='F' WHERE SEQUENCEID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();

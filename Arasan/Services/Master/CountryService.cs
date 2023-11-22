@@ -115,7 +115,7 @@ namespace Arasan.Services.Master
 
                     objCmd.Parameters.Add("COUNTRY", OracleDbType.NVarchar2).Value = cy.ConName;
                     objCmd.Parameters.Add("COUNTRYCODE", OracleDbType.NVarchar2).Value = cy.ConCode;
-                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "";
+                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
 
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
 
@@ -186,10 +186,18 @@ namespace Arasan.Services.Master
             return "";
 
         }
-        public DataTable GetAllCountryGRID()
+        public DataTable GetAllCountryGRID(string strStatus)
         {
             string SvSql = string.Empty;
-            SvSql = " Select COUNTRY,COUNTRYCODE,COUNTRYMASTID from CONMAST WHERE IS_ACTIVE = 'Y' ORDER BY COUNTRYMASTID DESC";
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = " Select COUNTRY,COUNTRYCODE,COUNTRYMASTID from CONMAST WHERE IS_ACTIVE = 'Y' ORDER BY COUNTRYMASTID DESC";
+            }
+            else
+            {
+                SvSql = " Select COUNTRY,COUNTRYCODE,COUNTRYMASTID from CONMAST WHERE IS_ACTIVE = 'N' ORDER BY COUNTRYMASTID DESC";
+
+            }
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

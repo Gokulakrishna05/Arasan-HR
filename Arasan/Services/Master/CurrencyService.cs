@@ -195,10 +195,18 @@ namespace Arasan.Services.Master
             return "";
 
         }
-        public DataTable GetAllCurrencygrid()
+        public DataTable GetAllCurrencygrid(string strStatus)
         {
             string SvSql = string.Empty;
-            SvSql = " Select SYMBOL,MAINCURR,CURRENCYID from CURRENCY WHERE IS_ACTIVE = 'Y' ORDER BY CURRENCYID DESC";
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = " Select SYMBOL,MAINCURR,CURRENCYID from CURRENCY WHERE IS_ACTIVE = 'Y' ORDER BY CURRENCYID DESC";
+            }
+            else
+            {
+                SvSql = " Select SYMBOL,MAINCURR,CURRENCYID from CURRENCY WHERE IS_ACTIVE = 'N' ORDER BY CURRENCYID DESC";
+
+            }
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

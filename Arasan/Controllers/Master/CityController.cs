@@ -85,10 +85,9 @@ namespace Arasan.Controllers.Master
 
             return View(ss);
         }
-        public IActionResult ListCity(/*string status*/)
+        public IActionResult ListCity()
         {
-            //IEnumerable<City> sta = city.GetAllCity(status);
-            return View(/*sta*/);
+            return View();
         }
        
         public List<SelectListItem> BindCountry()
@@ -169,7 +168,7 @@ namespace Arasan.Controllers.Master
             List<Citygrid> Reg = new List<Citygrid>();
             DataTable dtUsers = new DataTable();
             strStatus = strStatus == "" ? "Y" : strStatus;
-            dtUsers = city.GetAllCity();
+            dtUsers = city.GetAllCitys(strStatus);
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
 

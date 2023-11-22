@@ -21,8 +21,8 @@ namespace Arasan.Controllers.Master
         public IActionResult Departments(string id)
         {
             Department Dp = new Department();
-            Dp.CreatedBy = Request.Cookies["UserId"];
-            Dp.UpdatedBy = Request.Cookies["UserId"];
+            //Dp.CreatedBy = Request.Cookies["UserId"];
+            //Dp.UpdatedBy = Request.Cookies["UserId"];
 
             //List<Designation> TData = new List<Designation>();
             //Designation tda = new Designation();
@@ -110,10 +110,10 @@ namespace Arasan.Controllers.Master
             return View(Dp);
         }
 
-        public IActionResult ListDepartment(string status)
+        public IActionResult ListDepartment()
         {
-            IEnumerable<Department> cmp = DepartmentService.GetAllDepartment(status);
-            return View(cmp);
+            
+            return View();
         }
 
 
@@ -146,6 +146,38 @@ namespace Arasan.Controllers.Master
                 return RedirectToAction("ListDepartment");
             }
         }
+        //public ActionResult MyListItemgrid(string strStatus)
+        //{
+        //    List<Citygrid> Reg = new List<Citygrid>();
+        //    DataTable dtUsers = new DataTable();
+        //    strStatus = strStatus == "" ? "Y" : strStatus;
+        //    dtUsers = city.GetAllCitys(strStatus);
+        //    for (int i = 0; i < dtUsers.Rows.Count; i++)
+        //    {
 
+        //        string DeleteRow = string.Empty;
+        //        string EditRow = string.Empty;
+
+        //        EditRow = "<a href=city?id=" + dtUsers.Rows[i]["CITYID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+        //        DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["CITYID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+        //        Reg.Add(new Citygrid
+        //        {
+        //            id = dtUsers.Rows[i]["CITYID"].ToString(),
+        //            countryid = dtUsers.Rows[i]["COUNTRY"].ToString(),
+        //            state = dtUsers.Rows[i]["STATEID"].ToString(),
+        //            cit = dtUsers.Rows[i]["CITYNAME"].ToString(),
+        //            editrow = EditRow,
+        //            delrow = DeleteRow,
+
+        //        });
+        //    }
+
+        //    return Json(new
+        //    {
+        //        Reg
+        //    });
+
+        //}
     }
 }

@@ -24,6 +24,27 @@ namespace Arasan.Models
 
         public List<SelectListItem> statuslst;
         public string status { get; set; }
+        public string ddlStatus { get; set; }
+        public string createdby { get; set; }
+
+
+    } 
+    
+    public class CuringGrid
+    {
+        
+        public string id { get; set; }
+        public string location { get; set; }
+
+
+        public string sub { get; set; }
+        public string shed { get; set; }
+
+        public string cap { get; set; }
+        public string editrow { get; set; }
+        public string delrow { get; set; }
+
+        
 
 
     }

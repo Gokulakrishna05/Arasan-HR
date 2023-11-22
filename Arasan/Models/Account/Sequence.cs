@@ -10,6 +10,7 @@ namespace Arasan.Models
         public string Des { get; set; }
         public string Start { get; set;}
         public string End { get; set; }
+        public string ddlStatus { get; set; }
            
 
     } public class Sequencegrid

@@ -6,6 +6,7 @@
         public string CurrencyCode { get; set; }
         public string CurrencyName { get; set; }
         public string status { get; set; }
+        public string ddlStatus { get; set; }
 
 
     }

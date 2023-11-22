@@ -115,12 +115,12 @@ namespace Arasan.Controllers
             }
         }
 
-        public ActionResult MyListItemgrid()
+        public ActionResult MyListItemgrid(string strStatus)
         {
             List<Sequencegrid> Reg = new List<Sequencegrid>();
             DataTable dtUsers = new DataTable();
-
-            dtUsers = sequence.GetAllSeq();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = sequence.GetAllSeq(strStatus);
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
 

@@ -59,26 +59,24 @@
 
         $("#grid").jqxGrid(
             {
+
                 width: '100%',
                 source: dataAdapter,
-                height: 510,
+                height: 450,
                 source: source,
                 sortable: true,
                 filterable: true,
                 groupable: false,
                 pageable: true,
-                showfilterrow: true,
-
-                enablebrowserselection: true,
-
+                showfilterbar: true,
+                //showfilterrow: true,
                 theme: 'darkblue',
                 enablebrowserselection: true,
-
                 columns: [
 
-                    { text: 'Country Name', datafield: 'countryid', width: 200 },
-                    { text: 'State Name', datafield: 'state', width: 200 },
-                    { text: 'City Name', datafield: 'cit', width: 300 },
+                    { text: 'Country Name', filtertype: 'checkedlist', datafield: 'countryid', width: 200 },
+                    { text: 'State Name', filtertype: 'checkedlist', datafield: 'state', width: 200 },
+                    { text: 'City Name', filtertype: 'input', datafield: 'cit', width: 300 },
                     { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                 ]
