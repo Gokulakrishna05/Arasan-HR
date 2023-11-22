@@ -2,9 +2,9 @@
 
 @{
     ViewData["Title"] = "City";
-    string query = ViewContext.HttpContext.Request.Query["status"];
-    string Qid = string.Empty;
-    if (!string.IsNullOrEmpty(query)) { Qid = ViewContext.HttpContext.Request.Query["status"]; }
+    //string query = ViewContext.HttpContext.Request.Query["status"];
+    //string Qid = string.Empty;
+    //if (!string.IsNullOrEmpty(query)) { Qid = ViewContext.HttpContext.Request.Query["status"]; }
 }
 <partial name="JqxGridPartial" />
 
@@ -31,6 +31,9 @@
         {
             url: "/City/MyListItemgrid",
 
+            data: {
+                strstatus: ""
+            },
             datatype: "json",
             updaterow: function (rowid, rowdata) {
                 // synchronize with the server - send update command
@@ -68,7 +71,7 @@
 
                 enablebrowserselection: true,
 
-                theme: 'energyblue',
+                theme: 'darkblue',
                 enablebrowserselection: true,
 
                 columns: [
@@ -79,8 +82,17 @@
                     { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                 ]
-            });
-
+        });
+        $("#ddlStatus").change(function () {
+            var value = "Y";
+            if ($(this).val() != "") {
+                value = $(this).val();
+            }
+            source.data = {
+                strstatus: value
+            };
+            $("#grid").jqxGrid({ source: source });
+        });
     });
 </script>
 
@@ -91,26 +103,26 @@
                 <div class="widgets-container">
 
                     <form>
-                        @*<div class="row">*@
-                            @*<div class="col-md-6 ">
-                                <select style='width: 200px;' class='form-control  newcss' id="dllstatus" onchange="changeStatus(this.value)">
-                                    <option value="" selected>Open</option>
-                                    <option value='INACTIVE'>Close</option>
-                                </select>
-                            </div>
-                            </div>*@
+                        <div class="row">
+                        <div class="col-md-2 ">
+                            @Html.DropDownListFor(n => n.ddlStatus, new SelectListItem[]
+                            { new SelectListItem() {Text = "Enabled", Value="Y"},
+                            new SelectListItem() {Text = "Disabled", Value="N"}},
+                            new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" })
+                           </div>
+                           
 
-                            <div class="col-md-12 ">
+                            <div class="col-md-9 ">
                                 <div class=" textalignright">
                                     <a href="@Url.Action("City","City")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add City</a>
                                     <br>
                                 </div>
 
                             </div>
-
+                        </div>
                         <div class="row">
 
-                            <div class="col-md-12 ">
+                            <div class="col-md-10 ">
                                 <div id="grid">
                                 </div>
                             </div>
@@ -122,8 +134,14 @@
         </div>
     </div>
 </div>
-
 <script>
+    function ConfirmDelete() {
+        return confirm("Are you sure you want to delete?");
+    }
+</script>
+
+
+@*<script>
     $(document).ready(function () {
         $('#example7').DataTable({
             dom: 'Bfrtip',
@@ -153,8 +171,10 @@
 
 
     });
-</script>
-<a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+</script>*@
+
+
+@*<a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
 <a class="fancyboxe1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
 <link rel="stylesheet" href="@Url.Content("~/css/jquery.fancybox.css?v=2.1.5")" type="text/css" media="screen" />
 <script type="text/javascript" src="@Url.Content("~/css/jquery.fancybox.pack.js?v=2.1.5")"></script>
@@ -203,4 +223,4 @@
         var val2 = "@Qid";
         $('#dllstatus').val(val2);
     });
-</script>
+</script>*@
