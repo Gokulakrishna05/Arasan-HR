@@ -22,7 +22,7 @@ namespace Arasan.Models
         public List<SelectListItem> cuntylst;
         public String countryid { get; set; }
         public String createdby { get; set; }
-       
+        public string ddlStatus { get; set; }
 
 
     }

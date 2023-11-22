@@ -150,7 +150,7 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public List<SelectListItem> BindSubgroup()
+        public List<SelectListItem> BindSubgroup() 
         {
             try
             {
@@ -199,5 +199,37 @@ namespace Arasan.Controllers
             }
         }
 
+        //public ActionResult MyListItemgrid()
+        //{
+        //    List<Currencygrid> Reg = new List<Currencygrid>();
+        //    DataTable dtUsers = new DataTable();
+
+        //    dtUsers = CuringService.GetAllCurrencygrid();
+        //    for (int i = 0; i < dtUsers.Rows.Count; i++)
+        //    {
+
+        //        string DeleteRow = string.Empty;
+        //        string EditRow = string.Empty;
+
+        //        EditRow = "<a href=Currency?id=" + dtUsers.Rows[i]["CURRENCYID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+        //        DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["CURRENCYID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+        //        Reg.Add(new Currencygrid
+        //        {
+        //            id = dtUsers.Rows[i]["CURRENCYID"].ToString(),
+        //            currencycode = dtUsers.Rows[i]["SYMBOL"].ToString(),
+        //            currencyname = dtUsers.Rows[i]["MAINCURR"].ToString(),
+        //            editrow = EditRow,
+        //            delrow = DeleteRow,
+
+        //        });
+        //    }
+
+        //    return Json(new
+        //    {
+        //        Reg
+        //    });
+
+        //}
     }
 }

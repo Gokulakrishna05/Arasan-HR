@@ -231,7 +231,7 @@ namespace Arasan.Services.Master
         public DataTable GetAllCity()
         {
             string SvSql = string.Empty;
-            SvSql = " select CITYNAME,STATEID,CITYID,CONMAST.COUNTRY from CITYMASTER left outer join CONMAST on COUNTRYMASTID=CITYMASTER.COUNTRYID  WHERE IS_ACTIVE = 'Y' ORDER BY CITYID DESC";
+            SvSql = "select CITYNAME,STATEID,CITYID,CONMAST.COUNTRY from CITYMASTER left outer join CONMAST on COUNTRYMASTID=CITYMASTER.COUNTRYID  WHERE CITYMASTER.IS_ACTIVE = 'Y' ORDER BY CITYID DESC";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

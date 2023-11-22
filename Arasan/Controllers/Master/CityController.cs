@@ -164,11 +164,11 @@ namespace Arasan.Controllers.Master
             }
         }
 
-        public ActionResult MyListItemgrid()
+        public ActionResult MyListItemgrid(string strStatus)
         {
             List<Citygrid> Reg = new List<Citygrid>();
             DataTable dtUsers = new DataTable();
-
+            strStatus = strStatus == "" ? "Y" : strStatus;
             dtUsers = city.GetAllCity();
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
