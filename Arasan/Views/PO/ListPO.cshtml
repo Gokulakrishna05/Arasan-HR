@@ -125,33 +125,34 @@
 
                                                                         <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("Print", "PO" ,new { id=item.ID})"><img src='../Images/pdf.png' alt='Generate PO' width='20' />@Html.HiddenFor(modelItem => item.Supplier)</a></div></td>
 
-                                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <span style="color:green"><b>@Html.DisplayFor(modelItem => item.Status)</b></span></div></td>
+                                                                        //<td><div class="fa-hover col-md-2 col-sm-4"> <span style="color:green"><b>@Html.DisplayFor(modelItem => item.Status)</b></span></div></td>
 
-                                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewPOrder", "PO",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Waiting for approval' /></a></div></td>
-                                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("CreatePDF", "PO" ,new { id=item.ID})"><img src='../Images/pdf.png' alt='download PO' width='20' />@Html.HiddenFor(modelItem => item.Supplier)</a></div></td>
-                                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("PurchaseOrder", "PO",new { id=item.ID })"></a></div></td>
-                                                                        <td> <a href="@Url.Action("DeleteMR","PO",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
+                                                                        //<td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewPOrder", "PO",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Waiting for approval' /></a></div></td>
+                                                                        //<td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("PurchaseOrder", "PO",new { id=item.ID })"></a></div></td>
+                                                                        //<td> <a href="@Url.Action("DeleteMR","PO",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
                                                                          
-                                                                       //@if(string.IsNullOrEmpty(item.Status))
-                                                                       //{
+                                                                       @if(string.IsNullOrEmpty(item.Status))
+                                                                       {
                                                                         
 
-                                                                       //     <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewPO", "PO",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a></div></td>
-                                                                       //     <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewPOrder", "PO",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a></div></td>
+                                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewPO", "PO",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a></div></td>
+                                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("CreatePDF", "PO" ,new { id=item.ID})"><img src='../Images/pdf.png' alt='download PO' width='20' />@Html.HiddenFor(modelItem => item.Supplier)</a></div></td>
+                                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("PurchaseOrder", "PO",new { id=item.ID })"></a></div></td>
 
-                                                                       //     <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("PurchaseOrder", "PO",new { id=item.ID })"></a></div></td>
-                                                                       //     <td> <a href="@Url.Action("DeleteMR","PO",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
+                                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewPOrder", "PO",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a></div></td>
 
-                                                                       // }
-                                                                       // else
-                                                                       // {
+                                                                            <td> <a href="@Url.Action("DeleteMR","PO",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
 
-                                                                            //<td><div class="fa-hover col-md-2 col-sm-4"> <span style="color:green"><b>@Html.DisplayFor(modelItem => item.Status)</b></span></div></td>
-                                                                            //<td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewPOrder", "PO",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a></div></td>
+                                                                        }
+                                                                        else
+                                                                        {
 
-                                                                            //<td></td>
-                                                                            //<td></td>
-                                                                    //    }
+                                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <span style="color:green"><b>@Html.DisplayFor(modelItem => item.Status)</b></span></div></td>
+                                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewPOrder", "PO",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a></div></td>
+
+                                                                            <td></td>
+                                                                            <td></td>
+                                                                        }
                                                                     
                                                                     }
                                                                    

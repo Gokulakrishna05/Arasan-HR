@@ -33,7 +33,8 @@ namespace Arasan.Models
         public string Groupcode { get; set; }
         public string Ledgercode { get; set; }
         public string LegCode { get; set; }
-
+        public string ddlStatus { get; set; }
+     
 
 
     }

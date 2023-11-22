@@ -92,5 +92,9 @@ namespace Arasan.Models
         public string mailrow { get; set; }
         public string editrow { get; set; }
         public string delrow { get; set; }
+        public string move { get; set; }
+        public string Accrow { get; set; }
+        //public string Status { get; set; }
+        //public string Account { get; set; }
     }
 }
