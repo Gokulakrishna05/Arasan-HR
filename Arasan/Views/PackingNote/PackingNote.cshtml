@@ -99,11 +99,9 @@
 
                                             <label for="inputName3" class="col-sm-4 control-label">Packing Item<label class="mandatory">*</label></label>
                                             <div class="col-sm-8">
-                                                @{
-                                                    int k = 0;
-                                                @Html.DropDownListFor(C => C.ItemId, Model.Itemlst," -- Please Select -- ", new { @id = "ddlItemId", @Class = "form-control _select", @TabIndex = 1 ,@onchange = "changeDrum(this.value," + k + ")"})<br />
-                                                    k = k + 1;
-                                                }
+                                             
+                                                @Html.DropDownListFor(C => C.ItemId, Model.Itemlst," -- Please Select -- ", new { @id = "ddlItemId", @Class = "form-control _select", @TabIndex = 1 ,@onchange = "changeDrum(this.value)"})<br />
+                                                   
                                             </div>
                                         </div>
                                     </div>

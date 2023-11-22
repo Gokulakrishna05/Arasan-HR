@@ -4,8 +4,8 @@ using System.Xml.Linq;
 using Arasan.Interface;
  
 using Arasan.Models;
-using Arasan.Services.Master;
-using Arasan.Services.Sales;
+ 
+using Arasan.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
