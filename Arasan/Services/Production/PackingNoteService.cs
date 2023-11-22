@@ -169,6 +169,7 @@ namespace Arasan.Services
                 }
 
                 string Item = datatrans.GetDataString("Select ITEMMASTERID from ITEMMASTER where ITEMID='" + cy.ItemId + "' ");
+                //string loc = datatrans.GetDataString("Select ILOCATION from WCBASIC where WCBASICID='" + cy.WorkId + "' ");
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
@@ -191,13 +192,14 @@ namespace Arasan.Services
                     }
                     objCmd.Parameters.Add("BRANCH", OracleDbType.NVarchar2).Value = cy.Branch;
                     objCmd.Parameters.Add("TOLOCDETAILSID", OracleDbType.NVarchar2).Value = cy.WorkId;
+                    objCmd.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = cy.WorkId;
                     objCmd.Parameters.Add("SHIFT", OracleDbType.NVarchar2).Value = cy.Shift;
                     objCmd.Parameters.Add("DOCDATE", OracleDbType.NVarchar2).Value = cy.Docdate;
                     objCmd.Parameters.Add("DRUMLOCATION", OracleDbType.NVarchar2).Value = cy.DrumLoc;
                     objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = docid;
                     objCmd.Parameters.Add("PACKCONSYN", OracleDbType.NVarchar2).Value = cy.PackYN;
-                    objCmd.Parameters.Add("STARTDATE", OracleDbType.Date).Value = DateTime.Parse(sdate);
-                    objCmd.Parameters.Add("ENDDATE", OracleDbType.Date).Value = DateTime.Parse(endate);
+                    objCmd.Parameters.Add("STARTDATE", OracleDbType.NVarchar2).Value = sdate;
+                    objCmd.Parameters.Add("ENDDATE", OracleDbType.NVarchar2).Value = endate;
                     objCmd.Parameters.Add("STARTTIME", OracleDbType.NVarchar2).Value = stime;
                     objCmd.Parameters.Add("ENDTIME", OracleDbType.NVarchar2).Value = endtime;
                     objCmd.Parameters.Add("ENTEREDBY", OracleDbType.NVarchar2).Value = cy.Enterd;
