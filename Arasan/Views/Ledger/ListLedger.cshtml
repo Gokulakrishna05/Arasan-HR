@@ -30,6 +30,9 @@
         {
             url: "/Ledger/MyListLedgergrid",
             //url: "/ItemName/ItemName",
+             data: {
+                    strstatus: ""
+                },
             datatype: "json",
             updaterow: function (rowid, rowdata) {
                 // synchronize with the server - send update command
@@ -55,17 +58,18 @@
 
         $("#grid").jqxGrid(
             {
-                width: '100%',
-                source: dataAdapter,
-                height: 450,
-                source: source,
-                sortable: true,
-                filterable: true,
-                groupable: false,
-                pageable: true,
-                showfilterrow: true,
-                theme: 'energyblue',
-                enablebrowserselection: true,
+               width: '100%',
+               source: dataAdapter, 
+               height: 450,
+               source: source,
+               sortable: true,
+               filterable: true,
+               groupable: false,
+               pageable: true,
+               showfilterbar: true,
+              //showfilterrow: true,
+              theme: 'darkblue',
+		      enablebrowserselection :true,
                 columns: [
                     { text: 'Account Type', filtertype: 'checkedlist', datafield: 'atype', width: 150 },
                     { text: 'Account Group', filtertype: 'checkedlist', datafield: 'accgroup', width: 150 },
@@ -76,6 +80,16 @@
                     { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                 ]
             });
+             $("#ddlStatus").change(function () {
+            var value = "Y";
+            if ($(this).val() != "") {
+                value = $(this).val();
+            }
+            source.data = {
+                strstatus: value
+            };
+            $("#grid").jqxGrid({ source: source });
+        });
     });
 </script>
 <div class="wrapper-content ">
@@ -86,7 +100,13 @@
 
                     <form>
                         <div class="row">
-                            <div class="col-md-12 ">
+                            <div class="col-md-2 ">
+                                @Html.DropDownListFor(n => n.ddlStatus, new SelectListItem[]
+                                { new SelectListItem() {Text = "Enabled", Value="Y"},
+                                new SelectListItem() {Text = "Disabled", Value="N"}},
+                                new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" })
+                            </div>
+                            <div class="col-md-9 ">
                                 <div class=" textalignright">
                                     <a href="@Url.Action("Ledger", "Ledger")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Ledger</a>
                                     <br>
@@ -97,7 +117,7 @@
                         </div>
                         <div class="row">
 
-                            <div class="col-md-2 "> </div>
+
                             <div class="col-md-10 ">
                                 <div id="grid">
                                 </div>

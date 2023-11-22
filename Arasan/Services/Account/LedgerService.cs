@@ -54,10 +54,18 @@ namespace Arasan.Services
             }
             return cmpList;
         }
-        public DataTable GetAllLedgers()
+        public DataTable GetAllLedgers(string strStatus)
         {
             string SvSql = string.Empty;
-            SvSql = "Select ACCTYPE.ACCOUNTTYPE,ACCGROUP.ACCOUNTGROUP,ACCLEDGER.LEDNAME,ACCLEDGER.DISPLAY_NAME,ACCLEDGER.LEDGERCODE,LEDGERID from ACCLEDGER LEFT OUTER JOIN ACCGROUP ON ACCGROUP.ACCGROUPID=ACCLEDGER.ACCGROUP LEFT OUTER JOIN ACCTYPE ON ACCTYPE.ACCOUNTTYPEID=ACCLEDGER.ACCOUNTTYPE ORDER BY ACCLEDGER.LEDGERID DESC ";
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "Select ACCTYPE.ACCOUNTTYPE,ACCGROUP.ACCOUNTGROUP,ACCLEDGER.LEDNAME,ACCLEDGER.DISPLAY_NAME,ACCLEDGER.LEDGERCODE,LEDGERID from ACCLEDGER LEFT OUTER JOIN ACCGROUP ON ACCGROUP.ACCGROUPID=ACCLEDGER.ACCGROUP LEFT OUTER JOIN ACCTYPE ON ACCTYPE.ACCOUNTTYPEID=ACCLEDGER.ACCOUNTTYPE WHERE ACCLEDGER.IS_ACTIVE='Y' ORDER BY ACCLEDGER.LEDGERID DESC ";
+            }
+            else
+            {
+                SvSql = "Select ACCTYPE.ACCOUNTTYPE,ACCGROUP.ACCOUNTGROUP,ACCLEDGER.LEDNAME,ACCLEDGER.DISPLAY_NAME,ACCLEDGER.LEDGERCODE,LEDGERID from ACCLEDGER LEFT OUTER JOIN ACCGROUP ON ACCGROUP.ACCGROUPID=ACCLEDGER.ACCGROUP LEFT OUTER JOIN ACCTYPE ON ACCTYPE.ACCOUNTTYPEID=ACCLEDGER.ACCOUNTTYPE WHERE ACCLEDGER.IS_ACTIVE='N' ORDER BY ACCLEDGER.LEDGERID DESC ";
+
+            }
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -110,7 +118,7 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("CLSTOCK", OracleDbType.NVarchar2).Value = cy.ClStock;
                     objCmd.Parameters.Add("GROUPCODE", OracleDbType.NVarchar2).Value = cy.Groupcode;
                     objCmd.Parameters.Add("LEDGERCODE", OracleDbType.NVarchar2).Value = docid;
-                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
+                    //objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
 
                     try
@@ -154,7 +162,7 @@ namespace Arasan.Services
         //    adapter.Fill(dtt);
         //    return dtt;
         //}
-        public string StatusChange(string tag, int id)
+        public string StatusChange(string tag, string id)
         {
 
             try
@@ -163,7 +171,7 @@ namespace Arasan.Services
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE LEDGER SET STATUS ='InActive' WHERE LEDGERID='" + id + "'";
+                    svSQL = "UPDATE ACCLEDGER SET IS_ACTIVE ='N' WHERE LEDGERID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -210,5 +218,6 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
+
     }
 }

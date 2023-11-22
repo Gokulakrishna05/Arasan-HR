@@ -31,6 +31,9 @@ namespace Arasan.Interface
         string StatusChange(string tag, string id);
         DataTable GetVocher();
         DataTable GetAllDirectPurchases(string id);
-        DataTable GetItem();
+        string DirectPurchasetoGRN(string id);
+        DataTable GetDirectPurchaseGrn(string id);
+        DataTable GetDirectPurchaseItemGRN(string id);
+        //DataTable GetItem();
     }
 }

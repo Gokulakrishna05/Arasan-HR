@@ -28,11 +28,11 @@
     $(document).ready(function () {
         var source =
         {
-            url: "/DirectPurchase/MyListDirectPurchaseGrid",
+            url: "/DirectPurchase/MyListDirectPurchaseGRN",
             //url: "/ItemName/ItemName",
-             data: {
-                    strstatus: ""
-                },
+            data: {
+                strstatus: ""
+            },
             datatype: "json",
             updaterow: function (rowid, rowdata) {
                 // synchronize with the server - send update command
@@ -45,7 +45,7 @@
                 { name: 'mailrow', type: 'string' },
                 { name: 'editrow', type: 'string' },
                 { name: 'delrow', type: 'string' },
-                { name: 'move', type: 'string' },
+                { name: 'Accrow', type: 'string' },
             ],
             id: 'id',
         };
@@ -60,17 +60,17 @@
         $("#grid").jqxGrid(
             {
                 width: '100%',
-                    source: dataAdapter, 
-                    height: 450,
-                    source: source,
-                    sortable: true,
-              filterable: true,
-              groupable: false,
-              pageable: true,
+                source: dataAdapter,
+                height: 450,
+                source: source,
+                sortable: true,
+                filterable: true,
+                groupable: false,
+                pageable: true,
                 showfilterbar: true,
-              //showfilterrow: true,
-            theme: 'darkblue',
-		    enablebrowserselection :true,
+                //showfilterrow: true,
+                theme: 'darkblue',
+                enablebrowserselection: true,
                 columns: [
                     { text: 'Branch', filtertype: 'checkedlist', datafield: 'branch', width: 150 },
                     { text: 'Supplier', filtertype: 'checkedlist', datafield: 'supplier', width: 250 },
@@ -79,10 +79,10 @@
                     { text: 'Send Mail', datafield: 'mailrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                     { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                    { text: 'Move To GRN', datafield: 'move', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 120 },
+                    { text: 'Account', datafield: 'Accrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
                 ]
             });
-             $("#ddlStatus").change(function () {
+        $("#ddlStatus").change(function () {
             var value = "Y";
             if ($(this).val() != "") {
                 value = $(this).val();
@@ -108,23 +108,23 @@
                                 new SelectListItem() {Text = "Disabled", Value="N"}},
                                 new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" })
                             </div>
-                            <div class="col-md-9 ">
+                           @* <div class="col-md-9 ">
                                 <div class=" textalignright">
                                     <a href="@Url.Action("DirectPurchase", "DirectPurchase")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add DirectPurchase</a>
                                     <br>
                                 </div>
 
 
-                            </div>
+                            </div>*@
                         </div>
                         <div class="row">
 
 
-                          @*  <div class="col-md-10 ">*@
+                           @* <div class="col-md-10 ">*@
                                 <div id="grid">
                                 </div>
-
-                           @* </div>*@
+@*
+                            </div>*@
 
                         </div>
 
@@ -137,5 +137,34 @@
 <script>
     function ConfirmDelete() {
         return confirm("Are you sure you want to delete?");
+    }
+</script>
+<a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+<a class="fancyboxe1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+<link rel="stylesheet" href="@Url.Content("~/css/jquery.fancybox.css?v=2.1.5")" type="text/css" media="screen" />
+<script type="text/javascript" src="@Url.Content("~/css/jquery.fancybox.pack.js?v=2.1.5")"></script>
+<script type="text/javascript">
+    var fancybox123;
+    jQuery(document).ready(function ($) {
+        $(".fancybox").fancybox({
+            width: '80%',
+            height: '10%',
+            arrows: false,
+            afterClose: function () {
+                location.reload();
+                return;
+            }
+        });
+        fancybox123 = $.fancybox;
+    });
+
+    function close_popup() {
+        fancybox123.close();
+        $(".fancybox1").fancybox({
+            width: '100%',
+            height: '100%',
+            arrows: false,
+        });
+        $(".fancybox1").eq(0).trigger('click');
     }
 </script>

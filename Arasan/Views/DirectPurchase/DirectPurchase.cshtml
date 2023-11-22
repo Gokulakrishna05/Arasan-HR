@@ -175,7 +175,7 @@
                                                     <thead>
                                                         <tr>
                                                             
-                                                          @* <th>Item Group</th>*@
+                                                           <th>Item Group</th>
                                                             <th> Item </th>
                                                             <th> Unit </th>
                                                           @*  <th>Bin Id</th>*@
@@ -217,10 +217,10 @@
                                                              foreach (var item in Model.DirLst.ToList())
                                                             {
                                                                     <tr id="trBook@(i)" class="chkitemlst" style="height: 30px;border-bottom: 1px dashed #ddd;">
-                                                                  @* <td>
+                                                                   <td>
                                                             @Html.DropDownListFor(o => o.DirLst[i].ItemGroupId, Model.DirLst[i].ItemGrouplst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItemGrp" + i, style = "width: 200px;", onchange = "Grup_Change(this.value," + i + ")"})
 
-                                                                   </td>*@
+                                                                   </td>
                                                                  <td>
                                                             @Html.DropDownListFor(o => o.DirLst[i].ItemId, Model.DirLst[i].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 200px;", onchange = "changeItem(this.value," + i + ")" })
                                                                 @Html.HiddenFor(o => o.DirLst[i].saveItemId)
@@ -299,7 +299,7 @@
 
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Special Discount (F)<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.SpDisc, new { @id = "txtSpDisc", @class = "form-control", @TabIndex = 2 })
+                                            @Html.TextBoxFor(C => C.SpDisc, new { @id = "txtSpDisc", @class = "form-control", @TabIndex = 2, @onkeyup = "changeTot(this)" })
                                     </div>
                                 </div>
                             </div>
@@ -308,7 +308,7 @@
                                         <br /><label for="inputName3" class="col-sm-4 control-label">Freight<label class="Mandatory"></label></label>
 
                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Frig, new { @id = "txtFrig", @class = "form-control", @TabIndex = 2, @readonly = "readonly" })
+                                            @Html.TextBoxFor(C => C.Frig, new { @id = "txtFrig", @class = "form-control", @TabIndex = 2, @readonly = "readonly" , @onkeyup = "changeTot(this)"})
                                     </div>
 
                                 </div>
@@ -321,7 +321,7 @@
 
                                         <br />   <label for="inputName3" class="col-sm-4 control-label">Delivery Ch.<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.DelCh, new { @id = "txtDelCh", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
+                                            @Html.TextBoxFor(C => C.DelCh, new { @id = "txtDelCh", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)" , @onkeyup = "changeTot(this)"})
                                     </div>
                                 </div>
                             </div>
@@ -330,7 +330,7 @@
                                         <br /><label for="inputName3" class="col-sm-4 control-label">3rd Party L.R. Charges<label class="Mandatory"></label></label>
 
                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.LRCha, new { @id = "txtLRCha", @class = "form-control", @TabIndex = 2 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
+                                            @Html.TextBoxFor(C => C.LRCha, new { @id = "txtLRCha", @class = "form-control", @TabIndex = 2 ,onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeTot(this)"})
                                     </div>
 
                                 </div>
@@ -343,7 +343,7 @@
 
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Other Charges<label class="Mandatory"></label></label>
                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Other, new { @id = "txtOther", @class = "form-control", @TabIndex = 2 ,onkeydown = "return isNumeric2(event.keyCode,this.value)"})
+                                            @Html.TextBoxFor(C => C.Other, new { @id = "txtOther", @class = "form-control", @TabIndex = 2 ,onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeTot(this)"})
                                     </div>
                                 </div>
                             </div>
@@ -352,7 +352,8 @@
                                         <br /> <label for="inputName3" class="col-sm-4 control-label">Round Off<label class="Mandatory"></label></label>
 
                                     <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Round, new { @id = "txtRound", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
+                                        <input type="hidden" id="hidround" /> 
+                                            @Html.TextBoxFor(C => C.Round, new { @id = "txtRound", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)" ,@readonly=true })
                                     </div>
 
                                 </div>
@@ -363,7 +364,7 @@
                            <div class="col-md-6">
                                 <div class="form-group">
 
-                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Gross<label class="Mandatory"></label></label>
+                                        <br /> <label for="inputName3" class="col-sm-4 control-label">Gross<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.Gross, new { @id = "gross", @class = "form-control", @TabIndex = 2 ,onkeydown = "return isNumeric2(event.keyCode,this.value)", @readonly = "readonly"})
                                     </div>
@@ -371,9 +372,10 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                        <br /><label for="inputName3" class="col-sm-4 control-label">Net<label class="Mandatory"></label></label>
+                                        <br /><label for="inputName3" class="col-sm-4 control-label">Net<label class="mandatory">*</label></label>
 
                                     <div class="col-sm-8">
+                                         <input type="hidden" id="hidnet" /> 
                                             @Html.TextBoxFor(C => C.net, new { @id = "net", @class = "form-control", @TabIndex = 2,onkeydown = "return isNumeric2(event.keyCode,this.value)", @readonly = "readonly" })
                                     </div>
 
@@ -548,7 +550,7 @@
                 }
             });
     }
-   @* function Grup_Change(itemid, i) {
+    function Grup_Change(itemid, i) {
         //alert(itemid);
         //debugger;
         $.ajax({
@@ -567,7 +569,7 @@
                 alert("Please Select Item Group");
             }
         });
-    }*@
+    }
     function PopulateDropDown(dropDownId, list) {
         //alert(list);
         $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
@@ -615,6 +617,11 @@
             }
         });
     }
+     @*function roundtorupee(amt) {
+            if(amt - round_decimals(amt,0) > 0.5)
+                return pad_with_zeros(round_decimals(amt + 1, 0));
+            return pad_with_zeros(round_decimals(amt , 0));
+        }*@
    function changeQty(_this, i) 
     {
         try {
@@ -623,6 +630,7 @@
             var qty = 0;
             var tot = 0;
             var totfrieght = 0;
+
             var totamt = 0;
             var totamount = 0;
             var qty = document.getElementById("txtQuantity" + i).value;
@@ -635,6 +643,10 @@
 
             var SGST = document.getElementById("txtSGSTP" + i).value;
             var Disc = document.getElementById("txtDisc" + i).value;
+             @*var Specialdiscount = document.getElementById("txtSpDisc").value;*@
+
+             @*alert(Specialdiscount);*@
+
             if (qty == "")
                 qty = 0;
 
@@ -660,7 +672,10 @@
 
             if (frieght == "")
                  frieght = 0;
-
+@*
+                    if (Specialdiscount == "")
+                Specialdiscount = 0;
+*@
                 var tot = eval(qty) * eval(up) * eval(CF);
                 document.getElementById("txtAmount" + i).value = tot.toFixed(2);
 
@@ -668,17 +683,19 @@
             var cgstperc = (eval(tot) / 100) * eval(CGST);
             var sgstperc = (eval(tot) / 100) * eval(SGST);
             var Discperc = (eval(tot) / 100) * eval(Disc);
+           @* var specperc = (eval(tot) / 100) * eval(Specialdiscount);*@
 
             document.getElementById("txtCGST" + i).value = cgstperc.toFixed(2);
             document.getElementById("txtSGST" + i).value = sgstperc.toFixed(2);
             document.getElementById("txtIGST" + i).value = igstperc.toFixed(2);
             document.getElementById("txtDiscAmount" + i).value = Discperc.toFixed(2);
-
+             
             var tottax = eval(tot) + eval(igstperc) + eval(cgstperc) + eval(sgstperc) + eval(frieght);
             var totdisc = eval(tottax) - eval(Discperc);
-          
+            
 
             document.getElementById("txtTotalAmount" + i).value = totdisc.toFixed(2);
+            
 
             $('tr.chkitemlst').each(function () {
                 if ($(this).css('display') !== 'none') {
@@ -691,6 +708,7 @@
 
                     totamt += eval(amt);
                      totfrieght += eval(frieght);
+
                     var tamt = $(this).find('#txtTotalAmount' + j.toString()).val();
                             if (tamt == "")
                         tamt = 0;
@@ -700,23 +718,68 @@
                               }
                         j += 1;
                  });
+                  var roundamount = Math.ceil(totamount);
 
-          document.getElementById("txtFrig").value = totfrieght.toFixed(2);
+            var round = eval(roundamount) - eval(totamount);
+
+
+            document.getElementById("txtFrig").value = totfrieght.toFixed(2);
             document.getElementById("gross").value = totamt.toFixed(2);
             document.getElementById("net").value = totamount.toFixed(2);
-            @*document.getElementById("hidnet").value = totamount.toFixed(2);*@
+            document.getElementById("hidnet").value = totamount.toFixed(2);
+            document.getElementById("txtRound").value = round.toFixed(2);
+                document.getElementById("hidround").value = round.toFixed(2);
 
         }
         catch (ex) {
             alert(ex.message);
         }
     }
+    function changeTot(_this){
 
+                   var netamt = document.getElementById("hidnet").value;
+                 var spedisc =document.getElementById("txtSpDisc").value;
+                  var delchar =document.getElementById("txtDelCh").value;
+                  var roundoff =document.getElementById("hidround").value;
+                   var other =document.getElementById("txtOther").value;
+                   var lrcharge =document.getElementById("txtLRCha").value;
+
+                var totamount = 0;
+                var rotamt = 0;
+                  if (spedisc == "")
+                        spedisc = 0;
+
+                         if (delchar == "")
+                        delchar = 0;
+
+                         @*if (roundoff == "")
+                        roundoff = 0;
+*@
+                         if (other == "")
+                        other = 0;
+
+                        if (lrcharge == "")
+                        lrcharge = 0;
+
+                        @* if (roundoffminus == "")
+                        roundoffminus = 0;*@
+
+                totamount = eval(delchar) + eval(other) + eval(roundoff) + eval(lrcharge) + eval(netamt);
+                rotamt = eval(totamount) - eval(spedisc);
+                 document.getElementById("net").value = rotamt.toFixed(2);   
+
+            }
+
+          @*  function roundtorupee(amt) {
+        if (amt - round_decimals(amt, 0) > 0.5)
+            return pad_with_zeros(round_decimals(amt + 1, 0));
+        return pad_with_zeros(round_decimals(amt, 0));
+    }*@
     function AddRow() {
         var opt = "";
         $.ajax({
             type: "POST",
-            url: 'GetItemJSON',
+            url: 'GetItemGrpJSON',
             success: function (data) {
 
                 $.each(data, function () {
@@ -739,7 +802,9 @@
     function AppendRow(opt) {
         var index = $("#tbBooks").children("tr").length;
 
-        var Item = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItem" + index + "' name='Itemlst[" + index + "].ItemId' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
+        var ItemGrp = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItemGrp" + index + "' name='DirLst[" + index + "].ItemGroupId' onchange = 'Grup_Change(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
+
+        var Item = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItem" + index + "' name='Itemlst[" + index + "].ItemId' onchange = 'changeItem(this.value," + index + ")'><option value=''>Please select</option></select></td>";
 
         var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='DirLst[" + index + "].Unit'  style='width: 80px;' type='text'  readonly='True' /></td>";
 
@@ -774,7 +839,7 @@
 
         var removeCell = "<td><input id='Isvalid" + index + "' name='Itemlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='DirLst.Index' type='hidden' value='" + index + "'  /></td>";
 
-        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Item + Unit + ConFac + Quantity + rate + Amount + Disc + DiscAmount + FrigCharge  + CGSTP + SGSTP + IGSTP + CGST + SGST + IGST +TotalAmount + removeCell + "</tr>";
+        var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + ItemGrp + Item + Unit + ConFac + Quantity + rate + Amount + Disc + DiscAmount + FrigCharge  + CGSTP + SGSTP + IGSTP + CGST + SGST + IGST +TotalAmount + removeCell + "</tr>";
 
         //alert(Packing);
         $("#tbBooks").append(newRow);
