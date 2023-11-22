@@ -205,13 +205,21 @@ namespace Arasan.Controllers
                 MailRow = "<a href=DirectPurchase?tag=Del&id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + "><img src='../Images/mail_icon.png' alt='Send Email' /></a>";
                 EditRow = "<a href=DirectPurchase?id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
                 DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                if(dtUsers.Rows[i]["STATUS"].ToString()== "GRN Generated")
+                {
+                    MoveToGRN = "<img src='../Images/tick.png' alt='View Details' width='20' />";
+                }
+                else
+                {
+                    MoveToGRN = "<a href=MoveToGRN?id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + "><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
+                }
                 //if (Reg.Status == "GRN Generated")
                 //{
                 //    @Html.DisplayFor(Reg => Reg.Status);
                 //}
                 //else
                 //{
-                    MoveToGRN = "<a href=MoveToGRN?id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + "><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
+                    //MoveToGRN = "<a href=MoveToGRN?id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + "><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
 
                 //}
                 Reg.Add(new DirectPurchaseItems
