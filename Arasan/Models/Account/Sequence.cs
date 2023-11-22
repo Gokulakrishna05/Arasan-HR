@@ -10,6 +10,20 @@ namespace Arasan.Models
         public string Des { get; set; }
         public string Start { get; set;}
         public string End { get; set; }
+        public string ddlStatus { get; set; }
+           
+
+    } public class Sequencegrid
+    {
+        public string id { get; set; }
+        public string prefix { get; set; }
+        public string trans { get; set; }
+        public string last { get; set; }
+        public string des { get; set; }
+        public string start { get; set;}
+        public string end { get; set; }
+        public string editrow { get; set; }
+        public string delrow { get; set; }
            
 
     }

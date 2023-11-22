@@ -48,7 +48,7 @@ namespace Arasan.Controllers
             SalesItem tda = new SalesItem();
             if (id == null)
             {
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < 1; i++)
                 {
                     tda = new SalesItem();
 
@@ -96,20 +96,13 @@ namespace Arasan.Controllers
                     for (int i = 0; i < dt2.Rows.Count; i++)
                     {
                         tda = new SalesItem();
-                        double toaamt = 0;
-                            tda.Itemlst = BindItemlst();
-
-                        tda.ItemId = dt2.Rows[i]["ITEM_ID"].ToString();
-                        tda.saveItemId = dt2.Rows[i]["ITEM_ID"].ToString();
-                        DataTable dt4 = new DataTable();
-                        dt4 = datatrans.GetItemDetails(tda.ItemId);
-                        if (dt4.Rows.Count > 0)
-                        {
-                            tda.Des = dt4.Rows[0]["ITEMDESC"].ToString();
-                             
-                        }
+                        tda.Itemlst = BindItemlst();
+                        tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
+                        tda.Des = dt2.Rows[0]["ITEM_DESCRIPTION"].ToString();
                         tda.Unit = dt2.Rows[i]["UNIT"].ToString();
                         tda.Qty = dt2.Rows[i]["QUANTITY"].ToString();
+                        tda.Rate = dt2.Rows[i]["RATE"].ToString();
+                        tda.Amount = dt2.Rows[i]["AMOUNT"].ToString();
                         TData.Add(tda);
                     }
                 }
@@ -233,9 +226,9 @@ namespace Arasan.Controllers
         }
         public JsonResult GetItemGrpJSON()
         {
-            //EnqItem model = new EnqItem();
-            //  model.ItemGrouplst = BindItemGrplst(value);
-            return Json(BindItemGrplst());
+            SalesItem model = new SalesItem();
+            model.Itemlst = BindItemlst();
+            return Json(BindItemlst());
         }
         public List<SelectListItem> BindPriority()
         {
@@ -365,26 +358,26 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public ActionResult GetItemDetail(string ItemId)
+        public ActionResult GetItemDetails(string ItemId)
         {
             try
             {
                 DataTable dt = new DataTable();
-                DataTable dt1 = new DataTable();
                 string Desc = "";
                 string unit = "";
-              
+                string price = "";
                 dt = Sales.GetItemDetails(ItemId);
 
                 if (dt.Rows.Count > 0)
                 {
                     Desc = dt.Rows[0]["ITEMDESC"].ToString();
                     unit = dt.Rows[0]["UNITID"].ToString();
-                
-                   
+                    price = dt.Rows[0]["LATPURPRICE"].ToString();
+
+
                 }
 
-                var result = new { Desc = Desc, unit = unit };
+                var result = new { Desc = Desc, unit = unit, price= price };
                 return Json(result);
             }
             catch (Exception ex)
@@ -402,7 +395,7 @@ namespace Arasan.Controllers
             if (dt.Rows.Count > 0)
             {
                 ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
-                ca.Customer = dt.Rows[0]["PARTY"].ToString();
+                ca.Customer = dt.Rows[0]["PARTYNAME"].ToString();
                 ca.EnqNo = dt.Rows[0]["ENQ_NO"].ToString();
                 ca.EnqDate = dt.Rows[0]["ENQ_DATE"].ToString();
                 ca.EnqType = dt.Rows[0]["ENQ_TYPE"].ToString();

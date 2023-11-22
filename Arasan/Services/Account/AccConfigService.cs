@@ -97,7 +97,18 @@ namespace Arasan.Services
 
                 string StatementType = string.Empty;
                 string svSQL = "";
+                string sv = "";
+                
+                if (cy.ID == null)
+                {
 
+                    svSQL = " SELECT Count(*) as cnt FROM ADCOMPH WHERE ADSCHEME =LTRIM(RTRIM('" + cy.Scheme + "')) ";
+                    if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "ETariff Already Existed";
+                        return msg;
+                    }
+                }
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("ACONFIGPROC", objConn);
@@ -138,10 +149,13 @@ namespace Arasan.Services
                         objConn.Open();
                         objCmd.ExecuteNonQuery();
                         Object Pid = objCmd.Parameters["OUTID"].Value;
-                        //string Pid = "0";
                         if (cy.ID != null)
                         {
                             Pid = cy.ID;
+
+                            sv = "DELETE ADCOMPD WHERE ADCOMPHID = '" + Pid + "' ";
+                            OracleCommand objCmdd = new OracleCommand(sv, objConn);
+                            objCmdd.ExecuteNonQuery();
                         }
                         foreach (ConfigItem cp in cy.ConfigLst)
                         {
@@ -150,16 +164,10 @@ namespace Arasan.Services
                                 using (OracleConnection objConns = new OracleConnection(_connectionString))
                                 {
                                     OracleCommand objCmds = new OracleCommand("ADCOMPD_PROC", objConns);
-                                    if (cy.ID == null)
-                                    {
+                                   
                                         StatementType = "Insert";
                                         objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
-                                    }
-                                    else
-                                    {
-                                        StatementType = "Update";
-                                        objCmds.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
-                                    }
+                                   
                                     objCmds.CommandType = CommandType.StoredProcedure;
                                     objCmds.Parameters.Add("ADCOMPHID", OracleDbType.NVarchar2).Value = Pid;
                                     objCmds.Parameters.Add("ADTYPE", OracleDbType.NVarchar2).Value = cp.Type;
@@ -222,7 +230,7 @@ namespace Arasan.Services
         public DataTable GetAccConfigItem(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select ADTYPE,ADNAME,ADSCHEMENAME,ACCLEDGER.LEDNAME from ADCOMPD LEFT OUTER JOIN ACCLEDGER ON ACCLEDGER.LEDGERID = ADCOMPD.ADACCOUNT where ADCOMPD.ADCOMPHID= '" + id + "' ";
+            SvSql = "Select ADTYPE,ADNAME,ADSCHEMENAME,ADACCOUNT from ADCOMPD where ADCOMPD.ADCOMPHID = '" + id + "' "; 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -303,7 +311,7 @@ namespace Arasan.Services
         {
             string SvSql = string.Empty;
             //SvSql = "Select IGROUP,ISUBGROUP,SUBCATEGORY,ITEMCODE,ITEMID,ITEMDESC,REORDERQTY,REORDERLVL,MAXSTOCKLVL,MINSTOCKLVL,CONVERAT,UOM,HSN,SELLINGPRICE,ITEMMASTERID from ITEMMASTER";
-            SvSql = "Select ADSCHEMEDESC,ADSCHEME,ADTRANSDESC,ADTRANSID,ADCOMPHID FROM ADCOMPH ";
+            SvSql = "Select ADSCHEMEDESC,ADSCHEME,ADTRANSDESC,ADTRANSID,ADCOMPHID FROM ADCOMPH WHERE ACTIVE = 'Yes' ORDER BY ADCOMPHID DESC";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

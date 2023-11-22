@@ -20,6 +20,7 @@ namespace Arasan.Controllers
         {
             Curing ic = new Curing();
             ic.Cur = BindCuring();
+            ic.createdby = Request.Cookies["UserId"];
             //ic.STypelst = BindSType();
             //ic.statuslst = BindStatus();
             ic.Sublst = BindSubgroup();
@@ -81,10 +82,9 @@ namespace Arasan.Controllers
 
             return View(Ic);
         }
-        public IActionResult ListCuring(string status)
+        public IActionResult ListCuring()
         {
-            IEnumerable<Curing> ic = CuringService.GetAllCuring(status);
-            return View(ic);
+            return View();
         }
         public IActionResult Status(string id)
         {
@@ -150,7 +150,7 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public List<SelectListItem> BindSubgroup()
+        public List<SelectListItem> BindSubgroup() 
         {
             try
             {
@@ -199,5 +199,39 @@ namespace Arasan.Controllers
             }
         }
 
+        public ActionResult MyListItemgrid(string strStatus)
+        {
+            List<CuringGrid> Reg = new List<CuringGrid>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Action" : strStatus;
+            dtUsers = CuringService.GetAllCuring(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+
+                string DeleteRow = string.Empty;
+                string EditRow = string.Empty;
+
+                EditRow = "<a href=Curing?id=" + dtUsers.Rows[i]["CURINGMASTERID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["CURINGMASTERID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                Reg.Add(new CuringGrid
+                {
+                    id = dtUsers.Rows[i]["CURINGMASTERID"].ToString(),
+                    location = dtUsers.Rows[i]["LOCATIONID"].ToString(),
+                    sub = dtUsers.Rows[i]["SUBGROUP"].ToString(),
+                    shed = dtUsers.Rows[i]["SHEDNUMBER"].ToString(),
+                    cap = dtUsers.Rows[i]["CAPACITY"].ToString(),
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
+        }
     }
 }

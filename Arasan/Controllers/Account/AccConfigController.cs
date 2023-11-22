@@ -74,7 +74,7 @@ namespace Arasan.Controllers
                         tda.Type = dt2.Rows[i]["ADTYPE"].ToString();
                         tda.Tname = dt2.Rows[i]["ADNAME"].ToString();
                         tda.Schname = dt2.Rows[i]["ADSCHEMENAME"].ToString();
-                        tda.ledger = dt2.Rows[i]["LEDNAME"].ToString();
+                        tda.ledger = dt2.Rows[i]["ADACCOUNT"].ToString();
 
                         tda.Isvalid = "Y";
                         TData.Add(tda);
@@ -315,7 +315,7 @@ namespace Arasan.Controllers
 
                 ViewRow = "<a href=AccConfig?id=" + dtUsers.Rows[i]["ADCOMPHID"].ToString() + "><img src='../Images/view_icon.png' alt='View' /></a>";
                 EditRow = "<a href=AccConfig?id=" + dtUsers.Rows[i]["ADCOMPHID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["ADCOMPHID"].ToString() + ")'><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["ADCOMPHID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
 
                 Reg.Add(new Config
                 {

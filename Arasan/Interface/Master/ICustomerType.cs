@@ -7,11 +7,10 @@ namespace Arasan.Interface
     public interface ICustomerType
     {
         string CustomerCRUD(CustomerType by);
-        IEnumerable<CustomerType> GetAllCustomerType(string status);
         DataTable GetCustomerType(string id);
 
         string StatusChange(string tag, int id);
         string RemoveChange(string tag, int id);
-
+        DataTable GetAllCUSTOMERTYPE(string strStatus);
     }
 }

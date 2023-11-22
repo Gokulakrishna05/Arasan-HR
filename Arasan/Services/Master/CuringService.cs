@@ -37,40 +37,40 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        public IEnumerable<Curing> GetAllCuring(string status)
-        {
-            if (string.IsNullOrEmpty(status))
-            {
-                status = "Active";
-            }
-            List<Curing> cmpList = new List<Curing>();
-            using (OracleConnection con = new OracleConnection(_connectionString))
-            {
-                using (OracleCommand cmd = con.CreateCommand())
-                {
-                    con.Open();
+        //public IEnumerable<Curing> GetAllCuring(string status)
+        //{
+        //    if (string.IsNullOrEmpty(status))
+        //    {
+        //        status = "Active";
+        //    }
+        //    List<Curing> cmpList = new List<Curing>();
+        //    using (OracleConnection con = new OracleConnection(_connectionString))
+        //    {
+        //        using (OracleCommand cmd = con.CreateCommand())
+        //        {
+        //            con.Open();
 
-                    cmd.CommandText = "Select LOCDETAILS.LOCID,SUBGROUP,SHEDNUMBER,CAPACITY,CURINGMASTERID  from CURINGMASTER LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID=CURINGMASTER.LOCATIONID WHERE CURINGMASTER.STATUS='" + status + "' order by CURINGMASTER.CURINGMASTERID ASC";
+        //            cmd.CommandText = "Select LOCDETAILS.LOCID,SUBGROUP,SHEDNUMBER,CAPACITY,CURINGMASTERID  from CURINGMASTER LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID=CURINGMASTER.LOCATIONID WHERE CURINGMASTER.STATUS='" + status + "' order by CURINGMASTER.CURINGMASTERID ASC";
 
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
-                    {
-                        Curing cmp = new Curing
-                        {
-                            ID = rdr["CURINGMASTERID"].ToString(),
-                            Location = rdr["LOCID"].ToString(),
-                            Sub = rdr["SUBGROUP"].ToString(),
-                            Shed = rdr["SHEDNUMBER"].ToString(),
-                            Cap = rdr["CAPACITY"].ToString(),
-                            //status = rdr["STATUS"].ToString()
+        //            OracleDataReader rdr = cmd.ExecuteReader();
+        //            while (rdr.Read())
+        //            {
+        //                Curing cmp = new Curing
+        //                {
+        //                    ID = rdr["CURINGMASTERID"].ToString(),
+        //                    Location = rdr["LOCID"].ToString(),
+        //                    Sub = rdr["SUBGROUP"].ToString(),
+        //                    Shed = rdr["SHEDNUMBER"].ToString(),
+        //                    Cap = rdr["CAPACITY"].ToString(),
+        //                    //status = rdr["STATUS"].ToString()
 
-                        };
-                        cmpList.Add(cmp);
-                    }
-                }
-            }
-            return cmpList;
-        }
+        //                };
+        //                cmpList.Add(cmp);
+        //            }
+        //        }
+        //    }
+        //    return cmpList;
+        //}
         //public Curing GetCuringById(string eid)
         //{
         //    Curing Curing = new Curing();
@@ -140,6 +140,16 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("SHEDNUMBER", OracleDbType.NVarchar2).Value = cy.Shed;
                     objCmd.Parameters.Add("CAPACITY", OracleDbType.NVarchar2).Value = cy.Cap;
                     objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "Active";
+                    if (cy.ID == null)
+                    {
+                        objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = cy.createdby;
+                        objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                    }
+                    else
+                    {
+                        objCmd.Parameters.Add("UPDATED_BY", OracleDbType.NVarchar2).Value = cy.createdby;
+                        objCmd.Parameters.Add("UPDATED_ON", OracleDbType.NVarchar2).Value = DateTime.Now;
+                    }
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     try
                     {
@@ -227,6 +237,26 @@ namespace Arasan.Services
             }
             return "";
 
+        }
+
+        public DataTable GetAllCuring(string strStatus)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "Active" || strStatus == null)
+            {
+                SvSql = "select CURINGMASTERID,LOCATIONID,SUBGROUP,SHEDNUMBER,CAPACITY from CURINGMASTER WHERE CURINGMASTER.STATUS ='Active' ORDER BY CURINGMASTERID DESC ";
+
+            }
+            else
+            {
+                SvSql = "select CURINGMASTERID,LOCATIONID,SUBGROUP,SHEDNUMBER,CAPACITY from CURINGMASTER WHERE CURINGMASTER.STATUS ='InActive' ORDER BY CURINGMASTERID DESC ";
+
+            }
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt); 
+            return dtt;
         }
     }
 }

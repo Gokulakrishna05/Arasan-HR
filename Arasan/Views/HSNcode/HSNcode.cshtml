@@ -51,6 +51,7 @@
                                         <br />  <label for="inputName3" class="col-sm-4 control-label">HSN Code<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.HCode, new { @id = "txtHCode",autocomplete="off", @class = "form-control", @TabIndex = 1,@onkeydown = "return isNumeric2(event.keyCode,this.value)" })
+                                            @Html.HiddenFor(C => C.createby)
                                         </div>
                                 </div>
                             </div>
@@ -60,7 +61,7 @@
                             <div class="col-md-5">
                                 <div class="form-group">
 
-                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Description<label class="mandatory"></label></label>
+                                        <br />  <label for="inputName3" class="col-sm-4 control-label">Description<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                             @Html.TextBoxFor(C => C.Dec, new { @id = "txtDec", @class = "form-control", @TabIndex = 1,autocomplete="off" })
                                             @Html.HiddenFor(C => C.ID)

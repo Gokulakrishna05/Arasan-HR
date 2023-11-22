@@ -18,37 +18,37 @@ namespace Arasan.Services
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public IEnumerable<CustomerType> GetAllCustomerType(string status)
-        {
-            if (string.IsNullOrEmpty(status))
-            {
-                status = "ACTIVE";
-            }
-            List<CustomerType> staList = new List<CustomerType>();
-            using (OracleConnection con = new OracleConnection(_connectionString))
-            {
+        //public IEnumerable<CustomerType> GetAllCustomerType(string status)
+        //{
+        //    if (string.IsNullOrEmpty(status))
+        //    {
+        //        status = "ACTIVE";
+        //    }
+        //    List<CustomerType> staList = new List<CustomerType>();
+        //    using (OracleConnection con = new OracleConnection(_connectionString))
+        //    {
 
-                using (OracleCommand cmd = con.CreateCommand())
-                {
-                    con.Open();
-                    cmd.CommandText = "Select CUSTOMER_TYPE,DESCRIPTION,CUSTOMERTYPEID,STATUS  from CUSTOMERTYPE WHERE STATUS= '" + status + "' order by CUSTOMERTYPE.CUSTOMERTYPEID DESC";
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
-                    {
-                        CustomerType sta = new CustomerType
-                        {
-                            ID = rdr["CUSTOMERTYPEID"].ToString(),
-                            Type = rdr["CUSTOMER_TYPE"].ToString(),
-                            Des = rdr["DESCRIPTION"].ToString(),
-                            status = rdr["STATUS"].ToString()
+        //        using (OracleCommand cmd = con.CreateCommand())
+        //        {
+        //            con.Open();
+        //            cmd.CommandText = "Select CUSTOMER_TYPE,DESCRIPTION,CUSTOMERTYPEID,STATUS  from CUSTOMERTYPE WHERE STATUS= '" + status + "' order by CUSTOMERTYPE.CUSTOMERTYPEID DESC";
+        //            OracleDataReader rdr = cmd.ExecuteReader();
+        //            while (rdr.Read())
+        //            {
+        //                CustomerType sta = new CustomerType
+        //                {
+        //                    ID = rdr["CUSTOMERTYPEID"].ToString(),
+        //                    Type = rdr["CUSTOMER_TYPE"].ToString(),
+        //                    Des = rdr["DESCRIPTION"].ToString(),
+        //                    status = rdr["STATUS"].ToString()
                            
-                        };
-                        staList.Add(sta);
-                    }
-                }
-            }
-            return staList;
-        }
+        //                };
+        //                staList.Add(sta);
+        //            }
+        //        }
+        //    }
+        //    return staList;
+        //}
         public string CustomerCRUD(CustomerType cy)
         {
             string msg = "";
@@ -86,7 +86,7 @@ namespace Arasan.Services
 
                     objCmd.Parameters.Add("CUSTOMER_TYPE", OracleDbType.NVarchar2).Value = cy.Type;
                     objCmd.Parameters.Add("DESCRIPTION", OracleDbType.NVarchar2).Value = cy.Des;
-                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
+                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
 
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     try
@@ -129,7 +129,7 @@ namespace Arasan.Services
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE CUSTOMERTYPE SET STATUS ='INACTIVE' WHERE CUSTOMERTYPEID='" + id + "'";
+                    svSQL = "UPDATE CUSTOMERTYPE SET IS_ACTIVE ='N' WHERE CUSTOMERTYPEID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -151,7 +151,7 @@ namespace Arasan.Services
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE CUSTOMERTYPE SET STATUS ='ACTIVE' WHERE CUSTOMERTYPEID='" + id + "'";
+                    svSQL = "UPDATE CUSTOMERTYPE SET IS_ACTIVE ='Y' WHERE CUSTOMERTYPEID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -165,6 +165,25 @@ namespace Arasan.Services
             }
             return "";
 
+        }
+
+        public DataTable GetAllCUSTOMERTYPE(string strStatus)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "Select CUSTOMER_TYPE,DESCRIPTION,CUSTOMERTYPEID  from CUSTOMERTYPE  WHERE CUSTOMERTYPE.IS_ACTIVE = 'Y' ORDER BY CUSTOMERTYPEID DESC";
+            }
+            else
+            {
+                SvSql = "Select CUSTOMER_TYPE,DESCRIPTION,CUSTOMERTYPEID  from CUSTOMERTYPE  WHERE CUSTOMERTYPE.IS_ACTIVE = 'N' ORDER BY CUSTOMERTYPEID DESC";
+
+            }
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
         }
     }
 }

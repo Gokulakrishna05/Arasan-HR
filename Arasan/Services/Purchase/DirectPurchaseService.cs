@@ -99,7 +99,7 @@ namespace Arasan.Services
         public DataTable GetDirectPurchase(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select DPBASIC.BRANCHID,DPBASIC.PARTYID,DPBASIC.DOCID,to_char(DPBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,DPBASIC.VOUCHER,to_char(DPBASIC.REFDT,'dd-MON-yyyy')REFDT,DPBASIC.LOCID,DPBASIC.MAINCURRENCY,DPBASIC.GROSS,DPBASIC.NET,DPBASIC.FREIGHT,DPBASIC.OTHERCH,DPBASIC.RNDOFF,DPBASIC.OTHERDISC,DPBASIC.LRCH,DPBASIC.DELCH,DPBASIC.NARR,DPBASICID  from DPBASIC where DPBASIC.DPBASICID=" + id + "";
+            SvSql = "Select DPBASIC.BRANCHID,DPBASIC.PARTYID,DPBASIC.DOCID,to_char(DPBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,DPBASIC.VOUCHER,to_char(DPBASIC.REFDT,'dd-MON-yyyy')REFDT,DPBASIC.LOCID,DPBASIC.MAINCURRENCY,DPBASIC.GROSS,DPBASIC.NET,DPBASIC.FREIGHT,DPBASIC.OTHERCH,DPBASIC.ROUNDM,DPBASIC.OTHERDISC,DPBASIC.LRCH,DPBASIC.DELCH,DPBASIC.NARR,DPBASICID  from DPBASIC where DPBASIC.DPBASICID=" + id + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -114,16 +114,23 @@ namespace Arasan.Services
             try
             {
                 string StatementType = string.Empty; string svSQL = "";
-                int idc = datatrans.GetDataId("select LASTNO from sequence where TRANSTYPE='dp' AND ACTIVESEQUENCE='T'");
+                datatrans = new DataTransactions(_connectionString);
+                if (cy.ID == null)
+                {
+                    datatrans = new DataTransactions(_connectionString);
+                    int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'Dpu-' AND ACTIVESEQUENCE = 'T'");
+                    string DocNo = string.Format("{0}{1}", "Dpu-", (idc + 1).ToString());
 
-                string updateCMd = " UPDATE sequence SET LASTNO ='" + (idc + 1).ToString() + "' where TRANSTYPE='dp' AND ACTIVESEQUENCE='T'";
-                try
-                {
-                    datatrans.UpdateStatus(updateCMd);
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
+                    string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='Dpu-' AND ACTIVESEQUENCE ='T'";
+                    try
+                    {
+                        datatrans.UpdateStatus(updateCMd);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                    cy.DocNo = DocNo;
                 }
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
@@ -155,7 +162,7 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("NET", OracleDbType.NVarchar2).Value = cy.net;
                     objCmd.Parameters.Add("FREIGHT", OracleDbType.NVarchar2).Value = cy.Frig;
                     objCmd.Parameters.Add("OTHERCH", OracleDbType.NVarchar2).Value = cy.Other;
-                    objCmd.Parameters.Add("RNDOFF", OracleDbType.NVarchar2).Value = cy.Round;
+                    objCmd.Parameters.Add("ROUNDM", OracleDbType.NVarchar2).Value = cy.Round;
                     objCmd.Parameters.Add("OTHERDISC", OracleDbType.NVarchar2).Value = cy.SpDisc;
                     objCmd.Parameters.Add("LRCH", OracleDbType.NVarchar2).Value = cy.LRCha;
                     objCmd.Parameters.Add("DELCH", OracleDbType.NVarchar2).Value = cy.DelCh;
@@ -282,11 +289,11 @@ namespace Arasan.Services
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "Select  BRANCHMAST.BRANCHID,PARTYMAST.PARTYNAME,DPBASIC. DOCID,to_char(DPBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,DPBASICID from DPBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=DPBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on DPBASIC.PARTYID=PARTYMAST.PARTYMASTID  Where PARTYMAST.TYPE IN ('Supplier','BOTH')  AND IS_ACTIVE='Y' ORDER BY DPBASICID DESC ";
+                SvSql = "Select  BRANCHMAST.BRANCHID,PARTYMAST.PARTYNAME,DPBASIC. DOCID,to_char(DPBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,DPBASIC.STATUS,DPBASICID from DPBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=DPBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on DPBASIC.PARTYID=PARTYMAST.PARTYMASTID  Where PARTYMAST.TYPE IN ('Supplier','BOTH')  AND IS_ACTIVE='Y' ORDER BY DPBASICID DESC ";
             }
             else
             {
-                SvSql = "Select  BRANCHMAST.BRANCHID,PARTYMAST.PARTYNAME,DPBASIC. DOCID,to_char(DPBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,DPBASICID from DPBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=DPBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on DPBASIC.PARTYID=PARTYMAST.PARTYMASTID  Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND IS_ACTIVE='N'  ORDER BY DPBASICID DESC ";
+                SvSql = "Select  BRANCHMAST.BRANCHID,PARTYMAST.PARTYNAME,DPBASIC. DOCID,to_char(DPBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,DPBASIC.STATUS,DPBASICID from DPBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=DPBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on DPBASIC.PARTYID=PARTYMAST.PARTYMASTID  Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND IS_ACTIVE='N'  ORDER BY DPBASICID DESC ";
             }
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -295,15 +302,63 @@ namespace Arasan.Services
             return dtt;
         }
 
-        public DataTable GetItem()
+        public string DirectPurchasetoGRN(string id)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
+                datatrans = new DataTransactions(_connectionString);
+                using (OracleConnection objConnE = new OracleConnection(_connectionString))
+                {
+                    string Sql = "UPDATE DPBASIC SET STATUS='GRN Generated' where DPBASICID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(Sql, objConnE);
+                    objConnE.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnE.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
+        }
+
+        public DataTable GetDirectPurchaseGrn(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "SELECT ITEMMASTERID,ITEMID FROM ITEMMASTER";
+            SvSql = "Select BRANCHMAST.BRANCHID,PARTYMAST.PARTYNAME,DPBASIC.DOCID,to_char(DPBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,DPBASIC.VOUCHER,to_char(DPBASIC.REFDT,'dd-MON-yyyy')REFDT,LOCDETAILS.LOCID,CURRENCY.MAINCURR,DPBASIC.GROSS,DPBASIC.NET,DPBASIC.FREIGHT,DPBASIC.OTHERCH,DPBASIC.ROUNDM,DPBASIC.OTHERDISC,DPBASIC.LRCH,DPBASIC.DELCH,DPBASIC.NARR,DPBASICID from DPBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=DPBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on DPBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=DPBASIC.LOCID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=DPBASIC.MAINCURRENCY  Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND DPBASIC.DPBASICID=" + id + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
         }
+
+        public DataTable GetDirectPurchaseItemGRN(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = " Select DPDETAIL.QTY,DPDETAIL.DPDETAILID,ITEMMASTER.ITEMID,UNITMAST.UNITID,RATE,TOTAMT,DISC,DISCAMOUNT,IFREIGHTCH,PURTYPE,AMOUNT,CF,CGSTP,SGSTP,IGSTP,CGST,SGST,IGST  from DPDETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=DPDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT   where DPDETAIL.DPBASICID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        //public DataTable GetItem(string id)
+        //{
+        //    string SvSql = string.Empty;
+        //    SvSql = "SELECT ITEMMASTERID,ITEMID FROM ITEMMASTER";
+        //    DataTable dtt = new DataTable();
+        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
+        //}
     }
 }

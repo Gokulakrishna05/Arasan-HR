@@ -109,12 +109,12 @@ namespace Arasan.Controllers
             tempnumber = "0" + tempnumber;
             return tempnumber;
         }
-        public ActionResult MyListLedgergrid()
+        public ActionResult MyListLedgergrid(string strStatus)
         {
             List<LedgerItems> Reg = new List<LedgerItems>();
             DataTable dtUsers = new DataTable();
-
-            dtUsers = (DataTable)ledger.GetAllLedgers();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = (DataTable)ledger.GetAllLedgers(strStatus);
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
 
@@ -122,7 +122,7 @@ namespace Arasan.Controllers
                 string EditRow = string.Empty;
 
                 EditRow = "<a href=Ledger?id=" + dtUsers.Rows[i]["LEDGERID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                DeleteRow = "<a href=Ledger?tag=Del&id=" + dtUsers.Rows[i]["LEDGERID"].ToString() + ")'><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["LEDGERID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
 
                 Reg.Add(new LedgerItems
                 {
@@ -162,7 +162,21 @@ namespace Arasan.Controllers
             model.AccGrouplst = BindAccGroup(itemid);
             return Json(BindAccGroup(itemid));
         }
+        public ActionResult DeleteItem(string tag, string id)
+        {
 
+            string flag = ledger.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListLedger");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListLedger");
+            }
+        }
 
         public List<SelectListItem> BindAccGroup(string value)
         {
@@ -179,21 +193,6 @@ namespace Arasan.Controllers
             catch (Exception ex)
             {
                 throw ex;
-            }
-        }
-        public ActionResult DeleteMR(string tag, int id)
-        {
-
-            string flag = ledger.StatusChange(tag, id);
-            if (string.IsNullOrEmpty(flag))
-            {
-
-                return RedirectToAction("ListLedger");
-            }
-            else
-            {
-                TempData["notice"] = flag;
-                return RedirectToAction("ListLedger");
             }
         }
         public ActionResult GetGroupCodeDetail(string ItemId)

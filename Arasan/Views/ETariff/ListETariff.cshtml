@@ -1,0 +1,123 @@
+﻿@model Arasan.Models.ETariff
+@{
+    ViewData["Title"] = "ListETariff";
+}
+
+<partial name="JqxGridPartial" />
+
+<script type="text/javascript">
+    @if (TempData["notice"] != null)
+    {
+        @:alert('@TempData["notice"]');
+    }
+</script>
+
+<div class="row wrapper border-bottom page-heading">
+    <div class="col-lg-12">
+        <ol class="breadcrumb">
+            <li> <a href="#">Home</a> </li>
+            <li> <a>Master</a> </li>
+            <li class="active"> <strong> ETariff </strong> </li>
+        </ol>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var source =
+        {
+            url: "/ETariff/MyListItemgrid",
+
+            datatype: "json",
+            updaterow: function (rowid, rowdata) {
+                // synchronize with the server - send update command
+            },
+            datafields: [
+                { name: 'tariff', type: 'string' },
+                { name: 'tariffdes', type: 'string' },
+                { name: 'sgst', type: 'string' },
+                { name: 'cgst', type: 'string' },
+                { name: 'igst', type: 'string' },
+
+                { name: 'editrow', type: 'string' },
+                { name: 'delrow', type: 'string' },
+
+
+            ],
+            id: 'id',
+        };
+        var dataAdapter = new $.jqx.dataAdapter(source,
+            { contentType: 'application/json; charset=utf-8' }, {
+            loadComplete: function () {
+
+            }
+        }
+        );
+
+        $("#grid").jqxGrid(
+            {
+                width: '100%',
+                source: dataAdapter,
+                height: 510,
+                source: source,
+                sortable: true,
+                filterable: true,
+                groupable: false,
+                pageable: true,
+                showfilterrow: true,
+
+                enablebrowserselection: true,
+
+                theme: 'energyblue',
+                enablebrowserselection: true,
+
+                columns: [
+
+                    { text: 'Tariff ID', datafield: 'tariff', width: 200 },
+                    { text: 'Tariff Des', datafield: 'tariffdes', width: 200 },
+                    { text: 'SGST', datafield: 'sgst', width: 100 },
+                    { text: 'CGST', datafield: 'cgst', width: 100 },
+                    { text: 'IGST', datafield: 'igst', width: 100 },
+                    { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                ]
+        });
+
+    });
+</script>
+
+
+<div class="wrapper-content ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="widgets-container"> 
+
+                    <form>
+                        <div class="row">
+                           
+                            <div class="col-md-12 ">
+                                <div class=" textalignright">
+                                    <a href="@Url.Action("ETariff","ETariff")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add AccConfig</a>
+                                    <br>
+                                </div> 
+
+                            </div>
+
+                       
+                        </div>
+                        <div class="row">
+
+                            <div class="col-md-12 ">
+                                <div id="grid">
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -4,7 +4,7 @@ using Arasan.Interface.Master;
 using Arasan.Models;
 using Arasan.Services.Master;
 using Microsoft.AspNetCore.Mvc;
-
+using System.Data;
 
 namespace Arasan.Controllers.Master
 {
@@ -66,10 +66,10 @@ namespace Arasan.Controllers.Master
 
             return View(Cy);
         }
-        public IActionResult ListCurrency(string status)
+        public IActionResult ListCurrency()
         {
-            IEnumerable<Currency> cmp = CurrencyService.GetAllCurrency(status);
-            return View(cmp);
+            //IEnumerable<Currency> cmp = CurrencyService.GetAllCurrency(status);
+            return View();
         }
 
         public ActionResult DeleteMR(string tag, int id)
@@ -101,6 +101,38 @@ namespace Arasan.Controllers.Master
                 return RedirectToAction("ListCurrency");
             }
         }
+        public ActionResult MyListItemgrid(string strStatus)
+        {
+            List<Currencygrid> Reg = new List<Currencygrid>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
 
+            dtUsers = CurrencyService.GetAllCurrencygrid(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+
+                string DeleteRow = string.Empty;
+                string EditRow = string.Empty;
+
+                EditRow = "<a href=Currency?id=" + dtUsers.Rows[i]["CURRENCYID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["CURRENCYID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                Reg.Add(new Currencygrid
+                {
+                    id = dtUsers.Rows[i]["CURRENCYID"].ToString(),
+                    currencycode = dtUsers.Rows[i]["SYMBOL"].ToString(),
+                    currencyname = dtUsers.Rows[i]["MAINCURR"].ToString(),
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
+        }
     }
 }

@@ -4,6 +4,9 @@ using Arasan.Interface;
 using System.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Arasan.Models;
+using Arasan.Services;
+using DocumentFormat.OpenXml.Vml;
+using DocumentFormat.OpenXml.Wordprocessing;
 
 
 namespace Arasan.Controllers
@@ -47,8 +50,8 @@ namespace Arasan.Controllers
                 for (int i = 0; i < 1; i++)
                 {
                     tda = new DirItem();
-                    //tda.ItemGrouplst = BindItemGrplst();
-                    tda.Itemlst = BindItemlst();
+                    tda.ItemGrouplst = BindItemGrplst();
+                    tda.Itemlst = BindItemlst("");
                     tda.Isvalid = "Y";
                     TData.Add(tda);
                 }
@@ -79,6 +82,7 @@ namespace Arasan.Controllers
                     ca.Other = Convert.ToDouble(dt.Rows[0]["OTHERCH"].ToString() == "" ? "0" : dt.Rows[0]["OTHERCH"].ToString());
                     ca.Frig = Convert.ToDouble(dt.Rows[0]["FREIGHT"].ToString() == "" ? "0" : dt.Rows[0]["FREIGHT"].ToString());
                     ca.SpDisc = Convert.ToDouble(dt.Rows[0]["OTHERDISC"].ToString() == "" ? "0" : dt.Rows[0]["OTHERDISC"].ToString());
+                    ca.Round = Convert.ToDouble(dt.Rows[0]["ROUNDM"].ToString() == "" ? "0" : dt.Rows[0]["ROUNDM"].ToString());
 
                     ca.Gross = Convert.ToDouble(dt.Rows[0]["GROSS"].ToString() == "" ? "0" : dt.Rows[0]["GROSS"].ToString());
                     ca.net = Convert.ToDouble(dt.Rows[0]["NET"].ToString() == "" ? "0" : dt.Rows[0]["NET"].ToString());
@@ -92,14 +96,14 @@ namespace Arasan.Controllers
                     {
                         tda = new DirItem();
                         double toaamt = 0;
-                        //tda.ItemGrouplst = BindItemGrplst();
-                        //DataTable dt3 = new DataTable();
-                        //dt3 = datatrans.GetItemSubGroup(dt2.Rows[i]["ITEMID"].ToString());
-                        //if (dt3.Rows.Count > 0)
-                        //{
-                        //    tda.ItemGroupId = dt3.Rows[0]["SUBGROUPCODE"].ToString();
-                        //}
-                        tda.Itemlst = BindItemlst();
+                        tda.ItemGrouplst = BindItemGrplst();
+                        DataTable dt3 = new DataTable();
+                        dt3 = datatrans.GetItemSubGroup(dt2.Rows[i]["ITEMID"].ToString());
+                        if (dt3.Rows.Count > 0)
+                        {
+                            tda.ItemGroupId = dt3.Rows[0]["SUBGROUPCODE"].ToString();
+                        }
+                        tda.Itemlst = BindItemlst(tda.ItemGroupId);
                         tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
                         tda.saveItemId = dt2.Rows[i]["ITEMID"].ToString();
 
@@ -196,12 +200,28 @@ namespace Arasan.Controllers
                 string MailRow = string.Empty;
                 string DeleteRow = string.Empty;
                 string EditRow = string.Empty;
+                string MoveToGRN = string.Empty;
                
                 MailRow = "<a href=DirectPurchase?tag=Del&id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + "><img src='../Images/mail_icon.png' alt='Send Email' /></a>";
                 EditRow = "<a href=DirectPurchase?id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
                 DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
-                
+                if(dtUsers.Rows[i]["STATUS"].ToString()== "GRN Generated")
+                {
+                    MoveToGRN = "<img src='../Images/tick.png' alt='View Details' width='20' />";
+                }
+                else
+                {
+                    MoveToGRN = "<a href=MoveToGRN?id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + "><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
+                }
+                //if (Reg.Status == "GRN Generated")
+                //{
+                //    @Html.DisplayFor(Reg => Reg.Status);
+                //}
+                //else
+                //{
+                    //MoveToGRN = "<a href=MoveToGRN?id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + "><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
 
+                //}
                 Reg.Add(new DirectPurchaseItems
                 {
                     id = Convert.ToInt64(dtUsers.Rows[i]["DPBASICID"].ToString()),
@@ -212,6 +232,7 @@ namespace Arasan.Controllers
                     mailrow = MailRow,
                     editrow = EditRow,
                     delrow = DeleteRow,
+                    move = MoveToGRN,
                     
 
                 });
@@ -222,6 +243,96 @@ namespace Arasan.Controllers
                 Reg
             });
 
+        }
+        public IActionResult MoveToGRN(string id)
+        {
+            Models.DirectPurchase ca = new Models.DirectPurchase();
+            DataTable dt = new DataTable();
+            DataTable dt2 = new DataTable();
+            dt = directPurchase.GetDirectPurchaseGrn(id);
+            if (dt.Rows.Count > 0)
+            {
+                ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
+                ca.Supplier = dt.Rows[0]["PARTYNAME"].ToString();
+                ca.DocNo = dt.Rows[0]["DOCID"].ToString();
+                ca.ID = id;
+                ca.Currency = dt.Rows[0]["MAINCURR"].ToString();
+                ca.RefDate = dt.Rows[0]["REFDT"].ToString();
+                ca.Voucher = dt.Rows[0]["VOUCHER"].ToString();
+                ca.Location = dt.Rows[0]["LOCID"].ToString();
+                ca.Narration = dt.Rows[0]["NARR"].ToString();
+                ca.LRCha = Convert.ToDouble(dt.Rows[0]["LRCH"].ToString() == "" ? "0" : dt.Rows[0]["LRCH"].ToString());
+                ca.DelCh = Convert.ToDouble(dt.Rows[0]["DELCH"].ToString() == "" ? "0" : dt.Rows[0]["DELCH"].ToString());
+                ca.Other = Convert.ToDouble(dt.Rows[0]["OTHERCH"].ToString() == "" ? "0" : dt.Rows[0]["OTHERCH"].ToString());
+                ca.Frig = Convert.ToDouble(dt.Rows[0]["FREIGHT"].ToString() == "" ? "0" : dt.Rows[0]["FREIGHT"].ToString());
+                ca.SpDisc = Convert.ToDouble(dt.Rows[0]["OTHERDISC"].ToString() == "" ? "0" : dt.Rows[0]["OTHERDISC"].ToString());
+                ca.Round = Convert.ToDouble(dt.Rows[0]["ROUNDM"].ToString() == "" ? "0" : dt.Rows[0]["ROUNDM"].ToString());
+                ca.Gross = Convert.ToDouble(dt.Rows[0]["GROSS"].ToString() == "" ? "0" : dt.Rows[0]["GROSS"].ToString());
+                ca.net = Convert.ToDouble(dt.Rows[0]["NET"].ToString() == "" ? "0" : dt.Rows[0]["NET"].ToString());
+
+            }
+            List<DirItem> TData = new List<DirItem>();
+            DirItem tda = new DirItem();
+            double total = 0;
+            dt2 = directPurchase.GetDirectPurchaseItemGRN(id);
+            if (dt2.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt2.Rows.Count; i++)
+                {
+                    tda = new DirItem();
+                    tda.ItemId = dt2.Rows[i]["ITEMID"].ToString();
+                    tda.Quantity = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString() == "" ? "0" : dt2.Rows[i]["QTY"].ToString());
+                    tda.rate = Convert.ToDouble(dt2.Rows[i]["RATE"].ToString() == "" ? "0" : dt2.Rows[i]["RATE"].ToString());
+                    tda.ConFac = dt2.Rows[0]["CF"].ToString();
+                    tda.Amount = tda.Quantity * tda.rate;
+                    total += tda.Amount;
+
+                    //toaamt = tda.rate * tda.Quantity;
+                    //total += toaamt;
+                   
+                    //tda.Amount = toaamt;
+                    tda.Unit = dt2.Rows[i]["UNITID"].ToString();
+                   
+                    tda.Disc = Convert.ToDouble(dt2.Rows[i]["DISC"].ToString() == "" ? "0" : dt2.Rows[i]["DISC"].ToString());
+                    tda.DiscAmount = Convert.ToDouble(dt2.Rows[i]["DISCAMOUNT"].ToString() == "" ? "0" : dt2.Rows[i]["DISCAMOUNT"].ToString());
+
+                    tda.FrigCharge = Convert.ToDouble(dt2.Rows[i]["IFREIGHTCH"].ToString() == "" ? "0" : dt2.Rows[i]["IFREIGHTCH"].ToString());
+                    tda.TotalAmount = Convert.ToDouble(dt2.Rows[i]["TOTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["TOTAMT"].ToString());
+                    tda.CGSTP = Convert.ToDouble(dt2.Rows[i]["CGSTP"].ToString() == "" ? "0" : dt2.Rows[i]["CGSTP"].ToString());
+                    tda.SGSTP = Convert.ToDouble(dt2.Rows[i]["SGSTP"].ToString() == "" ? "0" : dt2.Rows[i]["SGSTP"].ToString());
+                    tda.IGSTP = Convert.ToDouble(dt2.Rows[i]["IGSTP"].ToString() == "" ? "0" : dt2.Rows[i]["IGSTP"].ToString());
+                    tda.CGST = Convert.ToDouble(dt2.Rows[i]["CGST"].ToString() == "" ? "0" : dt2.Rows[i]["CGST"].ToString());
+                    tda.SGST = Convert.ToDouble(dt2.Rows[i]["SGST"].ToString() == "" ? "0" : dt2.Rows[i]["SGST"].ToString());
+                    tda.IGST = Convert.ToDouble(dt2.Rows[i]["IGST"].ToString() == "" ? "0" : dt2.Rows[i]["IGST"].ToString());
+                    // tda.PurType = dt2.Rows[i]["PURTYPE"].ToString();
+                    tda.Isvalid = "Y";
+                    TData.Add(tda);
+                }
+                ca.net = Math.Round(total, 2);
+            }
+            //ca.Net = tot;
+            ca.DirLst = TData;
+            return View(ca);
+        }
+        [HttpPost]
+        public ActionResult MoveToGRN(Models.DirectPurchase Cy, string id)
+        {
+            try
+            {
+                Cy.ID = id;
+                string Strout = directPurchase.DirectPurchasetoGRN(Cy.ID);
+                return RedirectToAction("ListDirectPurchase");
+              
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return RedirectToAction("ListDirectPurchase");
         }
         public ActionResult DeleteItem(string tag, string id)
         {
@@ -273,6 +384,52 @@ namespace Arasan.Controllers
         {
             //IEnumerable<DirectPurchase> cmp = directPurchase.GetAllDirectPur(status);
             return View();
+        }
+        public IActionResult ListDirectPurchaseGRN()
+        {
+            //IEnumerable<DirectPurchase> cmp = directPurchase.GetAllDirectPur(status);
+            return View();
+        }
+        public ActionResult MyListDirectPurchaseGRN(string strStatus)
+        {
+            List<DirectPurchaseItems> Reg = new List<DirectPurchaseItems>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = (DataTable)directPurchase.GetAllDirectPurchases(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+                string MailRow = string.Empty;
+                string DeleteRow = string.Empty;
+                string EditRow = string.Empty;
+                string Account = string.Empty;
+                //string Status = string.Empty;
+
+                MailRow = "<a href=DirectPurchase?tag=Del&id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + "><img src='../Images/mail_icon.png' alt='Send Email' /></a>";
+                EditRow = "<a href=DirectPurchase?id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                Account = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["DPBASICID"].ToString() + "><img src='../Images/checklist.png' alt='Edit' /></a>";
+                Reg.Add(new DirectPurchaseItems
+                {
+                    id = Convert.ToInt64(dtUsers.Rows[i]["DPBASICID"].ToString()),
+                    branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
+                    supplier = dtUsers.Rows[i]["PARTYNAME"].ToString(),
+                    docNo = dtUsers.Rows[i]["DOCID"].ToString(),
+                    docDate = dtUsers.Rows[i]["DOCDATE"].ToString(),
+                    mailrow = MailRow,
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+                    Accrow = Account,
+                    //Status = Status,
+
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
         }
         public List<SelectListItem> BindBranch()
         {
@@ -379,11 +536,11 @@ namespace Arasan.Controllers
         //        throw ex;
         //    }
         //}
-        public List<SelectListItem> BindItemlst()
+        public List<SelectListItem> BindItemlst(string value)
         {
             try
             {
-                DataTable dtDesg = directPurchase.GetItem();
+                DataTable dtDesg = datatrans.GetItem(value);
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
@@ -397,23 +554,23 @@ namespace Arasan.Controllers
             }
         }
 
-        //public List<SelectListItem> BindItemGrplst()
-        //{
-        //    try
-        //    {
-        //        DataTable dtDesg = datatrans.GetItemSubGrp();
-        //        List<SelectListItem> lstdesg = new List<SelectListItem>();
-        //        for (int i = 0; i < dtDesg.Rows.Count; i++)
-        //        {
-        //            lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["SGCODE"].ToString(), Value = dtDesg.Rows[i]["ITEMSUBGROUPID"].ToString() });
-        //        }
-        //        return lstdesg;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
+        public List<SelectListItem> BindItemGrplst()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetItemSubGrp();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["SGCODE"].ToString(), Value = dtDesg.Rows[i]["ITEMSUBGROUPID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         public ActionResult GetItemDetail(string ItemId)
         {
@@ -447,19 +604,19 @@ namespace Arasan.Controllers
                 throw ex;
             }
         }
-        public JsonResult GetItemJSON()
+        public JsonResult GetItemJSON(string itemid)
         {
             DirItem model = new DirItem();
-            model.Itemlst = BindItemlst();
-            return Json(BindItemlst());
+            model.Itemlst = BindItemlst(itemid);
+            return Json(BindItemlst(itemid));
 
         }
-        //public JsonResult GetItemGrpJSON()
-        //{
-        //    //EnqItem model = new EnqItem();
-        //    //  model.ItemGrouplst = BindItemGrplst(value);
-        //    return Json(BindItemGrplst());
-        //}
+        public JsonResult GetItemGrpJSON()
+        {
+            //EnqItem model = new EnqItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(BindItemGrplst());
+        }
 
         public IActionResult Index()
         {

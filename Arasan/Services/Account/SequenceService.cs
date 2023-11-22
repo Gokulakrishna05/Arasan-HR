@@ -10,11 +10,11 @@ namespace Arasan.Services
     public class SequenceService : ISequence
     {
         private readonly string _connectionString;
-       
+        DataTransactions datatrans;
         public SequenceService(IConfiguration _configuratio)
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
-           
+            datatrans = new DataTransactions(_connectionString);
         }
         public IEnumerable<Sequence> GetAllSequence()
         {
@@ -52,7 +52,16 @@ namespace Arasan.Services
             try
             {
                 string StatementType = string.Empty; string svSQL = "";
-               
+                if (cy.ID == null)
+                {
+
+                    svSQL = " SELECT Count(*) as cnt FROM SEQUENCE WHERE PREFIX =LTRIM(RTRIM('" + cy.Prefix + "')) ";
+                    if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "SEQUENCE Already Existed";
+                        return msg;
+                    }
+                }
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
@@ -106,6 +115,25 @@ namespace Arasan.Services
         {
             string SvSql = string.Empty;
             SvSql = "Select PREFIX,TRANSTYPE,DESCRIPTION,LASTNO,to_char(STDATE,'dd-MON-yyyy')STDATE,to_char(EDDATE,'dd-MON-yyyy')EDDATE,SEQUENCEID from SEQUENCE where SEQUENCEID=" + id + "";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetAllSeq(string strStatus)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "T" || strStatus == null)
+            {
+                SvSql = "Select PREFIX,TRANSTYPE,DESCRIPTION,LASTNO,to_char(STDATE,'dd-MON-yyyy')STDATE,to_char(EDDATE,'dd-MON-yyyy')EDDATE,SEQUENCEID from SEQUENCE  WHERE SEQUENCE.ACTIVESEQUENCE = 'T' ORDER BY SEQUENCEID DESC";
+            }
+            else
+            {
+                SvSql = "Select PREFIX,TRANSTYPE,DESCRIPTION,LASTNO,to_char(STDATE,'dd-MON-yyyy')STDATE,to_char(EDDATE,'dd-MON-yyyy')EDDATE,SEQUENCEID from SEQUENCE  WHERE SEQUENCE.ACTIVESEQUENCE = 'F' ORDER BY SEQUENCEID DESC";
+
+            }
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

@@ -1,4 +1,4 @@
-@model IEnumerable<Arasan.Models.Currency>
+@model Arasan.Models.Currency
 
 @{
     ViewData["Title"] = "Currency Master";
@@ -6,6 +6,8 @@
     string Qid = string.Empty;
     if (!string.IsNullOrEmpty(query)) { Qid = ViewContext.HttpContext.Request.Query["status"]; }
 }
+<partial name="JqxGridPartial" />
+
 
 <script type="text/javascript">
     @if (TempData["notice"] != null)
@@ -25,10 +27,69 @@
     </div>
 </div>
 <script type="text/javascript">
-    @if (TempData["notice"] != null)
-    {
-        @:alert('@TempData["notice"]');
-    }
+    $(document).ready(function () {
+        var source =
+        {
+            url: "/Currency/MyListItemgrid",
+            data: {
+                strstatus: ""
+            },
+            datatype: "json",
+            updaterow: function (rowid, rowdata) {
+                // synchronize with the server - send update command
+            },
+            datafields: [
+                { name: 'currencycode', type: 'string' },
+                { name: 'currencyname', type: 'string' },
+                { name: 'editrow', type: 'string' },
+                { name: 'delrow', type: 'string' },
+
+
+            ],
+            id: 'id',
+        };
+        var dataAdapter = new $.jqx.dataAdapter(source,
+            { contentType: 'application/json; charset=utf-8' }, {
+            loadComplete: function () {
+
+            }
+        }
+        );
+
+        $("#grid").jqxGrid(
+            {
+                width: '100%',
+                source: dataAdapter,
+                height: 450,
+                source: source,
+                sortable: true,
+                filterable: true,
+                groupable: false,
+                pageable: true,
+                showfilterbar: true,
+                //showfilterrow: true,
+                theme: 'darkblue',
+                enablebrowserselection: true,
+
+                columns: [
+
+                    { text: 'Symbol', filtertype: 'checkedlist', datafield: 'currencycode', width: 200 },
+                    { text: 'Currency Name', filtertype: 'input', datafield: 'currencyname', width: 200 },
+                    { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                ]
+            });
+        $("#ddlStatus").change(function () {
+            var value = "Y";
+            if ($(this).val() != "") {
+                value = $(this).val();
+            }
+            source.data = {
+                strstatus: value
+            };
+            $("#grid").jqxGrid({ source: source });
+        });
+    });
 </script>
 <div class="wrapper-content ">
     <div class="row">
@@ -37,15 +98,13 @@
                 <div class="widgets-container">
 
                     <form>
-                        <div class="row">
-                            <div class="col-md-6 ">
-                                <select style='width: 200px;' class='form-control  newcss' id="dllstatus" onchange="changeStatus(this.value)">
-                                    <option value="" selected>Open</option>
-                                    <option value='INACTIVE'>Close</option>
-                                    @* <option value='InActive'>Disabled</option>*@
-                                </select>
-                            </div>
-                            <div class="col-md-12 ">
+                        <div class="col-md-2 ">
+                            @Html.DropDownListFor(n => n.ddlStatus, new SelectListItem[]
+                            { new SelectListItem() {Text = "Enabled", Value="Y"},
+                            new SelectListItem() {Text = "Disabled", Value="N"}},
+                            new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" })
+                       
+                            <div class="col-md-10 ">
                                 <div class=" textalignright">
                                     <a href="@Url.Action("Currency", "Currency")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Currency</a>
                                     <br>
@@ -53,61 +112,16 @@
 
 
                             </div>
-                        </div>
+                            </div>
+                       
 
                         <div class="row">
-                            <div class="col-lg-12">
-                                <div class="ibox float-e-margins">
 
-                                    <div class="ibox-content collapse in">
-                                        <div class="widgets-container">
-                                            <div>
-                                                <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>S.No</th>
-                                                            <th>Symbol </th>
-                                                            <th>Currency Name</th>
-                                                      
-                                                            <th>Edit</th>
-                                                            <th>Close</th>
-                                                        </tr>
-                                                    </thead>
-
-                                                    <tbody>
-                                                        @{
-                                                            int i = 1;
-                                                            foreach (var item in Model)
-                                                            {
-                                                                    <tr>
-                                                                        <td>@i</td>
-                                                                        <td>@Html.DisplayFor(modelItem => item.CurrencyCode)</td>
-                                                                        <td>@Html.DisplayFor(modelItem => item.CurrencyName)</td>
-                                                                    @if (item.status == "INACTIVE")
-                                                                    {
-                                                                        <td></td>
-                                                                        <td> </td>
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                    <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Currency", "Currency",new { id=item.ID })"></a></div></td>
-                                                                    <td> <a href="@Url.Action("DeleteMR","Currency",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
-                                                                    }
-                                                                </tr>
-                                                                i++;
-                                                            }
-                                                            }
-                                                         
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <div class="col-md-10 ">
+                                <div id="grid">
                                 </div>
                             </div>
                         </div>
-
-
 
                     </form>
                 </div>

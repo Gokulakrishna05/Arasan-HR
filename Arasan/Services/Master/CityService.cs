@@ -18,37 +18,37 @@ namespace Arasan.Services.Master
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public IEnumerable<City> GetAllCity(string status)
-        {
-            if (string.IsNullOrEmpty(status))
-            {
-                status = "ACTIVE";
-            }
-            List<City> staList = new List<City>();
-            using (OracleConnection con = new OracleConnection(_connectionString))
-            {
+        //public IEnumerable<City> GetAllCity(string status)
+        //{
+        //    if (string.IsNullOrEmpty(status))
+        //    {
+        //        status = "Y";
+        //    }
+        //    List<City> staList = new List<City>();
+        //    using (OracleConnection con = new OracleConnection(_connectionString))
+        //    {
 
-                using (OracleCommand cmd = con.CreateCommand())
-                {
-                    con.Open();
-                    cmd.CommandText = "Select CITYNAME,STATEMAST.STATE,CITYID,CONMAST.COUNTRY,CITYMASTER.STATUS from CITYMASTER left outer join CONMAST on COUNTRYMASTID=CITYMASTER.COUNTRYID left outer join STATEMAST on STATEMASTID=CITYMASTER.STATEID WHERE CITYMASTER.STATUS='" + status + "' order by STATEMAST.STATEMASTID DESC";
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
-                    {
-                        City sta = new City
-                        {
-                            ID = rdr["CITYID"].ToString(),
-                            Cit = rdr["CITYNAME"].ToString(),
-                            State = rdr["STATE"].ToString(),
-                            countryid = rdr["COUNTRY"].ToString(),
-                            status = rdr["STATUS"].ToString()
-                        };
-                        staList.Add(sta);
-                    }
-                }
-            }
-            return staList;
-        }
+        //        using (OracleCommand cmd = con.CreateCommand())
+        //        {
+        //            con.Open();
+        //            cmd.CommandText = "Select CITYNAME,STATEMAST.STATE,CITYID,CONMAST.COUNTRY,CITYMASTER.IS_ACTIVE from CITYMASTER left outer join CONMAST on COUNTRYMASTID=CITYMASTER.COUNTRYID left outer join STATEMAST on STATEMASTID=CITYMASTER.STATEID WHERE CITYMASTER.IS_ACTIVE='" + status + "' order by STATEMAST.STATEMASTID DESC";
+        //            OracleDataReader rdr = cmd.ExecuteReader();
+        //            while (rdr.Read())
+        //            {
+        //                City sta = new City
+        //                {
+        //                    ID = rdr["CITYID"].ToString(),
+        //                    Cit = rdr["CITYNAME"].ToString(),
+        //                    State = rdr["STATE"].ToString(),
+        //                    countryid = rdr["COUNTRY"].ToString(),
+        //                    status = rdr["IS_ACTIVE"].ToString()
+        //                };
+        //                staList.Add(sta);
+        //            }
+        //        }
+        //    }
+        //    return staList;
+        //}
         public DataTable GetState(string id)
         {
             string SvSql = string.Empty;
@@ -62,7 +62,7 @@ namespace Arasan.Services.Master
         public DataTable Getcountry()
         {
             string SvSql = string.Empty;
-            SvSql = "select COUNTRY,COUNTRYMASTID,CONMAST.STATUS from CONMAST  WHERE CONMAST.STATUS='ACTIVE' order by COUNTRYMASTID ";
+            SvSql = "select COUNTRYNAME,COUNTRYMASTID,CONMAST.IS_ACTIVE from CONMAST  WHERE CONMAST.IS_ACTIVE='Y' order by COUNTRYMASTID  ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -138,7 +138,17 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("STATEID", OracleDbType.NVarchar2).Value = ss.State;
                     objCmd.Parameters.Add("CITYNAME", OracleDbType.NVarchar2).Value = ss.Cit;
                     
-                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
+                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
+                    if (ss.ID == null)
+                    {
+                        objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = ss.createdby;
+                        objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                    }
+                    else
+                    {
+                        objCmd.Parameters.Add("UPDATED_BY", OracleDbType.NVarchar2).Value = ss.createdby;
+                        objCmd.Parameters.Add("UPDATED_ON", OracleDbType.NVarchar2).Value = DateTime.Now;
+                    }
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     try
                     {
@@ -180,7 +190,7 @@ namespace Arasan.Services.Master
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE CITYMASTER SET STATUS ='INACTIVE' WHERE CITYID='" + id + "'";
+                    svSQL = "UPDATE CITYMASTER SET IS_ACTIVE ='N' WHERE CITYID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -202,7 +212,7 @@ namespace Arasan.Services.Master
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE CITYMASTER SET STATUS ='ACTIVE' WHERE CITYID='" + id + "'";
+                    svSQL = "UPDATE CITYMASTER SET IS_ACTIVE ='Y' WHERE CITYID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -217,6 +227,25 @@ namespace Arasan.Services.Master
             return "";
 
         }
+
+        public DataTable GetAllCitys(string strStatus)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "select CITYNAME,STATEID,CITYID,CONMAST.COUNTRY from CITYMASTER left outer join CONMAST on COUNTRYMASTID=CITYMASTER.COUNTRYID  WHERE CITYMASTER.IS_ACTIVE = 'Y' ORDER BY CITYID DESC";
+            }
+            else
+            {
+                SvSql = "select CITYNAME,STATEID,CITYID,CONMAST.COUNTRY from CITYMASTER left outer join CONMAST on COUNTRYMASTID=CITYMASTER.COUNTRYID  WHERE CITYMASTER.IS_ACTIVE = 'N' ORDER BY CITYID DESC";
+
+            }
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        } 
     }
 
 }

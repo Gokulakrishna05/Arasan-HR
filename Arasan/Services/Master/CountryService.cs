@@ -18,36 +18,36 @@ namespace Arasan.Services.Master
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public IEnumerable<Country> GetAllCountry(string status)
-        {
-            if (string.IsNullOrEmpty(status))
-            {
-                status = "ACTIVE";
-            }
-            List<Country> cmpList = new List<Country>();
-            using (OracleConnection con = new OracleConnection(_connectionString))
-            {
+        //public IEnumerable<Country> GetAllCountry(/*string status*/)
+        //{
+        //    //if (string.IsNullOrEmpty(status))
+        //    //{
+        //    //    status = "ACTIVE";
+        //    //}
+        //    List<Country> cmpList = new List<Country>();
+        //    using (OracleConnection con = new OracleConnection(_connectionString))
+        //    {
 
-                using (OracleCommand cmd = con.CreateCommand())
-                {
-                    con.Open();
-                    cmd.CommandText = "Select COUNTRY,COUNTRYCODE,COUNTRYMASTID,STATUS from CONMAST order by CONMAST.COUNTRYMASTID DESC";
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
-                    {
-                        Country cmp = new Country
-                        {
-                            ID = rdr["COUNTRYMASTID"].ToString(),
-                            ConName = rdr["COUNTRY"].ToString(),
-                            ConCode = rdr["COUNTRYCODE"].ToString(),
-                            status = rdr["STATUS"].ToString()
-                        };
-                        cmpList.Add(cmp);
-                    }
-                }
-            }
-            return cmpList;
-        }
+        //        using (OracleCommand cmd = con.CreateCommand())
+        //        {
+        //            con.Open();
+        //            cmd.CommandText = "Select COUNTRY,COUNTRYCODE,COUNTRYMASTID,IS_ACTIVE from CONMAST order by CONMAST.COUNTRYMASTID DESC";
+        //            OracleDataReader rdr = cmd.ExecuteReader();
+        //            while (rdr.Read())
+        //            {
+        //                Country cmp = new Country
+        //                {
+        //                    ID = rdr["COUNTRYMASTID"].ToString(),
+        //                    ConName = rdr["COUNTRY"].ToString(),
+        //                    ConCode = rdr["COUNTRYCODE"].ToString(),
+        //                    status = rdr["IS_ACTIVE"].ToString()
+        //                };
+        //                cmpList.Add(cmp);
+        //            }
+        //        }
+        //    }
+        //    return cmpList;
+        //}
 
 
         public Country GetCountryById(string eid)
@@ -62,7 +62,7 @@ namespace Arasan.Services.Master
                     OracleDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
-                        Country cmp = new Country
+                        Country cmp = new Country 
                         {
                             ID = rdr["COUNTRYMASTID"].ToString(),
                             ConName = rdr["COUNTRY"].ToString(),
@@ -113,9 +113,9 @@ namespace Arasan.Services.Master
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
                     }
 
-                    objCmd.Parameters.Add("ConName", OracleDbType.NVarchar2).Value = cy.ConName;
-                    objCmd.Parameters.Add("ConCode", OracleDbType.NVarchar2).Value = cy.ConCode;
-                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
+                    objCmd.Parameters.Add("COUNTRY", OracleDbType.NVarchar2).Value = cy.ConName;
+                    objCmd.Parameters.Add("COUNTRYCODE", OracleDbType.NVarchar2).Value = cy.ConCode;
+                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
 
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
 
@@ -149,7 +149,7 @@ namespace Arasan.Services.Master
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE CONMAST SET STATUS ='INACTIVE' WHERE COUNTRYMASTID='" + id + "'";
+                    svSQL = "UPDATE CONMAST SET IS_ACTIVE ='N' WHERE COUNTRYMASTID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -171,7 +171,7 @@ namespace Arasan.Services.Master
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE CONMAST SET STATUS ='ACTIVE' WHERE COUNTRYMASTID='" + id + "'";
+                    svSQL = "UPDATE CONMAST SET IS_ACTIVE = 'Y' WHERE COUNTRYMASTID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -186,6 +186,23 @@ namespace Arasan.Services.Master
             return "";
 
         }
+        public DataTable GetAllCountryGRID(string strStatus)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = " Select COUNTRY,COUNTRYCODE,COUNTRYMASTID from CONMAST WHERE IS_ACTIVE = 'Y' ORDER BY COUNTRYMASTID DESC";
+            }
+            else
+            {
+                SvSql = " Select COUNTRY,COUNTRYCODE,COUNTRYMASTID from CONMAST WHERE IS_ACTIVE = 'N' ORDER BY COUNTRYMASTID DESC";
 
+            }
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        } 
     }
 }
