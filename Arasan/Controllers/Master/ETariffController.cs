@@ -107,12 +107,13 @@ namespace Arasan.Controllers
                 return RedirectToAction("ListETariff");
             }
         }
-        public ActionResult MyListItemgrid()
+        public ActionResult MyListItemgrid(string strStatus)
         {
             List<ETariffgrid> Reg = new List<ETariffgrid>();
             DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
 
-            dtUsers = ETariffService.GetAllETariff();
+            dtUsers = ETariffService.GetAllETariff(strStatus);
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
 

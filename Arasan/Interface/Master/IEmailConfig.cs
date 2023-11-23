@@ -7,10 +7,12 @@ namespace Arasan.Interface
 {
     public interface IEmailConfig
     {
-        IEnumerable<EmailConfig> GetAllEmailConfig(string status);
+        //IEnumerable<EmailConfig> GetAllEmailConfig(string status);
         string EmailConfigCRUD(EmailConfig ss);
         DataTable GetEmailConfig(string id);
         string StatusChange(string tag, int id);
         string RemoveChange(string tag, int id);
+
+        DataTable GetAllEmailconfig(string strStatus);
     }
 }

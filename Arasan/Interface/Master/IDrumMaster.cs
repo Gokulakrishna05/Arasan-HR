@@ -9,8 +9,7 @@ namespace Arasan.Interface
     {
 
         string DrumMasterCRUD(DrumMaster ss);
-        IEnumerable<DrumMaster> GetAllDrumMaster(string status);
-
+        DataTable GetAllDrummast(string strStatus);
         DataTable GetCategory();
         DataTable GetDrumType();
         DataTable GetDrumMaster(string id);

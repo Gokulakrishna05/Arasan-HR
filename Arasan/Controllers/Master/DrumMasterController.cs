@@ -5,6 +5,7 @@ using Arasan.Interface.Master;
 using Arasan.Models;
 using Arasan.Services;
 using Arasan.Services.Master;
+using DocumentFormat.OpenXml.Bibliography;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -149,10 +150,9 @@ namespace Arasan.Controllers
             return View(DM);
         }
 
-        public IActionResult ListDrumMaster(string status)
+        public IActionResult ListDrumMaster()
         {
-            IEnumerable<DrumMaster> cmp = DrumMasterService.GetAllDrumMaster(status);
-            return View(cmp);
+            return View();
         }
 
         public ActionResult DeleteMR(string tag, int id)
@@ -184,6 +184,43 @@ namespace Arasan.Controllers
                 TempData["notice"] = flag;
                 return RedirectToAction("ListDrumMaster");
             }
+        }
+
+        public ActionResult MyListItemgrid(string strStatus)
+        {
+            List<DrumMastergrid> Reg = new List<DrumMastergrid>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = DrumMasterService.GetAllDrummast(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+
+                string DeleteRow = string.Empty;
+                string EditRow = string.Empty;
+
+                EditRow = "<a href=DrumMaster?id=" + dtUsers.Rows[i]["DRUMMASTID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["DRUMMASTID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                Reg.Add(new DrumMastergrid
+                {
+                    id = dtUsers.Rows[i]["DRUMMASTID"].ToString(),
+                    drumnno = dtUsers.Rows[i]["DRUMNO"].ToString(),
+                    docdate = dtUsers.Rows[i]["DOCDATE"].ToString(),
+                    category = dtUsers.Rows[i]["CATEGORY"].ToString(),
+                    location = dtUsers.Rows[i]["LOCID"].ToString(),
+                    drumtype = dtUsers.Rows[i]["DRUMTYPE"].ToString(),
+                    targetweight = dtUsers.Rows[i]["TAREWT"].ToString(),
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
         }
     }
 }

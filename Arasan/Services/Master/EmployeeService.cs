@@ -21,46 +21,46 @@ namespace Arasan.Services.Master
 
         }
 
-        public IEnumerable<Employee> GetAllEmployee(string status)
-        {
-            if (string.IsNullOrEmpty(status))
-            {
-                status = "ACTIVE";
-            }
-            List<Employee> cmpList = new List<Employee>();
-            using (OracleConnection con = new OracleConnection(_connectionString))
-            {
+        //public IEnumerable<Employee> GetAllEmployee(string status)
+        //{
+        //    if (string.IsNullOrEmpty(status))
+        //    {
+        //        status = "ACTIVE";
+        //    }
+        //    List<Employee> cmpList = new List<Employee>();
+        //    using (OracleConnection con = new OracleConnection(_connectionString))
+        //    {
 
-                using (OracleCommand cmd = con.CreateCommand())
-                {
-                    con.Open();
-                    cmd.CommandText = "Select  EMPMAST. EMPNAME, EMPMAST.EMPID, EMPMAST.EMPSEX,to_char( EMPMAST.EMPDOB,'dd-MON-yyyy')EMPDOB,ECADD1, ECCITY,ECSTATE,ECMAILID,ECPHNO,FATHERNAME,MOTHERNAME,EMPPAYCAT,EMPBASIC,PFNO,ESINO,EMPCOST,to_char( EMPMAST.PFDT,'dd-MON-yyyy')PFDT,to_char( EMPMAST.ESIDT,'dd-MON-yyyy')ESIDT,USERNAME,PASSWORD,EMPDEPT,EMPDESIGN,EMPDEPTCODE,to_char( EMPMAST.JOINDATE,'dd-MON-yyyy')JOINDATE,to_char( EMPMAST.RESIGNDATE,'dd-MON-yyyy')RESIGNDATE,EMPMASTID,EMPMAST.STATUS from EMPMAST order by EMPMAST.EMPID DESC";
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
-                    {
-                        Employee cmp = new Employee
-                        {
+        //        using (OracleCommand cmd = con.CreateCommand())
+        //        {
+        //            con.Open();
+        //            cmd.CommandText = "Select  EMPMAST. EMPNAME, EMPMAST.EMPID, EMPMAST.EMPSEX,to_char( EMPMAST.EMPDOB,'dd-MON-yyyy')EMPDOB,ECADD1, ECCITY,ECSTATE,ECMAILID,ECPHNO,FATHERNAME,MOTHERNAME,EMPPAYCAT,EMPBASIC,PFNO,ESINO,EMPCOST,to_char( EMPMAST.PFDT,'dd-MON-yyyy')PFDT,to_char( EMPMAST.ESIDT,'dd-MON-yyyy')ESIDT,USERNAME,PASSWORD,EMPDEPT,EMPDESIGN,EMPDEPTCODE,to_char( EMPMAST.JOINDATE,'dd-MON-yyyy')JOINDATE,to_char( EMPMAST.RESIGNDATE,'dd-MON-yyyy')RESIGNDATE,EMPMASTID,EMPMAST.IS_ACTIVE from EMPMAST order by EMPMAST.EMPID DESC";
+        //            OracleDataReader rdr = cmd.ExecuteReader();
+        //            while (rdr.Read())
+        //            {
+        //                Employee cmp = new Employee
+        //                {
 
-                            ID = rdr["EMPMASTID"].ToString(),
-                            EmpName = rdr["EMPNAME"].ToString(),
-                            EmpNo = rdr["EMPID"].ToString(),
-                            Gender = rdr["EMPSEX"].ToString(),
-                            DOB = rdr["EMPDOB"].ToString(),
-                            Address = rdr["ECADD1"].ToString(),
-                            CityId = rdr["ECCITY"].ToString(),
-                            StateId = rdr["ECSTATE"].ToString(),
-                            EmailId = rdr["ECMAILID"].ToString(),
-                            PhoneNo = rdr["ECPHNO"].ToString(),
-                            FatherName = rdr["FATHERNAME"].ToString(),
-                            MotherName = rdr["MOTHERNAME"].ToString()
+        //                    ID = rdr["EMPMASTID"].ToString(),
+        //                    EmpName = rdr["EMPNAME"].ToString(),
+        //                    EmpNo = rdr["EMPID"].ToString(),
+        //                    Gender = rdr["EMPSEX"].ToString(),
+        //                    DOB = rdr["EMPDOB"].ToString(),
+        //                    Address = rdr["ECADD1"].ToString(),
+        //                    CityId = rdr["ECCITY"].ToString(),
+        //                    StateId = rdr["ECSTATE"].ToString(),
+        //                    EmailId = rdr["ECMAILID"].ToString(),
+        //                    PhoneNo = rdr["ECPHNO"].ToString(),
+        //                    FatherName = rdr["FATHERNAME"].ToString(),
+        //                    MotherName = rdr["MOTHERNAME"].ToString()
                             
-                        };
-                        cmpList.Add(cmp);
-                    }
-                }
-            }
-            return cmpList;
-        }
+        //                };
+        //                cmpList.Add(cmp);
+        //            }
+        //        }
+        //    }
+        //    return cmpList;
+        //}
 
         public long GetMregion(string regionid, string id)
         {
@@ -77,8 +77,6 @@ namespace Arasan.Services.Master
                 string StatementType = string.Empty; string svSQL = "";
                 if (cy.ID == null)
                 {
-
- 
                     svSQL = " SELECT Count(EMPID) as cnt FROM EMPMAST WHERE EMPNAME = LTRIM(RTRIM('" + cy.EmpNo + "')) ";
  
                      if (datatrans.GetDataId(svSQL) > 0)
@@ -132,7 +130,7 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("EMPDEPTCODE", OracleDbType.NVarchar2).Value = cy.EMPDeptCode;
                     objCmd.Parameters.Add("JOINDATE", OracleDbType.NVarchar2).Value = cy.JoinDate;
                     objCmd.Parameters.Add("RESIGNDATE", OracleDbType.NVarchar2).Value = cy.ResignDate;
-                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
+                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
 
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
@@ -256,7 +254,7 @@ namespace Arasan.Services.Master
         public DataTable GetState()
         {
             string SvSql = string.Empty;
-            SvSql = "select STATE,STATEMASTID from STATEMAST  where STATUS='ACTIVE'";
+            SvSql = "select STATE,STATEMASTID from STATEMAST  where IS_ACTIVE='Y'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -334,7 +332,7 @@ namespace Arasan.Services.Master
         public DataTable GetEMPDept()
         {
             string SvSql = string.Empty;
-            SvSql = "select DEPARTMENT_CODE from DEPARTMENTMAST where  STATUS= 'ACTIVE'  ";
+            SvSql = "select DEPARTMENT_CODE from DEPARTMENTMAST where IS_ACTIVE= 'Y'  ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -345,7 +343,7 @@ namespace Arasan.Services.Master
         public DataTable GetDesign()
         {
             string SvSql = string.Empty;
-            SvSql = "select DESIGNATION from DESIGNATIONMAST where  STATUS= 'ACTIVE'  ";
+            SvSql = "select DESIGNATION from DESIGNATIONMAST where  IS_ACTIVE= 'Y'  ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -429,7 +427,7 @@ namespace Arasan.Services.Master
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE EMPMAST SET STATUS ='ISACTIVE' WHERE EMPMASTID='" + id + "'";
+                    svSQL = "UPDATE EMPMAST SET IS_ACTIVE ='N' WHERE EMPMASTID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -451,7 +449,7 @@ namespace Arasan.Services.Master
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE EMPMAST SET STATUS ='ACTIVE' WHERE EMPMASTID='" + id + "'";
+                    svSQL = "UPDATE EMPMAST SET IS_ACTIVE ='Y' WHERE EMPMASTID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -465,6 +463,26 @@ namespace Arasan.Services.Master
             }
             return "";
 
+        }
+
+        public DataTable GetAllEmployee(string strStatus)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "Select EMPMAST.EMPNAME,EMPMAST.EMPID,EMPMAST.EMPSEX,to_char(EMPMAST.EMPDOB,'dd-MON-yyyy')EMPDOB,EMPMAST.ECMAILID,EMPMAST.ECPHNO,EMPMASTID  from EMPMAST WHERE EMPMAST.IS_ACTIVE = 'Y' ORDER BY EMPMASTID DESC ";
+
+            }
+            else
+            {
+                SvSql = "Select EMPMAST.EMPNAME,EMPMAST.EMPID,EMPMAST.EMPSEX,to_char(EMPMAST.EMPDOB,'dd-MON-yyyy')EMPDOB,EMPMAST.ECMAILID,EMPMAST.ECPHNO,EMPMASTID  from EMPMAST WHERE EMPMAST.IS_ACTIVE = 'N' ORDER BY EMPMASTID DESC ";
+
+            }
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
         }
 
     }

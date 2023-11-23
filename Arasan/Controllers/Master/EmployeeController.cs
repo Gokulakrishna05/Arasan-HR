@@ -4,6 +4,7 @@ using Arasan.Interface;
 using Arasan.Interface.Master;
 using Arasan.Models;
 using Arasan.Services.Master;
+using DocumentFormat.OpenXml.Bibliography;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -371,10 +372,9 @@ namespace Arasan.Controllers.Master
             }
         }
 
-        public IActionResult ListEmployee(string status)
+        public IActionResult ListEmployee()
         {
-            IEnumerable<Employee> cmp = EmployeeService.GetAllEmployee(status);
-            return View(cmp);
+            return View();
         }
 
         public ActionResult DeleteMR(string tag, int id)
@@ -405,6 +405,47 @@ namespace Arasan.Controllers.Master
                 TempData["notice"] = flag;
                 return RedirectToAction("ListEmployee");
             }
+        }
+
+        public ActionResult MyListItemgrid(string strStatus)
+        {
+            List<EmployeeGrid> Reg = new List<EmployeeGrid>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = EmployeeService.GetAllEmployee(strStatus); 
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+                //string Multi = string.Empty;
+                string DeleteRow = string.Empty;
+                string EditRow = string.Empty;
+                
+
+                //Multi = "<a href=Employee?id=" + dtUsers.Rows[i]["EMPMASTID"].ToString() + "><img src='../Images/plus.png' alt='Edit' /></a>";
+                EditRow = "<a href=Employee?id=" + dtUsers.Rows[i]["EMPMASTID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["EMPMASTID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                Reg.Add(new EmployeeGrid
+                {
+                    id = dtUsers.Rows[i]["EMPMASTID"].ToString(),
+                    empno = dtUsers.Rows[i]["EMPID"].ToString(),
+                    empname = dtUsers.Rows[i]["EMPNAME"].ToString(),
+                    gender = dtUsers.Rows[i]["EMPSEX"].ToString(),
+                    dob = dtUsers.Rows[i]["EMPDOB"].ToString(),
+                    phoneno = dtUsers.Rows[i]["ECPHNO"].ToString(),
+                    emailid = dtUsers.Rows[i]["ECMAILID"].ToString(),
+                    //multi = Multi,
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+                    
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Arasan.Services;
+using DocumentFormat.OpenXml.Bibliography;
 
 namespace Arasan.Controllers
 {
@@ -79,10 +80,9 @@ namespace Arasan.Controllers
             return View(Dm);
         }
 
-        public ActionResult ListNewCategory(string status)
+        public ActionResult ListNewCategory()
         {
-            IEnumerable<DrumCategory> cmp = DrumCategoryService.GetAllDrumCategory(status);
-            return View(cmp);
+            return View();
         }
 
         public ActionResult DeleteMR(string tag, int id)
@@ -116,5 +116,37 @@ namespace Arasan.Controllers
             }
         }
 
+        public ActionResult MyListItemgrid(string strStatus)
+        {
+            List<DrumCategorygrid> Reg = new List<DrumCategorygrid>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = DrumCategoryService.GetAllCategory(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+
+                string DeleteRow = string.Empty;
+                string EditRow = string.Empty;
+
+                EditRow = "<a href=DrumCategory?id=" + dtUsers.Rows[i]["CATEGORYID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["CATEGORYID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                Reg.Add(new DrumCategorygrid
+                {
+                    id = dtUsers.Rows[i]["CATEGORYID"].ToString(),
+                    catetype = dtUsers.Rows[i]["CATEGORYTYPE"].ToString(),
+                    description = dtUsers.Rows[i]["DESCRIPTION"].ToString(),
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
+        }
     }
 }

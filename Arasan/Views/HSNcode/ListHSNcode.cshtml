@@ -59,6 +59,9 @@
         var ordersSource =
         {
             url: "/HSNcode/ListMyhsncodegrid",
+            data: {
+                strstatus: ""
+            },
             datafields: [
 
                 { name: 'id', type: 'string' },
@@ -124,30 +127,54 @@
         // creage grid
         $("#grid").jqxGrid(
             {
-                width: 710,
-                height: 465,
+                //width: 710,
+                //height: 465,
+                //source: source,
+                //pageable: true,
+                //filterable: true,
+                //autoheight: true,
+                //sortable: true,
+                //rowdetails: true,
+                //rowsheight: 35,
+                //initrowdetails: initrowdetails,
+
+                width: '100%',
+                source: dataAdapter,
+                height: 450,
                 source: source,
-                pageable: true,
-                filterable: true,
-                autoheight: true,
                 sortable: true,
-                rowdetails: true,
-                rowsheight: 35,
-                initrowdetails: initrowdetails,
+                filterable: true,
+                groupable: false,
+                pageable: true,
+                showfilterbar: true,
+                //showfilterrow: true,
+                theme: 'darkblue',
+                enablebrowserselection: true,
+                
                 rowdetailstemplate: { rowdetails: "<div id='grid' style='margin: 10px;'></div>", rowdetailsheight: 220, rowdetailshidden: true },
                 ready: function () {
                     $("#grid").jqxGrid('showrowdetails', 1);
                 },
                 columns: [
 
-                    { text: 'HSN Code', datafield: 'hcode', width: 250 },
+                    { text: 'HSN Code', filtertype: 'checkedlist', datafield: 'hcode', width: 250 },
                     { text: 'Description', datafield: 'dec', width: 150 },
-                    { text: 'Edit', datafield: 'editrow', width: 70, align: 'center', cellsalign: 'center' },
+                    { text: 'Edit', filtertype: 'input', datafield: 'editrow', width: 70, align: 'center', cellsalign: 'center' },
                     { text: 'Delete', datafield: 'delrow', width: 70, align: 'center', cellsalign: 'center' },
                     
 
                 ]
             });
+        $("#ddlStatus").change(function () {
+            var value = "Y";
+            if ($(this).val() != "") {
+                value = $(this).val();
+            }
+            source.data = {
+                strstatus: value
+            };
+            $("#grid").jqxGrid({ source: source });
+        });
     });
 </script>
 <div class="wrapper-content ">
@@ -157,15 +184,13 @@
                 <div class="widgets-container">
                   <form>
                         <div class="row">
-                           @* <div class="col-md-6 ">
-                                <select style='width: 200px;' class='form-control  newcss' id="dllstatus" onchange="changeStatus(this.value)">
-                                    <option value="" selected>Open</option>
-                                    <option value='ACTIVE'>Open</option>
-                                    <option value='INACTIVE'>Close</option>
-                                    
-                                </select>
-                            </div>*@
-                            <div class="col-md-12 ">
+                            <div class="col-md-2 ">
+                                @Html.DropDownListFor(n => n.ddlStatus, new SelectListItem[]
+                                { new SelectListItem() {Text = "Enabled", Value="Y"},
+                                new SelectListItem() {Text = "Disabled", Value="N"}},
+                                new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" })
+                            </div>
+                            <div class="col-md-9 ">
                                 <div class=" textalignright">
                                     <a href="@Url.Action("HSNcode", "HSNcode")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add HSN Code</a>
                                     <br>
@@ -174,7 +199,7 @@
                         </div>
                         <div class="row">
 
-                            <div class="col-md-2 "> </div>
+                            
                             <div class="col-md-10 ">
                                 <div id="grid">
                                 </div>

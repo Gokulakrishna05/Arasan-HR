@@ -18,6 +18,18 @@ namespace Arasan.Models
         public List<SelectListItem> DeptNamelst;
         public string DeptName { get; set; }
         public string status { get; set; }
+        public string ddlStatus { get; set; }
+
+    }
+    
+    public class DesignationGrid
+    {
+        public string id { get; set; }
+        
+        public string design { get; set; }
+        public string deptname { get; set; }
+        public string editrow { get; set; }
+        public string delrow { get; set; }
 
     }
 }
