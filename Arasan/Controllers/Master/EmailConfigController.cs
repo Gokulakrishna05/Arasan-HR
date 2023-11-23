@@ -5,6 +5,7 @@ using Arasan.Interface.Master;
 using Arasan.Models;
 using Arasan.Services;
 using Arasan.Services.Master;
+using DocumentFormat.OpenXml.Bibliography;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -90,10 +91,9 @@ namespace Arasan.Controllers
             return View(EC);
         }
 
-        public IActionResult ListEmailConfig(string status)
+        public IActionResult ListEmailConfig()
         {
-            IEnumerable<EmailConfig> cmp = EmailConfigService.GetAllEmailConfig(status);
-            return View(cmp);
+            return View();
      
         }
 
@@ -126,6 +126,43 @@ namespace Arasan.Controllers
                 TempData["notice"] = flag;
                 return RedirectToAction("ListEmailConfig");
             }
+        }
+
+        public ActionResult MyListItemgrid(string strStatus)
+        {
+            List<EmailConfigGrid> Reg = new List<EmailConfigGrid>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = EmailConfigService.GetAllEmailconfig(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+
+                string DeleteRow = string.Empty;
+                string EditRow = string.Empty;
+
+                EditRow = "<a href=EmailConfig?id=" + dtUsers.Rows[i]["EMAILCONFIG_ID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["EMAILCONFIG_ID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                Reg.Add(new EmailConfigGrid
+                {
+                    id = dtUsers.Rows[i]["EMAILCONFIG_ID"].ToString(),
+                    smtp = dtUsers.Rows[i]["SMTP_HOST"].ToString(),
+                    port = dtUsers.Rows[i]["PORT_NO"].ToString(),
+                    email = dtUsers.Rows[i]["EMAIL_ID"].ToString(),
+                    password = dtUsers.Rows[i]["PASSWORD"].ToString(),
+                    ssl = dtUsers.Rows[i]["SSL"].ToString(),
+                    signature = dtUsers.Rows[i]["SIGNATURE"].ToString(),
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
         }
     }
 }

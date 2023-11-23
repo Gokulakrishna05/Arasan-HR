@@ -6,6 +6,7 @@ using Arasan.Interface.Master;
 using Arasan.Models;
 using Arasan.Services;
 using Arasan.Services.Master;
+using DocumentFormat.OpenXml.Bibliography;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -90,7 +91,7 @@ namespace Arasan.Controllers.Master
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DEPARTMENT_NAME"].ToString(), Value = dtDesg.Rows[i]["DEPARTMENT_NAME"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DEPARTMENT_NAME"].ToString(), Value = dtDesg.Rows[i]["DEPARTMENTMASTID"].ToString() });
                 }
                 return lstdesg;
             }
@@ -100,10 +101,9 @@ namespace Arasan.Controllers.Master
             }
         }
 
-        public IActionResult ListDesignation(string status)
+        public IActionResult ListDesignation()
         {
-            IEnumerable<Designation> cmp = DesignationService.GetAllDesignation(status);
-            return View(cmp);
+            return View();
         }
 
         public ActionResult DeleteMR(string tag, int id)
@@ -134,6 +134,39 @@ namespace Arasan.Controllers.Master
                 TempData["notice"] = flag;
                 return RedirectToAction("ListDesignation");
             }
+        }
+
+        public ActionResult MyListItemgrid(string strStatus)
+        {
+            List<DesignationGrid> Reg = new List<DesignationGrid>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = DesignationService.GetAllDESIGNATION(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+
+                string DeleteRow = string.Empty;
+                string EditRow = string.Empty;
+
+                EditRow = "<a href=Designation?id=" + dtUsers.Rows[i]["DESIGNATIONMASTID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["DESIGNATIONMASTID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                Reg.Add(new DesignationGrid
+                {
+                    id = dtUsers.Rows[i]["DESIGNATIONMASTID"].ToString(),
+                    design = dtUsers.Rows[i]["DESIGNATION"].ToString(),
+                    deptname = dtUsers.Rows[i]["DEPARTMENT_NAME"].ToString(),
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
         }
     }
 }

@@ -7,7 +7,6 @@ namespace Arasan.Interface
     public interface IDepartment
     {
         string DepartmentCRUD(Department ss);
-        IEnumerable<Department> GetAllDepartment(string status);
 
         DataTable GetDepartment(string id);
 
@@ -15,7 +14,7 @@ namespace Arasan.Interface
 
         string StatusChange(string tag, int id);
         string RemoveChange(string tag, int id);
-
+        DataTable GetAllDEPARTMENT(string strStatus);
 
     }
 }

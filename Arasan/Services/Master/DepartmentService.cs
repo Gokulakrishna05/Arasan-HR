@@ -19,38 +19,38 @@ namespace Arasan.Services
             datatrans = new DataTransactions(_connectionString);
         }
 
-        public IEnumerable<Department> GetAllDepartment(string status)
-        {
-            if (string.IsNullOrEmpty(status))
-            {
-                status = "ACTIVE";
-            }
-            List<Department> cmpList = new List<Department>();
-            using (OracleConnection con = new OracleConnection(_connectionString))
-            {
+        //public IEnumerable<Department> GetAllDepartment(string status)
+        //{
+        //    if (string.IsNullOrEmpty(status))
+        //    {
+        //        status = "ACTIVE";
+        //    }
+        //    List<Department> cmpList = new List<Department>();
+        //    using (OracleConnection con = new OracleConnection(_connectionString))
+        //    {
 
-                using (OracleCommand cmd = con.CreateCommand())
-                {
-                    con.Open();
-                    cmd.CommandText = "Select DEPARTMENTMASTID,DEPARTMENT_CODE,DEPARTMENT_NAME,DESCRIPTION, STATUS from DEPARTMENTMAST WHERE DEPARTMENTMAST.STATUS= '" + status + "' order by DEPARTMENTMAST.DEPARTMENTMASTID DESC";
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
-                    {
-                        Department cmp = new Department
-                        {
-                            ID = rdr["DEPARTMENTMASTID"].ToString(),
-                            Departmentcode = rdr["DEPARTMENT_CODE"].ToString(),
-                            DepartmentName = rdr["DEPARTMENT_NAME"].ToString(),
-                            Description = rdr["DESCRIPTION"].ToString(),
-                            status = rdr["STATUS"].ToString()
+        //        using (OracleCommand cmd = con.CreateCommand())
+        //        {
+        //            con.Open();
+        //            cmd.CommandText = "Select DEPARTMENTMASTID,DEPARTMENT_CODE,DEPARTMENT_NAME,DESCRIPTION, STATUS from DEPARTMENTMAST WHERE DEPARTMENTMAST.STATUS= '" + status + "' order by DEPARTMENTMAST.DEPARTMENTMASTID DESC";
+        //            OracleDataReader rdr = cmd.ExecuteReader();
+        //            while (rdr.Read())
+        //            {
+        //                Department cmp = new Department
+        //                {
+        //                    ID = rdr["DEPARTMENTMASTID"].ToString(),
+        //                    Departmentcode = rdr["DEPARTMENT_CODE"].ToString(),
+        //                    DepartmentName = rdr["DEPARTMENT_NAME"].ToString(),
+        //                    Description = rdr["DESCRIPTION"].ToString(),
+        //                    status = rdr["STATUS"].ToString()
 
-                        };
-                        cmpList.Add(cmp);
-                    }
-                }
-            }
-            return cmpList;
-        }
+        //                };
+        //                cmpList.Add(cmp);
+        //            }
+        //        }
+        //    }
+        //    return cmpList;
+        //}
         //public DataTable GetDepartmentDetail(string id)
         //{
         //    string SvSql = string.Empty;
@@ -99,12 +99,11 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("DEPARTMENT_CODE", OracleDbType.NVarchar2).Value = ss.Departmentcode;
                     objCmd.Parameters.Add("DEPARTMENT_NAME", OracleDbType.NVarchar2).Value = ss.DepartmentName;
                     objCmd.Parameters.Add("DESCRIPTION", OracleDbType.NVarchar2).Value = ss.Description;
-                    objCmd.Parameters.Add("ISACTIVE", OracleDbType.NVarchar2).Value = "YES";
+                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
                     objCmd.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
                     objCmd.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = ss.CreatedBy;
                     objCmd.Parameters.Add("UPDATED_ON", OracleDbType.Date).Value = DateTime.Now;
                     objCmd.Parameters.Add("UPDATED_BY", OracleDbType.NVarchar2).Value = ss.UpdatedBy;
-                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE"; 
 
 
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
@@ -196,7 +195,7 @@ namespace Arasan.Services
                     OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
                     adapter.Fill(dtt);
                     return dtt;
-                 }
+        }
 
         public string StatusChange(string tag, int id)
         {
@@ -206,7 +205,7 @@ namespace Arasan.Services
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE DEPARTMENTMAST SET STATUS ='INACTIVE' WHERE DEPARTMENTMASTID='" + id + "'";
+                    svSQL = "UPDATE DEPARTMENTMAST SET IS_ACTIVE ='N' WHERE DEPARTMENTMASTID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -230,7 +229,7 @@ namespace Arasan.Services
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE DEPARTMENTMAST SET STATUS ='ACTIVE' WHERE DEPARTMENTMASTID='" + id + "'";
+                    svSQL = "UPDATE DEPARTMENTMAST SET IS_ACTIVE ='Y' WHERE DEPARTMENTMASTID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -244,6 +243,25 @@ namespace Arasan.Services
             }
             return "";
 
+        }
+
+        public DataTable GetAllDEPARTMENT(string strStatus)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "Select DEPARTMENTMASTID,DEPARTMENT_CODE,DEPARTMENT_NAME,DESCRIPTION from DEPARTMENTMAST  WHERE DEPARTMENTMAST.IS_ACTIVE = 'Y' ORDER BY DEPARTMENTMASTID DESC";
+            }
+            else
+            {
+                SvSql = "Select DEPARTMENTMASTID,DEPARTMENT_CODE,DEPARTMENT_NAME,DESCRIPTION from DEPARTMENTMAST  WHERE DEPARTMENTMAST.IS_ACTIVE = 'N' ORDER BY DEPARTMENTMASTID DESC";
+
+            }
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
         }
 
     }

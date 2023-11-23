@@ -19,43 +19,43 @@ namespace Arasan.Services
             datatrans = new DataTransactions(_connectionString);
         }
 
-        public IEnumerable<DrumMaster> GetAllDrumMaster(string status)
-        {
-            if (string.IsNullOrEmpty(status))
-            {
-                status = "ACTIVE";
-            }
-            List<DrumMaster> cmpList = new List<DrumMaster>();
-            using (OracleConnection con = new OracleConnection(_connectionString))
-            {
+        //public IEnumerable<DrumMaster> GetAllDrumMaster(string status)
+        //{
+        //    if (string.IsNullOrEmpty(status))
+        //    {
+        //        status = "ACTIVE";
+        //    }
+        //    List<DrumMaster> cmpList = new List<DrumMaster>();
+        //    using (OracleConnection con = new OracleConnection(_connectionString))
+        //    {
 
-                using (OracleCommand cmd = con.CreateCommand())
-                {
+        //        using (OracleCommand cmd = con.CreateCommand())
+        //        {
                    
-                    con.Open();
-                    cmd.CommandText = "Select DRUMMASTID,DRUMMAST.DRUMNO,to_char(DRUMMAST.DOCDATE,'dd-MON-yyyy')DOCDATE,DRUMMAST.CATEGORY,LOCDETAILS.LOCID,DRUMMAST.DRUMTYPE,DRUMMAST.STATUS from DRUMMAST LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID=DRUMMAST.LOCATION WHERE DRUMMAST.STATUS='" + status + "' order by DRUMMAST.DRUMMASTID DESC";
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
-                    {
-                        DrumMaster cmp = new DrumMaster
-                        {
-                            ID = rdr["DRUMMASTID"].ToString(),
-                            DrumNo = rdr["DRUMNO"].ToString(),
-                            DocDate = rdr["DOCDATE"].ToString(),
-                            Category = rdr["CATEGORY"].ToString(),
-                            Location = rdr["LOCID"].ToString(),
-                            DrumType = rdr["DRUMTYPE"].ToString(),
-                            status = rdr["STATUS"].ToString()
+        //            con.Open();
+        //            cmd.CommandText = "Select DRUMMASTID,DRUMMAST.DRUMNO,to_char(DRUMMAST.DOCDATE,'dd-MON-yyyy')DOCDATE,DRUMMAST.CATEGORY,LOCDETAILS.LOCID,DRUMMAST.DRUMTYPE,DRUMMAST.STATUS from DRUMMAST LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID=DRUMMAST.LOCATION WHERE DRUMMAST.STATUS='" + status + "' order by DRUMMAST.DRUMMASTID DESC";
+        //            OracleDataReader rdr = cmd.ExecuteReader();
+        //            while (rdr.Read())
+        //            {
+        //                DrumMaster cmp = new DrumMaster
+        //                {
+        //                    ID = rdr["DRUMMASTID"].ToString(),
+        //                    DrumNo = rdr["DRUMNO"].ToString(),
+        //                    DocDate = rdr["DOCDATE"].ToString(),
+        //                    Category = rdr["CATEGORY"].ToString(),
+        //                    Location = rdr["LOCID"].ToString(),
+        //                    DrumType = rdr["DRUMTYPE"].ToString(),
+        //                    status = rdr["STATUS"].ToString()
                             
                             
 
-                        };
-                        cmpList.Add(cmp);
-                    }
-                }
-            }
-            return cmpList;
-        }
+        //                };
+        //                cmpList.Add(cmp);
+        //            }
+        //        }
+        //    }
+        //    return cmpList;
+        //}
 
         public DataTable GetCategory()
         {
@@ -122,7 +122,7 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("LOCATION", OracleDbType.NVarchar2).Value = ss.Location;
                     objCmd.Parameters.Add("DRUMTYPE", OracleDbType.NVarchar2).Value = ss.DrumType;
                     objCmd.Parameters.Add("TAREWT", OracleDbType.NVarchar2).Value = ss.TargetWeight;
-                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
+                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
 
                     try
@@ -166,7 +166,7 @@ namespace Arasan.Services
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE DRUMMAST SET STATUS ='INACTIVE' WHERE DRUMMASTID='" + id + "'";
+                    svSQL = "UPDATE DRUMMAST SET IS_ACTIVE ='N' WHERE DRUMMASTID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -188,7 +188,7 @@ namespace Arasan.Services
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE DRUMMAST SET STATUS ='ACTIVE' WHERE DRUMMASTID='" + id + "'";
+                    svSQL = "UPDATE DRUMMAST SET IS_ACTIVE ='Y' WHERE DRUMMASTID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -202,6 +202,26 @@ namespace Arasan.Services
             }
             return "";
 
+        }
+
+        public DataTable GetAllDrummast(string strStatus)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "select DRUMMASTID,DRUMNO,to_char(DRUMMAST.DOCDATE,'dd-MON-yyyy') DOCDATE,CATEGORY,LOCDETAILS.LOCID,DRUMTYPE,TAREWT from DRUMMAST LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID=DRUMMAST.LOCATION WHERE DRUMMAST.IS_ACTIVE = 'Y' ORDER BY DRUMMASTID DESC";
+
+            }
+            else
+            {
+                SvSql = "select DRUMMASTID,DRUMNO,to_char(DRUMMAST.DOCDATE,'dd-MON-yyyy') DOCDATE,CATEGORY,LOCDETAILS.LOCID,DRUMTYPE,TAREWT from DRUMMAST LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID=DRUMMAST.LOCATION WHERE DRUMMAST.IS_ACTIVE = 'N' ORDER BY DRUMMASTID DESC";
+
+            }
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
         }
     }
 }

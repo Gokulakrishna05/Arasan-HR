@@ -14,6 +14,20 @@ namespace Arasan.Models
         public String SSL { get; set; }
         public String Signature { get; set; }
         public String status { get; set; }
+        public String ddlStatus { get; set; }
         public object Attachment { get; internal set; }
+    } 
+    
+    public class EmailConfigGrid
+    {
+        public String id { get; set; }
+        public String smtp { get; set; }
+        public String port { get; set; }
+        public String email { get; set; }
+        public String password { get; set; }
+        public String ssl { get; set; }
+        public String signature { get; set; }
+        public String editrow { get; set; }
+        public object delrow { get; internal set; }
     }
 }

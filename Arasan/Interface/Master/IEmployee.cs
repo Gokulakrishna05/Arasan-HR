@@ -14,7 +14,6 @@ namespace Arasan.Interface.Master
         DataTable GetCity(string id);
         DataTable GetEMPDept();
         DataTable GetDesign();
-        IEnumerable<Employee> GetAllEmployee(string status);
         DataTable GetEmployee(string id);
         DataTable GetEmpEduDeatils(string data);
         DataTable GetEmpPersonalDeatils(string id);
@@ -24,5 +23,7 @@ namespace Arasan.Interface.Master
         long GetMregion(string regionid, string id);
         string StatusChange(string tag, int id);
         string RemoveChange(string tag, int id);
+
+        DataTable GetAllEmployee(string strStatus);
     }
 }

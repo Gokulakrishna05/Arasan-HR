@@ -20,45 +20,45 @@ namespace Arasan.Services
             datatrans = new DataTransactions(_connectionString);
         }
 
-        public IEnumerable<EmailConfig> GetAllEmailConfig(string status)
-        {
-            if (string.IsNullOrEmpty(status))
-            {
-                status = "ACTIVE";
-            }
-            List<EmailConfig> cmpList = new List<EmailConfig>();
-            using (OracleConnection con = new OracleConnection(_connectionString))
-            {
+        //public IEnumerable<EmailConfig> GetAllEmailConfig(string status)
+        //{
+        //    if (string.IsNullOrEmpty(status))
+        //    {
+        //        status = "ACTIVE";
+        //    }
+        //    List<EmailConfig> cmpList = new List<EmailConfig>();
+        //    using (OracleConnection con = new OracleConnection(_connectionString))
+        //    {
 
-                using (OracleCommand cmd = con.CreateCommand())
-                {
+        //        using (OracleCommand cmd = con.CreateCommand())
+        //        {
 
-                    con.Open();
-                    cmd.CommandText = "Select EMAILCONFIG_ID,SMTP_HOST,PORT_NO,EMAIL_ID,PASSWORD,SSL,SIGNATURE from EMAIL_CONFIG  WHERE EMAIL_CONFIG.STATUS = '" + status + "' order by EMAILCONFIG_ID DESC";
-                    OracleDataReader rdr = cmd.ExecuteReader();
+        //            con.Open();
+        //            cmd.CommandText = "Select EMAILCONFIG_ID,SMTP_HOST,PORT_NO,EMAIL_ID,PASSWORD,SSL,SIGNATURE from EMAIL_CONFIG  WHERE EMAIL_CONFIG.IS_ACTIVE = '" + status + "' order by EMAILCONFIG_ID DESC";
+        //            OracleDataReader rdr = cmd.ExecuteReader();
                    
-                    while (rdr.Read())
-                    {
-                        EmailConfig cmp = new EmailConfig
-                        {
-                            ID = rdr["EMAILCONFIG_ID"].ToString(),
-                            SMTP = rdr["SMTP_HOST"].ToString(),
-                            Port = rdr["PORT_NO"].ToString(),
-                            Email = rdr["EMAIL_ID"].ToString(),
-                            Password = rdr["PASSWORD"].ToString(),
-                            SSL = rdr["SSL"].ToString(),
-                            Signature = rdr["SIGNATURE"].ToString()
+        //            while (rdr.Read())
+        //            {
+        //                EmailConfig cmp = new EmailConfig
+        //                {
+        //                    ID = rdr["EMAILCONFIG_ID"].ToString(),
+        //                    SMTP = rdr["SMTP_HOST"].ToString(),
+        //                    Port = rdr["PORT_NO"].ToString(),
+        //                    Email = rdr["EMAIL_ID"].ToString(),
+        //                    Password = rdr["PASSWORD"].ToString(),
+        //                    SSL = rdr["SSL"].ToString(),
+        //                    Signature = rdr["SIGNATURE"].ToString()
                             
 
 
 
-                        };
-                        cmpList.Add(cmp);
-                    }
-                }
-            }
-            return cmpList;
-        }
+        //                };
+        //                cmpList.Add(cmp);
+        //            }
+        //        }
+        //    }
+        //    return cmpList;
+        //}
 
         public string EmailConfigCRUD(EmailConfig ss)
         {
@@ -102,7 +102,7 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("PASSWORD", OracleDbType.NVarchar2).Value = ss.Password;
                     objCmd.Parameters.Add("SSL", OracleDbType.NVarchar2).Value = ss.SSL;
                     objCmd.Parameters.Add("SIGNATURE", OracleDbType.NVarchar2).Value = ss.Signature;
-                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
+                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
 
                     try
@@ -146,7 +146,7 @@ namespace Arasan.Services
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE EMAIL_CONFIG SET STATUS ='INACTIVE' WHERE EMAILCONFIG_ID ='" + id + "'";
+                    svSQL = "UPDATE EMAIL_CONFIG SET IS_ACTIVE ='N' WHERE EMAILCONFIG_ID ='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -169,7 +169,7 @@ namespace Arasan.Services
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE EMAIL_CONFIG SET STATUS ='ACTIVE' WHERE EMAILCONFIG_ID ='" + id + "'";
+                    svSQL = "UPDATE EMAIL_CONFIG SET IS_ACTIVE ='Y' WHERE EMAILCONFIG_ID ='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -183,6 +183,26 @@ namespace Arasan.Services
             }
             return "";
 
+        }
+
+        public DataTable GetAllEmailconfig(string strStatus)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "select EMAILCONFIG_ID,SMTP_HOST,PORT_NO,EMAIL_ID,PASSWORD,SSL,SIGNATURE from EMAIL_CONFIG WHERE EMAIL_CONFIG.IS_ACTIVE = 'Y' ORDER BY EMAILCONFIG_ID DESC ";
+
+            }
+            else
+            {
+                SvSql = "select EMAILCONFIG_ID,SMTP_HOST,PORT_NO,EMAIL_ID,PASSWORD,SSL,SIGNATURE from EMAIL_CONFIG WHERE EMAIL_CONFIG.IS_ACTIVE = 'N' ORDER BY EMAILCONFIG_ID DESC ";
+
+            }
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
         }
     }
 }
