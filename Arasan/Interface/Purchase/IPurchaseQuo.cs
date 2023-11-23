@@ -16,7 +16,7 @@ namespace Arasan.Interface
 
         //DataTable GetItemDetails(string ItemId);
         string PurQuotationCRUD(PurchaseQuo cy);
-        IEnumerable<PurchaseQuo> GetAllPurQuotation(string st, string ed);
+        //IEnumerable<PurchaseQuo> GetAllPurQuotation(string st, string ed);
         IEnumerable<QoItem> GetAllPurQuotationItem(string id);
         //PurchaseQuo GetPurQuotationById(string id);
         DataTable GetPurQuotationByName(string name);
@@ -34,9 +34,9 @@ namespace Arasan.Interface
         string PurchaseFollowupCRUD(QuoFollowup pf);
         IEnumerable<QuoFollowup> GetAllPurchaseFollowup();
 
-        string StatusChange(string tag, int id);
+        string StatusChange(string tag, string id);
 
         Task<IEnumerable<PQuoItemDetail>> GetPQuoItem(string id);
-
+        DataTable GetAllPurchaseQuoItems(string strStatus);
     }
 }

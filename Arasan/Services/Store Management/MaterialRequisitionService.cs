@@ -271,33 +271,11 @@ namespace Arasan.Services
                             if (cp.IndQty > 0)
                             {
                                 /////////////////////////Indent creation
-                                DateTime theDate = DateTime.Now;
-                                DateTime todate; DateTime fromdate;
-                                string t; string f;
-                                if (DateTime.Now.Month >= 4)
-                                {
-                                    todate = theDate.AddYears(1);
-                                }
-                                else
-                                {
-                                    todate = theDate;
-                                }
-                                if (DateTime.Now.Month >= 4)
-                                {
-                                    fromdate = theDate;
-                                }
-                                else
-                                {
-                                    fromdate = theDate.AddYears(-1);
-                                }
-                                t = todate.ToString("yy");
-                                f = fromdate.ToString("yy");
-                                string disp = string.Format("{0}-{1}", f, t);
+                                datatrans = new DataTransactions(_connectionString);
+                                int idc = datatrans.GetDataId(" SELECT LASTNO FROM SEQUENCE WHERE PREFIX = 'Ind-' AND ACTIVESEQUENCE = 'T'");
+                                string docid = string.Format("{0}{1}", "Ind-", (idc + 1).ToString());
 
-                                int idc = datatrans.GetDataId(" SELECT COMMON_TEXT FROM COMMON_MASTER WHERE COMMON_TYPE = 'PI' AND IS_ACTIVE = 'Y'");
-                                string Indentno = string.Format("{0} - {1} / {2}", "IND", (idc + 1).ToString(), disp);
-
-                                string updateCMd = " UPDATE COMMON_MASTER SET COMMON_TEXT ='" + (idc + 1).ToString() + "' WHERE COMMON_TYPE ='PI' AND IS_ACTIVE ='Y'";
+                                string updateCMd = " UPDATE SEQUENCE SET LASTNO ='" + (idc + 1).ToString() + "' WHERE PREFIX ='Ind-' AND ACTIVESEQUENCE ='T'";
                                 try
                                 {
                                     datatrans.UpdateStatus(updateCMd);
@@ -322,7 +300,7 @@ namespace Arasan.Services
 
                                 objCmd.Parameters.Add("Branch", OracleDbType.NVarchar2).Value = cy.BranchId;
                                 objCmd.Parameters.Add("Location", OracleDbType.NVarchar2).Value = cy.LocationId;
-                                objCmd.Parameters.Add("IndentNo", OracleDbType.NVarchar2).Value = Indentno;
+                                objCmd.Parameters.Add("IndentNo", OracleDbType.NVarchar2).Value = docid;
                                 objCmd.Parameters.Add("IndentDate", OracleDbType.Date).Value = DateTime.Now;
                                 objCmd.Parameters.Add("RefDate", OracleDbType.Date).Value = DateTime.Now;
                                 objCmd.Parameters.Add("Erecation", OracleDbType.NVarchar2).Value = "";
@@ -331,6 +309,7 @@ namespace Arasan.Services
                                 objCmd.Parameters.Add("EnterDate", OracleDbType.Date).Value = DateTime.Now;
                                 objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                                 objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
+
                                 objConn.Open();
                                 objCmd.ExecuteNonQuery();
                                 Object Pid = objCmd.Parameters["OUTID"].Value;
@@ -618,7 +597,7 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("WCID", OracleDbType.NVarchar2).Value = cy.WorkCenter;
                     objCmd.Parameters.Add("PROCESSID", OracleDbType.NVarchar2).Value = cy.Process;
                     objCmd.Parameters.Add("REQTYPE", OracleDbType.NVarchar2).Value = cy.RequestType;
-                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "OPEN";
+                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     objConn.Open();
@@ -728,7 +707,7 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        public string StatusChange(string tag, int id)
+        public string StatusChange(string tag, string id)
         {
 
             try
@@ -737,7 +716,7 @@ namespace Arasan.Services
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE STORESREQBASIC SET STATUS ='CLOSE' WHERE STORESREQBASICID='" + id + "'";
+                    svSQL = "UPDATE STORESREQBASIC SET IS_ACTIVE ='N' WHERE STORESREQBASICID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -753,5 +732,23 @@ namespace Arasan.Services
 
         }
 
+    
+        public DataTable GetAllMaterialRequItems(string strStatus)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = " Select BRANCHMAST.BRANCHID,STORESREQBASIC.DOCID,to_char(STORESREQBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,LOCDETAILS.LOCID,PROCESSID,REQTYPE,STORESREQBASIC.STATUS,STORESREQBASICID from STORESREQBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=STORESREQBASIC.BRANCHID LEFT OUTER JOIN  LOCDETAILS on STORESREQBASIC.FROMLOCID=LOCDETAILS.LOCDETAILSID WHERE STORESREQBASIC.IS_ACTIVE='Y' ORDER BY STORESREQBASIC.STORESREQBASICID DESC";
+            }
+            else
+            {
+                SvSql = " Select BRANCHMAST.BRANCHID,STORESREQBASIC.DOCID,to_char(STORESREQBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,LOCDETAILS.LOCID,PROCESSID,REQTYPE,STORESREQBASIC.STATUS,STORESREQBASICID from STORESREQBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=STORESREQBASIC.BRANCHID LEFT OUTER JOIN  LOCDETAILS on STORESREQBASIC.FROMLOCID=LOCDETAILS.LOCDETAILSID WHERE STORESREQBASIC.IS_ACTIVE='N' ORDER BY STORESREQBASIC.STORESREQBASICID DESC";
+            }
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
     }
 }

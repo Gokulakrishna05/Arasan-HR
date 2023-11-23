@@ -100,7 +100,7 @@ namespace Arasan.Services
         public DataTable GetPurchaseQuo(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select PURQUOTBASIC.BRANCHID, PURQUOTBASIC.DOCID,to_char(PURQUOTBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PURQUOTBASIC.PARTYID,PURENQBASIC.ENQNO,to_char(PURENQBASIC.ENQDATE,'dd-MON-yyyy')ENQDATE,PURQUOTBASIC.MAINCURRENCY,PURQUOTBASIC.EXRATE,PURQUOTBASICID from PURQUOTBASIC LEFT OUTER JOIN PURENQBASIC ON PURENQBASIC.PURENQBASICID=PURQUOTBASIC.ENQNO where PURQUOTBASIC.PURQUOTBASICID=" + id + "";
+            SvSql = "Select PURQUOTBASIC.BRANCHID, PURQUOTBASIC.DOCID,to_char(PURQUOTBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PURQUOTBASIC.PARTYID,PURENQBASIC.ENQNO,to_char(PURENQBASIC.ENQDATE,'dd-MON-yyyy')ENQDATE,PURQUOTBASIC.MAINCURRENCY,PURQUOTBASIC.ENQNO as enq,PURQUOTBASIC.EXRATE,PURQUOTBASICID from PURQUOTBASIC LEFT OUTER JOIN PURENQBASIC ON PURENQBASIC.PURENQBASICID=PURQUOTBASIC.ENQNO where PURQUOTBASIC.PURQUOTBASICID=" + id + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -247,11 +247,12 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("DOCID", OracleDbType.NVarchar2).Value = cy.QuoId;
                     objCmd.Parameters.Add("DOCDATE", OracleDbType.Date).Value = DateTime.Parse(cy.DocDate);
                     objCmd.Parameters.Add("PARTYID", OracleDbType.NVarchar2).Value = cy.Supplier;
-                    objCmd.Parameters.Add("ENQNO", OracleDbType.NVarchar2).Value = cy.EnqNo;
+                    objCmd.Parameters.Add("ENQNO", OracleDbType.NVarchar2).Value = cy.Enq;
                     objCmd.Parameters.Add("ENQDATE", OracleDbType.NVarchar2).Value = cy.EnqDate;
                     objCmd.Parameters.Add("MAINCURRENCY", OracleDbType.NVarchar2).Value = cy.Currency;
                     objCmd.Parameters.Add("EXRATE", OracleDbType.NVarchar2).Value = cy.ExRate;
-                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Yes";
+                    //objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
+                    //objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "Generated";
 
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     try
@@ -460,7 +461,7 @@ namespace Arasan.Services
             return msg;
         }
 
-        public string StatusChange(string tag, int id)
+        public string StatusChange(string tag, string id)
         {
 
             try
@@ -468,7 +469,7 @@ namespace Arasan.Services
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE PURQUOTBASIC SET IS_ACTIVE ='No' WHERE PURQUOTBASICID='" + id + "'";
+                    svSQL = "UPDATE PURQUOTBASIC SET IS_ACTIVE ='N' WHERE PURQUOTBASICID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -489,6 +490,24 @@ namespace Arasan.Services
             {
                 return await db.QueryAsync<PQuoItemDetail>("SELECT  TAAIERP.PARTYMAST.PARTYID, TAAIERP.PARTYMAST.PARTYNAME, TAAIERP.PARTYMAST.ADD1, TAAIERP.PARTYMAST.ADD2, TAAIERP.PARTYMAST.ADD3, TAAIERP.PARTYMAST.CITY, TAAIERP.PARTYMAST.PINCODE,TAAIERP.PARTYMAST.STATE, TAAIERP.PARTYMAST.CSTNO, TAAIERP.PARTYMAST.MOBILE, TAAIERP.PURQUOTBASIC.BRANCHID,TAAIERP.PURQUOTBASIC.DOCID, TAAIERP.PURQUOTBASIC.DOCDATE,  TAAIERP.PURQUOTBASIC.PARTYID AS EXPR1, TAAIERP.PURQUOTDETAIL.ITEMID, TAAIERP.PURQUOTDETAIL.ITEMDESC, TAAIERP.PURQUOTDETAIL.RATE,TAAIERP.PURQUOTDETAIL.QTY, TAAIERP.PURQUOTDETAIL.UNIT FROM    TAAIERP.PARTYMAST INNER JOIN  TAAIERP.PURQUOTBASIC ON TAAIERP.PARTYMAST.PARTYMASTID = TAAIERP.PURQUOTBASIC.PARTYID INNER JOIN TAAIERP.PURQUOTDETAIL ON TAAIERP.PURQUOTBASIC.PURQUOTBASICID=TAAIERP.PURQUOTDETAIL.PURQUOTBASICID where PURQUOTDETAIL.PURQUOTBASICID='" + id + "' and PURQUOTBASIC.PURQUOTBASICID ='" + id + "'", commandType: CommandType.Text);
             }
+        }
+
+        public DataTable GetAllPurchaseQuoItems(string strStatus)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "Select  BRANCHMAST.BRANCHID, DOCID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE ,PARTYMAST.PARTYNAME,PURENQBASIC.ENQNO,PURENQBASIC.ENQDATE,MAINCURRENCY,EXRATE,PURQUOTBASICID,PURQUOTBASIC.STATUS from PURQUOTBASIC LEFT OUTER JOIN PURENQBASIC on PURENQBASIC.PURENQBASICID=PURQUOTBASIC.ENQNO LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PURQUOTBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on PURQUOTBASIC.PARTYID=PARTYMAST.PARTYMASTID Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND PURENQBASIC.IS_ACTIVE='Y' ORDER BY PURQUOTBASIC.PURQUOTBASICID DESC";
+            }
+            else
+            {
+                SvSql = "Select  BRANCHMAST.BRANCHID, DOCID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE ,PARTYMAST.PARTYNAME,PURENQBASIC.ENQNO,PURENQBASIC.ENQDATE,MAINCURRENCY,EXRATE,PURQUOTBASICID,PURQUOTBASIC.STATUS from PURQUOTBASIC LEFT OUTER JOIN PURENQBASIC on PURENQBASIC.PURENQBASICID=PURQUOTBASIC.ENQNO LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PURQUOTBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on PURQUOTBASIC.PARTYID=PARTYMAST.PARTYMASTID Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND PURENQBASIC.IS_ACTIVE='N' ORDER BY PURQUOTBASIC.PURQUOTBASICID DESC";
+            }
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
         }
     }
 }
