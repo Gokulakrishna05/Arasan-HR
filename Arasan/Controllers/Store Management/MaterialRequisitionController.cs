@@ -362,12 +362,83 @@ namespace Arasan.Controllers.Store_Management
         //    return items;
 
         //}
-        public IActionResult ListMaterialRequisition(string status, string st, string ed)
+        public IActionResult ListMaterialRequisition()
         {
-            IEnumerable<MaterialRequisition> cmp = materialReq.GetAllMaterial(status, st, ed);
-            return View(cmp);
+            //IEnumerable<MaterialRequisition> cmp = materialReq.GetAllMaterial(status, st, ed);
+            return View();
         }
+        public ActionResult MyListMaterialRequisitionGrid(string strStatus)
+        {
+            List<MaterialItem> Reg = new List<MaterialItem>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = (DataTable)materialReq.GetAllMaterialRequItems(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+                string Issuse = string.Empty;
+                //string FollowUp = string.Empty;
+                string MoveToIndent = string.Empty;
+                //string Pdf = string.Empty;
+                string View = string.Empty;
+                string EditRow = string.Empty;
+                string DeleteRow = string.Empty;
 
+                Issuse = "<a href=ApproveMaterial?&id=" + dtUsers.Rows[i]["STORESREQBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/issue_icon.png' alt='View Details' width='20' /></a>";
+               
+                if (dtUsers.Rows[i]["STATUS"].ToString() == "CLOSE")
+                {
+                    MoveToIndent = "<img src='../Images/tick.png' alt='View Details' width='20' />";
+                    EditRow = "";
+                }
+                else
+                {
+                    MoveToIndent = "<a href=IssueToindent?id=" + dtUsers.Rows[i]["STORESREQBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
+                    EditRow = "<a href=MaterialRequisition?id=" + dtUsers.Rows[i]["STORESREQBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                }
+                View = "<a href=MaterialStatus?id=" + dtUsers.Rows[i]["STORESREQBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
+                DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["STORESREQBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                Reg.Add(new MaterialItem
+                {
+                    id = Convert.ToInt64(dtUsers.Rows[i]["STORESREQBASICID"].ToString()),
+                    branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
+                    docid = dtUsers.Rows[i]["DOCID"].ToString(),
+                    docDate = dtUsers.Rows[i]["DOCDATE"].ToString(),
+                    location = dtUsers.Rows[i]["LOCID"].ToString(),
+                    iss = Issuse,
+                    //follow = FollowUp,
+                    move = MoveToIndent,
+                    //pdf = Pdf,
+                    view = View,
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+
+
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
+        }
+        public ActionResult DeleteItem(string tag, string id)
+        {
+
+            string flag = materialReq.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListMaterialRequisition");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListMaterialRequisition");
+            }
+        }
         public IActionResult ApproveMaterial(string id)
         {
             MaterialRequisition MR = new MaterialRequisition();
@@ -707,21 +778,7 @@ namespace Arasan.Controllers.Store_Management
             return View(Cy);
         }
 
-        public ActionResult DeleteMR(string tag, int id)
-        {
-
-            string flag = materialReq.StatusChange(tag, id);
-            if (string.IsNullOrEmpty(flag))
-            {
-
-                return RedirectToAction("ListMaterialRequisition");
-            }
-            else
-            {
-                TempData["notice"] = flag;
-                return RedirectToAction("ListMaterialRequisition");
-            }
-        }
+       
 
     }
 }

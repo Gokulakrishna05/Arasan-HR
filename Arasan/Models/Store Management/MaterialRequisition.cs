@@ -28,6 +28,7 @@ namespace Arasan.Models
         public DateTime MaterialReqDate { get; set; }
         public string matno { get; set; }
         public string RequestType { get; set; }
+        public string ddlStatus { get; set; }
 
         public string Amount { get; set; }
         public string Narration { get; set; }
@@ -41,6 +42,22 @@ namespace Arasan.Models
         public List<MaterialRequistionItem> MRlst { get; set; }
         public List<SelectListItem> assignList;
         public string Storeid { get; set; }
+    }
+    public class MaterialItem
+    {
+        public long id { get; set; }
+        public string branch { get; set; }
+        public string location { get; set; }
+        public string docid { get; set; }
+        public string docDate { get; set; }
+        public string iss { get; set; }
+        public string editrow { get; set; }
+        public string delrow { get; set; }
+        //public string follow { get; set; }
+        //public string pdf { get; set; }
+        public string view { get; set; }
+        public string move { get; set; }
+        //public string Account { get; set; }
     }
 
 
