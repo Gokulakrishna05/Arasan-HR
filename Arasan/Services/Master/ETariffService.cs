@@ -98,19 +98,18 @@ namespace Arasan.Services.Master
         {
             string SvSql = string.Empty;
 
-            SvSql = "SELECT TARIFFMASTERID,TARIFFID,TARIFFDESC,PERCENTAGE FROM TARIFFMASTER WHERE IS_ACTIVE = 'Y' ORDER BY TARIFFMASTERID DESC";
-            DataTable dtt = new DataTable();
+             
 
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "SELECT ETARIFFMASTERID,TARIFFID,TARIFFDESC,SGST,CGST,CGST FROM ETARIFFMASTER WHERE IS_ACTIVE = 'Y' ORDER BY ETARIFFMASTERID ASC";
+                SvSql = "SELECT TARIFFMASTERID,TARIFFID,TARIFFDESC,PERCENTAGE FROM TARIFFMASTER WHERE IS_ACTIVE = 'Y' ORDER BY TARIFFMASTERID DESC";
             }
             else
             {
-                SvSql = "SELECT ETARIFFMASTERID,TARIFFID,TARIFFDESC,SGST,CGST,CGST FROM ETARIFFMASTER WHERE IS_ACTIVE = 'N' ORDER BY ETARIFFMASTERID ASC";
+                SvSql = "SELECT TARIFFMASTERID,TARIFFID,TARIFFDESC,PERCENTAGE FROM TARIFFMASTER WHERE IS_ACTIVE = 'N' ORDER BY TARIFFMASTERID DESC";
 
             }
-             DataTable dtt = new DataTable();
+            DataTable dtt = new DataTable();
 
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
