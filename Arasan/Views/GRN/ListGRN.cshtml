@@ -1,281 +1,151 @@
-﻿ @model IEnumerable<Arasan.Models.GRN>
+﻿@model Arasan.Models.GRN
 
 @{
-    ViewData["Title"] = "GRN";
-    string sdate = ViewContext.HttpContext.Request.Query["st"];
-    string edate = ViewContext.HttpContext.Request.Query["ed"];
-     string query = ViewContext.HttpContext.Request.Query["status"];
-    string Pid = string.Empty;
-    if (!string.IsNullOrEmpty(query)) { Pid = ViewContext.HttpContext.Request.Query["status"]; }
+    ViewData["Title"] = "Index";
 }
+<partial name="JqxGridPartial" />
+@* @Html.Partial("~/Views/JqxGridPartial.cshtml")  *@
+
+<script type="text/javascript">
+    @if (TempData["notice"] != null)
+    {
+        @:alert('@TempData["notice"]');
+    }
+</script>
+
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
 
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
-            <li> <a>Transaction</a> </li>
+            <li> <a>Purchase</a> </li>
             <li class="active"> <strong>GRN</strong> </li>
         </ol>
     </div>
 </div>
 
+<script type="text/javascript">
+    $(document).ready(function () {
+        var source =
+        {
+            url: "/GRN/MyListGRNGrid",
+            //url: "/ItemName/ItemName",
+            data: {
+                strstatus: ""
+            },
+            datatype: "json",
+            updaterow: function (rowid, rowdata) {
+                // synchronize with the server - send update command
+            },
+            datafields: [
+                { name: 'branch', type: 'string' },
+                { name: 'enqno', type: 'string' },
+                { name: 'docDate', type: 'string' },
+                { name: 'supplier', type: 'string' },
+                { name: 'qcresult', type: 'string' },
+                { name: 'grn', type: 'string' },
+                { name: 'acc', type: 'string' },
+                { name: 'view', type: 'string' },
+                { name: 'editrow', type: 'string' },
+                { name: 'delrow', type: 'string' },
+
+            ],
+            id: 'id',
+        };
+        var dataAdapter = new $.jqx.dataAdapter(source,
+            { contentType: 'application/json; charset=utf-8' }, {
+            loadComplete: function () {
+
+            }
+        }
+        );
+
+        $("#grid").jqxGrid(
+            {
+                width: '100%',
+                source: dataAdapter,
+                height: 450,
+                source: source,
+                sortable: true,
+                filterable: true,
+                groupable: false,
+                pageable: true,
+                showfilterbar: true,
+                //showfilterrow: true,
+                theme: 'darkblue',
+                enablebrowserselection: true,
+                columns: [
+                    { text: 'Branch', filtertype: 'checkedlist', datafield: 'branch', width: 150 },
+                    { text: 'GRN No', filtertype: 'input', datafield: 'enqno', width: 150 },
+                    { text: 'GRN Date', datafield: 'docDate', width: 100, align: 'center' },
+                    { text: 'Supplier', filtertype: 'checkedlist', datafield: 'supplier', width: 250 },
+                    { text: 'Qc Testing', filtertype: 'input', datafield: 'qcresult', width: 150 },
+                    { text: 'GRN Status', datafield: 'grn', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 150 },
+                    { text: 'Account', datafield: 'acc', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 150 },
+                    { text: 'View', datafield: 'view', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 70 },
+                    { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                    //{ text: 'Move To GRN', datafield: 'move', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 120 },
+                ]
+            });
+        $("#ddlStatus").change(function () {
+            var value = "Y";
+            if ($(this).val() != "") {
+                value = $(this).val();
+            }
+            source.data = {
+                strstatus: value
+            };
+            $("#grid").jqxGrid({ source: source });
+        });
+    });
+</script>
 <div class="wrapper-content ">
     <div class="row">
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="widgets-container">
-                  
+
                     <form>
-
                         <div class="row">
-                            <div class="col-md-6">
-                                <select style='width: 200px;' class='form-control  newcss' id="dllstatus" onchange="changeStatus(this.value)">
-                                    <option value='Yes'>Open</option>
-                                    <option value='No'>Close</option>
-                                    @*<option value='InActive'>Disabled</option>*@
-                                </select>
+                            <div class="col-md-2 ">
+                                @Html.DropDownListFor(n => n.ddlStatus, new SelectListItem[]
+                                { new SelectListItem() {Text = "Enabled", Value="Y"},
+                                new SelectListItem() {Text = "Disabled", Value="N"}},
+                                new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" })
+                                <br>
                             </div>
+                            @*  <div class="col-md-9 ">
+                            <div class=" textalignright">
+                            <a href="@Url.Action("DirectPurchase", "DirectPurchase")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add DirectPurchase</a>
+                            <br>
+                            </div>
+
+
+                            </div>*@
                         </div>
-                        <br />
                         <div class="row">
-                            <div class="col-md-6">
-                                <label for="inputName3" class="col-sm-3 control-label">From Date  <label class="mandatory">*</label></label>
-                                <div class="col-sm-7">
-                                    <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                        <input id="SStart" class="form-control" readonly="readonly" value="@sdate" />
-                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                    </div>
 
-                                </div>
+
+                            @*  <div class="col-md-10 ">*@
+                            <div id="grid">
                             </div>
-                            <div class="col-md-6">
-                                <label for="inputName3" class="col-sm-3 control-label"> To date  <label class="mandatory">*</label></label>
-                                <div class="col-sm-7">
 
-                                    <div class="input-group date to_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                        <input id="SEnd" class="form-control" readonly="readonly" value="@edate" />
-                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                    </div>
-                                    <button type="button" class="btn  btn-round btn-primary" onclick="changesearch()" style="float: right; color:white;">Search </button>
-                                </div>
-
-                            </div>
+                            @* </div>*@
 
                         </div>
-<div class="row">
-          <div class="col-lg-12">
-            <div class="ibox float-e-margins">
-              
-              <div class="ibox-content collapse in">
-                <div class="widgets-container">
-                  <div >
-                    <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
-                      <thead>
-                        <tr>
-                          <th>Branch</th>
-                          <th>Supplier Name</th>
-                          <th>GRN No.</th>
-                          <th>GRN Date</th>
-                          <th>PO No.</th>
-                          <th>Currency</th>
-                           <th>Qc Testing</th>
-                         
-                          <th>Status</th>
-                          <th>Account</th>
-                                                            <th>View</th>
-                                                            <th>edit</th>
-                                                            <th>Delete</th>
-                        </tr>
-                      </thead>
-                   
-                      <tbody>
-                            @{
-                                                            int i = 1;
 
-
-                                                            foreach (var item in Model)
-                                                            {
-                                <tr>
-                                                                            <td>@Html.DisplayFor(modelItem => item.Branch)</td>
-                                                                            <td>@Html.DisplayFor(modelItem => item.Supplier)</td>
-                                                                            <td>@Html.DisplayFor(modelItem => item.GRNNo)</td>
-                                                                            <td>@Html.DisplayFor(modelItem => item.GRNdate)</td>
-                                                                            <td>@Html.DisplayFor(modelItem => item.PONo)</td>
-                                                                            <td>@Html.DisplayFor(modelItem => item.Cur)</td>
-                                                                            <td>@Html.DisplayFor(modelItem => item.Qcstatus)</td>
-                                                                  
-                                                                    @if (item.Active == "No")
-                                                                    {
-                                                                        <td></td>
-                                                                        <td> </td>
-                                                                        <td></td>
-                                                                        <td> </td>
-                                                                        <td> </td>
-
-                                                                    }
-
-
-                                                                    else
-                                                                    {
-                                                                        <td>@Html.DisplayFor(modelItem => item.Status)</td>
-                                                                        @if (item.Status == "GRN Completed")
-                                                                        {
-                                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("GRNAccount", "GRN",new { id=item.ID })" class="fancybox" data-fancybox-type="iframe"><img src='../Images/checklist.png' alt='' /></a></div></td>
-                                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewGRN", "GRN",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Waiting for approval' /></a></div></td>
-                                                                            <td></td>
-                                                                            <td> <a href="@Url.Action("DeleteMR","GRN",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
-
-
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            <td></td>
-                                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewGRN", "GRN",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Waiting for approval' /></a></div></td>
-
-                                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("GRN", "GRN",new { id=item.ID })"></a></div></td>
-                                                                            <td> <a href="@Url.Action("DeleteMR","GRN",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
-                                                                        }
-
-                                                                    }
-                                 </tr>
-
-                                                                i++;
-                                                            }
-                                                        }
-                     
-                        
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-    
-                          
-                                 
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 <script>
-    $(document).ready(function () {
-        $('#example7').DataTable({
-            dom: 'Bfrtip',
-            buttons: [{
-                text: 'copy',
-                extend: "copy",
-                className: 'btn dark btn-outline'
-            }, {
-                text: 'csv',
-                extend: "csv",
-                className: 'btn aqua btn-outline'
-            }, {
-                text: 'excel',
-                extend: "excel",
-                className: 'btn aqua btn-outline'
-            }, {
-                text: 'pdf',
-                extend: "pdf",
-                className: 'btn yellow  btn-outline'
-            }, {
-                text: 'print',
-                extend: "print",
-                className: 'btn purple  btn-outline'
-            }]
-        });
-
-
-
-    });
-
-</script>
-<script>
-
-    $('.to_date').datetimepicker({
-        //   language:  'fr',
-        weekStart: 1,
-        todayBtn: 1,
-        autoclose: 1,
-        todayHighlight: 1,
-        startView: 2,
-        minView: 2,
-        endDate: new Date(),
-        forceParse: 0
-    });
-
-    $('.form_date').datetimepicker({
-        //   language:  'fr',
-        weekStart: 1,
-        todayBtn: 1,
-        autoclose: 1,
-        todayHighlight: 1,
-        startView: 2,
-        minView: 2,
-        endDate: new Date(),
-        forceParse: 0
-    }).on('changeDate', function (selected) {
-        var minDate = new Date(selected.date.valueOf());
-        $('.to_date').datetimepicker('setStartDate', minDate);
-    });
-
-    function changesearch() {
-
-        var isValid = true;
-
-        if (document.getElementById("SStart").value == "" || document.getElementById("SStart").value == 0) {
-            isValid = false;
-            $(SStart).css({
-                "border": "1px solid red",
-                "background": "#FFCECE"
-            });
-
-            alert("Please Select From Date");
-            isValid = false;
-        }
-        else {
-            $(SStart).css({
-                "border": "",
-                "background": ""
-            });
-        }
-
-
-        if (document.getElementById("SEnd").value == "" || document.getElementById("SEnd").value == 0) {
-            isValid = false;
-            $(SEnd).css({
-                "border": "1px solid red",
-                "background": "#FFCECE"
-            });
-
-            alert("Please Select To date");
-            isValid = false;
-        }
-        else {
-            $(SEnd).css({
-                "border": "",
-                "background": ""
-            });
-        }
-
-        if (isValid == true) {
-
-            var fromDate = document.getElementById("SStart").value;
-            var toDate = document.getElementById("SEnd").value;
-            var url = '@Url.Action("ListGRN", "GRN")?st=' + fromDate + '&ed=' + toDate;
-            window.location.href = url;
-        }
-
-
+    function ConfirmDelete() {
+        return confirm("Are you sure you want to delete?");
     }
-
-
 </script>
-
 
 
 <a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
@@ -308,25 +178,19 @@
     }
 
 
-    function changeStatus(status) {
-        var url = "/ORSAT/ListORSAT?status=" + status;
-        window.location.href = url;
-        //$.ajax({
-        //    url: 'AssignSession',
-        //    data: { "status": status },
-        //    type: "GET",
-        //    success: function (result) {
-        //        document.getElementById("hdstatus").value = result;
-        //    },
-        //    error: function () {
-        //        alert("Data Not Found");
-        //    }
-        //});
-        //window.location.reload();
-
-    }
-    $(document).ready(function () {
-        var val2 = "@Pid";
-        $('#dllstatus').val(val2);
-    });
+            //function changeStatus(status) {
+            //    var url = "/PurchaseQuo/ListPurchaseQuo?status=" + status;
+            //    window.location.href = url;
+            //    //$.ajax({
+            //    //    url: 'AssignSession',
+            //    //    data: { "status": status },
+            //    //    type: "GET",
+            //    //    success: function (result) {
+            //    //        document.getElementById("hdstatus").value = result;
+            //    //    },
+            //    //    error: function () {
+            //    //        alert("Data Not Found");
+            //    //    }
+            //    //});
+            //    //window.location.reload();
 </script>

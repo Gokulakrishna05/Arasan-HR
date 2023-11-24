@@ -32,7 +32,7 @@ namespace Arasan.Models
         public string BranchID { get; set; }
         public string GRNdate { get; set; }
         public string PONo { get; set; }
-        public string POdt{ get; set; }
+        public string POdt { get; set; }
         public string Qcstatus { get; set; }
         public string ExRate { get; set; }
         public string ParNo { get; set; }
@@ -91,17 +91,35 @@ namespace Arasan.Models
         public double SGST { get; set; }
         public double IGST { get; set; }
         public double address { get; set; }
-        
+        public double ddlStatus { get; set; }
+
+    }
+    public class GRNItems
+    {
+        public long id { get; set; }
+        public string branch { get; set; }
+        public string supplier { get; set; }
+        public string enqno { get; set; }
+        public string docDate { get; set; }
+        public string qcresult { get; set; }
+        public string editrow { get; set; }
+        public string delrow { get; set; }
+        public string grn { get; set; }
+        public string pdf { get; set; }
+        public string view { get; set; }
+        public string acc { get; set; }
+        public string pono { get; set; }
+        //public string Account { get; set; }
     }
     public class GRNitems
     {
     }
 
-        public class GRNAccount
+    public class GRNAccount
     {
-        public string Ledgername { get;set; }   
+        public string Ledgername { get; set; }
         public List<SelectListItem> Ledgerlist { get; set; }
-        public string TypeName { get; set; }    
+        public string TypeName { get; set; }
         public string CRDR { get; set; }
         public List<SelectListItem> CRDRLst { get; set; }
         public double CRAmount { get; set; }

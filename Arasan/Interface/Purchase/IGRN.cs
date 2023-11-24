@@ -12,8 +12,9 @@ namespace Arasan.Interface
         DataTable EditGRNbyID(string name);
         DataTable FetchAccountRec(string GRNId);
         DataTable LedgerList();
-        string StatusChange(string tag, int id);
+        string StatusChange(string tag, string id);
         DataTable GetViewGRN(string id);
         DataTable GetViewGRNDetail(string id);
+        DataTable GetAllListGRNItem(string strStatus);
     }
 }
