@@ -29,7 +29,7 @@ namespace Arasan.Controllers
             po.Curlst = BindCurrency();
             po.RecList = BindEmp();
             po.assignList = BindEmp();
-        
+
             List<POItem> TData = new List<POItem>();
             POItem tda = new POItem();
 
@@ -46,7 +46,7 @@ namespace Arasan.Controllers
                 {
                     po.Branch = dt.Rows[0]["BRANCHID"].ToString();
                     po.BranchID = dt.Rows[0]["BRANCHID"].ToString();
-                    po.GRNNo= dt.Rows[0]["DOCID"].ToString();
+                    po.GRNNo = dt.Rows[0]["DOCID"].ToString();
                     po.GRNdate = dt.Rows[0]["DOCDATE"].ToString();
                     po.Supplier = dt.Rows[0]["PARTYID"].ToString();
                     po.party = dt.Rows[0]["PARTYNAME"].ToString();
@@ -69,10 +69,10 @@ namespace Arasan.Controllers
                     po.Gross = Convert.ToDouble(dt.Rows[0]["GROSS"].ToString() == "" ? "0" : dt.Rows[0]["GROSS"].ToString());
                     po.Net = Convert.ToDouble(dt.Rows[0]["NET"].ToString() == "" ? "0" : dt.Rows[0]["NET"].ToString());
                     po.LRno = dt.Rows[0]["LRNO"].ToString();
-                    po.LRdate= dt.Rows[0]["LRDT"].ToString();
-                    po.dispatchname= dt.Rows[0]["DESPTHRU"].ToString();
-                    po.drivername= dt.Rows[0]["TRNSPNAME"].ToString();
-                   po.truckno= dt.Rows[0]["truckno"].ToString();
+                    po.LRdate = dt.Rows[0]["LRDT"].ToString();
+                    po.dispatchname = dt.Rows[0]["DESPTHRU"].ToString();
+                    po.drivername = dt.Rows[0]["TRNSPNAME"].ToString();
+                    po.truckno = dt.Rows[0]["truckno"].ToString();
 
                 }
                 DataTable dt2 = new DataTable();
@@ -99,13 +99,19 @@ namespace Arasan.Controllers
                         {
                             tda.Desc = dt4.Rows[0]["ITEMDESC"].ToString();
                             tda.Conversionfactor = dt4.Rows[0]["CF"].ToString();
-                           
+
                         }
-                        tda.rate = Convert.ToDouble(dt2.Rows[i]["RATE"].ToString());
-                        tda.Quantity = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
+                        //tda.rate = Convert.ToDouble(dt2.Rows[i]["RATE"].ToString());
+                        tda.rate = Convert.ToDouble(dt2.Rows[i]["RATE"].ToString() == "" ? "0" : dt2.Rows[i]["RATE"].ToString());
+                        //tda.rate = Convert.ToDouble(dt2.Rows[i]["RATE"].ToString());
+                        //tda.rate = dt2.Rows[i]["RATE"].ToString();
+                        tda.Quantity = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString() == "" ? "0" : dt2.Rows[i]["QTY"].ToString());
+                        tda.BillQty = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString() == "" ? "0" : dt2.Rows[i]["QTY"].ToString());
+                        tda.Goodqty = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString() == "" ? "0" : dt2.Rows[i]["QTY"].ToString());
+                        //tda.Quantity = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
                         //tda.PendingQty= Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
-                        tda.BillQty = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
-                        tda.Goodqty = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
+                        //tda.BillQty = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
+                        //tda.Goodqty = Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
                         toaamt = tda.rate * tda.Quantity;
                         total += toaamt;
                         //tda.QtyPrim= Convert.ToDouble(dt2.Rows[i]["QTY"].ToString());
@@ -123,7 +129,7 @@ namespace Arasan.Controllers
                         tda.DiscAmt = Convert.ToDouble(dt2.Rows[i]["DISC"].ToString() == "" ? "0" : dt2.Rows[i]["DISC"].ToString());
                         tda.TotalAmount = Convert.ToDouble(dt2.Rows[i]["TOTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["TOTAMT"].ToString());
                         tda.Purtype = dt2.Rows[i]["PURTYPE"].ToString();
-                        tda.Lotno = po.party+" LotNo1234";
+                        tda.Lotno = po.party + " LotNo1234";
                         tda.Isvalid = "Y";
                         TData.Add(tda);
                     }
@@ -295,10 +301,81 @@ namespace Arasan.Controllers
             IEnumerable<POItem> cmp = GRNService.GetAllGRNItem(id);
             return View(cmp);
         }
-        public IActionResult ListGRN(string st, string ed)
+        public ActionResult MyListGRNGrid(string strStatus)
         {
-            IEnumerable<GRN> cmp = GRNService.GetAllGRN(st, ed);
-            return View(cmp);
+            List<GRNItems> Reg = new List<GRNItems>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = (DataTable)GRNService.GetAllListGRNItem(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+                string Qc = string.Empty;
+                string GRNStatus = string.Empty;
+                string Account = string.Empty;
+                string View = string.Empty;
+                string EditRow = string.Empty;
+                string DeleteRow = string.Empty;
+
+                if (dtUsers.Rows[i]["STATUS"].ToString() == "GRN Completed")
+                {
+                    GRNStatus = "<img src='../Images/tick.png' alt='View Details' width='20' />";
+                    Account = "<a href=GRNAccount?id=" + dtUsers.Rows[i]["GRNBLBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/profit.png' alt='View Details' width='20' /></a>";
+                    EditRow = "";
+                }
+                else
+                {
+                    GRNStatus = dtUsers.Rows[i]["STATUS"].ToString();
+                    //GRNStatus = "<a href=ViewQuote?id=" + dtUsers.Rows[i]["GRNBLBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
+                    EditRow = "<a href=GRN?id=" + dtUsers.Rows[i]["GRNBLBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+
+
+                }
+                View = "<a href=ViewGRN?id=" + dtUsers.Rows[i]["GRNBLBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
+                DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["GRNBLBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                Reg.Add(new GRNItems
+                {
+                    id = Convert.ToInt64(dtUsers.Rows[i]["GRNBLBASICID"].ToString()),
+                    branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
+                    enqno = dtUsers.Rows[i]["DOCID"].ToString(),
+                    docDate = dtUsers.Rows[i]["DOCDATE"].ToString(),
+                    supplier = dtUsers.Rows[i]["PARTYNAME"].ToString(),
+                    qcresult = dtUsers.Rows[i]["QCSTATUS"].ToString(),
+                    grn = GRNStatus,
+                    acc = Account,
+                    view = View,
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+
+
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
+        }
+        public IActionResult ListGRN()
+        {
+            //IEnumerable<GRN> cmp = GRNService.GetAllGRN();
+            return View();
+        }
+        public ActionResult DeleteItem(string tag, string id)
+        {
+
+            string flag = GRNService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListGRN");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListGRN");
+            }
         }
         public IActionResult GRNAccount(string id)
         {
@@ -326,12 +403,12 @@ namespace Arasan.Controllers
                 grn.SGST = Convert.ToDouble(dt.Rows[0]["SGST"].ToString() == "" ? "0" : dt.Rows[0]["SGST"].ToString());
                 grn.IGST = Convert.ToDouble(dt.Rows[0]["IGST"].ToString() == "" ? "0" : dt.Rows[0]["IGST"].ToString());
                 //grn.TotalAmt= Convert.ToDouble(dt.Rows[0]["NET"].ToString() == "" ? "0" : dt.Rows[0]["NET"].ToString());
-                
+
                 if (grn.Gross > 0)
-                { 
+                {
                     tda = new GRNAccount();
                     tda.CRDRLst = BindCRDRLst();
-                    tda.Ledgerlist= BindLedgerLst();
+                    tda.Ledgerlist = BindLedgerLst();
                     tda.CRAmount = grn.Gross;
                     tda.DRAmount = 0;
                     tda.TypeName = "Gross Amount";
@@ -546,24 +623,10 @@ namespace Arasan.Controllers
         }
         public JsonResult GetItemGrpJSON()
         {
-               return Json(BindLedgerLst());
+            return Json(BindLedgerLst());
         }
 
-        public ActionResult DeleteMR(string tag, int id)
-        {
 
-            string flag = GRNService.StatusChange(tag, id);
-            if (string.IsNullOrEmpty(flag))
-            {
-
-                return RedirectToAction("ListGRN");
-            }
-            else
-            {
-                TempData["notice"] = flag;
-                return RedirectToAction("ListGRN");
-            }
-        }
 
 
         public IActionResult ViewGRN(string id)
@@ -584,24 +647,31 @@ namespace Arasan.Controllers
                 po.party = dt.Rows[0]["PARTYNAME"].ToString();
                 po.PONo = dt.Rows[0]["DOCID"].ToString();
                 po.ID = id;
-                
+
                 po.POdt = dt.Rows[0]["PODate"].ToString();
-                po.Packingcharges = Convert.ToDouble(dt.Rows[0]["PACKING_CHRAGES"].ToString());
-                po.Othercharges = Convert.ToDouble(dt.Rows[0]["OTHER_CHARGES"].ToString());
-                po.otherdeduction = Convert.ToDouble(dt.Rows[0]["OTHER_DEDUCTION"].ToString());
-                po.Round = Convert.ToDouble(dt.Rows[0]["ROUND_OFF_PLUS"].ToString());
-                po.Roundminus = Convert.ToDouble(dt.Rows[0]["ROUND_OFF_MINUS"].ToString());
+                po.Packingcharges = Convert.ToDouble(dt.Rows[0]["PACKING_CHRAGES"].ToString() == "" ? "0" : dt.Rows[0]["PACKING_CHRAGES"].ToString());
+                po.otherdeduction = Convert.ToDouble(dt.Rows[0]["OTHER_CHARGES"].ToString() == "" ? "0" : dt.Rows[0]["OTHER_CHARGES"].ToString());
+                po.Round = Convert.ToDouble(dt.Rows[0]["PACKING_CHRAGES"].ToString() == "" ? "0" : dt.Rows[0]["PACKING_CHRAGES"].ToString());
+                po.Roundminus = Convert.ToDouble(dt.Rows[0]["ROUND_OFF_PLUS"].ToString() == "" ? "0" : dt.Rows[0]["ROUND_OFF_PLUS"].ToString());
+                po.Packingcharges = Convert.ToDouble(dt.Rows[0]["ROUND_OFF_MINUS"].ToString() == "" ? "0" : dt.Rows[0]["ROUND_OFF_MINUS"].ToString());
+                //po.Packingcharges = Convert.ToDouble(dt.Rows[0]["PACKING_CHRAGES"].ToString());
+                //po.Othercharges = Convert.ToDouble(dt.Rows[0]["OTHER_CHARGES"].ToString());
+                //po.otherdeduction = Convert.ToDouble(dt.Rows[0]["OTHER_DEDUCTION"].ToString());
+                //po.Round = Convert.ToDouble(dt.Rows[0]["ROUND_OFF_PLUS"].ToString());
+                //po.Roundminus = Convert.ToDouble(dt.Rows[0]["ROUND_OFF_MINUS"].ToString());
                 po.Narration = dt.Rows[0]["NARRATION"].ToString();
 
 
                 po.RefNo = dt.Rows[0]["REFNO"].ToString();
                 po.RefDate = dt.Rows[0]["REFDT"].ToString();
+                po.Frieghtcharge = Convert.ToDouble(dt.Rows[0]["FREIGHT"].ToString() == "" ? "0" : dt.Rows[0]["FREIGHT"].ToString());
+                po.Gross = Convert.ToDouble(dt.Rows[0]["GROSS"].ToString() == "" ? "0" : dt.Rows[0]["GROSS"].ToString());
+                po.Net = Convert.ToDouble(dt.Rows[0]["NET"].ToString() == "" ? "0" : dt.Rows[0]["NET"].ToString());
 
-                po.Frieghtcharge = Convert.ToDouble(dt.Rows[0]["FREIGHT"].ToString());
-
-                po.Gross = Convert.ToDouble(dt.Rows[0]["GROSS"].ToString());
-                po.Net = Convert.ToDouble(dt.Rows[0]["NET"].ToString());
-                po.dispatchname = dt.Rows[0]["DESPTHRU"].ToString(); 
+                //po.Frieghtcharge = Convert.ToDouble(dt.Rows[0]["FREIGHT"].ToString());
+                //po.Gross = Convert.ToDouble(dt.Rows[0]["GROSS"].ToString());
+                //po.Net = Convert.ToDouble(dt.Rows[0]["NET"].ToString());
+                po.dispatchname = dt.Rows[0]["DESPTHRU"].ToString();
                 po.LRno = dt.Rows[0]["LRNO"].ToString();
                 po.LRdate = dt.Rows[0]["LRDT"].ToString();
                 po.drivername = dt.Rows[0]["TRNSPNAME"].ToString();
@@ -620,18 +690,26 @@ namespace Arasan.Controllers
                         tda.Unit = dtt.Rows[i]["UNITID"].ToString();
                         tda.rate = Convert.ToDouble(dtt.Rows[i]["RATE"].ToString());
                         tda.Quantity = Convert.ToDouble(dtt.Rows[i]["QTY"].ToString());
-                        
-                        tda.CGSTPer = Convert.ToDouble(dtt.Rows[i]["CGSTP"].ToString());
-                        tda.SGSTPer = Convert.ToDouble(dtt.Rows[i]["SGSTP"].ToString());
-                        tda.IGSTPer = Convert.ToDouble(dtt.Rows[i]["IGSTP"].ToString());
-                        tda.CGSTAmt = Convert.ToDouble(dtt.Rows[i]["CGST"].ToString());
-                        tda.SGSTAmt = Convert.ToDouble(dtt.Rows[i]["SGST"].ToString());
-                        tda.IGSTAmt = Convert.ToDouble(dtt.Rows[i]["IGST"].ToString());
-                        tda.DiscPer = Convert.ToDouble(dtt.Rows[i]["DISCPER"].ToString());
-                        tda.DiscAmt = Convert.ToDouble(dtt.Rows[i]["DISC"].ToString());
-                        tda.TotalAmount = Convert.ToDouble(dtt.Rows[i]["TOTAMT"].ToString());
+                        tda.CGSTPer = Convert.ToDouble(dtt.Rows[i]["CGSTP"].ToString() == "" ? "0" : dtt.Rows[i]["CGSTP"].ToString());
+                        tda.SGSTPer = Convert.ToDouble(dtt.Rows[i]["SGSTP"].ToString() == "" ? "0" : dtt.Rows[i]["SGSTP"].ToString());
+                        tda.IGSTPer = Convert.ToDouble(dtt.Rows[i]["IGSTP"].ToString() == "" ? "0" : dtt.Rows[i]["IGSTP"].ToString());
+                        tda.CGSTAmt = Convert.ToDouble(dtt.Rows[i]["CGST"].ToString() == "" ? "0" : dtt.Rows[i]["CGST"].ToString());
+                        tda.SGSTAmt = Convert.ToDouble(dtt.Rows[i]["SGST"].ToString() == "" ? "0" : dtt.Rows[i]["SGST"].ToString());
+                        tda.IGSTAmt = Convert.ToDouble(dtt.Rows[i]["IGST"].ToString() == "" ? "0" : dtt.Rows[i]["IGST"].ToString());
+                        tda.DiscPer = Convert.ToDouble(dtt.Rows[i]["DISCPER"].ToString() == "" ? "0" : dtt.Rows[i]["DISCPER"].ToString());
+                        tda.DiscAmt = Convert.ToDouble(dtt.Rows[i]["DISC"].ToString() == "" ? "0" : dtt.Rows[i]["DISC"].ToString());
+                        tda.TotalAmount = Convert.ToDouble(dtt.Rows[i]["TOTAMT"].ToString() == "" ? "0" : dtt.Rows[i]["TOTAMT"].ToString());
+                        //tda.CGSTPer = Convert.ToDouble(dtt.Rows[i]["CGSTP"].ToString());
+                        //tda.SGSTPer = Convert.ToDouble(dtt.Rows[i]["SGSTP"].ToString());
+                        //tda.IGSTPer = Convert.ToDouble(dtt.Rows[i]["IGSTP"].ToString());
+                        //tda.CGSTAmt = Convert.ToDouble(dtt.Rows[i]["CGST"].ToString());
+                        ////tda.SGSTAmt = Convert.ToDouble(dtt.Rows[i]["SGST"].ToString());
+                        ////tda.IGSTAmt = Convert.ToDouble(dtt.Rows[i]["IGST"].ToString());
+                        //tda.DiscPer = Convert.ToDouble(dtt.Rows[i]["DISCPER"].ToString());
+                        //tda.DiscAmt = Convert.ToDouble(dtt.Rows[i]["DISC"].ToString());
+                        //tda.TotalAmount = Convert.ToDouble(dtt.Rows[i]["TOTAMT"].ToString());
                         tda.Purtype = dtt.Rows[i]["PURTYPE"].ToString();
-                       
+
                         Data.Add(tda);
                     }
                 }
