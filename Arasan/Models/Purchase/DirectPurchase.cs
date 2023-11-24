@@ -57,7 +57,7 @@ namespace Arasan.Models
         public List<SelectListItem> Itemlst { get; set; }
         public List<SelectListItem> gstlst { get; set; }
 
-        public List<SelectListItem> ItemGrouplst { get; set; }
+        public List<SelectListItem>  ItemGrouplst { get; set; }
 
         public string ItemGroupId { get; set; }
         public double FrigCharge { get; set; }
