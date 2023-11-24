@@ -43,6 +43,7 @@ namespace Arasan.Models
         public string assignid { get; set; }
 
         public string Supplier { get; set; }
+        public string statetype { get; set; }
         public string Status { get; set; }
         public string Active { get; set; }
         public List<SelectListItem> Suplst;
@@ -141,11 +142,15 @@ namespace Arasan.Models
         public string ItemId { get; set; }
         public string saveItemId { get; set; }
         public List<SelectListItem> Itemlst { get; set; }
+        public List<SelectListItem> gstlst { get; set; }
 
         public List<SelectListItem> ItemGrouplst { get; set; }
 
         public List<SelectListItem> PURLst { get; set; }
         public string ItemGroupId { get; set; }
+        public string gst { get; set; }
+        public string Percentage { get; set; }
+        public double per { get; set; }
         public string Purtype { get; set; }
         public string QC { get; set; }
         public string Desc { get; set; }

@@ -39,9 +39,9 @@ namespace Arasan.Controllers
 
                     AG.Tariff = dt.Rows[0]["TARIFFID"].ToString();
                     AG.Tariffdes = dt.Rows[0]["TARIFFDESC"].ToString();
-                    AG.Sgst = dt.Rows[0]["SGST"].ToString();
-                    AG.Cgst = dt.Rows[0]["CGST"].ToString();
-                    AG.Igst = dt.Rows[0]["IGST"].ToString();
+                    AG.Per = dt.Rows[0]["PERCENTAGE"].ToString();
+                    //AG.Cgst = dt.Rows[0]["CGST"].ToString();
+                    //AG.Igst = dt.Rows[0]["IGST"].ToString();
 
                     AG.ID = id;
                 }
@@ -120,17 +120,17 @@ namespace Arasan.Controllers
                 string DeleteRow = string.Empty;
                 string EditRow = string.Empty;
 
-                EditRow = "<a href=ETariff?id=" + dtUsers.Rows[i]["ETARIFFMASTERID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["ETARIFFMASTERID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                EditRow = "<a href=ETariff?id=" + dtUsers.Rows[i]["TARIFFMASTERID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["TARIFFMASTERID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
 
                 Reg.Add(new ETariffgrid
                 {
-                    id = dtUsers.Rows[i]["ETARIFFMASTERID"].ToString(),
+                    id = dtUsers.Rows[i]["TARIFFMASTERID"].ToString(),
                     tariff = dtUsers.Rows[i]["TARIFFID"].ToString(),
                     tariffdes = dtUsers.Rows[i]["TARIFFDESC"].ToString(),
-                    sgst = dtUsers.Rows[i]["SGST"].ToString(),
-                    cgst = dtUsers.Rows[i]["CGST"].ToString(),
-                    igst = dtUsers.Rows[i]["CGST"].ToString(),
+                    sgst = dtUsers.Rows[i]["PERCENTAGE"].ToString(),
+                    //cgst = dtUsers.Rows[i]["CGST"].ToString(),
+                    //igst = dtUsers.Rows[i]["CGST"].ToString(),
                     editrow = EditRow,
                     delrow = DeleteRow,
 

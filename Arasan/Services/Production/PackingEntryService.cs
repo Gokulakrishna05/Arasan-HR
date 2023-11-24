@@ -473,5 +473,76 @@ namespace Arasan.Services
             return "";
 
         }
+
+        public DataTable GetPacking(string Note)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select BRANCHMAST.BRANCHID,to_char(PACKBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,PACKBASIC.DOCID,WCBASIC.WCID,PACKBASIC.WCBASICID,to_char(PACKBASIC.PNDATE,'dd-MON-yyyy')PNDATE,PSBASIC.DOCID as prod,PACKBASIC.PSCHNO,SHIFTMAST.SHIFTNO,ITEMMASTER.ITEMID,to_char(PACKBASIC.STARTDATE,'dd-MON-yyyy')STARTDATE,to_char(PACKBASIC.ENDDATE,'dd-MON-yyyy')ENDDATE,PACKBASIC.STARTTIME, PACKBASIC.ENDTIME,PACKBASIC.LOCDETAILSID,PACKBASIC.TOTISSQTY,PACKBASIC.ISSRATE,PACKBASIC.ISSAMT,PACKBASIC.TOTOPQTY,PACKBASIC.OPRATE,PACKBASIC.OPAMOUNT,PACKNOTEBASIC.DOCID as packnote,PACKINGNOTE,PACKBASIC.ENTEREDBY,PACKBASIC.REMARKS,PACKBASIC.TOTALCAMOUNT,PACKBASIC.PSBASICID,PACKBASIC.TOTALIAMOUNT,PACKBASIC.PACKCONSYN,PACKBASIC.TOLOCDETAILSID,PACKBASIC.TOTHRS from PACKBASIC LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=PACKBASIC.OITEMID LEFT OUTER JOIN WCBASIC ON WCBASIC.WCBASICID=PACKBASIC.WCID LEFT OUTER JOIN PSBASIC ON PSBASIC.PSBASICID=PACKBASIC.PSCHNO LEFT OUTER JOIN SHIFTMAST ON SHIFTMASTID=PACKBASIC.SHIFT LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=PACKBASIC.BRANCH LEFT OUTER JOIN PACKNOTEBASIC ON PACKNOTEBASICID=PACKBASIC.PACKINGNOTE\r\n WHERE PACKBASICID='" + Note + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetPackinp(string Note)
+        {
+            string SvSql = string.Empty;
+            SvSql = " Select PACKBASICID,ICOMBNO,IDRUMNO,DRUMMAST.DRUMNO,IBATCHNO,IBATCHQTY,IQTY,IRATE,IAMOUNT,PACKNOTEDETID from PACKINPDETAIL LEFT OUTER JOIN DRUMMAST ON DRUMMASTID=PACKINPDETAIL.IDRUMNO  WHERE PACKBASICID='" + Note + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetPackMat(string Note)
+        {
+            string SvSql = string.Empty;
+            SvSql = "  Select PACKBASICID,ITEMMASTER.ITEMID,CUNIT,PACKCONSDETAIL.LOTYN,SUBQTY,CONSQTY,CONSRATE,CONSAMOUNT from PACKCONSDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=PACKCONSDETAIL.CITEMID  WHERE PACKBASICID='" + Note + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetPackEmp(string Note)
+        {
+            string SvSql = string.Empty;
+            SvSql = "  Select PACKBASICID,PACKEMPDETAILROW,EMPCODE,EMPNAME,DEPARTMENT,EMPCOST from PACKEMPDETAIL WHERE PACKBASICID='" + Note + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetPackCons(string Note)
+        {
+            string SvSql = string.Empty;
+            SvSql = "  Select PACKBASICID,COITEMID,COITEMMASTERID,PACKOTHCONSDETAIL.VALMETHOD,COUNIT,COCLSTK,CONSSTK,COQTY,CORATE,COAMOUNT,ITEMMASTER.ITEMID from PACKOTHCONSDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTERID=PACKOTHCONSDETAIL.COITEMID  WHERE PACKBASICID='" + Note + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetPackMac(string Note)
+        {
+            string SvSql = string.Empty;
+            SvSql = " SELECT PACKBASICID,PACKMACDETAILROW,MACHINEINFOBASIC.MNAME,MACHINECOST from PACKMACDETAIL LEFT OUTER JOIN MACHINEINFOBASIC ON MACHINEINFOBASICID=PACKMACDETAIL.MACHINEID  WHERE PACKBASICID='" + Note + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetPackingDetail(string Note)
+        {
+            string SvSql = string.Empty;
+            SvSql = "  Select PACKBASICID,PACKPDETAILROW,PITEMID,PLOCATION,SLNO,PCOMBNO,PDRUMNO,PBATCHNO,PDRUMQTY,POXQTY,PRATE,PAMOUNT,PDADETID,PITEMIDN,DRMPRF,TEMPDRM,LSCH,LSHIFT,ITEMMASTERID,TOLOCID,LWCID from PACKPDETAIL WHERE PACKBASICID='" + Note + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
     }
 }

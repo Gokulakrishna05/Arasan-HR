@@ -122,7 +122,8 @@
                                         <br /><label for="inputName3" class="col-sm-4 control-label">Supplier <label class="mandatory">*</label></label>
 
                                     <div class="col-sm-8">
-                                            @Html.DropDownListFor(C => C.Supplier, Model.Suplst," -- Please Select -- ", new { @id = "ddlSupplier", @Class = "form-control _select", @TabIndex = 1 })
+                                            @Html.DropDownListFor(C => C.Supplier, Model.Suplst," -- Please Select -- ", new { @id = "ddlSupplier", @Class = "form-control _select", @TabIndex = 1 ,@onchange="getnarr(this.value)"})
+                                             @Html.HiddenFor(c=>c.statetype,new { @id="hdstate"})
                                         </div>
 
                                 </div>
@@ -177,6 +178,7 @@
                                                             
                                                            <th>Item Group</th>
                                                             <th> Item </th>
+                                                            <th> GST </th>
                                                             <th> Unit </th>
                                                           @*  <th>Bin Id</th>*@
                                                             <th>Conv. Factor</th>
@@ -225,6 +227,10 @@
                                                             @Html.DropDownListFor(o => o.DirLst[i].ItemId, Model.DirLst[i].Itemlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlItem" + i, style = "width: 200px;", onchange = "changeItem(this.value," + i + ")" })
                                                                 @Html.HiddenFor(o => o.DirLst[i].saveItemId)
                                                                     </td>
+                                                                      <td>
+                                                                 @Html.DropDownListFor(o => o.DirLst[i].gst, Model.DirLst[i].gstlst, "Please Select", new { @class = "form-control _select newcss", @id = "ddlgst" + i, style = "width: 170px;", onchange = "changeGst(this.value," + i + ")" })
+
+                                                            </td>
                                                             <td>
                                                                 @Html.TextBoxFor(o => o.DirLst[i].Unit, new { @id = "txtUnit" + i, @class = "form-control", style = "width: 80px;" , @readonly = "readonly"})
                                                             </td>
@@ -254,13 +260,14 @@
                                                             </td>     
                                                           
                                                             <td>
-                                                                @Html.TextBoxFor(o => o.DirLst[i].CGSTP, new { @id = "txtCGSTP" + i, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")"})
+                                                                @Html.TextBoxFor(o => o.DirLst[i].CGSTP, new { @id = "txtCGSTP" + i, @class = "form-control", style = "width: 80px;",onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")", @readonly = "readonly"})
+                                                                @Html.HiddenFor(o => o.DirLst[i].Percentage,new{@id="txtPercentage" +i})
                                                             </td>   
                                                             <td>
-                                                                @Html.TextBoxFor(o => o.DirLst[i].SGSTP, new { @id = "txtSGSTP" + i, @class = "form-control", style = "width: 80px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")"})
+                                                                @Html.TextBoxFor(o => o.DirLst[i].SGSTP, new { @id = "txtSGSTP" + i, @class = "form-control", style = "width: 80px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")", @readonly = "readonly"})
                                                             </td>
                                                             <td>
-                                                                @Html.TextBoxFor(o => o.DirLst[i].IGSTP, new { @id = "txtIGSTP" + i, @class = "form-control", style = "width: 80px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")"})
+                                                                @Html.TextBoxFor(o => o.DirLst[i].IGSTP, new { @id = "txtIGSTP" + i, @class = "form-control", style = "width: 80px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)", @onkeyup = "changeQty(this," + i + ")", @readonly = "readonly"})
                                                             </td>
                                                             <td>
                                                                 @Html.TextBoxFor(o => o.DirLst[i].CGST, new { @id = "txtCGST" + i, @class = "form-control", style = "width: 80px;" ,onkeydown = "return isNumeric2(event.keyCode,this.value)", @readonly = "readonly", @onkeyup = "changeQty(this," + i + ")"})
@@ -415,7 +422,7 @@
     });
      $(".chosen-select").chosen();
 
-   
+    
  </script>
 
 <script>
@@ -550,6 +557,21 @@
                 }
             });
     }
+      function getnarr(party){
+         
+                  $.ajax({
+                    url: 'GetNarrDetail',
+                            data: { "party": party },
+                type: "GET",
+                success: function (result) {
+
+                        document.getElementById("Narration").value = result.type;
+                },
+                error: function () {
+                    alert("Data Not Found");
+                }
+            });
+    }
     function Grup_Change(itemid, i) {
         //alert(itemid);
         //debugger;
@@ -616,7 +638,90 @@
                 alert("Data Not Found");
             }
         });
+           var cutid = document.getElementById("ddlSupplier" ).value;
+         
+          $.ajax({
+                        url: 'GetGSTDetail',
+                        data: { "ItemId": ItemId, "custid": cutid },
+                        type: "GET",
+                        success: function (result) {
+                            document.getElementById("hdstate").value = result.type;
+                          
+                            document.getElementById("txtPercentage" + i).value = result.per;
+                            
+                            if (result.type == "GST") {
+                                document.getElementById("txtCGSTP" + i).value = eval(result.per) / 2;
+                                document.getElementById("txtSGSTP" +i).value = eval(result.per) / 2;
+                                document.getElementById("txtIGSTP" + i).value = "0";
+                            }
+                            else {
+                                document.getElementById("txtIGSTP" + i).value = eval(result.per);
+                                document.getElementById("txtCGSTP" + i).value = "0";
+                                document.getElementById("txtSGSTP" +i).value = "0";
+                            }
+                          changeQty(0, i);
+
+                        },
+                        error: function () {
+                            alert("Data Not Found");
+                        }
+                    });
+
+                      var i = 0;
+        $.ajax({
+            url: "GetGSTItemJSON",
+            type: "post",
+            data: { 'itemid': ItemId },
+            cache: false,
+            success: function (response) {
+                var newlist;
+
+                newlist = response.gstlst;
+                 var i = 0;
+                $('tr.chkitemlst').each(function () {
+                    if ($(this).css('display') !== 'none') {
+                        PopulateDropDown("#ddlgst" + i, response);
+                        i += 1;
+                    }
+                });
+            },
+            error: function () {
+                debugger;
+                alert("Please Select From Location");
+            }
+        });
     }
+     function changeGst(ItemId,i) {
+
+          var cutid = document.getElementById("ddlSupplier" ).value;
+         
+          $.ajax({
+                        url: 'GetGSTPerDetail',
+                        data: { "ItemId": ItemId, "custid": cutid },
+                        type: "GET",
+                        success: function (result) {
+                            document.getElementById("hdstate").value = result.type;
+                          
+                            document.getElementById("txtPercentage" + i).value = result.per;
+                            
+                            if (result.type == "GST") {
+                                document.getElementById("txtCGSTP" + i).value = eval(result.per) / 2;
+                                document.getElementById("txtSGSTP" +i).value = eval(result.per) / 2;
+                                document.getElementById("txtIGSTP" + i).value = "0";
+                            }
+                            else {
+                                document.getElementById("txtIGSTP" + i).value = eval(result.per);
+                                document.getElementById("txtCGSTP" + i).value = "0";
+                                document.getElementById("txtSGSTP" +i).value = "0";
+                            }
+                          changeQty(0, i);
+
+                        },
+                        error: function () {
+                            alert("Data Not Found");
+                        }
+                    });
+                    }
      @*function roundtorupee(amt) {
             if(amt - round_decimals(amt,0) > 0.5)
                 return pad_with_zeros(round_decimals(amt + 1, 0));

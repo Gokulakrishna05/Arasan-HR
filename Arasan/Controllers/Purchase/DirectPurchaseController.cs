@@ -7,6 +7,7 @@ using Arasan.Models;
 using Arasan.Services;
 using DocumentFormat.OpenXml.Vml;
 using DocumentFormat.OpenXml.Wordprocessing;
+using DocumentFormat.OpenXml.Office2010.Excel;
 
 
 namespace Arasan.Controllers
@@ -52,6 +53,7 @@ namespace Arasan.Controllers
                     tda = new DirItem();
                     tda.ItemGrouplst = BindItemGrplst();
                     tda.Itemlst = BindItemlst("");
+                    tda.gstlst = Bindgstlst("");
                     tda.Isvalid = "Y";
                     TData.Add(tda);
                 }
@@ -456,7 +458,7 @@ namespace Arasan.Controllers
                 List<SelectListItem> lstdesg = new List<SelectListItem>();
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DESCRIPTION"].ToString(), Value = dtDesg.Rows[i]["VCHTYPEID"].ToString() });
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["DESCRIPTION"].ToString(), Value = dtDesg.Rows[i]["DESCRIPTION"].ToString() });
                 }
                 return lstdesg;
             }
@@ -513,6 +515,24 @@ namespace Arasan.Controllers
                 }
                 return lstdesg;
 
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> Bindgstlst(string id)
+        {
+            try
+            {
+
+                DataTable dtDesg = directPurchase.GetTariff(id);
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["TARIFFID"].ToString(), Value = dtDesg.Rows[i]["tariff"].ToString() });
+                }
+                return lstdesg;
             }
             catch (Exception ex)
             {
@@ -622,7 +642,157 @@ namespace Arasan.Controllers
         {
             return View();
         }
+        public ActionResult GetGSTDetail(string ItemId, string custid)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                DataTable dt1 = new DataTable();
 
-       
+                string per = "0";
+
+                string hsn = "";
+                string hsnid = "";
+                string gst = "";
+                
+               
+                //if (ItemId == "1")
+                //{
+                //    hsn = "996519";
+                //}
+                //else
+                //{
+                    dt = directPurchase.GetHsn(ItemId);
+                    if (dt.Rows.Count > 0)
+                    {
+                        hsn = dt.Rows[0]["HSN"].ToString();
+                    }
+                dt1 = directPurchase.GethsnDetails(hsn);
+                if (dt1.Rows.Count > 0)
+                {
+
+                    hsnid = dt1.Rows[0]["HSNCODEID"].ToString();
+
+
+                }
+                //}
+                //if (ItemId == "1")
+                //{
+                //    sgst = "18";
+                //}
+                //else
+                //{
+                DataTable trff = new DataTable();
+                trff = directPurchase.GetgstDetails(hsnid);
+               
+                if (trff.Rows.Count ==1)
+                {
+                    
+                        gst = trff.Rows[0]["TARIFFID"].ToString();
+
+                        DataTable percen = datatrans.GetData("Select PERCENTAGE from TARIFFMASTER where TARIFFMASTERID='" + gst + "'  ");
+                        per = percen.Rows[0]["PERCENTAGE"].ToString();
+                    
+
+                }
+                //}
+
+                string cmpstate = datatrans.GetDataString("select STATE from CONTROL");
+
+                string type = "";
+
+                string partystate = datatrans.GetDataString("select STATE from PARTYMAST where PARTYMASTID='" + custid + "'");
+                if (partystate == cmpstate)
+                {
+                    type = "GST";
+                }
+                else
+                {
+                    type = "IGST";
+                }
+
+                var result = new { per = per, type = type};
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public JsonResult GetGSTItemJSON(string itemid)
+        {
+            DirItem model = new DirItem();
+            string hsn = datatrans.GetDataString("select HSN,ITEMMASTERID from ITEMMASTER WHERE ITEMMASTERID='" + itemid + "'");
+            string hsnid = datatrans.GetDataString("select HSNCODEID from HSNCODE WHERE HSNCODE='" + hsn + "'");
+            
+            model.gstlst = Bindgstlst(hsnid);
+            return Json(Bindgstlst(hsnid));
+
+        }
+        public ActionResult GetGSTPerDetail(string ItemId, string custid)
+        {
+            try
+            {
+                DataTable hs = new DataTable();
+                DataTable dt1 = new DataTable();
+                string per = "";
+
+
+                DataTable percentage = datatrans.GetData("Select PERCENTAGE from TARIFFMASTER where TARIFFMASTERID='" + ItemId + "'  ");
+                if (percentage.Rows.Count > 0)
+                {
+                    per = percentage.Rows[0]["PERCENTAGE"].ToString();
+
+
+                }
+                //}
+
+                string cmpstate = datatrans.GetDataString("select STATE from CONTROL");
+
+                string type = "";
+
+                string partystate = datatrans.GetDataString("select STATE from PARTYMAST where PARTYMASTID='" + custid + "'");
+
+                if (partystate == cmpstate)
+                {
+                    type = "GST";
+                }
+                else
+                {
+                    type = "IGST";
+                }
+
+
+
+                var result = new { per = per, type = type };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult GetNarrDetail(string party)
+        {
+            try
+            {
+                string type = "";
+
+                string partystate = datatrans.GetDataString("select PARTYNAME from PARTYMAST where PARTYMASTID='" + party + "'");
+
+                
+                    type = "Purchased From " +partystate;
+                
+
+
+
+                var result = new { type = type };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

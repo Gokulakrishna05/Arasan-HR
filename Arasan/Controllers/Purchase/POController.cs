@@ -52,6 +52,7 @@ namespace Arasan.Controllers
             po.deltermlst = Binddeliveryterms();
             po.warrantytermslst = Bindwarrantyterms();
             po.desplst = Binddespatch();
+           
             List<POItem> TData = new List<POItem>();
             POItem tda = new POItem();
 
@@ -83,6 +84,7 @@ namespace Arasan.Controllers
                     po.delterms = dt.Rows[0]["DELTERMS"].ToString();
                     po.desp = dt.Rows[0]["DESP"].ToString();
                     po.warrantyterms = dt.Rows[0]["WARRTERMS"].ToString();
+                    po.Amount = dt.Rows[0]["AMTINWORDS"].ToString();
 
                     po.Narration = dt.Rows[0]["NARRATION"].ToString();
                     po.Roundminus = Convert.ToDouble(dt.Rows[0]["ROUND_OFF_MINUS"].ToString() == "" ? "0" : dt.Rows[0]["ROUND_OFF_MINUS"].ToString());
@@ -142,8 +144,96 @@ namespace Arasan.Controllers
                         tda.TotalAmount = Convert.ToDouble(dt2.Rows[i]["TOTAMT"].ToString() == "" ? "0" : dt2.Rows[i]["TOTAMT"].ToString());
                         tda.Purtype = dt2.Rows[i]["PURTYPE"].ToString();
                         tda.Duedate = dt2.Rows[i]["DUEDATE"].ToString();
+
                         tda.Isvalid = "Y";
                         TData.Add(tda);
+
+                        try
+                        {
+                            DataTable hs = new DataTable();
+                            DataTable dt1 = new DataTable();
+
+                            string hsnid = "";
+
+                            string hsn = "";
+                            //if (ItemId == "1")
+                            //{
+                            //    hsn = "996519";
+                            //}
+                            //else
+                            //{
+                            hs = PoService.GetHsn(tda.ItemId);
+                            if (hs.Rows.Count > 0)
+                            {
+                                hsn = hs.Rows[0]["HSN"].ToString();
+                            }
+                            //}
+                            //if (ItemId == "1")
+                            //{
+                            //    sgst = "18";
+                            //}
+                            //else
+                            //{
+                            dt1 = PoService.GethsnDetails(hsn);
+                            if (dt1.Rows.Count > 0)
+                            {
+
+                                hsnid = dt1.Rows[0]["HSNCODEID"].ToString();
+
+
+                            }
+                            DataTable trff = new DataTable();
+                            trff = PoService.GetgstDetails(hsnid);
+                            tda.gstlst = bindgst(hsnid);
+                            if (trff.Rows.Count > 0)
+                            {
+                                for (int j = 0; j < trff.Rows.Count; j++)
+                                {
+
+                                    tda.gst = trff.Rows[j]["TARIFFID"].ToString();
+
+                                    DataTable per = datatrans.GetData("Select PERCENTAGE from TARIFFMASTER where TARIFFMASTERID='" + tda.gst + "'  ");
+                                    tda.per = Convert.ToDouble(per.Rows[0]["PERCENTAGE"].ToString());
+                                }
+
+                            }
+                            //}
+
+                            string cmpstate = datatrans.GetDataString("select STATE from CONTROL");
+
+                            string type = "";
+
+                            string partystate = datatrans.GetDataString("select STATE from PARTYMAST where PARTYMASTID='" + po.Supplier + "'");
+                            if (trff.Rows.Count == 1)
+                            {
+                                if (partystate == cmpstate)
+                                {
+                                    double cgst = tda.per / 2;
+                                    double sgst = tda.per / 2;
+                                    tda.SGSTPer = sgst;
+                                    tda.CGSTPer = cgst;
+
+                                    double cgstperc = tda.Amount / 100 * tda.SGSTPer;
+                                    double sgstperc = tda.Amount / 100 * tda.CGSTPer;
+                                    tda.CGSTAmt = cgstperc + sgstperc;
+                                    tda.SGSTAmt = cgstperc + sgstperc;
+                                    tda.TotalAmount = tda.CGSTAmt + tda.SGSTAmt + tda.Amount;
+                                    //po.Net = tda.TotalAmount;
+                                }
+                                else
+                                {
+                                    tda.IGSTPer = tda.per;
+                                    tda.IGSTAmt = tda.Amount / 100 * tda.IGSTPer;
+                                    tda.TotalAmount = tda.IGSTAmt + tda.Amount;
+                                    //po.Net = tda.TotalAmount;
+                                }
+
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            throw ex;
+                        }
                     }
                 }
                 po.PoItem = TData;
@@ -319,6 +409,24 @@ namespace Arasan.Controllers
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["BRANCHID"].ToString(), Value = dtDesg.Rows[i]["BRANCHMASTID"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> bindgst(string id)
+        {
+            try
+            {
+
+                DataTable dtDesg = PoService.GetTariff(id);
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["TARIFFID"].ToString(), Value = dtDesg.Rows[i]["tariff"].ToString() });
                 }
                 return lstdesg;
             }
@@ -872,6 +980,49 @@ namespace Arasan.Controllers
                 ca.GateInlst = Data;
             }
             return View(ca);
+        }
+        public ActionResult GetGSTDetail(string ItemId, string custid)
+        {
+            try
+            {
+                DataTable hs = new DataTable();
+                DataTable dt1 = new DataTable();
+                string per = "";
+
+                        
+                        DataTable percentage = datatrans.GetData("Select PERCENTAGE from TARIFFMASTER where TARIFFMASTERID='" + ItemId + "'  ");
+                if (percentage.Rows.Count > 0)
+                {
+                    per = percentage.Rows[0]["PERCENTAGE"].ToString();
+
+
+                }
+                //}
+
+                string cmpstate = datatrans.GetDataString("select STATE from CONTROL");
+
+                string type = "";
+
+                string partystate = datatrans.GetDataString("select STATE from PARTYMAST where PARTYMASTID='" + custid + "'");
+
+                if (partystate == cmpstate)
+                {
+                    type = "GST";
+                }
+                else
+                {
+                    type = "IGST";
+                }
+
+
+
+                var result = new { per = per, type = type };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
     }

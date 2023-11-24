@@ -30,7 +30,7 @@ namespace Arasan.Services.Master
                 if (cy.ID == null)
                 {
 
-                    svSQL = " SELECT Count(*) as cnt FROM ETARIFFMASTER WHERE TARIFFID =LTRIM(RTRIM('" + cy.Tariff + "')) ";
+                    svSQL = " SELECT Count(*) as cnt FROM TARIFFMASTER WHERE TARIFFID =LTRIM(RTRIM('" + cy.Tariff + "')) ";
                     if (datatrans.GetDataId(svSQL) > 0)
                     {
                         msg = "ETariff Already Existed";
@@ -55,9 +55,9 @@ namespace Arasan.Services.Master
 
                     objCmd.Parameters.Add("TARIFFID", OracleDbType.NVarchar2).Value = cy.Tariff;
                     objCmd.Parameters.Add("TARIFFDESC", OracleDbType.NVarchar2).Value = cy.Tariffdes;
-                    objCmd.Parameters.Add("SGST", OracleDbType.NVarchar2).Value = cy.Sgst;
-                    objCmd.Parameters.Add("CGST", OracleDbType.NVarchar2).Value = cy.Cgst;
-                    objCmd.Parameters.Add("IGST", OracleDbType.NVarchar2).Value = cy.Igst;
+                    objCmd.Parameters.Add("PERCENTAGE", OracleDbType.NVarchar2).Value = cy.Per;
+                    //objCmd.Parameters.Add("CGST", OracleDbType.NVarchar2).Value = cy.Cgst;
+                    //objCmd.Parameters.Add("IGST", OracleDbType.NVarchar2).Value = cy.Igst;
 
                     objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
@@ -87,7 +87,7 @@ namespace Arasan.Services.Master
         public DataTable GetETariff(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "SELECT TARIFFID,TARIFFDESC,SGST,CGST,IGST FROM ETARIFFMASTER WHERE ETARIFFMASTERID ='" + id + "' ";
+            SvSql = "SELECT TARIFFID,TARIFFDESC,PERCENTAGE FROM TARIFFMASTER WHERE TARIFFMASTERID ='" + id + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -97,6 +97,10 @@ namespace Arasan.Services.Master
         public DataTable GetAllETariff(string strStatus)
         {
             string SvSql = string.Empty;
+
+            SvSql = "SELECT TARIFFMASTERID,TARIFFID,TARIFFDESC,PERCENTAGE FROM TARIFFMASTER WHERE IS_ACTIVE = 'Y' ORDER BY TARIFFMASTERID DESC";
+            DataTable dtt = new DataTable();
+
             if (strStatus == "Y" || strStatus == null)
             {
                 SvSql = "SELECT ETARIFFMASTERID,TARIFFID,TARIFFDESC,SGST,CGST,CGST FROM ETARIFFMASTER WHERE IS_ACTIVE = 'Y' ORDER BY ETARIFFMASTERID ASC";
@@ -107,6 +111,7 @@ namespace Arasan.Services.Master
 
             }
              DataTable dtt = new DataTable();
+
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
@@ -121,7 +126,7 @@ namespace Arasan.Services.Master
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE ETARIFFMASTER SET IS_ACTIVE ='N' WHERE ETARIFFMASTERID='" + id + "'";
+                    svSQL = "UPDATE TARIFFMASTER SET IS_ACTIVE ='N' WHERE TARIFFMASTERID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();

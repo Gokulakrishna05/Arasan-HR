@@ -72,16 +72,16 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 
-                                        <label for="inputName3" class="col-sm-4 control-label"> SGST<label class="mandatory">*</label></label>
+                                        <label for="inputName3" class="col-sm-4 control-label"> Percentage<label class="mandatory">*</label></label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(C => C.Sgst, new { @id = "txtSgst", @class = "form-control", @TabIndex = 2, @size="30",onkeydown = "return isNumeric2(event.keyCode,this.value)" })<br>
+                                            @Html.TextBoxFor(C => C.Per, new { @id = "txtPer", @class = "form-control", @TabIndex = 2, @size="30",onkeydown = "return isNumeric2(event.keyCode,this.value)" })<br>
                                         </div>
 
 
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            @*<div class="row">
                                 <div class="col-lg-3"></div>
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -110,7 +110,7 @@
                                 </div>
                             </div>
 
-
+*@
 
                             <div style="height:30px;"></div>
                             <div class="col-lg-8"></div>
