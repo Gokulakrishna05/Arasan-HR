@@ -89,18 +89,19 @@ namespace Arasan.Models
         public string CEmail { get; set; }
         public string Isvalid { get; set; }
         public string status { get; set; }
+        public string ddlStatus { get; set; }
 
     }
-    //public class PartyItem
-    //{
-    //    public string ID { get; set; }
-    //    public string ContactPerson { get; set; }
-    //    public string Purpose { get; set; }
-      
-    //    public string Designation { get; set; }
-    //    public string Phone { get; set; }
-       
-    //    public string Email { get; set; }
-    //    public string Isvalid { get; set; }
-    //}
+    public class PartyGrid
+    {
+        public string id { get; set; }
+        public string partycategory { get; set; }
+        public string partygroup { get; set; }
+
+        public string joindate { get; set; }
+        public string ratecode { get; set; }
+
+        public string editrow { get; set; }
+        public string delrow { get; set; }
     }
+}

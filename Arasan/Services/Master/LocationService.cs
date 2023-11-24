@@ -28,37 +28,37 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        public IEnumerable<Location> GetAllLocations(string status)
-        {
-            List<Location> cmpList = new List<Location>();
-            using (OracleConnection con = new OracleConnection(_connectionString))
-            {
+        //public IEnumerable<Location> GetAllLocations(string status)
+        //{
+        //    List<Location> cmpList = new List<Location>();
+        //    using (OracleConnection con = new OracleConnection(_connectionString))
+        //    {
 
-                using (OracleCommand cmd = con.CreateCommand())
-                {
-                    con.Open();
-                    cmd.CommandText = "Select LOCID,LOCATIONTYPE,CPNAME,PHNO,EMAIL,ADD1,BRANCHID,LOCDETAILSID,STATUS from LOCDETAILS WHERE STATUS= '" + status + "' order by LOCDETAILS.LOCID DESC";
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
-                    {
-                        Location cmp = new Location
-                        {
-                            ID = rdr["LOCDETAILSID"].ToString(),
-                            LocationId = rdr["LOCID"].ToString(),
-                            LocType = rdr["LOCATIONTYPE"].ToString(),
-                            ContactPer = rdr["CPNAME"].ToString(),
-                            PhoneNo = rdr["PHNO"].ToString(),
-                            EmailId = rdr["EMAIL"].ToString(),
-                            Address = rdr["ADD1"].ToString(),
-                            Branch = rdr["BRANCHID"].ToString()
+        //        using (OracleCommand cmd = con.CreateCommand())
+        //        {
+        //            con.Open();
+        //            cmd.CommandText = "Select LOCID,LOCATIONTYPE,CPNAME,PHNO,EMAIL,ADD1,BRANCHID,LOCDETAILSID,IS_ACTIVE from LOCDETAILS WHERE IS_ACTIVE= '" + status + "' order by LOCDETAILS.LOCID DESC";
+        //            OracleDataReader rdr = cmd.ExecuteReader();
+        //            while (rdr.Read())
+        //            {
+        //                Location cmp = new Location
+        //                {
+        //                    ID = rdr["LOCDETAILSID"].ToString(),
+        //                    LocationId = rdr["LOCID"].ToString(),
+        //                    LocType = rdr["LOCATIONTYPE"].ToString(),
+        //                    ContactPer = rdr["CPNAME"].ToString(),
+        //                    PhoneNo = rdr["PHNO"].ToString(),
+        //                    EmailId = rdr["EMAIL"].ToString(),
+        //                    Address = rdr["ADD1"].ToString(),
+        //                    Branch = rdr["BRANCHID"].ToString()
                           
-                        };
-                        cmpList.Add(cmp);
-                    }
-                }
-            }
-            return cmpList;
-        }
+        //                };
+        //                cmpList.Add(cmp);
+        //            }
+        //        }
+        //    }
+        //    return cmpList;
+        //}
 
 
         public Location GetLocationsById(string eid)
@@ -140,7 +140,7 @@ namespace Arasan.Services
                     // objCmd.Parameters.Add("Bin", OracleDbType.NVarchar2).Value = cy.Bin;
                     // objCmd.Parameters.Add("Trade", OracleDbType.NVarchar2).Value = cy.Trade;
                     // objCmd.Parameters.Add("FlowOrd", OracleDbType.Int64).Value = cy.FlowOrd;
-                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
+                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     try
                     {
@@ -172,7 +172,7 @@ namespace Arasan.Services
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE LOCDETAILS SET STATUS ='INACTIVE' WHERE LOCDETAILSID='" + id + "'";
+                    svSQL = "UPDATE LOCDETAILS SET IS_ACTIVE ='N' WHERE LOCDETAILSID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -195,7 +195,7 @@ namespace Arasan.Services
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE LOCDETAILS SET STATUS ='ACTIVE' WHERE LOCDETAILSID='" + id + "'";
+                    svSQL = "UPDATE LOCDETAILS SET IS_ACTIVE ='Y' WHERE LOCDETAILSID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -215,6 +215,25 @@ namespace Arasan.Services
         {
             string SvSql = string.Empty;
             SvSql = "select LOCID,LOCATIONTYPE,CPNAME,PHNO,EMAIL,ADD1,BRANCHID,LOCDETAILSID from LOCDETAILS where LOCDETAILSID= '" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetAllLocation(string strStatus)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "select LOCID,LOCATIONTYPE,CPNAME,PHNO,EMAIL,LOCDETAILSID from LOCDETAILS  WHERE LOCDETAILS.IS_ACTIVE = 'Y' ORDER BY LOCDETAILSID DESC";
+            }
+            else
+            {
+                SvSql = "select LOCID,LOCATIONTYPE,CPNAME,PHNO,EMAIL,LOCDETAILSID from LOCDETAILS  WHERE LOCDETAILS.IS_ACTIVE = 'N' ORDER BY LOCDETAILSID DESC";
+
+            }
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

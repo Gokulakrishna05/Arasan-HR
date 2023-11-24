@@ -415,12 +415,12 @@ namespace Arasan.Controllers.Master
             dtUsers = EmployeeService.GetAllEmployee(strStatus); 
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
-                //string Multi = string.Empty;
+                string Multi = string.Empty;
                 string DeleteRow = string.Empty;
                 string EditRow = string.Empty;
                 
 
-                //Multi = "<a href=Employee?id=" + dtUsers.Rows[i]["EMPMASTID"].ToString() + "><img src='../Images/plus.png' alt='Edit' /></a>";
+                Multi = "<a href=Employee?id=" + dtUsers.Rows[i]["EMPMASTID"].ToString() + "><img src='../Images/plus.png' alt='Edit' /></a>";
                 EditRow = "<a href=Employee?id=" + dtUsers.Rows[i]["EMPMASTID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
                 DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["EMPMASTID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
 
@@ -433,7 +433,7 @@ namespace Arasan.Controllers.Master
                     dob = dtUsers.Rows[i]["EMPDOB"].ToString(),
                     phoneno = dtUsers.Rows[i]["ECPHNO"].ToString(),
                     emailid = dtUsers.Rows[i]["ECMAILID"].ToString(),
-                    //multi = Multi,
+                    multi = Multi,
                     editrow = EditRow,
                     delrow = DeleteRow,
                     

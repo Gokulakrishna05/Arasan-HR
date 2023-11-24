@@ -12,7 +12,7 @@ namespace Arasan.Interface.Master
         DataTable GetState();
         DataTable GetCity();
         DataTable GetCountry();
-        IEnumerable<PartyMaster> GetAllParty(string status);
+        //IEnumerable<PartyMaster> GetAllParty(string status);
        DataTable GetParty(string id);
         DataTable GetCountryDetails(string id);
         DataTable GetPartyContact(string id);
@@ -23,5 +23,7 @@ namespace Arasan.Interface.Master
         //DataTable GetEmpEduDeatils(string data);
         //DataTable GetEmpPersonalDeatils(string id);
         //DataTable GetEmpSkillDeatils(string id);
+
+        DataTable GetAllParty(string strStatus);
     }
 }

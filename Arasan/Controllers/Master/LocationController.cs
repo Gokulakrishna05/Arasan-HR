@@ -86,10 +86,9 @@ namespace Arasan.Controllers
 
             return View(Cy);
         }
-        public IActionResult ListLocation(string status)
+        public IActionResult ListLocation()
         {
-            IEnumerable<Location> cmp = LocationService.GetAllLocations(status);
-            return View(cmp);
+            return View();
         }
         public List<SelectListItem> BindBranch()
         {
@@ -138,6 +137,41 @@ namespace Arasan.Controllers
                 TempData["notice"] = flag;
                 return RedirectToAction("ListLocation");
             }
+        }
+        public ActionResult MyListItemgrid(string strStatus)
+        {
+            List<Locationgrid> Reg = new List<Locationgrid>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = LocationService.GetAllLocation(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+
+                string DeleteRow = string.Empty;
+                string EditRow = string.Empty;
+
+                EditRow = "<a href=city?id=" + dtUsers.Rows[i]["LOCDETAILSID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["LOCDETAILSID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                Reg.Add(new Locationgrid
+                {
+                    id = dtUsers.Rows[i]["LOCDETAILSID"].ToString(),
+                    locationid = dtUsers.Rows[i]["LOCID"].ToString(),
+                    loctype = dtUsers.Rows[i]["LOCATIONTYPE"].ToString(),
+                    contactper = dtUsers.Rows[i]["CPNAME"].ToString(),
+                    phoneno = dtUsers.Rows[i]["PHNO"].ToString(),
+                    emailid = dtUsers.Rows[i]["EMAIL"].ToString(),
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
         }
 
     }

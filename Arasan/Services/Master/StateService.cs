@@ -18,48 +18,48 @@ namespace Arasan.Services.Master
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
             datatrans = new DataTransactions(_connectionString);
         }
-        public IEnumerable<State> GetAllState(string status)
-        {
-            if (string.IsNullOrEmpty(status))
-            {
-                status = "ACTIVE";
-            }
-            List<State> staList = new List<State>();
-            using (OracleConnection con = new OracleConnection(_connectionString))
-            {
+        //public IEnumerable<State> GetAllState(string status)
+        //{
+        //    if (string.IsNullOrEmpty(status))
+        //    {
+        //        status = "ACTIVE";
+        //    }
+        //    List<State> staList = new List<State>();
+        //    using (OracleConnection con = new OracleConnection(_connectionString))
+        //    {
 
-                using (OracleCommand cmd = con.CreateCommand())
-                {
-                    con.Open();
-                    cmd.CommandText = "select STATE,STCODE,CONMAST.COUNTRY,STATEMASTID ,STATEMAST.STATUS from  STATEMAST LEFT OUTER JOIN CONMAST ON CONMAST.COUNTRYMASTID=STATEMAST.COUNTRYMASTID WHERE STATEMAST.STATUS ='" + status + "' order by STATEMAST.STATEMASTID DESC";
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
-                    {
-                        State sta = new State
-                        {
-                            ID = rdr["STATEMASTID"].ToString(),
-                            StateName = rdr["STATE"].ToString(),
-                            StateCode = rdr["STCODE"].ToString(),
-                            countryid = rdr["COUNTRY"].ToString(),
-                            status = rdr["STATUS"].ToString()
-                        };
-                        staList.Add(sta);
-                    }
-                }
-            }
-            return staList;
-        }
-        public DataTable Getcountry()
-        {
-            string SvSql = string.Empty;
-            //SvSql = "select COUNTRYNAME,COUNTRYMASTID from CONMAST  WHERE STATUS='ACTIVE' order by COUNTRYMASTID asc" ;
-            SvSql = "select COUNTRY,COUNTRYMASTID from CONMAST order by COUNTRYMASTID asc";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
+        //        using (OracleCommand cmd = con.CreateCommand())
+        //        {
+        //            con.Open();
+        //            cmd.CommandText = "select STATE,STCODE,CONMAST.COUNTRY,STATEMASTID ,STATEMAST.STATUS from  STATEMAST LEFT OUTER JOIN CONMAST ON CONMAST.COUNTRYMASTID=STATEMAST.COUNTRYMASTID WHERE STATEMAST.STATUS ='" + status + "' order by STATEMAST.STATEMASTID DESC";
+        //            OracleDataReader rdr = cmd.ExecuteReader();
+        //            while (rdr.Read())
+        //            {
+        //                State sta = new State
+        //                {
+        //                    ID = rdr["STATEMASTID"].ToString(),
+        //                    StateName = rdr["STATE"].ToString(),
+        //                    StateCode = rdr["STCODE"].ToString(),
+        //                    countryid = rdr["COUNTRY"].ToString(),
+        //                    status = rdr["STATUS"].ToString()
+        //                };
+        //                staList.Add(sta);
+        //            }
+        //        }
+        //    }
+        //    return staList;
+        //}
+        //public DataTable Getcountry()
+        //{
+        //    string SvSql = string.Empty;
+        //    //SvSql = "select COUNTRYNAME,COUNTRYMASTID from CONMAST  WHERE STATUS='ACTIVE' order by COUNTRYMASTID asc" ;
+        //    SvSql = "select COUNTRY,COUNTRYMASTID from CONMAST WHERE IS_ACTIVE ='Y' order by COUNTRYMASTID DESC";
+        //    DataTable dtt = new DataTable();
+        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
+        //}
         public DataTable GetEditState(string id)
         {
             string SvSql = string.Empty;
@@ -135,7 +135,7 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("STATE", OracleDbType.NVarchar2).Value = ss.StateName;
                     objCmd.Parameters.Add("STCODE", OracleDbType.NVarchar2).Value = ss.StateCode;
                     objCmd.Parameters.Add("COUNTRYMASTID", OracleDbType.NVarchar2).Value = ss.countryid;
-                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
+                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     try
                     {
@@ -167,7 +167,7 @@ namespace Arasan.Services.Master
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE STATEMAST SET STATUS ='INACTIVE' WHERE STATEMASTID='" + id + "' ";
+                    svSQL = "UPDATE STATEMAST SET IS_ACTIVE ='N' WHERE STATEMASTID='" + id + "' ";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -190,7 +190,7 @@ namespace Arasan.Services.Master
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE STATEMAST SET STATUS ='ACTIVE' WHERE STATEMASTID='" + id + "'";
+                    svSQL = "UPDATE STATEMAST SET IS_ACTIVE ='Y' WHERE STATEMASTID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -204,6 +204,26 @@ namespace Arasan.Services.Master
             }
             return "";
 
+        }
+        public DataTable GetAllState(string strStatus)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "select STATEMAST.STATE,STATEMAST.STCODE,CONMAST.COUNTRY,STATEMAST.STATEMASTID from  STATEMAST LEFT OUTER JOIN CONMAST ON CONMAST.COUNTRYMASTID = STATEMAST.COUNTRYMASTID WHERE STATEMAST.IS_ACTIVE = 'Y' ORDER BY STATEMAST.STATEMASTID DESC ";
+
+
+            }
+            else
+            {
+                SvSql = "select STATEMAST.STATE,STATEMAST.STCODE,CONMAST.COUNTRY,STATEMAST.STATEMASTID from  STATEMAST LEFT OUTER JOIN CONMAST ON CONMAST.COUNTRYMASTID = STATEMAST.COUNTRYMASTID WHERE STATEMAST.IS_ACTIVE = 'N' ORDER BY STATEMAST.STATEMASTID DESC ";
+
+            }
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
         }
 
     }
