@@ -26,5 +26,19 @@ namespace Arasan.Models
         }
         public List<SelectListItem> Brlst;
         public string Branch { get; set; }
+        public string ddlStatus { get; set; }
     }
-}
+
+    public class Locationgrid
+    {
+        public string id { get; set; }
+        public string locationid { get; set; }
+        public string loctype { get; set; }
+        public string contactper { get; set; }
+        public string phoneno { get; set; }
+        public string emailid { get; set; }
+        public string editrow { get; set; }
+        public string delrow { get; set; }
+    }
+
+    }

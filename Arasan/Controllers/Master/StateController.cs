@@ -4,6 +4,7 @@ using Arasan.Interface;
 using Arasan.Interface.Master;
 using Arasan.Models;
 using Arasan.Services.Master;
+using DocumentFormat.OpenXml.Bibliography;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -19,7 +20,7 @@ namespace Arasan.Controllers.Master
         public IActionResult State(string id)
         {
             State st = new State();
-            st.cuntylst = BindCountry();
+            
             if (id == null)
             {
 
@@ -79,29 +80,28 @@ namespace Arasan.Controllers.Master
 
             return View(ss);
         }
-        public IActionResult ListState(string status)
+        public IActionResult ListState()
         {
-            IEnumerable<State> sta = StateService.GetAllState(status);
-            return View(sta);
+            return View();
         }
 
-        public List<SelectListItem> BindCountry()
-        {
-            try
-            {
-                DataTable dtDesg = StateService.Getcountry();
-                List<SelectListItem> lstdesg = new List<SelectListItem>();
-                for (int i = 0; i < dtDesg.Rows.Count; i++)
-                {
-                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COUNTRY"].ToString(), Value = dtDesg.Rows[i]["COUNTRYMASTID"].ToString() });
-                }
-                return lstdesg;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        //public List<SelectListItem> BindCountry()
+        //{
+        //    try
+        //    {
+        //        DataTable dtDesg = StateService.Getcountry();
+        //        List<SelectListItem> lstdesg = new List<SelectListItem>();
+        //        for (int i = 0; i < dtDesg.Rows.Count; i++)
+        //        {
+        //            lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["COUNTRY"].ToString(), Value = dtDesg.Rows[i]["COUNTRYMASTID"].ToString() });
+        //        }
+        //        return lstdesg;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
 
         public ActionResult DeleteMR(string tag, int id)
         {
@@ -134,5 +134,38 @@ namespace Arasan.Controllers.Master
             }
         }
 
+        public ActionResult MyListItemgrid(string strStatus)
+        {
+            List<StateGrid> Reg = new List<StateGrid>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = StateService.GetAllState(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+
+                string DeleteRow = string.Empty;
+                string EditRow = string.Empty;
+
+                EditRow = "<a href=State?id=" + dtUsers.Rows[i]["STATEMASTID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["STATEMASTID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                Reg.Add(new StateGrid
+                {
+                    id = dtUsers.Rows[i]["STATEMASTID"].ToString(),
+                    statename = dtUsers.Rows[i]["STATE"].ToString(),
+                    statecode = dtUsers.Rows[i]["STCODE"].ToString(),
+                    countryid = dtUsers.Rows[i]["COUNTRYMASTID"].ToString(),
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
+        }
     }
 }

@@ -7,6 +7,7 @@ using Arasan.Interface;
 using Arasan.Services.Master;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Data;
+using DocumentFormat.OpenXml.Bibliography;
 
 namespace Arasan.Controllers.Master
 {
@@ -251,10 +252,9 @@ namespace Arasan.Controllers.Master
                 throw ex;
             }
         }
-        public IActionResult ListParty(string status)
+        public IActionResult ListParty()
         {
-           IEnumerable<PartyMaster> cmp = PartyMasterService.GetAllParty(status);
-            return View(cmp);
+            return View();
         }
         public JsonResult GetItemGrpJSON()
         {
@@ -318,5 +318,41 @@ namespace Arasan.Controllers.Master
                 return RedirectToAction("ListParty");
             }
         }
+
+            public ActionResult MyListItemgrid(string strStatus)
+            {
+                List<PartyGrid> Reg = new List<PartyGrid>();
+                DataTable dtUsers = new DataTable();
+                strStatus = strStatus == "" ? "Y" : strStatus;
+                dtUsers = PartyMasterService.GetAllParty(strStatus);
+                for (int i = 0; i < dtUsers.Rows.Count; i++)
+                {
+
+                    string DeleteRow = string.Empty;
+                    string EditRow = string.Empty;
+
+                    EditRow = "<a href=PartyMaster?id=" + dtUsers.Rows[i]["PARTYMASTID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["PARTYMASTID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                    Reg.Add(new PartyGrid
+                    {
+                        id = dtUsers.Rows[i]["PARTYMASTID"].ToString(),
+                        partycategory = dtUsers.Rows[i]["PARTYCAT"].ToString(),
+                        partygroup = dtUsers.Rows[i]["PARTYGROUP"].ToString(),
+                        joindate = dtUsers.Rows[i]["PJOINDATE"].ToString(),
+                        ratecode = dtUsers.Rows[i]["RATECODE"].ToString(),
+                        editrow = EditRow,
+                        delrow = DeleteRow,
+
+                    });
+                }
+
+                return Json(new
+                {
+                    Reg
+                });
+
+            }
     }
-}
+ }
+

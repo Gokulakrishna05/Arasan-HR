@@ -9,10 +9,11 @@ namespace Arasan.Interface
     {
         DataTable GetBranch();
         string LocationsCRUD(Location cy);
-        IEnumerable<Location> GetAllLocations(string status);
         Location GetLocationsById(string id);
         string StatusChange(string tag, int id);
         string RemoveChange(string tag, int id);
         DataTable GetEditLocation(string id);
+
+        DataTable GetAllLocation(string strStatus);
     }
 }

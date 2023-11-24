@@ -1,11 +1,13 @@
-﻿@model IEnumerable<Arasan.Models.Location>
+﻿@model Arasan.Models.Location
 
 @{
     ViewData["Title"] = "Location";
-    string query = ViewContext.HttpContext.Request.Query["status"];
-    string Qid = string.Empty;
-    if (!string.IsNullOrEmpty(query)) { Qid = ViewContext.HttpContext.Request.Query["status"]; }
+    //string query = ViewContext.HttpContext.Request.Query["status"];
+    //string Qid = string.Empty;
+    //if (!string.IsNullOrEmpty(query)) { Qid = ViewContext.HttpContext.Request.Query["status"]; }
 }
+
+<partial name="JqxGridPartial" />
 
 <script type="text/javascript">
     @if (TempData["notice"] != null)
@@ -25,111 +27,122 @@
     </div>
 </div>
 
+<script type="text/javascript">
+    $(document).ready(function () {
+        var source =
+        {
+            url: "/Location/MyListItemgrid",
+
+            data: {
+                strstatus: ""
+            },
+            datatype: "json",
+            updaterow: function (rowid, rowdata) {
+                // synchronize with the server - send update command
+            },
+            datafields: [
+                { name: 'locationid', type: 'string' },
+                { name: 'loctype', type: 'string' },
+                { name: 'contactper', type: 'string' },
+                { name: 'phoneno', type: 'string' },
+                { name: 'emailid', type: 'string' },
+                { name: 'editrow', type: 'string' },
+                { name: 'delrow', type: 'string' },
+
+
+            ],
+            id: 'id',
+        };
+        var dataAdapter = new $.jqx.dataAdapter(source,
+            { contentType: 'application/json; charset=utf-8' }, {
+            loadComplete: function () {
+
+            }
+        }
+        );
+
+        $("#grid").jqxGrid(
+            {
+
+                width: '100%',
+                source: dataAdapter,
+                height: 450,
+                source: source,
+                sortable: true,
+                filterable: true,
+                groupable: false,
+                pageable: true,
+                showfilterbar: true,
+                //showfilterrow: true,
+                theme: 'darkblue',
+                enablebrowserselection: true,
+                columns: [
+
+                    { text: 'Location ID', filtertype: 'checkedlist', datafield: 'locationid', width: 250 },
+                    { text: 'Location Type', filtertype: 'checkedlist', datafield: 'loctype', width: 200 },
+                    { text: 'Contact Person', filtertype: 'input', datafield: 'contactper', width: 150 },
+                    { text: 'Phone No', datafield: 'phoneno', width: 300 },
+                    { text: 'E-mail', datafield: 'emailid', width: 250 },
+                    { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                ]
+            });
+        $("#ddlStatus").change(function () {
+            var value = "Y";
+            if ($(this).val() != "") {
+                value = $(this).val();
+            }
+            source.data = {
+                strstatus: value
+            };
+            $("#grid").jqxGrid({ source: source });
+        });
+    });
+</script>
+
 <div class="wrapper-content ">
     <div class="row">
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
-
                 <div class="widgets-container">
 
-
-
-                    <from>
+                    <form>
                         <div class="row">
-                            <div class="col-md-6 ">
-                                <select style='width: 200px;' class='form-control  newcss' id="dllstatus" onchange="changeStatus(this.value)">
-                                  @*  <option value="" selected>Open</option>*@
-                                    <option value='ACTIVE'>Open</option>
-                                    <option value='INACTIVE'>Close</option>
-                                    @* <option value='InActive'>Disabled</option>*@
-                                </select>
+                            <div class="col-md-2 ">
+                                @Html.DropDownListFor(n => n.ddlStatus, new SelectListItem[]
+                                { new SelectListItem() {Text = "Enabled", Value="Y"},
+                                new SelectListItem() {Text = "Disabled", Value="N"}},
+                                new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" })
                             </div>
-                            <div class="col-md-12 ">
+
+
+                            <div class="col-md-9 ">
                                 <div class=" textalignright">
-                                    <a href="@Url.Action("Location", "Location")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Location</a>
+                                    <a href="@Url.Action("Location","Location")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Location</a>
                                     <br>
                                 </div>
+
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-32">
-                                <div class="ibox float-e-margins">
 
-                                    <div class="ibox-content collapse in">
-                                        <div class="widgets-container">
-                                            <div>
-                                                <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>S.No</th>
-                                                            <th>Location ID</th>
-                                                            <th>Location Type</th>
-                                                            <th>Contact Person</th>
-                                                            <th>Phone No</th>
-                                                            <th>E-Mail</th>
-                                                            <th>Edit</th>
-                                                            <th>Close</th>
-                                                        </tr>
-                                                    </thead>
-
-                                                    <tbody>
-                                                        @{
-                                                            int i = 1;
-
-                                                            foreach (var item in Model)
-                                                            {
-                                                                <tr>
-                                                                    <td>@i</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.LocationId)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.LocType)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.ContactPer)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.PhoneNo)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.EmailId)</td>
-                                                                    @if (item.status == "INACTIVE")
-                                                                    {
-                                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Location", "Location",new { id=item.ID })"></a></div></td>
-                                                                        <td> <a href="@Url.Action("Remove","Location",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
-
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                      <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Location", "Location",new { id=item.ID })"></a></div></td>
-                                                                      <td> <a href="@Url.Action("DeleteMR","Location",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
-                                                                    }
-                                                                </tr>
-                                                                i++;
-                                                            }
-                                                        }
-                                                        
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-
+                            <div class="col-md-10 ">
+                                <div id="grid">
                                 </div>
-
-
-
-
                             </div>
-
                         </div>
-                    </from>
 
-
-
-
-
-
+                    </form>
                 </div>
             </div>
-
-
-
         </div>
     </div>
 </div>
+<script>
+    function ConfirmDelete() {
+        return confirm("Are you sure you want to delete?");
+    }
+</script>
 
 <script>
     $(document).ready(function () {
@@ -208,8 +221,5 @@
         //window.location.reload();
 
     }
-    $(document).ready(function () {
-        var val2 = "@Qid";
-        $('#dllstatus').val(val2);
-    });
+    
 </script>
