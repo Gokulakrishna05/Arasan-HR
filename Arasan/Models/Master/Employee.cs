@@ -85,6 +85,7 @@ namespace Arasan.Models
         public List<SelectListItem> EMPDesignlst;
         //public List<EduDeatils> EduLst { get; set; }
         public string SkillSet { get; set; }
+        public string ddlStatus { get; set; }
 
     }
     public class MultipleLocation
@@ -116,4 +117,21 @@ namespace Arasan.Models
 		//}
 
 	}
+
+    public class EmployeeGrid
+    {
+        public string empno { get; set; }
+
+        public string id { get; set; }
+        public string empname { get; set; }
+        public string gender { get; set; }
+        public string dob { get; set; }
+        public string emailid { get; set; }
+        public string phoneno { get; set; }
+        public String editrow { get; set; }
+        public String delrow { get; set; }
+        public String multi { get; set; }
+    }
+
+
 }

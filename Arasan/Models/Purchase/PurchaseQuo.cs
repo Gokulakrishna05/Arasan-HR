@@ -42,11 +42,13 @@ namespace Arasan.Models
 
 
         public string EnqNo { get; set; }
+        public string Enq { get; set; }
 
         public string EnqDate { get; set; }
         public double Net { get; set; }
         public string fromdate { get; set; }
         public string todate { get; set; }
+        public string ddlStatus { get; set; }
     }
         public class QoItem
         {
@@ -112,6 +114,22 @@ namespace Arasan.Models
        
         public string PARTYNAME { get; set; }
        
+    }
+    public class PurchaseQuoItems
+    {
+        public long id { get; set; }
+        public string branch { get; set; }
+        public string supplier { get; set; }
+        public string enqno { get; set; }
+        public string docDate { get; set; }
+        public string mailrow { get; set; }
+        public string editrow { get; set; }
+        public string delrow { get; set; }
+        public string follow { get; set; }
+        public string pdf { get; set; }
+        public string view { get; set; }
+        public string move { get; set; }
+        //public string Account { get; set; }
     }
 }
 

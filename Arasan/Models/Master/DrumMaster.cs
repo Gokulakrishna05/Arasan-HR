@@ -38,7 +38,26 @@ namespace Arasan.Models
 
         public string TargetWeight { get; set; }
         public string status { get; set; }
+        public string ddlStatus { get; set; }
 
 
     }
-}
+
+    public class DrumMastergrid
+    {
+        public string id { get; set; }
+        public string drumnno { get; set; }
+        public string docdate { get; set; }
+        public string category { get; set; }
+
+        public string location { get; set; }
+
+        public string drumtype { get; set; }
+
+        public string targetweight { get; set; }
+        public string editrow { get; set; }
+        public string delrow { get; set; }
+    }
+
+
+    }

@@ -50,6 +50,7 @@ namespace Arasan.Controllers
                     ca.DocDate = dt.Rows[0]["DOCDATE"].ToString();
                     ca.Supplier = dt.Rows[0]["PARTYID"].ToString();
                     ca.EnqNo = dt.Rows[0]["ENQNO"].ToString();
+                    ca.Enq = dt.Rows[0]["enq"].ToString();
                     ca.EnqDate= dt.Rows[0]["ENQDATE"].ToString();
                     ca.ExRate = dt.Rows[0]["EXRATE"].ToString();
                     ca.ID = id;
@@ -138,11 +139,99 @@ namespace Arasan.Controllers
 
             return View(Cy);
         }
-        public IActionResult ListPurchaseQuo(string st, string ed)
+        public ActionResult MyListPurchaseQuoGrid(string strStatus)
         {
-            IEnumerable<PurchaseQuo> cmp = PurquoService.GetAllPurQuotation(st, ed);
-            return View(cmp);
+            List<PurchaseQuoItems> Reg = new List<PurchaseQuoItems>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = (DataTable)PurquoService.GetAllPurchaseQuoItems(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+                string MailRow = string.Empty;
+                string FollowUp = string.Empty;
+                string MoveToPO = string.Empty;
+                string Pdf = string.Empty;
+                string View = string.Empty;
+                string EditRow = string.Empty;
+                string DeleteRow = string.Empty;
+
+                MailRow = "<a href=SendMail?tag=Del&id=" + dtUsers.Rows[i]["PURQUOTBASICID"].ToString() + "><img src='../Images/mail_icon.png' alt='Send Email' /></a>";
+                FollowUp = "<a href=Followup?id=" + dtUsers.Rows[i]["PURQUOTBASICID"].ToString() + "><img src='../Images/followup.png' /></a>";
+                //if (dtUsers.Rows[i]["IS_ACTIVE"].ToString() == "N")
+                //{
+
+
+                //}
+                //else
+                //{
+                if (dtUsers.Rows[i]["STATUS"].ToString() == "Generated")
+                {
+                    MoveToPO = "<img src='../Images/tick.png' alt='View Details' width='20' />";
+                    EditRow = "";
+                }
+                else
+                {
+                    MoveToPO = "<a href=ViewQuote?id=" + dtUsers.Rows[i]["PURQUOTBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
+                    EditRow = "<a href=PurchaseQuotation?id=" + dtUsers.Rows[i]["PURQUOTBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+
+
+                   
+                }
+                //}
+                Pdf = "<a href=Print?id=" + dtUsers.Rows[i]["PURQUOTBASICID"].ToString() + "><img src='../Images/pdficon.png' width='20' alt='Deactivate' /></a>";
+
+                //Pdf = "<a href=Print?id=" + dtUsers.Rows[i]["PURQUOTBASICID"].ToString() + "<img src='../Images/pdficon.png' width='30' /></a>";
+                View = "<a href=ViewPurQuote?id=" + dtUsers.Rows[i]["PURQUOTBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
+                //EditRow = "<a href=PurchaseEnquiry?id=" + dtUsers.Rows[i]["PURENQBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["PURQUOTBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                Reg.Add(new PurchaseQuoItems
+                {
+                    id = Convert.ToInt64(dtUsers.Rows[i]["PURQUOTBASICID"].ToString()),
+                    branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
+                    enqno = dtUsers.Rows[i]["ENQNO"].ToString(),
+                    docDate = dtUsers.Rows[i]["DOCDATE"].ToString(),
+                    supplier = dtUsers.Rows[i]["PARTYNAME"].ToString(),
+                    mailrow = MailRow,
+                    follow = FollowUp,
+                    move = MoveToPO,
+                    pdf = Pdf,
+                    view = View,
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+
+
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
         }
+        public IActionResult ListPurchaseQuo()
+        {
+            //IEnumerable<PurchaseQuo> cmp = PurquoService.GetAllPurQuotation(st, ed);
+            return View();
+        }
+        public ActionResult DeleteItem(string tag, string id)
+        {
+
+            string flag = PurquoService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListPurchaseQuo");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListPurchaseQuo");
+            }
+        }
+
         public ActionResult SendMail(string id)
         {
             try
@@ -579,21 +668,7 @@ namespace Arasan.Controllers
         //    return View(cmp);
         //}
 
-        public ActionResult DeleteMR(string tag, int id)
-        {
-
-            string flag = PurquoService.StatusChange(tag, id);
-            if (string.IsNullOrEmpty(flag))
-            {
-
-                return RedirectToAction("ListPurchaseQuo");
-            }
-            else
-            {
-                TempData["notice"] = flag;
-                return RedirectToAction("ListPurchaseQuo");
-            }
-        }
+        
         public async Task<IActionResult> Print(string id)
         {
             string mimtype = "";

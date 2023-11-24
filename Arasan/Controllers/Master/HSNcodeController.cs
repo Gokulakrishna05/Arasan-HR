@@ -228,12 +228,13 @@ namespace Arasan.Controllers.Master
             }
         }
 
-        public ActionResult Myhsncodegrid()
+        public ActionResult Myhsncodegrid(string strStatus)
         {
             List<HsnList> Reg = new List<HsnList>();
             DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
 
-            dtUsers = HSNcodeService.Gethsncode();
+            dtUsers = HSNcodeService.GetAllhsncode(strStatus);
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
 

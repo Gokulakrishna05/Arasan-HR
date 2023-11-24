@@ -339,7 +339,7 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("PARTYREFNO", OracleDbType.NVarchar2).Value = "";
                     objCmd.Parameters.Add("CURRENCYID", OracleDbType.NVarchar2).Value = "";
                     objCmd.Parameters.Add("PARTYMASTID", OracleDbType.NVarchar2).Value = supid;
-                    objCmd.Parameters.Add("ACTIVE", OracleDbType.NVarchar2).Value = "YES";
+                    objCmd.Parameters.Add("ACTIVE", OracleDbType.NVarchar2).Value = "Y";
                     objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "1";
                     objCmd.Parameters.Add("ENQRECDBY", OracleDbType.NVarchar2).Value = "";
                     objCmd.Parameters.Add("ASSIGNTO", OracleDbType.NVarchar2).Value = "";

@@ -47,11 +47,27 @@ namespace Arasan.Models
 
         public double Gross { get; set; }
         public double Net { get; set; }
+        public string ddlStatus { get; set; }
 
-        
-       
-       
 
+
+
+
+    }
+    public class PurchaseEnquiryItems
+    {
+        public long id { get; set; }
+        public string branch { get; set; }
+        public string supplier { get; set; }
+        public string docNo { get; set; }
+        public string docDate { get; set; }
+        public string mailrow { get; set; }
+        public string editrow { get; set; }
+        public string delrow { get; set; }
+        public string follow { get; set; }
+        public string view { get; set; }
+        public string move { get; set; }
+        //public string Account { get; set; }
     }
     public class PurchaseFollowup
     {

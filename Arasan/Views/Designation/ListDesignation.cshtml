@@ -1,10 +1,11 @@
-﻿@model IEnumerable<Arasan.Models.Designation>
+﻿@model Arasan.Models.Designation
 @{
     ViewData["Title"] = "ListDesignation";
-    string query = ViewContext.HttpContext.Request.Query["status"];
-    string Qid = string.Empty;
-    if (!string.IsNullOrEmpty(query)) { Qid = ViewContext.HttpContext.Request.Query["status"]; }
+    //string query = ViewContext.HttpContext.Request.Query["status"];
+    //string Qid = string.Empty;
+    //if (!string.IsNullOrEmpty(query)) { Qid = ViewContext.HttpContext.Request.Query["status"]; }
 }
+<partial name="JqxGridPartial" />
 
 <script type="text/javascript">
     @if (TempData["notice"] != null)
@@ -23,6 +24,73 @@
     </div>
 </div>
 
+<script type="text/javascript">
+    $(document).ready(function () {
+        var source =
+        {
+            url: "/Designation/MyListItemgrid",
+
+            data: {
+                strstatus: ""
+            },
+            datatype: "json",
+            updaterow: function (rowid, rowdata) {
+                // synchronize with the server - send update command
+            },
+            datafields: [
+                { name: 'design', type: 'string' },
+                { name: 'deptname', type: 'string' },
+                { name: 'editrow', type: 'string' },
+                { name: 'delrow', type: 'string' },
+
+
+            ],
+            id: 'id',
+        };
+        var dataAdapter = new $.jqx.dataAdapter(source,
+            { contentType: 'application/json; charset=utf-8' }, {
+            loadComplete: function () {
+
+            }
+        }
+        );
+
+        $("#grid").jqxGrid(
+            {
+
+                width: '100%',
+                source: dataAdapter,
+                height: 450,
+                source: source,
+                sortable: true,
+                filterable: true,
+                groupable: false,
+                pageable: true,
+                showfilterbar: true,
+                //showfilterrow: true,
+                theme: 'darkblue',
+                enablebrowserselection: true,
+                columns: [
+
+                    { text: 'Designation', filtertype: 'checkedlist', datafield: 'design', width: 200 },
+                    { text: 'Department Name', filtertype: 'input', datafield: 'deptname', width: 200 },
+                    { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                ]
+        });
+        $("#ddlStatus").change(function () {
+            var value = "Y";
+            if ($(this).val() != "") {
+                value = $(this).val();
+            }
+            source.data = {
+                strstatus: value
+            };
+            $("#grid").jqxGrid({ source: source });
+        });
+    });
+</script>
+
 <div class="wrapper-content ">
     <div class="row">
         <div class="col-lg-12">
@@ -31,13 +99,13 @@
 
                     <form>
                         <div class="row">
-                            <div class="col-md-6 ">
-                                <select style='width: 200px;' class='form-control  newcss' id="dllstatus" onchange="changeStatus(this.value)">
-                                    <option value="" selected>Open</option>
-                                    <option value='ISACTIVE'>Close</option>
-                                    @* <option value='InActive'>Disabled</option>*@
-                                </select>
+                            <div class="col-md-2 ">
+                                @Html.DropDownListFor(n => n.ddlStatus, new SelectListItem[]
+                                { new SelectListItem() {Text = "Enabled", Value="Y"},
+                                new SelectListItem() {Text = "Disabled", Value="N"}},
+                                new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" })
                             </div>
+
                             <div class="col-md-12 ">
                                 <div class=" textalignright">
                                     <a href="@Url.Action("Designation","Designation")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Designation</a>
@@ -47,59 +115,16 @@
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="ibox float-e-margins">
-                                    <div class="ibox-content collapse in">
-                                        <div class="widgets-container">
-                                            <div>
-                                                <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
-                                                    <thead>
-                                                        <tr>
 
-                                                            <th>Designation</th>
-                                                            <th>Department Name</th>
-                                                            
-                                                            <th>Edit</th>
-                                                            <th>Close</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @{
-                                                            int i = 1;
+                          <div class="row">
 
-                                                            foreach (var item in Model)
-                                                            {
-                                                                <tr>
-
-
-                                                                    <td>@Html.DisplayFor(modelItem => item.Design)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.DeptName)</td>
-                                                                    @if (item.status == "ISACTIVE")
-                                                                    {
-                                                                      <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Designation", "Designation",new { id=item.ID })"></a></div></td>
-                                                                    <td> <a href="@Url.Action("Remove","Designation",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
-                                                                
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                   <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("Designation", "Designation",new { id=item.ID })"></a></div></td>
-                                                                    <td> <a href="@Url.Action("DeleteMR","Designation",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
-                                                                    }
-                                                                    </tr>
-                                                                i++;
-                                                            }
-                                                        }
-
-
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <div class="col-md-10 ">
+                                <div id="grid">
                                 </div>
                             </div>
                         </div>
+
+                       
                     </form>
 
                 </div>
@@ -170,22 +195,12 @@
     function changeStatus(status) {
         var url = "/Designation/ListDesignation?status=" + status;
         window.location.href = url;
-        //$.ajax({
-        //    url: 'AssignSession',
-        //    data: { "status": status },
-        //    type: "GET",
-        //    success: function (result) {
-        //        document.getElementById("hdstatus").value = result;
-        //    },
-        //    error: function () {
-        //        alert("Data Not Found");
-        //    }
-        //});
-        //window.location.reload();
+        
 
     }
-    $(document).ready(function () {
+    @*$(document).ready(function () {
         var val2 = "@Qid";
         $('#dllstatus').val(val2);
-    });
+    });*@
+
 </script>

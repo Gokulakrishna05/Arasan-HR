@@ -19,38 +19,38 @@ namespace Arasan.Services.Master
             datatrans = new DataTransactions(_connectionString);
         }
 
-        public IEnumerable<Designation> GetAllDesignation(string status)
-        {
-            if (string.IsNullOrEmpty(status))
-            {
-                status = "ACTIVE";
-            }
-            List<Designation> cmpList = new List<Designation>();
-            using (OracleConnection con = new OracleConnection(_connectionString))
-            {
+        //public IEnumerable<Designation> GetAllDesignation(string status)
+        //{
+        //    if (string.IsNullOrEmpty(status))
+        //    {
+        //        status = "ACTIVE";
+        //    }
+        //    List<Designation> cmpList = new List<Designation>();
+        //    using (OracleConnection con = new OracleConnection(_connectionString))
+        //    {
 
-                using (OracleCommand cmd = con.CreateCommand())
-                {
-                    con.Open();
-                    cmd.CommandText = "Select DESIGNATIONMASTID,DESIGNATION,DEPARTMENT_NAME from DESIGNATIONMAST WHERE STATUS= '" + status + "' order by DESIGNATIONMAST.DESIGNATIONMASTID DESC";
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
-                    {
-                        Designation cmp = new Designation
-                        {
-                            ID = rdr["DESIGNATIONMASTID"].ToString(),
-                            Design = rdr["DESIGNATION"].ToString(),
-                            DeptName = rdr["DEPARTMENT_NAME"].ToString()
-                            //status = rdr["STATUS"].ToString()
+        //        using (OracleCommand cmd = con.CreateCommand())
+        //        {
+        //            con.Open();
+        //            cmd.CommandText = "Select DESIGNATIONMASTID,DESIGNATION,DEPARTMENT_NAME from DESIGNATIONMAST WHERE STATUS= '" + status + "' order by DESIGNATIONMAST.DESIGNATIONMASTID DESC";
+        //            OracleDataReader rdr = cmd.ExecuteReader();
+        //            while (rdr.Read())
+        //            {
+        //                Designation cmp = new Designation
+        //                {
+        //                    ID = rdr["DESIGNATIONMASTID"].ToString(),
+        //                    Design = rdr["DESIGNATION"].ToString(),
+        //                    DeptName = rdr["DEPARTMENT_NAME"].ToString()
+        //                    //status = rdr["STATUS"].ToString()
 
 
-                        };
-                        cmpList.Add(cmp);
-                    }
-                }
-            }
-            return cmpList;
-        }
+        //                };
+        //                cmpList.Add(cmp);
+        //            }
+        //        }
+        //    }
+        //    return cmpList;
+        //}
 
         public string DesignationCRUD(Designation ss)
         {
@@ -88,7 +88,7 @@ namespace Arasan.Services.Master
                     objCmd.Parameters.Add("DESIGNATION", OracleDbType.NVarchar2).Value = ss.Design;
                     objCmd.Parameters.Add("DEPARTMENT_NAME", OracleDbType.NVarchar2).Value = ss.DeptName;
 
-                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
+                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     //objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
 
@@ -118,7 +118,7 @@ namespace Arasan.Services.Master
         public DataTable GetDeptName()
         {
             string SvSql = string.Empty;
-            SvSql = "select DEPARTMENTMASTID,DEPARTMENT_NAME from DEPARTMENTMAST where STATUS= 'ACTIVE'  ";
+            SvSql = "select DEPARTMENTMASTID,DEPARTMENT_NAME from DEPARTMENTMAST where IS_ACTIVE= 'Y'  ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -145,7 +145,7 @@ namespace Arasan.Services.Master
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE DESIGNATIONMAST SET STATUS ='ISACTIVE' WHERE DESIGNATIONMASTID ='" + id + "'";
+                    svSQL = "UPDATE DESIGNATIONMAST SET IS_ACTIVE ='N' WHERE DESIGNATIONMASTID ='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -167,7 +167,7 @@ namespace Arasan.Services.Master
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE DESIGNATIONMAST SET STATUS ='ACTIVE' WHERE DESIGNATIONMASTID ='" + id + "'";
+                    svSQL = "UPDATE DESIGNATIONMAST SET IS_ACTIVE ='Y' WHERE DESIGNATIONMASTID ='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -183,5 +183,23 @@ namespace Arasan.Services.Master
 
         }
 
+        public DataTable GetAllDESIGNATION(string strStatus)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "Select DESIGNATIONMASTID,DESIGNATION,DEPARTMENTMAST.DEPARTMENT_NAME from DESIGNATIONMAST LEFT OUTER JOIN DEPARTMENTMAST ON DEPARTMENTMAST.DEPARTMENTMASTID = DESIGNATIONMAST.DEPARTMENT_NAME  WHERE DESIGNATIONMAST.IS_ACTIVE = 'Y' ORDER BY DESIGNATIONMASTID DESC";
+            }
+            else
+            {
+                SvSql = "Select DESIGNATIONMASTID,DESIGNATION,DEPARTMENTMAST.DEPARTMENT_NAME from DESIGNATIONMAST LEFT OUTER JOIN DEPARTMENTMAST ON DEPARTMENTMAST.DEPARTMENTMASTID = DESIGNATIONMAST.DEPARTMENT_NAME  WHERE DESIGNATIONMAST.IS_ACTIVE = 'N' ORDER BY DESIGNATIONMASTID DESC";
+
+            }
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
     }
 }

@@ -9,7 +9,7 @@ using Arasan.Services.Master;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Arasan.Controllers.Master
+namespace Arasan.Controllers
 {
     public class DepartmentsController : Controller
     {
@@ -46,7 +46,7 @@ namespace Arasan.Controllers.Master
                 dt = DepartmentService.GetDepartment(id);
                 if (dt.Rows.Count > 0)
                 {
-                    Dp.DepartmentCode = dt.Rows[0]["DEPARTMENT_CODE"].ToString();
+                    Dp.Departmentcode = dt.Rows[0]["DEPARTMENT_CODE"].ToString();
                     Dp.DepartmentName = dt.Rows[0]["DEPARTMENT_NAME"].ToString();
                     Dp.Description = dt.Rows[0]["DESCRIPTION"].ToString();
 
@@ -146,38 +146,38 @@ namespace Arasan.Controllers.Master
                 return RedirectToAction("ListDepartment");
             }
         }
-        //public ActionResult MyListItemgrid(string strStatus)
-        //{
-        //    List<Citygrid> Reg = new List<Citygrid>();
-        //    DataTable dtUsers = new DataTable();
-        //    strStatus = strStatus == "" ? "Y" : strStatus;
-        //    dtUsers = city.GetAllCitys(strStatus);
-        //    for (int i = 0; i < dtUsers.Rows.Count; i++)
-        //    {
+        public ActionResult MyListItemgrid(string strStatus)
+        {
+            List<Departmentgrid> Reg = new List<Departmentgrid>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = DepartmentService.GetAllDEPARTMENT(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
 
-        //        string DeleteRow = string.Empty;
-        //        string EditRow = string.Empty;
+                string DeleteRow = string.Empty;
+                string EditRow = string.Empty;
 
-        //        EditRow = "<a href=city?id=" + dtUsers.Rows[i]["CITYID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
-        //        DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["CITYID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                EditRow = "<a href=Departments?id=" + dtUsers.Rows[i]["DEPARTMENTMASTID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=DeleteMR?tag=Del&id=" + dtUsers.Rows[i]["DEPARTMENTMASTID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
 
-        //        Reg.Add(new Citygrid
-        //        {
-        //            id = dtUsers.Rows[i]["CITYID"].ToString(),
-        //            countryid = dtUsers.Rows[i]["COUNTRY"].ToString(),
-        //            state = dtUsers.Rows[i]["STATEID"].ToString(),
-        //            cit = dtUsers.Rows[i]["CITYNAME"].ToString(),
-        //            editrow = EditRow,
-        //            delrow = DeleteRow,
+                Reg.Add(new Departmentgrid
+                {
+                    id = dtUsers.Rows[i]["DEPARTMENTMASTID"].ToString(),
+                    departmentcode = dtUsers.Rows[i]["DEPARTMENT_CODE"].ToString(),
+                    departmentname = dtUsers.Rows[i]["DEPARTMENT_NAME"].ToString(),
+                    description = dtUsers.Rows[i]["DESCRIPTION"].ToString(),
+                    editrow = EditRow,
+                    delrow = DeleteRow,
 
-        //        });
-        //    }
+                });
+            }
 
-        //    return Json(new
-        //    {
-        //        Reg
-        //    });
+            return Json(new
+            {
+                Reg
+            });
 
-        //}
+        }
     }
 }

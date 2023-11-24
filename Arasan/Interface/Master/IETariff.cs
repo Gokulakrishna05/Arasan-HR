@@ -14,7 +14,7 @@ namespace Arasan.Interface
 
         string ETariffCRUD(ETariff cy);
 
-        DataTable GetAllETariff();
+        DataTable GetAllETariff(string strStatus);
 
     }
 }

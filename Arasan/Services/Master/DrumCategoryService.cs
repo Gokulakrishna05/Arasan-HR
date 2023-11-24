@@ -19,36 +19,36 @@ namespace Arasan.Services
             datatrans = new DataTransactions(_connectionString);
         }
 
-         public IEnumerable<DrumCategory> GetAllDrumCategory(string status)
-        {
-            if (string.IsNullOrEmpty(status))
-            {
-                status = "ACTIVE";
-            }
-            List<DrumCategory> cmpList = new List<DrumCategory>();
-            using (OracleConnection con = new OracleConnection(_connectionString))
-            {
+        // public IEnumerable<DrumCategory> GetAllDrumCategory(string status)
+        //{
+        //    if (string.IsNullOrEmpty(status))
+        //    {
+        //        status = "ACTIVE";
+        //    }
+        //    List<DrumCategory> cmpList = new List<DrumCategory>();
+        //    using (OracleConnection con = new OracleConnection(_connectionString))
+        //    {
 
-                using (OracleCommand cmd = con.CreateCommand())
-                {
-                    con.Open();
-                    cmd.CommandText = "Select CATEGORYID,CATEGORYTYPE,DESCRIPTION,STATUS from DRUMMASTER_CATEGORY WHERE STATUS='" + status + "' order by DRUMMASTER_CATEGORY.CATEGORYID DESC";
-                    OracleDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
-                    {
-                        DrumCategory cmp = new DrumCategory
-                        {
-                            ID = rdr["CATEGORYID"].ToString(),
-                            CategoryType = rdr["CATEGORYTYPE"].ToString(),
-                            Description = rdr["DESCRIPTION"].ToString()
+        //        using (OracleCommand cmd = con.CreateCommand())
+        //        {
+        //            con.Open();
+        //            cmd.CommandText = "Select CATEGORYID,CATEGORYTYPE,DESCRIPTION,STATUS from DRUMMASTER_CATEGORY WHERE STATUS='" + status + "' order by DRUMMASTER_CATEGORY.CATEGORYID DESC";
+        //            OracleDataReader rdr = cmd.ExecuteReader();
+        //            while (rdr.Read())
+        //            {
+        //                DrumCategory cmp = new DrumCategory
+        //                {
+        //                    ID = rdr["CATEGORYID"].ToString(),
+        //                    CategoryType = rdr["CATEGORYTYPE"].ToString(),
+        //                    Description = rdr["DESCRIPTION"].ToString()
 
-                        };
-                        cmpList.Add(cmp);
-                    }
-                }
-            }
-            return cmpList;
-        }
+        //                };
+        //                cmpList.Add(cmp);
+        //            }
+        //        }
+        //    }
+        //    return cmpList;
+        //}
           
         public string DrumCategoryCRUD(DrumCategory ss)
         {
@@ -84,7 +84,7 @@ namespace Arasan.Services
                     }
                     objCmd.Parameters.Add("CATEGORYTYPE", OracleDbType.NVarchar2).Value = ss.CateType;
                     objCmd.Parameters.Add("DESCRIPTION", OracleDbType.NVarchar2).Value = ss.Description;
-                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
+                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
 
                     try
@@ -127,7 +127,7 @@ namespace Arasan.Services
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE DRUMMASTER_CATEGORY SET STATUS ='INACTIVE' WHERE CATEGORYID='" + id + "'";
+                    svSQL = "UPDATE DRUMMASTER_CATEGORY SET IS_ACTIVE ='N' WHERE CATEGORYID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -151,7 +151,7 @@ namespace Arasan.Services
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE DRUMMASTER_CATEGORY SET STATUS ='ACTIVE' WHERE CATEGORYID='" + id + "'";
+                    svSQL = "UPDATE DRUMMASTER_CATEGORY SET IS_ACTIVE ='Y' WHERE CATEGORYID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -165,6 +165,26 @@ namespace Arasan.Services
             }
             return "";
 
+        }
+
+        public DataTable GetAllCategory(string strStatus)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "Select CATEGORYID,CATEGORYTYPE,DESCRIPTION from DRUMMASTER_CATEGORY  WHERE DRUMMASTER_CATEGORY.IS_ACTIVE = 'Y' ORDER BY CATEGORYID DESC";
+
+            }
+            else
+            {
+                SvSql = "Select CATEGORYID,CATEGORYTYPE,DESCRIPTION from DRUMMASTER_CATEGORY  WHERE DRUMMASTER_CATEGORY.IS_ACTIVE = 'N' ORDER BY CATEGORYID DESC";
+
+            }
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
         }
     }
 }

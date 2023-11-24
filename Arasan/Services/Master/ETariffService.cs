@@ -94,11 +94,24 @@ namespace Arasan.Services.Master
             adapter.Fill(dtt);
             return dtt;
         }
-        public DataTable GetAllETariff()
+        public DataTable GetAllETariff(string strStatus)
         {
             string SvSql = string.Empty;
+
             SvSql = "SELECT TARIFFMASTERID,TARIFFID,TARIFFDESC,PERCENTAGE FROM TARIFFMASTER WHERE IS_ACTIVE = 'Y' ORDER BY TARIFFMASTERID DESC";
             DataTable dtt = new DataTable();
+
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "SELECT ETARIFFMASTERID,TARIFFID,TARIFFDESC,SGST,CGST,CGST FROM ETARIFFMASTER WHERE IS_ACTIVE = 'Y' ORDER BY ETARIFFMASTERID ASC";
+            }
+            else
+            {
+                SvSql = "SELECT ETARIFFMASTERID,TARIFFID,TARIFFDESC,SGST,CGST,CGST FROM ETARIFFMASTER WHERE IS_ACTIVE = 'N' ORDER BY ETARIFFMASTERID ASC";
+
+            }
+             DataTable dtt = new DataTable();
+
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
