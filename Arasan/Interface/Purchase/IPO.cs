@@ -15,6 +15,10 @@ namespace Arasan.Interface
         DataTable GetPOItem(string Poid);
         DataTable EditPObyID(string Poid);
         DataTable GetPOItemDetails(string Poid);
+        DataTable GetHsn(string Poid);
+        DataTable GetgstDetails(string Poid);
+        DataTable GetTariff(string id);
+        DataTable GethsnDetails(string Poid);
         string PurOrderCRUD(PO Cy);
         string GateInwardCRUD(GateInward Cy);
         string POtoGRN(string POID);

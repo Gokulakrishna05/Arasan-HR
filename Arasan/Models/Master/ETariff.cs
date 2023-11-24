@@ -9,6 +9,7 @@ namespace Arasan.Models
         public string ID { get; set; }
         public string Tariff { get; set; }
         public string Tariffdes { get; set; }
+        public string Per { get; set; }
         public string Sgst { get; set; }
         public string Cgst { get; set; }
         public string Igst { get; set; }

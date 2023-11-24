@@ -170,7 +170,7 @@ namespace Arasan.Services.Master
         public DataTable Gettariff()
         {
             string SvSql = string.Empty;
-            SvSql = "select TARIFFID,ETARIFFMASTERID from ETARIFFMASTER";
+            SvSql = "select TARIFFID,TARIFFMASTERID from TARIFFMASTER";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -202,7 +202,7 @@ namespace Arasan.Services.Master
         public DataTable Gethsnitem(string PRID)
         {
             string SvSql = string.Empty;
-            SvSql = "select ETARIFFMASTER.TARIFFID,HSNCODEID from HSNROW  LEFT OUTER JOIN ETARIFFMASTER ON ETARIFFMASTER.ETARIFFMASTERID = HSNROW.TARIFFID Order by HSNCODEID DESC";
+            SvSql = "select TARIFFMASTER.TARIFFID,HSNCODEID from HSNROW  LEFT OUTER JOIN TARIFFMASTER ON TARIFFMASTER.TARIFFMASTERID = HSNROW.TARIFFID Order by HSNCODEID DESC";
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);

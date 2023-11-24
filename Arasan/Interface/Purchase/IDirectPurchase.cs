@@ -34,6 +34,10 @@ namespace Arasan.Interface
         string DirectPurchasetoGRN(string id);
         DataTable GetDirectPurchaseGrn(string id);
         DataTable GetDirectPurchaseItemGRN(string id);
+        DataTable GetHsn(string id);
+        DataTable GethsnDetails(string id);
+        DataTable GetgstDetails(string id);
+        DataTable GetTariff(string id);
         //DataTable GetItem();
     }
 }

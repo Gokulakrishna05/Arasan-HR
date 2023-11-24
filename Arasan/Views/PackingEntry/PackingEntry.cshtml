@@ -54,7 +54,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Branch<label class="Mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Branch<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                         @Html.HiddenFor(C => C.ID)
                                         @Html.HiddenFor(C => C.user)
@@ -69,7 +69,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                  <br/>  <label for="inputName3" class="col-sm-4 control-label">Doc ID<label class="Mandatory"></label></label>
+                                  <br/>  <label for="inputName3" class="col-sm-4 control-label">Doc ID<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                         @Html.TextBoxFor(C => C.Docid, new { @id = "txtDocid", @class = "form-control", @TabIndex = 1 ,@readonly=true  })
 
@@ -92,7 +92,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Packing Note<label class="Mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Packing Note<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
                                         @Html.DropDownListFor(C => C.Packnote, Model.Packlst," -- Please Select -- ", new { @id = "ddlPacknote", @Class = "form-control _select", @TabIndex = 4 ,onchange = "changeItem(this.value)"} )
                                     </div>
@@ -224,7 +224,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                          @*  <div class="col-md-6">
                                 <div class="form-group">
 
                                     <label for="inputName3" class="col-sm-4 control-label">Pack Drum  Qty<label class="Mandatory"></label></label>
@@ -232,7 +232,7 @@
                                         @Html.TextBoxFor(C => C.DrumQty, new { @id = "txtDrumQty", @class = "form-control", @TabIndex = 1  , onkeydown = "return isNumeric2(event.keyCode,this.value)" })
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
                         </div>
 
                         <div style="height:30px;"></div>
@@ -291,7 +291,7 @@
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="btn-group">
-                                                            <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow1()" class="btn sbold green" /></p>
+                                                            <p style="float:right;"> <input type="button" value="Add Row" onclick="AddRow()" class="btn sbold green" /></p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -333,9 +333,9 @@
                                                                         </td>
                                                                         
                                                                          <td>
-                                                                          @Html.RadioButtonFor(o => o.Matlst[j].lotyn, "YES", new { @id = "txtCredit" +j,@TabIndex = 2 })
+                                                                          @Html.RadioButtonFor(o => o.Matlst[j].lotyn, "YES", new { @id = "txtlotyn" +j,@TabIndex = 2 })
                                                             <label id="mt-radio">Yes</label>
-                                                                            @Html.RadioButtonFor(o => o.Matlst[j].lotyn, "NO", new { @id = "txtCredit" + j,@TabIndex = 3 })
+                                                                            @Html.RadioButtonFor(o => o.Matlst[j].lotyn, "NO", new { @id = "txtlotyn" + j,@TabIndex = 3 })
                                                             <label id="mt-radio">No</label>
                                                                         </td>
                                                                          <td>
@@ -638,9 +638,9 @@
                              <div class="col-md-6">
                                 <div class="form-group">
 
-                                   <br /> <label for="inputName3" class="col-sm-4 control-label">Issue Rate<label class="Mandatory"></label></label>
+                                   <br /> <label for="inputName3" class="col-sm-4 control-label">Issue Rate<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.Totinprate, new { @id = "txtTotinprate", @class = "form-control", @TabIndex = 1  ,onkeyup = "changeIssueAmt(this)"  })
+                                        @Html.TextBoxFor(C => C.Totinprate, new { @id = "txtTotinprate", @class = "form-control", @TabIndex = 1  ,onkeyup = "changeIssueAmt(this)" ,onkeydown = "return isNumeric2(event.keyCode,this.value)" })
 <br />
                                     </div>
                                 </div>
@@ -663,9 +663,9 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <label for="inputName3" class="col-sm-4 control-label">Output Rate<label class="Mandatory"></label></label>
+                                    <label for="inputName3" class="col-sm-4 control-label">Output Rate<label class="mandatory">*</label></label>
                                     <div class="col-sm-8">
-                                        @Html.TextBoxFor(C => C.Totoutrate, new { @id = "txtTotoutrate", @class = "form-control", @TabIndex = 1,onkeyup = "changeOutAmt(this)"   })
+                                        @Html.TextBoxFor(C => C.Totoutrate, new { @id = "txtTotoutrate", @class = "form-control", @TabIndex = 1,onkeyup = "changeOutAmt(this)" ,onkeydown = "return isNumeric2(event.keyCode,this.value)"  })
 <br />
                                     </div>
                                 </div>
@@ -720,8 +720,8 @@
 
 
                         <div style="height:30px;"></div>
-                        <button type="submit" class="btn aqua m-t-xs bottom15-xs">Submit</button>
-                        <button class="btn btn-danger" type="submit">Cancel</button>
+                          <button type="submit" class="btn aqua m-t-xs bottom15-xs" id="btnSave">Submit</button>
+                            <button class="btn btn-danger" type="button" causesvalidation="false" onclick="location.href='@Url.Action("ListPackingentry", "PackingEntry")'">Cancel</button>
                     </form>
                     }
                 </div>
@@ -852,7 +852,7 @@
 
                     //var Batch = "<td><label>" + item.batch + "</label><input type='hidden' value=" + item.batch + " id='txtbatch" + index + "' name='Packdetlst[" + index + "].batch'></td>";
 
-                    var DQty = "<td><input class='form-control' id='txtdqty" + index + "' name='Packdetlst[" + index + "].dqty'  style='width: 80px;' type='text' onkeyup = 'changeQty(this, " + index + ")'  /><input id='txtdqty" + index + "' name='Packdetlst[" + index + "].dqty' type='hidden'  ></td>";
+                    var DQty = "<td><input class='form-control' id='txtdqty" + index + "' name='Packdetlst[" + index + "].dqty'  style='width: 80px;' type='text' onkeyup = 'changeQty(this, " + index + ")' onkeydown = 'return isNumeric2(event.keyCode,this.value)'  /><input id='txtdqty" + index + "' name='Packdetlst[" + index + "].dqty' type='hidden'  ></td>";
                     var EQty = "<td><input class='form-control' id='txteqty" + index + "' name='Packdetlst[" + index + "].eqty'  style='width: 80px;' type='text' readonly='True'  value='0'   /><input id='txteqty" + index + "' name='Packdetlst[" + index + "].eqty' type='hidden'></td>";
                     var Rate = "<td><input class='form-control' id='txtrate" + index + "' name='Packdetlst[" + index + "].rate'  style='width: 80px;' type='text' onkeyup = 'changeQty(this, " + index + ")'     /><input id='txtrate" + index + "' name='Packdetlst[" + index + "].rate' type='hidden'   ></td>";
                     var amount = "<td><input class='form-control' id='txtamount" + index + "' name='Packdetlst[" + index + "].amount'  style='width: 80px;' type='text'   readonly='True'    /><input id='txtamount" + index + "' name='Packdetlst[" + index + "].amount' type='hidden'   ></td>";
@@ -1233,43 +1233,45 @@
             alert("Cannot delete all the rows.")
         }
     }
-    //function AddRow() {
-    //    var opt = "";
-    //    $.ajax({
-    //        type: "POST",
-    //        url: 'GetDrumJSON',
-    //        success: function (data) {
+   function AddRow() {
+       var opt = "";
+       $.ajax({
+           type: "POST",
+           url: 'GetItemJSON',
+          success: function (data) {
 
-    //            $.each(data, function () {
-    //                opt += "<option value=" + this.value + ">" + this.text + "</option>";
-    //            });
-    //            AppendRow(opt);
-    //        }
-    //    })
-    //}
-    // function AppendRow(opt) {
-    //    var index = $("#tbBooks").children("tr").length;
+               $.each(data, function () {
+                   opt += "<option value=" + this.value + ">" + this.text + "</option>";
+               });
+               AppendRow(opt);
+          }
+       })
+   }
+     function AppendRow(opt) {
+       var index = $("#tbBooks1").children("tr").length;
 
-    //    var Drum = "<td><select style = 'width: 170px;' class='form-control _select newcss' id='ddlDrumNo" + index + "' name='DrumDetlst[" + index + "].drum' onchange = 'changeBatch(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
-
-
-
-    //    var Batch = "<td><input class='form-control' id='txtBatchNo" + index + "' name='DrumDetlst[" + index + "].batch'  style='width: 130px;' type='text'   /></td>";
-    //    var Qty = "<td><input class='form-control' id='txtBatchQty" + index + "' name='DrumDetlst[" + index + "].qty'  style='width: 130px;' type='text'  readonly='True' /></td>";
-
-    //    var Comp = "<td><input class='form-control' id='txtComp" + index + "' name='DrumDetlst[" + index + "].comp'  style='width: 130px;' type='text'    /></td>";
-       
-    
-
-    //    var removeCell = "<td><input id='Isvalid" + index + "' name='DrumDetlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow(" + index + ");'  style='cursor:pointer' /><input name='DrumDetlst.Index' type='hidden' value='" + index + "'  /></td>";
+        var Item = "<td><select style = 'width: 200px;' class='form-control _select newcss' id='ddlItem" + index + "' name='Matlst[" + index + "].item' onchange = 'changePackItemDetail(this.value," + index + ")'><option value=''>Please select</option>" + opt + "</select></td>";
 
 
-    //    var newRow = "<tr class='chkitemlst'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook" + index + "'>" + Drum + Batch + Qty + Comp + removeCell + "</tr>";
-    //    //alert(Packing);
-    //    $("#tbBooks").append(newRow);
 
-    //    $('._select').select2();
-    //}
+        var Unit = "<td><input class='form-control' id='txtUnit" + index + "' name='Matlst[" + index + "].Unit'  style='width: 120px;' type='text' readonly='True'  /></td>";
+        var lot = "<td><input id='txtlotyn" + index + "' name='Matlst[" + index + "].lotyn'  type='radio' value='YES'> <label id='mt-radio'>Yes</label><input  id='txtlotyn" + index + "' name='Matlst[" + index + "].lotyn'  type = 'radio' value='NO'> <label id='mt-radio'>No</label></td>";
+       var Qty = "<td><input class='form-control' id='txtconsqty" + index + "' name='Matlst[" + index + "].consqty'  style='width: 120px;' type='text'  onkeyup = 'changePackConsQty(this," + index + ")'  /></td>";
+       var Rate = "<td><input class='form-control' id='txtconrate" + index + "' name='Matlst[" + index + "].conrate'  style='width: 120px;' type='text' readonly='True'  /></td>";
+
+        var Amount = "<td><input class='form-control' id='txtconamount" + index + "' name='Matlst[" + index + "].conamount'  style='width: 120px;' type='text' readonly='True'   /></td>";
+
+
+
+        var removeCell = "<td><input id='IsInvalid" + index + "' name='Matlst[" + index + "].Isvalid' type='hidden' value='Y'><img  src='../Images/delete.png' onclick='removeRow1(" + index + ");'  style='cursor:pointer' /><input name='Matlst.Index' type='hidden' value='" + index + "'  /></td>";
+
+
+        var newRow = "<tr class='chkitemlst1'  style='height: 30px;border-bottom: 1px dashed #ddd;'  id='trBook1" + index + "'>" + Item + Unit + lot + Qty + Rate + Amount + removeCell + "</tr>";
+       //alert(Packing);
+       $("#tbBooks1").append(newRow);
+
+        $('._select').select2();
+    }
     $(document).ready(function () {
         $('#btnSave').click(function (e) {
             var isValid = true;
@@ -1289,18 +1291,18 @@
                     "background": ""
                 });
             }
-            if (document.getElementById("DocId").value == "") {
+            if (document.getElementById("txtDocid").value == "") {
                 isValid = false;
-                $(DocId).css({
+                $(txtDocid).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select Doc No");
+                alert("Please Enter Doc No");
                 return false;
             }
             else {
-                $(DocId).css({
+                $(txtDocid).css({
                     "border": "",
                     "background": ""
                 });
@@ -1323,88 +1325,23 @@
             }
 
           
-            if (document.getElementById("ddlShift").value == "" || document.getElementById("ddlShift").value == 0) {
+            if (document.getElementById("ddlPacknote").value == "" || document.getElementById("ddlPacknote").value == 0) {
                 isValid = false;
-                $(ddlShift).css({
+                $(ddlPacknote).css({
                     "border": "1px solid red",
                     "background": "#FFCECE"
                 });
 
-                alert("Please Select Shift");
+                alert("Please Select Packing Note");
                 return false;
             }
             else {
-                $(ddlShift).css({
+                $(ddlPacknote).css({
                     "border": "",
                     "background": ""
                 });
             }
-            if (document.getElementById("ddlDrumLoc").value == "" || document.getElementById("ddlDrumLoc").value == 0) {
-                isValid = false;
-                $(ddlDrumLoc).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Select Drum Location");
-                return false;
-            }
-            else {
-                $(ddlDrumLoc).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-            if (document.getElementById("ddlItem").value == "" || document.getElementById("ddlItem").value == 0) {
-                isValid = false;
-                $(ddlItem).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Select Packing Item");
-                return false;
-            }
-            else {
-                $(ddlItem).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-            if (document.getElementById("ddlProdSchNo").value == "" || document.getElementById("ddlProdSchNo").value == 0) {
-                isValid = false;
-                $(ddlProdSchNo).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Select Production Schedule");
-                return false;
-            }
-            else {
-                $(ddlProdSchNo).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-            if (document.getElementById("ddlToDrumLoc").value == "" || document.getElementById("ddlToDrumLoc").value == 0) {
-                isValid = false;
-                $(ddlToDrumLoc).css({
-                    "border": "1px solid red",
-                    "background": "#FFCECE"
-                });
-
-                alert("Please Select To Work Center");
-                return false;
-            }
-            else {
-                $(ddlToDrumLoc).css({
-                    "border": "",
-                    "background": ""
-                });
-            }
-           
-           
+          
 
              if (document.getElementById("startdate").value == "") {
                 isValid = false;
@@ -1435,6 +1372,40 @@
             }
             else {
                 $(enddate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+             if (document.getElementById("txtTotinprate").value == "") {
+                isValid = false;
+                $(txtTotinprate).css({
+                   "border": "1px solid red",
+                    "background": "#FFCECE"
+               });
+
+                alert("Please Enter Issue Rate");
+                return false;
+            }
+            else {
+                $(txtTotinprate).css({
+                    "border": "",
+                    "background": ""
+                });
+            }
+
+            if (document.getElementById("txtTotoutrate").value == "") {
+                isValid = false;
+                $(txtTotoutrate).css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+                alert("Please Enter Output Rate");
+                return false;
+            }
+            else {
+                $(txtTotoutrate).css({
                     "border": "",
                     "background": ""
                 });

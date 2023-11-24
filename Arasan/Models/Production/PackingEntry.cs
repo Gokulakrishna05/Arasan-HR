@@ -183,7 +183,7 @@ namespace Arasan.Models
         public string docid { get; set; }
         public string docdate { get; set; }
         public string item { get; set; }
-        public string shift { get; set; }
+        public string shiftno { get; set; }
         public string packing { get; set; }
         public string location { get; set; }
 

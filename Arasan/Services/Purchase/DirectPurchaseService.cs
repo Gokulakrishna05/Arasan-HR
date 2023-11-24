@@ -289,11 +289,11 @@ namespace Arasan.Services
             string SvSql = string.Empty;
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = "Select  BRANCHMAST.BRANCHID,PARTYMAST.PARTYNAME,DPBASIC. DOCID,to_char(DPBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,DPBASIC.STATUS,DPBASICID from DPBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=DPBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on DPBASIC.PARTYID=PARTYMAST.PARTYMASTID  Where PARTYMAST.TYPE IN ('Supplier','BOTH')  AND IS_ACTIVE='Y' ORDER BY DPBASICID DESC ";
+                SvSql = "Select  BRANCHMAST.BRANCHID,PARTYMAST.PARTYNAME,DPBASIC. DOCID,to_char(DPBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,DPBASIC.STATUS,DPBASICID from DPBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=DPBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on DPBASIC.PARTYID=PARTYMAST.PARTYMASTID  Where PARTYMAST.TYPE IN ('Supplier','BOTH')  AND DPBASIC.IS_ACTIVE='Y' ORDER BY DPBASICID DESC ";
             }
             else
             {
-                SvSql = "Select  BRANCHMAST.BRANCHID,PARTYMAST.PARTYNAME,DPBASIC. DOCID,to_char(DPBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,DPBASIC.STATUS,DPBASICID from DPBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=DPBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on DPBASIC.PARTYID=PARTYMAST.PARTYMASTID  Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND IS_ACTIVE='N'  ORDER BY DPBASICID DESC ";
+                SvSql = "Select  BRANCHMAST.BRANCHID,PARTYMAST.PARTYNAME,DPBASIC. DOCID,to_char(DPBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,DPBASIC.STATUS,DPBASICID from DPBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=DPBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on DPBASIC.PARTYID=PARTYMAST.PARTYMASTID  Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND DPBASIC.IS_ACTIVE='N'  ORDER BY DPBASICID DESC ";
             }
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
@@ -349,16 +349,46 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-
-        //public DataTable GetItem(string id)
-        //{
-        //    string SvSql = string.Empty;
-        //    SvSql = "SELECT ITEMMASTERID,ITEMID FROM ITEMMASTER";
-        //    DataTable dtt = new DataTable();
-        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-        //    adapter.Fill(dtt);
-        //    return dtt;
-        //}
+        public DataTable GetHsn(string id)
+        {
+            string SvSql = string.Empty;
+            //  996519 -frieght
+            SvSql = "select HSN,ITEMMASTERID from ITEMMASTER WHERE ITEMMASTERID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetgstDetails(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select TARIFFID from HSNROW WHERE HSNCODEID='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GethsnDetails(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select HSNCODEID from HSNCODE WHERE HSNCODE='" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetTariff(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select TARIFFMASTER.TARIFFID,HSNROW.TARIFFID as tariff from HSNROW left outer join TARIFFMASTER on TARIFFMASTERID=HSNROW.TARIFFID where  HSNCODEID= '" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
     }
 }
