@@ -14,6 +14,7 @@ namespace Arasan.Interface
         //  DataTable GetItemGrp();
         DataTable GetItem(string id);
         DataTable GetItemGrp();
+        DataTable GetLoc();
         DataTable GetItemGroup(string id);
         DataTable GetItemDetails(string ItemId);
         //  string MaterialRequestCRUD(MaterialRequisition mr);

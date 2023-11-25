@@ -22,9 +22,11 @@ namespace Arasan.Models
         public Location()
         {
             this.Brlst = new List<SelectListItem>();
+            this.emplst = new List<SelectListItem>();
 
         }
         public List<SelectListItem> Brlst;
+        public List<SelectListItem> emplst;
         public string Branch { get; set; }
         public string ddlStatus { get; set; }
     }

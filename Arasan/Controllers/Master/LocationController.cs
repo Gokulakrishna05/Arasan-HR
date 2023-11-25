@@ -14,9 +14,14 @@ namespace Arasan.Controllers
 
     {
         ILocationService LocationService;
-        public LocationController(ILocationService _locationService)
+        private string? _connectionString;
+        IConfiguration? _configuratio;
+        DataTransactions datatrans;
+        public LocationController(ILocationService _locationService, IConfiguration _configuratio)
         {
             LocationService = _locationService;
+            _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
+            datatrans = new DataTransactions(_connectionString);
         }
         public IActionResult Location(string id)
         {
@@ -173,7 +178,92 @@ namespace Arasan.Controllers
             });
 
         }
+        public IActionResult LocationDetail(string id)
+        {
+            Location ca = new Location();
+            ca.Brlst = BindBranch();
+            ca.emplst = BindEmp();
+            ca.Branch = Request.Cookies["BranchId"];
+            if (id == null)
+            {
 
+            }
+            else
+            {
+                //ca = LocationService.GetLocationsById(id);
+                DataTable dt = new DataTable();
+
+                dt = LocationService.GetEditLocation(id);
+                if (dt.Rows.Count > 0)
+                {
+                    ca.LocationId = dt.Rows[0]["LOCID"].ToString();
+                    ca.LocType = dt.Rows[0]["LOCATIONTYPE"].ToString();
+                    ca.ContactPer = dt.Rows[0]["CPNAME"].ToString();
+                    ca.PhoneNo = dt.Rows[0]["PHNO"].ToString();
+                    ca.EmailId = dt.Rows[0]["EMAIL"].ToString();
+                    ca.Address = dt.Rows[0]["ADD1"].ToString();
+                    ca.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                    ca.ID = id;
+
+                }
+
+            }
+            return View(ca);
+        }
+        [HttpPost]
+        public ActionResult LocationDetail(Location Cy, string id)
+        {
+
+            try
+            {
+                Cy.ID = id;
+                string Strout = LocationService.LocCRUD(Cy);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Cy.ID == null)
+                    {
+                        TempData["notice"] = "Location Inserted Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "Location Updated Successfully...!";
+                    }
+                    return RedirectToAction("ListLocation");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit Location";
+                    TempData["notice"] = Strout;
+                    //return View();
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return View(Cy);
+        }
+        public List<SelectListItem> BindEmp()
+        {
+            try
+            {
+                DataTable dtDesg = datatrans.GetEmp();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["EMPNAME"].ToString(), Value = dtDesg.Rows[i]["EMPNAME"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
 

@@ -163,6 +163,75 @@ namespace Arasan.Services
 
             return msg;
         }
+        public string LocCRUD(Location cy)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
+                if (cy.ID == null)
+                {
+
+                    svSQL = " SELECT Count(LOCID) as cnt FROM LOCATIONDETAILS WHERE LOCID = LTRIM(RTRIM('" + cy.LocationId + "')) and LOCATIONTYPE = LTRIM(RTRIM('" + cy.LocType + "'))";
+                    if (datatrans.GetDataId(svSQL) > 0)
+                    {
+                        msg = "Location Already Existed";
+                        return msg;
+                    }
+                }
+
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    OracleCommand objCmd = new OracleCommand("LOCATIONDETAILPROC", objConn);
+                    /*objCmd.Connection = objConn;
+                    objCmd.CommandText = "LOCATIONPROC";*/
+
+                    objCmd.CommandType = CommandType.StoredProcedure;
+                    if (cy.ID == null)
+                    {
+                        StatementType = "Insert";
+                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                    }
+                    else
+                    {
+                        StatementType = "Update";
+                        objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = cy.ID;
+                    }
+
+                    objCmd.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = cy.LocationId;
+                    objCmd.Parameters.Add("LOCATIONTYPE", OracleDbType.NVarchar2).Value = cy.LocType;
+                    objCmd.Parameters.Add("CPNAME", OracleDbType.NVarchar2).Value = cy.ContactPer;
+                    objCmd.Parameters.Add("PHNO", OracleDbType.NVarchar2).Value = cy.PhoneNo;
+                    //  objCmd.Parameters.Add("FaxNo", OracleDbType.NVarchar2).Value = cy.FaxNo;
+                    objCmd.Parameters.Add("EMAIL", OracleDbType.NVarchar2).Value = cy.EmailId;
+                  
+                    objCmd.Parameters.Add("BRANCHID", OracleDbType.Int64).Value = cy.Branch;
+                    // objCmd.Parameters.Add("Bin", OracleDbType.NVarchar2).Value = cy.Bin;
+                    // objCmd.Parameters.Add("Trade", OracleDbType.NVarchar2).Value = cy.Trade;
+                    // objCmd.Parameters.Add("FlowOrd", OracleDbType.Int64).Value = cy.FlowOrd;
+                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
+                    objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
+                    try
+                    {
+                        objConn.Open();
+                        objCmd.ExecuteNonQuery();
+                        //System.Console.WriteLine("Number of employees in department 20 is {0}", objCmd.Parameters["pout_count"].Value);
+                    }
+                    catch (Exception ex)
+                    {
+                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
+                    }
+                    objConn.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
+        }
 
         public string StatusChange(string tag, int id)
         {
