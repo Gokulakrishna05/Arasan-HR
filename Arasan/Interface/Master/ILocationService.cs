@@ -9,6 +9,7 @@ namespace Arasan.Interface
     {
         DataTable GetBranch();
         string LocationsCRUD(Location cy);
+        string LocCRUD(Location cy);
         Location GetLocationsById(string id);
         string StatusChange(string tag, int id);
         string RemoveChange(string tag, int id);

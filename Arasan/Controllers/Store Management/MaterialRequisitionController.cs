@@ -32,7 +32,8 @@ namespace Arasan.Controllers.Store_Management
             MaterialRequisition MR = new MaterialRequisition();
             MR.Brlst = BindBranch();
             var userId = Request.Cookies["UserId"];
-            MR.Loclst = GetLoc(userId);
+            //MR.Loclst = GetLoc(userId);
+            MR.Loclst = GetLocation();
             MR.Worklst = BindWorkCenter("");
             MR.Processlst = BindProcess("");
             MR.assignList = BindEmp();
@@ -322,6 +323,23 @@ namespace Arasan.Controllers.Store_Management
                 for (int i = 0; i < dtDesg.Rows.Count; i++)
                 {
                     lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["LOCID"].ToString(), Value = dtDesg.Rows[i]["loc"].ToString() });
+                }
+                return lstdesg;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<SelectListItem> GetLocation()
+        {
+            try
+            {
+                DataTable dtDesg = materialReq.GetLoc();
+                List<SelectListItem> lstdesg = new List<SelectListItem>();
+                for (int i = 0; i < dtDesg.Rows.Count; i++)
+                {
+                    lstdesg.Add(new SelectListItem() { Text = dtDesg.Rows[i]["LOCID"].ToString(), Value = dtDesg.Rows[i]["LOCATIONDETAILSID"].ToString() });
                 }
                 return lstdesg;
             }

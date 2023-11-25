@@ -24,7 +24,7 @@ namespace Arasan.Services
         public DataTable GetWorkCenter(string value)
         {
             string SvSql = string.Empty;
-            SvSql = "Select WCID,WCBASICID from WCBASIC where ILOCATION='" + value + "' ";
+            SvSql = "Select WCID,WCBASICID from WCBASIC where LOCID='" + value + "' ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -65,6 +65,16 @@ namespace Arasan.Services
         {
             string SvSql = string.Empty;
             SvSql = "Select GROUPTYPE,ITEMGROUPID FROM ITEMGROUP  ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetLoc()
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select LOCID,LOCATIONDETAILSID FROM LOCATIONDETAILS  ";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
