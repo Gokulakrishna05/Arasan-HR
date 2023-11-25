@@ -14,10 +14,21 @@ namespace Arasan.Services
         {
             _connectionString = _configuratio.GetConnectionString("OracleDBConnection");
         }
-        public DataTable GetAccType()
+
+        public DataTable GetAccClass()
         {
             string SvSql = string.Empty;
-            SvSql = "select ACCOUNTTYPEID,ACCOUNTTYPE from ACCTYPE where STATUS='ACTIVE'";
+            SvSql = "SELECT ACCOUNT_CLASS,ACCCLASSID FROM ACCCLASS WHERE IS_ACTIVE='Y'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetAccType(string id)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select ACCOUNTTYPEID,ACCOUNTTYPE from ACCTYPE where IS_ACTIVE='Y' AND ACCCLASSID='"+ id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -28,7 +39,7 @@ namespace Arasan.Services
         public DataTable GetAccGroup(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select ACCGROUPID,ACCOUNTGROUP from ACCGROUP where STATUS='Active' AND ACCOUNTTYPE='" + id + "'";
+            SvSql = "select ACCGROUPID,ACCOUNTGROUP from ACCGROUP where IS_ACTIVE='Y' AND ACCOUNTTYPE='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -39,7 +50,7 @@ namespace Arasan.Services
         public DataTable GetAccLedger(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select LEDGERID,LEDNAME from LEDGER Where STATUS='Active' AND ACCGROUP='" + id + "'";
+            SvSql = "select LEDGERID,LEDNAME from ACCLEDGER Where IS_ACTIVE='Y' AND ACCGROUP='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

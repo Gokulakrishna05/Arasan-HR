@@ -31,7 +31,7 @@
                 url: "/ItemName/MyListItemgrid",
                 //url: "/ItemName/ItemName",
                 data: {
-                    strstatus: ""
+                    strstatus: "Y"
                 },
                datatype: "json",
                 updaterow: function (rowid, rowdata) {
@@ -42,7 +42,7 @@
                     { name: 'itemsubgroup', type: 'string' },
                     { name: 'itemname', type: 'string' },
                     { name: 'bin', type: 'string' },
-                    
+                    { name: 'itemcate', type: 'string' },
                     { name: 'uom', type: 'string' },
                     { name: 'hsncode', type: 'string' },
                     { name: 'editrow', type: 'string' },
@@ -74,6 +74,7 @@
 		    enablebrowserselection :true,
 
                     columns: [
+                    { text: 'Item Category', filtertype: 'checkedlist', datafield: 'itemcate', width: 150 },
                     { text: 'Item Group', filtertype: 'checkedlist', datafield: 'itemgroup', width: 150 },
                       { text: 'Item Sub Group', filtertype: 'checkedlist', datafield: 'itemsubgroup', width: 150 },
                       { text: 'Item Name', filtertype: 'input', datafield: 'itemname', width: 300 },
@@ -81,7 +82,7 @@
                        
                       { text: 'HSN Code', datafield: 'hsncode', width: 100, align: 'center' },
                       { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
-                      { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                    { text: 'Delete', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70, formatter: returnMyLink, edittype: 'select' },
                     ]
             });
             $("#ddlStatus").change(function () {
@@ -95,7 +96,10 @@
             $("#grid").jqxGrid({ source: source });
         });
         });
- </script>
+    function returnMyLink(cellValue, options, rowdata, action) {
+        return "<a href='/Controller/Action/" + options.rowId + "' >Click here</a>";
+    }
+</script>
 <div class="wrapper-content ">
     <div class="row">
         <div class="col-lg-12">

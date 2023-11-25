@@ -5,6 +5,7 @@ using Arasan.Interface.Master;
 using Arasan.Models;
 using Arasan.Services.Master;
 using Arasan.Services.Store_Management;
+using DocumentFormat.OpenXml.Presentation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -454,18 +455,27 @@ namespace Arasan.Controllers.Master
             List<ItemList> Reg = new List<ItemList>();
             DataTable dtUsers = new DataTable();
             strStatus = strStatus == "" ? "Y" : strStatus;
-            dtUsers = ItemNameService.GetAllItems();
+            dtUsers = ItemNameService.GetAllItems(strStatus);
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {
 
                 string DeleteRow = string.Empty;
                 string EditRow = string.Empty;
+                if (dtUsers.Rows[i]["ACTIVE"].ToString() == "Y")
+                {
 
-                EditRow = "<a href=ItemName?id=" + dtUsers.Rows[i]["ITEMMASTERID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                    EditRow = "<a href=ItemName?id=" + dtUsers.Rows[i]["ITEMMASTERID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
 
 
-                DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["ITEMMASTERID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                    DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["ITEMMASTERID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                }
+                else
+                {
+                    EditRow = "";
 
+
+                    DeleteRow = "<a href=DeleteItem?tag=Active&id=" + dtUsers.Rows[i]["ITEMMASTERID"].ToString() + "><img src='../Images/active.png' alt='Activate' /></a>";
+                }
 
                 Reg.Add(new ItemList
                 {
@@ -483,7 +493,7 @@ namespace Arasan.Controllers.Master
                     //Maxlvl = dtUsers.Rows[i]["MAXSTOCKLVL"].ToString(),
                     //Minlvl = dtUsers.Rows[i]["MINSTOCKLVL"].ToString(),
 
-                     
+                    itemcate= dtUsers.Rows[i]["GROUPTYPE"].ToString(),
                     uom = dtUsers.Rows[i]["UNITID"].ToString(),
 
                   //  cf = dtUsers.Rows[i]["CONVERAT"].ToString(),
@@ -506,8 +516,7 @@ namespace Arasan.Controllers.Master
 
         public ActionResult DeleteItem(string tag, int id)
         {
-            //EnquiryList eqgl = new EnquiryList();
-            //eqgl.StatusChange(tag, id);
+            ItemNameService.StatusChange(tag, id);
             return RedirectToAction("ListItem");
 
         }

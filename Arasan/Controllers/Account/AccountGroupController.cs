@@ -183,7 +183,7 @@ namespace Arasan.Controllers
                 {
 
                     acccocde = dt.Rows[0]["ACCOUNTCODE"].ToString();
-                    clid = dt.Rows[0]["ACCOUNTCLASS"].ToString();
+                    clid = dt.Rows[0]["ACCCLASSID"].ToString();
                     dt2 = accountGroup.Getclasscode(clid);
                     if (dt2.Rows.Count > 0)
                     {
