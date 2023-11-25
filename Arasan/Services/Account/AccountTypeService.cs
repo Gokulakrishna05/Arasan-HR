@@ -89,7 +89,7 @@ namespace Arasan.Services
                         objCmd.Parameters.Add("ID", OracleDbType.NVarchar2).Value = ss.ID;
                     }
                     
-                    objCmd.Parameters.Add("ACCOUNTCLASS", OracleDbType.NVarchar2).Value = ss.Accountclass;
+                    objCmd.Parameters.Add("ACCCLASSID", OracleDbType.NVarchar2).Value = ss.Accountclass;
                     objCmd.Parameters.Add("ACCOUNTCODE", OracleDbType.NVarchar2).Value = ss.AccCode;
                     objCmd.Parameters.Add("ACCOUNTTYPE", OracleDbType.NVarchar2).Value = ss.Accounttype;
                     objCmd.Parameters.Add("CREATEDON", OracleDbType.Date).Value = DateTime.Now;
@@ -134,7 +134,7 @@ namespace Arasan.Services
         public DataTable GetAllType()
         {
             string SvSql = string.Empty;
-            SvSql = "select  ACCTYPE.ACCOUNTTYPEID,ACCCLASS.ACCOUNT_CLASS,ACCTYPE.ACCOUNTCODE,ACCTYPE.ACCOUNTTYPE from ACCTYPE LEFT OUTER JOIN ACCCLASS ON ACCCLASS.ACCCLASSID = ACCTYPE.ACCOUNTCLASS WHERE ACCTYPE.IS_ACTIVE = 'Y' ORDER BY ACCOUNTTYPEID DESC ";
+            SvSql = "select  ACCTYPE.ACCOUNTTYPEID,ACCCLASS.ACCOUNT_CLASS,ACCTYPE.ACCOUNTCODE,ACCTYPE.ACCOUNTTYPE from ACCTYPE LEFT OUTER JOIN ACCCLASS ON ACCCLASS.ACCCLASSID = ACCTYPE.ACCCLASSID WHERE ACCTYPE.IS_ACTIVE = 'Y' ORDER BY ACCOUNTTYPEID DESC ";
 
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);

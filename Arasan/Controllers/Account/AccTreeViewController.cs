@@ -25,13 +25,20 @@ namespace Arasan.Controllers
         public IActionResult AccTreeView(string id)
         {
             List<TreeViewNode> nodes = new List<TreeViewNode>();
+            DataTable df=new DataTable();
+            df = Accgroup.GetAccClass();
+
             DataTable dt = new DataTable();
-            dt = Accgroup.GetAccType();
+            
             DataTable dt1 = new DataTable();
             DataTable dt2= new DataTable();
-            for (int i = 0; i < dt.Rows.Count; i++)
+            for (int n = 0; n < df.Rows.Count; n++)
             {
-                nodes.Add(new TreeViewNode { id = dt.Rows[i]["ACCOUNTTYPEID"].ToString(), parent = "#", text = dt.Rows[i]["ACCOUNTTYPE"].ToString() });
+                nodes.Add(new TreeViewNode { id = df.Rows[n]["ACCCLASSID"].ToString(), parent = "#", text = df.Rows[n]["ACCOUNT_CLASS"].ToString() });
+                dt = Accgroup.GetAccType(df.Rows[n]["ACCCLASSID"].ToString());
+                for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                nodes.Add(new TreeViewNode { id = dt.Rows[i]["ACCOUNTTYPEID"].ToString(), parent = df.Rows[n]["ACCCLASSID"].ToString(), text = dt.Rows[i]["ACCOUNTTYPE"].ToString() });
                 dt1 = Accgroup.GetAccGroup(dt.Rows[i]["ACCOUNTTYPEID"].ToString());
                 if(dt1.Rows.Count > 0)
                 {
@@ -51,7 +58,7 @@ namespace Arasan.Controllers
                 }
                 
             }
-            
+            }
             ViewBag.Json = JsonConvert.SerializeObject(nodes);
             return View();
         }

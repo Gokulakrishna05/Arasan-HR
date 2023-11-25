@@ -6,7 +6,8 @@ namespace Arasan.Interface
 {
     public interface IAccTreeView
     {
-        DataTable GetAccType();
+        DataTable GetAccClass();
+        DataTable GetAccType(string id);
         DataTable GetAccGroup(string id);
         DataTable GetAccLedger(string id);
     }
