@@ -467,6 +467,7 @@ namespace Arasan.Controllers.Store_Management
             {
                 MR.Location = dt.Rows[0]["LOCID"].ToString();
                 MR.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                MR.BranchId = dt.Rows[0]["BRANCH"].ToString();
                 MR.DocId = dt.Rows[0]["DOCID"].ToString();
                 MR.DocDa = dt.Rows[0]["DOCDATE"].ToString();
                 MR.WorkCenter = dt.Rows[0]["WCID"].ToString();
@@ -522,7 +523,11 @@ namespace Arasan.Controllers.Store_Management
                         tda.IndQty = (reqqty - stkqty);
                     }
                     //tda.Itemlst = BindItemlst();
-
+                    DataTable stock = datatrans.GetData("Select SUM(BALANCE_QTY) as qty from INVENTORY_ITEM where ITEM_ID='" + tda.ItemId + "' AND BALANCE_QTY > 0 AND LOCATION_ID NOT IN '" + storeid + "' AND BRANCH_ID='" + MR.BranchId + "'  ");
+                    if (stock.Rows.Count > 0)
+                    {
+                        tda.TotalStock = stock.Rows[0]["qty"].ToString();
+                    }
                     TData.Add(tda);
                 }
             }
@@ -539,6 +544,7 @@ namespace Arasan.Controllers.Store_Management
             {
                 MR.Location = dt.Rows[0]["LOCID"].ToString();
                 MR.Branch = dt.Rows[0]["BRANCHID"].ToString();
+                MR.BranchId = dt.Rows[0]["BRANCH"].ToString();
                 MR.DocId = dt.Rows[0]["DOCID"].ToString();
                 MR.DocDa = dt.Rows[0]["DOCDATE"].ToString();
                 MR.RequestType = dt.Rows[0]["REQTYPE"].ToString();
@@ -590,6 +596,11 @@ namespace Arasan.Controllers.Store_Management
                         tda.IndQty = (reqqty - stkqty);
                     }
                     //tda.Itemlst = BindItemlst();
+                    DataTable stock = datatrans.GetData("Select SUM(BALANCE_QTY) as qty from INVENTORY_ITEM where ITEM_ID='" + tda.ItemId + "' AND BALANCE_QTY > 0 AND LOCATION_ID NOT IN '" + storeid + "' AND BRANCH_ID='" + MR.BranchId + "'  ");
+                    if (stock.Rows.Count > 0)
+                    {
+                        tda.TotalStock = stock.Rows[0]["qty"].ToString();
+                    }
                     tda.Isvalid = "Y";
                     TData.Add(tda);
                 }
@@ -796,7 +807,281 @@ namespace Arasan.Controllers.Store_Management
             return View(Cy);
         }
 
-       
 
+        public IActionResult WholeStock(string id)
+        {
+            MaterialRequisition MR = new MaterialRequisition();
+            MR.Entered = Request.Cookies["UserId"];
+            List<StockItem> TData = new List<StockItem>();
+            StockItem tda = new StockItem();
+            DataTable dtt = datatrans.GetData("Select ITEMMASTER.ITEMID,ITEM_ID,LOCDETAILS.LOCID,INVENTORY_ITEM_ID,LOCATION_ID,to_char(GRN_DATE,'dd-MON-yyyy')GRN_DATE,ITEM_ID,BALANCE_QTY from INVENTORY_ITEM left outer join ITEMMASTER ON ITEMMASTERID=INVENTORY_ITEM.ITEM_ID left outer join LOCDETAILS ON LOCDETAILSID=INVENTORY_ITEM.LOCATION_ID where ITEM_ID='" + id + "' AND BALANCE_QTY > 0 AND LOCATION_ID NOT IN '" + storeid + "' AND BRANCH_ID='10001000000001'  ");
+
+            if (dtt.Rows.Count > 0)
+            {
+                for (int i = 0; i < dtt.Rows.Count; i++)
+                {
+                    tda = new StockItem();
+                    tda.item = dtt.Rows[i]["ITEMID"].ToString();
+                    tda.itemid = dtt.Rows[i]["ITEM_ID"].ToString();
+                    tda.invid = dtt.Rows[i]["INVENTORY_ITEM_ID"].ToString();
+                  
+                    tda.location = dtt.Rows[i]["LOCID"].ToString();
+                    tda.locationid = dtt.Rows[i]["LOCATION_ID"].ToString();
+                    tda.docDate = dtt.Rows[i]["GRN_DATE"].ToString();
+                    tda.qty = dtt.Rows[i]["BALANCE_QTY"].ToString();
+                  
+                    TData.Add(tda);
+                }
+            }
+            MR.stklst = TData;
+            return View(MR);
+        }
+        [HttpPost]
+        public ActionResult WholeStock(MaterialRequisition Cy, string id)
+        {
+            try
+            {
+                Cy.ID = id;
+                string Strout = materialReq.WholeStockGURD(Cy);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Cy.ID == null)
+                    {
+                        TempData["notice"] = "Material Issued Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "Material Issued Successfully...!";
+                    }
+                    return RedirectToAction("ListMaterialReq");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit WholeStock";
+                    TempData["notice"] = Strout;
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return RedirectToAction("ListMaterialReq");
+        }
+
+        public IActionResult ListMaterialReq()
+        {
+            //IEnumerable<MaterialRequisition> cmp = materialReq.GetAllMaterial(status, st, ed);
+            return View();
+        }
+        public ActionResult MyListMaterialRequGrid(string strStatus)
+        {
+            List<MaterialReqItem> Reg = new List<MaterialReqItem>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = (DataTable)materialReq.GetAllInventoryReq(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+                string Issuse = string.Empty;
+                //string FollowUp = string.Empty;
+                string MoveToIndent = string.Empty;
+                ////string Pdf = string.Empty;
+                //string View = string.Empty;
+                string EditRow = string.Empty;
+                string DeleteRow = string.Empty;
+                if (dtUsers.Rows[i]["STATUS"].ToString() == "Approved")
+                {
+                    MoveToIndent = "<img src='../Images/tick.png' alt='View Details' width='20' />";
+                    EditRow = "";
+                }
+                else
+                {
+                    Issuse = "<a href=ApproveReq?&id=" + dtUsers.Rows[i]["INVENTORYITEMREQID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/issue_icon.png' alt='View Details' width='20' /></a>";
+                    EditRow = "<a href=MaterialReq?id=" + dtUsers.Rows[i]["INVENTORYITEMREQID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+
+                }
+
+
+                //if (dtUsers.Rows[i]["STATUS"].ToString() == "CLOSE")
+                //{
+                //    MoveToIndent = "<img src='../Images/tick.png' alt='View Details' width='20' />";
+                //    EditRow = "";
+                //}
+                //else
+                //{
+                //    MoveToIndent = "<a href=IssueToindent?id=" + dtUsers.Rows[i]["INVENTORYITEMREQID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
+                //}
+                //View = "<a href=MaterialStatus?id=" + dtUsers.Rows[i]["INVENTORYITEMREQID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
+                DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["INVENTORYITEMREQID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                Reg.Add(new MaterialReqItem
+                {
+                    id = Convert.ToInt64(dtUsers.Rows[i]["INVENTORYITEMREQID"].ToString()),
+                     item = dtUsers.Rows[i]["ITEMID"].ToString(),
+                    location = dtUsers.Rows[i]["LOCID"].ToString(),
+                    reqloc = dtUsers.Rows[i]["location"].ToString(),
+                    docDate = dtUsers.Rows[i]["REQ_DATE"].ToString(),
+                    qty = dtUsers.Rows[i]["REQ_QTY"].ToString(),
+                    iss = Issuse,
+                    //follow = FollowUp,
+                    //move = MoveToIndent,
+                    ////pdf = Pdf,
+                    //view = View,
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+
+
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
+        }
+        public IActionResult MaterialReq(string id)
+        {
+            MaterialReq MR = new MaterialReq();
+            MR.Entered = Request.Cookies["UserId"];
+            
+            DataTable dtt = new DataTable();
+            dtt = materialReq.GetReqMatItemByID(id);
+            if (dtt.Rows.Count > 0)
+            {
+
+
+                MR.branch = dtt.Rows[0]["BRANCHID"].ToString();
+                MR.branchid = dtt.Rows[0]["BRANCH_ID"].ToString();
+                MR.item = dtt.Rows[0]["ITEMID"].ToString();
+                MR.itemid = dtt.Rows[0]["ITEM_ID"].ToString();
+
+
+                MR.location = dtt.Rows[0]["LOCID"].ToString();
+                MR.locationid = dtt.Rows[0]["LOCATION_ID"].ToString();
+                MR.reqlocation = dtt.Rows[0]["location"].ToString();
+                MR.reqlocationid = dtt.Rows[0]["REQ_LOCID"].ToString();
+                MR.reqqty = Convert.ToDouble( dtt.Rows[0]["REQ_QTY"].ToString());
+                MR.docDate = dtt.Rows[0]["REQ_DATE"].ToString();
+                MR.user = MR.Entered;
+                MR.ID =id;
+                   
+
+                
+                
+            }
+         
+            return View(MR);
+        }
+        [HttpPost]
+        public ActionResult MaterialReq(MaterialReq Cy, string id)
+        {
+            try
+            {
+                Cy.ID = id;
+                string Strout = materialReq.MaterialReqGURD(Cy);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Cy.ID == null)
+                    {
+                        TempData["notice"] = "MaterialReq Issued Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "MaterialReq Issued Successfully...!";
+                    }
+                    return RedirectToAction("ListMaterialReq");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit MaterialReq";
+                    TempData["notice"] = Strout;
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return RedirectToAction("MaterialReq");
+        }
+
+        public IActionResult ApproveReq(string id)
+        {
+            MaterialReq MR = new MaterialReq();
+            MR.Entered = Request.Cookies["UserId"];
+
+            DataTable dtt = new DataTable();
+            dtt = materialReq.GetReqMatItemByID(id);
+            if (dtt.Rows.Count > 0)
+            {
+
+
+                MR.branch = dtt.Rows[0]["BRANCHID"].ToString();
+                MR.branchid = dtt.Rows[0]["BRANCH_ID"].ToString();
+                MR.item = dtt.Rows[0]["ITEMID"].ToString();
+                MR.itemid = dtt.Rows[0]["ITEM_ID"].ToString();
+                MR.invid = dtt.Rows[0]["INVNTORY_ID"].ToString();
+
+
+                MR.location = dtt.Rows[0]["LOCID"].ToString();
+                MR.locationid = dtt.Rows[0]["LOCATION_ID"].ToString();
+                MR.reqlocation = dtt.Rows[0]["location"].ToString();
+                MR.reqlocationid = dtt.Rows[0]["REQ_LOCID"].ToString();
+                MR.reqqty = Convert.ToDouble(dtt.Rows[0]["REQ_QTY"].ToString());
+                MR.docDate = dtt.Rows[0]["REQ_DATE"].ToString();
+                MR.user = MR.Entered;
+                MR.ID = id;
+
+
+
+
+            }
+
+            return View(MR);
+        }
+
+        [HttpPost]
+        public ActionResult ApproveReq(MaterialReq Cy, string id)
+        {
+            try
+            {
+                Cy.ID = id;
+                string Strout = materialReq.ApproveReqGURD(Cy);
+                if (string.IsNullOrEmpty(Strout))
+                {
+                    if (Cy.ID == null)
+                    {
+                        TempData["notice"] = "MaterialReq Approved Issued Successfully...!";
+                    }
+                    else
+                    {
+                        TempData["notice"] = "MaterialReq Approved Issued Successfully...!";
+                    }
+                    return RedirectToAction("ListMaterialReq");
+                }
+
+                else
+                {
+                    ViewBag.PageTitle = "Edit MaterialReq";
+                    TempData["notice"] = Strout;
+                }
+
+                // }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return RedirectToAction("MaterialReq");
+        }
     }
 }
