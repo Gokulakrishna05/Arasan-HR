@@ -3,6 +3,12 @@
 @{
     ViewData["Title"] = "Index";
 }
+<script type="text/javascript">
+    @if (TempData["notice"] != null)
+    {
+        @:alert('@TempData["notice"]');
+    }
+</script>
   <partial name="JqxGridPartial" />
 @* @Html.Partial("~/Views/JqxGridPartial.cshtml")  *@
     
@@ -55,22 +61,26 @@
             // initialize jqxGrid
             $("#grid").jqxGrid(
             {
-                width: 1000,
+                width: '100%',
                 source: dataAdapter,
-                 height: 365,
+                height: 365,
                 filterable: true,
-                     pageable: true,
-                    filterable: true,
-                    autoheight: true,
-                    sortable: true,
-                    rowdetails: true,
+                pageable: true,
+                filterable: true,
+                autoheight: true,
+                sortable: true,
+                rowdetails: true,
+                showfilterbar: true,
+                rowsheight: 35,
+                theme: 'darkblue',
+                enablebrowserselection: true,
                 columns: [
-                  { text: 'Indent No.', datafield: 'indentno', width: 100 },
-                  { text: 'Indent Date', datafield: 'indentdate', width: 100 },
-                  { text: 'Item Name', columntype: 'dropdownlist', datafield: 'itemname', width: 200 },
-                  { text: 'Due date', datafield: 'duedate', width: 100, cellsalign: 'right' },
-                  { text: 'Location', datafield: 'location', cellsalign: 'right', width: 200 },
-                  { text: 'Quantity', datafield: 'quantity', cellsalign: 'center', width: 100 },
+                  { text: 'Indent No.', filtertype: 'checkedlist', datafield: 'indentno',color:'black', width: 100 },
+                  { text: 'Indent Date', datafield: 'indentdate', filtertype: 'input', width: 100 },
+                  { text: 'Item Name', filtertype: 'checkedlist', columntype: 'dropdownlist', datafield: 'itemname', width: 200 },
+                  { text: 'Due date', datafield: 'duedate', filtertype: 'input', width: 100, cellsalign: 'right' },
+                  { text: 'Location', datafield: 'location', filtertype: 'checkedlist', cellsalign: 'right', width: 200 },
+                  { text: 'Quantity', datafield: 'quantity', filtertype: 'checkedlist', cellsalign: 'center', width: 100 },
                   { text: 'Approval', datafield: 'approval', cellsalign: 'center', width: 100, cellsrenderer: linkrenderer, align: 'center'},
                   
                 ]

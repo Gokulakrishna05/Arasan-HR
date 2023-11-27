@@ -11,6 +11,7 @@ namespace Arasan.Interface.Stores_Management
         DataTable GetBin();
         DataTable GetBranch();
         string StoresReturnCRUD(StoresReturn cy);
+        string StatusChange(string tag, string id);
         DataTable GetItem(string id);
         DataTable GetStoresReturn(string id);
         DataTable GetSRItemDetails(string id);
@@ -18,5 +19,6 @@ namespace Arasan.Interface.Stores_Management
         DataTable GetItemCF(string ItemId, string unitid);
         DataTable Getstkqty(string ItemId, string loc, string branch);
         DataTable Getloc(string Poid);
+        DataTable GetAllListStoresReturnItems(string strStatus);
     }
 }

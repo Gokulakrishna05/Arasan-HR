@@ -38,7 +38,7 @@ namespace Arasan.Models
         public string Process { get; set; }
         public string Processid { get; set; }
         public string Workid { get; set; }
-
+        public string ddlStatus { get; set; }
 
 
     }
@@ -71,6 +71,7 @@ namespace Arasan.Models
         public double ReqQty { get; set; }
         public double Stock { get; set; }
         public double FromBin { get; set; }
+       
         //public double SGSTP { get; set; }
         //public double IGSTP { get; set; }
         //public double CGST { get; set; }
@@ -80,5 +81,18 @@ namespace Arasan.Models
         public string Isvalid { get; set; }
 
     }
+    public class ListStoreIssueItem
+    {
+        public long id { get; set; }
+        public string branch { get; set; }
+        public string docNo { get; set; }
+        public string location { get; set; }
+        public string docDate { get; set; }
+        public string reqno { get; set; }
+        public string editrow { get; set; }
+        public string delrow { get; set; }
+        public string reqdate { get; set; }
+    }
+
 }
 

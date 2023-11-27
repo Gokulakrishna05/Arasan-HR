@@ -27,13 +27,12 @@ namespace Arasan.Interface
         DataTable GetViewGateInward(string Poid);
         DataTable GetViewGateItems(string Poid);
 
-        string StatusChange(string tag, int id);
+        string StatusChange(string tag, string id);
 
         DataTable GetPOItemrep(string id);
-        Task<IEnumerable<POItemDetail>> GetPOItemss (string supid, string s);
+        Task<IEnumerable<POItemDetail>> GetPOItemss(string supid, string s);
 
-        Task<IEnumerable<POItemDetail>> GetPOItem(string id,string s);
-
-
+        Task<IEnumerable<POItemDetail>> GetPOItem(string id, string s);
+        DataTable GetAllPoItems(string strStatus);
     }
 }

@@ -21,7 +21,8 @@ namespace Arasan.Interface.Store_Management
         DataTable GetDDItemDetails(string id);
         IEnumerable<DeductionItem> GetAllStoreIssueItem(string id);
 
-        string StatusChange(string tag, int id);
+        string StatusChange(string tag, string id);
+        DataTable GetAllListDirectDeductionItems(string strStatus);
     }
 
 }

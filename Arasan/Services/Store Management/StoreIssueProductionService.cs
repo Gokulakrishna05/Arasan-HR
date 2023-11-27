@@ -495,5 +495,46 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
+        public string StatusChange(string tag, string id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE STORESISSBASIC SET IS_ACTIVE ='N' WHERE STORESISSBASICID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
+        }
+
+        public DataTable GetAllListStoreIssueProItems(string strStatus)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "Select  BRANCHMAST.BRANCHID,DOCID,to_char(DOCDATE,'dd-MON-yyyy')DOCDATE,REQNO,to_char(REQDATE,'dd-MON-yyyy')REQDATE,TOLOCID,LOCIDCONS,PROCESSID,NARRATION,PSCHNO,WCID,STORESISSBASICID from STORESISSBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=STORESISSBASIC.BRANCHID AND STORESISSBASIC.IS_ACTIVE='Y'  ORDER BY STORESISSBASICID DESC";
+            }
+            else
+            {
+                SvSql = "Select  BRANCHMAST.BRANCHID,DOCID,to_char(DOCDATE,'dd-MON-yyyy')DOCDATE,REQNO,to_char(REQDATE,'dd-MON-yyyy')REQDATE,TOLOCID,LOCIDCONS,PROCESSID,NARRATION,PSCHNO,WCID,STORESISSBASICID from STORESISSBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=STORESISSBASIC.BRANCHID AND STORESISSBASIC.IS_ACTIVE='N'  ORDER BY STORESISSBASICID DESC";
+            }
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
     }
 }

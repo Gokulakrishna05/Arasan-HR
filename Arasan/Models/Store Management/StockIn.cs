@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Data;
 
 namespace Arasan.Models
 {
@@ -31,6 +32,23 @@ namespace Arasan.Models
         public bool select { get; set; }
         public string StockQty { get; set; }
         public string LocationID { get; set; }
+    }
+    public class StockItems
+    {
+        public long id { get; set; }
+        public string branch { get; set; }
+        public string unit { get; set; }
+        public string qty { get; set; }
+        //public string docDate { get; set; }
+        public string location { get; set; }
+        //public string editrow { get; set; }
+        //public string delrow { get; set; }
+        //public string grn { get; set; }
+        //public string pdf { get; set; }
+        public string item { get; set; }
+        public string acc { get; set; }
+        //public string pono { get; set; }
+        ////public string Account { get; set; }
     }
 
 }

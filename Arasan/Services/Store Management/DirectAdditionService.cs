@@ -101,7 +101,7 @@ namespace Arasan.Services.Store_Management
                     objCmd.Parameters.Add("NET", OracleDbType.NVarchar2).Value = ss.Net;
                     objCmd.Parameters.Add("ENTBY", OracleDbType.NVarchar2).Value = ss.Entered;
                     objCmd.Parameters.Add("NARRATION", OracleDbType.NVarchar2).Value = ss.Narr;
-                    objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
+                    //objCmd.Parameters.Add("STATUS", OracleDbType.NVarchar2).Value = "ACTIVE";
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
                     try
@@ -327,7 +327,7 @@ namespace Arasan.Services.Store_Management
             return cmpList;
         }
 
-        public string StatusChange(string tag, int id)
+        public string StatusChange(string tag, string id)
         {
 
             try
@@ -335,7 +335,7 @@ namespace Arasan.Services.Store_Management
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE ADDBASIC SET STATUS ='ISACTIVE' WHERE ADDBASICID='" + id + "'";
+                    svSQL = "UPDATE ADDBASIC SET IS_ACTIVE ='N' WHERE ADDBASICID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -349,6 +349,23 @@ namespace Arasan.Services.Store_Management
             }
             return "";
 
+        }
+        public DataTable GetAllListDirectAdditionItems(string strStatus)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "Select BRANCHMAST.BRANCHID,LOCDETAILS.LOCID,DOCID,to_char(ADDBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,DCNO,REASON,GROSS,ENTBY,NARRATION,ADDBASICID from ADDBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=ADDBASIC.BRANCHID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=ADDBASIC.LOCID AND ADDBASIC.IS_ACTIVE='Y' ORDER BY ADDBASIC.ADDBASICID DESC";
+            }
+            else
+            {
+                SvSql = "Select BRANCHMAST.BRANCHID,LOCDETAILS.LOCID,DOCID,to_char(ADDBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,DCNO,REASON,GROSS,ENTBY,NARRATION,ADDBASICID from ADDBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=ADDBASIC.BRANCHID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=ADDBASIC.LOCID AND ADDBASIC.IS_ACTIVE='N' ORDER BY ADDBASIC.ADDBASICID DESC";
+            }
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
         }
 
     }

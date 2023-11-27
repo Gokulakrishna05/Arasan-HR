@@ -21,44 +21,44 @@ namespace Arasan.Services
         }
         public IEnumerable<PO> GetAllPO(string st, string ed)
         {
-           
+
             List<PO> cmpList = new List<PO>();
             using (OracleConnection con = new OracleConnection(_connectionString))
             {
-                 using (OracleCommand cmd = con.CreateCommand())
+                using (OracleCommand cmd = con.CreateCommand())
+                {
+                    con.Open();
+                    if (st != null && ed != null)
                     {
-                        con.Open();
-                        if (st != null && ed != null)
-                        {
                         cmd.CommandText = " Select BRANCHMAST.BRANCHID,POBASIC.DOCID,to_char(POBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,POBASIC.EXRATE,CURRENCY.MAINCURR,PARTYMAST.PARTYNAME,POBASICID,POBASIC.STATUS,PURQUOTBASIC.DOCID as Quotno,POBASIC.IS_ACTIVE from POBASIC LEFT OUTER JOIN PURQUOTBASIC ON PURQUOTBASIC.PURQUOTBASICID=POBASIC.QUOTNO LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=POBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on POBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=POBASIC.MAINCURRENCY  WHERE  POBASIC.DOCDATE BETWEEN '" + st + "'  AND ' " + ed + "'   ORDER BY POBASIC.POBASICID DESC";
 
                     }
                     else
-                        {
+                    {
                         cmd.CommandText = " Select BRANCHMAST.BRANCHID,POBASIC.DOCID,to_char(POBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,POBASIC.EXRATE,CURRENCY.MAINCURR,PARTYMAST.PARTYNAME,POBASICID,POBASIC.STATUS,PURQUOTBASIC.DOCID as Quotno,POBASIC.IS_ACTIVE from POBASIC LEFT OUTER JOIN PURQUOTBASIC ON PURQUOTBASIC.PURQUOTBASICID=POBASIC.QUOTNO LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=POBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on POBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=POBASIC.MAINCURRENCY  WHERE POBASIC.DOCDATE  > sysdate-30 order by POBASICID desc ";
 
                     }
 
                     OracleDataReader rdr = cmd.ExecuteReader();
-                        while (rdr.Read())
+                    while (rdr.Read())
+                    {
+                        PO cmp = new PO
                         {
-                            PO cmp = new PO
-                            {
-                                ID = rdr["POBASICID"].ToString(),
-                                Branch = rdr["BRANCHID"].ToString(),
-                                QuoteNo = rdr["Quotno"].ToString(),
-                                PONo = rdr["DOCID"].ToString(),
-                                POdate = rdr["DOCDATE"].ToString(),
-                                ExRate = rdr["EXRATE"].ToString(),
-                                Cur = rdr["MAINCURR"].ToString(),
-                                Supplier = rdr["PARTYNAME"].ToString(),
-                                Status = rdr["STATUS"].ToString(),
-                                Active = rdr["IS_ACTIVE"].ToString(),
-                            };
-                            cmpList.Add(cmp);
-                        }
+                            ID = rdr["POBASICID"].ToString(),
+                            Branch = rdr["BRANCHID"].ToString(),
+                            QuoteNo = rdr["Quotno"].ToString(),
+                            PONo = rdr["DOCID"].ToString(),
+                            POdate = rdr["DOCDATE"].ToString(),
+                            ExRate = rdr["EXRATE"].ToString(),
+                            Cur = rdr["MAINCURR"].ToString(),
+                            Supplier = rdr["PARTYNAME"].ToString(),
+                            Status = rdr["STATUS"].ToString(),
+                            Active = rdr["IS_ACTIVE"].ToString(),
+                        };
+                        cmpList.Add(cmp);
                     }
-                
+                }
+
             }
             return cmpList;
         }
@@ -105,7 +105,7 @@ namespace Arasan.Services
                             ItemId = rdr["ITEMID"].ToString(),
                             Unit = rdr["UNITID"].ToString(),
                             Quantity = Convert.ToDouble(rdr["IN_QTY"].ToString()),
-                            QC= rdr["QCFLAG"].ToString(),
+                            QC = rdr["QCFLAG"].ToString(),
                         };
                         cmpList.Add(cmp);
                     }
@@ -123,7 +123,8 @@ namespace Arasan.Services
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
-        } public DataTable GetPOrderID(string name)
+        }
+        public DataTable GetPOrderID(string name)
         {
             string SvSql = string.Empty;
             SvSql = "Select BRANCHMAST.BRANCHID,POBASIC.DOCID,to_char(POBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,POBASIC.EXRATE,CURRENCY.MAINCURR,PARTYMAST.PARTYNAME,POBASICID,POBASIC.STATUS,PURQUOTBASIC.DOCID as Quotno,to_char(PURQUOTBASIC.DOCDATE,'dd-MON-yyyy') Quotedate,PACKING_CHRAGES,OTHER_CHARGES,OTHER_DEDUCTION,ROUND_OFF_PLUS,ROUND_OFF_MINUS,POBASIC.FREIGHT,POBASIC.GROSS,POBASIC.NET from POBASIC LEFT OUTER JOIN PURQUOTBASIC ON PURQUOTBASIC.PURQUOTBASICID=POBASIC.QUOTNO LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=POBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on POBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=POBASIC.MAINCURRENCY  Where PARTYMAST.TYPE IN ('Supplier','BOTH') AND POBASIC.POBASICID='" + name + "'";
@@ -162,7 +163,8 @@ namespace Arasan.Services
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
-        } public DataTable GetPOItem(string name)
+        }
+        public DataTable GetPOItem(string name)
         {
             string SvSql = string.Empty;
             SvSql = "Select PODETAIL.ITEMID as Itemi,PODETAIL.QTY,PODETAIL.PODETAILID,ITEMMASTER.ITEMID,UNITMAST.UNITID,PODETAIL.RATE,CGSTP,CGST,SGSTP,SGST,IGSTP,IGST,TOTAMT,DISCPER,DISCAMT,FREIGHTCHGS,PURTYPE,to_char(DUEDATE,'dd-MON-yyyy') DUEDATE from PODETAIL LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=PODETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=ITEMMASTER.PRIUNIT  where PODETAIL.POBASICID='" + name + "'";
@@ -226,7 +228,7 @@ namespace Arasan.Services
 
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
-                    svSQL = "Insert into GRNBLBASIC (PARTYID,BRANCHID,POBASICID,EXRATE,MAINCURRENCY,DOCID,DOCDATE,PACKING_CHRAGES,OTHER_CHARGES,OTHER_DEDUCTION,ROUND_OFF_PLUS,ROUND_OFF_MINUS,FREIGHT,GROSS,NET,IS_ACTIVE,AMTINWORDS) (Select PARTYID,BRANCHID,'" + POID + "',EXRATE,MAINCURRENCY,'" + PONo + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "',PACKING_CHRAGES,OTHER_CHARGES,OTHER_DEDUCTION,ROUND_OFF_PLUS,ROUND_OFF_MINUS,FREIGHT,GROSS,NET ,'Yes',AMTINWORDS from POBASIC where POBASICID='" + POID + "')";
+                    svSQL = "Insert into GRNBLBASIC (PARTYID,BRANCHID,POBASICID,EXRATE,MAINCURRENCY,DOCID,DOCDATE,PACKING_CHRAGES,OTHER_CHARGES,OTHER_DEDUCTION,ROUND_OFF_PLUS,ROUND_OFF_MINUS,FREIGHT,GROSS,NET,IS_ACTIVE,AMTINWORDS) (Select PARTYID,BRANCHID,'" + POID + "',EXRATE,MAINCURRENCY,'" + PONo + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "',PACKING_CHRAGES,OTHER_CHARGES,OTHER_DEDUCTION,ROUND_OFF_PLUS,ROUND_OFF_MINUS,FREIGHT,GROSS,NET ,'Y',AMTINWORDS from POBASIC where POBASICID='" + POID + "')";
                     OracleCommand objCmd = new OracleCommand(svSQL, objConn);
                     try
                     {
@@ -351,76 +353,76 @@ namespace Arasan.Services
                 int cunt = datatrans.GetDataId("Select count(GRNBLBASICID) from GRNBLBASIC Where POBASICID=" + cy.POId + "");
                 if (cunt == 0)
                 {
-                DateTime theDate = DateTime.Now;
-                DateTime todate; DateTime fromdate;
-                string t; string f;
-                if (DateTime.Now.Month >= 4)
-                {
-                    todate = theDate.AddYears(1);
-                }
-                else
-                {
-                    todate = theDate;
-                }
-                if (DateTime.Now.Month >= 4)
-                {
-                    fromdate = theDate;
-                }
-                else
-                {
-                    fromdate = theDate.AddYears(-1);
-                }
-                t = todate.ToString("yy");
-                f = fromdate.ToString("yy");
-                string disp = string.Format("{0}-{1}", f, t);
+                    DateTime theDate = DateTime.Now;
+                    DateTime todate; DateTime fromdate;
+                    string t; string f;
+                    if (DateTime.Now.Month >= 4)
+                    {
+                        todate = theDate.AddYears(1);
+                    }
+                    else
+                    {
+                        todate = theDate;
+                    }
+                    if (DateTime.Now.Month >= 4)
+                    {
+                        fromdate = theDate;
+                    }
+                    else
+                    {
+                        fromdate = theDate.AddYears(-1);
+                    }
+                    t = todate.ToString("yy");
+                    f = fromdate.ToString("yy");
+                    string disp = string.Format("{0}-{1}", f, t);
 
-                int idc = datatrans.GetDataId(" SELECT COMMON_TEXT FROM COMMON_MASTER WHERE COMMON_TYPE = 'GRN' AND IS_ACTIVE = 'Y'");
-                string PONo = string.Format("{0} - {1} / {2}", "GRN", (idc + 1).ToString(), disp);
+                    int idc = datatrans.GetDataId(" SELECT COMMON_TEXT FROM COMMON_MASTER WHERE COMMON_TYPE = 'GRN' AND IS_ACTIVE = 'Y'");
+                    string PONo = string.Format("{0} - {1} / {2}", "GRN", (idc + 1).ToString(), disp);
 
-                string updateCMd = " UPDATE COMMON_MASTER SET COMMON_TEXT ='" + (idc + 1).ToString() + "' WHERE COMMON_TYPE ='GRN' AND IS_ACTIVE ='Y'";
-                try
-                {
-                    datatrans.UpdateStatus(updateCMd);
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-
-                using (OracleConnection objConn = new OracleConnection(_connectionString))
-                {
-                    svSQL = "Insert into GRNBLBASIC (PARTYID,BRANCHID,POBASICID,EXRATE,MAINCURRENCY,DOCID,DOCDATE,PACKING_CHRAGES,OTHER_CHARGES,OTHER_DEDUCTION,ROUND_OFF_PLUS,ROUND_OFF_MINUS,FREIGHT,GROSS,NET) (Select PARTYID,BRANCHID,'" + cy.POId + "',EXRATE,MAINCURRENCY,'" + PONo + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "',PACKING_CHRAGES,OTHER_CHARGES,OTHER_DEDUCTION,ROUND_OFF_PLUS,ROUND_OFF_MINUS,FREIGHT,GROSS,NET  from POBASIC where POBASICID='" + cy.POId + "')";
-                    OracleCommand objCmd = new OracleCommand(svSQL, objConn);
+                    string updateCMd = " UPDATE COMMON_MASTER SET COMMON_TEXT ='" + (idc + 1).ToString() + "' WHERE COMMON_TYPE ='GRN' AND IS_ACTIVE ='Y'";
                     try
                     {
-                        objConn.Open();
-                        objCmd.ExecuteNonQuery();
+                        datatrans.UpdateStatus(updateCMd);
                     }
                     catch (Exception ex)
                     {
-                        //System.Console.WriteLine("Exception: {0}", ex.ToString());
+                        throw ex;
                     }
-                    objConn.Close();
-                }
 
-                string quotid = datatrans.GetDataString("Select GRNBLBASICID from GRNBLBASIC Where POBASICID=" + cy.POId + "");
-                using (OracleConnection objConnT = new OracleConnection(_connectionString))
-                {
-                    string Sql = "Insert into GRNBLDETAIL (GRNBLBASICID,ITEMID,RATE,QTY,UNIT,AMOUNT,CF,CGSTP,CGST,SGSTP,SGST,IGSTP,IGST,TOTAMT,DISCPER,DISC,PURTYPE) (Select '" + quotid + "',ITEMID,RATE,QTY,UNIT,AMOUNT,CF,CGSTP,CGST,SGSTP,SGST,IGSTP,IGST,TOTAMT,DISCPER,DISCAMT,PURTYPE FROM PODETAIL WHERE POBASICID=" + cy.POId + ")";
-                    OracleCommand objCmds = new OracleCommand(Sql, objConnT);
-                    objConnT.Open();
-                    objCmds.ExecuteNonQuery();
-                    objConnT.Close();
-                }
+                    using (OracleConnection objConn = new OracleConnection(_connectionString))
+                    {
+                        svSQL = "Insert into GRNBLBASIC (PARTYID,BRANCHID,POBASICID,EXRATE,MAINCURRENCY,DOCID,DOCDATE,PACKING_CHRAGES,OTHER_CHARGES,OTHER_DEDUCTION,ROUND_OFF_PLUS,ROUND_OFF_MINUS,FREIGHT,GROSS,NET) (Select PARTYID,BRANCHID,'" + cy.POId + "',EXRATE,MAINCURRENCY,'" + PONo + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "',PACKING_CHRAGES,OTHER_CHARGES,OTHER_DEDUCTION,ROUND_OFF_PLUS,ROUND_OFF_MINUS,FREIGHT,GROSS,NET  from POBASIC where POBASICID='" + cy.POId + "')";
+                        OracleCommand objCmd = new OracleCommand(svSQL, objConn);
+                        try
+                        {
+                            objConn.Open();
+                            objCmd.ExecuteNonQuery();
+                        }
+                        catch (Exception ex)
+                        {
+                            //System.Console.WriteLine("Exception: {0}", ex.ToString());
+                        }
+                        objConn.Close();
+                    }
 
-                using (OracleConnection objConnE = new OracleConnection(_connectionString))
-                {
-                    string Sql = "UPDATE GRNBLBASIC SET STATUS='GATE IN Verified' where GRNBLBASICID='" + quotid + "'";
-                    OracleCommand objCmds = new OracleCommand(Sql, objConnE);
-                    objConnE.Open();
-                    objCmds.ExecuteNonQuery();
-                    objConnE.Close();
-                }
+                    string quotid = datatrans.GetDataString("Select GRNBLBASICID from GRNBLBASIC Where POBASICID=" + cy.POId + "");
+                    using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                    {
+                        string Sql = "Insert into GRNBLDETAIL (GRNBLBASICID,ITEMID,RATE,QTY,UNIT,AMOUNT,CF,CGSTP,CGST,SGSTP,SGST,IGSTP,IGST,TOTAMT,DISCPER,DISC,PURTYPE) (Select '" + quotid + "',ITEMID,RATE,QTY,UNIT,AMOUNT,CF,CGSTP,CGST,SGSTP,SGST,IGSTP,IGST,TOTAMT,DISCPER,DISCAMT,PURTYPE FROM PODETAIL WHERE POBASICID=" + cy.POId + ")";
+                        OracleCommand objCmds = new OracleCommand(Sql, objConnT);
+                        objConnT.Open();
+                        objCmds.ExecuteNonQuery();
+                        objConnT.Close();
+                    }
+
+                    using (OracleConnection objConnE = new OracleConnection(_connectionString))
+                    {
+                        string Sql = "UPDATE GRNBLBASIC SET STATUS='GATE IN Verified' where GRNBLBASICID='" + quotid + "'";
+                        OracleCommand objCmds = new OracleCommand(Sql, objConnE);
+                        objConnE.Open();
+                        objCmds.ExecuteNonQuery();
+                        objConnE.Close();
+                    }
 
                 }
                 ///////////////////////GRN Generation
@@ -451,7 +453,7 @@ namespace Arasan.Services
                 using (OracleConnection objConn = new OracleConnection(_connectionString))
                 {
                     OracleCommand objCmd = new OracleCommand("POPROC", objConn);
-                   
+
                     objCmd.CommandType = CommandType.StoredProcedure;
                     if (cy.POID == null)
                     {
@@ -467,7 +469,7 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("BRANCHID", OracleDbType.NVarchar2).Value = cy.BranchId;
                     objCmd.Parameters.Add("PARTYID", OracleDbType.NVarchar2).Value = cy.SuppId;
                     objCmd.Parameters.Add("REFNO", OracleDbType.NVarchar2).Value = cy.RefNo;
-                    if(cy.RefDate == null)
+                    if (cy.RefDate == null)
                     {
                         objCmd.Parameters.Add("REFDT", OracleDbType.Date).Value = DateTime.Now;
                     }
@@ -475,7 +477,7 @@ namespace Arasan.Services
                     {
                         objCmd.Parameters.Add("REFDT", OracleDbType.Date).Value = DateTime.Parse(cy.RefDate);
                     }
-                    
+
                     objCmd.Parameters.Add("GROSS", OracleDbType.NVarchar2).Value = cy.Gross;
                     objCmd.Parameters.Add("NET", OracleDbType.NVarchar2).Value = cy.Net;
                     objCmd.Parameters.Add("FREIGHT", OracleDbType.NVarchar2).Value = cy.Frieghtcharge;
@@ -489,8 +491,8 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("DESP", OracleDbType.NVarchar2).Value = cy.desp;
                     objCmd.Parameters.Add("WARRTERMS", OracleDbType.NVarchar2).Value = cy.warrantyterms;
                     objCmd.Parameters.Add("NARRATION", OracleDbType.NVarchar2).Value = cy.Narration;
-                    
-                   
+
+
                     objCmd.Parameters.Add("EMPNAME", OracleDbType.NVarchar2).Value = cy.Recid;
                     objCmd.Parameters.Add("AMTINWORDS", OracleDbType.NVarchar2).Value = cy.Amount;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
@@ -507,7 +509,7 @@ namespace Arasan.Services
                                     string Sql = string.Empty;
                                     if (StatementType == "Update")
                                     {
-                                        Sql = "Update PODETAIL SET  QTY= '" + cp.Quantity + "',RATE= '" + cp.rate + "',CF='" + cp.Conversionfactor + "',AMOUNT='" + cp.Amount + "',DISCPER='" + cp.DiscPer + "',DISCAMT='" + cp.DiscAmt + "',PURTYPE='" + cp.Purtype + "',FREIGHTCHGS='" + cp.FrieghtAmt + "',CGSTP='" + cp.CGSTPer + "',CGST='" + cp.CGSTAmt + "',SGSTP='" + cp.SGSTPer + "',SGST='" + cp.SGSTAmt + "',IGSTP='" + cp.IGSTPer + "',IGST='" + cp.IGSTAmt + "',TOTAMT='" + cp.TotalAmount + "',DUEDATE='"+cp.Duedate+"' where POBASICID='" + cy.POID + "'  AND ITEMID='" + cp.saveItemId + "' ";
+                                        Sql = "Update PODETAIL SET  QTY= '" + cp.Quantity + "',RATE= '" + cp.rate + "',CF='" + cp.Conversionfactor + "',AMOUNT='" + cp.Amount + "',DISCPER='" + cp.DiscPer + "',DISCAMT='" + cp.DiscAmt + "',PURTYPE='" + cp.Purtype + "',FREIGHTCHGS='" + cp.FrieghtAmt + "',CGSTP='" + cp.CGSTPer + "',CGST='" + cp.CGSTAmt + "',SGSTP='" + cp.SGSTPer + "',SGST='" + cp.SGSTAmt + "',IGSTP='" + cp.IGSTPer + "',IGST='" + cp.IGSTAmt + "',TOTAMT='" + cp.TotalAmount + "',DUEDATE='" + cp.Duedate + "' where POBASICID='" + cy.POID + "'  AND ITEMID='" + cp.saveItemId + "' ";
                                     }
                                     else
                                     {
@@ -538,7 +540,7 @@ namespace Arasan.Services
 
             return msg;
         }
-        public string StatusChange(string tag, int id)
+        public string StatusChange(string tag, string id)
         {
 
             try
@@ -546,7 +548,7 @@ namespace Arasan.Services
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE POBASIC SET IS_ACTIVE ='No' WHERE POBASICID='" + id + "'";
+                    svSQL = "UPDATE POBASIC SET IS_ACTIVE ='N' WHERE POBASICID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -571,19 +573,19 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
-        
-        public async Task<IEnumerable<POItemDetail>> GetPOItem(string id,string s)
+
+        public async Task<IEnumerable<POItemDetail>> GetPOItem(string id, string s)
         {
-            using(OracleConnection db =new OracleConnection (_connectionString))
+            using (OracleConnection db = new OracleConnection(_connectionString))
             {
-                return await db.QueryAsync<POItemDetail>(" SELECT PARTYMAST.PARTYID, POBASIC.GROSS,POBASIC.NET,POBASIC.POBASICID,POBASIC.DOCID,to_char(POBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,POBASIC.PAYTERMS,POBASIC.DESP,POBASIC.DELTERMS,POBASIC.WARRTERMS,POBASIC.AMTINWORDS,ITEMMASTER.ITEMID,PODETAIL.RATE,PODETAIL.AMOUNT, PODETAIL.QTY, PODETAIL.PUNIT,PODETAIL.SGST, PODETAIL.CGST, PODETAIL.IGST, PODETAIL.TOTAMT,PARTYMAST.PARTYID AS EXPR1, PARTYMAST.ADD1, PARTYMAST.ADD2, PARTYMAST.ADD3, PARTYMAST.CITY, PARTYMAST.PINCODE,PARTYMAST.STATE,PARTYMAST.CSTNO, PARTYMAST.MOBILE   FROM  POBASIC INNER JOIN PARTYMAST ON POBASIC.PARTYID = PARTYMAST.PARTYMASTID, PODETAIL  LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PODETAIL.ITEMID where PODETAIL.POBASICID='" + id + "' and POBASIC.POBASICID ='" + id + "' and PARTYMAST.PARTYMASTID='"+ s + "'", commandType: CommandType.Text);
+                return await db.QueryAsync<POItemDetail>(" SELECT PARTYMAST.PARTYID, POBASIC.GROSS,POBASIC.NET,POBASIC.POBASICID,POBASIC.DOCID,to_char(POBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,POBASIC.PAYTERMS,POBASIC.DESP,POBASIC.DELTERMS,POBASIC.WARRTERMS,POBASIC.AMTINWORDS,ITEMMASTER.ITEMID,PODETAIL.RATE,PODETAIL.AMOUNT, PODETAIL.QTY, PODETAIL.PUNIT,PODETAIL.SGST, PODETAIL.CGST, PODETAIL.IGST, PODETAIL.TOTAMT,PARTYMAST.PARTYID AS EXPR1, PARTYMAST.ADD1, PARTYMAST.ADD2, PARTYMAST.ADD3, PARTYMAST.CITY, PARTYMAST.PINCODE,PARTYMAST.STATE,PARTYMAST.CSTNO, PARTYMAST.MOBILE   FROM  POBASIC INNER JOIN PARTYMAST ON POBASIC.PARTYID = PARTYMAST.PARTYMASTID, PODETAIL  LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PODETAIL.ITEMID where PODETAIL.POBASICID='" + id + "' and POBASIC.POBASICID ='" + id + "' and PARTYMAST.PARTYMASTID='" + s + "'", commandType: CommandType.Text);
             }
         }
         public async Task<IEnumerable<POItemDetail>> GetPOItemss(string supid, string s)
         {
             using (OracleConnection db = new OracleConnection(_connectionString))
             {
-                return await db.QueryAsync<POItemDetail>(" SELECT PARTYMAST.PARTYID, POBASIC.GROSS,POBASIC.NET,POBASIC.POBASICID,POBASIC.DOCID,to_char(POBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,POBASIC.PAYTERMS,POBASIC.DESP,POBASIC.DELTERMS,POBASIC.WARRTERMS,POBASIC.AMTINWORDS,ITEMMASTER.ITEMID,PODETAIL.RATE,PODETAIL.AMOUNT, PODETAIL.QTY, PODETAIL.PUNIT,PODETAIL.SGST, PODETAIL.CGST, PODETAIL.IGST, PODETAIL.TOTAMT,PARTYMAST.PARTYID AS EXPR1, PARTYMAST.ADD1, PARTYMAST.ADD2, PARTYMAST.ADD3, PARTYMAST.CITY, PARTYMAST.PINCODE,PARTYMAST.STATE,PARTYMAST.CSTNO, PARTYMAST.MOBILE   FROM  POBASIC INNER JOIN PARTYMAST ON POBASIC.PARTYID = PARTYMAST.PARTYMASTID, PODETAIL  LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PODETAIL.ITEMID where POBASIC.POBASICID='"+supid+ "' and PODETAIL.POBASICID='" + supid+ "'  and PARTYMAST.PARTYMASTID='"+ s + "'", commandType: CommandType.Text);
+                return await db.QueryAsync<POItemDetail>(" SELECT PARTYMAST.PARTYID, POBASIC.GROSS,POBASIC.NET,POBASIC.POBASICID,POBASIC.DOCID,to_char(POBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,POBASIC.PAYTERMS,POBASIC.DESP,POBASIC.DELTERMS,POBASIC.WARRTERMS,POBASIC.AMTINWORDS,ITEMMASTER.ITEMID,PODETAIL.RATE,PODETAIL.AMOUNT, PODETAIL.QTY, PODETAIL.PUNIT,PODETAIL.SGST, PODETAIL.CGST, PODETAIL.IGST, PODETAIL.TOTAMT,PARTYMAST.PARTYID AS EXPR1, PARTYMAST.ADD1, PARTYMAST.ADD2, PARTYMAST.ADD3, PARTYMAST.CITY, PARTYMAST.PINCODE,PARTYMAST.STATE,PARTYMAST.CSTNO, PARTYMAST.MOBILE   FROM  POBASIC INNER JOIN PARTYMAST ON POBASIC.PARTYID = PARTYMAST.PARTYMASTID, PODETAIL  LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PODETAIL.ITEMID where POBASIC.POBASICID='" + supid + "' and PODETAIL.POBASICID='" + supid + "'  and PARTYMAST.PARTYMASTID='" + s + "'", commandType: CommandType.Text);
             }
         }
 
@@ -644,7 +646,25 @@ namespace Arasan.Services
         public DataTable GetTariff(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select TARIFFMASTER.TARIFFID,HSNROW.TARIFFID as tariff from HSNROW left outer join TARIFFMASTER on TARIFFMASTERID=HSNROW.TARIFFID where  HSNCODEID= '" + id +"'";
+            SvSql = "select TARIFFMASTER.TARIFFID,HSNROW.TARIFFID as tariff from HSNROW left outer join TARIFFMASTER on TARIFFMASTERID=HSNROW.TARIFFID where  HSNCODEID= '" + id + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public DataTable GetAllPoItems(string strStatus)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "Select BRANCHMAST.BRANCHID,POBASIC.DOCID,to_char(POBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,POBASIC.EXRATE,CURRENCY.MAINCURR,PARTYMAST.PARTYNAME,POBASICID,POBASIC.STATUS,PURQUOTBASIC.DOCID as Quotno,POBASIC.IS_ACTIVE from POBASIC LEFT OUTER JOIN PURQUOTBASIC ON PURQUOTBASIC.PURQUOTBASICID=POBASIC.QUOTNO LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=POBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on POBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=POBASIC.MAINCURRENCY AND POBASIC.IS_ACTIVE='Y'  ORDER BY POBASIC.POBASICID DESC";
+            }
+            else
+            {
+                SvSql = "Select BRANCHMAST.BRANCHID,POBASIC.DOCID,to_char(POBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,POBASIC.EXRATE,CURRENCY.MAINCURR,PARTYMAST.PARTYNAME,POBASICID,POBASIC.STATUS,PURQUOTBASIC.DOCID as Quotno,POBASIC.IS_ACTIVE from POBASIC LEFT OUTER JOIN PURQUOTBASIC ON PURQUOTBASIC.PURQUOTBASICID=POBASIC.QUOTNO LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=POBASIC.BRANCHID LEFT OUTER JOIN  PARTYMAST on POBASIC.PARTYID=PARTYMAST.PARTYMASTID LEFT OUTER JOIN CURRENCY ON CURRENCY.CURRENCYID=POBASIC.MAINCURRENCY AND POBASIC.IS_ACTIVE='N'  ORDER BY POBASIC.POBASICID DESC";
+            }
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

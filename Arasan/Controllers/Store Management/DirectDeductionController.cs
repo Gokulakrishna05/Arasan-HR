@@ -160,11 +160,68 @@ namespace Arasan.Controllers.Store_Management
             }
 
             return View(ss);
-        } 
-        public IActionResult ListDirectDeduction(string st, string ed)
+        }
+        public ActionResult MyListDirectDeductionGrid(string strStatus)
         {
-            IEnumerable<DirectDeduction> sta = DirectDeductionService.GetAllDirectDeduction(st, ed);
-            return View(sta);
+            List<ListDirectDeductionItem> Reg = new List<ListDirectDeductionItem>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = (DataTable)DirectDeductionService.GetAllListDirectDeductionItems(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+                //string MailRow = string.Empty;
+                //string FollowUp = string.Empty;
+                //string MoveToQuo = string.Empty;
+                string View = string.Empty;
+                string EditRow = string.Empty;
+                string DeleteRow = string.Empty;
+
+                View = "<a href=viewDirectDeduction?id=" + dtUsers.Rows[i]["DEDBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
+                EditRow = "<a href=DirectDeduction?id=" + dtUsers.Rows[i]["DEDBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["DEDBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                Reg.Add(new ListDirectDeductionItem
+                {
+                    id = Convert.ToInt64(dtUsers.Rows[i]["DEDBASICID"].ToString()),
+                    branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
+                    docNo = dtUsers.Rows[i]["DOCID"].ToString(),
+                    docDate = dtUsers.Rows[i]["DOCDATE"].ToString(),
+                    loc = dtUsers.Rows[i]["LOCID"].ToString(),
+                    entby = dtUsers.Rows[i]["ENTBY"].ToString(),
+                    view = View,
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+
+
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
+        }
+        public IActionResult ListDirectDeduction()
+        {
+            //IEnumerable<DirectDeduction> sta = DirectDeductionService.GetAllDirectDeduction(st, ed);
+            return View();
+        }
+        public ActionResult DeleteItem(string tag, string id)
+        {
+
+            string flag = DirectDeductionService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListDirectDeduction");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListDirectDeduction");
+            }
         }
         public List<SelectListItem> BindLocation()
         {
@@ -297,21 +354,7 @@ namespace Arasan.Controllers.Store_Management
             //  model.ItemGrouplst = BindItemGrplst(value);
             return Json(BindItemGrplst());
         }
-        public ActionResult DeleteMR(string tag, int id)
-        {
-
-            string flag = DirectDeductionService.StatusChange(tag, id);
-            if (string.IsNullOrEmpty(flag))
-            {
-
-                return RedirectToAction("ListDirectDeduction");
-            }
-            else
-            {
-                TempData["notice"] = flag;
-                return RedirectToAction("ListDirectDeduction");
-            }
-        }
+      
 
         public IActionResult viewDirectDeduction(string id)
         {

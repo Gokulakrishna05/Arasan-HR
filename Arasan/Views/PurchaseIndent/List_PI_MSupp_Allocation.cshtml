@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Index";
 }
- @* <partial name="JqxGridPartial" />*@
+  <partial name="JqxGridPartial" />
 @* @Html.Partial("~/Views/JqxGridPartial.cshtml")  *@
      <link href="@Url.Content("~/css/chosen1.css")" rel="stylesheet" />
 <div class="row wrapper border-bottom page-heading">
@@ -106,6 +106,7 @@
                 var nestedGridAdapter = new $.jqx.dataAdapter(orderssource);
                 if (grid != null) {
                     grid.jqxGrid({
+                    theme: 'darkblue',
                         source: nestedGridAdapter, width: 780, height: 200,
                         columns: [
                           { text: 'Indent No.', aggregates: ["count"], datafield: 'indentno', width: 100 },
@@ -135,7 +136,10 @@
                     autoheight: true,
                     sortable: true,
                     rowdetails: true,
+                showfilterbar: true,
                     rowsheight: 35,
+                theme: 'darkblue',
+                enablebrowserselection: true,
                     selectionmode: 'checkbox',
                       initrowdetails: initrowdetails,
                     rowdetailstemplate: { rowdetails: "<div id='grid' style='margin: 10px;'></div>", rowdetailsheight: 220, rowdetailshidden: true },
@@ -143,9 +147,9 @@
                         $("#jqxgrid").jqxGrid('showrowdetails', 1);
                     },
                     columns: [
-                    
-                   { text: 'Item Name', datafield: 'itemname', width: 250 },
-                    { text: 'Total Quantity', datafield: 'quantity', width: 150 },
+
+                    { text: 'Item Name', filtertype: 'checkedlist',datafield: 'itemname', width: 250 },
+                    { text: 'Total Quantity', filtertype: 'input', datafield: 'quantity', width: 150 },
                     //{ text: 'Assign Supplier', datafield: 'assign', width: 150 , cellsrenderer: linkrenderer, align: 'center'}
                   ]
             });
@@ -262,3 +266,4 @@
     <script type="text/javascript" src="~/jqwidgets/jqxgrid.edit.js"></script> 
     <script type="text/javascript" src="~/jqwidgets/jqxgrid.filter.js"></script> 
     <script type="text/javascript" src="~/scripts/demos.js"></script>
+<link rel="stylesheet" href="~/jqwidgets/styles/jqx.darkblue.css" type="text/css" />

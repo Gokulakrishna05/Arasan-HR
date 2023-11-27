@@ -10,6 +10,6 @@ namespace Arasan.Interface
 
         DataTable GetIndentItem(string Itemid);
         string IssueToStockCRUD(StockIn Cy);
-
+        DataTable GetAllListStockItem();
     }
 }

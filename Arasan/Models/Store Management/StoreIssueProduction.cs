@@ -38,9 +38,22 @@ namespace Arasan.Models
         public string LocCon { get; set; }
         public string Process { get; set; }
         public string Processid { get; set; }
+        public string ddlStatus { get; set; }
 
 
 
+    }
+    public class ListStoreIssueProItem
+    {
+        public long id { get; set; }
+        public string branch { get; set; }
+        public string docNo { get; set; }
+        public string location { get; set; }
+        public string docDate { get; set; }
+        public string refno { get; set; }
+        public string editrow { get; set; }
+        public string delrow { get; set; }
+        public string refdate { get; set; }
     }
     public class SIPItem
     {

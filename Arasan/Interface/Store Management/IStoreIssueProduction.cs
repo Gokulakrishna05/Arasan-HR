@@ -13,6 +13,7 @@ namespace Arasan.Interface
         IEnumerable<StoreIssueProduction> GetAllStoreIssuePro(string st,string ed);
         //DataTable GetEmp();
         DataTable EditSIPbyID(string Poid);
+        string StatusChange(string tag, string id);
         DataTable GetItem(string Poid);
         DataTable Getloc(string Poid);
         DataTable Getwork(string Poid);
@@ -24,6 +25,7 @@ namespace Arasan.Interface
         DataTable Getstkqty(string ItemId, string loc,string branch);
         DataTable GetSICItemDetails(string id);
         IEnumerable<SIPItem> GetAllStoreIssueItem(string id);
+        DataTable GetAllListStoreIssueProItems(string strStatus);
 
         //DataTable GetItemDetails(string ItemId);
         //DataTable GetItemGrp();

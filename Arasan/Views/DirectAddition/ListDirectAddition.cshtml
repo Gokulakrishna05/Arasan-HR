@@ -1,23 +1,102 @@
-﻿@model IEnumerable<Arasan.Models.DirectAddition>
+﻿@model Arasan.Models.DirectAddition
 
 @{
-    ViewData["Title"] = "DirectAddition";
-    string sdate = ViewContext.HttpContext.Request.Query["st"];
-    string edate = ViewContext.HttpContext.Request.Query["ed"];
-    string query = ViewContext.HttpContext.Request.Query["status"];
-    string Pid = string.Empty;
-    if (!string.IsNullOrEmpty(query)) { Pid = ViewContext.HttpContext.Request.Query["status"]; }
+    ViewData["Title"] = "Index";
 }
+<partial name="JqxGridPartial" />
+@* @Html.Partial("~/Views/JqxGridPartial.cshtml")  *@
+
+<script type="text/javascript">
+    @if (TempData["notice"] != null)
+    {
+        @:alert('@TempData["notice"]');
+    }
+</script>
+
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
+
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
-            <li> <a>Master</a> </li>
+            <li> <a>Store Management</a> </li>
             <li class="active"> <strong>Direct Addition</strong> </li>
         </ol>
     </div>
 </div>
 
+<script type="text/javascript">
+    $(document).ready(function () {
+        var source =
+        {
+            url: "/DirectAddition/MyListDirectAdditionGrid",
+            //url: "/ItemName/ItemName",
+            data: {
+                strstatus: ""
+            },
+            datatype: "json",
+            updaterow: function (rowid, rowdata) {
+                // synchronize with the server - send update command
+            },
+            datafields: [
+                { name: 'branch', type: 'string' },
+                { name: 'docNo', type: 'string' },
+                { name: 'docDate', type: 'string' },
+                { name: 'loc', type: 'string' },
+                { name: 'entby', type: 'string' },
+                { name: 'view', type: 'string' },
+                { name: 'editrow', type: 'string' },
+                { name: 'delrow', type: 'string' },
+
+            ],
+            id: 'id',
+        };
+        var dataAdapter = new $.jqx.dataAdapter(source,
+            { contentType: 'application/json; charset=utf-8' }, {
+            loadComplete: function () {
+
+            }
+        }
+        );
+
+        $("#grid").jqxGrid(
+            {
+                width: '100%',
+                source: dataAdapter,
+                height: 450,
+                source: source,
+                autoheight: true,
+                sortable: true,
+                filterable: true,
+                groupable: false,
+                pageable: true,
+                showfilterbar: true,
+                //showfilterrow: true,
+                theme: 'darkblue',
+                enablebrowserselection: true,
+                columns: [
+                    { text: 'Branch', filtertype: 'checkedlist', datafield: 'branch', width: 150 },
+                    { text: 'Doc No', filtertype: 'input', datafield: 'docNo', width: 150 },
+                    { text: 'Doc Date', datafield: 'docDate', width: 100, align: 'center' },
+                    { text: 'Location', filtertype: 'checkedlist', datafield: 'loc', width: 250 },
+                    { text: 'Entered By', filtertype: 'input', datafield: 'entby', width: 150 },
+                    { text: 'View', datafield: 'view', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                    { text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                    { text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                    //{ text: 'Move To GRN', datafield: 'move', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 120 },
+                ]
+            });
+        $("#ddlStatus").change(function () {
+            var value = "Y";
+            if ($(this).val() != "") {
+                value = $(this).val();
+            }
+            source.data = {
+                strstatus: value
+            };
+            $("#grid").jqxGrid({ source: source });
+        });
+    });
+</script>
 <div class="wrapper-content ">
     <div class="row">
         <div class="col-lg-12">
@@ -26,233 +105,43 @@
 
                     <form>
                         <div class="row">
-                            <div class="col-md-6">
-                                <select style='width: 200px;' class='form-control  newcss' id="dllstatus" onchange="changeStatus(this.value)">
-                                    <option value='ACTIVE'>Open</option>
-                                    <option value='ISACTIVE'>Close</option>
-                                    @*<option value='InActive'>Disabled</option>*@
-                                </select>
+                            <div class="col-md-2 ">
+                                @Html.DropDownListFor(n => n.ddlStatus, new SelectListItem[]
+                                { new SelectListItem() {Text = "Enabled", Value="Y"},
+                                new SelectListItem() {Text = "Disabled", Value="N"}},
+                                new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" })
+                                <br>
                             </div>
-                            <div class="col-md-12 ">
+                            <div class="col-md-9 ">
                                 <div class=" textalignright">
-                                    <a href="@Url.Action("DirectAddition","DirectAddition")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add DirectAddition</a>
+                                    <a href="@Url.Action("DirectAddition", "DirectAddition")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Direct Addition</a>
                                     <br>
                                 </div>
 
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label for="inputName3" class="col-sm-3 control-label">From Date  <label class="mandatory">*</label></label>
-                                <div class="col-sm-7">
-                                    <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                        <input id="SStart" class="form-control" readonly="readonly" value="@sdate" />
-                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="inputName3" class="col-sm-3 control-label"> To date  <label class="mandatory">*</label></label>
-                                <div class="col-sm-7">
-
-                                    <div class="input-group date to_date col-sm-8" data-date="" data-date-format="dd-M-yyyy">
-                                        <input id="SEnd" class="form-control" readonly="readonly" value="@edate" />
-                                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                    </div>
-                                    <button type="button" class="btn  btn-round btn-primary" onclick="changesearch()" style="float: right; color:white;">Search </button>
-                                </div>
 
                             </div>
-
                         </div>
                         <div class="row">
-                            <div class="col-lg-12">
-                                <div class="ibox float-e-margins">
-                                    <div class="ibox-content collapse in">
-                                        <div class="widgets-container">
-                                            <div>
-                                                <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
-                                                    <thead>
-                                                        <tr>
-                                                           
-                                                            <th>Branch </th>
-                                                            <th>Document ID</th>
-                                                            <th>Document Date</th>
-                                                            <th>View</th>
-                                                            <th>Delete</th>
-                                                        </tr>
-                                                    </thead>
 
-                                                    <tbody>
-                                                         @{
-                                                            int i = 1;
 
-                                                            foreach (var item in Model)
-                                                            {
-                                                        <tr>
-                                                                    <td>@Html.DisplayFor(modelItem => item.Branch)</td>
-                                                                    
-                                                                    <td>@Html.DisplayFor(modelItem => item.DocId)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.Docdate)</td>
-                                                                    @if (item.status == "ISACTIVE")
-                                                                    {
-                                                                        <td></td>
-                                                                        <td> </td> 
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        //<td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("DirectAddition", "DirectAddition",new { id=item.ID })"></a></div></td>
-
-                                                                        <td><div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("ViewDirectAddition", "DirectAddition",new { id=item.ID })" class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='Waiting for approval' /></a></div></td>
-
-                                                                      <td> <a href="@Url.Action("DeleteMR","DirectAddition",new {tag="Del",id=item.ID})" onclick="return confirm('Are you sure you want to close this record?');"><img src='../Images/Inactive.png' alt='Deactivate' /></a></td>
-                                                                     }         
-                                                                    </tr>
-                                                                i++;
-                                                            }
-                                                        }
-                                                        @*<tr>
-                                                            <td>2</td>
-                                                            <td>SGST</td>
-                                                            <td>2%</td>
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("tax", "tax")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("tax", "tax")"></a></div></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>3</td>
-                                                            <td>IGST</td>
-                                                            <td>10%</td>
-                                                            <td><div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-pencil" aria-hidden="true" href="@Url.Action("tax", "tax")"></a></div></td>
-                                                            <td> <div class="fa-hover col-md-2 col-sm-4"> <a class="icon fa fa-trash" aria-hidden="true" href="@Url.Action("tax", "tax")"></a></div></td>
-                                                        </tr>*@
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
+                          @*  <div class="col-md-10 ">*@
+                                <div id="grid">
                                 </div>
-                            </div>
+
+                           @* </div>*@
+
                         </div>
+
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 <script>
-    $(document).ready(function () {
-        $('#example7').DataTable({
-            dom: 'Bfrtip',
-            buttons: [{
-                text: 'copy',
-                extend: "copy",
-                className: 'btn dark btn-outline'
-            }, {
-                text: 'csv',
-                extend: "csv",
-                className: 'btn aqua btn-outline'
-            }, {
-                text: 'excel',
-                extend: "excel",
-                className: 'btn aqua btn-outline'
-            }, {
-                text: 'pdf',
-                extend: "pdf",
-                className: 'btn yellow  btn-outline'
-            }, {
-                text: 'print',
-                extend: "print",
-                className: 'btn purple  btn-outline'
-            }]
-        });
-
-
-
-    });
-
-</script>
-<script>
-
-    $('.to_date').datetimepicker({
-        //   language:  'fr',
-        weekStart: 1,
-        todayBtn: 1,
-        autoclose: 1,
-        todayHighlight: 1,
-        startView: 2,
-        minView: 2,
-        endDate: new Date(),
-        forceParse: 0
-    });
-
-    $('.form_date').datetimepicker({
-        //   language:  'fr',
-        weekStart: 1,
-        todayBtn: 1,
-        autoclose: 1,
-        todayHighlight: 1,
-        startView: 2,
-        minView: 2,
-        endDate: new Date(),
-        forceParse: 0
-    }).on('changeDate', function (selected) {
-        var minDate = new Date(selected.date.valueOf());
-        $('.to_date').datetimepicker('setStartDate', minDate);
-    });
-
-    function changesearch() {
-
-        var isValid = true;
-
-        if (document.getElementById("SStart").value == "" || document.getElementById("SStart").value == 0) {
-            isValid = false;
-            $(SStart).css({
-                "border": "1px solid red",
-                "background": "#FFCECE"
-            });
-
-            alert("Please Select From Date");
-            isValid = false;
-        }
-        else {
-            $(SStart).css({
-                "border": "",
-                "background": ""
-            });
-        }
-
-
-        if (document.getElementById("SEnd").value == "" || document.getElementById("SEnd").value == 0) {
-            isValid = false;
-            $(SEnd).css({
-                "border": "1px solid red",
-                "background": "#FFCECE"
-            });
-
-            alert("Please Select To date");
-            isValid = false;
-        }
-        else {
-            $(SEnd).css({
-                "border": "",
-                "background": ""
-            });
-        }
-
-        if (isValid == true) {
-
-            var fromDate = document.getElementById("SStart").value;
-            var toDate = document.getElementById("SEnd").value;
-            var url = '@Url.Action("ListDirectAddition", "DirectAddition")?st=' + fromDate + '&ed=' + toDate;
-            window.location.href = url;
-        }
-
+    function ConfirmDelete() {
+        return confirm("Are you sure you want to delete?");
     }
-
-
 </script>
 
 
@@ -286,25 +175,19 @@
     }
 
 
-    function changeStatus(status) {
-        var url = "/DirectAddition/ListDirectAddition?status=" + status;
-        window.location.href = url;
-        //$.ajax({
-        //    url: 'AssignSession',
-        //    data: { "status": status },
-        //    type: "GET",
-        //    success: function (result) {
-        //        document.getElementById("hdstatus").value = result;
-        //    },
-        //    error: function () {
-        //        alert("Data Not Found");
-        //    }
-        //});
-        //window.location.reload();
-
-    }
-    $(document).ready(function () {
-        var val2 = "@Pid";
-        $('#dllstatus').val(val2);
-    });
+            //function changeStatus(status) {
+            //    var url = "/PurchaseQuo/ListPurchaseQuo?status=" + status;
+            //    window.location.href = url;
+            //    //$.ajax({
+            //    //    url: 'AssignSession',
+            //    //    data: { "status": status },
+            //    //    type: "GET",
+            //    //    success: function (result) {
+            //    //        document.getElementById("hdstatus").value = result;
+            //    //    },
+            //    //    error: function () {
+            //    //        alert("Data Not Found");
+            //    //    }
+            //    //});
+            //    //window.location.reload();
 </script>

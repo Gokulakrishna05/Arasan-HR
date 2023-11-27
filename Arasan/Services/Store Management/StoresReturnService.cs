@@ -495,4 +495,45 @@ public class StoresReturnService : IStoresReturnService
         adapter.Fill(dtt);
         return dtt;
     }
+    public string StatusChange(string tag, string id)
+    {
+
+        try
+        {
+            string svSQL = string.Empty;
+            using (OracleConnection objConnT = new OracleConnection(_connectionString))
+            {
+                svSQL = "UPDATE STORESRETBASIC SET IS_ACTIVE ='N' WHERE STORESRETBASICID='" + id + "'";
+                OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                objConnT.Open();
+                objCmds.ExecuteNonQuery();
+                objConnT.Close();
+            }
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return "";
+
+    }
+
+    public DataTable GetAllListStoresReturnItems(string strStatus)
+    {
+        string SvSql = string.Empty;
+        if (strStatus == "Y" || strStatus == null)
+        {
+            SvSql = "Select BRANCHMAST.BRANCHID,LOCDETAILS.LOCID,DOCID,to_char(DOCDATE,'dd-MON-yyyy')DOCDATE,REFNO,to_char(REFDATE,'dd-MON-yyyy')REFDATE,NARRATION,STORESRETBASICID from STORESRETBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=STORESRETBASIC.BRANCHID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID=STORESRETBASIC.FROMLOCID AND STORESRETBASIC.IS_ACTIVE='Y' ORDER BY STORESRETBASICID DESC";
+        }
+        else
+        {
+            SvSql = "Select BRANCHMAST.BRANCHID,LOCDETAILS.LOCID,DOCID,to_char(DOCDATE,'dd-MON-yyyy')DOCDATE,REFNO,to_char(REFDATE,'dd-MON-yyyy')REFDATE,NARRATION,STORESRETBASICID from STORESRETBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=STORESRETBASIC.BRANCHID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID=STORESRETBASIC.FROMLOCID AND STORESRETBASIC.IS_ACTIVE='N' ORDER BY STORESRETBASICID DESC";
+        }
+        DataTable dtt = new DataTable();
+        OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        adapter.Fill(dtt);
+        return dtt;
+    }
 }
