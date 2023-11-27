@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using Arasan.Models;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Hosting;
+using Arasan.Interface.Account;
 
 
 
@@ -175,6 +176,7 @@ internal class Program
         builder.Services.TryAddSingleton<IPackingEntry, PackingEntryService>();
 
         builder.Services.TryAddSingleton<IETariff, ETariffService>();
+        builder.Services.TryAddSingleton<ICreditorDebitNote, CreditorDebitNoteService>();
 
 
 

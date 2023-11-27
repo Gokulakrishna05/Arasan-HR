@@ -17,7 +17,7 @@ namespace Arasan.Interface.Master
         //DataTable GetSGst();
         //DataTable GetIGst();
 
-        DataTable GetAllhsncode(string strStatus);
+        DataTable GetAllhsncode(/*string strStatus*/);
         DataTable GettariffItem(string id);
 
         DataTable GetHSNcode(string id);
