@@ -1,5 +1,8 @@
 ﻿using Arasan.Interface;
 using Arasan.Models;
+using DocumentFormat.OpenXml.Office2010.Excel;
+using DocumentFormat.OpenXml.Wordprocessing;
+using GrapeCity.DataVisualization.Chart;
 using Microsoft.CodeAnalysis.Host.Mef;
 using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 using Microsoft.Extensions.Configuration;
@@ -118,7 +121,7 @@ namespace Arasan.Services
         public DataTable GetMatbyID(string MatId)
         {
             string SvSql = string.Empty;
-            SvSql = "Select STORESREQBASIC.BRANCHID as BRANCHIDS,STORESREQBASIC.FROMLOCID,BRANCHMAST.BRANCHID,LOCDETAILS.LOCID,PROCESSMAST.PROCESSNAME,WCBASIC.WCID,REQTYPE,DOCID,to_char(STORESREQBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,STORESREQBASICID  from STORESREQBASIC LEFT OUTER JOIN WCBASIC ON WCBASICID=STORESREQBASIC.WCID  LEFT OUTER JOIN PROCESSMAST ON PROCESSMASTID=STORESREQBASIC.PROCESSID LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=STORESREQBASIC.BRANCHID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=STORESREQBASIC.FROMLOCID where STORESREQBASICID='" + MatId + "'";
+            SvSql = "Select STORESREQBASIC.BRANCHID as BRANCHIDS,STORESREQBASIC.FROMLOCID,BRANCHMAST.BRANCHID,STORESREQBASIC.BRANCHID as BRANCH,LOCDETAILS.LOCID,PROCESSMAST.PROCESSNAME,WCBASIC.WCID,REQTYPE,DOCID,to_char(STORESREQBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,STORESREQBASICID  from STORESREQBASIC LEFT OUTER JOIN WCBASIC ON WCBASICID=STORESREQBASIC.WCID  LEFT OUTER JOIN PROCESSMAST ON PROCESSMASTID=STORESREQBASIC.PROCESSID LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=STORESREQBASIC.BRANCHID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=STORESREQBASIC.FROMLOCID where STORESREQBASICID='" + MatId + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
@@ -746,19 +749,214 @@ namespace Arasan.Services
         public DataTable GetAllMaterialRequItems(string strStatus)
         {
             string SvSql = string.Empty;
+            //if (strStatus == "Y" || strStatus == null)
+            //{
+            //    SvSql = " Select BRANCHMAST.BRANCHID,STORESREQBASIC.DOCID,to_char(STORESREQBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,LOCDETAILS.LOCID,PROCESSID,REQTYPE,STORESREQBASIC.STATUS,STORESREQBASICID from STORESREQBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=STORESREQBASIC.BRANCHID LEFT OUTER JOIN  LOCDETAILS on STORESREQBASIC.FROMLOCID=LOCDETAILS.LOCDETAILSID WHERE STORESREQBASIC.IS_ACTIVE='Y' ORDER BY STORESREQBASIC.STORESREQBASICID DESC";
+            //}
+            //else
+            //{
+            //    SvSql = " Select BRANCHMAST.BRANCHID,STORESREQBASIC.DOCID,to_char(STORESREQBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,LOCDETAILS.LOCID,PROCESSID,REQTYPE,STORESREQBASIC.STATUS,STORESREQBASICID from STORESREQBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=STORESREQBASIC.BRANCHID LEFT OUTER JOIN  LOCDETAILS on STORESREQBASIC.FROMLOCID=LOCDETAILS.LOCDETAILSID WHERE STORESREQBASIC.IS_ACTIVE='N' ORDER BY STORESREQBASIC.STORESREQBASICID DESC";
+            //}
             if (strStatus == "Y" || strStatus == null)
             {
-                SvSql = " Select BRANCHMAST.BRANCHID,STORESREQBASIC.DOCID,to_char(STORESREQBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,LOCDETAILS.LOCID,PROCESSID,REQTYPE,STORESREQBASIC.STATUS,STORESREQBASICID from STORESREQBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=STORESREQBASIC.BRANCHID LEFT OUTER JOIN  LOCDETAILS on STORESREQBASIC.FROMLOCID=LOCDETAILS.LOCDETAILSID WHERE STORESREQBASIC.IS_ACTIVE='Y' ORDER BY STORESREQBASIC.STORESREQBASICID DESC";
+                SvSql = " Select BRANCHMAST.BRANCHID,STORESREQBASIC.DOCID,to_char(STORESREQBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,LOCATIONDETAILS.LOCID,PROCESSID,REQTYPE,STORESREQBASIC.STATUS,STORESREQBASICID from STORESREQBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=STORESREQBASIC.BRANCHID LEFT OUTER JOIN  LOCATIONDETAILS on STORESREQBASIC.FROMLOCID=LOCATIONDETAILS.LOCATIONDETAILSID WHERE STORESREQBASIC.IS_ACTIVE='Y' ORDER BY STORESREQBASIC.STORESREQBASICID DESC";
             }
             else
             {
-                SvSql = " Select BRANCHMAST.BRANCHID,STORESREQBASIC.DOCID,to_char(STORESREQBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,LOCDETAILS.LOCID,PROCESSID,REQTYPE,STORESREQBASIC.STATUS,STORESREQBASICID from STORESREQBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=STORESREQBASIC.BRANCHID LEFT OUTER JOIN  LOCDETAILS on STORESREQBASIC.FROMLOCID=LOCDETAILS.LOCDETAILSID WHERE STORESREQBASIC.IS_ACTIVE='N' ORDER BY STORESREQBASIC.STORESREQBASICID DESC";
+                SvSql = " Select BRANCHMAST.BRANCHID,STORESREQBASIC.DOCID,to_char(STORESREQBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,LOCATIONDETAILS.LOCID,PROCESSID,REQTYPE,STORESREQBASIC.STATUS,STORESREQBASICID from STORESREQBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=STORESREQBASIC.BRANCHID LEFT OUTER JOIN  LOCATIONDETAILS on STORESREQBASIC.FROMLOCID=LOCATIONDETAILS.LOCATIONDETAILSID WHERE STORESREQBASIC.IS_ACTIVE='N' ORDER BY STORESREQBASIC.STORESREQBASICID DESC";
             }
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
+        }
+
+        public string WholeStockGURD(MaterialRequisition cy)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
+                datatrans = new DataTransactions(_connectionString);
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                     
+                        foreach (StockItem cp in cy.stklst)
+                        {
+
+
+                            if (cp.select == true && cp.itemid != "0")
+                            {
+                            svSQL = "Insert into INVENTORYITEMREQ(ITEM_ID,REQ_DATE,REQ_QTY,CREATED_BY,CREATED_ON,LOCATION_ID,REQ_LOCID,BRANCH_ID,INVNTORY_ID) VALUES ('" + cp.itemid + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "','" + cp.reqqty + "','" + cy.Entered + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "','" + cp.locationid + "','10001000000827','10001000000001','" + cp.invid + "')";
+                                OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                            objConn.Open();
+                                objCmds.ExecuteNonQuery();
+
+
+                            }
+                        }
+                    
+
+                }
+
+                
+            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
+        }
+
+        public DataTable GetAllInventoryReq(string strStatus)
+        {
+            string SvSql = string.Empty;
+            
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = " Select  ITEMMASTER.ITEMID,to_char(INVENTORYITEMREQ.REQ_DATE,'dd-MON-yyyy')REQ_DATE,LOCDETAILS.LOCID,loc.LOCID as location,REQ_QTY,INVENTORYITEMREQ.STATUS,INVENTORYITEMREQID from INVENTORYITEMREQ LEFT OUTER JOIN LOCDETAILS loc ON loc.LOCDETAILSID=INVENTORYITEMREQ.REQ_LOCID LEFT OUTER JOIN  LOCDETAILS on INVENTORYITEMREQ.LOCATION_ID=LOCDETAILS.LOCDETAILSID LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=INVENTORYITEMREQ.ITEM_ID WHERE INVENTORYITEMREQ.ISACTIVE='Y' ORDER BY INVENTORYITEMREQ.INVENTORYITEMREQID DESC";
+            }
+            else
+            {
+                SvSql = " Select  ITEMMASTER.ITEMID,to_char(INVENTORYITEMREQ.REQ_DATE,'dd-MON-yyyy')REQ_DATE,LOCDETAILS.LOCID,loc.LOCID as location,REQ_QTY,INVENTORYITEMREQ.STATUS,INVENTORYITEMREQID from INVENTORYITEMREQ LEFT OUTER JOIN LOCDETAILS loc ON loc.LOCDETAILSID=INVENTORYITEMREQ.REQ_LOCID LEFT OUTER JOIN  LOCDETAILS on INVENTORYITEMREQ.LOCATION_ID=LOCDETAILS.LOCDETAILSID LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=INVENTORYITEMREQ.ITEM_ID WHERE INVENTORYITEMREQ.ISACTIVE='N' ORDER BY INVENTORYITEMREQ.INVENTORYITEMREQID DESC";
+            }
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetReqMatItemByID(string MatId)
+        {
+            string SvSql = string.Empty;
+            SvSql = "Select ITEMMASTER.ITEMID,to_char(INVENTORYITEMREQ.REQ_DATE,'dd-MON-yyyy')REQ_DATE,LOCDETAILS.LOCID,INVENTORYITEMREQ.REQ_LOCID,INVNTORY_ID,INVENTORYITEMREQ.LOCATION_ID,INVENTORYITEMREQ.ITEM_ID,loc.LOCID as location,REQ_QTY,INVENTORYITEMREQ.STATUS,INVENTORYITEMREQID,BRANCHMAST.BRANCHID,BRANCH_ID from INVENTORYITEMREQ LEFT OUTER JOIN LOCDETAILS loc ON loc.LOCDETAILSID=INVENTORYITEMREQ.REQ_LOCID LEFT OUTER JOIN  LOCDETAILS on INVENTORYITEMREQ.LOCATION_ID=LOCDETAILS.LOCDETAILSID LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=INVENTORYITEMREQ.ITEM_ID LEFT OUTER JOIN BRANCHMAST ON BRANCHMAST.BRANCHMASTID=INVENTORYITEMREQ.BRANCH_ID WHERE INVENTORYITEMREQID='" + MatId + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+
+        public string MaterialReqGURD(MaterialReq cy)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
+                datatrans = new DataTransactions(_connectionString);
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+
+                    
+                            svSQL = "UPDATE INVENTORYITEMREQ SET REQ_QTY='"+ cy.reqqty + "' , UPDATED_BY='"+ cy.user + "',UPDATED_ON='" + DateTime.Now.ToString("dd-MMM-yyyy") + "' WHERE INVENTORYITEMREQID='" + cy.ID+"'";
+                            OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                            objConn.Open();
+                            objCmds.ExecuteNonQuery();
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
+        }
+        public string ApproveReqGURD(MaterialReq cy)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
+                datatrans = new DataTransactions(_connectionString);
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+                {
+                    DataTable inv = datatrans.GetData("Select ITEMMASTER.ITEMID,ITEM_ID,LOCDETAILS.LOCID,GRNID,INVENTORY_ITEM_ID,LOCATION_ID,to_char(GRN_DATE,'dd-MON-yyyy')GRN_DATE,ITEM_ID,BALANCE_QTY from INVENTORY_ITEM left outer join ITEMMASTER ON ITEMMASTERID=INVENTORY_ITEM.ITEM_ID left outer join LOCDETAILS ON LOCDETAILSID=INVENTORY_ITEM.LOCATION_ID where INVENTORY_ITEM_ID='" + cy.invid + "' ");
+                    double sqty = cy.reqqty;
+                    double iqty = Convert.ToDouble(inv.Rows[0]["BALANCE_QTY"].ToString());
+                    double tqry = iqty - sqty;
+                    svSQL = "UPDATE INVENTORY_ITEM SET BALANCE_QTY='" + tqry + "'   WHERE INVENTORY_ITEM_ID='" + cy.invid + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConn);
+                    objConn.Open();
+                    objCmds.ExecuteNonQuery();
+                    DataTable inventory = datatrans.GetData("Select ITEMMASTER.ITEMID,ITEM_ID,LOCDETAILS.LOCID,INVENTORY_ITEM_ID,GRNID,LOCATION_ID,to_char(GRN_DATE,'dd-MON-yyyy')GRN_DATE,ITEM_ID,BALANCE_QTY from INVENTORY_ITEM left outer join ITEMMASTER ON ITEMMASTERID=INVENTORY_ITEM.ITEM_ID left outer join LOCDETAILS ON LOCDETAILSID=INVENTORY_ITEM.LOCATION_ID where ITEM_ID='" + cy.itemid + "' AND LOCATION_ID='10001000000827' AND BRANCH_ID='" + cy.branchid + "' ");
+                    double pqty = cy.reqqty;
+                    double aqty = Convert.ToDouble(inventory.Rows[0]["BALANCE_QTY"].ToString());
+                    double kqry = aqty + pqty;
+                    svSQL = "UPDATE INVENTORY_ITEM SET BALANCE_QTY='" + kqry + "'  WHERE INVENTORY_ITEM_ID='" + inventory.Rows[0]["INVENTORY_ITEM_ID"].ToString() + "'";
+                    OracleCommand objCmdsa = new OracleCommand(svSQL, objConn);
+            
+                    objCmdsa.ExecuteNonQuery();
+
+                    OracleCommand objCmdIn = new OracleCommand("INVITEMTRANSPROC", objConn);
+                    objCmdIn.CommandType = CommandType.StoredProcedure;
+                    objCmdIn.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                    objCmdIn.Parameters.Add("INVENTORY_ITEM_ID", OracleDbType.NVarchar2).Value = cy.itemid;
+                    objCmdIn.Parameters.Add("TSOURCEID", OracleDbType.NVarchar2).Value = "0";
+                    objCmdIn.Parameters.Add("TSOURCEBASICID", OracleDbType.NVarchar2).Value = cy.ID;
+                    objCmdIn.Parameters.Add("GRNID", OracleDbType.NVarchar2).Value = inv.Rows[0]["GRNID"].ToString();
+                    objCmdIn.Parameters.Add("ITEM_ID", OracleDbType.NVarchar2).Value = inv.Rows[0]["INVENTORY_ITEM_ID"].ToString();
+                    objCmdIn.Parameters.Add("TRANS_TYPE", OracleDbType.NVarchar2).Value = "MATREQ";
+                    objCmdIn.Parameters.Add("TRANS_IMPACT", OracleDbType.NVarchar2).Value = "O";
+                    objCmdIn.Parameters.Add("TRANS_QTY", OracleDbType.NVarchar2).Value = tqry;
+                    objCmdIn.Parameters.Add("TRANS_NOTES", OracleDbType.NVarchar2).Value = "MATREQ";
+                    objCmdIn.Parameters.Add("TRANS_DATE", OracleDbType.Date).Value = DateTime.Now;
+                    objCmdIn.Parameters.Add("FINANCIAL_YEAR", OracleDbType.NVarchar2).Value = datatrans.GetFinancialYear(DateTime.Now);
+                    objCmdIn.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = "1"; /*HttpContext.*/
+                    objCmdIn.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                    objCmdIn.Parameters.Add("LOCATION_ID", OracleDbType.NVarchar2).Value = inv.Rows[0]["LOCATION_ID"].ToString(); 
+                    objCmdIn.Parameters.Add("BRANCH_ID", OracleDbType.NVarchar2).Value = cy.branchid;
+                    objCmdIn.Parameters.Add("DRUM_NO", OracleDbType.NVarchar2).Value = "";
+                    objCmdIn.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = "0";
+                    objCmdIn.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = "0";
+                    objCmdIn.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = "Insert";
+                    objCmdIn.ExecuteNonQuery();
+
+                    OracleCommand objCmdI = new OracleCommand("INVITEMTRANSPROC", objConn);
+                    objCmdI.CommandType = CommandType.StoredProcedure;
+                    objCmdI.Parameters.Add("ID", OracleDbType.NVarchar2).Value = DBNull.Value;
+                    objCmdI.Parameters.Add("INVENTORY_ITEM_ID", OracleDbType.NVarchar2).Value = cy.itemid;
+                    objCmdI.Parameters.Add("TSOURCEID", OracleDbType.NVarchar2).Value = "0";
+                    objCmdI.Parameters.Add("TSOURCEBASICID", OracleDbType.NVarchar2).Value = cy.ID;
+                    objCmdI.Parameters.Add("GRNID", OracleDbType.NVarchar2).Value = inventory.Rows[0]["GRNID"].ToString();
+                    objCmdI.Parameters.Add("ITEM_ID", OracleDbType.NVarchar2).Value = inventory.Rows[0]["INVENTORY_ITEM_ID"].ToString();
+                    objCmdI.Parameters.Add("TRANS_TYPE", OracleDbType.NVarchar2).Value = "MATREQ";
+                    objCmdI.Parameters.Add("TRANS_IMPACT", OracleDbType.NVarchar2).Value = "O";
+                    objCmdI.Parameters.Add("TRANS_QTY", OracleDbType.NVarchar2).Value = kqry;
+                    objCmdI.Parameters.Add("TRANS_NOTES", OracleDbType.NVarchar2).Value = "MATREQ";
+                    objCmdI.Parameters.Add("TRANS_DATE", OracleDbType.Date).Value = DateTime.Now;
+                    objCmdI.Parameters.Add("FINANCIAL_YEAR", OracleDbType.NVarchar2).Value = datatrans.GetFinancialYear(DateTime.Now);
+                    objCmdI.Parameters.Add("CREATED_BY", OracleDbType.NVarchar2).Value = "1"; /*HttpContext.*/
+                    objCmdI.Parameters.Add("CREATED_ON", OracleDbType.Date).Value = DateTime.Now;
+                    objCmdI.Parameters.Add("LOCATION_ID", OracleDbType.NVarchar2).Value = "10001000000827";
+                    objCmdI.Parameters.Add("BRANCH_ID", OracleDbType.NVarchar2).Value = cy.branchid;
+                    objCmdI.Parameters.Add("DRUM_NO", OracleDbType.NVarchar2).Value = "";
+                    objCmdI.Parameters.Add("RATE", OracleDbType.NVarchar2).Value = "0";
+                    objCmdI.Parameters.Add("AMOUNT", OracleDbType.NVarchar2).Value = "0";
+                    objCmdI.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = "Insert";
+                    objCmdI.ExecuteNonQuery();
+
+                    svSQL = "UPDATE INVENTORYITEMREQ SET APPROVED_BY='"+cy.user+"',STATUS='Approved'   WHERE INVENTORYITEMREQID='" + cy.ID + "'";
+                    OracleCommand objCmdss = new OracleCommand(svSQL, objConn);
+            
+                    objCmdss.ExecuteNonQuery();
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
         }
     }
 }

@@ -99,6 +99,8 @@
                                                                 <th>Item Name</th>
                                                                 <th>Quantity</th>
                                                                 <th>Stock Quantity</th>
+                                                                <th>whole Stock </th>
+
                                                                 <th>Unit</th>
 
                                                                 <th>Indent Quantity</th>
@@ -117,6 +119,7 @@
                                                                         <td>@Html.DisplayFor(o => o.MRlst[i].Item)@Html.HiddenFor(o => o.MRlst[i].ItemId) </td>
                                                                         <td>@Html.DisplayFor(o => o.MRlst[i].ReqQty)</td>
                                                                         <td>@Html.DisplayFor(o => o.MRlst[i].ClosingStock)</td>
+                                                                      <td> <a class="nav-link" href="@Url.Action("WholeStock", "MaterialRequisition",new { id=item.ItemId })" class='fancybox' data-fancybox-type='iframe'> @Html.DisplayFor(o => o.MRlst[i].TotalStock)</a></td>
                                                                         <td>@Html.DisplayFor(o => o.MRlst[i].Unit)@Html.HiddenFor(o => o.MRlst[i].UnitID)</td>
                                                                         <td>@Html.TextBoxFor(o => o.MRlst[i].IndQty, new { @id = "IndQty" + i, @class = "form-control", style = "width: 100px;" })</td>
                                                                         <td>@Html.TextBoxFor(o => o.MRlst[i].Narration, new { @id = "txtNarration" + i, @class = "form-control", style = "width: 100px;"})</td>
@@ -161,3 +164,32 @@
 </script>
 
 
+                            <a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+<a class="fancyboxe1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
+<link rel="stylesheet" href="@Url.Content("~/css/jquery.fancybox.css?v=2.1.5")" type="text/css" media="screen" />
+<script type="text/javascript" src="@Url.Content("~/css/jquery.fancybox.pack.js?v=2.1.5")"></script>
+<script type="text/javascript">
+    var fancybox123;
+    jQuery(document).ready(function ($) {
+        $(".fancybox").fancybox({
+            width: '80%',
+            height: '10%',
+            arrows: false,
+            afterClose: function () {
+                location.reload();
+                return;
+            }
+        });
+        fancybox123 = $.fancybox;
+    });
+
+    function close_popup() {
+        fancybox123.close();
+        $(".fancybox1").fancybox({
+            width: '100%',
+            height: '100%',
+            arrows: false,
+        });
+        $(".fancybox1").eq(0).trigger('click');
+    }
+</script>

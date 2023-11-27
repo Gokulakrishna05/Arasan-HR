@@ -175,24 +175,28 @@
     minView: 2,
     forceParse: 0
     });
-    //function checkfunc(i) {
-    //    var j = 0;
-    //    var tot = 0;
-    //    var totqty = 0;
-    //    $('tr.chkitemlst' + i).each(function () {
-    //        if ($(this).css('display') !== 'none') {
-    //            if ($('#select' + i ).prop('checked') == true) {
-    //                var qty = document.getElementById('txtQty' + i).value;
-    //                alert(qty);
-    //                totqty += eval(qty);
-    //                tot += 1;
-    //            }
-    //        }
+    function checkfunc(i) {
+        var j = 0;
+        var tot = 0;
+        var qty = 0;
+        $('tr.chkitemlst' + i).each(function () {
+            if ($(this).css('display') !== 'none') {
+                if ($('#select' + i ).prop('checked') == true) {
+                   qty = $(this).find('#txtQty' + j.toString()).val();
+                   alert(qty);
+                            if (qty == "")
+                        qty = 0;
+
+                    tot += eval(qty);
+                              }
+                        j += 1;
+                }
+            
            
-    //    });
-    //    document.getElementById("txttotalQty").value = totqty.toFixed(2);
-    //    //document.getElementById("totalqty").innerHTML = totqty;
-    //}
+        });
+        document.getElementById("txttotalQty").value = tot.toFixed(2);
+        //document.getElementById("totalqty").innerHTML = totqty;
+    }
     function changeQty(_this, i) {
                 try {
                     ////////

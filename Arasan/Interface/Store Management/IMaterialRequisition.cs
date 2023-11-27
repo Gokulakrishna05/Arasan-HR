@@ -29,13 +29,18 @@ namespace Arasan.Interface
         DataTable GetLocation(string id);
         DataTable GetWorkCenter(string id);
         DataTable BindProcess(string id);
+        DataTable GetReqMatItemByID(string id);
         string IssuetoIndent(MaterialRequisition cy);
         string ApproveMaterial(MaterialRequisition cy);
 
         string MaterialStatus(MaterialRequisition cy);
+        string WholeStockGURD(MaterialRequisition cy);
+        string MaterialReqGURD(MaterialReq cy);
+        string ApproveReqGURD(MaterialReq cy);
         DataTable GetMatStabyID(string MatId);
         DataTable GetMatStaItemByID(string MatId);
         string StatusChange(string tag, string id);
         DataTable GetAllMaterialRequItems(string strStatus);
+        DataTable GetAllInventoryReq(string strStatus);
     }
 }

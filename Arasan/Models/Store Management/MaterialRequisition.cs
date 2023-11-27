@@ -40,6 +40,7 @@ namespace Arasan.Models
         public List<SelectListItem> Worklst;
         public List<SelectListItem> Processlst;
         public List<MaterialRequistionItem> MRlst { get; set; }
+        public List<StockItem> stklst { get; set; }
         public List<SelectListItem> assignList;
         public string Storeid { get; set; }
     }
@@ -59,7 +60,69 @@ namespace Arasan.Models
         public string move { get; set; }
         //public string Account { get; set; }
     }
+    public class MaterialReqItem
+    {
+        public long id { get; set; }
+        
+        public string location { get; set; }
+        public string item { get; set; }
+        public string docDate { get; set; }
+        public string reqloc { get; set; }
+        public string iss { get; set; }
+        public string qty { get; set; }
+        public string editrow { get; set; }
+        public string delrow { get; set; }
+        //public string follow { get; set; }
+        //public string pdf { get; set; }
+        public string view { get; set; }
+        public string move { get; set; }
+        //public string Account { get; set; }
+    }
+    public class StockItem
+    {
+        public string ID { get; set; }
+        public string branch { get; set; }
+        public string branchid { get; set; }
+        public string location { get; set; }
+        public string locationid { get; set; }
+        public string reqlocation { get; set; }
+        public string reqlocationid { get; set; }
+        public string docid { get; set; }
+        public string docDate { get; set; }
+        public bool select { get; set; }
+        public string user { get; set; }
+        public string item { get; set; }
+        public string invid { get; set; }
+        public string itemid { get; set; }
+        public string qty { get; set; }
+        public string reqqty { get; set; }
+        
+         
+    }
 
+    public class MaterialReq
+    {
+        public string ID { get; set; }
+        public string branch { get; set; }
+        public string branchid { get; set; }
+        public string location { get; set; }
+        public string locationid { get; set; }
+      
+        public string reqlocation { get; set; }
+        public string reqlocationid { get; set; }
+        public string docid { get; set; }
+        public string docDate { get; set; }
+       
+        public string user { get; set; }
+        public string item { get; set; }
+        public string invid { get; set; }
+        public string itemid { get; set; }
+        public string qty { get; set; }
+        public double reqqty { get; set; }
+        public string Entered { get; set; }
+
+
+    }
 
     public class MaterialRequistionItem
     {
@@ -71,6 +134,7 @@ namespace Arasan.Models
         public string UnitID { get; set; }
         public string Unit { get; set; }
         public string ClosingStock { get; set; }
+        public string TotalStock { get; set; }
         public string ReqQty { get; set; }
         public double IndQty { get; set; }
         public double InvQty { get; set; }
