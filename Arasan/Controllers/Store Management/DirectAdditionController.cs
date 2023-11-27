@@ -2,6 +2,7 @@
 using Arasan.Interface.Master;
 using Arasan.Interface.Store_Management;
 using Arasan.Models;
+using Arasan.Services;
 using Arasan.Services.Store_Management;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -160,10 +161,67 @@ namespace Arasan.Controllers.Store_Management
 
             return View(ss);
         }
-        public IActionResult ListDirectAddition(string st, string ed)
+        public IActionResult ListDirectAddition()
         {
-            IEnumerable<DirectAddition> sta = DirectAdditionService.GetAllDirectAddition(st, ed);
-            return View(sta);
+            //IEnumerable<DirectAddition> sta = DirectAdditionService.GetAllDirectAddition(st, ed);
+            return View();
+        }
+        public ActionResult MyListDirectAdditionGrid(string strStatus)
+        {
+            List<ListDirectAdditionItem> Reg = new List<ListDirectAdditionItem>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = (DataTable)DirectAdditionService.GetAllListDirectAdditionItems(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+                //string MailRow = string.Empty;
+                //string FollowUp = string.Empty;
+                //string MoveToQuo = string.Empty;
+                string View = string.Empty;
+                string EditRow = string.Empty;
+                string DeleteRow = string.Empty;
+
+                View = "<a href=ViewDirectAddition?id=" + dtUsers.Rows[i]["ADDBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
+                EditRow = "<a href=DirectAddition?id=" + dtUsers.Rows[i]["ADDBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["ADDBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                Reg.Add(new ListDirectAdditionItem
+                {
+                    id = Convert.ToInt64(dtUsers.Rows[i]["ADDBASICID"].ToString()),
+                    branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
+                    docNo = dtUsers.Rows[i]["DOCID"].ToString(),
+                    docDate = dtUsers.Rows[i]["DOCDATE"].ToString(),
+                    loc = dtUsers.Rows[i]["LOCID"].ToString(),
+                    entby = dtUsers.Rows[i]["ENTBY"].ToString(),
+                    view = View,
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+
+
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
+        }
+        public ActionResult DeleteItem(string tag, String id)
+        {
+
+            string flag = DirectAdditionService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListDirectAddition");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListDirectAddition");
+            }
         }
         public List<SelectListItem> BindLocation()
         {
@@ -296,21 +354,7 @@ namespace Arasan.Controllers.Store_Management
             return Json(BindItemGrplst());
         }
 
-        public ActionResult DeleteMR(string tag, int id)
-        {
-
-            string flag = DirectAdditionService.StatusChange(tag, id);
-            if (string.IsNullOrEmpty(flag))
-            {
-
-                return RedirectToAction("ListDirectAddition");
-            }
-            else
-            {
-                TempData["notice"] = flag;
-                return RedirectToAction("ListDirectAddition");
-            }
-        }
+       
 
         public IActionResult ViewDirectAddition(string id)
         {

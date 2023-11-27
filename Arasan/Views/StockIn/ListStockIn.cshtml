@@ -1,24 +1,109 @@
-﻿@model IEnumerable<Arasan.Models.StockIn>
+﻿@model Arasan.Models.StockIn
 
 @{
-    ViewData["Title"] = "Stock";
+    ////Layout = "_PopupLayout";
+    ViewData["Title"] = "Index";
 }
-<style>
-    .newwidth {
-        width: 120px;
+<partial name="JqxGridPartial" />
+@* @Html.Partial("~/Views/JqxGridPartial.cshtml")  *@
+
+<script type="text/javascript">
+    @if (TempData["notice"] != null)
+    {
+        @:alert('@TempData["notice"]');
     }
-</style>
+</script>
+
 <div class="row wrapper border-bottom page-heading">
     <div class="col-lg-12">
 
         <ol class="breadcrumb">
             <li> <a href="#">Home</a> </li>
-            <li> <a>Purchase</a> </li>
-            <li class="active"> <strong>Stock</strong> </li>
+            <li> <a>Store Management</a> </li>
+            <li class="active"> <strong>Issue To Indent</strong> </li>
         </ol>
     </div>
 </div>
 
+<script type="text/javascript">
+    $(document).ready(function () {
+        var source =
+        {
+            url: "/StockIn/MyListStockInGrid",
+            //url: "/ItemName/ItemName",
+            //data: {
+            //    strstatus: ""
+            //},
+            datatype: "json",
+            updaterow: function (rowid, rowdata) {
+                // synchronize with the server - send update command
+            },
+            datafields: [
+                { name: 'item', type: 'string' },
+                { name: 'unit', type: 'string' },
+                { name: 'qty', type: 'string' },
+                { name: 'location', type: 'string' },
+                { name: 'acc', type: 'string' },
+                //{ name: 'qcresult', type: 'string' },
+                //{ name: 'grn', type: 'string' },
+                //{ name: 'acc', type: 'string' },
+                //{ name: 'view', type: 'string' },
+                //{ name: 'editrow', type: 'string' },
+                //{ name: 'delrow', type: 'string' },
+
+            ],
+            id: 'id',
+        };
+        var dataAdapter = new $.jqx.dataAdapter(source,
+            { contentType: 'application/json; charset=utf-8' }, {
+            loadComplete: function () {
+
+            }
+        }
+        );
+
+        $("#grid").jqxGrid(
+            {
+                width: '100%',
+                source: dataAdapter,
+                height: 450,
+                //autorowheight: true,
+                //autoheight: true,
+                source: source,
+                sortable: true,
+                filterable: true,
+                groupable: false,
+                pageable: true,
+                showfilterbar: true,
+                //showfilterrow: true,
+                theme: 'darkblue',
+                enablebrowserselection: true,
+                columns: [
+                    { text: 'Item', filtertype: 'checkedlist', datafield: 'item', align: 'center', width: 150 },
+                    { text: 'Unit', filtertype: 'checkedlist', datafield: 'unit', align: 'center', width: 150 },
+                    { text: 'Qty', filtertype: 'checkedlist', datafield: 'qty', align: 'center', width: 100 },
+                    { text: 'Location', filtertype: 'checkedlist', datafield: 'location', align: 'center', width: 150 },
+                    //{ text: 'Qc Testing', filtertype: 'input', datafield: 'qcresult', width: 150 },
+                    //{ text: 'GRN Status', datafield: 'grn', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 150 },
+                    { text: 'Account', datafield: 'acc', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 150 },
+                    //{ text: 'View', datafield: 'view', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, align: 'center', cellsalign: 'center', width: 70 },
+                    //{ text: 'Edit', datafield: 'editrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                    //{ text: 'Delete', datafield: 'delrow', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 70 },
+                    ////{ text: 'Move To GRN', datafield: 'move', sortable: false, exportable: false, filterable: false, groupable: false, autoshowfiltericon: false, cellsalign: 'center', width: 120 },
+                ]
+            });
+        //$("#ddlStatus").change(function () {
+        //    var value = "Y";
+        //    if ($(this).val() != "") {
+        //        value = $(this).val();
+        //    }
+        //    source.data = {
+        //        strstatus: value
+        //    };
+        //    $("#grid").jqxGrid({ source: source });
+        //});
+    });
+</script>
 <div class="wrapper-content ">
     <div class="row">
         <div class="col-lg-12">
@@ -26,103 +111,46 @@
                 <div class="widgets-container">
 
                     <form>
-                        @*  <div class="row">
-                        <div class="col-md-12 ">
-                        <div class=" textalignright">
-                        <a href="@Url.Action("PurchaseEnquiry", "PurchaseEnq")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add Purchase Enquiry</a>
-                        <br>
-                        </div>
-                        </div>
-                        </div>*@
-
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="ibox float-e-margins">
-
-                                    <div class="ibox-content collapse in">
-                                        <div class="widgets-container">
-                                            <div>
-                                                <table id="example7" class="display nowrap table  responsive nowrap table-bordered">
-                                                    <thead>
-                                                        <tr>
-                                                            @*<th>Branch</th>*@
-                                                            <th>Item</th>
-                                                            <th>Unit</th>
-                                                            <th>Quantity</th>
-                                                           
-                                                            <th>Location</th>
-                                                             <th>Issue To Indent</th>
-                                                          
-                                                        </tr>
-                                                    </thead>
-
-                                                    <tbody>
-                                                         @{
-                                                        int i = 1;
-
-
-                                                        foreach (var item in Model)
-                                                        {
-                                                        <tr>
-                                                                    <td>@Html.DisplayFor(modelItem => item.Item)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.Unit)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.Qty)</td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.Location)</td>
-                                                        <td> <div class="fa-hover col-md-2 col-sm-4"> <a href="@Url.Action("IssueToIndent", "StockIn",new { ItemID=item.ItemID })"><img src='../Images/checklist.png' alt='' /></a></div></td>
-                                                           
-                                                        </tr>
-                                                          i++;
-                                                        }
-                                                        }
-                                                      
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                        @*<div class="row">
+                            <div class="col-md-2 ">
+                               Html.DropDownListFor(n => n.ddlStatus, new SelectListItem[]
+                                { new SelectListItem() {Text = "Enabled", Value="Y"},
+                                new SelectListItem() {Text = "Disabled", Value="N"}},
+                                new { @id = "ddlStatus", Class = "dropdownlist margin_bottom_new form-control" })
+                                <br>
                             </div>
+                              <div class="col-md-9 ">
+                            <div class=" textalignright">
+                            <a href="@Url.Action("DirectPurchase", "DirectPurchase")" class="btn  btn-round btn-primary" style="float: right; color:white;">Add DirectPurchase</a>
+                            <br>
+                            </div>
+
+
+                            </div>
+                        </div>*@
+                        <div class="row">
+
+
+                            <div class="col-md-10 ">
+                            <div id="grid">
+                            </div>
+
+                            </div>
+
                         </div>
+
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 <script>
-    $(document).ready(function () {
-        $('#example7').DataTable({
-            dom: 'Bfrtip',
-            buttons: [{
-                text: 'copy',
-                extend: "copy",
-                className: 'btn dark btn-outline'
-            }, {
-                text: 'csv',
-                extend: "csv",
-                className: 'btn aqua btn-outline'
-            }, {
-                text: 'excel',
-                extend: "excel",
-                className: 'btn aqua btn-outline'
-            }, {
-                text: 'pdf',
-                extend: "pdf",
-                className: 'btn yellow  btn-outline'
-            }, {
-                text: 'print',
-                extend: "print",
-                className: 'btn purple  btn-outline'
-            }]
-        });
-
-
-
-    });
+    function ConfirmDelete() {
+        return confirm("Are you sure you want to delete?");
+    }
 </script>
 
-<!-- /container -->
 
 <a class="fancybox1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
 <a class="fancyboxe1" rel="group" data-fancybox-type="iframe" href="#" style="display: none; width: 760px;"></a>
@@ -135,10 +163,14 @@
             width: '80%',
             height: '10%',
             arrows: false,
-
+            afterClose: function () {
+                location.reload();
+                return;
+            }
         });
         fancybox123 = $.fancybox;
     });
+
     function close_popup() {
         fancybox123.close();
         $(".fancybox1").fancybox({
@@ -148,4 +180,21 @@
         });
         $(".fancybox1").eq(0).trigger('click');
     }
+
+
+        //function changeStatus(status) {
+        //    var url = "/PurchaseQuo/ListPurchaseQuo?status=" + status;
+        //    window.location.href = url;
+        //    //$.ajax({
+        //    //    url: 'AssignSession',
+        //    //    data: { "status": status },
+        //    //    type: "GET",
+        //    //    success: function (result) {
+        //    //        document.getElementById("hdstatus").value = result;
+        //    //    },
+        //    //    error: function () {
+        //    //        alert("Data Not Found");
+        //    //    }
+        //    //});
+        //    //window.location.reload();
 </script>

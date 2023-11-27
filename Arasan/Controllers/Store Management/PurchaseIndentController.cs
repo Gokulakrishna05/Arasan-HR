@@ -97,7 +97,7 @@ namespace Arasan.Controllers.Store_Management
         {
             List<IndentBindList> Reg = new List<IndentBindList>();
             DataTable dtUsers = new DataTable();
-
+            //strStatus = strStatus == "" ? "Y" : strStatus;
             dtUsers = PurIndent.GetIndent();
             for (int i = 0; i < dtUsers.Rows.Count; i++)
             {

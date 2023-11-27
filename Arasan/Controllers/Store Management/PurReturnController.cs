@@ -604,18 +604,52 @@ namespace Arasan.Controllers
             }
         }
 
-        public IActionResult ListPurchaseReturn(string st, string ed)
+        public IActionResult ListPurchaseReturn()
         {
-            IEnumerable<PurchaseReturn> cmp = PurReturn.GetAllPurReturn(st, ed);
-            return View(cmp);
+            //IEnumerable<PurchaseReturn> cmp = PurReturn.GetAllPurReturn);
+            return View();
         }
-        public JsonResult GetItemGrpJSON()
+        public ActionResult MyListPurchaseReturnGrid(string strStatus)
         {
-            //RetItem model = new RetItem();
-            //  model.ItemGrouplst = BindItemGrplst(value);
-            return Json(BindGRNlist());
+            List<PurchaseReturnItems> Reg = new List<PurchaseReturnItems>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = (DataTable)PurReturn.GetAllPurchaseReturnItems(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+               
+                string View = string.Empty;
+                //string EditRow = string.Empty;
+                string DeleteRow = string.Empty;
+
+               
+                View = "<a href=viewPurchaseReturn?id=" + dtUsers.Rows[i]["PRETBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
+                //EditRow = "<a href=PurchaseRet?id=" + dtUsers.Rows[i]["PRETBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["PRETBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                Reg.Add(new PurchaseReturnItems
+                {
+                    id = Convert.ToInt64(dtUsers.Rows[i]["PRETBASICID"].ToString()),
+                    branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
+                    docNo = dtUsers.Rows[i]["DOCID"].ToString(),
+                    docDate = dtUsers.Rows[i]["DOCDATE"].ToString(),
+                    curr = dtUsers.Rows[i]["MAINCURR"].ToString(),
+                    view = View,
+                    //editrow = EditRow,
+                    delrow = DeleteRow,
+
+
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
         }
-        public ActionResult DeleteMR(string tag, int id)
+        public ActionResult DeleteItem(string tag, string id)
         {
 
             string flag = PurReturn.StatusChange(tag, id);
@@ -630,6 +664,13 @@ namespace Arasan.Controllers
                 return RedirectToAction("ListPurchaseReturn");
             }
         }
+        public JsonResult GetItemGrpJSON()
+        {
+            //RetItem model = new RetItem();
+            //  model.ItemGrouplst = BindItemGrplst(value);
+            return Json(BindGRNlist());
+        }
+      
 
         public IActionResult viewPurchaseReturn(string id)
         {

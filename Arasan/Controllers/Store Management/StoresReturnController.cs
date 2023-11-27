@@ -160,10 +160,67 @@ namespace Arasan.Controllers.Stores_Management
 
             return View(Cy);
         }
-        public IActionResult ListStoresReturn(string st, string ed)
+        public IActionResult ListStoresReturn()
         {
-            IEnumerable<StoresReturn> cmp = StoresReturnService.GetAllStoresReturn(st,ed);
-            return View(cmp);
+            //IEnumerable<StoresReturn> cmp = StoresReturnService.GetAllStoresReturn(st,ed);
+            return View();
+        }
+        public ActionResult MyListStoresReturnGrid(string strStatus)
+        {
+            List<ListStoresReturnItem> Reg = new List<ListStoresReturnItem>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = (DataTable)StoresReturnService.GetAllListStoresReturnItems(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+                //string MailRow = string.Empty;
+                //string FollowUp = string.Empty;
+                //string MoveToQuo = string.Empty;
+                //string View = string.Empty;
+                string EditRow = string.Empty;
+                string DeleteRow = string.Empty;
+
+               
+                EditRow = "<a href=StoresReturn?id=" + dtUsers.Rows[i]["STORESRETBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["STORESRETBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                Reg.Add(new ListStoresReturnItem
+                {
+                    id = Convert.ToInt64(dtUsers.Rows[i]["STORESRETBASICID"].ToString()),
+                    branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
+                    docNo = dtUsers.Rows[i]["DOCID"].ToString(),
+                    docDate = dtUsers.Rows[i]["DOCDATE"].ToString(),
+                    location = dtUsers.Rows[i]["LOCID"].ToString(),
+                    refno = dtUsers.Rows[i]["REFNO"].ToString(),
+                    refdate = dtUsers.Rows[i]["REFDATE"].ToString(),
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+
+
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
+        }
+        public ActionResult DeleteItem(string tag, string id)
+        {
+
+            string flag = StoresReturnService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListStoresReturn");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListStoresReturn");
+            }
         }
         public List<SelectListItem> BindBranch()
         {

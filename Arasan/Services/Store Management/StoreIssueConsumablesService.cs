@@ -493,6 +493,47 @@ namespace Arasan.Services
             adapter.Fill(dtt);
             return dtt;
         }
+        public string StatusChange(string tag, string id)
+        {
+
+            try
+            {
+                string svSQL = string.Empty;
+                using (OracleConnection objConnT = new OracleConnection(_connectionString))
+                {
+                    svSQL = "UPDATE SCISSBASIC SET IS_ACTIVE ='N' WHERE SCISSBASICID='" + id + "'";
+                    OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
+                    objConnT.Open();
+                    objCmds.ExecuteNonQuery();
+                    objConnT.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return "";
+
+        }
+
+        public DataTable GetListStoreIssueItems(string strStatus)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "Select  BRANCHMAST.BRANCHID,SCISSBASIC.DOCID,to_char(SCISSBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,SCISSBASIC.REQNO,to_char(SCISSBASIC.REQDATE,'dd-MON-yyyy')REQDATE, LOCDETAILS.LOCID,LOCIDCONS,PROCESSID,SCISSBASIC.MCID,SCISSBASIC.MCNAME,SCISSBASIC.NARRATION,USERID,WCID,SCISSBASICID from SCISSBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=SCISSBASIC.BRANCHID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID=SCISSBASIC.TOLOCID AND SCISSBASIC.IS_ACTIVE='Y' ORDER BY SCISSBASICID DESC";
+            }
+            else
+            {
+                SvSql = "Select  BRANCHMAST.BRANCHID,SCISSBASIC.DOCID,to_char(SCISSBASIC.DOCDATE,'dd-MON-yyyy')DOCDATE,SCISSBASIC.REQNO,to_char(SCISSBASIC.REQDATE,'dd-MON-yyyy')REQDATE, LOCDETAILS.LOCID,LOCIDCONS,PROCESSID,SCISSBASIC.MCID,SCISSBASIC.MCNAME,SCISSBASIC.NARRATION,USERID,WCID,SCISSBASICID from SCISSBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=SCISSBASIC.BRANCHID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILSID=SCISSBASIC.TOLOCID AND SCISSBASIC.IS_ACTIVE='N' ORDER BY SCISSBASICID DESC";
+            }
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
     }
 }
 

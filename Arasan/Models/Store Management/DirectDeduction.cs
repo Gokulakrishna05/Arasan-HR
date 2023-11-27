@@ -32,7 +32,22 @@ namespace Arasan.Models
 
         public List<SelectListItem> Loc;
         public string Location { get; set; }
+        public string ddlStatus { get; set; }
         public List<DeductionItem> Itlst { get; set; }
+    }
+    public class ListDirectDeductionItem
+    {
+        public long id { get; set; }
+        public string branch { get; set; }
+        public string docNo { get; set; }
+        public string loc { get; set; }
+        public string docDate { get; set; }
+        public string refno { get; set; }
+        public string editrow { get; set; }
+        public string delrow { get; set; }
+        public string entby { get; set; }
+        public string view { get; set; }
+
     }
     public class DeductionItem
     {

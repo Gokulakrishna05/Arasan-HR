@@ -8,5 +8,6 @@ namespace Arasan.Interface
     public interface IDrumLocation
     {
         IEnumerable<DrumLocation> GetAllDrumLocation( );
+        DataTable GetAllListDrumItem();
     }
 }

@@ -52,7 +52,7 @@ namespace Arasan.Controllers
             po.deltermlst = Binddeliveryterms();
             po.warrantytermslst = Bindwarrantyterms();
             po.desplst = Binddespatch();
-           
+
             List<POItem> TData = new List<POItem>();
             POItem tda = new POItem();
 
@@ -278,10 +278,87 @@ namespace Arasan.Controllers
 
             return View(Cy);
         }
-        public IActionResult ListPO(string st, string ed)
+        public IActionResult ListPO()
         {
-            IEnumerable<Models.PO> cmp = PoService.GetAllPO(st, ed);
-            return View(cmp);
+            //IEnumerable<Models.PO> cmp = PoService.GetAllPO();
+            return View();
+        }
+        public ActionResult MyListPOGrid(string strStatus)
+        {
+            List<POItems> Reg = new List<POItems>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = (DataTable)PoService.GetAllPoItems(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+                string MailRow = string.Empty;
+                string GeneratePO = string.Empty;
+                string MoveToGRN = string.Empty;
+                string Download = string.Empty;
+                string View = string.Empty;
+                string EditRow = string.Empty;
+                string DeleteRow = string.Empty;
+
+                MailRow = "<a href=SendMail?id=" + dtUsers.Rows[i]["POBASICID"].ToString() + "><img src='../Images/mail_icon.png' alt='Send Email' /></a>";
+                GeneratePO = "<a href=Print?id=" + dtUsers.Rows[i]["POBASICID"].ToString() + "><img src='../Images/pdficon.png' alt='View Details' width='20' /></a>";
+                if (dtUsers.Rows[i]["STATUS"].ToString() == "GRN Generated")
+                {
+                    MoveToGRN = "<img src='../Images/tick.png' alt='View Details' width='20' />";
+                    EditRow = "";
+
+                }
+                else
+                {
+                    MoveToGRN = "<a href=ViewPO?id=" + dtUsers.Rows[i]["POBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
+                    EditRow = "<a href=PurchaseOrder?id=" + dtUsers.Rows[i]["POBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+
+
+                }
+                Download = "<a href=CreatePDF?id=" + dtUsers.Rows[i]["POBASICID"].ToString() + "><img src='../Images/pdficon.png' alt='View Details' width='20' /></a>";
+                View = "<a href=ViewPOrder?id=" + dtUsers.Rows[i]["POBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
+                DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["POBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                Reg.Add(new POItems
+                {
+                    id = Convert.ToInt64(dtUsers.Rows[i]["POBASICID"].ToString()),
+                    branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
+                    pono = dtUsers.Rows[i]["DOCID"].ToString(),
+                    podate = dtUsers.Rows[i]["DOCDATE"].ToString(),
+                    quono = dtUsers.Rows[i]["Quotno"].ToString(),
+                    supplier = dtUsers.Rows[i]["PARTYNAME"].ToString(),
+                    mailrow = MailRow,
+                    genpo = GeneratePO,
+                    move = MoveToGRN,
+                    download = Download,
+                    view = View,
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+
+
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
+        }
+        public ActionResult DeleteItem(string tag, string id)
+        {
+
+            string flag = PoService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListPO");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListPO");
+            }
         }
         public IActionResult ListGateInWard(string fromdate, string todate)
         {
@@ -626,7 +703,7 @@ namespace Arasan.Controllers
             IEnumerable<POItem> cmp = PoService.GetAllGateInwardItem(id);
             return View(cmp);
         }
-       public IActionResult ViewPO(string id)
+        public IActionResult ViewPO(string id)
         {
             Models.PO ca = new Models.PO();
             DataTable dt = new DataTable();
@@ -784,21 +861,7 @@ namespace Arasan.Controllers
             return RedirectToAction("ListPO");
         }
 
-        public ActionResult DeleteMR(string tag, int id)
-        {
 
-            string flag = PoService.StatusChange(tag, id);
-            if (string.IsNullOrEmpty(flag))
-            {
-
-                return RedirectToAction("ListPO");
-            }
-            else
-            {
-                TempData["notice"] = flag;
-                return RedirectToAction("ListPO");
-            }
-        }
         public async Task<IActionResult> Print(string id)
         {
 
@@ -816,28 +879,28 @@ namespace Arasan.Controllers
             localReport.AddDataSource("DataSet1", Poitem);
             //localReport.AddDataSource("DataSet1_DataTable1", po);
             var result = localReport.Execute(RenderType.Pdf, extension, Parameters, mimtype);
-            
+
             return File(result.MainStream, "application/Pdf");
-//            FunctionExecutor.Run((string[] args) =>
-//            {
+            //            FunctionExecutor.Run((string[] args) =>
+            //            {
 
-//                using (var fs = new FileStream(args[1], FileMode.Create, FileAccess.Write))
-//            {
-//                fs.Write(result.MainStream);
-//            }
-//        }, new string[] {jsonDataFilePath, generatedFilePath, rdlcFilePath, DataSetName
-//    });
+            //                using (var fs = new FileStream(args[1], FileMode.Create, FileAccess.Write))
+            //            {
+            //                fs.Write(result.MainStream);
+            //            }
+            //        }, new string[] {jsonDataFilePath, generatedFilePath, rdlcFilePath, DataSetName
+            //    });
 
-//            var memory = new MemoryStream();
-//            using (var stream = new FileStream(Path.Combine("", generatedFilePath), FileMode.Open))
-//            {
-//                stream.CopyTo(memory);
-//            }
+            //            var memory = new MemoryStream();
+            //            using (var stream = new FileStream(Path.Combine("", generatedFilePath), FileMode.Open))
+            //            {
+            //                stream.CopyTo(memory);
+            //            }
 
-//File.Delete(generatedFilePath);
-//File.Delete(jsonDataFilePath);
-//memory.Position = 0;
-//return memory.ToArray();
+            //File.Delete(generatedFilePath);
+            //File.Delete(jsonDataFilePath);
+            //memory.Position = 0;
+            //return memory.ToArray();
         }
         public IActionResult DownloadFile()
         {
@@ -895,7 +958,7 @@ namespace Arasan.Controllers
             Response.Body.Flush(); // send it to the client to download
         }
 
-            public ActionResult SendMail(string id)
+        public ActionResult SendMail(string id)
         {
 
 
@@ -913,10 +976,10 @@ namespace Arasan.Controllers
                 MailMessage mailMessage = new MailMessage();
                 mailMessage.From = new MailAddress(FromEmailid); //From Email Id  
                 mailMessage.Subject = "PO"; //Subject of Email  
-                mailMessage.Body ="PO"; //body or message of Email  
+                mailMessage.Body = "PO"; //body or message of Email  
                 mailMessage.IsBodyHtml = true;
                 mailMessage.To.Add(new MailAddress("deepa@icand.in")); //adding multiple TO Email Id  
-              
+
                 SmtpClient smtp = new SmtpClient();  // creating object of smptpclient  
                 smtp.Host = HostAdd;              //host of emailaddress for example smtp.gmail.com etc  
                 smtp.EnableSsl = ssl;
@@ -927,8 +990,8 @@ namespace Arasan.Controllers
                 smtp.Credentials = NetworkCred;
                 smtp.Port = port;
                 smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-              //  mailMessage.Attachments.Add(new Attachment(DownloadFile()));
-               
+                //  mailMessage.Attachments.Add(new Attachment(DownloadFile()));
+
 
                 smtp.Send(mailMessage);
                 return Ok();
@@ -989,8 +1052,8 @@ namespace Arasan.Controllers
                 DataTable dt1 = new DataTable();
                 string per = "";
 
-                        
-                        DataTable percentage = datatrans.GetData("Select PERCENTAGE from TARIFFMASTER where TARIFFMASTERID='" + ItemId + "'  ");
+
+                DataTable percentage = datatrans.GetData("Select PERCENTAGE from TARIFFMASTER where TARIFFMASTERID='" + ItemId + "'  ");
                 if (percentage.Rows.Count > 0)
                 {
                     per = percentage.Rows[0]["PERCENTAGE"].ToString();

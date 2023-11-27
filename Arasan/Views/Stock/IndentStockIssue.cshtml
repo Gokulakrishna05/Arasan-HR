@@ -1,6 +1,7 @@
 ﻿@model Arasan.Models.Stock
 
 @{
+
     ViewData["Title"] = "Indent Stock Issue";
 }
   <partial name="JqxGridPartial" />
@@ -47,26 +48,29 @@
             // initialize jqxGrid
             $("#grid").jqxGrid(
             {
-                width: 1000,
-                source: dataAdapter,
+                 width: 1000,
+                 source: dataAdapter,
                  height: 365,
-                filterable: true,
+                //filterable: true,
                  pageable: true,
-                 showfilterrow: true,
-                 showgroupaggregates: true,
-                  showaggregates: true,
+                 //showfilterrow: true,
+                 showfilterbar: true,
+                 //showgroupaggregates: true,
+                 // showaggregates: true,
                  groupable: true,
                  filterable: true,
                  autoheight: true,
                  sortable: true,
                  rowdetails: true,
+                 theme: 'darkblue',
+                 enablebrowserselection: true,
                  groups: ['location'],
-                columns: [
-                     { text: 'Branch Name', datafield: 'branchname', width: 200 },
-                      { text: 'Location', datafield: 'location', width: 200 },
-                  { text: 'Item Name', columntype: 'dropdownlist', datafield: 'itemname', width: 200 },
+                 columns: [
+                    { text: 'Branch Name', filtertype: 'checkedlist', datafield: 'branchname', width: 200 },
+                    { text: 'Location', filtertype: 'checkedlist', datafield: 'location', width: 200 },
+                    { text: 'Item Name', filtertype: 'checkedlist', columntype: 'dropdownlist', datafield: 'itemname', width: 200 },
                     {
-                      text: 'Quantity', datafield: 'quantity', aggregates: ["sum"], cellsalign: 'right',
+                      text: 'Quantity', filtertype: 'input', datafield: 'quantity', aggregates: ["sum"], cellsalign: 'right',
                       cellsrenderer: function (row, column, value, defaultRender, column, rowData) {
                           if (value.toString().indexOf("Sum") >= 0) {
                               return defaultRender.replace("Sum", "Total Quantity");
@@ -92,11 +96,11 @@
                         <div class="row">
 
                              <div class="col-md-1 "> </div>
-                            <div class="col-md-11 "> 
+                           @* <div class="col-md-11 "> *@
                                 <div id="grid">
     </div>
 
-                            </div>
+                           @* </div>*@
                            
                         </div>
 

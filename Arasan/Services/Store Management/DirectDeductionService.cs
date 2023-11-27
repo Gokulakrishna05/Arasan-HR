@@ -98,7 +98,7 @@ namespace Arasan.Services.Store_Management
                     objCmd.Parameters.Add("ENTBY", OracleDbType.NVarchar2).Value = ss.Entered;
                     objCmd.Parameters.Add("NARRATION", OracleDbType.NVarchar2).Value = ss.Narr;
                     objCmd.Parameters.Add("MATSUPP", OracleDbType.NVarchar2).Value = ss.Material;
-                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Yes";
+                    objCmd.Parameters.Add("IS_ACTIVE", OracleDbType.NVarchar2).Value = "Y";
                     objCmd.Parameters.Add("NOOFD", OracleDbType.NVarchar2).Value = ss.NoDurms;
                     objCmd.Parameters.Add("StatementType", OracleDbType.NVarchar2).Value = StatementType;
                     objCmd.Parameters.Add("OUTID", OracleDbType.Int64).Direction = ParameterDirection.Output;
@@ -341,7 +341,7 @@ namespace Arasan.Services.Store_Management
             return dtt;
         }
 
-        public string StatusChange(string tag, int id)
+        public string StatusChange(string tag, string id)
         {
 
             try
@@ -349,7 +349,7 @@ namespace Arasan.Services.Store_Management
                 string svSQL = string.Empty;
                 using (OracleConnection objConnT = new OracleConnection(_connectionString))
                 {
-                    svSQL = "UPDATE DEDBASIC SET IS_ACTIVE ='No' WHERE DEDBASICID='" + id + "'";
+                    svSQL = "UPDATE DEDBASIC SET IS_ACTIVE ='N' WHERE DEDBASICID='" + id + "'";
                     OracleCommand objCmds = new OracleCommand(svSQL, objConnT);
                     objConnT.Open();
                     objCmds.ExecuteNonQuery();
@@ -363,6 +363,23 @@ namespace Arasan.Services.Store_Management
             }
             return "";
 
+        }
+        public DataTable GetAllListDirectDeductionItems(string strStatus)
+        {
+            string SvSql = string.Empty;
+            if (strStatus == "Y" || strStatus == null)
+            {
+                SvSql = "Select BRANCHMAST.BRANCHID,LOCDETAILS.LOCID,DOCID,to_char(DEDBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,DCNO,REASON,GROSS,ENTBY,NARRATION,DEDBASICID  from DEDBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=DEDBASIC.BRANCHID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=DEDBASIC.LOCID AND DEDBASIC.IS_ACTIVE='Y' ORDER BY DEDBASIC.DEDBASICID DESC";
+            }
+            else
+            {
+                SvSql = "Select BRANCHMAST.BRANCHID,LOCDETAILS.LOCID,DOCID,to_char(DEDBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,DCNO,REASON,GROSS,ENTBY,NARRATION,DEDBASICID  from DEDBASIC LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=DEDBASIC.BRANCHID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=DEDBASIC.LOCID AND DEDBASIC.IS_ACTIVE='N' ORDER BY DEDBASIC.DEDBASICID DESC";
+            }
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
         }
 
         public DataTable GetDDByName(string id)

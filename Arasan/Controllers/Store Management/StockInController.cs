@@ -97,8 +97,45 @@ namespace Arasan.Controllers
 
         public IActionResult ListStockIn()
         {
-            IEnumerable<StockIn> cmp = StackService.GetAllStock();
-            return View(cmp);
+            //IEnumerable<StockIn> cmp = StackService.GetAllStock();
+            return View();
+        }
+        public ActionResult MyListStockInGrid()
+        {
+            List<StockItems> Reg = new List<StockItems>();
+            DataTable dtUsers = new DataTable();
+            dtUsers = (DataTable)StackService.GetAllListStockItem();
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+                //string Qc = string.Empty;
+                //string GRNStatus = string.Empty;
+                string Account = string.Empty;
+                //string View = string.Empty;
+                //string EditRow = string.Empty;
+                //string DeleteRow = string.Empty;
+                Account = "<a href=IssueToIndent?ItemID=" + dtUsers.Rows[i]["ITEM_ID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/profit.png' alt='View Details' width='20' /></a>";
+
+                //Account = "<a href=IssueToIndent?id=" + dtUsers.Rows[i]["INVENTORY_ITEM_ID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/profit.png' alt='View Details' width='20' /></a>";
+                ////Account = "<a href=IssueToIndent?id=" + dtUsers.Rows[i]["INVENTORY_ITEM_ID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/profit.png' alt='View Details' width='20' /></a>";
+              
+              
+                Reg.Add(new StockItems
+                {
+                    id = Convert.ToInt64(dtUsers.Rows[i]["INVENTORY_ITEM_ID"].ToString()),
+                    item = dtUsers.Rows[i]["ITEMID"].ToString(),
+                    unit = dtUsers.Rows[i]["UNITID"].ToString(),
+                    qty = dtUsers.Rows[i]["QTY"].ToString(),
+                    location = dtUsers.Rows[i]["LOCID"].ToString(),
+                    acc = Account,
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
         }
     }
 }

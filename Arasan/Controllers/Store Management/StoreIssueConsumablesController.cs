@@ -419,10 +419,66 @@ namespace Arasan.Controllers
             }
         }
 
-        public IActionResult ListStoreIssueCons(string st, string ed)
+        public IActionResult ListStoreIssueCons()
         {
-            IEnumerable<StoreIssueConsumables> cmp = StoreIssService.GetAllStoreIssue(st,ed);
-            return View(cmp);
+        //    IEnumerable<StoreIssueConsumables> cmp = StoreIssService.GetAllStoreIssue(;
+            return View();
+        }
+        public ActionResult MyListStoreIssueConsGrid(string strStatus)
+        {
+            List<ListStoreIssueItem> Reg = new List<ListStoreIssueItem>();
+            DataTable dtUsers = new DataTable();
+            strStatus = strStatus == "" ? "Y" : strStatus;
+            dtUsers = (DataTable)StoreIssService.GetListStoreIssueItems(strStatus);
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+                //string MailRow = string.Empty;
+                //string FollowUp = string.Empty;
+                //string MoveToQuo = string.Empty;
+                //string View = string.Empty;
+                string EditRow = string.Empty;
+                string DeleteRow = string.Empty;
+
+
+                EditRow = "<a href=StoreIssueCons?id=" + dtUsers.Rows[i]["SCISSBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+                DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["SCISSBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+
+                Reg.Add(new ListStoreIssueItem
+                {
+                    id = Convert.ToInt64(dtUsers.Rows[i]["SCISSBASICID"].ToString()),
+                    branch = dtUsers.Rows[i]["BRANCHID"].ToString(),
+                    docNo = dtUsers.Rows[i]["DOCID"].ToString(),
+                    docDate = dtUsers.Rows[i]["DOCDATE"].ToString(),
+                    location = dtUsers.Rows[i]["LOCID"].ToString(),
+                    reqdate = dtUsers.Rows[i]["REQDATE"].ToString(),
+                    editrow = EditRow,
+                    delrow = DeleteRow,
+
+
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
+        }
+        public ActionResult DeleteItem(string tag, string id)
+        {
+
+            string flag = StoreIssService.StatusChange(tag, id);
+            if (string.IsNullOrEmpty(flag))
+            {
+
+                return RedirectToAction("ListStoreIssueCons");
+            }
+            else
+            {
+                TempData["notice"] = flag;
+                return RedirectToAction("ListStoreIssueCons");
+            }
         }
     }
 }

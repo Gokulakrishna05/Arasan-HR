@@ -20,6 +20,7 @@ namespace Arasan.Interface.Store_Management
         DataTable GetItemCF(string ItemId, string unitid);
         IEnumerable<DirectItem> GetAllDirectAdditionItem(string id);
 
-        string StatusChange(string tag, int id);
+        string StatusChange(string tag, String id);
+        DataTable GetAllListDirectAdditionItems(string strStatus);
     }
 }

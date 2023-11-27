@@ -66,9 +66,27 @@ namespace Arasan.Models
         public List<SelectListItem> Citylst;
         public string City { get; set; }
         public string SNO { get; set; }
+        public string ddlStatus { get; set; }
    
         public string Isvalid { get; set; }
 
+    }
+    public class PurchaseReturnItems
+    {
+        public long id { get; set; }
+        public string branch { get; set; }
+        public string docNo { get; set; }
+        public string curr { get; set; }
+        public string docDate { get; set; }
+        //public string qcresult { get; set; }
+        public string editrow { get; set; }
+        public string delrow { get; set; }
+        //public string grn { get; set; }
+        //public string pdf { get; set; }
+        public string view { get; set; }
+        //public string acc { get; set; }
+        //public string pono { get; set; }
+        //public string Account { get; set; }
     }
     public class RetItem
     {
@@ -80,6 +98,7 @@ namespace Arasan.Models
         public double FrigCharge { get; set; }
         public string ConFac { get; set; }
         public string Unit { get; set; }
+           public List<RetItem> RetLst { get; set; }
       
         public string Quantity { get; set; }
         //   public string unitprim { get; set; }

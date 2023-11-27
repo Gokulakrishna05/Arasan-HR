@@ -46,5 +46,16 @@ namespace Arasan.Services
             }
             return daList;
         }
+
+        public DataTable GetAllListDrumItem()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select DRUM_STOCK_ID,DRUM_NO,ITEMMASTER.ITEMID,LOCDETAILS.LOCID from drum_stock LEFT OUTER JOIN ITEMMASTER on ITEMMASTER.ITEMMASTERID=drum_stock.ITEMID LEFT OUTER JOIN LOCDETAILS ON LOCDETAILS.LOCDETAILSID=drum_stock.LOCID where BALANCE_QTY > 0 AND DRUM_NO IS NOT NULL";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
     }
 }

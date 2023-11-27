@@ -24,6 +24,7 @@ namespace Arasan.Interface
         DataTable Getloc(string Poid);
         DataTable Getwork(string Poid);
         DataTable GetProcess(string Poid);
-
+        string StatusChange(string tag, string id);
+        DataTable GetListStoreIssueItems(string strStatus);
     }
 }

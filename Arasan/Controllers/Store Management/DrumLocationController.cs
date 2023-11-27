@@ -26,8 +26,56 @@ namespace Arasan.Controllers
         }
         public IActionResult ListDrumLocation()
         {
-            IEnumerable<DrumLocation> cmp = drumlocation.GetAllDrumLocation();
-            return View(cmp);
+            //IEnumerable<DrumLocation> cmp = drumlocation.GetAllDrumLocation();
+            return View();
+        }
+        public ActionResult MyListDrumLocationGrid()
+        {
+            List<DrumItems> Reg = new List<DrumItems>();
+            DataTable dtUsers = new DataTable();
+            dtUsers = (DataTable)drumlocation.GetAllListDrumItem();
+            for (int i = 0; i < dtUsers.Rows.Count; i++)
+            {
+                //string Qc = string.Empty;
+                //string GRNStatus = string.Empty;
+                //string Account = string.Empty;
+                //string View = string.Empty;
+                //string EditRow = string.Empty;
+                //string DeleteRow = string.Empty;
+
+                //if (dtUsers.Rows[i]["STATUS"].ToString() == "GRN Completed")
+                //{
+                //    GRNStatus = "<img src='../Images/tick.png' alt='View Details' width='20' />";
+                //    Account = "<a href=GRNAccount?id=" + dtUsers.Rows[i]["GRNBLBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/profit.png' alt='View Details' width='20' /></a>";
+                //    EditRow = "";
+                //}
+                //else
+                //{
+                //    GRNStatus = dtUsers.Rows[i]["STATUS"].ToString();
+                //    //GRNStatus = "<a href=ViewQuote?id=" + dtUsers.Rows[i]["GRNBLBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/move_quote.png' alt='View Details' width='20' /></a>";
+                //    EditRow = "<a href=GRN?id=" + dtUsers.Rows[i]["GRNBLBASICID"].ToString() + "><img src='../Images/edit.png' alt='Edit' /></a>";
+
+
+                //}
+                //View = "<a href=ViewGRN?id=" + dtUsers.Rows[i]["GRNBLBASICID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/view_icon.png' alt='View Details' width='20' /></a>";
+                //DeleteRow = "<a href=DeleteItem?tag=Del&id=" + dtUsers.Rows[i]["GRNBLBASICID"].ToString() + "><img src='../Images/Inactive.png' alt='Deactivate' /></a>";
+                Reg.Add(new DrumItems
+                {
+                    id = Convert.ToInt64(dtUsers.Rows[i]["DRUM_STOCK_ID"].ToString()),
+                    drum = dtUsers.Rows[i]["DRUM_NO"].ToString(),
+                    item = dtUsers.Rows[i]["ITEMID"].ToString(),
+                    loc = dtUsers.Rows[i]["LOCID"].ToString(),
+                    //supplier = dtUsers.Rows[i]["PARTYNAME"].ToString(),
+                    //qcresult = dtUsers.Rows[i]["QCSTATUS"].ToString(),
+
+                });
+            }
+
+            return Json(new
+            {
+                Reg
+            });
+
         }
         public IActionResult DrumHistory(string id)
         {

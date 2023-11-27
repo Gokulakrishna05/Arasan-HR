@@ -17,7 +17,7 @@ namespace Arasan.Models
             this.warrantytermslst = new List<SelectListItem>();
         }
 
-        
+
 
         public List<SelectListItem> Brlst;
         public List<SelectListItem> desplst;
@@ -30,7 +30,7 @@ namespace Arasan.Models
         public string warrantyterms { get; set; }
         public string ID { get; set; }
         public string Branch { get; set; }
-       
+
         public string PONo { get; set; }
 
         public string POdate { get; set; }
@@ -67,7 +67,7 @@ namespace Arasan.Models
         public double Packingcharges { get; set; }
         public double Othercharges { get; set; }
         public double Round { get; set; }
-        public string  Narration { get; set; }
+        public string Narration { get; set; }
         public string Fax { get; set; }
 
 
@@ -84,8 +84,26 @@ namespace Arasan.Models
         public string Amount { get; set; }
         public string fromdate { get; set; }
         public string todate { get; set; }
+        public double ddlStatus { get; set; }
 
 
+    }
+    public class POItems
+    {
+        public long id { get; set; }
+        public string branch { get; set; }
+        public string supplier { get; set; }
+        public string quono { get; set; }
+        public string podate { get; set; }
+        public string mailrow { get; set; }
+        public string editrow { get; set; }
+        public string delrow { get; set; }
+        public string genpo { get; set; }
+        public string pdf { get; set; }
+        public string view { get; set; }
+        public string move { get; set; }
+        public string pono { get; set; }
+        public string download { get; set; }
     }
     public class GateInward
     {
@@ -120,7 +138,7 @@ namespace Arasan.Models
         public string Narration { get; set; }
         public string PONo { get; set; }
         public double TotalQty { get; set; }
-         public string Unit { get; set; }
+        public string Unit { get; set; }
         public string Quantity { get; set; }
         public string inQuantity { get; set; }
         public string QC { get; set; }
@@ -230,7 +248,7 @@ namespace Arasan.Models
 
         public string NET { get; set; }
 
-       
+
 
     }
     public class POGateItem
@@ -242,4 +260,4 @@ namespace Arasan.Models
         public double quantity { get; set; }
         public string qc { get; set; }
     }
-   }
+}

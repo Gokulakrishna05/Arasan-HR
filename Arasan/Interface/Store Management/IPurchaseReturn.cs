@@ -30,6 +30,7 @@ namespace Arasan.Interface
         DataTable GetviewPurchaseReturn(string id);
         DataTable GetviewPurchaseReturnDetail(string id);
 
-        string StatusChange(string tag, int id);
+        string StatusChange(string tag, string id);
+        DataTable GetAllPurchaseReturnItems(string strStatus);
     }
 }

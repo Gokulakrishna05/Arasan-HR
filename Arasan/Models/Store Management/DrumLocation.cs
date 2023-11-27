@@ -31,5 +31,12 @@ namespace Arasan.Models
         public string Type { get; set; }
         public string Party { get; set; }
     }
+    public class DrumItems
+    {
+        public long id { get; set; }
+        public string drum { get; set; }
+        public string item { get; set; }
+        public string loc { get; set; }
+    }
 }
  
