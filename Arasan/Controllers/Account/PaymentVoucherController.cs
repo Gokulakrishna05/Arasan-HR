@@ -79,7 +79,7 @@ namespace Arasan.Controllers
                     for (int i = 0; i < dt2.Rows.Count; i++)
                     {
                         tda = new VoucherItem();
-                        tda.Creditlst = BindCredit();
+                       // tda.Creditlst = BindCredit();
                         tda.Acclst = BindLedger();
                         //tda.DrumNolst = BindDrumNo(ca.DrumLoc);
                         tda.Credit = dt2.Rows[i]["ACCTYPE"].ToString();
@@ -102,7 +102,7 @@ namespace Arasan.Controllers
                     for (int i = 0; i < 3; i++)
                     {
                         tda = new VoucherItem();
-                        tda.Creditlst = BindCredit();
+                       // tda.Creditlst = BindCredit();
                         tda.Acclst = BindLedger();
                         tda.Isvalid = "Y";
                         TData.Add(tda);

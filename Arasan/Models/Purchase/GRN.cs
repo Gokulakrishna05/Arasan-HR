@@ -15,6 +15,7 @@ namespace Arasan.Models
             this.Paymenttermslst = new List<SelectListItem>();
             this.deltermlst = new List<SelectListItem>();
             this.warrantytermslst = new List<SelectListItem>();
+            this.Accconfiglst = new List<SelectListItem>();
         }
         public List<SelectListItem> Brlst;
         public List<SelectListItem> desplst;
@@ -57,7 +58,8 @@ namespace Arasan.Models
         public string Cur { get; set; }
 
         public List<SelectListItem> Curlst;
-
+        public List<SelectListItem> Accconfiglst;
+        public string ADCOMPHID { get; set; }
         public List<POItemlst> PoItemlst { get; set; }
 
         public List<POItem> PoItem { get; set; }
@@ -77,7 +79,7 @@ namespace Arasan.Models
         public double Round { get; set; }
         public string Narration { get; set; }
         public string Fax { get; set; }
-
+        public string Amtinwords { get; set; }
         public string PhoneNo { get; set; }
         public string DespatchAddr { get; set; }
         public double Roundminus { get; set; }
@@ -85,13 +87,15 @@ namespace Arasan.Models
         public string GRNID { get; set; }
         public string RefNo { get; set; }
         public string RefDate { get; set; }
-
+        public string mid { get; set; }
         public double DiscAmt { get; set; }
         public double CGST { get; set; }
         public double SGST { get; set; }
         public double IGST { get; set; }
         public double address { get; set; }
         public double ddlStatus { get; set; }
+        public string createdby { get; set; }
+        public string Vmemo { get; set; }
 
     }
     public class GRNItems

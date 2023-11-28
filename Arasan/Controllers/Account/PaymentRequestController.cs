@@ -203,7 +203,7 @@ namespace Arasan.Controllers
                     dt = request.GetGRNDetails(ItemId);
                     if (dt.Rows.Count > 0)
                     {
-                        amount = dt.Rows[0]["GROSS"].ToString();
+                        amount = dt.Rows[0]["NET"].ToString();
                       
                     }
                 }
