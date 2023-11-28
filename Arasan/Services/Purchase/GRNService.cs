@@ -5,6 +5,8 @@ using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Transactions;
+
 namespace Arasan.Services
 {
     public class GRNService : IGRN
@@ -130,12 +132,115 @@ namespace Arasan.Services
         public DataTable LedgerList()
         {
             string SvSql = string.Empty;
-            SvSql = "select MASTERID,DISPNAME from MASTER";
+            SvSql = "select LEDGERID,LEDNAME from ACCLEDGER Where IS_ACTIVE='Y'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);
             return dtt;
+        }
+
+        public string GRNACCOUNT(GRN cy)
+        {
+            string msg = "";
+            try
+            {
+                string StatementType = string.Empty; string svSQL = "";
+                datatrans = new DataTransactions(_connectionString);
+                string Location = "12418000000423";
+                DataTable dtt= new DataTable();
+                dtt = datatrans.GetData("select DOCID,to_char(DOCDATE,'dd-MON-yyyy') DOCDATE ,BRANCHID,PARTYID from GRNBLBASIC where GRNBLBASICID='" + cy.GRNID + "'");
+                using (OracleConnection objConn = new OracleConnection(_connectionString))
+
+                {
+                    objConn.Open();
+
+                    using (OracleCommand command = objConn.CreateCommand())
+                    {
+                        using (OracleTransaction transaction = objConn.BeginTransaction(System.Data.IsolationLevel.ReadCommitted))
+                        {
+                            try
+                            {
+                            command.Transaction = transaction;
+
+                                ////////////////////transaction
+                                int t2cunt = 0;
+                                double grossamt = 0;
+                                string Grossledger = "";
+                                double totgst = 0;
+                                double netamt = 0;
+                                foreach (GRNAccount cp in cy.Acclst)
+                                {
+                                    t2cunt += 1;
+                                    if (cp.TypeName == "GROSS")
+                                    {
+                                        grossamt = cp.CRAmount;
+                                        Grossledger = cp.Ledgername;
+                                    }
+                                    if (cp.TypeName == "CGST")
+                                    {
+                                        totgst += cp.CRAmount;
+                                    }
+                                    if (cp.TypeName == "SGST")
+                                    {
+                                        totgst += cp.CRAmount;
+                                    }
+                                    if (cp.TypeName == "IGST")
+                                    {
+                                        totgst += cp.CRAmount;
+                                    }
+                                    if (cp.TypeName == "NET")
+                                    {
+                                        netamt = cp.DRAmount;
+                                    }
+                                }
+                                DataTable dtv = datatrans.GetData("select PREFIX,LASTNO from Sequence where TRANSTYPE='vchpr' AND ACTIVESEQUENCE='T' ");
+                                string vNo = dtv.Rows[0]["PREFIX"].ToString() + dtv.Rows[0]["LASTNO"].ToString();
+                                string mno = DateTime.Now.ToString("yyyyMM");
+                                long TRANS1 = datatrans.GetDataIdlong("select LASTNO from NEWSEQUENCE where NAME='TRANS1'");
+                                command.CommandText = "Insert into TRANS1 (TRANS1ID,APPROVAL,T1SOURCEID,VCHSTATUS,T1TYPE,T1VCHNO,CURRENCYID,EXCHANGERATE,T1REFNO,T1REFDT,MONTHNO,MSTATUS,T1HIDBMID,T1HIDBAMT,T1HICRMID,T1HICRAMT,T1PARTYID,T1PARTYAMT,TRANSID,BRANCHID,LOCID,CANCEL,MAXAPPROVED,LATEMPLATEID,T1VCHDT,T1NARR,T2COUNT,POSTYN,BRANCHMASTID,VTYPE,GENERATED,AMTWD,USERNAME,MODIFIEDON,T1SID,TOTGST) VALUES " +
+                                    "('"+ TRANS1  + "','0','" + cy.GRNID + "','N','pu','" + vNo + "','1','1','" + dtt.Rows[0]["DOCID"].ToString() + "','" + dtt.Rows[0]["DOCDATE"].ToString() + "','" + mno + "','a','" + Grossledger + "','" + grossamt + "','" + cy.mid + "','" + netamt + "','" + dtt.Rows[0]["PARTYID"].ToString() + "','" + netamt + "','vchpr','" + dtt.Rows[0]["BRANCHID"].ToString() + "','" + Location + "','F','0','0','" + DateTime.Now.ToString("dd-MMM-yyyy") + "','" + cy.Vmemo + "','" + t2cunt + "','Y','0','R','T','" + cy.Amtinwords + "','" + cy.createdby + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "','0','" + totgst + "')";
+                                command.ExecuteNonQuery();
+                                foreach (GRNAccount cp in cy.Acclst)
+                                {
+                                    string mledger = "";
+                                    if (cp.TypeName == "NET")
+                                    {
+                                        mledger = Grossledger;
+                                    }
+                                    else
+                                    {
+                                        mledger = cy.mid;
+                                    }
+                                    long TRANS2 = datatrans.GetDataIdlong("select LASTNO from NEWSEQUENCE where NAME='TRANS2'");
+                                    command.CommandText = "Insert into TRANS2 (TRANS2ID,TRANS1ID,DBCR,MID,NDBAMOUNT,DBAMOUNT,NCRAMOUNT,CRAMOUNT,SLN,EXRATE,SDBAMOUNT,SCRAMOUNT,T2VCHDT,T2TYPE,T2VCHSTATUS,RCTRLFLD,CMID) VALUES ('"+ TRANS2 + "','" + TRANS1 + "','" + cp.CRDR + "','" + cp.Ledgername + "','" + cp.DRAmount + "','" + cp.DRAmount + "','" + cp.CRAmount + "','" + cp.CRAmount + "','1','1','" + cp.DRAmount + "','" + cp.CRAmount + "','" + DateTime.Now.ToString("dd-MMM-yyyy") + "','pu','N','F','" + mledger + "')";
+                                    command.ExecuteNonQuery();
+                                    datatrans.UpdateStatus("UPDATE NEWSEQUENCE SET LASTNO ='" + (TRANS2 + 1).ToString() + "' where NAME='TRANS2'");
+
+                                }
+                                string updatetrans = " UPDATE NEWSEQUENCE SET LASTNO ='" + (TRANS1 + 1).ToString() + "' where NAME='TRANS1'";
+                                datatrans.UpdateStatus(updatetrans);
+                                ///////////////////transaction
+                                transaction.Commit();
+                            }
+                            catch (DataException e)
+                            {
+                            transaction.Rollback();
+                            Console.WriteLine(e.ToString());
+                            Console.WriteLine("Neither record was written to database.");
+                            }
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                msg = "Error Occurs, While inserting / updating Data";
+                throw ex;
+            }
+
+            return msg;
         }
         public string GRNCRUD(GRN cy)
         {
@@ -340,6 +445,26 @@ namespace Arasan.Services
         {
             string SvSql = string.Empty;
             SvSql = "Select BRANCHMAST.BRANCHID,GRNBLBASIC.DOCID,to_char(GRNBLBASIC.DOCDATE,'dd-MON-yyyy') DOCDATE,GRNBLBASIC.EXRATE,GRNBLBASIC.MAINCURRENCY,PARTYMAST.PARTYNAME,GRNBLBASIC.PARTYID,GRNBLBASICID,GRNBLBASIC.STATUS,POBASIC.DOCID as PONO,to_char(POBASIC.DOCDATE,'dd-MON-yyyy') PODate,GRNBLBASIC.PACKING_CHRAGES,GRNBLBASIC.OTHER_CHARGES,GRNBLBASIC.OTHER_DEDUCTION,GRNBLBASIC.ROUND_OFF_PLUS,GRNBLBASIC.ROUND_OFF_MINUS,GRNBLBASIC.NARRATION,GRNBLBASIC.REFNO,to_char(GRNBLBASIC.REFDT,'dd-MON-yyyy') REFDT,GRNBLBASIC.FREIGHT,GRNBLBASIC.GROSS,GRNBLBASIC.NET,DESPTHRU,LRNO,to_char(LRDT,'dd-MON-yyyy') LRDT,TRNSPNAME,truckno from GRNBLBASIC LEFT OUTER JOIN POBASIC ON POBASIC.POBASICID=GRNBLBASIC.POBASICID LEFT OUTER JOIN PARTYMAST ON PARTYMAST.PARTYMASTID=GRNBLBASIC.PARTYID LEFT OUTER JOIN BRANCHMAST ON BRANCHMASTID=GRNBLBASIC.BRANCHID Where  GRNBLBASIC.GRNBLBASICID ='" + id + "' ";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable AccconfigLst()
+        {
+            string SvSql = string.Empty;
+            SvSql = "select ADSCHEME,ADCOMPHID from ADCOMPH where ADTRANSID='po' AND ACTIVE='Yes'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
+        }
+        public DataTable GetconfigItem(string ConId)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select * from ADCOMPD where ADCOMPHID='"+ ConId + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

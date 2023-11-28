@@ -52,7 +52,7 @@ namespace Arasan.Services
         public DataTable GetGRNDetails(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select GROSS ,DOCID,GRNBLBASICID from GRNBLBASIC where DOCID='" + id + "'";  /*AND IS_ACCOUNT='N'*/
+            SvSql = "Select NET ,DOCID,GRNBLBASICID from GRNBLBASIC where DOCID='" + id + "'";  /*AND IS_ACCOUNT='N'*/
             DataTable dtt = new DataTable(); OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
             adapter.Fill(dtt);

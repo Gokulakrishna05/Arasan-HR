@@ -9,6 +9,7 @@ namespace Arasan.Interface
         DataTable GetGRNbyID(string Poid);
         DataTable GetGRNItembyID(string Poid);
         string GRNCRUD(GRN cy);
+        string GRNACCOUNT(GRN cy);
         DataTable EditGRNbyID(string name);
         DataTable FetchAccountRec(string GRNId);
         DataTable LedgerList();
@@ -16,5 +17,8 @@ namespace Arasan.Interface
         DataTable GetViewGRN(string id);
         DataTable GetViewGRNDetail(string id);
         DataTable GetAllListGRNItem(string strStatus);
+        DataTable AccconfigLst();
+
+        DataTable GetconfigItem(string ConId);
     }
 }
