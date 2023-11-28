@@ -166,10 +166,10 @@ namespace Arasan.Controllers.Sales
                             tda.IGST = dt2.Rows[i]["IGST"].ToString();
                             tda.Total = dt2.Rows[i]["TOTAMT"].ToString();
 
-                            
-                            ca.Bigst = Convert.ToDouble(dt2.Rows[i]["IGST"].ToString() == "" ? "0" : dt2.Rows[i]["IGST"].ToString());
-                            ca.Bsgst = Convert.ToDouble(dt2.Rows[i]["SGST"].ToString() == "" ? "0" : dt2.Rows[i]["SGST"].ToString());
-                            ca.Bcgst = Convert.ToDouble(dt2.Rows[i]["CGST"].ToString() == "" ? "0" : dt2.Rows[i]["CGST"].ToString());
+                            DataTable ap = datatrans.GetData("select SUM(CGST) as cgst,SUM(SGST) as sgst,SUM(IGST) as igst from PRETDETAIL WHERE  PRETDETAIL.PRETBASICID='" + id + "'");
+                            ca.Bigst = Convert.ToDouble(ap.Rows[0]["igst"].ToString() == "" ? "0" : ap.Rows[0]["igst"].ToString());
+                            ca.Bsgst = Convert.ToDouble(ap.Rows[0]["sgst"].ToString() == "" ? "0" : ap.Rows[0]["sgst"].ToString());
+                            ca.Bcgst = Convert.ToDouble(ap.Rows[0]["cgst"].ToString() == "" ? "0" : ap.Rows[0]["cgst"].ToString());
                             //double ig = ca.Bigst;
                             //double sg = ca.Bsgst;
                             //double cg = ca.Bcgst;
