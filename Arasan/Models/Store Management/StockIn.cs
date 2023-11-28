@@ -50,5 +50,9 @@ namespace Arasan.Models
         //public string pono { get; set; }
         ////public string Account { get; set; }
     }
+    //public class StockInItemList
+    //{
+
+    //}
 
 }

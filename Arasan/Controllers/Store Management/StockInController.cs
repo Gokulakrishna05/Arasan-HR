@@ -113,7 +113,7 @@ namespace Arasan.Controllers
                 //string View = string.Empty;
                 //string EditRow = string.Empty;
                 //string DeleteRow = string.Empty;
-                Account = "<a href=IssueToIndent?ItemID=" + dtUsers.Rows[i]["ITEM_ID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/profit.png' alt='View Details' width='20' /></a>";
+                Account = "<a href=IssueToIndent?ItemID=" + dtUsers.Rows[i]["ITEM_ID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/issue_icon.png' alt='View Details' width='20' /></a>";
 
                 //Account = "<a href=IssueToIndent?id=" + dtUsers.Rows[i]["INVENTORY_ITEM_ID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/profit.png' alt='View Details' width='20' /></a>";
                 ////Account = "<a href=IssueToIndent?id=" + dtUsers.Rows[i]["INVENTORY_ITEM_ID"].ToString() + " class='fancybox' data-fancybox-type='iframe'><img src='../Images/profit.png' alt='View Details' width='20' /></a>";
@@ -137,5 +137,29 @@ namespace Arasan.Controllers
             });
 
         }
+        //public ActionResult ListListStockInItemgrid(string PRID)
+        //{
+        //    List<StockInItemList> EnqChkItem = new List<StockInItemList>();
+        //    DataTable dtEnq = new DataTable();
+        //    dtEnq = PurIndent.GetIndentItem(PRID);
+        //    for (int i = 0; i < dtEnq.Rows.Count; i++)
+        //    {
+        //        EnqChkItem.Add(new StockInItemList
+        //        {
+        //            indentid = Convert.ToInt64(dtEnq.Rows[i]["PINDDETAILID"].ToString()),
+        //            piid = Convert.ToInt64(dtEnq.Rows[i]["PINDBASICID"].ToString()),
+        //            itemname = dtEnq.Rows[i]["ITEMID"].ToString(),
+        //            unit = dtEnq.Rows[i]["UNITID"].ToString(),
+        //            quantity = dtEnq.Rows[i]["QTY"].ToString(),
+        //            location = dtEnq.Rows[i]["LOCID"].ToString(),
+        //            duedate = dtEnq.Rows[i]["DUEDATE"].ToString(),
+        //        });
+        //    }
+
+        //    return Json(new
+        //    {
+        //        EnqChkItem
+        //    });
+        //}
     }
 }
