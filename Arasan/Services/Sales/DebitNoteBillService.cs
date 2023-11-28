@@ -420,7 +420,7 @@ namespace Arasan.Services.Sales
         public DataTable GetPartyLedger(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "select LEDGERNAME from PARTYMAST where PARTYMASTID='" + id + "'";
+            SvSql = "select ACCLEDGER.DISPLAY_NAME from PARTYMAST left outer join ACCLEDGER on LEDGERID=PARTYMAST.ACCOUNTNAME where PARTYMASTID='" + id + "'";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);

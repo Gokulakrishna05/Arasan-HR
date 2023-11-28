@@ -455,7 +455,7 @@ namespace Arasan.Controllers
                     tda.unitid= dtt.Rows[i]["UNIT"].ToString();
                    
                     DataTable dt = new DataTable();
-                    dt = PurReturn.Getstkqty(grnid, loc, branch);
+                    dt = PurReturn.Getstkqty(grnid, "10001000000827", branch);
                     if(dt.Rows.Count > 0)
                     {
                         tda.stkqty = dt.Rows[0]["QTY"].ToString();
@@ -744,12 +744,12 @@ namespace Arasan.Controllers
                         tda.ConFac = dtt.Rows[i]["CF"].ToString();
                         tda.Unit = dtt.Rows[i]["UNITID"].ToString();
                         
-                        tda.CGSTPer = Convert.ToDouble(dtt.Rows[i]["CGSTPER"].ToString() == "" ? "0" : dtt.Rows[i]["CGSTPER"].ToString());
-                        tda.SGSTPer = Convert.ToDouble(dtt.Rows[i]["SGSTPER"].ToString() == "" ? "0" : dtt.Rows[i]["SGSTPER"].ToString());
-                        tda.IGSTPer = Convert.ToDouble(dtt.Rows[i]["IGSTPER"].ToString() == "" ? "0" : dtt.Rows[i]["IGSTPER"].ToString());
-                        tda.CGSTAmt = Convert.ToDouble(dtt.Rows[i]["CGSTAMT"].ToString() == "" ? "0" : dtt.Rows[i]["CGSTAMT"].ToString());
-                        tda.SGSTAmt = Convert.ToDouble(dtt.Rows[i]["SGSTAMT"].ToString() == "" ? "0" : dtt.Rows[i]["SGSTAMT"].ToString());
-                        tda.IGSTAmt = Convert.ToDouble(dtt.Rows[i]["IGSTAMT"].ToString() == "" ? "0" : dtt.Rows[i]["IGSTAMT"].ToString());
+                        tda.CGSTPer = Convert.ToDouble(dtt.Rows[i]["CGSTP"].ToString() == "" ? "0" : dtt.Rows[i]["CGSTP"].ToString());
+                        tda.SGSTPer = Convert.ToDouble(dtt.Rows[i]["SGSTP"].ToString() == "" ? "0" : dtt.Rows[i]["SGSTP"].ToString());
+                        tda.IGSTPer = Convert.ToDouble(dtt.Rows[i]["IGSTP"].ToString() == "" ? "0" : dtt.Rows[i]["IGSTP"].ToString());
+                        tda.CGSTAmt = Convert.ToDouble(dtt.Rows[i]["CGST"].ToString() == "" ? "0" : dtt.Rows[i]["CGST"].ToString());
+                        tda.SGSTAmt = Convert.ToDouble(dtt.Rows[i]["SGST"].ToString() == "" ? "0" : dtt.Rows[i]["SGST"].ToString());
+                        tda.IGSTAmt = Convert.ToDouble(dtt.Rows[i]["IGST"].ToString() == "" ? "0" : dtt.Rows[i]["IGST"].ToString());
 
 
                         Data.Add(tda);

@@ -161,7 +161,7 @@ namespace Arasan.Services
                     objCmd.Parameters.Add("REFNO", OracleDbType.NVarchar2).Value = cy.ReqNo;
                     objCmd.Parameters.Add("REFDT", OracleDbType.Date).Value = DateTime.Parse(cy.ReqDate);
                     objCmd.Parameters.Add("LOCID", OracleDbType.NVarchar2).Value = cy.Location;
-                    objCmd.Parameters.Add("MAINCURRENCY", OracleDbType.NVarchar2).Value = cy.Currency;
+                    objCmd.Parameters.Add("MAINCURRENCY", OracleDbType.NVarchar2).Value = CURR;
                     objCmd.Parameters.Add("REASONCODE", OracleDbType.NVarchar2).Value = cy.Reason;
                     objCmd.Parameters.Add("REJBY", OracleDbType.NVarchar2).Value = cy.Rej;
                     objCmd.Parameters.Add("TRANSITLOCID", OracleDbType.NVarchar2).Value = cy.Trans;
@@ -564,7 +564,7 @@ namespace Arasan.Services
         public DataTable GetviewPurchaseReturnDetail(string id)
         {
             string SvSql = string.Empty;
-            SvSql = "Select PRETDETAIL.GRNNO,ITEMMASTER.ITEMID,BINBASIC.BINID,PRIQTY,CLSTOCK,PRETDETAIL.QTY,UNITMAST.UNITID,PRETDETAIL.RATE,PRETDETAIL.AMOUNT,PRETDETAIL.TOTAMT,PRETDETAIL.CF,PRETDETAIL.CGSTPER,PRETDETAIL.CGSTAMT,PRETDETAIL.SGSTPER,PRETDETAIL.SGSTAMT,PRETDETAIL.IGSTPER,PRETDETAIL.IGSTAMT,PRETBASICID,PRETDETAILID  from PRETDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PRETDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=PRETDETAIL.UNIT LEFT OUTER JOIN BINBASIC ON ITEMMASTER.BINNO=BINBASIC.BINBASICID  where PRETDETAIL.PRETBASICID=" + id + "";
+            SvSql = "Select PRETDETAIL.GRNNO,ITEMMASTER.ITEMID,BINBASIC.BINID,PRIQTY,CLSTOCK,PRETDETAIL.QTY,UNITMAST.UNITID,PRETDETAIL.RATE,PRETDETAIL.AMOUNT,PRETDETAIL.TOTAMT,PRETDETAIL.CF,PRETDETAIL.CGSTP,PRETDETAIL.CGST,PRETDETAIL.SGSTP,PRETDETAIL.SGST,PRETDETAIL.IGSTP,PRETDETAIL.IGST,PRETBASICID,PRETDETAILID  from PRETDETAIL LEFT OUTER JOIN ITEMMASTER ON ITEMMASTER.ITEMMASTERID=PRETDETAIL.ITEMID LEFT OUTER JOIN UNITMAST ON UNITMAST.UNITMASTID=PRETDETAIL.UNIT LEFT OUTER JOIN BINBASIC ON ITEMMASTER.BINNO=BINBASIC.BINBASICID  where PRETDETAIL.PRETBASICID=" + id + "";
             DataTable dtt = new DataTable();
             OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
             OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
