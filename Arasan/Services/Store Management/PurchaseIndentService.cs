@@ -244,17 +244,17 @@ namespace Arasan.Services
             return dtt;
         }
 
-        public DataTable GetItem()
-        {
-            string SvSql = string.Empty;
-            SvSql = "select ITEMID,ITEMMASTERID,IGROUP from ITEMMASTER WHERE IGROUP NOT IN ('SEMI FINISHED GOODS','FINISHED')";
-            DataTable dtt = new DataTable();
-            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
-            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
-            adapter.Fill(dtt);
-            return dtt;
-        }
-        public DataTable GetItemSubGroup(string value)
+        //public DataTable GetItem()
+        //{
+        //    string SvSql = string.Empty;
+        //    SvSql = "select ITEMID,ITEMMASTERID,IGROUP from ITEMMASTER WHERE IGROUP NOT IN ('SEMI FINISHED GOODS','FINISHED')";
+        //    DataTable dtt = new DataTable();
+        //    OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+        //    OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+        //    adapter.Fill(dtt);
+        //    return dtt;
+        //}
+        public DataTable GetItem(string value)
         {
             string SvSql = string.Empty;
             SvSql = "select ITEMID,ITEMMASTERID from ITEMMASTER WHERE SUBGROUPCODE='" + value + "'";
@@ -541,6 +541,16 @@ namespace Arasan.Services
             }
 
             return msg;
+        }
+        public DataTable GetSTKDetails(string ItemId, string loc, string branch)
+        {
+            string SvSql = string.Empty;
+            SvSql = "select SUM(BALANCE_QTY) as QTY from INVENTORY_ITEM where BALANCE_QTY > 0 AND LOCATION_ID='" + loc + "' AND BRANCH_ID='" + branch + "' AND ITEM_ID='" + ItemId + "'";
+            DataTable dtt = new DataTable();
+            OracleDataAdapter adapter = new OracleDataAdapter(SvSql, _connectionString);
+            OracleCommandBuilder builder = new OracleCommandBuilder(adapter);
+            adapter.Fill(dtt);
+            return dtt;
         }
     }
 }
